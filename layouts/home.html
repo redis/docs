@@ -104,19 +104,10 @@
                 <span class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
               </a>
             </li>
+
+            <!-- TODO-->
+
             <li class="flex flex-col h-full">
-              <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
-                
-              </h3>
-              <p class="text-redis-neutral-800 mb-5">
-                
-              </p>
-              <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/operate/TODO">
-                Learn more
-                <span class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-              </a>
-            </li>
-            <li>
               <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
                 Redis Cloud
               </h3>
@@ -128,7 +119,7 @@
                 <span class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
               </a>
             </li>
-            <li>
+            <li class="flex flex-col h-full">
               <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
                 Redis Enterprise Software
               </h3>
@@ -140,38 +131,38 @@
                 <span class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
               </a>
             </li>
-            <li>
+            <li class="flex flex-col h-full">
               <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
                 Redis Enterprise for Kubernetes
               </h3>
               <p class="text-redis-neutral-800 mb-5">
-                TODO
+                Redis Enterprise deployed on containerized software platforms and integrated with our partners.
               </p>
               <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/operate/TODO">
                 Learn more
                 <span class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
               </a>
             </li>
-            <li>
+            <li class="flex flex-col h-full">
               <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
                 Redis Data Integreation
               </h3>
               <p class="text-redis-neutral-800 mb-5">
-                TODO
+                Redis Data Integration keeps Redis in sync with the primary database in near real time.
               </p>
-              <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/operate/TODO">
+              <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/integrate/TODO">
                 Learn more
                 <span class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
               </a>
             </li>
-            <li>
+            <li class="flex flex-col h-full">
               <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
                 RedisInsight
               </h3>
               <p class="text-redis-neutral-800 mb-5">
-                TODO
+                RedisInsight is a powerful tool for visualizing and optimizing data in Redis or Redis Stack, making real-time application development easier and more fun than ever before,
               </p>
-              <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/operate/TODO">
+              <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/develop/TODO">
                 Learn more
                 <span class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
               </a>
@@ -186,39 +177,41 @@
         <h2 class="text-center font-display text-4xl leading-tight text-slate-900 font-semibold mb-10 -mt-4">
           Explore by use case
         </h2>
+        <p class="text-center mb-10 mr-10 ml-10">Redis can be used as a database, cache, streaming engine, message broker, and more.</p>
         <ul class="flex flex-col sm:grid md:grid-cols-2 xl:grid-cols-3 gap-14">
           <li class="flex flex-col h-full">
             <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
               Data structure store
             </h3>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/docs/getting-started/installation/">
+            <p class="text-redis-neutral-800 mb-5">
+              Redis stands for Remote Dictionary Server. It allows using same data types as in your local programming environment but on the side of Redis.
+            </p>
+            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/develop/TODO">
               Quick start guide
               <span class="ml-1.5 text-indigo-600 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
             </a>
           </li>
           <li class="flex flex-col h-full">
             <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
-              Countdown
+              Document database
             </h3>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/docs/data-types/">
-              Experiment with Redis data structures
-              <span class="ml-1.5 text-indigo-600 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-            </a>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/docs/clients/">
-              Explore Redis clients
+            <p class="text-redis-neutral-800 mb-5">
+              Leverage JSON and its flexible data model to use Redis as a document database. Model, search, and query your data efficiently without needing an additional cache.
+            </p>
+            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/develop/TODO">
+              Quick start guide
               <span class="ml-1.5 text-indigo-600 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
             </a>
           </li>
           <li class="flex flex-col h-full">
             <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
-              Liftoff
+              Vector database
             </h3>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/docs/reference/patterns/">
-              See Redis programming patterns
-              <span class="ml-1.5 text-indigo-600 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-            </a>
-            <a href="/community" class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="#?">
-              Join to the community
+            <p class="text-redis-neutral-800 mb-5">
+              Develop AI-powered applications by querying vector embeddings. You can use Redis as a vector database to implement recommendation systems, Retrieval Augmented Generation (RAG), LLM semantic caching, and more.
+            </p>
+            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start" href="/develop/TODO">
+              Quick start guide
               <span class="ml-1.5 text-indigo-600 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
             </a>
           </li>
