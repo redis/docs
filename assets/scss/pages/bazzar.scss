@@ -1,0 +1,18 @@
+@import '../partials/docs-nav';
+
+.bazzar-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7em, 1fr));
+  gap: 1rem;
+}
+
+.bazzar-section {
+  grid-column: 1 / -1;
+}
+
+.bazzar-list {
+  display: grid;
+  grid-template-columns: 15ch 1fr auto auto auto auto;
+  gap: 1rem;
+}
+

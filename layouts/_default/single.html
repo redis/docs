@@ -1,0 +1,11 @@
+{{ define "main" }}
+  <main class="docs w-full max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 md:flex gap-16 justify-center relative">
+
+    <section class="prose prose-slate w-full max-w-[51rem] py-12">
+      <h1>{{ .Title }}</h1>
+      {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
+      {{ .Content }}
+    </section>
+    
+  </main>
+{{ end }}

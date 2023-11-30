@@ -1,0 +1,51 @@
+{{ define "li" -}}
+  {{ $s := .section -}}
+  {{ $p := .page -}}
+  {{ $treeRoot := cond (eq .ulNr 0) true false -}}
+  {{ $ulNr := .ulNr -}}
+  {{ $ulShow := .ulShow -}}
+  {{ $active := eq $s $p -}}
+  {{ $activePath := $p.IsDescendant $s -}}
+  {{ $show := cond (or (lt $ulNr $ulShow) $activePath (eq $s.Parent $p.Parent) (eq $s.Parent $p) ($p.IsDescendant $s.Parent)) true false -}}
+  {{ $pages := (union $s.Pages $s.Sections).ByWeight -}}
+  {{ $withChild := gt (len $pages) 0 -}}
+  {{ $rootDir := lt $ulNr 1 -}}
+
+  {{ if and $show (not (default false $s.Params.hidden)) }}
+    <li>
+      <a class="flex justify-between items-center truncate{{- if $rootDir}} font-semibold text-slate-900{{- else if and ($active) (not $rootDir) }} active text-indigo-600{{- else }} text-slate-600 hover:text-indigo-600{{- end }}" href="{{ $s.RelPermalink }}">
+          <span>{{ $s.LinkTitle }}</span>
+          {{ if and $ulNr $withChild }}
+            {{ if or $active $activePath }}
+            {{/*  TODO: why can't I add the rotate-%s class?  */}}
+            {{ partial "icons/docs-nested-section" (dict "class" "shrink-0 h-[1.0rem] w-[1.0rem] stroke-slate-400 rotate-90") }}
+            {{ else }}
+            {{ partial "icons/docs-nested-section" (dict "class" "shrink-0 h-[1.0rem] w-[1.0rem] stroke-slate-400") }}
+            {{ end }}
+          {{ end }}
+      </a>
+      {{- if $withChild }}
+        {{- $ulNr := add $ulNr 1 }}
+        <ul class="{{- if gt $ulNr 1}}child-list{{- end }}">
+          {{ range $pages -}}
+            {{ if (not (eq $s $p.Site.Home)) -}}
+              {{ template "li" (dict "page" $p "section" . "ulNr" $ulNr "ulShow" $ulShow) }}
+            {{- end }}
+          {{- end }}
+        </ul>
+      {{- end }}
+    </li>
+  {{- end }}
+{{- end }}
+
+<div class="hidden md:block w-52 h-full shrink-0">
+  <nav class="w-52 z-40 bg-white hidden md:block fixed top-28 pb-16 h-full max-h-[calc(100vh-7rem)] text-[0.8125rem] leading-7 font">
+    <div class="absolute right-0 -top-28 z-[-1] h-screen border-r border-slate-200/50 bg-gradient-to-bl from-slate-50 via-slate-50 to-indigo-100 w-[17rem] xl:w-[calc(50vw-23rem)]"></div>
+    {{ $navRoot := cond (eq .Site.Home.Type "docs") .Site.Home .FirstSection -}}
+    {{ $ulNr := 0 -}}
+    {{ $ulShow := 1 -}}
+    <ul class="h-full max-h-[calc(100vh-7rem)] overflow-y-auto pr-6">
+      {{ template "li" (dict "page" . "section" $navRoot "ulNr" $ulNr "ulShow" (add $ulShow 1)) }}
+    </ul>
+  </nav>
+</div>

@@ -1,0 +1,37 @@
+body > section {
+  // display: flex;
+  // gap: 1em;
+
+  > nav {
+    flex: 0 0 var(--nav-width);
+
+    ul {
+      list-style: none;
+      margin: 0 0 0 1em;
+      padding: 0;
+      font-weight: 400;
+
+      > li {
+        margin: 0.5em 0;
+
+        > a {
+          color: var(--neutral-text-color);
+        }
+
+        &.active > a {
+          color: var(--secondary-color);
+        }
+      }
+    }
+
+    > ul {
+      margin: 0;
+      font-weight: 500;
+    }
+  }
+
+  > main {
+    flex: 1 1 0;
+
+  }
+}

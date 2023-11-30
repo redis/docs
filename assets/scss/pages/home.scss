@@ -1,0 +1,68 @@
+.cli-window {
+  $triangleMargin: 2em;
+
+  position: relative;
+  padding: $triangleMargin $triangleMargin 0 0;
+  background: url('/images/triangle-lines.svg') no-repeat top right;
+}
+
+.chrome {
+  background-color: black;
+  border-radius: 2px 2px 0 0;
+  height: 2em;
+  width: 100%;
+}
+
+.cli {
+  width: 100%;
+}
+
+body > main > section {
+  // background: linear-gradient(180deg, #f6f6f6 0%, #ffffff 100%);
+  padding: 1.5em 0;
+
+  &.hero {
+    
+
+    div.stat {
+      font-weight: 500;
+      font-size: 2.625em;
+      color: #51ccca;
+    }
+  }
+
+  > div.description {
+    > div span {
+      color: #51ccca;
+    }
+  }
+
+  // .grid {
+  //   display: grid;
+  //   grid-template-columns: repeat(3, 1fr);
+  //   gap: 2em;
+
+  //   @media screen and (max-width: 70em) {
+  //     grid-template-columns: 1fr;
+  //   }
+
+  //   > h2 {
+  //     grid-column: 1 / -1;
+  //   }
+
+  //   > div {
+  //     display: flex;
+  //     gap: 0.5em;
+  //     flex-direction: column;
+
+  //     > p {
+  //       flex: 1 1 0;
+  //     }
+  //   }
+
+  //   &.with-border > div {
+  //     border-top: 2px solid var(--secondary-color);
+  //     padding-top: 1em;
+  //   }
+  // }
+}

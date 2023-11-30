@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/tailwind.css">
+    
+    
+    <title>Redis Documentation | Categories</title>
+</head><body><nav class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="flex items-center px-2 lg:px-0">
+          <div class="flex-shrink-0">
+            <img class="h-8 w-auto" src="/img/redis-logo.svg" alt="Redis Documentation">
+          </div>
+          <div class="hidden lg:ml-6 lg:block">
+            <div class="flex space-x-4">
+              
+              <a href="#" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Home</a>
+              
+              <a href="/docs/" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                
+                Documentation
+              </a>
+              
+              <a href="https://learn.redis.com/kb" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                
+                Knowledge base
+              </a>
+              
+              <a href="https://university.redis.com" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                
+                Courses
+              </a>
+              
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end">
+          <div class="w-full max-w-lg lg:max-w-xs">
+            <label for="search" class="sr-only">Search</label>
+            <div class="relative">
+              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <input id="search" name="search" class="block w-full rounded-md border-0 bg-gray-700 py-1.5 pl-10 pr-3 text-gray-300 placeholder:text-gray-400 focus:bg-white focus:text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Search" type="search">
+            </div>
+          </div>
+        </div>
+        <div class="flex lg:hidden">
+          
+          <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="absolute -inset-0.5"></span>
+            <span class="sr-only">Open main menu</span>
+            
+            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            
+            <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    
+    <div class="lg:hidden" id="mobile-menu">
+      <div class="space-y-1 px-2 pb-3 pt-2">
+        
+        <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Home</a>
+        
+        <a href="/docs/" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+            
+            Documentation
+        </a>
+        
+        <a href="https://learn.redis.com/kb" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+            
+            Knowledge base
+        </a>
+        
+        <a href="https://university.redis.com" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+            
+            Courses
+        </a>
+        
+      </div>
+    </div>
+  </nav>
+  <div class="grid grid-cols-4 gap-4 m-5">
+            <div id="side-menu">
+
+
+<div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
+    <nav class="flex flex-1 flex-col">
+      <ul role="list" class="flex flex-1 flex-col gap-y-7">
+        <li>
+          <ul role="list" class="-mx-2 space-y-1">
+            <li>
+              <div>
+                <button type="button" class="hover:bg-gray-50 flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-gray-700" aria-controls="sub-menu-1" aria-expanded="false">
+                  
+                  <svg class="text-gray-400 h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                  </svg>
+                  Teams
+                </button>
+                
+                <ul class="mt-1 px-2" id="sub-menu-1">
+                  <li>
+                    <a href="#" class="hover:bg-gray-50 block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-700">Engineering</a>
+                  </li>
+                  <li>
+                    <a href="#" class="hover:bg-gray-50 block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-700">Human Resources</a>
+                  </li>
+                  <li>
+                    <a href="#" class="hover:bg-gray-50 block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-700">Customer Success</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div>
+                <button type="button" class="hover:bg-gray-50 flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-gray-700" aria-controls="sub-menu-2" aria-expanded="false">
+                  
+                  <svg class="text-gray-400 h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                  </svg>
+                  Projects
+                </button>
+                
+                <ul class="mt-1 px-2" id="sub-menu-2">
+                  <li>
+                    <a href="#" class="hover:bg-gray-50 block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-700">GraphQL API</a>
+                  </li>
+                  <li>
+                    <a href="#" class="hover:bg-gray-50 block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-700">iOS App</a>
+                  </li>
+                  <li>
+                    <a href="#" class="hover:bg-gray-50 block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-700">Android App</a>
+                  </li>
+                  <li>
+                    <a href="#" class="hover:bg-gray-50 block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-700">New Customer Portal</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <a href="#" class="hover:bg-gray-50 block rounded-md py-2 pr-2 pl-10 text-sm leading-6 font-semibold text-gray-700">Calendar</a>
+            </li>
+            <li>
+              <a href="#" class="hover:bg-gray-50 block rounded-md py-2 pr-2 pl-10 text-sm leading-6 font-semibold text-gray-700">Documents</a>
+            </li>
+            <li>
+              <a href="#" class="hover:bg-gray-50 block rounded-md py-2 pr-2 pl-10 text-sm leading-6 font-semibold text-gray-700">Reports</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  </div>
+            <div class="col-span-2 pr-5 pl-5" id="content"><div>
+    <div class="pt-3">
+      <nav class="sm:hidden" aria-label="Back">
+        <a href="#" class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700">
+          <svg class="-ml-1 mr-1 h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+          </svg>
+          Back
+        </a>
+      </nav>
+      <nav class="hidden sm:flex" aria-label="Breadcrumb">
+        <ol role="list" class="flex items-center space-x-4">
+          <li>
+            <div class="flex">
+              <a href="#" class="text-sm font-medium text-gray-500 hover:text-gray-700">Jobs</a>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+              </svg>
+              <a href="#" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Engineering</a>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+              </svg>
+              <a href="#" aria-current="page" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Categories</a>
+            </div>
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <div class="mt-2 md:flex md:items-center md:justify-between pt-5">
+      <div class="min-w-0 flex-1">
+        <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Categories</h2>
+      </div>
+    </div>
+  </div>
+  
+
+<nav>
+    <a href="/docs/">Welcome</a>
+</nav>
+
+
+            </div>
+            <div id="outline">
+                TBD
+            </div>
+        </div><footer class="bg-gray-900" aria-labelledby="footer-heading">
+    <h2 id="footer-heading" class="sr-only">Footer</h2>
+    <div class="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32">
+      <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+        <img class="h-7" src="/img/redis-logo.svg" alt="Company name">
+        <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+          <div class="md:grid md:grid-cols-2 md:gap-8">
+            <div>
+              <h3 class="text-sm font-semibold leading-6 text-white">Solutions</h3>
+              <ul role="list" class="mt-6 space-y-4">
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Marketing</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Analytics</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Commerce</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Insights</a>
+                </li>
+              </ul>
+            </div>
+            <div class="mt-10 md:mt-0">
+              <h3 class="text-sm font-semibold leading-6 text-white">Support</h3>
+              <ul role="list" class="mt-6 space-y-4">
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Pricing</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Documentation</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Guides</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">API Status</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="md:grid md:grid-cols-2 md:gap-8">
+            <div>
+              <h3 class="text-sm font-semibold leading-6 text-white">Company</h3>
+              <ul role="list" class="mt-6 space-y-4">
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">About</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Blog</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Jobs</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Press</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Partners</a>
+                </li>
+              </ul>
+            </div>
+            <div class="mt-10 md:mt-0">
+              <h3 class="text-sm font-semibold leading-6 text-white">Legal</h3>
+              <ul role="list" class="mt-6 space-y-4">
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Claim</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Privacy</a>
+                </li>
+                <li>
+                  <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Terms</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  </body>
+</html>
+
+

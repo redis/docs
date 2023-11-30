@@ -1,0 +1,135 @@
+{{ define "head" }}
+  <script src="/js/commands-filters.js" defer></script>
+{{ end }}
+
+{{ define "main" }}
+  <main class="docs w-full max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 md:flex gap-16 relative">
+    <section class="w-full py-12">
+      <h1 class="text-3xl tracking-tighter font-semibold text-slate-900">Commands</h1>
+
+      <form id="command-filter" class="text-center flex flex-col sm:grid grid-cols-2 gap-4 mt-6 mb-8">
+        <label class="relative flex items-center">
+          <span class="sr-only">Search commands&hellip;</span>
+          <svg class="text-slate-400 absolute left-4 w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <circle cx="10" cy="10" r="7" />
+            <line x1="21" y1="21" x2="15" y2="15" />
+          </svg>
+          <input class="transition appearance-none block w-full pl-12 pr-4 py-3 rounded-md shadow-sm shadow-slate-900/5 bg-clip-padding bg-slate-50 hover:bg-indigo-50/50 focus:bg-indigo-50/50 border border-slate-900/10 hover:border-indigo-200 focus:border-indigo-300 ring-indigo-200 focus:ring-indigo-200 focus:ring-[3px] focus:outline-none text-slate-900/70 placeholder:text-slate-900/70" id="name-filter" type="search" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="Search commands&hellip;" spellcheck="false">
+        </label>
+        <select id="group-filter" class="cursor-pointer transition appearance-none block w-full pl-4 pr-12 py-3 rounded-md shadow-sm shadow-slate-900/5 bg-clip-padding bg-slate-50 hover:bg-indigo-50/50 focus:bg-indigo-50/50 border border-slate-900/10 hover:border-indigo-200 focus:border-indigo-300 ring-indigo-200 focus:ring-indigo-200 focus:ring-[3px] focus:outline-none text-slate-900/70">
+          <option value>Filter by group&hellip;</option>
+          {{/* range $id, $group := .Site.Data.groups }}
+              <option value="{{ $id }}">
+                {{ $group.display }}
+                {{ $id }}
+              </option>
+          {{ end */}}
+          <optgroup label="Core">
+            <option value="bitmap" data-kind="core">Bitmap</option>
+            <option value="cluster" data-kind="core">Cluster management</option>
+            <option value="connection" data-kind="core">Connection management</option>
+            <option value="generic" data-kind="core">Generic</option>
+            <option value="geo" data-kind="core">Geospatial indices</option>
+            <option value="hash" data-kind="core">Hash</option>
+            <option value="hyperloglog" data-kind="core">HyperLogLog</option>
+            <option value="list" data-kind="core">List</option>
+            <option value="pubsub" data-kind="core">Pub/Sub</option>
+            <option value="scripting" data-kind="core">Scripting and Functions</option>
+            <option value="server" data-kind="core">Server managment</option>
+            <option value="set" data-kind="core">Set</option>
+            <option value="sorted-set" data-kind="core">Sorted Set</option>
+            <option value="stream" data-kind="core">Stream</option>
+            <option value="string" data-kind="core">String</option>
+            <option value="transactions" data-kind="core">Transactions</option>
+          </optgroup>
+          <optgroup label="Stack">
+            <option value="bf" data-kind="stack">Bloom Filter</option>
+            <option value="cf" data-kind="stack">Cuckoo Filter</option>
+            <option value="cms" data-kind="stack">Count-min Sketch</option>
+            <option value="graph" data-kind="stack">Graph</option>
+            <option value="json" data-kind="stack">JSON</option>
+            <option value="search" data-kind="stack">Search</option>
+            <option value="suggestion" data-kind="stack">Auto-Suggest</option>
+            <option value="tdigest" data-kind="stack">T-Digest</option>
+            <option value="timeseries" data-kind="stack">Time Series</option>
+            <option value="topk" data-kind="stack">Top-K</option>
+          </optgroup>
+        </select>
+        <div style="display:none">
+          <label for="version-filter">by version</label>
+          <select id="version-filter">
+            <option value="">(all)</option>
+            <option value="7.0">7.0</option>
+            <option value="6.2">6.2</option>
+            <option value="6.0">6.0</option>
+            <option value="5.0">5.0</option>
+            <option value="4.0">4.0</option>
+            <option value="3.2">3.2</option>
+            <option value="3.0">3.0</option>
+            <option value="2.9">2.9</option>
+            <option value="2.8">2.8</option>
+            <option value="2.6">2.6</option>
+            <option value="2.4">2.4</option>
+            <option value="2.2">2.2</option>
+            <option value="2.0">2.0</option>
+            <option value="1.2">1.2</option>
+            <option value="1.0">1.0</option>
+            <option value="bf-1.0" style="display: none;">1.0</option>
+            <option value="cf-1.0" style="display: none;">1.0</option>
+            <option value="cms-2.0" style="display: none;">2.0</option>
+            <option value="graph-2.4" style="display: none;">2.4</option>
+            <option value="graph-2.2" style="display: none;">2.2</option>
+            <option value="graph-2.0" style="display: none;">2.0</option>
+            <option value="graph-1.0" style="display: none;">1.0</option>
+            <option value="json-2.0" style="display: none;">2.0</option>
+            <option value="json-1.0" style="display: none;">1.0</option>
+            <option value="search-2.2" style="display: none;">2.2</option>
+            <option value="search-2.0" style="display: none;">2.0</option>
+            <option value="search-1.4" style="display: none;">1.4</option>
+            <option value="search-1.2" style="display: none;">1.2</option>
+            <option value="search-1.1" style="display: none;">1.1</option>
+            <option value="search-1.0" style="display: none;">1.0</option>
+            <option value="suggestion-1.0" style="display: none;">1.0</option>
+            <option value="tdigest-2.4" style="display: none;">2.4</option>
+            <option value="timeseries-1.6" style="display: none;">1.6</option>
+            <option value="timeseries-1.4" style="display: none;">1.4</option>
+            <option value="timeseries-1.0" style="display: none;">1.0</option>
+            <option value="topk-2.0" style="display: none;">2.0</option>
+          </select>
+        </div>
+      </form>
+      
+      {{ $parent := .Page }}
+      {{ $pages := (where .Site.Pages "Section" .Section).ByWeight }}
+      {{ $pages = (where $pages "Type" "!=" "search") }}
+      {{ $pages = (where $pages ".Params.hide_summary" "!=" true) }}
+      {{ $pages = (where $pages ".Parent" "!=" nil) }}
+      {{ $pages = (where $pages "Parent.File.UniqueID" "==" $parent.File.UniqueID) }}
+      {{ $pages = (where $pages ".Params.hidden" "!=" true) }}
+      <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-slate-500 mx-auto">
+        {{ range $index, $page := $pages }}
+          <article 
+            class="flex flex-col justify-start transition relative h-full p-6 text-sm text-slate-900 hover:text-indigo-900 focus-within:text-indigo-900 bg-white hover:bg-indigo-50/50 focus-within:bg-indigo-50/50 border border-slate-900/10 hover:border-indigo-200 focus-within:border-indigo-300 focus-within:ring-indigo-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding shadow shadow-slate-900/5 rounded-md" 
+            data-name="{{ .Title }}" 
+            data-group="{{ .Params.group }}"
+            data-version
+            data-top
+          >
+            <h1 class="truncate font-mono font-medium mb-1.5">
+              {{ .Title }}
+            </h1>
+            <p class="opacity-70">
+              {{ .Params.summary }}
+            </p>
+            <a class="absolute inset-0 outline-0" href="{{ .RelPermalink }}">
+              <span class="sr-only">Read more</span>
+            </a>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+    
+    {{ partial "commands-nav.html" . }}
+  </main>
+{{ end }}

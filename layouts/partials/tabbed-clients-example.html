@@ -1,0 +1,23 @@
+{{ $id := .Scratch.Get "example" }}
+{{ if not (isset $.Site.Data.examples $id) }}
+    {{ warnf "[tabbed-clients-example] Example not found %q for %q" $id $.Page }}
+{{ end }}
+
+{{ $tabs := slice }}
+{{ $languages := index $.Site.Data.examples $id }}
+{{ range $language := $.Site.Params.clientsexamples }}
+    {{ $example := index $languages $language }}
+    {{ if $example }}
+        {{ $examplePath := index $example "target" }}
+        {{ $options := printf "linenos=false" }}
+        {{ if isset $example "highlight" }}
+            {{ $options = printf "%s,hl_lines=%s" $options (delimit (index $example "highlight") " ") }}
+        {{ end }}
+        {{ $params := dict "language" $language "contentPath" $examplePath "options" $options }}
+        {{ $content := partial "tabs/source.html" $params }}
+        {{ $tabs = $tabs | append (dict "title" $language "content" $content) }}
+    {{ end }}
+{{ end }}
+
+{{ $params := dict "id" $id "tabs" $tabs }}
+{{ partial "tabs/wrapper.html" $params }}

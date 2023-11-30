@@ -1,0 +1,77 @@
+/* form.redis-cli {
+  font-family: "Cascadia Code", Menlo, monospace;
+  background-color: black;
+  color: white;
+  padding-bottom: 6px;
+}
+
+form.terminal {
+  border-radius: 4px;
+}
+
+form.redis-cli > div.bar {
+  display: flex;
+  padding-left: 6px;
+  background: #333;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+form.redis-cli > div.bar > span.button {
+  height: 10px;
+  width: 10px;
+  margin-top: 9px;
+  margin-bottom: 9px;
+  margin-left: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #999;
+}
+
+form.redis-cli > pre {
+  font: inherit;
+  background-color: black !important;
+  color: white;
+  margin: 0px;
+  padding-top: 3px;
+  padding-left: 7px;
+  padding-right: 7px;
+  padding-bottom: 0px;
+}
+
+form.redis-cli > div.prompt {
+  display: flex;
+}
+
+form.redis-cli > div.prompt > span {
+  white-space: pre-wrap;
+  padding-left: 7px;
+}
+
+form.redis-cli > div.prompt > input {
+  flex: 1 1 auto;
+  padding: 0;
+  padding-right: 7px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font: inherit;
+  color: #ffffff;
+}
+
+form.redis-cli >  div.powered {
+  color: #999;
+  text-align: right;
+  position: sticky;
+  padding-inline-start: 2em;
+  padding-inline-end: 3em;
+}
+
+form.redis-cli >  div.powered::before {
+  background: url("/static/images/redis-cube.svg") no-repeat right center;
+  background-size: contain;
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin-right: 0.75em;
+} */

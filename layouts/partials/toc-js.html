@@ -1,0 +1,84 @@
+<script>
+  // Table of contents scroll indicator
+  document.addEventListener('DOMContentLoaded', () => {
+
+    const TableOfContents = {
+      container: document.querySelector('#TableOfContents'),
+      links: null,
+      headings: null,
+      intersectionOptions: {
+        rootMargin: '0px',
+        threshold: 1
+      },
+      previousSection: null,
+      observer: null,
+
+      init() {
+        if (!this.container) return false
+
+        this.handleObserver = this.handleObserver.bind(this)
+        this.setUpObserver()
+        this.findLinksAndHeadings()
+        this.observeSections()
+      },
+
+      handleObserver(entries, observer) {
+        entries.forEach(entry => {
+          let href = `#${entry.target.getAttribute('id')}`
+          let link = this.links.find(l => l.getAttribute('href') === href)
+
+          if (entry.isIntersecting && entry.intersectionRatio >= 1) {
+            link.classList.add('visible')
+            this.previousSection = entry.target.getAttribute('id')
+          } else {
+            link.classList.remove('visible')
+          }
+
+          this.highlightFirstActive()
+        })
+      },
+
+      highlightFirstActive() {
+        let firstVisibleLink = this.container.querySelector('.visible')
+
+        this.links.forEach(link => {
+          link.classList.remove('active')
+        })
+
+        if (firstVisibleLink) {
+          firstVisibleLink.classList.add('active')
+        }
+
+        if (!firstVisibleLink && this.previousSection) {
+          this.container.querySelector(
+            `a[href="#${this.previousSection}"]`
+          ).classList.add('active')
+        }
+      },
+
+      observeSections() {
+        this.headings.forEach(heading => {
+          this.observer.observe(heading)
+        })
+      },
+
+      setUpObserver() {
+        this.observer = new IntersectionObserver(
+          this.handleObserver,
+          this.intersectionOptions
+        )
+      },
+
+      findLinksAndHeadings() {
+        this.links = [...this.container.querySelectorAll('a')]
+        this.headings = this.links.map(link => {
+          let id = link.getAttribute('href')
+          return document.querySelector(id)
+        })
+      }
+    }
+
+    TableOfContents.init()
+
+})
+</script>

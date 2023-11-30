@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="{{ .Site.Language.Lang }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {{ hugo.Generator }}
+    {{ range .AlternativeOutputFormats -}}
+      <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}">
+    {{ end -}}
+
+    {{ if and hugo.IsProduction -}}
+      <meta name="robots" content="index, follow">
+      <meta name="google-site-verification" content="suIo51jDr2z6o48kiD53RKtRvp-JgZ-njy8SWMdrkMo">
+    {{ else -}}
+      <meta name="robots" content="noindex, nofollow">
+    {{ end -}}
+
+    {{ partialCached "favicons.html" . }}
+
+    <title>
+      {{- if .IsHome -}}
+        {{ .Site.Title -}}
+      {{ else -}}
+        {{ with .Title }}{{ . }} | {{ end -}}
+        {{ .Site.Title -}}
+      {{ end -}}
+    </title>
+    {{ $desc := .Page.Description | default (.Page.Content | safeHTML | truncate 150) -}}
+    <meta name="description" content="{{ $desc }}">
+    {{ template "_internal/opengraph.html" . -}}
+    {{ template "_internal/schema.html" . -}}
+    {{ template "_internal/twitter_cards.html" . -}}
+
+    {{ partial "scss.html" (dict "path" "scss/style.scss") }}
+    {{ partialCached "css.html" . }}
+
+    {{ block "head" . }}{{ end }}
+
+    {{ partial "fonts.html" }}
+    
+    {{ if hugo.IsProduction -}}
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','{{ .Site.Params.tagManagerId }}');</script>
+    {{ end -}}
+    
+    <script src="/js/index.js" defer></script>
+    {{ if .Params.math }}
+        {{ partial "mathjax.html" }}
+    {{ end }}
+  </head>
+  <body class="antialiased tracking-[-0.01em]">
+    {{ if hugo.IsProduction -}}
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ .Site.Params.tagManagerId }}"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    {{ end -}}
+
+    <header class="sticky top-0 z-50 flex items-center w-full text-xs lg:text-sm font-semibold lg:font-medium text-white shadow bg-midnight-700">
+      {{ partial "navbar.html" . }}
+    </header>
+
+    {{ block "main" . }}{{ end }}
+
+    <footer class="bg-midnight-700 relative z-50">
+      {{ partial "footer.html" . }}
+      {{ partial "toc-js.html" . }}
+    </footer>
+
+    {{ partial "search-modal.html" . }}
+  </body>
+</html>

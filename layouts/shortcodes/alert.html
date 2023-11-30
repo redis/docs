@@ -1,0 +1,6 @@
+<div class="pl-4 border-l-8">
+{{ with .Get "title" }}
+<div class="font-semibold text-slate-900">{{ . | safeHTML }}</div>
+{{ end }}
+{{- .Inner -}}
+</div>

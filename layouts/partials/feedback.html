@@ -1,0 +1,26 @@
+  {{/*  Star rating adapted from https://codepen.io/chris22smith/pen/MJzLJN  */}}
+  <form name="page-feedback" method="POST" data-netlify="true" class="page-feedback">
+    <input name="origin" value="{{ .Permalink }}" class="hidden"/>
+  <div class="grid justify-center mt-10 pt-10 border-t-2">
+    <span class="font-bold font-small">Rate this page</span>
+    <div class="star-rating">
+      {{ range $num := (seq 5) }}
+      <input type="radio" id="{{ $num }}-stars" name="rating" value="{{ $num }}" onchange="document.querySelector('#feedback-form').classList.remove('hidden')"/>
+      <label for="{{ $num }}-stars" class="star">&#9733;</label>
+      {{ end }}
+    </div>  
+  </div>
+  <div id="feedback-form" class="hidden">
+    <div class="feedback-submit">
+      <textarea
+        name="comment"
+        placeholder="Why did you choose this rating?"
+        class="border border-neutral-500 p-2 mt-1 block w-full h-24"
+        rows="3"
+      ></textarea>
+      <button class="button button-indigo w-min justify-self-end" type="submit">
+        Submit
+      </button>
+    </div>
+  </div>
+</form>

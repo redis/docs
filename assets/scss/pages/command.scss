@@ -1,0 +1,48 @@
+body > section {
+  $mobileMaxWidth: 45em;
+
+  display: flex;
+  gap: 1em;
+
+  @media screen and (max-width: $mobileMaxWidth) {
+    flex-direction: column;
+  }
+
+  > main {
+    flex: 1 1 0;
+
+    > h1, > h2 {
+      margin: 0.75em 0;
+    }
+
+    > h1 {
+      font-size: 2.5em;
+    }
+
+    > h2 {
+      font-size: 2em;
+      margin: 0.75em 0;
+    }
+
+    > div {
+      margin: 0.75em 0;
+
+      > span.title {
+        font-weight: 500;
+      }
+    }
+  }
+
+  > aside {
+    flex: 0 0 var(--nav-width);
+
+    > ul {
+      list-style: none;
+      padding: 0;
+
+      > li {
+        margin-block: 0.5em;
+      }
+    }
+  }
+}

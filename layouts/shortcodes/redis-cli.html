@@ -1,0 +1,8 @@
+<div class="bg-slate-900 border-b border-slate-700 rounded-t-xl px-4 py-3 w-full flex">
+  {{ partial "icons/cli-circle" (dict "class" "shrink-0 h-[1.0625rem] w-[1.0625rem] fill-slate-50") }}
+  {{ partial "icons/cli-triangle" (dict "class" "shrink-0 h-[1.0625rem] w-[1.0625rem] fill-slate-50") }}
+  {{ partial "icons/cli-star" (dict "class" "shrink-0 h-[1.0625rem] w-[1.0625rem] fill-slate-50") }}
+</div>  
+<form class="redis-cli overflow-y-auto max-h-80">
+  {{- .Inner -}}
+</form>

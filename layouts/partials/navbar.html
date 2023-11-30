@@ -1,0 +1,143 @@
+<div class="flex items-center w-full h-16 container max-w-[85rem] mx-auto px-4 sm:px-8">
+  <a class="relative z-50 mr-auto" href="{{ .Site.Home.RelPermalink }}">
+    {{ partial "icons/logo.html" (dict "context" . "class" "w-auto h-8") }}
+  </a>
+
+	<nav data-menu class="hidden lg:flex items-center justify-center content-start lg:content-center lg:gap-y-4 flex-1 z-40 fixed inset-0 lg:static bg-slate-900 lg:bg-transparent text-sm max-h-screen lg:max-w-none pt-20 pb-8 lg:py-0 overflow-y-auto lg:overflow-y-visible">
+    {{ $currentPage := . }}
+    {{ range .Site.Menus.main }}
+      {{ if .HasChildren }}
+        
+        {{/* Desktop */}}
+        <dl class="{{ if $currentPage.HasMenuCurrent "main" . }}active {{ end }}hidden lg:flex group relative first:ml-auto ml-1 mt-3 mb-0 px-3 pt-2 pb-5 cursor-pointer">
+          <dt class="sr-only uppercase lg:not-sr-only flex items-center justify-items-center group-hover:text-white/50 group-focus-within:text-white/50 whitespace-nowrap transition-colors" href="#">
+            {{ if .Pre }}
+              <span class="grid place-items-center w-5 h-5 mr-2.5">
+                {{ with resources.Get .Pre }}
+                {{ ( . | minify).Content | safeHTML }}{{ end }}
+              </span>
+            {{ end }}
+            {{ .Name }}
+          </dt>
+          <dd class="hidden lg:grid text-[0.8rem] lg:text-sm text-redis-neutral-800 absolute top-full -mt-1 right-[1000rem] p-2 group-hover:right-[unset] group-hover:-left-3 group-focus-within:right-[unset] group-focus-within:-left-3 bg-white rounded-lg border border-slate-500/10 bg-clip-padding shadow-md">
+            {{ range .Children }}
+              {{ if .HasChildren }}
+                <div class="-my-2 pr-3 py-4 col-start-{{ .Weight }} {{ if gt .Weight 1 }} border-l pl-5 {{ else }} pl-3 {{ end }}">
+                  <a href="{{ .URL }}" class="{{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }} font-semibold text-[0.9375rem] text-slate-900 flex items-center whitespace-nowrap min-w-[10rem] hover:text-slate-600 focus:text-slate-600 transition-colors">
+                    {{ if .Pre }}
+                      <span class="grid place-items-center w-5 h-5 mr-2.5">
+                        {{ with resources.Get .Pre }}
+                        {{ ( . | minify).Content | safeHTML }}{{ end }}
+                      </span>
+                    {{ end }}
+                    {{ .Name }}
+                  </a>
+                  {{ range .Children }}
+                    <a href="{{ .URL }}" class="{{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }} pl-[1.875rem] flex items-center whitespace-nowrap rounded min-w-[10rem] pt-2 text-slate-500 hover:text-indigo-600 focus:text-slate-900 transition-colors">
+                      {{ if .Pre }}
+                        <span class="grid place-items-center w-5 h-5 mr-2.5">
+                          {{ with resources.Get .Pre }}
+                          {{ ( . | minify).Content | safeHTML }}{{ end }}
+                        </span>
+                      {{ end }}
+                      {{ .Name }}
+                    </a>
+                  {{ end }}
+                </div>
+              {{ else }}
+              <a href="{{ .URL }}" class="{{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }} px-3 flex items-center whitespace-nowrap rounded min-w-[10rem] py-1 text-slate-500 hover:text-slate-900 focus:text-slate-900 transition-colors">
+                {{ if .Pre }}
+                  <span class="grid place-items-center w-5 h-5 mr-2.5">
+                    {{ with resources.Get .Pre }}
+                    {{ ( . | minify).Content | safeHTML }}{{ end }}
+                  </span>
+                {{ end }}
+                {{ .Name }}
+              </a>
+              {{ end }}
+            {{ end }}
+          </dd>
+        </dl>
+        
+        {{/* Mobile */}}
+        <dl class="lg:hidden">
+          <dt class="sr-only">
+            {{ .Name }}
+          </dt>
+          <dd class="lg:hidden flex flex-col">
+            {{ range .Children }}
+              {{ if .HasChildren }}
+                <a href="{{ .URL }}" class="flex items-center mt-2">
+                  {{ .Name }}
+                </a>
+                {{ range .Children }}
+                  <a href="{{ .URL }}" class="mt-2">
+                    {{ .Name }}
+                  </a>
+                {{ end }}
+                <hr class="opacity-10 mt-4 mb-2">
+              {{ else }}
+              <a href="{{ .URL }}" class="mt-2">
+                {{ .Name }}
+              </a>
+              {{ end }}
+            {{ end }}
+          </dd>
+        </dl>
+      {{ else }}
+
+        {{/* Desktop */}}
+        <a href="{{ .URL }}" class="hidden uppercase rounded-sm lg:flex items-center justify-items-center first:ml-auto ml-1 px-3 py-2 rounded bg-transparent hover:text-white/50 focus:text-white/50 whitespace-nowrap transition-colors">
+          {{ if .Pre }}
+            {{ with resources.Get .Pre }}
+              <span class="grid place-items-center w-5 h-5">
+              {{ ( . | minify).Content | safeHTML }}{{ end }}
+            {{ end }}
+          </span>
+          {{ .Name }}
+        </a>
+
+        {{/* Mobile */}}
+        <a href="{{ .URL }}" class="flex lg:hidden items-center mt-1.5">
+          {{ .Name }}
+        </a>
+      {{ end }}
+    {{ end }}
+    
+    <div class="flex flex-col lg:flex-row lg:ml-auto lg:space-x-2">
+      <button id="search-button" type="button" class="rounded-sm w-full lg:w-auto transition-colors shrink-0 flex-1 lg:flex-none lg:ml-2 lg:mr-0 mt-4 lg:mt-0 inline-flex items-center px-4 py-2 text-sm font-medium rounded border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 border-white/50 hover:text-indigo-600 focus:text-indigo-600 hover:bg-white focus:bg-white focus:ring-white">
+        <svg class="w-[0.875rem] h-[0.875rem] mr-0.5" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <circle cx="10" cy="10" r="7" />
+          <line x1="21" y1="21" x2="15" y2="15" />
+        </svg>
+        <span class="sr-only">Quick search&hellip…</span>
+        <span class="lg:hidden xl:block flex-auto ml-1 mr-4" aria-hidden>Search&hellip;</span>
+        <script>
+          if (navigator.appVersion.indexOf("Win") != -1 || navigator.appVersion.indexOf("Linux") != -1) {
+            document.querySelector('[title="Command"]').textContent = "&#8963;";
+          } 
+        </script>
+        <kbd class="font-sans font-semibold">
+          <abbr title="Command" class="no-underline">&#8984</abbr>&nbsp;K
+        </kbd>
+      </button>
+      {{ range .Site.Menus.buttons }}
+        <a class="rounded-sm transition-colors shrink-0 inline-flex items-center justify-center mt-2 lg:mt-0 px-4 py-2 text-sm font-medium rounded border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900
+        {{ if (eq .Params.style "solid") }} border-transparent bg-indigo-500 hover:bg-indigo-600 focus:bg-indigo-600 focus:ring-indigo-600{{ end }}
+        {{ if (eq .Params.style "outline") }} border-white/50 hover:text-indigo-600 focus:text-indigo-600 hover:bg-white focus:bg-white focus:ring-white{{ end }}" href="{{ .URL }}">
+          {{ .Name }}
+        </a>
+      {{ end }}
+    </div>
+	</nav>
+
+  <button data-menu-toggle aria-expanded="false" class="menu-toggle block ml-auto lg:hidden relative z-50"> 
+    <span class="sr-only">Open main menu</span> 
+    <svg aria-hidden="true" role="img" viewBox="0 0 24 24" style="pointer-events: none; width: 24px; height: 24px;" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="18" x2="20" y2="18" />
+    </svg>
+  </button>
+</div>

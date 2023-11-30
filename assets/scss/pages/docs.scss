@@ -1,0 +1,40 @@
+@import '../partials/docs-nav';
+
+body > section > main {
+  > aside {
+    display: inline-block;
+    border: 1px solid #eeeeee;
+    padding: 1em;
+
+    > p {
+      margin: 0;
+    }
+
+    > nav > ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  > nav {
+    border-top: 1px solid var(--neutral-text-color);
+
+    > ul {
+      list-style: none;
+      padding: 0;
+
+      > li {
+        margin-block: 1em;
+
+        > a {
+          font-weight: 500;
+        }
+
+        > p {
+          margin: 0;
+        }
+      }
+    }
+  }
+}

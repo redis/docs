@@ -1,0 +1,102 @@
+form {
+  display: block;
+  padding: 1em;
+  font-size: 0.85em;
+
+  // @media (max-width: $mobile) {
+  //   .container {
+  //     display: flex;
+  //     flex-direction: column;
+  //   }
+  // }
+
+  label {
+    margin-right: 0;
+
+    &[for="name-filter"] {
+      position: relative;
+
+      &:before {
+        background: url("/images/search-icon.svg") no-repeat;
+        background-size: contain;
+        content: '';
+        height: 16px;
+        left: .5rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-36%);
+        width: 16px;
+      }
+
+      input {
+        padding-left: 2rem;
+      }
+
+      // @media (max-width: $tablet-norm) {
+      //   margin-left: 2rem;
+      // }
+
+      // @media (max-width: $mobile) {
+      //   margin-left: 0;
+      //   margin-top: 1rem;
+      // }
+    }
+
+    // @media (max-width: $tablet-norm) {
+    //   width: 50%;
+    // }
+
+    // @media (max-width: $mobile) {
+    //   width: 100%;
+    // }
+  }
+
+  select, input[type="search"] {
+      border: none;
+      border-bottom: 1px solid var(--neutral-text-color)!important;
+      border-radius: 0;
+      color: var(--neutral-text-color);
+      font-size: 18px;
+      padding-bottom: 0;
+      width: 300px;
+
+      // @media (max-width: $tablet-norm) {
+      //     width: 100%;
+      // }
+  }
+
+  select {
+      margin-right: 2rem;
+  }
+}
+
+// #commands-grid {
+//   display: grid;
+//   grid-template-columns: repeat(auto-fill, minmax(18em, 1fr));
+//   gap: 1.875rem;
+
+//   > a {
+//     background-color: #ffffff;
+//     border-top: 2px solid transparent;
+//     box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.05);
+//     padding: 1em;
+
+//     &:hover, &:focus {
+//       border-top-color: var(--secondary-color);
+//       text-decoration: none;
+//     }
+
+//     > .name {
+//       margin-bottom: .5rem;
+//       overflow: hidden;
+//       text-overflow: ellipsis;
+//       white-space: nowrap;
+//       font-weight: 500;
+
+//       > span {
+//         font-weight: 400;
+//         font-size: 0.8em;
+//       }
+//     }
+//   }
+// }

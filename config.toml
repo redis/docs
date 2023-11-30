@@ -1,0 +1,92 @@
+baseURL = "https://redis.io/"
+title = "Redis"
+
+enableRobotsTXT = true
+enableGitInfo = true
+enableEmoji = true
+
+contentDir = "content/"
+
+[related]
+[[related.indices]]
+  name = 'group'
+  weight = 1
+  includeNewer = true
+
+# Highlighting config
+pygmentsCodeFences = false
+pygmentsUseClasses = false
+# Use the new Chroma Go highlighter in Hugo.
+pygmentsUseClassic = false
+
+# Configure how URLs look like per section.
+[permalinks]
+blog = "/:section/:year/:month/:day/:slug/"
+
+## Configuration for BlackFriday markdown parser: https://github.com/russross/blackfriday
+[blackfriday]
+plainIDAnchors = true
+hrefTargetBlank = true
+angledQuotes = false
+latexDashes = true
+
+# Image processing configuration.
+[imaging]
+resampleFilter = "CatmullRom"
+quality = 75
+anchor = "smart"
+
+[params]
+  tagManagerId = "GTM-T4MTBKP"
+  # Display and sort order for client examples
+  clientsExamples = ["Python", "Node", "Java", "Go", "C#"]
+
+# Markup
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+    [markup.goldmark.extensions]
+      typographer = false
+  [markup.highlight]
+      # See a complete list of available styles at https://xyproto.github.io/splash/docs/all.html
+      # style = "github-dark"
+      noClasses = "false"
+      # Uncomment if you want your chosen highlight style used for code blocks without a specified language
+      # guessSyntax = "true"
+
+# Everything below this are Site Params
+
+# Comment out if you don't want the "print entire section" link enabled.
+[outputs]
+section = ["HTML", "RSS"] # print
+
+[menu]
+  [[menu.main]]
+    pageRef = "/develop"
+    name = "Develop"
+    weight = 1
+
+  [[menu.main]]
+    pageRef = "/integrate"
+    name = "Integrate"
+    weight = 2
+
+  [[menu.main]]
+    pageRef = "/operate"
+    name = "Operate"
+    weight = 3
+
+  [[menu.buttons]]
+    identifier = "commands"
+    name = "Commands"
+    url = "/commands"
+    weight = 1
+
+  [[menu.buttons]]
+    identifier = "try-free"
+    name = "Try Redis Cloud"
+    url = "http://redis.com/try-free/"
+    weight = 2
+    [menu.buttons.params]
+      style = "solid"

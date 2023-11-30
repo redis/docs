@@ -1,0 +1,22 @@
+:root {
+  --primary-color: #161f31;
+  --text-on-primary-color: #ffffff;
+  --secondary-color: #5961ff;
+  --secondary-color-shade: #454cd5;
+  --text-on-secondary-color: #ffffff;
+  --neutral-text-color: #4e545b;
+  --success-color: #0fa869;
+  --warning-color: #ffb553;
+  --error-color: #ff5d15;
+  --max-width: 85rem;
+  --min-padding: 1rem;
+  --nav-width: 15rem;
+  --header-height: 5.5rem;
+  --transition-duration: 0.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-duration: .05s;
+  }
+}
