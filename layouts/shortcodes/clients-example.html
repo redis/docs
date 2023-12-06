@@ -1,2 +1,6 @@
 {{ .Scratch.Set "example" (.Get 0) }}
+{{ .Scratch.Set "step" (.Get 1) }}
+{{ .Scratch.Set "lang" (.Get 2) }}
+{{ .Scratch.Set "maxLines" (.Get 3) }}
+{{ .Scratch.Set "redisCommands" .Inner }}
 {{ partial "tabbed-clients-example.html" . }}

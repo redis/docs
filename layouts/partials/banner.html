@@ -1,0 +1,33 @@
+{{ if isset $.Site.Params "bannercontent" }}
+  {{ $content := $.Site.Params.bannercontent }}
+  {{ $between := slice }}
+  {{ if isset $.Site.Params "bannerfromdate" }}
+    {{ $from := printf "(Date.parse('%s') <= Date.now())" (dateFormat "2006-01-02T15:04:05Z0700" (time $.Site.Params.bannerfromdate)) }}
+    {{ $between = $between | append $from }}
+  {{ end }}
+  {{ if isset $.Site.Params "banneruntildate" }}
+    {{ $until := printf "(Date.parse('%s') >= Date.now())" (dateFormat "2006-01-02T15:04:05Z0700" (time $.Site.Params.banneruntildate)) }}
+    {{ $between = $between | append $until }}
+  {{ end }}
+  {{ $cond := printf "(%s)" (delimit $between " && ") }}
+  {{ if eq (len $between) 0 }}
+    {{ $cond = "(true)" }}
+  {{ end }}
+<div class="site-banner hidden">
+  <script>
+    const el = document.querySelector('.site-banner');
+    if {{ $cond | safeJS }} {
+      el.classList.remove('hidden');
+    }
+  </script>
+  {{ if isset $.Site.Params "bannerlink" }}
+  <a href="{{$.Site.Params.bannerlink}}" class="group w-full inline-block items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start">
+    {{ $content | emojify | markdownify }}
+    <span class="ml-8">Learn more</span>
+    <span class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">→</span>
+  </a>
+  {{ else }}
+    {{ $content | emojify | markdownify }}
+  {{ end }}
+</div>
+{{ end }}

@@ -423,16 +423,26 @@ select {
 }      
 
 .codetabs .label {
-  min-width: 4rem;
+  min-width: 2rem;
+  line-height: 0.852rem;
+  color: #8CA0AD;
 }
+
+.codetabs .label:active {
+  color: white;
+}
+
 
 .codetabs .radiotab:focus + .label {
   @apply bg-transparent text-indigo-600;
 }
 
 .codetabs .radiotab:checked + .label {
-  @apply bg-slate-900 border-slate-900 not-italic;
+  @apply border-slate-900 not-italic;
+  @apply bg-slate-600 text-white pt-1 mt-2.5;
+
 }
+
 
 .codetabs .radiotab:checked + .label + .panel {
   @apply block;
@@ -442,6 +452,33 @@ select {
   @apply rounded-tl-none m-0;
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+.codetabs.cli + .cli-footer {
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+}
+
+.cli-footer {
+  background-color: #282F43;
+  min-height: 32px;
+}
+
+.cli-footer a.rounded {
+  background-color: #3E4977;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.cli-footer a.rounded:hover {
+  background-color: #3E4981;
+}
+
+.codetabs.cli > .panel .highlight > .chroma {
+    margin: 1rem 1rem 0.1rem 0.1rem;
+    overflow-x: hidden;
+    padding-bottom: 0;
+}
+
+.codetabs .chroma .language-plaintext .cl {
+    white-space: break-spaces;
 }
 
 .codetabs > .panel .highlight .chroma > .lntable td:first-child .chroma {
@@ -462,6 +499,24 @@ select {
 .codetabs > .panel:where([aria-expanded]) .highlight .chroma > .lntable .lntd code > .lnt,
 .codetabs > .panel:where([aria-expanded]) .highlight .chroma > .lntable .lntd code > .line:not(.hl) {
   @apply opacity-60;
+}
+
+.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-Go > .hl {
+  tab-size: 3ch;
+  left: -3ch;
+  position: relative;
+}
+
+.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-C\# > .hl
+{
+  left: -8ch;
+  position: relative;
+}
+
+.codetabs > .panel:not([aria-expanded]) .highlight .chroma > .language-Java > .hl
+{
+  left: -4ch;
+  position: relative;
 }
 
 .codetabs > .panel .highlight .chroma > code > .hl,
@@ -602,6 +657,8 @@ html {
 .chroma .hl {
   @apply flex bg-indigo-900/80;
 }
+
+code
 
 /* LineNumbersTable */
 .chroma .lnt {
@@ -969,3 +1026,41 @@ html {
 .chroma .w {
   @apply text-slate-500;
 }
+/* Safari input[type = radio] fix for tabs */
+input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.stack-logo-inline {
+    display: inline;
+    max-height: 1em;
+    padding: 0 0.1em;
+    width: 2em;
+}
+
+
+.site-banner {
+  background: radial-gradient(#F2F3FC,#D2D7FE);
+  @apply w-full py-2 text-center font-medium text-base text-midnight-700
+}
+
+.banner-article {
+  /*background-color: #f7f7f7;*/
+  background-color: #fff8dc;
+  padding: 1px;
+  margin-left: -3px;
+  z-index: 998;
+}
+
+.banner-article p {
+  text-align: left;
+  font-size: 16px !important;
+  padding: 0 1em;
+}
+
+.banner-article a {
+  text-decoration: underline;
+}
+

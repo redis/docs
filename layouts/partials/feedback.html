@@ -4,7 +4,7 @@
   <div class="grid justify-center mt-10 pt-10 border-t-2">
     <span class="font-bold font-small">Rate this page</span>
     <div class="star-rating">
-      {{ range $num := (seq 5) }}
+      {{ range $num := (seq 5 1) }}
       <input type="radio" id="{{ $num }}-stars" name="rating" value="{{ $num }}" onchange="document.querySelector('#feedback-form').classList.remove('hidden')"/>
       <label for="{{ $num }}-stars" class="star">&#9733;</label>
       {{ end }}

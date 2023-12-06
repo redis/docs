@@ -16,27 +16,26 @@ function toggleVisibleLines(evt) {
     .toggleAttribute('aria-expanded');
 }
 
-function switchCodeTab(tabGroup, tabId) {
+function switchCodeTab(selectedTabInput, tabLang) {
   // Synchronize tab selection to relevant page tabs
-  for (const tv of document.querySelectorAll('.codetabs')) {
-    if (tv.id === tabGroup) continue; // Skip caller
-    const trg = document.getElementById(`${tabId}_${tv.id}`);
-    if (!trg) continue; // Skip tabs where there's no target
-    trg.checked = true;
-  }
+  const trg = document.querySelectorAll(`.codetabs > input[data-lang=${tabLang}]`);
+  trg.forEach((element) => {
+      if (element === selectedTabInput)  return;
+      element.checked = true;
+  });
 
   // Persist tab selection
   if (window.localStorage) {
-    window.localStorage.setItem('selectedCodeTab', tabId);
+    window.localStorage.setItem('selectedCodeTab', tabLang);
   }
 }
 
 function onchangeCodeTab(e) {
-  const tabGroup = e.target.parentElement.id;
-  const tabId = e.target.parentElement.querySelector(`label[for="${e.srcElement.id}"]`).textContent;
+  const selectedTabInput = e.target;
+  const tabLang = e.target.dataset.lang;
   const yPos = e.target.getBoundingClientRect().top;
 
-  switchCodeTab(tabGroup, tabId);
+  switchCodeTab(selectedTabInput, tabLang);
 
   // Scroll to the source element if it jumped
   const yDiff = e.target.getBoundingClientRect().top - yPos;

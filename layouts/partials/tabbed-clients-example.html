@@ -1,23 +1,39 @@
 {{ $id := .Scratch.Get "example" }}
+{{ $step := .Scratch.Get "step" }}
+{{ $lang := .Scratch.Get "lang" }}
+{{ $redisCommands := .Scratch.Get "redisCommands" }}
+{{ $redisCommandsLineLimit := (or (.Scratch.Get "maxLines") 100) }}
+
 {{ if not (isset $.Site.Data.examples $id) }}
     {{ warnf "[tabbed-clients-example] Example not found %q for %q" $id $.Page }}
 {{ end }}
 
 {{ $tabs := slice }}
+{{/* Render redis-cli example from inner content if any */}}
+{{ if (ne (trim $redisCommands "\n") "") }}
+    {{ $redisCliContent := highlight (trim $redisCommands "\n") "plaintext" (printf "linenos=false,hl_lines=1-%d" $redisCommandsLineLimit ) }}
+    {{ $tabs = $tabs | append (dict "title" "redis-cli" "content" $redisCliContent "limit" $redisCommandsLineLimit) }}
+{{ end }}
+
 {{ $languages := index $.Site.Data.examples $id }}
 {{ range $language := $.Site.Params.clientsexamples }}
     {{ $example := index $languages $language }}
-    {{ if $example }}
+    {{ if and ($example) (or (eq $lang "") (eq $lang $language)) }}
         {{ $examplePath := index $example "target" }}
         {{ $options := printf "linenos=false" }}
-        {{ if isset $example "highlight" }}
-            {{ $options = printf "%s,hl_lines=%s" $options (delimit (index $example "highlight") " ") }}
+
+        {{ if and (ne $step "") (isset $example "named_steps") (isset $example.named_steps $step) }}
+            {{ $options = printf "%s,hl_lines=%s" $options (index $example.named_steps $step) }}
+        {{ else }}
+            {{ if isset $example "highlight" }}
+                {{ $options = printf "%s,hl_lines=%s" $options (delimit (index $example "highlight") " ") }}
+            {{ end }}
         {{ end }}
         {{ $params := dict "language" $language "contentPath" $examplePath "options" $options }}
         {{ $content := partial "tabs/source.html" $params }}
-        {{ $tabs = $tabs | append (dict "title" $language "content" $content) }}
+        {{ $tabs = $tabs | append (dict "title" $language "content" $content "sourceUrl" (index $example "sourceUrl")) }}
     {{ end }}
 {{ end }}
 
-{{ $params := dict "id" $id "tabs" $tabs }}
+{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" (eq $lang "") }}
 {{ partial "tabs/wrapper.html" $params }}

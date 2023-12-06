@@ -139,15 +139,20 @@
         return mergeData(data.results, getCategories(data.results))
       }
   
+      function escape_evil_chars(str_in) {
+        return str_in.replaceAll('>','&gt;').replaceAll('<', '&lt;').replaceAll('&', '&amp;').replaceAll('"','&quot;').replaceAll("'",'&#x27;')
+      }   
+      
       function displayData(data) {
         resultsContainer.innerHTML = ''
         
         if (data.results.length < 1) {
+          escapedSearchTerm = escape_evil_chars(searchTerm)
           resultsContainer.insertAdjacentHTML(
             'beforeend',
-            `<dt class="sr-only">${searchTerm}:</dt>
+            `<dt class="sr-only">${escapedSearchTerm}:</dt>
             <dd class="search-no-results">
-              No results for \"<span class="search-title">${searchTerm}</span>\"
+              No results for \"<span class="search-title">${escapedSearchTerm}</span>\"
             </dd>`
           )
         } else {

@@ -8,8 +8,33 @@
     <div class="w-full max-w-[47rem] py-12">
       {{ partial "breadcrumbs" . }}
       <section class="prose prose-slate w-full max-w-[47rem] py-12">
-        <h1>{{ .Title }}</h1>
+        <h1>
+          {{ if and (isset .Params "stack") (eq .Params.stack true)}}
+          {{ partial "icons/logo-stack.html" (dict "context" . "class" "stack-logo-inline") }}
+          {{ end }}
+          {{ .Title }}</h1>
         {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
+        
+        <!-- In-page banner -->
+        {{ if .Params.bannerText }}
+          <!-- Banner params are in the current page's front matter -->
+          {{ partial "banner-article.html" . }}
+        {{ else }}
+          <!-- Iterate through the page's ancestors to determine if a 
+            section-wide banner is enabled by a parent page's front matter -->
+          {{ $ancestorDirs := slice }}
+          {{ with .File }}
+            {{ $ancestorDirs = split .File.Dir "/" }}
+          {{ end }}
+          {{ $currPage := .Page }}
+          {{ range $i, $page := $ancestorDirs }}
+            {{ if and $currPage.Params.bannerText $currPage.Params.bannerChildren }}
+              {{ partial "banner-article.html" $currPage }}
+            {{ end }}
+            {{ $currPage = $currPage.Parent }}
+          {{ end }}
+        {{ end }}
+        
         {{ .Content }}
         {{ partial "feedback.html" . }}
       </section>

@@ -1,7 +1,7 @@
 {{ $this := . }}
 {{ with .TableOfContents }}
-  <section class="hidden xl:block w-52 h-full shrink-0">
-    <div class="w-52 z-40 hidden bg-white/75 md:block overflow-auto fixed top-28 h-full max-h-[calc(100vh-15rem)] text-[0.8125rem]">
+  <section class="hidden xl:block w-60 h-full shrink-0">
+    <div class="w-60 z-40 hidden bg-white/75 md:block overflow-auto fixed top-28 h-full max-h-[calc(100vh-15rem)] text-[0.8125rem]">
       {{ partial "meta-links.html" $this }}
       {{ if gt (len .) 32 }}
         <h1 class="font-semibold my-3">On This Page</h1>

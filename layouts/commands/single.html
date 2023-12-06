@@ -4,6 +4,8 @@
 {{ end }}
 
 {{ define "main" }}
+  {{ $isModule := isset .Params "module" }}
+  {{ $component := cond $isModule .Params.module "Redis" }}
   <main class="docs w-full max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 md:flex gap-16">
     {{ partial "docs-nav.html" . }}
     <div class="w-full max-w-[47rem] py-12">
@@ -17,11 +19,14 @@
         </h1>
         {{ if (isset .Params "deprecated_since") }}
           <div class="border-l-8 pl-4">
-            <p>As of Redis version {{ .Params.deprecated_since }}, this command is regarded as deprecated.</p>
+            <p>As of {{ $component }} version {{ .Params.deprecated_since }}, this command is regarded as deprecated.</p>
             {{- if (isset .Params "replaced_by") }}
             <p>It can be replaced by {{ .Params.replaced_by | markdownify }} when migrating or writing new code.</p>
             {{- end }}
           </div>
+        {{ end }}
+        {{ if .Params.bannerText }}
+          {{ partial "banner-article.html" . }}
         {{ end }}
         {{ $syntax := .Params.syntax_fmt }}
         {{ if isset .Params "syntax" }}
@@ -38,7 +43,7 @@
         </pre>
         {{ end }}
         <dl class="grid grid-cols-[auto,1fr] gap-x-2 mb-12">
-          {{ if not (isset .Params "module") }}
+          {{ if not $isModule }}
           <dt class="font-semibold text-slate-900">Available since:</dt>
           <dd>{{ .Params.since }}</dd>
           {{ else }}
@@ -62,6 +67,39 @@
 
         {{ .Content }}
 
+        {{ $resp2 := index .Site.Data.resp2_replies .Params.title }}
+        {{ $resp3 := index .Site.Data.resp3_replies .Params.title }}
+        {{ if and $resp2 $resp3 }}
+          {{ $same := false }}
+          {{ $responses := slice }}
+          {{ $complement := complement $resp2 $resp3 }}
+          {{ if eq (len $complement) 0 }}
+            {{ $same = true }}
+            {{ $responses = $responses | append (slice $resp2) }}
+            {{ printf "## RESP2/RESP3 Reply" | markdownify }}
+          {{ else }}
+            {{ $responses = $responses | append (slice $resp2) }}
+            {{ $responses = $responses | append (slice $resp3) }}
+          {{ end }}
+
+          {{ $respver := 2 }}
+          {{ range $response := $responses }}
+            {{ with $response }}
+              {{ if eq $same false }}
+                {{ printf "## RESP%d Reply" $respver | markdownify }}
+                {{ $respver = add $respver 1 }}
+              {{ end }}
+              {{ $mergedString := "" }}
+              {{ range . }}
+                {{ $mergedString = print $mergedString . "\n" }}
+              {{ end }}
+              {{ $processedContent := $mergedString | markdownify }}
+              {{ $processedContent }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        <br />
+
         {{ if isset .Params "history" }}
           <h2>History</h2>
           <ul>
@@ -75,12 +113,12 @@
       </section>
     </div>
 
-    <aside class="hidden xl:block w-52 h-full shrink-0">
+    <aside class="hidden xl:block w-60 h-full shrink-0">
       {{ $related := .Site.Pages.RelatedIndices . "group" | append . }}
       {{ $related = (where $related ".Params.hidden" "!=" true) }}
       {{ $this := . }}
       {{ with sort $related "Title" }}
-      <dl class="w-52 z-40 hidden bg-white/75 md:block overflow-auto fixed top-28 h-full max-h-[calc(100vh-15rem)] text-[0.8125rem]">
+      <dl class="w-60 z-40 hidden bg-white/75 md:block overflow-auto fixed top-28 h-full max-h-[calc(100vh-15rem)] text-[0.8125rem]">
         {{ partial "meta-links.html" $this }}
         <dt class="font-semibold my-3">
           See also
