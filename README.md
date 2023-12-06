@@ -20,6 +20,10 @@
 * **/tailwind.config.js**: This is the Tailwind CSS framwork's configuration file.
 * **/postcss.config.js**: Needed to make Tailwind statically accessible to the site.
 
+## Build script and data files
+
+> TODO
+
 ## How to build
 
 1. Use `make` to clean and build everything `make all`
