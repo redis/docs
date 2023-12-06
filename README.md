@@ -22,7 +22,7 @@
 
 ## How to build
 
-1. Use `make` to install the dependencies `make deps`
+1. Use `make` to clean and build everything `make all`
 2. Then run Hugo in debug mode to build the site `make build`
 3. The build result can be found within the folder **/public**
 
