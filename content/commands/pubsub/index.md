@@ -1,0 +1,18 @@
+---
+acl_categories:
+- '@slow'
+arity: -2
+complexity: Depends on subcommand.
+description: A container for Pub/Sub commands.
+group: pubsub
+hidden: true
+linkTitle: PUBSUB
+since: 2.8.0
+summary: A container for Pub/Sub commands.
+syntax_fmt: PUBSUB
+syntax_str: ''
+title: PUBSUB
+---
+This is a container command for Pub/Sub introspection commands.
+
+To see the list of available commands you can call [`PUBSUB HELP`](/commands/pubsub-help).

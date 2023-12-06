@@ -1,0 +1,18 @@
+---
+acl_categories:
+- '@slow'
+arity: -2
+complexity: Depends on subcommand.
+description: A container for function commands.
+group: scripting
+hidden: true
+linkTitle: FUNCTION
+since: 7.0.0
+summary: A container for function commands.
+syntax_fmt: FUNCTION
+syntax_str: ''
+title: FUNCTION
+---
+This is a container command for function commands.
+
+To see the list of available commands you can call [`FUNCTION HELP`](/commands/function-help).

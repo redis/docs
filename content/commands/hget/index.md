@@ -1,0 +1,51 @@
+---
+acl_categories:
+- '@read'
+- '@hash'
+- '@fast'
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+- display_text: field
+  name: field
+  type: string
+arity: 3
+command_flags:
+- readonly
+- fast
+complexity: O(1)
+description: Returns the value of a field in a hash.
+group: hash
+hidden: false
+key_specs:
+- RO: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+linkTitle: HGET
+since: 2.0.0
+summary: Returns the value of a field in a hash.
+syntax_fmt: HGET key field
+syntax_str: field
+title: HGET
+---
+Returns the value associated with `field` in the hash stored at `key`.
+
+## Examples
+
+{{% redis-cli %}}
+HSET myhash field1 "foo"
+HGET myhash field1
+HGET myhash field2
+{{% /redis-cli %}}
+

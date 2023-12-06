@@ -1,0 +1,60 @@
+---
+acl_categories:
+- '@write'
+- '@string'
+- '@fast'
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+- display_text: decrement
+  name: decrement
+  type: integer
+arity: 3
+command_flags:
+- write
+- denyoom
+- fast
+complexity: O(1)
+description: Decrements a number from the integer value of a key. Uses 0 as initial
+  value if the key doesn't exist.
+group: string
+hidden: false
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  update: true
+linkTitle: DECRBY
+since: 1.0.0
+summary: Decrements a number from the integer value of a key. Uses 0 as initial value
+  if the key doesn't exist.
+syntax_fmt: DECRBY key decrement
+syntax_str: decrement
+title: DECRBY
+---
+Decrements the number stored at `key` by `decrement`.
+If the key does not exist, it is set to `0` before performing the operation.
+An error is returned if the key contains a value of the wrong type or contains a
+string that can not be represented as integer.
+This operation is limited to 64 bit signed integers.
+
+See [`INCR`](/commands/incr) for extra information on increment/decrement operations.
+
+## Examples
+
+{{% redis-cli %}}
+SET mykey "10"
+DECRBY mykey 3
+{{% /redis-cli %}}
+

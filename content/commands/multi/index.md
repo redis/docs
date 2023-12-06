@@ -1,0 +1,26 @@
+---
+acl_categories:
+- '@fast'
+- '@transaction'
+arity: 1
+command_flags:
+- noscript
+- loading
+- stale
+- fast
+- allow_busy
+complexity: O(1)
+description: Starts a transaction.
+group: transactions
+hidden: false
+linkTitle: MULTI
+since: 1.2.0
+summary: Starts a transaction.
+syntax_fmt: MULTI
+syntax_str: ''
+title: MULTI
+---
+Marks the start of a [transaction][tt] block.
+Subsequent commands will be queued for atomic execution using [`EXEC`](/commands/exec).
+
+[tt]: /topics/transactions

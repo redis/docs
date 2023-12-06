@@ -1,0 +1,24 @@
+---
+acl_categories:
+- '@admin'
+- '@slow'
+- '@dangerous'
+arity: 2
+command_flags:
+- admin
+- stale
+- no_async_loading
+complexity: O(1)
+description: Deletes all slots information from a node.
+group: cluster
+hidden: false
+linkTitle: CLUSTER FLUSHSLOTS
+since: 3.0.0
+summary: Deletes all slots information from a node.
+syntax_fmt: CLUSTER FLUSHSLOTS
+syntax_str: ''
+title: CLUSTER FLUSHSLOTS
+---
+Deletes all slots from a node.
+
+The `CLUSTER FLUSHSLOTS` deletes all information about slots from the connected node. It can only be called when the database is empty.
