@@ -1,0 +1,15 @@
+{
+    "id": "node_redis",
+    "type": "client",
+    "name": "node-redis",
+    "language": "Node.js",
+    "repository": {
+        "git_uri": "https://github.com/redis/node-redis"
+    },
+    "examples": {
+        "git_uri": "https://github.com/redis/node-redis",
+        "dev_branch": "emb-examples",
+        "path": "doctests",
+        "pattern": "*.js"
+    }
+}

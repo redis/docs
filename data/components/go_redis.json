@@ -1,0 +1,15 @@
+{
+  "id": "go-redis",
+  "type": "client",
+  "name": "go-redis",
+  "language": "Go",
+  "repository": {
+      "git_uri": "https://github.com/redis/go-redis"
+  },
+  "examples": {
+      "git_uri": "https://github.com/redis/go-redis",
+      "dev_branch": "master",
+      "path": "doctests",
+      "pattern": "*_test.go"
+  }
+}
