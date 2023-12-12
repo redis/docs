@@ -6,6 +6,8 @@ all: clean deps build_components build serve
 
 deps:
 	@npm install
+	@pip3 install -r requirements.txt
+
 
 build_components:
 	@cd ./build;./migrate.sh
