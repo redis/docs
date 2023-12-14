@@ -1,0 +1,9 @@
+{
+  "accessKeyId": "$ACCESS_KEY_ID",
+  "accessSecretKey": "$ACCESS_SECRET_KEY",
+  "consolePassword": "$CONSOLE_PASSWORD",
+  "consoleUsername": "$CONSOLE_USERNAME",
+  "name": "My new Cloud Account",
+  "provider": "AWS",
+  "signInLoginUrl": "https://$AWS_ACCOUNT_IDENTIFIER.signin.aws.amazon.com/console"
+}

@@ -1,0 +1,62 @@
+{
+    "name": "RAM subscription with modules",
+    "dryRun": false,
+    "memoryStorage": "RAM",
+    "paymentMethodId": 8240,
+    "cloudProviders": [
+      {
+        "cloudAccountId": 9838,
+        "regions": [
+          {
+            "region": "us-east-1",
+            "networking": {
+              "deploymentCIDR": "10.0.0.0/24"
+            }
+          }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "RAM-Redis-module-JSON",
+        "memoryLimitInGb": 1.1,
+        "quantity": 1,
+        "modules": [
+              {
+                "name": "RedisJSON"
+              }
+            ]
+      },
+      {
+        "name": "RAM-Redis-module-Bloom",
+        "memoryLimitInGb": 1.1,
+        "quantity": 1,
+        "modules": [
+              {
+                "name": "RedisBloom"
+              }
+            ]
+      },
+      {
+        "name": "RAM-Redis-mosdule-Graph",
+        "memoryLimitInGb": 1.1,
+        "quantity": 1,
+        "modules": [
+              {
+                "name": "RedisGraph"
+              }
+            ]
+      },
+      {
+        "name": "RAM-Redis-mosdule-Search",
+        "memoryLimitInGb": 1.1,
+        "quantity": 1,
+        "modules": [
+              {
+                "name": "RediSearch"
+              }
+            ]
+      }
+
+    ]
+}

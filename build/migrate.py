@@ -10,18 +10,6 @@ from git import Repo
 from components.component import All
 from components.util import mkdir_p
 
-# -- Global constants
-WOKR_DIR=None
-DATA_ROOT=None
-DOCS_ROOT=None
-DOC_SRC_TMP=None
-DOCS_SRC_DOCS=None
-DOCS_SRC_CMD=None
-DOCS_CMD=None
-DOCS_DEV=None
-DOCS_OPS=None
-TMP=None
-
 
 '''
 Set the migration environment
@@ -31,6 +19,7 @@ def set_env():
     globals()['WORK_DIR'] = parent_dir(parent_dir(os.path.abspath(__file__)))
     globals()['DATA_ROOT'] = slash(WORK_DIR, 'data/')
     globals()['DOCS_ROOT'] = slash(WORK_DIR, 'content/')
+    globals()['STATIC_ROOT'] = slash(WORK_DIR, 'static/')
     globals()['DOC_SRC_TMP'] = slash(DOCS_ROOT, 'tmp/')
     globals()['DOCS_SRC_DOCS'] = slash(DOC_SRC_TMP, 'docs/')
     globals()['DOCS_SRC_CMD'] = slash(DOC_SRC_TMP, 'commands/')
@@ -125,27 +114,109 @@ def replace_links_in_file(file_path, old_prefix, new_prefix):
         file.write(updated_content)
 
 '''
-Removes the aliases section from the file
+Read the front matter from a markdown file
 '''
-def remove_aliases_from_file(file_path):
+def _read_front_matter(file_path):
+    
     with open(file_path, 'r', encoding='utf-8') as file:
         markdown_content = file.read()
 
-    # Load the YAML front matter
     front_matter_match = re.match(r'^\s*---\n(.*?\n)---\n', markdown_content, re.DOTALL)
+    
     if front_matter_match:
         front_matter_content = front_matter_match.group(1)
-        front_matter = yaml.safe_load(front_matter_content)
+        return yaml.safe_load(front_matter_content)
+    else:
+        return None
 
+'''
+Write the front matter to a markdown file
+'''
+def _write_front_matter(file_path, front_matter):
+    
+    with open(file_path, 'r', encoding='utf-8') as file:
+        markdown_content = file.read()
+    
+    updated_front_matter = yaml.dump(front_matter, default_flow_style=False)
+    updated_content = re.sub(r'^\s*---\n.*?\n---\n', '---\n' + updated_front_matter + '---\n', markdown_content, flags=re.DOTALL)
+    
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(updated_content)
+
+
+'''
+Removes the aliases section from the markdown file's front matter
+'''
+def remove_prop_from_file(file_path, prop):
+    
+    front_matter = _read_front_matter(file_path)
+    if front_matter:
         if "aliases" in front_matter:
-            del front_matter["aliases"]
+            del front_matter[prop]
+        _write_front_matter(file_path, front_matter)
 
-        updated_front_matter = yaml.dump(front_matter, default_flow_style=False)
-        updated_content = re.sub(r'^\s*---\n.*?\n---\n', '---\n' + updated_front_matter + '---\n', markdown_content, flags=re.DOTALL)
+'''
+Adds categories meta data to the markdown file
+'''
+def add_categories(file_path, ctg_name, ctgs_arr):
+    front_matter = _read_front_matter(file_path)
+    if front_matter:
+        front_matter[ctg_name] = ctgs_arr
+        _write_front_matter(file_path, front_matter)
 
-        with open(file_path, 'w', encoding='utf-8') as file:
-            file.write(updated_content)
 
+def _get_short_code_patterns(tag):
+    return [r'{{<\s*' + re.escape(tag) + r'\s*[^>]*\s*/\s*>}}', r'{{<\s*' + re.escape(tag) + r'\s*[^>]*\s*>}}']
+
+
+'''
+Removes a short code entirely from Markdown
+'''
+def remove_short_code(file_path, tag):
+    
+    with open(file_path, 'r', encoding='utf-8') as file:
+        markdown_content = file.read()
+    
+    updated_content = markdown_content
+    for p in _get_short_code_patterns(tag):
+        updated_content = re.sub(p, '', updated_content)
+
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(updated_content)
+
+'''
+Prepends a prefix to the rel refs
+'''
+def prepend_to_rel_ref_short_code(file_path, new_prefix):
+
+    with open(file_path, 'r', encoding='utf-8') as file:
+        markdown_content = file.read()
+
+    starts_with_slash = r'{{<\s*relref\s+"(/[^"]*)"\s*>}}'
+    starts_with_char = r'{{<\s*relref\s+"([a-z][^"]*)"\s*>}}'
+    starts_with_dot =  r'{{<\s*relref\s+"(\.[^"]*)"\s*>}}'
+
+
+    updated_content = re.sub(starts_with_slash, r'{{< relref "' +  re.escape('/' + new_prefix ) +  r'\1' +  r'" >}}', markdown_content)
+    updated_content = re.sub(starts_with_char, r'{{< relref "' +  re.escape('/' + new_prefix + '/') +  r'\1' +  r'" >}}', updated_content)
+    updated_content = re.sub(starts_with_dot, r'{{< relref "' +  r'\1' +  r'" >}}', updated_content)
+    
+
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(updated_content)
+
+
+'''
+Does a simple find and replace
+'''
+def find_and_replace(file_path, old, new):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        markdown_content = file.read()
+
+    updated_content = markdown_content.replace(old, new)
+
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(updated_content)
 
 '''
 Clone a repo
@@ -196,6 +267,9 @@ Copy the command reference docs
 '''
 def migrate_commands():
     copy_files(DOCS_SRC_CMD, DOCS_CMD)
+    markdown_files = find_markdown_files(DOCS_CMD)
+    for f in markdown_files:
+        add_categories(f, 'categories', ['docs', 'develop', 'stack', 'oss', 'rs', 'rc', 'oss', 'kubernetes', 'clients'])
 
 
 '''
@@ -222,7 +296,8 @@ def migrate_developer_docs():
     for f in markdown_files:
         print("Replacing links in {}".format(f))
         replace_links_in_file(f, '/docs', '/develop')
-        remove_aliases_from_file(f)
+        remove_prop_from_file(f, "aliases")
+        add_categories(f, 'categories', ['docs', 'develop', 'stack', 'oss', 'rs', 'rc', 'oss', 'kubernetes', 'clients'])
 
 '''
 Migrate the operational documentation from redis.io
@@ -251,8 +326,8 @@ def migrate_oss_ops_docs():
     for f in markdown_files:
         print("Replacing links in {}".format(f))
         replace_links_in_file(f, '/docs', '/operate/oss_and_stack')
-        remove_aliases_from_file(f)
-
+        remove_prop_from_file(f, 'aliases')
+        add_categories(f, 'categories', ['docs', 'operate', 'stack', 'oss'])
 
 '''
 Fetch all the docs of docs.redis.com
@@ -260,6 +335,65 @@ Fetch all the docs of docs.redis.com
 def fetch_docs_redis_com():
     repo = clone_repo("https://github.com/RedisLabs/redislabs-docs")
     return repo
+
+'''
+Migrate the docs from docs.redis.com
+'''
+def migrate_enterprise_ops_docs(repo):
+    repo_content = slash(repo, 'content/') 
+    content = ['rs', 'rc', 'kubernetes', 'stack']    
+
+    for topic in content:
+        source = slash(repo_content, topic)
+
+        if topic == 'stack':
+            target = slash(DOCS_OPS, 'oss_and_stack/stack-with-enterprise')
+        else:
+            target = slash(DOCS_OPS, topic)
+
+        copy_files(source, target)
+        
+        markdown_files = find_markdown_files(target)
+        for f in markdown_files:
+            try:
+                remove_prop_from_file(f, 'aliases')
+                remove_prop_from_file(f, 'categories')
+                add_categories(f, 'categories', ['docs', 'operate', topic])
+                remove_short_code(f, 'allchildren')
+                remove_short_code(f, 'table-children')
+                prepend_to_rel_ref_short_code(f,'operate')
+                find_and_replace(f, '/operate/glossary', '/glossary')
+                find_and_replace(f, '/operate/stack', '/operate/oss_and_stack/stack-with-enterprise')
+            except Exception as e:
+                print("Error processing file {} with error {}".format(f, e))
+
+
+'''
+Migrate the glossary from docs.redis.com
+'''
+def migrate_gloassary(repo):
+    repo_content = slash(repo, 'content/') 
+    source = slash(repo_content, 'glossary')
+    target = slash(DOCS_ROOT, 'glossary')
+    copy_files(source, target)
+
+    markdown_files = find_markdown_files(target)
+    for f in markdown_files:
+        find_and_replace(f, '/rs/', '/operate/rs/')
+        find_and_replace(f, '/rc/', '/operate/rc/')
+        find_and_replace(f, '/kubernetes/', '/operate/kubernetes/')
+
+'''
+Migrate static files over
+'''
+def migrate_static_files(repo):
+    static = slash(repo, 'static/')
+    content = ['code', 'images', 'pkgs', 'tables' ]
+
+    for folder in content:
+        source = slash(static, folder)
+        target = slash(STATIC_ROOT, folder)
+        copy_files(source, target)
 
 
 '''
@@ -285,16 +419,12 @@ if __name__ == "__main__":
 
     print("## Fetching temporary Enterprise documentation content ...")
     repo = fetch_docs_redis_com()
- 
-    repo_content = slash(repo, 'content/') 
-    content = ['rs', 'rc', 'kubernetes']    
-
-    for topic in content:
-        source = slash(repo_content, topic)
-        target = slash(DOCS_OPS, topic)
-        copy_files(source, target)
-
+    #migrate_enterprise_ops_docs(repo)
+    #migrate_gloassary(repo)
+    migrate_static_files(repo)
     delete_folder(repo)
+
+
 
     # TODO: Serve the site and check for still broken links
 

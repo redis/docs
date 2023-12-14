@@ -1,0 +1,8 @@
+{
+  "sourceType": "aws-s3",
+  "importFromUri": [
+      "s3://bucketname/filename-dbForAWSBackup-1_of_3.rdb.gz",
+      "s3://bucketname/filename-dbForAWSBackup-2_of_3.rdb.gz",
+      "s3://bucketname/filename-dbForAWSBackup-3_of_3.rdb.gz"
+  ]
+}

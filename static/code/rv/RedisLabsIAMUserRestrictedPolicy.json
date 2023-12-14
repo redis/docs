@@ -1,0 +1,119 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Ec2DescribeAll",
+            "Effect": "Allow",
+            "Action": "ec2:Describe*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "CloudWatchReadOnly",
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "IamUserOperations",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetUser",
+                "iam:GetUserPolicy",
+                "iam:ChangePassword"
+            ],
+            "Resource": "arn:aws:iam::*:user/${aws:username}"
+        },
+        {
+            "Sid": "RolePolicyUserReadActions",
+            "Action": [
+                "iam:GetRole",
+                "iam:GetPolicy",
+                "iam:ListUsers",
+                "iam:ListPolicies",
+                "iam:ListRolePolicies",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListInstanceProfiles",
+                "iam:ListInstanceProfilesForRole",
+                "iam:SimulatePrincipalPolicy"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Sid": "KeyPairActions",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateKeyPair",
+                "ec2:DeleteKeyPair",
+                "ec2:ImportKeyPair"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "CreateInstancesSnapshotsVolumesAndTags",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateVolume",
+                "ec2:AttachVolume",
+                "ec2:StartInstances",
+                "ec2:RunInstances",
+                "ec2:CreateSnapshot",
+                "ec2:CreateTags",
+                "ec2:ModifyInstanceAttribute"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "PassRlClusterNodeRole",
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::*:role/redislabs-cluster-node-role"
+        },
+        {
+            "Sid": "NetworkAccess",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:*Vpc*",
+                "ec2:*VpcPeering*",
+                "ec2:*Subnet*",
+                "ec2:*Gateway*",
+                "ec2:*Vpn*",
+                "ec2:*Route*",
+                "ec2:*Address*",
+                "ec2:*SecurityGroup*",
+                "ec2:*NetworkAcl*",
+                "ec2:*DhcpOptions*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "DeleteInstancesVolumesSnapshotsAndTagsWithIdentiferTag",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:RebootInstances",
+                "ec2:StopInstances",
+                "ec2:TerminateInstances",
+                "ec2:DeleteVolume",
+                "ec2:DeleteSnapshot",
+                "ec2:DetachVolume",
+                "ec2:DeleteTags"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:ResourceTag/RedisLabsIdentifier": "Redislabs-VPC"
+                }
+            }
+        },
+        {
+            "Sid": "Support",
+            "Effect": "Allow",
+            "Action": "support:*",
+            "Resource": "*"
+        }
+    ]
+}

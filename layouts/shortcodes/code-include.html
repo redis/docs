@@ -1,0 +1,4 @@
+{{ $rel_file := .Get "file" }}
+{{ $file := (printf "./static/code/%s" $rel_file  | readFile) }}
+{{ $lang := .Get "language" }}
+{{ (print "```" $lang "\n" $file "\n```") | markdownify }}

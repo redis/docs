@@ -1,0 +1,23 @@
+{
+    "name": "Basic subscription example",
+    "paymentMethodId": 8240,
+    "cloudProviders": [
+      {
+        "cloudAccountId": 16424,
+        "regions": [
+          {
+            "region": "us-east-1",
+            "networking": {
+              "deploymentCIDR": "10.0.0.0/24"
+            }
+          }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "Redis-database-example",
+        "memoryLimitInGb": 1.1
+      }
+    ]
+}

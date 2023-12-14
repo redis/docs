@@ -1,0 +1,53 @@
+---
+Title: RedisBloom 2.6 release notes
+alwaysopen: false
+categories:
+- docs
+- operate
+- stack
+description: RESP3 support. Bug fixes.
+linkTitle: v2.6 (July 2023)
+min-version-db: '7.2'
+min-version-rs: 7.2.4
+toc: 'true'
+weight: 95
+---
+## Requirements
+
+RedisBloom v2.6.8 requires:
+
+- Minimum Redis compatibility version (database): 7.2
+- Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.6.8 (October 2023)
+
+This is a maintenance release for RedisBloom 2.6.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+- Improvements:
+
+  - [#684](https://github.com/RedisBloom/RedisBloom/pull/684), [#685](https://github.com/RedisBloom/RedisBloom/pull/685) Added support for CBL-Mariner 2
+  - [#677](https://github.com/RedisBloom/RedisBloom/pull/677), [#678](https://github.com/RedisBloom/RedisBloom/pull/678) Added support for Rocky Linux 9 and RHEL9
+
+## v2.6 GA (v2.6.3) (July 2023)
+
+This is the General Availability release of RedisBloom 2.6.
+
+### Headlines
+
+RedisBloom 2.6 introduces support for RESP3 and bug fixes.
+
+### Details
+
+Improvements: 
+
+- [#664](https://github.com/RedisBloom/RedisBloom/pull/664) `TOPK.ADD`, `TOPK.INCRBY`, and `TOPK.LIST` reply with blob string instead of simple string.
+
+{{<note>}}
+- The version inside Redis will be 2.6.3 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
+
+- Minimal Redis version: 7.2
+{{</note>}}

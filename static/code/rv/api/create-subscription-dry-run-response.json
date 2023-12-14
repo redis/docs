@@ -1,0 +1,68 @@
+{
+  "response": {
+    "resource": {
+      "pricing": [
+        {
+          "databaseName": "database-a",
+          "type": "Shards",
+          "typeDetails": "micro",
+          "quantity": 6,
+          "quantityMeasurement": "shards",
+          "pricePerUnit": 0.027,
+          "priceCurrency": "USD",
+          "pricePeriod": "hour"
+        },
+        {
+          "databaseName": "database-b",
+          "type": "Shards",
+          "typeDetails": "micro",
+          "quantity": 1,
+          "quantityMeasurement": "shards",
+          "pricePerUnit": 0.027,
+          "priceCurrency": "USD",
+          "pricePeriod": "hour"
+        },
+        {
+          "databaseName": "database-c",
+          "type": "Shards",
+          "typeDetails": "high-throughput",
+          "quantity": 2,
+          "quantityMeasurement": "shards",
+          "pricePerUnit": 0.124,
+          "priceCurrency": "USD",
+          "pricePeriod": "hour"
+        },
+        {
+          "databaseName": "database-d",
+          "type": "Shards",
+          "typeDetails": "small",
+          "quantity": 1,
+          "quantityMeasurement": "shards",
+          "pricePerUnit": 0.156,
+          "priceCurrency": "USD",
+          "pricePeriod": "hour"
+        },
+        {
+          "databaseName": "database-e",
+          "type": "Shards",
+          "typeDetails": "large",
+          "quantity": 2,
+          "quantityMeasurement": "shards",
+          "pricePerUnit": 0.293,
+          "priceCurrency": "USD",
+          "pricePeriod": "hour"
+        },
+        {
+          "type": "EBS Volume",
+          "quantity": 345,
+          "quantityMeasurement": "GB"
+        },
+        {
+          "type": "r5.xlarge",
+          "quantity": 3,
+          "quantityMeasurement": "instances"
+        }
+      ]
+    }
+  }  
+}

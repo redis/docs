@@ -1,0 +1,36 @@
+{
+    "name": "Basic subscription example with multiple database",
+    "memoryStorage": "ram",
+    "paymentMethodId": 8240,
+    "cloudProviders": [
+      {
+        "cloudAccountId": 9838,
+        "regions": [
+          {
+            "region": "us-east-1",
+            "networking": {
+              "deploymentCIDR": "10.0.0.0/24"
+            }
+          }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "Redis-database-type-1",
+        "memoryLimitInGb": 0.1,
+        "quantity": 30
+      },
+      {
+        "name": "Redis-database-type-2",
+        "memoryLimitInGb": 0.2,
+        "quantity": 20
+      },
+      {
+        "name": "Redis-database-type-3",
+        "memoryLimitInGb": 0.3,
+        "quantity": 30
+      }
+
+    ]
+}

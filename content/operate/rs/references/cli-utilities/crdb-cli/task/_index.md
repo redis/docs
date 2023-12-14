@@ -1,0 +1,17 @@
+---
+Title: crdb-cli task commands
+alwaysopen: false
+categories:
+- docs
+- operate
+- rs
+description: Manage Active-Active tasks.
+linkTitle: task
+weight: $weight
+---
+
+The `crdb-cli task` commands help investigate Active-Active database performance issues.  They should not be used except as directed by Support.
+
+## `crdb-cli task` commands
+
+

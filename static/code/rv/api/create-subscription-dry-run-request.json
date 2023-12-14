@@ -1,0 +1,64 @@
+{
+  "name": "DryRun Cost evaluation subscription",
+  "dryRun": true,
+  "paymentMethodId": 8240,
+  "cloudProviders": [
+    {
+      "cloudAccountId": 16424,
+      "regions": [
+        {
+          "region": "us-east-1",
+          "networking": {
+            "deploymentCIDR": "10.0.0.0/24"
+          }
+        }
+      ]
+    }
+  ],
+  "databases": [
+    {
+      "name": "database-a",
+      "throughputMeasurement": {
+        "by": "operations-per-second",
+        "value": 1000
+      },
+      "memoryLimitInGb": 0.1
+      , "quantity": 3
+    },
+    {
+      "name": "database-b",
+      "throughputMeasurement": {
+        "by": "operations-per-second",
+        "value": 1000
+      },
+      "replication": false
+      ,"memoryLimitInGb": 0.1
+    },
+    {
+      "name": "database-c",
+      "throughputMeasurement": {
+        "by": "operations-per-second",
+        "value": 1000
+      },
+      "replication": true
+      ,"memoryLimitInGb": 5
+    },
+    {
+      "name": "database-d",
+      "throughputMeasurement": {
+        "by": "operations-per-second",
+        "value": 10000
+      },
+      "replication": false
+      ,"memoryLimitInGb": 12
+    },
+    {
+      "name": "database-e",
+      "throughputMeasurement": {
+        "by": "operations-per-second",
+        "value": 25000
+      },
+      "replication": true
+      ,"memoryLimitInGb": 25
+    }   ]
+}

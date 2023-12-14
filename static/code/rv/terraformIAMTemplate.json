@@ -1,0 +1,36 @@
+provider "aws" {
+    profile = "tobyhf-admin"
+    region = "us-east-1"
+}
+
+module "Redislabs-Cloud-Account-Resources" {
+    source = "https://iam-resource-automation-do-not-delete.s3.amazonaws.com/terraform-aws-Redislabs-Cloud-Account-IAM-Resources.zip"
+    pgp_key = "keybase:toby_h_ferguson"
+}
+
+output "accessKeyId" {
+    value = module.Redislabs-Cloud-Account-Resources.accessKeyId
+}
+
+output "accessSecretKey" {
+    value = module.Redislabs-Cloud-Account-Resources.accessSecretKey
+    sensitive = true
+}
+
+output "IAMRoleName" {
+    value =  module.Redislabs-Cloud-Account-Resources.IAMRoleName
+}
+
+output "consoleUsername" {
+    value = module.Redislabs-Cloud-Account-Resources.consoleUsername
+}
+
+output "signInLoginUrl" {
+    description =  "Redis User's console login URL"
+    value = module.Redislabs-Cloud-Account-Resources.signInLoginUrl
+}
+
+output "consolePassword" {
+    value = module.Redislabs-Cloud-Account-Resources.consolePassword
+    sensitive = true
+}
