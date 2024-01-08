@@ -3,25 +3,12 @@
     "name": "All",
     "description": "Use this file to add components that represent external resources.",
     "type": "stack",
-    "core": [
-        "redis_docs"
-    ],
-    "docs": [
-        "stack_docs"
-    ],
     "clients": [
         "nredisstack",
         "go_redis",
         "node_redis",
         "redis_py",
         "jedis"
-    ],
-    "modules": [
-        "redisearch",
-        "redisjson",
-        "redistimeseries",
-        "redisbloom",
-        "redisgears"
     ],
     "assets": [],
     "_assets": [
