@@ -10,7 +10,7 @@ deps:
 
 
 build_components:
-	@cd ./build;./migrate.sh
+	@python3 build/make.py
 
 build:
 	@hugo $(HUGO_DEBUG) $(HUGO_BUILD)
