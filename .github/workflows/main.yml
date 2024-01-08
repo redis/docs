@@ -5,7 +5,7 @@ on:
 jobs:
   clone_repo:
     name: Clone the repository and branch
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
     - run: echo "The name of the branch is ${{ github.ref }} at ${{ github.repository }}"
     - name: Check the branch out
