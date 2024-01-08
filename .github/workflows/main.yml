@@ -1,0 +1,18 @@
+on:
+  push:
+    branches:
+    - '**'
+jobs:
+  clone_repo:
+    name: Clone the repository and branch
+    runs-on: ubuntu-20.04
+    steps:
+    - run: echo "The name of the branch is ${{ github.ref }} at ${{ github.repository }}"
+    - name: Check the branch out
+      uses: actions/checkout@v4
+    - name: List all files
+      run: ls ${{ github.workspace }}
+    - run: echo "This job's status is ${{ job.status }}."
+      
+    
+    
