@@ -20,7 +20,7 @@
     ],
     "website": {
         "path": "./",
-        "content": "content/tmp",
+        "content": "content/",
         "examples": "data/examples.json",
         "examples_path": "examples",
         "commands": "data/commands.json",
