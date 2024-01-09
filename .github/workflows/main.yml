@@ -41,7 +41,7 @@ jobs:
       run: |
           ./google-cloud-sdk/bin/gcloud auth activate-service-account $BUCKET_SERVICE_ACCOUNT --key-file=./service_account.json --project=$GCP_PROJECT \
           && ./google-cloud-sdk/bin/gcloud auth list
-    - name: Sync the branch
+    - name: Sync the branch to the bucket
       run: |
           if [[ "${{ github.ref_name }}" == "main" || "${{ github.ref_name }}" == "latest" ]]
           then
