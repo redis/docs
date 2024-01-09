@@ -19,12 +19,8 @@ jobs:
       uses: actions/checkout@v4
     - name: List all files
       run: ls ${{ github.workspace }}
-    - name: Install deps
-      run: make deps
-    - name: Fetch components
-      run: make build_components
-    - name: Run Hugo
-      run: make build
+    - name: Install dependencies and run Hugo
+      run: make all
     - name: End
       run: echo "This job's status is ${{ job.status }}."
       
