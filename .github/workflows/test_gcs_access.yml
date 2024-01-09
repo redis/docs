@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GCLOUD_VERSION: 458.0.1-linux-x86_64
+      BUCKET: docs-prod-learn-redis-com
       BUCKET_SERVICE_ACCOUNT: ${{ secrets.BUCKET_DOCUMENTATION_SA_PROD }}
       BUCKET_SECRET: ${{ secrets.BUCKET_DOCUMENTATION_PROD }}
       GCP_PROJECT: ${{ secrets.GCP_PROJECT_PROD }}
@@ -27,6 +28,8 @@ jobs:
       run: |
           ./google-cloud-sdk/bin/gcloud auth activate-service-account $BUCKET_SERVICE_ACCOUNT --key-file=./service_account.json --project=$GCP_PROJECT \
           && ./google-cloud-sdk/bin/gcloud auth list
+    - name: List files
+      run: ./google-cloud-sdk/bin/gsutil ls $BUCKET
     - name: End
       run: echo "This job's status is ${{ job.status }}."
    
