@@ -14,5 +14,7 @@ The following gets you started with Redis:
 
 If you already know how to use Redis and you are searching for the installation instructions, the the following resources will help you:
 
-* Get started with [Redis Cloud](/operate/rc/rc-quickstart)
-* Install [Redis](/operate/oss_and_stack/install), [Redis Enterprise Software](/operate/rs/installing-upgrading/install), or [Redis Enterprise on Kubernetes](/operate/kubernetes/deployment/quick-start)
+* [Get started with Redis Cloud](/operate/rc/rc-quickstart)
+* [Install Redis OSS or Stack](/operate/oss_and_stack/install)
+* [Install Redis Enterprise Software](/operate/rs/installing-upgrading/install)
+* [Get started with Redis Enterprise on Kubernetes](/operate/kubernetes/deployment/quick-start)
