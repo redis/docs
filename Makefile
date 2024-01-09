@@ -2,7 +2,7 @@ HUGO_CONTENT=./content
 HUGO_DEBUG=--debug --log
 HUGO_BUILD=--gc
 
-all: clean deps build_components build serve
+all: clean deps build_components build
 
 deps:
 	@npm install
