@@ -29,7 +29,7 @@ jobs:
           ./google-cloud-sdk/bin/gcloud auth activate-service-account $BUCKET_SERVICE_ACCOUNT --key-file=./service_account.json --project=$GCP_PROJECT \
           && ./google-cloud-sdk/bin/gcloud auth list
     - name: List files
-      run: ./google-cloud-sdk/bin/gsutil ls $BUCKET
+      run: ./google-cloud-sdk/bin/gsutil ls gs://$BUCKET
     - name: End
       run: echo "This job's status is ${{ job.status }}."
    
