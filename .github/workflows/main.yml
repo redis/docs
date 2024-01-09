@@ -17,10 +17,14 @@ jobs:
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
     - name: Check the branch out
       uses: actions/checkout@v4
-    - name: List all files
+    - name: List repository files
       run: ls ${{ github.workspace }}
     - name: Install dependencies and run Hugo
       run: make all
+    - name: List client examples
+      run: ls "${{ github.workspace }}/examples"
+    - name: List files to be published
+      run: ls "${{ github.workspace }}/public"
     - name: End
       run: echo "This job's status is ${{ job.status }}."
       
