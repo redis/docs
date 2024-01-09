@@ -20,7 +20,7 @@ jobs:
       run: |
           wget -O ${{ github.workspace }}/google-cloud-cli.tar.gz "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-$GCLOUD_VERSION.tar.gz" \
           && tar -xvf google-cloud-cli.tar.gz -C ${{ github.workspace }}\
-          && ${{ github.workspace }}/google-cloud-sdk/install.sh --disable-prompts
+          && ${{ github.workspace }}/google-cloud-sdk/install.sh --quiet
     - name: End
       run: echo "This job's status is ${{ job.status }}."
    
