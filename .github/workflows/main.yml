@@ -51,6 +51,7 @@ jobs:
             bucket_path=`echo ${{ github.ref_name }} | sed 's/-build$//'`
           else
             bucket_path="/staging/${{ github.ref_name }}"
-          ./google-cloud-sdk/bin/gsutil rsync ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
+          fi \
+          && ./google-cloud-sdk/bin/gsutil rsync ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
     - name: End
       run: echo "This job's status is ${{ job.status }}."
