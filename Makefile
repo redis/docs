@@ -2,14 +2,14 @@ HUGO_CONTENT=./content
 HUGO_DEBUG=--debug --log
 HUGO_BUILD=--gc
 
-all: clean deps build_components hugo
+all: clean deps components hugo
 
 deps:
 	@npm install
 	@pip3 install -r requirements.txt
 
 
-build_components:
+components:
 	@python3 build/make.py
 
 hugo:
