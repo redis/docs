@@ -360,6 +360,8 @@ def migrate_enterprise_ops_docs(repo):
                 remove_prop_from_file(f, 'categories')
                 add_categories(f, 'categories', ['docs', 'operate', topic])
                 remove_short_code(f, 'allchildren')
+
+                #TODO: Don't kick table-children out!
                 remove_short_code(f, 'table-children')
                 prepend_to_rel_ref_short_code(f,'operate')
                 find_and_replace(f, '/operate/glossary', '/glossary')
