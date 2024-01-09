@@ -2,7 +2,7 @@ HUGO_CONTENT=./content
 HUGO_DEBUG=--debug --log
 HUGO_BUILD=--gc
 
-all: clean deps build_components build
+all: clean deps build_components hugo
 
 deps:
 	@npm install
@@ -12,7 +12,7 @@ deps:
 build_components:
 	@python3 build/make.py
 
-build:
+hugo:
 	@hugo $(HUGO_DEBUG) $(HUGO_BUILD)
 
 serve:
