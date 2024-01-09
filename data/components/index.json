@@ -1,8 +1,11 @@
 {
     "id": "index",
     "name": "All",
-    "description": "Use this file to add components that represent external resources.",
+    "description": "Use this file to add components that represent external resources. An empty array means that the component type is no longer fetched from an external repo.",
     "type": "stack",
+    "core": [],
+    "docs": [],
+    "modules": [],
     "clients": [
         "nredisstack",
         "go_redis",
