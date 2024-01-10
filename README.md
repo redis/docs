@@ -3,7 +3,7 @@
 ## Files and folders
 
 * **/archetypes**: A Markdown file needs to have some front matter. An archetype defines which front matter is used when using `hugo new content`. Right now, the only supported archetype is the default one. **Note:** We might want to add additional archetypes in the future because most of our pages contain additional meta data properties like `linkTitle`. 
-* **/content**: This folder contains the markdown files. We will have the subfolders `docs/develop`, `docs/integrate`, and `docs/operate``
+* **/content**: This folder contains the markdown files. We will have the subfolders like `/develop`, `/integrate`, and `/operate`
 * **/assets**: CSS files, site-wide icons and images
 * **/data**: Data files that are accessed by Hugo. The data is then rendered with the help of short codes or partials.
 * **/layouts/partials**: HTML templates that are used across sites. Examples are TOC-s, breadcrumps, or headers. 
