@@ -3,6 +3,7 @@ HUGO_DEBUG=--debug --log
 HUGO_BUILD=--gc
 
 all: clean deps components hugo
+serve: clean deps serve_hugo
 
 deps:
 	@npm install
@@ -15,7 +16,7 @@ components:
 hugo:
 	@hugo $(HUGO_DEBUG) $(HUGO_BUILD)
 
-serve:
+serve_hugo:
 	@hugo serve
 
 clean:
