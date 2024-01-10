@@ -35,7 +35,7 @@ The `Makefile` contains details about the executed commands.
 
 ## Build pipeline
 
-The main.yml builds the documentation and uploads it into a GCS bucket:
+The build pipeline that is defined within `.github/workflows/main.yml` builds the documentation and uploads it into a GCS bucket:
 
 1. Install Hugo
 2. Check the branch out
