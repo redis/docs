@@ -22,13 +22,25 @@
 
 ## Build script and data files
 
-> TODO
+The site can be built via `make all`. Here is what's executed:
 
-## How to build
+1. Clean the current folder by deleting the generated output of a previous build
+2. Install the necessary Node.js and Python dependencies
+3. Build the components that were fetched from external Github repositories (e.g., client examples). This fetches source code files and generates data files.
+4. Execute the `hugo` command to generate the HTML pages. The build result can be found within the folder `/public`
 
-1. Use `make` to clean and build everything `make all`
-2. Then run Hugo in debug mode to build the site `make build`
-3. The build result can be found within the folder **/public**
+The command `make serve` performs the same steps, but serves the web pages on the local host for development purposes.
 
+The `Makefile` contains details about the executed commands.
 
+## Build pipeline
 
+The main.yml builds the documentation and uploads it into a GCS bucket:
+
+1. Install Hugo
+2. Check the branch out
+3. Perform the build as stated before by using `make all`
+4. Install the Google Cloud CLI
+5. Authenticate to the GCS bucket
+6. Validate the branch name
+7. Sync the branch with a GCS folder
