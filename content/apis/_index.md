@@ -6,14 +6,13 @@ hideListLinks: true
          
 ---
 
-Redis provides a number of APIs for developers and operators as described in the following document.
-
+Redis provides a number of APIs for developers and operators as described in the following sections.
 
 ## APIs for Developers
 
 You can extend Redis functionality to rapidly implement new commands using the Redis Modules system and API. 
 
-- [Redis Modules API introduction](/docs//develop/reference/modules/)
+- [Redis Modules API introduction](/docs/develop/reference/modules/)
 - [Redis Modules API reference](/docs/develop/reference/modules/modules-api-ref/)
 
 You can upload and use Lua scripts on the Redis server to efficiently read and write data from scripts. Scripts are run with the Lua 5.1 interpreter.
@@ -32,7 +31,7 @@ You can connect your application to a Redis database using a supported Redis cli
 - [List of links to clients and associated guides](https://redis.io/resources/clients/)
 
 
-## Operators
+## APIs for Operators
 
 If you have installed Redis Enterprise Software, you can automate operations with the Redis Enterprise REST API.
 
