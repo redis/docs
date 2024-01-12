@@ -1,0 +1,26 @@
+<header class="sticky top-0 z-50 w-full border border-b-dusk-300 bg-white text-midnight-900 font-mono text-sm">
+  {{/*  {{ partial "banner.html" . }}  */}}
+  <div class="flex h-16 mx-4 lg:ml-11 lg:mr-0 justify-between">
+    <div class="h-full flex gap-7 items-center">
+      <a class="relative z-50 mr-6" href="{{ .Site.Home.RelPermalink }}">
+        {{ partial "icons/logo-script.html" }}
+      </a>
+      <a class="group flex flex-row gap-2 items-center cursor-pointer"><span class="group-hover:font-bold group-hover:tracking-tight">Products</span><span class="text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span></a>
+      <a class="group flex flex-row gap-2 items-center cursor-pointer"><span class="group-hover:font-bold group-hover:tracking-tight">Solutions</span><span class="text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span></a>
+      <a class="group flex flex-row gap-2 items-center cursor-pointer"><span class="group-hover:font-bold group-hover:tracking-tight">Support</span><span class="text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span></a>
+      <a class="group flex flex-row gap-2 items-center cursor-pointer"><span class="group-hover:font-bold group-hover:tracking-tight">Company</span><span class="text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span></a>
+      <a class="group flex flex-row gap-2 items-center cursor-pointer"><span class="group-hover:font-bold group-hover:tracking-tight">Docs</span><span class="text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span></a>
+      <a class="group flex flex-row gap-2 items-center cursor-pointer"><span class="group-hover:font-bold group-hover:tracking-tight">Pricing</span></a>
+    </div>
+
+    <div class="h-full flex gap-7 items-center">
+      <button id="search-button" type="button" class="p-1 mt-1 transition-colors hover:text-redis-red-500">
+        {{ partial "icons/search.html" }}
+      </button>
+      <a class="py-1 transition-colors hover:text-redis-red-500" href="https://app.redislabs.com/">Login</a>
+      <a class="py-1 transition-colors hover:text-redis-red-500" href="https://redis.com/meeting/">Book a meeting</a>
+      <a class="transition-colors inline-flex items-center justify-center bg-redis-red-500 hover:bg-redis-red-600 hover:text-midnight-900 h-full px-6" href="http://redis.com/try-free/">Try Redis</a>
+    </div>
+    
+  </div>
+</header>
