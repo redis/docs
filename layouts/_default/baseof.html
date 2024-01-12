@@ -57,10 +57,12 @@
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     {{ end -}}
 
-    <header class="sticky top-0 z-50 flex flex-col items-center w-full text-xs lg:text-sm font-semibold lg:font-medium text-white shadow bg-midnight-700">
+    {{/*  <header class="sticky top-0 z-50 flex flex-col items-center w-full text-xs lg:text-sm font-semibold lg:font-medium border border-b-dusk-300 bg-white text-midnight-900">
       {{ partial "banner.html" . }}
       {{ partial "navbar.html" . }}
-    </header>
+    </header>  */}}
+
+    {{ partial "header.html" }}
 
     {{ block "main" . }}{{ end }}
 
