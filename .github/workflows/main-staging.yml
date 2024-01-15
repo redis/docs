@@ -4,7 +4,7 @@ on:
     - '**'
 jobs:
   build_docs:
-    name: Build the documentation site
+    name: Build the staging documentation site
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.111.2
@@ -24,6 +24,30 @@ jobs:
       uses: actions/checkout@v4
     - name: List repository files
       run: ls ${{ github.workspace }}
+    - name: Validate the branch name before using it
+      run: |
+          if [[ "${{ github.ref_name }}" =~ ^[a-zA-Z0-9_.-]+$ ]]
+          then
+            echo "The branch name ${{ github.ref_name }} is valid."
+          else
+            echo "ERROR: Invalid branch name ${{ github.ref_name }}!"
+            exit 1
+          fi
+    - name: Configure Hugo
+      run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]
+          then
+            hugo_root_path=docs/staging/dev
+          elif [[ "${{ github.ref_name }}" == "latest" ]]
+          then
+            hugo_root_path="docs" 
+          elif [[ "${{ endsWith(github.ref_name, '-build') }}" == "true" ]]
+          then
+            hugo_root_path=`echo docs/${{ github.ref_name }} | sed 's/-build$//'`
+          else
+            hugo_root_path=docs/staging/${{ github.ref_name }}
+          fi \
+          && sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/$hugo_root_path\"#g" config.toml
     - name: Install dependencies and run Hugo
       run: make all
     - name: List client examples
@@ -41,15 +65,6 @@ jobs:
       run: |
           ./google-cloud-sdk/bin/gcloud auth activate-service-account $BUCKET_SERVICE_ACCOUNT --key-file=./service_account.json --project=$GCP_PROJECT \
           && ./google-cloud-sdk/bin/gcloud auth list
-    - name: Validate the branch name before sync
-      run: |
-          if [[ "${{ github.ref_name }}" =~ ^[a-zA-Z0-9_.-]+$ ]]
-          then
-            echo "The branch name ${{ github.ref_name }} is valid."
-          else
-            echo "ERROR: Invalid branch name ${{ github.ref_name }}!"
-            exit 1
-          fi
     - name: Sync the branch to the bucket
       run: |
           if [[ "${{ github.ref_name }}" == "main" ]]
