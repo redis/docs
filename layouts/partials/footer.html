@@ -1,3 +1,71 @@
-<p class="container max-w-[85rem] mx-auto px-4 sm:px-8 py-8 text-slate-400 text-sm text-center">
-  &copy; {{ now.Year }} <a href="https://redis.com" class="text-white underline underline-offset-1 decoration-transparent hover:decoration-slate-500 transition-colors">Redis Ltd.</a>. Redis and the cube logo are registered trademarks of Redis Ltd. <a href="https://redis.com/legal/" class="text-white underline underline-offset-1 decoration-transparent hover:decoration-slate-500 transition-colors">Terms of use &amp; privacy policy</a>.
-</p>
+<footer class="h-52 bg-white relative z-50 border border-t-dusk-300 text-dusk-700 flex justify-center font-mono text-sm">
+  <div class="flex flex-row p-11 max-w-[1440px] grow justify-between">
+    <div class="flex flex-col justify-between grow-[2]">
+      <a class="relative" href="{{ .Site.Home.RelPermalink }}">
+        {{ partial "icons/logo-script.html" }}
+      </a>
+      <div class="flex flex-row gap-8">
+        <a href="https://redis.com/legal/privacy-policy/">
+          Privacy
+        </a>
+        <a href="https://redis.com/legal/redis-website-terms-of-use/">
+          Terms of Use
+        </a>
+        <a href="https://redis.com/legal/">
+          Copyright
+        </a>
+      </div>
+    </div>
+    <div class="flex flex-col justify-between grow">
+      <a href="https://redis.com/">
+        Cloud
+      </a>
+      <a href="https://redis.com/">
+        Software
+      </a>
+      <a href="https://redis.com/">
+        Pricing
+      </a>
+      <a href="https://redis.com/">
+        Support
+      </a>
+    </div>
+    <div class="flex flex-col justify-between grow">
+      <a href="https://redis.com/">
+        About Us
+      </a>
+      <a href="https://redis.com/">
+        Careers
+      </a>
+      <a href="https://redis.com/">
+        Contact Us
+      </a>
+      <a href="https://redis.com/">
+        Legal Notices
+      </a>
+    </div>
+    <div class="flex flex-col justify-between mr-24">
+      <div class="flex flex-row gap-5">
+        <a href="https://redis.com/">
+          {{ partial "icons/Facebook.html" }}
+        </a>
+        <a href="https://redis.com/">
+          {{ partial "icons/Youtube.html" }}
+        </a>
+        <a href="https://redis.com/">
+          {{ partial "icons/LinkedIn.html" }}
+        </a>
+        <a href="https://redis.com/">
+          {{ partial "icons/Instagram.html" }}
+        </a>
+        <a href="https://redis.com/">
+          {{ partial "icons/X.html" }}
+        </a>
+        <a href="https://redis.com/">
+          {{ partial "icons/Github.html" }}
+        </a>
+      </div>
+      <div class="flex flex-row gap-2 items-center"><span>Language</span><span>{{ partial "icons/caret.html" }}</span></div>
+    </div>
+  </div>
+</footer>
