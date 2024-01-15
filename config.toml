@@ -1,4 +1,5 @@
-baseURL = "https://redis.io/docs"
+# TODO: This needs to be replaced by the build script by specifying the correct path
+baseURL = "https://redis.io/docs/staging/dev/"
 title = "Redis"
 
 enableRobotsTXT = true
