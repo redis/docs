@@ -18,6 +18,7 @@ module.exports = {
 		  },
 		dusk: {
 			300: '#B9C2C6',
+			700: '#5C707A'
 		},
 		'redis-indigo': {
 			500: '#5961ff',

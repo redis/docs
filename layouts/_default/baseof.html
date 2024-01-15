@@ -66,10 +66,12 @@
 
     {{ block "main" . }}{{ end }}
 
-    <footer class="bg-midnight-700 relative z-50">
+    {{/*  <footer class="bg-midnight-700 relative z-50">
       {{ partial "footer.html" . }}
       {{ partial "toc-js.html" . }}
-    </footer>
+    </footer>  */}}
+
+    {{ partial "footer.html" . }}
 
     {{ partial "search-modal.html" . }}
   </body>
