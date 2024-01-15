@@ -11,8 +11,8 @@
         <p class="text-redis-neutral-800 text-xl mb-7 max-w-2xl mx-auto lg:mx-0">
           Read more about how to develop with, integrate to, and operate Redis.
         </p>
-        <a href="/develop/get-started/" class="button-xl button-indigo">Get started</a>
-        <a href="/operate/install" class="button-xl button-outline ml-2">Install</a>
+        <a href='{{ relURL "" }}/develop/get-started/' class="button-xl button-indigo">Get started</a>
+        <a href='{{ relURL "" }}/operate/install' class="button-xl button-outline ml-2">Install</a>
       </div>
       <div
         class="relative left-3.5 lg:left-0 lg:mt-0 mx-auto lg:ml-0  lg:-mr-7 pt-7 pr-7 bg-no-repeat bg-right-top max-w-2xl lg:max-w-none">
@@ -34,75 +34,6 @@
       </div>
     </div>
   </header>
-  <!--<nav
-    class="w-60 z-40 bg-white hidden md:block fixed top-28 pb-16 h-full max-h-[calc(100vh-7rem)] text-[0.8125rem] leading-7 font">  
-    <div
-      class="absolute right-0 -top-28 z-[-1] h-screen border-r border-slate-200/50 bg-gradient-to-bl from-slate-50 via-slate-50 to-indigo-100 w-[17rem] xl:w-[calc(50vw-23rem)]">
-    </div>
-    <ul class="h-full max-h-[calc(100vh-7rem)] overflow-y-auto pr-6">
-      <li>
-        <a class="flex justify-between items-center truncate font-semibold text-slate-900" href="/develop/">
-          <span>Documentation</span>
-        </a>
-        <ul class="">
-          <li>
-            <a class="flex justify-between items-center truncate text-slate-600 hover:text-indigo-600"
-              href="/develop/">
-              <span>Develop</span>
-              <svg class="shrink-0 h-[1.0rem] w-[1.0rem] stroke-slate-400" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M13.5355 10L6.46447 2.92893"></path>
-                <path d="M6.46447 17.0711L13.5355 10"></path>
-              </svg>
-            </a>
-          </li>
-          <li>
-            <a class="flex justify-between items-center truncate text-slate-600 hover:text-indigo-600"
-              href="/integrate">
-              <span>Integrate</span>
-              <svg class="shrink-0 h-[1.0rem] w-[1.0rem] stroke-slate-400" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M13.5355 10L6.46447 2.92893"></path>
-                <path d="M6.46447 17.0711L13.5355 10"></path>
-              </svg>
-            </a>
-          </li>
-          <li>
-            <a class="flex justify-between items-center truncate text-slate-600 hover:text-indigo-600"
-              href="/operate">
-              <span>Operate</span>
-              <svg class="shrink-0 h-[1.0rem] w-[1.0rem] stroke-slate-400 rotate-90" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M13.5355 10L6.46447 2.92893"></path>
-                <path d="M6.46447 17.0711L13.5355 10"></path>
-              </svg>
-            </a>
-            <ul class="child-list">
-              <li>
-                <a class="flex justify-between items-center truncate text-slate-600 hover:text-indigo-600" href="/operate/rc">
-                  <span>Redis Cloud</span>
-                </a>
-              </li>
-              <li>
-                <a class="flex justify-between items-center truncate text-slate-600 hover:text-indigo-600" href="/operate/oss_and_stack">
-                  <span>Redis OSS and Stack</span>
-                </a>
-              </li>
-              <li>
-                <a class="flex justify-between items-center truncate text-slate-600 hover:text-indigo-600" href="/operate/rs">
-                  <span>Redis Enterprise Software</span>
-                </a>
-              </li>
-              <li>
-                <a class="flex justify-between items-center truncate text-slate-600 hover:text-indigo-600" href="/operate/rs">
-                  <span>Redis Enterprise for Kubernetes</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </nav>-->
-
   <article class="">
     <section class="py-28 bg-gradient-to-b from-indigo-50/30 via-indigo-50/30 to-white">
       <div class="container max-w-[85rem] mx-auto px-4 sm:px-8">
@@ -122,7 +53,7 @@
               database and more.
             </p>
             <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href="/develop">
+              href='{{ relURL "" }}/develop'>
               Learn more
               <span
                 class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
@@ -139,7 +70,7 @@
               Read about frameworks and integrations available for Redis.
             </p>
             <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href="/integrate">
+              href='{{ relURL "" }}/integrate'>
               Learn more
               <span
                 class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
@@ -156,7 +87,7 @@
               Read about how to install, administer, and monitor Redis, Redis Enterprise, and Redis Cloud.
             </p>
             <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href="/operate">
+              href='{{ relURL "" }}/operate'>
               Learn more
               <span
                 class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
@@ -181,7 +112,7 @@
               the cloud.
             </p>
             <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href="/operate/oss_and_stack">
+              href='{{ relURL "" }}/operate/oss_and_stack'>
               Learn more
               <span
                 class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
@@ -199,7 +130,7 @@
               Google Cloud Platform, or Microsoft Azure.
             </p>
             <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href="/operate/rc">
+              href='{{ relURL "" }}/operate/rc'>
               Learn more
               <span
                 class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
@@ -213,7 +144,7 @@
               A self-managed data platform that unlocks the full potential of Redis at enterprise scale.
             </p>
             <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href="/operate/rs">
+              href='{{ relURL "" }}/operate/rs'>
               Learn more
               <span
                 class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
@@ -227,7 +158,7 @@
               Redis Enterprise deployed on containerized software platforms and integrated with our partners.
             </p>
             <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href="/operate/kubernetes">
+              href='{{ relURL "" }}/operate/kubernetes'>
               Learn more
               <span
                 class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
@@ -241,7 +172,7 @@
               Redis Data Integration keeps Redis in sync with the primary database in near real time.
             </p>
             <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href="/integrate/TODO">
+              href='{{ relURL "" }}/integrate/TODO'>
               Learn more
               <span
                 class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
@@ -256,7 +187,7 @@
               real-time application development easier and more fun than ever before,
             </p>
             <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href="/develop/connect/insight">
+              href='{{ relURL "" }}/develop/connect/insight'>
               Learn more
               <span
                 class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
@@ -284,7 +215,7 @@
             environment but on the side of Redis.
           </p>
           <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-            href="/develop/TODO">
+            href='{{ relURL "" }}/develop/TODO'>
             Quick start guide
             <span
               class="ml-1.5 text-indigo-600 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
@@ -299,7 +230,7 @@
             data efficiently without needing an additional cache.
           </p>
           <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-            href="/develop/TODO">
+            href='{{ relURL "" }}/develop/TODO'>
             Quick start guide
             <span
               class="ml-1.5 text-indigo-600 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
@@ -314,7 +245,7 @@
             implement recommendation systems, Retrieval Augmented Generation (RAG), LLM semantic caching, and more.
           </p>
           <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-            href="/develop/TODO">
+            href='{{ relURL "" }}/develop/TODO'>
             Quick start guide
             <span
               class="ml-1.5 text-indigo-600 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
