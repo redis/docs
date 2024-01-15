@@ -46,7 +46,7 @@
         })(window,document,'script','dataLayer','{{ .Site.Params.tagManagerId }}');</script>
     {{ end -}}
     
-    <script src="/js/index.js" defer></script>
+    <script src='{{ relURL "" }}/js/index.js' defer></script>
     {{ if .Params.math }}
         {{ partial "mathjax.html" }}
     {{ end }}
