@@ -20,6 +20,9 @@ module.exports = {
 			300: '#B9C2C6',
 			700: '#5C707A'
 		},
+		neutral: {
+			150: '#F0F0F0'
+		},
 		'redis-indigo': {
 			500: '#5961ff',
 			600: '#454CD5'

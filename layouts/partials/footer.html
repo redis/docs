@@ -1,10 +1,10 @@
-<footer class="h-52 bg-white relative z-50 border border-t-dusk-300 text-dusk-700 flex justify-center font-mono text-sm">
-  <div class="flex flex-row p-11 max-w-[1440px] grow justify-between">
+<footer class="h-fit lg:h-52 bg-white relative z-50 border border-t-dusk-300 text-dusk-700 flex flex-col gap-8 justify-center font-mono text-sm">
+  <div class="flex flex-col lg:flex-row px-4 pt-8 lg:p-11 lg:max-w-[1440px] grow justify-between gap-4">
     <div class="flex flex-col justify-between grow-[2]">
       <a class="relative" href="{{ .Site.Home.RelPermalink }}">
         {{ partial "icons/logo-script.html" }}
       </a>
-      <div class="flex flex-row gap-8">
+      <div class="hidden lg:flex flex-row gap-8 bg-neutral-150 lg:bg-white">
         <a href="https://redis.com/legal/privacy-policy/">
           Privacy
         </a>
@@ -16,7 +16,7 @@
         </a>
       </div>
     </div>
-    <div class="flex flex-col justify-between grow">
+    <div class="flex flex-col justify-between grow gap-4">
       <a href="https://redis.com/">
         Cloud
       </a>
@@ -30,7 +30,7 @@
         Support
       </a>
     </div>
-    <div class="flex flex-col justify-between grow">
+    <div class="flex flex-col justify-between grow gap-4">
       <a href="https://redis.com/">
         About Us
       </a>
@@ -44,8 +44,9 @@
         Legal Notices
       </a>
     </div>
-    <div class="flex flex-col justify-between mr-24">
-      <div class="flex flex-row gap-5">
+    <div class="flex flex-col justify-between lg:mr-24 gap-8">
+      <div class="flex flex-row gap-2 items-center"><span>Language</span><span>{{ partial "icons/caret.html" }}</span></div>
+      <div class="flex flex-row gap-5 lg:order-first justify-between">
         <a href="https://redis.com/">
           {{ partial "icons/Facebook.html" }}
         </a>
@@ -65,7 +66,20 @@
           {{ partial "icons/Github.html" }}
         </a>
       </div>
-      <div class="flex flex-row gap-2 items-center"><span>Language</span><span>{{ partial "icons/caret.html" }}</span></div>
+      
     </div>
   </div>
+  <div class="flex lg:hidden bg-neutral-150 justify-center">
+  <div class="flex lg:hidden flex-row justify-between gap-8 max-w-[600px] w-full p-4">
+    <a href="https://redis.com/legal/privacy-policy/">
+      Privacy
+    </a>
+    <a href="https://redis.com/legal/redis-website-terms-of-use/">
+      Terms of Use
+    </a>
+    <a href="https://redis.com/legal/">
+      Copyright
+    </a>
+  </div>
+</div>
 </footer>
