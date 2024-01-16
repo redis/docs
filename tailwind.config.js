@@ -12,16 +12,20 @@ module.exports = {
 				display: [ 'Inter Display', ...defaultTheme.fontFamily.sans ],
       },
 	  colors: {
-		midnight: {
-			700: '#161F31',
-		  },
-		'redis-indigo': {
-			500: '#5961ff',
-			600: '#454CD5'
-		},
-        'redis-neutral': {
-			800: '#4E545B'
-		}
+			midnight: {
+				700: '#161F31',
+				},
+			'redis-indigo': {
+				500: '#5961ff',
+				600: '#454CD5'
+			},
+			'redis-pen': {
+				450: '#8A99A0',
+				650: '#5C707A'
+			},
+			'redis-neutral': {
+				800: '#4E545B'
+			}
 	  },
       typography: (theme) => (  {
         DEFAULT: {
