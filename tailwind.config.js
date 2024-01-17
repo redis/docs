@@ -23,6 +23,12 @@ module.exports = {
 				450: '#8A99A0',
 				650: '#5C707A'
 			},
+			'redis-pencil': {
+				250: '#D9D9D9'
+			},
+			'redis-ink': {
+				900: '#091A23'
+			},
 			'redis-neutral': {
 				800: '#4E545B'
 			}
