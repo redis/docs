@@ -12,28 +12,26 @@ module.exports = {
 				display: [ 'Inter Display', ...defaultTheme.fontFamily.sans ],
       },
 	  colors: {
-		midnight: {
-			700: '#161F31',
-			900: '#091A23'
-		  },
-		dusk: {
-			300: '#B9C2C6',
-			700: '#5C707A'
-		},
-		neutral: {
-			150: '#F0F0F0'
-		},
-		'redis-indigo': {
-			500: '#5961ff',
-			600: '#454CD5'
-		},
-        'redis-neutral': {
-			800: '#4E545B'
-		},
-		'redis-red': {
-			500: '#FF4438',
-			600: '#F02D23'
-		}
+			midnight: {
+				700: '#161F31',
+				},
+			'redis-indigo': {
+				500: '#5961ff',
+				600: '#454CD5'
+			},
+			'redis-pen': {
+				450: '#8A99A0',
+				650: '#5C707A'
+			},
+			'redis-pencil': {
+				250: '#D9D9D9'
+			},
+			'redis-ink': {
+				900: '#091A23'
+			},
+			'redis-neutral': {
+				800: '#4E545B'
+			}
 	  },
       typography: (theme) => (  {
         DEFAULT: {
