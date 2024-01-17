@@ -40,10 +40,10 @@ jobs:
             hugo_root_path=docs/staging/dev
           elif [[ "${{ github.ref_name }}" == "latest" ]]
           then
-            hugo_root_path="docs" 
+            hugo_root_path="docs/latest" 
           elif [[ "${{ endsWith(github.ref_name, '-build') }}" == "true" ]]
           then
-            hugo_root_path=`echo docs/${{ github.ref_name }} | sed 's/-build$//'`
+            hugo_root_path=`echo docs/version/${{ github.ref_name }} | sed 's/-build$//'`
           else
             hugo_root_path=docs/staging/${{ github.ref_name }}
           fi \
@@ -75,7 +75,7 @@ jobs:
             bucket_path=${{ github.ref_name }}
           elif [[ "${{ endsWith(github.ref_name, '-build') }}" == "true" ]]
           then
-            bucket_path=`echo ${{ github.ref_name }} | sed 's/-build$//'`
+            bucket_path=`echo "version/${{ github.ref_name }}" | sed 's/-build$//'`
           else
             bucket_path=staging/${{ github.ref_name }}
           fi \
