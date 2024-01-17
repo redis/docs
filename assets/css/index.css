@@ -195,24 +195,24 @@ select {
 
 .child-list:before {
   content: '';
-  @apply w-[3px] h-full bg-slate-300/30 absolute left-0 top-0 rounded-xl transition;
+  @apply w-1 h-full bg-redis-pencil-250 absolute left-0 top-0 rounded-sm transition;
 }
 
-.child-list .child-list {
-  @apply ml-4;
+.child-list {
+  @apply ml-6;
 }
 
 .child-list a {
-  @apply relative flex hover:text-indigo-600 py-0.5 pl-4 transition-colors leading-6;
+  @apply relative flex hover:text-redis-ink-900/30 transition-colors leading-6;
 }
 
 .child-list a:before {
   content: '';
-  @apply w-[3px] h-full bg-transparent absolute left-0 top-0 rounded-xl transition;
+  @apply w-1 h-full bg-transparent absolute left-0 top-0 rounded-xl transition;
 }
 
 .child-list a.active {
-  @apply before:bg-indigo-600 pointer-events-none;
+  @apply before:bg-redis-ink-900 pointer-events-none;
 }
 
 #search-cancel {
