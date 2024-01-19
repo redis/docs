@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/json/path
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Access specific elements within a JSON document
 linkTitle: Path
 title: Path

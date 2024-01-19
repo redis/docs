@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/modules-intro
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to writing Redis modules
 
   '

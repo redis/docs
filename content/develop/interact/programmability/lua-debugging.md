@@ -1,7 +1,14 @@
 ---
-aliases:
-- /topics/ldb
-- /docs/manual/programmability/lua-debugging/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: How to use the built-in Lua debugger
 linkTitle: Debugging Lua
 title: Debugging Lua scripts in Redis

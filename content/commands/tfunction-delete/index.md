@@ -14,6 +14,16 @@ bannerText: 'The triggers and functions feature of Redis Stack and its documenta
   GitHub using the "Create new issue" link in the top right-hand corner of this page.
 
   '
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Delete a JavaScript library from Redis by name
 group: triggers_and_functions
@@ -23,7 +33,8 @@ module: Triggers and functions
 since: 2.0.0
 stack_path: docs/interact/programmability/triggers-and-functions
 summary: Delete a JavaScript library from Redis by name
-syntax: "TFUNCTION DELETE \"<library name>\" \n"
+syntax: "TFUNCTION DELETE \"<library name>\" 
+"
 syntax_fmt: TFUNCTION DELETE library name
 syntax_str: ''
 title: TFUNCTION DELETE

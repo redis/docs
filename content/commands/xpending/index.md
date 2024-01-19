@@ -35,6 +35,16 @@ arguments:
   optional: true
   type: block
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N) with N being the number of elements returned, so asking for a small

@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to Redis strings
 
   '
@@ -114,7 +124,7 @@ By default, a single Redis string can be a maximum of 512 MB.
 
 ### Bitwise operations
 
-To perform bitwise operations on a string, see the [bitmaps data type](/docs/data-types/bitmaps) docs.
+To perform bitwise operations on a string, see the [bitmaps data type]({{< relref "/develop/data-types/bitmaps" >}}) docs.
 
 See the [complete list of string commands](/commands/?group=string).
 
@@ -126,7 +136,7 @@ These random-access string commands may cause performance issues when dealing wi
 
 ## Alternatives
 
-If you're storing structured data as a serialized string, you may also want to consider Redis [hashes](/docs/data-types/hashes) or [JSON](/docs/stack/json).
+If you're storing structured data as a serialized string, you may also want to consider Redis [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/stack/json" >}}).
 
 ## Learn more
 

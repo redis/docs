@@ -28,6 +28,16 @@ arguments:
 - multiple: true
   name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k * n), where k is the number of hash functions and n is the number
   of items
 description: Adds one or more items to a Bloom Filter. A filter will be created if
@@ -40,8 +50,10 @@ since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Bloom Filter. A filter will be created if it
   does not exist
-syntax_fmt: "BF.INSERT key [CAPACITY\_capacity] [ERROR\_error]\n  [EXPANSION\_expansion]\
-  \ [NOCREATE] [NONSCALING] ITEMS item [item\n  ...]"
+syntax_fmt: "BF.INSERT key [CAPACITY\_capacity] [ERROR\_error]
+  [EXPANSION\_expansion]\
+  \ [NOCREATE] [NONSCALING] ITEMS item [item
+  ...]"
 syntax_str: "[CAPACITY\_capacity] [ERROR\_error] [EXPANSION\_expansion] [NOCREATE]\
   \ [NONSCALING] ITEMS item [item ...]"
 title: BF.INSERT

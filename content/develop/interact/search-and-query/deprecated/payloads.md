@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/payloads/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Payload support(deprecated)
 linkTitle: Payload
 title: Payload

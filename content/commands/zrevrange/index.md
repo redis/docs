@@ -20,6 +20,16 @@ arguments:
   token: WITHSCORES
   type: pure-token
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(log(N)+M) with N being the number of elements in the sorted set and

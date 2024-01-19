@@ -1,8 +1,14 @@
 ---
-aliases:
-- /docs/stack/get-started/tutorials/stack-spring/
-- /docs/clients/stack-spring/
-- /docs/clients/om-clients/stack-spring/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Learn how to build with Redis Stack and Spring
 linkTitle: OM for Spring / Java
 stack: true

@@ -60,6 +60,16 @@ arguments:
   optional: true
   type: oneof
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -97,7 +107,8 @@ linkTitle: SET
 since: 1.0.0
 summary: Sets the string value of a key, ignoring its type. The key is created if
   it doesn't exist.
-syntax_fmt: "SET key value [NX | XX] [GET] [EX\_seconds | PX\_milliseconds |\n  EXAT\_\
+syntax_fmt: "SET key value [NX | XX] [GET] [EX\_seconds | PX\_milliseconds |
+  EXAT\_\
   unix-time-seconds | PXAT\_unix-time-milliseconds | KEEPTTL]"
 syntax_str: "value [NX | XX] [GET] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
   \ | PXAT\_unix-time-milliseconds | KEEPTTL]"
@@ -111,10 +122,10 @@ Any previous time to live associated with the key is discarded on successful `SE
 
 The `SET` command supports a set of options that modify its behavior:
 
-* `EX` *seconds* -- Set the specified expire time, in seconds.
-* `PX` *milliseconds* -- Set the specified expire time, in milliseconds.
-* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds.
-* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds.
+* `EX` *seconds* -- Set the specified expire time, in seconds (a positive integer).
+* `PX` *milliseconds* -- Set the specified expire time, in milliseconds (a positive integer).
+* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds (a positive integer).
+* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds (a positive integer).
 * `NX` -- Only set the key if it does not already exist.
 * `XX` -- Only set the key if it already exists.
 * `KEEPTTL` -- Retain the time to live associated with the key.

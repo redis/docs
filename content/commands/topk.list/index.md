@@ -6,6 +6,16 @@ arguments:
   optional: true
   token: WITHCOUNT
   type: pure-token
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k) where k is the value of top-k
 description: Return full list of items in Top K list
 group: topk

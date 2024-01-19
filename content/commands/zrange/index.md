@@ -51,6 +51,16 @@ arguments:
   token: WITHSCORES
   type: pure-token
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(log(N)+M) with N being the number of elements in the sorted set and
@@ -77,7 +87,8 @@ key_specs:
 linkTitle: ZRANGE
 since: 1.2.0
 summary: Returns members in a sorted set within a range of indexes.
-syntax_fmt: "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]\n\
+syntax_fmt: "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]
+\
   \  [WITHSCORES]"
 syntax_str: "start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count] [WITHSCORES]"
 title: ZRANGE

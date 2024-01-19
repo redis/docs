@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Available field types and options.
 
   '
@@ -95,7 +105,7 @@ Notice that `{count}` represents the total number of attribute pairs passed in t
 
 * `{attribute_name} {attribute_value}` are algorithm attributes for the creation of the vector index. Every algorithm has its own mandatory and optional attributes.
 
-For more information about vector fields, see [vector fields](/docs/interact/search-and-query/advanced-concepts/vectors/).
+For more information about vector fields, see [vector fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors/" >}}).
 
 ## Tag fields
 
@@ -119,7 +129,7 @@ You can search for documents with specific tags using the `@<field_name>:{<tag>}
 FT.SEARCH idx "@tags:{blue}"
 ```
 
-For more information about tag fields, see [Tag Fields](/docs/interact/search-and-query/advanced-concepts/tags/).
+For more information about tag fields, see [Tag Fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags/" >}}).
 
 ## Text fields
 
@@ -142,7 +152,7 @@ where
    - `dm:pt` - double metaphone for Portuguese
    - `dm:es` - double metaphone for Spanish
 
-    For more information, see [Phonetic Matching](/docs/interact/search-and-query/advanced-concepts/phonetic_matching/).
+    For more information, see [Phonetic Matching]({{< relref "/develop/interact/search-and-query/advanced-concepts/phonetic_matching/" >}}).
 - `SORTABLE` indicates that the field can be sorted. This is useful for performing range queries and sorting search results based on text values.
 - `NOINDEX` indicates that the field is not indexed. This is useful for storing text that you don't want to search for, but that you still want to retrieve in search results.
 - `WITHSUFFIXTRIE` indicates that the field will be indexed with a suffix trie. The index will keep a suffix trie with all terms which match the suffix. It is used to optimize `contains (*foo*)` and `suffix (*foo)` queries. Otherwise, a brute-force search on the trie is performed. If a suffix trie exists for some fields, these queries will be disabled for other fields.

@@ -2,6 +2,16 @@
 arguments:
 - name: index
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Dumps the contents of a synonym group
 group: search

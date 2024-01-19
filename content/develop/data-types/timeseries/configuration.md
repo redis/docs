@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/timeseries/configuration
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'RedisTimeSeries supports multiple module configuration parameters. All
   of these parameters can only be set at load-time.
 
@@ -14,13 +22,13 @@ weight: 3
 
 Setting configuration parameters at load-time is done by appending arguments after the `--loadmodule` argument when starting a server from the command line or after the `loadmodule` directive in a Redis config file. For example:
 
-In [redis.conf](/docs/manual/config/):
+In [redis.conf]({{< relref "/develop/manual/config/" >}}):
 
 ```sh
 loadmodule ./redistimeseries.so [OPT VAL]...
 ```
 
-From the [Redis CLI](/docs/manual/cli/), using the [MODULE LOAD](/commands/module-load/) command:
+From the [Redis CLI]({{< relref "/develop/manual/cli/" >}}), using the [MODULE LOAD](/commands/module-load/) command:
 
 ```
 127.0.0.6379> MODULE LOAD redistimeseries.so [OPT VAL]...

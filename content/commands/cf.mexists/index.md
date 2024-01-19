@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k * n), where k is the number of sub-filters and n is the number of
   items
 description: Checks whether one or more items exist in a Cuckoo Filter

@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/reference/patterns/twitter-clone
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Learn several Redis patterns by building a Twitter clone
 linkTitle: Patterns example
 title: Redis patterns example

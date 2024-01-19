@@ -8,6 +8,16 @@ arguments:
   optional: true
   token: COUNT
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Reads from a cursor
 group: search

@@ -10,6 +10,16 @@ arguments:
   multiple: true
   name: triplet
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(K*(M+N)) where k is the number of keys in the command, when path is
   evaluated to a single value where M is the size of the original value (if it exists)
   and N is the size of the new value, or O(K*(M+N)) when path is evaluated to multiple
@@ -66,14 +76,16 @@ For more information about replies, see [Redis serialization protocol specificat
 <summary><b>Add a new values in multiple keys</b></summary>
 
 {{< highlight bash >}}
-redis> JSON.MSET doc1 $ '{"a":2}' doc2 $.f.a '3' doc3 $ '{"f1": {"a":1}, "f2":{"a":2}}'
+redis> JSON.MSET doc1 $ '{"a":1}' doc2 $ '{"f":{"a":2}}' doc3 $ '{"f1":{"a":0},"f2":{"a":0}}'
+OK
+redis> JSON.MSET doc1 $ '{"a":2}' doc2 $.f.a '3' doc3 $ '{"f1":{"a":1},"f2":{"a":2}}'
 OK
 redis> JSON.GET doc1 $
 "[{\"a\":2}]"
 redis> JSON.GET doc2 $
-"[{\"f\":{\"a\":3]"
+"[{\"f\":{\"a\":3}}]"
 redis> JSON.GET doc3
-"{\"f1\":{\"a\":3},\"f2\":{\"a\":3}}"
+"{\"f1\":{\"a\":1},\"f2\":{\"a\":2}}"
 {{< / highlight >}}
 </details>
 

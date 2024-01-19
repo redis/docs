@@ -20,6 +20,16 @@ arguments:
   type: pure-token
 - name: query
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N)
 description: Performs a `FT.SEARCH` or `FT.AGGREGATE` command and collects performance
   information

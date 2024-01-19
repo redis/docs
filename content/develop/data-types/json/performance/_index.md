@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/json/performance
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Performance benchmarks
 
   '

@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Learn how to manage streams and consumer groups in RedisInsight
 linkTitle: Streams
 title: Manage streams and consumer groups in RedisInsight
@@ -9,7 +19,7 @@ A _stream_ is an append-only log file.
 When you add data to it, you cannot change it. 
 That may seem like a disadvantage; however, a stream serves as a log or single source of truth. 
 It can also be used as a buffer between processes that work at different speeds and do not need to know about each other. 
-For more conceptual information about streams, see [Redis Streams](/docs/manual/data-types/streams). 
+For more conceptual information about streams, see [Redis Streams]({{< relref "/develop/manual/data-types/streams" >}}). 
 
 In this topic, you will learn how to add and work with streams as well as consumer groups in RedisInsight.
 
@@ -199,5 +209,5 @@ Use streams for auditing and processing events in banking, gaming, supply chain,
 
 ## Related topics
 
-- [Redis Streams](/docs/manual/data-types/streams)
+- [Redis Streams]({{< relref "/develop/manual/data-types/streams" >}})
 - [Introducing Redis Streams with RedisInsight, node.js, and Python](https://www.youtube.com/watch?v=q2UOkQmIo9Q) (video)

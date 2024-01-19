@@ -8,6 +8,16 @@ arguments:
   type: integer
 - name: stop
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) when path is evaluated to a single value where N is the size of the
   array, O(N) when path is evaluated to multiple values, where N is the size of the
   key

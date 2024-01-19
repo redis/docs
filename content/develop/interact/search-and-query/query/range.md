@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Perform numeric range queries
 linkTitle: Range
 title: Range queries
@@ -69,4 +79,4 @@ FT.SEARCH idx:bicycle "@price:[-inf 2000] SORTBY price LIMIT 0 5"
 
 ## Non-numeric range queries
 
-You can learn more about non-numeric range queries, such as [geospatial](/docs/interact/search-and-query/query/geo-spatial) or [vector search](/docs/interact/search-and-query/query/vector-search) queries, in their dedicated articles.
+You can learn more about non-numeric range queries, such as [geospatial]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}}) or [vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) queries, in their dedicated articles.

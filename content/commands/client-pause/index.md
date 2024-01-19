@@ -22,6 +22,16 @@ arguments:
   since: 6.2.0
   type: oneof
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript

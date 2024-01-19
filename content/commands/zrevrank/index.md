@@ -17,6 +17,16 @@ arguments:
   token: WITHSCORE
   type: pure-token
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 - fast

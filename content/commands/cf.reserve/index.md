@@ -16,6 +16,16 @@ arguments:
   optional: true
   token: EXPANSION
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Creates a new Cuckoo Filter
 group: cf
@@ -25,7 +35,8 @@ module: Bloom
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Creates a new Cuckoo Filter
-syntax_fmt: "CF.RESERVE key capacity [BUCKETSIZE\_bucketsize]\n  [MAXITERATIONS\_\
+syntax_fmt: "CF.RESERVE key capacity [BUCKETSIZE\_bucketsize]
+  [MAXITERATIONS\_\
   maxiterations] [EXPANSION\_expansion]"
 syntax_str: "capacity [BUCKETSIZE\_bucketsize] [MAXITERATIONS\_maxiterations] [EXPANSION\_\
   expansion]"
@@ -57,25 +68,40 @@ is key name for the the cuckoo filter to be created.
 
 <details open><summary><code>capacity</code></summary>
 
-Estimated capacity for the filter. Capacity is rounded to the next `2^n` number. The filter will likely not fill up to 100% of it's capacity.
-Make sure to reserve extra capacity if you want to avoid expansions.
+Estimated capacity for the filter.
+
+Capacity is rounded to the next `2^n` number.
+
+The filter will likely not fill up to 100% of it's capacity. Make sure to reserve extra capacity if you want to avoid expansions.
 </details>
 
 ## Optional arguments
 
 <details open><summary><code>BUCKETSIZE bucketsize</code></summary>
 
-Number of items in each bucket. A higher bucket size value improves the fill rate but also causes a higher error rate and slightly slower performance. The default value is 2.
+Number of items in each bucket.
+
+A higher bucket size value improves the fill rate but also causes a higher error rate and slightly slower performance.
+
+`bucketsize` is an integer between 1 and 255. The default value is 2.
 </details>
 
 <details open><summary><code>MAXITERATIONS maxiterations</code></summary>
 
-Number of attempts to swap items between buckets before declaring filter as full and creating an additional filter. A low value is better for performance and a higher number is better for filter fill rate. The default value is 20.
+Number of attempts to swap items between buckets before declaring filter as full and creating an additional filter. 
+
+A low value is better for performance and a higher number is better for filter fill rate.
+
+`maxiterations` is an integer between 1 and 65535. The default value is 20.
 </details>
 
 <details open><summary><code>EXPANSION expansion</code></summary>
 
-When a new filter is created, its size is the size of the current filter multiplied by `expansion`, specified as a non-negative integer. Expansion is rounded to the next `2^n` number. The default value is `1`.
+When a new filter is created, its size is the size of the current filter multiplied by `expansion`.
+
+`expansion` is an integer between 0 and 32768. The default value is 1.
+
+Expansion is rounded to the next `2^n` number. 
 </details>
 
 ## Return value

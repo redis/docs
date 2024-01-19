@@ -8,6 +8,16 @@ arguments:
   name: channel
   type: string
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - pubsub
 - noscript

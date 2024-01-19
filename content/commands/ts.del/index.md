@@ -6,6 +6,16 @@ arguments:
   type: integer
 - name: to_timestamp
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) where N is the number of data points that will be removed
 description: Delete all samples between two timestamps for a given time series
 group: timeseries

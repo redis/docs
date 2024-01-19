@@ -1,8 +1,14 @@
 ---
-aliases:
-- /topics/streams-intro
-- /docs/manual/data-types/streams
-- /docs/data-types/streams-tutorial/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to Redis streams
 
   '
@@ -930,6 +936,6 @@ A few remarks:
 
 ## Learn more
 
-* The [Redis Streams Tutorial](/docs/data-types/streams-tutorial) explains Redis streams with many examples.
+* The [Redis Streams Tutorial]({{< relref "/develop/data-types/streams-tutorial" >}}) explains Redis streams with many examples.
 * [Redis Streams Explained](https://www.youtube.com/watch?v=Z8qcpXyMAiA) is an entertaining introduction to streams in Redis.
 * [Redis University's RU202](https://university.redis.com/courses/ru202/) is a free, online course dedicated to Redis Streams.

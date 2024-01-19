@@ -2,6 +2,16 @@
 arguments:
 - name: key
   type: key
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: 'Resets a t-digest sketch: empty the sketch and re-initializes it.'
 group: tdigest

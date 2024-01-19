@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/pipelining
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: How to optimize round-trip times by batching Redis commands
 linkTitle: Pipelining
 title: Redis pipelining

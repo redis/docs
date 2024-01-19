@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/key-specs
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: What are command key specification and how to use them in your client
 linkTitle: Command key specifications
 title: Command key specifications

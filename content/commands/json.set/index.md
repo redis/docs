@@ -16,6 +16,16 @@ arguments:
   name: condition
   optional: true
   type: oneof
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(M+N) when path is evaluated to a single value where M is the size of
   the original value (if it exists) and N is the size of the new value, O(M+N) when
   path is evaluated to multiple values where M is the size of the key and N is the

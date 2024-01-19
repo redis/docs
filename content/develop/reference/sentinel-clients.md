@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/sentinel-clients
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: How to build clients for Redis Sentinel
 linkTitle: Sentinel clients
 title: Sentinel client spec

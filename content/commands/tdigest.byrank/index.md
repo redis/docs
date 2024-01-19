@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: rank
   type: double
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns, for each input rank, an estimation of the value (floating-point)
   with that rank

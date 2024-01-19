@@ -15,6 +15,16 @@ arguments:
   name: increment
   type: double
 arity: 4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -52,7 +62,7 @@ is negative, the result is to have the hash field value **decremented** instead 
 If the field does not exist, it is set to `0` before performing the operation.
 An error is returned if one of the following conditions occur:
 
-* The field contains a value of the wrong type (not a string).
+* The key contains a value of the wrong type (not a hash).
 * The current field content or the specified increment are not parsable as a
   double precision floating point number.
 

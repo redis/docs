@@ -74,6 +74,16 @@ arguments:
   optional: true
   type: oneof
 arity: -5
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N+log(M)) where N is the number of elements inside the bounding box
@@ -105,7 +115,8 @@ replaced_by: '[`GEOSEARCH`](/commands/geosearch) with the `BYRADIUS` and `FROMME
 since: 3.2.10
 summary: Returns members from a geospatial index that are within a distance from a
   member.
-syntax_fmt: "GEORADIUSBYMEMBER_RO key member radius <M | KM | FT | MI>\n  [WITHCOORD]\
+syntax_fmt: "GEORADIUSBYMEMBER_RO key member radius <M | KM | FT | MI>
+  [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]"
 syntax_str: "member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT\_\
   count [ANY]] [ASC | DESC]"

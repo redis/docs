@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Perform simple exact match queries
 linkTitle: Exact match
 title: Exact match queries
@@ -17,7 +27,7 @@ The examples in this article use a schema with the following fields:
 | `condition` | `TAG` |
 | `price` | `NUMERIC` |
 
-You can find more details about creating the index and loading the demo data in the [quick start guide](/docs/interact/search-and-query/quickstart/).
+You can find more details about creating the index and loading the demo data in the [quick start guide]({{< relref "/develop/interact/search-and-query/quickstart/" >}}).
 
 ## Numeric field
 
@@ -27,7 +37,7 @@ To perform an exact match query on a numeric field, you need to construct a rang
 FT.SEARCH index "@field:[start end]"
 ```
 
-As described in the [article about range queries](/docs/interact/search-and-query/query/range), you can also use the `FILTER` argument:
+As described in the [article about range queries]({{< relref "/develop/interact/search-and-query/query/range" >}}), you can also use the `FILTER` argument:
 
 ```
 FT.SEARCH index "*" FILTER field start end
@@ -70,7 +80,7 @@ FT.SEARCH idx:bicycle "@condition:{new}"
 
 ## Full-text field
 
-A detailed explanation of full-text queries is available in the [full-text queries documentation](/docs/interact/search-and-query/query/full-text). You can also query for an exact match of a phrase within a text field:
+A detailed explanation of full-text queries is available in the [full-text queries documentation]({{< relref "/develop/interact/search-and-query/query/full-text" >}}). You can also query for an exact match of a phrase within a text field:
 
 ```
 FT.SEARCH index "@field:\"phrase\""
@@ -79,7 +89,7 @@ FT.SEARCH index "@field:\"phrase\""
 {{% alert title="Important" color="warning" %}}
 The phrase must be wrapped by escaped double quotes for an exact match query.
 
-You can't use a phrase that starts with a [stop word](/docs/interact/search-and-query/advanced-concepts/stopwords).
+You can't use a phrase that starts with a [stop word]({{< relref "/develop/interact/search-and-query/advanced-concepts/stopwords" >}}).
 {{% /alert  %}}
 
 Here is an example for finding all bicycles that have a description containing the exact text 'rough terrain':

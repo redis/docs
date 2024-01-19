@@ -6,6 +6,16 @@ arguments:
   type: integer
 - name: data
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n), where n is the capacity
 description: Restores a filter previously saved using SCANDUMP
 group: bf

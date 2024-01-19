@@ -35,6 +35,16 @@ arguments:
   token: ABORT
   type: pure-token
 arity: -1
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript

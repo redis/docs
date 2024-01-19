@@ -10,6 +10,16 @@ arguments:
   multiple: true
   name: items
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n * k * incr) where n is the number of items, k is the depth and incr
   is the increment
 description: Increases the count of one or more items by increment

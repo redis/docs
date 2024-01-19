@@ -6,6 +6,16 @@ arguments:
   type: double
 - name: probability
   type: double
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Initializes a Count-Min Sketch to accommodate requested tolerances.
 group: cms

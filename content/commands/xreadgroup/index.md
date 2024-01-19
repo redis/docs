@@ -44,6 +44,16 @@ arguments:
   token: STREAMS
   type: block
 arity: -7
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - blocking
@@ -74,7 +84,8 @@ linkTitle: XREADGROUP
 since: 5.0.0
 summary: Returns new or historical messages from a stream for a consumer in a group.
   Blocks until a message is available otherwise.
-syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [BLOCK\_milliseconds]\n\
+syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [BLOCK\_milliseconds]
+\
   \  [NOACK] STREAMS\_key [key ...] id [id ...]"
 syntax_str: "[COUNT\_count] [BLOCK\_milliseconds] [NOACK] STREAMS\_key [key ...] id\
   \ [id ...]"

@@ -21,6 +21,16 @@ arguments:
   name: single_value
   optional: true
   type: oneof
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns information about a Bloom Filter
 group: bf

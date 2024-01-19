@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to Redis sets
 
   '
@@ -170,10 +180,10 @@ As an alternative, consider the [`SSCAN`](/commands/sscan), which lets you retri
 ## Alternatives
 
 Sets membership checks on large datasets (or on streaming data) can use a lot of memory.
-If you're concerned about memory usage and don't need perfect precision, consider a [Bloom filter or Cuckoo filter](/docs/stack/bloom) as an alternative to a set.
+If you're concerned about memory usage and don't need perfect precision, consider a [Bloom filter or Cuckoo filter]({{< relref "/develop/stack/bloom" >}}) as an alternative to a set.
 
 Redis sets are frequently used as a kind of index.
-If you need to index and query your data, consider the [JSON](/docs/stack/json) data type and the [Search and query](/docs/stack/search) features.
+If you need to index and query your data, consider the [JSON]({{< relref "/develop/stack/json" >}}) data type and the [Search and query]({{< relref "/develop/stack/search" >}}) features.
 
 ## Learn more
 

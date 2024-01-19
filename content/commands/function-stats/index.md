@@ -3,6 +3,16 @@ acl_categories:
 - '@slow'
 - '@scripting'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 - allow_busy

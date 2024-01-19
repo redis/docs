@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/reference/patterns
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Novel patterns for working with Redis data structures
 linkTitle: Patterns
 title: Redis programming patterns

@@ -1,7 +1,14 @@
 ---
-aliases:
-- /topics/transactions
-- /docs/manual/transactions/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: How transactions work in Redis
 linkTitle: Transactions
 title: Transactions

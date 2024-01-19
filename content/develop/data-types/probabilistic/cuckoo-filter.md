@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Cuckoo filters are a probabilistic data structure that checks for presence
   of an element in a set
 linkTitle: Cuckoo filter

@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k * n), where k is the number of hash functions and n is the number
   of items
 description: Adds one or more items to a Bloom Filter. A filter will be created if

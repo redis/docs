@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/sorting/
-- /redisearch/reference/sorting
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Support for sorting query results
 linkTitle: Sorting
 title: Sorting

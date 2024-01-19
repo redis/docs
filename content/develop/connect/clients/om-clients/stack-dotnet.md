@@ -1,8 +1,14 @@
 ---
-aliases:
-- /docs/stack/get-started/tutorials/stack-dotnet/
-- /docs/clients/stack-dotnet/
-- /docs/clients/om-clients/stack-dotnet/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Learn how to build with Redis Stack and .NET
 linkTitle: OM for .NET
 stack: true

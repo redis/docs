@@ -17,6 +17,16 @@ arguments:
   since: 6.2.0
   type: oneof
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 complexity: O(N) with N being the number of scripts in cache

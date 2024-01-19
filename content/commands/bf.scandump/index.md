@@ -4,6 +4,16 @@ arguments:
   type: key
 - name: iterator
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n), where n is the capacity
 description: Begins an incremental save of the bloom filter
 group: bf

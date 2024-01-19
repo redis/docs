@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/stopwords/
-- /redisearch/reference/stopwords
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Stop words support
 linkTitle: Stop words
 title: Stop words

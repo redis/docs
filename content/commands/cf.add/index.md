@@ -4,6 +4,16 @@ arguments:
   type: key
 - name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k + i), where k is the number of sub-filters and i is maxIterations
 description: Adds an item to a Cuckoo Filter
 group: cf

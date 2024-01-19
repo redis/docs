@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/clients/java/
-- /docs/redis-clients/java/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Connect your Java application to a Redis database
 linkTitle: Java
 title: Java guide
@@ -107,7 +114,7 @@ JedisCluster jedis = new JedisCluster(jedisClusterNodes);
 
 #### Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security](/docs/management/security/) guidelines.
+When you deploy your application, use TLS and follow the [Redis security]({{< relref "/develop/management/security/" >}}) guidelines.
 
 Before connecting your application to the TLS-enabled Redis server, ensure that your certificates and private keys are in the correct format.
 
@@ -230,7 +237,7 @@ User user2 = new User("Eden Zamir", "eden.zamir@example.com", 29, "Tel Aviv");
 User user3 = new User("Paul Zamir", "paul.zamir@example.com", 35, "Tel Aviv");
 ```
 
-Create an index. In this example, all JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax](/docs/interact/search-and-query/query/).
+Create an index. In this example, all JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}).
 
 ```java
 jedis.ftCreate("idx:users",

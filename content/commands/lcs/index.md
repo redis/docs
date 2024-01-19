@@ -33,6 +33,16 @@ arguments:
   token: WITHMATCHLEN
   type: pure-token
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N*M) where N and M are the lengths of s1 and s2, respectively

@@ -15,6 +15,16 @@ arguments:
   name: stop
   type: integer
 arity: 4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 complexity: O(N) where N is the number of elements to be removed by the operation.

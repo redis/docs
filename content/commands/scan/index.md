@@ -24,6 +24,16 @@ arguments:
   token: TYPE
   type: string
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(1) for every call. O(N) for a complete iteration, including enough command

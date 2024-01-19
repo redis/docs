@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/spellcheck/
-- /redisearch/reference/spellcheck
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Query spelling correction support
 linkTitle: Spellchecking
 title: Spellchecking

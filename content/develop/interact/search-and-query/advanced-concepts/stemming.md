@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/stemming/
-- /redisearch/reference/stemming
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Stemming support
 linkTitle: Stemming
 title: Stemming
@@ -22,7 +29,7 @@ For further details see the [Snowball Stemmer website](https://snowballstem.org/
 Stemming maps different forms of the same word to a common root - "stem" - for example, the English stemmer maps *studied* ,*studies* and *study* to *studi* . So a searching for *studied* would also find documents which only have the other forms.
 
 
-In order to define which language the Stemmer should apply when building the index, you need to specify the `LANGUAGE` parameter for the entire index or for the specific field. For more details check the [FT.CREATE](/docs/commands/ft.create.md) syntax.
+In order to define which language the Stemmer should apply when building the index, you need to specify the `LANGUAGE` parameter for the entire index or for the specific field. For more details check the [FT.CREATE]({{< relref "/develop/commands/ft.create.md" >}}) syntax.
 
 **Create a index with language definition**
 

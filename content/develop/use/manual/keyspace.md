@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/manual/the-redis-keyspace
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Managing keys in Redis: Key expiration, scanning, altering and querying
   the key space
 

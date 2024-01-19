@@ -4,6 +4,16 @@ arguments:
   type: key
 - name: destKey
   type: key
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Delete a compaction rule
 group: timeseries

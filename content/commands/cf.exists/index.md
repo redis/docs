@@ -4,6 +4,16 @@ arguments:
   type: key
 - name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k), where k is the number of sub-filters
 description: Checks whether one or more items exist in a Cuckoo Filter
 group: cf

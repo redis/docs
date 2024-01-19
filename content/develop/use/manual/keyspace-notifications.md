@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/notifications
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Monitor changes to Redis keys and values in real time
 
   '

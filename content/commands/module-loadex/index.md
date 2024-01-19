@@ -27,6 +27,16 @@ arguments:
   token: ARGS
   type: string
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -38,7 +48,8 @@ hidden: false
 linkTitle: MODULE LOADEX
 since: 7.0.0
 summary: Loads a module using extended parameters.
-syntax_fmt: "MODULE LOADEX path [CONFIG\_name value [CONFIG name value ...]]\n  [ARGS\_\
+syntax_fmt: "MODULE LOADEX path [CONFIG\_name value [CONFIG name value ...]]
+  [ARGS\_\
   args [args ...]]"
 syntax_str: "[CONFIG\_name value [CONFIG name value ...]] [ARGS\_args [args ...]]"
 title: MODULE LOADEX

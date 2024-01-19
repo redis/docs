@@ -4,6 +4,16 @@ arguments:
   type: string
 - name: index
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Adds or updates an alias to the index
 group: search

@@ -5,6 +5,16 @@ arguments:
   type: key
 - name: path
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(M*N) when path is evaluated to a single value where M is the number
   of keys and N is the size of the value, O(N1+N2+...+Nm) when path is evaluated to
   multiple values where m is the number of keys and Ni is the size of the i-th key

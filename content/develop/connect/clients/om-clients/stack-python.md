@@ -1,8 +1,14 @@
 ---
-aliases:
-- /docs/stack/get-started/tutorials/stack-python/
-- /docs/clients/stack-python/
-- /docs/clients/om-clients/stack-python/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Learn how to build with Redis Stack and Python
 linkTitle: OM for Python
 stack: true

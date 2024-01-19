@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/json/developer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Notes on debugging, testing and documentation
 
   '

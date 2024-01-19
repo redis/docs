@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/query_syntax/
-- /docs/stack/use-cases/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Time series use cases
 
   '

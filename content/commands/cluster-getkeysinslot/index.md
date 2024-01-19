@@ -9,6 +9,16 @@ arguments:
   name: count
   type: integer
 arity: 4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - stale
 complexity: O(N) where N is the number of requested keys

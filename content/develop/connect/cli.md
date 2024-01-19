@@ -1,8 +1,14 @@
 ---
-aliases:
-- /docs/manual/cli
-- /docs/management/cli
-- /docs/ui/cli
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Overview of redis-cli, the Redis command line interface
 
   '

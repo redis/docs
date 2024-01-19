@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: value
   type: double
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns, for each input value, an estimation of the fraction (floating-point)
   of (observations smaller than the given value + half the observations equal to the

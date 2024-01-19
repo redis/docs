@@ -39,6 +39,16 @@ arguments:
   name: timeout
   type: double
 arity: 6
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom

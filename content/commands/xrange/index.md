@@ -20,6 +20,16 @@ arguments:
   token: COUNT
   type: integer
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N) with N being the number of elements being returned. If N is constant

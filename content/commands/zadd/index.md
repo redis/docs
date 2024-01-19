@@ -57,6 +57,16 @@ arguments:
   name: data
   type: block
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -91,7 +101,8 @@ linkTitle: ZADD
 since: 1.2.0
 summary: Adds one or more members to a sorted set, or updates their scores. Creates
   the key if it doesn't exist.
-syntax_fmt: "ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member\n\
+syntax_fmt: "ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member
+\
   \  ...]"
 syntax_str: '[NX | XX] [GT | LT] [CH] [INCR] score member [score member ...]'
 title: ZADD

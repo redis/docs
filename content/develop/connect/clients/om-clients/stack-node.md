@@ -1,8 +1,14 @@
 ---
-aliases:
-- /docs/stack/get-started/tutorials/stack-node/
-- /docs/clients/stack-node/
-- /docs/clients/om-clients/stack-node/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Learn how to build with Redis Stack and Node.js
 linkTitle: OM for Node.js
 stack: true

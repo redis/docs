@@ -33,6 +33,16 @@ arguments:
   since: 2.4.3
   token: DIALECT
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Performs spelling correction on a query, returning suggestions for misspelled
   terms
@@ -44,9 +54,14 @@ since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Performs spelling correction on a query, returning suggestions for misspelled
   terms
-syntax: "FT.SPELLCHECK index query \n  [DISTANCE distance] \n  [TERMS INCLUDE | EXCLUDE\
-  \ dictionary [terms [terms ...]]] \n  [DIALECT dialect]\n"
-syntax_fmt: "FT.SPELLCHECK index query [DISTANCE\_distance] [TERMS\_<INCLUDE |\n \
+syntax: "FT.SPELLCHECK index query 
+  [DISTANCE distance] 
+  [TERMS INCLUDE | EXCLUDE\
+  \ dictionary [terms [terms ...]]] 
+  [DIALECT dialect]
+"
+syntax_fmt: "FT.SPELLCHECK index query [DISTANCE\_distance] [TERMS\_<INCLUDE |
+ \
   \ EXCLUDE> dictionary [terms [terms ...]]] [DIALECT\_dialect]"
 syntax_str: "query [DISTANCE\_distance] [TERMS\_<INCLUDE | EXCLUDE> dictionary [terms\
   \ [terms ...]]] [DIALECT\_dialect]"

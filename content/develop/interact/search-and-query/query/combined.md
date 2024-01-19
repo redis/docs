@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Combine query expressions
 linkTitle: Combined
 title: Combined queries
@@ -7,16 +17,16 @@ weight: 9
 
 A combined query is a combination of several query types, such as:
 
-* [Exact match](/docs/interact/search-and-query/query/exact-match)
-* [Range](/docs/interact/search-and-query/query/range)
-* [Full-text](/docs/interact/search-and-query/query/full-text)
-* [Geospatial](/docs/interact/search-and-query/query/geo-spatial)
-* [Vector search](/docs/interact/search-and-query/query/vector-search)
+* [Exact match]({{< relref "/develop/interact/search-and-query/query/exact-match" >}})
+* [Range]({{< relref "/develop/interact/search-and-query/query/range" >}})
+* [Full-text]({{< relref "/develop/interact/search-and-query/query/full-text" >}})
+* [Geospatial]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}})
+* [Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
 
 You can use logical query operators to combine query expressions for numeric, tag, and text fields. For vector fields, you can combine a KNN query with a pre-filter.
 
 {{% alert title="Note" color="warning" %}}
-The operators are interpreted slightly differently depending on the query dialect used. The default dialect is `DIALECT 1`; see [this article](/docs/interact/search-and-query/basic-constructs/configuration-parameters/#default_dialect) for information on how to change the dialect version. This article uses the second version of the query dialect, `DIALECT 2`, and uses additional brackets (`(...)`) to help clarify the examples. Further details can be found in the [query syntax documentation](/docs/interact/search-and-query/advanced-concepts/query_syntax/). 
+The operators are interpreted slightly differently depending on the query dialect used. The default dialect is `DIALECT 1`; see [this article]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters/#default_dialect" >}}) for information on how to change the dialect version. This article uses the second version of the query dialect, `DIALECT 2`, and uses additional brackets (`(...)`) to help clarify the examples. Further details can be found in the [query syntax documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax/" >}}). 
 {{% /alert  %}}
 
 The examples in this article use the following schema:
@@ -117,7 +127,7 @@ The [FT.SEARCH](/commands/ft.search/) command allows you to combine any query ex
 FT.SEARCH index "expr" FILTER numeric_field start end
 ```
 
-Please see the [range query article](/docs/interact/search-and-query/query/range) to learn more about numeric range queries and such filters.
+Please see the [range query article]({{< relref "/develop/interact/search-and-query/query/range" >}}) to learn more about numeric range queries and such filters.
 
 
 ## Pre-filter for a KNN  vector query
@@ -134,4 +144,4 @@ Here is an example:
 FT.SEARCH idx:bikes_vss "(@price:[500 1000] @condition:{new})=>[KNN 3 @vector $query_vector]" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." DIALECT 2
 ```
 
-The [vector search article](/docs/interact/search-and-query/query/vector-search) provides further details about vector queries in general.
+The [vector search article]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) provides further details about vector queries in general.

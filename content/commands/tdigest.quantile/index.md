@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: quantile
   type: double
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns, for each input fraction, an estimation of the value (floating
   point) that is smaller than the given fraction of observations

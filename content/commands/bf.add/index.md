@@ -4,6 +4,16 @@ arguments:
   type: key
 - name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k), where k is the number of hash functions used by the last sub-filter
 description: Adds an item to a Bloom Filter
 group: bf

@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/data-types/hyperloglogs/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'HyperLogLog is a probabilistic data structure that estimates the cardinality
   of a set.
 

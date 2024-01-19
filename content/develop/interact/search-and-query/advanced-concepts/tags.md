@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/tags/
-- /redisearch/reference/tags
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Details about tag fields
 linkTitle: Tags
 title: Tags
@@ -148,6 +155,6 @@ You can see what that looks like in the following example:
 (error) Syntax error at offset 27 near be
 ```
 
-Note: stop words are words that are so common that a search engine ignores them. To learn more, see [stop words](/docs/interact/search-and-query/advanced-concepts/stopwords/).
+Note: stop words are words that are so common that a search engine ignores them. To learn more, see [stop words]({{< relref "/develop/interact/search-and-query/advanced-concepts/stopwords/" >}}).
 
 Given the potential for syntax errors,it is recommended that you escape all spaces within tag queries.

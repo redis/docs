@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/modules-blocking-ops
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'How to implement blocking commands in a Redis module
 
   '

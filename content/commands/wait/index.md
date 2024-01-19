@@ -10,6 +10,16 @@ arguments:
   name: timeout
   type: integer
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Blocks until the asynchronous replication of all preceding write commands
   sent by the connection is completed.

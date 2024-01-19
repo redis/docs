@@ -6,6 +6,16 @@ arguments:
   type: integer
 - name: depth
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Initializes a Count-Min Sketch to dimensions specified by user
 group: cms

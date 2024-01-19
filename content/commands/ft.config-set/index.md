@@ -4,6 +4,16 @@ arguments:
   type: string
 - name: value
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Sets runtime configuration options
 group: search

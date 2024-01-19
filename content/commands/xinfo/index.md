@@ -2,6 +2,16 @@
 acl_categories:
 - '@slow'
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: Depends on subcommand.
 description: A container for stream introspection commands.
 group: stream

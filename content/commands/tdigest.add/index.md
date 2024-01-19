@@ -8,6 +8,16 @@ arguments:
   multiple: true
   name: values
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) , where N is the number of samples to add
 description: Adds one or more observations to a t-digest sketch
 group: tdigest

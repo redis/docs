@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/command-arguments
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: How Redis commands expose their documentation programmatically
 linkTitle: Command arguments
 title: Redis command arguments

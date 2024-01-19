@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: term
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Deletes terms from a dictionary
 group: search

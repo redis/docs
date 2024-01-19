@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/clients/go/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Connect your Go application to a Redis database
 linkTitle: Go
 title: Go guide
@@ -107,7 +115,7 @@ client := redis.NewClusterClient(&redis.ClusterOptions{
 
 #### Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security](/docs/management/security/) guidelines.
+When you deploy your application, use TLS and follow the [Redis security]({{< relref "/develop/management/security/" >}}) guidelines.
 
 Establish a secure connection with your Redis database using this snippet.
 

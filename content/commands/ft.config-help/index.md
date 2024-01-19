@@ -2,6 +2,16 @@
 arguments:
 - name: option
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Help description of runtime configuration options
 group: search

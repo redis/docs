@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/getting-started/faq
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Commonly asked questions when getting started with Redis
 
   '
@@ -77,7 +85,7 @@ with an error to write commands (but will continue to accept read-only
 commands).
 
 You can also configure Redis to evict keys when the max memory limit
-is reached. See the [eviction policy docs](/docs/manual/eviction/) for more information on this.
+is reached. See the [eviction policy docs]({{< relref "/develop/manual/eviction/" >}}) for more information on this.
 
 ## Background saving fails with a fork() error on Linux?
 

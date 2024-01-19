@@ -5,6 +5,16 @@ arguments:
 - name: path
   optional: true
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1) where path is evaluated to a single value, O(N) where path is evaluated
   to multiple values, where N is the size of the key
 description: Returns the length of the array at path

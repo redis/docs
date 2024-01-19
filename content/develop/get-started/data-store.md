@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Understand how to use basic Redis data types
 linkTitle: Data structure store
 title: Redis as an in-memory data structure store quick start guide
@@ -23,11 +33,11 @@ The easiest way to get started with Redis is to use Redis Cloud:
    
    <img src="../img/free-cloud-db.png" width="500px">
 
-You can alternatively follow the [installation guides](/docs/install/install-stack/) to install Redis on your local machine.
+You can alternatively follow the [installation guides]({{< relref "/develop/install/install-stack/" >}}) to install Redis on your local machine.
 
 ## Connect
 
-The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [connection section](/docs/connect). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
+The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [connection section]({{< relref "/develop/connect" >}}). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
 
 {{< clients-example search_quickstart connect >}}
 > redis-cli -h 127.0.0.1 -p 6379
@@ -68,11 +78,11 @@ Hashes are the equivalent of dictionaries (dicts or hash maps). Among other thin
 8) "4972"
 {{< /clients-example >}}
 
-You can get a complete overview of available data types in this documentation site's [data types section](/docs/data-types/). Each data type has commands allowing you to manipulate or retrieve data. The [commands reference](/commands/) provides a sophisticated explanation.
+You can get a complete overview of available data types in this documentation site's [data types section]({{< relref "/develop/data-types/" >}}). Each data type has commands allowing you to manipulate or retrieve data. The [commands reference](/commands/) provides a sophisticated explanation.
 
 ## Scan the keyspace
 
-Each item within Redis has a unique key. All items live within the Redis [keyspace](/docs/manual/keyspace/). You can scan the Redis keyspace via the [SCAN command](/commands/scan/). Here is an example that scans for the first 100 keys that have the prefix `bike:`:
+Each item within Redis has a unique key. All items live within the Redis [keyspace]({{< relref "/develop/manual/keyspace/" >}}). You can scan the Redis keyspace via the [SCAN command](/commands/scan/). Here is an example that scans for the first 100 keys that have the prefix `bike:`:
 
 {{< clients-example scan_example >}}
 SCAN 0 MATCH "bike:*" COUNT 100
@@ -84,5 +94,5 @@ SCAN 0 MATCH "bike:*" COUNT 100
 
 You can address more use cases with Redis by learning about Redis Stack. Here are two additional quick start guides:
 
-* [Redis as a document database](/docs/get-started/document-database/)
-* [Redis as a vector database](/docs/get-started/vector-database/)
+* [Redis as a document database]({{< relref "/develop/get-started/document-database/" >}})
+* [Redis as a vector database]({{< relref "/develop/get-started/vector-database/" >}})

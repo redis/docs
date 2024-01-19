@@ -33,6 +33,16 @@ arguments:
   optional: true
   type: oneof
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - fast
@@ -58,7 +68,8 @@ key_specs:
 linkTitle: GETEX
 since: 6.2.0
 summary: Returns the string value of a key after setting its expiration time.
-syntax_fmt: "GETEX key [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds |\n\
+syntax_fmt: "GETEX key [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds |
+\
   \  PXAT\_unix-time-milliseconds | PERSIST]"
 syntax_str: "[EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds | PXAT\_unix-time-milliseconds\
   \ | PERSIST]"

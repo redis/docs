@@ -27,6 +27,16 @@ arguments:
   optional: true
   type: block
 arity: -1
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 - loading

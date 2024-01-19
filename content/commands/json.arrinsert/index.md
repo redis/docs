@@ -9,6 +9,16 @@ arguments:
 - multiple: true
   name: value
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) when path is evaluated to a single value where N is the size of the
   array, O(N) when path is evaluated to multiple values, where N is the size of the
   key
@@ -84,7 +94,7 @@ redis> JSON.ARRAPPEND item:1 $.colors '"blue"'
 Return the new length of the `colors` array.
 
 {{< highlight bash >}}
-JSON.GET item:1
+redis> JSON.GET item:1
 "{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\",\"blue\"]}"
 {{< / highlight >}}
 

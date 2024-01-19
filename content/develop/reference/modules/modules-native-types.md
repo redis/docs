@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/modules-native-types
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'How to use native types in a Redis module
 
   '

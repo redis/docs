@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: value
   type: double
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns, for each input value (floating-point), the estimated reverse
   rank of the value (the number of observations in the sketch that are larger than

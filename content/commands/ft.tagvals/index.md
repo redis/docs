@@ -4,6 +4,16 @@ arguments:
   type: string
 - name: field_name
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N)
 description: Returns the distinct tags indexed in a Tag field
 group: search

@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: items
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n * k) where n is the number of items and k is the depth
 description: Increases the count of one or more items by increment
 group: topk

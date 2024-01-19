@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/json/ram
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Debugging memory consumption
 
   '

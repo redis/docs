@@ -21,6 +21,16 @@ arguments:
   token: FILTERBY
   type: oneof
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - loading
 - stale
@@ -33,7 +43,8 @@ hints:
 linkTitle: COMMAND LIST
 since: 7.0.0
 summary: Returns a list of command names.
-syntax_fmt: "COMMAND LIST [FILTERBY\_<MODULE\_module-name | ACLCAT\_category |\n \
+syntax_fmt: "COMMAND LIST [FILTERBY\_<MODULE\_module-name | ACLCAT\_category |
+ \
   \ PATTERN\_pattern>]"
 syntax_str: ''
 title: COMMAND LIST

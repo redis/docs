@@ -52,6 +52,16 @@ arguments:
   token: LASTID
   type: string
 arity: -6
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - fast
@@ -80,8 +90,10 @@ linkTitle: XCLAIM
 since: 5.0.0
 summary: Changes, or acquires, ownership of a message in a consumer group, as if the
   message was delivered a consumer group member.
-syntax_fmt: "XCLAIM key group consumer min-idle-time id [id ...] [IDLE\_ms]\n  [TIME\_\
-  unix-time-milliseconds] [RETRYCOUNT\_count] [FORCE] [JUSTID]\n  [LASTID\_lastid]"
+syntax_fmt: "XCLAIM key group consumer min-idle-time id [id ...] [IDLE\_ms]
+  [TIME\_\
+  unix-time-milliseconds] [RETRYCOUNT\_count] [FORCE] [JUSTID]
+  [LASTID\_lastid]"
 syntax_str: "group consumer min-idle-time id [id ...] [IDLE\_ms] [TIME\_unix-time-milliseconds]\
   \ [RETRYCOUNT\_count] [FORCE] [JUSTID] [LASTID\_lastid]"
 title: XCLAIM

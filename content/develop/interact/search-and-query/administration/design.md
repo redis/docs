@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/design/design/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Details about design choices and implementations
 
   '

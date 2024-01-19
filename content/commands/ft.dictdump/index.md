@@ -2,6 +2,16 @@
 arguments:
 - name: dict
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N), where N is the size of the dictionary
 description: Dumps all terms in the given dictionary
 group: search

@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/clients/python/
-- /docs/redis-clients/python/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Connect your Python application to a Redis database
 linkTitle: Python
 title: Python guide
@@ -14,7 +21,7 @@ Install Redis and the Redis client, then connect your Python application to a Re
 
 Get started with the [redis-py](https://github.com/redis/redis-py) client for Redis. 
 
-`redis-py` requires a running Redis or [Redis Stack](/docs/getting-started/install-stack/) server. See [Getting started](/docs/getting-started/) for Redis installation instructions.
+`redis-py` requires a running Redis or [Redis Stack]({{< relref "/develop/getting-started/install-stack/" >}}) server. See [Getting started]({{< relref "/develop/getting-started/" >}}) for Redis installation instructions.
 
 ### Install
 
@@ -88,7 +95,7 @@ For more information, see [redis-py Clustering](https://redis-py.readthedocs.io/
 
 #### Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security](/docs/management/security/) guidelines.
+When you deploy your application, use TLS and follow the [Redis security]({{< relref "/develop/management/security/" >}}) guidelines.
 
 ```python
 import redis
@@ -163,7 +170,7 @@ schema = (
 )
 ```
 
-Create an index. In this example, all JSON documents with the key prefix `user:` will be indexed. For more information, see [Query syntax](/docs/interact/search-and-query/query/). 
+Create an index. In this example, all JSON documents with the key prefix `user:` will be indexed. For more information, see [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}). 
 
 ```python
 rs = r.ft("idx:users")

@@ -4,6 +4,16 @@ arguments:
   type: string
 - name: cursor_id
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Deletes a cursor
 group: search

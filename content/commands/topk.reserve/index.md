@@ -14,6 +14,16 @@ arguments:
   name: params
   optional: true
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Initializes a TopK with specified parameters
 group: topk

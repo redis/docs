@@ -6,6 +6,16 @@ arguments:
   optional: true
   token: COMPRESSION
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Allocates memory and initializes a new t-digest sketch
 group: tdigest

@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/modules-api-ref
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Reference for the Redis Modules API
 
   '

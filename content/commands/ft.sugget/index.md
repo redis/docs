@@ -20,6 +20,16 @@ arguments:
   optional: true
   token: MAX
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Gets completion suggestions for a prefix
 group: suggestion
@@ -32,8 +42,13 @@ module: Search
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Gets completion suggestions for a prefix
-syntax: "FT.SUGGET key prefix \n  [FUZZY] \n  [WITHSCORES] \n  [WITHPAYLOADS] \n \
-  \ [MAX max]\n"
+syntax: "FT.SUGGET key prefix 
+  [FUZZY] 
+  [WITHSCORES] 
+  [WITHPAYLOADS] 
+ \
+  \ [MAX max]
+"
 syntax_fmt: "FT.SUGGET key prefix [FUZZY] [WITHSCORES] [WITHPAYLOADS] [MAX\_max]"
 syntax_str: "prefix [FUZZY] [WITHSCORES] [WITHPAYLOADS] [MAX\_max]"
 title: FT.SUGGET

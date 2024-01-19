@@ -124,6 +124,16 @@ arguments:
   token: WITHHASH
   type: pure-token
 arity: -7
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N+log(M)) where N is the number of elements in the grid-aligned bounding
@@ -151,9 +161,12 @@ key_specs:
 linkTitle: GEOSEARCH
 since: 6.2.0
 summary: Queries a geospatial index for members inside an area of a box or a circle.
-syntax_fmt: "GEOSEARCH key <FROMMEMBER\_member | FROMLONLAT\_longitude latitude>\n\
-  \  <BYRADIUS\_radius <M | KM | FT | MI> | BYBOX\_width height <M | KM |\n  FT |\
-  \ MI>> [ASC | DESC] [COUNT\_count [ANY]] [WITHCOORD] [WITHDIST]\n  [WITHHASH]"
+syntax_fmt: "GEOSEARCH key <FROMMEMBER\_member | FROMLONLAT\_longitude latitude>
+\
+  \  <BYRADIUS\_radius <M | KM | FT | MI> | BYBOX\_width height <M | KM |
+  FT |\
+  \ MI>> [ASC | DESC] [COUNT\_count [ANY]] [WITHCOORD] [WITHDIST]
+  [WITHHASH]"
 syntax_str: "<FROMMEMBER\_member | FROMLONLAT\_longitude latitude> <BYRADIUS\_radius\
   \ <M | KM | FT | MI> | BYBOX\_width height <M | KM | FT | MI>> [ASC | DESC] [COUNT\_\
   count [ANY]] [WITHCOORD] [WITHDIST] [WITHHASH]"

@@ -24,6 +24,16 @@ bannerText: 'The triggers and functions feature of Redis Stack and its documenta
   GitHub using the "Create new issue" link in the top right-hand corner of this page.
 
   '
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Load a new JavaScript library into Redis
 group: triggers_and_functions
@@ -33,7 +43,8 @@ module: Triggers and functions
 since: 2.0.0
 stack_path: docs/interact/programmability/triggers-and-functions
 summary: Load a new JavaScript library into Redis
-syntax: "TFUNCTION LOAD [REPLACE] [CONFIG <config>] \"<library code>\" \n"
+syntax: "TFUNCTION LOAD [REPLACE] [CONFIG <config>] \"<library code>\" 
+"
 syntax_fmt: "TFUNCTION LOAD [REPLACE] [CONFIG\_config] library code"
 syntax_str: "[CONFIG\_config] library code"
 title: TFUNCTION LOAD

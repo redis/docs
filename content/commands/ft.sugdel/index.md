@@ -4,6 +4,16 @@ arguments:
   type: string
 - name: string
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Deletes a string from a suggestion index
 group: suggestion

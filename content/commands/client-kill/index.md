@@ -80,6 +80,16 @@ arguments:
   name: filter
   type: oneof
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -103,11 +113,16 @@ history:
 linkTitle: CLIENT KILL
 since: 2.4.0
 summary: Terminates open connections.
-syntax_fmt: "CLIENT KILL <ip:port | <[ID\_client-id] | [TYPE\_<NORMAL | MASTER |\n\
-  \  SLAVE | REPLICA | PUBSUB>] | [USER\_username] | [ADDR\_ip:port] |\n  [LADDR\_\
-  ip:port] | [SKIPME\_<YES | NO>] [[ID\_client-id] |\n  [TYPE\_<NORMAL | MASTER |\
-  \ SLAVE | REPLICA | PUBSUB>] |\n  [USER\_username] | [ADDR\_ip:port] | [LADDR\_\
-  ip:port] | [SKIPME\_<YES\n  | NO>] ...]>>"
+syntax_fmt: "CLIENT KILL <ip:port | <[ID\_client-id] | [TYPE\_<NORMAL | MASTER |
+\
+  \  SLAVE | REPLICA | PUBSUB>] | [USER\_username] | [ADDR\_ip:port] |
+  [LADDR\_\
+  ip:port] | [SKIPME\_<YES | NO>] [[ID\_client-id] |
+  [TYPE\_<NORMAL | MASTER |\
+  \ SLAVE | REPLICA | PUBSUB>] |
+  [USER\_username] | [ADDR\_ip:port] | [LADDR\_\
+  ip:port] | [SKIPME\_<YES
+  | NO>] ...]>>"
 syntax_str: ''
 title: CLIENT KILL
 ---

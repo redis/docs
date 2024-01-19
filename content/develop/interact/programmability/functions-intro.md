@@ -1,7 +1,14 @@
 ---
-aliases:
-- /topics/functions-intro
-- /docs/manual/programmability/functions-intro/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Scripting with Redis 7 and beyond
 
   '
@@ -10,7 +17,7 @@ title: Redis functions
 weight: 1
 ---
 
-Redis Functions is an API for managing code to be executed on the server. This feature, which became available in Redis 7, supersedes the use of [EVAL](/docs/manual/programmability/eval-intro) in prior versions of Redis.
+Redis Functions is an API for managing code to be executed on the server. This feature, which became available in Redis 7, supersedes the use of [EVAL]({{< relref "/develop/manual/programmability/eval-intro" >}}) in prior versions of Redis.
 
 ## Prologue (or, what's wrong with Eval Scripts?)
 
@@ -273,14 +280,20 @@ redis> FUNCTION LIST
          2) "my_hset"
          3) "description"
          4) (nil)
+         5) "flags"
+         6) (empty array)
       2) 1) "name"
          2) "my_hgetall"
          3) "description"
          4) (nil)
+         5) "flags"
+         6) (empty array)
       3) 1) "name"
          2) "my_hlastmodified"
          3) "description"
          4) (nil)
+         5) "flags"
+         6) (empty array)
 ```
 
 You can see that it is easy to update our library with new capabilities.

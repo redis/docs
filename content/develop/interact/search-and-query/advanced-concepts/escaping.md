@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/escaping/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Controlling text tokenization and escaping
 linkTitle: Tokenization
 title: Tokenization
@@ -11,7 +19,7 @@ weight: 4
 
 Redis Stack uses a very simple tokenizer for documents and a slightly more sophisticated tokenizer for queries. Both allow a degree of control over string escaping and tokenization. 
 
-Note: There is a different mechanism for tokenizing text and tag fields, this document refers only to text fields. For tag fields please refer to the [tag fields](/docs/interact/search-and-query/advanced-concepts/tags/) documentation. 
+Note: There is a different mechanism for tokenizing text and tag fields, this document refers only to text fields. For tag fields please refer to the [tag fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags/" >}}) documentation. 
 
 ## The rules of text field tokenization
 

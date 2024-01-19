@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/json
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: JSON support for Redis
 linkTitle: JSON
 stack: true
@@ -16,7 +24,7 @@ The JSON capability of Redis Stack provides JavaScript Object Notation (JSON) su
 ## Primary features
 
 * Full support for the JSON standard
-* A [JSONPath](http://goessner.net/articles/JsonPath/) syntax for selecting/updating elements inside documents (see [JSONPath syntax](/docs/data-types/json/path#jsonpath-syntax))
+* A [JSONPath](http://goessner.net/articles/JsonPath/) syntax for selecting/updating elements inside documents (see [JSONPath syntax]({{< relref "/develop/data-types/json/path#jsonpath-syntax" >}}))
 * Documents stored as binary data in a tree structure, allowing fast access to sub-elements
 * Typed atomic operations for all JSON value types
 
@@ -39,7 +47,7 @@ The first JSON command to try is [`JSON.SET`](/commands/json.set), which sets a 
 1) "string"
 ```
 
-Note how the commands include the dollar sign character `$`. This is the [path](/docs/data-types/json/path) to the value in the JSON document (in this case it just means the root).
+Note how the commands include the dollar sign character `$`. This is the [path]({{< relref "/develop/data-types/json/path" >}}) to the value in the JSON document (in this case it just means the root).
 
 Here are a few more string operations. [`JSON.STRLEN`](/commands/json.strlen) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`](/commands/json.strappend).
 
@@ -162,7 +170,7 @@ To run RedisJSON with Docker, use the `redis-stack-server` Docker image:
 $ docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
 ```
 
-For more information about running Redis Stack in a Docker container, see [Run Redis Stack on Docker](/docs/getting-started/install-stack/docker).
+For more information about running Redis Stack in a Docker container, see [Run Redis Stack on Docker]({{< relref "/develop/getting-started/install-stack/docker" >}}).
 
 ### Download binaries
 

@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/client-side-caching
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Server-assisted, client-side caching in Redis
 
   '

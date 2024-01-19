@@ -47,6 +47,16 @@ arguments:
   token: NOLOOP
   type: pure-token
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 - loading
@@ -58,7 +68,8 @@ hidden: false
 linkTitle: CLIENT TRACKING
 since: 6.0.0
 summary: Controls server-assisted client-side caching for the connection.
-syntax_fmt: "CLIENT TRACKING <ON | OFF> [REDIRECT\_client-id] [PREFIX\_prefix\n  [PREFIX\
+syntax_fmt: "CLIENT TRACKING <ON | OFF> [REDIRECT\_client-id] [PREFIX\_prefix
+  [PREFIX\
   \ prefix ...]] [BCAST] [OPTIN] [OPTOUT] [NOLOOP]"
 syntax_str: "[REDIRECT\_client-id] [PREFIX\_prefix [PREFIX prefix ...]] [BCAST] [OPTIN]\
   \ [OPTOUT] [NOLOOP]"

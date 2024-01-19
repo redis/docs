@@ -1,8 +1,14 @@
 ---
-aliases:
-- /topics/lru_cache
-- /topics/lru_cache.md
-- /docs/manual/eviction
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Overview of Redis key eviction policies (LRU, LFU, etc.)
 linkTitle: Eviction
 title: Key eviction
@@ -157,7 +163,7 @@ By default Redis is configured to:
 * Saturate the counter at, around, one million requests.
 * Decay the counter every one minute.
 
-Those should be reasonable values and were tested experimental, but the user may want to play with these configuration settings to pick optimal values.
+Those should be reasonable values and were tested experimentally, but the user may want to play with these configuration settings to pick optimal values.
 
 Instructions about how to tune these parameters can be found inside the example `redis.conf` file in the source distribution. Briefly, they are:
 

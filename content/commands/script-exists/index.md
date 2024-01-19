@@ -8,6 +8,16 @@ arguments:
   name: sha1
   type: string
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 complexity: O(N) with N being the number of scripts to check (so checking a single

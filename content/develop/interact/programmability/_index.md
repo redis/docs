@@ -1,7 +1,14 @@
 ---
-aliases:
-- /topics/programmability
-- /docs/manual/programmability/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Extending Redis with Lua and Redis Functions
 
   '
@@ -10,7 +17,7 @@ title: Redis programmability
 weight: 20
 ---
 
-Redis provides a programming interface that lets you execute custom scripts on the server itself. In Redis 7 and beyond, you can use [Redis Functions](/docs/manual/programmability/functions-intro) to manage and run your scripts. In Redis 6.2 and below, you use [Lua scripting with the EVAL command](/docs/manual/programmability/eval-intro) to program the server.
+Redis provides a programming interface that lets you execute custom scripts on the server itself. In Redis 7 and beyond, you can use [Redis Functions]({{< relref "/develop/manual/programmability/functions-intro" >}}) to manage and run your scripts. In Redis 6.2 and below, you use [Lua scripting with the EVAL command]({{< relref "/develop/manual/programmability/eval-intro" >}}) to program the server.
 
 ## Background
 

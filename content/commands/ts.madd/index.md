@@ -10,6 +10,16 @@ arguments:
   multiple: true
   name: ktv
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N*M) when N is the amount of series updated and M is the amount of compaction
   rules or O(N) with no compaction
 description: Append new samples to one or more time series

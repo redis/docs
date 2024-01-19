@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/command-tips
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Get additional information about a command
 linkTitle: Command tips
 title: Redis command tips
@@ -50,7 +58,9 @@ In cases where the client should adopt a behavior different than the default, th
   This tip is in-use by commands that don't accept key name arguments.
   The command operates atomically per shard.
 - **multi_shard:** the client should execute the command on several shards.
-  The shards that execute the command are determined by the hash slots of its input key name arguments.
+  The client should split the inputs according to the hash slots of its input key name arguments.
+  For example, the command `DEL {foo} {foo}1 bar` should be split to `DEL {foo} {foo}1` and `DEL bar`.
+  If the keys are hashed to more than a single slot, the command must be split even if all the slots are managed by the same shard.
   Examples for such commands include [`MSET`](/commands/mset), [`MGET`](/commands/mget) and [`DEL`](/commands/del).
   However, note that [`SUNIONSTORE`](/commands/sunionstore) isn't considered as _multi_shard_ because all of its keys must belong to the same hash slot.
 - **special:** indicates a non-trivial form of the client's request policy, such as the [`SCAN`](/commands/scan) command.

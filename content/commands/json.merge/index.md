@@ -6,6 +6,16 @@ arguments:
   type: string
 - name: value
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(M+N) when path is evaluated to a single value where M is the size of
   the original value (if it exists) and N is the size of the new value, O(M+N) when
   path is evaluated to multiple values where M is the size of the key and N is the
@@ -127,7 +137,7 @@ redis> JSON.SET doc $ '{"f1": {"a":1}, "f2":{"a":2}}'
 OK
 redis> JSON.GET doc
 "{\"f1\":{\"a\":1},\"f2\":{\"a\":2}}"
-redis> JSON.MERGE doc $ '{"f1": 'null', "f2":{"a":3, "b":4}, "f3":'[2,4,6]'}' 
+redis> JSON.MERGE doc $ '{"f1": null, "f2":{"a":3, "b":4}, "f3":[2,4,6]}'
 OK
 redis> JSON.GET doc
 "{\"f2\":{\"a\":3,\"b\":4},\"f3\":[2,4,6]}"

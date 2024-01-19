@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: reverse_rank
   type: double
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns, for each input reverse rank, an estimation of the value (floating-point)
   with that reverse rank

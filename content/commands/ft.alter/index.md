@@ -16,6 +16,16 @@ arguments:
   type: string
 - name: options
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) where N is the number of keys in the keyspace
 description: Adds a new field to the index
 group: search

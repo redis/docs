@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to Redis bitmaps
 
   '
@@ -22,37 +32,30 @@ Some examples of bitmap use cases include:
 
 * [`SETBIT`](/commands/setbit) sets a bit at the provided offset to 0 or 1.
 * [`GETBIT`](/commands/getbit) returns the value of a bit at a given offset.
-* [`BITOP`](/commands/bitop) lets you perform bitwise operations against one or more strings.
 
 See the [complete list of bitmap commands](https://redis.io/commands/?group=bitmap).
 
 
-## Examples
+## Example
 
-Suppose you have 1000 sensors deployed in the field, labeled 0-999.
-You want to quickly determine whether a given sensor has pinged the server within the hour. 
+Suppose you have 1000 cyclists racing through the country-side, with sensors on their bikes labeled 0-999.
+You want to quickly determine whether a given sensor has pinged a tracking server within the hour to check in on a rider. 
 
 You can represent this scenario using a bitmap whose key references the current hour.
 
-* Sensor 123 pings the server on January 1, 2024 within the 00:00 hour.
-```
+* Rider 123 pings the server on January 1, 2024 within the 00:00 hour. You can then confirm that rider 123 pinged the server. You can also check to see if rider 456 has pinged the server for that same hour.
+
+{{< clients-example bitmap_tutorial ping >}}
 > SETBIT pings:2024-01-01-00:00 123 1
 (integer) 0
-```
-
-* Did sensor 123 ping the server on January 1, 2024 within the 00:00 hour?
-```
 > GETBIT pings:2024-01-01-00:00 123
 1
-```
-
-* What about sensor 456?
-```
 > GETBIT pings:2024-01-01-00:00 456
 0
-```
+{{< /clients-example >}}
 
 
+## Bit Operations
 
 Bit operations are divided into two groups: constant-time single bit
 operations, like setting a bit to 1 or 0, or getting its value, and
@@ -64,15 +67,6 @@ extreme space savings when storing information. For example in a system
 where different users are represented by incremental user IDs, it is possible
 to remember a single bit information (for example, knowing whether
 a user wants to receive a newsletter) of 4 billion users using just 512 MB of memory.
-
-Bits are set and retrieved using the [`SETBIT`](/commands/setbit) and [`GETBIT`](/commands/getbit) commands:
-
-    > setbit key 10 1
-    (integer) 0
-    > getbit key 10
-    (integer) 1
-    > getbit key 11
-    (integer) 0
 
 The [`SETBIT`](/commands/setbit) command takes as its first argument the bit number, and as its second
 argument the value to set the bit to, which is 1 or 0. The command
@@ -90,15 +84,12 @@ There are three commands operating on group of bits:
 3. [`BITPOS`](/commands/bitpos) finds the first bit having the specified value of 0 or 1.
 
 Both [`BITPOS`](/commands/bitpos) and [`BITCOUNT`](/commands/bitcount) are able to operate with byte ranges of the
-string, instead of running for the whole length of the string. The following
-is a trivial example of [`BITCOUNT`](/commands/bitcount) call:
+string, instead of running for the whole length of the string. We can trivially see the number of bits that have been set in a bitmap.
 
-    > setbit key 0 1
-    (integer) 0
-    > setbit key 100 1
-    (integer) 0
-    > bitcount key
-    (integer) 2
+{{< clients-example bitmap_tutorial bitcount >}}
+> BITCOUNT pings:2024-01-01-00:00
+(integer) 1
+{{< /clients-example >}}
 
 For example imagine you want to know the longest streak of daily visits of
 your web site users. You start counting days starting from zero, that is the

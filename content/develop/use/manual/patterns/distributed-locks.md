@@ -1,8 +1,14 @@
 ---
-aliases:
-- /topics/distlock
-- /docs/reference/patterns/distributed-locks
-- /docs/reference/patterns/distributed-locks.md
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'A distributed lock pattern with Redis
 
   '

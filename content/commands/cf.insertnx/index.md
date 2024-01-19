@@ -16,6 +16,16 @@ arguments:
 - multiple: true
   name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n * (k + i)), where n is the number of items, k is the number of sub-filters
   and i is maxIterations
 description: Adds one or more items to a Cuckoo Filter if the items did not exist

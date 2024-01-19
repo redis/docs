@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to Redis lists
 
   '
@@ -122,7 +132,7 @@ taken at constant length in constant time.
 
 When fast access to the middle of a large collection of elements is important,
 there is a different data structure that can be used, called sorted sets.
-Sorted sets are covered in the [Sorted sets](/docs/data-types/sorted-sets) tutorial page.
+Sorted sets are covered in the [Sorted sets]({{< relref "/develop/data-types/sorted-sets" >}}) tutorial page.
 
 ### First steps with Redis Lists
 
@@ -408,7 +418,7 @@ Exercise caution when running these commands, mainly when operating on large lis
 
 ## Alternatives
 
-Consider [Redis streams](/docs/data-types/streams) as an alternative to lists when you need to store and process an indeterminate series of events.
+Consider [Redis streams]({{< relref "/develop/data-types/streams" >}}) as an alternative to lists when you need to store and process an indeterminate series of events.
 
 ## Learn more
 

@@ -9,6 +9,16 @@ arguments:
   optional: true
   type: string
 arity: -1
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - loading
 - stale
@@ -116,6 +126,7 @@ Here is the meaning of all fields in the **clients** section:
 *   `blocked_clients`: Number of clients pending on a blocking call ([`BLPOP`](/commands/blpop),
      [`BRPOP`](/commands/brpop), [`BRPOPLPUSH`](/commands/brpoplpush), [`BLMOVE`](/commands/blmove), [`BZPOPMIN`](/commands/bzpopmin), [`BZPOPMAX`](/commands/bzpopmax))
 *   `tracking_clients`: Number of clients being tracked ([`CLIENT TRACKING`](/commands/client-tracking))
+*   `pubsub_clients`: Number of clients in pubsub mode ([`SUBSCRIBE`](/commands/subscribe), [`PSUBSCRIBE`](/commands/psubscribe), [`SSUBSCRIBE`](/commands/ssubscribe)). Added in Redis 8.0
 *   `clients_in_timeout_table`: Number of clients in the clients timeout table
 *   `total_blocking_keys`: Number of blocking keys. Added in Redis 7.2.
 *   `total_blocking_keys_on_nokey`: Number of blocking keys that one or more clients that would like to be unblocked when the key is deleted. Added in Redis 7.2.
@@ -144,9 +155,18 @@ Here is the meaning of all fields in the **memory** section:
      the net memory usage (`used_memory` minus `used_memory_startup`)
 *   `total_system_memory`: The total amount of memory that the Redis host has
 *   `total_system_memory_human`: Human readable representation of previous value
-*   `used_memory_lua`: Number of bytes used by the Lua engine
-*   `used_memory_lua_human`: Human readable representation of previous value
-*   `used_memory_scripts`: Number of bytes used by cached Lua scripts
+*   `used_memory_lua`: Number of bytes used by the Lua engine for EVAL scripts. Deprecated in Redis 7.0, renamed to `used_memory_vm_eval`
+*   `used_memory_vm_eval`: Number of bytes used by the script VM engines for EVAL framework (not part of used_memory). Added in Redis 7.0
+*   `used_memory_lua_human`: Human readable representation of previous value. Deprecated in Redis 7.0
+*   `used_memory_scripts_eval`: Number of bytes overhead by the EVAL scripts (part of used_memory). Added in Redis 7.0
+*   `number_of_cached_scripts`: The number of EVAL scripts cached by the server. Added in Redis 7.0
+*   `number_of_functions`: The number of functions. Added in Redis 7.0
+*   `number_of_libraries`: The number of libraries. Added in Redis 7.0
+*   `used_memory_vm_functions`: Number of bytes used by the script VM engines for Functions framework (not part of used_memory). Added in Redis 7.0
+*   `used_memory_vm_total`: `used_memory_vm_eval` + `used_memory_vm_functions` (not part of used_memory). Added in Redis 7.0
+*   `used_memory_vm_total_human`: Human readable representation of previous value.
+*   `used_memory_functions`: Number of bytes overhead by Function scripts (part of used_memory). Added in Redis 7.0
+*   `used_memory_scripts`: `used_memory_scripts_eval` + `used_memory_functions` (part of used_memory). Added in Redis 7.0
 *   `used_memory_scripts_human`: Human readable representation of previous value
 *   `maxmemory`: The value of the `maxmemory` configuration directive
 *   `maxmemory_human`: Human readable representation of previous value

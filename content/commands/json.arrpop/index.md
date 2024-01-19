@@ -11,6 +11,16 @@ arguments:
   name: path
   optional: true
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) when path is evaluated to a single value where N is the size of the
   array and the specified index is not the last element, O(1) when path is evaluated
   to a single value and the specified index is the last element, or O(N) when path

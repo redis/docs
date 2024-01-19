@@ -2,6 +2,16 @@
 acl_categories:
 - '@slow'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns details about memory usage.
 group: server
@@ -48,8 +58,7 @@ values. The following metrics are reported:
      Redis keyspace (see [`INFO`](/commands/info)'s `used_memory_overhead`)
 *   `keys.count`: The total number of keys stored across all databases in the
      server
-*   `keys.bytes-per-key`: The ratio between **net memory usage** (`total.allocated`
-     minus `startup.allocated`) and `keys.count` 
+*   `keys.bytes-per-key`: The ratio between `dataset.bytes` and `keys.count` 
 *   `dataset.bytes`: The size in bytes of the dataset, i.e. `overhead.total`
      subtracted from `total.allocated` (see [`INFO`](/commands/info)'s `used_memory_dataset`)
 *   `dataset.percentage`: The percentage of `dataset.bytes` out of the total

@@ -1,7 +1,14 @@
 ---
-aliases:
-- /topics/eval-intro
-- /docs/manual/programmability/eval-intro/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Executing Lua in Redis
 
   '

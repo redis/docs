@@ -1,7 +1,14 @@
 ---
-aliases:
-- /topics/indexing
-- /docs/reference/patterns/indexes
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Building secondary indexes in Redis
 
   '

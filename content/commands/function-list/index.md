@@ -14,6 +14,16 @@ arguments:
   token: WITHCODE
   type: pure-token
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 complexity: O(N) where N is the number of functions
