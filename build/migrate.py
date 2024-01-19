@@ -107,9 +107,9 @@ def replace_links_in_file(file_path, old_prefix, new_prefix):
     with open(file_path, 'r', encoding='utf-8') as file:
         file_content = file.read()
 
-    link_pattern = re.compile(r'(\[.*?\]\()(' + re.escape(old_prefix) + r')(.*?\))')
-    updated_content = re.sub(link_pattern, r'\1' + new_prefix + r'\3', file_content)
-
+    link_pattern = re.compile(r'(\[.*?\]\()(' + re.escape(old_prefix) + r')(.*?)' + r'(\))')
+    #updated_content = re.sub(link_pattern, r'\1' + '{{ relURL "" }}' + new_prefix + r'\3', file_content)
+    updated_content = re.sub(link_pattern, r'\1' + '{{< relref "' + new_prefix + r'\3' + '" >}}' + r'\4', file_content)
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(updated_content)
 
@@ -407,26 +407,22 @@ if __name__ == "__main__":
     print(set_env())
 
     #print("## Fetching temporary development documentation content ...")
-    #fetch_io()
+    fetch_io()
 
     #print("## Migrating commands to {}".format(DOCS_CMD))
-    #migrate_commands()
+    migrate_commands()
     
 
     #print("## Migrating developer documentation to {} ...".format(DOCS_DEV))
-    #migrate_developer_docs()
+    migrate_developer_docs()
 
     #print("## Migrating operator documentation to {} ...".format(DOCS_OPS))
     #migrate_oss_ops_docs()
 
     print("## Fetching temporary Enterprise documentation content ...")
-    repo = fetch_docs_redis_com()
+    #repo = fetch_docs_redis_com()
     #migrate_enterprise_ops_docs(repo)
     #migrate_gloassary(repo)
-    migrate_static_files(repo)
-    delete_folder(repo)
-
-
-
-    # TODO: Serve the site and check for still broken links
+    #migrate_static_files(repo)
+    #delete_folder(repo)
 
