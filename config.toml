@@ -1,5 +1,4 @@
-# Note: This needs to be replaced by the build script by specifying the correct path
-# baseURL = "https://redis.io/docs/staging/dev/"
+# The baseURL will be replaced by the build script
 baseURL = "https://redis.io"
 title = "Redis Documentation"
 
