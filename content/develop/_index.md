@@ -1,8 +1,8 @@
 ---
-linkTitle: Develop
-title: Develop
 description: Learn how to develop with Redis
 hideListLinks: true
+linkTitle: Develop
+title: Develop
 ---
 
 The following gets you started with Redis:
