@@ -1,8 +1,9 @@
 ---
 Title: Frequently Asked Questions
-description:
-weight: 40
 alwaysopen: false
-categories: ["RC"]
+categories:
+- RC
+description: null
 draft: true
+weight: 40
 ---
