@@ -4,3 +4,4 @@ node_modules/
 content/tmp/
 package-lock.json 
 .hugo_build.lock
+build/components/__pycache__/
