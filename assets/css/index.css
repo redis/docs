@@ -20,16 +20,19 @@
 }
 
 .prose h1,
-.prose h2,
 .prose h3,
 .prose h4,
 .prose h5,
 .prose h6 {
-  @apply font-semibold text-midnight-700 tracking-[-0.04em];
+  @apply font-normal;
+}
+
+.prose h2 {
+  @apply text-lg font-medium pb-3 border-b border-b-redis-pen-700 border-opacity-50;
 }
 
 .prose p, .prose ol, .prose ul {
-  @apply text-redis-neutral-800;
+  @apply text-sm;
 }
 
 .prose pre {
@@ -41,7 +44,7 @@
 }
 
 .prose h1 {
-  @apply text-3xl;
+  @apply text-4xl;
 }
 
 .prose h1[id],
@@ -50,7 +53,7 @@
 .prose h4[id],
 .prose h5[id],
 .prose h6[id] {
-  @apply mt-11 scroll-mt-6;
+  @apply mt-16 scroll-mt-6;
 }
 
 .prose p:empty,
@@ -63,12 +66,14 @@
   content: "";
 }
 
-.prose :where(a):not(:where([class~="not-prose"] *)) {
-  @apply text-indigo-500 decoration-transparent;
+.prose :where(a):not(:where([class~="not-prose"] *)):hover {
+  @apply text-redis-red-500;
 }
 
-.prose :where(a):not(:where([class~="not-prose"] *)):hover {
-  @apply text-indigo-700 decoration-indigo-400;
+.prose :where(li):not(:where([class~="not-prose"],[class~="not-prose"] *)),
+.prose :where(.prose > ol > li > p:last-child):not(:where([class~="not-prose"],[class~="not-prose"] *)),
+.prose :where(.prose > ol > li > p:first-child):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+  @apply my-0;
 }
 
 select {
