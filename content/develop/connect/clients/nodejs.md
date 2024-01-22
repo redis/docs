@@ -20,7 +20,7 @@ Install Redis and the Redis client, then connect your Node.js application to a R
 ## node-redis
 
 [node-redis](https://github.com/redis/node-redis) is a modern, high-performance Redis client for Node.js.
-`node-redis` requires a running Redis or [Redis Stack](https://redis.io/docs/getting-started/install-stack/) server. See [Getting started]({{< relref "/develop/getting-started/" >}}) for Redis installation instructions.
+`node-redis` requires a running Redis or [Redis Stack](https://redis.io/docs/getting-started/install-stack/) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
 ### Install
 
@@ -114,7 +114,7 @@ await cluster.quit();
 
 #### Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security]({{< relref "/develop/management/security/" >}}) guidelines.
+When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
 
 ```js
 const client = createClient({

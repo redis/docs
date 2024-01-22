@@ -21,7 +21,7 @@ Install Redis and the Redis client, then connect your Python application to a Re
 
 Get started with the [redis-py](https://github.com/redis/redis-py) client for Redis. 
 
-`redis-py` requires a running Redis or [Redis Stack]({{< relref "/develop/getting-started/install-stack/" >}}) server. See [Getting started]({{< relref "/develop/getting-started/" >}}) for Redis installation instructions.
+`redis-py` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
 ### Install
 
@@ -95,7 +95,7 @@ For more information, see [redis-py Clustering](https://redis-py.readthedocs.io/
 
 #### Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security]({{< relref "/develop/management/security/" >}}) guidelines.
+When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
 
 ```python
 import redis

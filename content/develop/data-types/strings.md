@@ -136,7 +136,7 @@ These random-access string commands may cause performance issues when dealing wi
 
 ## Alternatives
 
-If you're storing structured data as a serialized string, you may also want to consider Redis [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/stack/json" >}}).
+If you're storing structured data as a serialized string, you may also want to consider Redis [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json/" >}}).
 
 ## Learn more
 

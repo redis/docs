@@ -17,7 +17,7 @@ weight: 14
 ---
 
 *Vector fields* allow you to use vector similarity queries in the [`FT.SEARCH`](/commands/ft.search) command.
-*Vector similarity* enables you to load, index, and query vectors stored as fields in Redis hashes or in JSON documents (via integration with the [JSON module]({{< relref "/develop/stack/json/" >}}))
+*Vector similarity* enables you to load, index, and query vectors stored as fields in Redis hashes or in JSON documents (via integration with the [JSON module]({{< relref "/develop/data-types/json/" >}}))
 
 Vector similarity provides these functionalities:
 
@@ -180,7 +180,7 @@ Unlike in hashes, vectors are stored in JSON documents as arrays (not as blobs).
 JSON.SET 1 $ '{"vec":[1,2,3,4]}'
 ```
 
-As of v2.6.1, JSON supports multi-value indexing. This capability accounts for vectors as well. Thus, it is possible to index multiple vectors under the same JSONPath. Additional information is available in the [Indexing JSON documents]({{< relref "/develop/stack/search/indexing_json/#index-json-arrays-as-vector" >}}) section. 
+As of v2.6.1, JSON supports multi-value indexing. This capability accounts for vectors as well. Thus, it is possible to index multiple vectors under the same JSONPath. Additional information is available in the [Indexing JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}}) section. 
 
 **Example**
 ```
@@ -221,11 +221,11 @@ Every `*_attribute` parameter should refer to an attribute in the [`PARAMS`](/co
 
 * `$<blob_attribute>` - An attribute that holds the query vector as blob and must be passed through the `PARAMS` section. The blob's byte size should match the vector field dimension and type.
 
-* `[<vector_query_param_name> <value>|$<value_attribute> [...]]` - An optional part for passing one or more vector similarity query parameters. Parameters should come in key-value pairs and should be valid parameters for the query. See which [runtime parameters]({{< relref "/develop/stack/search/reference/vectors/#runtime-attributes" >}}) are valid for each algorithm.
+* `[<vector_query_param_name> <value>|$<value_attribute> [...]]` - An optional part for passing one or more vector similarity query parameters. Parameters should come in key-value pairs and should be valid parameters for the query. See which [runtime parameters]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}) are valid for each algorithm.
 
 * `[AS <dist_field_name> | $<dist_field_name_attribute>]` - An optional part for specifying a distance field name, for later sorting by the similarity metric and/or returning it. By default, the distance field name is "`__<vector_field>_score`" and it can be used for sorting without using `AS <dist_field_name>` in the query.
 
-**Note:** As of v2.6, vector query params and distance field name can be specified in [query attributes]({{< relref "/develop/stack/search/reference/query_syntax/#query-attributes" >}}) like syntax as well. Thus, the following format is also supported:
+**Note:** As of v2.6, vector query params and distance field name can be specified in [query attributes]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}) like syntax as well. Thus, the following format is also supported:
 
 ```
 <primary_filter_query>=>[<vector_similarity_query>]=>{$<param>: (<value> | $<value_attribute>); ... }

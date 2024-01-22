@@ -115,7 +115,7 @@ client := redis.NewClusterClient(&redis.ClusterOptions{
 
 #### Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security]({{< relref "/develop/management/security/" >}}) guidelines.
+When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
 
 Establish a secure connection with your Redis database using this snippet.
 

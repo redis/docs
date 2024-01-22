@@ -21,7 +21,7 @@ In addition to indexing Redis hashes, Redis Stack can also index JSON documents.
 
 Before you can index and search JSON documents, you need a database with either:
 
-- [Redis Stack]({{< relref "/develop/getting-started/install-stack/" >}}), which automatically includes JSON and searching and querying features
+- [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}), which automatically includes JSON and searching and querying features
 - Redis v6.x or later with the following modules installed and enabled:
    - RediSearch v2.2 or later
    - RedisJSON v2.0 or later
@@ -30,7 +30,7 @@ Before you can index and search JSON documents, you need a database with either:
 
 When you create an index with the [`FT.CREATE`](/commands/ft.create) command, include the `ON JSON` keyword to index any existing and future JSON documents stored in the database.
 
-To define the `SCHEMA`, you can provide [JSONPath]({{< relref "/develop/stack/json/path" >}}) expressions.
+To define the `SCHEMA`, you can provide [JSONPath]({{< relref "/develop/data-types/json/path" >}}) expressions.
 The result of each JSONPath expression is indexed and associated with a logical name called an `attribute` (previously known as a `field`).
 You can use these attributes in queries.
 
@@ -167,7 +167,7 @@ And lastly, search for the Bluetooth headphones that are most similar to an imag
    4) "{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"connection\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"],\"embedding\":[-0.7,-0.51,0.88,0.14]}"
 ```
 
-For more information about search queries, see [Search query syntax]({{< relref "/develop/stack/search/reference/query_syntax" >}}).
+For more information about search queries, see [Search query syntax]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}).
 
 {{% alert title="Note" color="info" %}}
 [`FT.SEARCH`](/commands/ft.search) queries require `attribute` modifiers. Don't use JSONPath expressions in queries because the query parser doesn't fully support them.
@@ -175,7 +175,7 @@ For more information about search queries, see [Search query syntax]({{< relref 
 
 ## Index JSON arrays as TAG
 
-If you want to index string or boolean values as TAG within a JSON array, use the [JSONPath]({{< relref "/develop/stack/json/path" >}}) wildcard operator.
+If you want to index string or boolean values as TAG within a JSON array, use the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) wildcard operator.
 
 To index an item's list of available colors, specify the JSONPath `$.colors.*` in the `SCHEMA` definition during index creation:
 
@@ -424,7 +424,7 @@ Now you can search for the two headphones that are most similar to the image emb
    4) "{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"],\"embedding\":[-0.7,-0.51,0.88,0.14]}"
 ```
 
-If you want to index multiple numeric arrays as VECTOR, use a [JSONPath]({{< relref "/develop/stack/json/path/" >}}) leading to multiple numeric arrays using JSONPath operators such as wildcard, filter, union, array slice, and/or recursive descent.
+If you want to index multiple numeric arrays as VECTOR, use a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to multiple numeric arrays using JSONPath operators such as wildcard, filter, union, array slice, and/or recursive descent.
 
 For example, assume that your JSON items include an array of vector embeddings, where each vector represents a different image of the same product. To index these vectors, specify the JSONPath `$.embeddings[*]` in the schema definition during index creation:
 
@@ -459,7 +459,7 @@ Now you can search for the two headphones that are most similar to an image embe
 ```
 Note that `0.771500051022` is the L2 distance between the query vector and `[-0.8,-0.15,0.33,-0.01]`, which is the second element in the embedding array, and it is lower than the L2 distance between the query vector and `[-0.7,-0.51,0.88,0.14]`, which is the first element in the embedding array.
 
-For more information on vector similarity syntax, see [Vector fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors/" >}}).
+For more information on vector similarity syntax, see [Vector fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
 
 ## Index JSON objects
 
@@ -527,7 +527,7 @@ For example, this query only returns the `name` and `price` of each set of headp
 
 ### Project with JSONPath
 
-You can use [JSONPath]({{< relref "/develop/stack/json/path" >}}) expressions in a `RETURN` statement to extract any part of the JSON document, even fields that were not defined in the index `SCHEMA`.
+You can use [JSONPath]({{< relref "/develop/data-types/json/path" >}}) expressions in a `RETURN` statement to extract any part of the JSON document, even fields that were not defined in the index `SCHEMA`.
 
 For example, the following query uses the JSONPath expression `$.stock` to return each item's stock in addition to the name and price attributes.
 
@@ -577,7 +577,7 @@ This query returns the field as the alias `"stock"` instead of the JSONPath expr
 
 ### Highlight search terms
 
-You can [highlight]({{< relref "/develop/stack/search/reference/highlight" >}}) relevant search terms in any indexed `TEXT` attribute.
+You can [highlight]({{< relref "/develop/interact/search-and-query/advanced-concepts/highlight" >}}) relevant search terms in any indexed `TEXT` attribute.
 
 For [`FT.SEARCH`](/commands/ft.search), you have to explicitly set which attributes you want highlighted after the `RETURN` and `HIGHLIGHT` parameters.
 
@@ -606,9 +606,9 @@ For example, highlight the word "bluetooth" with bold HTML tags in item names an
 
 ## Aggregate with JSONPath
 
-You can use [aggregation]({{< relref "/develop/interact/search-and-query/search/aggregations/" >}}) to generate statistics or build facet queries.
+You can use [aggregation]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}}) to generate statistics or build facet queries.
 
-The `LOAD` option accepts [JSONPath]({{< relref "/develop/stack/json/path" >}}) expressions. You can use any value in the pipeline, even if the value is not indexed.
+The `LOAD` option accepts [JSONPath]({{< relref "/develop/data-types/json/path" >}}) expressions. You can use any value in the pipeline, even if the value is not indexed.
 
 This example uses aggregation to calculate a 10% price discount for each item and sorts the items from least expensive to most expensive:
 

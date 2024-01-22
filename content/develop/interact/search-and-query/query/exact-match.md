@@ -27,7 +27,7 @@ The examples in this article use a schema with the following fields:
 | `condition` | `TAG` |
 | `price` | `NUMERIC` |
 
-You can find more details about creating the index and loading the demo data in the [quick start guide]({{< relref "/develop/interact/search-and-query/quickstart/" >}}).
+You can find more details about creating the index and loading the demo data in the [quick start guide]({{< relref "/develop/get-started/document-database" >}}).
 
 ## Numeric field
 

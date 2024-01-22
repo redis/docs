@@ -37,7 +37,7 @@ The examples in this article refer to a simple bicycle inventory that contains J
 
 ## Setup
 
-The easiest way to get started with [Redis Stack]({{< relref "/develop/about/about-stack/" >}}) is to use Redis Cloud:
+The easiest way to get started with [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}) is to use Redis Cloud:
 
 1. Create a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 2. Follow the instructions to create a free database.
@@ -46,7 +46,7 @@ The easiest way to get started with [Redis Stack]({{< relref "/develop/about/abo
 
 This free Redis Cloud database comes out of the box with all the Redis Stack features.
 
-You can alternatively use the [installation guides]({{< relref "/develop/install/install-stack" >}}) to install Redis Stack on your local machine.
+You can alternatively use the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis Stack on your local machine.
 
 
 ## Connect
@@ -65,9 +65,9 @@ You can copy and paste the connection details from the Redis Cloud database conf
 
 ## Create an index
 
-As explained in the [in-memory data store]({{< relref "/develop/get-started/data-store/" >}}) quick start guide, Redis allows you to access an item directly via its key. You also learned how to scan the keyspace. Whereby you can use other data structures (e.g., hashes and sorted sets) as secondary indexes, your application would need to maintain those indexes manually. Redis Stack turns Redis into a document database by allowing you to declare which fields are auto-indexed. Redis Stack currently supports secondary index creation on the [hashes]({{< relref "/develop/data-types/hashes" >}}) and [JSON]({{< relref "/develop/data-types/json" >}}) documents.
+As explained in the [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) quick start guide, Redis allows you to access an item directly via its key. You also learned how to scan the keyspace. Whereby you can use other data structures (e.g., hashes and sorted sets) as secondary indexes, your application would need to maintain those indexes manually. Redis Stack turns Redis into a document database by allowing you to declare which fields are auto-indexed. Redis Stack currently supports secondary index creation on the [hashes]({{< relref "/develop/data-types/hashes" >}}) and [JSON]({{< relref "/develop/data-types/json" >}}) documents.
 
-The following example shows an [FT.CREATE](/commands/ft.create/) command that creates an index with some text fields, a numeric field (price), and a tag field (condition). The text fields have a weight of 1.0, meaning they have the same relevancy in the context of full-text searches. The field names follow the [JSONPath]({{< relref "/develop/data-types/json/path/" >}}) notion. Each such index field maps to a property within the JSON document.
+The following example shows an [FT.CREATE](/commands/ft.create/) command that creates an index with some text fields, a numeric field (price), and a tag field (condition). The text fields have a weight of 1.0, meaning they have the same relevancy in the context of full-text searches. The field names follow the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) notion. Each such index field maps to a property within the JSON document.
 
 
 {{< clients-example search_quickstart create_index >}}
@@ -175,4 +175,4 @@ Please see the [query documentation]({{< relref "/develop/interact/search-and-qu
 
 You can learn more about how to use Redis Stack as a vector database in the following quick start guide:
 
-* [Redis as a vector database]({{< relref "/develop/get-started/vector-database/" >}})
+* [Redis as a vector database]({{< relref "/develop/get-started/vector-database" >}})

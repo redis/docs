@@ -9,6 +9,7 @@ import logging
 from git import Repo
 from components.component import All
 from components.util import mkdir_p
+import csv
 
 
 '''
@@ -100,6 +101,23 @@ def replace_links(markdown_content, old_prefix, new_prefix):
     updated_content = re.sub(link_pattern, r'\1' + new_prefix + r'\3', markdown_content)
     return updated_content
 
+def _load_csv_file(file_path):
+    
+    result = {}
+    
+    script_path = os.getcwd() + '/' + __file__
+    csv_file = slash(os.path.dirname(script_path), file_path)
+
+    with open(csv_file) as cf:
+        reader = csv.DictReader(cf, delimiter=';')
+        for row in reader:
+            key = row['broken_ref']
+            value = row['fixed_ref']
+            result[key] = value
+    
+    return result
+
+
 '''
 Replace the link within the file
 '''
@@ -110,6 +128,12 @@ def replace_links_in_file(file_path, old_prefix, new_prefix):
     link_pattern = re.compile(r'(\[.*?\]\()(' + re.escape(old_prefix) + r')(.*?)' + r'(\))')
     #updated_content = re.sub(link_pattern, r'\1' + '{{ relURL "" }}' + new_prefix + r'\3', file_content)
     updated_content = re.sub(link_pattern, r'\1' + '{{< relref "' + new_prefix + r'\3' + '" >}}' + r'\4', file_content)
+
+    corrected_links = _load_csv_file('./migrate/corrected_dev_refs.csv')
+
+    for k in corrected_links:
+        updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< relref "' + corrected_links[k] + '" >}}')
+
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(updated_content)
 

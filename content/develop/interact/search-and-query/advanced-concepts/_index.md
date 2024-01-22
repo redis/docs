@@ -32,23 +32,23 @@ Redis Stack supports the following search and query features. This article provi
 
 * Multi-field queries
 * Query on [JSON]({{< relref "/develop/data-types/json/" >}}) documents
-* [Aggregation]({{< relref "/develop/interact/search-and-query/search/aggregations/" >}})
+* [Aggregation]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}})
 * Boolean queries with AND, OR, and NOT operators between subqueries
 * Optional query clauses
 * Retrieval of full document contents or only their IDs
 * Exact phrase search and slop-based search
 * [Numeric filters]({{< relref "/develop/interact/search-and-query/query/#numeric-filters-in-query" >}}) and ranges
 * [Geo-filtering]({{< relref "/develop/interact/search-and-query/query/#geo-filters-in-query" >}}) using Redis [geo commands](/commands/?group=geo)
-* [Vector similartiy search]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors/" >}})
+* [Vector similartiy search]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
 
 
 ## Full-text search features
 
 * [Prefix-based searches]({{< relref "/develop/interact/search-and-query/query/#prefix-matching" >}})
 * Field weights
-* [Auto-complete]({{< relref "/develop/interact/search-and-query/administration/overview/#auto-complete" >}}) and fuzzy prefix suggestions
-* [Stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming/" >}})-based query expansion for [many languages]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming//#supported-languages" >}}) using [Snowball](http://snowballstem.org/)
-* Support for custom functions for query expansion and scoring (see [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions/" >}}))
+* [Auto-complete]({{< relref "/develop/interact/search-and-query/administration/overview" >}}) and fuzzy prefix suggestions
+* [Stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}})-based query expansion for [many languages]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}}) using [Snowball](http://snowballstem.org/)
+* Support for custom functions for query expansion and scoring (see [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}))
 * Unicode support (UTF-8 input required)
 * Document ranking
 

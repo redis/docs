@@ -249,7 +249,7 @@ This command's time complexity is O(log(n) + m), where _m_ is the number of resu
 ## Alternatives
 
 Redis sorted sets are sometimes used for indexing other Redis data structures.
-If you need to index and query your data, consider the [JSON]({{< relref "/develop/stack/json" >}}) data type and the [Search and query]({{< relref "/develop/stack/search" >}}) features.
+If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Search and query]({{< relref "/develop/interact/search-and-query/" >}}) features.
 
 ## Learn more
 

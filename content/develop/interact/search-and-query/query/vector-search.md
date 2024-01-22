@@ -15,7 +15,7 @@ title: Vector search
 weight: 5
 ---
 
-This article gives you a good overview of how to perform vector search queries with Redis Stack. See the [Redis as a vector database quick start guide]({{< relref "/develop/get-started/vector-database/" >}}) for more information about Redis as a vector database. You can also find more detailed information about all the parameters in the [vector reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors/" >}}).
+This article gives you a good overview of how to perform vector search queries with Redis Stack. See the [Redis as a vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) for more information about Redis as a vector database. You can also find more detailed information about all the parameters in the [vector reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
 
 A vector search query on a vector field allows you to find all vectors in a vector space that are close to a given vector. You can query for the k-nearest neighbors or vectors within a given radius.
 
@@ -80,9 +80,9 @@ FT.SEARCH index "@field:[VECTOR_RANGE radius $vector]=>{$YIELD_DISTANCE_AS: dist
 
 Here is a more detailed explanation of this query:
 
-1. **Range query**: the syntax of a radius query is very similar to the regular range query, except for the keyword `VECTOR_RANGE`. You can also combine a vector radius query with other queries in the same way as regular range queries.  See [combined queries article]({{< relref "/develop/interact/search-and-query/query/combined/" >}}) for more details.
+1. **Range query**: the syntax of a radius query is very similar to the regular range query, except for the keyword `VECTOR_RANGE`. You can also combine a vector radius query with other queries in the same way as regular range queries.  See [combined queries article]({{< relref "/develop/interact/search-and-query/query/combined" >}}) for more details.
 2. **Additional step**: the `=>` arrow means that the range query is followed by evaluating additional parameters.
-3. **Range query parameters**: parameters such as `$YIELD_DISTANCE_AS` can be found in the [vectors reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors/" >}}).
+3. **Range query parameters**: parameters such as `$YIELD_DISTANCE_AS` can be found in the [vectors reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
 4. **Vector binary data**: you need to use `PARAMS` to pass the binary representation of the vector.
 5. **Dialect**: vector search has been available since version two of the query dialect.
 

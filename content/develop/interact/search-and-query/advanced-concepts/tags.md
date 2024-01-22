@@ -155,6 +155,6 @@ You can see what that looks like in the following example:
 (error) Syntax error at offset 27 near be
 ```
 
-Note: stop words are words that are so common that a search engine ignores them. To learn more, see [stop words]({{< relref "/develop/interact/search-and-query/advanced-concepts/stopwords/" >}}).
+Note: stop words are words that are so common that a search engine ignores them. To learn more, see [stop words]({{< relref "/develop/interact/search-and-query/advanced-concepts/stopwords" >}}).
 
 Given the potential for syntax errors,it is recommended that you escape all spaces within tag queries.

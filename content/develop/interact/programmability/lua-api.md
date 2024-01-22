@@ -452,7 +452,7 @@ redis> FUNCTION LOAD "#!lua name=mylib\n redis.register_function{function_name='
 
 **Important:**
 Use script flags with care, which may negatively impact if misused.
-Note that the default for Eval scripts are different than the default for functions that are mentioned below, see [Eval Flags]({{< relref "/develop/manual/programmability/eval-intro/#eval-flags" >}})
+Note that the default for Eval scripts are different than the default for functions that are mentioned below, see [Eval Flags]({{< relref "/develop/interact/programmability/eval-intro" >}})
 
 When you register a function or load an Eval script, the server does not know how it accesses the database.
 By default, Redis assumes that all scripts read and write data.
@@ -480,7 +480,7 @@ You can use the following flags and instruct the server to treat the scripts' ex
     However, note that the server will return an error if the script attempts to call a write command.
     Also note that currently [`PUBLISH`](/commands/publish), [`SPUBLISH`](/commands/spublish) and [`PFCOUNT`](/commands/pfcount) are also considered write commands in scripts, because they could attempt to propagate commands to replicas and AOF file.
 
-    For more information please refer to [Read-only scripts]({{< relref "/develop/manual/programmability/#read-only_scripts" >}})
+    For more information please refer to [Read-only scripts]({{< relref "/develop/interact/programmability/" >}})
 
 * `allow-oom`: use this flag to allow a script to execute when the server is out of memory (OOM).
 
@@ -508,7 +508,7 @@ You can use the following flags and instruct the server to treat the scripts' ex
     
     This flag has no effect when cluster mode is disabled.
 
-Please refer to [Function Flags]({{< relref "/develop/manual/programmability/functions-intro/#function-flags" >}}) and [Eval Flags]({{< relref "/develop/manual/programmability/eval-intro/#eval-flags" >}}) for a detailed example.
+Please refer to [Function Flags]({{< relref "/develop/interact/programmability/functions-intro" >}}) and [Eval Flags]({{< relref "/develop/interact/programmability/eval-intro" >}}) for a detailed example.
 
 ### <a name="redis.redis_version"></a> `redis.REDIS_VERSION`
 

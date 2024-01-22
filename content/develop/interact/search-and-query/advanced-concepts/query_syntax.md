@@ -49,7 +49,7 @@ You can use simple syntax for complex queries using these rules:
 * Georadius matches on geo fields with the syntax `@field:[{lon} {lat} {radius} {m|km|mi|ft}]`.
 * As of 2.6, range queries on vector fields with the syntax `@field:[VECTOR_RANGE {radius} $query_vec]`, where `query_vec` is given as a query parameter.
 * As of v2.4, k-nearest neighbors (KNN) queries on vector fields with or without pre-filtering with the syntax `{filter_query}=>[KNN {num} @field $query_vec]`.
-* Tag field filters with the syntax `@field:{tag | tag | ...}`. See the full documentation on [tags]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags/" >}}).
+* Tag field filters with the syntax `@field:{tag | tag | ...}`. See the full documentation on [tags]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}}).
 * Optional terms or clauses: `foo ~bar` means bar is optional but documents containing `bar` will rank higher.
 * Fuzzy matching on terms: `%hello%` means all terms with Levenshtein distance of 1 from it. Use multiple pairs of '%' brackets to increase the Levenshtein distance.
 * An expression in a query can be wrapped in parentheses to disambiguate, for example, `(hello|hella) (world|werld)`.
@@ -265,7 +265,7 @@ The general syntax for hybrid query is `{some filter query}=>[ KNN {num|$num} @v
 
   `@vector_field:[VECTOR_RANGE 0.5 $query_vec]`
 
-As of v2.4, the KNN vector search can be used at most once in a query, while, as of v2.6, the vector range filter can be used multiple times in a query. For more information on vector similarity syntax, see [Querying vector fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors/" >}}), and [Vector search examples]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors/#vector-search-examples" >}}) sections.
+As of v2.4, the KNN vector search can be used at most once in a query, while, as of v2.6, the vector range filter can be used multiple times in a query. For more information on vector similarity syntax, see [Querying vector fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}), and [Vector search examples]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}) sections.
 
 ## Prefix matching
 
@@ -370,7 +370,7 @@ The supported attributes are:
 As of v2.6.1, the query attributes syntax supports these additional attributes:
 
 * **$yield_distance_as**: specifies the distance field name, used for later sorting and/or returning, for clauses that yield some distance metric. It is currently supported for vector queries only (both KNN and range).   
-* **vector query params**: pass optional parameters for [vector queries]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors/#querying-vector-fields" >}}) in key-value format.
+* **vector query params**: pass optional parameters for [vector queries]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}) in key-value format.
 
 ## A few query examples
 
@@ -460,4 +460,4 @@ As of v2.6.1, the query attributes syntax supports these additional attributes:
 
 The query parser is built using the Lemon Parser Generator and a Ragel based lexer. You can see the `DIALECT 2` grammar definition [at this git repo](https://github.com/RediSearch/RediSearch/blob/master/src/query_parser/v2/parser.y).
 
-You can also see the [DEFAULT_DIALECT]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters/#default_dialect" >}}) configuration parameter.
+You can also see the [DEFAULT_DIALECT]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters" >}}) configuration parameter.

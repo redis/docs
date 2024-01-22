@@ -37,7 +37,7 @@ The search and query features of Redis Stack allow you to use Redis as a:
 
 Here are the next steps to get you started:
 
-1. Follow our [quick start guide]({{< relref "/develop/get-started/document-database/" >}}) to get some initial hands-on experience.
+1. Follow our [quick start guide]({{< relref "/develop/get-started/document-database" >}}) to get some initial hands-on experience.
 2. Learn how to [create an index]({{< relref "/develop/interact/search-and-query/indexing/" >}}).
 3. Learn how to [query your data]({{< relref "/develop/interact/search-and-query/query/" >}}).
 

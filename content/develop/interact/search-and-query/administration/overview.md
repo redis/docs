@@ -135,7 +135,7 @@ Optionally, you can choose not to save any one of those attributes besides the I
 
 ### Numeric index
 
-Numeric properties are indexed in a special data structure that enables filtering by numeric ranges in an efficient way. One could view a numeric value as a term operating just like an inverted index. For example, all the products with the price $100 are in a specific list, which is intersected with the rest of the query. See [query execution engine]({{< relref "/develop/interact/search-and-query/administration/design/#query-execution-engine" >}}) for more information. 
+Numeric properties are indexed in a special data structure that enables filtering by numeric ranges in an efficient way. One could view a numeric value as a term operating just like an inverted index. For example, all the products with the price $100 are in a specific list, which is intersected with the rest of the query. See [query execution engine]({{< relref "/develop/interact/search-and-query/administration/design" >}}) for more information. 
 
 However, in order to filter by a range of prices, you would have to intersect the query with all the distinct prices within that range, or perform a union query. If the range has many values in it, this becomes highly inefficient. 
 
@@ -229,7 +229,7 @@ And negative clauses can also be added to filter out plasma and CRT TVs:
 
 Redis Stack comes with a few very basic scoring functions to evaluate document relevance. They are all based on document scores and term frequency. This is regardless of the ability to use sortable fields (see below). Scoring functions are specified by adding the `SCORER {scorer_name}` argument to a search request.
 
-If you prefer a custom scoring function, it is possible to add more functions using the [extension API]({{< relref "/develop/interact/search-and-query/administration/extensions/" >}}).
+If you prefer a custom scoring function, it is possible to add more functions using the [extension API]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}).
 
 These are the pre-bundled scoring functions available in Redis Stack:
 

@@ -85,7 +85,7 @@ with an error to write commands (but will continue to accept read-only
 commands).
 
 You can also configure Redis to evict keys when the max memory limit
-is reached. See the [eviction policy docs]({{< relref "/develop/manual/eviction/" >}}) for more information on this.
+is reached. See the [eviction policy docs]({{< relref "/develop/reference/eviction" >}}) for more information on this.
 
 ## Background saving fails with a fork() error on Linux?
 

@@ -23,13 +23,13 @@ weight: 4
 
 Setting configuration parameters at load-time is done by appending arguments after the `--loadmodule` argument when starting a server from the command line, or after the `loadmodule` directive in a Redis config file. For example:
 
-In [redis.conf]({{< relref "/develop/manual/config/" >}}):
+In [redis.conf]({{< relref "/operate/oss_and_stack/management/config" >}}):
 
 ```
 loadmodule ./redisearch.so [OPT VAL]...
 ```
 
-From the [Redis CLI]({{< relref "/develop/manual/cli/" >}}), using the [MODULE LOAD](/commands/module-load/) command:
+From the [Redis CLI]({{< relref "/develop/connect/cli" >}}), using the [MODULE LOAD](/commands/module-load/) command:
 
 ```
 127.0.0.6379> MODULE LOAD redisearch.so [OPT VAL]...
@@ -182,7 +182,7 @@ $ redis-server --loadmodule ./redisearch.so CONCURRENT_WRITE_MODE
 
 ### EXTLOAD
 
-If present, RediSearch will try to load an extension dynamic library from its specified file path. See [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions/" >}}) for details.
+If present, RediSearch will try to load an extension dynamic library from its specified file path. See [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}) for details.
 
 #### Default
 
@@ -282,7 +282,7 @@ $ redis-server --loadmodule ./redisearch.so MAXAGGREGATERESULTS 3000000
 
 ### FRISOINI
 
-If present, load the custom Chinese dictionary from the specified path. See [Using custom dictionaries]({{< relref "/develop/interact/search-and-query/advanced-concepts/chinese/#using-custom-dictionaries" >}}) for more details.
+If present, load the custom Chinese dictionary from the specified path. See [Using custom dictionaries]({{< relref "/develop/interact/search-and-query/advanced-concepts/chinese" >}}) for more details.
 
 #### Default
 
@@ -298,7 +298,7 @@ $ redis-server --loadmodule ./redisearch.so FRISOINI /opt/dict/friso.ini
 
 ### CURSOR_MAX_IDLE
 
-The maximum idle time (in ms) that can be set to the [cursor api]({{< relref "/develop/interact/search-and-query/search/aggregations/#cursor-api" >}}).
+The maximum idle time (in ms) that can be set to the [cursor api]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}}).
 
 #### Default
 
@@ -548,7 +548,7 @@ $ redis-server --loadmodule ./redisearch.so DEFAULT_DIALECT 2
 
 ### VSS_MAX_RESIZE
 
-The maximum memory resize for vector similarity indexes in bytes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "/develop/interact/search-and-query/search/vectors/#creation-attributes-per-algorithm" >}}).
+The maximum memory resize for vector similarity indexes in bytes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "/develop/get-started/vector-database" >}}).
 
 #### Default
 

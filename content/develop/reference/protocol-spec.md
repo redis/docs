@@ -37,7 +37,7 @@ RESP is the protocol you should implement in your Redis client.
 
 {{% alert title="Note" color="info" %}}
 The protocol outlined here is used only for client-server communication.
-[Redis Cluster]({{< relref "/develop/reference/cluster-spec" >}}) uses a different binary protocol for exchanging messages between nodes.
+[Redis Cluster]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}) uses a different binary protocol for exchanging messages between nodes.
 {{% /alert %}}
 
 ## RESP versions
@@ -69,12 +69,12 @@ This is the simplest model possible; however, there are some exceptions:
 
 * Redis requests can be [pipelined](#multiple-commands-and-pipelining).
   Pipelining enables clients to send multiple commands at once and wait for replies later.
-* When a RESP2 connection subscribes to a [Pub/Sub]({{< relref "/develop/manual/pubsub" >}}) channel, the protocol changes semantics and becomes a *push* protocol.
+* When a RESP2 connection subscribes to a [Pub/Sub]({{< relref "/develop/interact/pubsub" >}}) channel, the protocol changes semantics and becomes a *push* protocol.
   The client no longer requires sending commands because the server will automatically send new messages to the client (for the channels the client is subscribed to) as soon as they are received.
 * The [`MONITOR`](/commands/monitor) command.
   Invoking the [`MONITOR`](/commands/monitor) command switches the connection to an ad-hoc push mode.
   The protocol of this mode is not specified but is obvious to parse.
-* [Protected mode]({{< relref "/develop/management/security/#protected-mode" >}}).
+* [Protected mode]({{< relref "/operate/oss_and_stack/management/security/" >}}).
   Connections opened from a non-loopback address to a Redis while in protected mode are denied and terminated by the server.
   Before terminating the connection, Redis unconditionally sends a `-DENIED` reply, regardless of whether the client writes to the socket.
 * The [RESP3 Push type](#resp3-pushes).
@@ -481,7 +481,7 @@ Example:
 (The raw RESP encoding is split into multiple lines for readability).
 
 Some client libraries may ignore the difference between this type and the string type and return a native string in both cases.
-However, interactive clients, such as command line interfaces (e.g., [`redis-cli`]({{< relref "/develop/manual/cli" >}})), can use this type and know that their output should be presented to the human user as is and without quoting the string.
+However, interactive clients, such as command line interfaces (e.g., [`redis-cli`]({{< relref "/develop/connect/cli" >}})), can use this type and know that their output should be presented to the human user as is and without quoting the string.
 
 For example, the Redis command [`INFO`](/commands/info) outputs a report that includes newlines.
 When using RESP3, `redis-cli` displays it correctly because it is sent as a Verbatim String reply (with its three bytes being "txt").
