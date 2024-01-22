@@ -81,16 +81,16 @@ select {
 }
 
 #TableOfContents a {
-  @apply relative block hover:text-indigo-600 py-0.5 pl-4 transition-colors leading-6;
+  @apply relative block text-redis-pen-600 hover:text-redis-pen-300 py-0.5 pl-6 transition-colors leading-6;
 }
 
 #TableOfContents a:before {
   content: '';
-  @apply w-[3px] h-full bg-slate-100 absolute left-0 top-0 rounded-xl transition;
+  @apply w-1 h-full bg-redis-pencil-250 absolute left-0 top-0 rounded-sm transition;
 }
 
 #TableOfContents a.active {
-  @apply text-indigo-600 before:bg-indigo-600 pointer-events-none;
+  @apply text-redis-ink-900 before:bg-redis-ink-900 pointer-events-none;
 }
 
 /* search */
