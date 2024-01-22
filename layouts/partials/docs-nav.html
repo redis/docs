@@ -12,7 +12,7 @@
 
   {{ if and $show (not (default false $s.Params.hidden)) }}
     <li class="">
-      <a class="flex justify-start items-center pl-6 py-1.5 {{ if $rootDir}} mb-3 py-4 text-redis-ink-900 border-b border-opacity-50 border-b-redis-ink-900 font-medium {{ else if and ($active) (not $rootDir) }} active text-redis-ink-900{{ else }} text-redis-pen-650 hover:text-redis-pen-450{{ end }}" href="{{ $s.RelPermalink }}">
+      <a class="flex justify-start items-center pl-6 py-1.5 {{ if $rootDir}} mb-3 py-4 text-redis-ink-900 border-b border-opacity-50 border-b-redis-ink-900 font-medium {{ else if and ($active) (not $rootDir) }} active text-redis-ink-900{{ else }} text-redis-pen-600 hover:text-redis-pen-400{{ end }}" href="{{ $s.RelPermalink }}">
         {{ if and $ulNr $withChild }}
           {{ if or $active $activePath }}
             <span class="pr-3">↓</span>
@@ -48,7 +48,7 @@
     {{ $isActivePath := $page.IsDescendant . -}}
     {{ $childPages := (union .Pages .Sections).ByWeight -}}
     <li class="my-2">
-      <a class="pl-6 flex {{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-650 hover:text-redis-pen-450 {{ end }}" href="{{.RelPermalink}}">
+      <a class="pl-6 flex {{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-600 hover:text-redis-pen-400 {{ end }}" href="{{.RelPermalink}}">
         {{ if gt (len $childPages) 0 }}
           {{ if or $isActive $isActivePath -}}
             <span class="pr-3">↓</span>

@@ -1,5 +1,5 @@
 {{/*  Long page titles cause issue with wrapping  */}}
-<nav class="flex text-redis-pen-450 text-sm font-mono font-normal whitespace-nowrap" aria-label="Breadcrumb"> 
+<nav class="flex text-redis-pen-400 text-sm font-mono font-normal" aria-label="Breadcrumb"> 
   <ol role="list" class="flex items-center">
     {{ template "breadcrumb_navigation" (dict "p1" . "p2" .) }}
   </ol>
@@ -14,11 +14,11 @@
   <li class="flex items-center {{ if eq .p1 .p2 }} pointer-events-none{{ end }}">
     {{ if .p1.Parent }}
       <span class="px-2">→</span>
-      <a class="hover:text-redis-pen-650" href="{{ .p1.RelPermalink }}">
+      <a class="hover:text-redis-pen-600" href="{{ .p1.RelPermalink }}">
         {{ .p1.Title }}
       </a>
     {{ else }}
-      <a class=" hover:text-redis-pen-650" href="{{ .p1.RelPermalink }}">
+      <a class=" hover:text-redis-pen-600" href="{{ .p1.RelPermalink }}">
         <span>Home</span>
         <span class="sr-only">Home</span>
       </a>
