@@ -1,14 +1,19 @@
   {{/*  Star rating adapted from https://codepen.io/chris22smith/pen/MJzLJN  */}}
-  <form name="page-feedback" method="POST" data-netlify="true" class="page-feedback">
-    <input name="origin" value="{{ .Permalink }}" class="hidden"/>
-  <div class="grid justify-center mt-10 pt-10 border-t-2">
-    <span class="font-bold font-small">Rate this page</span>
-    <div class="star-rating">
-      {{ range $num := (seq 5 1) }}
-      <input type="radio" id="{{ $num }}-stars" name="rating" value="{{ $num }}" onchange="document.querySelector('#feedback-form').classList.remove('hidden')"/>
-      <label for="{{ $num }}-stars" class="star">&#9733;</label>
-      {{ end }}
+<form name="page-feedback" method="POST" data-netlify="true" class="w-full mt-24 pt-5 border-t border-t-redis-pen-700 border-opacity-50">
+  <input name="origin" value="{{ .Permalink }}" class="hidden"/>
+  <div class="flex flex-row justify-between">
+    <div class="grid justify-center">
+      <span class="font-medium text-lg">Rate this page</span>
+      <div class="star-rating">
+        {{ range $num := (seq 5 1) }}
+        <input type="radio" id="{{ $num }}-stars" name="rating" value="{{ $num }}" onchange="document.querySelector('#feedback-form').classList.remove('hidden')"/>
+        <label for="{{ $num }}-stars" class="star">&#9733;</label>
+        {{ end }}
+      </div>
     </div>  
+    <a href="#" class="font-mono text-sm mt-1">
+      Back to top ↑
+    </a>
   </div>
   <div id="feedback-form" class="hidden">
     <div class="feedback-submit">
@@ -18,7 +23,7 @@
         class="border border-neutral-500 p-2 mt-1 block w-full h-24"
         rows="3"
       ></textarea>
-      <button class="button button-indigo w-min justify-self-end" type="submit">
+      <button class="font-mono button text-redis-ink-900 border border-solid border-transparent bg-redis-red-500 hover:bg-redis-red-600 focus:bg-red-600 focus:ring-red-600; w-min justify-self-end" type="submit">
         Submit
       </button>
     </div>
