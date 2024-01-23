@@ -60,8 +60,8 @@ OK
 
 ## See also
 
-[`FT.ALIASADD`](/commands/ft.aliasadd) | [`FT.ALIASUPDATE`](/commands/ft.aliasupdate) 
+[`FT.ALIASADD`]({{< baseurl >}}/commands/ft.aliasadd) | [`FT.ALIASUPDATE`]({{< baseurl >}}/commands/ft.aliasupdate) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

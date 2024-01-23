@@ -57,9 +57,9 @@ Returns the number of elements in the sorted set at `key` with a score between
 `min` and `max`.
 
 The `min` and `max` arguments have the same semantic as described for
-[`ZRANGEBYSCORE`](/commands/zrangebyscore).
+[`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}).
 
-Note: the command has a complexity of just O(log(N)) because it uses elements ranks (see [`ZRANK`](/commands/zrank)) to get an idea of the range. Because of this there is no need to do a work proportional to the size of the range.
+Note: the command has a complexity of just O(log(N)) because it uses elements ranks (see [`ZRANK`]({{< relref "/commands/zrank" >}})) to get an idea of the range. Because of this there is no need to do a work proportional to the size of the range.
 
 ## Examples
 

@@ -66,8 +66,8 @@ An error is returned if one of the following conditions occur:
 * The current field content or the specified increment are not parsable as a
   double precision floating point number.
 
-The exact behavior of this command is identical to the one of the [`INCRBYFLOAT`](/commands/incrbyfloat)
-command, please refer to the documentation of [`INCRBYFLOAT`](/commands/incrbyfloat) for further
+The exact behavior of this command is identical to the one of the [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}})
+command, please refer to the documentation of [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) for further
 information.
 
 ## Examples
@@ -84,5 +84,5 @@ HINCRBYFLOAT mykey field 2.0e2
 ## Implementation details
 
 The command is always propagated in the replication link and the Append Only
-File as a [`HSET`](/commands/hset) operation, so that differences in the underlying floating point
+File as a [`HSET`]({{< relref "/commands/hset" >}}) operation, so that differences in the underlying floating point
 math implementation will not be sources of inconsistency.

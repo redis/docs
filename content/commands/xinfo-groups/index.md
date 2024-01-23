@@ -70,7 +70,7 @@ You can address high lag values by adding more consumers to the group, whereas l
 Redis reports the lag of a consumer group by keeping two counters: the number of all entries added to the stream and the number of logical reads made by the consumer group.
 The lag is the difference between these two.
 
-The stream's counter (the `entries_added` field of the [`XINFO STREAM`](/commands/xinfo-stream) command) is incremented by one with every [`XADD`](/commands/xadd) and counts all of the entries added to the stream during its lifetime.
+The stream's counter (the `entries_added` field of the [`XINFO STREAM`]({{< relref "/commands/xinfo-stream" >}}) command) is incremented by one with every [`XADD`]({{< relref "/commands/xadd" >}}) and counts all of the entries added to the stream during its lifetime.
 
 The consumer group's counter, `entries_read`, is the logical counter of entries the group had read.
 It is important to note that this counter is only a heuristic rather than an accurate counter, and therefore the use of the term "logical".
@@ -79,9 +79,9 @@ The `entries_read` counter is accurate only in a perfect world, where a consumer
 
 There are two special cases in which this mechanism is unable to report the lag:
 
-1. A consumer group is created or set with an arbitrary last delivered ID (the [`XGROUP CREATE`](/commands/xgroup-create) and [`XGROUP SETID`](/commands/xgroup-setid) commands, respectively).
+1. A consumer group is created or set with an arbitrary last delivered ID (the [`XGROUP CREATE`]({{< relref "/commands/xgroup-create" >}}) and [`XGROUP SETID`]({{< relref "/commands/xgroup-setid" >}}) commands, respectively).
     An arbitrary ID is any ID that isn't the ID of the stream's first entry, its last entry or the zero ("0-0") ID.
-2. One or more entries between the group's `last-delivered-id` and the stream's `last-generated-id` were deleted (with [`XDEL`](/commands/xdel) or a trimming operation).
+2. One or more entries between the group's `last-delivered-id` and the stream's `last-generated-id` were deleted (with [`XDEL`]({{< relref "/commands/xdel" >}}) or a trimming operation).
 
 In both cases, the group's read counter is considered invalid, and the returned value is set to NULL to signal that the lag isn't currently available.
 

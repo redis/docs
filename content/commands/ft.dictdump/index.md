@@ -60,10 +60,10 @@ FT.DICTDUMP returns an array, where each element is term (string).
 
 ## See also
 
-[`FT.DICTADD`](/commands/ft.dictadd) | [`FT.DICTDEL`](/commands/ft.dictdel)
+[`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd) | [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel)
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
 
 

@@ -92,5 +92,5 @@ INCRBYFLOAT mykey 2.0e2
 ## Implementation details
 
 The command is always propagated in the replication link and the Append Only
-File as a [`SET`](/commands/set) operation, so that differences in the underlying floating point
+File as a [`SET`]({{< relref "/commands/set" >}}) operation, so that differences in the underlying floating point
 math implementation will not be sources of inconsistency.

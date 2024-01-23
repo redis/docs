@@ -25,4 +25,4 @@ title: SLOWLOG
 ---
 This is a container command for slow log management commands.
 
-To see the list of available commands you can call [`SLOWLOG HELP`](/commands/slowlog-help).
+To see the list of available commands you can call [`SLOWLOG HELP`]({{< relref "/commands/slowlog-help" >}}).

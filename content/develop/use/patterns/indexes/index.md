@@ -43,8 +43,8 @@ Since the score is a double precision float, indexes you can build with
 vanilla sorted sets are limited to things where the indexing field is a number
 within a given range.
 
-The two commands to build these kind of indexes are [`ZADD`](/commands/zadd) and
-[`ZRANGE`](/commands/zrange) with the `BYSCORE` argument to respectively add items and retrieve items within a
+The two commands to build these kind of indexes are [`ZADD`]({{< relref "/commands/zadd" >}}) and
+[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `BYSCORE` argument to respectively add items and retrieve items within a
 specified range.
 
 For instance, it is possible to index a set of person names by their
@@ -63,18 +63,18 @@ command can be used:
     1) "Manuel"
     2) "Jon"
 
-By using the **WITHSCORES** option of [`ZRANGE`](/commands/zrange) it is also possible
+By using the **WITHSCORES** option of [`ZRANGE`]({{< relref "/commands/zrange" >}}) it is also possible
 to obtain the scores associated with the returned elements.
 
-The [`ZCOUNT`](/commands/zcount) command can be used in order to retrieve the number of elements
+The [`ZCOUNT`]({{< relref "/commands/zcount" >}}) command can be used in order to retrieve the number of elements
 within a given range, without actually fetching the elements, which is also
 useful, especially given the fact the operation is executed in logarithmic
 time regardless of the size of the range.
 
-Ranges can be inclusive or exclusive, please refer to the [`ZRANGE`](/commands/zrange)
+Ranges can be inclusive or exclusive, please refer to the [`ZRANGE`]({{< relref "/commands/zrange" >}})
 command documentation for more information.
 
-**Note**: Using the [`ZRANGE`](/commands/zrange) with the `BYSCORE` and `REV` arguments, it is possible to query a range in
+**Note**: Using the [`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `BYSCORE` and `REV` arguments, it is possible to query a range in
 reversed order, which is often useful when data is indexed in a given
 direction (ascending or descending) but we want to retrieve information
 the other way around.
@@ -102,8 +102,8 @@ could do:
     ZADD user.age.index 33 3
 
 This time the value associated with the score in the sorted set is the
-ID of the object. So once I query the index with [`ZRANGE`](/commands/zrange) with the `BYSCORE` argument, I'll
-also have to retrieve the information I need with [`HGETALL`](/commands/hgetall) or similar
+ID of the object. So once I query the index with [`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `BYSCORE` argument, I'll
+also have to retrieve the information I need with [`HGETALL`]({{< relref "/commands/hgetall" >}}) or similar
 commands. The obvious advantage is that objects can change without touching
 the index, as long as we don't change the indexed field.
 
@@ -120,7 +120,7 @@ make sense to use the birth date as index instead of the age itself,
 but there are other cases where we simply want some field to change from
 time to time, and the index to reflect this change.
 
-The [`ZADD`](/commands/zadd) command makes updating simple indexes a very trivial operation
+The [`ZADD`]({{< relref "/commands/zadd" >}}) command makes updating simple indexes a very trivial operation
 since re-adding back an element with a different score and the same value
 will simply update the score and move the element at the right position,
 so if the user `antirez` turned 39 years old, in order to update the
@@ -130,7 +130,7 @@ to execute the following two commands:
     HSET user:1 age 39
     ZADD user.age.index 39 1
 
-The operation may be wrapped in a [`MULTI`](/commands/multi)/[`EXEC`](/commands/exec) transaction in order to
+The operation may be wrapped in a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) transaction in order to
 make sure both fields are updated or none.
 
 Turning multi dimensional data into linear data
@@ -143,7 +143,7 @@ is not always true. If you can efficiently represent something
 multi-dimensional in a linear way, they it is often possible to use a simple
 sorted set for indexing.
 
-For example the [Redis geo indexing API](/commands/geoadd) uses a sorted
+For example the [Redis geo indexing API]({{< relref "/commands/geoadd" >}}) uses a sorted
 set to index places by latitude and longitude using a technique called
 [Geo hash](https://en.wikipedia.org/wiki/Geohash). The sorted set score
 represents alternating bits of longitude and latitude, so that we map the
@@ -179,7 +179,7 @@ the second is checked and so forth. If the common prefix of two strings is
 the same then the longer string is considered the greater of the two,
 so "foobar" is greater than "foo".
 
-There are commands such as [`ZRANGE`](/commands/zrange) and [`ZLEXCOUNT`](/commands/zlexcount) that
+There are commands such as [`ZRANGE`]({{< relref "/commands/zrange" >}}) and [`ZLEXCOUNT`]({{< relref "/commands/zlexcount" >}}) that
 are able to query and count ranges in a lexicographically fashion, assuming
 they are used with sorted sets where all the elements have the same score.
 
@@ -207,7 +207,7 @@ are ordered lexicographically.
     3) "baaa"
     4) "bbbb"
 
-Now we can use [`ZRANGE`](/commands/zrange) with the `BYLEX` argument in order to perform range queries.
+Now we can use [`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `BYLEX` argument in order to perform range queries.
 
     ZRANGE myindex [a (b BYLEX
     1) "aaaa"
@@ -244,7 +244,7 @@ we'll just do:
     ZADD myindex 0 banana
 
 And so forth for each search query ever encountered. Then when we want to
-complete the user input, we execute a range query using [`ZRANGE`](/commands/zrange) with the `BYLEX` argument.
+complete the user input, we execute a range query using [`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `BYLEX` argument.
 Imagine the user is typing "bit" inside the search form, and we want to
 offer possible search keywords starting for "bit". We send Redis a command
 like that:
@@ -289,7 +289,7 @@ commands:
     ZADD myindex 0 banana:2
 
 Note that because it is possible that there are concurrent updates, the
-above three commands should be send via a [Lua script](/commands/eval)
+above three commands should be send via a [Lua script]({{< relref "/commands/eval" >}})
 instead, so that the Lua script will atomically get the old count and
 re-add the item with incremented score.
 
@@ -478,7 +478,7 @@ So for example, when we index we also add to a hash:
 This is not always needed, but simplifies the operations of updating
 the index. In order to remove the old information we indexed for the object
 ID 90, regardless of the *current* fields values of the object, we just
-have to retrieve the hash value by object ID and [`ZREM`](/commands/zrem) it in the sorted
+have to retrieve the hash value by object ID and [`ZREM`]({{< relref "/commands/zrem" >}}) it in the sorted
 set view.
 
 Representing and querying graphs using a hexastore
@@ -724,20 +724,20 @@ in order to build other kind of indexes. They are very commonly used but
 maybe we don't always realize they are actually a form of indexing.
 
 For instance I can index object IDs into a Set data type in order to use
-the *get random elements* operation via [`SRANDMEMBER`](/commands/srandmember) in order to retrieve
+the *get random elements* operation via [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}) in order to retrieve
 a set of random objects. Sets can also be used to check for existence when
 all I need is to test if a given item exists or not or has a single boolean
 property or not.
 
 Similarly lists can be used in order to index items into a fixed order.
 I can add all my items into a Redis list and rotate the list with
-[`RPOPLPUSH`](/commands/rpoplpush) using the same key name as source and destination. This is useful
+[`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) using the same key name as source and destination. This is useful
 when I want to process a given set of items again and again forever in the
 same order. Think of an RSS feed system that needs to refresh the local copy
 periodically.
 
 Another popular index often used with Redis is a **capped list**, where items
-are added with [`LPUSH`](/commands/lpush) and trimmed with [`LTRIM`](/commands/ltrim), in order to create a view
+are added with [`LPUSH`]({{< relref "/commands/lpush" >}}) and trimmed with [`LTRIM`]({{< relref "/commands/ltrim" >}}), in order to create a view
 with just the latest N items encountered, in the same order they were
 seen.
 
@@ -751,5 +751,5 @@ bugs, network partitions or other events.
 Different strategies could be used. If the index data is outside Redis
 *read repair* can be a solution, where data is fixed in a lazy way when
 it is requested. When we index data which is stored in Redis itself
-the [`SCAN`](/commands/scan) family of commands can be used in order to verify, update or
+the [`SCAN`]({{< relref "/commands/scan" >}}) family of commands can be used in order to verify, update or
 rebuild the index from scratch, incrementally.

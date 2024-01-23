@@ -33,7 +33,7 @@ Returns number of required items (k), width, depth and decay values.
 
 ## Return
 
-[Array reply](/docs/reference/protocol-spec#arrays) with information of the filter.
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with information of the filter.
 
 ## Examples
 

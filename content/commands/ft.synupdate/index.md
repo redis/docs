@@ -30,11 +30,8 @@ module: Search
 since: 1.2.0
 stack_path: docs/interact/search-and-query
 summary: Creates or updates a synonym group with additional terms
-syntax: "FT.SYNUPDATE index synonym_group_id 
-  [SKIPINITIALSCAN] term [term ...]
-"
-syntax_fmt: "FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term
-  ...]"
+syntax: 'FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term ...] '
+syntax_fmt: FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term ...]
 syntax_str: synonym_group_id [SKIPINITIALSCAN] term [term ...]
 title: FT.SYNUPDATE
 ---
@@ -89,8 +86,8 @@ OK
 
 ## See also
 
-[`FT.SYNDUMP`](/commands/ft.syndump) 
+[`FT.SYNDUMP`]({{< baseurl >}}/commands/ft.syndump) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

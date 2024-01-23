@@ -57,9 +57,9 @@ Running this function will return a `pong` reply:
 "PONG"
 ```
 
-Notice that this time, in order to invoke the function, we used [`TFCALLASYNC`](/commands/tfcallasync). **We can only invoke async functions using [`TFCALLASYNC`](/commands/tfcallasync)**.
+Notice that this time, in order to invoke the function, we used [`TFCALLASYNC`]({{< relref "/commands/tfcallasync" >}}). **We can only invoke async functions using [`TFCALLASYNC`]({{< relref "/commands/tfcallasync" >}})**.
 
-Now let's look at a more complex example. Assume we want to write a function that counts the number of hashes in Redis that have a `name` property with some value. As a first attempt, we'll write a synchronous function that uses the [`SCAN`](/commands/scan) command to scan the key space:
+Now let's look at a more complex example. Assume we want to write a function that counts the number of hashes in Redis that have a `name` property with some value. As a first attempt, we'll write a synchronous function that uses the [`SCAN`]({{< relref "/commands/scan" >}}) command to scan the key space:
 
 ```js
 #!js api_version=1.0 name=lib
@@ -105,7 +105,7 @@ redis.registerAsyncFunction('test', async function(async_client, expected_name){
 });
 ```
 
-Both implementations return the same result, but the second function runs in the background and blocks Redis just to analyze the next batch of keys that are returned from the [`SCAN`](/commands/scan) command. Other commands will be processed in between [`SCAN`](/commands/scan) batches. Notice that the coroutine approach allows the key space to be changed while the scanning it. The function writer will need to decide if this is acceptable.
+Both implementations return the same result, but the second function runs in the background and blocks Redis just to analyze the next batch of keys that are returned from the [`SCAN`]({{< relref "/commands/scan" >}}) command. Other commands will be processed in between [`SCAN`]({{< relref "/commands/scan" >}}) batches. Notice that the coroutine approach allows the key space to be changed while the scanning it. The function writer will need to decide if this is acceptable.
 
 # Start sync and move to async
 

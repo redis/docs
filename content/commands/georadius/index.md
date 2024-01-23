@@ -161,23 +161,21 @@ key_specs:
     type: range
   update: true
 linkTitle: GEORADIUS
-replaced_by: '[`GEOSEARCH`](/commands/geosearch) and [`GEOSEARCHSTORE`](/commands/geosearchstore)
+replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) and [`GEOSEARCHSTORE`]({{< relref "/commands/geosearchstore" >}})
   with the `BYRADIUS` argument'
 since: 3.2.0
 summary: Queries a geospatial index for members within a distance from a coordinate,
   optionally stores the result.
-syntax_fmt: "GEORADIUS key longitude latitude radius <M | KM | FT | MI>
-  [WITHCOORD]\
-  \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]
-  [STORE\_key | STOREDIST\_\
+syntax_fmt: "GEORADIUS key longitude latitude radius <M | KM | FT | MI> [WITHCOORD]\
+  \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key | STOREDIST\_\
   key]"
 syntax_str: "longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH]\
   \ [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key | STOREDIST\_key]"
 title: GEORADIUS
 ---
-Return the members of a sorted set populated with geospatial information using [`GEOADD`](/commands/geoadd), which are within the borders of the area specified with the center location and the maximum distance from the center (the radius).
+Return the members of a sorted set populated with geospatial information using [`GEOADD`]({{< relref "/commands/geoadd" >}}), which are within the borders of the area specified with the center location and the maximum distance from the center (the radius).
 
-This manual page also covers the [`GEORADIUS_RO`](/commands/georadius_ro) and [`GEORADIUSBYMEMBER_RO`](/commands/georadiusbymember_ro) variants (see the section below for more information).
+This manual page also covers the [`GEORADIUS_RO`]({{< relref "/commands/georadius_ro" >}}) and [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}) variants (see the section below for more information).
 
 The common use case for this command is to retrieve geospatial items near a specified point not farther than a given amount of meters (or other units). This allows, for example, to suggest mobile users of an application nearby places.
 
@@ -212,9 +210,9 @@ By default the command returns the items to the client. It is possible to store 
 
 ## Read-only variants
 
-Since `GEORADIUS` and [`GEORADIUSBYMEMBER`](/commands/georadiusbymember) have a `STORE` and `STOREDIST` option they are technically flagged as writing commands in the Redis command table. For this reason read-only replicas will flag them, and Redis Cluster replicas will redirect them to the master instance even if the connection is in read-only mode (see the [`READONLY`](/commands/readonly) command of Redis Cluster).
+Since `GEORADIUS` and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) have a `STORE` and `STOREDIST` option they are technically flagged as writing commands in the Redis command table. For this reason read-only replicas will flag them, and Redis Cluster replicas will redirect them to the master instance even if the connection is in read-only mode (see the [`READONLY`]({{< relref "/commands/readonly" >}}) command of Redis Cluster).
 
-Breaking the compatibility with the past was considered but rejected, at least for Redis 4.0, so instead two read-only variants of the commands were added. They are exactly like the original commands but refuse the `STORE` and `STOREDIST` options. The two variants are called [`GEORADIUS_RO`](/commands/georadius_ro) and [`GEORADIUSBYMEMBER_RO`](/commands/georadiusbymember_ro), and can safely be used in replicas.
+Breaking the compatibility with the past was considered but rejected, at least for Redis 4.0, so instead two read-only variants of the commands were added. They are exactly like the original commands but refuse the `STORE` and `STOREDIST` options. The two variants are called [`GEORADIUS_RO`]({{< relref "/commands/georadius_ro" >}}) and [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}), and can safely be used in replicas.
 
 ## Examples
 

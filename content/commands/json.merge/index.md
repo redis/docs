@@ -66,7 +66,7 @@ is JSON value to merge with at the specified path. Merging is done according to 
 
 JSET.MERGE returns a simple string reply: `OK` if executed correctly or `error` if fails to set the new values
 
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -147,10 +147,10 @@ redis> JSON.GET doc
 
 ## See also
 
-[`JSON.GET`](/commands/json.get) | [`JSON.MGET`](/commands/json.mget) | [`JSON.SET`](/commands/json.set) | [`JSON.MSET`](/commands/json.mset)
+[`JSON.GET`]({{< baseurl >}}/commands/json.get) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget) | [`JSON.SET`]({{< baseurl >}}/commands/json.set) | [`JSON.MSET`]({{< baseurl >}}/commands/json.mset)
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
 

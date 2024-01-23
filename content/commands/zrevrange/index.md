@@ -55,7 +55,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREVRANGE
-replaced_by: '[`ZRANGE`](/commands/zrange) with the `REV` argument'
+replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` argument'
 since: 1.2.0
 summary: Returns members in a sorted set within a range of indexes in reverse order.
 syntax_fmt: ZREVRANGE key start stop [WITHSCORES]
@@ -66,7 +66,7 @@ Returns the specified range of elements in the sorted set stored at `key`.
 The elements are considered to be ordered from the highest to the lowest score.
 Descending lexicographical order is used for elements with equal score.
 
-Apart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`](/commands/zrange).
+Apart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`]({{< relref "/commands/zrange" >}}).
 
 ## Examples
 

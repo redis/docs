@@ -63,7 +63,7 @@ syntax_fmt: SUNIONSTORE destination key [key ...]
 syntax_str: key [key ...]
 title: SUNIONSTORE
 ---
-This command is equal to [`SUNION`](/commands/sunion), but instead of returning the resulting set,
+This command is equal to [`SUNION`]({{< relref "/commands/sunion" >}}), but instead of returning the resulting set,
 it is stored in `destination`.
 
 If `destination` already exists, it is overwritten.

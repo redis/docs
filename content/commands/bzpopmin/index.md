@@ -60,7 +60,7 @@ syntax_fmt: BZPOPMIN key [key ...] timeout
 syntax_str: timeout
 title: BZPOPMIN
 ---
-`BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`](/commands/zpopmin) primitive.
+`BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]({{< relref "/commands/zpopmin" >}}) primitive.
 
 It is the blocking version because it blocks the connection when there are no
 members to pop from any of the given sorted sets.
@@ -71,7 +71,7 @@ The `timeout` argument is interpreted as a double value specifying the maximum
 number of seconds to block. A timeout of zero can be used to block indefinitely.
 
 See the [BLPOP documentation][cl] for the exact semantics, since `BZPOPMIN` is
-identical to [`BLPOP`](/commands/blpop) with the only difference being the data structure being
+identical to [`BLPOP`]({{< relref "/commands/blpop" >}}) with the only difference being the data structure being
 popped from.
 
 [cl]: /commands/blpop

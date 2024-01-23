@@ -29,9 +29,9 @@ syntax_fmt: BF.LOADCHUNK key iterator data
 syntax_str: iterator data
 title: BF.LOADCHUNK
 ---
-Restores a Bloom filter previously saved using [`BF.SCANDUMP`](/commands/bf.scandump).
+Restores a Bloom filter previously saved using [`BF.SCANDUMP`]({{< baseurl >}}/commands/bf.scandump).
 
-See the [`BF.SCANDUMP`](/commands/bf.scandump) command for example usage.
+See the [`BF.SCANDUMP`]({{< baseurl >}}/commands/bf.scandump) command for example usage.
 
 <note><b>Notes</b>
 
@@ -49,21 +49,21 @@ is key name for a Bloom filter to restore.
 
 <details open><summary><code>iterator</code></summary>
 
-Iterator value associated with `data` (returned by [`BF.SCANDUMP`](/commands/bf.scandump))
+Iterator value associated with `data` (returned by [`BF.SCANDUMP`]({{< baseurl >}}/commands/bf.scandump))
 </details>
 
 <details open><summary><code>data</code></summary>
 
-Current data chunk (returned by [`BF.SCANDUMP`](/commands/bf.scandump))
+Current data chunk (returned by [`BF.SCANDUMP`]({{< baseurl >}}/commands/bf.scandump))
 </details>
 
 ## Return value
 
 Returns one of these replies:
 
-- [Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly
+- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
 - [] on error (invalid arguments, wrong key type, wrong data, etc.)
 
 ## Examples
 
-See [`BF.SCANDUMP`](/commands/bf.scandump) for an example.
+See [`BF.SCANDUMP`]({{< baseurl >}}/commands/bf.scandump) for an example.

@@ -46,7 +46,7 @@ is input value for which the rank should be estimated.
 
 ## Return value
 
-[Array reply](/docs/reference/protocol-spec#arrays) - an array of integers populated with rank_1, rank_2, ..., rank_V:
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - an array of integers populated with rank_1, rank_2, ..., rank_V:
   
 - -1 - when `value` is smaller than the value of the smallest observation.
 - The number of observations - when `value` is larger than the value of the largest observation.

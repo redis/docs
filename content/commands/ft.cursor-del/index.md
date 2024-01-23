@@ -73,8 +73,8 @@ Check that the cursor is deleted.
 
 ## See also
 
-[`FT.CURSOR READ`](/commands/ft.cursor-read) 
+[`FT.CURSOR READ`]({{< baseurl >}}/commands/ft.cursor-read) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

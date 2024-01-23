@@ -28,7 +28,7 @@ the exact LRU.
 The `maxmemory` configuration directive configures Redis
 to use a specified amount of memory for the data set. You can
 set the configuration directive using the `redis.conf` file, or later using
-the [`CONFIG SET`](/commands/config-set) command at runtime.
+the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command at runtime.
 
 For example, to configure a memory limit of 100 megabytes, you can use the
 following directive inside the `redis.conf` file:
@@ -65,7 +65,7 @@ The policies **volatile-lru**, **volatile-lfu**, **volatile-random**, and **vola
 Picking the right eviction policy is important depending on the access pattern
 of your application, however you can reconfigure the policy at runtime while
 the application is running, and monitor the number of cache misses and hits
-using the Redis [`INFO`](/commands/info) output to tune your setup.
+using the Redis [`INFO`]({{< relref "/commands/info" >}}) output to tune your setup.
 
 In general as a rule of thumb:
 

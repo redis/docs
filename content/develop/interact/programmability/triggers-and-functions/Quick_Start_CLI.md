@@ -34,7 +34,7 @@ Use the `TFUNCION LOAD` command to create a new library in your Redis instance.
 OK
 ```
 
-When the library is created successfully, an `OK` response is returned. Run the [`TFUNCTION LIST`](/commands/tfunction-list) command to confirm your library was added to Redis.
+When the library is created successfully, an `OK` response is returned. Run the [`TFUNCTION LIST`]({{< relref "/commands/tfunction-list" >}}) command to confirm your library was added to Redis.
 
 ```shell
 > TFUNCTION LIST
@@ -62,14 +62,14 @@ When the library is created successfully, an `OK` response is returned. Run the 
    22) "default"
 ```
 
-The [`TFCALL`](/commands/tfcall) command is used to execute the JavaScript Function. If the command fails, an error will be returned.
+The [`TFCALL`]({{< relref "/commands/tfcall" >}}) command is used to execute the JavaScript Function. If the command fails, an error will be returned.
 
 ```Shell
 127.0.0.1:6379> TFCALL myFirstLibrary.hello 0
 "Hello World"
 ```
 
-To update the library run the [`TFUNCTION LOAD`](/commands/tfunction-load) command with the additional parameter `REPLACE`.
+To update the library run the [`TFUNCTION LOAD`]({{< relref "/commands/tfunction-load" >}}) command with the additional parameter `REPLACE`.
 
 ```Shell
 127.0.0.1:6379> TFUNCTION LOAD REPLACE "#!js api_version=1.0 name=myFirstLibrary\n redis.registerFunction('hello', ()=>{ return 'Hello World updated'})"

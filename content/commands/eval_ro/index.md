@@ -63,11 +63,11 @@ syntax_fmt: EVAL_RO script numkeys [key [key ...]] [arg [arg ...]]
 syntax_str: numkeys [key [key ...]] [arg [arg ...]]
 title: EVAL_RO
 ---
-This is a read-only variant of the [`EVAL`](/commands/eval) command that cannot execute commands that modify data.
+This is a read-only variant of the [`EVAL`]({{< relref "/commands/eval" >}}) command that cannot execute commands that modify data.
 
-For more information about when to use this command vs [`EVAL`](/commands/eval), please refer to [Read-only scripts](/docs/manual/programmability/#read-only-scripts).
+For more information about when to use this command vs [`EVAL`]({{< relref "/commands/eval" >}}), please refer to [Read-only scripts]({{< baseurl >}}/develop/interact/programmability#read-only-scripts).
 
-For more information about [`EVAL`](/commands/eval) scripts please refer to [Introduction to Eval Scripts](/topics/eval-intro).
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts](/topics/eval-intro).
 
 ## Examples
 

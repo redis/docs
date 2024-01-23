@@ -269,66 +269,27 @@ since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Searches the index with a textual query, returning either documents or just
   ids
-syntax: "FT.SEARCH index query 
-  [NOCONTENT] 
-  [VERBATIM] [NOSTOPWORDS] 
-  [WITHSCORES]\
-  \ 
-  [WITHPAYLOADS] 
-  [WITHSORTKEYS] 
-  [FILTER numeric_field min max [ FILTER\
-  \ numeric_field min max ...]] 
-  [GEOFILTER geo_field lon lat radius m | km | mi\
-  \ | ft [ GEOFILTER geo_field lon lat radius m | km | mi | ft ...]] 
-  [INKEYS count\
-  \ key [key ...]] [ INFIELDS count field [field ...]] 
-  [RETURN count identifier\
-  \ [AS property] [ identifier [AS property] ...]] 
-  [SUMMARIZE [ FIELDS count field\
-  \ [field ...]] [FRAGS num] [LEN fragsize] [SEPARATOR separator]] 
-  [HIGHLIGHT\
-  \ [ FIELDS count field [field ...]] [ TAGS open close]] 
-  [SLOP slop] 
-  [TIMEOUT\
-  \ timeout] 
-  [INORDER] 
-  [LANGUAGE language] 
-  [EXPANDER expander] 
-  [SCORER\
-  \ scorer] 
-  [EXPLAINSCORE] 
-  [PAYLOAD payload] 
-  [SORTBY sortby [ ASC | DESC]\
-  \ [WITHCOUNT]] 
-  [LIMIT offset num] 
-  [PARAMS nargs name value [ name value\
-  \ ...]] 
-  [DIALECT dialect]
-"
-syntax_fmt: "FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS]
-  [WITHSCORES]\
-  \ [WITHPAYLOADS] [WITHSORTKEYS] [FILTER\_numeric_field
-  min max [FILTER\_numeric_field\
-  \ min max ...]] [GEOFILTER\_geo_field
-  lon lat radius <m | km | mi | ft> [GEOFILTER\_\
-  geo_field lon lat
-  radius <m | km | mi | ft> ...]] [INKEYS\_count key [key ...]]
-\
-  \  [INFIELDS\_count field [field ...]] [RETURN\_count identifier
-  [AS\_property]\
-  \ [identifier [AS\_property] ...]] [SUMMARIZE
-  [FIELDS\_count field [field ...]]\
-  \ [FRAGS\_num] [LEN\_fragsize]
-  [SEPARATOR\_separator]] [HIGHLIGHT [FIELDS\_count\
-  \ field [field ...]]
-  [TAGS open close]] [SLOP\_slop] [TIMEOUT\_timeout] [INORDER]
-\
-  \  [LANGUAGE\_language] [EXPANDER\_expander] [SCORER\_scorer]
-  [EXPLAINSCORE]\
-  \ [PAYLOAD\_payload] [SORTBY\_sortby [ASC | DESC]]
-  [LIMIT offset num] [PARAMS\
-  \ nargs name value [name value ...]]
-  [DIALECT\_dialect]"
+syntax: 'FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS] [WITHSCORES]  [WITHPAYLOADS]
+  [WITHSORTKEYS] [FILTER numeric_field min max [ FILTER numeric_field min max ...]]
+  [GEOFILTER geo_field lon lat radius m | km | mi | ft [ GEOFILTER geo_field lon lat
+  radius m | km | mi | ft ...]] [INKEYS count key [key ...]] [ INFIELDS count field
+  [field ...]] [RETURN count identifier [AS property] [ identifier [AS property] ...]]
+  [SUMMARIZE [ FIELDS count field [field ...]] [FRAGS num] [LEN fragsize] [SEPARATOR
+  separator]] [HIGHLIGHT [ FIELDS count field [field ...]] [ TAGS open close]] [SLOP
+  slop] [TIMEOUT timeout] [INORDER] [LANGUAGE language] [EXPANDER expander] [SCORER
+  scorer] [EXPLAINSCORE] [PAYLOAD payload] [SORTBY sortby [ ASC | DESC] [WITHCOUNT]]
+  [LIMIT offset num] [PARAMS nargs name value [ name value ...]] [DIALECT dialect] '
+syntax_fmt: "FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS] [WITHSCORES]\
+  \ [WITHPAYLOADS] [WITHSORTKEYS] [FILTER\_numeric_field min max [FILTER\_numeric_field\
+  \ min max ...]] [GEOFILTER\_geo_field lon lat radius <m | km | mi | ft> [GEOFILTER\_\
+  geo_field lon lat radius <m | km | mi | ft> ...]] [INKEYS\_count key [key ...]]\
+  \   [INFIELDS\_count field [field ...]] [RETURN\_count identifier [AS\_property]\
+  \ [identifier [AS\_property] ...]] [SUMMARIZE [FIELDS\_count field [field ...]]\
+  \ [FRAGS\_num] [LEN\_fragsize] [SEPARATOR\_separator]] [HIGHLIGHT [FIELDS\_count\
+  \ field [field ...]] [TAGS open close]] [SLOP\_slop] [TIMEOUT\_timeout] [INORDER]\
+  \   [LANGUAGE\_language] [EXPANDER\_expander] [SCORER\_scorer] [EXPLAINSCORE] [PAYLOAD\_\
+  payload] [SORTBY\_sortby [ASC | DESC]] [LIMIT offset num] [PARAMS nargs name value\
+  \ [name value ...]] [DIALECT\_dialect]"
 syntax_str: "query [NOCONTENT] [VERBATIM] [NOSTOPWORDS] [WITHSCORES] [WITHPAYLOADS]\
   \ [WITHSORTKEYS] [FILTER\_numeric_field min max [FILTER\_numeric_field min max ...]]\
   \ [GEOFILTER\_geo_field lon lat radius <m | km | mi | ft> [GEOFILTER\_geo_field\
@@ -352,13 +313,13 @@ Search the index with a textual query, returning either documents or just ids
 <details open>
 <summary><code>index</code></summary>
 
-is index name. You must first create the index using [`FT.CREATE`](/commands/ft.create).
+is index name. You must first create the index using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create).
 </details>
 
 <details open>
 <summary><code>query</code></summary> 
 
-is text query to search. If it's more than a single word, put it in quotes. Refer to [Query syntax](/docs/interact/search-and-query/query/) for more details.
+is text query to search. If it's more than a single word, put it in quotes. Refer to [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}) for more details.
 </details>
 
 ## Optional arguments
@@ -384,7 +345,7 @@ also returns the relative internal score of each document. This can be used to m
 <details open>
 <summary><code>WITHPAYLOADS</code></summary>
 
-retrieves optional document payloads. See [`FT.CREATE`](/commands/ft.create). The payloads follow the document id and, if `WITHSCORES` is set, the scores.
+retrieves optional document payloads. See [`FT.CREATE`]({{< baseurl >}}/commands/ft.create). The payloads follow the document id and, if `WITHSCORES` is set, the scores.
 </details>
 
 <details open>
@@ -396,14 +357,14 @@ returns the value of the sorting key, right after the id and score and/or payloa
 <details open>
 <summary><code>FILTER numeric_attribute min max</code></summary>
 
-limits results to those having numeric values ranging between `min` and `max`, if numeric_attribute is defined as a numeric attribute in [`FT.CREATE`](/commands/ft.create). 
-  `min` and `max` follow [`ZRANGE`](/commands/zrange) syntax, and can be `-inf`, `+inf`, and use `(` for exclusive ranges. Multiple numeric filters for different attributes are supported in one query.
+limits results to those having numeric values ranging between `min` and `max`, if numeric_attribute is defined as a numeric attribute in [`FT.CREATE`]({{< baseurl >}}/commands/ft.create). 
+  `min` and `max` follow [`ZRANGE`]({{< relref "/commands/zrange" >}}) syntax, and can be `-inf`, `+inf`, and use `(` for exclusive ranges. Multiple numeric filters for different attributes are supported in one query.
 </details>
 
 <details open>
 <summary><code>GEOFILTER {geo_attribute} {lon} {lat} {radius} m|km|mi|ft</code></summary>
 
-filter the results to a given `radius` from `lon` and `lat`. Radius is given as a number and units. See [`GEORADIUS`](/commands/georadius) for more details.
+filter the results to a given `radius` from `lon` and `lat`. Radius is given as a number and units. See [`GEORADIUS`]({{< relref "/commands/georadius" >}}) for more details.
 </details>
 
 <details open>
@@ -429,13 +390,13 @@ limits the attributes returned from the document. `num` is the number of attribu
 <details open>
 <summary><code>SUMMARIZE ...</code></summary>
 
-returns only the sections of the attribute that contain the matched text. See [Highlighting](/docs/interact/search-and-query/advanced-concepts/highlight/) for more information.
+returns only the sections of the attribute that contain the matched text. See [Highlighting]({{< relref "/develop/interact/search-and-query/advanced-concepts/highlight" >}}) for more information.
 </details>
 
 <details open>
 <summary><code>HIGHLIGHT ...</code></summary>
 
-formats occurrences of matched text. See [Highlighting](/docs/interact/search-and-query/advanced-concepts/highlight/) for more information.
+formats occurrences of matched text. See [Highlighting]({{< relref "/develop/interact/search-and-query/advanced-concepts/highlight" >}}) for more information.
 </details>
 
 <details open>
@@ -459,19 +420,19 @@ requires the terms in the document to have the same order as the terms in the qu
 
 use a stemmer for the supplied language during search for query expansion. If querying documents in Chinese, set to `chinese` to
   properly tokenize the query terms. Defaults to English. If an unsupported language is sent, the command returns an error.
-  See [`FT.CREATE`](/commands/ft.create) for the list of languages. 
+  See [`FT.CREATE`]({{< baseurl >}}/commands/ft.create) for the list of languages. 
 </details>
 
 <details open>
 <summary><code>EXPANDER {expander}</code></summary>
 
-uses a custom query expander instead of the stemmer. See [Extensions](/docs/interact/search-and-query/administration/extensions/).
+uses a custom query expander instead of the stemmer. See [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}).
 </details>
 
 <details open>
 <summary><code>SCORER {scorer}</code></summary>
 
-uses a [built-in](/docs/interact/search-and-query/advanced-concepts/scoring/) or a [user-provided](/docs/interact/search-and-query/administration/extensions/) scoring function.
+uses a [built-in]({{< relref "/develop/interact/search-and-query/advanced-concepts/scoring" >}}) or a [user-provided]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}) scoring function.
 </details>
 
 <details open>
@@ -483,7 +444,7 @@ returns a textual description of how the scores were calculated. Using this opti
 <details open>
 <summary><code>PAYLOAD {payload}</code></summary>
 
-adds an arbitrary, binary safe payload that is exposed to custom scoring functions. See [Extensions](/docs/interact/search-and-query/administration/extensions/).
+adds an arbitrary, binary safe payload that is exposed to custom scoring functions. See [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}).
 </details>
 
 <details open>
@@ -525,7 +486,7 @@ You can reference parameters in the `query` by a `$`, followed by the parameter 
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary>
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`](/commands/ft.config-set) command.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) command.
 </details>
 
 ## Return
@@ -550,7 +511,7 @@ In order to maintain backward compatibility, the default behavior with RediSearc
 
 To return all the values, use `DIALECT` 3 (or greater, when available).
 
-The `DIALECT` can be specified as a parameter in the FT.SEARCH command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`](/commands/ft.config-set) or by passing it as an argument to the `redisearch` module when it is loaded.
+The `DIALECT` can be specified as a parameter in the FT.SEARCH command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) or by passing it as an argument to the `redisearch` module when it is loaded.
 
 For example, with the following document and index:
 
@@ -817,7 +778,7 @@ First, create an index using `GEOSHAPE` type with a `FLAT` coordinate system:
 OK
 {{< / highlight >}}
 
-Adding a couple of geometries using [`HSET`](/commands/hset):
+Adding a couple of geometries using [`HSET`]({{< relref "/commands/hset" >}}):
 
 
 {{< highlight bash >}}
@@ -857,11 +818,11 @@ Query with `CONTAINS` operator:
 
 ## See also
 
-[`FT.CREATE`](/commands/ft.create) | [`FT.AGGREGATE`](/commands/ft.aggregate) 
+[`FT.CREATE`]({{< baseurl >}}/commands/ft.create) | [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) 
 
 ## Related topics
 
-- [Extensions](/docs/interact/search-and-query/administration/extensions/)
-- [Highlighting](/docs/interact/search-and-query/advanced-concepts/highlight/)
-- [Query syntax](/docs/interact/search-and-query/query/)
-- [RediSearch](/docs/stack/search)
+- [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}})
+- [Highlighting]({{< relref "/develop/interact/search-and-query/advanced-concepts/highlight" >}})
+- [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}})
+- [RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

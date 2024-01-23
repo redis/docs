@@ -69,7 +69,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREVRANGEBYSCORE
-replaced_by: '[`ZRANGE`](/commands/zrange) with the `REV` and `BYSCORE` arguments'
+replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` and `BYSCORE` arguments'
 since: 2.2.0
 summary: Returns members in a sorted set within a range of scores in reverse order.
 syntax_fmt: "ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT\_offset count]"
@@ -85,7 +85,7 @@ The elements having the same score are returned in reverse lexicographical
 order.
 
 Apart from the reversed ordering, `ZREVRANGEBYSCORE` is similar to
-[`ZRANGEBYSCORE`](/commands/zrangebyscore).
+[`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}).
 
 ## Examples
 

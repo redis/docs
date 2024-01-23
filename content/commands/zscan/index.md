@@ -62,4 +62,4 @@ syntax_fmt: "ZSCAN key cursor [MATCH\_pattern] [COUNT\_count]"
 syntax_str: "cursor [MATCH\_pattern] [COUNT\_count]"
 title: ZSCAN
 ---
-See [`SCAN`](/commands/scan) for `ZSCAN` documentation.
+See [`SCAN`]({{< relref "/commands/scan" >}}) for `ZSCAN` documentation.

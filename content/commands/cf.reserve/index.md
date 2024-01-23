@@ -35,9 +35,8 @@ module: Bloom
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Creates a new Cuckoo Filter
-syntax_fmt: "CF.RESERVE key capacity [BUCKETSIZE\_bucketsize]
-  [MAXITERATIONS\_\
-  maxiterations] [EXPANSION\_expansion]"
+syntax_fmt: "CF.RESERVE key capacity [BUCKETSIZE\_bucketsize] [MAXITERATIONS\_maxiterations]\
+  \ [EXPANSION\_expansion]"
 syntax_str: "capacity [BUCKETSIZE\_bucketsize] [MAXITERATIONS\_maxiterations] [EXPANSION\_\
   expansion]"
 title: CF.RESERVE
@@ -108,7 +107,7 @@ Expansion is rounded to the next `2^n` number.
 
 Returns one of these replies:
 
-- [Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if filter created successfully
+- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if filter created successfully
 - [] on error (invalid arguments, key already exists, etc.)
 
 ## Examples

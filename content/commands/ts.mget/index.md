@@ -61,11 +61,9 @@ summary: Get the sample with the highest timestamp from each time series matchin
 syntax: 'TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label...] FILTER filterExpr...
 
   '
-syntax_fmt: "TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]]
-\
-  \  FILTER\_<l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...)
-  [l=v | l!=v\
-  \ | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>"
+syntax_fmt: "TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]] \
+  \  FILTER\_<l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v |\
+  \ l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>"
 syntax_str: "[WITHLABELS | SELECTED_LABELS label1 [label1 ...]] FILTER\_<l=v | l!=v\
   \ | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v | l= | l!= | l=(v1,v2,...)\
   \ | l!=(v1,v2,...) ...]>"
@@ -124,17 +122,17 @@ If `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty lis
 
 </details>
 
-<note><b>Note:</b> The [`MGET`](/commands/mget) command cannot be part of a transaction when running on a Redis cluster.</note>
+<note><b>Note:</b> The [`MGET`]({{< relref "/commands/mget" >}}) command cannot be part of a transaction when running on a Redis cluster.</note>
 
 ## Return value
 
-- [Array reply](/docs/reference/protocol-spec#arrays): for each time series matching the specified filters, the following is reported:
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
   - bulk-string-reply: The time series key name
-  - [Array reply](/docs/reference/protocol-spec#arrays): label-value pairs ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings))
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
     - By default, an empty array is reported
     - If `WITHLABELS` is specified, all labels associated with this time series are reported
     - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)
-  - [Array reply](/docs/reference/protocol-spec#arrays): a single timestamp-value pair ([Integer reply](/docs/reference/protocol-spec#integers), [Simple string reply](/docs/reference/protocol-spec#simple-strings) (double))
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single timestamp-value pair ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) (double))
 
 ## Examples
 
@@ -199,9 +197,9 @@ To get only the `location` label for each last sample, use `SELECTED_LABELS`.
 
 ## See also
 
-[`TS.MRANGE`](/commands/ts.mrange) | [`TS.RANGE`](/commands/ts.range) | [`TS.MREVRANGE`](/commands/ts.mrevrange) | [`TS.REVRANGE`](/commands/ts.revrange)
+[`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange) | [`TS.RANGE`]({{< baseurl >}}/commands/ts.range) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange)
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
 

@@ -29,12 +29,12 @@ title: CF.ADDNX
 ---
 Adds an item to a cuckoo filter if the item does not exist.
 
-This command is similar to the combination of [`CF.EXISTS`](/commands/cf.exists) and [`CF.ADD`](/commands/cf.add). It does not add an item into the filter if its fingerprint already exists.
+This command is similar to the combination of [`CF.EXISTS`]({{< baseurl >}}/commands/cf.exists) and [`CF.ADD`]({{< baseurl >}}/commands/cf.add). It does not add an item into the filter if its fingerprint already exists.
 
 <note><b>Notes:</b>
 
-- This command is slower than [`CF.ADD`](/commands/cf.add) because it first checks whether the item exists.
-- Since [`CF.EXISTS`](/commands/cf.exists) can result in false positive, `CF.ADDNX` may not add an item because it is supposedly already exist, which may be wrong.
+- This command is slower than [`CF.ADD`]({{< baseurl >}}/commands/cf.add) because it first checks whether the item exists.
+- Since [`CF.EXISTS`]({{< baseurl >}}/commands/cf.exists) can result in false positive, `CF.ADDNX` may not add an item because it is supposedly already exist, which may be wrong.
 
 </note>
 
@@ -56,7 +56,7 @@ is an item to add.
 
 Returns one of these replies:
 
-- [Integer reply](/docs/reference/protocol-spec#integers), where `0` means that the item's fingerprint already exist in the filter, and `1` means that the item has been successfully added to the filter.
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `0` means that the item's fingerprint already exist in the filter, and `1` means that the item has been successfully added to the filter.
 - [] on error (invalid arguments, wrong key type, etc.) and also when the filter is full.
 
 ## Examples

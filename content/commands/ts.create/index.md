@@ -73,19 +73,11 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Create a new time series
-syntax: "TS.CREATE key 
-  [RETENTION retentionPeriod] 
-  [ENCODING [UNCOMPRESSED|COMPRESSED]]\
-  \ 
-  [CHUNK_SIZE size] 
-  [DUPLICATE_POLICY policy] 
-  [LABELS {label value}...]
-"
-syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED |
-\
-  \  COMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST |
-  LAST |\
-  \ MIN | MAX | SUM>] [LABELS\_label value [label value ...]]"
+syntax: 'TS.CREATE key [RETENTION retentionPeriod] [ENCODING [UNCOMPRESSED|COMPRESSED]]  [CHUNK_SIZE
+  size] [DUPLICATE_POLICY policy] [LABELS {label value}...] '
+syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED |\
+  \   COMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST | LAST | MIN\
+  \ | MAX | SUM>] [LABELS\_label value [label value ...]]"
 syntax_str: "[RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED | COMPRESSED>]\
   \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST | LAST | MIN | MAX | SUM>]\
   \ [LABELS\_label value [label value ...]]"
@@ -105,17 +97,17 @@ is key name for the time series.
 
 <note><b>Notes:</b>
 
-- If a key already exists, you get a Redis error reply, `TSDB: key already exists`. You can check for the existence of a key with the [`EXISTS`](/commands/exists) command.
-- Other commands that also create a new time series when called with a key that does not exist are [`TS.ADD`](/commands/ts.add), [`TS.INCRBY`](/commands/ts.incrby), and [`TS.DECRBY`](/commands/ts.decrby).
+- If a key already exists, you get a Redis error reply, `TSDB: key already exists`. You can check for the existence of a key with the [`EXISTS`]({{< relref "/commands/exists" >}}) command.
+- Other commands that also create a new time series when called with a key that does not exist are [`TS.ADD`]({{< baseurl >}}/commands/ts.add), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby), and [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby).
 </note>
 
 ## Optional arguments
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary> 
 
-is maximum age for samples compared to the highest reported timestamp, in milliseconds. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`](/commands/ts.add), [`TS.MADD`](/commands/ts.madd), [`TS.INCRBY`](/commands/ts.incrby), and [`TS.DECRBY`](/commands/ts.decrby) calls with this key.
+is maximum age for samples compared to the highest reported timestamp, in milliseconds. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`]({{< baseurl >}}/commands/ts.add), [`TS.MADD`]({{< baseurl >}}/commands/ts.madd), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby), and [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby) calls with this key.
 
-When set to 0, samples never expire. When not specified, the option is set to the global [RETENTION_POLICY](/docs/stack/timeseries/configuration/#retention_policy) configuration of the database, which by default is 0.
+When set to 0, samples never expire. When not specified, the option is set to the global [RETENTION_POLICY]({{< baseurl >}}/develop/data-types/timeseries/configuration#retention_policy) configuration of the database, which by default is 0.
 </details>
 
 <details open><summary><code>ENCODING enc</code></summary> 
@@ -131,9 +123,9 @@ When not specified, the option is set to `COMPRESSED`.
 
 <details open><summary><code>CHUNK_SIZE size</code></summary> 
 
-is initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. Changing chunkSize (using [`TS.ALTER`](/commands/ts.alter)) does not affect existing chunks.
+is initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. Changing chunkSize (using [`TS.ALTER`]({{< baseurl >}}/commands/ts.alter)) does not affect existing chunks.
 
-Must be a multiple of 8 in the range [48 .. 1048576]. When not specified, it is set to the global [CHUNK_SIZE_BYTES](/docs/stack/timeseries/configuration/#chunk_size_bytes) configuration of the database, which by default is 4096 (a single memory page).
+Must be a multiple of 8 in the range [48 .. 1048576]. When not specified, it is set to the global [CHUNK_SIZE_BYTES]({{< baseurl >}}/develop/data-types/timeseries/configuration#chunk_size_bytes) configuration of the database, which by default is 4096 (a single memory page).
 
 Note: Before v1.6.10 no minimum was enforced. Between v1.6.10 and v1.6.17 and in v1.8.0 the minimum value was 128. Since v1.8.1 the minimum value is 48.
 
@@ -148,7 +140,7 @@ The data in each key is stored in chunks. Each chunk contains header and data fo
 
 <details open><summary><code>DUPLICATE_POLICY policy</code></summary> 
 
-is policy for handling insertion ([`TS.ADD`](/commands/ts.add) and [`TS.MADD`](/commands/ts.madd)) of multiple samples with identical timestamps, with one of the following values:
+is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add) and [`TS.MADD`]({{< baseurl >}}/commands/ts.madd)) of multiple samples with identical timestamps, with one of the following values:
   - `BLOCK`: ignore any newly reported value and reply with an error
   - `FIRST`: ignore any newly reported value
   - `LAST`: override with the newly reported value
@@ -156,21 +148,21 @@ is policy for handling insertion ([`TS.ADD`](/commands/ts.add) and [`TS.MADD`](/
   - `MAX`: only override if the value is higher than the existing value
   - `SUM`: If a previous sample exists, add the new sample to it so that the updated value is equal to (previous + new). If no previous sample exists, set the updated value equal to the new value.
 
-  When not specified: set to the global [DUPLICATE_POLICY](/docs/stack/timeseries/configuration/#duplicate_policy) configuration of the database (which, by default, is `BLOCK`).
+  When not specified: set to the global [DUPLICATE_POLICY]({{< baseurl >}}/develop/data-types/timeseries/configuration#duplicate_policy) configuration of the database (which, by default, is `BLOCK`).
 </details>
 
 <details open><summary><code>LABELS {label value}...</code></summary> 
 
 is set of label-value pairs that represent metadata labels of the key and serve as a secondary index.
 
-The [`TS.MGET`](/commands/ts.mget), [`TS.MRANGE`](/commands/ts.mrange), and [`TS.MREVRANGE`](/commands/ts.mrevrange) commands operate on multiple time series based on their labels. The [`TS.QUERYINDEX`](/commands/ts.queryindex) command returns all time series keys matching a given filter based on their labels.
+The [`TS.MGET`]({{< baseurl >}}/commands/ts.mget), [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange), and [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange) commands operate on multiple time series based on their labels. The [`TS.QUERYINDEX`]({{< baseurl >}}/commands/ts.queryindex) command returns all time series keys matching a given filter based on their labels.
 </details>
 
 ## Return value
 
 Returns one of these replies:
 
-- [Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly
+- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
 - [] on error (invalid arguments, key already exists, etc.)
 
 ## Examples 
@@ -185,9 +177,9 @@ OK
 
 ## See also
 
-[`TS.ADD`](/commands/ts.add) | [`TS.INCRBY`](/commands/ts.incrby) | [`TS.DECRBY`](/commands/ts.decrby) | [`TS.MGET`](/commands/ts.mget) | [`TS.MRANGE`](/commands/ts.mrange) | [`TS.MREVRANGE`](/commands/ts.mrevrange) | [`TS.QUERYINDEX`](/commands/ts.queryindex)
+[`TS.ADD`]({{< baseurl >}}/commands/ts.add) | [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby) | [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby) | [`TS.MGET`]({{< baseurl >}}/commands/ts.mget) | [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange) | [`TS.QUERYINDEX`]({{< baseurl >}}/commands/ts.queryindex)
 
 ## Related topics
 
-- [RedisTimeSeries](/docs/stack/timeseries)
+- [RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
 - [RedisTimeSeries Version 1.2 Is Here!](https://redis.com/blog/redistimeseries-version-1-2-is-here/)

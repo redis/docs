@@ -75,17 +75,16 @@ key_specs:
 linkTitle: ZUNION
 since: 6.2.0
 summary: Returns the union of multiple sorted sets.
-syntax_fmt: "ZUNION numkeys key [key ...] [WEIGHTS\_weight [weight ...]]
-  [AGGREGATE\_\
+syntax_fmt: "ZUNION numkeys key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_\
   <SUM | MIN | MAX>] [WITHSCORES]"
 syntax_str: "key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM | MIN |\
   \ MAX>] [WITHSCORES]"
 title: ZUNION
 ---
-This command is similar to [`ZUNIONSTORE`](/commands/zunionstore), but instead of storing the resulting
+This command is similar to [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}), but instead of storing the resulting
 sorted set, it is returned to the client.
 
-For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`](/commands/zunionstore).
+For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}).
 
 ## Examples
 

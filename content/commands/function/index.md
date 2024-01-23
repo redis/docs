@@ -25,4 +25,4 @@ title: FUNCTION
 ---
 This is a container command for function commands.
 
-To see the list of available commands you can call [`FUNCTION HELP`](/commands/function-help).
+To see the list of available commands you can call [`FUNCTION HELP`]({{< relref "/commands/function-help" >}}).

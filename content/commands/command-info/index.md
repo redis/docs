@@ -38,9 +38,9 @@ syntax_fmt: COMMAND INFO [command-name [command-name ...]]
 syntax_str: ''
 title: COMMAND INFO
 ---
-Returns [Array reply](/docs/reference/protocol-spec#arrays) of details about multiple Redis commands.
+Returns [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of details about multiple Redis commands.
 
-Same result format as [`COMMAND`](/commands/command) except you can specify which commands
+Same result format as [`COMMAND`]({{< relref "/commands/command" >}}) except you can specify which commands
 get returned.
 
 If you request details about non-existing commands, their return

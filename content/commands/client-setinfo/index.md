@@ -43,7 +43,7 @@ syntax_fmt: "CLIENT SETINFO <LIB-NAME\_libname | LIB-VER\_libver>"
 syntax_str: ''
 title: CLIENT SETINFO
 ---
-The `CLIENT SETINFO` command assigns various info attributes to the current connection which are displayed in the output of [`CLIENT LIST`](/commands/client-list) and [`CLIENT INFO`](/commands/client-info).
+The `CLIENT SETINFO` command assigns various info attributes to the current connection which are displayed in the output of [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) and [`CLIENT INFO`]({{< relref "/commands/client-info" >}}).
 
 Client libraries are expected to pipeline this command after authentication on all connections
 and ignore failures since they could be connected to an older version that doesn't support them.
@@ -52,6 +52,6 @@ Currently the supported attributes are:
 * `lib-name` - meant to hold the name of the client library that's in use.
 * `lib-ver` - meant to hold the client library's version.
 
-There is no limit to the length of these attributes. However it is not possible to use spaces, newlines, or other non-printable characters that would violate the format of the [`CLIENT LIST`](/commands/client-list) reply.
+There is no limit to the length of these attributes. However it is not possible to use spaces, newlines, or other non-printable characters that would violate the format of the [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) reply.
 
 Note that these attributes are **not** cleared by the RESET command.

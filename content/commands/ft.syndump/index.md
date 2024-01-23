@@ -66,8 +66,8 @@ FT.SYNDUMP returns an array reply, with a pair of `term` and an array of synonym
 
 ## See also
 
-[`FT.SYNUPDATE`](/commands/ft.synupdate) 
+[`FT.SYNUPDATE`]({{< baseurl >}}/commands/ft.synupdate) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

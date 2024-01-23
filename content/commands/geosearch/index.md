@@ -161,20 +161,17 @@ key_specs:
 linkTitle: GEOSEARCH
 since: 6.2.0
 summary: Queries a geospatial index for members inside an area of a box or a circle.
-syntax_fmt: "GEOSEARCH key <FROMMEMBER\_member | FROMLONLAT\_longitude latitude>
-\
-  \  <BYRADIUS\_radius <M | KM | FT | MI> | BYBOX\_width height <M | KM |
-  FT |\
-  \ MI>> [ASC | DESC] [COUNT\_count [ANY]] [WITHCOORD] [WITHDIST]
-  [WITHHASH]"
+syntax_fmt: "GEOSEARCH key <FROMMEMBER\_member | FROMLONLAT\_longitude latitude> \
+  \  <BYRADIUS\_radius <M | KM | FT | MI> | BYBOX\_width height <M | KM | FT | MI>>\
+  \ [ASC | DESC] [COUNT\_count [ANY]] [WITHCOORD] [WITHDIST] [WITHHASH]"
 syntax_str: "<FROMMEMBER\_member | FROMLONLAT\_longitude latitude> <BYRADIUS\_radius\
   \ <M | KM | FT | MI> | BYBOX\_width height <M | KM | FT | MI>> [ASC | DESC] [COUNT\_\
   count [ANY]] [WITHCOORD] [WITHDIST] [WITHHASH]"
 title: GEOSEARCH
 ---
-Return the members of a sorted set populated with geospatial information using [`GEOADD`](/commands/geoadd), which are within the borders of the area specified by a given shape. This command extends the [`GEORADIUS`](/commands/georadius) command, so in addition to searching within circular areas, it supports searching within rectangular areas.
+Return the members of a sorted set populated with geospatial information using [`GEOADD`]({{< relref "/commands/geoadd" >}}), which are within the borders of the area specified by a given shape. This command extends the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command, so in addition to searching within circular areas, it supports searching within rectangular areas.
 
-This command should be used in place of the deprecated [`GEORADIUS`](/commands/georadius) and [`GEORADIUSBYMEMBER`](/commands/georadiusbymember) commands.
+This command should be used in place of the deprecated [`GEORADIUS`]({{< relref "/commands/georadius" >}}) and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) commands.
 
 The query's center point is provided by one of these mandatory options:
 
@@ -183,7 +180,7 @@ The query's center point is provided by one of these mandatory options:
 
 The query's shape is provided by one of these mandatory options:
 
-* `BYRADIUS`: Similar to [`GEORADIUS`](/commands/georadius), search inside circular area according to given `<radius>`.
+* `BYRADIUS`: Similar to [`GEORADIUS`]({{< relref "/commands/georadius" >}}), search inside circular area according to given `<radius>`.
 * `BYBOX`: Search inside an axis-aligned rectangle, determined by `<height>` and `<width>`.
 
 The command optionally returns additional information using the following options:

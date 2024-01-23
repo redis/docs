@@ -46,7 +46,7 @@ is input value for which the reverse rank should be estimated.
 
 ## Return value
 
-[Array reply](/docs/reference/protocol-spec#arrays) - an array of integers populated with revrank_1, revrank_2, ..., revrank_V:
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - an array of integers populated with revrank_1, revrank_2, ..., revrank_V:
   
 - -1 - when `value` is larger than the value of the largest observation.
 - The number of observations - when `value` is smaller than the value of the smallest observation.

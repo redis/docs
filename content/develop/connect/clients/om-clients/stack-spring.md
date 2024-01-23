@@ -343,7 +343,7 @@ Several Redis commands were executed on application startup. Let’s break them 
 
 ### Index Creation
 
-The first one is a call to [`FT.CREATE`](/commands/ft.create), which happens after Redis OM Spring scanned the `@Document` annotations. As you can see, since it encountered the annotation on `Person`, it creates the  `PersonIdx` index.
+The first one is a call to [`FT.CREATE`]({{< baseurl >}}/commands/ft.create), which happens after Redis OM Spring scanned the `@Document` annotations. As you can see, since it encountered the annotation on `Person`, it creates the  `PersonIdx` index.
 
 {{< highlight bash >}}
 "FT.CREATE"
@@ -391,7 +391,7 @@ Let's break it down:
 
 * The first call uses the generated ULID to check if the id is in the set of primary keys (if it is, it’ll be removed)
 * The second call checks if JSON document exists (if it is, it’ll be removed)
-* The third call uses the [`JSON.SET`](/commands/json.set) command to save the JSON payload
+* The third call uses the [`JSON.SET`]({{< baseurl >}}/commands/json.set) command to save the JSON payload
 * The last call adds the primary key of the saved document to the set of primary keys
 
 Now that we’ve seen the repository in action via the `.save` method, we know that the trip from Java to Redis work. Now let’s add some more data to make the interactions more interesting:
@@ -494,7 +494,7 @@ Optional<Person> byId(@PathVariable String id) {
 }
 {{< / highlight >}}
 
-Refreshing the Swagger UI, we should see the newly added endpoint. We can grab an id using the [`SRANDMEMBER`](/commands/srandmember) command on the RedisInsight CLI like this:
+Refreshing the Swagger UI, we should see the newly added endpoint. We can grab an id using the [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}) command on the RedisInsight CLI like this:
 
 {{< highlight bash >}}
 SRANDMEMBER com.redis.om.skeleton.models.Person

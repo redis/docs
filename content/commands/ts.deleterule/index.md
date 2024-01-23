@@ -51,13 +51,13 @@ is key name for destination (compacted) time series.
 
 Returns one of these replies:
 
-- [Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly
+- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
 - [] on error (invalid arguments, etc.), or when such rule does not exist
 
 ## See also
 
-[`TS.CREATERULE`](/commands/ts.createrule) 
+[`TS.CREATERULE`]({{< baseurl >}}/commands/ts.createrule) 
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

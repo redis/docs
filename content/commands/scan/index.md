@@ -56,18 +56,18 @@ syntax_fmt: "SCAN cursor [MATCH\_pattern] [COUNT\_count] [TYPE\_type]"
 syntax_str: "[MATCH\_pattern] [COUNT\_count] [TYPE\_type]"
 title: SCAN
 ---
-The `SCAN` command and the closely related commands [`SSCAN`](/commands/sscan), [`HSCAN`](/commands/hscan) and [`ZSCAN`](/commands/zscan) are used in order to incrementally iterate over a collection of elements.
+The `SCAN` command and the closely related commands [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}) are used in order to incrementally iterate over a collection of elements.
 
 * `SCAN` iterates the set of keys in the currently selected Redis database.
-* [`SSCAN`](/commands/sscan) iterates elements of Sets types.
-* [`HSCAN`](/commands/hscan) iterates fields of Hash types and their associated values.
-* [`ZSCAN`](/commands/zscan) iterates elements of Sorted Set types and their associated scores.
+* [`SSCAN`]({{< relref "/commands/sscan" >}}) iterates elements of Sets types.
+* [`HSCAN`]({{< relref "/commands/hscan" >}}) iterates fields of Hash types and their associated values.
+* [`ZSCAN`]({{< relref "/commands/zscan" >}}) iterates elements of Sorted Set types and their associated scores.
 
-Since these commands allow for incremental iteration, returning only a small number of elements per call, they can be used in production without the downside of commands like [`KEYS`](/commands/keys) or [`SMEMBERS`](/commands/smembers) that may block the server for a long time (even several seconds) when called against big collections of keys or elements.
+Since these commands allow for incremental iteration, returning only a small number of elements per call, they can be used in production without the downside of commands like [`KEYS`]({{< relref "/commands/keys" >}}) or [`SMEMBERS`]({{< relref "/commands/smembers" >}}) that may block the server for a long time (even several seconds) when called against big collections of keys or elements.
 
-However while blocking commands like [`SMEMBERS`](/commands/smembers) are able to provide all the elements that are part of a Set in a given moment, The SCAN family of commands only offer limited guarantees about the returned elements since the collection that we incrementally iterate can change during the iteration process.
+However while blocking commands like [`SMEMBERS`]({{< relref "/commands/smembers" >}}) are able to provide all the elements that are part of a Set in a given moment, The SCAN family of commands only offer limited guarantees about the returned elements since the collection that we incrementally iterate can change during the iteration process.
 
-Note that `SCAN`, [`SSCAN`](/commands/sscan), [`HSCAN`](/commands/hscan) and [`ZSCAN`](/commands/zscan) all work very similarly, so this documentation covers all four commands. However an obvious difference is that in the case of [`SSCAN`](/commands/sscan), [`HSCAN`](/commands/hscan) and [`ZSCAN`](/commands/zscan) the first argument is the name of the key holding the Set, Hash or Sorted Set value. The `SCAN` command does not need any key name argument as it iterates keys in the current database, so the iterated object is the database itself.
+Note that `SCAN`, [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}) all work very similarly, so this documentation covers all four commands. However an obvious difference is that in the case of [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}) the first argument is the name of the key holding the Set, Hash or Sorted Set value. The `SCAN` command does not need any key name argument as it iterates keys in the current database, so the iterated object is the database itself.
 
 ## SCAN basic usage
 
@@ -110,12 +110,12 @@ Since in the second call the returned cursor is 0, the server signaled to the ca
 
 ## Return value
 
-`SCAN`, [`SSCAN`](/commands/sscan), [`HSCAN`](/commands/hscan) and [`ZSCAN`](/commands/zscan) return a two element multi-bulk reply, where the first element is a string representing an unsigned 64 bit number (the cursor), and the second element is a multi-bulk with an array of elements.
+`SCAN`, [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}) return a two element multi-bulk reply, where the first element is a string representing an unsigned 64 bit number (the cursor), and the second element is a multi-bulk with an array of elements.
 
 * `SCAN` array of elements is a list of keys.
-* [`SSCAN`](/commands/sscan) array of elements is a list of Set members.
-* [`HSCAN`](/commands/hscan) array of elements contain two elements, a field and a value, for every returned element of the Hash.
-* [`ZSCAN`](/commands/zscan) array of elements contain two elements, a member and its associated score, for every returned element of the Sorted Set.
+* [`SSCAN`]({{< relref "/commands/sscan" >}}) array of elements is a list of Set members.
+* [`HSCAN`]({{< relref "/commands/hscan" >}}) array of elements contain two elements, a field and a value, for every returned element of the Hash.
+* [`ZSCAN`]({{< relref "/commands/zscan" >}}) array of elements contain two elements, a member and its associated score, for every returned element of the Sorted Set.
 
 ## Scan guarantees
 
@@ -149,7 +149,7 @@ Important: **there is no need to use the same COUNT value** for every iteration.
 
 ## The MATCH option
 
-It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the [`KEYS`](/commands/keys) command that takes a pattern as its only argument.
+It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the [`KEYS`]({{< relref "/commands/keys" >}}) command that takes a pattern as its only argument.
 
 To do so, just append the `MATCH <pattern>` arguments at the end of the `SCAN` command (it works with all the `SCAN` family commands).
 
@@ -209,9 +209,9 @@ As you can see most of the calls returned zero elements, but the last call where
 
 ## The TYPE option
 
-You can use the `TYPE` option to ask `SCAN` to only return objects that match a given `type`, allowing you to iterate through the database looking for keys of a specific type. The **TYPE** option is only available on the whole-database `SCAN`, not [`HSCAN`](/commands/hscan) or [`ZSCAN`](/commands/zscan) etc.
+You can use the `TYPE` option to ask `SCAN` to only return objects that match a given `type`, allowing you to iterate through the database looking for keys of a specific type. The **TYPE** option is only available on the whole-database `SCAN`, not [`HSCAN`]({{< relref "/commands/hscan" >}}) or [`ZSCAN`]({{< relref "/commands/zscan" >}}) etc.
 
-The `type` argument is the same string name that the [`TYPE`](/commands/type) command returns. Note a quirk where some Redis types, such as GeoHashes, HyperLogLogs, Bitmaps, and Bitfields, may internally be implemented using other Redis types, such as a string or zset, so can't be distinguished from other keys of that same type by `SCAN`. For example, a ZSET and GEOHASH:
+The `type` argument is the same string name that the [`TYPE`]({{< relref "/commands/type" >}}) command returns. Note a quirk where some Redis types, such as GeoHashes, HyperLogLogs, Bitmaps, and Bitfields, may internally be implemented using other Redis types, such as a string or zset, so can't be distinguished from other keys of that same type by `SCAN`. For example, a ZSET and GEOHASH:
 
 ```
 redis 127.0.0.1:6379> GEOADD geokey 0 0 value
@@ -259,11 +259,11 @@ In the `COUNT` option documentation, we state that sometimes this family of comm
 
 However once the data structures are bigger and are promoted to use real hash tables, the `SCAN` family of commands will resort to the normal behavior. Note that since this special behavior of returning all the elements is true only for small aggregates, it has no effects on the command complexity or latency. However the exact limits to get converted into real hash tables are [user configurable](/topics/memory-optimization), so the maximum number of elements you can see returned in a single call depends on how big an aggregate data type could be and still use the packed representation.
 
-Also note that this behavior is specific of [`SSCAN`](/commands/sscan), [`HSCAN`](/commands/hscan) and [`ZSCAN`](/commands/zscan). `SCAN` itself never shows this behavior because the key space is always represented by hash tables.
+Also note that this behavior is specific of [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}). `SCAN` itself never shows this behavior because the key space is always represented by hash tables.
 
 ## Further reading
 
-For more information about managing keys, please refer to the [The Redis Keyspace](/docs/manual/keyspace) tutorial.
+For more information about managing keys, please refer to the [The Redis Keyspace]({{< relref "/develop/use/keyspace" >}}) tutorial.
 
 ## Additional examples
 

@@ -62,8 +62,8 @@ OK
 
 ## See also
 
-[`FT.ALIASADD`](/commands/ft.aliasadd) | [`FT.ALIASDEL`](/commands/ft.aliasdel) 
+[`FT.ALIASADD`]({{< baseurl >}}/commands/ft.aliasadd) | [`FT.ALIASDEL`]({{< baseurl >}}/commands/ft.aliasdel) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

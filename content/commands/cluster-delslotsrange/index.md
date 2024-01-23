@@ -41,12 +41,12 @@ syntax_fmt: CLUSTER DELSLOTSRANGE start-slot end-slot [start-slot end-slot ...]
 syntax_str: ''
 title: CLUSTER DELSLOTSRANGE
 ---
-The `CLUSTER DELSLOTSRANGE` command is similar to the [`CLUSTER DELSLOTS`](/commands/cluster-delslots) command in that they both remove hash slots from the node.
-The difference is that [`CLUSTER DELSLOTS`](/commands/cluster-delslots) takes a list of hash slots to remove from the node, while `CLUSTER DELSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to remove from the node.
+The `CLUSTER DELSLOTSRANGE` command is similar to the [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) command in that they both remove hash slots from the node.
+The difference is that [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) takes a list of hash slots to remove from the node, while `CLUSTER DELSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to remove from the node.
 
 ## Example
 
-To remove slots 1 2 3 4 5 from the node, the [`CLUSTER DELSLOTS`](/commands/cluster-delslots) command is:
+To remove slots 1 2 3 4 5 from the node, the [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) command is:
 
     > CLUSTER DELSLOTS 1 2 3 4 5
     OK

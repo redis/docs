@@ -43,7 +43,7 @@ the number of appearances of an item.
 
 ## Return
 
-[Array reply](/docs/reference/protocol-spec#arrays) of [Integer reply](/docs/reference/protocol-spec#integers) - count for responding item.
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - count for responding item.
 
 ## Examples
 

@@ -69,8 +69,8 @@ is JSONPath to specify. Default is root `$`.
 
 ## Return value 
 
-`JSON.ARRINSERT` returns an [array](/docs/reference/protocol-spec/#resp-arrays) of integer replies for each path, the array's new size, or `nil`, if the matching JSON value is not an array. 
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec). 
+`JSON.ARRINSERT` returns an [array]({{< baseurl >}}/develop/reference/protocol-spec#resp-arrays) of integer replies for each path, the array's new size, or `nil`, if the matching JSON value is not an array. 
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
 
@@ -122,9 +122,9 @@ redis> JSON.GET item:1 $.colors
 
 ## See also
 
-[`JSON.ARRAPPEND`](/commands/json.arrappend) | [`JSON.ARRINDEX`](/commands/json.arrindex) 
+[`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend) | [`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

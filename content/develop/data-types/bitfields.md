@@ -26,8 +26,8 @@ Bitfields support atomic read, write and increment operations, making them a goo
 
 ## Basic commands
 
-* [`BITFIELD`](/commands/bitfield) atomically sets, increments and reads one or more values.
-* [`BITFIELD_RO`](/commands/bitfield_ro) is a read-only variant of [`BITFIELD`](/commands/bitfield).
+* [`BITFIELD`]({{< relref "/commands/bitfield" >}}) atomically sets, increments and reads one or more values.
+* [`BITFIELD_RO`]({{< relref "/commands/bitfield_ro" >}}) is a read-only variant of [`BITFIELD`]({{< relref "/commands/bitfield" >}}).
 
 
 ## Examples
@@ -55,4 +55,4 @@ Suppose you want to maintain two metrics for various bicycles: the current price
 
 ## Performance
 
-[`BITFIELD`](/commands/bitfield) is O(n), where _n_ is the number of counters accessed.
+[`BITFIELD`]({{< relref "/commands/bitfield" >}}) is O(n), where _n_ is the number of counters accessed.

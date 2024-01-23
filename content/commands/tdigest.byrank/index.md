@@ -52,7 +52,7 @@ _n_-1 is the rank of the value of the largest observation; _n_ denotes the numbe
 
 ## Return value
 
-[Array reply](/docs/reference/protocol-spec#arrays) - an array of floating-points populated with value_1, value_2, ..., value_R:
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - an array of floating-points populated with value_1, value_2, ..., value_R:
 
 - Return an accurate result when `rank` is 0 (the value of the smallest observation)
 - Return an accurate result when `rank` is _n_-1 (the value of the largest observation), where _n_ denotes the number of observations added to the sketch.

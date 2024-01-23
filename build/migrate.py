@@ -119,6 +119,17 @@ def _load_csv_file(file_path):
 
 
 '''
+The replace link function that is passed over to re.sub
+'''
+def _replace_link(match, new_prefix):
+    # Relrefs don't like dots in the link
+    if '.' in match.group(3):
+        return match.group(1) + '{{< baseurl >}}' + new_prefix + match.group(3) + match.group(4)
+    else:
+        return match.group(1) + '{{< relref "' + new_prefix + match.group(3) + '" >}}' + match.group(4)
+
+
+'''
 Replace the link within the file
 '''
 def replace_links_in_file(file_path, old_prefix, new_prefix):
@@ -126,13 +137,20 @@ def replace_links_in_file(file_path, old_prefix, new_prefix):
         file_content = file.read()
 
     link_pattern = re.compile(r'(\[.*?\]\()(' + re.escape(old_prefix) + r')(.*?)' + r'(\))')
-    #updated_content = re.sub(link_pattern, r'\1' + '{{ relURL "" }}' + new_prefix + r'\3', file_content)
-    updated_content = re.sub(link_pattern, r'\1' + '{{< relref "' + new_prefix + r'\3' + '" >}}' + r'\4', file_content)
+    #updated_content = re.sub(link_pattern, r'\1' + '{{< relref "' + new_prefix + r'\3' + '" >}}' + r'\4', file_content)
+    updated_content = re.sub(link_pattern, lambda match: _replace_link(match, new_prefix), file_content)
 
-    corrected_links = _load_csv_file('./migrate/corrected_dev_refs.csv')
+    # Correct links based on a list
+    corrected_links = _load_csv_file('./migrate/corrected_refs.csv')
 
     for k in corrected_links:
-        updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< relref "' + corrected_links[k] + '" >}}')
+        # Relrefs don't like dots and hashtags in the link
+        if '.' in corrected_links[k]:
+            updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< baseurl >}}' + corrected_links[k])
+        elif '#' in k:
+            updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< baseurl >}}' + corrected_links[k] + '#' + k.split('#')[1])
+        else:
+            updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< relref "' + corrected_links[k] + '" >}}')    
 
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(updated_content)
@@ -292,19 +310,30 @@ Copy the command reference docs
 def migrate_commands():
     copy_files(DOCS_SRC_CMD, DOCS_CMD)
     markdown_files = find_markdown_files(DOCS_CMD)
+
     for f in markdown_files:
         add_categories(f, 'categories', ['docs', 'develop', 'stack', 'oss', 'rs', 'rc', 'oss', 'kubernetes', 'clients'])
-
+        remove_prop_from_file(f, "aliases")
+        replace_links_in_file(f, '/docs', '/develop')
+        replace_links_in_file(f, '/commands', '/commands')
 
 '''
 Migrate the developer documentation
 '''
 def migrate_developer_docs():
+
+    create_index_file(DOCS_DEV, 'Develop', 'Learn how to develop with Redis')
+
     dev_content = ['get-started', 'connect', 'data-types', 'interact', 'manual', 'reference']
 
     for topic in dev_content:
         source = slash(DOCS_SRC_DOCS, topic)
-        target = slash(DOCS_DEV, topic) 
+        target = slash(DOCS_DEV, topic)
+
+        # Rename manual to use
+        if (topic == 'manual'):
+            target = slash(DOCS_DEV, 'use')
+
         copy_files(source, target)
 
     excluded_content = ['reference/signals.md', 'reference/cluster-spec.md', 'reference/arm.md', 'reference/internals']
@@ -320,6 +349,8 @@ def migrate_developer_docs():
     for f in markdown_files:
         print("Replacing links in {}".format(f))
         replace_links_in_file(f, '/docs', '/develop')
+        # Ensures that the URL-s are rewritten in relrefs
+        replace_links_in_file(f, '/commands', '/commands')
         remove_prop_from_file(f, "aliases")
         add_categories(f, 'categories', ['docs', 'develop', 'stack', 'oss', 'rs', 'rc', 'oss', 'kubernetes', 'clients'])
 

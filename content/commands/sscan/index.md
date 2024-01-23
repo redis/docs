@@ -62,4 +62,4 @@ syntax_fmt: "SSCAN key cursor [MATCH\_pattern] [COUNT\_count]"
 syntax_str: "cursor [MATCH\_pattern] [COUNT\_count]"
 title: SSCAN
 ---
-See [`SCAN`](/commands/scan) for `SSCAN` documentation.
+See [`SCAN`]({{< relref "/commands/scan" >}}) for `SSCAN` documentation.

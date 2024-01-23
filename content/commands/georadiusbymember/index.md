@@ -155,28 +155,26 @@ key_specs:
     type: range
   update: true
 linkTitle: GEORADIUSBYMEMBER
-replaced_by: '[`GEOSEARCH`](/commands/geosearch) and [`GEOSEARCHSTORE`](/commands/geosearchstore)
+replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) and [`GEOSEARCHSTORE`]({{< relref "/commands/geosearchstore" >}})
   with the `BYRADIUS` and `FROMMEMBER` arguments'
 since: 3.2.0
 summary: Queries a geospatial index for members within a distance from a member, optionally
   stores the result.
-syntax_fmt: "GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD]
-\
-  \  [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key
-  | STOREDIST\_\
+syntax_fmt: "GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD]  \
+  \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key | STOREDIST\_\
   key]"
 syntax_str: "member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT\_\
   count [ANY]] [ASC | DESC] [STORE\_key | STOREDIST\_key]"
 title: GEORADIUSBYMEMBER
 ---
-This command is exactly like [`GEORADIUS`](/commands/georadius) with the sole difference that instead
+This command is exactly like [`GEORADIUS`]({{< relref "/commands/georadius" >}}) with the sole difference that instead
 of taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.
 
 The position of the specified member is used as the center of the query.
 
-Please check the example below and the [`GEORADIUS`](/commands/georadius) documentation for more information about the command and its options.
+Please check the example below and the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) documentation for more information about the command and its options.
 
-Note that [`GEORADIUSBYMEMBER_RO`](/commands/georadiusbymember_ro) is also available since Redis 3.2.10 and Redis 4.0.0 in order to provide a read-only command that can be used in replicas. See the [`GEORADIUS`](/commands/georadius) page for more information.
+Note that [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}) is also available since Redis 3.2.10 and Redis 4.0.0 in order to provide a read-only command that can be used in replicas. See the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) page for more information.
 
 ## Examples
 

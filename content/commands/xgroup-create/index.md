@@ -68,8 +68,7 @@ key_specs:
 linkTitle: XGROUP CREATE
 since: 5.0.0
 summary: Creates a consumer group.
-syntax_fmt: "XGROUP CREATE key group <id | $> [MKSTREAM]
-  [ENTRIESREAD\_entries-read]"
+syntax_fmt: "XGROUP CREATE key group <id | $> [MKSTREAM] [ENTRIESREAD\_entries-read]"
 syntax_str: "group <id | $> [MKSTREAM] [ENTRIESREAD\_entries-read]"
 title: XGROUP CREATE
 ---

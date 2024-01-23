@@ -41,13 +41,13 @@ syntax_fmt: CLUSTER ADDSLOTSRANGE start-slot end-slot [start-slot end-slot ...]
 syntax_str: ''
 title: CLUSTER ADDSLOTSRANGE
 ---
-The `CLUSTER ADDSLOTSRANGE` is similar to the [`CLUSTER ADDSLOTS`](/commands/cluster-addslots) command in that they both assign hash slots to nodes.
+The `CLUSTER ADDSLOTSRANGE` is similar to the [`CLUSTER ADDSLOTS`]({{< relref "/commands/cluster-addslots" >}}) command in that they both assign hash slots to nodes.
 
-The difference between the two commands is that [`CLUSTER ADDSLOTS`](/commands/cluster-addslots) takes a list of slots to assign to the node, while `CLUSTER ADDSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to assign to the node.
+The difference between the two commands is that [`CLUSTER ADDSLOTS`]({{< relref "/commands/cluster-addslots" >}}) takes a list of slots to assign to the node, while `CLUSTER ADDSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to assign to the node.
 
 ## Example
 
-To assign slots 1 2 3 4 5 to the node, the [`CLUSTER ADDSLOTS`](/commands/cluster-addslots) command is:
+To assign slots 1 2 3 4 5 to the node, the [`CLUSTER ADDSLOTS`]({{< relref "/commands/cluster-addslots" >}}) command is:
 
     > CLUSTER ADDSLOTS 1 2 3 4 5
     OK

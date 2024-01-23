@@ -56,7 +56,7 @@ title: APPEND
 If `key` already exists and is a string, this command appends the `value` at the
 end of the string.
 If `key` does not exist it is created and set as an empty string, so `APPEND`
-will be similar to [`SET`](/commands/set) in this special case.
+will be similar to [`SET`]({{< relref "/commands/set" >}}) in this special case.
 
 ## Examples
 
@@ -80,12 +80,12 @@ APPEND timeseries "fixed-size sample"
 
 Accessing individual elements in the time series is not hard:
 
-* [`STRLEN`](/commands/strlen) can be used in order to obtain the number of samples.
-* [`GETRANGE`](/commands/getrange) allows for random access of elements.
+* [`STRLEN`]({{< relref "/commands/strlen" >}}) can be used in order to obtain the number of samples.
+* [`GETRANGE`]({{< relref "/commands/getrange" >}}) allows for random access of elements.
   If our time series have associated time information we can easily implement
-  a binary search to get range combining [`GETRANGE`](/commands/getrange) with the Lua scripting
+  a binary search to get range combining [`GETRANGE`]({{< relref "/commands/getrange" >}}) with the Lua scripting
   engine available in Redis 2.6.
-* [`SETRANGE`](/commands/setrange) can be used to overwrite an existing time series.
+* [`SETRANGE`]({{< relref "/commands/setrange" >}}) can be used to overwrite an existing time series.
 
 The limitation of this pattern is that we are forced into an append-only mode
 of operation, there is no way to cut the time series to a given size easily

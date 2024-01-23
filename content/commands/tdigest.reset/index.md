@@ -34,7 +34,7 @@ is key name for an existing t-digest sketch.
 
 ## Return value
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly, or [] otherwise.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
 
 ## Examples
 

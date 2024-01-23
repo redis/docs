@@ -28,4 +28,4 @@ syntax_fmt: CLIENT GETNAME
 syntax_str: ''
 title: CLIENT GETNAME
 ---
-The `CLIENT GETNAME` returns the name of the current connection as set by [`CLIENT SETNAME`](/commands/client-setname). Since every new connection starts without an associated name, if no name was assigned a null bulk reply is returned.
+The `CLIENT GETNAME` returns the name of the current connection as set by [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}). Since every new connection starts without an associated name, if no name was assigned a null bulk reply is returned.

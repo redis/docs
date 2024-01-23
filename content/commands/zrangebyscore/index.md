@@ -70,7 +70,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZRANGEBYSCORE
-replaced_by: '[`ZRANGE`](/commands/zrange) with the `BYSCORE` argument'
+replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `BYSCORE` argument'
 since: 1.0.5
 summary: Returns members in a sorted set within a range of scores.
 syntax_fmt: "ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT\_offset count]"

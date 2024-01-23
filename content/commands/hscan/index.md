@@ -62,4 +62,4 @@ syntax_fmt: "HSCAN key cursor [MATCH\_pattern] [COUNT\_count]"
 syntax_str: "cursor [MATCH\_pattern] [COUNT\_count]"
 title: HSCAN
 ---
-See [`SCAN`](/commands/scan) for `HSCAN` documentation.
+See [`SCAN`]({{< relref "/commands/scan" >}}) for `HSCAN` documentation.

@@ -27,7 +27,7 @@ syntax_fmt: COMMAND COUNT
 syntax_str: ''
 title: COMMAND COUNT
 ---
-Returns [Integer reply](/docs/reference/protocol-spec#integers) of number of total commands in this Redis server.
+Returns [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) of number of total commands in this Redis server.
 
 ## Examples
 

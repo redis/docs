@@ -56,7 +56,9 @@ The build pipeline that is defined within `.github/workflows/main.yml` builds th
 7. Sync the branch with a GCS folder
 
 
-## Relative links
+## Hugo specifics
+
+### Relative links
 
 We are using the following syntax for Hugo relrefs:
 
@@ -77,3 +79,9 @@ It's strongly advised to use `relref` because it provides the following advantag
 
 
 The following needs to be taken into account when using `relref`: The reference `/develop/get-started/data-store` and `/develop/get-started/data-store/` don't mean the same. You must use the trailing slash if the referenced article is an `_index.md` file within a folder (e.g., `.../data-store/` for `.../data-store/_index.md`). Othersise, you should not use the trailing slash (e.g., `.../get-started/data-store.md`).
+
+RelRefs with dots (`.`) and hashtags (`#`) in the reference name, such as `/commands/ft.create` or `/develop/data-types/timeseries/configuration#compaction_policy`, don't seem to work. Please use the `{{< baseurl >}}` as a workaround in that case. Here is an example:
+
+```
+[compaction]({{< baseurl >}}/develop/data-types/timeseries/configuration#compaction_policy)
+```

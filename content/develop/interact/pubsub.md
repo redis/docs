@@ -15,12 +15,12 @@ title: Redis Pub/Sub
 weight: 40
 ---
 
-[`SUBSCRIBE`](/commands/subscribe), [`UNSUBSCRIBE`](/commands/unsubscribe) and [`PUBLISH`](/commands/publish) implement the [Publish/Subscribe messaging paradigm](http://en.wikipedia.org/wiki/Publish/subscribe) where (citing Wikipedia) senders (publishers) are not programmed to send their messages to specific receivers (subscribers).
+[`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}) and [`PUBLISH`]({{< relref "/commands/publish" >}}) implement the [Publish/Subscribe messaging paradigm](http://en.wikipedia.org/wiki/Publish/subscribe) where (citing Wikipedia) senders (publishers) are not programmed to send their messages to specific receivers (subscribers).
 Rather, published messages are characterized into channels, without knowledge of what (if any) subscribers there may be.
 Subscribers express interest in one or more channels and only receive messages that are of interest, without knowledge of what (if any) publishers there are.
 This decoupling of publishers and subscribers allows for greater scalability and a more dynamic network topology.
 
-For instance, to subscribe to channels "channel11" and "ch:00" the client issues a [`SUBSCRIBE`](/commands/subscribe) providing the names of the channels:
+For instance, to subscribe to channels "channel11" and "ch:00" the client issues a [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) providing the names of the channels:
 
 ```bash
 SUBSCRIBE channel11 ch:00
@@ -29,23 +29,23 @@ SUBSCRIBE channel11 ch:00
 Messages sent by other clients to these channels will be pushed by Redis to all the subscribed clients.
 Subscribers receive the messages in the order that the messages are published.
 
-A client subscribed to one or more channels shouldn't issue commands, although it can [`SUBSCRIBE`](/commands/subscribe) and [`UNSUBSCRIBE`](/commands/unsubscribe) to and from other channels.
+A client subscribed to one or more channels shouldn't issue commands, although it can [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) and [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}) to and from other channels.
 The replies to subscription and unsubscribing operations are sent in the form of messages so that the client can just read a coherent stream of messages where the first element indicates the type of message.
 The commands that are allowed in the context of a subscribed RESP2 client are:
 
-* [`PING`](/commands/ping)
-* [`PSUBSCRIBE`](/commands/psubscribe)
-* [`PUNSUBSCRIBE`](/commands/punsubscribe)
-* [`QUIT`](/commands/quit)
-* [`RESET`](/commands/reset)
-* [`SSUBSCRIBE`](/commands/ssubscribe)
-* [`SUBSCRIBE`](/commands/subscribe)
-* [`SUNSUBSCRIBE`](/commands/sunsubscribe)
-* [`UNSUBSCRIBE`](/commands/unsubscribe)
+* [`PING`]({{< relref "/commands/ping" >}})
+* [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}})
+* [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}})
+* [`QUIT`]({{< relref "/commands/quit" >}})
+* [`RESET`]({{< relref "/commands/reset" >}})
+* [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}})
+* [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}})
+* [`SUNSUBSCRIBE`]({{< relref "/commands/sunsubscribe" >}})
+* [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}})
 
-However, if RESP3 is used (see [`HELLO`](/commands/hello)), a client can issue any commands while in the subscribed state.
+However, if RESP3 is used (see [`HELLO`]({{< relref "/commands/hello" >}})), a client can issue any commands while in the subscribed state.
 
-Please note that when using `redis-cli`, in subscribed mode commands such as [`UNSUBSCRIBE`](/commands/unsubscribe) and [`PUNSUBSCRIBE`](/commands/punsubscribe) cannot be used because `redis-cli` will not accept any commands and can only quit the mode with `Ctrl-C`.
+Please note that when using `redis-cli`, in subscribed mode commands such as [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}) and [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}) cannot be used because `redis-cli` will not accept any commands and can only quit the mode with `Ctrl-C`.
 
 ## Delivery semantics
 
@@ -70,7 +70,7 @@ The first element is the kind of message:
   The third argument represents the number of channels we are currently subscribed to.
   When the last argument is zero, we are no longer subscribed to any channel, and the client can issue any kind of Redis command as we are outside the Pub/Sub state.
 
-* `message`: it is a message received as a result of a [`PUBLISH`](/commands/publish) command issued by another client.
+* `message`: it is a message received as a result of a [`PUBLISH`]({{< relref "/commands/publish" >}}) command issued by another client.
   The second element is the name of the originating channel, and the third argument is the actual message payload.
 
 ## Database & Scoping
@@ -100,7 +100,7 @@ second
 :2
 ```
 
-At this point, from another client we issue a [`PUBLISH`](/commands/publish) operation against the channel named `second`:
+At this point, from another client we issue a [`PUBLISH`]({{< relref "/commands/publish" >}}) operation against the channel named `second`:
 
 ```
 > PUBLISH second Hello
@@ -118,7 +118,7 @@ $5
 Hello
 ```
 
-Now the client unsubscribes itself from all the channels using the [`UNSUBSCRIBE`](/commands/unsubscribe) command without additional arguments:
+Now the client unsubscribes itself from all the channels using the [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}) command without additional arguments:
 
 ```
 UNSUBSCRIBE
@@ -159,10 +159,10 @@ No other subscriptions will be affected by this call.
 
 Messages received as a result of pattern matching are sent in a different format:
 
-* The type of the message is `pmessage`: it is a message received as a result from a [`PUBLISH`](/commands/publish) command issued by another client, matching a pattern-matching subscription. 
+* The type of the message is `pmessage`: it is a message received as a result from a [`PUBLISH`]({{< relref "/commands/publish" >}}) command issued by another client, matching a pattern-matching subscription. 
   The second element is the original pattern matched, the third element is the name of the originating channel, and the last element is the actual message payload.
 
-Similarly to [`SUBSCRIBE`](/commands/subscribe) and [`UNSUBSCRIBE`](/commands/unsubscribe), [`PSUBSCRIBE`](/commands/psubscribe) and [`PUNSUBSCRIBE`](/commands/punsubscribe) commands are acknowledged by the system sending a message of type `psubscribe` and `punsubscribe` using the same format as the `subscribe` and `unsubscribe` message format.
+Similarly to [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) and [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}), [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) and [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}) commands are acknowledged by the system sending a message of type `psubscribe` and `punsubscribe` using the same format as the `subscribe` and `unsubscribe` message format.
 
 ## Messages matching both a pattern and a channel subscription
 
@@ -187,7 +187,7 @@ So the client will exit the Pub/Sub state only when this count drops to zero as 
 From Redis 7.0, sharded Pub/Sub is introduced in which shard channels are assigned to slots by the same algorithm used to assign keys to slots. 
 A shard message must be sent to a node that owns the slot the shard channel is hashed to. 
 The cluster makes sure the published shard messages are forwarded to all nodes in the shard, so clients can subscribe to a shard channel by connecting to either the master responsible for the slot, or to any of its replicas.
-[`SSUBSCRIBE`](/commands/ssubscribe), [`SUNSUBSCRIBE`](/commands/sunsubscribe) and [`SPUBLISH`](/commands/spublish) are used to implement sharded Pub/Sub.
+[`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}}), [`SUNSUBSCRIBE`]({{< relref "/commands/sunsubscribe" >}}) and [`SPUBLISH`]({{< relref "/commands/spublish" >}}) are used to implement sharded Pub/Sub.
 
 Sharded Pub/Sub helps to scale the usage of Pub/Sub in cluster mode. 
 It restricts the propagation of messages to be within the shard of a cluster. 

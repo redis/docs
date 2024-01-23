@@ -34,20 +34,20 @@ constant amount of memory; 12k bytes in the worst case, or a lot less if your
 HyperLogLog (We'll just call them HLL from now) has seen very few elements.
 
 HLLs in Redis, while technically a different data structure, are encoded
-as a Redis string, so you can call [`GET`](/commands/get) to serialize a HLL, and [`SET`](/commands/set)
+as a Redis string, so you can call [`GET`]({{< relref "/commands/get" >}}) to serialize a HLL, and [`SET`]({{< relref "/commands/set" >}})
 to deserialize it back to the server.
 
 Conceptually the HLL API is like using Sets to do the same task. You would
-[`SADD`](/commands/sadd) every observed element into a set, and would use [`SCARD`](/commands/scard) to check the
-number of elements inside the set, which are unique since [`SADD`](/commands/sadd) will not
+[`SADD`]({{< relref "/commands/sadd" >}}) every observed element into a set, and would use [`SCARD`]({{< relref "/commands/scard" >}}) to check the
+number of elements inside the set, which are unique since [`SADD`]({{< relref "/commands/sadd" >}}) will not
 re-add an existing element.
 
 While you don't really *add items* into an HLL, because the data structure
 only contains a state that does not include actual elements, the API is the
 same:
 
-* Every time you see a new element, you add it to the count with [`PFADD`](/commands/pfadd).
-* When you want to retrieve the current approximation of unique elements added using the [`PFADD`](/commands/pfadd) command, you can use the [`PFCOUNT`](/commands/pfcount) command. If you need to merge two different HLLs, the [`PFMERGE`](/commands/pfmerge) command is available. Since HLLs provide approximate counts of unique elements, the result of the merge will give you an approximation of the number of unique elements across both source HLLs.
+* Every time you see a new element, you add it to the count with [`PFADD`]({{< relref "/commands/pfadd" >}}).
+* When you want to retrieve the current approximation of unique elements added using the [`PFADD`]({{< relref "/commands/pfadd" >}}) command, you can use the [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) command. If you need to merge two different HLLs, the [`PFMERGE`]({{< relref "/commands/pfmerge" >}}) command is available. Since HLLs provide approximate counts of unique elements, the result of the merge will give you an approximation of the number of unique elements across both source HLLs.
 
 {{< clients-example hll_tutorial pfadd >}}
 > PFADD bikes Hyperion Deimos Phoebe Quaoar
@@ -66,7 +66,7 @@ Some examples of use cases for this data structure is counting unique queries
 performed by users in a search form every day, number of unique visitors to a web page and other similar cases.
 
 Redis is also able to perform the union of HLLs, please check the
-[full documentation](/commands#hyperloglog) for more information.
+[full documentation]({{< relref "/commands#hyperloglog" >}}) for more information.
 
 ## Use cases
 
@@ -88,15 +88,15 @@ One HyperLogLog is created per page (video/song) per period, and every IP/identi
 
 ## Basic commands
 
-* [`PFADD`](/commands/pfadd) adds an item to a HyperLogLog.
-* [`PFCOUNT`](/commands/pfcount) returns an estimate of the number of items in the set.
-* [`PFMERGE`](/commands/pfmerge) combines two or more HyperLogLogs into one.
+* [`PFADD`]({{< relref "/commands/pfadd" >}}) adds an item to a HyperLogLog.
+* [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) returns an estimate of the number of items in the set.
+* [`PFMERGE`]({{< relref "/commands/pfmerge" >}}) combines two or more HyperLogLogs into one.
 
 See the [complete list of HyperLogLog commands](https://redis.io/commands/?group=hyperloglog).
 
 ## Performance
 
-Writing ([`PFADD`](/commands/pfadd)) to and reading from ([`PFCOUNT`](/commands/pfcount)) the HyperLogLog is done in constant time and space.
+Writing ([`PFADD`]({{< relref "/commands/pfadd" >}})) to and reading from ([`PFCOUNT`]({{< relref "/commands/pfcount" >}})) the HyperLogLog is done in constant time and space.
 Merging HLLs is O(n), where _n_ is the number of sketches.
 
 ## Limits

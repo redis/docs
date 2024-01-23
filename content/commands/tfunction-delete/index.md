@@ -33,8 +33,7 @@ module: Triggers and functions
 since: 2.0.0
 stack_path: docs/interact/programmability/triggers-and-functions
 summary: Delete a JavaScript library from Redis by name
-syntax: "TFUNCTION DELETE \"<library name>\" 
-"
+syntax: 'TFUNCTION DELETE "<library name>" '
 syntax_fmt: TFUNCTION DELETE library name
 syntax_str: ''
 title: TFUNCTION DELETE
@@ -54,8 +53,8 @@ The name of the library to delete.
 
 `TFUNCTION DELETE` returns either
 
-* ["OK"](/docs/reference/protocol-spec/#resp-simple-strings) when the library was deleted correctly.
-* [Error reply](/docs/reference/protocol-spec/#resp-errors) when the library could not be deleted.
+* ["OK"]({{< baseurl >}}/develop/reference/protocol-spec#resp-simple-strings) when the library was deleted correctly.
+* [Error reply]({{< baseurl >}}/develop/reference/protocol-spec#resp-errors) when the library could not be deleted.
 
 ## Examples
 

@@ -40,9 +40,9 @@ Return full list of items in Top K list.
 
 k (or less) items in Top K list.
 
-[Array reply](/docs/reference/protocol-spec#arrays) of [Simple string reply](/docs/reference/protocol-spec#simple-strings) - the names of items in the TopK list.
-If `WITHCOUNT` is requested, [Array reply](/docs/reference/protocol-spec#arrays) of [Simple string reply](/docs/reference/protocol-spec#simple-strings) and 
-[Integer reply](/docs/reference/protocol-spec#integers) pairs of the names of items in the TopK list and their count.
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - the names of items in the TopK list.
+If `WITHCOUNT` is requested, [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and 
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs of the names of items in the TopK list and their count.
 
 ## Examples
 

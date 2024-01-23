@@ -52,7 +52,7 @@ is JSONPath to specify. Default is root `$`. Returns `null` for nonexistant path
 ## Return
 
 JSON.OBJKEYS returns an array of array replies for each path, an array of the key names in the object as a bulk string reply, or `nil` if the matching JSON value is not an object. 
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -67,9 +67,9 @@ redis> JSON.OBJKEYS doc $..a
 
 ## See also
 
-[`JSON.ARRINDEX`](/commands/json.arrindex) | [`JSON.ARRINSERT`](/commands/json.arrinsert) 
+[`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

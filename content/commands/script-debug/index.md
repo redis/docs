@@ -42,7 +42,7 @@ syntax_fmt: SCRIPT DEBUG <YES | SYNC | NO>
 syntax_str: ''
 title: SCRIPT DEBUG
 ---
-Set the debug mode for subsequent scripts executed with [`EVAL`](/commands/eval). Redis includes a
+Set the debug mode for subsequent scripts executed with [`EVAL`]({{< relref "/commands/eval" >}}). Redis includes a
 complete Lua debugger, codename LDB, that can be used to make the task of
 writing complex scripts much simpler. In debug mode Redis acts as a remote
 debugging server and a client, such as `redis-cli`, can execute scripts step by
@@ -63,4 +63,4 @@ is active and retains all changes to the data set once it ends.
 * `SYNC`. Enable blocking synchronous debugging of Lua scripts (saves changes to data).
 * `NO`. Disables scripts debug mode.
 
-For more information about [`EVAL`](/commands/eval) scripts please refer to [Introduction to Eval Scripts](/topics/eval-intro).
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts](/topics/eval-intro).

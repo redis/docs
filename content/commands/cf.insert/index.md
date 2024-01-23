@@ -44,7 +44,7 @@ title: CF.INSERT
 ---
 Adds one or more items to a cuckoo filter, allowing the filter to be created with a custom capacity if it does not exist yet.
 
-This command is similar to [`CF.ADD`](/commands/cf.add), except that more than one item can be added and capacity can be specified.
+This command is similar to [`CF.ADD`]({{< baseurl >}}/commands/cf.add), except that more than one item can be added and capacity can be specified.
 
 ## Required arguments
 
@@ -70,7 +70,7 @@ If the filter already exists, then this parameter is ignored.
     
 If the filter does not exist yet and this parameter is *not* specified, then the filter is created with the module-level default capacity which is 1024.
 
-See [`CF.RESERVE`](/commands/cf.reserve) for more information on cuckoo filter capacities.
+See [`CF.RESERVE`]({{< baseurl >}}/commands/cf.reserve) for more information on cuckoo filter capacities.
 </details>
     
 <details open><summary><code>NOCREATE</code></summary>
@@ -84,7 +84,7 @@ This option is mutually exclusive with `CAPACITY`.
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) of [Integer reply](/docs/reference/protocol-spec#integers) - where "1" means that the item has been successfully added to the filter, and "-1" means that the item was not added because the filter is full.
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - where "1" means that the item has been successfully added to the filter, and "-1" means that the item was not added because the filter is full.
 - [] on error (invalid arguments, wrong key type, and so on) and also when `NOCREATE` is specified and `key` does not exist.
 
 ## Examples

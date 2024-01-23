@@ -79,6 +79,6 @@ If the optional `cluster_bus_port` argument is not provided, the default of port
 When a given node receives a `CLUSTER MEET` message, the node specified in the
 command still does not know the node we sent the command to. So in order for
 the node to force the receiver to accept it as a trusted node, it sends a
-`MEET` packet instead of a [`PING`](/commands/ping) packet. The two packets have exactly the
+`MEET` packet instead of a [`PING`]({{< relref "/commands/ping" >}}) packet. The two packets have exactly the
 same format, but the former forces the receiver to acknowledge the node as
 trusted.

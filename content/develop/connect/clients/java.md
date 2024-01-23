@@ -288,7 +288,7 @@ In general, Jedis can throw the following exceptions while executing commands:
 - `JedisException` - this exception is a catch-all exception that can be thrown for any other unexpected errors.
 
 Conditions when `JedisException` can be thrown:
-- Bad return from a health check with the [`PING`](/commands/ping) command
+- Bad return from a health check with the [`PING`]({{< relref "/commands/ping" >}}) command
 - Failure during SHUTDOWN
 - Pub/Sub failure when issuing commands (disconnect)
 - Any unknown server messages

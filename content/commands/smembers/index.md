@@ -49,7 +49,7 @@ title: SMEMBERS
 ---
 Returns all the members of the set value stored at `key`.
 
-This has the same effect as running [`SINTER`](/commands/sinter) with one argument `key`.
+This has the same effect as running [`SINTER`]({{< relref "/commands/sinter" >}}) with one argument `key`.
 
 ## Examples
 

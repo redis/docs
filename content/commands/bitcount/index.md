@@ -77,7 +77,7 @@ By default all the bytes contained in the string are examined.
 It is possible to specify the counting operation only in an interval passing the
 additional arguments _start_ and _end_.
 
-Like for the [`GETRANGE`](/commands/getrange) command start and end can contain negative values in
+Like for the [`GETRANGE`]({{< relref "/commands/getrange" >}}) command start and end can contain negative values in
 order to index bytes starting from the end of the string, where -1 is the last
 byte, -2 is the penultimate, and so forth.
 
@@ -108,13 +108,13 @@ One example is a Web application that needs the history of user visits, so that
 for instance it is possible to determine what users are good targets of beta
 features.
 
-Using the [`SETBIT`](/commands/setbit) command this is trivial to accomplish, identifying every day
+Using the [`SETBIT`]({{< relref "/commands/setbit" >}}) command this is trivial to accomplish, identifying every day
 with a small progressive integer.
 For instance day 0 is the first day the application was put online, day 1 the
 next day, and so forth.
 
 Every time a user performs a page view, the application can register that in
-the current day the user visited the web site using the [`SETBIT`](/commands/setbit) command setting
+the current day the user visited the web site using the [`SETBIT`]({{< relref "/commands/setbit" >}}) command setting
 the bit corresponding to the current day.
 
 Later it will be trivial to know the number of single days the user visited the
@@ -132,7 +132,7 @@ In the above example of counting days, even after 10 years the application is
 online we still have just `365*10` bits of data per user, that is just 456 bytes
 per user.
 With this amount of data `BITCOUNT` is still as fast as any other O(1) Redis
-command like [`GET`](/commands/get) or [`INCR`](/commands/incr).
+command like [`GET`]({{< relref "/commands/get" >}}) or [`INCR`]({{< relref "/commands/incr" >}}).
 
 When the bitmap is big, there are two alternatives:
 

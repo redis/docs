@@ -50,7 +50,7 @@ key_specs:
     type: range
   update: true
 linkTitle: PSETEX
-replaced_by: '[`SET`](/commands/set) with the `PX` argument'
+replaced_by: '[`SET`]({{< relref "/commands/set" >}}) with the `PX` argument'
 since: 2.6.0
 summary: Sets both string value and expiration time in milliseconds of a key. The
   key is created if it doesn't exist.
@@ -58,7 +58,7 @@ syntax_fmt: PSETEX key milliseconds value
 syntax_str: milliseconds value
 title: PSETEX
 ---
-`PSETEX` works exactly like [`SETEX`](/commands/setex) with the sole difference that the expire
+`PSETEX` works exactly like [`SETEX`]({{< relref "/commands/setex" >}}) with the sole difference that the expire
 time is specified in milliseconds instead of seconds.
 
 ## Examples

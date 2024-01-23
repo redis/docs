@@ -76,17 +76,16 @@ key_specs:
 linkTitle: ZINTER
 since: 6.2.0
 summary: Returns the intersect of multiple sorted sets.
-syntax_fmt: "ZINTER numkeys key [key ...] [WEIGHTS\_weight [weight ...]]
-  [AGGREGATE\_\
+syntax_fmt: "ZINTER numkeys key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_\
   <SUM | MIN | MAX>] [WITHSCORES]"
 syntax_str: "key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM | MIN |\
   \ MAX>] [WITHSCORES]"
 title: ZINTER
 ---
-This command is similar to [`ZINTERSTORE`](/commands/zinterstore), but instead of storing the resulting
+This command is similar to [`ZINTERSTORE`]({{< relref "/commands/zinterstore" >}}), but instead of storing the resulting
 sorted set, it is returned to the client.
 
-For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`](/commands/zunionstore).
+For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}).
 
 ## Examples
 

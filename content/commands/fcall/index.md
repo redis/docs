@@ -65,7 +65,7 @@ title: FCALL
 ---
 Invoke a function.
 
-Functions are loaded to the server with the [`FUNCTION LOAD`](/commands/function-load) command.
+Functions are loaded to the server with the [`FUNCTION LOAD`]({{< relref "/commands/function-load" >}}) command.
 The first argument is the name of a loaded function.
 
 The second argument is the number of input key name arguments, followed by all the keys accessed by the function.

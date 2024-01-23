@@ -36,7 +36,7 @@ title: MODULE UNLOAD
 Unloads a module.
 
 This command unloads the module specified by `name`. Note that the module's name
-is reported by the [`MODULE LIST`](/commands/module-list) command, and may differ from the dynamic
+is reported by the [`MODULE LIST`]({{< relref "/commands/module-list" >}}) command, and may differ from the dynamic
 library's filename.
 
 Known limitations:

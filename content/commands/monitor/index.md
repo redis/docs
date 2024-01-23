@@ -69,15 +69,15 @@ QUIT
 Connection closed by foreign host.
 ```
 
-Manually issue the [`QUIT`](/commands/quit) or [`RESET`](/commands/reset) commands to stop a `MONITOR` stream running
+Manually issue the [`QUIT`]({{< relref "/commands/quit" >}}) or [`RESET`]({{< relref "/commands/reset" >}}) commands to stop a `MONITOR` stream running
 via `telnet`.
 
 ## Commands not logged by MONITOR
 
 Because of security concerns, no administrative commands are logged
-by `MONITOR`'s output and sensitive data is redacted in the command [`AUTH`](/commands/auth).
+by `MONITOR`'s output and sensitive data is redacted in the command [`AUTH`]({{< relref "/commands/auth" >}}).
 
-Furthermore, the command [`QUIT`](/commands/quit) is also not logged.
+Furthermore, the command [`QUIT`]({{< relref "/commands/quit" >}}) is also not logged.
 
 ## Cost of running MONITOR
 
@@ -113,6 +113,6 @@ Running more `MONITOR` clients will reduce throughput even more.
 
 ## Behavior change history
 
-*   `>= 6.0.0`: [`AUTH`](/commands/auth) excluded from the command's output.
-*   `>= 6.2.0`: "[`RESET`](/commands/reset) can be called to exit monitor mode.
-*   `>= 6.2.4`: "[`AUTH`](/commands/auth), [`HELLO`](/commands/hello), [`EVAL`](/commands/eval), [`EVAL_RO`](/commands/eval_ro), [`EVALSHA`](/commands/evalsha) and [`EVALSHA_RO`](/commands/evalsha_ro) included in the command's output.
+*   `>= 6.0.0`: [`AUTH`]({{< relref "/commands/auth" >}}) excluded from the command's output.
+*   `>= 6.2.0`: "[`RESET`]({{< relref "/commands/reset" >}}) can be called to exit monitor mode.
+*   `>= 6.2.4`: "[`AUTH`]({{< relref "/commands/auth" >}}), [`HELLO`]({{< relref "/commands/hello" >}}), [`EVAL`]({{< relref "/commands/eval" >}}), [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}), [`EVALSHA`]({{< relref "/commands/evalsha" >}}) and [`EVALSHA_RO`]({{< relref "/commands/evalsha_ro" >}}) included in the command's output.

@@ -77,21 +77,11 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Append a sample to a time series
-syntax: "TS.ADD key timestamp value 
-  [RETENTION retentionPeriod] 
-  [ENCODING\
-  \ [COMPRESSED|UNCOMPRESSED]] 
-  [CHUNK_SIZE size] 
-  [ON_DUPLICATE policy] 
-\
-  \  [LABELS {label value}...]
-"
-syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod]
-  [ENCODING\_\
-  <UNCOMPRESSED | COMPRESSED>] [CHUNK_SIZE\_size]
-  [ON_DUPLICATE\_<BLOCK | FIRST\
-  \ | LAST | MIN | MAX | SUM>]
-  [LABELS\_label value [label value ...]]"
+syntax: 'TS.ADD key timestamp value [RETENTION retentionPeriod] [ENCODING [COMPRESSED|UNCOMPRESSED]]
+  [CHUNK_SIZE size] [ON_DUPLICATE policy]   [LABELS {label value}...] '
+syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED\
+  \ | COMPRESSED>] [CHUNK_SIZE\_size] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
+  \ MAX | SUM>] [LABELS\_label value [label value ...]]"
 syntax_str: "timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED\
   \ | COMPRESSED>] [CHUNK_SIZE\_size] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
   \ MAX | SUM>] [LABELS\_label value [label value ...]]"
@@ -124,43 +114,43 @@ is (double) numeric data value of the sample. The double number should follow [R
 <note><b>Notes:</b>
 - When specified key does not exist, a new time series is created.
 
-  if a [COMPACTION_POLICY](/docs/stack/timeseries/configuration/#compaction_policy) configuration parameter is defined, compacted time series would be created as well.
+  if a [COMPACTION_POLICY]({{< baseurl >}}/develop/data-types/timeseries/configuration#compaction_policy) configuration parameter is defined, compacted time series would be created as well.
 
 - If `timestamp` is older than the retention period compared to the maximum existing timestamp, the sample is discarded and an error is returned.
 - When adding a sample to a time series for which compaction rules are defined:
   - If all the original samples for an affected aggregated time bucket are available, the compacted value is recalculated based on the reported sample and the original samples.
   - If only a part of the original samples for an affected aggregated time bucket is available due to trimming caused in accordance with the time series RETENTION policy, the compacted value is recalculated based on the reported sample and the available original samples.
   - If the original samples for an affected aggregated time bucket are not available due to trimming caused in accordance with the time series RETENTION policy, the compacted value bucket is not updated.
-- Explicitly adding samples to a compacted time series (using `TS.ADD`, [`TS.MADD`](/commands/ts.madd), [`TS.INCRBY`](/commands/ts.incrby), or [`TS.DECRBY`](/commands/ts.decrby)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
+- Explicitly adding samples to a compacted time series (using `TS.ADD`, [`TS.MADD`]({{< baseurl >}}/commands/ts.madd), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby), or [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
 </note>
 
 ## Optional arguments
 
-The following arguments are optional because they can be set by [`TS.CREATE`](/commands/ts.create).
+The following arguments are optional because they can be set by [`TS.CREATE`]({{< baseurl >}}/commands/ts.create).
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary> 
  
  is maximum retention period, compared to the maximum existing timestamp, in milliseconds.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`](/commands/ts.create).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create).
 </details>
     
 <details open><summary><code>ENCODING enc</code></summary> 
 
 specifies the series sample's encoding format.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`](/commands/ts.create).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create).
 </details>
 
 <details open><summary><code>CHUNK_SIZE size</code></summary> is memory size, in bytes, allocated for each data chunk.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`](/commands/ts.create).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create).
 </details>
 
 <details open><summary><code>ON_DUPLICATE policy</code></summary> 
 
-is overwrite key and database configuration for [DUPLICATE_POLICY](/docs/stack/timeseries/configuration/#duplicate_policy), the policy for handling samples with identical timestamps.
-This override is effective only for this single command and does not set the time series duplication policy (which can be set with [`TS.ALTER`](/commands/ts.alter)).
+is overwrite key and database configuration for [DUPLICATE_POLICY]({{< baseurl >}}/develop/data-types/timeseries/configuration#duplicate_policy), the policy for handling samples with identical timestamps.
+This override is effective only for this single command and does not set the time series duplication policy (which can be set with [`TS.ALTER`]({{< baseurl >}}/commands/ts.alter)).
 
 `policy` can be one of the following values:
   - `BLOCK`: ignore any newly reported value and reply with an error
@@ -177,7 +167,7 @@ This argument has no effect when a new time series is created by this command.
 
 is set of label-value pairs that represent metadata labels of the time series.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `LABELS` in [`TS.CREATE`](/commands/ts.create).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `LABELS` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create).
 </details>
 
 <note><b>Notes:</b>
@@ -190,7 +180,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 Returns one of these replies:
 
-- [Integer reply](/docs/reference/protocol-spec#integers) - the timestamp of the upserted sample
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample
 - [] on error (invalid arguments, wrong key type, etc.), when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp
 
 ## Complexity
@@ -221,8 +211,8 @@ Add a sample to the time series, setting the sample's timestamp to the current U
 
 ## See also
 
-[`TS.CREATE`](/commands/ts.create) 
+[`TS.CREATE`]({{< baseurl >}}/commands/ts.create) 
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

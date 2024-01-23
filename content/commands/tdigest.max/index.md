@@ -35,7 +35,7 @@ is key name for an existing t-digest sketch.
 
 ## Return value
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) of maximum observation value from a sketch. The result is always accurate. 'nan' if the sketch is empty.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) of maximum observation value from a sketch. The result is always accurate. 'nan' if the sketch is empty.
 
 ## Examples
 

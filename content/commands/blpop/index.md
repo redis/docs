@@ -58,7 +58,7 @@ syntax_str: timeout
 title: BLPOP
 ---
 `BLPOP` is a blocking list pop primitive.
-It is the blocking version of [`LPOP`](/commands/lpop) because it blocks the connection when there
+It is the blocking version of [`LPOP`]({{< relref "/commands/lpop" >}}) because it blocks the connection when there
 are no elements to pop from any of the given lists.
 An element is popped from the head of the first list that is non-empty, with the
 given keys being checked in the order that they are given.
@@ -85,7 +85,7 @@ that order).
 ## Blocking behavior
 
 If none of the specified keys exist, `BLPOP` blocks the connection until another
-client performs an [`LPUSH`](/commands/lpush) or [`RPUSH`](/commands/rpush) operation against one of the keys.
+client performs an [`LPUSH`]({{< relref "/commands/lpush" >}}) or [`RPUSH`]({{< relref "/commands/rpush" >}}) operation against one of the keys.
 
 Once new data is present on one of the lists, the client returns with the name
 of the key unblocking it and the popped value.
@@ -108,7 +108,7 @@ specified keys.
 There are times when a list can receive multiple elements in the context of the same conceptual command:
 
 * Variadic push operations such as `LPUSH mylist a b c`.
-* After an [`EXEC`](/commands/exec) of a [`MULTI`](/commands/multi) block with multiple push operations against the same list.
+* After an [`EXEC`]({{< relref "/commands/exec" >}}) of a [`MULTI`]({{< relref "/commands/multi" >}}) block with multiple push operations against the same list.
 * Executing a Lua Script with Redis 2.6 or newer.
 
 When multiple elements are pushed inside a list where there are clients blocking, the behavior is different for Redis 2.4 and Redis 2.6 or newer.
@@ -118,7 +118,7 @@ For Redis 2.6 what happens is that the command performing multiple pushes is exe
     Client A:   BLPOP foo 0
     Client B:   LPUSH foo a b c
 
-If the above condition happens using a Redis 2.6 server or greater, Client **A** will be served with the `c` element, because after the [`LPUSH`](/commands/lpush) command the list contains `c,b,a`, so taking an element from the left means to return `c`.
+If the above condition happens using a Redis 2.6 server or greater, Client **A** will be served with the `c` element, because after the [`LPUSH`]({{< relref "/commands/lpush" >}}) command the list contains `c,b,a`, so taking an element from the left means to return `c`.
 
 Instead Redis 2.4 works in a different way: clients are served *in the context* of the push operation, so as long as `LPUSH foo a b c` starts pushing the first element to the list, it will be delivered to the Client **A**, that will receive `a` (the first element pushed).
 
@@ -132,14 +132,14 @@ Note that for the same reason a Lua script or a `MULTI/EXEC` block may push elem
 reading the replies in batch), however this setup makes sense almost solely
 when it is the last command of the pipeline.
 
-Using `BLPOP` inside a [`MULTI`](/commands/multi) / [`EXEC`](/commands/exec) block does not make a lot of sense
+Using `BLPOP` inside a [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands/exec" >}}) block does not make a lot of sense
 as it would require blocking the entire server in order to execute the block
 atomically, which in turn does not allow other clients to perform a push
-operation. For this reason the behavior of `BLPOP` inside [`MULTI`](/commands/multi) / [`EXEC`](/commands/exec) when the list is empty is to return a `nil` multi-bulk reply, which is the same
+operation. For this reason the behavior of `BLPOP` inside [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands/exec" >}}) when the list is empty is to return a `nil` multi-bulk reply, which is the same
 thing that happens when the timeout is reached.
 
 If you like science fiction, think of time flowing at infinite speed inside a
-[`MULTI`](/commands/multi) / [`EXEC`](/commands/exec) block...
+[`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands/exec" >}}) block...
 
 ## Examples
 
@@ -157,7 +157,7 @@ redis> BLPOP list1 list2 0
 
 When `BLPOP` returns an element to the client, it also removes the element from the list. This means that the element only exists in the context of the client: if the client crashes while processing the returned element, it is lost forever.
 
-This can be a problem with some application where we want a more reliable messaging system. When this is the case, please check the [`BRPOPLPUSH`](/commands/brpoplpush) command, that is a variant of `BLPOP` that adds the returned element to a target list before returning it to the client.
+This can be a problem with some application where we want a more reliable messaging system. When this is the case, please check the [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}) command, that is a variant of `BLPOP` that adds the returned element to a target list before returning it to the client.
 
 ## Pattern: Event notification
 
@@ -166,7 +166,7 @@ primitives.
 For instance for some application you may need to block waiting for elements
 into a Redis Set, so that as far as a new element is added to the Set, it is
 possible to retrieve it without resort to polling.
-This would require a blocking version of [`SPOP`](/commands/spop) that is not available, but using
+This would require a blocking version of [`SPOP`]({{< relref "/commands/spop" >}}) that is not available, but using
 blocking list operations we can easily accomplish this task.
 
 The consumer will do:

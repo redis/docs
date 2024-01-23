@@ -65,16 +65,15 @@ linkTitle: XREAD
 since: 5.0.0
 summary: Returns messages from multiple streams with IDs greater than the ones requested.
   Blocks until a message is available otherwise.
-syntax_fmt: "XREAD [COUNT\_count] [BLOCK\_milliseconds] STREAMS\_key [key ...] id
-\
-  \  [id ...]"
+syntax_fmt: "XREAD [COUNT\_count] [BLOCK\_milliseconds] STREAMS\_key [key ...] id\
+  \   [id ...]"
 syntax_str: "[BLOCK\_milliseconds] STREAMS\_key [key ...] id [id ...]"
 title: XREAD
 ---
 Read data from one or multiple streams, only returning entries with an
 ID greater than the last received ID reported by the caller.
 This command has an option to block if items are not available, in a similar
-fashion to [`BRPOP`](/commands/brpop) or [`BZPOPMIN`](/commands/bzpopmin) and others.
+fashion to [`BRPOP`]({{< relref "/commands/brpop" >}}) or [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}) and others.
 
 Please note that before reading this page, if you are new to streams,
 we recommend to read [our introduction to Redis Streams](/topics/streams-intro).
@@ -82,15 +81,15 @@ we recommend to read [our introduction to Redis Streams](/topics/streams-intro).
 ## Non-blocking usage
 
 If the **BLOCK** option is not used, the command is synchronous, and can
-be considered somewhat related to [`XRANGE`](/commands/xrange): it will return a range of items
-inside streams, however it has two fundamental differences compared to [`XRANGE`](/commands/xrange)
+be considered somewhat related to [`XRANGE`]({{< relref "/commands/xrange" >}}): it will return a range of items
+inside streams, however it has two fundamental differences compared to [`XRANGE`]({{< relref "/commands/xrange" >}})
 even if we just consider the synchronous usage:
 
 * This command can be called with multiple streams if we want to read at
   the same time from a number of keys. This is a key feature of `XREAD` because
   especially when blocking with **BLOCK**, to be able to listen with a single
   connection to multiple keys is a vital feature.
-* While [`XRANGE`](/commands/xrange) returns items in a range of IDs, `XREAD` is more suited in
+* While [`XRANGE`]({{< relref "/commands/xrange" >}}) returns items in a range of IDs, `XREAD` is more suited in
   order to consume the stream starting from the first entry which is greater
   than any other entry we saw so far. So what we pass to `XREAD` is, for each
   stream, the ID of the last element that we received from that stream.
@@ -177,7 +176,7 @@ also supports a blocking mode).
 
 ## Incomplete IDs
 
-To use incomplete IDs is valid, like it is valid for [`XRANGE`](/commands/xrange). However
+To use incomplete IDs is valid, like it is valid for [`XRANGE`]({{< relref "/commands/xrange" >}}). However
 here the sequence part of the ID, if missing, is always interpreted as
 zero, so the command:
 
@@ -195,7 +194,7 @@ is exactly equivalent to
 
 In its synchronous form, the command can get new data as long as there
 are more items available. However, at some point, we'll have to wait for
-producers of data to use [`XADD`](/commands/xadd) to push new entries inside the streams
+producers of data to use [`XADD`]({{< relref "/commands/xadd" >}}) to push new entries inside the streams
 we are consuming. In order to avoid polling at a fixed or adaptive interval
 the command is able to block if it could not return any data, according
 to the specified streams and IDs, and automatically unblock once one of
@@ -229,7 +228,7 @@ a null reply because the timeout has elapsed without new data arriving:
 ## The special `$` ID.
 
 When blocking sometimes we want to receive just entries that are added
-to the stream via [`XADD`](/commands/xadd) starting from the moment we block. In such a case
+to the stream via [`XADD`]({{< relref "/commands/xadd" >}}) starting from the moment we block. In such a case
 we are not interested in the history of already added entries. For
 this use case, we would have to check the stream top element ID, and use
 such ID in the `XREAD` command line. This is not clean and requires to
@@ -267,7 +266,7 @@ use cases.
 
 However note that with streams this is not a problem: stream entries
 are not removed from the stream when clients are served, so every
-client waiting will be served as soon as an [`XADD`](/commands/xadd) command provides
+client waiting will be served as soon as an [`XADD`]({{< relref "/commands/xadd" >}}) command provides
 data to the stream.
 
 Reading the [Redis Streams introduction](/topics/streams-intro) is highly

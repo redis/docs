@@ -87,8 +87,7 @@ key_specs:
 linkTitle: ZRANGE
 since: 1.2.0
 summary: Returns members in a sorted set within a range of indexes.
-syntax_fmt: "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]
-\
+syntax_fmt: "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count] \
   \  [WITHSCORES]"
 syntax_str: "start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count] [WITHSCORES]"
 title: ZRANGE
@@ -97,7 +96,7 @@ Returns the specified range of elements in the sorted set stored at `<key>`.
 
 `ZRANGE` can perform different types of range queries: by index (rank), by the score, or by lexicographical order.
 
-Starting with Redis 6.2.0, this command can replace the following commands: [`ZREVRANGE`](/commands/zrevrange), [`ZRANGEBYSCORE`](/commands/zrangebyscore), [`ZREVRANGEBYSCORE`](/commands/zrevrangebyscore), [`ZRANGEBYLEX`](/commands/zrangebylex) and [`ZREVRANGEBYLEX`](/commands/zrevrangebylex).
+Starting with Redis 6.2.0, this command can replace the following commands: [`ZREVRANGE`]({{< relref "/commands/zrevrange" >}}), [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}), [`ZREVRANGEBYSCORE`]({{< relref "/commands/zrevrangebyscore" >}}), [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) and [`ZREVRANGEBYLEX`]({{< relref "/commands/zrevrangebylex" >}}).
 
 ## Common behavior and options
 
@@ -124,7 +123,7 @@ If `<stop>` is greater than the end index of the sorted set, Redis will use the 
 
 ## Score ranges
 
-When the `BYSCORE` option is provided, the command behaves like [`ZRANGEBYSCORE`](/commands/zrangebyscore) and returns the range of elements from the sorted set having scores equal or between `<start>` and `<stop>`.
+When the `BYSCORE` option is provided, the command behaves like [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}) and returns the range of elements from the sorted set having scores equal or between `<start>` and `<stop>`.
 
 `<start>` and `<stop>` can be `-inf` and `+inf`, denoting the negative and positive infinities, respectively. This means that you are not required to know the highest or lowest score in the sorted set to get all elements from or up to a certain score.
 
@@ -169,7 +168,7 @@ Will return all elements with scores less than 10 and greater than 5.
 
 ## Lexicographical ranges
 
-When the `BYLEX` option is used, the command behaves like [`ZRANGEBYLEX`](/commands/zrangebylex) and returns the range of elements from the sorted set between the `<start>` and `<stop>` lexicographical closed range intervals.
+When the `BYLEX` option is used, the command behaves like [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) and returns the range of elements from the sorted set between the `<start>` and `<stop>` lexicographical closed range intervals.
 
 Note that lexicographical ordering relies on all elements having the same score. The reply is unspecified when the elements have different scores.
 

@@ -1,10 +1,11 @@
 broken_ref;fixed_ref;comment
+#-- Developer docs;;
 /develop/about/about-stack/;/operate/oss_and_stack/;Misses an introduction of Redis and Redis Stack
 /develop/clients/om-clients/stack-dotnet/;/develop/connect/clients/om-clients/stack-dotnet;Referenced files should not have a trailing slash
 /develop/clients/om-clients/stack-node/;/develop/connect/clients/om-clients/stack-node;
 /develop/clients/om-clients/stack-python/;/develop/connect/clients/om-clients/stack-python;
 /develop/clients/om-clients/stack-spring/;/develop/connect/clients/om-clients/stack-spring;
-/develop/commands/ft.create.md;/commands/FT.CREATE;
+/develop/commands/ft.create.md;/commands/ft.create;
 /develop/connect/clients/om-clients/stack-dotnet/;/develop/connect/clients/om-clients/stack-dotnet;
 /develop/connect/clients/om-clients/stack-node/;/develop/connect/clients/om-clients/stack-node;
 /develop/connect/clients/om-clients/stack-python/;/develop/connect/clients/om-clients/stack-python;
@@ -109,3 +110,40 @@ broken_ref;fixed_ref;comment
 /develop/stack/search/reference/vectors/;/develop/interact/search-and-query/advanced-concepts/vectors;
 /develop/stack/search/reference/vectors/#runtime-attributes;/develop/interact/search-and-query/advanced-concepts/vectors;
 /develop/stack/timeseries/;/develop/data-types/timeseries/;
+#-- Command docs;;
+/commands/module-load/;/commands/module-load;
+/commands/auth/;/commands/auth;
+/commands/scan/;/commands/scan;
+/develop/management/security/acl;/operate/oss_and_stack/management/security/acl;
+/develop/management/security/acl#selectors;/operate/oss_and_stack/management/security/acl;
+/develop/management/security/acl/#command-categories;/operate/oss_and_stack/management/security/acl;
+/develop/management/security/acl/;/operate/oss_and_stack/management/security/acl;
+/develop/manual/programmability/;/develop/interact/programmability/;
+/develop/manual/programmability/#read-only-scripts;/develop/interact/programmability;
+/develop/interact/search-and-query/search/aggregations/;/develop/interact/search-and-query/advanced-concepts/aggregations;
+/develop/interact/search-and-query/search/aggregations;/develop/interact/search-and-query/advanced-concepts/aggregations;
+/develop/interact/search-and-query/search/aggregations/#supported-groupby-reducers;/develop/interact/search-and-query/advanced-concepts/aggregations;
+/develop/stack/search/reference/aggregations/;/develop/interact/search-and-query/advanced-concepts/aggregations;
+/develop/stack/search/reference/aggregations;/develop/interact/search-and-query/advanced-concepts/aggregations;
+/develop/stack/search/reference/aggregations/#cursor-api;/develop/interact/search-and-query/advanced-concepts/aggregations;
+/develop/reference/protocol-spec/;/develop/reference/protocol-spec;
+/develop/reference/protocol-spec/#resp-integers;/develop/reference/protocol-spec;
+/develop/reference/protocol-spec/#resp-arrays;/develop/reference/protocol-spec;
+/develop/reference/protocol-spec/#resp-simple-strings;/develop/reference/protocol-spec;
+/develop/reference/protocol-spec/#resp-errors;/develop/reference/protocol-spec;
+/develop/stack/search/configuring;/develop/interact/search-and-query/administration;
+/develop/interact/search-and-query/advanced-concepts/spellcheck/;/develop/interact/search-and-query/advanced-concepts/spellcheck;
+/develop/interact/search-and-query/advanced-concepts/highlight/;/develop/interact/search-and-query/advanced-concepts/highlight;
+/develop/interact/search-and-query/advanced-concepts/scoring/;/develop/interact/search-and-query/advanced-concepts/scoring;
+/develop/stack/search/reference/tags;/develop/interact/search-and-query/advanced-concepts/tags;
+/develop/manual/keyspace;/develop/use/keyspace;
+/develop/stack/timeseries/configuration/;/develop/data-types/timeseries/configuration;
+/develop/stack/timeseries/configuration/#compaction_policy;/develop/data-types/timeseries/configuration;
+/develop/stack/timeseries/configuration/#duplicate_policy;/develop/data-types/timeseries/configuration;
+/develop/stack/timeseries/configuration/#retention_policy;/develop/data-types/timeseries/configuration;
+/develop/stack/timeseries/configuration/#chunk_size_bytes;/develop/data-types/timeseries/configuration;
+/develop/stack/timeseries;/develop/data-types/timeseries/;
+/develop/manual/;/develop/use/;
+
+
+

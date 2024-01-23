@@ -38,7 +38,7 @@ Redis Stack supports the following search and query features. This article provi
 * Retrieval of full document contents or only their IDs
 * Exact phrase search and slop-based search
 * [Numeric filters]({{< relref "/develop/interact/search-and-query/query/#numeric-filters-in-query" >}}) and ranges
-* [Geo-filtering]({{< relref "/develop/interact/search-and-query/query/#geo-filters-in-query" >}}) using Redis [geo commands](/commands/?group=geo)
+* [Geo-filtering]({{< relref "/develop/interact/search-and-query/query/#geo-filters-in-query" >}}) using Redis [geo commands]({{< relref "/commands/?group=geo" >}})
 * [Vector similartiy search]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
 
 
@@ -46,8 +46,8 @@ Redis Stack supports the following search and query features. This article provi
 
 * [Prefix-based searches]({{< relref "/develop/interact/search-and-query/query/#prefix-matching" >}})
 * Field weights
-* [Auto-complete]({{< relref "/develop/interact/search-and-query/administration/overview" >}}) and fuzzy prefix suggestions
-* [Stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}})-based query expansion for [many languages]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}}) using [Snowball](http://snowballstem.org/)
+* [Auto-complete]({{< baseurl >}}/develop/interact/search-and-query/administration/overview#auto-complete) and fuzzy prefix suggestions
+* [Stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}})-based query expansion for [many languages]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/stemming#supported-languages) using [Snowball](http://snowballstem.org/)
 * Support for custom functions for query expansion and scoring (see [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}))
 * Unicode support (UTF-8 input required)
 * Document ranking

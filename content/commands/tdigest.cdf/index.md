@@ -48,7 +48,7 @@ is value for which the CDF (Cumulative Distribution Function) should be retrieve
 
 ## Return value
 
-[Array reply](/docs/reference/protocol-spec#arrays) - the command returns an array of floating-points populated with fraction_1, fraction_2, ..., fraction_N. 
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - the command returns an array of floating-points populated with fraction_1, fraction_2, ..., fraction_N. 
 
 All values are 'nan' if the sketch is empty.
 

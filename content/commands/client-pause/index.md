@@ -66,10 +66,10 @@ Client pause currently supports two modes:
 
 For the `WRITE` mode, some commands have special behavior:
 
-* [`EVAL`](/commands/eval)/[`EVALSHA`](/commands/evalsha): Will block client for all scripts.
-* [`PUBLISH`](/commands/publish): Will block client.
-* [`PFCOUNT`](/commands/pfcount): Will block client.
-* [`WAIT`](/commands/wait): Acknowledgments will be delayed, so this command will appear blocked.
+* [`EVAL`]({{< relref "/commands/eval" >}})/[`EVALSHA`]({{< relref "/commands/evalsha" >}}): Will block client for all scripts.
+* [`PUBLISH`]({{< relref "/commands/publish" >}}): Will block client.
+* [`PFCOUNT`]({{< relref "/commands/pfcount" >}}): Will block client.
+* [`WAIT`]({{< relref "/commands/wait" >}}): Acknowledgments will be delayed, so this command will appear blocked.
 
 This command is useful as it makes able to switch clients from a Redis instance to another one in a controlled way. For example during an instance upgrade the system administrator could do the following:
 
@@ -79,7 +79,7 @@ This command is useful as it makes able to switch clients from a Redis instance 
 * Reconfigure clients to connect with the new master.
 
 Since Redis 6.2, the recommended mode for client pause is `WRITE`. This mode will stop all replication traffic, can be
-aborted with the [`CLIENT UNPAUSE`](/commands/client-unpause) command, and allows reconfiguring the old master without risking accepting writes after the
+aborted with the [`CLIENT UNPAUSE`]({{< relref "/commands/client-unpause" >}}) command, and allows reconfiguring the old master without risking accepting writes after the
 failover. This is also the mode used during cluster failover.
 
 For versions before 6.2, it is possible to send `CLIENT PAUSE` in a MULTI/EXEC block together with the `INFO replication` command in order to get the current master offset at the time the clients are blocked. This way it is possible to wait for a specific offset in the replica side in order to make sure all the replication stream was processed.

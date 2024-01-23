@@ -54,7 +54,7 @@ syntax_str: index element
 title: LSET
 ---
 Sets the list element at `index` to `element`.
-For more information on the `index` argument, see [`LINDEX`](/commands/lindex).
+For more information on the `index` argument, see [`LINDEX`]({{< relref "/commands/lindex" >}}).
 
 An error is returned for out of range indexes.
 

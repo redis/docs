@@ -33,7 +33,7 @@ Returns width, depth and total count of the sketch.
 
 ## Return
 
-[Array reply](/docs/reference/protocol-spec#arrays) with information of the filter.
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with information of the filter.
 
 ## Examples
 

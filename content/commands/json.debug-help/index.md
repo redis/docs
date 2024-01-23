@@ -22,7 +22,7 @@ syntax_fmt: JSON.DEBUG HELP
 syntax_str: ''
 title: JSON.DEBUG HELP
 ---
-Return helpful information about the [`JSON.DEBUG`](/commands/json.debug) command
+Return helpful information about the [`JSON.DEBUG`]({{< baseurl >}}/commands/json.debug) command
 
 ## Return
 
@@ -30,9 +30,9 @@ JSON.DEBUG HELP returns an array with helpful messages.
 
 ## See also
 
-[`JSON.DEBUG`](/commands/json.debug) 
+[`JSON.DEBUG`]({{< baseurl >}}/commands/json.debug) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

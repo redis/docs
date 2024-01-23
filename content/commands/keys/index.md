@@ -50,7 +50,7 @@ This command is intended for debugging and special operations, such as changing
 your keyspace layout.
 Don't use `KEYS` in your regular application code.
 If you're looking for a way to find keys in a subset of your keyspace, consider
-using [`SCAN`](/commands/scan) or [sets][tdts].
+using [`SCAN`]({{< relref "/commands/scan" >}}) or [sets][tdts].
 
 [tdts]: /topics/data-types#sets
 

@@ -50,17 +50,15 @@ since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Bloom Filter. A filter will be created if it
   does not exist
-syntax_fmt: "BF.INSERT key [CAPACITY\_capacity] [ERROR\_error]
-  [EXPANSION\_expansion]\
-  \ [NOCREATE] [NONSCALING] ITEMS item [item
-  ...]"
+syntax_fmt: "BF.INSERT key [CAPACITY\_capacity] [ERROR\_error] [EXPANSION\_expansion]\
+  \ [NOCREATE] [NONSCALING] ITEMS item [item ...]"
 syntax_str: "[CAPACITY\_capacity] [ERROR\_error] [EXPANSION\_expansion] [NOCREATE]\
   \ [NONSCALING] ITEMS item [item ...]"
 title: BF.INSERT
 ---
 Creates a new Bloom filter if the `key` does not exist using the specified error rate, capacity, and expansion, then adds all specified items to the Bloom Filter.
 
-This command is similar to [`BF.MADD`](/commands/bf.madd), except that the error rate, capacity, and expansion can be specified. It is a sugarcoated combination of [`BF.RESERVE`](/commands/bf.reserve) and [`BF.MADD`](/commands/bf.madd).
+This command is similar to [`BF.MADD`]({{< baseurl >}}/commands/bf.madd), except that the error rate, capacity, and expansion can be specified. It is a sugarcoated combination of [`BF.RESERVE`]({{< baseurl >}}/commands/bf.reserve) and [`BF.MADD`]({{< baseurl >}}/commands/bf.madd).
 
 ## Required arguments
 
@@ -91,14 +89,14 @@ It is an error to specify `NOCREATE` together with either `CAPACITY` or `ERROR`.
 Specifies the desired `capacity` for the filter to be created.
 This parameter is ignored if the filter already exists.
 If the filter is automatically created and this parameter is absent, then the module-level `capacity` is used.
-See [`BF.RESERVE`](/commands/bf.reserve) for more information about the impact of this value.
+See [`BF.RESERVE`]({{< baseurl >}}/commands/bf.reserve) for more information about the impact of this value.
 </details>
 
 <details open><summary><code>ERROR error</code></summary>
     
 Specifies the `error` ratio of the newly created filter if it does not yet exist.
 If the filter is automatically created and `error` is not specified then the module-level error rate is used.
-See [`BF.RESERVE`](/commands/bf.reserve) for more information about the format of this value.
+See [`BF.RESERVE`]({{< baseurl >}}/commands/bf.reserve) for more information about the format of this value.
 </details>
 
 <details open><summary><code>NONSCALING</code></summary>
@@ -120,8 +118,8 @@ Otherwise, use an `expansion` of `1` to reduce memory consumption. The default v
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) where each element is one of these options:
-  - [Integer reply](/docs/reference/protocol-spec#integers), where `1` denotes that the item has been added successfully, and `0` means that such item had already added to the filter (which could be wrong)
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is one of these options:
+  - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `1` denotes that the item has been added successfully, and `0` means that such item had already added to the filter (which could be wrong)
   - [] when the item cannot be added because the filter is full
 - [], for example, when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.
 

@@ -234,7 +234,7 @@ ft.Create(
     schema);
 ```
 
-Use [`JSON.SET`](/commands/json.set) to set each user value at the specified path.
+Use [`JSON.SET`]({{< baseurl >}}/commands/json.set) to set each user value at the specified path.
 
 ```csharp
 json.Set("user:1", "$", user1);

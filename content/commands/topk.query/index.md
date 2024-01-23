@@ -38,7 +38,7 @@ Multiple items can be checked at once.
 
 ## Return
 
-[Array reply](/docs/reference/protocol-spec#arrays) of [Integer reply](/docs/reference/protocol-spec#integers) - "1" if item is in Top-K, otherwise "0".
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - "1" if item is in Top-K, otherwise "0".
 
 ## Examples
 

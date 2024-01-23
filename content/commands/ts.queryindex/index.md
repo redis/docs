@@ -38,10 +38,8 @@ summary: Get all time series keys matching a filter list
 syntax: 'TS.QUERYINDEX filterExpr...
 
   '
-syntax_fmt: "TS.QUERYINDEX <l=v | l!=v | l= | l!= | l=(v1,v2,...) |
-  l!=(v1,v2,...)\
-  \ [l=v | l!=v | l= | l!= | l=(v1,v2,...) |
-  l!=(v1,v2,...) ...]>"
+syntax_fmt: TS.QUERYINDEX <l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...)
+  [l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>
 syntax_str: ''
 title: TS.QUERYINDEX
 ---
@@ -77,7 +75,7 @@ filters time series based on their labels and label values. Each filter expressi
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) where each element is a [Bulk string reply](/docs/reference/protocol-spec#bulk-strings): a time series key. The array is empty if no time series matches the filter.
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is a [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): a time series key. The array is empty if no time series matches the filter.
 - [] (e.g., on invalid filter expression)
 
 ## Examples
@@ -117,8 +115,8 @@ To retrieve the keys of all time series representing sensors that measure temper
 
 ## See also
 
-[`TS.CREATE`](/commands/ts.create) | [`TS.MRANGE`](/commands/ts.mrange) | [`TS.MREVRANGE`](/commands/ts.mrevrange) | [`TS.MGET`](/commands/ts.mget)
+[`TS.CREATE`]({{< baseurl >}}/commands/ts.create) | [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange) | [`TS.MGET`]({{< baseurl >}}/commands/ts.mget)
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

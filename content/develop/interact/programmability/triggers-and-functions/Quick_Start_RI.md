@@ -41,7 +41,7 @@ You'll see the following when the library was added:
 
 <img src="/docs/interact/programmability/triggers-and-functions/images/tf-rdi-3.png">
 
-The [`TFCALL`](/commands/tfcall) command is used to execute the JavaScript Function. If the command fails, an error will be returned. Click on the **>_ CLI**  button in the lower left-hand corner to open a console window and then run the command shown below.
+The [`TFCALL`]({{< relref "/commands/tfcall" >}}) command is used to execute the JavaScript Function. If the command fails, an error will be returned. Click on the **>_ CLI**  button in the lower left-hand corner to open a console window and then run the command shown below.
 
 <img src="/docs/interact/programmability/triggers-and-functions/images/tf-rdi-3a.png">
 
@@ -84,7 +84,7 @@ Update the existing library as before and then, using the RedisInsight console, 
 > HSET fellowship:1 name "Frodo Baggins" title "The One Ring Bearer"
 ```
 
-Run the [`HGETALL`](/commands/hgetall) command to check if the last updated time is added to the example.
+Run the [`HGETALL`]({{< relref "/commands/hgetall" >}}) command to check if the last updated time is added to the example.
 
 ```Shell
 > HGETALL fellowship:1

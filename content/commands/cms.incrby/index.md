@@ -45,7 +45,7 @@ Increases the count of item by increment. Multiple items can be increased with o
 ## Return
 
 
-[Array reply](/docs/reference/protocol-spec#arrays) of [Integer reply](/docs/reference/protocol-spec#integers) with an updated min-count of each of the items in the sketch.
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) with an updated min-count of each of the items in the sketch.
 
 Count of each item after increment.
 

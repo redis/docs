@@ -57,8 +57,8 @@ syntax_str: ''
 title: MSET
 ---
 Sets the given keys to their respective values.
-`MSET` replaces existing values with new values, just as regular [`SET`](/commands/set).
-See [`MSETNX`](/commands/msetnx) if you don't want to overwrite existing values.
+`MSET` replaces existing values with new values, just as regular [`SET`]({{< relref "/commands/set" >}}).
+See [`MSETNX`]({{< relref "/commands/msetnx" >}}) if you don't want to overwrite existing values.
 
 `MSET` is atomic, so all given keys are set at once.
 It is not possible for clients to see that some of the keys were updated while

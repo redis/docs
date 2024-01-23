@@ -112,7 +112,7 @@ FT.SEARCH myIndex "@cities:{ New York } @cities:{Los Angeles} @cities:{ Barcelon
 
 ## Including punctuation in tags
 
-A tag can include punctuation other than the field's separator. You do not need to escape punctuation when using the [`HSET`](/commands/hset) command to add the value to a Redis Hash.
+A tag can include punctuation other than the field's separator. You do not need to escape punctuation when using the [`HSET`]({{< relref "/commands/hset" >}}) command to add the value to a Redis Hash.
 
 For example, given the following index:
 

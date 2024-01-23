@@ -33,7 +33,7 @@ syntax_fmt: CONFIG REWRITE
 syntax_str: ''
 title: CONFIG REWRITE
 ---
-The `CONFIG REWRITE` command rewrites the `redis.conf` file the server was started with, applying the minimal changes needed to make it reflect the configuration currently used by the server, which may be different compared to the original one because of the use of the [`CONFIG SET`](/commands/config-set) command.
+The `CONFIG REWRITE` command rewrites the `redis.conf` file the server was started with, applying the minimal changes needed to make it reflect the configuration currently used by the server, which may be different compared to the original one because of the use of the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
 The rewrite is performed in a very conservative way:
 

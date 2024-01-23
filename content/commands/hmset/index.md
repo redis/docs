@@ -54,7 +54,7 @@ key_specs:
     type: range
   update: true
 linkTitle: HMSET
-replaced_by: '[`HSET`](/commands/hset) with multiple field-value pairs'
+replaced_by: '[`HSET`]({{< relref "/commands/hset" >}}) with multiple field-value pairs'
 since: 2.0.0
 summary: Sets the values of multiple fields.
 syntax_fmt: HMSET key field value [field value ...]

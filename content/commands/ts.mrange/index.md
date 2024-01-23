@@ -158,34 +158,17 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Query a range across multiple time series by filters in forward direction
-syntax: "TS.MRANGE fromTimestamp toTimestamp
-  [LATEST]
-  [FILTER_BY_TS ts...]
-\
-  \  [FILTER_BY_VALUE min max]
-  [WITHLABELS | SELECTED_LABELS label...]
-  [COUNT\
-  \ count]
-  [[ALIGN align] AGGREGATION aggregator bucketDuration [BUCKETTIMESTAMP\
-  \ bt] [EMPTY]]
-  FILTER filterExpr...
-  [GROUPBY label REDUCE reducer]
-"
-syntax_fmt: "TS.MRANGE fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp
-\
-  \  [Timestamp ...]] [FILTER_BY_VALUE min max] [WITHLABELS |
-  SELECTED_LABELS label1\
-  \ [label1 ...]] [COUNT\_count] [[ALIGN\_value]
-  AGGREGATION\_<AVG | FIRST | LAST\
-  \ | MIN | MAX | SUM | RANGE | COUNT
-  | STD.P | STD.S | VAR.P | VAR.S | TWA> bucketDuration
-\
-  \  [BUCKETTIMESTAMP] [EMPTY]] FILTER\_<l=v | l!=v | l= | l!= |
-  l=(v1,v2,...)\
-  \ | l!=(v1,v2,...) [l=v | l!=v | l= | l!= |
-  l=(v1,v2,...) | l!=(v1,v2,...) ...]>\
-  \ [GROUPBY label REDUCE
-  reducer]"
+syntax: 'TS.MRANGE fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS ts...]   [FILTER_BY_VALUE
+  min max] [WITHLABELS | SELECTED_LABELS label...] [COUNT count] [[ALIGN align] AGGREGATION
+  aggregator bucketDuration [BUCKETTIMESTAMP bt] [EMPTY]] FILTER filterExpr... [GROUPBY
+  label REDUCE reducer] '
+syntax_fmt: "TS.MRANGE fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp\
+  \   [Timestamp ...]] [FILTER_BY_VALUE min max] [WITHLABELS | SELECTED_LABELS label1\
+  \ [label1 ...]] [COUNT\_count] [[ALIGN\_value] AGGREGATION\_<AVG | FIRST | LAST\
+  \ | MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA> bucketDuration\
+  \   [BUCKETTIMESTAMP] [EMPTY]] FILTER\_<l=v | l!=v | l= | l!= | l=(v1,v2,...) |\
+  \ l!=(v1,v2,...) [l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]> [GROUPBY\
+  \ label REDUCE reducer]"
 syntax_str: "toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp [Timestamp ...]] [FILTER_BY_VALUE\
   \ min max] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]] [COUNT\_count] [[ALIGN\_\
   value] AGGREGATION\_<AVG | FIRST | LAST | MIN | MAX | SUM | RANGE | COUNT | STD.P\
@@ -393,26 +376,26 @@ When combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregat
 
 If `GROUPBY label REDUCE reducer` is not specified:
 
-- [Array reply](/docs/reference/protocol-spec#arrays): for each time series matching the specified filters, the following is reported:
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
   - bulk-string-reply: The time series key name
-  - [Array reply](/docs/reference/protocol-spec#arrays): label-value pairs ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings))
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
     - By default, an empty array is reported
     - If `WITHLABELS` is specified, all labels associated with this time series are reported
     - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)
-  - [Array reply](/docs/reference/protocol-spec#arrays): timestamp-value pairs ([Integer reply](/docs/reference/protocol-spec#integers), [Simple string reply](/docs/reference/protocol-spec#simple-strings) (double)): all samples/aggregations matching the range
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) (double)): all samples/aggregations matching the range
 
 If `GROUPBY label REDUCE reducer` is specified:
 
-- [Array reply](/docs/reference/protocol-spec#arrays): for each group of time series matching the specified filters, the following is reported:
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each group of time series matching the specified filters, the following is reported:
   - bulk-string-reply with the format `label=value` where `label` is the `GROUPBY` label argument
-  - [Array reply](/docs/reference/protocol-spec#arrays): label-value pairs ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings)):
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):
     - By default, an empty array is reported
     - If `WITHLABELS` is specified, the `GROUPBY` label argument and value are reported
     - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined or label does not have the same value for all grouped time series)
-  - [Array reply](/docs/reference/protocol-spec#arrays): either a single pair ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings)): the `GROUPBY` label argument and value, or empty array if 
-  - [Array reply](/docs/reference/protocol-spec#arrays): a single pair ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings)):  the string `__reducer__` and the reducer argument
-  - [Array reply](/docs/reference/protocol-spec#arrays): a single pair ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings)): the string `__source__` and the time series key names separated by `,`
-  - [Array reply](/docs/reference/protocol-spec#arrays): timestamp-value pairs ([Integer reply](/docs/reference/protocol-spec#integers), [Simple string reply](/docs/reference/protocol-spec#simple-strings) (double)): all samples/aggregations matching the range
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): either a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the `GROUPBY` label argument and value, or empty array if 
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):  the string `__reducer__` and the reducer argument
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the string `__source__` and the time series key names separated by `,`
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) (double)): all samples/aggregations matching the range
 
 ## Examples
 
@@ -610,8 +593,8 @@ Query all time series with the metric label equal to `cpu`, but only return the 
 
 ## See also
 
-[`TS.RANGE`](/commands/ts.range) | [`TS.MREVRANGE`](/commands/ts.mrevrange) | [`TS.REVRANGE`](/commands/ts.revrange)
+[`TS.RANGE`]({{< baseurl >}}/commands/ts.range) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange)
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

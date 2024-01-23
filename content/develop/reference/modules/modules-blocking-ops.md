@@ -18,13 +18,13 @@ weight: 1
 ---
 
 Redis has a few blocking commands among the built-in set of commands.
-One of the most used is [`BLPOP`](/commands/blpop) (or the symmetric [`BRPOP`](/commands/brpop)) which blocks
+One of the most used is [`BLPOP`]({{< relref "/commands/blpop" >}}) (or the symmetric [`BRPOP`]({{< relref "/commands/brpop" >}})) which blocks
 waiting for elements arriving in a list.
 
 The interesting fact about blocking commands is that they do not block
 the whole server, but just the client calling them. Usually the reason to
 block is that we expect some external event to happen: this can be
-some change in the Redis data structures like in the [`BLPOP`](/commands/blpop) case, a
+some change in the Redis data structures like in the [`BLPOP`]({{< relref "/commands/blpop" >}}) case, a
 long computation happening in a thread, to receive some data from the
 network, and so forth.
 

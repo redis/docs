@@ -52,8 +52,7 @@ module: Triggers and functions
 since: 2.0.0
 stack_path: docs/interact/programmability/triggers-and-functions
 summary: List all JavaScript libraries loaded into Redis
-syntax: "TFUNCTION LIST [WITHCODE] [VERBOSE] [v] [LIBRARY <library name>] 
-"
+syntax: 'TFUNCTION LIST [WITHCODE] [VERBOSE] [v] [LIBRARY <library name>] '
 syntax_fmt: "TFUNCTION LIST [LIBRARYNAME\_library name] [WITHCODE] [VERBOSE] [V]"
 syntax_str: '[WITHCODE] [VERBOSE] [V]'
 title: TFUNCTION LIST

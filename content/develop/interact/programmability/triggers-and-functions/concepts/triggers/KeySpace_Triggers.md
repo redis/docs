@@ -78,7 +78,7 @@ The `data` argument, which is passed to the consumer callback, are in the follow
 
 Notice that the `key` field is given only if the key can be decoded as a `JS` `String`, otherwise the value will be `null`.
 
-We can display trigger information using [`TFUNCTION LIST`](/commands/tfunction-list) command:
+We can display trigger information using [`TFUNCTION LIST`]({{< relref "/commands/tfunction-list" >}}) command:
 
 ```bash
 127.0.0.1:6379> TFUNCTION list vvv
@@ -125,7 +125,7 @@ If the callback is a Coroutine, it will be executed in the background and there 
 
 ## Upgrades
 
-When upgrading existing trigger code using the `REPLACE` option of [`TFUNCTION LOAD`](/commands/tfunction-load) command, all trigger parameters can be modified.
+When upgrading existing trigger code using the `REPLACE` option of [`TFUNCTION LOAD`]({{< relref "/commands/tfunction-load" >}}) command, all trigger parameters can be modified.
 
 ## Advanced usage
 

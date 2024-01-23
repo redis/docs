@@ -117,17 +117,16 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEORADIUS_RO
-replaced_by: '[`GEOSEARCH`](/commands/geosearch) with the `BYRADIUS` argument'
+replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) with the `BYRADIUS` argument'
 since: 3.2.10
 summary: Returns members from a geospatial index that are within a distance from a
   coordinate.
-syntax_fmt: "GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI>
-  [WITHCOORD]\
+syntax_fmt: "GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI> [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]"
 syntax_str: "longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH]\
   \ [COUNT\_count [ANY]] [ASC | DESC]"
 title: GEORADIUS_RO
 ---
-Read-only variant of the [`GEORADIUS`](/commands/georadius) command.
+Read-only variant of the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command.
 
-This command is identical to the [`GEORADIUS`](/commands/georadius) command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.
+This command is identical to the [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.

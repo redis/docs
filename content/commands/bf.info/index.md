@@ -86,12 +86,12 @@ When no optional argument is specified: return all information fields.
 
 When no optional argument is specified, returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) with argument name ([Simple string reply](/docs/reference/protocol-spec#simple-strings)) and value ([Integer reply](/docs/reference/protocol-spec#integers)) pairs
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs
 - [] on error (invalid arguments, key does not exist, wrong key type, and so on)
 
 When an optional argument is specified, returns one of these replies:
 
-- [Integer reply](/docs/reference/protocol-spec#integers) - argument value
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - argument value
 - [] on error (invalid arguments, key does not exist, wrong key type, and so on)
 
 ## Examples

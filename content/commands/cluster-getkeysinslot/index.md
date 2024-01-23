@@ -42,7 +42,7 @@ of this API to batch-processing keys.
 The main usage of this command is during rehashing of cluster slots from one
 node to another. The way the rehashing is performed is exposed in the Redis
 Cluster specification, or in a more simple to digest form, as an appendix
-of the [`CLUSTER SETSLOT`](/commands/cluster-setslot) command documentation.
+of the [`CLUSTER SETSLOT`]({{< relref "/commands/cluster-setslot" >}}) command documentation.
 
 ```
 > CLUSTER GETKEYSINSLOT 7000 3

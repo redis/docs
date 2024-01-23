@@ -30,7 +30,7 @@ If you'd like to try a comprehensive tutorial for each data structure, see their
 For more information, see:
 
 * [Overview of Redis strings]({{< relref "/develop/data-types/strings" >}})
-* [Redis string command reference](/commands/?group=string)
+* [Redis string command reference]({{< relref "/commands/?group=string" >}})
 
 ### Lists
 
@@ -38,7 +38,7 @@ For more information, see:
 For more information, see:
 
 * [Overview of Redis lists]({{< relref "/develop/data-types/lists" >}})
-* [Redis list command reference](/commands/?group=list)
+* [Redis list command reference]({{< relref "/commands/?group=list" >}})
 
 ### Sets
 
@@ -47,7 +47,7 @@ With a Redis set, you can add, remove, and test for existence in O(1) time (in o
 For more information, see:
 
 * [Overview of Redis sets]({{< relref "/develop/data-types/sets" >}})
-* [Redis set command reference](/commands/?group=set)
+* [Redis set command reference]({{< relref "/commands/?group=set" >}})
 
 ### Hashes
 
@@ -56,7 +56,7 @@ As such, Redis hashes resemble [Python dictionaries](https://docs.python.org/3/t
 For more information, see:
 
 * [Overview of Redis hashes]({{< relref "/develop/data-types/hashes" >}})
-* [Redis hashes command reference](/commands/?group=hash)
+* [Redis hashes command reference]({{< relref "/commands/?group=hash" >}})
 
 ### Sorted sets
 
@@ -64,7 +64,7 @@ For more information, see:
 For more information, see:
 
 * [Overview of Redis sorted sets]({{< relref "/develop/data-types/sorted-sets" >}})
-* [Redis sorted set command reference](/commands/?group=sorted-set)
+* [Redis sorted set command reference]({{< relref "/commands/?group=sorted-set" >}})
 
 ### Streams
 
@@ -73,7 +73,7 @@ Streams help record events in the order they occur and then syndicate them for p
 For more information, see:
 
 * [Overview of Redis Streams]({{< relref "/develop/data-types/streams" >}})
-* [Redis Streams command reference](/commands/?group=stream)
+* [Redis Streams command reference]({{< relref "/commands/?group=stream" >}})
 
 ### Geospatial indexes
 
@@ -81,7 +81,7 @@ For more information, see:
 For more information, see:
 
 * [Overview of Redis geospatial indexes]({{< relref "/develop/data-types/geospatial" >}})
-* [Redis geospatial indexes command reference](/commands/?group=geo)
+* [Redis geospatial indexes command reference]({{< relref "/commands/?group=geo" >}})
 
 ### Bitmaps
 
@@ -89,7 +89,7 @@ For more information, see:
 For more information, see:
 
 * [Overview of Redis bitmaps]({{< relref "/develop/data-types/bitmaps" >}})
-* [Redis bitmap command reference](/commands/?group=bitmap)
+* [Redis bitmap command reference]({{< relref "/commands/?group=bitmap" >}})
 
 ### Bitfields
 
@@ -98,14 +98,14 @@ Bitfields provide atomic get, set, and increment operations and support differen
 For more information, see:
 
 * [Overview of Redis bitfields]({{< relref "/develop/data-types/bitfields" >}})
-* The [`BITFIELD`](/commands/bitfield) command.
+* The [`BITFIELD`]({{< relref "/commands/bitfield" >}}) command.
 
 ### HyperLogLog
 
 The [Redis HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}}) data structures provide probabilistic estimates of the cardinality (i.e., number of elements) of large sets. For more information, see:
 
 * [Overview of Redis HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}})
-* [Redis HyperLogLog command reference](/commands/?group=hyperloglog)
+* [Redis HyperLogLog command reference]({{< relref "/commands/?group=hyperloglog" >}})
 
 ## Extensions
 

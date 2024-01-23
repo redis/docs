@@ -25,9 +25,7 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Get the sample with the highest timestamp from a given time series
-syntax: "TS.GET key 
-  [LATEST]
-"
+syntax: 'TS.GET key [LATEST] '
 syntax_fmt: TS.GET key [LATEST]
 syntax_str: '[LATEST]'
 title: TS.GET
@@ -57,8 +55,8 @@ The data in the latest bucket of a compaction is possibly partial. A bucket is _
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) of a single ([Integer reply](/docs/reference/protocol-spec#integers), [Simple string reply](/docs/reference/protocol-spec#simple-strings)) pair representing (timestamp, value(double)) of the sample with the highest timestamp
-- An empty [Array reply](/docs/reference/protocol-spec#arrays) - when the time series is empty
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of a single ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pair representing (timestamp, value(double)) of the sample with the highest timestamp
+- An empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - when the time series is empty
 - [] (invalid arguments, wrong key type, key does not exist, etc.)
 
 ## Examples
@@ -136,8 +134,8 @@ Get the latest maximum daily temperature (the temperature with the highest times
   
 ## See also
 
-[`TS.MGET`](/commands/ts.mget)  
+[`TS.MGET`]({{< baseurl >}}/commands/ts.mget)  
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

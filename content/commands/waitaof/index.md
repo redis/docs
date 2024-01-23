@@ -54,7 +54,7 @@ The command **will always return** the number of masters and replicas that have 
 A few remarks:
 
 1. When `WAITAOF` returns, all the previous write commands sent in the context of the current connection are guaranteed to be fsynced to the AOF of at least the number of masters and replicas returned by `WAITAOF`.
-2. If the command is sent as part of a [`MULTI`](/commands/multi) transaction (or any other context that does not allow blocking, such as inside scripts), the command does not block but instead returns immediately the number of masters and replicas that fsynced all previous write commands.
+2. If the command is sent as part of a [`MULTI`]({{< relref "/commands/multi" >}}) transaction (or any other context that does not allow blocking, such as inside scripts), the command does not block but instead returns immediately the number of masters and replicas that fsynced all previous write commands.
 3. A timeout of 0 means to block forever.
 4. Since `WAITAOF` returns the number of fsyncs completed both in case of success and timeout, the client should check that the returned values are equal or greater than the persistence level required.
 5. `WAITAOF` cannot be used on replica instances, and the `numlocal` argument cannot be non-zero if the local Redis does not have AOF enabled.
@@ -69,7 +69,7 @@ These features are incompatible with the `WAITAOF` command as it is currently im
 Consistency and WAITAOF
 ---
 
-Note that, similarly to [`WAIT`](/commands/wait), `WAITAOF` does not make Redis a strongly-consistent store.
+Note that, similarly to [`WAIT`]({{< relref "/commands/wait" >}}), `WAITAOF` does not make Redis a strongly-consistent store.
 Unless waiting for all members of a cluster to fsync writes to disk, data can still be lost during a failover or a Redis restart.
 However, `WAITAOF` does improve real-world data safety.
 

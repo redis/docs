@@ -91,7 +91,7 @@ The arguments passed to the function.
 `TFCALL` returns either
 
 * The return value of the function.
-* [Error reply](/docs/reference/protocol-spec/#resp-errors) when the function execution failed.
+* [Error reply]({{< baseurl >}}/develop/reference/protocol-spec#resp-errors) when the function execution failed.
 
 ## Examples
 

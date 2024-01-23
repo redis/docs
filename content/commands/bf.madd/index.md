@@ -33,9 +33,9 @@ title: BF.MADD
 ---
 Adds one or more items to a Bloom filter.
 
-This command is similar to [`BF.ADD`](/commands/bf.add), except that you can add more than one item.
+This command is similar to [`BF.ADD`]({{< baseurl >}}/commands/bf.add), except that you can add more than one item.
 
-This command is similar to [`BF.INSERT`](/commands/bf.insert), except that the error rate, capacity, and expansion cannot be specified.
+This command is similar to [`BF.INSERT`]({{< baseurl >}}/commands/bf.insert), except that the error rate, capacity, and expansion cannot be specified.
 
 ## Required arguments
 
@@ -43,7 +43,7 @@ This command is similar to [`BF.INSERT`](/commands/bf.insert), except that the e
 
 is key name for a Bloom filter to add the items to.
 
-If `key` does not exist - a new Bloom filter is created with default error rate, capacity, and expansion (see [`BF.RESERVE`](/commands/bf.reserve)).
+If `key` does not exist - a new Bloom filter is created with default error rate, capacity, and expansion (see [`BF.RESERVE`]({{< baseurl >}}/commands/bf.reserve)).
 </details>
 
 <details open><summary><code>item...</code></summary>
@@ -55,8 +55,8 @@ One or more items to add.
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) where each element is either
-  - [Integer reply](/docs/reference/protocol-spec#integers) - where "1" means that the item has been added successfully, and "0" means that such item was already added to the filter (which could be wrong)
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is either
+  - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - where "1" means that the item has been added successfully, and "0" means that such item was already added to the filter (which could be wrong)
   - [] when the item cannot be added because the filter is full
 - [] on error (invalid arguments, wrong key type, etc.)
 

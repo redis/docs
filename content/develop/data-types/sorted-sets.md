@@ -52,9 +52,9 @@ Let's start with a simple example, we'll add all our racers and the score they g
 {{< /clients-example >}}
 
 
-As you can see [`ZADD`](/commands/zadd) is similar to [`SADD`](/commands/sadd), but takes one additional argument
+As you can see [`ZADD`]({{< relref "/commands/zadd" >}}) is similar to [`SADD`]({{< relref "/commands/sadd" >}}), but takes one additional argument
 (placed before the element to be added) which is the score.
-[`ZADD`](/commands/zadd) is also variadic, so you are free to specify multiple score-value
+[`ZADD`]({{< relref "/commands/zadd" >}}) is also variadic, so you are free to specify multiple score-value
 pairs, even if this is not used in the example above.
 
 With sorted sets it is trivial to return a list of hackers sorted by their
@@ -64,7 +64,7 @@ Implementation note: Sorted sets are implemented via a
 dual-ported data structure containing both a skip list and a hash table, so
 every time we add an element Redis performs an O(log(N)) operation. That's
 good, but when we ask for sorted elements Redis does not have to do any work at
-all, it's already sorted. Note that the [`ZRANGE`](/commands/zrange) order is low to high, while the [`ZREVRANGE`](/commands/zrevrange) order is high to low:
+all, it's already sorted. Note that the [`ZRANGE`]({{< relref "/commands/zrange" >}}) order is low to high, while the [`ZREVRANGE`]({{< relref "/commands/zrevrange" >}}) order is high to low:
 
 {{< clients-example ss_tutorial zrange >}}
 > ZRANGE racer_scores 0 -1
@@ -84,7 +84,7 @@ all, it's already sorted. Note that the [`ZRANGE`](/commands/zrange) order is lo
 {{< /clients-example >}}
 
 Note: 0 and -1 means from element index 0 to the last element (-1 works
-here just as it does in the case of the [`LRANGE`](/commands/lrange) command).
+here just as it does in the case of the [`LRANGE`]({{< relref "/commands/lrange" >}}) command).
 
 It is possible to return scores as well, using the `WITHSCORES` argument:
 
@@ -108,7 +108,7 @@ It is possible to return scores as well, using the `WITHSCORES` argument:
 
 Sorted sets are more powerful than this. They can operate on ranges.
 Let's get all the racers with 10 or fewer points. We
-use the [`ZRANGEBYSCORE`](/commands/zrangebyscore) command to do it:
+use the [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}) command to do it:
 
 {{< clients-example ss_tutorial zrangebyscore >}}
 > ZRANGEBYSCORE racer_scores -inf 10
@@ -121,7 +121,7 @@ use the [`ZRANGEBYSCORE`](/commands/zrangebyscore) command to do it:
 We asked Redis to return all the elements with a score between negative
 infinity and 10 (both extremes are included).
 
-To remove an element we'd simply call [`ZREM`](/commands/zrem) with the racer's name. 
+To remove an element we'd simply call [`ZREM`]({{< relref "/commands/zrem" >}}) with the racer's name. 
 It's also possible to remove ranges of elements. Let's remove racer Castilla along with all
 the racers with strictly fewer than 10 points:
 
@@ -136,13 +136,13 @@ the racers with strictly fewer than 10 points:
 3) "Prickett"
 {{< /clients-example >}}
 
-[`ZREMRANGEBYSCORE`](/commands/zremrangebyscore) is perhaps not the best command name,
+[`ZREMRANGEBYSCORE`]({{< relref "/commands/zremrangebyscore" >}}) is perhaps not the best command name,
 but it can be very useful, and returns the number of removed elements.
 
 Another extremely useful operation defined for sorted set elements
 is the get-rank operation. It is possible to ask what is the
 position of an element in the set of ordered elements. 
-The [`ZREVRANK`](/commands/zrevrank) command is also available in order to get the rank, considering
+The [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) command is also available in order to get the rank, considering
 the elements sorted in a descending way.
 
 {{< clients-example ss_tutorial zrank >}}
@@ -160,11 +160,11 @@ inserted with the same identical score (elements are compared with the C
 `memcmp` function, so it is guaranteed that there is no collation, and every
 Redis instance will reply with the same output).
 
-The main commands to operate with lexicographical ranges are [`ZRANGEBYLEX`](/commands/zrangebylex),
-[`ZREVRANGEBYLEX`](/commands/zrevrangebylex), [`ZREMRANGEBYLEX`](/commands/zremrangebylex) and [`ZLEXCOUNT`](/commands/zlexcount).
+The main commands to operate with lexicographical ranges are [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}),
+[`ZREVRANGEBYLEX`]({{< relref "/commands/zrevrangebylex" >}}), [`ZREMRANGEBYLEX`]({{< relref "/commands/zremrangebylex" >}}) and [`ZLEXCOUNT`]({{< relref "/commands/zlexcount" >}}).
 
 For example, let's add again our list of famous hackers, but this time
-using a score of zero for all the elements. We'll see that because of the sorted sets ordering rules, they are already sorted lexicographically. Using [`ZRANGEBYLEX`](/commands/zrangebylex) we can ask for lexicographical ranges:
+using a score of zero for all the elements. We'll see that because of the sorted sets ordering rules, they are already sorted lexicographically. Using [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) we can ask for lexicographical ranges:
 
 {{< clients-example ss_tutorial zadd_lex >}}
 > ZADD racer_scores 0 "Norem" 0 "Sam-Bodden" 0 "Royce" 0 "Castilla" 0 "Prickett" 0 "Ford"
@@ -201,7 +201,7 @@ Updating the score: leaderboards
 ---
 
 Just a final note about sorted sets before switching to the next topic.
-Sorted sets' scores can be updated at any time. Just calling [`ZADD`](/commands/zadd) against
+Sorted sets' scores can be updated at any time. Just calling [`ZADD`]({{< relref "/commands/zadd" >}}) against
 an element already included in the sorted set will update its score
 (and position) with O(log(N)) time complexity.  As such, sorted sets are suitable
 when there are tons of updates.
@@ -214,7 +214,7 @@ the #4932 best score here").
 
 ## Examples
 
-* There are two ways we can use a sorted set to represent a leaderbaord. If we know a racer's new score, we can update it directly via the [`ZADD`](/commands/zadd) command. However, if we want to add points to an existing score, we can use the [`ZINCRBY`](/commands/zincrby) command.
+* There are two ways we can use a sorted set to represent a leaderbaord. If we know a racer's new score, we can update it directly via the [`ZADD`]({{< relref "/commands/zadd" >}}) command. However, if we want to add points to an existing score, we can use the [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) command.
 {{< clients-example ss_tutorial leaderboard >}}
 > ZADD racer_scores 100 "Wood"
 (integer) 1
@@ -228,14 +228,14 @@ the #4932 best score here").
 "200"
 {{< /clients-example >}}
 
-You'll see that [`ZADD`](/commands/zadd) returns 0 when the member already exists (the score is updated), while [`ZINCRBY`](/commands/zincrby) returns the new score. The score for racer Henshaw went from 100, was changed to 150 with no regard for what score was there before, and then was incremented by 50 to 200.
+You'll see that [`ZADD`]({{< relref "/commands/zadd" >}}) returns 0 when the member already exists (the score is updated), while [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) returns the new score. The score for racer Henshaw went from 100, was changed to 150 with no regard for what score was there before, and then was incremented by 50 to 200.
 
 ## Basic commands
 
-* [`ZADD`](/commands/zadd) adds a new member and associated score to a sorted set. If the member already exists, the score is updated.
-* [`ZRANGE`](/commands/zrange) returns members of a sorted set, sorted within a given range.
-* [`ZRANK`](/commands/zrank) returns the rank of the provided member, assuming the sorted is in ascending order.
-* [`ZREVRANK`](/commands/zrevrank) returns the rank of the provided member, assuming the sorted set is in descending order.
+* [`ZADD`]({{< relref "/commands/zadd" >}}) adds a new member and associated score to a sorted set. If the member already exists, the score is updated.
+* [`ZRANGE`]({{< relref "/commands/zrange" >}}) returns members of a sorted set, sorted within a given range.
+* [`ZRANK`]({{< relref "/commands/zrank" >}}) returns the rank of the provided member, assuming the sorted is in ascending order.
+* [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) returns the rank of the provided member, assuming the sorted set is in descending order.
  
 See the [complete list of sorted set commands](https://redis.io/commands/?group=sorted-set).
 
@@ -243,7 +243,7 @@ See the [complete list of sorted set commands](https://redis.io/commands/?group=
 
 Most sorted set operations are O(log(n)), where _n_ is the number of members.
 
-Exercise some caution when running the [`ZRANGE`](/commands/zrange) command with large returns values (e.g., in the tens of thousands or more).
+Exercise some caution when running the [`ZRANGE`]({{< relref "/commands/zrange" >}}) command with large returns values (e.g., in the tens of thousands or more).
 This command's time complexity is O(log(n) + m), where _m_ is the number of results returned. 
 
 ## Alternatives

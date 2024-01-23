@@ -52,7 +52,7 @@ is JSONPath to specify. Default is root `$`. Nonexisting paths are ignored.
 ## Return
 
 JSON.CLEAR returns an integer reply specifying the number of matching JSON arrays and objects cleared + number of matching JSON numerical values zeroed.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 {{% alert title="Note" color="warning" %}}
  
@@ -89,10 +89,10 @@ redis> JSON.GET doc $
 
 ## See also
 
-[`JSON.ARRINDEX`](/commands/json.arrindex) | [`JSON.ARRINSERT`](/commands/json.arrinsert) 
+[`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
 

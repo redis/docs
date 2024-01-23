@@ -58,8 +58,8 @@ FT.SUGLEN returns an integer reply, which is the current size of the suggestion 
 
 ## See also
 
-[`FT.SUGADD`](/commands/ft.sugadd) | [`FT.SUGDEL`](/commands/ft.sugdel) | [`FT.SUGGET`](/commands/ft.sugget) 
+[`FT.SUGADD`]({{< baseurl >}}/commands/ft.sugadd) | [`FT.SUGDEL`]({{< baseurl >}}/commands/ft.sugdel) | [`FT.SUGGET`]({{< baseurl >}}/commands/ft.sugget) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

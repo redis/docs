@@ -28,7 +28,7 @@ The triggers and functions JavaScript API provides a singleton instance of an ob
 
 * Since version: 2.0.0
 
-Register a new function that can later be invoke using [`TFCALL`](/commands/tfcall) command.
+Register a new function that can later be invoke using [`TFCALL`]({{< relref "/commands/tfcall" >}}) command.
 
 ```JavaScript
 //name and callback mandatory
@@ -47,7 +47,7 @@ redis.registerFunction(
 
 * Since version: 2.0.0
 
-Register a new async function that can later be invoke using [`TFCALLASYNC`](/commands/tfcallasync) command.
+Register a new async function that can later be invoke using [`TFCALLASYNC`]({{< relref "/commands/tfcallasync" >}}) command.
 
 ```JavaScript
 redis.registerAsyncFunction(

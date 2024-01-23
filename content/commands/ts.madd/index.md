@@ -66,14 +66,14 @@ is numeric data value of the sample (double). The double number should follow <a
 
 <note><b>Notes:</b>
 - If `timestamp` is older than the retention period compared to the maximum existing timestamp, the sample is discarded and an error is returned.
-- Explicitly adding samples to a compacted time series (using [`TS.ADD`](/commands/ts.add), `TS.MADD`, [`TS.INCRBY`](/commands/ts.incrby), or [`TS.DECRBY`](/commands/ts.decrby)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
+- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< baseurl >}}/commands/ts.add), `TS.MADD`, [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby), or [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
 </note>
 
 ## Return value
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays), where each element is an [Integer reply](/docs/reference/protocol-spec#integers) representing the timestamp of a upserted sample or an [] (when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp)
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the timestamp of a upserted sample or an [] (when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp)
 - [] (invalid arguments, wrong key type, etc.)
 
 ## Complexity
@@ -105,8 +105,8 @@ OK
 
 ## See also
 
-[`TS.MRANGE`](/commands/ts.mrange) | [`TS.RANGE`](/commands/ts.range) | [`TS.MREVRANGE`](/commands/ts.mrevrange) | [`TS.REVRANGE`](/commands/ts.revrange)
+[`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange) | [`TS.RANGE`]({{< baseurl >}}/commands/ts.range) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange)
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

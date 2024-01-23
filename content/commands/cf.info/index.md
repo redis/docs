@@ -38,7 +38,7 @@ is key name for a cuckoo filter.
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) with argument name ([Simple string reply](/docs/reference/protocol-spec#simple-strings)) and value ([Integer reply](/docs/reference/protocol-spec#integers)) pairs
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs
 - [] on error (invalid arguments, key does not exist, wrong key type, and so on)
 
 ## Examples

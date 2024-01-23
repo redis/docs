@@ -47,7 +47,7 @@ is a controllable tradeoff between accuracy and memory consumption. 100 is a com
   
 ## Return value
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly, or [] otherwise.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
 
 ## Examples
 

@@ -213,7 +213,7 @@ query = (
 ```
 
 {{% alert title="Note" color="warning" %}}
-To utilize a vector query with the [`FT.SEARCH`](/commands/ft.search) command, you must specify DIALECT 2 or greater.
+To utilize a vector query with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) command, you must specify DIALECT 2 or greater.
 {{% /alert  %}}
 
 You must pass the vectorized query as `$query_vector` as a byte array. The following code shows an example of creating a Python NumPy array from a vectorized query prompt (`encoded_query`) as a single precision floating point array and converting it into a compact, byte-level representation that can be passed as a parameter to the query:

@@ -46,7 +46,7 @@ is the input fraction (between 0 and 1 inclusively)
 
 ## Return value
 
-[Array reply](/docs/reference/protocol-spec#arrays) - an array of estimates (floating-point) populated with value_1, value_2, ..., value_N.
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - an array of estimates (floating-point) populated with value_1, value_2, ..., value_N.
 
 - Return an accurate result when `quantile` is 0 (the value of the smallest observation)
 - Return an accurate result when `quantile` is 1 (the value of the largest observation)

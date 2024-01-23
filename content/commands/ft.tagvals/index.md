@@ -40,7 +40,7 @@ Return a distinct set of values indexed in a Tag field
 <details open>
 <summary><code>index</code></summary>
 
-is full-text index name. You must first create the index using [`FT.CREATE`](/commands/ft.create).
+is full-text index name. You must first create the index using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create).
 </details>
 
 <details open>
@@ -53,7 +53,7 @@ Use FT.TAGVALS if your tag indexes things like cities, categories, and so on.
 
 ## Limitations
 
-FT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields](/docs/stack/search/reference/tags).
+FT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}}).
 The returned strings are lowercase with whitespaces removed, but otherwise unchanged.
 
 ## Return
@@ -74,9 +74,9 @@ FT.TAGVALS returns an array reply of all distinct tags in the tag index.
 
 ## See also
 
-[`FT.CREATE`](/commands/ft.create) 
+[`FT.CREATE`]({{< baseurl >}}/commands/ft.create) 
 
 ## Related topics
 
-- [Tag fields](/docs/stack/search/reference/tags)
-- [RediSearch](/docs/stack/search)
+- [Tag fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}})
+- [RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

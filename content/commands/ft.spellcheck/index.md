@@ -54,15 +54,10 @@ since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Performs spelling correction on a query, returning suggestions for misspelled
   terms
-syntax: "FT.SPELLCHECK index query 
-  [DISTANCE distance] 
-  [TERMS INCLUDE | EXCLUDE\
-  \ dictionary [terms [terms ...]]] 
-  [DIALECT dialect]
-"
-syntax_fmt: "FT.SPELLCHECK index query [DISTANCE\_distance] [TERMS\_<INCLUDE |
- \
-  \ EXCLUDE> dictionary [terms [terms ...]]] [DIALECT\_dialect]"
+syntax: 'FT.SPELLCHECK index query [DISTANCE distance] [TERMS INCLUDE | EXCLUDE dictionary
+  [terms [terms ...]]] [DIALECT dialect] '
+syntax_fmt: "FT.SPELLCHECK index query [DISTANCE\_distance] [TERMS\_<INCLUDE |  EXCLUDE>\
+  \ dictionary [terms [terms ...]]] [DIALECT\_dialect]"
 syntax_str: "query [DISTANCE\_distance] [TERMS\_<INCLUDE | EXCLUDE> dictionary [terms\
   \ [terms ...]]] [DIALECT\_dialect]"
 title: FT.SPELLCHECK
@@ -86,14 +81,14 @@ is index with the indexed terms.
 is search query.
 </details>
 
-See [Spellchecking](/docs/interact/search-and-query/advanced-concepts/spellcheck/) for more details.
+See [Spellchecking]({{< relref "/develop/interact/search-and-query/advanced-concepts/spellcheck" >}}) for more details.
 
 ## Optional arguments
 
 <details open>
 <summary><code>TERMS</code></summary> 
 
-specifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary named `{dict}`. Refer to [`FT.DICTADD`](/commands/ft.dictadd), [`FT.DICTDEL`](/commands/ft.dictdel) and [`FT.DICTDUMP`](/commands/ft.dictdump) about managing custom dictionaries.
+specifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary named `{dict}`. Refer to [`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd), [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel) and [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump) about managing custom dictionaries.
 </details>
 
 <details open>
@@ -105,7 +100,7 @@ is maximum Levenshtein distance for spelling suggestions (default: 1, max: 4).
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary> 
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`](/commands/ft.config-set) command.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) command.
 </details>
 
 ## Return
@@ -133,9 +128,9 @@ The score is calculated by dividing the number of documents in which the suggest
 
 ## See also
 
-[`FT.CONFIG SET`](/commands/ft.config-set) | [`FT.DICTADD`](/commands/ft.dictadd) | [`FT.DICTDEL`](/commands/ft.dictdel) | [`FT.DICTDUMP`](/commands/ft.dictdump)
+[`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) | [`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd) | [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel) | [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump)
 
 ## Related topics
 
-- [Spellchecking](/docs/interact/search-and-query/advanced-concepts/spellcheck/)
-- [RediSearch](/docs/stack/search)
+- [Spellchecking]({{< relref "/develop/interact/search-and-query/advanced-concepts/spellcheck" >}})
+- [RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

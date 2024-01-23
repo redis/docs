@@ -68,7 +68,7 @@ is value to set at the specified path
 
 JSET.MSET returns a simple string reply: `OK` if executed correctly or `error` if fails to set the new values
 
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -91,9 +91,9 @@ redis> JSON.GET doc3
 
 ## See also
 
-[`JSON.SET`](/commands/json.set) | [`JSON.MGET`](/commands/json.mget) | [`JSON.GET`](/commands/json.get) 
+[`JSON.SET`]({{< baseurl >}}/commands/json.set) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget) | [`JSON.GET`]({{< baseurl >}}/commands/json.get) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

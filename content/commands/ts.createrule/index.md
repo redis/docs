@@ -73,15 +73,9 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Create a compaction rule
-syntax: "TS.CREATERULE sourceKey destKey 
-  AGGREGATION aggregator bucketDuration\
-  \ 
-  [alignTimestamp]
-"
-syntax_fmt: "TS.CREATERULE sourceKey destKey AGGREGATION\_<AVG | FIRST | LAST |
-\
-  \  MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S |
-  TWA> bucketDuration\
+syntax: 'TS.CREATERULE sourceKey destKey AGGREGATION aggregator bucketDuration  [alignTimestamp] '
+syntax_fmt: "TS.CREATERULE sourceKey destKey AGGREGATION\_<AVG | FIRST | LAST |  \
+  \ MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA> bucketDuration\
   \ [alignTimestamp]"
 syntax_str: "destKey AGGREGATION\_<AVG | FIRST | LAST | MIN | MAX | SUM | RANGE |\
   \ COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA> bucketDuration [alignTimestamp]"
@@ -132,7 +126,7 @@ aggregates results into time buckets.
 
 - Only new samples that are added into the source series after the creation of the rule will be aggregated.
 - Calling `TS.CREATERULE` with a nonempty `destKey` may result in inconsistencies between the raw and the compacted data.
-- Explicitly adding samples to a compacted time series (using [`TS.ADD`](/commands/ts.add), [`TS.MADD`](/commands/ts.madd), [`TS.INCRBY`](/commands/ts.incrby), or [`TS.DECRBY`](/commands/ts.decrby)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
+- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< baseurl >}}/commands/ts.add), [`TS.MADD`]({{< baseurl >}}/commands/ts.madd), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby), or [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
 - If no samples are added to the source time series during a bucket period. no _compacted sample_ is added to the destination time series.
 - The timestamp of a compacted sample added to the destination time series is set to the start timestamp the appropriate compaction bucket. For example, for a 10-minute compaction bucket with no alignment, the compacted samples timestamps are `x:00`, `x:10`, `x:20`, and so on.
 - Deleting `destKey` will cause the compaction rule to be deleted as well.
@@ -153,7 +147,7 @@ For example, if `bucketDuration` is 24 hours (`24 * 3600 * 1000`), setting `alig
 
 Returns one of these replies:
 
-- [Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly
+- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
 - [] on error (invalid arguments, wrong key type, etc.), when `sourceKey` does not exist, when `destKey` does not exist, when `sourceKey` is already a destination of a compaction rule, when `destKey` is already a source or a destination of a compaction rule, or when `sourceKey` and `destKey` are identical
 
 ## Examples
@@ -187,8 +181,8 @@ Now, also create a compacted time series named _dailyDiffTemp_. This time series
 
 ## See also
 
-[`TS.DELETERULE`](/commands/ts.deleterule) 
+[`TS.DELETERULE`]({{< baseurl >}}/commands/ts.deleterule) 
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

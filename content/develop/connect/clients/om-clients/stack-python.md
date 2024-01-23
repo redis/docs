@@ -723,7 +723,7 @@ The server responds with an `ok` response regardless of whether the ID provided 
 
 This is an example of how to run arbitrary Redis commands against instances of a model saved in Redis.  Let's see how we can set the time to live (TTL) on a person, so that Redis will expire the JSON document after a configurable number of seconds have passed.
 
-The function `expire_by_id` in `app.py` handles this as follows.  It takes two parameters: `id` - the ID of a person to expire, and `seconds` - the number of seconds in the future to expire the person after.  This requires us to run the Redis [`EXPIRE`](/commands/expire) command against the person's key.  To do this, we need to access the Redis connection from the `Person` model like so:
+The function `expire_by_id` in `app.py` handles this as follows.  It takes two parameters: `id` - the ID of a person to expire, and `seconds` - the number of seconds in the future to expire the person after.  This requires us to run the Redis [`EXPIRE`]({{< relref "/commands/expire" >}}) command against the person's key.  To do this, we need to access the Redis connection from the `Person` model like so:
 
 ```py
   person_to_expire = Person.get(id)

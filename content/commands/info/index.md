@@ -123,10 +123,10 @@ Here is the meaning of all fields in the **clients** section:
     `cluster_connections`.
 *   `client_recent_max_input_buffer`: Biggest input buffer among current client connections
 *   `client_recent_max_output_buffer`: Biggest output buffer among current client connections
-*   `blocked_clients`: Number of clients pending on a blocking call ([`BLPOP`](/commands/blpop),
-     [`BRPOP`](/commands/brpop), [`BRPOPLPUSH`](/commands/brpoplpush), [`BLMOVE`](/commands/blmove), [`BZPOPMIN`](/commands/bzpopmin), [`BZPOPMAX`](/commands/bzpopmax))
-*   `tracking_clients`: Number of clients being tracked ([`CLIENT TRACKING`](/commands/client-tracking))
-*   `pubsub_clients`: Number of clients in pubsub mode ([`SUBSCRIBE`](/commands/subscribe), [`PSUBSCRIBE`](/commands/psubscribe), [`SSUBSCRIBE`](/commands/ssubscribe)). Added in Redis 8.0
+*   `blocked_clients`: Number of clients pending on a blocking call ([`BLPOP`]({{< relref "/commands/blpop" >}}),
+     [`BRPOP`]({{< relref "/commands/brpop" >}}), [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}), [`BLMOVE`]({{< relref "/commands/blmove" >}}), [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}), [`BZPOPMAX`]({{< relref "/commands/bzpopmax" >}}))
+*   `tracking_clients`: Number of clients being tracked ([`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}))
+*   `pubsub_clients`: Number of clients in pubsub mode ([`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}), [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}})). Added in Redis 8.0
 *   `clients_in_timeout_table`: Number of clients in the clients timeout table
 *   `total_blocking_keys`: Number of blocking keys. Added in Redis 7.2.
 *   `total_blocking_keys_on_nokey`: Number of blocking keys that one or more clients that would like to be unblocked when the key is deleted. Added in Redis 7.2.
@@ -184,7 +184,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `rss_overhead_bytes`: Delta between `used_memory_rss` (the process RSS) and `allocator_resident`
 *   `allocator_allocated`: Total bytes allocated form the allocator, including internal-fragmentation. Normally the same as `used_memory`.
 *   `allocator_active`: Total bytes in the allocator active pages, this includes external-fragmentation.
-*   `allocator_resident`: Total bytes resident (RSS) in the allocator, this includes pages that can be released to the OS (by [`MEMORY PURGE`](/commands/memory-purge), or just waiting).
+*   `allocator_resident`: Total bytes resident (RSS) in the allocator, this includes pages that can be released to the OS (by [`MEMORY PURGE`]({{< relref "/commands/memory-purge" >}}), or just waiting).
 *   `mem_not_counted_for_evict`: Used memory that's not counted for key eviction. This is basically transient replica and AOF buffers.
 *   `mem_clients_slaves`: Memory used by replica clients - Starting Redis 7.0, replica buffers share memory with the replication backlog, so this field can show 0 when replicas don't trigger an increase of memory usage.
 *   `mem_clients_normal`: Memory used by normal clients
@@ -195,7 +195,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `mem_allocator`: Memory allocator, chosen at compile time.
 *   `active_defrag_running`: When `activedefrag` is enabled, this indicates whether defragmentation is currently active, and the CPU percentage it intends to utilize.
 *   `lazyfree_pending_objects`: The number of objects waiting to be freed (as a
-     result of calling [`UNLINK`](/commands/unlink), or [`FLUSHDB`](/commands/flushdb) and [`FLUSHALL`](/commands/flushall) with the **ASYNC**
+     result of calling [`UNLINK`]({{< relref "/commands/unlink" >}}), or [`FLUSHDB`]({{< relref "/commands/flushdb" >}}) and [`FLUSHALL`]({{< relref "/commands/flushall" >}}) with the **ASYNC**
      option)
 *   `lazyfreed_objects`: The number of objects that have been lazy freed.
 
@@ -218,7 +218,7 @@ used and released by Redis, but not given back to the system. The
 `used_memory_peak` value is generally useful to check this point.
 
 Additional introspective information about the server's memory can be obtained
-by referring to the [`MEMORY STATS`](/commands/memory-stats) command and the [`MEMORY DOCTOR`](/commands/memory-doctor).
+by referring to the [`MEMORY STATS`]({{< relref "/commands/memory-stats" >}}) command and the [`MEMORY DOCTOR`]({{< relref "/commands/memory-doctor" >}}).
 
 Here is the meaning of all fields in the **persistence** section:
 
@@ -264,8 +264,8 @@ Here is the meaning of all fields in the **persistence** section:
 *   `rdb_saves`: Number of RDB snapshots performed since startup
 
 `rdb_changes_since_last_save` refers to the number of operations that produced
-some kind of changes in the dataset since the last time either [`SAVE`](/commands/save) or
-[`BGSAVE`](/commands/bgsave) was called.
+some kind of changes in the dataset since the last time either [`SAVE`]({{< relref "/commands/save" >}}) or
+[`BGSAVE`]({{< relref "/commands/bgsave" >}}) was called.
 
 If AOF is activated, these additional fields will be added:
 
@@ -326,7 +326,7 @@ Here is the meaning of all fields in the **stats** section:
 *   `pubsubshard_channels`: Global number of pub/sub shard channels with client subscriptions. Added in Redis 7.0.3
 *   `latest_fork_usec`: Duration of the latest fork operation in microseconds
 *   `total_forks`: Total number of fork operations since the server start
-*   `migrate_cached_sockets`: The number of sockets open for [`MIGRATE`](/commands/migrate) purposes
+*   `migrate_cached_sockets`: The number of sockets open for [`MIGRATE`]({{< relref "/commands/migrate" >}}) purposes
 *   `slave_expires_tracked_keys`: The number of keys tracked for expiry purposes
      (applicable only to writable replicas)
 *   `active_defrag_hits`: Number of value reallocations performed by active the

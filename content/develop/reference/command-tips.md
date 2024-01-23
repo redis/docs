@@ -19,7 +19,7 @@ Command tips are an array of strings.
 These provide Redis clients with additional information about the command.
 The information can instruct Redis Cluster clients as to how the command should be executed and its output processed in a clustered deployment.
 
-Unlike the command's flags (see the 3rd element of [`COMMAND`](/commands/command)'s reply), which are strictly internal to the server's operation, tips don't serve any purpose other than being reported to clients.
+Unlike the command's flags (see the 3rd element of [`COMMAND`]({{< relref "/commands/command" >}})'s reply), which are strictly internal to the server's operation, tips don't serve any purpose other than being reported to clients.
 
 Command tips are arbitrary strings.
 However, the following sections describe proposed tips and demonstrate the conventions they are likely to adhere to.
@@ -28,14 +28,14 @@ However, the following sections describe proposed tips and demonstrate the conve
 
 This tip indicates that the command's output isn't deterministic.
 That means that calls to the command may yield different results with the same arguments and data.
-That difference could be the result of the command's random nature (e.g., [`RANDOMKEY`](/commands/randomkey) and [`SPOP`](/commands/spop)); the call's timing (e.g., [`TTL`](/commands/ttl)); or generic differences that relate to the server's state (e.g., [`INFO`](/commands/info) and [`CLIENT LIST`](/commands/client-list)).
+That difference could be the result of the command's random nature (e.g., [`RANDOMKEY`]({{< relref "/commands/randomkey" >}}) and [`SPOP`]({{< relref "/commands/spop" >}})); the call's timing (e.g., [`TTL`]({{< relref "/commands/ttl" >}})); or generic differences that relate to the server's state (e.g., [`INFO`]({{< relref "/commands/info" >}}) and [`CLIENT LIST`]({{< relref "/commands/client-list" >}})).
 
 **Note:**
 Prior to Redis 7.0, this tip was the _random_ command flag.
 
 ## nondeterministic_output_order
 
-The existence of this tip indicates that the command's output is deterministic, but its ordering is random (e.g., [`HGETALL`](/commands/hgetall) and [`SMEMBERS`](/commands/smembers)).
+The existence of this tip indicates that the command's output is deterministic, but its ordering is random (e.g., [`HGETALL`]({{< relref "/commands/hgetall" >}}) and [`SMEMBERS`]({{< relref "/commands/smembers" >}})).
 
 **Note:**
 Prior to Redis 7.0, this tip was the _sort_\__for_\__script_ flag.
@@ -51,19 +51,19 @@ The default behavior a client should implement for commands without the _request
 In cases where the client should adopt a behavior different than the default, the _request_policy_ tip can be one of:
 
 - **all_nodes:** the client should execute the command on all nodes - masters and replicas alike.
-  An example is the [`CONFIG SET`](/commands/config-set) command. 
+  An example is the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command. 
   This tip is in-use by commands that don't accept key name arguments.
   The command operates atomically per shard.
-* **all_shards:** the client should execute the command on all master shards (e.g., the [`DBSIZE`](/commands/dbsize) command).
+* **all_shards:** the client should execute the command on all master shards (e.g., the [`DBSIZE`]({{< relref "/commands/dbsize" >}}) command).
   This tip is in-use by commands that don't accept key name arguments.
   The command operates atomically per shard.
 - **multi_shard:** the client should execute the command on several shards.
   The client should split the inputs according to the hash slots of its input key name arguments.
   For example, the command `DEL {foo} {foo}1 bar` should be split to `DEL {foo} {foo}1` and `DEL bar`.
   If the keys are hashed to more than a single slot, the command must be split even if all the slots are managed by the same shard.
-  Examples for such commands include [`MSET`](/commands/mset), [`MGET`](/commands/mget) and [`DEL`](/commands/del).
-  However, note that [`SUNIONSTORE`](/commands/sunionstore) isn't considered as _multi_shard_ because all of its keys must belong to the same hash slot.
-- **special:** indicates a non-trivial form of the client's request policy, such as the [`SCAN`](/commands/scan) command.
+  Examples for such commands include [`MSET`]({{< relref "/commands/mset" >}}), [`MGET`]({{< relref "/commands/mget" >}}) and [`DEL`]({{< relref "/commands/del" >}}).
+  However, note that [`SUNIONSTORE`]({{< relref "/commands/sunionstore" >}}) isn't considered as _multi_shard_ because all of its keys must belong to the same hash slot.
+- **special:** indicates a non-trivial form of the client's request policy, such as the [`SCAN`]({{< relref "/commands/scan" >}}) command.
 
 ## response_policy
 
@@ -72,10 +72,10 @@ The default behavior for commands without a _request_policy_ tip only applies to
 The client's implementation for the default behavior should be as follows:
 
 1. The command doesn't accept key name arguments: the client can aggregate all replies within a single nested data structure.
-For example, the array replies we get from calling [`KEYS`](/commands/keys) against all shards.
+For example, the array replies we get from calling [`KEYS`]({{< relref "/commands/keys" >}}) against all shards.
 These should be packed in a single in no particular order.
 1. For commands that accept one or more key name arguments: the client needs to retain the same order of replies as the input key names.
-For example, [`MGET`](/commands/mget)'s aggregated reply.
+For example, [`MGET`]({{< relref "/commands/mget" >}})'s aggregated reply.
 
 The _response_policy_ tip is set for commands that reply with scalar data types, or when it's expected that clients implement a non-default aggregate.
 This tip can be one of:
@@ -83,24 +83,24 @@ This tip can be one of:
 * **one_succeeded:** the clients should return success if at least one shard didn't reply with an error.
   The client should reply with the first non-error reply it obtains.
   If all shards return an error, the client can reply with any one of these.
-  For example, consider a [`SCRIPT KILL`](/commands/script-kill) command that's sent to all shards.
-  Although the script should be loaded in all of the cluster's shards, the [`SCRIPT KILL`](/commands/script-kill) will typically run only on one at a given time.
+  For example, consider a [`SCRIPT KILL`]({{< relref "/commands/script-kill" >}}) command that's sent to all shards.
+  Although the script should be loaded in all of the cluster's shards, the [`SCRIPT KILL`]({{< relref "/commands/script-kill" >}}) will typically run only on one at a given time.
 * **all_succeeded:** the client should return successfully only if there are no error replies.
   Even a single error reply should disqualify the aggregate and be returned.
   Otherwise, the client should return one of the non-error replies.
-  As an example, consider the [`CONFIG SET`](/commands/config-set), [`SCRIPT FLUSH`](/commands/script-flush) and [`SCRIPT LOAD`](/commands/script-load) commands.
+  As an example, consider the [`CONFIG SET`]({{< relref "/commands/config-set" >}}), [`SCRIPT FLUSH`]({{< relref "/commands/script-flush" >}}) and [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}}) commands.
 * **agg_logical_and:** the client should return the result of a logical _AND_ operation on all replies (only applies to integer replies, usually from commands that return either _0_ or _1_).
-  Consider the [`SCRIPT EXISTS`](/commands/script-exists) command as an example.
+  Consider the [`SCRIPT EXISTS`]({{< relref "/commands/script-exists" >}}) command as an example.
   It returns an array of _0_'s and _1_'s that denote the existence of its given SHA1 sums in the script cache.
   The aggregated response should be _1_ only when all shards had reported that a given script SHA1 sum is in their respective cache.
 * **agg_logical_or:** the client should return the result of a logical _AND_ operation on all replies (only applies to integer replies, usually from commands that return either _0_ or _1_).
 * **agg_min:** the client should return the minimal value from the replies (only applies to numerical replies).
-  The aggregate reply from a cluster-wide [`WAIT`](/commands/wait) command, for example, should be the minimal value (number of synchronized replicas) from all shards.
+  The aggregate reply from a cluster-wide [`WAIT`]({{< relref "/commands/wait" >}}) command, for example, should be the minimal value (number of synchronized replicas) from all shards.
 * **agg_max:** the client should return the maximal value from the replies (only applies to numerical replies).
 * **agg_sum:** the client should return the sum of replies (only applies to numerical replies).
-  Example: [`DBSIZE`](/commands/dbsize).
+  Example: [`DBSIZE`]({{< relref "/commands/dbsize" >}}).
 * **special:** this type of tip indicates a non-trivial form of reply policy.
-  [`INFO`](/commands/info) is an excellent example of that.
+  [`INFO`]({{< relref "/commands/info" >}}) is an excellent example of that.
 
 ## Example
 

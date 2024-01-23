@@ -73,7 +73,7 @@ syntax_fmt: PEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]
 syntax_str: unix-time-milliseconds [NX | XX | GT | LT]
 title: PEXPIREAT
 ---
-`PEXPIREAT` has the same effect and semantic as [`EXPIREAT`](/commands/expireat), but the Unix time at
+`PEXPIREAT` has the same effect and semantic as [`EXPIREAT`]({{< relref "/commands/expireat" >}}), but the Unix time at
 which the key will expire is specified in milliseconds instead of seconds.
 
 ## Options

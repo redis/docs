@@ -37,18 +37,18 @@ mimicking the effect of disconnecting and reconnecting again.
 When the command is called from a regular client connection, it does the
 following:
 
-* Discards the current [`MULTI`](/commands/multi) transaction block, if one exists.
-* Unwatches all keys [`WATCH`](/commands/watch)ed by the connection.
-* Disables [`CLIENT TRACKING`](/commands/client-tracking), if in use.
-* Sets the connection to [`READWRITE`](/commands/readwrite) mode.
-* Cancels the connection's [`ASKING`](/commands/asking) mode, if previously set.
-* Sets [`CLIENT REPLY`](/commands/client-reply) to `ON`.
+* Discards the current [`MULTI`]({{< relref "/commands/multi" >}}) transaction block, if one exists.
+* Unwatches all keys [`WATCH`]({{< relref "/commands/watch" >}})ed by the connection.
+* Disables [`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}), if in use.
+* Sets the connection to [`READWRITE`]({{< relref "/commands/readwrite" >}}) mode.
+* Cancels the connection's [`ASKING`]({{< relref "/commands/asking" >}}) mode, if previously set.
+* Sets [`CLIENT REPLY`]({{< relref "/commands/client-reply" >}}) to `ON`.
 * Sets the protocol version to RESP2.
-* [`SELECT`](/commands/select)s database 0.
-* Exits [`MONITOR`](/commands/monitor) mode, when applicable.
-* Aborts Pub/Sub's subscription state ([`SUBSCRIBE`](/commands/subscribe) and [`PSUBSCRIBE`](/commands/psubscribe)), when
+* [`SELECT`]({{< relref "/commands/select" >}})s database 0.
+* Exits [`MONITOR`]({{< relref "/commands/monitor" >}}) mode, when applicable.
+* Aborts Pub/Sub's subscription state ([`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) and [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}})), when
   appropriate.
-* Deauthenticates the connection, requiring a call [`AUTH`](/commands/auth) to reauthenticate when
+* Deauthenticates the connection, requiring a call [`AUTH`]({{< relref "/commands/auth" >}}) to reauthenticate when
   authentication is enabled.
 * Turns off `NO-EVICT` mode.
 * Turns off `NO-TOUCH` mode.

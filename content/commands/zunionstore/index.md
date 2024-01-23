@@ -87,8 +87,7 @@ key_specs:
 linkTitle: ZUNIONSTORE
 since: 2.0.0
 summary: Stores the union of multiple sorted sets in a key.
-syntax_fmt: "ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS\_weight
-  [weight\
+syntax_fmt: "ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS\_weight [weight\
   \ ...]] [AGGREGATE\_<SUM | MIN | MAX>]"
 syntax_str: "numkeys key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM\
   \ | MIN | MAX>]"

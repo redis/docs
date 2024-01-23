@@ -131,9 +131,8 @@ key_specs:
 linkTitle: MIGRATE
 since: 2.6.0
 summary: Atomically transfers a key from one Redis instance to another.
-syntax_fmt: "MIGRATE host port <key | \"\"> destination-db timeout [COPY] [REPLACE]
-\
-  \  [AUTH\_password | AUTH2\_username password] [KEYS\_key [key ...]]"
+syntax_fmt: "MIGRATE host port <key | \"\"> destination-db timeout [COPY] [REPLACE]\
+  \   [AUTH\_password | AUTH2\_username password] [KEYS\_key [key ...]]"
 syntax_str: "port <key | \"\"> destination-db timeout [COPY] [REPLACE] [AUTH\_password\
   \ | AUTH2\_username password] [KEYS\_key [key ...]]"
 title: MIGRATE
@@ -149,11 +148,11 @@ instance or in the other instance, unless a timeout error occurs. In 3.2 and
 above, multiple keys can be pipelined in a single call to `MIGRATE` by passing
 the empty string ("") as key and adding the `KEYS` clause.
 
-The command internally uses [`DUMP`](/commands/dump) to generate the serialized version of the key
-value, and [`RESTORE`](/commands/restore) in order to synthesize the key in the target instance.
+The command internally uses [`DUMP`]({{< relref "/commands/dump" >}}) to generate the serialized version of the key
+value, and [`RESTORE`]({{< relref "/commands/restore" >}}) in order to synthesize the key in the target instance.
 The source instance acts as a client for the target instance.
-If the target instance returns OK to the [`RESTORE`](/commands/restore) command, the source instance
-deletes the key using [`DEL`](/commands/del).
+If the target instance returns OK to the [`RESTORE`]({{< relref "/commands/restore" >}}) command, the source instance
+deletes the key using [`DEL`]({{< relref "/commands/del" >}}).
 
 The timeout specifies the maximum idle time in any moment of the communication
 with the destination instance in milliseconds.

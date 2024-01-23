@@ -170,20 +170,17 @@ linkTitle: GEOSEARCHSTORE
 since: 6.2.0
 summary: Queries a geospatial index for members inside an area of a box or a circle,
   optionally stores the result.
-syntax_fmt: "GEOSEARCHSTORE destination source <FROMMEMBER\_member |
-  FROMLONLAT\_\
-  longitude latitude> <BYRADIUS\_radius <M | KM | FT | MI>
-  | BYBOX\_width height\
-  \ <M | KM | FT | MI>> [ASC | DESC] [COUNT\_count
-  [ANY]] [STOREDIST]"
+syntax_fmt: "GEOSEARCHSTORE destination source <FROMMEMBER\_member | FROMLONLAT\_\
+  longitude latitude> <BYRADIUS\_radius <M | KM | FT | MI> | BYBOX\_width height <M\
+  \ | KM | FT | MI>> [ASC | DESC] [COUNT\_count [ANY]] [STOREDIST]"
 syntax_str: "source <FROMMEMBER\_member | FROMLONLAT\_longitude latitude> <BYRADIUS\_\
   radius <M | KM | FT | MI> | BYBOX\_width height <M | KM | FT | MI>> [ASC | DESC]\
   \ [COUNT\_count [ANY]] [STOREDIST]"
 title: GEOSEARCHSTORE
 ---
-This command is like [`GEOSEARCH`](/commands/geosearch), but stores the result in destination key.
+This command is like [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}), but stores the result in destination key.
 
-This command replaces the now deprecated [`GEORADIUS`](/commands/georadius) and [`GEORADIUSBYMEMBER`](/commands/georadiusbymember).
+This command replaces the now deprecated [`GEORADIUS`]({{< relref "/commands/georadius" >}}) and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}).
 
 By default, it stores the results in the `destination` sorted set with their geospatial information.
 

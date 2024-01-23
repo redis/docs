@@ -57,7 +57,7 @@ Deleting an object's root is equivalent to deleting the key from Redis.
 ## Return
 
 JSON.DEL returns an integer reply specified as the number of paths deleted (0 or more).
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -88,12 +88,12 @@ redis> JSON.GET doc $
 
 ## See also
 
-[`JSON.SET`](/commands/json.set) | [`JSON.ARRLEN`](/commands/json.arrlen) 
+[`JSON.SET`]({{< baseurl >}}/commands/json.set) | [`JSON.ARRLEN`]({{< baseurl >}}/commands/json.arrlen) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
 
 
 

@@ -80,13 +80,12 @@ linkTitle: GEOADD
 since: 3.2.0
 summary: Adds one or more members to a geospatial index. The key is created if it
   doesn't exist.
-syntax_fmt: "GEOADD key [NX | XX] [CH] longitude latitude member [longitude
-  latitude\
-  \ member ...]"
+syntax_fmt: GEOADD key [NX | XX] [CH] longitude latitude member [longitude latitude
+  member ...]
 syntax_str: '[NX | XX] [CH] longitude latitude member [longitude latitude member ...]'
 title: GEOADD
 ---
-Adds the specified geospatial items (longitude, latitude, name) to the specified key. Data is stored into the key as a sorted set, in a way that makes it possible to query the items with the [`GEOSEARCH`](/commands/geosearch) command.
+Adds the specified geospatial items (longitude, latitude, name) to the specified key. Data is stored into the key as a sorted set, in a way that makes it possible to query the items with the [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) command.
 
 The command takes arguments in the standard format x,y so the longitude must be specified before the latitude. There are limits to the coordinates that can be indexed: areas very near to the poles are not indexable.
 
@@ -97,7 +96,7 @@ The exact limits, as specified by EPSG:900913 / EPSG:3785 / OSGEO:41001 are the 
 
 The command will report an error when the user attempts to index coordinates outside the specified ranges.
 
-**Note:** there is no **GEODEL** command because you can use [`ZREM`](/commands/zrem) to remove elements. The Geo index structure is just a sorted set.
+**Note:** there is no **GEODEL** command because you can use [`ZREM`]({{< relref "/commands/zrem" >}}) to remove elements. The Geo index structure is just a sorted set.
 
 ## GEOADD options
 

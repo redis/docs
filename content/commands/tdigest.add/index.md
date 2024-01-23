@@ -45,7 +45,7 @@ is value of an observation (floating-point).
 
 ## Return value
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly, or [] otherwise.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
 
 ## Examples
 

@@ -93,13 +93,12 @@ key_specs:
 linkTitle: ZRANGESTORE
 since: 6.2.0
 summary: Stores a range of members from sorted set in a key.
-syntax_fmt: "ZRANGESTORE dst src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset
-\
-  \  count]"
+syntax_fmt: "ZRANGESTORE dst src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset  \
+  \ count]"
 syntax_str: "src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]"
 title: ZRANGESTORE
 ---
-This command is like [`ZRANGE`](/commands/zrange), but stores the result in the `<dst>` destination key.
+This command is like [`ZRANGE`]({{< relref "/commands/zrange" >}}), but stores the result in the `<dst>` destination key.
 
 ## Examples
 

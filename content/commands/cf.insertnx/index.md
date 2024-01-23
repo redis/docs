@@ -44,12 +44,12 @@ title: CF.INSERTNX
 ---
 Adds one or more items to a cuckoo filter if they did not exist previously, allowing the filter to be created with a custom capacity if it does not exist yet.
 
-This command is similar to [`CF.ADDNX`](/commands/cf.addnx), except that more than one item can be added and capacity can be specified.
+This command is similar to [`CF.ADDNX`]({{< baseurl >}}/commands/cf.addnx), except that more than one item can be added and capacity can be specified.
 
 <note><b>Notes:</b>
 
-- This command is slower than [`CF.INSERT`](/commands/cf.insert) because it first checks whether each item exists.
-- Since [`CF.EXISTS`](/commands/cf.exists) can result in false positive, `CF.INSERTNX` may not add an item because it is supposedly already exist, which may be wrong.
+- This command is slower than [`CF.INSERT`]({{< baseurl >}}/commands/cf.insert) because it first checks whether each item exists.
+- Since [`CF.EXISTS`]({{< baseurl >}}/commands/cf.exists) can result in false positive, `CF.INSERTNX` may not add an item because it is supposedly already exist, which may be wrong.
     
 </note>
 
@@ -77,7 +77,7 @@ If the filter already exists, then this parameter is ignored.
     
 If the filter does not exist yet and this parameter is *not* specified, then the filter is created with the module-level default capacity which is 1024.
 
-See [`CF.RESERVE`](/commands/cf.reserve) for more information on cuckoo filter capacities.
+See [`CF.RESERVE`]({{< baseurl >}}/commands/cf.reserve) for more information on cuckoo filter capacities.
 </details>
     
 <details open><summary><code>NOCREATE</code></summary>
@@ -91,7 +91,7 @@ This option is mutually exclusive with `CAPACITY`.
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) of [Integer reply](/docs/reference/protocol-spec#integers), where `0` means that the item's fingerprint already exists in the filter, `1` means that the item has been successfully added to the filter, and `-1` means that the item was not added because the filter is full.
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `0` means that the item's fingerprint already exists in the filter, `1` means that the item has been successfully added to the filter, and `-1` means that the item was not added because the filter is full.
 - [] on error (invalid arguments, wrong key type, etc.) and also when `NOCREATE` is specified and `key` does not exist.
 
 ### Complexity
