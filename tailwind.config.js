@@ -15,7 +15,8 @@ module.exports = {
 					700: '#161F31',
 					},
 				'redis-red': {
-					500: '#FF4438'
+					500: '#FF4438',
+					600: '#D52D1F'
 				},
 				'redis-indigo': {
 					500: '#5961ff',
