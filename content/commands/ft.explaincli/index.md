@@ -43,7 +43,7 @@ Return the execution plan for a complex query but formatted for easier reading w
 <details open>
 <summary><code>index</code></summary>
 
-is index name. You must first create the index using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create).
+is index name. You must first create the index using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/).
 </details>
 
 <details open>
@@ -57,7 +57,7 @@ is query string, as if sent to FT.SEARCH`.
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary>
 
-is dialect version under which to execute the query. If not specified, the query executes under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) command.
+is dialect version under which to execute the query. If not specified, the query executes under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) command.
 
 {{% alert title="Note" color="warning" %}}
  
@@ -114,7 +114,7 @@ $ redis-cli
 
 ## See also
 
-[`FT.CREATE`]({{< baseurl >}}/commands/ft.create) | [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) | [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set)
+[`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) | [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) | [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/)
 
 ## Related topics
 

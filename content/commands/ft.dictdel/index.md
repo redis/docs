@@ -67,7 +67,7 @@ FT.DICTDEL returns an integer reply, the number of new terms that were deleted.
 
 ## See also
 
-[`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd) | [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump)
+[`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd/) | [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump/)
 
 ## Related topics
 

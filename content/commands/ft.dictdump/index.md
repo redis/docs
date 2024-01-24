@@ -60,7 +60,7 @@ FT.DICTDUMP returns an array, where each element is term (string).
 
 ## See also
 
-[`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd) | [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel)
+[`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd/) | [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel/)
 
 ## Related topics
 

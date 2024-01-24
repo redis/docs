@@ -163,7 +163,7 @@ The auto-complete engine (see below for a fuller description) utilizes a compact
 
 ## Query language
 
-Simple syntax is supported for complex queries that can be combined together to express complex filtering and matching rules. The query is a text string in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) request that is parsed using a complex query processor.
+Simple syntax is supported for complex queries that can be combined together to express complex filtering and matching rules. The query is a text string in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) request that is parsed using a complex query processor.
 
 * Multi-word phrases are lists of tokens, e.g., `foo bar baz`, and imply intersection (logical AND) of the terms.
 * Exact phrases are wrapped in quotes, e.g `"hello world"`.
@@ -258,7 +258,7 @@ These are the pre-bundled scoring functions available in Redis Stack:
 
 It is possible to bypass the scoring function mechanism and order search results by the value of different document properties (fields) directly, even if the sorting field is not used by the query. For example, you can search for first name and sort by the last name. 
 
-When creating the index with [`FT.CREATE`]({{< baseurl >}}/commands/ft.create), you can declare `TEXT`, `TAG`, `NUMERIC`, and `GEO` properties as `SORTABLE`. When a property is sortable, you can later decide to order the results by its values with relatively low latency. When a property is not sortable, it can still be sorted by its values, but may increase latency. For example, the following schema:
+When creating the index with [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), you can declare `TEXT`, `TAG`, `NUMERIC`, and `GEO` properties as `SORTABLE`. When a property is sortable, you can later decide to order the results by its values with relatively low latency. When a property is not sortable, it can still be sorted by its values, but may increase latency. For example, the following schema:
 
 ```
 FT.CREATE users SCHEMA first_name TEXT last_name TEXT SORTABLE age NUMERIC SORTABLE

@@ -133,7 +133,7 @@ JSON.SET store $ '{"inventory":{"headphones":[{"id":12345,"name":"Noise-cancelli
 
 #### Access JSON examples
 
-The following examples use the [`JSON.GET`]({{< baseurl >}}/commands/json.get) command to retrieve data from various paths in the JSON document.
+The following examples use the [`JSON.GET`]({{< baseurl >}}/commands/json.get/) command to retrieve data from various paths in the JSON document.
 
 You can use the wildcard operator `*` to return a list of all items in the inventory:
 
@@ -225,7 +225,7 @@ Now we can match against the value of `regex_pat` instead of a hard-coded regula
 
 You can also use JSONPath queries when you want to update specific sections of a JSON document.
 
-For example, you can pass a JSONPath to the [`JSON.SET`]({{< baseurl >}}/commands/json.set) command to update a specific field. This example changes the price of the first item in the headphones list:
+For example, you can pass a JSONPath to the [`JSON.SET`]({{< baseurl >}}/commands/json.set/) command to update a specific field. This example changes the price of the first item in the headphones list:
 
 ```sh
 127.0.0.1:6379> JSON.GET store $..headphones[0].price
@@ -245,7 +245,7 @@ You can use filter expressions to update only JSON elements that match certain c
 "[\"Noise-cancelling Bluetooth headphones\",\"Wireless earbuds\"]"
 ```
 
-JSONPath queries also work with other JSON commands that accept a path as an argument. For example, you can add a new color option for a set of headphones with [`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend):
+JSONPath queries also work with other JSON commands that accept a path as an argument. For example, you can add a new color option for a set of headphones with [`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend/):
 
 ```sh
 127.0.0.1:6379> JSON.GET store $..headphones[0].colors

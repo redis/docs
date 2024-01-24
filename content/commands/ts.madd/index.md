@@ -66,7 +66,7 @@ is numeric data value of the sample (double). The double number should follow <a
 
 <note><b>Notes:</b>
 - If `timestamp` is older than the retention period compared to the maximum existing timestamp, the sample is discarded and an error is returned.
-- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< baseurl >}}/commands/ts.add), `TS.MADD`, [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby), or [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
+- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< baseurl >}}/commands/ts.add/), `TS.MADD`, [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby/), or [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby/)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
 </note>
 
 ## Return value
@@ -105,7 +105,7 @@ OK
 
 ## See also
 
-[`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange) | [`TS.RANGE`]({{< baseurl >}}/commands/ts.range) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange)
+[`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/) | [`TS.RANGE`]({{< baseurl >}}/commands/ts.range/) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange/)
 
 ## Related topics
 

@@ -88,7 +88,7 @@ See [Spellchecking]({{< relref "/develop/interact/search-and-query/advanced-conc
 <details open>
 <summary><code>TERMS</code></summary> 
 
-specifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary named `{dict}`. Refer to [`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd), [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel) and [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump) about managing custom dictionaries.
+specifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary named `{dict}`. Refer to [`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd/), [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel/) and [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump/) about managing custom dictionaries.
 </details>
 
 <details open>
@@ -100,7 +100,7 @@ is maximum Levenshtein distance for spelling suggestions (default: 1, max: 4).
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary> 
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) command.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) command.
 </details>
 
 ## Return
@@ -128,7 +128,7 @@ The score is calculated by dividing the number of documents in which the suggest
 
 ## See also
 
-[`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) | [`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd) | [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel) | [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump)
+[`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) | [`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd/) | [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel/) | [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump/)
 
 ## Related topics
 

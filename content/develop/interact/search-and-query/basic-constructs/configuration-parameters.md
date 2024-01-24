@@ -58,7 +58,7 @@ FT.CONFIG GET OPT1
 FT.CONFIG GET *
 ```
 
-Values set using [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) are not persisted after server restart.
+Values set using [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) are not persisted after server restart.
 
 ## RediSearch configuration parameters
 
@@ -248,7 +248,7 @@ $ redis-server --loadmodule ./redisearch.so MAXDOCTABLESIZE 3000000
 
 ### MAXSEARCHRESULTS
 
-The maximum number of results to be returned by the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) command if LIMIT is used.
+The maximum number of results to be returned by the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command if LIMIT is used.
 Setting value to `-1` will remove the limit. 
 
 #### Default
@@ -265,7 +265,7 @@ $ redis-server --loadmodule ./redisearch.so MAXSEARCHRESULTS 3000000
 
 ### MAXAGGREGATERESULTS
 
-The maximum number of results to be returned by the [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) command if LIMIT is used.
+The maximum number of results to be returned by the [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) command if LIMIT is used.
 Setting value to `-1` will remove the limit. 
 
 #### Default
@@ -479,11 +479,11 @@ $ redis-server --loadmodule ./redisearch.so GC_POLICY FORK FORK_GC_CLEAN_THRESHO
 
 ### UPGRADE_INDEX
 
-This configuration is a special configuration option introduced to upgrade indices from v1.x RediSearch versions, otherwise known as legacy indices. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [ft.create api]({{< baseurl >}}/commands/ft.create). 
+This configuration is a special configuration option introduced to upgrade indices from v1.x RediSearch versions, otherwise known as legacy indices. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [ft.create api]({{< baseurl >}}/commands/ft.create/). 
 
 #### Default
 
-There is no default for index name, and the other arguments have the same defaults as with the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create) API.
+There is no default for index name, and the other arguments have the same defaults as with the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) API.
 
 #### Example
 
@@ -525,7 +525,7 @@ $ redis-server --loadmodule ./redisearch.so OSS_GLOBAL_PASSWORD password
 
 ### DEFAULT_DIALECT
 
-The default DIALECT to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.create), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate), [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain), [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli), and [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck).
+The default DIALECT to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain/), [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), and [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck/).
 
 #### Default
 
@@ -540,7 +540,7 @@ $ redis-server --loadmodule ./redisearch.so DEFAULT_DIALECT 2
 {{% alert title="Notes" color="info" %}}
 
 * Vector search, added in v2.4.3, requires `DIALECT 2` or greater.
-* Returning multiple values from [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) requires `DIALECT 3` or greater.
+* Returning multiple values from [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) requires `DIALECT 3` or greater.
 
 {{% /alert %}}
 

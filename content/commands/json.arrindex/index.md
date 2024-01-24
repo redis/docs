@@ -147,7 +147,7 @@ redis> JSON.ARRINDEX item:1 $..colors '"silver"'
 
 ## See also
 
-[`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert) 
+[`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend/) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
 
 ## Related topics
 

@@ -86,7 +86,7 @@ OK
 
 ## See also
 
-[`FT.SYNDUMP`]({{< baseurl >}}/commands/ft.syndump) 
+[`FT.SYNDUMP`]({{< baseurl >}}/commands/ft.syndump/) 
 
 ## Related topics
 

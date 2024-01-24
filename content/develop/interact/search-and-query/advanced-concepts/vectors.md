@@ -16,7 +16,7 @@ title: Vectors
 weight: 14
 ---
 
-*Vector fields* allow you to use vector similarity queries in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) command.
+*Vector fields* allow you to use vector similarity queries in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command.
 *Vector similarity* enables you to load, index, and query vectors stored as fields in Redis hashes or in JSON documents (via integration with the [JSON module]({{< relref "/develop/data-types/json/" >}}))
 
 Vector similarity provides these functionalities:
@@ -190,7 +190,7 @@ JSON.SET 1 $ '{"foo":{"vec":[1,2,3,4]}, "bar":{"vec":[5,6,7,8]}}'
 
 ## Querying vector fields
 
-You can use vector similarity queries in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) query command. To use a vector similarity query, you must specify the option `DIALECT 2` or greater in the command itself, or set the `DEFAULT_DIALECT` option to `2` or greater, by either using the command [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) or when loading the `redisearch` module and passing it the argument `DEFAULT_DIALECT 2`.
+You can use vector similarity queries in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) query command. To use a vector similarity query, you must specify the option `DIALECT 2` or greater in the command itself, or set the `DEFAULT_DIALECT` option to `2` or greater, by either using the command [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) or when loading the `redisearch` module and passing it the argument `DEFAULT_DIALECT 2`.
 
 There are two types of vector queries: *KNN* and *range*:
 
@@ -213,7 +213,7 @@ The `<vector_similarity_query>` part inside the square brackets needs to be in t
 KNN (<number> | $<number_attribute>) @<vector_field> $<blob_attribute> [<vector_query_param_name> <value>|$<value_attribute>] [...]] [ AS <dist_field_name> | $<dist_field_name_attribute>]
 ```
 
-Every `*_attribute` parameter should refer to an attribute in the [`PARAMS`]({{< baseurl >}}/commands/ft.search) section.
+Every `*_attribute` parameter should refer to an attribute in the [`PARAMS`]({{< baseurl >}}/commands/ft.search/) section.
 
 * `<number> | $<number_attribute>` - Number of requested results ("K").
 
@@ -312,7 +312,7 @@ Now, sort the results by their distance from the query vector:
 ```
 FT.SEARCH idx "*=>[KNN 10 @vec $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vec_score DIALECT 2
 ```
-Return the top 10 similar documents, use *query params* (see "params" section in [FT.SEARCH command]({{< baseurl >}}/commands/ft.search/)) for specifying `K` and `EF_RUNTIME` parameter, and set `EF_RUNTIME` value to 150 (assuming `vec` is an HNSW index):
+Return the top 10 similar documents, use *query params* (see "params" section in [FT.SEARCH command]({{< baseurl >}}/commands/ft.search//)) for specifying `K` and `EF_RUNTIME` parameter, and set `EF_RUNTIME` value to 150 (assuming `vec` is an HNSW index):
 ```
 FT.SEARCH idx "*=>[KNN $K @vec $BLOB EF_RUNTIME $EF]" PARAMS 6 BLOB "\x12\xa9\xf5\x6c" K 10 EF 150 DIALECT 2
 ```

@@ -588,7 +588,7 @@ Query all time series with the metric label equal to `cpu`, but only return the 
 
 ## See also
 
-[`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange) | [`TS.RANGE`]({{< baseurl >}}/commands/ts.range) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange) 
+[`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/) | [`TS.RANGE`]({{< baseurl >}}/commands/ts.range/) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange/) 
 
 ## Related topics
 

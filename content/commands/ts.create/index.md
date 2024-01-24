@@ -98,14 +98,14 @@ is key name for the time series.
 <note><b>Notes:</b>
 
 - If a key already exists, you get a Redis error reply, `TSDB: key already exists`. You can check for the existence of a key with the [`EXISTS`]({{< relref "/commands/exists" >}}) command.
-- Other commands that also create a new time series when called with a key that does not exist are [`TS.ADD`]({{< baseurl >}}/commands/ts.add), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby), and [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby).
+- Other commands that also create a new time series when called with a key that does not exist are [`TS.ADD`]({{< baseurl >}}/commands/ts.add/), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby/), and [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby/).
 </note>
 
 ## Optional arguments
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary> 
 
-is maximum age for samples compared to the highest reported timestamp, in milliseconds. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`]({{< baseurl >}}/commands/ts.add), [`TS.MADD`]({{< baseurl >}}/commands/ts.madd), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby), and [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby) calls with this key.
+is maximum age for samples compared to the highest reported timestamp, in milliseconds. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`]({{< baseurl >}}/commands/ts.add/), [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby/), and [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby/) calls with this key.
 
 When set to 0, samples never expire. When not specified, the option is set to the global [RETENTION_POLICY]({{< baseurl >}}/develop/data-types/timeseries/configuration#retention_policy) configuration of the database, which by default is 0.
 </details>
@@ -123,7 +123,7 @@ When not specified, the option is set to `COMPRESSED`.
 
 <details open><summary><code>CHUNK_SIZE size</code></summary> 
 
-is initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. Changing chunkSize (using [`TS.ALTER`]({{< baseurl >}}/commands/ts.alter)) does not affect existing chunks.
+is initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. Changing chunkSize (using [`TS.ALTER`]({{< baseurl >}}/commands/ts.alter/)) does not affect existing chunks.
 
 Must be a multiple of 8 in the range [48 .. 1048576]. When not specified, it is set to the global [CHUNK_SIZE_BYTES]({{< baseurl >}}/develop/data-types/timeseries/configuration#chunk_size_bytes) configuration of the database, which by default is 4096 (a single memory page).
 
@@ -140,7 +140,7 @@ The data in each key is stored in chunks. Each chunk contains header and data fo
 
 <details open><summary><code>DUPLICATE_POLICY policy</code></summary> 
 
-is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add) and [`TS.MADD`]({{< baseurl >}}/commands/ts.madd)) of multiple samples with identical timestamps, with one of the following values:
+is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) and [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/)) of multiple samples with identical timestamps, with one of the following values:
   - `BLOCK`: ignore any newly reported value and reply with an error
   - `FIRST`: ignore any newly reported value
   - `LAST`: override with the newly reported value
@@ -155,7 +155,7 @@ is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add) an
 
 is set of label-value pairs that represent metadata labels of the key and serve as a secondary index.
 
-The [`TS.MGET`]({{< baseurl >}}/commands/ts.mget), [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange), and [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange) commands operate on multiple time series based on their labels. The [`TS.QUERYINDEX`]({{< baseurl >}}/commands/ts.queryindex) command returns all time series keys matching a given filter based on their labels.
+The [`TS.MGET`]({{< baseurl >}}/commands/ts.mget/), [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/), and [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/) commands operate on multiple time series based on their labels. The [`TS.QUERYINDEX`]({{< baseurl >}}/commands/ts.queryindex/) command returns all time series keys matching a given filter based on their labels.
 </details>
 
 ## Return value
@@ -177,7 +177,7 @@ OK
 
 ## See also
 
-[`TS.ADD`]({{< baseurl >}}/commands/ts.add) | [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby) | [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby) | [`TS.MGET`]({{< baseurl >}}/commands/ts.mget) | [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange) | [`TS.QUERYINDEX`]({{< baseurl >}}/commands/ts.queryindex)
+[`TS.ADD`]({{< baseurl >}}/commands/ts.add/) | [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby/) | [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby/) | [`TS.MGET`]({{< baseurl >}}/commands/ts.mget/) | [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/) | [`TS.QUERYINDEX`]({{< baseurl >}}/commands/ts.queryindex/)
 
 ## Related topics
 

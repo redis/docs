@@ -96,7 +96,7 @@ redis> JSON.GET item:1
 
 ## See also
 
-[`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert) 
+[`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex/) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
 
 ## Related topics
 

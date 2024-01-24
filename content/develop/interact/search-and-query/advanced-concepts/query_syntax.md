@@ -160,7 +160,7 @@ There is a new schema field type called `GEOSHAPE`, which can be specified as ei
 - `FLAT` for Cartesian X Y coordinates
 - `SPHERICAL` for geographic longitude and latitude coordinates. This is the default coordinate system.
 
-Finally, there's new [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) syntax that allows you to query for polygons that either contain or are within a given geoshape.
+Finally, there's new [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) syntax that allows you to query for polygons that either contain or are within a given geoshape.
 
 `@field:[{WITHIN|CONTAINS} $geometry] PARAMS 2 geometry {geometry}`
 
@@ -178,7 +178,7 @@ Next, create the data structures that represent the geometries in the picture.
 HSET shape:1 t "this is my house" g "POLYGON((2 2, 2 8, 6 11, 10 8, 10 2, 2 2))"
 HSET shape:2 t "this is a square in my house" g "POLYGON((4 4, 4 6, 6 6, 6 4, 4 4))"
 ```
-Finally, use [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) to query the geometries. Note the use of `DIALECT 3`, which is required. Here are a few examples.
+Finally, use [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) to query the geometries. Note the use of `DIALECT 3`, which is required. Here are a few examples.
 
 Search for a polygon that contains a specified point:
 
@@ -239,7 +239,7 @@ Note that both the house and box shapes were returned.
 GEOSHAPE does not support JSON multi-value or SORTABLE options.
 {{< /alert >}}
 
-For more examples, see the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create) and [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) command pages.
+For more examples, see the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) and [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command pages.
 
 ## Vector search
 

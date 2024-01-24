@@ -202,7 +202,7 @@ Run a search query on an index, and perform aggregate transformations on the res
 <details open>
 <summary><code>index</code></summary>
 
-is index name against which the query is executed. You must first create the index using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create).
+is index name against which the query is executed. You must first create the index using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/).
 </details>
 
 <details open>
@@ -314,7 +314,7 @@ You can reference parameters in the `query` by a `$`, followed by the parameter 
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary> 
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) command.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) command.
 </details>
 
 ## Return
@@ -324,8 +324,8 @@ The [integer reply]({{< baseurl >}}/develop/reference/protocol-spec#resp-integer
 
 ### Return multiple values
 
-See [Return multiple values]({{< baseurl >}}/commands/ft.search#return-multiple-values) in [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search)
-The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) or by passing it as an argument to the `redisearch` module when it is loaded.
+See [Return multiple values]({{< baseurl >}}/commands/ft.search#return-multiple-values/) in [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/)
+The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) or by passing it as an argument to the `redisearch` module when it is loaded.
 For example, with the following document and index:
 
 
@@ -454,7 +454,7 @@ Next, count GitHub events by user (actor), to produce the most active users.
 
 ## See also
 
-[`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) | [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) 
+[`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) | [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) 
 
 ## Related topics
 

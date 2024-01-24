@@ -49,7 +49,7 @@ syntax_str: <SEARCH | AGGREGATE> [LIMITED] QUERY query
 title: FT.PROFILE
 ---
 
-Apply [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) or [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) command to collect performance details
+Apply [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) or [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) command to collect performance details
 
 [Examples](#examples)
 
@@ -58,13 +58,13 @@ Apply [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) or [`FT.AGGREGATE`]({{< 
 <details open>
 <summary><code>index</code></summary>
 
-is index name, created using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create).
+is index name, created using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/).
 </details>
 
 <details open>
 <summary><code>SEARCH | AGGREGATE</code></summary>
 
-is difference between [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate).
+is difference between [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/).
 </details>
 
 <details open>
@@ -76,14 +76,14 @@ removes details of `reader` iterator.
 <details open>
 <summary><code>QUERY {query}</code></summary>
 
-is query string, sent to [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search).
+is query string, sent to [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/).
 </details>
 
 <note><b>Note:</b> To reduce the size of the output, use `NOCONTENT` or `LIMIT 0 0` to reduce the reply results or `LIMITED` to not reply with details of `reader iterators` inside built-in unions such as `fuzzy` or `prefix`.</note>
 
 ## Return
 
-`FT.PROFILE` returns an array reply, with the first array reply identical to the reply of [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) and a second array reply with information of time in milliseconds (ms) used to create the query and time and count of calls of iterators and result-processors.
+`FT.PROFILE` returns an array reply, with the first array reply identical to the reply of [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) and a second array reply with information of time in milliseconds (ms) used to create the query and time and count of calls of iterators and result-processors.
 
 Return value has an array with two elements:
 
@@ -172,7 +172,7 @@ Return value has an array with two elements:
 
 ## See also
 
-[`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) | [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) 
+[`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) | [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) 
 
 ## Related topics
 

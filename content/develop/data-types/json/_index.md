@@ -36,7 +36,7 @@ To learn how to use JSON, it's best to start with the Redis CLI. The following e
 
 First, start [`redis-cli`](http://redis.io/topics/rediscli) in interactive mode.
 
-The first JSON command to try is [`JSON.SET`]({{< baseurl >}}/commands/json.set), which sets a Redis key with a JSON value. [`JSON.SET`]({{< baseurl >}}/commands/json.set) accepts all JSON value types. This example creates a JSON string:
+The first JSON command to try is [`JSON.SET`]({{< baseurl >}}/commands/json.set/), which sets a Redis key with a JSON value. [`JSON.SET`]({{< baseurl >}}/commands/json.set/) accepts all JSON value types. This example creates a JSON string:
 
 ```sh
 > JSON.SET animal $ '"dog"'
@@ -49,7 +49,7 @@ The first JSON command to try is [`JSON.SET`]({{< baseurl >}}/commands/json.set)
 
 Note how the commands include the dollar sign character `$`. This is the [path]({{< relref "/develop/data-types/json/path" >}}) to the value in the JSON document (in this case it just means the root).
 
-Here are a few more string operations. [`JSON.STRLEN`]({{< baseurl >}}/commands/json.strlen) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`]({{< baseurl >}}/commands/json.strappend).
+Here are a few more string operations. [`JSON.STRLEN`]({{< baseurl >}}/commands/json.strlen/) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`]({{< baseurl >}}/commands/json.strappend/).
 
 ```sh
 > JSON.STRLEN animal $
@@ -60,7 +60,7 @@ Here are a few more string operations. [`JSON.STRLEN`]({{< baseurl >}}/commands/
 "[\"dog (Canis familiaris)\"]"
 ``` 
 
-Numbers can be [incremented]({{< baseurl >}}/commands/json.numincrby) and [multiplied]({{< baseurl >}}/commands/json.nummultby):
+Numbers can be [incremented]({{< baseurl >}}/commands/json.numincrby/) and [multiplied]({{< baseurl >}}/commands/json.nummultby/):
 
 ```
 > JSON.SET num $ 0
@@ -90,7 +90,7 @@ OK
 "[[true,{\"answer\":42}]]"
 ```
 
-The [`JSON.DEL`]({{< baseurl >}}/commands/json.del) command deletes any JSON value you specify with the `path` parameter.
+The [`JSON.DEL`]({{< baseurl >}}/commands/json.del/) command deletes any JSON value you specify with the `path` parameter.
 
 You can manipulate arrays with a dedicated subset of JSON commands:
 
@@ -128,7 +128,7 @@ OK
    3) "loggedOut"
 ```
 
-To return a JSON response in a more human-readable format, run `redis-cli` in raw output mode and include formatting keywords such as `INDENT`, `NEWLINE`, and `SPACE` with the [`JSON.GET`]({{< baseurl >}}/commands/json.get) command:
+To return a JSON response in a more human-readable format, run `redis-cli` in raw output mode and include formatting keywords such as `INDENT`, `NEWLINE`, and `SPACE` with the [`JSON.GET`]({{< baseurl >}}/commands/json.get/) command:
 
 ```sh
 $ redis-cli --raw

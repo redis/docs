@@ -116,7 +116,7 @@ redis> JSON.GET key $.[1].max_level
 
 ## See also
 
-[`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend) | [`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex) 
+[`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend/) | [`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex/) 
 
 ## Related topics
 

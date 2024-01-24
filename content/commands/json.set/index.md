@@ -125,7 +125,7 @@ redis> JSON.GET doc
 
 ## See also
 
-[`JSON.GET`]({{< baseurl >}}/commands/json.get) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget) 
+[`JSON.GET`]({{< baseurl >}}/commands/json.get/) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget/) 
 
 ## Related topics
 

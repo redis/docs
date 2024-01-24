@@ -122,7 +122,7 @@ redis> JSON.GET item:1 $.colors
 
 ## See also
 
-[`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend) | [`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex) 
+[`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend/) | [`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex/) 
 
 ## Related topics
 

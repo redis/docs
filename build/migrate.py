@@ -124,10 +124,15 @@ The replace link function that is passed over to re.sub
 def _replace_link(match, new_prefix):
     # Relrefs don't like dots in the link
     if '.' in match.group(3):
-        return match.group(1) + '{{< baseurl >}}' + new_prefix + match.group(3) + match.group(4)
-    else:
-        return match.group(1) + '{{< relref "' + new_prefix + match.group(3) + '" >}}' + match.group(4)
+        result =  match.group(1) + '{{< baseurl >}}' + new_prefix + match.group(3) + match.group(4)
 
+        # Some command pages have a . in them which causes issues
+        if new_prefix == "/commands":
+            result =  match.group(1) + '{{< baseurl >}}' + new_prefix + match.group(3) + "/" + match.group(4)
+    else:
+        result =  match.group(1) + '{{< relref "' + new_prefix + match.group(3) + '" >}}' + match.group(4)
+
+    return result
 
 '''
 Helps to substitute the prefix https://redis.io with e.g. / within a link
