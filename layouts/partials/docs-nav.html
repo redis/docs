@@ -67,18 +67,18 @@
   {{- end }}
 {{- end }}
 
-<div class="hidden md:block w-64 h-full shrink-0 text-sm font-mono font-normal">
-  <nav class="w-64 z-40 bg-white hidden md:block fixed -ml-6 py-6 h-full max-h-[calc(100vh-7rem-14rem)] leading-7">
+<div class="w-full md:w-64 h-fit md:h-full shrink-0 text-sm font-mono font-normal py-6">
+  <nav class="w-full md:w-64 z-40 bg-white md:fixed md:-ml-6 md:pt-6 h-fit md:h-full max-h-[calc(100vh-7rem-14rem)] leading-7">
     {{ $navRoot := cond (eq .Site.Home.Type "docs") .Site.Home .FirstSection -}}
     {{ $ulNr := 0 -}}
     {{ $ulShow := 1 -}}
     <div class="max-h-[calc(100vh-7rem-14rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
-      <div class="px-6 py-4 text-redis-ink-900 border-b border-opacity-50 border-b-redis-ink-900 font-medium"><a href="{{ $navRoot.RelPermalink }}">{{ $navRoot.LinkTitle }}</a></div>
-      <ul class=" overflow-y-auto grow  pr-6">
+      <div class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer md:cursor-default"><a href="{{ $navRoot.RelPermalink }}">{{ $navRoot.LinkTitle }}</a><span class="md:hidden self-center">{{ partial "icons/chevron.html" }}</span></div>
+      <ul class="hidden md:block overflow-y-auto grow pr-6 border-y border-opacity-50 border-y-redis-ink-900">
         {{/*  {{ template "li" (dict "page" . "section" $navRoot "ulNr" $ulNr "ulShow" (add $ulShow 1)) }}  */}}
         {{ template "li2" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
       </ul>
-    <div class="w-full py-7 border-t border-opacity-50 border-t-redis-ink-900"></div>
-  </div>
+      <div class="hidden md:block w-full py-7"></div>
+    </div>
   </nav>
 </div>
