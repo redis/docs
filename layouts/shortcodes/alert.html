@@ -1,6 +1,8 @@
-<div class="pl-4 border-l-8">
-{{ with .Get "title" }}
-<div class="font-semibold text-slate-900">{{ . | safeHTML }}</div>
-{{ end }}
-{{- .Inner -}}
+<div class="relative pl-9 text-sm before:content-[''] before:absolute before:left-0 before:top-1.5 before:w-2 before:h-2 before:rounded before:bg-black">
+  <div>
+  {{ with .Get "title" }}
+  <div class="font-medium">{{ . | safeHTML }}</div>
+  {{ end }}
+  {{- .Inner -}}
+  </div>
 </div>
