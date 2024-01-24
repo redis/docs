@@ -301,7 +301,7 @@ Redis Stack's auto-completer supports Unicode, allowing for fuzzy matches in non
 
 ### The Redis module API
 
-RediSearch is implemented using the [Redis module API](https://redis.io/topics/modules-intro) and is loaded into Redis as an extension module at start-up.
+RediSearch is implemented using the [Redis module API](/topics/modules-intro) and is loaded into Redis as an extension module at start-up.
 
 Redis modules make it possible to extend Redis's core functionality, implementing new Redis commands, data structures, and capabilities with similar performance to native core Redis itself. Redis modules are dynamic libraries that can be loaded into Redis at start-up or loaded at run-time using the [`MODULE LOAD`]({{< relref "/commands/module-load" >}}) command. Redis exports a C API, in the form of a single C header file called `redismodule.h`. 
 

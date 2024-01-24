@@ -17,11 +17,11 @@ title: Stream triggers
 weight: 2
 ---
 
-Redis Stack's triggers and functions feature comes with a full stream API to process data from [Redis streams](https://redis.io/docs/manual/data-types/streams/). Unlike RedisGears v1 that provided a micro batching API, the new triggers and functions feature provides a **real streaming** API, which means that the data will be processed as soon as it enters the stream.
+Redis Stack's triggers and functions feature comes with a full stream API to process data from [Redis streams]({{< relref "/develop/data-types/streams" >}}). Unlike RedisGears v1 that provided a micro batching API, the new triggers and functions feature provides a **real streaming** API, which means that the data will be processed as soon as it enters the stream.
 
 ## Register a stream consumer
 
-Triggers and functions provide an API that allows to register a stream trigger. Do not get confused with [Redis streams consumer groups](https://redis.io/docs/manual/data-types/streams/#consumer-groups), triggers and functions uses the Redis Module API to efficiently read the stream and manage its consumers. This approach gives a much better performance as there is no need to invoke any Redis commands in order to read from the stream. Lets see a simple example:
+Triggers and functions provide an API that allows to register a stream trigger. Do not get confused with [Redis streams consumer groups]({{< baseurl >}}/develop/data-types/streams#consumer-groups), triggers and functions uses the Redis Module API to efficiently read the stream and manage its consumers. This approach gives a much better performance as there is no need to invoke any Redis commands in order to read from the stream. Lets see a simple example:
 
 ```js
 #!js api_version=1.0 name=myFirstLibrary

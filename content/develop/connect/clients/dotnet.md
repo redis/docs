@@ -20,7 +20,7 @@ Install Redis and the Redis client, then connect your .NET application to a Redi
 ## NRedisStack
 
 [NRedisStack](https://github.com/redis/NRedisStack) is a .NET client for Redis.
-`NredisStack` requires a running Redis or [Redis Stack](https://redis.io/docs/getting-started/install-stack/) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
+`NredisStack` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
 ### Install
 

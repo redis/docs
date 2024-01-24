@@ -198,7 +198,7 @@ redis.registerAsyncFunction('test', function(client, expected_name){
 
 # Call blocking commands
 
-Redis has a few commands that blocks the client and executed asynchronously when some condition holds (commands like [blpop](https://redis.io/commands/blpop/)). In general, such commands are not suppose to be called inside a script and calling them will result in running their none blocking logic. For example, [blpop](https://redis.io/commands/blpop/) will basically runs lpop and return empty result if the list it empty.
+Redis has a few commands that blocks the client and executed asynchronously when some condition holds (commands like [blpop]({{< relref "/commands/blpop" >}})). In general, such commands are not suppose to be called inside a script and calling them will result in running their none blocking logic. For example, [blpop]({{< relref "/commands/blpop" >}}) will basically runs lpop and return empty result if the list it empty.
 
 RedisGears allows running blocking commands using `client.callAsync` API. `client.callAsync` will execute the blocking command and return a promise object which will be resolved when the command invocation finished (notice that `client.callAsync` allow calling any command and not just blocking but it will always return a promise object that will be resolve later, so **using it for regular commands is less efficient**). 
 

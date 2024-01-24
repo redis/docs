@@ -32,7 +32,7 @@ You can use Redis sets to efficiently:
 * [`SINTER`]({{< relref "/commands/sinter" >}}) returns the set of members that two or more sets have in common (i.e., the intersection).
 * [`SCARD`]({{< relref "/commands/scard" >}}) returns the size (a.k.a. cardinality) of a set.
 
-See the [complete list of set commands](https://redis.io/commands/?group=set).
+See the [complete list of set commands]({{< relref "/commands/?group=set" >}}).
 
 ## Examples
 

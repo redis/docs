@@ -63,7 +63,7 @@ as well, like [`HINCRBY`]({{< relref "/commands/hincrby" >}}):
 (integer) 4972
 {{< /clients-example >}}
 
-You can find the [full list of hash commands in the documentation](https://redis.io/commands#hash).
+You can find the [full list of hash commands in the documentation]({{< relref "/commands#hash" >}}).
 
 It is worth noting that small hashes (i.e., a few elements with small values) are
 encoded in special way in memory that make them very memory efficient.
@@ -75,7 +75,7 @@ encoded in special way in memory that make them very memory efficient.
 * [`HMGET`]({{< relref "/commands/hmget" >}}) returns the values at one or more given fields.
 * [`HINCRBY`]({{< relref "/commands/hincrby" >}}) increments the value at a given field by the integer provided.
 
-See the [complete list of hash commands](https://redis.io/commands/?group=hash).
+See the [complete list of hash commands]({{< relref "/commands/?group=hash" >}}).
 
 
 ## Examples

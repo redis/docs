@@ -130,6 +130,18 @@ def _replace_link(match, new_prefix):
 
 
 '''
+Helps to substitute the prefix https://redis.io with e.g. / within a link
+'''
+def fq_link_to_page_link_in_file(file_path, old_prefix, new_prefix):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        file_content = file.read()
+    link_pattern = re.compile(r'(\[.*?\]\()(' + re.escape(old_prefix) + r')(.*?)' + r'(\))')
+    updated_content = re.sub(link_pattern, r'\1' + new_prefix + r'\3' + r'\4', file_content)
+
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(updated_content)
+
+'''
 Replace the link within the file
 '''
 def replace_links_in_file(file_path, old_prefix, new_prefix):
@@ -314,9 +326,10 @@ def migrate_commands():
     for f in markdown_files:
         add_categories(f, 'categories', ['docs', 'develop', 'stack', 'oss', 'rs', 'rc', 'oss', 'kubernetes', 'clients'])
         remove_prop_from_file(f, "aliases")
+
         replace_links_in_file(f, '/docs', '/develop')
         replace_links_in_file(f, '/commands', '/commands')
-
+        replace_links_in_file(f, 'https://redis.io/', '/')
 '''
 Migrate the developer documentation
 '''
@@ -348,9 +361,17 @@ def migrate_developer_docs():
     
     for f in markdown_files:
         print("Replacing links in {}".format(f))
+        
+        fq_link_to_page_link_in_file(f, 'https://redis.io/', '/')
+
+        # Map /docs to /develop
         replace_links_in_file(f, '/docs', '/develop')
+        
         # Ensures that the URL-s are rewritten in relrefs
         replace_links_in_file(f, '/commands', '/commands')
+
+        
+
         remove_prop_from_file(f, "aliases")
         add_categories(f, 'categories', ['docs', 'develop', 'stack', 'oss', 'rs', 'rc', 'oss', 'kubernetes', 'clients'])
 

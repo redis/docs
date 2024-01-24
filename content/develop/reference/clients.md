@@ -193,11 +193,11 @@ In the above example two clients are connected to the Redis server. Let's look a
 * **name**: The client name as set by [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}).
 * **age**: The number of seconds the connection existed for.
 * **idle**: The number of seconds the connection is idle.
-* **flags**: The kind of client (N means normal client, check the [full list of flags](https://redis.io/commands/client-list)).
+* **flags**: The kind of client (N means normal client, check the [full list of flags]({{< relref "/commands/client-list" >}})).
 * **omem**: The amount of memory used by the client for the output buffer.
 * **cmd**: The last executed command.
 
-See the [[`CLIENT LIST`]({{< relref "/commands/client-list" >}})](https://redis.io/commands/client-list) documentation for the full listing of fields and their purpose.
+See the [[`CLIENT LIST`]({{< relref "/commands/client-list" >}})](/commands/client-list) documentation for the full listing of fields and their purpose.
 
 Once you have the list of clients, you can close a client's connection using the [`CLIENT KILL`]({{< relref "/commands/client-kill" >}}) command, specifying the client address as its argument.
 

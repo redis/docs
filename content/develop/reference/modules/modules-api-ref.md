@@ -169,7 +169,7 @@ The function returns NULL if `bytes` is 0.
 
 These functions are used to implement custom Redis commands.
 
-For examples, see [https://redis.io/topics/modules-intro](https://redis.io/topics/modules-intro).
+For examples, see [https://redis.io/topics/modules-intro](/topics/modules-intro).
 
 <span id="RedisModule_IsKeysPositionRequest"></span>
 
@@ -362,7 +362,7 @@ example "write deny-oom". The set of flags are:
                          the arguments that are channels.
 
 The last three parameters specify which arguments of the new command are
-Redis keys. See [https://redis.io/commands/command](https://redis.io/commands/command) for more information.
+Redis keys. See [https://redis.io/commands/command]({{< relref "/commands/command" >}}) for more information.
 
 * `firstkey`: One-based index of the first argument that's a key.
               Position 0 is always the command name itself.
@@ -516,7 +516,7 @@ All fields except `version` are optional. Explanation of the fields:
     both strings set to NULL.
 
 - `tips`: A string of space-separated tips regarding this command, meant for
-  clients and proxies. See [https://redis.io/topics/command-tips](https://redis.io/topics/command-tips).
+  clients and proxies. See [https://redis.io/topics/command-tips](/topics/command-tips).
 
 - `arity`: Number of arguments, including the command name itself. A positive
   number specifies an exact number of arguments and a negative number
@@ -3090,7 +3090,7 @@ The returned `RedisModuleString` objects should be released with
 
 ## Key API for Stream type
 
-For an introduction to streams, see [https://redis.io/topics/streams-intro](https://redis.io/topics/streams-intro).
+For an introduction to streams, see [https://redis.io/topics/streams-intro](/topics/streams-intro).
 
 The type `RedisModuleStreamID`, which is used in stream functions, is a struct
 with two 64-bit fields and is defined as
@@ -3746,7 +3746,7 @@ Example code fragment:
        // Do something with myval.
      }
 
-This API is documented here: [https://redis.io/topics/modules-intro](https://redis.io/topics/modules-intro)
+This API is documented here: [https://redis.io/topics/modules-intro](/topics/modules-intro)
 
 <span id="RedisModule_CallReplyProto"></span>
 
@@ -3783,7 +3783,7 @@ AOF rewrite, and so forth). In this section we define this API.
 
 Register a new data type exported by the module. The parameters are the
 following. Please for in depth documentation check the modules API
-documentation, especially [https://redis.io/topics/modules-native-types](https://redis.io/topics/modules-native-types).
+documentation, especially [https://redis.io/topics/modules-native-types](/topics/modules-native-types).
 
 * **name**: A 9 characters data type name that MUST be unique in the Redis
   Modules ecosystem. Be creative... and there will be no collisions. Use
@@ -4432,7 +4432,7 @@ latency-monitor-threshold.
 ## Blocking clients from modules
 
 For a guide about blocking commands in modules, see
-[https://redis.io/topics/modules-blocking-ops](https://redis.io/topics/modules-blocking-ops).
+[https://redis.io/topics/modules-blocking-ops](/topics/modules-blocking-ops).
 
 <span id="RedisModule_RegisterAuthCallback"></span>
 
@@ -4986,7 +4986,7 @@ that the notification code will be executed in the middle on Redis logic
 runs is dangerous and discouraged. In order to react to key space events with
 write actions, please refer to [`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob).
 
-See [https://redis.io/topics/notifications](https://redis.io/topics/notifications) for more information.
+See [https://redis.io/topics/notifications](/topics/notifications) for more information.
 
 <span id="RedisModule_AddPostNotificationJob"></span>
 
@@ -5560,7 +5560,7 @@ If the user is able to access the pubsub channel then `REDISMODULE_OK` is return
 Adds a new entry in the ACL log.
 Returns `REDISMODULE_OK` on success and `REDISMODULE_ERR` on error.
 
-For more information about ACL log, please refer to [https://redis.io/commands/acl-log](https://redis.io/commands/acl-log)
+For more information about ACL log, please refer to [https://redis.io/commands/acl-log]({{< relref "/commands/acl-log" >}})
 
 <span id="RedisModule_ACLAddLogEntryByUserName"></span>
 
@@ -5576,7 +5576,7 @@ For more information about ACL log, please refer to [https://redis.io/commands/a
 Adds a new entry in the ACL log with the `username` `RedisModuleString` provided.
 Returns `REDISMODULE_OK` on success and `REDISMODULE_ERR` on error.
 
-For more information about ACL log, please refer to [https://redis.io/commands/acl-log](https://redis.io/commands/acl-log)
+For more information about ACL log, please refer to [https://redis.io/commands/acl-log]({{< relref "/commands/acl-log" >}})
 
 <span id="RedisModule_AuthenticateClientWithUser"></span>
 

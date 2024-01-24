@@ -36,7 +36,7 @@ Redis streams support several trimming strategies (to prevent streams from growi
 * [`XRANGE`]({{< relref "/commands/xrange" >}}) returns a range of entries between two supplied entry IDs.
 * [`XLEN`]({{< relref "/commands/xlen" >}}) returns the length of a stream.
  
-See the [complete list of stream commands](https://redis.io/commands/?group=stream).
+See the [complete list of stream commands]({{< relref "/commands/?group=stream" >}}).
 
 
 ## Examples

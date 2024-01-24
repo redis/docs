@@ -237,7 +237,7 @@ You'll see that [`ZADD`]({{< relref "/commands/zadd" >}}) returns 0 when the mem
 * [`ZRANK`]({{< relref "/commands/zrank" >}}) returns the rank of the provided member, assuming the sorted is in ascending order.
 * [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) returns the rank of the provided member, assuming the sorted set is in descending order.
  
-See the [complete list of sorted set commands](https://redis.io/commands/?group=sorted-set).
+See the [complete list of sorted set commands]({{< relref "/commands/?group=sorted-set" >}}).
 
 ## Performance
 

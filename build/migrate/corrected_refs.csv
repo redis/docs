@@ -20,6 +20,7 @@ broken_ref;fixed_ref;comment
 /develop/data-types/lists/;/develop/data-types/lists;
 /develop/data-types/sets/;/develop/data-types/sets;
 /develop/data-types/streams/;/develop/data-types/streams;
+/develop/manual/data-types/streams/#consumer-groups;/develop/data-types/streams;
 /develop/data-types/streams-tutorial;/develop/data-types/streams;
 /develop/data-types/strings/;/develop/data-types/strings;
 /develop/get-started/data-store/;/develop/get-started/data-store;
@@ -28,6 +29,12 @@ broken_ref;fixed_ref;comment
 /develop/get-started/vector-database/;/develop/get-started/vector-database;
 /develop/getting-started/;/operate/oss_and_stack/install/;
 /develop/getting-started/install-stack/;/operate/oss_and_stack/install/install-stack/;
+/develop/stack/get-started/install/;/operate/oss_and_stack/install/install-stack/;
+/develop/ui/insight/;/develop/connect/insight/;
+/develop/manual/keyspace-notifications/;/develop/use/keyspace-notifications;
+/develop/manual/keyspace-notifications/#events-generated-by-different-commands/?utm_source=redis\&utm_medium=app\&utm_campaign=redisinsight_triggers_and_functions_guide;/develop/use/keyspace-notifications;
+/develop/manual/keyspace-notifications/#events-generated-by-different-commands;/develop/use/keyspace-notifications;
+/commands/blpop/;/commands/blpop;
 /develop/getting-started/install-stack/docker;/operate/oss_and_stack/install/install-stack/docker;
 /develop/install/install-stack;/operate/oss_and_stack/install/install-stack/;
 /develop/install/install-stack/;/operate/oss_and_stack/install/install-stack/;
@@ -65,6 +72,9 @@ broken_ref;fixed_ref;comment
 /develop/interact/search-and-query/basic-constructs/schema-definition/;/develop/interact/search-and-query/basic-constructs/schema-definition;
 /develop/interact/search-and-query/img/polygons.png;/develop/interact/search-and-query/img/polygons.png;Markdown image reference, RelRefs don’t work with images. Markdown syntax ![Name](Ref)
 /develop/interact/search-and-query/query/combined/;/develop/interact/search-and-query/query/combined;
+/develop/interact/search-and-query/query/vector-search/;/develop/interact/search-and-query/query/vector-search;
+/develop/interact/search-and-query/query/geo-spatial/;/develop/interact/search-and-query/query/geo-spatial;
+/develop/manual/pipelining/;/develop/use/pipelining;
 /develop/interact/search-and-query/quickstart/;/develop/get-started/document-database;
 /develop/interact/search-and-query/search/aggregations/;/develop/interact/search-and-query/advanced-concepts/aggregations;
 /develop/interact/search-and-query/search/aggregations/#cursor-api;/develop/interact/search-and-query/advanced-concepts/aggregations;
@@ -78,6 +88,7 @@ broken_ref;fixed_ref;comment
 /develop/manual/client-side-caching/;/develop/use/client-side-caching;
 /develop/manual/config/;/operate/oss_and_stack/management/config;
 /develop/manual/data-types/streams;/develop/data-types/streams;
+/develop/manual/data-types/streams/;/develop/data-types/streams;
 /develop/manual/eviction/;/develop/reference/eviction;
 /develop/manual/keyspace/;/develop/use/keyspace;
 /develop/manual/programmability/;/develop/interact/programmability/;
@@ -103,6 +114,10 @@ broken_ref;fixed_ref;comment
 /develop/stack/search/indexing_json;/develop/interact/search-and-query/indexing/;
 /develop/stack/search/indexing_json/;/develop/interact/search-and-query/indexing/;
 /develop/stack/search/indexing_json/#index-json-arrays-as-vector;/develop/interact/search-and-query/indexing/;
+/develop/stack/search/indexing_json/#index-json-arrays-as-text;/develop/interact/search-and-query/indexing/;
+/develop/stack/search/indexing_json/#index-json-arrays-as-tag;/develop/interact/search-and-query/indexing/;
+/develop/stack/search/indexing_json/#index-json-arrays-as-numeric;/develop/interact/search-and-query/indexing/;
+/develop/stack/search/indexing_json/#index-json-arrays-as-geo;/develop/interact/search-and-query/indexing/;
 /develop/stack/search/reference/highlight;/develop/interact/search-and-query/advanced-concepts/highlight;
 /develop/stack/search/reference/query_syntax;/develop/interact/search-and-query/advanced-concepts/query_syntax;
 /develop/stack/search/reference/query_syntax/;/develop/interact/search-and-query/advanced-concepts/query_syntax;
@@ -110,6 +125,7 @@ broken_ref;fixed_ref;comment
 /develop/stack/search/reference/vectors/;/develop/interact/search-and-query/advanced-concepts/vectors;
 /develop/stack/search/reference/vectors/#runtime-attributes;/develop/interact/search-and-query/advanced-concepts/vectors;
 /develop/stack/timeseries/;/develop/data-types/timeseries/;
+/commands/blpop/;/commands/blpop;
 #-- Command docs;;
 /commands/module-load/;/commands/module-load;
 /commands/auth/;/commands/auth;
@@ -144,6 +160,7 @@ broken_ref;fixed_ref;comment
 /develop/stack/timeseries/configuration/#chunk_size_bytes;/develop/data-types/timeseries/configuration;
 /develop/stack/timeseries;/develop/data-types/timeseries/;
 /develop/manual/;/develop/use/;
+/topics/distlock;/develop/use/patterns/distributed-locks;
 
 
 

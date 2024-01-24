@@ -69,7 +69,7 @@ Advanced command line interface with intelligent command auto-complete and compl
 * Built-in guides: you can conveniently discover Redis and Redis Stack features using the built-in guides.
 * Command auto-complete support for all features in Redis and Redis Stack.
 * Visualizations of your indexes, queries, and aggregations.
-* Visualizations of your [time series](https://redis.io/docs/stack/timeseries/) data.
+* Visualizations of your [time series]({{< relref "/develop/data-types/timeseries/" >}}) data.
 
   <img src="images/Workbench_TimeSeries.png">
 

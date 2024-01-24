@@ -33,7 +33,7 @@ Some examples of bitmap use cases include:
 * [`SETBIT`]({{< relref "/commands/setbit" >}}) sets a bit at the provided offset to 0 or 1.
 * [`GETBIT`]({{< relref "/commands/getbit" >}}) returns the value of a bit at a given offset.
 
-See the [complete list of bitmap commands](https://redis.io/commands/?group=bitmap).
+See the [complete list of bitmap commands]({{< relref "/commands/?group=bitmap" >}}).
 
 
 ## Example

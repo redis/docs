@@ -28,7 +28,7 @@ This dialect is also the default dialect. See below for information about changi
 ## `DIALECT 2`
 
 Dialect version 2 was introduced in the [2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) release to address query parser inconsistencies found in previous versions of Redis Stack. Dialect version 1 remains the default dialect. To use dialect version 2, append `DIALECT 2` to your query command.
-Support for vector search also was introduced in the 2.4 release and requires `DIALECT 2`. See [here](https://redis.io/docs/interact/search-and-query/query/vector-search/) for more details.
+Support for vector search also was introduced in the 2.4 release and requires `DIALECT 2`. See [here]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) for more details.
 `FT.SEARCH ... DIALECT 2`
 
 It was determined that under certain conditions some query parsing rules did not behave as originally intended.
@@ -80,7 +80,7 @@ With `DIALECT 2` you can use un-escaped spaces in tag queries, even with stopwor
 
 ## `DIALECT 3`
 
-Dialect version 3 was introduced in the [2.6](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.3) release. This version introduced support for multi-value indexing and querying of attributes for any attribute type ( [TEXT](https://redis.io/docs/stack/search/indexing_json/#index-json-arrays-as-text), [TAG](https://redis.io/docs/stack/search/indexing_json/#index-json-arrays-as-tag), [NUMERIC](https://redis.io/docs/stack/search/indexing_json/#index-json-arrays-as-numeric), [GEO](https://redis.io/docs/stack/search/indexing_json/#index-json-arrays-as-geo) and [VECTOR](https://redis.io/docs/stack/search/indexing_json/#index-json-arrays-as-vector)) defined by a [JSONPath](https://redis.io/docs/stack/json/path/) leading to an array or multiple scalar values. Support for [GEOSHAPE](https://redis.io/docs/interact/search-and-query/query/geo-spatial/) queries was also introduced in this dialect.
+Dialect version 3 was introduced in the [2.6](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.3) release. This version introduced support for multi-value indexing and querying of attributes for any attribute type ( [TEXT]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-text), [TAG]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-tag), [NUMERIC]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-numeric), [GEO]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-geo) and [VECTOR]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-vector)) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or multiple scalar values. Support for [GEOSHAPE]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}}) queries was also introduced in this dialect.
 
 The primary difference between dialects version 2 and version 3 is that JSON is returned rather than scalars for multi-value attributes. Apart from specifying `DIALECT 3` at the end of a [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 3, append `DIALECT 3` to your query command.
 
@@ -158,7 +158,7 @@ Dialect version 4 will improve performance in four different scenarios:
 1. **No optimization** - If there is a sort by score or by a non-numeric field, there is no other option but to retrieve all results and compare their values to the search parameters.
 ## Use [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli) to compare dialects
 	
-The [[`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli)](https://redis.io/commands/ft.explaincli/) is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.
+The [[`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli)](/commands/ft.explaincli/) is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.
 
 When you run [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli), it returns an array representing the execution plan of a complex query. This plan is a step-by-step guide of how Redis interprets your query and how it plans to fetch results. It's a behind-the-scenes look at the process, giving you insights into how the search engine works.
 
