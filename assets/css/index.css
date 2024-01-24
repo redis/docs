@@ -403,10 +403,6 @@ select {
   color: inherit;
 }
 
-.feedback-submit {
-  @apply grid gap-2;
-}
-
 .star-rating {
   @apply flex flex-row-reverse justify-around text-center text-xl items-center; 
 }
@@ -416,16 +412,29 @@ select {
 }
 
 .star-rating label {
-  @apply cursor-pointer text-neutral-400;
+  @apply cursor-pointer text-white;
+  /* 
+    From  https://owumaro.github.io/text-stroke-generator/ 
+    Currently, there is not great way to text-stroke that works across browsers
+    Alternative is to replace star character with SVG
+  */
+  text-shadow: 
+    rgb(92, 112, 122) 1px 0px 0px, 
+    rgb(92, 112, 122) 0.540302px 0.841471px 0px, 
+    rgb(92, 112, 122) -0.416147px 0.909297px 0px, 
+    rgb(92, 112, 122) -0.989993px 0.14112px 0px, 
+    rgb(92, 112, 122) -0.653644px -0.756803px 0px, 
+    rgb(92, 112, 122) 0.283662px -0.958924px 0px, 
+    rgb(92, 112, 122) 0.96017px -0.279416px 0px;
 }
 
 .star-rating :checked ~ label {
-  @apply text-orange-400;
+  @apply text-redis-pen-600;
 }
 
 .star-rating label:hover,
 .star-rating label:hover ~ label {
-  @apply text-yellow-400;
+  @apply text-redis-red-500;
 }      
 
 .codetabs .label {
