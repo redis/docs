@@ -14,6 +14,9 @@ module.exports = {
 				midnight: {
 					700: '#161F31',
 					},
+				neutral: {
+					150: '#F0F0F0'
+				},
 				'redis-red': {
 					500: '#FF4438',
 					600: '#D52D1F'
@@ -43,7 +46,6 @@ module.exports = {
 
 					900: '#191919',
 					950: '#000000'
-					
 				},
 				'redis-ink': {
 					900: '#091A23'
