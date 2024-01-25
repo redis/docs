@@ -4,6 +4,16 @@ arguments:
   type: key
 - name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k + i), where k is the number of sub-filters and i is maxIterations
 description: Adds an item to a Cuckoo Filter
 group: cf
@@ -20,7 +30,7 @@ title: CF.ADD
 Adds an item to the cuckoo filter.
 
 Cuckoo filters can contain the same item multiple times, and consider each addition as separate.
-Use [`CF.ADDNX`](/commands/cf.addnx) to add an item only if it does not exist.
+Use [`CF.ADDNX`]({{< baseurl >}}/commands/cf.addnx/) to add an item only if it does not exist.
 
 ## Required arguments
 
@@ -40,7 +50,7 @@ is an item to add.
 
 Returns one of these replies:
 
-- [Integer reply](/docs/reference/protocol-spec#integers) - where "1" means that the item has been added successfully
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - where "1" means that the item has been added successfully
 - [] on error (invalid arguments, wrong key type, etc.) and also when the filter is full
 
 ## Complexity

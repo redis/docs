@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns a list of all existing indexes
 group: search
@@ -18,13 +28,13 @@ Returns a list of all existing indexes.
 {{% alert title="Temporary command" color="info" %}}
 The prefix `_` in the command indicates, this is a temporary command.
 
-In the future, a [`SCAN`](/commands/scan) type of command will be added, for use when a database
+In the future, a [`SCAN`]({{< relref "/commands/scan" >}}) type of command will be added, for use when a database
 contains a large number of indices.
 {{% /alert %}}
 
 ## Return
 
-[Array reply](/docs/reference/protocol-spec#arrays) with index names.
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with index names.
 
 ## Examples
 

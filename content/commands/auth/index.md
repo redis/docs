@@ -12,6 +12,16 @@ arguments:
   name: password
   type: string
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 - loading
@@ -55,7 +65,7 @@ When Redis ACLs are used, the command should be given in an extended way:
     AUTH <username> <password>
 
 In order to authenticate the current connection with one of the connections
-defined in the ACL list (see [`ACL SETUSER`](/commands/acl-setuser)) and the official [ACL guide](/topics/acl) for more information.
+defined in the ACL list (see [`ACL SETUSER`]({{< relref "/commands/acl-setuser" >}})) and the official [ACL guide](/topics/acl) for more information.
 
 When ACLs are used, the single argument form of the command, where only the password is specified, assumes that the implicit username is "default".
 
@@ -64,4 +74,4 @@ When ACLs are used, the single argument form of the command, where only the pass
 Because of the high performance nature of Redis, it is possible to try
 a lot of passwords in parallel in very short time, so make sure to generate a
 strong and very long password so that this attack is infeasible.
-A good way to generate strong passwords is via the [`ACL GENPASS`](/commands/acl-genpass) command.
+A good way to generate strong passwords is via the [`ACL GENPASS`]({{< relref "/commands/acl-genpass" >}}) command.

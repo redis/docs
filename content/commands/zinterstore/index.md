@@ -40,6 +40,16 @@ arguments:
   token: AGGREGATE
   type: oneof
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -78,7 +88,7 @@ key_specs:
 linkTitle: ZINTERSTORE
 since: 2.0.0
 summary: Stores the intersect of multiple sorted sets in a key.
-syntax_fmt: "ZINTERSTORE destination numkeys key [key ...] [WEIGHTS\_weight\n  [weight\
+syntax_fmt: "ZINTERSTORE destination numkeys key [key ...] [WEIGHTS\_weight [weight\
   \ ...]] [AGGREGATE\_<SUM | MIN | MAX>]"
 syntax_str: "numkeys key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM\
   \ | MIN | MAX>]"
@@ -95,7 +105,7 @@ Because intersection requires an element to be a member of every given sorted
 set, this results in the score of every element in the resulting sorted set to
 be equal to the number of input sorted sets.
 
-For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`](/commands/zunionstore).
+For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}).
 
 If `destination` already exists, it is overwritten.
 

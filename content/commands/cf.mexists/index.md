@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k * n), where k is the number of sub-filters and n is the number of
   items
 description: Checks whether one or more items exist in a Cuckoo Filter
@@ -21,7 +31,7 @@ title: CF.MEXISTS
 ---
 Determines whether one or more items were added to a cuckoo filter.
 
-This command is similar to [`CF.EXISTS`](/commands/cf.exists), except that more than one item can be checked.
+This command is similar to [`CF.EXISTS`]({{< baseurl >}}/commands/cf.exists/), except that more than one item can be checked.
 
 ## Required arguments
 
@@ -40,7 +50,7 @@ One or more items to check.
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) of [Integer reply](/docs/reference/protocol-spec#integers) - where "1" means that, with high probability, `item` was already added to the filter, and "0" means that `key` does not exist or that `item` had not added to the filter. See note in [`CF.DEL`](/commands/cf.del).
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - where "1" means that, with high probability, `item` was already added to the filter, and "0" means that `key` does not exist or that `item` had not added to the filter. See note in [`CF.DEL`]({{< baseurl >}}/commands/cf.del/).
 - [] on error (invalid arguments, wrong key type, etc.)
 
 ## Examples

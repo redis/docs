@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/bloom/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Bloom filters are a probabilistic data structure that checks for presence
   of an element in a set
 linkTitle: Bloom filter

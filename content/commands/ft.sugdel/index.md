@@ -4,6 +4,16 @@ arguments:
   type: string
 - name: string
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Deletes a string from a suggestion index
 group: suggestion
@@ -58,8 +68,8 @@ FT.SUGDEL returns an integer reply, 1 if the string was found and deleted, 0 oth
 
 ## See also
 
-[`FT.SUGGET`](/commands/ft.sugget) | [`FT.SUGADD`](/commands/ft.sugadd) | [`FT.SUGLEN`](/commands/ft.suglen) 
+[`FT.SUGGET`]({{< baseurl >}}/commands/ft.sugget/) | [`FT.SUGADD`]({{< baseurl >}}/commands/ft.sugadd/) | [`FT.SUGLEN`]({{< baseurl >}}/commands/ft.suglen/) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

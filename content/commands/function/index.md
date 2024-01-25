@@ -2,6 +2,16 @@
 acl_categories:
 - '@slow'
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: Depends on subcommand.
 description: A container for function commands.
 group: scripting
@@ -15,4 +25,4 @@ title: FUNCTION
 ---
 This is a container command for function commands.
 
-To see the list of available commands you can call [`FUNCTION HELP`](/commands/function-help).
+To see the list of available commands you can call [`FUNCTION HELP`]({{< relref "/commands/function-help" >}}).

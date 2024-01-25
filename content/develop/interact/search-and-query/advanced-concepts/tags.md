@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/tags/
-- /redisearch/reference/tags
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Details about tag fields
 linkTitle: Tags
 title: Tags
@@ -105,7 +112,7 @@ FT.SEARCH myIndex "@cities:{ New York } @cities:{Los Angeles} @cities:{ Barcelon
 
 ## Including punctuation in tags
 
-A tag can include punctuation other than the field's separator. You do not need to escape punctuation when using the [`HSET`](/commands/hset) command to add the value to a Redis Hash.
+A tag can include punctuation other than the field's separator. You do not need to escape punctuation when using the [`HSET`]({{< relref "/commands/hset" >}}) command to add the value to a Redis Hash.
 
 For example, given the following index:
 
@@ -148,6 +155,6 @@ You can see what that looks like in the following example:
 (error) Syntax error at offset 27 near be
 ```
 
-Note: stop words are words that are so common that a search engine ignores them. To learn more, see [stop words](/docs/interact/search-and-query/advanced-concepts/stopwords/).
+Note: stop words are words that are so common that a search engine ignores them. To learn more, see [stop words]({{< relref "/develop/interact/search-and-query/advanced-concepts/stopwords" >}}).
 
 Given the potential for syntax errors,it is recommended that you escape all spaces within tag queries.

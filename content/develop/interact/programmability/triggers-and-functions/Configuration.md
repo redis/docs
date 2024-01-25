@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Configure the operation parameters
 
   '
@@ -14,11 +24,11 @@ The following sections describe the configuration options and how to set them.
 ## Bootstrap configuration
 
 You can set your configuration options when the module is loaded.
-When the module is loaded at start time, the module configuration can be defined in the Redis configuration file. When loading the module at runtime the configuration can be given to the [`MODULE LOADEX`](/commands/module-loadex) command. Each configuration must be prefixed with the module name, `redisgears_2.<configuration name>`.
+When the module is loaded at start time, the module configuration can be defined in the Redis configuration file. When loading the module at runtime the configuration can be given to the [`MODULE LOADEX`]({{< relref "/commands/module-loadex" >}}) command. Each configuration must be prefixed with the module name, `redisgears_2.<configuration name>`.
 
 ## Runtime configuration
 
-You may set certain configuration options at runtime. Setting a configuration at runtime is done using [`CONFIG SET`](/commands/config-set) command. Here each configuration must be prefixed with the module name, `redisgears_2.<configuration name>`.
+You may set certain configuration options at runtime. Setting a configuration at runtime is done using [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command. Here each configuration must be prefixed with the module name, `redisgears_2.<configuration name>`.
 
 Example:
 
@@ -177,7 +187,7 @@ No
 ## lock-redis-timeout
 
 The `lock-redis-timeout` configuration option controls the maximum amount of time (in MS) a library can lock Redis. Exceeding this limit is considered a fatal error and will be handled based on the [library-fatal-failure-policy](#library-fatal-failure-policy) configuration value. This
-configuration only affects library loading at runtime with [`TFUNCTION LOAD`](/commands/tfunction-load).
+configuration only affects library loading at runtime with [`TFUNCTION LOAD`]({{< relref "/commands/tfunction-load" >}}).
 The timeout for loading a library from RDB is set separately via
 [db-loading-lock-redis-timeout](#db-loading-lock-redis-timeout).
 

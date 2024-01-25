@@ -20,6 +20,16 @@ arguments:
   token: COUNT
   type: integer
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N) with N being the number of elements returned. If N is constant (e.g.
@@ -50,7 +60,7 @@ syntax_fmt: "XREVRANGE key end start [COUNT\_count]"
 syntax_str: "end start [COUNT\_count]"
 title: XREVRANGE
 ---
-This command is exactly like [`XRANGE`](/commands/xrange), but with the notable difference of
+This command is exactly like [`XRANGE`]({{< relref "/commands/xrange" >}}), but with the notable difference of
 returning the entries in reverse order, and also taking the start-end
 range in reverse order: in `XREVRANGE` you need to state the *end* ID
 and later the *start* ID, and the command will produce all the element

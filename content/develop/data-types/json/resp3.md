@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: JSON RESP2 to RESP3 replies reference for client developers
 linkTitle: RESP3 migration guide
 title: Guide for migrating from RESP2 to RESP3 replies

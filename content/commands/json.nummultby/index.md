@@ -6,6 +6,16 @@ arguments:
   type: string
 - name: value
   type: double
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
 deprecated_since: '2.0'
@@ -47,7 +57,7 @@ is JSONPath to specify. Default is root `$`.
 ## Return
 
 JSON.NUMMULTBY returns a bulk string reply specified as a stringified new values for each path, or `nil` element if the matching JSON value is not a number.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -62,9 +72,9 @@ redis> JSON.NUMMULTBY doc $..a 2
 
 ## See also
 
-[`JSON.NUMINCRBY`](/commands/json.numincrby) | [`JSON.ARRINSERT`](/commands/json.arrinsert) 
+[`JSON.NUMINCRBY`]({{< baseurl >}}/commands/json.numincrby/) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

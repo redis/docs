@@ -5,6 +5,16 @@ arguments:
 - name: path
   optional: true
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) when path is evaluated to a single value where N is the size of the
   deleted value, O(N) when path is evaluated to multiple values, where N is the size
   of the key
@@ -20,4 +30,4 @@ syntax_fmt: JSON.FORGET key [path]
 syntax_str: '[path]'
 title: JSON.FORGET
 ---
-See [`JSON.DEL`](/commands/json.del).
+See [`JSON.DEL`]({{< baseurl >}}/commands/json.del/).

@@ -2,6 +2,16 @@
 arguments:
 - name: index
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns information and statistics on the index
 group: search
@@ -28,7 +38,7 @@ Return information and statistics on the index
 <details open>
 <summary><code>index</code></summary>
 
-is full-text index name. You must first create the index using [`FT.CREATE`](/commands/ft.create).
+is full-text index name. You must first create the index using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/).
 </details>
 
 ## Return
@@ -37,7 +47,7 @@ FT.INFO returns an array reply with pairs of keys and values.
 
 Returned values include:
 
-- `index_definition`: reflection of [`FT.CREATE`](/commands/ft.create) command parameters.
+- `index_definition`: reflection of [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) command parameters.
 - `fields`: index schema - field names, types, and attributes.
 - Number of documents.
 - Number of distinct terms.
@@ -158,9 +168,9 @@ Optional statistics include:
 
 ## See also
 
-[`FT.CREATE`](/commands/ft.create) | [`FT.SEARCH`](/commands/ft.search)
+[`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) | [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/)
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
 

@@ -6,6 +6,16 @@ arguments:
   type: double
 - name: high_cut_quantile
   type: double
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) where N is the number of centroids
 description: Returns an estimation of the mean value from the sketch, excluding observation
   values outside the low and high cutoff quantiles
@@ -49,7 +59,7 @@ When equal to 1: No high cut.
 
 ## Return value
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) estimation of the mean value. 'nan' if the sketch is empty.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) estimation of the mean value. 'nan' if the sketch is empty.
 
 ## Examples
 

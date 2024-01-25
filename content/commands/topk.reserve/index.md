@@ -14,6 +14,16 @@ arguments:
   name: params
   optional: true
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Initializes a TopK with specified parameters
 group: topk
@@ -41,7 +51,7 @@ Optional parameters
 
 ## Return
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly, or [] otherwise.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
 
 ## Examples
 

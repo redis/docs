@@ -1,10 +1,11 @@
 ---
 Title: Glossary
-description:
-weight: 100
-alwaysopen: false
-categories: ["Glossary"]
 aliases: /glossary/
+alwaysopen: false
+categories:
+- Glossary
+description: null
+weight: 100
 ---
 <dl class="glossary">
 

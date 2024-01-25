@@ -2,6 +2,16 @@
 arguments:
 - name: option
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Help description of runtime configuration options
 group: search
@@ -52,8 +62,8 @@ FT.CONFIG HELP returns an array reply of the configuration name and value.
 
 ## See also
 
-[`FT.CONFIG SET`](/commands/ft.config-set) | [`FT.CONFIG GET`](/commands/ft.config-get) 
+[`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) | [`FT.CONFIG GET`]({{< baseurl >}}/commands/ft.config-get/) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

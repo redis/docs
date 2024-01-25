@@ -8,6 +8,16 @@ arguments:
   name: node-id
   type: string
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - stale
@@ -25,7 +35,7 @@ syntax_str: ''
 title: CLUSTER REPLICAS
 ---
 The command provides a list of replica nodes replicating from the specified
-master node. The list is provided in the same format used by [`CLUSTER NODES`](/commands/cluster-nodes) (please refer to its documentation for the specification of the format).
+master node. The list is provided in the same format used by [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) (please refer to its documentation for the specification of the format).
 
 The command will fail if the specified node is not known or if it is not
 a master according to the node table of the node receiving the command.

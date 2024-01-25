@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/timeseries/reference/out-of-order_performance_considerations/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Out-of-order / backfilled ingestion performance considerations
 
   '

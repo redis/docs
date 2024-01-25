@@ -5,6 +5,16 @@ arguments:
 - name: path
   optional: true
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) when path is evaluated to a single value, where N is the size of
   the value, O(N) when path is evaluated to multiple values, where N is the size of
   the key
@@ -21,7 +31,7 @@ syntax_fmt: JSON.RESP key [path]
 syntax_str: '[path]'
 title: JSON.RESP
 ---
-Return the JSON in `key` in [Redis serialization protocol specification](/docs/reference/protocol-spec) form 
+Return the JSON in `key` in [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}) form 
 
 [Examples](#examples)
 
@@ -45,12 +55,12 @@ is JSONPath to specify. Default is root `$`. This command uses the following map
 *   JSON array is represented as an array reply in which the first element is the simple string reply `[`, followed by the array's elements.
 *   JSON object is represented as an array reply in which the first element is the simple string reply `{`. Each successive entry represents a key-value pair as a two-entry array reply of the bulk string reply.
 
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 </details>
 
 ## Return
 
-JSON.RESP returns an array reply specified as the JSON's RESP form detailed in [Redis serialization protocol specification](/docs/reference/protocol-spec).
+JSON.RESP returns an array reply specified as the JSON's RESP form detailed in [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -97,9 +107,9 @@ redis> JSON.RESP item:2
 
 ## See also
 
-[`JSON.SET`](/commands/json.set) | [`JSON.ARRLEN`](/commands/json.arrlen) 
+[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.ARRLEN`]({{< baseurl >}}/commands/json.arrlen/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

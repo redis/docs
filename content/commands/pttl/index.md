@@ -9,6 +9,16 @@ arguments:
   name: key
   type: key
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 - fast
@@ -41,8 +51,8 @@ syntax_fmt: PTTL key
 syntax_str: ''
 title: PTTL
 ---
-Like [`TTL`](/commands/ttl) this command returns the remaining time to live of a key that has an
-expire set, with the sole difference that [`TTL`](/commands/ttl) returns the amount of remaining
+Like [`TTL`]({{< relref "/commands/ttl" >}}) this command returns the remaining time to live of a key that has an
+expire set, with the sole difference that [`TTL`]({{< relref "/commands/ttl" >}}) returns the amount of remaining
 time in seconds while `PTTL` returns it in milliseconds.
 
 In Redis 2.6 or older the command returns `-1` if the key does not exist or if the key exist but has no associated expire.

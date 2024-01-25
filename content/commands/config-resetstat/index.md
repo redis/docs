@@ -4,6 +4,16 @@ acl_categories:
 - '@slow'
 - '@dangerous'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -23,7 +33,7 @@ syntax_fmt: CONFIG RESETSTAT
 syntax_str: ''
 title: CONFIG RESETSTAT
 ---
-Resets the statistics reported by Redis using the [`INFO`](/commands/info) and [`LATENCY HISTOGRAM`](/commands/latency-histogram) commands.
+Resets the statistics reported by Redis using the [`INFO`]({{< relref "/commands/info" >}}) and [`LATENCY HISTOGRAM`]({{< relref "/commands/latency-histogram" >}}) commands.
 
 The following is a non-exhaustive list of values that are reset:
 

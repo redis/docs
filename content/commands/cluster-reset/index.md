@@ -17,6 +17,16 @@ arguments:
   optional: true
   type: oneof
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -36,7 +46,7 @@ title: CLUSTER RESET
 Reset a Redis Cluster node, in a more or less drastic way depending on the
 reset type, that can be **hard** or **soft**. Note that this command
 **does not work for masters if they hold one or more keys**, in that case
-to completely reset a master node keys must be removed first, e.g. by using [`FLUSHALL`](/commands/flushall) first,
+to completely reset a master node keys must be removed first, e.g. by using [`FLUSHALL`]({{< relref "/commands/flushall" >}}) first,
 and then `CLUSTER RESET`.
 
 Effects on the node:

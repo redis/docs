@@ -22,6 +22,16 @@ arguments:
   optional: true
   type: block
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(1)
@@ -60,7 +70,7 @@ This command returns information about the stream stored at `<key>`.
 
 The informative details provided by this command are:
 
-* **length**: the number of entries in the stream (see [`XLEN`](/commands/xlen))
+* **length**: the number of entries in the stream (see [`XLEN`]({{< relref "/commands/xlen" >}}))
 * **radix-tree-keys**: the number of keys in the underlying radix data structure
 * **radix-tree-nodes**: the number of nodes in the underlying radix data structure
 * **groups**: the number of consumer groups defined for the stream
@@ -72,7 +82,7 @@ The informative details provided by this command are:
 
 The optional `FULL` modifier provides a more verbose reply.
 When provided, the `FULL` reply includes an **entries** array that consists of the stream entries (ID and field-value tuples) in ascending order.
-Furthermore, **groups** is also an array, and for each of the consumer groups it consists of the information reported by [`XINFO GROUPS`](/commands/xinfo-groups) and [`XINFO CONSUMERS`](/commands/xinfo-consumers).
+Furthermore, **groups** is also an array, and for each of the consumer groups it consists of the information reported by [`XINFO GROUPS`]({{< relref "/commands/xinfo-groups" >}}) and [`XINFO CONSUMERS`]({{< relref "/commands/xinfo-consumers" >}}).
 
 The `COUNT` option can be used to limit the number of stream and PEL entries that are returned (The first `<count>` entries are returned).
 The default `COUNT` is 10 and a `COUNT` of 0 means that all entries will be returned (execution time may be long if the stream has a lot of entries).

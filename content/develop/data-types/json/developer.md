@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/json/developer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Notes on debugging, testing and documentation
 
   '
@@ -157,7 +165,7 @@ $ REDIS_PORT=6379 make test
 ```
 
 ## Debugging
-To include debugging information, you need to set the [`DEBUG`](/commands/debug) environment variable before you compile RedisJSON. For example, run `export DEBUG=1`.
+To include debugging information, you need to set the [`DEBUG`]({{< relref "/commands/debug" >}}) environment variable before you compile RedisJSON. For example, run `export DEBUG=1`.
 
 You can add breakpoints to Python tests in single-test mode. To set a breakpoint, call the ```BB()``` function inside a test.
 

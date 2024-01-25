@@ -1,8 +1,14 @@
 ---
-aliases:
-- /docs/stack/get-started/tutorials/stack-node/
-- /docs/clients/stack-node/
-- /docs/clients/om-clients/stack-node/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Learn how to build with Redis Stack and Node.js
 linkTitle: OM for Node.js
 stack: true
@@ -752,7 +758,7 @@ app.use('/persons', searchRouter)
 
 And that's that. But this just isn't enough to satisfy. It doesn't show you anything new, except maybe the usage of a `date` field. And, it's not really location *tracking*. It just shows where these people last were, no history. So let's add some!.
 
-To add some history, we're going to use a [Redis Stream](https://redis.io/topics/streams-intro). Streams are a big topic but don't worry if you’re not familiar with them, you can think of them as being sort of like a log file stored in a Redis key where each entry represents an event. In our case, the event would be the person moving about or checking in or whatever.
+To add some history, we're going to use a [Redis Stream](/topics/streams-intro). Streams are a big topic but don't worry if you’re not familiar with them, you can think of them as being sort of like a log file stored in a Redis key where each entry represents an event. In our case, the event would be the person moving about or checking in or whatever.
 
 But there's a problem. Redis OM doesn’t support Streams even though Redis Stack does. So how do we take advantage of them in our application? By using [Node Redis](https://github.com/redis/node-redis). Node Redis is a low-level Redis client for Node.js that gives you access to all the Redis commands and data types. Internally, Redis OM is creating and using a Node Redis connection. You can use that connection too. Or rather, Redis OM can be *told* to use the connection you are using. Let me show you how.
 
@@ -789,7 +795,7 @@ And that's it. Redis OM is now using the `connection` you created. Note that we 
 
 ## Storing location history with Streams
 
-To add an event to a Stream we need to use the [XADD](https://redis.io/commands/xadd) command. Node Redis exposes that as `.xAdd()`. So, we need to add a call to `.xAdd()` in our route. Modify `location-router.js` to import our `connection`:
+To add an event to a Stream we need to use the [XADD]({{< relref "/commands/xadd" >}}) command. Node Redis exposes that as `.xAdd()`. So, we need to add a call to `.xAdd()` in our route. Modify `location-router.js` to import our `connection`:
 
 {{< highlight javascript >}}
 import { connection } from '../om/client.js'

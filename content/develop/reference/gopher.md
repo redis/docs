@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/gopher
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: The Redis Gopher protocol implementation
 linkTitle: Gopher protocol
 title: Redis and the Gopher protocol

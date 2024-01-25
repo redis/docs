@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/key-specs
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: What are command key specification and how to use them in your client
 linkTitle: Command key specifications
 title: Command key specifications
@@ -8,20 +16,20 @@ weight: 3
 ---
 
 Many of the commands in Redis accept key names as input arguments.
-The 9th element in the reply of [`COMMAND`](/commands/command) (and [`COMMAND INFO`](/commands/command-info)) is an array that consists of the command's key specifications.
+The 9th element in the reply of [`COMMAND`]({{< relref "/commands/command" >}}) (and [`COMMAND INFO`]({{< relref "/commands/command-info" >}})) is an array that consists of the command's key specifications.
 
 A _key specification_ describes a rule for extracting the names of one or more keys from the arguments of a given command.
 Key specifications provide a robust and flexible mechanism, compared to the _first key_, _last key_ and _step_ scheme employed until Redis 7.0.
 Before introducing these specifications, Redis clients had no trivial programmatic means to extract key names for all commands.
 
-Cluster-aware Redis clients had to have the keys' extraction logic hard-coded in the cases of commands such as [`EVAL`](/commands/eval) and [`ZUNIONSTORE`](/commands/zunionstore) that rely on a _numkeys_ argument or [`SORT`](/commands/sort) and its many clauses.
-Alternatively, the [`COMMAND GETKEYS`](/commands/command-getkeys) can be used to achieve a similar extraction effect but at a higher latency.
+Cluster-aware Redis clients had to have the keys' extraction logic hard-coded in the cases of commands such as [`EVAL`]({{< relref "/commands/eval" >}}) and [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}) that rely on a _numkeys_ argument or [`SORT`]({{< relref "/commands/sort" >}}) and its many clauses.
+Alternatively, the [`COMMAND GETKEYS`]({{< relref "/commands/command-getkeys" >}}) can be used to achieve a similar extraction effect but at a higher latency.
 
 A Redis client isn't obligated to support key specifications.
-It can continue using the legacy _first key_, _last key_ and _step_ scheme along with the [_movablekeys_ flag](/commands/command#flags) that remain unchanged.
+It can continue using the legacy _first key_, _last key_ and _step_ scheme along with the [_movablekeys_ flag]({{< relref "/commands/command#flags" >}}) that remain unchanged.
 
 However, a Redis client that implements key specifications support can consolidate most of its keys' extraction logic.
-Even if the client encounters an unfamiliar type of key specification, it can always revert to the [`COMMAND GETKEYS`](/commands/command-getkeys) command.
+Even if the client encounters an unfamiliar type of key specification, it can always revert to the [`COMMAND GETKEYS`]({{< relref "/commands/command-getkeys" >}}) command.
 
 That said, most cluster-aware clients only require a single key name to perform correct command routing, so it is possible that although a command features one unfamiliar specification, its other specification may still be usable by the client.
 
@@ -61,9 +69,9 @@ It is a map under the _spec_ with two keys:
 
 More examples of the _keyword_ search type include:
 
-* [`SET`](/commands/set) has a `begin_search` specification of type _index_ with a value of _1_.
-* [`XREAD`](/commands/xread) has a `begin_search` specification of type _keyword_ with the values _"STREAMS"_ and _1_ as _keyword_ and _startfrom_, respectively.
-* [`MIGRATE`](/commands/migrate) has a _start_search_ specification of type _keyword_ with the values of _"KEYS"_ and _-2_.
+* [`SET`]({{< relref "/commands/set" >}}) has a `begin_search` specification of type _index_ with a value of _1_.
+* [`XREAD`]({{< relref "/commands/xread" >}}) has a `begin_search` specification of type _keyword_ with the values _"STREAMS"_ and _1_ as _keyword_ and _startfrom_, respectively.
+* [`MIGRATE`]({{< relref "/commands/migrate" >}}) has a _start_search_ specification of type _keyword_ with the values of _"KEYS"_ and _-2_.
 
 ## find_keys
 
@@ -97,10 +105,10 @@ The _keynum_ type of `find_keys` is a map under the _spec_ key with three keys:
 
 Examples:
 
-* The [`SET`](/commands/set) command has a _range_ of _0_, _1_ and _0_.
-* The [`MSET`](/commands/mset) command has a _range_ of _-1_, _2_ and _0_.
-* The [`XREAD`](/commands/xread) command has a _range_ of _-1_, _1_ and _2_.
-* The [`ZUNION`](/commands/zunion) command has a _start_search_ type _index_ with the value _1_, and `find_keys` of type _keynum_ with values of _0_, _1_ and _1_.
+* The [`SET`]({{< relref "/commands/set" >}}) command has a _range_ of _0_, _1_ and _0_.
+* The [`MSET`]({{< relref "/commands/mset" >}}) command has a _range_ of _-1_, _2_ and _0_.
+* The [`XREAD`]({{< relref "/commands/xread" >}}) command has a _range_ of _-1_, _1_ and _2_.
+* The [`ZUNION`]({{< relref "/commands/zunion" >}}) command has a _start_search_ type _index_ with the value _1_, and `find_keys` of type _keynum_ with values of _0_, _1_ and _1_.
 * The [`AI.DAGRUN`](https://oss.redislabs.com/redisai/master/commands/#aidagrun) command has a _start_search_ of type _keyword_ with values of _"LOAD"_ and _1_, and `find_keys` of type _keynum_ with values of _0_, _1_ and _1_.
 
 **Note:**
@@ -169,35 +177,35 @@ Key specifications may have the following flags:
 ### incomplete
 
 Some commands feature exotic approaches when it comes to specifying their keys, which makes extraction difficult.
-Consider, for example, what would happen with a call to [`MIGRATE`](/commands/migrate) that includes the literal string _"KEYS"_ as an argument to its _AUTH_ clause.
+Consider, for example, what would happen with a call to [`MIGRATE`]({{< relref "/commands/migrate" >}}) that includes the literal string _"KEYS"_ as an argument to its _AUTH_ clause.
 Our key specifications would miss the mark, and extraction would begin at the wrong index.
 
 Thus, we recognize that key specifications are incomplete and may fail to extract all keys.
 However, we assure that even incomplete specifications never yield the wrong names of keys, providing that the command is syntactically correct.
 
-In the case of [`MIGRATE`](/commands/migrate), the search begins at the end (_startfrom_ has the value of _-1_).
+In the case of [`MIGRATE`]({{< relref "/commands/migrate" >}}), the search begins at the end (_startfrom_ has the value of _-1_).
 If and when we encounter a key named _"KEYS"_, we'll only extract the subset of the key name arguments after it.
-That's why [`MIGRATE`](/commands/migrate) has the _incomplete_ flag in its key specification.
+That's why [`MIGRATE`]({{< relref "/commands/migrate" >}}) has the _incomplete_ flag in its key specification.
 
-Another case of incompleteness is the [`SORT`](/commands/sort) command.
+Another case of incompleteness is the [`SORT`]({{< relref "/commands/sort" >}}) command.
 Here, the `begin_search` and `find_keys` are of type _unknown_.
-The client should revert to calling the [`COMMAND GETKEYS`](/commands/command-getkeys) command to extract key names from the arguments, short of implementing it natively.
-The difficulty arises, for example, because the string _"STORE"_ is both a keyword (token) and a valid literal argument for [`SORT`](/commands/sort).
+The client should revert to calling the [`COMMAND GETKEYS`]({{< relref "/commands/command-getkeys" >}}) command to extract key names from the arguments, short of implementing it natively.
+The difficulty arises, for example, because the string _"STORE"_ is both a keyword (token) and a valid literal argument for [`SORT`]({{< relref "/commands/sort" >}}).
 
 **Note:**
-the only commands with _incomplete_ key specifications are [`SORT`](/commands/sort) and [`MIGRATE`](/commands/migrate).
+the only commands with _incomplete_ key specifications are [`SORT`]({{< relref "/commands/sort" >}}) and [`MIGRATE`]({{< relref "/commands/migrate" >}}).
 We don't expect the addition of such commands in the future.
 
 ### variable_flags
 
 In some commands, the flags for the same key name argument can depend on other arguments.
-For example, consider the [`SET`](/commands/set) command and its optional  _GET_ argument.
-Without the _GET_ argument, [`SET`](/commands/set) is write-only, but it becomes a read and write command with it.
+For example, consider the [`SET`]({{< relref "/commands/set" >}}) command and its optional  _GET_ argument.
+Without the _GET_ argument, [`SET`]({{< relref "/commands/set" >}}) is write-only, but it becomes a read and write command with it.
 When this flag is present, it means that the key specification flags cover all possible options, but the effective flags depend on other arguments.
 
 ## Examples
 
-### [`SET`](/commands/set)'s key specifications
+### [`SET`]({{< relref "/commands/set" >}})'s key specifications
 
 ```
   1) 1) "flags"
@@ -222,7 +230,7 @@ When this flag is present, it means that the key specification flags cover all p
            6) (integer) 0
 ```
 
-### [`ZUNION`](/commands/zunion)'s key specifications
+### [`ZUNION`]({{< relref "/commands/zunion" >}})'s key specifications
 
 ```
   1) 1) "flags"

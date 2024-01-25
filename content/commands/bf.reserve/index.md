@@ -14,6 +14,16 @@ arguments:
   optional: true
   token: NONSCALING
   type: pure-token
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Creates a new Bloom Filter
 group: bf
@@ -23,7 +33,7 @@ module: Bloom
 since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Creates a new Bloom Filter
-syntax_fmt: "BF.RESERVE key error_rate capacity [EXPANSION\_expansion]\n  [NONSCALING]"
+syntax_fmt: "BF.RESERVE key error_rate capacity [EXPANSION\_expansion] [NONSCALING]"
 syntax_str: "error_rate capacity [EXPANSION\_expansion] [NONSCALING]"
 title: BF.RESERVE
 ---
@@ -84,7 +94,7 @@ Otherwise, you use an `expansion` of `1` to reduce memory consumption. The defau
 
 Returns one of these replies:
 
-- [Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if filter created successfully
+- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if filter created successfully
 - [] on error (invalid arguments, key already exists, etc.)
 
 ## Examples

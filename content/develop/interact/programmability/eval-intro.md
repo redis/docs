@@ -1,7 +1,14 @@
 ---
-aliases:
-- /topics/eval-intro
-- /docs/manual/programmability/eval-intro/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Executing Lua in Redis
 
   '
@@ -11,7 +18,7 @@ weight: 2
 ---
 
 Redis lets users upload and execute Lua scripts on the server.
-Scripts can employ programmatic control structures and use most of the [commands](/commands) while executing to access the database.
+Scripts can employ programmatic control structures and use most of the [commands]({{< relref "/commands" >}}) while executing to access the database.
 Because scripts execute in the server, reading and writing data from scripts is very efficient.
 
 Redis guarantees the script's atomic execution.
@@ -38,7 +45,7 @@ As of version 7.0, [Redis Functions](/topics/functions-intro) offer an alternati
 
 ## Getting started
 
-We'll start scripting with Redis by using the [`EVAL`](/commands/eval) command.
+We'll start scripting with Redis by using the [`EVAL`]({{< relref "/commands/eval" >}}) command.
 
 Here's our first example:
 
@@ -47,7 +54,7 @@ Here's our first example:
 "Hello, scripting!"
 ```
 
-In this example, [`EVAL`](/commands/eval) takes two arguments.
+In this example, [`EVAL`]({{< relref "/commands/eval" >}}) takes two arguments.
 The first argument is a string that consists of the script's Lua source code.
 The script doesn't need to include any definitions of Lua function.
 It is just a Lua program that will run in the Redis engine's context.
@@ -129,26 +136,26 @@ For example, consider the following:
 OK
 ```
 The above script accepts one key name and one value as its input arguments.
-When executed, the script calls the [`SET`](/commands/set) command to set the input key, _foo_, with the string value "bar".
+When executed, the script calls the [`SET`]({{< relref "/commands/set" >}}) command to set the input key, _foo_, with the string value "bar".
 
 ## Script cache
 
-Until this point, we've used the [`EVAL`](/commands/eval) command to run our script.
+Until this point, we've used the [`EVAL`]({{< relref "/commands/eval" >}}) command to run our script.
 
-Whenever we call [`EVAL`](/commands/eval), we also include the script's source code with the request.
-Repeatedly calling [`EVAL`](/commands/eval) to execute the same set of parameterized scripts, wastes both network bandwidth and also has some overheads in Redis.
+Whenever we call [`EVAL`]({{< relref "/commands/eval" >}}), we also include the script's source code with the request.
+Repeatedly calling [`EVAL`]({{< relref "/commands/eval" >}}) to execute the same set of parameterized scripts, wastes both network bandwidth and also has some overheads in Redis.
 Naturally, saving on network and compute resources is key, so, instead, Redis provides a caching mechanism for scripts.
 
-Every script you execute with [`EVAL`](/commands/eval) is stored in a dedicated cache that the server keeps.
+Every script you execute with [`EVAL`]({{< relref "/commands/eval" >}}) is stored in a dedicated cache that the server keeps.
 The cache's contents are organized by the scripts' SHA1 digest sums, so the SHA1 digest sum of a script uniquely identifies it in the cache.
-You can verify this behavior by running [`EVAL`](/commands/eval) and calling [`INFO`](/commands/info) afterward.
+You can verify this behavior by running [`EVAL`]({{< relref "/commands/eval" >}}) and calling [`INFO`]({{< relref "/commands/info" >}}) afterward.
 You'll notice that the _used_memory_scripts_eval_ and _number_of_cached_scripts_ metrics grow with every new script that's executed.
 
 As mentioned above, dynamically-generated scripts are an anti-pattern.
 Generating scripts during the application's runtime may, and probably will, exhaust the host's memory resources for caching them.
 Instead, scripts should be as generic as possible and provide customized execution via their arguments.
 
-A script is loaded to the server's cache by calling the [`SCRIPT LOAD`](/commands/script-load) command and providing its source code.
+A script is loaded to the server's cache by calling the [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}}) command and providing its source code.
 The server doesn't execute the script, but instead just compiles and loads it to the server's cache.
 Once loaded, you can execute the cached script with the SHA1 digest returned from the server.
 
@@ -165,10 +172,10 @@ redis> EVALSHA c664a3bf70bd1d45c4284ffebb65a6f2299bfc9f 0
 
 The Redis script cache is **always volatile**.
 It isn't considered as a part of the database and is **not persisted**.
-The cache may be cleared when the server restarts, during fail-over when a replica assumes the master role, or explicitly by [`SCRIPT FLUSH`](/commands/script-flush).
+The cache may be cleared when the server restarts, during fail-over when a replica assumes the master role, or explicitly by [`SCRIPT FLUSH`]({{< relref "/commands/script-flush" >}}).
 That means that cached scripts are ephemeral, and the cache's contents can be lost at any time.
 
-Applications that use scripts should always call [`EVALSHA`](/commands/evalsha) to execute them.
+Applications that use scripts should always call [`EVALSHA`]({{< relref "/commands/evalsha" >}}) to execute them.
 The server returns an error if the script's SHA1 digest is not in the cache.
 For example:
 
@@ -177,17 +184,17 @@ redis> EVALSHA ffffffffffffffffffffffffffffffffffffffff 0
 (error) NOSCRIPT No matching script
 ```
 
-In this case, the application should first load it with [`SCRIPT LOAD`](/commands/script-load) and then call [`EVALSHA`](/commands/evalsha) once more to run the cached script by its SHA1 sum.
+In this case, the application should first load it with [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}}) and then call [`EVALSHA`]({{< relref "/commands/evalsha" >}}) once more to run the cached script by its SHA1 sum.
 Most of [Redis' clients](/clients) already provide utility APIs for doing that automatically.
 Please consult your client's documentation regarding the specific details.
 
 ### `EVALSHA` in the context of pipelining
 
-Special care should be given executing [`EVALSHA`](/commands/evalsha) in the context of a [pipelined request](/topics/pipelining).
+Special care should be given executing [`EVALSHA`]({{< relref "/commands/evalsha" >}}) in the context of a [pipelined request](/topics/pipelining).
 The commands in a pipelined request run in the order they are sent, but other clients' commands may be interleaved for execution between these.
 Because of that, the `NOSCRIPT` error can return from a pipelined request but can't be handled.
 
-Therefore, a client library's implementation should revert to using plain [`EVAL`](/commands/eval) of parameterized in the context of a pipeline.
+Therefore, a client library's implementation should revert to using plain [`EVAL`]({{< relref "/commands/eval" >}}) of parameterized in the context of a pipeline.
 
 ### Script cache semantics
 
@@ -195,7 +202,7 @@ During normal operation, an application's scripts are meant to stay indefinitely
 The underlying reasoning is that the script cache contents of a well-written application are unlikely to grow continuously.
 Even large applications that use hundreds of cached scripts shouldn't be an issue in terms of cache memory usage. 
 
-The only way to flush the script cache is by explicitly calling the [`SCRIPT FLUSH`](/commands/script-flush) command.
+The only way to flush the script cache is by explicitly calling the [`SCRIPT FLUSH`]({{< relref "/commands/script-flush" >}}) command.
 Running the command will _completely flush_ the scripts cache, removing all the scripts executed so far.
 Typically, this is only needed when the instance is going to be instantiated for another customer or application in a cloud environment.
 
@@ -203,31 +210,31 @@ Also, as already mentioned, restarting a Redis instance flushes the non-persiste
 However, from the point of view of the Redis client, there are only two ways to make sure that a Redis instance was not restarted between two different commands:
 
 * The connection we have with the server is persistent and was never closed so far.
-* The client explicitly checks the `run_id` field in the [`INFO`](/commands/info) command to ensure the server was not restarted and is still the same process.
+* The client explicitly checks the `run_id` field in the [`INFO`]({{< relref "/commands/info" >}}) command to ensure the server was not restarted and is still the same process.
 
-Practically speaking, it is much simpler for the client to assume that in the context of a given connection, cached scripts are guaranteed to be there unless the administrator explicitly invoked the [`SCRIPT FLUSH`](/commands/script-flush) command.
+Practically speaking, it is much simpler for the client to assume that in the context of a given connection, cached scripts are guaranteed to be there unless the administrator explicitly invoked the [`SCRIPT FLUSH`]({{< relref "/commands/script-flush" >}}) command.
 The fact that the user can count on Redis to retain cached scripts is semantically helpful in the context of pipelining.
 
 ## The `SCRIPT` command
 
-The Redis [`SCRIPT`](/commands/script) provides several ways for controlling the scripting subsystem.
+The Redis [`SCRIPT`]({{< relref "/commands/script" >}}) provides several ways for controlling the scripting subsystem.
 These are:
 
-* [`SCRIPT FLUSH`](/commands/script-flush): this command is the only way to force Redis to flush the scripts cache.
+* [`SCRIPT FLUSH`]({{< relref "/commands/script-flush" >}}): this command is the only way to force Redis to flush the scripts cache.
   It is most useful in environments where the same Redis instance is reassigned to different uses.
   It is also helpful for testing client libraries' implementations of the scripting feature.
 
-* [`SCRIPT EXISTS`](/commands/script-exists): given one or more SHA1 digests as arguments, this command returns an array of _1_'s and _0_'s.
-  _1_ means the specific SHA1 is recognized as a script already present in the scripting cache. _0_'s meaning is that a script with this SHA1 wasn't loaded before (or at least never since the latest call to [`SCRIPT FLUSH`](/commands/script-flush)).
+* [`SCRIPT EXISTS`]({{< relref "/commands/script-exists" >}}): given one or more SHA1 digests as arguments, this command returns an array of _1_'s and _0_'s.
+  _1_ means the specific SHA1 is recognized as a script already present in the scripting cache. _0_'s meaning is that a script with this SHA1 wasn't loaded before (or at least never since the latest call to [`SCRIPT FLUSH`]({{< relref "/commands/script-flush" >}})).
 
 * `SCRIPT LOAD script`: this command registers the specified script in the Redis script cache. 
-  It is a useful command in all the contexts where we want to ensure that [`EVALSHA`](/commands/evalsha) doesn't not fail (for instance, in a pipeline or when called from a [[`MULTI`](/commands/multi)/[`EXEC`](/commands/exec) transaction](/topics/transactions)), without the need to execute the script.
+  It is a useful command in all the contexts where we want to ensure that [`EVALSHA`]({{< relref "/commands/evalsha" >}}) doesn't not fail (for instance, in a pipeline or when called from a [[`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) transaction](/topics/transactions)), without the need to execute the script.
 
-* [`SCRIPT KILL`](/commands/script-kill): this command is the only way to interrupt a long-running script (a.k.a slow script), short of shutting down the server.
+* [`SCRIPT KILL`]({{< relref "/commands/script-kill" >}}): this command is the only way to interrupt a long-running script (a.k.a slow script), short of shutting down the server.
   A script is deemed as slow once its execution's duration exceeds the configured [maximum execution time](/topics/programmability#maximum-execution-time) threshold.
-  The [`SCRIPT KILL`](/commands/script-kill) command can be used only with scripts that did not modify the dataset during their execution (since stopping a read-only script does not violate the scripting engine's guaranteed atomicity).
+  The [`SCRIPT KILL`]({{< relref "/commands/script-kill" >}}) command can be used only with scripts that did not modify the dataset during their execution (since stopping a read-only script does not violate the scripting engine's guaranteed atomicity).
 
-* [`SCRIPT DEBUG`](/commands/script-debug): controls use of the built-in [Redis Lua scripts debugger](/topics/ldb).
+* [`SCRIPT DEBUG`]({{< relref "/commands/script-debug" >}}): controls use of the built-in [Redis Lua scripts debugger](/topics/ldb).
 
 ## Script replication
 
@@ -263,14 +270,14 @@ We call this **script effects replication**.
 starting with Redis 5.0, script effects replication is the default mode and does not need to be explicitly enabled.
 
 In this replication mode, while Lua scripts are executed, Redis collects all the commands executed by the Lua scripting engine that actually modify the dataset.
-When the script execution finishes, the sequence of commands that the script generated are wrapped into a [[`MULTI`](/commands/multi)/[`EXEC`](/commands/exec) transaction](/topics/transactions) and are sent to the replicas and AOF.
+When the script execution finishes, the sequence of commands that the script generated are wrapped into a [[`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) transaction](/topics/transactions) and are sent to the replicas and AOF.
 
 This is useful in several ways depending on the use case:
 
 * When the script is slow to compute, but the effects can be summarized by a few write commands, it is a shame to re-compute the script on the replicas or when reloading the AOF.
   In this case, it is much better to replicate just the effects of the script.
 * When script effects replication is enabled, the restrictions on non-deterministic functions are removed.
-  You can, for example, use the [`TIME`](/commands/time) or [`SRANDMEMBER`](/commands/srandmember) commands inside your scripts freely at any place.
+  You can, for example, use the [`TIME`]({{< relref "/commands/time" >}}) or [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}) commands inside your scripts freely at any place.
 * The Lua PRNG in this mode is seeded randomly on every call.
 
 Unless already enabled by the server's configuration or defaults (before Redis 7.0), you need to issue the following Lua command before the script performs a write:
@@ -310,15 +317,15 @@ the script **always must** execute the same Redis _write_ commands with the same
 Operations performed by the script can't depend on any hidden (non-explicit) information or state that may change as the script execution proceeds or between different executions of the script.
 Nor can it depend on any external input from I/O devices.
 
-Acts such as using the system time, calling Redis commands that return random values (e.g., [`RANDOMKEY`](/commands/randomkey)), or using Lua's random number generator, could result in scripts that will not evaluate consistently.
+Acts such as using the system time, calling Redis commands that return random values (e.g., [`RANDOMKEY`]({{< relref "/commands/randomkey" >}})), or using Lua's random number generator, could result in scripts that will not evaluate consistently.
 
 To enforce the deterministic behavior of scripts, Redis does the following:
 
 * Lua does not export commands to access the system time or other external states.
-* Redis will block the script with an error if a script calls a Redis command able to alter the data set **after** a Redis _random_ command like [`RANDOMKEY`](/commands/randomkey), [`SRANDMEMBER`](/commands/srandmember), [`TIME`](/commands/time).
+* Redis will block the script with an error if a script calls a Redis command able to alter the data set **after** a Redis _random_ command like [`RANDOMKEY`]({{< relref "/commands/randomkey" >}}), [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}), [`TIME`]({{< relref "/commands/time" >}}).
   That means that read-only scripts that don't modify the dataset can call those commands.
-  Note that a _random command_ does not necessarily mean a command that uses random numbers: any non-deterministic command is considered as a random command (the best example in this regard is the [`TIME`](/commands/time) command).
-* In Redis version 4.0, commands that may return elements in random order, such as [`SMEMBERS`](/commands/smembers) (because Redis Sets are _unordered_), exhibit a different behavior when called from Lua,
+  Note that a _random command_ does not necessarily mean a command that uses random numbers: any non-deterministic command is considered as a random command (the best example in this regard is the [`TIME`]({{< relref "/commands/time" >}}) command).
+* In Redis version 4.0, commands that may return elements in random order, such as [`SMEMBERS`]({{< relref "/commands/smembers" >}}) (because Redis Sets are _unordered_), exhibit a different behavior when called from Lua,
 and undergo a silent lexicographical sorting filter before returning data to Lua scripts.
   So `redis.call("SMEMBERS",KEYS[1])` will always return the Set elements in the same order, while the same command invoked by normal clients may return different results even if the key contains exactly the same elements.
   However, starting with Redis 5.0, this ordering is no longer performed because replicating effects circumvents this type of non-determinism.
@@ -408,7 +415,7 @@ The Lua debugger is described in the [Lua scripts debugging](/topics/ldb) sectio
 
 When memory usage in Redis exceeds the `maxmemory` limit, the first write command encountered in the script that uses additional memory will cause the script to abort (unless [`redis.pcall`](/topics/lua-api#redis.pcall) was used).
 
-However, an exception to the above is when the script's first write command does not use additional memory, as is the case with  (for example, [`DEL`](/commands/del) and [`LREM`](/commands/lrem)).
+However, an exception to the above is when the script's first write command does not use additional memory, as is the case with  (for example, [`DEL`]({{< relref "/commands/del" >}}) and [`LREM`]({{< relref "/commands/lrem" >}})).
 In this case, Redis will allow all commands in the script to run to ensure atomicity.
 If subsequent writes in the script consume additional memory, Redis' memory usage can exceed the threshold set by the `maxmemory` configuration directive.
 

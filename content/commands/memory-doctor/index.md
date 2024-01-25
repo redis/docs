@@ -2,6 +2,16 @@
 acl_categories:
 - '@slow'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Outputs a memory problems report.
 group: server

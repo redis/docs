@@ -12,6 +12,16 @@ arguments:
   optional: true
   type: string
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - loading
 - stale
@@ -26,14 +36,14 @@ syntax_fmt: COMMAND GETKEYS command [arg [arg ...]]
 syntax_str: '[arg [arg ...]]'
 title: COMMAND GETKEYS
 ---
-Returns [Array reply](/docs/reference/protocol-spec#arrays) of keys from a full Redis command.
+Returns [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of keys from a full Redis command.
 
 `COMMAND GETKEYS` is a helper command to let you find the keys
 from a full Redis command.
 
-[`COMMAND`](/commands/command) provides information on how to find the key names of each command (see `firstkey`, [key specifications](/topics/key-specs#logical-operation-flags), and `movablekeys`),
+[`COMMAND`]({{< relref "/commands/command" >}}) provides information on how to find the key names of each command (see `firstkey`, [key specifications](/topics/key-specs#logical-operation-flags), and `movablekeys`),
 but in some cases it's not possible to find keys of certain commands and then the entire command must be parsed to discover some / all key names.
-You can use `COMMAND GETKEYS` or [`COMMAND GETKEYSANDFLAGS`](/commands/command-getkeysandflags) to discover key names directly from how Redis parses the commands.
+You can use `COMMAND GETKEYS` or [`COMMAND GETKEYSANDFLAGS`]({{< relref "/commands/command-getkeysandflags" >}}) to discover key names directly from how Redis parses the commands.
 
 ## Examples
 

@@ -8,6 +8,16 @@ arguments:
   name: sha1
   type: string
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 complexity: O(N) with N being the number of scripts to check (so checking a single
@@ -31,8 +41,8 @@ This command accepts one or more SHA1 digests and returns a list of ones or
 zeros to signal if the scripts are already defined or not inside the script
 cache.
 This can be useful before a pipelining operation to ensure that scripts are
-loaded (and if not, to load them using [`SCRIPT LOAD`](/commands/script-load)) so that the pipelining
-operation can be performed solely using [`EVALSHA`](/commands/evalsha) instead of [`EVAL`](/commands/eval) to save
+loaded (and if not, to load them using [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}})) so that the pipelining
+operation can be performed solely using [`EVALSHA`]({{< relref "/commands/evalsha" >}}) instead of [`EVAL`]({{< relref "/commands/eval" >}}) to save
 bandwidth.
 
-For more information about [`EVAL`](/commands/eval) scripts please refer to [Introduction to Eval Scripts](/topics/eval-intro).
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts](/topics/eval-intro).

@@ -18,6 +18,16 @@ arguments:
   token: WITHSCORES
   type: pure-token
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 - movablekeys
@@ -47,7 +57,7 @@ syntax_fmt: ZDIFF numkeys key [key ...] [WITHSCORES]
 syntax_str: key [key ...] [WITHSCORES]
 title: ZDIFF
 ---
-This command is similar to [`ZDIFFSTORE`](/commands/zdiffstore), but instead of storing the resulting
+This command is similar to [`ZDIFFSTORE`]({{< relref "/commands/zdiffstore" >}}), but instead of storing the resulting
 sorted set, it is returned to the client.
 
 ## Examples

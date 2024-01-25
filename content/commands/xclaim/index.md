@@ -52,6 +52,16 @@ arguments:
   token: LASTID
   type: string
 arity: -6
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - fast
@@ -80,8 +90,8 @@ linkTitle: XCLAIM
 since: 5.0.0
 summary: Changes, or acquires, ownership of a message in a consumer group, as if the
   message was delivered a consumer group member.
-syntax_fmt: "XCLAIM key group consumer min-idle-time id [id ...] [IDLE\_ms]\n  [TIME\_\
-  unix-time-milliseconds] [RETRYCOUNT\_count] [FORCE] [JUSTID]\n  [LASTID\_lastid]"
+syntax_fmt: "XCLAIM key group consumer min-idle-time id [id ...] [IDLE\_ms] [TIME\_\
+  unix-time-milliseconds] [RETRYCOUNT\_count] [FORCE] [JUSTID] [LASTID\_lastid]"
 syntax_str: "group consumer min-idle-time id [id ...] [IDLE\_ms] [TIME\_unix-time-milliseconds]\
   \ [RETRYCOUNT\_count] [FORCE] [JUSTID] [LASTID\_lastid]"
 title: XCLAIM
@@ -91,10 +101,10 @@ of a pending message, so that the new owner is the consumer specified as the
 command argument. Normally this is what happens:
 
 1. There is a stream with an associated consumer group.
-2. Some consumer A reads a message via [`XREADGROUP`](/commands/xreadgroup) from a stream, in the context of that consumer group.
-3. As a side effect a pending message entry is created in the Pending Entries List (PEL) of the consumer group: it means the message was delivered to a given consumer, but it was not yet acknowledged via [`XACK`](/commands/xack).
+2. Some consumer A reads a message via [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) from a stream, in the context of that consumer group.
+3. As a side effect a pending message entry is created in the Pending Entries List (PEL) of the consumer group: it means the message was delivered to a given consumer, but it was not yet acknowledged via [`XACK`]({{< relref "/commands/xack" >}}).
 4. Then suddenly that consumer fails forever.
-5. Other consumers may inspect the list of pending messages, that are stale for quite some time, using the [`XPENDING`](/commands/xpending) command. In order to continue processing such messages, they use `XCLAIM` to acquire the ownership of the message and continue. Consumers can also use the [`XAUTOCLAIM`](/commands/xautoclaim) command to automatically scan and claim stale pending messages.
+5. Other consumers may inspect the list of pending messages, that are stale for quite some time, using the [`XPENDING`]({{< relref "/commands/xpending" >}}) command. In order to continue processing such messages, they use `XCLAIM` to acquire the ownership of the message and continue. Consumers can also use the [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) command to automatically scan and claim stale pending messages.
 
 This dynamic is clearly explained in the [Stream intro documentation](/topics/streams-intro).
 
@@ -105,7 +115,7 @@ Moreover, as a side effect, `XCLAIM` will increment the count of attempted deliv
 `XCLAIM` will not claim a message in the following cases:
 
 1. The message doesn't exist in the group PEL (i.e. it was never read by any consumer)
-2. The message exists in the group PEL but not in the stream itself (i.e. the message was read but never acknowledged, and then was deleted from the stream, either by trimming or by [`XDEL`](/commands/xdel))
+2. The message exists in the group PEL but not in the stream itself (i.e. the message was read but never acknowledged, and then was deleted from the stream, either by trimming or by [`XDEL`]({{< relref "/commands/xdel" >}}))
 
 In both cases the reply will not contain a corresponding entry to that message (i.e. the length of the reply array may be smaller than the number of IDs provided to `XCLAIM`).
 In the latter case, the message will also be deleted from the PEL in which it was found. This feature was introduced in Redis 7.0.

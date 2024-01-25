@@ -14,6 +14,16 @@ arguments:
   since: 3.2.0
   type: integer
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - fast
@@ -52,7 +62,7 @@ title: SPOP
 ---
 Removes and returns one or more random members from the set value store at `key`.
 
-This operation is similar to [`SRANDMEMBER`](/commands/srandmember), that returns one or more random elements from a set but does not remove it.
+This operation is similar to [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}), that returns one or more random elements from a set but does not remove it.
 
 By default, the command pops a single member from the set. When provided with
 the optional `count` argument, the reply will consist of up to `count` members,

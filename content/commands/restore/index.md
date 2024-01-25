@@ -40,6 +40,16 @@ arguments:
   token: FREQ
   type: integer
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -74,13 +84,13 @@ key_specs:
 linkTitle: RESTORE
 since: 2.6.0
 summary: Creates a key from the serialized representation of a value.
-syntax_fmt: "RESTORE key ttl serialized-value [REPLACE] [ABSTTL]\n  [IDLETIME\_seconds]\
+syntax_fmt: "RESTORE key ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME\_seconds]\
   \ [FREQ\_frequency]"
 syntax_str: "ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME\_seconds] [FREQ\_frequency]"
 title: RESTORE
 ---
 Create a key associated with a value that is obtained by deserializing the
-provided serialized value (obtained via [`DUMP`](/commands/dump)).
+provided serialized value (obtained via [`DUMP`]({{< relref "/commands/dump" >}})).
 
 If `ttl` is 0 the key is created without any expire, otherwise the specified
 expire time (in milliseconds) is set.
@@ -91,7 +101,7 @@ If the `ABSTTL` modifier was used, `ttl` should represent an absolute
 [hewowu]: http://en.wikipedia.org/wiki/Unix_time
 
 For eviction purposes, you may use the `IDLETIME` or `FREQ` modifiers. See
-[`OBJECT`](/commands/object) for more information.
+[`OBJECT`]({{< relref "/commands/object" >}}) for more information.
 
 `RESTORE` will return a "Target key name is busy" error when `key` already
 exists unless you use the `REPLACE` modifier.

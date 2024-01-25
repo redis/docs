@@ -2,6 +2,16 @@
 arguments:
 - name: key
   type: key
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns the cardinality of a Bloom filter
 group: bf
@@ -31,7 +41,7 @@ is key name for a Bloom filter.
  
 Returns one of these replies:
 
-- [Integer reply](/docs/reference/protocol-spec#integers) - the number of items that were added to this Bloom filter and detected as unique (items that caused at least one bit to be set in at least one sub-filter), or 0 when `key` does not exist.
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the number of items that were added to this Bloom filter and detected as unique (items that caused at least one bit to be set in at least one sub-filter), or 0 when `key` does not exist.
 - [] on error (invalid arguments, wrong key type, etc.)
 
 Note: when `key` exists - return the same value as `BF.INFO key ITEMS`.

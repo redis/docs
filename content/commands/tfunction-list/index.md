@@ -31,6 +31,16 @@ bannerText: 'The triggers and functions feature of Redis Stack and its documenta
   GitHub using the "Create new issue" link in the top right-hand corner of this page.
 
   '
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N) where N is the number of libraries loaded into Redis
@@ -42,7 +52,7 @@ module: Triggers and functions
 since: 2.0.0
 stack_path: docs/interact/programmability/triggers-and-functions
 summary: List all JavaScript libraries loaded into Redis
-syntax: "TFUNCTION LIST [WITHCODE] [VERBOSE] [v] [LIBRARY <library name>] \n"
+syntax: 'TFUNCTION LIST [WITHCODE] [VERBOSE] [v] [LIBRARY <library name>] '
 syntax_fmt: "TFUNCTION LIST [LIBRARYNAME\_library name] [WITHCODE] [VERBOSE] [V]"
 syntax_str: '[WITHCODE] [VERBOSE] [V]'
 title: TFUNCTION LIST

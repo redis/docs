@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/synonyms/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Synonym support
 linkTitle: Synonym
 title: Synonym

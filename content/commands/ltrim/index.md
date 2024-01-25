@@ -15,6 +15,16 @@ arguments:
   name: stop
   type: integer
 arity: 4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 complexity: O(N) where N is the number of elements to be removed by the operation.
@@ -61,7 +71,7 @@ causes `key` to be removed).
 If `end` is larger than the end of the list, Redis will treat it like the last
 element of the list.
 
-A common use of `LTRIM` is together with [`LPUSH`](/commands/lpush) / [`RPUSH`](/commands/rpush).
+A common use of `LTRIM` is together with [`LPUSH`]({{< relref "/commands/lpush" >}}) / [`RPUSH`]({{< relref "/commands/rpush" >}}).
 For example:
 
 ```

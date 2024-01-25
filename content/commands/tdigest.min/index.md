@@ -2,6 +2,16 @@
 arguments:
 - name: key
   type: key
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns the minimum observation value from a t-digest sketch
 group: tdigest
@@ -24,7 +34,7 @@ is key name for an existing t-digest sketch.
 
 ## Return value
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) of minimum observation value from a sketch. The result is always accurate. 'nan' if the sketch is empty.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) of minimum observation value from a sketch. The result is always accurate. 'nan' if the sketch is empty.
 
 ## Examples
 

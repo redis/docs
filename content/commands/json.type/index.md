@@ -5,6 +5,16 @@ arguments:
 - name: path
   optional: true
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
 description: Returns the type of the JSON value at path
@@ -41,7 +51,7 @@ is JSONPath to specify. Default is root `$`. Returns null if the `key` or `path`
 ## Return
 
 JSON.TYPE returns an array of string replies for each path, specified as the value's type.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -54,13 +64,14 @@ redis> JSON.TYPE doc $..a
 1) "integer"
 2) "boolean"
 redis> JSON.TYPE doc $..dummy
+(empty array)
 {{< / highlight >}}
 
 ## See also
 
-[`JSON.SET`](/commands/json.set) | [`JSON.ARRLEN`](/commands/json.arrlen) 
+[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.ARRLEN`]({{< baseurl >}}/commands/json.arrlen/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

@@ -8,6 +8,16 @@ arguments:
   type: integer
 - name: stop
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) when path is evaluated to a single value where N is the size of the
   array, O(N) when path is evaluated to multiple values, where N is the size of the
   key
@@ -67,7 +77,7 @@ Behavior as of RedisJSON v2.0:
 ## Return
 
 JSON.ARRTRIM returns an array of integer replies for each path, the array's new size, or `nil`, if the matching JSON value is not an array.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec). 
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
 
@@ -113,10 +123,10 @@ redis> JSON.GET key $.[1].max_level
 
 ## See also
 
-[`JSON.ARRINDEX`](/commands/json.arrindex) | [`JSON.ARRINSERT`](/commands/json.arrinsert) 
+[`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex/) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
 

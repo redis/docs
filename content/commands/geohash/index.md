@@ -14,6 +14,16 @@ arguments:
   optional: true
   type: string
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(1) for each member requested.
@@ -40,7 +50,7 @@ syntax_fmt: GEOHASH key [member [member ...]]
 syntax_str: '[member [member ...]]'
 title: GEOHASH
 ---
-Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using [`GEOADD`](/commands/geoadd)).
+Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using [`GEOADD`]({{< relref "/commands/geoadd" >}})).
 
 Normally Redis represents positions of elements using a variation of the Geohash
 technique where positions are encoded using 52 bit integers. The encoding is

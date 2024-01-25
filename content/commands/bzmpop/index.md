@@ -33,6 +33,16 @@ arguments:
   token: COUNT
   type: integer
 arity: -5
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - blocking
@@ -67,11 +77,11 @@ syntax_fmt: "BZMPOP timeout numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
 syntax_str: "numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
 title: BZMPOP
 ---
-`BZMPOP` is the blocking variant of [`ZMPOP`](/commands/zmpop).
+`BZMPOP` is the blocking variant of [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
 
-When any of the sorted sets contains elements, this command behaves exactly like [`ZMPOP`](/commands/zmpop).
-When used inside a [`MULTI`](/commands/multi)/[`EXEC`](/commands/exec) block, this command behaves exactly like [`ZMPOP`](/commands/zmpop).
+When any of the sorted sets contains elements, this command behaves exactly like [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
+When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block, this command behaves exactly like [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
 When all sorted sets are empty, Redis will block the connection until another client adds members to one of the keys or until the `timeout` (a double value specifying the maximum number of seconds to block) elapses.
 A `timeout` of zero can be used to block indefinitely.
 
-See [`ZMPOP`](/commands/zmpop) for more information.
+See [`ZMPOP`]({{< relref "/commands/zmpop" >}}) for more information.

@@ -8,6 +8,16 @@ arguments:
   name: config-epoch
   type: integer
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - stale

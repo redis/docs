@@ -10,6 +10,16 @@ arguments:
   multiple: true
   name: items
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n * k * incr) where n is the number of items, k is the depth and incr
   is the increment
 description: Increases the count of one or more items by increment
@@ -36,7 +46,7 @@ If an item enters the Top-K list, the item which is expelled is returned.
 
 ## Return
 
-[Array reply](/docs/reference/protocol-spec#arrays) of [Simple string reply](/docs/reference/protocol-spec#simple-strings) - if an element was dropped from the TopK list, [Nil reply](/docs/reference/protocol-spec#bulk-strings) otherwise..
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - if an element was dropped from the TopK list, [Nil reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) otherwise..
 
 @example
 

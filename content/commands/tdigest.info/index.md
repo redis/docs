@@ -2,6 +2,16 @@
 arguments:
 - name: key
   type: key
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns information and statistics about a t-digest sketch
 group: tdigest
@@ -26,19 +36,19 @@ is key name for an existing t-digest sketch.
 
 ## Return value
 
-[Array reply](/docs/reference/protocol-spec#arrays) with information about the sketch (name-value pairs):
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with information about the sketch (name-value pairs):
 
-| Name<br>[Simple string reply](/docs/reference/protocol-spec#simple-strings) | Description
+| Name<br>[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) | Description
 | ---------------------------- | -
-| `Compression`        | [Integer reply](/docs/reference/protocol-spec#integers)<br> The compression (controllable trade-off between accuracy and memory consumption) of the sketch 
-| `Capacity`           | [Integer reply](/docs/reference/protocol-spec#integers)<br> Size of the buffer used for storing the centroids and for the incoming unmerged observations
-| `Merged nodes`       | [Integer reply](/docs/reference/protocol-spec#integers)<br> Number of merged observations
-| `Unmerged nodes`     | [Integer reply](/docs/reference/protocol-spec#integers)<br> Number of buffered nodes (uncompressed observations)
-| `Merged weight`      | [Integer reply](/docs/reference/protocol-spec#integers)<br> Weight of values of the merged nodes
-| `Unmerged weight`    | [Integer reply](/docs/reference/protocol-spec#integers)<br> Weight of values of the unmerged nodes (uncompressed observations)
-| `Observations`       | [Integer reply](/docs/reference/protocol-spec#integers)<br> Number of observations added to the sketch
-| `Total compressions` | [Integer reply](/docs/reference/protocol-spec#integers)<br> Number of times this sketch compressed data together
-| `Memory usage`       | [Integer reply](/docs/reference/protocol-spec#integers)<br> Number of bytes allocated for the sketch
+| `Compression`        | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> The compression (controllable trade-off between accuracy and memory consumption) of the sketch 
+| `Capacity`           | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Size of the buffer used for storing the centroids and for the incoming unmerged observations
+| `Merged nodes`       | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of merged observations
+| `Unmerged nodes`     | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of buffered nodes (uncompressed observations)
+| `Merged weight`      | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Weight of values of the merged nodes
+| `Unmerged weight`    | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Weight of values of the unmerged nodes (uncompressed observations)
+| `Observations`       | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of observations added to the sketch
+| `Total compressions` | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of times this sketch compressed data together
+| `Memory usage`       | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of bytes allocated for the sketch
 
 ## Examples
 

@@ -136,6 +136,16 @@ arguments:
   multiple: true
   name: field
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(K) at creation where K is the number of fields, O(N) if scanning the
   keyspace is triggered, where N is the number of keys in the keyspace
 description: Creates an index with the given spec
@@ -152,22 +162,21 @@ module: Search
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Creates an index with the given spec
-syntax: "FT.CREATE index \n  [ON HASH | JSON] \n  [PREFIX count prefix [prefix ...]]\
-  \ \n  [FILTER {filter}]\n  [LANGUAGE default_lang] \n  [LANGUAGE_FIELD lang_attribute]\
-  \ \n  [SCORE default_score] \n  [SCORE_FIELD score_attribute] \n  [PAYLOAD_FIELD\
-  \ payload_attribute] \n  [MAXTEXTFIELDS] \n  [TEMPORARY seconds] \n  [NOOFFSETS]\
-  \ \n  [NOHL] \n  [NOFIELDS] \n  [NOFREQS] \n  [STOPWORDS count [stopword ...]] \n\
-  \  [SKIPINITIALSCAN]\n  SCHEMA field_name [AS alias] TEXT | TAG | NUMERIC | GEO\
-  \ | VECTOR | GEOSHAPE [ SORTABLE [UNF]] \n  [NOINDEX] [ field_name [AS alias] TEXT\
-  \ | TAG | NUMERIC | GEO | VECTOR | GEOSHAPE [ SORTABLE [UNF]] [NOINDEX] ...]\n"
-syntax_fmt: "FT.CREATE index [ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix\n \
-  \ ...]] [FILTER\_filter] [LANGUAGE\_default_lang]\n  [LANGUAGE_FIELD\_lang_attribute]\
-  \ [SCORE\_default_score]\n  [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute]\n\
-  \  [MAXTEXTFIELDS] [TEMPORARY\_seconds] [NOOFFSETS] [NOHL] [NOFIELDS]\n  [NOFREQS]\
-  \ [STOPWORDS\_count [stopword [stopword ...]]]\n  [SKIPINITIALSCAN] SCHEMA field_name\
-  \ [AS\_alias] <TEXT | TAG |\n  NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [SORTABLE\
-  \ [UNF]]\n  [NOINDEX] [field_name [AS\_alias] <TEXT | TAG | NUMERIC | GEO |\n  VECTOR>\
-  \ [WITHSUFFIXTRIE] [SORTABLE [UNF]] [NOINDEX] ...]"
+syntax: 'FT.CREATE index [ON HASH | JSON] [PREFIX count prefix [prefix ...]]  [FILTER
+  {filter}] [LANGUAGE default_lang] [LANGUAGE_FIELD lang_attribute]  [SCORE default_score]
+  [SCORE_FIELD score_attribute] [PAYLOAD_FIELD payload_attribute] [MAXTEXTFIELDS]
+  [TEMPORARY seconds] [NOOFFSETS]  [NOHL] [NOFIELDS] [NOFREQS] [STOPWORDS count [stopword
+  ...]]   [SKIPINITIALSCAN] SCHEMA field_name [AS alias] TEXT | TAG | NUMERIC | GEO
+  | VECTOR | GEOSHAPE [ SORTABLE [UNF]] [NOINDEX] [ field_name [AS alias] TEXT | TAG
+  | NUMERIC | GEO | VECTOR | GEOSHAPE [ SORTABLE [UNF]] [NOINDEX] ...] '
+syntax_fmt: "FT.CREATE index [ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix  ...]]\
+  \ [FILTER\_filter] [LANGUAGE\_default_lang] [LANGUAGE_FIELD\_lang_attribute] [SCORE\_\
+  default_score] [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute]\
+  \   [MAXTEXTFIELDS] [TEMPORARY\_seconds] [NOOFFSETS] [NOHL] [NOFIELDS] [NOFREQS]\
+  \ [STOPWORDS\_count [stopword [stopword ...]]] [SKIPINITIALSCAN] SCHEMA field_name\
+  \ [AS\_alias] <TEXT | TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [SORTABLE [UNF]]\
+  \ [NOINDEX] [field_name [AS\_alias] <TEXT | TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE]\
+  \ [SORTABLE [UNF]] [NOINDEX] ...]"
 syntax_str: "[ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix ...]] [FILTER\_filter]\
   \ [LANGUAGE\_default_lang] [LANGUAGE_FIELD\_lang_attribute] [SCORE\_default_score]\
   \ [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute] [MAXTEXTFIELDS]\
@@ -206,13 +215,13 @@ after the SCHEMA keyword, declares which fields to index:
 
  - `TEXT` - Allows full-text search queries against the value in this attribute.
 
- - `TAG` - Allows exact-match queries, such as categories or primary keys, against the value in this attribute. For more information, see [Tag Fields](/docs/interact/search-and-query/advanced-concepts/tags/).
+ - `TAG` - Allows exact-match queries, such as categories or primary keys, against the value in this attribute. For more information, see [Tag Fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}}).
 
- - `NUMERIC` - Allows numeric range queries against the value in this attribute. See [query syntax docs](/docs/interact/search-and-query/query/) for details on how to use numeric ranges.
+ - `NUMERIC` - Allows numeric range queries against the value in this attribute. See [query syntax docs]({{< relref "/develop/interact/search-and-query/query/" >}}) for details on how to use numeric ranges.
 
  - `GEO` - Allows radius range queries against the value (point) in this attribute. The value of the attribute must be a string containing a longitude (first) and latitude separated by a comma.
 
- - `VECTOR` - Allows vector queries against the value in this attribute. For more information, see [Vector Fields](/docs/interact/search-and-query/search/vectors/).
+ - `VECTOR` - Allows vector queries against the value in this attribute. For more information, see [Vector Fields]({{< relref "/develop/get-started/vector-database" >}}).
 
  - `GEOSHAPE`- Allows polygon queries against the value in this attribute. The value of the attribute must follow a [WKT notation](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) list of 2D points representing the polygon edges `POLYGON((x1 y1, x2 y2, ...)` separated by a comma. A `GEOSHAPE` field type can be followed by one of the following coordinate systems:
    - `SPHERICAL` for Geographic longitude and latitude coordinates
@@ -224,7 +233,7 @@ after the SCHEMA keyword, declares which fields to index:
 
  Field options are:
 
- - `SORTABLE` - `NUMERIC`, `TAG`, `TEXT`, or `GEO` attributes can have an optional **SORTABLE** argument. As the user [sorts the results by the value of this attribute](/docs/interact/search-and-query/advanced-concepts/sorting/), the results are available with very low latency. Note that his adds memory overhead, so consider not declaring it on large text attributes. You can sort an attribute without the `SORTABLE` option, but the latency is not as good as with `SORTABLE`.
+ - `SORTABLE` - `NUMERIC`, `TAG`, `TEXT`, or `GEO` attributes can have an optional **SORTABLE** argument. As the user [sorts the results by the value of this attribute]({{< relref "/develop/interact/search-and-query/advanced-concepts/sorting" >}}), the results are available with very low latency. Note that his adds memory overhead, so consider not declaring it on large text attributes. You can sort an attribute without the `SORTABLE` option, but the latency is not as good as with `SORTABLE`.
 
  - `UNF` - By default, for hashes (not with JSON) `SORTABLE` applies a normalization to the indexed value (characters set to lowercase, removal of diacritics). When using the unnormalized form (UNF), you can disable the normalization and keep the original form of the value. With JSON, `UNF` is implicit with `SORTABLE` (normalization is disabled).
 
@@ -239,7 +248,7 @@ after the SCHEMA keyword, declares which fields to index:
    - `dm:pt` - Double metaphone for Portuguese
    - `dm:es` - Double metaphone for Spanish
 
-   For more information, see [Phonetic Matching](/docs/interact/search-and-query/advanced-concepts/phonetic_matching).
+   For more information, see [Phonetic Matching]({{< relref "/develop/interact/search-and-query/advanced-concepts/phonetic_matching" >}}).
 
   - `WEIGHT {weight}` for `TEXT` attributes, declares the importance of this attribute when calculating result accuracy. This is a multiplication factor, and defaults to 1 if not specified.
 
@@ -255,7 +264,7 @@ after the SCHEMA keyword, declares which fields to index:
 <a name="ON"></a><details open>
 <summary><code>ON {data_type}</code></summary>
 
-currently supports HASH (default) and JSON. To index JSON, you must have the [RedisJSON](/docs/stack/json) module installed.
+currently supports HASH (default) and JSON. To index JSON, you must have the [RedisJSON]({{< relref "/develop/data-types/json/" >}}) module installed.
 </details>
 
 <a name="PREFIX"></a><details open>
@@ -285,7 +294,7 @@ A stemmer is used for the supplied language during indexing. If an unsupported l
 Indonesian, Irish, Italian, Lithuanian, Nepali, Norwegian, Portuguese, Romanian, Russian,
 Spanish, Swedish, Tamil, Turkish, and Chinese.
 
-When adding Chinese language documents, set `LANGUAGE chinese` for the indexer to properly tokenize the terms. If you use the default language, then search terms are extracted based on punctuation characters and whitespace. The Chinese language tokenizer makes use of a segmentation algorithm (via [Friso](https://github.com/lionsoul2014/friso)), which segments text and checks it against a predefined dictionary. See [Stemming](/docs/interact/search-and-query/advanced-concepts/stemming) for more information.
+When adding Chinese language documents, set `LANGUAGE chinese` for the indexer to properly tokenize the terms. If you use the default language, then search terms are extracted based on punctuation characters and whitespace. The Chinese language tokenizer makes use of a segmentation algorithm (via [Friso](https://github.com/lionsoul2014/friso)), which segments text and checks it against a predefined dictionary. See [Stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}}) for more information.
 </details>
 
 <a name="SCORE"></a><details open>
@@ -309,7 +318,7 @@ is document attribute that you use as a binary safe payload string to the docume
 <a name="MAXTEXTFIELDS"></a><details open>
 <summary><code>MAXTEXTFIELDS</code></summary> 
 
-forces RediSearch to encode indexes as if there were more than 32 text attributes, which allows you to add additional attributes (beyond 32) using [`FT.ALTER`](/commands/ft.alter). For efficiency, RediSearch encodes indexes differently if they are created with less than 32 text attributes.
+forces RediSearch to encode indexes as if there were more than 32 text attributes, which allows you to add additional attributes (beyond 32) using [`FT.ALTER`]({{< baseurl >}}/commands/ft.alter/). For efficiency, RediSearch encodes indexes differently if they are created with less than 32 text attributes.
 </details>
 
 <a name="NOOFFSETS"></a><details open>
@@ -326,7 +335,7 @@ creates a lightweight temporary index that expires after a specified period of i
 {{% alert title="Warning" color="warning" %}}
  
 When temporary indexes expire, they drop all the records associated with them.
-[`FT.DROPINDEX`](/commands/ft.dropindex) was introduced with a default of not deleting docs and a `DD` flag that enforced deletion.
+[`FT.DROPINDEX`]({{< baseurl >}}/commands/ft.dropindex/) was introduced with a default of not deleting docs and a `DD` flag that enforced deletion.
 However, for temporary indexes, documents are deleted along with the index.
 Historically, RediSearch used an FT.ADD command, which made a connection between the document and the index. Then, FT.DROP, also a hystoric command, deleted documents by default.
 In version 2.x, RediSearch indexes hashes and JSONs, and the dependency between the index and documents no longer exists. 
@@ -444,13 +453,13 @@ Index a JSON document using a JSON Path expression.
 
 ## See also
 
-[`FT.ALTER`](/commands/ft.alter) | [`FT.DROPINDEX`](/commands/ft.dropindex) 
+[`FT.ALTER`]({{< baseurl >}}/commands/ft.alter/) | [`FT.DROPINDEX`]({{< baseurl >}}/commands/ft.dropindex/) 
 
 ## Related topics
 
-- [RediSearch](/docs/stack/search)
-- [RedisJSON](/docs/stack/json)
+- [RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
+- [RedisJSON]({{< relref "/develop/data-types/json/" >}})
 - [Friso](https://github.com/lionsoul2014/friso)
-- [Stemming](/docs/interact/search-and-query/advanced-concepts/stemming)
-- [Phonetic Matching](/docs/interact/search-and-query/advanced-concepts/phonetic_matching/)
+- [Stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}})
+- [Phonetic Matching]({{< relref "/develop/interact/search-and-query/advanced-concepts/phonetic_matching" >}})
 - [RSCoordinator](https://github.com/RedisLabsModules/RSCoordinator)

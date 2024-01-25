@@ -57,6 +57,16 @@ arguments:
   name: data
   type: block
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -91,8 +101,7 @@ linkTitle: ZADD
 since: 1.2.0
 summary: Adds one or more members to a sorted set, or updates their scores. Creates
   the key if it doesn't exist.
-syntax_fmt: "ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member\n\
-  \  ...]"
+syntax_fmt: ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member   ...]
 syntax_str: '[NX | XX] [GT | LT] [CH] [INCR] score member [score member ...]'
 title: ZADD
 ---
@@ -119,7 +128,7 @@ the first score argument. Options are:
 * **LT**: Only update existing elements if the new score is **less than** the current score. This flag doesn't prevent adding new elements.
 * **GT**: Only update existing elements if the new score is **greater than** the current score. This flag doesn't prevent adding new elements.
 * **CH**: Modify the return value from the number of new elements added, to the total number of elements changed (CH is an abbreviation of *changed*). Changed elements are **new elements added** and elements already existing for which **the score was updated**. So elements specified in the command line having the same score as they had in the past are not counted. Note: normally the return value of `ZADD` only counts the number of new elements added.
-* **INCR**: When this option is specified `ZADD` acts like [`ZINCRBY`](/commands/zincrby). Only one score-element pair can be specified in this mode.
+* **INCR**: When this option is specified `ZADD` acts like [`ZINCRBY`]({{< relref "/commands/zincrby" >}}). Only one score-element pair can be specified in this mode.
 
 Note: The **GT**, **LT** and **NX** options are mutually exclusive.
 
@@ -135,10 +144,10 @@ Sorted sets are sorted by their score in an ascending way.
 The same element only exists a single time, no repeated elements are
 permitted. The score can be modified both by `ZADD` that will update the
 element score, and as a side effect, its position on the sorted set, and
-by [`ZINCRBY`](/commands/zincrby) that can be used in order to update the score relatively to its
+by [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) that can be used in order to update the score relatively to its
 previous value.
 
-The current score of an element can be retrieved using the [`ZSCORE`](/commands/zscore) command,
+The current score of an element can be retrieved using the [`ZSCORE`]({{< relref "/commands/zscore" >}}) command,
 that can also be used to verify if an element already exists or not.
 
 For an introduction to sorted sets, see the data types page on [sorted
@@ -154,7 +163,7 @@ is unique, it is possible to add multiple different elements *having the same sc
 
 The lexicographic ordering used is binary, it compares strings as array of bytes.
 
-If the user inserts all the elements in a sorted set with the same score (for example 0), all the elements of the sorted set are sorted lexicographically, and range queries on elements are possible using the command [`ZRANGEBYLEX`](/commands/zrangebylex) (Note: it is also possible to query sorted sets by range of scores using [`ZRANGEBYSCORE`](/commands/zrangebyscore)).
+If the user inserts all the elements in a sorted set with the same score (for example 0), all the elements of the sorted set are sorted lexicographically, and range queries on elements are possible using the command [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) (Note: it is also possible to query sorted sets by range of scores using [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}})).
 
 ## Examples
 

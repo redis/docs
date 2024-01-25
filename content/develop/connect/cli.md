@@ -1,8 +1,14 @@
 ---
-aliases:
-- /docs/manual/cli
-- /docs/management/cli
-- /docs/ui/cli
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Overview of redis-cli, the Redis command line interface
 
   '
@@ -97,7 +103,7 @@ You can change the port using several command line options. To specify a differe
     PONG
 
 If your instance is password protected, the `-a <password>` option will
-perform authentication saving the need of explicitly using the [`AUTH`](/commands/auth) command:
+perform authentication saving the need of explicitly using the [`AUTH`]({{< relref "/commands/auth" >}}) command:
 
     $ redis-cli -a myUnguessablePazzzzzword123 PING
     PONG
@@ -185,7 +191,7 @@ arguments with spaces, newlines, or other special characters:
 It is possible to execute a single command a specified number of times
 with a user-selected pause between executions. This is useful in
 different contexts - for example when we want to continuously monitor some
-key content or [`INFO`](/commands/info) field output, or when we want to simulate some
+key content or [`INFO`]({{< relref "/commands/info" >}}) field output, or when we want to simulate some
 recurring write event, such as pushing a new item into a list every 5 seconds.
 
 This feature is controlled by two options: `-r <count>` and `-i <delay>`.
@@ -242,15 +248,15 @@ run scripts from a file as an argument:
     $ redis-cli --eval /tmp/script.lua location:hastings:temp , 23
     OK
 
-The Redis [`EVAL`](/commands/eval) command takes the list of keys the script uses, and the
-other non key arguments, as different arrays. When calling [`EVAL`](/commands/eval) you
+The Redis [`EVAL`]({{< relref "/commands/eval" >}}) command takes the list of keys the script uses, and the
+other non key arguments, as different arrays. When calling [`EVAL`]({{< relref "/commands/eval" >}}) you
 provide the number of keys as a number. 
 
 When calling `redis-cli` with the `--eval` option above, there is no need to specify the number of keys
 explicitly. Instead it uses the convention of separating keys and arguments
 with a comma. This is why in the above call you see `location:hastings:temp , 23` as arguments.
 
-So `location:hastings:temp` will populate the [`KEYS`](/commands/keys) array, and `23` the `ARGV` array.
+So `location:hastings:temp` will populate the [`KEYS`]({{< relref "/commands/keys" >}}) array, and `23` the `ARGV` array.
 
 The `--eval` option is useful when writing simple scripts. For more
 complex work, the Lua debugger is recommended. It is possible to mix the two approaches, since the debugger can also execute scripts from an external file.
@@ -391,7 +397,7 @@ name by a number:
 
 ## Showing help about Redis commands
 
-`redis-cli` provides online help for most Redis [commands](/commands), using the `HELP` command. The command can be used
+`redis-cli` provides online help for most Redis [commands]({{< relref "/commands" >}}), using the `HELP` command. The command can be used
 in two forms:
 
 * `HELP @<category>` shows all the commands about a given category. The
@@ -413,7 +419,7 @@ categories are:
     - `@stream`
 * `HELP <commandname>` shows specific help for the command given as argument.
 
-For example in order to show help for the [`PFADD`](/commands/pfadd) command, use:
+For example in order to show help for the [`PFADD`]({{< relref "/commands/pfadd" >}}) command, use:
 
     127.0.0.1:6379> HELP PFADD
 
@@ -510,10 +516,10 @@ In the first part of the output, each new key larger than the previous larger
 key (of the same type) encountered is reported. The summary section
 provides general stats about the data inside the Redis instance.
 
-The program uses the [`SCAN`](/commands/scan) command, so it can be executed against a busy
+The program uses the [`SCAN`]({{< relref "/commands/scan" >}}) command, so it can be executed against a busy
 server without impacting the operations, however the `-i` option can be
 used in order to throttle the scanning process of the specified fraction
-of second for each [`SCAN`](/commands/scan) command. 
+of second for each [`SCAN`]({{< relref "/commands/scan" >}}) command. 
 
 For example, `-i 0.01` will slow down the program execution considerably, but will also reduce the load on the server
 to a negligible amount.
@@ -527,7 +533,7 @@ ASAP if running against a very large data set.
 It is also possible to scan the key space, again in a way that does not
 block the Redis server (which does happen when you use a command
 like `KEYS *`), and print all the key names, or filter them for specific
-patterns. This mode, like the `--bigkeys` option, uses the [`SCAN`](/commands/scan) command,
+patterns. This mode, like the `--bigkeys` option, uses the [`SCAN`]({{< relref "/commands/scan" >}}) command,
 so keys may be reported multiple times if the dataset is changing, but no
 key would ever be missing, if that key was present since the start of the
 iteration. Because of the command that it uses this option is called `--scan`.
@@ -548,7 +554,7 @@ Note that `head -10` is used in order to print only the first ten lines of the
 output.
 
 Scanning is able to use the underlying pattern matching capability of
-the [`SCAN`](/commands/scan) command with the `--pattern` option.
+the [`SCAN`]({{< relref "/commands/scan" >}}) command with the `--pattern` option.
 
     $ redis-cli --scan --pattern '*-11*'
     key-114
@@ -569,17 +575,17 @@ kind of objects, by key name:
     $ redis-cli --scan --pattern 'user:*' | wc -l
     3829433
 
-You can use `-i 0.01` to add a delay between calls to the [`SCAN`](/commands/scan) command.
+You can use `-i 0.01` to add a delay between calls to the [`SCAN`]({{< relref "/commands/scan" >}}) command.
 This will make the command slower but will significantly reduce load on the server.
 
 ## Pub/sub mode
 
 The CLI is able to publish messages in Redis Pub/Sub channels using
-the [`PUBLISH`](/commands/publish) command. Subscribing to channels in order to receive
+the [`PUBLISH`]({{< relref "/commands/publish" >}}) command. Subscribing to channels in order to receive
 messages is different - the terminal is blocked and waits for
 messages, so this is implemented as a special mode in `redis-cli`. Unlike
 other special modes this mode is not enabled by using a special option,
-but simply by using the [`SUBSCRIBE`](/commands/subscribe) or [`PSUBSCRIBE`](/commands/psubscribe) command, which are available in
+but simply by using the [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) or [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) command, which are available in
 interactive or command mode:
 
     $ redis-cli PSUBSCRIBE '*'
@@ -602,7 +608,7 @@ To exit the Pub/Sub mode just process `CTRL-C`.
 ## Monitoring commands executed in Redis
 
 Similarly to the Pub/Sub mode, the monitoring mode is entered automatically
-once you use the [`MONITOR`](/commands/monitor) command. All commands received by the active Redis instance will be printed to the standard output:
+once you use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command. All commands received by the active Redis instance will be printed to the standard output:
 
     $ redis-cli MONITOR
     OK
@@ -622,7 +628,7 @@ The `redis-cli` has multiple facilities for studying the latency of a Redis
 instance and understanding the latency's maximum, average and distribution.
 
 The basic latency-checking tool is the `--latency` option. Using this
-option the CLI runs a loop where the [`PING`](/commands/ping) command is sent to the Redis
+option the CLI runs a loop where the [`PING`]({{< relref "/commands/ping" >}}) command is sent to the Redis
 instance and the time to receive a reply is measured. This happens 100
 times per second, and stats are updated in a real time in the console:
 

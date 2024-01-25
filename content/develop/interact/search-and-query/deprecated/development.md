@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/development/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Notes on debugging, testing and documentation
 linkTitle: Developer notes
 title: Developer notes
