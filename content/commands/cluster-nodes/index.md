@@ -2,6 +2,16 @@
 acl_categories:
 - '@slow'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - stale
 complexity: O(N) where N is the total number of Cluster nodes
@@ -28,7 +38,7 @@ order to store on disk the cluster state (however the on disk cluster state
 has a few additional info appended at the end).
 
 Note that normally clients willing to fetch the map between Cluster
-hash slots and node addresses should use [`CLUSTER SLOTS`](/commands/cluster-slots) instead.
+hash slots and node addresses should use [`CLUSTER SLOTS`]({{< relref "/commands/cluster-slots" >}}) instead.
 `CLUSTER NODES`, that provides more information, should be used for
 administrative tasks, debugging, and configuration inspections.
 It is also used by `redis-cli` in order to manage a cluster.
@@ -57,7 +67,8 @@ Each line is composed of the following fields:
 The meaning of each field is the following:
 
 1. `id`: The node ID, a 40-character globally unique string generated when a node is created and never changed again (unless `CLUSTER RESET HARD` is used).
-2. `ip:port@cport`: The node address that clients should contact to run queries.
+2. `ip:port@cport`: The node address that clients should contact to run queries, along with the used cluster bus port.
+   `:0@0` can be expected when the address is no longer known for this node ID, hence flagged with `noaddr`.
 3. `hostname`: A human readable string that can be configured via the `cluster-annouce-hostname` setting. The max length of the string is 256 characters, excluding the null terminator. The name can contain ASCII alphanumeric characters, '-', and '.' only.
 5. `flags`: A list of comma separated flags: `myself`, `master`, `slave`, `fail?`, `fail`, `handshake`, `noaddr`, `nofailover`, `noflags`. Flags are explained below.
 6. `master`: If the node is a replica, and the primary is known, the primary node ID, otherwise the "-" character.

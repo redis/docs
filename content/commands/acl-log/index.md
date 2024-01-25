@@ -16,6 +16,16 @@ arguments:
   optional: true
   type: oneof
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -37,12 +47,12 @@ title: ACL LOG
 ---
 The command shows a list of recent ACL security events:
 
-1. Failures to authenticate their connections with [`AUTH`](/commands/auth) or [`HELLO`](/commands/hello).
+1. Failures to authenticate their connections with [`AUTH`]({{< relref "/commands/auth" >}}) or [`HELLO`]({{< relref "/commands/hello" >}}).
 2. Commands denied because against the current ACL rules.
 3. Commands denied because accessing keys not allowed in the current ACL rules.
 
 The optional argument specifies how many entries to show. By default
-up to ten failures are returned. The special [`RESET`](/commands/reset) argument clears the log.
+up to ten failures are returned. The special [`RESET`]({{< relref "/commands/reset" >}}) argument clears the log.
 Entries are displayed starting from the most recent.
 
 ## Examples

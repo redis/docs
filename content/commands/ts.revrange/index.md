@@ -94,6 +94,16 @@ arguments:
   name: aggregation
   optional: true
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n/m+k) where n = Number of data points, m = Chunk size (data points
   per chunk), k = Number of data points that are in the requested range
 description: Query a range in reverse direction
@@ -104,13 +114,13 @@ module: TimeSeries
 since: 1.4.0
 stack_path: docs/data-types/timeseries
 summary: Query a range in reverse direction
-syntax: "TS.REVRANGE key fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS TS...]\n\
-  \  [FILTER_BY_VALUE min max]\n  [COUNT count]\n  [[ALIGN align] AGGREGATION aggregator\
-  \ bucketDuration [BUCKETTIMESTAMP bt] [EMPTY]]\n"
-syntax_fmt: "TS.REVRANGE key fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS\_\
-  Timestamp [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [COUNT\_count] [[ALIGN\_\
-  value] AGGREGATION\_<AVG | FIRST | LAST | MIN\n  | MAX | SUM | RANGE | COUNT | STD.P\
-  \ | STD.S | VAR.P | VAR.S | TWA>\n  bucketDuration [BUCKETTIMESTAMP] [EMPTY]]"
+syntax: 'TS.REVRANGE key fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS TS...]   [FILTER_BY_VALUE
+  min max] [COUNT count] [[ALIGN align] AGGREGATION aggregator bucketDuration [BUCKETTIMESTAMP
+  bt] [EMPTY]] '
+syntax_fmt: "TS.REVRANGE key fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp\
+  \ [Timestamp ...]] [FILTER_BY_VALUE min max] [COUNT\_count] [[ALIGN\_value] AGGREGATION\_\
+  <AVG | FIRST | LAST | MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P |\
+  \ VAR.S | TWA> bucketDuration [BUCKETTIMESTAMP] [EMPTY]]"
 syntax_str: "fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp [Timestamp\
   \ ...]] [FILTER_BY_VALUE min max] [COUNT\_count] [[ALIGN\_value] AGGREGATION\_<AVG\
   \ | FIRST | LAST | MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S\
@@ -254,7 +264,7 @@ Regardless of the values of `fromTimestamp` and `toTimestamp`, no data is report
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) of ([Integer reply](/docs/reference/protocol-spec#integers), [Simple string reply](/docs/reference/protocol-spec#simple-strings)) pairs representing (timestamp, value(double))
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pairs representing (timestamp, value(double))
 - [] (e.g., on invalid filter value)
 
 ## Complexity
@@ -381,8 +391,8 @@ Similarly, when the end timestamp for the range query is explicitly stated, you 
 
 ## See also
 
-[`TS.RANGE`](/commands/ts.range) | [`TS.MRANGE`](/commands/ts.mrange) | [`TS.MREVRANGE`](/commands/ts.mrevrange)
+[`TS.RANGE`]({{< baseurl >}}/commands/ts.range/) | [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/)
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

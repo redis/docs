@@ -20,6 +20,16 @@
 * **/tailwind.config.js**: This is the Tailwind CSS framwork's configuration file.
 * **/postcss.config.js**: Needed to make Tailwind statically accessible to the site.
 
+## Requirements
+
+You will need the following tools to build the site locally:
+
+- `python3`: Python >=3.8
+- `node` and `npm`: Node.js >=19.7.0, and the Node.js package manager >= 9.5.0
+- `hugo`: Hugo site generator >= v0.111.2 as extended edition
+- `make`: To run the make script
+- `git`: To manage the source code of the documentation
+
 ## Build script and data files
 
 The site can be built via `make all`. Here is what's executed:
@@ -44,3 +54,34 @@ The build pipeline that is defined within `.github/workflows/main.yml` builds th
 5. Authenticate to the GCS bucket
 6. Validate the branch name
 7. Sync the branch with a GCS folder
+
+
+## Hugo specifics
+
+### Relative links
+
+We are using the following syntax for Hugo relrefs:
+
+'''
+[Link title]({{< relref "link relative to the site's base url" >}})
+'''
+
+Here is an example:
+
+```
+[Data structure store]({{< relref "/develop/get-started/data-store" >}})
+```
+
+It's strongly advised to use `relref` because it provides the following advantages:
+
+1. Links are checked at build time. Any broken reference within the site is reported and prevents a successful build.
+2. References are prefixed with the site's base URL, which means that they work as in builds with a different base URL
+
+
+The following needs to be taken into account when using `relref`: The reference `/develop/get-started/data-store` and `/develop/get-started/data-store/` don't mean the same. You must use the trailing slash if the referenced article is an `_index.md` file within a folder (e.g., `.../data-store/` for `.../data-store/_index.md`). Othersise, you should not use the trailing slash (e.g., `.../get-started/data-store.md`).
+
+RelRefs with dots (`.`) and hashtags (`#`) in the reference name, such as `/commands/ft.create` or `/develop/data-types/timeseries/configuration#compaction_policy`, don't seem to work. Please use the `{{< baseurl >}}` as a workaround in that case. Here is an example:
+
+```
+[compaction]({{< baseurl >}}/develop/data-types/timeseries/configuration#compaction_policy)
+```

@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: quantile
   type: double
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns, for each input fraction, an estimation of the value (floating
   point) that is smaller than the given fraction of observations
@@ -36,7 +46,7 @@ is the input fraction (between 0 and 1 inclusively)
 
 ## Return value
 
-[Array reply](/docs/reference/protocol-spec#arrays) - an array of estimates (floating-point) populated with value_1, value_2, ..., value_N.
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - an array of estimates (floating-point) populated with value_1, value_2, ..., value_N.
 
 - Return an accurate result when `quantile` is 0 (the value of the smallest observation)
 - Return an accurate result when `quantile` is 1 (the value of the largest observation)

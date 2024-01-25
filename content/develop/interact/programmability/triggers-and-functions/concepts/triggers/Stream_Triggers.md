@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Execute a JavaScript function when an item is added to a stream
 
   '
@@ -7,11 +17,11 @@ title: Stream triggers
 weight: 2
 ---
 
-Redis Stack's triggers and functions feature comes with a full stream API to process data from [Redis streams](https://redis.io/docs/manual/data-types/streams/). Unlike RedisGears v1 that provided a micro batching API, the new triggers and functions feature provides a **real streaming** API, which means that the data will be processed as soon as it enters the stream.
+Redis Stack's triggers and functions feature comes with a full stream API to process data from [Redis streams]({{< relref "/develop/data-types/streams" >}}). Unlike RedisGears v1 that provided a micro batching API, the new triggers and functions feature provides a **real streaming** API, which means that the data will be processed as soon as it enters the stream.
 
 ## Register a stream consumer
 
-Triggers and functions provide an API that allows to register a stream trigger. Do not get confused with [Redis streams consumer groups](https://redis.io/docs/manual/data-types/streams/#consumer-groups), triggers and functions uses the Redis Module API to efficiently read the stream and manage its consumers. This approach gives a much better performance as there is no need to invoke any Redis commands in order to read from the stream. Lets see a simple example:
+Triggers and functions provide an API that allows to register a stream trigger. Do not get confused with [Redis streams consumer groups]({{< baseurl >}}/develop/data-types/streams#consumer-groups), triggers and functions uses the Redis Module API to efficiently read the stream and manage its consumers. This approach gives a much better performance as there is no need to invoke any Redis commands in order to read from the stream. Lets see a simple example:
 
 ```js
 #!js api_version=1.0 name=myFirstLibrary
@@ -34,9 +44,9 @@ Argument Description:
 
 * consumer - the consumer name.
 * stream - streams name prefix on which to trigger the callback.
-* callback - the callback to invoke on each element in the stream. Following the same rules of [sync and async invocation](/docs/interact/programmability/triggers-and-functions/concepts/sync_async/). The callback will be invoke only on primary shard.
+* callback - the callback to invoke on each element in the stream. Following the same rules of [sync and async invocation]({{< relref "/develop/interact/programmability/triggers-and-functions/concepts/Sync_Async" >}}). The callback will be invoke only on primary shard.
 
-If we register this library (see the [quick start](/docs/interact/programmability/triggers-and-functions/quick_start/) section to learn how to Register a RedisGears function) and run the following command on our Redis:
+If we register this library (see the [quick start]({{< relref "/develop/interact/programmability/triggers-and-functions/Quick_Start_CLI" >}}) section to learn how to Register a RedisGears function) and run the following command on our Redis:
 
 ```
 XADD stream:1 * foo1 bar1
@@ -80,7 +90,7 @@ The reason why the record is a list of touples and not an object is because the 
 
 Notice that `stream_name` and `record` fields might contains `null`'s if the data can not be decoded as string. the `*_raw` fields will always be provided and will contains the data as `JS` `ArrayBuffer`.
 
-We can observe the streams which are tracked by our registered consumer using [`TFUNCTION LIST`](/commands/tfunction-list) command:
+We can observe the streams which are tracked by our registered consumer using [`TFUNCTION LIST`]({{< relref "/commands/tfunction-list" >}}) command:
 
 ```
 127.0.0.1:6379> TFUNCTION LIST LIBRARY lib vvv
@@ -178,7 +188,7 @@ The default values are:
 * `isStreamTrimmed` - `false`
 * `window` - 1
 
-It is enough that a single consumer will enable trimming so that the stream will be trimmed. The stream will be trim according to the slowest consumer that consume the stream at a given time (even if this is not the consumer that enabled the trimming). Raising exception during the callback invocation will **not prevent the trimming**. The callback should decide how to handle failures by invoke a retry or write some error log. The error will be added to the `last_error` field on [`TFUNCTION LIST`](/commands/tfunction-list) command.
+It is enough that a single consumer will enable trimming so that the stream will be trimmed. The stream will be trim according to the slowest consumer that consume the stream at a given time (even if this is not the consumer that enabled the trimming). Raising exception during the callback invocation will **not prevent the trimming**. The callback should decide how to handle failures by invoke a retry or write some error log. The error will be added to the `last_error` field on [`TFUNCTION LIST`]({{< relref "/commands/tfunction-list" >}}) command.
 
 ## Data processing guarantees
 
@@ -186,7 +196,7 @@ As long as the primary shard is up and running we guarantee exactly once propert
 
 ## Upgrades
 
-When upgrading the consumer code (using the `REPLACE` option of [`TFUNCTION LOAD`](/commands/tfunction-load) command) the following consumer parameters can be updated:
+When upgrading the consumer code (using the `REPLACE` option of [`TFUNCTION LOAD`]({{< relref "/commands/tfunction-load" >}}) command) the following consumer parameters can be updated:
 
 * Window
 * Trimming

@@ -9,6 +9,7 @@ import logging
 from git import Repo
 from components.component import All
 from components.util import mkdir_p
+import csv
 
 
 '''
@@ -100,6 +101,51 @@ def replace_links(markdown_content, old_prefix, new_prefix):
     updated_content = re.sub(link_pattern, r'\1' + new_prefix + r'\3', markdown_content)
     return updated_content
 
+def _load_csv_file(file_path):
+    
+    result = {}
+    
+    script_path = os.getcwd() + '/' + __file__
+    csv_file = slash(os.path.dirname(script_path), file_path)
+
+    with open(csv_file) as cf:
+        reader = csv.DictReader(cf, delimiter=';')
+        for row in reader:
+            key = row['broken_ref']
+            value = row['fixed_ref']
+            result[key] = value
+    
+    return result
+
+
+'''
+The replace link function that is passed over to re.sub
+'''
+def _replace_link(match, new_prefix):
+    # Relrefs don't like dots in the link
+    if '.' in match.group(3):
+        result =  match.group(1) + '{{< baseurl >}}' + new_prefix + match.group(3) + match.group(4)
+
+        # Some command pages have a . in them which causes issues
+        if new_prefix == "/commands":
+            result =  match.group(1) + '{{< baseurl >}}' + new_prefix + match.group(3) + "/" + match.group(4)
+    else:
+        result =  match.group(1) + '{{< relref "' + new_prefix + match.group(3) + '" >}}' + match.group(4)
+
+    return result
+
+'''
+Helps to substitute the prefix https://redis.io with e.g. / within a link
+'''
+def fq_link_to_page_link_in_file(file_path, old_prefix, new_prefix):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        file_content = file.read()
+    link_pattern = re.compile(r'(\[.*?\]\()(' + re.escape(old_prefix) + r')(.*?)' + r'(\))')
+    updated_content = re.sub(link_pattern, r'\1' + new_prefix + r'\3' + r'\4', file_content)
+
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(updated_content)
+
 '''
 Replace the link within the file
 '''
@@ -107,8 +153,21 @@ def replace_links_in_file(file_path, old_prefix, new_prefix):
     with open(file_path, 'r', encoding='utf-8') as file:
         file_content = file.read()
 
-    link_pattern = re.compile(r'(\[.*?\]\()(' + re.escape(old_prefix) + r')(.*?\))')
-    updated_content = re.sub(link_pattern, r'\1' + new_prefix + r'\3', file_content)
+    link_pattern = re.compile(r'(\[.*?\]\()(' + re.escape(old_prefix) + r')(.*?)' + r'(\))')
+    #updated_content = re.sub(link_pattern, r'\1' + '{{< relref "' + new_prefix + r'\3' + '" >}}' + r'\4', file_content)
+    updated_content = re.sub(link_pattern, lambda match: _replace_link(match, new_prefix), file_content)
+
+    # Correct links based on a list
+    corrected_links = _load_csv_file('./migrate/corrected_refs.csv')
+
+    for k in corrected_links:
+        # Relrefs don't like dots and hashtags in the link
+        if '.' in corrected_links[k]:
+            updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< baseurl >}}' + corrected_links[k])
+        elif '#' in k:
+            updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< baseurl >}}' + corrected_links[k] + '#' + k.split('#')[1])
+        else:
+            updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< relref "' + corrected_links[k] + '" >}}')    
 
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(updated_content)
@@ -268,19 +327,31 @@ Copy the command reference docs
 def migrate_commands():
     copy_files(DOCS_SRC_CMD, DOCS_CMD)
     markdown_files = find_markdown_files(DOCS_CMD)
+
     for f in markdown_files:
         add_categories(f, 'categories', ['docs', 'develop', 'stack', 'oss', 'rs', 'rc', 'oss', 'kubernetes', 'clients'])
+        remove_prop_from_file(f, "aliases")
 
-
+        replace_links_in_file(f, '/docs', '/develop')
+        replace_links_in_file(f, '/commands', '/commands')
+        replace_links_in_file(f, 'https://redis.io/', '/')
 '''
 Migrate the developer documentation
 '''
 def migrate_developer_docs():
+
+    create_index_file(DOCS_DEV, 'Develop', 'Learn how to develop with Redis')
+
     dev_content = ['get-started', 'connect', 'data-types', 'interact', 'manual', 'reference']
 
     for topic in dev_content:
         source = slash(DOCS_SRC_DOCS, topic)
-        target = slash(DOCS_DEV, topic) 
+        target = slash(DOCS_DEV, topic)
+
+        # Rename manual to use
+        if (topic == 'manual'):
+            target = slash(DOCS_DEV, 'use')
+
         copy_files(source, target)
 
     excluded_content = ['reference/signals.md', 'reference/cluster-spec.md', 'reference/arm.md', 'reference/internals']
@@ -295,7 +366,17 @@ def migrate_developer_docs():
     
     for f in markdown_files:
         print("Replacing links in {}".format(f))
+        
+        fq_link_to_page_link_in_file(f, 'https://redis.io/', '/')
+
+        # Map /docs to /develop
         replace_links_in_file(f, '/docs', '/develop')
+        
+        # Ensures that the URL-s are rewritten in relrefs
+        replace_links_in_file(f, '/commands', '/commands')
+
+        
+
         remove_prop_from_file(f, "aliases")
         add_categories(f, 'categories', ['docs', 'develop', 'stack', 'oss', 'rs', 'rc', 'oss', 'kubernetes', 'clients'])
 
@@ -407,26 +488,22 @@ if __name__ == "__main__":
     print(set_env())
 
     #print("## Fetching temporary development documentation content ...")
-    #fetch_io()
+    fetch_io()
 
     #print("## Migrating commands to {}".format(DOCS_CMD))
-    #migrate_commands()
+    migrate_commands()
     
 
     #print("## Migrating developer documentation to {} ...".format(DOCS_DEV))
-    #migrate_developer_docs()
+    migrate_developer_docs()
 
     #print("## Migrating operator documentation to {} ...".format(DOCS_OPS))
     #migrate_oss_ops_docs()
 
     print("## Fetching temporary Enterprise documentation content ...")
-    repo = fetch_docs_redis_com()
+    #repo = fetch_docs_redis_com()
     #migrate_enterprise_ops_docs(repo)
     #migrate_gloassary(repo)
-    migrate_static_files(repo)
-    delete_folder(repo)
-
-
-
-    # TODO: Serve the site and check for still broken links
+    #migrate_static_files(repo)
+    #delete_folder(repo)
 

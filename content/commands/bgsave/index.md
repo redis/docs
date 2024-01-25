@@ -11,6 +11,16 @@ arguments:
   token: SCHEDULE
   type: pure-token
 arity: -1
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -43,7 +53,7 @@ If `BGSAVE SCHEDULE` is used, the command will immediately return `OK` when an
 AOF rewrite is in progress and schedule the background save to run at the next
 opportunity.
 
-A client may be able to check if the operation succeeded using the [`LASTSAVE`](/commands/lastsave)
+A client may be able to check if the operation succeeded using the [`LASTSAVE`]({{< relref "/commands/lastsave" >}})
 command.
 
 Please refer to the [persistence documentation][tp] for detailed information.

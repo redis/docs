@@ -27,6 +27,16 @@ arguments:
   token: ARGS
   type: string
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -38,14 +48,14 @@ hidden: false
 linkTitle: MODULE LOADEX
 since: 7.0.0
 summary: Loads a module using extended parameters.
-syntax_fmt: "MODULE LOADEX path [CONFIG\_name value [CONFIG name value ...]]\n  [ARGS\_\
+syntax_fmt: "MODULE LOADEX path [CONFIG\_name value [CONFIG name value ...]] [ARGS\_\
   args [args ...]]"
 syntax_str: "[CONFIG\_name value [CONFIG name value ...]] [ARGS\_args [args ...]]"
 title: MODULE LOADEX
 ---
 Loads a module from a dynamic library at runtime with configuration directives.
 
-This is an extended version of the [`MODULE LOAD`](/commands/module-load) command.
+This is an extended version of the [`MODULE LOAD`]({{< relref "/commands/module-load" >}}) command.
 
 It loads and initializes the Redis module from the dynamic library specified by the `path` argument. The `path` should be the absolute path of the library, including the full filename.
 

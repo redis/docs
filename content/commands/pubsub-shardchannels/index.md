@@ -8,6 +8,16 @@ arguments:
   optional: true
   type: pattern
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - pubsub
 - loading

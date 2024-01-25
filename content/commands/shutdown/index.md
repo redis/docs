@@ -35,6 +35,16 @@ arguments:
   token: ABORT
   type: pure-token
 arity: -1
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -61,7 +71,7 @@ title: SHUTDOWN
 The command behavior is the following:
 
 * If there are any replicas lagging behind in replication:
-  * Pause clients attempting to write by performing a [`CLIENT PAUSE`](/commands/client-pause) with the `WRITE` option.
+  * Pause clients attempting to write by performing a [`CLIENT PAUSE`]({{< relref "/commands/client-pause" >}}) with the `WRITE` option.
   * Wait up to the configured `shutdown-timeout` (default 10 seconds) for replicas to catch up the replication offset.
 * Stop all the clients.
 * Perform a blocking SAVE if at least one **save point** is configured.
@@ -120,7 +130,7 @@ The second command will not have any problem to execute since the AOF is no long
 Since Redis 7.0, the server waits for lagging replicas up to a configurable `shutdown-timeout`, by default 10 seconds, before shutting down.
 This provides a best effort minimizing the risk of data loss in a situation where no save points are configured and AOF is disabled.
 Before version 7.0, shutting down a heavily loaded master node in a diskless setup was more likely to result in data loss.
-To minimize the risk of data loss in such setups, it's advised to trigger a manual [`FAILOVER`](/commands/failover) (or [`CLUSTER FAILOVER`](/commands/cluster-failover)) to demote the master to a replica and promote one of the replicas to be the new master, before shutting down a master node.
+To minimize the risk of data loss in such setups, it's advised to trigger a manual [`FAILOVER`]({{< relref "/commands/failover" >}}) (or [`CLUSTER FAILOVER`]({{< relref "/commands/cluster-failover" >}})) to demote the master to a replica and promote one of the replicas to be the new master, before shutting down a master node.
 
 ## Behavior change history
 

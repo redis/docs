@@ -5,6 +5,16 @@ arguments:
 - name: DEBUG
   optional: true
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns information and statistics for a time series
 group: timeseries
@@ -14,7 +24,7 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Returns information and statistics for a time series
-syntax: "TS.INFO key \n  [DEBUG]\n"
+syntax: 'TS.INFO key [DEBUG] '
 syntax_fmt: TS.INFO key [DEBUG]
 syntax_str: '[DEBUG]'
 title: TS.INFO
@@ -41,29 +51,29 @@ is an optional flag to get a more detailed information about the chunks.
 
 ## Return value
 
-[Array reply](/docs/reference/protocol-spec#arrays) with information about the time series (name-value pairs):
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with information about the time series (name-value pairs):
 
-| Name<br>[Simple string reply](/docs/reference/protocol-spec#simple-strings) | Description
+| Name<br>[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) | Description
 | ---------------------------- | -
-| `totalSamples`    | [Integer reply](/docs/reference/protocol-spec#integers)<br> Total number of samples in this time series
-| `memoryUsage`     | [Integer reply](/docs/reference/protocol-spec#integers)<br> Total number of bytes allocated for this time series, which is the sum of <br> - The memory used for storing the series' configuration parameters (retention period, duplication policy, etc.)<br>- The memory used for storing the series' compaction rules<br>- The memory used for storing the series' labels (key-value pairs)<br>- The memory used for storing the chunks (chunk header + compressed/uncompressed data)
-| `firstTimestamp`  | [Integer reply](/docs/reference/protocol-spec#integers)<br> First timestamp present in this time series (Unix timestamp in milliseconds)
-| `lastTimestamp`   | [Integer reply](/docs/reference/protocol-spec#integers)<br> Last timestamp present in this time series  (Unix timestamp in milliseconds)
-| `retentionTime`   | [Integer reply](/docs/reference/protocol-spec#integers)<br> The retention period, in milliseconds, for this time series
-| `chunkCount`      | [Integer reply](/docs/reference/protocol-spec#integers)<br> Number of chunks used for this time series
-| `chunkSize`       | [Integer reply](/docs/reference/protocol-spec#integers)<br> The initial allocation size, in bytes, for the data part of each new chunk.<br>Actual chunks may consume more memory. Changing the chunk size (using [`TS.ALTER`](/commands/ts.alter)) does not affect existing chunks.
-| `chunkType`       | [Simple string reply](/docs/reference/protocol-spec#simple-strings)<br> The chunks type: `compressed` or `uncompressed`
-| `duplicatePolicy` | [Simple string reply](/docs/reference/protocol-spec#simple-strings) or [Nil reply](/docs/reference/protocol-spec#bulk-strings)<br> The [duplicate policy](/docs/stack/timeseries/configuration/#duplicate_policy) of this time series
-| `labels`          | [Array reply](/docs/reference/protocol-spec#arrays) or [Nil reply](/docs/reference/protocol-spec#bulk-strings)<br> Metadata labels of this time series<br> Each element is a 2-elements [Array reply](/docs/reference/protocol-spec#arrays) of ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings)) representing (label, value)
-| `sourceKey`       | [Bulk string reply](/docs/reference/protocol-spec#bulk-strings) or [Nil reply](/docs/reference/protocol-spec#bulk-strings)<br>Key name for source time series in case the current series is a target of a [compaction rule](/commands/ts.createrule/)
-| `rules`           | [Array reply](/docs/reference/protocol-spec#arrays)<br> [Compaction rules](/commands/ts.createrule/) defined in this time series<br> Each rule is an [Array reply](/docs/reference/protocol-spec#arrays) with 4 elements:<br>- [Bulk string reply](/docs/reference/protocol-spec#bulk-strings): The compaction key<br>- [Integer reply](/docs/reference/protocol-spec#integers): The bucket duration<br>- [Simple string reply](/docs/reference/protocol-spec#simple-strings): The aggregator<br>- [Integer reply](/docs/reference/protocol-spec#integers): The alignment (since RedisTimeSeries v1.8)
+| `totalSamples`    | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Total number of samples in this time series
+| `memoryUsage`     | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Total number of bytes allocated for this time series, which is the sum of <br> - The memory used for storing the series' configuration parameters (retention period, duplication policy, etc.)<br>- The memory used for storing the series' compaction rules<br>- The memory used for storing the series' labels (key-value pairs)<br>- The memory used for storing the chunks (chunk header + compressed/uncompressed data)
+| `firstTimestamp`  | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> First timestamp present in this time series (Unix timestamp in milliseconds)
+| `lastTimestamp`   | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Last timestamp present in this time series  (Unix timestamp in milliseconds)
+| `retentionTime`   | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> The retention period, in milliseconds, for this time series
+| `chunkCount`      | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> Number of chunks used for this time series
+| `chunkSize`       | [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})<br> The initial allocation size, in bytes, for the data part of each new chunk.<br>Actual chunks may consume more memory. Changing the chunk size (using [`TS.ALTER`]({{< baseurl >}}/commands/ts.alter/)) does not affect existing chunks.
+| `chunkType`       | [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})<br> The chunks type: `compressed` or `uncompressed`
+| `duplicatePolicy` | [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) or [Nil reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})<br> The [duplicate policy]({{< baseurl >}}/develop/data-types/timeseries/configuration#duplicate_policy) of this time series
+| `labels`          | [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) or [Nil reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})<br> Metadata labels of this time series<br> Each element is a 2-elements [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})) representing (label, value)
+| `sourceKey`       | [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) or [Nil reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})<br>Key name for source time series in case the current series is a target of a [compaction rule]({{< baseurl >}}/commands/ts.createrule//)
+| `rules`           | [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}})<br> [Compaction rules]({{< baseurl >}}/commands/ts.createrule//) defined in this time series<br> Each rule is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with 4 elements:<br>- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): The compaction key<br>- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): The bucket duration<br>- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): The aggregator<br>- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): The alignment (since RedisTimeSeries v1.8)
 
-When [`DEBUG`](/commands/debug) is specified, the response also contains:
+When [`DEBUG`]({{< relref "/commands/debug" >}}) is specified, the response also contains:
 
-| Name<br>[Simple string reply](/docs/reference/protocol-spec#simple-strings) | Description
+| Name<br>[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) | Description
 | ---------------------------- | -
-| `keySelfName`     | [Bulk string reply](/docs/reference/protocol-spec#bulk-strings)<br> Name of the key
-| `Chunks`          | [Array reply](/docs/reference/protocol-spec#arrays) with information about the chunks<br>Each element is an [Array reply](/docs/reference/protocol-spec#arrays) of information about a single chunk in a name([Simple string reply](/docs/reference/protocol-spec#simple-strings))-value pairs:<br>- `startTimestamp` - [Integer reply](/docs/reference/protocol-spec#integers) - First timestamp present in the chunk<br>- `endTimestamp` - [Integer reply](/docs/reference/protocol-spec#integers) - Last timestamp present in the chunk<br>- `samples` - [Integer reply](/docs/reference/protocol-spec#integers) - Total number of samples in the chunk<br>- `size` - [Integer reply](/docs/reference/protocol-spec#integers) - the chunk's internal data size (without overheads) in bytes<br>- `bytesPerSample` - [Bulk string reply](/docs/reference/protocol-spec#bulk-strings) (double) - Ratio of `size` and `samples`
+| `keySelfName`     | [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})<br> Name of the key
+| `Chunks`          | [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with information about the chunks<br>Each element is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of information about a single chunk in a name([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}))-value pairs:<br>- `startTimestamp` - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - First timestamp present in the chunk<br>- `endTimestamp` - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - Last timestamp present in the chunk<br>- `samples` - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - Total number of samples in the chunk<br>- `size` - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the chunk's internal data size (without overheads) in bytes<br>- `bytesPerSample` - [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) (double) - Ratio of `size` and `samples`
 
 ## Examples
 
@@ -166,8 +176,8 @@ Query the time series using DEBUG to get more information about the chunks.
 
 ## See also
 
-[`TS.RANGE`](/commands/ts.range) | [`TS.QUERYINDEX`](/commands/ts.queryindex) | [`TS.GET`](/commands/ts.get)
+[`TS.RANGE`]({{< baseurl >}}/commands/ts.range/) | [`TS.QUERYINDEX`]({{< baseurl >}}/commands/ts.queryindex/) | [`TS.GET`]({{< baseurl >}}/commands/ts.get/)
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

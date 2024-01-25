@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Methods for debugging your Redis Stack functions
 
   '
@@ -11,7 +21,7 @@ weight: 5
 There are two methods you can use to debug your Redis Stack functions:
 
 1. Make judicious use of the `redis.log` function, which writes to the Redis log file.
-1. Use Redis [pub/sub](/docs/interact/pubsub/).
+1. Use Redis [pub/sub]({{< relref "/develop/interact/pubsub" >}}).
 
 ### Use `redis.log`
 
@@ -28,7 +38,7 @@ redis.registerFunction('hello', ()=> {
 })
 ```
 
-After loading the library and executing the function with [`TFCALL`](/commands/tfcall), you'll see something like the following in your Redis log file:
+After loading the library and executing the function with [`TFCALL`]({{< relref "/commands/tfcall" >}}), you'll see something like the following in your Redis log file:
 
 ```
 45718:M 01 Nov 2023 07:02:40.593 * <redisgears_2> Hello log
@@ -36,7 +46,7 @@ After loading the library and executing the function with [`TFCALL`](/commands/t
 
 ### Use Redis pub/sub
 
-If you don't have access to your Redis database log files, you can use pub/sub. The following example demonstrates how to use the [client.call](/docs/interact/programmability/triggers-and-functions/concepts/javascript_api/#clientcall) API to publish to a pub/sub channel.
+If you don't have access to your Redis database log files, you can use pub/sub. The following example demonstrates how to use the [client.call]({{< baseurl >}}/develop/interact/programmability/triggers-and-functions/concepts/JavaScript_API#clientcall) API to publish to a pub/sub channel.
 
 ```javascript
 #!js api_version=1.0 name=lib

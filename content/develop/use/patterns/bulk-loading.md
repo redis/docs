@@ -1,7 +1,14 @@
 ---
-aliases:
-- /topics/mass-insertion
-- /docs/reference/patterns/bulk-loading
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Writing data in bulk using the Redis protocol
 
   '

@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/json/ram
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Debugging memory consumption
 
   '
@@ -16,7 +24,7 @@ RAM.
 Redis JSON stores JSON values as binary data after deserializing them. This representation is often more
 expensive, size-wize, than the serialized form. The JSON data type uses at least 24 bytes (on
 64-bit architectures) for every value, as can be seen by sampling an empty string with the
-[`JSON.DEBUG MEMORY`](/commands/json.debug-memory) command:
+[`JSON.DEBUG MEMORY`]({{< baseurl >}}/commands/json.debug-memory/) command:
 
 ```
 127.0.0.1:6379> JSON.SET emptystring . '""'

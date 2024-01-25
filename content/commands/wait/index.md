@@ -10,6 +10,16 @@ arguments:
   name: timeout
   type: integer
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Blocks until the asynchronous replication of all preceding write commands
   sent by the connection is completed.
@@ -38,7 +48,7 @@ the specified number of replicas are reached, or when the timeout is reached.
 A few remarks:
 
 1. When `WAIT` returns, all the previous write commands sent in the context of the current connection are guaranteed to be received by the number of replicas returned by `WAIT`.
-2. If the command is sent as part of a [`MULTI`](/commands/multi) transaction (since Redis 7.0, any context that does not allow blocking, such as inside scripts), the command does not block but instead just return ASAP the number of replicas that acknowledged the previous write commands.
+2. If the command is sent as part of a [`MULTI`]({{< relref "/commands/multi" >}}) transaction (since Redis 7.0, any context that does not allow blocking, such as inside scripts), the command does not block but instead just return ASAP the number of replicas that acknowledged the previous write commands.
 3. A timeout of 0 means to block forever.
 4. Since `WAIT` returns the number of replicas reached both in case of failure and success, the client should check that the returned value is equal or greater to the replication level it demanded.
 

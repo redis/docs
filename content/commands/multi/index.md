@@ -3,6 +3,16 @@ acl_categories:
 - '@fast'
 - '@transaction'
 arity: 1
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 - loading
@@ -21,6 +31,6 @@ syntax_str: ''
 title: MULTI
 ---
 Marks the start of a [transaction][tt] block.
-Subsequent commands will be queued for atomic execution using [`EXEC`](/commands/exec).
+Subsequent commands will be queued for atomic execution using [`EXEC`]({{< relref "/commands/exec" >}}).
 
 [tt]: /topics/transactions

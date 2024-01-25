@@ -9,6 +9,16 @@ arguments:
   name: key
   type: key
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N) where N is the set cardinality.
@@ -39,7 +49,7 @@ title: SMEMBERS
 ---
 Returns all the members of the set value stored at `key`.
 
-This has the same effect as running [`SINTER`](/commands/sinter) with one argument `key`.
+This has the same effect as running [`SINTER`]({{< relref "/commands/sinter" >}}) with one argument `key`.
 
 ## Examples
 

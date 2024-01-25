@@ -4,6 +4,16 @@ acl_categories:
 - '@slow'
 - '@dangerous'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -34,7 +44,7 @@ Each reported event has the following fields:
 * All-time maximum latency for this event.
 
 "All-time" means the maximum latency since the Redis instance was
-started, or the time that events were reset [`LATENCY RESET`](/commands/latency-reset).
+started, or the time that events were reset [`LATENCY RESET`]({{< relref "/commands/latency-reset" >}}).
 
 ## Examples
 

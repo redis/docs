@@ -9,6 +9,16 @@ arguments:
   name: key
   type: key
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 - fast
@@ -38,7 +48,7 @@ title: EXPIRETIME
 ---
 Returns the absolute Unix timestamp (since January 1, 1970) in seconds at which the given key will expire.
 
-See also the [`PEXPIRETIME`](/commands/pexpiretime) command which returns the same information with milliseconds resolution.
+See also the [`PEXPIRETIME`]({{< relref "/commands/pexpiretime" >}}) command which returns the same information with milliseconds resolution.
 
 ## Examples
 

@@ -6,6 +6,16 @@ arguments:
   optional: true
   since: 1.8.0
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Get the sample with the highest timestamp from a given time series
 group: timeseries
@@ -15,7 +25,7 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Get the sample with the highest timestamp from a given time series
-syntax: "TS.GET key \n  [LATEST]\n"
+syntax: 'TS.GET key [LATEST] '
 syntax_fmt: TS.GET key [LATEST]
 syntax_str: '[LATEST]'
 title: TS.GET
@@ -36,17 +46,17 @@ is key name for the time series.
 
 <details open><summary><code>LATEST</code> (since RedisTimeSeries v1.8)</summary> 
 
-is used when a time series is a compaction. With `LATEST`, TS.GET reports the compacted value of the latest, possibly partial, bucket. Without `LATEST`, TS.GET does not report the latest, possibly partial, bucket. When a time series is not a compaction, `LATEST` is ignored.
+is used when a time series is a compaction. With `LATEST`, TS.GET reports the compacted value of the latest (possibly partial) bucket. Without `LATEST`, TS.GET does not report the latest (possibly partial) bucket. When a time series is not a compaction, `LATEST` is ignored.
   
-The data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest, possibly partial, bucket is also required. In such a case, use `LATEST`.
+The data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.
 </details>
 
 ## Return value
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) of a single ([Integer reply](/docs/reference/protocol-spec#integers), [Simple string reply](/docs/reference/protocol-spec#simple-strings)) pair representing (timestamp, value(double)) of the sample with the highest timestamp
-- An empty [Array reply](/docs/reference/protocol-spec#arrays) - when the time series is empty
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of a single ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pair representing (timestamp, value(double)) of the sample with the highest timestamp
+- An empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - when the time series is empty
 - [] (invalid arguments, wrong key type, key does not exist, etc.)
 
 ## Examples
@@ -124,8 +134,8 @@ Get the latest maximum daily temperature (the temperature with the highest times
   
 ## See also
 
-[`TS.MGET`](/commands/ts.mget)  
+[`TS.MGET`]({{< baseurl >}}/commands/ts.mget/)  
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

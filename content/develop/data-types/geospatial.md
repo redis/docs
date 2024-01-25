@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to the Redis Geospatial data type
 
   '
@@ -12,10 +22,10 @@ This data structure is useful for finding nearby points within a given radius or
 
 ## Basic commands
 
-* [`GEOADD`](/commands/geoadd) adds a location to a given geospatial index (note that longitude comes before latitude with this command).
-* [`GEOSEARCH`](/commands/geosearch) returns locations with a given radius or a bounding box.
+* [`GEOADD`]({{< relref "/commands/geoadd" >}}) adds a location to a given geospatial index (note that longitude comes before latitude with this command).
+* [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) returns locations with a given radius or a bounding box.
 
-See the [complete list of geospatial index commands](https://redis.io/commands/?group=geo).
+See the [complete list of geospatial index commands]({{< relref "/commands/?group=geo" >}}).
 
 
 ## Examples

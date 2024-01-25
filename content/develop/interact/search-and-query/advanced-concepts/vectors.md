@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/vectors/
-- /redisearch/reference/vectors
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Learn how to use vector fields and vector similarity queries
 linkTitle: Vectors
 math: true
@@ -9,8 +16,8 @@ title: Vectors
 weight: 14
 ---
 
-*Vector fields* allow you to use vector similarity queries in the [`FT.SEARCH`](/commands/ft.search) command.
-*Vector similarity* enables you to load, index, and query vectors stored as fields in Redis hashes or in JSON documents (via integration with the [JSON module](/docs/stack/json/))
+*Vector fields* allow you to use vector similarity queries in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command.
+*Vector similarity* enables you to load, index, and query vectors stored as fields in Redis hashes or in JSON documents (via integration with the [JSON module]({{< relref "/develop/data-types/json/" >}}))
 
 Vector similarity provides these functionalities:
 
@@ -63,7 +70,7 @@ For example:
 FT.CREATE my_idx SCHEMA vec_field VECTOR FLAT 6 TYPE FLOAT32 DIM 128 DISTANCE_METRIC L2
 ```
 
-Here, three parameters are passed for the index ([`TYPE`](/commands/type), `DIM`, `DISTANCE_METRIC`), and `count` counts the total number of attributes (6).
+Here, three parameters are passed for the index ([`TYPE`]({{< relref "/commands/type" >}}), `DIM`, `DISTANCE_METRIC`), and `count` counts the total number of attributes (6).
 
 * `{attribute_name} {attribute_value}` are algorithm attributes for the creation of the vector index. Every algorithm has its own mandatory and optional attributes.
 
@@ -73,7 +80,7 @@ Here, three parameters are passed for the index ([`TYPE`](/commands/type), `DIM`
 
 Mandatory parameters are:
 
-* [`TYPE`](/commands/type) - Vector type. Current supported types are `FLOAT32` and `FLOAT64`.
+* [`TYPE`]({{< relref "/commands/type" >}}) - Vector type. Current supported types are `FLOAT32` and `FLOAT64`.
     
 * `DIM` - Vector dimension specified as a positive integer.
     
@@ -105,7 +112,7 @@ BLOCK_SIZE 1000
 
 Mandatory parameters are:
 
-* [`TYPE`](/commands/type) - Vector type. Current supported types are `FLOAT32` and `FLOAT64`.
+* [`TYPE`]({{< relref "/commands/type" >}}) - Vector type. Current supported types are `FLOAT32` and `FLOAT64`.
     
 * `DIM` - Vector dimension, specified as a positive integer.
     
@@ -173,7 +180,7 @@ Unlike in hashes, vectors are stored in JSON documents as arrays (not as blobs).
 JSON.SET 1 $ '{"vec":[1,2,3,4]}'
 ```
 
-As of v2.6.1, JSON supports multi-value indexing. This capability accounts for vectors as well. Thus, it is possible to index multiple vectors under the same JSONPath. Additional information is available in the [Indexing JSON documents](/docs/stack/search/indexing_json/#index-json-arrays-as-vector) section. 
+As of v2.6.1, JSON supports multi-value indexing. This capability accounts for vectors as well. Thus, it is possible to index multiple vectors under the same JSONPath. Additional information is available in the [Indexing JSON documents]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-vector) section. 
 
 **Example**
 ```
@@ -183,7 +190,7 @@ JSON.SET 1 $ '{"foo":{"vec":[1,2,3,4]}, "bar":{"vec":[5,6,7,8]}}'
 
 ## Querying vector fields
 
-You can use vector similarity queries in the [`FT.SEARCH`](/commands/ft.search) query command. To use a vector similarity query, you must specify the option `DIALECT 2` or greater in the command itself, or set the `DEFAULT_DIALECT` option to `2` or greater, by either using the command [`FT.CONFIG SET`](/commands/ft.config-set) or when loading the `redisearch` module and passing it the argument `DEFAULT_DIALECT 2`.
+You can use vector similarity queries in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) query command. To use a vector similarity query, you must specify the option `DIALECT 2` or greater in the command itself, or set the `DEFAULT_DIALECT` option to `2` or greater, by either using the command [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) or when loading the `redisearch` module and passing it the argument `DEFAULT_DIALECT 2`.
 
 There are two types of vector queries: *KNN* and *range*:
 
@@ -206,7 +213,7 @@ The `<vector_similarity_query>` part inside the square brackets needs to be in t
 KNN (<number> | $<number_attribute>) @<vector_field> $<blob_attribute> [<vector_query_param_name> <value>|$<value_attribute>] [...]] [ AS <dist_field_name> | $<dist_field_name_attribute>]
 ```
 
-Every `*_attribute` parameter should refer to an attribute in the [`PARAMS`](/commands/ft.search) section.
+Every `*_attribute` parameter should refer to an attribute in the [`PARAMS`]({{< baseurl >}}/commands/ft.search/) section.
 
 * `<number> | $<number_attribute>` - Number of requested results ("K").
 
@@ -214,11 +221,11 @@ Every `*_attribute` parameter should refer to an attribute in the [`PARAMS`](/co
 
 * `$<blob_attribute>` - An attribute that holds the query vector as blob and must be passed through the `PARAMS` section. The blob's byte size should match the vector field dimension and type.
 
-* `[<vector_query_param_name> <value>|$<value_attribute> [...]]` - An optional part for passing one or more vector similarity query parameters. Parameters should come in key-value pairs and should be valid parameters for the query. See which [runtime parameters](/docs/stack/search/reference/vectors/#runtime-attributes) are valid for each algorithm.
+* `[<vector_query_param_name> <value>|$<value_attribute> [...]]` - An optional part for passing one or more vector similarity query parameters. Parameters should come in key-value pairs and should be valid parameters for the query. See which [runtime parameters]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#runtime-attributes) are valid for each algorithm.
 
 * `[AS <dist_field_name> | $<dist_field_name_attribute>]` - An optional part for specifying a distance field name, for later sorting by the similarity metric and/or returning it. By default, the distance field name is "`__<vector_field>_score`" and it can be used for sorting without using `AS <dist_field_name>` in the query.
 
-**Note:** As of v2.6, vector query params and distance field name can be specified in [query attributes](/docs/stack/search/reference/query_syntax/#query-attributes) like syntax as well. Thus, the following format is also supported:
+**Note:** As of v2.6, vector query params and distance field name can be specified in [query attributes]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax#query-attributes) like syntax as well. Thus, the following format is also supported:
 
 ```
 <primary_filter_query>=>[<vector_similarity_query>]=>{$<param>: (<value> | $<value_attribute>); ... }
@@ -305,7 +312,7 @@ Now, sort the results by their distance from the query vector:
 ```
 FT.SEARCH idx "*=>[KNN 10 @vec $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vec_score DIALECT 2
 ```
-Return the top 10 similar documents, use *query params* (see "params" section in [FT.SEARCH command](/commands/ft.search/)) for specifying `K` and `EF_RUNTIME` parameter, and set `EF_RUNTIME` value to 150 (assuming `vec` is an HNSW index):
+Return the top 10 similar documents, use *query params* (see "params" section in [FT.SEARCH command]({{< baseurl >}}/commands/ft.search//)) for specifying `K` and `EF_RUNTIME` parameter, and set `EF_RUNTIME` value to 150 (assuming `vec` is an HNSW index):
 ```
 FT.SEARCH idx "*=>[KNN $K @vec $BLOB EF_RUNTIME $EF]" PARAMS 6 BLOB "\x12\xa9\xf5\x6c" K 10 EF 150 DIALECT 2
 ```

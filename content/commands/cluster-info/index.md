@@ -2,6 +2,16 @@
 acl_categories:
 - '@slow'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - stale
 complexity: O(1)
@@ -17,7 +27,7 @@ syntax_fmt: CLUSTER INFO
 syntax_str: ''
 title: CLUSTER INFO
 ---
-`CLUSTER INFO` provides [`INFO`](/commands/info) style information about Redis Cluster vital parameters.
+`CLUSTER INFO` provides [`INFO`]({{< relref "/commands/info" >}}) style information about Redis Cluster vital parameters.
 The following fields are always present in the reply:
 
 ```
@@ -52,9 +62,9 @@ The following message-related fields may be included in the reply if the value i
 Each message type includes statistics on the number of messages sent and received.
 Here are the explanation of these fields:
 
-* `cluster_stats_messages_ping_sent` and `cluster_stats_messages_ping_received`: Cluster bus PING (not to be confused with the client command [`PING`](/commands/ping)).
+* `cluster_stats_messages_ping_sent` and `cluster_stats_messages_ping_received`: Cluster bus PING (not to be confused with the client command [`PING`]({{< relref "/commands/ping" >}})).
 * `cluster_stats_messages_pong_sent` and `cluster_stats_messages_pong_received`: PONG (reply to PING).
-* `cluster_stats_messages_meet_sent` and `cluster_stats_messages_meet_received`: Handshake message sent to a new node, either through gossip or [`CLUSTER MEET`](/commands/cluster-meet).
+* `cluster_stats_messages_meet_sent` and `cluster_stats_messages_meet_received`: Handshake message sent to a new node, either through gossip or [`CLUSTER MEET`]({{< relref "/commands/cluster-meet" >}}).
 * `cluster_stats_messages_fail_sent` and `cluster_stats_messages_fail_received`: Mark node xxx as failing.
 * `cluster_stats_messages_publish_sent` and `cluster_stats_messages_publish_received`: Pub/Sub Publish propagation, see [Pubsub](/topics/pubsub#pubsub).
 * `cluster_stats_messages_auth-req_sent` and `cluster_stats_messages_auth-req_received`: Replica initiated leader election to replace its master.

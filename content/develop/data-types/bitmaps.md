@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to Redis bitmaps
 
   '
@@ -20,39 +30,32 @@ Some examples of bitmap use cases include:
 
 ## Basic commands
 
-* [`SETBIT`](/commands/setbit) sets a bit at the provided offset to 0 or 1.
-* [`GETBIT`](/commands/getbit) returns the value of a bit at a given offset.
-* [`BITOP`](/commands/bitop) lets you perform bitwise operations against one or more strings.
+* [`SETBIT`]({{< relref "/commands/setbit" >}}) sets a bit at the provided offset to 0 or 1.
+* [`GETBIT`]({{< relref "/commands/getbit" >}}) returns the value of a bit at a given offset.
 
-See the [complete list of bitmap commands](https://redis.io/commands/?group=bitmap).
+See the [complete list of bitmap commands]({{< relref "/commands/?group=bitmap" >}}).
 
 
-## Examples
+## Example
 
-Suppose you have 1000 sensors deployed in the field, labeled 0-999.
-You want to quickly determine whether a given sensor has pinged the server within the hour. 
+Suppose you have 1000 cyclists racing through the country-side, with sensors on their bikes labeled 0-999.
+You want to quickly determine whether a given sensor has pinged a tracking server within the hour to check in on a rider. 
 
 You can represent this scenario using a bitmap whose key references the current hour.
 
-* Sensor 123 pings the server on January 1, 2024 within the 00:00 hour.
-```
+* Rider 123 pings the server on January 1, 2024 within the 00:00 hour. You can then confirm that rider 123 pinged the server. You can also check to see if rider 456 has pinged the server for that same hour.
+
+{{< clients-example bitmap_tutorial ping >}}
 > SETBIT pings:2024-01-01-00:00 123 1
 (integer) 0
-```
-
-* Did sensor 123 ping the server on January 1, 2024 within the 00:00 hour?
-```
 > GETBIT pings:2024-01-01-00:00 123
 1
-```
-
-* What about sensor 456?
-```
 > GETBIT pings:2024-01-01-00:00 456
 0
-```
+{{< /clients-example >}}
 
 
+## Bit Operations
 
 Bit operations are divided into two groups: constant-time single bit
 operations, like setting a bit to 1 or 0, or getting its value, and
@@ -65,52 +68,40 @@ where different users are represented by incremental user IDs, it is possible
 to remember a single bit information (for example, knowing whether
 a user wants to receive a newsletter) of 4 billion users using just 512 MB of memory.
 
-Bits are set and retrieved using the [`SETBIT`](/commands/setbit) and [`GETBIT`](/commands/getbit) commands:
-
-    > setbit key 10 1
-    (integer) 0
-    > getbit key 10
-    (integer) 1
-    > getbit key 11
-    (integer) 0
-
-The [`SETBIT`](/commands/setbit) command takes as its first argument the bit number, and as its second
+The [`SETBIT`]({{< relref "/commands/setbit" >}}) command takes as its first argument the bit number, and as its second
 argument the value to set the bit to, which is 1 or 0. The command
 automatically enlarges the string if the addressed bit is outside the
 current string length.
 
-[`GETBIT`](/commands/getbit) just returns the value of the bit at the specified index.
+[`GETBIT`]({{< relref "/commands/getbit" >}}) just returns the value of the bit at the specified index.
 Out of range bits (addressing a bit that is outside the length of the string
 stored into the target key) are always considered to be zero.
 
 There are three commands operating on group of bits:
 
-1. [`BITOP`](/commands/bitop) performs bit-wise operations between different strings. The provided operations are AND, OR, XOR and NOT.
-2. [`BITCOUNT`](/commands/bitcount) performs population counting, reporting the number of bits set to 1.
-3. [`BITPOS`](/commands/bitpos) finds the first bit having the specified value of 0 or 1.
+1. [`BITOP`]({{< relref "/commands/bitop" >}}) performs bit-wise operations between different strings. The provided operations are AND, OR, XOR and NOT.
+2. [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) performs population counting, reporting the number of bits set to 1.
+3. [`BITPOS`]({{< relref "/commands/bitpos" >}}) finds the first bit having the specified value of 0 or 1.
 
-Both [`BITPOS`](/commands/bitpos) and [`BITCOUNT`](/commands/bitcount) are able to operate with byte ranges of the
-string, instead of running for the whole length of the string. The following
-is a trivial example of [`BITCOUNT`](/commands/bitcount) call:
+Both [`BITPOS`]({{< relref "/commands/bitpos" >}}) and [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) are able to operate with byte ranges of the
+string, instead of running for the whole length of the string. We can trivially see the number of bits that have been set in a bitmap.
 
-    > setbit key 0 1
-    (integer) 0
-    > setbit key 100 1
-    (integer) 0
-    > bitcount key
-    (integer) 2
+{{< clients-example bitmap_tutorial bitcount >}}
+> BITCOUNT pings:2024-01-01-00:00
+(integer) 1
+{{< /clients-example >}}
 
 For example imagine you want to know the longest streak of daily visits of
 your web site users. You start counting days starting from zero, that is the
-day you made your web site public, and set a bit with [`SETBIT`](/commands/setbit) every time
+day you made your web site public, and set a bit with [`SETBIT`]({{< relref "/commands/setbit" >}}) every time
 the user visits the web site. As a bit index you simply take the current unix
 time, subtract the initial offset, and divide by the number of seconds in a day
 (normally, 3600\*24).
 
 This way for each user you have a small string containing the visit
-information for each day. With [`BITCOUNT`](/commands/bitcount) it is possible to easily get
+information for each day. With [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) it is possible to easily get
 the number of days a given user visited the web site, while with
-a few [`BITPOS`](/commands/bitpos) calls, or simply fetching and analyzing the bitmap client-side,
+a few [`BITPOS`]({{< relref "/commands/bitpos" >}}) calls, or simply fetching and analyzing the bitmap client-side,
 it is possible to easily compute the longest streak.
 
 Bitmaps are trivial to split into multiple keys, for example for
@@ -124,8 +115,8 @@ the Nth bit to address inside the key with `bit-number MOD M`.
 
 ## Performance
 
-[`SETBIT`](/commands/setbit) and [`GETBIT`](/commands/getbit) are O(1).
-[`BITOP`](/commands/bitop) is O(n), where _n_ is the length of the longest string in the comparison.
+[`SETBIT`]({{< relref "/commands/setbit" >}}) and [`GETBIT`]({{< relref "/commands/getbit" >}}) are O(1).
+[`BITOP`]({{< relref "/commands/bitop" >}}) is O(n), where _n_ is the length of the longest string in the comparison.
 
 ## Learn more
 

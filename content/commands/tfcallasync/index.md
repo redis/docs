@@ -24,6 +24,16 @@ bannerText: 'The triggers and functions feature of Redis Stack and its documenta
   GitHub using the "Create new issue" link in the top right-hand corner of this page.
 
   '
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: Depends on the function that is executed.
 description: Invoke an asynchronous JavaScript function
 group: triggers_and_functions
@@ -81,7 +91,7 @@ The arguments passed to the function.
 `TFCALLASYNC` returns either
 
 * The return value of the function.
-* [Error reply](/docs/reference/protocol-spec/#resp-errors) when the function execution failed.
+* [Error reply]({{< baseurl >}}/develop/reference/protocol-spec#resp-errors) when the function execution failed.
 
 ## Examples
 

@@ -2,6 +2,7 @@
 baseURL = "https://redis.io"
 title = "Redis Documentation"
 
+refLinksErrorLevel = "WARNING"
 enableRobotsTXT = true
 enableGitInfo = true
 enableEmoji = true

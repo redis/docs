@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/extensions/
-- /redisearch/reference/extensions
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Details about extensions for query expanders and scoring functions
 linkTitle: Extensions
 title: Extensions

@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/phonetic_matching/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Phonetic matching
 linkTitle: Phonetic
 title: Phonetic
@@ -15,7 +23,7 @@ Phonetic matching is based on the use of a phonetic algorithm. A phonetic algori
 
 As of v1.4, RediSearch provides phonetic matching of text fields specified with the `PHONETIC` attribute. This causes the terms in such fields to be indexed both by their textual value as well as their phonetic approximation.
 
-Performing a search on `PHONETIC` fields will, by default, also return results for phonetically similar terms. This behavior can be controlled with the [`$phonetic` query attribute](/docs/interact/search-and-query/query/#query-attributes).
+Performing a search on `PHONETIC` fields will, by default, also return results for phonetically similar terms. This behavior can be controlled with the [`$phonetic` query attribute]({{< relref "/develop/interact/search-and-query/query/#query-attributes" >}}).
 
 ## Phonetic algorithms support
 

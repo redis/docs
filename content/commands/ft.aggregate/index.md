@@ -144,6 +144,16 @@ arguments:
   since: 2.4.3
   token: DIALECT
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Run a search query on an index and perform aggregate transformations
   on the results
@@ -155,23 +165,22 @@ since: 1.1.0
 stack_path: docs/interact/search-and-query
 summary: Run a search query on an index and perform aggregate transformations on the
   results
-syntax: "FT.AGGREGATE index query \n  [VERBATIM] \n  [LOAD count field [field ...]]\
-  \ \n  [TIMEOUT timeout] \n  [ GROUPBY nargs property [property ...] [ REDUCE function\
-  \ nargs arg [arg ...] [AS name] [ REDUCE function nargs arg [arg ...] [AS name]\
-  \ ...]] ...]] \n  [ SORTBY nargs [ property ASC | DESC [ property ASC | DESC ...]]\
-  \ [MAX num] [WITHCOUNT] \n  [ APPLY expression AS name [ APPLY expression AS name\
-  \ ...]] \n  [ LIMIT offset num] \n  [FILTER filter] \n  [ WITHCURSOR [COUNT read_size]\
-  \ [MAXIDLE idle_time]] \n  [ PARAMS nargs name value [ name value ...]] \n  [DIALECT\
-  \ dialect]\n"
-syntax_fmt: "FT.AGGREGATE index query [VERBATIM] [LOAD\_count field [field ...]]\n\
-  \  [TIMEOUT\_timeout] [LOAD *] [GROUPBY\_nargs property [property ...]\n  [REDUCE\_\
-  function nargs arg [arg ...] [AS\_name] [REDUCE\_function\n  nargs arg [arg ...]\
-  \ [AS\_name] ...]] [GROUPBY\_nargs property\n  [property ...] [REDUCE\_function\
-  \ nargs arg [arg ...] [AS\_name]\n  [REDUCE\_function nargs arg [arg ...] [AS\_\
-  name] ...]] ...]]\n  [SORTBY\_nargs [property <ASC | DESC> [property <ASC | DESC>\
-  \ ...]]\n  [MAX\_num]] [APPLY\_expression AS\_name [APPLY\_expression AS\_name\n\
-  \  ...]] [LIMIT offset num] [FILTER\_filter] [WITHCURSOR\n  [COUNT\_read_size] [MAXIDLE\_\
-  idle_time]] [PARAMS nargs name value\n  [name value ...]] [DIALECT\_dialect]"
+syntax: 'FT.AGGREGATE index query [VERBATIM] [LOAD count field [field ...]]  [TIMEOUT
+  timeout] [ GROUPBY nargs property [property ...] [ REDUCE function nargs arg [arg
+  ...] [AS name] [ REDUCE function nargs arg [arg ...] [AS name] ...]] ...]] [ SORTBY
+  nargs [ property ASC | DESC [ property ASC | DESC ...]] [MAX num] [WITHCOUNT] [
+  APPLY expression AS name [ APPLY expression AS name ...]] [ LIMIT offset num] [FILTER
+  filter] [ WITHCURSOR [COUNT read_size] [MAXIDLE idle_time]] [ PARAMS nargs name
+  value [ name value ...]] [DIALECT dialect] '
+syntax_fmt: "FT.AGGREGATE index query [VERBATIM] [LOAD\_count field [field ...]] \
+  \  [TIMEOUT\_timeout] [LOAD *] [GROUPBY\_nargs property [property ...] [REDUCE\_\
+  function nargs arg [arg ...] [AS\_name] [REDUCE\_function nargs arg [arg ...] [AS\_\
+  name] ...]] [GROUPBY\_nargs property [property ...] [REDUCE\_function nargs arg\
+  \ [arg ...] [AS\_name] [REDUCE\_function nargs arg [arg ...] [AS\_name] ...]] ...]]\
+  \ [SORTBY\_nargs [property <ASC | DESC> [property <ASC | DESC> ...]] [MAX\_num]]\
+  \ [APPLY\_expression AS\_name [APPLY\_expression AS\_name   ...]] [LIMIT offset\
+  \ num] [FILTER\_filter] [WITHCURSOR [COUNT\_read_size] [MAXIDLE\_idle_time]] [PARAMS\
+  \ nargs name value [name value ...]] [DIALECT\_dialect]"
 syntax_str: "query [VERBATIM] [LOAD\_count field [field ...]] [TIMEOUT\_timeout] [LOAD\
   \ *] [GROUPBY\_nargs property [property ...] [REDUCE\_function nargs arg [arg ...]\
   \ [AS\_name] [REDUCE\_function nargs arg [arg ...] [AS\_name] ...]] [GROUPBY\_nargs\
@@ -193,7 +202,7 @@ Run a search query on an index, and perform aggregate transformations on the res
 <details open>
 <summary><code>index</code></summary>
 
-is index name against which the query is executed. You must first create the index using [`FT.CREATE`](/commands/ft.create).
+is index name against which the query is executed. You must first create the index using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/).
 </details>
 
 <details open>
@@ -218,7 +227,7 @@ loads document attributes from the source document.
  - `property` is the optional name used in the result. If it is not provided, the `identifier` is used. This should be avoided.
  - If `*` is used as `nargs`, all attributes in a document are loaded.
 
-Attributes needed for aggregations should be stored as `SORTABLE`, where they are available to the aggregation pipeline with very low latency. `LOAD` hurts the performance of aggregate queries considerably because every processed record needs to execute the equivalent of [`HMGET`](/commands/hmget) against a Redis key, which when executed over millions of keys, amounts to high processing times.
+Attributes needed for aggregations should be stored as `SORTABLE`, where they are available to the aggregation pipeline with very low latency. `LOAD` hurts the performance of aggregate queries considerably because every processed record needs to execute the equivalent of [`HMGET`]({{< relref "/commands/hmget" >}}) against a Redis key, which when executed over millions of keys, amounts to high processing times.
 
 <details open>
 <summary><code>GROUPBY {nargs} {property}</code></summary> 
@@ -231,7 +240,7 @@ groups the results in the pipeline based on one or more properties. Each group s
 
 reduces the matching results in each group into a single record, using a reduction function. For example, `COUNT` counts the number of records in the group. The reducers can have their own property names using the `AS {name}` optional argument. If a name is not given, the resulting name will be the name of the reduce function and the group properties. For example, if a name is not given to `COUNT_DISTINCT` by property `@foo`, the resulting name will be `count_distinct(@foo)`.
   
-See [Supported GROUPBY reducers](/docs/interact/search-and-query/search/aggregations/#supported-groupby-reducers) for more details.   
+See [Supported GROUPBY reducers]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations#supported-groupby-reducers) for more details.   
 </details>
 
 <details open>
@@ -285,7 +294,7 @@ filters the results using predicate expressions relating to values in each resul
 <summary><code>WITHCURSOR {COUNT} {read_size} [MAXIDLE {idle_time}]</code></summary> 
 
 Scan part of the results with a quicker alternative than `LIMIT`.
-See [Cursor API](/docs/interact/search-and-query/search/aggregations/#cursor-api) for more details.
+See [Cursor API]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api) for more details.
 </details>
 
 <details open>
@@ -305,18 +314,18 @@ You can reference parameters in the `query` by a `$`, followed by the parameter 
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary> 
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`](/commands/ft.config-set) command.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) command.
 </details>
 
 ## Return
 
 FT.AGGREGATE returns an array reply where each row is an array reply and represents a single aggregate result.
-The [integer reply](/docs/reference/protocol-spec/#resp-integers) at position `1` does not represent a valid value.
+The [integer reply]({{< baseurl >}}/develop/reference/protocol-spec#resp-integers) at position `1` does not represent a valid value.
 
 ### Return multiple values
 
-See [Return multiple values](/commands/ft.search#return-multiple-values) in [`FT.SEARCH`](/commands/ft.search)
-The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`](/commands/ft.config-set) or by passing it as an argument to the `redisearch` module when it is loaded.
+See [Return multiple values]({{< baseurl >}}/commands/ft.search#return-multiple-values/) in [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/)
+The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) or by passing it as an argument to the `redisearch` module when it is loaded.
 For example, with the following document and index:
 
 
@@ -445,10 +454,10 @@ Next, count GitHub events by user (actor), to produce the most active users.
 
 ## See also
 
-[`FT.CONFIG SET`](/commands/ft.config-set) | [`FT.SEARCH`](/commands/ft.search) 
+[`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) | [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) 
 
 ## Related topics
 
-- [Aggregations](/docs/interact/search-and-query/search/aggregations)
-- [RediSearch](/docs/interact/search-and-query)
+- [Aggregations]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}})
+- [RediSearch]({{< relref "/develop/interact/search-and-query" >}})
 

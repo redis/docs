@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n) where n is the number of items
 description: Returns the count for one or more items in a sketch
 group: cms
@@ -29,7 +39,7 @@ Returns the count for one or more items in a sketch.
 
 Count of one or more items
 
-[Array reply](/docs/reference/protocol-spec#arrays) of [Integer reply](/docs/reference/protocol-spec#integers) with a min-count of each of the items in the sketch.
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) with a min-count of each of the items in the sketch.
 
 ## Examples
 

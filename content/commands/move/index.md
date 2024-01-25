@@ -12,6 +12,16 @@ arguments:
   name: db
   type: integer
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - fast
@@ -40,7 +50,7 @@ syntax_fmt: MOVE key db
 syntax_str: db
 title: MOVE
 ---
-Move `key` from the currently selected database (see [`SELECT`](/commands/select)) to the specified
+Move `key` from the currently selected database (see [`SELECT`]({{< relref "/commands/select" >}})) to the specified
 destination database.
 When `key` already exists in the destination database, or it does not exist in
 the source database, it does nothing.

@@ -4,6 +4,16 @@ arguments:
   type: key
 - name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k), where k is the number of sub-filters
 description: Deletes an item from a Cuckoo Filter
 group: cf
@@ -47,7 +57,7 @@ checked on all `sub-filters`.
 
 Returns one of these replies:
 
-- [Integer reply](/docs/reference/protocol-spec#integers) - where "1" means that the item has been deleted, and "0" means that such item was not found in the filter
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - where "1" means that the item has been deleted, and "0" means that such item was not found in the filter
 - [] on error (invalid arguments, wrong key type, etc.)
 
 ## Examples

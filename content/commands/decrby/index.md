@@ -12,6 +12,16 @@ arguments:
   name: decrement
   type: integer
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -49,7 +59,7 @@ An error is returned if the key contains a value of the wrong type or contains a
 string that can not be represented as integer.
 This operation is limited to 64 bit signed integers.
 
-See [`INCR`](/commands/incr) for extra information on increment/decrement operations.
+See [`INCR`]({{< relref "/commands/incr" >}}) for extra information on increment/decrement operations.
 
 ## Examples
 

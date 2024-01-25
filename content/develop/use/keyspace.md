@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/manual/the-redis-keyspace
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Managing keys in Redis: Key expiration, scanning, altering and querying
   the key space
 
@@ -38,8 +46,8 @@ There are commands that are not defined on particular types, but are useful
 in order to interact with the space of keys, and thus, can be used with
 keys of any type.
 
-For example the [`EXISTS`](/commands/exists) command returns 1 or 0 to signal if a given key
-exists or not in the database, while the [`DEL`](/commands/del) command deletes a key
+For example the [`EXISTS`]({{< relref "/commands/exists" >}}) command returns 1 or 0 to signal if a given key
+exists or not in the database, while the [`DEL`]({{< relref "/commands/del" >}}) command deletes a key
 and associated value, whatever the value is.
 
     > set mykey hello
@@ -51,12 +59,12 @@ and associated value, whatever the value is.
     > exists mykey
     (integer) 0
 
-From the examples you can also see how [`DEL`](/commands/del) itself returns 1 or 0 depending on whether
+From the examples you can also see how [`DEL`]({{< relref "/commands/del" >}}) itself returns 1 or 0 depending on whether
 the key was removed (it existed) or not (there was no such key with that
 name).
 
 There are many key space related commands, but the above two are the
-essential ones together with the [`TYPE`](/commands/type) command, which returns the kind
+essential ones together with the [`TYPE`]({{< relref "/commands/type" >}}) command, which returns the kind
 of value stored at the specified key:
 
     > set mykey x
@@ -78,7 +86,7 @@ A few important notes about key expiration:
 * However the expire time resolution is always 1 millisecond.
 * Information about expires are replicated and persisted on disk, the time virtually passes when your Redis server remains stopped (this means that Redis saves the date at which a key will expire).
 
-Use the [`EXPIRE`](/commands/expire) command to set a key's expiration:
+Use the [`EXPIRE`]({{< relref "/commands/expire" >}}) command to set a key's expiration:
 
     > set key some-value
     OK
@@ -89,13 +97,13 @@ Use the [`EXPIRE`](/commands/expire) command to set a key's expiration:
     > get key (after some time)
     (nil)
 
-The key vanished between the two [`GET`](/commands/get) calls, since the second call was
-delayed more than 5 seconds. In the example above we used [`EXPIRE`](/commands/expire) in
+The key vanished between the two [`GET`]({{< relref "/commands/get" >}}) calls, since the second call was
+delayed more than 5 seconds. In the example above we used [`EXPIRE`]({{< relref "/commands/expire" >}}) in
 order to set the expire (it can also be used in order to set a different
-expire to a key already having one, like [`PERSIST`](/commands/persist) can be used in order
+expire to a key already having one, like [`PERSIST`]({{< relref "/commands/persist" >}}) can be used in order
 to remove the expire and make the key persistent forever). However we
 can also create keys with expires using other Redis commands. For example
-using [`SET`](/commands/set) options:
+using [`SET`]({{< relref "/commands/set" >}}) options:
 
     > set key 100 ex 10
     OK
@@ -103,35 +111,35 @@ using [`SET`](/commands/set) options:
     (integer) 9
 
 The example above sets a key with the string value `100`, having an expire
-of ten seconds. Later the [`TTL`](/commands/ttl) command is called in order to check the
+of ten seconds. Later the [`TTL`]({{< relref "/commands/ttl" >}}) command is called in order to check the
 remaining time to live for the key.
 
-In order to set and check expires in milliseconds, check the [`PEXPIRE`](/commands/pexpire) and
-the [`PTTL`](/commands/pttl) commands, and the full list of [`SET`](/commands/set) options.
+In order to set and check expires in milliseconds, check the [`PEXPIRE`]({{< relref "/commands/pexpire" >}}) and
+the [`PTTL`]({{< relref "/commands/pttl" >}}) commands, and the full list of [`SET`]({{< relref "/commands/set" >}}) options.
 
 ## Navigating the keyspace
 
 ### Scan
-To incrementally  iterate over the keys in a Redis database in an efficient manner, you can use the [`SCAN`](/commands/scan) command.
+To incrementally  iterate over the keys in a Redis database in an efficient manner, you can use the [`SCAN`]({{< relref "/commands/scan" >}}) command.
 
-Since [`SCAN`](/commands/scan) allows for incremental iteration, returning only a small number of elements per call, it can be used in production without the downside of commands like [`KEYS`](/commands/keys) or [`SMEMBERS`](/commands/smembers) that may block the server for a long time (even several seconds) when called against big collections of keys or elements.
+Since [`SCAN`]({{< relref "/commands/scan" >}}) allows for incremental iteration, returning only a small number of elements per call, it can be used in production without the downside of commands like [`KEYS`]({{< relref "/commands/keys" >}}) or [`SMEMBERS`]({{< relref "/commands/smembers" >}}) that may block the server for a long time (even several seconds) when called against big collections of keys or elements.
 
-However while blocking commands like [`SMEMBERS`](/commands/smembers) are able to provide all the elements that are part of a Set in a given moment.
-The [`SCAN`](/commands/scan) family of commands only offer limited guarantees about the returned elements since the collection that we incrementally iterate can change during the iteration process.
+However while blocking commands like [`SMEMBERS`]({{< relref "/commands/smembers" >}}) are able to provide all the elements that are part of a Set in a given moment.
+The [`SCAN`]({{< relref "/commands/scan" >}}) family of commands only offer limited guarantees about the returned elements since the collection that we incrementally iterate can change during the iteration process.
 
 ### Keys
 
-Another way to iterate over the keyspace is to use the [`KEYS`](/commands/keys) command, but this approach should be used with care, since [`KEYS`](/commands/keys) will block the Redis server until all keys are returned.
+Another way to iterate over the keyspace is to use the [`KEYS`]({{< relref "/commands/keys" >}}) command, but this approach should be used with care, since [`KEYS`]({{< relref "/commands/keys" >}}) will block the Redis server until all keys are returned.
 
-**Warning**: consider [`KEYS`](/commands/keys) as a command that should only be used in production
+**Warning**: consider [`KEYS`]({{< relref "/commands/keys" >}}) as a command that should only be used in production
 environments with extreme care.
 
-[`KEYS`](/commands/keys) may ruin performance when it is executed against large databases.
+[`KEYS`]({{< relref "/commands/keys" >}}) may ruin performance when it is executed against large databases.
 This command is intended for debugging and special operations, such as changing
 your keyspace layout.
-Don't use [`KEYS`](/commands/keys) in your regular application code.
+Don't use [`KEYS`]({{< relref "/commands/keys" >}}) in your regular application code.
 If you're looking for a way to find keys in a subset of your keyspace, consider
-using [`SCAN`](/commands/scan) or [sets][tdts].
+using [`SCAN`]({{< relref "/commands/scan" >}}) or [sets][tdts].
 
 [tdts]: /topics/data-types#sets
 

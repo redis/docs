@@ -1,8 +1,14 @@
 ---
-aliases:
-- /docs/manual/data-types
-- /topics/data-types
-- /docs/data-types/tutorial
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Overview of data types supported by Redis
 linkTitle: Understand data types
 title: Understand Redis data types
@@ -10,7 +16,7 @@ weight: 35
 ---
 
 Redis is a data structure server.
-At its core, Redis provides a collection of native data types that help you solve a wide variety of problems, from [caching](/docs/manual/client-side-caching/) to [queuing](/docs/data-types/lists/) to [event processing](/docs/data-types/streams/).
+At its core, Redis provides a collection of native data types that help you solve a wide variety of problems, from [caching]({{< relref "/develop/use/client-side-caching" >}}) to [queuing]({{< relref "/develop/data-types/lists" >}}) to [event processing]({{< relref "/develop/data-types/streams" >}}).
 Below is a short description of each data type, with links to broader overviews and command references.
 
 If you'd like to try a comprehensive tutorial for each data structure, see their overview pages below.
@@ -20,93 +26,93 @@ If you'd like to try a comprehensive tutorial for each data structure, see their
 
 ### Strings 
 
-[Redis strings](/docs/data-types/strings) are the most basic Redis data type, representing a sequence of bytes.
+[Redis strings]({{< relref "/develop/data-types/strings" >}}) are the most basic Redis data type, representing a sequence of bytes.
 For more information, see:
 
-* [Overview of Redis strings](/docs/data-types/strings/)
-* [Redis string command reference](/commands/?group=string)
+* [Overview of Redis strings]({{< relref "/develop/data-types/strings" >}})
+* [Redis string command reference]({{< relref "/commands/?group=string" >}})
 
 ### Lists
 
-[Redis lists](/docs/data-types/lists) are lists of strings sorted by insertion order.
+[Redis lists]({{< relref "/develop/data-types/lists" >}}) are lists of strings sorted by insertion order.
 For more information, see:
 
-* [Overview of Redis lists](/docs/data-types/lists/)
-* [Redis list command reference](/commands/?group=list)
+* [Overview of Redis lists]({{< relref "/develop/data-types/lists" >}})
+* [Redis list command reference]({{< relref "/commands/?group=list" >}})
 
 ### Sets
 
-[Redis sets](/docs/data-types/sets) are unordered collections of unique strings that act like the sets from your favorite programming language (for example, [Java HashSets](https://docs.oracle.com/javase/7/docs/api/java/util/HashSet.html), [Python sets](https://docs.python.org/3.10/library/stdtypes.html#set-types-set-frozenset), and so on).
+[Redis sets]({{< relref "/develop/data-types/sets" >}}) are unordered collections of unique strings that act like the sets from your favorite programming language (for example, [Java HashSets](https://docs.oracle.com/javase/7/docs/api/java/util/HashSet.html), [Python sets](https://docs.python.org/3.10/library/stdtypes.html#set-types-set-frozenset), and so on).
 With a Redis set, you can add, remove, and test for existence in O(1) time (in other words, regardless of the number of set elements).
 For more information, see:
 
-* [Overview of Redis sets](/docs/data-types/sets/)
-* [Redis set command reference](/commands/?group=set)
+* [Overview of Redis sets]({{< relref "/develop/data-types/sets" >}})
+* [Redis set command reference]({{< relref "/commands/?group=set" >}})
 
 ### Hashes
 
-[Redis hashes](/docs/data-types/hashes) are record types modeled as collections of field-value pairs.
+[Redis hashes]({{< relref "/develop/data-types/hashes" >}}) are record types modeled as collections of field-value pairs.
 As such, Redis hashes resemble [Python dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries), [Java HashMaps](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html), and [Ruby hashes](https://ruby-doc.org/core-3.1.2/Hash.html).
 For more information, see:
 
-* [Overview of Redis hashes](/docs/data-types/hashes/)
-* [Redis hashes command reference](/commands/?group=hash)
+* [Overview of Redis hashes]({{< relref "/develop/data-types/hashes" >}})
+* [Redis hashes command reference]({{< relref "/commands/?group=hash" >}})
 
 ### Sorted sets
 
-[Redis sorted sets](/docs/data-types/sorted-sets) are collections of unique strings that maintain order by each string's associated score.
+[Redis sorted sets]({{< relref "/develop/data-types/sorted-sets" >}}) are collections of unique strings that maintain order by each string's associated score.
 For more information, see:
 
-* [Overview of Redis sorted sets](/docs/data-types/sorted-sets)
-* [Redis sorted set command reference](/commands/?group=sorted-set)
+* [Overview of Redis sorted sets]({{< relref "/develop/data-types/sorted-sets" >}})
+* [Redis sorted set command reference]({{< relref "/commands/?group=sorted-set" >}})
 
 ### Streams
 
-A [Redis stream](/docs/data-types/streams) is a data structure that acts like an append-only log.
+A [Redis stream]({{< relref "/develop/data-types/streams" >}}) is a data structure that acts like an append-only log.
 Streams help record events in the order they occur and then syndicate them for processing.
 For more information, see:
 
-* [Overview of Redis Streams](/docs/data-types/streams)
-* [Redis Streams command reference](/commands/?group=stream)
+* [Overview of Redis Streams]({{< relref "/develop/data-types/streams" >}})
+* [Redis Streams command reference]({{< relref "/commands/?group=stream" >}})
 
 ### Geospatial indexes
 
-[Redis geospatial indexes](/docs/data-types/geospatial) are useful for finding locations within a given geographic radius or bounding box.
+[Redis geospatial indexes]({{< relref "/develop/data-types/geospatial" >}}) are useful for finding locations within a given geographic radius or bounding box.
 For more information, see:
 
-* [Overview of Redis geospatial indexes](/docs/data-types/geospatial/)
-* [Redis geospatial indexes command reference](/commands/?group=geo)
+* [Overview of Redis geospatial indexes]({{< relref "/develop/data-types/geospatial" >}})
+* [Redis geospatial indexes command reference]({{< relref "/commands/?group=geo" >}})
 
 ### Bitmaps
 
-[Redis bitmaps](/docs/data-types/bitmaps/) let you perform bitwise operations on strings. 
+[Redis bitmaps]({{< relref "/develop/data-types/bitmaps" >}}) let you perform bitwise operations on strings. 
 For more information, see:
 
-* [Overview of Redis bitmaps](/docs/data-types/bitmaps/)
-* [Redis bitmap command reference](/commands/?group=bitmap)
+* [Overview of Redis bitmaps]({{< relref "/develop/data-types/bitmaps" >}})
+* [Redis bitmap command reference]({{< relref "/commands/?group=bitmap" >}})
 
 ### Bitfields
 
-[Redis bitfields](/docs/data-types/bitfields/) efficiently encode multiple counters in a string value.
+[Redis bitfields]({{< relref "/develop/data-types/bitfields" >}}) efficiently encode multiple counters in a string value.
 Bitfields provide atomic get, set, and increment operations and support different overflow policies.
 For more information, see:
 
-* [Overview of Redis bitfields](/docs/data-types/bitfields/)
-* The [`BITFIELD`](/commands/bitfield) command.
+* [Overview of Redis bitfields]({{< relref "/develop/data-types/bitfields" >}})
+* The [`BITFIELD`]({{< relref "/commands/bitfield" >}}) command.
 
 ### HyperLogLog
 
-The [Redis HyperLogLog](/docs/data-types/hyperloglogs) data structures provide probabilistic estimates of the cardinality (i.e., number of elements) of large sets. For more information, see:
+The [Redis HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}}) data structures provide probabilistic estimates of the cardinality (i.e., number of elements) of large sets. For more information, see:
 
-* [Overview of Redis HyperLogLog](/docs/data-types/hyperloglogs)
-* [Redis HyperLogLog command reference](/commands/?group=hyperloglog)
+* [Overview of Redis HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}})
+* [Redis HyperLogLog command reference]({{< relref "/commands/?group=hyperloglog" >}})
 
 ## Extensions
 
 To extend the features provided by the included data types, use one of these options:
 
-1. Write your own custom [server-side functions in Lua](/docs/manual/programmability/).
-1. Write your own Redis module using the [modules API](/docs/reference/modules/) or check out the [community-supported modules](/docs/modules/).
-1. Use [JSON](/docs/stack/json/), [querying](/docs/stack/search/), [time series](/docs/stack/timeseries/), and other capabilities provided by [Redis Stack](/docs/stack/).
+1. Write your own custom [server-side functions in Lua]({{< relref "/develop/interact/programmability/" >}}).
+1. Write your own Redis module using the [modules API]({{< relref "/develop/reference/modules/" >}}) or check out the [community-supported modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/" >}}).
+1. Use [JSON]({{< relref "/develop/data-types/json/" >}}), [querying]({{< relref "/develop/interact/search-and-query/" >}}), [time series]({{< relref "/develop/data-types/timeseries/" >}}), and other capabilities provided by [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}).
 
 <hr>

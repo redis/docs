@@ -6,6 +6,16 @@ arguments:
   name: key
   type: string
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - stale
 complexity: O(N) where N is the number of bytes in the key

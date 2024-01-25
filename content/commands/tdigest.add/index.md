@@ -8,6 +8,16 @@ arguments:
   multiple: true
   name: values
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) , where N is the number of samples to add
 description: Adds one or more observations to a t-digest sketch
 group: tdigest
@@ -35,7 +45,7 @@ is value of an observation (floating-point).
 
 ## Return value
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly, or [] otherwise.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
 
 ## Examples
 

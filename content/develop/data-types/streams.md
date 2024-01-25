@@ -1,8 +1,14 @@
 ---
-aliases:
-- /topics/streams-intro
-- /docs/manual/data-types/streams
-- /docs/data-types/streams-tutorial/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to Redis streams
 
   '
@@ -22,15 +28,15 @@ Examples of Redis stream use cases include:
 Redis generates a unique ID for each stream entry.
 You can use these IDs to retrieve their associated entries later or to read and process all subsequent entries in the stream. Note that because these IDs are related to time, the ones shown here may vary and will be different from the IDs you see in your own Redis instance.
 
-Redis streams support several trimming strategies (to prevent streams from growing unbounded) and more than one consumption strategy (see [`XREAD`](/commands/xread), [`XREADGROUP`](/commands/xreadgroup), and [`XRANGE`](/commands/xrange)).
+Redis streams support several trimming strategies (to prevent streams from growing unbounded) and more than one consumption strategy (see [`XREAD`]({{< relref "/commands/xread" >}}), [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), and [`XRANGE`]({{< relref "/commands/xrange" >}})).
 
 ## Basic commands
-* [`XADD`](/commands/xadd) adds a new entry to a stream.
-* [`XREAD`](/commands/xread) reads one or more entries, starting at a given position and moving forward in time.
-* [`XRANGE`](/commands/xrange) returns a range of entries between two supplied entry IDs.
-* [`XLEN`](/commands/xlen) returns the length of a stream.
+* [`XADD`]({{< relref "/commands/xadd" >}}) adds a new entry to a stream.
+* [`XREAD`]({{< relref "/commands/xread" >}}) reads one or more entries, starting at a given position and moving forward in time.
+* [`XRANGE`]({{< relref "/commands/xrange" >}}) returns a range of entries between two supplied entry IDs.
+* [`XLEN`]({{< relref "/commands/xlen" >}}) returns the length of a stream.
  
-See the [complete list of stream commands](https://redis.io/commands/?group=stream).
+See the [complete list of stream commands]({{< relref "/commands/?group=stream" >}}).
 
 
 ## Examples
@@ -87,7 +93,7 @@ See each command's time complexity for the details.
 
 ## Streams basics
 
-Streams are an append-only data structure. The fundamental write command, called [`XADD`](/commands/xadd), appends a new entry to the specified stream.
+Streams are an append-only data structure. The fundamental write command, called [`XADD`]({{< relref "/commands/xadd" >}}), appends a new entry to the specified stream.
 
 Each stream entry consists of one or more field-value pairs, somewhat like a dictionary or a Redis hash:
 
@@ -96,9 +102,9 @@ Each stream entry consists of one or more field-value pairs, somewhat like a dic
 "1692632147973-0"
 {{< /clients-example >}}
 
-The above call to the [`XADD`](/commands/xadd) command adds an entry `rider: Castilla, speed: 29.9, position: 1, location_id: 2` to the stream at key `race:france`, using an auto-generated entry ID, which is the one returned by the command, specifically `1692632147973-0`. It gets as its first argument the key name `race:france`, the second argument is the entry ID that identifies every entry inside a stream. However, in this case, we passed `*` because we want the server to generate a new ID for us. Every new ID will be monotonically increasing, so in more simple terms, every new entry added will have a higher ID compared to all the past entries. Auto-generation of IDs by the server is almost always what you want, and the reasons for specifying an ID explicitly are very rare. We'll talk more about this later. The fact that each Stream entry has an ID is another similarity with log files, where line numbers, or the byte offset inside the file, can be used in order to identify a given entry. Returning back at our [`XADD`](/commands/xadd) example, after the key name and ID, the next arguments are the field-value pairs composing our stream entry.
+The above call to the [`XADD`]({{< relref "/commands/xadd" >}}) command adds an entry `rider: Castilla, speed: 29.9, position: 1, location_id: 2` to the stream at key `race:france`, using an auto-generated entry ID, which is the one returned by the command, specifically `1692632147973-0`. It gets as its first argument the key name `race:france`, the second argument is the entry ID that identifies every entry inside a stream. However, in this case, we passed `*` because we want the server to generate a new ID for us. Every new ID will be monotonically increasing, so in more simple terms, every new entry added will have a higher ID compared to all the past entries. Auto-generation of IDs by the server is almost always what you want, and the reasons for specifying an ID explicitly are very rare. We'll talk more about this later. The fact that each Stream entry has an ID is another similarity with log files, where line numbers, or the byte offset inside the file, can be used in order to identify a given entry. Returning back at our [`XADD`]({{< relref "/commands/xadd" >}}) example, after the key name and ID, the next arguments are the field-value pairs composing our stream entry.
 
-It is possible to get the number of items inside a Stream just using the [`XLEN`](/commands/xlen) command:
+It is possible to get the number of items inside a Stream just using the [`XLEN`]({{< relref "/commands/xlen" >}}) command:
 
 {{< clients-example stream_tutorial xlen >}}
 > XLEN race:france
@@ -107,7 +113,7 @@ It is possible to get the number of items inside a Stream just using the [`XLEN`
 
 ### Entry IDs
 
-The entry ID returned by the [`XADD`](/commands/xadd) command, and identifying univocally each entry inside a given stream, is composed of two parts:
+The entry ID returned by the [`XADD`]({{< relref "/commands/xadd" >}}) command, and identifying univocally each entry inside a given stream, is composed of two parts:
 
 ```
 <millisecondsTime>-<sequenceNumber>
@@ -115,9 +121,9 @@ The entry ID returned by the [`XADD`](/commands/xadd) command, and identifying u
 
 The milliseconds time part is actually the local time in the local Redis node generating the stream ID, however if the current milliseconds time happens to be smaller than the previous entry time, then the previous entry time is used instead, so if a clock jumps backward the monotonically incrementing ID property still holds. The sequence number is used for entries created in the same millisecond. Since the sequence number is 64 bit wide, in practical terms there is no limit to the number of entries that can be generated within the same millisecond.
 
-The format of such IDs may look strange at first, and the gentle reader may wonder why the time is part of the ID. The reason is that Redis streams support range queries by ID. Because the ID is related to the time the entry is generated, this gives the ability to query for time ranges basically for free. We will see this soon while covering the [`XRANGE`](/commands/xrange) command.
+The format of such IDs may look strange at first, and the gentle reader may wonder why the time is part of the ID. The reason is that Redis streams support range queries by ID. Because the ID is related to the time the entry is generated, this gives the ability to query for time ranges basically for free. We will see this soon while covering the [`XRANGE`]({{< relref "/commands/xrange" >}}) command.
 
-If for some reason the user needs incremental IDs that are not related to time but are actually associated to another external system ID, as previously mentioned, the [`XADD`](/commands/xadd) command can take an explicit ID instead of the `*` wildcard ID that triggers auto-generation, like in the following examples:
+If for some reason the user needs incremental IDs that are not related to time but are actually associated to another external system ID, as previously mentioned, the [`XADD`]({{< relref "/commands/xadd" >}}) command can take an explicit ID instead of the `*` wildcard ID that triggers auto-generation, like in the following examples:
 
 {{< clients-example stream_tutorial xadd_id >}}
 > XADD race:usa 0-1 racer Castilla
@@ -142,7 +148,7 @@ If you're running Redis 7 or later, you can also provide an explicit ID consisti
 
 ## Getting data from Streams
 
-Now we are finally able to append entries in our stream via [`XADD`](/commands/xadd). However, while appending data to a stream is quite obvious, the way streams can be queried in order to extract data is not so obvious. If we continue with the analogy of the log file, one obvious way is to mimic what we normally do with the Unix command `tail -f`, that is, we may start to listen in order to get the new messages that are appended to the stream. Note that unlike the blocking list operations of Redis, where a given element will reach a single client which is blocking in a *pop style* operation like [`BLPOP`](/commands/blpop), with streams we want multiple consumers to see the new messages appended to the stream (the same way many `tail -f` processes can see what is added to a log). Using the traditional terminology we want the streams to be able to *fan out* messages to multiple clients.
+Now we are finally able to append entries in our stream via [`XADD`]({{< relref "/commands/xadd" >}}). However, while appending data to a stream is quite obvious, the way streams can be queried in order to extract data is not so obvious. If we continue with the analogy of the log file, one obvious way is to mimic what we normally do with the Unix command `tail -f`, that is, we may start to listen in order to get the new messages that are appended to the stream. Note that unlike the blocking list operations of Redis, where a given element will reach a single client which is blocking in a *pop style* operation like [`BLPOP`]({{< relref "/commands/blpop" >}}), with streams we want multiple consumers to see the new messages appended to the stream (the same way many `tail -f` processes can see what is added to a log). Using the traditional terminology we want the streams to be able to *fan out* messages to multiple clients.
 
 However, this is just one potential access mode. We could also see a stream in quite a different way: not as a messaging system, but as a *time series store*. In this case, maybe it's also useful to get the new messages appended, but another natural query mode is to get messages by ranges of time, or alternatively to iterate the messages using a cursor to incrementally check all the history. This is definitely another useful access mode.
 
@@ -194,7 +200,7 @@ To query the stream by range we are only required to specify two IDs, *start* an
       8) "2"
 {{< /clients-example >}}
 
-Each entry returned is an array of two items: the ID and the list of field-value pairs. We already said that the entry IDs have a relation with the time, because the part at the left of the `-` character is the Unix time in milliseconds of the local node that created the stream entry, at the moment the entry was created (however note that streams are replicated with fully specified [`XADD`](/commands/xadd) commands, so the replicas will have identical IDs to the master). This means that I could query a range of time using [`XRANGE`](/commands/xrange). In order to do so, however, I may want to omit the sequence part of the ID: if omitted, in the start of the range it will be assumed to be 0, while in the end part it will be assumed to be the maximum sequence number available. This way, querying using just two milliseconds Unix times, we get all the entries that were generated in that range of time, in an inclusive way. For instance, if I want to query a two milliseconds period I could use:
+Each entry returned is an array of two items: the ID and the list of field-value pairs. We already said that the entry IDs have a relation with the time, because the part at the left of the `-` character is the Unix time in milliseconds of the local node that created the stream entry, at the moment the entry was created (however note that streams are replicated with fully specified [`XADD`]({{< relref "/commands/xadd" >}}) commands, so the replicas will have identical IDs to the master). This means that I could query a range of time using [`XRANGE`]({{< relref "/commands/xrange" >}}). In order to do so, however, I may want to omit the sequence part of the ID: if omitted, in the start of the range it will be assumed to be 0, while in the end part it will be assumed to be the maximum sequence number available. This way, querying using just two milliseconds Unix times, we get all the entries that were generated in that range of time, in an inclusive way. For instance, if I want to query a two milliseconds period I could use:
 
 {{< clients-example stream_tutorial xrange_time >}}
 > XRANGE race:france 1692632086369 1692632086371
@@ -209,7 +215,7 @@ Each entry returned is an array of two items: the ID and the list of field-value
       8) "1"
 {{< /clients-example >}}
 
-I have only a single entry in this range. However in real data sets, I could query for ranges of hours, or there could be many items in just two milliseconds, and the result returned could be huge. For this reason, [`XRANGE`](/commands/xrange) supports an optional **COUNT** option at the end. By specifying a count, I can just get the first *N* items. If I want more, I can get the last ID returned, increment the sequence part by one, and query again. Let's see this in the following example. Let's assume that the stream `race:france` was populated with 4 items. To start my iteration, getting 2 items per command, I start with the full range, but with a count of 2.
+I have only a single entry in this range. However in real data sets, I could query for ranges of hours, or there could be many items in just two milliseconds, and the result returned could be huge. For this reason, [`XRANGE`]({{< relref "/commands/xrange" >}}) supports an optional **COUNT** option at the end. By specifying a count, I can just get the first *N* items. If I want more, I can get the last ID returned, increment the sequence part by one, and query again. Let's see this in the following example. Let's assume that the stream `race:france` was populated with 4 items. To start my iteration, getting 2 items per command, I start with the full range, but with a count of 2.
 
 {{< clients-example stream_tutorial xrange_step_1 >}}
 > XRANGE race:france - + COUNT 2
@@ -233,7 +239,7 @@ I have only a single entry in this range. However in real data sets, I could que
       8) "1"
 {{< /clients-example >}}
 
-To continue the iteration with the next two items, I have to pick the last ID returned, that is `1692632094485-0`, and add the prefix `(` to it. The resulting exclusive range interval, that is `(1692632094485-0` in this case, can now be used as the new *start* argument for the next [`XRANGE`](/commands/xrange) call:
+To continue the iteration with the next two items, I have to pick the last ID returned, that is `1692632094485-0`, and add the prefix `(` to it. The resulting exclusive range interval, that is `(1692632094485-0` in this case, can now be used as the new *start* argument for the next [`XRANGE`]({{< relref "/commands/xrange" >}}) call:
 
 {{< clients-example stream_tutorial xrange_step_2 >}}
 > XRANGE race:france (1692632094485-0 + COUNT 2
@@ -264,9 +270,9 @@ Now that we've retrieved 4 items out of a stream that only had 4 entries in it, 
 (empty array)
 {{< /clients-example >}}
 
-Since [`XRANGE`](/commands/xrange) complexity is *O(log(N))* to seek, and then *O(M)* to return M elements, with a small count the command has a logarithmic time complexity, which means that each step of the iteration is fast. So [`XRANGE`](/commands/xrange) is also the de facto *streams iterator* and does not require an **XSCAN** command.
+Since [`XRANGE`]({{< relref "/commands/xrange" >}}) complexity is *O(log(N))* to seek, and then *O(M)* to return M elements, with a small count the command has a logarithmic time complexity, which means that each step of the iteration is fast. So [`XRANGE`]({{< relref "/commands/xrange" >}}) is also the de facto *streams iterator* and does not require an **XSCAN** command.
 
-The command [`XREVRANGE`](/commands/xrevrange) is the equivalent of [`XRANGE`](/commands/xrange) but returning the elements in inverted order, so a practical use for [`XREVRANGE`](/commands/xrevrange) is to check what is the last item in a Stream:
+The command [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}) is the equivalent of [`XRANGE`]({{< relref "/commands/xrange" >}}) but returning the elements in inverted order, so a practical use for [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}) is to check what is the last item in a Stream:
 
 {{< clients-example stream_tutorial xrevrange >}}
 > XREVRANGE race:france + - COUNT 1
@@ -281,7 +287,7 @@ The command [`XREVRANGE`](/commands/xrevrange) is the equivalent of [`XRANGE`](/
       8) "2"
 {{< /clients-example >}}
 
-Note that the [`XREVRANGE`](/commands/xrevrange) command takes the *start* and *stop* arguments in reverse order.
+Note that the [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}) command takes the *start* and *stop* arguments in reverse order.
 
 ## Listening for new items with XREAD
 
@@ -291,7 +297,7 @@ When we do not want to access items by a range in a stream, usually what we want
 2. While in Pub/Sub messages are *fire and forget* and are never stored anyway, and while when using blocking lists, when a message is received by the client it is *popped* (effectively removed) from the list, streams work in a fundamentally different way. All the messages are appended in the stream indefinitely (unless the user explicitly asks to delete entries): different consumers will know what is a new message from its point of view by remembering the ID of the last message received.
 3. Streams Consumer Groups provide a level of control that Pub/Sub or blocking lists cannot achieve, with different groups for the same stream, explicit acknowledgment of processed items, ability to inspect the pending items, claiming of unprocessed messages, and coherent history visibility for each single client, that is only able to see its private past history of messages.
 
-The command that provides the ability to listen for new messages arriving into a stream is called [`XREAD`](/commands/xread). It's a bit more complex than [`XRANGE`](/commands/xrange), so we'll start showing simple forms, and later the whole command layout will be provided.
+The command that provides the ability to listen for new messages arriving into a stream is called [`XREAD`]({{< relref "/commands/xread" >}}). It's a bit more complex than [`XRANGE`]({{< relref "/commands/xrange" >}}), so we'll start showing simple forms, and later the whole command layout will be provided.
 
 {{< clients-example stream_tutorial xread >}}
 > XREAD COUNT 2 STREAMS race:france 0
@@ -316,30 +322,30 @@ The command that provides the ability to listen for new messages arriving into a
             8) "1"
 {{< /clients-example >}}
 
-The above is the non-blocking form of [`XREAD`](/commands/xread). Note that the **COUNT** option is not mandatory, in fact the only mandatory option of the command is the **STREAMS** option, that specifies a list of keys together with the corresponding maximum ID already seen for each stream by the calling consumer, so that the command will provide the client only with messages with an ID greater than the one we specified.
+The above is the non-blocking form of [`XREAD`]({{< relref "/commands/xread" >}}). Note that the **COUNT** option is not mandatory, in fact the only mandatory option of the command is the **STREAMS** option, that specifies a list of keys together with the corresponding maximum ID already seen for each stream by the calling consumer, so that the command will provide the client only with messages with an ID greater than the one we specified.
 
 In the above command we wrote `STREAMS race:france 0` so we want all the messages in the Stream `race:france` having an ID greater than `0-0`. As you can see in the example above, the command returns the key name, because actually it is possible to call this command with more than one key to read from different streams at the same time. I could write, for instance: `STREAMS race:france race:italy 0 0`. Note how after the **STREAMS** option we need to provide the key names, and later the IDs. For this reason, the **STREAMS** option must always be the last option.
 Any other options must come before the **STREAMS** option.
 
-Apart from the fact that [`XREAD`](/commands/xread) can access multiple streams at once, and that we are able to specify the last ID we own to just get newer messages, in this simple form the command is not doing something so different compared to [`XRANGE`](/commands/xrange). However, the interesting part is that we can turn [`XREAD`](/commands/xread) into a *blocking command* easily, by specifying the **BLOCK** argument:
+Apart from the fact that [`XREAD`]({{< relref "/commands/xread" >}}) can access multiple streams at once, and that we are able to specify the last ID we own to just get newer messages, in this simple form the command is not doing something so different compared to [`XRANGE`]({{< relref "/commands/xrange" >}}). However, the interesting part is that we can turn [`XREAD`]({{< relref "/commands/xread" >}}) into a *blocking command* easily, by specifying the **BLOCK** argument:
 
 ```
 > XREAD BLOCK 0 STREAMS race:france $
 ```
 
-Note that in the example above, other than removing **COUNT**, I specified the new **BLOCK** option with a timeout of 0 milliseconds (that means to never timeout). Moreover, instead of passing a normal ID for the stream `mystream` I passed the special ID `$`. This special ID means that [`XREAD`](/commands/xread) should use as last ID the maximum ID already stored in the stream `mystream`, so that we will receive only *new* messages, starting from the time we started listening. This is similar to the `tail -f` Unix command in some way.
+Note that in the example above, other than removing **COUNT**, I specified the new **BLOCK** option with a timeout of 0 milliseconds (that means to never timeout). Moreover, instead of passing a normal ID for the stream `mystream` I passed the special ID `$`. This special ID means that [`XREAD`]({{< relref "/commands/xread" >}}) should use as last ID the maximum ID already stored in the stream `mystream`, so that we will receive only *new* messages, starting from the time we started listening. This is similar to the `tail -f` Unix command in some way.
 
 Note that when the **BLOCK** option is used, we do not have to use the special ID `$`. We can use any valid ID. If the command is able to serve our request immediately without blocking, it will do so, otherwise it will block. Normally if we want to consume the stream starting from new entries, we start with the ID `$`, and after that we continue using the ID of the last message received to make the next call, and so forth.
 
-The blocking form of [`XREAD`](/commands/xread) is also able to listen to multiple Streams, just by specifying multiple key names. If the request can be served synchronously because there is at least one stream with elements greater than the corresponding ID we specified, it returns with the results. Otherwise, the command will block and will return the items of the first stream which gets new data (according to the specified ID).
+The blocking form of [`XREAD`]({{< relref "/commands/xread" >}}) is also able to listen to multiple Streams, just by specifying multiple key names. If the request can be served synchronously because there is at least one stream with elements greater than the corresponding ID we specified, it returns with the results. Otherwise, the command will block and will return the items of the first stream which gets new data (according to the specified ID).
 
 Similarly to blocking list operations, blocking stream reads are *fair* from the point of view of clients waiting for data, since the semantics is FIFO style. The first client that blocked for a given stream will be the first to be unblocked when new items are available.
 
-[`XREAD`](/commands/xread) has no other options than **COUNT** and **BLOCK**, so it's a pretty basic command with a specific purpose to attach consumers to one or multiple streams. More powerful features to consume streams are available using the consumer groups API, however reading via consumer groups is implemented by a different command called [`XREADGROUP`](/commands/xreadgroup), covered in the next section of this guide.
+[`XREAD`]({{< relref "/commands/xread" >}}) has no other options than **COUNT** and **BLOCK**, so it's a pretty basic command with a specific purpose to attach consumers to one or multiple streams. More powerful features to consume streams are available using the consumer groups API, however reading via consumer groups is implemented by a different command called [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), covered in the next section of this guide.
 
 ## Consumer groups
 
-When the task at hand is to consume the same stream from different clients, then [`XREAD`](/commands/xread) already offers a way to *fan-out* to N clients, potentially also using replicas in order to provide more read scalability. However in certain problems what we want to do is not to provide the same stream of messages to many clients, but to provide a *different subset* of messages from the same stream to many clients. An obvious case where this is useful is that of messages which are slow to process: the ability to have N different workers that will receive different parts of the stream allows us to scale message processing, by routing different messages to different workers that are ready to do more work.
+When the task at hand is to consume the same stream from different clients, then [`XREAD`]({{< relref "/commands/xread" >}}) already offers a way to *fan-out* to N clients, potentially also using replicas in order to provide more read scalability. However in certain problems what we want to do is not to provide the same stream of messages to many clients, but to provide a *different subset* of messages from the same stream to many clients. An obvious case where this is useful is that of messages which are slow to process: the ability to have N different workers that will receive different parts of the stream allows us to scale message processing, by routing different messages to different workers that are ready to do more work.
 
 In practical terms, if we imagine having three consumers C1, C2, C3, and a stream that contains the messages 1, 2, 3, 4, 5, 6, 7 then what we want is to serve the messages according to the following diagram:
 
@@ -380,13 +386,13 @@ In a way, a consumer group can be imagined as some *amount of state* about a str
 +----------------------------------------+
 ```
 
-If you see this from this point of view, it is very simple to understand what a consumer group can do, how it is able to just provide consumers with their history of pending messages, and how consumers asking for new messages will just be served with message IDs greater than `last_delivered_id`. At the same time, if you look at the consumer group as an auxiliary data structure for Redis streams, it is obvious that a single stream can have multiple consumer groups, that have a different set of consumers. Actually, it is even possible for the same stream to have clients reading without consumer groups via [`XREAD`](/commands/xread), and clients reading via [`XREADGROUP`](/commands/xreadgroup) in different consumer groups.
+If you see this from this point of view, it is very simple to understand what a consumer group can do, how it is able to just provide consumers with their history of pending messages, and how consumers asking for new messages will just be served with message IDs greater than `last_delivered_id`. At the same time, if you look at the consumer group as an auxiliary data structure for Redis streams, it is obvious that a single stream can have multiple consumer groups, that have a different set of consumers. Actually, it is even possible for the same stream to have clients reading without consumer groups via [`XREAD`]({{< relref "/commands/xread" >}}), and clients reading via [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) in different consumer groups.
 
 Now it's time to zoom in to see the fundamental consumer group commands. They are the following:
 
-* [`XGROUP`](/commands/xgroup) is used in order to create, destroy and manage consumer groups.
-* [`XREADGROUP`](/commands/xreadgroup) is used to read from a stream via a consumer group.
-* [`XACK`](/commands/xack) is the command that allows a consumer to mark a pending message as correctly processed.
+* [`XGROUP`]({{< relref "/commands/xgroup" >}}) is used in order to create, destroy and manage consumer groups.
+* [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) is used to read from a stream via a consumer group.
+* [`XACK`]({{< relref "/commands/xack" >}}) is the command that allows a consumer to mark a pending message as correctly processed.
 
 ## Creating a consumer group
 
@@ -399,16 +405,16 @@ OK
 
 As you can see in the command above when creating the consumer group we have to specify an ID, which in the example is just `$`. This is needed because the consumer group, among the other states, must have an idea about what message to serve next at the first consumer connecting, that is, what was the *last message ID* when the group was just created. If we provide `$` as we did, then only new messages arriving in the stream from now on will be provided to the consumers in the group. If we specify `0` instead the consumer group will consume *all* the messages in the stream history to start with. Of course, you can specify any other valid ID. What you know is that the consumer group will start delivering messages that are greater than the ID you specify. Because `$` means the current greatest ID in the stream, specifying `$` will have the effect of consuming only new messages.
 
-[`XGROUP CREATE`](/commands/xgroup-create) also supports creating the stream automatically, if it doesn't exist, using the optional `MKSTREAM` subcommand as the last argument:
+[`XGROUP CREATE`]({{< relref "/commands/xgroup-create" >}}) also supports creating the stream automatically, if it doesn't exist, using the optional `MKSTREAM` subcommand as the last argument:
 
 {{< clients-example stream_tutorial xgroup_create_mkstream >}}
 > XGROUP CREATE race:italy italy_riders $ MKSTREAM
 OK
 {{< /clients-example >}}
 
-Now that the consumer group is created we can immediately try to read messages via the consumer group using the [`XREADGROUP`](/commands/xreadgroup) command. We'll read from consumers, that we will call Alice and Bob, to see how the system will return different messages to Alice or Bob.
+Now that the consumer group is created we can immediately try to read messages via the consumer group using the [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) command. We'll read from consumers, that we will call Alice and Bob, to see how the system will return different messages to Alice or Bob.
 
-[`XREADGROUP`](/commands/xreadgroup) is very similar to [`XREAD`](/commands/xread) and provides the same **BLOCK** option, otherwise it is a synchronous command. However there is a *mandatory* option that must be always specified, which is **GROUP** and has two arguments: the name of the consumer group, and the name of the consumer that is attempting to read. The option **COUNT** is also supported and is identical to the one in [`XREAD`](/commands/xread).
+[`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) is very similar to [`XREAD`]({{< relref "/commands/xread" >}}) and provides the same **BLOCK** option, otherwise it is a synchronous command. However there is a *mandatory* option that must be always specified, which is **GROUP** and has two arguments: the name of the consumer group, and the name of the consumer that is attempting to read. The option **COUNT** is also supported and is identical to the one in [`XREAD`]({{< relref "/commands/xread" >}}).
 
 We'll add riders to the race:italy stream and try reading something using the consumer group:
 Note: *here rider is the field name, and the name is the associated value. Remember that stream items are small dictionaries.*
@@ -431,14 +437,14 @@ Note: *here rider is the field name, and the name is the associated value. Remem
             2) "Castilla"
 {{< /clients-example >}}
 
-[`XREADGROUP`](/commands/xreadgroup) replies are just like [`XREAD`](/commands/xread) replies. Note however the `GROUP <group-name> <consumer-name>` provided above. It states that I want to read from the stream using the consumer group `mygroup` and I'm the consumer `Alice`. Every time a consumer performs an operation with a consumer group, it must specify its name, uniquely identifying this consumer inside the group.
+[`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) replies are just like [`XREAD`]({{< relref "/commands/xread" >}}) replies. Note however the `GROUP <group-name> <consumer-name>` provided above. It states that I want to read from the stream using the consumer group `mygroup` and I'm the consumer `Alice`. Every time a consumer performs an operation with a consumer group, it must specify its name, uniquely identifying this consumer inside the group.
 
 There is another very important detail in the command line above, after the mandatory **STREAMS** option the ID requested for the key `mystream` is the special ID `>`. This special ID is only valid in the context of consumer groups, and it means: **messages never delivered to other consumers so far**.
 
-This is almost always what you want, however it is also possible to specify a real ID, such as `0` or any other valid ID, in this case, however, what happens is that we request from [`XREADGROUP`](/commands/xreadgroup) to just provide us with the **history of pending messages**, and in such case, will never see new messages in the group. So basically [`XREADGROUP`](/commands/xreadgroup) has the following behavior based on the ID we specify:
+This is almost always what you want, however it is also possible to specify a real ID, such as `0` or any other valid ID, in this case, however, what happens is that we request from [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) to just provide us with the **history of pending messages**, and in such case, will never see new messages in the group. So basically [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) has the following behavior based on the ID we specify:
 
 * If the ID is the special ID `>` then the command will return only new messages never delivered to other consumers so far, and as a side effect, will update the consumer group's *last ID*.
-* If the ID is any other valid numerical ID, then the command will let us access our *history of pending messages*. That is, the set of messages that were delivered to this specified consumer (identified by the provided name), and never acknowledged so far with [`XACK`](/commands/xack).
+* If the ID is any other valid numerical ID, then the command will let us access our *history of pending messages*. That is, the set of messages that were delivered to this specified consumer (identified by the provided name), and never acknowledged so far with [`XACK`]({{< relref "/commands/xack" >}}).
 
 We can test this behavior immediately specifying an ID of 0, without any **COUNT** option: we'll just see the only pending message, that is, the one about Castilla:
 
@@ -460,7 +466,7 @@ However, if we acknowledge the message as processed, it will no longer be part o
    2) (empty array)
 {{< /clients-example >}}
 
-Don't worry if you yet don't know how [`XACK`](/commands/xack) works, the idea is just that processed messages are no longer part of the history that we can access.
+Don't worry if you yet don't know how [`XACK`]({{< relref "/commands/xack" >}}) works, the idea is just that processed messages are no longer part of the history that we can access.
 
 Now it's Bob's turn to read something:
 
@@ -482,8 +488,8 @@ This way Alice, Bob, and any other consumer in the group, are able to read diffe
 There are a few things to keep in mind:
 
 * Consumers are auto-created the first time they are mentioned, no need for explicit creation.
-* Even with [`XREADGROUP`](/commands/xreadgroup) you can read from multiple keys at the same time, however for this to work, you need to create a consumer group with the same name in every stream. This is not a common need, but it is worth mentioning that the feature is technically available.
-* [`XREADGROUP`](/commands/xreadgroup) is a *write command* because even if it reads from the stream, the consumer group is modified as a side effect of reading, so it can only be called on master instances.
+* Even with [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) you can read from multiple keys at the same time, however for this to work, you need to create a consumer group with the same name in every stream. This is not a common need, but it is worth mentioning that the feature is technically available.
+* [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) is a *write command* because even if it reads from the stream, the consumer group is modified as a side effect of reading, so it can only be called on master instances.
 
 An example of a consumer implementation, using consumer groups, written in the Ruby language could be the following. The Ruby code is aimed to be readable by virtually any experienced programmer, even if they do not know Ruby:
 
@@ -552,7 +558,7 @@ The example above allows us to write consumers that participate in the same cons
 
 Redis consumer groups offer a feature that is used in these situations in order to *claim* the pending messages of a given consumer so that such messages will change ownership and will be re-assigned to a different consumer. The feature is very explicit. A consumer has to inspect the list of pending messages, and will have to claim specific messages using a special command, otherwise the server will leave the messages pending forever and assigned to the old consumer. In this way different applications can choose if to use such a feature or not, and exactly how to use it.
 
-The first step of this process is just a command that provides observability of pending entries in the consumer group and is called [`XPENDING`](/commands/xpending).
+The first step of this process is just a command that provides observability of pending entries in the consumer group and is called [`XPENDING`]({{< relref "/commands/xpending" >}}).
 This is a read-only command which is always safe to call and will not change ownership of any message.
 In its simplest form, the command is called with two arguments, which are the name of the stream and the name of the consumer group.
 
@@ -566,15 +572,15 @@ In its simplest form, the command is called with two arguments, which are the na
 {{< /clients-example >}}
 
 When called in this way, the command outputs the total number of pending messages in the consumer group (two in this case), the lower and higher message ID among the pending messages, and finally a list of consumers and the number of pending messages they have.
-We have only Bob with two pending messages because the single message that Alice requested was acknowledged using [`XACK`](/commands/xack).
+We have only Bob with two pending messages because the single message that Alice requested was acknowledged using [`XACK`]({{< relref "/commands/xack" >}}).
 
-We can ask for more information by giving more arguments to [`XPENDING`](/commands/xpending), because the full command signature is the following:
+We can ask for more information by giving more arguments to [`XPENDING`]({{< relref "/commands/xpending" >}}), because the full command signature is the following:
 
 ```
 XPENDING <key> <groupname> [[IDLE <min-idle-time>] <start-id> <end-id> <count> [<consumer-name>]]
 ```
 
-By providing a start and end ID (that can be just `-` and `+` as in [`XRANGE`](/commands/xrange)) and a count to control the amount of information returned by the command, we are able to know more about the pending messages. The optional final argument, the consumer name, is used if we want to limit the output to just messages pending for a given consumer, but won't use this feature in the following example.
+By providing a start and end ID (that can be just `-` and `+` as in [`XRANGE`]({{< relref "/commands/xrange" >}})) and a count to control the amount of information returned by the command, we are able to know more about the pending messages. The optional final argument, the consumer name, is used if we want to limit the output to just messages pending for a given consumer, but won't use this feature in the following example.
 
 {{< clients-example stream_tutorial xpending_plus_minus >}}
 > XPENDING race:italy italy_riders - + 10
@@ -591,7 +597,7 @@ By providing a start and end ID (that can be just `-` and `+` as in [`XRANGE`](/
 Now we have the details for each message: the ID, the consumer name, the *idle time* in milliseconds, which is how many milliseconds have passed since the last time the message was delivered to some consumer, and finally the number of times that a given message was delivered.
 We have two messages from Bob, and they are idle for 60000+ milliseconds, about a minute.
 
-Note that nobody prevents us from checking what the first message content was by just using [`XRANGE`](/commands/xrange).
+Note that nobody prevents us from checking what the first message content was by just using [`XRANGE`]({{< relref "/commands/xrange" >}}).
 
 {{< clients-example stream_tutorial xrange_pending >}}
 > XRANGE race:italy 1692632647899-0 1692632647899-0
@@ -600,7 +606,7 @@ Note that nobody prevents us from checking what the first message content was by
       2) "Royce"
 {{< /clients-example >}}
 
-We have just to repeat the same ID twice in the arguments. Now that we have some ideas, Alice may decide that after 1 minute of not processing messages, Bob will probably not recover quickly, and it's time to *claim* such messages and resume the processing in place of Bob. To do so, we use the [`XCLAIM`](/commands/xclaim) command.
+We have just to repeat the same ID twice in the arguments. Now that we have some ideas, Alice may decide that after 1 minute of not processing messages, Bob will probably not recover quickly, and it's time to *claim* such messages and resume the processing in place of Bob. To do so, we use the [`XCLAIM`]({{< relref "/commands/xclaim" >}}) command.
 
 This command is very complex and full of options in its full form, since it is used for replication of consumer groups changes, but we'll use just the arguments that we need normally. In this case it is as simple as:
 
@@ -628,17 +634,17 @@ This is the result of the command execution:
 
 The message was successfully claimed by Alice, who can now process the message and acknowledge it, and move things forward even if the original consumer is not recovering.
 
-It is clear from the example above that as a side effect of successfully claiming a given message, the [`XCLAIM`](/commands/xclaim) command also returns it. However this is not mandatory. The **JUSTID** option can be used in order to return just the IDs of the message successfully claimed. This is useful if you want to reduce the bandwidth used between the client and the server (and also the performance of the command) and you are not interested in the message because your consumer is implemented in a way that it will rescan the history of pending messages from time to time.
+It is clear from the example above that as a side effect of successfully claiming a given message, the [`XCLAIM`]({{< relref "/commands/xclaim" >}}) command also returns it. However this is not mandatory. The **JUSTID** option can be used in order to return just the IDs of the message successfully claimed. This is useful if you want to reduce the bandwidth used between the client and the server (and also the performance of the command) and you are not interested in the message because your consumer is implemented in a way that it will rescan the history of pending messages from time to time.
 
 Claiming may also be implemented by a separate process: one that just checks the list of pending messages, and assigns idle messages to consumers that appear to be active. Active consumers can be obtained using one of the observability features of Redis streams. This is the topic of the next section.
 
 ## Automatic claiming
 
-The [`XAUTOCLAIM`](/commands/xautoclaim) command, added in Redis 6.2, implements the claiming process that we've described above.
-[`XPENDING`](/commands/xpending) and [`XCLAIM`](/commands/xclaim) provide the basic building blocks for different types of recovery mechanisms.
+The [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) command, added in Redis 6.2, implements the claiming process that we've described above.
+[`XPENDING`]({{< relref "/commands/xpending" >}}) and [`XCLAIM`]({{< relref "/commands/xclaim" >}}) provide the basic building blocks for different types of recovery mechanisms.
 This command optimizes the generic process by having Redis manage it and offers a simple solution for most recovery needs.
 
-[`XAUTOCLAIM`](/commands/xautoclaim) identifies idle pending messages and transfers ownership of them to a consumer.
+[`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) identifies idle pending messages and transfers ownership of them to a consumer.
 The command's signature looks like this:
 
 ```
@@ -655,7 +661,7 @@ So, in the example above, I could have used automatic claiming to claim a single
          2) "Sam-Bodden"
 {{< /clients-example >}}
 
-Like [`XCLAIM`](/commands/xclaim), the command replies with an array of the claimed messages, but it also returns a stream ID that allows iterating the pending entries.
+Like [`XCLAIM`]({{< relref "/commands/xclaim" >}}), the command replies with an array of the claimed messages, but it also returns a stream ID that allows iterating the pending entries.
 The stream ID is a cursor, and I can use it in my next call to continue in claiming idle pending messages:
 
 {{< clients-example stream_tutorial xautoclaim_cursor >}}
@@ -666,20 +672,20 @@ The stream ID is a cursor, and I can use it in my next call to continue in claim
          2) "Royce"
 {{< /clients-example >}}
 
-When [`XAUTOCLAIM`](/commands/xautoclaim) returns the "0-0" stream ID as a cursor, that means that it reached the end of the consumer group pending entries list.
-That doesn't mean that there are no new idle pending messages, so the process continues by calling [`XAUTOCLAIM`](/commands/xautoclaim) from the beginning of the stream.
+When [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) returns the "0-0" stream ID as a cursor, that means that it reached the end of the consumer group pending entries list.
+That doesn't mean that there are no new idle pending messages, so the process continues by calling [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) from the beginning of the stream.
 
 ## Claiming and the delivery counter
 
-The counter that you observe in the [`XPENDING`](/commands/xpending) output is the number of deliveries of each message. The counter is incremented in two ways: when a message is successfully claimed via [`XCLAIM`](/commands/xclaim) or when an [`XREADGROUP`](/commands/xreadgroup) call is used in order to access the history of pending messages.
+The counter that you observe in the [`XPENDING`]({{< relref "/commands/xpending" >}}) output is the number of deliveries of each message. The counter is incremented in two ways: when a message is successfully claimed via [`XCLAIM`]({{< relref "/commands/xclaim" >}}) or when an [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) call is used in order to access the history of pending messages.
 
 When there are failures, it is normal that messages will be delivered multiple times, but eventually they usually get processed and acknowledged. However there might be a problem processing some specific message, because it is corrupted or crafted in a way that triggers a bug in the processing code. In such a case what happens is that consumers will continuously fail to process this particular message. Because we have the counter of the delivery attempts, we can use that counter to detect messages that for some reason are not processable. So once the deliveries counter reaches a given large number that you chose, it is probably wiser to put such messages in another stream and send a notification to the system administrator. This is basically the way that Redis Streams implements the *dead letter* concept.
 
 ## Streams observability
 
-Messaging systems that lack observability are very hard to work with. Not knowing who is consuming messages, what messages are pending, the set of consumer groups active in a given stream, makes everything opaque. For this reason, Redis Streams and consumer groups have different ways to observe what is happening. We already covered [`XPENDING`](/commands/xpending), which allows us to inspect the list of messages that are under processing at a given moment, together with their idle time and number of deliveries.
+Messaging systems that lack observability are very hard to work with. Not knowing who is consuming messages, what messages are pending, the set of consumer groups active in a given stream, makes everything opaque. For this reason, Redis Streams and consumer groups have different ways to observe what is happening. We already covered [`XPENDING`]({{< relref "/commands/xpending" >}}), which allows us to inspect the list of messages that are under processing at a given moment, together with their idle time and number of deliveries.
 
-However we may want to do more than that, and the [`XINFO`](/commands/xinfo) command is an observability interface that can be used with sub-commands in order to get information about streams or consumer groups.
+However we may want to do more than that, and the [`XINFO`]({{< relref "/commands/xinfo" >}}) command is an observability interface that can be used with sub-commands in order to get information about streams or consumer groups.
 
 This command uses subcommands in order to show different information about the status of the stream and its consumer groups. For instance **XINFO STREAM <key>** reports information about the stream itself.
 
@@ -719,7 +725,7 @@ The output shows information about how the stream is encoded internally, and als
    8) "1692632662819-0"
 {{< /clients-example >}}
 
-As you can see in this and in the previous output, the [`XINFO`](/commands/xinfo) command outputs a sequence of field-value items. Because it is an observability command this allows the human user to immediately understand what information is reported, and allows the command to report more information in the future by adding more fields without breaking compatibility with older clients. Other commands that must be more bandwidth efficient, like [`XPENDING`](/commands/xpending), just report the information without the field names.
+As you can see in this and in the previous output, the [`XINFO`]({{< relref "/commands/xinfo" >}}) command outputs a sequence of field-value items. Because it is an observability command this allows the human user to immediately understand what information is reported, and allows the command to report more information in the future by adding more fields without breaking compatibility with older clients. Other commands that must be more bandwidth efficient, like [`XPENDING`]({{< relref "/commands/xpending" >}}), just report the information without the field names.
 
 The output of the example above, where the **GROUPS** subcommand is used, should be clear observing the field names. We can check in more detail the state of a specific consumer group by checking the consumers that are registered in the group.
 
@@ -778,7 +784,7 @@ So basically Kafka partitions are more similar to using N different Redis keys, 
 
 ## Capped Streams
 
-Many applications do not want to collect data into a stream forever. Sometimes it is useful to have at maximum a given number of items inside a stream, other times once a given size is reached, it is useful to move data from Redis to a storage which is not in memory and not as fast but suited to store the history for, potentially, decades to come. Redis streams have some support for this. One is the **MAXLEN** option of the [`XADD`](/commands/xadd) command. This option is very simple to use:
+Many applications do not want to collect data into a stream forever. Sometimes it is useful to have at maximum a given number of items inside a stream, other times once a given size is reached, it is useful to move data from Redis to a storage which is not in memory and not as fast but suited to store the history for, potentially, decades to come. Redis streams have some support for this. One is the **MAXLEN** option of the [`XADD`]({{< relref "/commands/xadd" >}}) command. This option is very simple to use:
 
 {{< clients-example stream_tutorial maxlen >}}
 > XADD race:italy MAXLEN 2 * rider Jones
@@ -808,39 +814,39 @@ XADD race:italy MAXLEN ~ 1000 * ... entry fields here ...
 
 The `~` argument between the **MAXLEN** option and the actual count means, I don't really need this to be exactly 1000 items. It can be 1000 or 1010 or 1030, just make sure to save at least 1000 items. With this argument, the trimming is performed only when we can remove a whole node. This makes it much more efficient, and it is usually what you want. You'll note here that the client libraries have various implementations of this. For example, the Python client defaults to approximate and has to be explicitly set to a true length.
 
-There is also the [`XTRIM`](/commands/xtrim) command, which performs something very similar to what the **MAXLEN** option does above, except that it can be run by itself:
+There is also the [`XTRIM`]({{< relref "/commands/xtrim" >}}) command, which performs something very similar to what the **MAXLEN** option does above, except that it can be run by itself:
 
 {{< clients-example stream_tutorial xtrim >}}
 > XTRIM race:italy MAXLEN 10
 (integer) 0
 {{< /clients-example >}}
 
-Or, as for the [`XADD`](/commands/xadd) option:
+Or, as for the [`XADD`]({{< relref "/commands/xadd" >}}) option:
 
 {{< clients-example stream_tutorial xtrim2 >}}
 > XTRIM mystream MAXLEN ~ 10
 (integer) 0
 {{< /clients-example >}}
 
-However, [`XTRIM`](/commands/xtrim) is designed to accept different trimming strategies. Another trimming strategy is **MINID**, that evicts entries with IDs lower than the one specified.
+However, [`XTRIM`]({{< relref "/commands/xtrim" >}}) is designed to accept different trimming strategies. Another trimming strategy is **MINID**, that evicts entries with IDs lower than the one specified.
 
-As [`XTRIM`](/commands/xtrim) is an explicit command, the user is expected to know about the possible shortcomings of different trimming strategies.
+As [`XTRIM`]({{< relref "/commands/xtrim" >}}) is an explicit command, the user is expected to know about the possible shortcomings of different trimming strategies.
 
-Another useful eviction strategy that may be added to [`XTRIM`](/commands/xtrim) in the future, is to remove by a range of IDs to ease use of [`XRANGE`](/commands/xrange) and [`XTRIM`](/commands/xtrim) to move data from Redis to other storage systems if needed.
+Another useful eviction strategy that may be added to [`XTRIM`]({{< relref "/commands/xtrim" >}}) in the future, is to remove by a range of IDs to ease use of [`XRANGE`]({{< relref "/commands/xrange" >}}) and [`XTRIM`]({{< relref "/commands/xtrim" >}}) to move data from Redis to other storage systems if needed.
 
 ## Special IDs in the streams API
 
 You may have noticed that there are several special IDs that can be used in the Redis API. Here is a short recap, so that they can make more sense in the future.
 
-The first two special IDs are `-` and `+`, and are used in range queries with the [`XRANGE`](/commands/xrange) command. Those two IDs respectively mean the smallest ID possible (that is basically `0-1`) and the greatest ID possible (that is `18446744073709551615-18446744073709551615`). As you can see it is a lot cleaner to write `-` and `+` instead of those numbers.
+The first two special IDs are `-` and `+`, and are used in range queries with the [`XRANGE`]({{< relref "/commands/xrange" >}}) command. Those two IDs respectively mean the smallest ID possible (that is basically `0-1`) and the greatest ID possible (that is `18446744073709551615-18446744073709551615`). As you can see it is a lot cleaner to write `-` and `+` instead of those numbers.
 
-Then there are APIs where we want to say, the ID of the item with the greatest ID inside the stream. This is what `$` means. So for instance if I want only new entries with [`XREADGROUP`](/commands/xreadgroup) I use this ID to signify I already have all the existing entries, but not the new ones that will be inserted in the future. Similarly when I create or set the ID of a consumer group, I can set the last delivered item to `$` in order to just deliver new entries to the consumers in the group.
+Then there are APIs where we want to say, the ID of the item with the greatest ID inside the stream. This is what `$` means. So for instance if I want only new entries with [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) I use this ID to signify I already have all the existing entries, but not the new ones that will be inserted in the future. Similarly when I create or set the ID of a consumer group, I can set the last delivered item to `$` in order to just deliver new entries to the consumers in the group.
 
 As you can see `$` does not mean `+`, they are two different things, as `+` is the greatest ID possible in every possible stream, while `$` is the greatest ID in a given stream containing given entries. Moreover APIs will usually only understand `+` or `$`, yet it was useful to avoid loading a given symbol with multiple meanings.
 
-Another special ID is `>`, that is a special meaning only related to consumer groups and only when the [`XREADGROUP`](/commands/xreadgroup) command is used. This special ID means that we want only entries that were never delivered to other consumers so far. So basically the `>` ID is the *last delivered ID* of a consumer group.
+Another special ID is `>`, that is a special meaning only related to consumer groups and only when the [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) command is used. This special ID means that we want only entries that were never delivered to other consumers so far. So basically the `>` ID is the *last delivered ID* of a consumer group.
 
-Finally the special ID `*`, that can be used only with the [`XADD`](/commands/xadd) command, means to auto select an ID for us for the new entry.
+Finally the special ID `*`, that can be used only with the [`XADD`]({{< relref "/commands/xadd" >}}) command, means to auto select an ID for us for the new entry.
 
 So we have `-`, `+`, `$`, `>` and `*`, and all have a different meaning, and most of the time, can be used in different contexts.
 
@@ -851,14 +857,14 @@ A Stream, like any other Redis data structure, is asynchronously replicated to r
 However note that Redis streams and consumer groups are persisted and replicated using the Redis default replication, so:
 
 * AOF must be used with a strong fsync policy if persistence of messages is important in your application.
-* By default the asynchronous replication will not guarantee that [`XADD`](/commands/xadd) commands or consumer groups state changes are replicated: after a failover something can be missing depending on the ability of replicas to receive the data from the master.
-* The [`WAIT`](/commands/wait) command may be used in order to force the propagation of the changes to a set of replicas. However note that while this makes it very unlikely that data is lost, the Redis failover process as operated by Sentinel or Redis Cluster performs only a *best effort* check to failover to the replica which is the most updated, and under certain specific failure conditions may promote a replica that lacks some data.
+* By default the asynchronous replication will not guarantee that [`XADD`]({{< relref "/commands/xadd" >}}) commands or consumer groups state changes are replicated: after a failover something can be missing depending on the ability of replicas to receive the data from the master.
+* The [`WAIT`]({{< relref "/commands/wait" >}}) command may be used in order to force the propagation of the changes to a set of replicas. However note that while this makes it very unlikely that data is lost, the Redis failover process as operated by Sentinel or Redis Cluster performs only a *best effort* check to failover to the replica which is the most updated, and under certain specific failure conditions may promote a replica that lacks some data.
 
 So when designing an application using Redis streams and consumer groups, make sure to understand the semantical properties your application should have during failures, and configure things accordingly, evaluating whether it is safe enough for your use case.
 
 ## Removing single items from a stream
 
-Streams also have a special command for removing items from the middle of a stream, just by ID. Normally for an append only data structure this may look like an odd feature, but it is actually useful for applications involving, for instance, privacy regulations. The command is called [`XDEL`](/commands/xdel) and receives the name of the stream followed by the IDs to delete:
+Streams also have a special command for removing items from the middle of a stream, just by ID. Normally for an append only data structure this may look like an odd feature, but it is actually useful for applications involving, for instance, privacy regulations. The command is called [`XDEL`]({{< relref "/commands/xdel" >}}) and receives the name of the stream followed by the IDs to delete:
 
 {{< clients-example stream_tutorial xdel >}}
 > XRANGE race:italy - + COUNT 2
@@ -880,27 +886,27 @@ However in the current implementation, memory is not really reclaimed until a ma
 
 ## Zero length streams
 
-A difference between streams and other Redis data structures is that when the other data structures no longer have any elements, as a side effect of calling commands that remove elements, the key itself will be removed. So for instance, a sorted set will be completely removed when a call to [`ZREM`](/commands/zrem) will remove the last element in the sorted set. Streams, on the other hand, are allowed to stay at zero elements, both as a result of using a **MAXLEN** option with a count of zero ([`XADD`](/commands/xadd) and [`XTRIM`](/commands/xtrim) commands), or because [`XDEL`](/commands/xdel) was called.
+A difference between streams and other Redis data structures is that when the other data structures no longer have any elements, as a side effect of calling commands that remove elements, the key itself will be removed. So for instance, a sorted set will be completely removed when a call to [`ZREM`]({{< relref "/commands/zrem" >}}) will remove the last element in the sorted set. Streams, on the other hand, are allowed to stay at zero elements, both as a result of using a **MAXLEN** option with a count of zero ([`XADD`]({{< relref "/commands/xadd" >}}) and [`XTRIM`]({{< relref "/commands/xtrim" >}}) commands), or because [`XDEL`]({{< relref "/commands/xdel" >}}) was called.
 
 The reason why such an asymmetry exists is because Streams may have associated consumer groups, and we do not want to lose the state that the consumer groups defined just because there are no longer any items in the stream. Currently the stream is not deleted even when it has no associated consumer groups.
 
 ## Total latency of consuming a message
 
-Non blocking stream commands like [`XRANGE`](/commands/xrange) and [`XREAD`](/commands/xread) or [`XREADGROUP`](/commands/xreadgroup) without the BLOCK option are served synchronously like any other Redis command, so to discuss latency of such commands is meaningless: it is more interesting to check the time complexity of the commands in the Redis documentation. It should be enough to say that stream commands are at least as fast as sorted set commands when extracting ranges, and that [`XADD`](/commands/xadd) is very fast and can easily insert from half a million to one million items per second in an average machine if pipelining is used.
+Non blocking stream commands like [`XRANGE`]({{< relref "/commands/xrange" >}}) and [`XREAD`]({{< relref "/commands/xread" >}}) or [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) without the BLOCK option are served synchronously like any other Redis command, so to discuss latency of such commands is meaningless: it is more interesting to check the time complexity of the commands in the Redis documentation. It should be enough to say that stream commands are at least as fast as sorted set commands when extracting ranges, and that [`XADD`]({{< relref "/commands/xadd" >}}) is very fast and can easily insert from half a million to one million items per second in an average machine if pipelining is used.
 
-However latency becomes an interesting parameter if we want to understand the delay of processing a message, in the context of blocking consumers in a consumer group, from the moment the message is produced via [`XADD`](/commands/xadd), to the moment the message is obtained by the consumer because [`XREADGROUP`](/commands/xreadgroup) returned with the message.
+However latency becomes an interesting parameter if we want to understand the delay of processing a message, in the context of blocking consumers in a consumer group, from the moment the message is produced via [`XADD`]({{< relref "/commands/xadd" >}}), to the moment the message is obtained by the consumer because [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) returned with the message.
 
 ## How serving blocked consumers works
 
 Before providing the results of performed tests, it is interesting to understand what model Redis uses in order to route stream messages (and in general actually how any blocking operation waiting for data is managed).
 
 * The blocked client is referenced in a hash table that maps keys for which there is at least one blocking consumer, to a list of consumers that are waiting for such key. This way, given a key that received data, we can resolve all the clients that are waiting for such data.
-* When a write happens, in this case when the [`XADD`](/commands/xadd) command is called, it calls the `signalKeyAsReady()` function. This function will put the key into a list of keys that need to be processed, because such keys may have new data for blocked consumers. Note that such *ready keys* will be processed later, so in the course of the same event loop cycle, it is possible that the key will receive other writes.
+* When a write happens, in this case when the [`XADD`]({{< relref "/commands/xadd" >}}) command is called, it calls the `signalKeyAsReady()` function. This function will put the key into a list of keys that need to be processed, because such keys may have new data for blocked consumers. Note that such *ready keys* will be processed later, so in the course of the same event loop cycle, it is possible that the key will receive other writes.
 * Finally, before returning into the event loop, the *ready keys* are finally processed. For each key the list of clients waiting for data is scanned, and if applicable, such clients will receive the new data that arrived. In the case of streams the data is the messages in the applicable range requested by the consumer.
 
-As you can see, basically, before returning to the event loop both the client calling [`XADD`](/commands/xadd) and the clients blocked to consume messages, will have their reply in the output buffers, so the caller of [`XADD`](/commands/xadd) should receive the reply from Redis at about the same time the consumers will receive the new messages.
+As you can see, basically, before returning to the event loop both the client calling [`XADD`]({{< relref "/commands/xadd" >}}) and the clients blocked to consume messages, will have their reply in the output buffers, so the caller of [`XADD`]({{< relref "/commands/xadd" >}}) should receive the reply from Redis at about the same time the consumers will receive the new messages.
 
-This model is *push-based*, since adding data to the consumers buffers will be performed directly by the action of calling [`XADD`](/commands/xadd), so the latency tends to be quite predictable.
+This model is *push-based*, since adding data to the consumers buffers will be performed directly by the action of calling [`XADD`]({{< relref "/commands/xadd" >}}), so the latency tends to be quite predictable.
 
 ## Latency tests results
 
@@ -922,7 +928,7 @@ Adding a few million unacknowledged messages to the stream does not change the g
 
 A few remarks:
 
-* Here we processed up to 10k messages per iteration, this means that the `COUNT` parameter of [`XREADGROUP`](/commands/xreadgroup) was set to 10000. This adds a lot of latency but is needed in order to allow the slow consumers to be able to keep with the message flow. So you can expect a real world latency that is a lot smaller.
+* Here we processed up to 10k messages per iteration, this means that the `COUNT` parameter of [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) was set to 10000. This adds a lot of latency but is needed in order to allow the slow consumers to be able to keep with the message flow. So you can expect a real world latency that is a lot smaller.
 * The system used for this benchmark is very slow compared to today's standards.
 
 
@@ -930,6 +936,6 @@ A few remarks:
 
 ## Learn more
 
-* The [Redis Streams Tutorial](/docs/data-types/streams-tutorial) explains Redis streams with many examples.
+* The [Redis Streams Tutorial]({{< relref "/develop/data-types/streams" >}}) explains Redis streams with many examples.
 * [Redis Streams Explained](https://www.youtube.com/watch?v=Z8qcpXyMAiA) is an entertaining introduction to streams in Redis.
 * [Redis University's RU202](https://university.redis.com/courses/ru202/) is a free, online course dedicated to Redis Streams.

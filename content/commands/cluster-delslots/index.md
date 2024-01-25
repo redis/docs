@@ -9,6 +9,16 @@ arguments:
   name: slot
   type: integer
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - stale
@@ -35,7 +45,7 @@ has consequently removed the associations for the passed hash slots,
 we say those hash slots are *unbound*. Note that the existence of
 unbound hash slots occurs naturally when a node has not been
 configured to handle them (something that can be done with the
-[`CLUSTER ADDSLOTS`](/commands/cluster-addslots) command) and if it has not received any information about
+[`CLUSTER ADDSLOTS`]({{< relref "/commands/cluster-addslots" >}}) command) and if it has not received any information about
 who owns those hash slots (something that it can learn from heartbeat
 or update messages).
 

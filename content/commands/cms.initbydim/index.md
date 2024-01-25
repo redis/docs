@@ -6,6 +6,16 @@ arguments:
   type: integer
 - name: depth
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Initializes a Count-Min Sketch to dimensions specified by user
 group: cms
@@ -30,7 +40,7 @@ Initializes a Count-Min Sketch to dimensions specified by user.
 
 ## Return
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly, or [] otherwise.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
 
 ## Examples
 

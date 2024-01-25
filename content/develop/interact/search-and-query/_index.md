@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Searching and querying Redis data
 highlighted: true
 linkTitle: Search and query
@@ -18,7 +26,7 @@ Redis Stack offers an enhanced Redis experience via the following search and que
 - Geospatial queries
 - Aggregations
 
-You can find a complete list of features in the [reference documentation](/docs/interact/search-and-query/advanced-concepts/).
+You can find a complete list of features in the [reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/" >}}).
 
 The search and query features of Redis Stack allow you to use Redis as a:
 
@@ -29,9 +37,9 @@ The search and query features of Redis Stack allow you to use Redis as a:
 
 Here are the next steps to get you started:
 
-1. Follow our [quick start guide](/docs/get-started/document-database/) to get some initial hands-on experience.
-2. Learn how to [create an index](/docs/interact/search-and-query/indexing/).
-3. Learn how to [query your data](/docs/interact/search-and-query/query/).
+1. Follow our [quick start guide]({{< relref "/develop/get-started/document-database" >}}) to get some initial hands-on experience.
+2. Learn how to [create an index]({{< relref "/develop/interact/search-and-query/indexing/" >}}).
+3. Learn how to [query your data]({{< relref "/develop/interact/search-and-query/query/" >}}).
 
 ## License and source code
 

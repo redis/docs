@@ -8,6 +8,16 @@ arguments:
   name: pattern
   type: pattern
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - pubsub
 - noscript
@@ -34,11 +44,11 @@ Supported glob-style patterns:
 
 Use `\` to escape special characters if you want to match them verbatim.
 
-Once the client enters the subscribed state it is not supposed to issue any other commands, except for additional [`SUBSCRIBE`](/commands/subscribe), [`SSUBSCRIBE`](/commands/ssubscribe), `PSUBSCRIBE`, [`UNSUBSCRIBE`](/commands/unsubscribe), [`SUNSUBSCRIBE`](/commands/sunsubscribe), [`PUNSUBSCRIBE`](/commands/punsubscribe), [`PING`](/commands/ping), [`RESET`](/commands/reset) and [`QUIT`](/commands/quit) commands.
-However, if RESP3 is used (see [`HELLO`](/commands/hello)) it is possible for a client to issue any commands while in subscribed state.
+Once the client enters the subscribed state it is not supposed to issue any other commands, except for additional [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}}), `PSUBSCRIBE`, [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}), [`SUNSUBSCRIBE`]({{< relref "/commands/sunsubscribe" >}}), [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}), [`PING`]({{< relref "/commands/ping" >}}), [`RESET`]({{< relref "/commands/reset" >}}) and [`QUIT`]({{< relref "/commands/quit" >}}) commands.
+However, if RESP3 is used (see [`HELLO`]({{< relref "/commands/hello" >}})) it is possible for a client to issue any commands while in subscribed state.
 
-For more information, see [Pub/sub](/docs/interact/pubsub/).
+For more information, see [Pub/sub]({{< relref "/develop/interact/pubsub" >}}).
 
 ## Behavior change history
 
-*   `>= 6.2.0`: [`RESET`](/commands/reset) can be called to exit subscribed state.
+*   `>= 6.2.0`: [`RESET`]({{< relref "/commands/reset" >}}) can be called to exit subscribed state.

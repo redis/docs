@@ -18,6 +18,16 @@ arguments:
   name: path
   optional: true
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) when path is evaluated to a single value where N is the size of the
   value, O(N) when path is evaluated to multiple values, where N is the size of the
   key
@@ -29,8 +39,8 @@ module: JSON
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Gets the value at one or more paths in JSON serialized form
-syntax_fmt: "JSON.GET key [INDENT\_indent] [NEWLINE\_newline] [SPACE\_space] [path\n\
-  \  [path ...]]"
+syntax_fmt: "JSON.GET key [INDENT\_indent] [NEWLINE\_newline] [SPACE\_space] [path\
+  \   [path ...]]"
 syntax_str: "[INDENT\_indent] [NEWLINE\_newline] [SPACE\_space] [path [path ...]]"
 title: JSON.GET
 ---
@@ -96,7 +106,7 @@ JSON.GET returns a bulk string representing a JSON array of string replies.
 Each string is the JSON serialization of each JSON value that matches a path. 
 Using multiple paths, JSON.GET returns a bulk string representing a JSON object with string values. 
 Each string value is an array of the JSON serialization of each JSON value that matches a path.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -127,9 +137,9 @@ redis> JSON.GET doc ..a $..b
 
 ## See also
 
-[`JSON.SET`](/commands/json.set) | [`JSON.MGET`](/commands/json.mget) 
+[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

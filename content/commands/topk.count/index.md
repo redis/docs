@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n) where n is the number of items
 deprecated_since: '2.4'
 description: Return the count for one or more items are in a sketch
@@ -33,7 +43,7 @@ the number of appearances of an item.
 
 ## Return
 
-[Array reply](/docs/reference/protocol-spec#arrays) of [Integer reply](/docs/reference/protocol-spec#integers) - count for responding item.
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - count for responding item.
 
 ## Examples
 

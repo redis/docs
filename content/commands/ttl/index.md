@@ -9,6 +9,16 @@ arguments:
   name: key
   type: key
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 - fast
@@ -52,7 +62,7 @@ Starting with Redis 2.8 the return value in case of error changed:
 * The command returns `-2` if the key does not exist.
 * The command returns `-1` if the key exists but has no associated expire.
 
-See also the [`PTTL`](/commands/pttl) command that returns the same information with milliseconds resolution (Only available in Redis 2.6 or greater).
+See also the [`PTTL`]({{< relref "/commands/pttl" >}}) command that returns the same information with milliseconds resolution (Only available in Redis 2.6 or greater).
 
 ## Examples
 

@@ -14,6 +14,16 @@ arguments:
   since: 6.2.0
   type: integer
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - fast

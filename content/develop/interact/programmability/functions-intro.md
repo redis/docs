@@ -1,7 +1,14 @@
 ---
-aliases:
-- /topics/functions-intro
-- /docs/manual/programmability/functions-intro/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Scripting with Redis 7 and beyond
 
   '
@@ -10,19 +17,19 @@ title: Redis functions
 weight: 1
 ---
 
-Redis Functions is an API for managing code to be executed on the server. This feature, which became available in Redis 7, supersedes the use of [EVAL](/docs/manual/programmability/eval-intro) in prior versions of Redis.
+Redis Functions is an API for managing code to be executed on the server. This feature, which became available in Redis 7, supersedes the use of [EVAL]({{< relref "/develop/interact/programmability/eval-intro" >}}) in prior versions of Redis.
 
 ## Prologue (or, what's wrong with Eval Scripts?)
 
-Prior versions of Redis made scripting available only via the [`EVAL`](/commands/eval) command, which allows a Lua script to be sent for execution by the server.
+Prior versions of Redis made scripting available only via the [`EVAL`]({{< relref "/commands/eval" >}}) command, which allows a Lua script to be sent for execution by the server.
 The core use cases for [Eval Scripts](/topics/eval-intro) is executing part of your application logic inside Redis, efficiently and atomically.
 Such script can perform conditional updates across multiple keys, possibly combining several different data types.
 
-Using [`EVAL`](/commands/eval) requires that the application sends the entire script for execution every time.
-Because this results in network and script compilation overheads, Redis provides an optimization in the form of the [`EVALSHA`](/commands/evalsha) command. By first calling [`SCRIPT LOAD`](/commands/script-load) to obtain the script's SHA1, the application can invoke it repeatedly afterward with its digest alone.
+Using [`EVAL`]({{< relref "/commands/eval" >}}) requires that the application sends the entire script for execution every time.
+Because this results in network and script compilation overheads, Redis provides an optimization in the form of the [`EVALSHA`]({{< relref "/commands/evalsha" >}}) command. By first calling [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}}) to obtain the script's SHA1, the application can invoke it repeatedly afterward with its digest alone.
 
 By design, Redis only caches the loaded scripts.
-That means that the script cache can become lost at any time, such as after calling [`SCRIPT FLUSH`](/commands/script-flush), after restarting the server, or when failing over to a replica.
+That means that the script cache can become lost at any time, such as after calling [`SCRIPT FLUSH`]({{< relref "/commands/script-flush" >}}), after restarting the server, or when failing over to a replica.
 The application is responsible for reloading scripts during runtime if any are missing.
 The underlying assumption is that scripts are a part of the application and not maintained by the Redis server.
 
@@ -30,8 +37,8 @@ This approach suits many light-weight scripting use cases, but introduces severa
 
 1. All client application instances must maintain a copy of all scripts. That means having some mechanism that applies script updates to all of the application's instances.
 1. Calling cached scripts within the context of a [transaction](/topics/transactions) increases the probability of the transaction failing because of a missing script. Being more likely to fail makes using cached scripts as building blocks of workflows less attractive.
-1. SHA1 digests are meaningless, making debugging the system extremely hard (e.g., in a [`MONITOR`](/commands/monitor) session).
-1. When used naively, [`EVAL`](/commands/eval) promotes an anti-pattern in which scripts the client application renders verbatim scripts instead of responsibly using the [`KEYS` and `ARGV` Lua APIs](/topics/lua-api#runtime-globals).
+1. SHA1 digests are meaningless, making debugging the system extremely hard (e.g., in a [`MONITOR`]({{< relref "/commands/monitor" >}}) session).
+1. When used naively, [`EVAL`]({{< relref "/commands/eval" >}}) promotes an anti-pattern in which scripts the client application renders verbatim scripts instead of responsibly using the [`KEYS` and `ARGV` Lua APIs](/topics/lua-api#runtime-globals).
 1. Because they are ephemeral, a script can't call another script. This makes sharing and reusing code between scripts nearly impossible, short of client-side preprocessing (see the first point).
 
 To address these needs while avoiding breaking changes to already-established and well-liked ephemeral scripts, Redis v7.0 introduces Redis Functions.
@@ -86,7 +93,7 @@ Let's explore Redis Functions via some tangible examples and Lua snippets.
 At this point, if you're unfamiliar with Lua in general and specifically in Redis, you may benefit from reviewing some of the examples in [Introduction to Eval Scripts](/topics/eval-intro) and [Lua API](/topics/lua-api) pages for a better grasp of the language.
 
 Every Redis function belongs to a single library that's loaded to Redis.
-Loading a library to the database is done with the [`FUNCTION LOAD`](/commands/function-load) command.
+Loading a library to the database is done with the [`FUNCTION LOAD`]({{< relref "/commands/function-load" >}}) command.
 The command gets the library payload as input,
 the library payload must start with Shebang statement that provides a metadata about the library (like the engine to use and the library name).
 The Shebang format is:
@@ -103,7 +110,7 @@ redis> FUNCTION LOAD "#!lua name=mylib\n"
 
 The error is expected, as there are no functions in the loaded library. Every library needs to include at least one registered function to load successfully.
 A registered function is named and acts as an entry point to the library.
-When the target execution engine handles the [`FUNCTION LOAD`](/commands/function-load) command, it registers the library's functions.
+When the target execution engine handles the [`FUNCTION LOAD`]({{< relref "/commands/function-load" >}}) command, it registers the library's functions.
 
 The Lua engine compiles and evaluates the library source code when loaded, and expects functions to be registered by calling the `redis.register_function()` API.
 
@@ -119,7 +126,7 @@ redis.register_function(
 
 In the example above, we provide two arguments about the function to Lua's `redis.register_function()` API: its registered name and a callback.
 
-We can load our library and use [`FCALL`](/commands/fcall) to call the registered function:
+We can load our library and use [`FCALL`]({{< relref "/commands/fcall" >}}) to call the registered function:
 
 ```
 redis> FUNCTION LOAD "#!lua name=mylib\nredis.register_function('knockknock', function() return 'Who\\'s there?' end)"
@@ -128,9 +135,9 @@ redis> FCALL knockknock 0
 "Who's there?"
 ```
 
-Notice that the [`FUNCTION LOAD`](/commands/function-load) command returns the name of the loaded library, this name can later be used [`FUNCTION LIST`](/commands/function-list) and [`FUNCTION DELETE`](/commands/function-delete).
+Notice that the [`FUNCTION LOAD`]({{< relref "/commands/function-load" >}}) command returns the name of the loaded library, this name can later be used [`FUNCTION LIST`]({{< relref "/commands/function-list" >}}) and [`FUNCTION DELETE`]({{< relref "/commands/function-delete" >}}).
 
-We've provided [`FCALL`](/commands/fcall) with two arguments: the function's registered name and the numeric value `0`. This numeric value indicates the number of key names that follow it (the same way [`EVAL`](/commands/eval) and [`EVALSHA`](/commands/evalsha) work).
+We've provided [`FCALL`]({{< relref "/commands/fcall" >}}) with two arguments: the function's registered name and the numeric value `0`. This numeric value indicates the number of key names that follow it (the same way [`EVAL`]({{< relref "/commands/eval" >}}) and [`EVALSHA`]({{< relref "/commands/evalsha" >}}) work).
 
 We'll explain immediately how key names and additional arguments are available to the function. As this simple example doesn't involve keys, we simply use 0 for now.
 
@@ -147,10 +154,10 @@ To ensure the correct execution of Redis Functions, both in standalone and clust
 Any input to the function that isn't the name of a key is a regular input argument.
 
 Now, let's pretend that our application stores some of its data in Redis Hashes.
-We want an [`HSET`](/commands/hset)-like way to set and update fields in said Hashes and store the last modification time in a new field named `_last_modified_`.
+We want an [`HSET`]({{< relref "/commands/hset" >}})-like way to set and update fields in said Hashes and store the last modification time in a new field named `_last_modified_`.
 We can implement a function to do all that.
 
-Our function will call [`TIME`](/commands/time) to get the server's clock reading and update the target Hash with the new fields' values and the modification's timestamp.
+Our function will call [`TIME`]({{< relref "/commands/time" >}}) to get the server's clock reading and update the target Hash with the new fields' values and the modification's timestamp.
 The function we'll implement accepts the following input arguments: the Hash's key name and the field-value pairs to update.
 
 The Lua API for Redis Functions makes these inputs accessible as the first and second arguments to the function's callback.
@@ -177,7 +184,7 @@ If we create a new file named _mylib.lua_ that consists of the library's definit
 $ cat mylib.lua | redis-cli -x FUNCTION LOAD REPLACE
 ```
 
-We've added the `REPLACE` modifier to the call to [`FUNCTION LOAD`](/commands/function-load) to tell Redis that we want to overwrite the existing library definition.
+We've added the `REPLACE` modifier to the call to [`FUNCTION LOAD`]({{< relref "/commands/function-load" >}}) to tell Redis that we want to overwrite the existing library definition.
 Otherwise, we would have gotten an error from Redis complaining that the library already exists.
 
 Now that the library's updated code is loaded to Redis, we can proceed and call our function:
@@ -194,7 +201,7 @@ redis> HGETALL myhash
 6) "another value"
 ```
 
-In this case, we had invoked [`FCALL`](/commands/fcall) with _1_ as the number of key name arguments.
+In this case, we had invoked [`FCALL`]({{< relref "/commands/fcall" >}}) with _1_ as the number of key name arguments.
 That means that the function's first input argument is a name of a key (and is therefore included in the callback's `keys` table).
 After that first argument, all following input arguments are considered regular arguments and constitute the `args` table passed to the callback as its second argument.
 
@@ -248,7 +255,7 @@ Assuming you've saved the library's implementation in the _mylib.lua_ file, you 
 $ cat mylib.lua | redis-cli -x FUNCTION LOAD REPLACE
 ```
 
-Once loaded, you can call the library's functions with [`FCALL`](/commands/fcall):
+Once loaded, you can call the library's functions with [`FCALL`]({{< relref "/commands/fcall" >}}):
 
 ```
 redis> FCALL my_hgetall 1 myhash
@@ -260,7 +267,7 @@ redis> FCALL my_hlastmodified 1 myhash
 "1640772721"
 ```
 
-You can also get the library's details with the [`FUNCTION LIST`](/commands/function-list) command:
+You can also get the library's details with the [`FUNCTION LIST`]({{< relref "/commands/function-list" >}}) command:
 
 ```
 redis> FUNCTION LIST
@@ -273,14 +280,20 @@ redis> FUNCTION LIST
          2) "my_hset"
          3) "description"
          4) (nil)
+         5) "flags"
+         6) (empty array)
       2) 1) "name"
          2) "my_hgetall"
          3) "description"
          4) (nil)
+         5) "flags"
+         6) (empty array)
       3) 1) "name"
          2) "my_hlastmodified"
          3) "description"
          4) (nil)
+         5) "flags"
+         6) (empty array)
 ```
 
 You can see that it is easy to update our library with new capabilities.
@@ -393,11 +406,11 @@ To do that, it is possible to use `redis-cli --functions-rdb` to extract the fun
 
 Redis needs to have some information about how a function is going to behave when executed, in order to properly enforce resource usage policies and maintain data consistency.
 
-For example, Redis needs to know that a certain function is read-only before permitting it to execute using [`FCALL_RO`](/commands/fcall_ro) on a read-only replica.
+For example, Redis needs to know that a certain function is read-only before permitting it to execute using [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) on a read-only replica.
 
 By default, Redis assumes that all functions may perform arbitrary read or write operations. Function Flags make it possible to declare more specific function behavior at the time of registration. Let's see how this works.
 
-In our previous example, we defined two functions that only read data. We can try executing them using [`FCALL_RO`](/commands/fcall_ro) against a read-only replica.
+In our previous example, we defined two functions that only read data. We can try executing them using [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) against a read-only replica.
 
 ```
 redis > FCALL_RO my_hgetall 1 myhash
@@ -408,8 +421,8 @@ Redis returns this error because a function can, in theory, perform both read an
 As a safeguard and by default, Redis assumes that the function does both, so it blocks its execution.
 The server will reply with this error in the following cases:
 
-1. Executing a function with [`FCALL`](/commands/fcall) against a read-only replica.
-2. Using [`FCALL_RO`](/commands/fcall_ro) to execute a function.
+1. Executing a function with [`FCALL`]({{< relref "/commands/fcall" >}}) against a read-only replica.
+2. Using [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) to execute a function.
 3. A disk error was detected (Redis is unable to persist so it rejects writes).
 
 In these cases, you can add the `no-writes` flag to the function's registration, disable the safeguard and allow them to run.
@@ -431,7 +444,7 @@ redis.register_function{
 }
 ```
 
-Once we've replaced the library, Redis allows running both `my_hgetall` and `my_hlastmodified` with [`FCALL_RO`](/commands/fcall_ro) against a read-only replica:
+Once we've replaced the library, Redis allows running both `my_hgetall` and `my_hlastmodified` with [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) against a read-only replica:
 
 ```
 redis> FCALL_RO my_hgetall 1 myhash

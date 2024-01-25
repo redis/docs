@@ -12,6 +12,16 @@ arguments:
   name: value
   type: string
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -39,7 +49,7 @@ key_specs:
     type: range
   update: true
 linkTitle: GETSET
-replaced_by: '[`SET`](/commands/set) with the `GET` argument'
+replaced_by: '[`SET`]({{< relref "/commands/set" >}}) with the `GET` argument'
 since: 1.0.0
 summary: Returns the previous string value of a key after setting it to a new value.
 syntax_fmt: GETSET key value
@@ -49,12 +59,12 @@ title: GETSET
 Atomically sets `key` to `value` and returns the old value stored at `key`.
 Returns an error when `key` exists but does not hold a string value.  Any 
 previous time to live associated with the key is discarded on successful 
-[`SET`](/commands/set) operation.
+[`SET`]({{< relref "/commands/set" >}}) operation.
 
 ## Design pattern
 
-`GETSET` can be used together with [`INCR`](/commands/incr) for counting with atomic reset.
-For example: a process may call [`INCR`](/commands/incr) against the key `mycounter` every time
+`GETSET` can be used together with [`INCR`]({{< relref "/commands/incr" >}}) for counting with atomic reset.
+For example: a process may call [`INCR`]({{< relref "/commands/incr" >}}) against the key `mycounter` every time
 some event occurs, but from time to time we need to get the value of the counter
 and reset it to zero atomically.
 This can be done using `GETSET mycounter "0"`:

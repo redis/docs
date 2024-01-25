@@ -1,7 +1,14 @@
 ---
-aliases:
-- /topics/lua-api
-- /docs/manual/programmability/lua-api/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Executing Lua in Redis
 
   '
@@ -128,14 +135,14 @@ Following is the API provided by the _redis_ object instance.
 The `redis.call()` function calls a given Redis command and returns its reply.
 Its inputs are the command and arguments, and once called, it executes the command in Redis and returns the reply.
 
-For example, we can call the [`ECHO`](/commands/echo) command from a script and return its reply like so:
+For example, we can call the [`ECHO`]({{< relref "/commands/echo" >}}) command from a script and return its reply like so:
 
 ```lua
 return redis.call('ECHO', 'Echo, echo... eco... o...')
 ```
 
 If and when `redis.call()` triggers a runtime exception, the raw exception is raised back to the user as an error, automatically.
-Therefore, attempting to execute the following ephemeral script will fail and generate a runtime exception because [`ECHO`](/commands/echo) accepts exactly one argument:
+Therefore, attempting to execute the following ephemeral script will fail and generate a runtime exception because [`ECHO`]({{< relref "/commands/echo" >}}) accepts exactly one argument:
 
 ```lua
 redis> EVAL "return redis.call('ECHO', 'Echo,', 'echo... ', 'eco... ', 'o...')" 0
@@ -328,12 +335,12 @@ By default, all write commands that a script executes are replicated.
 Sometimes, however, better control over this behavior can be helpful.
 This can be the case, for example, when storing intermediate values in the master alone.
 
-Consider a script that intersects two sets and stores the result in a temporary key with [`SUNIONSTORE`](/commands/sunionstore).
-It then picks five random elements ([`SRANDMEMBER`](/commands/srandmember)) from the intersection and stores ([`SADD`](/commands/sadd)) them in another set.
+Consider a script that intersects two sets and stores the result in a temporary key with [`SUNIONSTORE`]({{< relref "/commands/sunionstore" >}}).
+It then picks five random elements ([`SRANDMEMBER`]({{< relref "/commands/srandmember" >}})) from the intersection and stores ([`SADD`]({{< relref "/commands/sadd" >}})) them in another set.
 Finally, before returning, it deletes the temporary key that stores the intersection of the two source sets.
 
 In this case, only the new set with its five randomly-chosen elements needs to be replicated.
-Replicating the [`SUNIONSTORE`](/commands/sunionstore) command and the [`DEL`](/commands/del)ition of the temporary key is unnecessary and wasteful.
+Replicating the [`SUNIONSTORE`]({{< relref "/commands/sunionstore" >}}) command and the [`DEL`]({{< relref "/commands/del" >}})ition of the temporary key is unnecessary and wasteful.
 
 The `redis.set_repl()` function instructs the server how to treat subsequent write commands in terms of replication.
 It accepts a single input argument that only be one of the following:
@@ -409,7 +416,7 @@ The function will raise an error if the passed command or its arguments are inva
 * Available in scripts: no
 * Available in functions: yes
 
-This function is only available from the context of the [`FUNCTION LOAD`](/commands/function-load) command.
+This function is only available from the context of the [`FUNCTION LOAD`]({{< relref "/commands/function-load" >}}) command.
 When called, it registers a function to the loaded library.
 The function can be called either with positional or named arguments.
 
@@ -445,7 +452,7 @@ redis> FUNCTION LOAD "#!lua name=mylib\n redis.register_function{function_name='
 
 **Important:**
 Use script flags with care, which may negatively impact if misused.
-Note that the default for Eval scripts are different than the default for functions that are mentioned below, see [Eval Flags](/docs/manual/programmability/eval-intro/#eval-flags)
+Note that the default for Eval scripts are different than the default for functions that are mentioned below, see [Eval Flags]({{< baseurl >}}/develop/interact/programmability/eval-intro#eval-flags)
 
 When you register a function or load an Eval script, the server does not know how it accesses the database.
 By default, Redis assumes that all scripts read and write data.
@@ -461,25 +468,25 @@ You can use the following flags and instruct the server to treat the scripts' ex
 * `no-writes`: this flag indicates that the script only reads data but never writes.
 
     By default, Redis will deny the execution of flagged scripts (Functions and Eval scripts with [shebang](/topics/eval-intro#eval-flags)) against read-only replicas, as they may attempt to perform writes.
-    Similarly, the server will not allow calling scripts with [`FCALL_RO`](/commands/fcall_ro) / [`EVAL_RO`](/commands/eval_ro).
+    Similarly, the server will not allow calling scripts with [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) / [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}).
     Lastly, when data persistence is at risk due to a disk error, execution is blocked as well.
 
     Using this flag allows executing the script:
-    1. With [`FCALL_RO`](/commands/fcall_ro) / [`EVAL_RO`](/commands/eval_ro)
+    1. With [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) / [`EVAL_RO`]({{< relref "/commands/eval_ro" >}})
     2. On read-only replicas.
     3. Even if there's a disk error (Redis is unable to persist so it rejects writes).
     4. When over the memory limit since it implies the script doesn't increase memory consumption (see `allow-oom` below)
 
     However, note that the server will return an error if the script attempts to call a write command.
-    Also note that currently [`PUBLISH`](/commands/publish), [`SPUBLISH`](/commands/spublish) and [`PFCOUNT`](/commands/pfcount) are also considered write commands in scripts, because they could attempt to propagate commands to replicas and AOF file.
+    Also note that currently [`PUBLISH`]({{< relref "/commands/publish" >}}), [`SPUBLISH`]({{< relref "/commands/spublish" >}}) and [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) are also considered write commands in scripts, because they could attempt to propagate commands to replicas and AOF file.
 
-    For more information please refer to [Read-only scripts](/docs/manual/programmability/#read-only_scripts)
+    For more information please refer to [Read-only scripts]({{< baseurl >}}/develop/interact/programmability/#read-only_scripts)
 
 * `allow-oom`: use this flag to allow a script to execute when the server is out of memory (OOM).
 
     Unless used, Redis will deny the execution of flagged scripts (Functions and Eval scripts with [shebang](/topics/eval-intro#eval-flags)) when in an OOM state.
     Furthermore, when you use this flag, the script can call any Redis command, including commands that aren't usually allowed in this state.
-    Specifying `no-writes` or using [`FCALL_RO`](/commands/fcall_ro) / [`EVAL_RO`](/commands/eval_ro) also implies the script can run in OOM state (without specifying `allow-oom`)
+    Specifying `no-writes` or using [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) / [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}) also implies the script can run in OOM state (without specifying `allow-oom`)
 
 * `allow-stale`: a flag that enables running the flagged scripts (Functions and Eval scripts with [shebang](/topics/eval-intro#eval-flags)) against a stale replica when the `replica-serve-stale-data` config is set to `no` .
 
@@ -501,7 +508,7 @@ You can use the following flags and instruct the server to treat the scripts' ex
     
     This flag has no effect when cluster mode is disabled.
 
-Please refer to [Function Flags](/docs/manual/programmability/functions-intro/#function-flags) and [Eval Flags](/docs/manual/programmability/eval-intro/#eval-flags) for a detailed example.
+Please refer to [Function Flags]({{< baseurl >}}/develop/interact/programmability/functions-intro#function-flags) and [Eval Flags]({{< baseurl >}}/develop/interact/programmability/eval-intro#eval-flags) for a detailed example.
 
 ### <a name="redis.redis_version"></a> `redis.REDIS_VERSION`
 
@@ -544,7 +551,7 @@ Type conversion from Redis protocol replies (i.e., the replies from `redis.call(
 The default protocol version during script executions is RESP2.
 The script may switch the replies' protocol versions by calling the `redis.setresp()` function.
 
-Type conversion from a script's returned Lua data type depends on the user's choice of protocol (see the [`HELLO`](/commands/hello) command).
+Type conversion from a script's returned Lua data type depends on the user's choice of protocol (see the [`HELLO`]({{< relref "/commands/hello" >}}) command).
 
 The following sections describe the type conversion rules between Lua and Redis per the protocol's version.
 
@@ -580,7 +587,7 @@ There are three additional rules to note about converting Lua to Redis data type
   There is no distinction between integers and floats.
   So we always convert Lua numbers into integer replies, removing the decimal part of the number, if any.
   **If you want to return a Lua float, it should be returned as a string**,
-  exactly like Redis itself does (see, for instance, the [`ZSCORE`](/commands/zscore) command).
+  exactly like Redis itself does (see, for instance, the [`ZSCORE`]({{< relref "/commands/zscore" >}}) command).
 * There's [no simple way to have nils inside Lua arrays](http://www.lua.org/pil/19.1.html) due 
   to Lua's table semantics.
   Therefore, when Redis converts a Lua array to RESP, the conversion stops when it encounters a Lua `nil` value.
@@ -654,9 +661,9 @@ That means, for example, that returning the RESP3 map type to a RESP2 connection
 
 ## Additional notes about scripting
 
-### Using [`SELECT`](/commands/select) inside scripts
+### Using [`SELECT`]({{< relref "/commands/select" >}}) inside scripts
 
-You can call the [`SELECT`](/commands/select) command from your Lua scripts, like you can with any normal client connection.
+You can call the [`SELECT`]({{< relref "/commands/select" >}}) command from your Lua scripts, like you can with any normal client connection.
 However, one subtle aspect of the behavior changed between Redis versions 2.8.11 and 2.8.12.
 Prior to Redis version 2.8.12, the database selected by the Lua script was *set as the current database* for the client connection that had called it.
 As of Redis version 2.8.12, the database selected by the Lua script only affects the execution context of the script, and does not modify the database that's selected by the client calling the script.
