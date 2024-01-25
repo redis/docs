@@ -57,31 +57,31 @@ This guide is for migrating databases between subscriptions in the same Redis Cl
 
 1. From the **Configuration** tab of the target database, select **Edit database**.
 
-    {{<image filename="images/rc/button-database-edit.png" alt="The Edit database button lets you change selected database properties." >}}{{< /image >}}
+    {{<image filename="images/rc/button-database-edit.png" alt="The Edit database button lets you change selected database properties." >}}
 
 1. In the **Durability** section, enable **Active-Passive Redis** and then select **Add Account's Path**.
 
-    {{<image filename="images/rc/button-database-add-account-path.png" alt="Use the Add Account's Path button to specify the source of the Active-Passive replica." >}}{{< /image >}}
+    {{<image filename="images/rc/button-database-add-account-path.png" alt="Use the Add Account's Path button to specify the source of the Active-Passive replica." >}}
 
 1. Select the first database in your Fixed subscription from the list. This will be your source database. You can type in the database's name to find it.
 
-    {{<image filename="images/rc/database-add-account-path-list.png" alt="Select the Source database from the database list." >}}{{< /image >}}
+    {{<image filename="images/rc/database-add-account-path-list.png" alt="Select the Source database from the database list." >}}
 
 1. Select **Save Database** to begin updating the database.
 
-    {{<image filename="images/rc/button-database-save.png" alt="Use the **Save Database** button to save your changes, deploy the database, and to start data migration." >}}{{< /image >}}
+    {{<image filename="images/rc/button-database-save.png" alt="Use the **Save Database** button to save your changes, deploy the database, and to start data migration." >}}
 
     Initially, the database status is __Pending__, which means the update task is still running.  
 
-    {{<image filename="images/rc/icon-database-update-status-pending.png" alt="When the status is 'Pending', your changes are still being deployed.">}}{{< /image >}}
+    {{<image filename="images/rc/icon-database-update-status-pending.png" alt="When the status is 'Pending', your changes are still being deployed.">}}
 
     The sync process doesn't begin until the database becomes `Active`.  
 
-    {{<image filename="images/rc/icon-database-update-status-active.png" alt="When the status becomes 'Active', data begins to sync." >}}{{< /image >}}
+    {{<image filename="images/rc/icon-database-update-status-active.png" alt="When the status becomes 'Active', data begins to sync." >}}
 
     When data has fully migrated to the target database, database status reports `Synced`.  
 
-    {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." >}}{{< /image >}}
+    {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." >}}
 
     Active-Passive sync lets you migrate data while apps and other connections are using the source database. Once the data is migrated, you should migrate active connections to the target database before you move on.
 

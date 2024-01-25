@@ -38,7 +38,7 @@ To create a new subscription:
 
 1. Select the **New subscription** button:
 
-    {{<image filename="images/rc/button-subscription-new.png" alt="The New subscriptions button in the admin console menu." width="150px">}}{{</image>}}
+    {{<image filename="images/rc/button-subscription-new.png" alt="The New subscriptions button in the admin console menu." width="150px">}}
 
 1. Configure your subscription:
 
@@ -50,7 +50,7 @@ To create a new subscription:
 
 1. Select the **Create subscription** button:
 
-    {{<image filename="images/rc/button-subscription-create.png" alt="The Create Subscription button." width="150px">}}{{</image>}}
+    {{<image filename="images/rc/button-subscription-create.png" alt="The Create Subscription button." width="150px">}}
 
 ### Create a Redis Stack database
 
@@ -58,7 +58,7 @@ After you create a subscription, follow these steps to create a Redis Stack data
 
 1. Select the **New database** button:
 
-    {{<image filename="images/rc/button-database-new.png" alt="The New Database button creates a new database for your subscription." width="120px">}}{{</image>}}
+    {{<image filename="images/rc/button-database-new.png" alt="The New Database button creates a new database for your subscription." width="120px">}}
 
 1. In **General** settings, enter a **Database name**.
 
@@ -66,7 +66,7 @@ After you create a subscription, follow these steps to create a Redis Stack data
 
 1. Select the **Activate database** button:
 
-    {{<image filename="images/rc/button-database-activate.png" alt="Use the Activate database button to create and activate your database." width="150px">}}{{</image>}}
+    {{<image filename="images/rc/button-database-activate.png" alt="Use the Activate database button to create and activate your database." width="150px">}}
 
 ### Connect to the database
 

@@ -20,7 +20,7 @@ To delete a subscription:
 
     The number of databases for the subscription is shown in the subscription list. You cannot delete a subscription until there are zero databases in the subscription.
 
-    {{<image filename="images/rc/subscription-list-free-no-databases.png" width="75%" alt="The number of databases is shown in the bottom, left of the subscription in the subscription list." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-list-free-no-databases.png" width="75%" alt="The number of databases is shown in the bottom, left of the subscription in the subscription list." >}}
 
 2.  View the subscription details.  
 
@@ -28,11 +28,11 @@ To delete a subscription:
 
 3.  Select the **Overview** tab.
 
-    {{<image filename="images/rc/subscription-free-delete-subscription.png" alt="Open the Overview tab to locate the Delete subscription button." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-free-delete-subscription.png" alt="Open the Overview tab to locate the Delete subscription button." >}}
 
 4.  Select the **Delete subscription** button.
 
-    {{<image filename="images/rc/subscription-delete-confirm-dialog.png" alt="Select the Yes, cancel button to confirm the subscription cancellation." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-delete-confirm-dialog.png" alt="Select the Yes, cancel button to confirm the subscription cancellation." >}}
 
 
 5.  Select the **Yes, delete** button to confirm your choice.

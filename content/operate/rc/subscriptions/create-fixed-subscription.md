@@ -40,21 +40,21 @@ To create a Fixed subscription:
 
 1.  From the Redis Cloud subscriptions list, select the **Add new subscription** button.  
 
-    {{<image filename="images/rc/button-subscription-new.png" alt="The New subscriptions button in the admin console menu." >}}{{< /image >}}
+    {{<image filename="images/rc/button-subscription-new.png" alt="The New subscriptions button in the admin console menu." >}}
 
 2. When the **New subscription** page appears, select **Fixed plan** and then scroll to the cloud vendor options.
 
-    {{<image filename="images/rc/subscription-new-plan-options.png" alt="Available subscription plan options." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-new-plan-options.png" alt="Available subscription plan options." >}}
 
 3.  Choose a **Cloud Provider** and a **Region**.
 
-    {{<image filename="images/rc/subscription-new-cloud-vendor-options-redis-7-preview.png" alt="Available cloud vendor options and Redis 7.2 regions." >}}{{</image>}}
+    {{<image filename="images/rc/subscription-new-cloud-vendor-options-redis-7-preview.png" alt="Available cloud vendor options and Redis 7.2 regions." >}}
 
     [Redis 7.2]({{< relref "/operate/rc/changelog/june-2023#redis-72-preview" >}}) is available for selected regions in AWS and GCP. Redis 7.2 introduces several changes to existing Redis commands; see the list of [breaking changes]({{< relref "/operate/rc/changelog/june-2023#redis-72-breaking-changes" >}}) for more details.
     
     If you want to try out Redis 7.2, turn on the **Redis 7.2 regions** toggle to show the regions where it is available:
 
-    {{<image filename="images/rc/subscription-new-redis-7-preview-toggle.png" width="200px" alt="Turn on the Redis 7.2 regions toggle." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-new-redis-7-preview-toggle.png" width="200px" alt="Turn on the Redis 7.2 regions toggle." >}}
 
 4.  In the **Availability Settings** panel, select your replication settings.  
 
@@ -66,13 +66,13 @@ To create a Fixed subscription:
 
     To create a Free subscription, select the 30 MB plan size.  
 
-    {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available tiers for Fixed size subscription plans." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available tiers for Fixed size subscription plans." >}}
 
 6.  Enter a subscription name and payment details.
 
 7.  Select the **Create Subscription** button.
 
-    {{<image filename="images/rc/button-subscription-create.png" alt="The Create Subscription button." >}}{{< /image >}}
+    {{<image filename="images/rc/button-subscription-create.png" alt="The Create Subscription button." >}}
 
 Here are few details to keep in mind:
 
@@ -82,11 +82,11 @@ Here are few details to keep in mind:
 
 - If you're creating a paid subscription and haven't previously entered a payment method, use the **Add Credit Card** button to add one.
 
-    {{<image filename="images/rc/icon-add-credit-card.png" alt="The Add credit card icon." >}}{{< /image >}}
+    {{<image filename="images/rc/icon-add-credit-card.png" alt="The Add credit card icon." >}}
 
 When you create your subscription, there's a brief pause while your request is processed and then you're taken to the **Subscription details** page.
 
-{{<image filename="images/rc/subscription-fixed-databases-none.png" alt="The Subscription details screen with no databases." >}}{{< /image >}}
+{{<image filename="images/rc/subscription-fixed-databases-none.png" alt="The Subscription details screen with no databases." >}}
 
 To create your first database, select the **New Database** button and then fill in the appropriate details.
 

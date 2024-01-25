@@ -30,7 +30,7 @@ To set manual maintenance windows for a single flexible subscription:
 
 1. Enter the maintenance window time frame details.
 
-    {{<image filename="images/rc/subscriptions-set-maintenance-window.png" alt="The set maintenance windows panel" >}}{{< /image >}}
+    {{<image filename="images/rc/subscriptions-set-maintenance-window.png" alt="The set maintenance windows panel" >}}
 
     - Select the days that Redis can perform maintenance in the **Days** drop-down.
     - Select the time that Redis can start performing maintenance on those days in the **From** drop-down.

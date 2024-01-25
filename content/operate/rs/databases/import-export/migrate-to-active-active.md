@@ -18,7 +18,7 @@ Before data migration starts, all data is flushed from the Active-Active databas
 The data is migrated to the Active-Active instance where you enabled Replica Of, and the data from that instance is copied to the other Active-Active instances.
 When data migration is finished, disable Replica Of and connect your applications to the Active-Active database.
 
-{{<image filename="images/rs/A-A_migration.png" width="75%" alt="Active-Active data migration process" >}}{{< /image >}}
+{{<image filename="images/rs/A-A_migration.png" width="75%" alt="Active-Active data migration process" >}}
 
 
 {{< note >}}
@@ -30,7 +30,7 @@ To migrate a Redis Enterprise Software database to Active-Active:
 
 1. If you are using the new Cluster Manager UI, switch to the legacy admin console.
 
-    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}{{</image>}}
+    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
 
 1. Create a new [Active-Active database]({{< relref "/operate/rs/databases/active-active/create.md" >}}).
 
@@ -98,5 +98,5 @@ the [client mDNS prerequisites]({{< relref "/operate/rs/networking/mdns.md" >}})
 1. Click **Update** at the bottom of the page.
 1. When the synchronization icon turns green ![Synchronization complete](/images/rs/icon_sync_green.png#no-click "Synchronization complete"), the migration is complete. Note that migration can take minutes to hours to complete depending on the dataset size and network quality.
 1. Edit the configuration of the Active-Active database and select the **Stop** button to disable **Migration using Replica Of**.
-{{<image filename="images/rs/Migration_using_Replica_Of_complete.png" alt="disable migration using replica of" >}} {{</image>}}
+{{<image filename="images/rs/Migration_using_Replica_Of_complete.png" alt="disable migration using replica of" >}}
 1. Redirect your database connections to the Active-Active database.

@@ -41,7 +41,7 @@ Every instance of an Active-Active database can receive write operations, and al
 
         If you are using the new Cluster Manager UI, switch to the legacy admin console.
 
-        {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}{{</image>}}
+        {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
 
     1. Go to **access control > users** and select ![Add](/images/rs/icon_add.png#no-click "Add").
     1. Enter the name, email, and password for the user, select the **Admin** role, and select ![Save](/images/rs/icon_save.png#no-click "Save").

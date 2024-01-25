@@ -27,11 +27,11 @@ To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< 
 
     > **Note**: Depending how they are created, users can have different profiles. 
 
-    {{<image filename="images/rc/saml/auth0_saml_1.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_1.png" alt="" >}}
 
 1. Add `user_metadata` to fulfill the SAML assertion, then select **Save**. 
    
-   {{<image filename="images/rc/saml/auth0_saml_2.png" alt="" >}}{{</image>}}
+   {{<image filename="images/rc/saml/auth0_saml_2.png" alt="" >}}
 
    The key-value pair of `redisAccountMapping` consists of a lowercase role name (owner, member, manager, or viewer) and your Redis Cloud Account ID found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}).
 
@@ -45,7 +45,7 @@ To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< 
 
 1. Open **Auth Pipeline > Rules** and select **Create**.
 
-    {{<image filename="images/rc/saml/auth0_saml_3.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_3.png" alt="" >}}
 
 1. Pick a rule template then select **Empty rule**.
 
@@ -66,29 +66,29 @@ To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< 
 
  1. Select **Save Changes**.
 
-    {{<image filename="images/rc/saml/auth0_saml_4.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_4.png" alt="" >}}
 
 ### Create and configure the SAML application
 
 1. Open **Applications > Applications** and select **Create Application**.
 
-    {{<image filename="images/rc/saml/auth0_saml_5.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_5.png" alt="" >}}
 
 1. Provide a **name** for the Application and select **Single Page Web Applications**. Select **Create**.
 
-    {{<image filename="images/rc/saml/auth0_saml_6.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_6.png" alt="" >}}
 
 1. From the newly created application, go to **Settings > Advanced Settings > Certificates**.
 
     * Copy and save the **Signing Certificate**. You will need this information to configure SAML in admin console.
 
-    {{<image filename="images/rc/saml/auth0_saml_7.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_7.png" alt="" >}}
 
     * We suggest that you update the default logo of the application to the [Redis icon](https://saml-integration-logo.s3.amazonaws.com/redis-cube-red_white-rgb.png) for better visibility. 
 
 1. From the newly created application, go to **Addons** and enable **SAML 2 WEB APP**.
 
-    {{<image filename="images/rc/saml/auth0_saml_8.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_8.png" alt="" >}}
 
 1. From the **Usage** tab:
 
@@ -97,7 +97,7 @@ To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< 
     
     You will need both of these values, along with the certificate value you copied in the previous step, to configure SAML in admin console.
 
-    {{<image filename="images/rc/saml/auth0_saml_9.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_9.png" alt="" >}}
 
 ## Step 2: Configure SAML support in Redis Cloud
 
@@ -121,29 +121,29 @@ To activate SAML, you need to have a local user (or social sign-on user) with th
 
     * **Email domain binding** - The domain used in your company's email addresses
 
-    {{<image filename="images/rc/saml/auth0_saml_11.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_11.png" alt="" >}}
 
     Once you click **Enable**, wait a few seconds for the status to change.
 
 1. Download the service provider (SP) metadata. Save the file to your local hard disk.
 
-    {{<image filename="images/rc/saml/auth0_saml_15.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_15.png" alt="" >}}
 
 1. Open the file in any text editor. Save the following text from the metadata:
 
     * **EntityID**: The unique name of the service provider (SP)
 
-    {{<image filename="images/rc/saml/sm_saml_4.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/sm_saml_4.png" alt="" >}}
 
     * **Location** : The location of the assertion consumer service
 
-    {{<image filename="images/rc/saml/sm_saml_5.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/sm_saml_5.png" alt="" >}}
 
 ## Step 3: Finish SAML configuration in Auth0
 
 1. Return to the Auth0 SAML application and select **Addons > Settings**:
 
-    {{<image filename="images/rc/saml/auth0_saml_10.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_10.png" alt="" >}}
 
     * Paste the **Location** link in **Application Callback URL** field.
 
@@ -175,15 +175,15 @@ Replace `ID` so it matches the `AssertionConsumerService` Location URL ID (the c
 
 1. Return to the Redis Cloud console and select **Activate**.
 
-    {{<image filename="images/rc/saml/sm_saml_8.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/sm_saml_8.png" alt="" >}}
 
    A popup appears, explaining that, in order to test the SAML connection, that we need to login with credentials of a user defined in Auth0.
 
-    {{<image filename="images/rc/saml/sm_saml_9.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/sm_saml_9.png" alt="" >}}
 
 1. The Auth0 login screen appears. Enter the credentials and select **Sign In**.
 
-    {{<image filename="images/rc/saml/auth0_saml_12.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_12.png" alt="" >}}
 
 1. If the test has succeeded, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 
@@ -191,5 +191,5 @@ Replace `ID` so it matches the `AssertionConsumerService` Location URL ID (the c
 
 You have successfully configured SAML as an identification provider.
 
-    {{<image filename="images/rc/saml/auth0_saml_14.png" alt="" >}}{{</image>}}
+    {{<image filename="images/rc/saml/auth0_saml_14.png" alt="" >}}
 

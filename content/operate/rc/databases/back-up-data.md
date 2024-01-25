@@ -36,19 +36,19 @@ To turn on database backups:
 
 2. If you have more than one subscription, select the target subscription from the list.  This displays the **Databases** tab for the selected subscription.
 
-    {{<image filename="images/rc/subscription-flexible-databases-tab-pending.png" alt="The Databases tab summarizes databases created for a given subscription." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-flexible-databases-tab-pending.png" alt="The Databases tab summarizes databases created for a given subscription." >}}
 
 3.  Select the database to open the **Database** page and then select **Edit database**.
 
-    {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}{{< /image >}}
+    {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}
 
 4.  In the **Durability** section of the **Configuration** tab, locate the **Remote backup** setting:
 
-    {{<image filename="images/rc/database-details-configuration-tab-durability-flexible.png" alt="The Remote backup setting is located in the Durability section of the Configuration tab of the database details screen." >}}{{< /image >}}
+    {{<image filename="images/rc/database-details-configuration-tab-durability-flexible.png" alt="The Remote backup setting is located in the Durability section of the Configuration tab of the database details screen." >}}
 
 When you enable **Remote backup**, additional options appear.  The options vary according to your subscription.
 
-{{<image filename="images/rc/database-details-configuration-durability-backup.png" alt="Backup settings appear when you enable the Remote backup settings." >}}{{< /image >}}
+{{<image filename="images/rc/database-details-configuration-durability-backup.png" alt="Backup settings appear when you enable the Remote backup settings." >}}
 
 |Setting name|Description|
 |:-----------|:----------|
@@ -62,7 +62,7 @@ When you enable **Remote backup**, additional options appear.  The options vary 
 
 After backups are turned on, you can back up your data at any time.  Use the **Backup now** button in the **Durability** section.
 
-{{<image filename="images/rc/button-database-backup-now.png" alt="Use the Backup Now button to make backups on demand." >}}{{< /image >}}
+{{<image filename="images/rc/button-database-backup-now.png" alt="Use the Backup Now button to make backups on demand." >}}
 
 You can only use the **Backup now** button after you turn on backups.
 

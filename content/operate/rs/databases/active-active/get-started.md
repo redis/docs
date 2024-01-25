@@ -54,7 +54,7 @@ Depending on your browser, you may see a certificate error. Continue to the webs
 
     If you are using the new Cluster Manager UI, switch to the legacy admin console.
 
-    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}{{</image>}}
+    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
 
 1. Click the **Setup** button.
 

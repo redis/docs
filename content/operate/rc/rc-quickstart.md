@@ -34,7 +34,7 @@ To create a new account with a free subscription and database:
 
 1. After you enter your information, you should receive an activation email from Redis. Select **Activate account** to go to the **Get Started** page in the [Redis Cloud console](https://app.redislabs.com).
 
-    {{<image filename="images/rc/quickstart-get-started.png" width="75%" alt="Dialog to create your free subscription." >}}{{< /image >}}
+    {{<image filename="images/rc/quickstart-get-started.png" width="75%" alt="Dialog to create your free subscription." >}}
 
     1. Choose your role from the **Role** drop-down.
     1. Choose your company size from the **myself/company** drop-down. If you are working on a personal project, select **myself**.
@@ -45,7 +45,7 @@ To create a new account with a free subscription and database:
 
 1. Select your preferred cloud vendor and region.
 
-   {{<image filename="images/rc/quickstart-create-free-database.png" width="75%" alt="Dialog to create your free subscription." >}}{{< /image >}}
+   {{<image filename="images/rc/quickstart-create-free-database.png" width="75%" alt="Dialog to create your free subscription." >}}
 
 1. Select **Let's start free** to create your subscription and database.
 
@@ -55,11 +55,11 @@ If you would rather customize your subscription and database, select **Create a 
 
     You're taken to the **Overview tab** for your new subscription.
 
-    {{<image filename="images/rc/quickstart-subscription-overview.png" width="75%" alt="Overview tab showing your new subscription and database." >}}{{< /image >}}
+    {{<image filename="images/rc/quickstart-subscription-overview.png" width="75%" alt="Overview tab showing your new subscription and database." >}}
 
 1.  Select the database name to view the **Configuration** tab for your new database.
 
-    {{<image filename="images/rc/quickstart-database-overview.png" width="75%" alt="Configuration tab showing details of your new database." >}}{{< /image >}}
+    {{<image filename="images/rc/quickstart-database-overview.png" width="75%" alt="Configuration tab showing details of your new database." >}}
 
 1.  In the upper corner, an icon shows the current status of the database.  If the icon shows an orange clock, this means your database is still being created and its status is _pending_.
 
@@ -77,7 +77,7 @@ At this point, you're viewing the **Configuration** details for your new databas
 
 To connect to your database, you need your username and password. Each database is protected by a **Default user** called `default` and a masked **Default user password**. Select the eye icon to show or hide the password.    
 
-{{<image filename="images/rc/database-fixed-configuration-security.png" width="75%" alt="The Security section of the Configuration tab of the database details page." >}}{{< /image >}}
+{{<image filename="images/rc/database-fixed-configuration-security.png" width="75%" alt="The Security section of the Configuration tab of the database details page." >}}
 
 Once you have the username and password, select **Connect** to open the connection wizard.
 
@@ -92,7 +92,7 @@ The connection wizard provides the following database connection methods:
 - [Redis client](https://redis.io/clients) for your preferred programming language
 
 
-{{<image filename="images/rc/connection-wizard.png" alt="The connection wizard." >}}{{< /image >}}
+{{<image filename="images/rc/connection-wizard.png" alt="The connection wizard." >}}
 
 ### RedisInsight{#using-redisinsight}
 
@@ -122,7 +122,7 @@ The connection wizard provides code snippets to connect to your database with th
 - Python using [redis-py](https://github.com/redis/redis-py#redis-py)
 - Java using [Jedis](https://github.com/redis/jedis#jedis)
 
-{{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." >}}{{< /image >}}
+{{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." >}}
 
 See [Clients](https://redis.io/docs/connect/clients/) to learn how to connect with the official Redis clients, or see the [Client list](https://redis.io/resources/clients/) to view all community-run clients by language.
 

@@ -36,7 +36,7 @@ To enable mutual TLS for client connections:
 
 1. Select **Mutual TLS (Client authentication)**.
 
-    {{<image filename="images/rs/screenshots/databases/security-mtls-clients.png"  alt="Mutual TLS authentication configuration.">}}{{</image>}}
+    {{<image filename="images/rs/screenshots/databases/security-mtls-clients.png"  alt="Mutual TLS authentication configuration.">}}
 
 1. For each client certificate, select **+ Add certificate**, paste or upload the client certificate, then select **Done**.
 
@@ -67,7 +67,7 @@ To enable mutual TLS for client connections:
 
         You can only enter a single value for each field, except for the _Organizational Unit (OU)_ field. If your client certificate has a `Subject` with multiple  _Organizational Unit (OU)_ values, press the `Enter` or `Return` key after entering each value to add multiple Organizational Units.
 
-        {{<image filename="images/rs/screenshots/databases/security-mtls-add-cert-validation-multi-ou.png" width="350px" alt="An example that shows adding a certificate validation with multiple organizational units.">}}{{</image>}}
+        {{<image filename="images/rs/screenshots/databases/security-mtls-add-cert-validation-multi-ou.png" width="350px" alt="An example that shows adding a certificate validation with multiple organizational units.">}}
 
         **Breaking change:** If you use the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) instead of the admin console to configure additional certificate validations, note that `authorized_names` is deprecated as of Redis Enterprise v6.4.2. Use `authorized_subjects` instead. See the [BDB object reference]({{< relref "/operate/rs/references/rest-api/objects/bdb" >}}) for more details.
 
@@ -88,7 +88,7 @@ To enable TLS for Active-Active cluster connections:
 
 1. If you are using the new admin console, switch to the legacy admin console.
 
-    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}{{</image>}}
+    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
 
 1. [Retrieve syncer certificates.](#retrieve-syncer-certificates)
 

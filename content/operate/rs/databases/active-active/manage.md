@@ -18,7 +18,7 @@ If you need to apply changes locally to one database instance, you use the admin
 
 If you are using the new Cluster Manager UI, switch to the legacy admin console to manage Active-Active databases.
 
-{{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}{{</image>}}
+{{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
 
 ## Database settings
 

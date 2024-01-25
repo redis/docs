@@ -1,8 +1,26 @@
+{{ $base := .Site.BaseURL }}
+{{ $parsed := urls.Parse $base }}
+{{ $path := $parsed.Path }}
+{{ if (eq $path "/") }}
+	{{ .Scratch.Set "path" ""}}
+{{ else }}
+    {{ .Scratch.Set "path" $path}}
+{{ end }}
+{{ $fname := .Get "filename" }}
+{{ if not (hasPrefix $fname "/") }}
+	{{ .Scratch.Set "file" (printf "/%s" $fname) }}
+{{ else }}
+	{{ .Scratch.Set "file" $fname }}
+{{ end }}
+
+<!-- DEBUG: -->
+<!--{{ .Scratch.Get "path" }}-->
+<!--{{ .Scratch.Get "file" }}-->
+
 {{- $width :=  .Get "width" | default "75%" }}
-<a href='{{ relURL "" }}{{.Page.Params.id}}/{{.Get "filename"}}' sdata-lightbox="{{.Get "filename"}}">
-	<img src='{{ relURL "" }}{{.Page.Params.id}}/{{.Get "filename"}}' style="border:0px" 
+<a href='{{- .Scratch.Get "path" -}}{{.Page.Params.id}}{{- .Scratch.Get "file" -}}' sdata-lightbox="{{- .Scratch.Get "file" -}}">
+	<img src='{{- .Scratch.Get "path" -}}{{.Page.Params.id}}{{- .Scratch.Get "file" -}}' style="border:0px" 
 		 {{ with .Get "width" }} width="{{.}}"{{ end }} 
 		 {{ with .Get "align"}} align="{{.}}"{{ end }}
 		 {{ with .Get "alt"}} alt="{{.}}"{{ end }} />
-</a> 
-{{.Inner}}
+</a>

@@ -23,7 +23,7 @@ For help managing API keys, see [Manage API keys]({{< relref "/operate/rc/api/ge
 
 The **Team** tab lets you manage the people allowed to access your account. Each authorized person is assigned to a role that specifies their privileges.
 
-{{<image filename="images/rc/access-management-team-tab.png" alt="The Access management tab helps you manage the people allowed to access your subscription." >}}{{< /image >}}
+{{<image filename="images/rc/access-management-team-tab.png" alt="The Access management tab helps you manage the people allowed to access your subscription." >}}
 
 The list contains one entry summarizing the team settings for each user in your team. By default, the list includes the account owner.
 
@@ -31,11 +31,11 @@ The list includes several buttons and icons to help you manage the list:
 
 | Icon | Description |
 |:----:|-------------|
-| {{<image filename="images/rc/button-access-management-add.png" width="30px" alt="Use the Add button to add members to your team." >}}{{< /image >}} | The **Add** button lets you add members to your team |
-| {{<image filename="images/rc/icon-access-management-edit-user.png" width="30px" alt="Use the Edit button change details for a team member." >}}{{< /image >}} | The **Edit** button lets you edit the settings for the selected team member |
-| {{<image filename="images/rc/icon-access-management-delete-user.png" width="30px" alt="Use the Delete button to remove a member from your team." >}}{{< /image >}} | The **Delete** button lets you remove members from your team
-| {{<image filename="images/rc/icon-list-filter.png" width="30px" alt="Use the Filter button to display team members that match specified conditions." >}}{{< /image >}} | **Filter** icons let you display team members matching conditions you specify |
-| <nobr>{{<image filename="images/rc/icon-list-sort-asc.png" width="30px" alt="The Sort ascending button displays members in ascending order according to the values of the selected field." >}}{{< /image >}}{{<image filename="images/rc/icon-list-sort-desc.png" width="30px" alt="The Sort descending button displays members in descending order according to the values of the selected field." >}}{{< /image >}}</nobr> | The **Sort ascending** and **Sort descending** icons display the list according to the selected order |
+| {{<image filename="images/rc/button-access-management-add.png" width="30px" alt="Use the Add button to add members to your team." >}} | The **Add** button lets you add members to your team |
+| {{<image filename="images/rc/icon-access-management-edit-user.png" width="30px" alt="Use the Edit button change details for a team member." >}} | The **Edit** button lets you edit the settings for the selected team member |
+| {{<image filename="images/rc/icon-access-management-delete-user.png" width="30px" alt="Use the Delete button to remove a member from your team." >}} | The **Delete** button lets you remove members from your team
+| {{<image filename="images/rc/icon-list-filter.png" width="30px" alt="Use the Filter button to display team members that match specified conditions." >}} | **Filter** icons let you display team members matching conditions you specify |
+| <nobr>{{<image filename="images/rc/icon-list-sort-asc.png" width="30px" alt="The Sort ascending button displays members in ascending order according to the values of the selected field." >}}</nobr> | The **Sort ascending** and **Sort descending** icons display the list according to the selected order |
 
 If you have a large team, you can use the controls in the list footer to navigate quickly through the list. These controls are deactivated for small teams.
 
@@ -43,7 +43,7 @@ If you have a large team, you can use the controls in the list footer to navigat
 
 When you add a member to your team, the **Add user** dialog appears.  
 
-{{<image filename="images/rc/access-mgmt-add-user-dialog.png" width="50%" alt="Use the Add User dialog to specify the details for your new user." >}}{{< /image >}}
+{{<image filename="images/rc/access-mgmt-add-user-dialog.png" width="50%" alt="Use the Add User dialog to specify the details for your new user." >}}
 
 Use the dialog to specify these values.
 
@@ -67,7 +67,7 @@ Redis will send an activation email to the user once their details are saved. Af
 To edit user team details, select the user from the list and then select the **Edit** button.
 The **Edit user** dialog displays the details you can change.  
 
-{{<image filename="images/rc/access-mgmt-edit-user-dialog.png" width="50%" alt="Use the Edit User dialog to change the details for a user" >}}{{< /image >}}
+{{<image filename="images/rc/access-mgmt-edit-user-dialog.png" width="50%" alt="Use the Edit User dialog to change the details for a user" >}}
 
 You can change any detail except the team member's email address.
 
@@ -77,7 +77,7 @@ Select **Save user** to save your changes.
 
 To remove a member from your team, select them from the list and then select the **Delete** button. A confirmation dialog appears.  
 
-{{<image filename="images/rc/access-management-delete-user-dialog.png" width="50%" alt="Confirm that you want to remove a user from your team" >}}{{< /image >}}
+{{<image filename="images/rc/access-management-delete-user-dialog.png" width="50%" alt="Confirm that you want to remove a user from your team" >}}
 
 Select **Delete user** to confirm removal. This is a permanent action that cannot be undone.
 

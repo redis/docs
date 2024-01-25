@@ -30,7 +30,7 @@ To use your Redis database to create a knowledge base on Amazon Bedrock:
 
 1. Select **Knowledge base** > **Create knowledge base** to create your knowledge base.
 
-    {{<image filename="images/rc/bedrock-aws-button-create-knowledge-base.png" width="200px" alt="The Create knowledge base button." >}}{{< /image >}}
+    {{<image filename="images/rc/bedrock-aws-button-create-knowledge-base.png" width="200px" alt="The Create knowledge base button." >}}
 
 1. In the **Knowledge base details** section, enter a name and description for your knowledge base. 
 
@@ -40,7 +40,7 @@ To use your Redis database to create a knowledge base on Amazon Bedrock:
 
 1. In the **Vector database** section, select **Redis Cloud** and select the checkbox to agree with the legal disclaimer.
 
-    {{<image filename="images/rc/bedrock-aws-select-redis-vector-db.png" width="500px" alt="The Redis Cloud selection for your vector database." >}}{{< /image >}}
+    {{<image filename="images/rc/bedrock-aws-select-redis-vector-db.png" width="500px" alt="The Redis Cloud selection for your vector database." >}}
 
     Fill in the fields with the following information:
 
@@ -55,16 +55,16 @@ To use your Redis database to create a knowledge base on Amazon Bedrock:
 
 1. Review your knowledge base before you create it. Select **Create knowledge base** to finish creation.
 
-    {{<image filename="images/rc/bedrock-aws-button-create-knowledge-base.png" width="200px" alt="The Create knowledge base button." >}}{{< /image >}}
+    {{<image filename="images/rc/bedrock-aws-button-create-knowledge-base.png" width="200px" alt="The Create knowledge base button." >}}
 
 Amazon Bedrock will sync the data from the S3 bucket and load it into your Redis database. This will take some time.
 
 Your knowledge base will have a status of **Ready** when it is ready to be connected to an Agent.
 
-{{<image filename="images/rc/bedrock-aws-status-knowledge-base-ready.png" width="500px" alt="A Bedrock knowledge base with a Ready status." >}}{{< /image >}}
+{{<image filename="images/rc/bedrock-aws-status-knowledge-base-ready.png" width="500px" alt="A Bedrock knowledge base with a Ready status." >}}
 
 Select the name of your knowledge base to view the syncing status of your data sources. The data source will have a status of **Ready** when it is synced to the vector database.
 
-{{<image filename="images/rc/bedrock-aws-status-data-source-ready.png" width="600px" alt="A Bedrock data source with a Ready status." >}}{{< /image >}}
+{{<image filename="images/rc/bedrock-aws-status-data-source-ready.png" width="600px" alt="A Bedrock data source with a Ready status." >}}
 
 After the knowledge base is ready, you can use it to [Create an agent]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/create-agent" >}}).

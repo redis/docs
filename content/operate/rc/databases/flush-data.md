@@ -56,7 +56,7 @@ If you install [RedisInsight]({{< relref "/develop/connect/insight" >}}) and [ad
 
 3.  In the command area, enter `flushall` and then select the green **run** arrow.
 
-    {{<image filename="images/rc/redisinsight-cli-flushall-example.png" alt="You can use RedisInsight to issue commands to a database." >}}{{< /image >}}
+    {{<image filename="images/rc/redisinsight-cli-flushall-example.png" alt="You can use RedisInsight to issue commands to a database." >}}
 
     The 'OK' response indicates that the command executed properly.
 

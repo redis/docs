@@ -76,7 +76,7 @@ To configure a Replica Of database in a different Redis Enterprise cluster from 
 
     1. Copy the Replica Of source URL.
 
-        {{<image filename="images/rs/screenshots/databases/config-replica-of-copy-source-url.png" alt="Copy the Replica Of source URL from the Connection link to destination dialog.">}}{{</image>}}
+        {{<image filename="images/rs/screenshots/databases/config-replica-of-copy-source-url.png" alt="Copy the Replica Of source URL from the Connection link to destination dialog.">}}
 
         To change the internal password, select **Regenerate password**.
 
@@ -152,7 +152,7 @@ To enable TLS for Replica Of in the destination database:
 
     1. Expand the **Replica Of and Active-Active authentication (Syncer certificate)** section.
 
-        {{<image filename="images/rs/screenshots/cluster/security-syncer-cert.png"  alt="Syncer certificate for Replica Of and Active-Active authentication.">}}{{</image>}}
+        {{<image filename="images/rs/screenshots/cluster/security-syncer-cert.png"  alt="Syncer certificate for Replica Of and Active-Active authentication.">}}
 
      1. Download or copy the syncer certificate.
 

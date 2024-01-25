@@ -221,7 +221,7 @@ You can use the [RedisInsight]({{< relref "/develop/connect/insight" >}}) workbe
 
 2. Select the **Workbench** button:
 
-   {{<image filename="images/ri/icon-workbench.png" width="30px" alt="The Workbench icon">}}{{</image>}}
+   {{<image filename="images/ri/icon-workbench.png" width="30px" alt="The Workbench icon">}}
 
 3. Enter a graph query in the text editor.
 
@@ -233,11 +233,11 @@ You can use the [RedisInsight]({{< relref "/develop/connect/insight" >}}) workbe
 
 4. Select **Run**:
 
-   {{<image filename="images/ri/icon-run-command.png" width="30px" alt="The Run command icon">}}{{</image>}}
+   {{<image filename="images/ri/icon-run-command.png" width="30px" alt="The Run command icon">}}
 
 After you run a query, the output log displays a visual representation of your graph's nodes and relationships:
 
-{{<image filename="images/modules/visualize-graph.png" alt="Visualize a graph with RedisInsight workbench.">}}{{</image>}}
+{{<image filename="images/modules/visualize-graph.png" alt="Visualize a graph with RedisInsight workbench.">}}
 
 ## More info
 

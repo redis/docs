@@ -31,18 +31,18 @@ Consistency between each instance is maintained in the background; that is, each
 
 When you create a new Flexible subscription, the Active-Active Redis option appears to the right of the cloud providers.
 
-{{<image filename="images/rc/create-flexible-sub-active-active-on.png" width="75%" alt="When you enable Active-Actve, you need to specify the regions for each database instance." >}}{{< /image >}}
+{{<image filename="images/rc/create-flexible-sub-active-active-on.png" width="75%" alt="When you enable Active-Actve, you need to specify the regions for each database instance." >}}
 
 
 When you enable Active-Active Redis, two regions are selected by default.  Select the drop-down arrow to display a list of provider regions that support Active-Active databases.
 
-{{<image filename="images/rc/create-sub-active-active-regions.png" width="50%" alt="Use the Region drop-down to select the regions for your Active-Active database." >}}{{< /image >}}
+{{<image filename="images/rc/create-sub-active-active-regions.png" width="50%" alt="Use the Region drop-down to select the regions for your Active-Active database." >}}
 
 Use the checkboxes in the list to select or remove regions.  The Search box lets you locate specific regions.
 
 You can use a region's Remove button to remove it from the list.
 
-{{<image filename="images/rc/icon-region-delete.png" width="30px" alt="Select the Delete button to remove a region from the list." >}}{{< /image >}}
+{{<image filename="images/rc/icon-region-delete.png" width="30px" alt="Select the Delete button to remove a region from the list." >}}
 
 
 ## Define CIDR addresses
@@ -53,15 +53,15 @@ In addition, CIDR blocks should not overlap between cluster instances.  Every CI
 
 Use the **VPC configuration** section of the **Advanced options** to define unique address blocks for each region.
 
-{{<image filename="images/rc/create-sub-active-active-cidr.png" width="75%" alt="Each region needs a unique CIDR address block to communicate securely with other instances." >}}{{< /image >}}
+{{<image filename="images/rc/create-sub-active-active-cidr.png" width="75%" alt="Each region needs a unique CIDR address block to communicate securely with other instances." >}}
 
 When all **Deployment CIDR** regions display a green checkmark, you're ready to continue.  
 
-{{<image filename="images/rc/icon-cidr-address-ok.png" width="30px" alt="Greem chackmarks indicate valid CIDR address values." >}}{{< /image >}}
+{{<image filename="images/rc/icon-cidr-address-ok.png" width="30px" alt="Greem chackmarks indicate valid CIDR address values." >}}
 
 Red exclamation marks indicate error conditions; the tooltip provides additional details.
 
-{{<image filename="images/rc/icon-cidr-address-error.png" width="30px" alt="Red exclamation points indicate CIDR address problems." >}}{{< /image >}}
+{{<image filename="images/rc/icon-cidr-address-error.png" width="30px" alt="Red exclamation points indicate CIDR address problems." >}}
 
 
 ## Define throughput
@@ -70,7 +70,7 @@ Each Active-Active instance coordinates changes with every other instance, which
 
 When you create an Active-Active database, you define the throughput for each instance.  
 
-{{<image filename="images/rc/create-database-active-active.png" width="75%" alt="When you create an Active-Active database, you define throughput for each region." >}}{{< /image >}}
+{{<image filename="images/rc/create-database-active-active.png" width="75%" alt="When you create an Active-Active database, you define throughput for each region." >}}
 
 Read and write operations are factored into the total throughput.  Because each instance needs the ability to write to every other instance, write operations significantly affect the total, as shown in the following table:
 

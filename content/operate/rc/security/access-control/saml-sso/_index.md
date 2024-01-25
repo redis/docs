@@ -40,7 +40,7 @@ You can also initiate single sign-on from the [Redis Cloud console](https://app.
 
 1. From the Redis Cloud console's [sign-in screen](https://app.redislabs.com/#/login), select **SSO**.
 
-    {{<image filename="images/rc/button-sign-in-sso.png" width="150px" alt="Sign in with SSO button">}}{{</image>}}
+    {{<image filename="images/rc/button-sign-in-sso.png" width="150px" alt="Sign in with SSO button">}}
 
 1. Enter the email address associated with your SAML user account.
 
@@ -130,7 +130,7 @@ After you set up the SAML integration app and create a SAML user in your identit
 
 1. Select the **Setup SAML SSO** button:
 
-    {{<image filename="images/rc/button-access-management-sso-setup.png" width="120px" alt="Setup SSO button">}}{{</image>}}
+    {{<image filename="images/rc/button-access-management-sso-setup.png" width="120px" alt="Setup SSO button">}}
 
 1. You need the following metadata values from your identity provider:
 
@@ -147,7 +147,7 @@ After you set up the SAML integration app and create a SAML user in your identit
 
     **Email domain binding** should match the email domain that SAML users will use to sign in from the Redis Cloud console (SP-initiated SSO).
 
-    {{<image filename="images/rc/access-management-saml-config.png"  alt="SAML Single Sign-On configuration screen.">}}{{</image>}}
+    {{<image filename="images/rc/access-management-saml-config.png"  alt="SAML Single Sign-On configuration screen.">}}
 
 1. Select **Enable**.
 
@@ -230,7 +230,7 @@ To link other accounts to an existing SAML SSO configuration:
 
 1. Select **Get token**.
 
-    {{<image filename="images/rc/saml/popup-saml-get-token.png" alt="Get Token popup">}}{{</image>}}
+    {{<image filename="images/rc/saml/popup-saml-get-token.png" alt="Get Token popup">}}
 
     Select **Copy** to copy the linking token.
 
@@ -246,11 +246,11 @@ To see and interact with the Redis Cloud account in the **Unlinked accounts** li
 
 1. Select **Link account**.
 
-    {{<image filename="images/rc/saml/button-saml-link-account.png" alt="The Link Account button">}}{{</image>}}
+    {{<image filename="images/rc/saml/button-saml-link-account.png" alt="The Link Account button">}}
 
 1. In the **Convert existing users** dialog, select **Confirm conversion** to finish linking the accounts.
 
-    {{<image filename="images/rc/saml/popup-saml-convert-users.png" alt="The Convert users popup">}}{{</image>}}
+    {{<image filename="images/rc/saml/popup-saml-convert-users.png" alt="The Convert users popup">}}
 
 ## Deactivate SAML SSO
 

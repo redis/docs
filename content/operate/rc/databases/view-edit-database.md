@@ -22,7 +22,7 @@ To view the details of a database:
 
 4. Select the database name to open the **Database** page.
 
-    {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}{{< /image >}}
+    {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}
 
 The **Database** screen lets you review:
 - Configuration details of a database
@@ -59,7 +59,7 @@ The available settings vary according to your subscription plan, cloud provider,
 
 The **Scalability** section describes the memory size, throughput, and hashing policy for a database.
 
-{{<image filename="images/rc/database-details-configuration-tab-scalability-flexible.png" alt="Use the Scalability section to control the size, throughput, and hashing policy for a database." >}}{{< /image >}}
+{{<image filename="images/rc/database-details-configuration-tab-scalability-flexible.png" alt="Use the Scalability section to control the size, throughput, and hashing policy for a database." >}}
 
 The **Scalability** section is primarily for Flexible and Annual plans. Free and Fixed plans have options for memory limit and memory used.
 
@@ -77,7 +77,7 @@ To learn more about these settings and when to use them, see [Database clusterin
 
 The Durability section helps protect your data when problems occur.  These settings define replication, persistence, backup, and eviction policies.
 
-{{<image filename="images/rc/database-details-configuration-tab-durability-flexible.png" alt="Use the Durability  section to protect your data from unexpected problems." >}}{{< /image >}}
+{{<image filename="images/rc/database-details-configuration-tab-durability-flexible.png" alt="Use the Durability  section to protect your data from unexpected problems." >}}
 
 | Setting name             | Description                                                                                                                                                     |
 |:-------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -91,7 +91,7 @@ The Durability section helps protect your data when problems occur.  These setti
 
 The **Security** section helps you control access to your database.
 
-{{<image filename="images/rc/database-details-configuration-tab-security-flexible.png" alt="Use the Security settings to control access to your database." >}}{{< /image >}}
+{{<image filename="images/rc/database-details-configuration-tab-security-flexible.png" alt="Use the Security settings to control access to your database." >}}
 
 
 |Setting name| Description                                                                                                                                                                    |
@@ -106,7 +106,7 @@ The **Security** section helps you control access to your database.
 
 The **Alerts** section defines notification emails sent to your account and the conditions that trigger them.
 
-{{<image filename="images/rc/database-details-configuration-tab-alerts-flexible.png" alt="The Alerts section defines the notification emails and their triggering conditions." >}}{{< /image >}}
+{{<image filename="images/rc/database-details-configuration-tab-alerts-flexible.png" alt="The Alerts section defines the notification emails and their triggering conditions." >}}
 
 The available alerts vary according to the subscription type.
 
@@ -125,7 +125,7 @@ The available alerts vary according to the subscription type.
 
 Actions in the **Danger Zone** are permanent and should not be taken lightly.
 
-{{<image filename="images/rc/database-details-configuration-tab-danger-flexible.png" alt="The Danger Zone includes activities that impact data, such as deleting a database.  Use with care." >}}{{< /image >}}
+{{<image filename="images/rc/database-details-configuration-tab-danger-flexible.png" alt="The Danger Zone includes activities that impact data, such as deleting a database.  Use with care." >}}
 
 Here, you can:
 
@@ -137,7 +137,7 @@ Here, you can:
 
     When you choose this action, you're asked to specify the source and location of the data to import
 
-    {{<image filename="images/rc/database-import-dialog.png" alt="The Import data dialog helps you import data into a database." >}}{{< /image >}}
+    {{<image filename="images/rc/database-import-dialog.png" alt="The Import data dialog helps you import data into a database." >}}
 
     To learn more, see [Import data]({{< relref "/operate/rc/databases/import-data.md" >}}).
 
@@ -151,11 +151,11 @@ You can:
 
 - Search by typing into the search box located above the database list.
 
-    {{<image filename="images/rc/database-list-search.png" alt="Use the search bar to filter the list." >}}{{< /image >}}
+    {{<image filename="images/rc/database-list-search.png" alt="Use the search bar to filter the list." >}}
 
 - Filter by selecting a filter type and then selecting the checkbox next to the options you want to include from the dropdown.  Select the Filter toggle, located on the right of the search bar, if the filter types are hidden.
 
-    {{<image filename="images/rc/database-list-filter.png" alt="Use the filter toggle to display filter options." >}}{{< /image >}}
+    {{<image filename="images/rc/database-list-filter.png" alt="Use the filter toggle to display filter options." >}}
 
     You can filter the list on **Status**, **Subscription**, **Capabilities**, and **Options**.  String matches are _not_ case-sensitive.  You can specify more than one filter expression at a time.  
 
@@ -163,11 +163,11 @@ You can:
 
     To remove a filter click the **x** to the right of the name of that filter.  To remove all filters, select **Clear all**.
 
-    {{<image filename="images/rc/database-list-filter-selected.png" alt="Use the filter toggle to display filter options." >}}{{< /image >}}
+    {{<image filename="images/rc/database-list-filter-selected.png" alt="Use the filter toggle to display filter options." >}}
 
 - Sort the list in descending or ascending order using the arrow displayed to right of the field name in the header.  Supported fields include **Subscription**, **Name**, **Database ID**, and **Memory**.
 
-    {{<image filename="images/rc/icon-database-list-sort-ascending.png" alt="Use the arrows in the list header to sort the list." >}}{{< /image >}} {{<image filename="images/rc/icon-database-list-sort-descending.png" alt="The direction of the arrow corresponds to the direction of the sort." >}}{{< /image >}}
+    {{<image filename="images/rc/icon-database-list-sort-ascending.png" alt="Use the arrows in the list header to sort the list." >}}
 
     Select the arrow icon to change the sort order.  One sort order can be active at any given time.
 
@@ -187,7 +187,7 @@ The **View Database** screen also has tabs that let you view:
 
 Use the **Edit database** button to edit database details.
 
-{{<image filename="images/rc/button-database-edit.png" alt="The Edit database button lets you change selected database properties." >}}{{< /image >}}
+{{<image filename="images/rc/button-database-edit.png" alt="The Edit database button lets you change selected database properties." >}}
 
 Because databases exist within the context of a deployment, certain fields cannot be updated, especially those that might lead to data loss.
 
@@ -213,6 +213,6 @@ Here's what you can change:
 
 Choose **Save database** to save your changes.
 
-{{<image filename="images/rc/button-database-save.png" alt="Use the Save database button to save database changes." >}}{{< /image >}}
+{{<image filename="images/rc/button-database-save.png" alt="Use the Save database button to save database changes." >}}
 
 If you need to change other details, create a new database and then migrate existing data.

@@ -97,7 +97,7 @@ To enable rack-zone awareness for a database using the Cluster Manager UI:
 
 1. Select **Rack-zone awareness**.
 
-    {{<image filename="images/rs/screenshots/databases/config-rack-zone-awareness.png" alt="Select the Rack-zone awareness checkbox to enable rack-zone awareness for the database." >}}{{< /image >}}
+    {{<image filename="images/rs/screenshots/databases/config-rack-zone-awareness.png" alt="Select the Rack-zone awareness checkbox to enable rack-zone awareness for the database." >}}
 
 1. **Create** or **Save** your database.
 
