@@ -62,9 +62,9 @@ The build pipeline that is defined within `.github/workflows/main.yml` builds th
 
 We are using the following syntax for Hugo relrefs:
 
-'''
+```
 [Link title]({{< relref "link relative to the site's base url" >}})
-'''
+```
 
 Here is an example:
 
