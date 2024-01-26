@@ -1,54 +1,68 @@
 {{ define "head" }}
-  <script src='{{ relURL "" }}/js/codetabs.js' defer></script>
+  <script src='{{ relURL "" }}/js/commands-filters.js' defer></script>
 {{ end }}
 
 {{ define "main" }}
-  <main class="docs w-full max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 md:flex gap-16">
-    {{ partial "docs-nav.html" . }}
-    <div class="w-full max-w-[47rem] py-12">
-      {{ partial "breadcrumbs" . }}
-      <section class="prose prose-slate w-full max-w-[47rem] py-12">
-        <h1>
-          {{ if and (isset .Params "stack") (eq .Params.stack true)}}
-          {{ partial "icons/logo-stack.html" (dict "context" . "class" "stack-logo-inline") }}
-          {{ end }}
-          {{ .Title }}
-        </h1>
+  <main class="docs w-full max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 md:flex gap-16 relative">
+    <section class="w-full py-12">
+      <h1 class="text-3xl tracking-tighter font-semibold text-slate-900">Integrations and frameworks</h1>
 
-        {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
-        
-        <!-- In-page banner -->
-        {{ if .Params.bannerText }}
-          <!-- Banner params are in the current page's front matter -->
-          {{ partial "banner-article.html" . }}
-        {{ else }}
-          <!-- Iterate through the page's ancestors to determine if a 
-            section-wide banner is enabled by a parent page's front matter -->
-          {{ $ancestorDirs := slice }}
-          {{ with .File }}
-            {{ $ancestorDirs = split .File.Dir "/" }}
-          {{ end }}
-          {{ $currPage := .Page }}
-          {{ range $i, $page := $ancestorDirs }}
-            {{ if and $currPage.Params.bannerText $currPage.Params.bannerChildren }}
-              {{ partial "banner-article.html" $currPage }}
-            {{ end }}
-            {{ $currPage = $currPage.Parent }}
-          {{ end }}
+      <p>TODO: This is only the list layout for the root section 'integrate'. For child sections, the normal layout should be used.</p>
+
+      <form id="command-filter" class="text-center flex flex-col sm:grid grid-cols-2 gap-4 mt-6 mb-8">
+        <label class="relative flex items-center">
+          <span class="sr-only">Search integrations&hellip;</span>
+          <svg class="text-slate-400 absolute left-4 w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <circle cx="10" cy="10" r="7" />
+            <line x1="21" y1="21" x2="15" y2="15" />
+          </svg>
+          <input class="transition appearance-none block w-full pl-12 pr-4 py-3 rounded-md shadow-sm shadow-slate-900/5 bg-clip-padding bg-slate-50 hover:bg-indigo-50/50 focus:bg-indigo-50/50 border border-slate-900/10 hover:border-indigo-200 focus:border-indigo-300 ring-indigo-200 focus:ring-indigo-200 focus:ring-[3px] focus:outline-none text-slate-900/70 placeholder:text-slate-900/70" id="name-filter" type="search" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="Search integrations&hellip;" spellcheck="false">
+        </label>
+        <select id="group-filter" class="cursor-pointer transition appearance-none block w-full pl-4 pr-12 py-3 rounded-md shadow-sm shadow-slate-900/5 bg-clip-padding bg-slate-50 hover:bg-indigo-50/50 focus:bg-indigo-50/50 border border-slate-900/10 hover:border-indigo-200 focus:border-indigo-300 ring-indigo-200 focus:ring-indigo-200 focus:ring-[3px] focus:outline-none text-slate-900/70">
+          <option value>Filter by integration&hellip;</option>
+          <optgroup label="Development">
+            <option value="library" data-kind="dev">Library</option>
+            <option value="framework" data-kind="dev">Framework</option>
+          </optgroup>
+          <optgroup label="Operations">
+            <option value="observability" data-kind="ops">Observability integratinon</option>
+         </optgroup>
+          <optgroup label="Data">
+            <option value="mig" data-kind="data">Data migration tool</option>
+            <option value="di" data-kind="data">Data integration tool</option>
+          </optgroup>
+          <optgroup label="Cloud">
+             <option value="cloud" data-kind="cloud">Cloud integration</option>
+          </optgroup>
+
+        </select>
+        </div>
+      </form>
+            
+      <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-slate-500 mx-auto">
+        {{ range .CurrentSection.Sections }}
+          <article 
+            class="flex flex-col justify-start transition relative h-full p-6 text-sm text-slate-900 hover:text-indigo-900 focus-within:text-indigo-900 bg-white hover:bg-indigo-50/50 focus-within:bg-indigo-50/50 border border-slate-900/10 hover:border-indigo-200 focus-within:border-indigo-300 focus-within:ring-indigo-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding shadow shadow-slate-900/5 rounded-md" 
+            data-name="{{ .Title }}" 
+            data-group="{{ .Params.group }}"
+            data-version
+            data-top
+          >
+            <h1 class="truncate font-mono font-medium mb-1.5">
+              {{ .Title }}
+            </h1>
+            <p class="opacity-70">
+              {{ .Params.summary }}
+            </p>
+            <a class="absolute inset-0 outline-0" href="{{ .RelPermalink }}">
+              <span class="sr-only">Read more</span>
+            </a>
+          </article>
         {{ end }}
-        
-        {{ .Content }}
-        {{ if not .Params.hideListLinks }}
-          <nav>
-            {{ range .CurrentSection.Pages }}
-              <a href="{{ .RelPermalink }}"{{ with .Params.manualLinkTitle }} title="{{ . }}"{{ end }}{{ with .Params.manualLinkTarget }} target="{{ . }}"{{ if eq . "_blank" }} rel="noopener"{{ end }}{{ end }}>{{- .Title -}}</a>
-              <p>{{ .Description | markdownify }}</p>
-            {{ end }}
-          </nav>
-        {{ end }}
-        {{ partial "feedback.html" . }}
-      </section>
-    </div>
-    {{ partial "docs-toc.html" . }}
+      </div>
+    </section>
+    
+    {{ partial "commands-nav.html" . }}
   </main>
 {{ end }}

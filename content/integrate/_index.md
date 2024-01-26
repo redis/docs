@@ -1,5 +1,4 @@
 ---
+description: Integrations and frameworks
 title: Integrate
 ---
-
-Integrate Redis
