@@ -1,4 +1,4 @@
 ---
-description: Integrations and frameworks
-title: Integrate
+title: Integrations and frameworks
+linkTitle: Integrate
 ---

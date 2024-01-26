@@ -1,7 +1,5 @@
 ---
-acl_categories:
-- '@slow'
-arity: -2
+type: integration
 categories:
 - docs
 - develop
@@ -12,15 +10,11 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: Depends on subcommand.
-description: 
 group: tool
 hidden: false
 linkTitle: Riot
-since: 6.0.0
+description: Redis Input/Output Tools
 summary: Redis Input/Output Tools (RIOT) is a command-line utility designed to help you get data in and out of Redis. 
-syntax_fmt: Riot
-syntax_str: ''
 title: Riot
 ---
 
