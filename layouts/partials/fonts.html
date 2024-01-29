@@ -1,7 +1,17 @@
+{{ $base := .Site.BaseURL }}
+{{ $parsed := urls.Parse $base }}
+{{ $path := $parsed.Path }}
+{{ if (eq $path "/") }}
+	{{ .Scratch.Set "path" ""}}
+{{ else }}
+    {{ .Scratch.Set "path" $path}}
+{{ end }}
+{{ $basePath := .Scratch.Get "path" }}
+
 <style>
   @font-face {
     font-family: 'Inter';
-    src: url('{{ relURL "" }}/fonts/inter-light.woff2') format('woff2');
+    src: url('{{ $basePath }}/fonts/inter-light.woff2') format('woff2');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -9,7 +19,7 @@
 
   @font-face {
     font-family: 'Inter';
-    src: url('{{ relURL "" }}/fonts/inter-regular.woff2') format('woff2');
+    src: url('{{ $basePath }}/fonts/inter-regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -17,7 +27,7 @@
 
   @font-face {
     font-family: 'Inter';
-    src: url('{{ relURL "" }}/fonts/inter-medium.woff2') format('woff2');
+    src: url('{{ $basePath }}/fonts/inter-medium.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -25,7 +35,7 @@
 
   @font-face {
     font-family: 'Inter';
-    src: url('{{ relURL "" }}/fonts/inter-semibold.woff2') format('woff2');
+    src: url('{{ $basePath }}/fonts/inter-semibold.woff2') format('woff2');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -33,7 +43,7 @@
 
   @font-face {
     font-family: 'Inter';
-    src: url('{{ relURL "" }}/fonts/inter-bold.woff2') format('woff2');
+    src: url('{{ $basePath }}/fonts/inter-bold.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -41,7 +51,7 @@
 
   @font-face {
     font-family: 'Fira Code';
-    src: url('{{ relURL "" }}/fonts/fira-code-regular.woff2') format('woff2');
+    src: url('{{ $basePath }}/fonts/fira-code-regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -49,7 +59,7 @@
 
   @font-face {
     font-family: 'Fira Code';
-    src: url('{{ relURL "" }}/fonts/fira-code-medium.woff2') format('woff2');
+    src: url('{{ $basePath }}/fonts/fira-code-medium.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -76,7 +86,7 @@
 
   if ("fonts" in document) {
 
-    var basePath='{{ relURL "" }}';
+    var basePath='$basePath';
 
     let sansLight = new FontFace(
       "Inter",
@@ -151,10 +161,10 @@
   }
 </script>
 
-<link rel="preload" href='{{ relURL "" }}/fonts/inter-light.woff2' as="font" type="font/woff2" crossorigin />
-<link rel="preload" href='{{ relURL "" }}/fonts/inter-regular.woff2' as="font" type="font/woff2" crossorigin />
-<link rel="preload" href='{{ relURL "" }}/fonts/inter-medium.woff2' as="font" type="font/woff2" crossorigin />
-<link rel="preload" href='{{ relURL "" }}/fonts/inter-semibold.woff2' as="font" type="font/woff2" crossorigin />
-<link rel="preload" href='{{ relURL "" }}/fonts/inter-bold.woff2' as="font" type="font/woff2" crossorigin />
-<link rel="preload" href='{{ relURL "" }}/fonts/fira-code-regular.woff2' as="font" type="font/woff2" crossorigin />
-<link rel="preload" href='{{ relURL "" }}/fonts/fira-code-medium.woff2' as="font" type="font/woff2" crossorigin />
+<link rel="preload" href='{{ $basePath }}/fonts/inter-light.woff2' as="font" type="font/woff2" crossorigin />
+<link rel="preload" href='{{ $basePath }}/fonts/inter-regular.woff2' as="font" type="font/woff2" crossorigin />
+<link rel="preload" href='{{ $basePath }}/fonts/inter-medium.woff2' as="font" type="font/woff2" crossorigin />
+<link rel="preload" href='{{ $basePath }}/fonts/inter-semibold.woff2' as="font" type="font/woff2" crossorigin />
+<link rel="preload" href='{{ $basePath }}/fonts/inter-bold.woff2' as="font" type="font/woff2" crossorigin />
+<link rel="preload" href='{{ $basePath }}/fonts/fira-code-regular.woff2' as="font" type="font/woff2" crossorigin />
+<link rel="preload" href='{{ $basePath }}/fonts/fira-code-medium.woff2' as="font" type="font/woff2" crossorigin />
