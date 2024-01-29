@@ -9,7 +9,7 @@ hideListLinks: true
 Redis is an in-memory and persistent on-disk data structure store that achieves high write and read speed by using key value pairs for storage. Values can contain more complex data types (strings, hashes, lists, sets, and sorted sets), with atomic operations defined on those data types. The
 two on-disk storage formats, Redis Database Backup (RDB) and Append Only File (AOF) are compact and always generated in an append-only fashion. 
 
-This document describes how to get started with Redis based on your role as a developer, integrator, or operator. Each section links to the detailed instructions for installation on your own hardware or with your preferred cloud provider.
+This document describes how to get started with Redis based on your role as a developer or operator. 
 
 ## Developer
 
@@ -40,7 +40,7 @@ Redis Enterprise for Kubernetes provides a simple way to get a Redis Enterprise 
 - [Deploy Redis Enterprise Software for Kubernetes](/docs/operate/kubernetes/deployment/quick-start/)
 - [Deploy Redis Enterprise for Kubernetes with OpenShift](/docs/operate/kubernetes/deployment/openshift/)
 
-## Integrator
+## Integrations
 
 Redis Enterprise supports integrations for ingest, write-behind, large language machine learning models (LLMs), visualizing metrics, and provisioning infrastructure as code.
 
