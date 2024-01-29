@@ -6,9 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-				sans: [ 'Inter', ...defaultTheme.fontFamily.sans ],
-				mono: [ 'Fira Code', 'SF Mono', ...defaultTheme.fontFamily.mono ],
-				display: [ 'Inter Display', ...defaultTheme.fontFamily.sans ],
+				sans: [ 'Space Grotesk', ...defaultTheme.fontFamily.sans ],
+				mono: [ 'Space Mono', 'SF Mono', ...defaultTheme.fontFamily.mono ],
       },
 			colors: {
 				midnight: {
