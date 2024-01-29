@@ -1,12 +1,21 @@
 {{ define "head" }}
-  <script src='{{ relURL "" }}/js/commands-filters.js' defer></script>
+{{ $base := .Site.BaseURL }}
+{{ $parsed := urls.Parse $base }}
+{{ $path := $parsed.Path }}
+{{ if (eq $path "/") }}
+	{{ .Scratch.Set "path" ""}}
+{{ else }}
+    {{ .Scratch.Set "path" $path}}
+{{ end }}
+{{ $basePath := .Scratch.Get "path" }}
+  <script src='{{ $basePath }}/js/integrations-filters.js' defer></script>
 {{ end }}
 
 {{ define "main" }}
   <main class="docs w-full max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 md:flex gap-16 relative">
     <section class="w-full py-12">
       <h1 class="text-3xl tracking-tighter font-semibold text-slate-900">{{ .Title }}</h1>
-      <form id="command-filter" class="text-center flex flex-col sm:grid grid-cols-2 gap-4 mt-6 mb-8">
+      <form id="integration-filter" class="text-center flex flex-col sm:grid grid-cols-2 gap-4 mt-6 mb-8">
         <label class="relative flex items-center">
           <span class="sr-only">Search integrations&hellip;</span>
           <svg class="text-slate-400 absolute left-4 w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

@@ -10,7 +10,7 @@ categories:
 - oss
 - kubernetes
 - clients
-group: tool
+group: mig
 hidden: false
 linkTitle: Riot
 description: Redis Input/Output Tools

@@ -1,5 +1,14 @@
 {{ define "head" }}
-  <script src='{{ relURL "" }}/js/codetabs.js' defer></script>
+{{ $base := .Site.BaseURL }}
+{{ $parsed := urls.Parse $base }}
+{{ $path := $parsed.Path }}
+{{ if (eq $path "/") }}
+	{{ .Scratch.Set "path" ""}}
+{{ else }}
+    {{ .Scratch.Set "path" $path}}
+{{ end }}
+{{ $basePath := .Scratch.Get "path" }}
+  <script src='{{ $basePath }}/js/codetabs.js' defer></script>
 {{ end }}
 
 {{ define "main" }}
