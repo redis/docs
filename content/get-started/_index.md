@@ -13,14 +13,6 @@ This document describes how to get started with Redis based on your role as a de
 
 ## Developer
 
-You can install Redis from source, from an executable for your OS, or bundled with Redis Stack and RedisInsight which include popular features and monitoring.
-
-* [Install Redis from Source](/docs/develop/install/install-redis/install-redis-from-source)
-* [Install Redis on Linux](/docs/develop/install/install-redis/install-redis-on-linux)
-* [Install Redis on macOS](/docs/develop/install/install-redis/install-redis-on-mac-os)
-* [Install Redis on Windows](/docs/develop/install/install-redis/install-redis-on-windows)
-* [Install Redis with Redis Stack and RedisInsight](/docs/develop/install/install-stack/)
-
 Redis can be used as a database, cache, streaming engine, message broker, and more. The following quick start guides will show you how to use Redis for the following specific purposes:
 
 - [Data structure store](/docs/develop/get-started/data-store)
