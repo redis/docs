@@ -14,8 +14,9 @@
 {{ end }}
 {{- $width :=  .Get "width" | default "75%" }}
 <a href='{{- .Scratch.Get "path" -}}{{.Page.Params.id}}{{- .Scratch.Get "file" -}}' sdata-lightbox="{{- .Scratch.Get "file" -}}">
-	<img src='{{- .Scratch.Get "path" -}}{{.Page.Params.id}}{{- .Scratch.Get "file" -}}' style="border:0px" 
+	<img src='{{- .Scratch.Get "path" -}}{{.Page.Params.id}}{{- .Scratch.Get "file" -}}'
 		 {{ with .Get "width" }} width="{{.}}"{{ end }} 
 		 {{ with .Get "align"}} align="{{.}}"{{ end }}
-		 {{ with .Get "alt"}} alt="{{.}}"{{ end }} />
+		 {{ with .Get "alt"}} alt="{{.}}"{{ end }} 
+		 {{ with .Get "class"}} class="{{.}}"{{ end }}/>
 </a>
