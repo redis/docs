@@ -83,7 +83,7 @@ applications. Databases in Redis Enterprise can be resharded into more
 Redis shards to scale throughput while maintaining sub-millisecond
 latencies. Resharding is performed without downtime.
 
-![Sharding diagram](/images/rs/sharding.png)
+{{< image filename="/images/rs/sharding.png" >}}
 
 *Figure 2*
 *Redis Enterprise places master node (M) and replicas (R) in separate

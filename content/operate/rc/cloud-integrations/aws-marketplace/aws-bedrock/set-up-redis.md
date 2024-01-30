@@ -177,7 +177,7 @@ To create your vector index in RedisInsight:
 
 1. In the Redis Cloud [admin console](https://app.redislabs.com/), in your subscription's **Databases** tab, select the **Connect** button next to your database to open the connection wizard.
 
-    ![Connect button](/images/rc/connection-wizard-button.png#no-click "Connect button.")
+    {{< image filename="/images/rc/connection-wizard-button.png#no-click "Connect button."" >}}
 
 1. In the connection wizard, under **RedisInsight Desktop**, select **Public Endpoint**. Select **Open with RedisInsight** to connect to the database with RedisInsight.
 

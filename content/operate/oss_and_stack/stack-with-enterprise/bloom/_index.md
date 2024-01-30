@@ -45,7 +45,7 @@ set to 1. This looks fairly similar to how buckets in a hash table are
 mapped. To check if an item is present or not, the hash is computed and
 the filter sees if the corresponding bit is set or not.
 
-![RedisBloom-hash1](/images/rs/rebloom-hash1.png)
+{{< image filename="/images/rs/rebloom-hash1.png" >}}
 
 Of course, this is subject to collisions. If a collision happens, the
 filter returns a false positive - indicating that the entry is
@@ -65,7 +65,7 @@ The actual value of *bpe* is determined at the time the filter is
 created. Generally the more bits per element, the lower the likelihood
 of false positives.
 
-![RedisBloom-hash3](/images/rs/rebloom-hash3.png)
+{{< image filename="/images/rs/rebloom-hash3.png" >}}
 
 In the example above, all three bits would need to be set in order for
 the filter to return a positive result.

@@ -192,7 +192,18 @@ def replace_img_tag_in_file(file_path, old_prefix, new_prefix):
     
     file_content = _read_file(file_path)
     img_pattern = re.compile(r'(<img src=")(' + re.escape(old_prefix) + r')(.*?)' + r'(">|"/>)')
-    #updated_content = re.sub(img_pattern, '{{< image filename="' +  new_prefix + r'\3' + '" >}}{{< /image >}}', file_content)
+    updated_content = re.sub(img_pattern, '{{< image filename="' +  new_prefix + r'\3' + '" >}}', file_content)
+    _write_file(file_path, updated_content)
+
+
+'''
+Assumes that there is image markdown syntax
+
+![name](link)
+'''
+def replace_img_md_in_file(file_path, old_prefix, new_prefix):
+    file_content = _read_file(file_path)
+    img_pattern = re.compile(r'!\[(.*?)\]\((' + re.escape(old_prefix) + r')(.*?)\)')
     updated_content = re.sub(img_pattern, '{{< image filename="' +  new_prefix + r'\3' + '" >}}', file_content)
     _write_file(file_path, updated_content)
 
@@ -424,6 +435,7 @@ def migrate_developer_docs():
 
         # Images
         replace_img_tag_in_file(f, '/docs', '/develop')
+        replace_img_md_in_file(f, '/docs', '/develop')
 
         # Front matter
         remove_prop_from_file(f, "aliases")
@@ -474,6 +486,9 @@ def _test_img_short_code_rewrite():
         markdown_files = find_markdown_files(target)
         for f in markdown_files:
             replace_img_short_code(f)
+
+            # Most images in the Enterprise docs are taken from the static images folder
+            replace_img_md_in_file(f,'/images', '/images') 
 
 '''
 Migrate the docs from docs.redis.com

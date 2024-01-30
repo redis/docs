@@ -104,7 +104,7 @@ You cannot enable or turn off TLS after the Active-Active database is created, b
 
 For each participating cluster, copy the syncer certificate from the **general** settings tab.
 
-![general-settings-syncer-cert](/images/rs/general-settings-syncer-cert.png "general-settings-syncer-cert")
+{{< image filename="/images/rs/general-settings-syncer-cert.png "general-settings-syncer-cert"" >}}
 
 ### Configure TLS certificates for Active-Active
 
@@ -112,11 +112,11 @@ For each participating cluster, copy the syncer certificate from the **general**
 1. Enable **TLS**.
     - **Enforce client authentication** is selected by default. If you clear this option, you will still enforce encryption, but TLS client authentication will be deactivated.
 1. Select **Require TLS for CRDB communication only** from the dropdown menu.
-    ![crdb-tls-all](/images/rs/crdb-tls-all.png "crdb-tls-all")
-1. Select **Add** ![Add](/images/rs/icon_add.png#no-click "Add")
+    {{< image filename="/images/rs/crdb-tls-all.png "crdb-tls-all"" >}}
+1. Select **Add** {{< image filename="/images/rs/icon_add.png#no-click "Add"" >}}
 1. Paste a syncer certificate into the text box.
-    ![database-tls-replica-certs](/images/rs/database-tls-replica-certs.png "Database TLS Configuration")
-1. Save the syncer certificate. ![icon_save](/images/rs/icon_save.png#no-click "Save")
+    {{< image filename="/images/rs/database-tls-replica-certs.png "Database TLS Configuration"" >}}
+1. Save the syncer certificate. {{< image filename="/images/rs/icon_save.png#no-click "Save"" >}}
 1. Repeat this process, adding the syncer certificate for each participating cluster.
 1. Optional: If also you want to require TLS for client connections, select **Require TLS for All Communications** from the dropdown and add client certificates as well.
 1. Select **Update** at the bottom of the screen to save your configuration.

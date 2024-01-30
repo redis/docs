@@ -20,7 +20,7 @@ This way, any causal relationship between operations on the same key is also obs
 
 When you create an Active-Active database, causal consistency is set as follows in the legacy admin console:
 
-![create_db_causal](/images/rs/create_db_causal.png)
+{{< image filename="/images/rs/create_db_causal.png" >}}
 
 Once enabled, additional operations to enable or disable can only be performed using the REST API or the `crdb-cli` tool.
 In this case, the updated Active-Active database behavior happens only for commands and operations received after the change.

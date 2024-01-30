@@ -91,7 +91,7 @@ The **Overview** summarizes the options use to created the subscription.
 
 - The **Payment Method** panel shows the current payment details.
 
-    Select the ![**Change Payment Method**](/images/rc/icon-subscription-detail-change-payment-flexible.png) button to change the credit card associated with this subscription.
+    Select the {{< image filename="/images/rc/icon-subscription-detail-change-payment-flexible.png" >}} button to change the credit card associated with this subscription.
 
 - The **Redis price** panel breaks down your subscription price.
 

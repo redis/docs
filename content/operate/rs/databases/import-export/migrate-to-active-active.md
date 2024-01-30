@@ -57,7 +57,7 @@ To migrate a Redis Enterprise Software database to Active-Active:
         1. In **databases**, click on the database and go to **configuration**.
         1. Under **Endpoint**, click on **Get Replica Of source URL**.
 
-            ![Replica Of source URL](/images/rs/replicaof-source-url.png)
+            {{< image filename="/images/rs/replicaof-source-url.png" >}}
 
         1. Click **Copy to Clipboard** to copy the URL of the source endpoint.
 
@@ -67,7 +67,7 @@ To migrate a Redis Enterprise Software database to Active-Active:
 If you regenerate the password, replication to existing destinations fails until you update their configuration with the new password.
             {{< /warning >}}
 
-        1. In the destination database, paste the URL of the source endpoint in the **Replica Of** box, and click ![Save](/images/rs/icon_save.png#no-click "Save").
+        1. In the destination database, paste the URL of the source endpoint in the **Replica Of** box, and click {{< image filename="/images/rs/icon_save.png#no-click "Save"" >}}.
 
         {{< note >}}
 For a source database on a different Redis Enterprise Software cluster,
@@ -96,7 +96,7 @@ the [client mDNS prerequisites]({{< relref "/operate/rs/networking/mdns.md" >}})
     {{< /note >}}
 
 1. Click **Update** at the bottom of the page.
-1. When the synchronization icon turns green ![Synchronization complete](/images/rs/icon_sync_green.png#no-click "Synchronization complete"), the migration is complete. Note that migration can take minutes to hours to complete depending on the dataset size and network quality.
+1. When the synchronization icon turns green {{< image filename="/images/rs/icon_sync_green.png#no-click "Synchronization complete"" >}}, the migration is complete. Note that migration can take minutes to hours to complete depending on the dataset size and network quality.
 1. Edit the configuration of the Active-Active database and select the **Stop** button to disable **Migration using Replica Of**.
 {{<image filename="images/rs/Migration_using_Replica_Of_complete.png" alt="disable migration using replica of" >}}
 1. Redirect your database connections to the Active-Active database.
