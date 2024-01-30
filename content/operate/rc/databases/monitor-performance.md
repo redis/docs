@@ -16,13 +16,13 @@ Redis Cloud provides a variety of metrics to help you monitor database performan
 
 The **Metrics** tab of the **View Database** screen provides a series of graphs showing performance data for your database.
 
-{{<image filename="images/rc/database-metrics-tab.png" width="75%" alt="The Metrics tab of the View Database screen." >}}{{< /image >}}
+{{<image filename="images/rc/database-metrics-tab.png" width="75%" alt="The Metrics tab of the View Database screen." >}}
 
 Performance data provides insight into how your database is being used and how well it is performing.
 
 The interval scrollbar controls the time period displayed in the graphs.  
 
-{{<image filename="images/rc/database-metrics-interval-scrollbar.png" width="75%" alt="The Metrics tab of the View Database screen." >}}{{< /image >}}
+{{<image filename="images/rc/database-metrics-interval-scrollbar.png" width="75%" alt="The Metrics tab of the View Database screen." >}}
 
 ## Promote metric graphs
 
@@ -34,7 +34,7 @@ When you use the mouse to point to a smaller graph, three things appear:
 - A promotion icon pointing right
 - A summary panel showing the minimum, average, maximum, and most recent values displayed in the graph.
 
-{{<image filename="images/rc/metrics-promote-graphs.png" width="50%" alt="Promoting graphs to primary positions" >}}{{< /image >}}
+{{<image filename="images/rc/metrics-promote-graphs.png" width="50%" alt="Promoting graphs to primary positions" >}}
 
 Use the promotion icons to promote the smaller graph to one of the primary positions. The left icon promotes the smaller graph to the left position and the right icon promotes the smaller graph to the right position.
 
@@ -59,7 +59,7 @@ Several metric graphs are available:
 | [Expired objects/sec]({{< relref "/operate/rs/references/metrics/database-operations#expired-objectssec" >}}) | Number of expired objects per second. An expired object is an object with expired TTL that was deleted from the database. |
 | [Hit ratio]({{< relref "/operate/rs/references/metrics/database-operations#hit-ratio" >}}) | Percent of operations on existing keys out of the total number database operations |
 
-For more detailed analysis, consider using [RedisInsight]({{< relref "/develop/connect/insight" >}}) or [Prometheus and Grafana]({{< relref "/operate/rc/cloud-integrations/prometheus-integration" >}}).
+For more detailed analysis, consider using [RedisInsight]({{< relref "/develop/connect/insight/" >}}) or [Prometheus and Grafana]({{< relref "/operate/rc/cloud-integrations/prometheus-integration" >}}).
 
 ## Configure metric alerts
 

@@ -19,6 +19,11 @@ RESP (Redis Serialization Protocol) is the protocol that clients use to communic
 
 - RESP3 is supported by Redis Enterprise 7.2 and later.
 
+{{<note>}}
+Redis Enterprise versions that support RESP3 continue to support RESP2.
+{{</note>}}
+
+
 ## Enable RESP3 for a database {#enable-resp3}
 
 To use RESP3 with a Redis Enterprise Software database:
@@ -81,7 +86,7 @@ To change `resp3_default` to `disabled`, use one of the following methods:
 
 - Cluster Manager UI:
 
-    1. On the **Databases** screen, select <img src="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px"> to open a list of additional actions.
+    1. On the **Databases** screen, select {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" >}} to open a list of additional actions.
 
     1. Select **Upgrade configuration**.
 

@@ -77,30 +77,27 @@ with `-p <host_port>:<container_port>` or use the `--network host` option to ope
 
 ## Connect to your database
 
-After you create the Redis database, you can connect to it begin storing data.
+After you create the Redis database, you can connect to it to begin storing data.
 
+### Use redis-cli inside Docker {#connect-inside-docker}
 
-### Using redis-cli Inside Docker {#connect-inside-docker}
-
-Every installation of Redis Enterprise includes [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) a command-line tool to interact with your Redis database. You can leverage this for connecting to your database from within the same docker network.
+Every installation of Redis Enterprise Software includes the command-line tool [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) to interact with your Redis database. You can use `redis-cli` to connect to your database from within the same Docker network.
 
 Use [`docker exec`](https://docs.docker.com/engine/reference/commandline/exec/) to start an interactive `redis-cli` session in the running Redis Enterprise Software container:
 
 ```sh
-docker exec -it redis-cli -h redis-12000.cluster.local -p 12000
-
+$ docker exec -it redis-cli -h redis-12000.cluster.local -p 12000
 127.0.0.1:12000> SET key1 123
 OK
 127.0.0.1:12000> GET key1
 "123"
 ```
 
-### Connecting from the Host Environment {#connect-outside-docker}
+### Connect from the host environment {#connect-outside-docker}
 
-The database you created uses port `12000` which was also mapped from the docker container back to the host environment.  This will allow you to use any method you have available locally to [connect to a Redis database]({{< relref "/operate/rs/databases/connect/" >}}).  Use `localhost` as the `host` and `12000` as the port.
+The database you created uses port `12000`, which is also mapped from the Docker container back to the host environment. This lets you use any method you have available locally to [connect to a Redis database]({{< relref "/operate/rs/databases/connect/" >}}). Use `localhost` as the `host` and `12000` as the port.
 
-
-## Testing Different Topologies
+## Test different topologies
 
 {{< warning >}}
 Docker containers are currently only supported for development and test environments, not for production. Use [Redis Enterprise on Kubernetes](<relref "/rs-docker-bug-bash/kubernetes/">) for a supported containerized deployment.
@@ -120,7 +117,7 @@ The simplest topology is to run a single-node Redis Enterprise Software cluster 
 
 Single-node clusters have limited functionality. For example, Redis Enterprise Software can't use replication or protect against failures if the cluster has only one node.
 
-![0-2](/images/rs/RS-Docker-container.png)
+{{< image filename="/images/rs/RS-Docker-container.png" >}}
 
 ### Multiple nodes on one host {#multi-node-one-host}
 
@@ -128,7 +125,7 @@ You can create a multi-node Redis Enterprise Software cluster by deploying multi
 
 However, this will also have several limitations.  For example, you cannot map the same port on multiple containers on the same host.
 
-![Docker Redis Enterprise Software Cluster](/images/rs/RS-Docker-cluster-single-host.png)
+{{< image filename="/images/rs/RS-Docker-cluster-single-host.png" >}}
 
 ### Multiple nodes and hosts {#multi-node-multi-host}
 
@@ -136,13 +133,4 @@ You can create a multi-node Redis Enterprise Software cluster with multiple cont
 
 This topology minimizes interference between containers, allowing for the testing of more Redis Enterprise Software features.
 
-![0](/images/rs/RS-Docker-cluster-multi-host.png)
-
-
-## Next steps
-
-- Connect to your Redis database with a [Redis client](https://redis.io/clients) and start adding data.
-
-- Use the [`memtier_benchmark` quickstart]({{< relref "/operate/rs/clusters/optimize/memtier-benchmark.md" >}}) to check the cluster performance.
-
-- Redis Enterprise Support
+{{< image filename="/images/rs/RS-Docker-cluster-multi-host.png" >}}

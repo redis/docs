@@ -12,7 +12,7 @@ weight: 80
 ---
 This page guides you through a quick setup of [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}}) with a single node for testing and demo purposes. 
 
-For production environments, you can find more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/installing-upgrading/_index.md" >}}) section.
+For production environments, you can find more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/installing-upgrading" >}}) section.
 
 The steps to set up a Redis Enterprise Software cluster using Auto Tiering
 with a single node are:
@@ -87,7 +87,7 @@ On the **Databases** screen:
 
 1. Verify **Flash** is selected for **Runs on**.
 
-    {{<image filename="images/rs/screenshots/databases/quick-db-flash.png" alt="Create a quick database with Runs on Flash selected." >}}{{</image>}}
+    {{<image filename="images/rs/screenshots/databases/quick-db-flash.png" alt="Create a quick database with Runs on Flash selected." >}}
 
 1. Enter `12000` for the endpoint **Port** number.
 

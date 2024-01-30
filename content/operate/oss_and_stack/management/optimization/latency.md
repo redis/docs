@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Finding the causes of slow responses
 linkTitle: Latency diagnosis
 title: Diagnosing latency issues

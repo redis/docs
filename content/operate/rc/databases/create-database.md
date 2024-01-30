@@ -17,21 +17,21 @@ To create a database in your Redis Cloud [subscription]({{< relref "/operate/rc/
 
 2. If you have more than one subscription, select the target subscription from the list.  This displays the **Databases** tab for the selected subscription.
 
-    {{<image filename="images/rc/subscription-flexible-databases-tab-update.png" alt="The Databases tab summarizes databases created for a given subscription." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-flexible-databases-tab-update.png" alt="The Databases tab summarizes databases created for a given subscription." >}}
 
 3. Select the **New database** button.
 
-    {{<image filename="images/rc/button-database-new.png" alt="The New Database button creates a new database for your subscription." width="120px">}}{{< /image >}}
+    {{<image filename="images/rc/button-database-new.png" alt="The New Database button creates a new database for your subscription." width="120px">}}
 
 This displays the **New database** screen, which varies according to your subscription plan.
 
-{{<image filename="images/rc/database-new-flexible.png" alt="Use the New Database screen to create a new database for your subscription." >}}{{< /image >}}
+{{<image filename="images/rc/database-new-flexible.png" alt="Use the New Database screen to create a new database for your subscription." >}}
 
 The **New database** screen is divided into sections, each dedicated to a specific category of settings.  Note that not every section or setting is available to every [subscription plan]({{< relref "/operate/rc/subscriptions/" >}}).
 
 When you've configured your new database, use the **Activate database** button to create and activate it.
 
-{{<image filename="images/rc/button-database-activate.png" alt="Use the Activate database button to create and activate your database." width="150px">}}{{< /image >}}
+{{<image filename="images/rc/button-database-activate.png" alt="Use the Activate database button to create and activate your database." width="150px">}}
 
 ## General section
 
@@ -69,11 +69,11 @@ Available options depend on your subscription and your database **Type**.
 
 Fixed and Free subscriptions support [Redis Stack](https://redis.io/docs/stack/), which enables the most frequently used capabilities.
 
-{{<image filename="images/rc/new-database-general-type-free-stack.png" alt="For Fixed and Free subscriptions, the Type setting in the General section includes an option for Redis Stack." width="75%">}}{{< /image >}}
+{{<image filename="images/rc/new-database-general-type-free-stack.png" alt="For Fixed and Free subscriptions, the Type setting in the General section includes an option for Redis Stack." width="75%">}}
 
 When the database **Type** is set to _Redis Stack_, the Advanced capabilities section of the database details page displays the advanced capabilities included with the database and their versions.
 
-{{<image filename="images/rc/database-details-modules-stack-free.png" alt="For Fixed and Free subscriptions, the Database details page lists the capabilities and versions added by Redis Stack." width="75%">}}{{< /image >}}
+{{<image filename="images/rc/database-details-modules-stack-free.png" alt="For Fixed and Free subscriptions, the Database details page lists the capabilities and versions added by Redis Stack." width="75%">}}
 
 Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the admin console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). 
 
@@ -83,7 +83,7 @@ Redis Stack is available only for Fixed and Free subscriptions.
 
 Flexible and Annual subscriptions let you choose advanced capabilities for each database.
 
-{{<image filename="images/rc/database-details-redis-module-select-flexible.png" alt="For Flexible and Annual subscriptions, you can select the capabilites included in your database." width="75%">}}{{< /image >}}
+{{<image filename="images/rc/database-details-redis-module-select-flexible.png" alt="For Flexible and Annual subscriptions, you can select the capabilites included in your database." width="75%">}}
 
 You can select more than one advanced capability for a database, though there are limits:
 
@@ -95,10 +95,11 @@ You can select more than one advanced capability for a database, though there ar
     - Probabilistic
 
 - Graph cannot be combined with other capabilities.
+- JSON is the only capability supported for [Active-Active subscriptions]({{< relref "/operate/rc/subscriptions/create-active-active-subscription" >}}).
 
 You don't have to combine capabilities.  To remove a selected capability, either clear the checkbox in the menu or select its **Delete** icon.  
 
-<nobr>{{<image filename="images/rc/icon-checkbox-clear.png" alt="To remove a selected capability, clear the checkbox in the menu." width="30px">}}{{< /image >}}&nbsp;{{<image filename="images/rc/icon-module-delete.png" alt="You can also use the delete icon to remove a capability." width="30px">}}{{< /image >}}</nobr>
+<nobr>{{<image filename="images/rc/icon-checkbox-clear.png" alt="To remove a selected capability, clear the checkbox in the menu." width="30px">}}&nbsp;{{<image filename="images/rc/icon-module-delete.png" alt="You can also use the delete icon to remove a capability." width="30px">}}</nobr>
 
 To learn more, see [Redis Stack](https://redis.io/docs/stack/) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
 
@@ -106,7 +107,7 @@ To learn more, see [Redis Stack](https://redis.io/docs/stack/) and [Redis Stack 
 
 The **Scalability** section lets you manage the maximum size, throughput, and hashing policy for a database.
 
-{{<image filename="images/rc/database-new-flexible-scalability.png" alt="Use the Scalability section to control the size, throughput, and hashing policy for a database." >}}{{< /image >}}
+{{<image filename="images/rc/database-new-flexible-scalability.png" alt="Use the Scalability section to control the size, throughput, and hashing policy for a database." >}}
 
 The **Scalability** section is available only for Flexible and Annual plans.
 
@@ -139,7 +140,7 @@ Memory limits in Redis Cloud are subject to the same considerations as Redis Ent
 
 The **Durability** section helps you keep your database (and your data) available when problems occur.
 
-{{<image filename="images/rc/database-new-flexible-durability.png" alt="Use the Durability settings to keep your database (and data) available when problems occur." >}}{{< /image >}}
+{{<image filename="images/rc/database-new-flexible-durability.png" alt="Use the Durability settings to keep your database (and data) available when problems occur." >}}
 
 
 | Setting name             | Description                                                                                                                                                                |
@@ -148,13 +149,21 @@ The **Durability** section helps you keep your database (and your data) availabl
 | **Data persistence**     | Defines whether (and how) data is saved to disk; [available options]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}}) depend on your plan type            |
 | **Data eviction policy** | Configures which [policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}) is applied when your database reaches its memory limit              |
 | **Remote backup**        | (_paid Fixed, Flexible, or Annual subscriptions only_) When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data.md" >}}) |
-| **Active-Passive Redis** | (_Flexible or Annual subscriptions only_) When enabled, identifies a path to the linked database                                                                           |
+| **Active-Passive Redis** | (_Flexible or Annual subscriptions only_) When enabled, identifies a path to the linked database. See [Migrate data]({{< relref "/operate/rc/databases/migrate-databases.md" >}}) for more information.           |
+
+## Tags section
+
+The **Tags** section lets you add [tags]({{< relref "/operate/rc/databases/tag-database" >}}) to the database.
+
+{{<image filename="images/rc/database-new-tags.png" alt="Use the Tag settings to add tags to the database." >}}
+
+{{< embed-md "rc-tags-tag-module.md" >}}
 
 ## Security section
 
 The **Security** section helps you control access to your database.
 
-{{<image filename="images/rc/database-new-flexible-security.png" alt="Use the Security settings to control access to your database." >}}{{< /image >}}
+{{<image filename="images/rc/database-new-flexible-security.png" alt="Use the Security settings to control access to your database." >}}
 
 
 | Setting name                       | Description                                                                                                                                                                           |
@@ -162,14 +171,14 @@ The **Security** section helps you control access to your database.
 | **Default user**                   | When enabled, permits access using a simple password                                                                                                                                  |
 | **Redis password**                 | Password assigned to the database when created                                                                                                                                        |  
 | **CIDR allow list**                | (_paid Fixed, Flexible, or Annual subscriptions only_) [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database |
-| **Transport layer security (TLS)** | (_Flexible or Annual subscriptions only_) Enables [transport security layer]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}})(TLS) encryption for database access          |
+| **Transport layer security (TLS)** | (_Flexible or Annual subscriptions only_) Enables [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access          |
 
 
 ## Alerts section
 
 The **Alerts** section defines notification emails sent to your account and the conditions that trigger them.
 
-{{<image filename="images/rc/database-new-flexible-alerts.png" alt="The Alerts section defines the notification emails and their triggering conditions." >}}{{< /image >}}
+{{<image filename="images/rc/database-new-flexible-alerts.png" alt="The Alerts section defines the notification emails and their triggering conditions." >}}
 
 The available alerts vary according to the subscription type.
 

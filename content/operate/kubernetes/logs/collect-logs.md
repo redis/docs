@@ -27,7 +27,7 @@ As of version 6.2.18-3, the log collector tool has two modes:
 1. Have a K8s administrator run the script on the system that runs your `kubectl` or `oc` commands.
     - Pass `-n` parameter to run on a different namespace than the one you are currently on
     - Pass `-m` parameter to change the log collector mode (`all` or `restricted`)
-    - Run with `-h` to see options
+    - Run with `-h` to see more options
 
     ```bash
     python log_collector.py 
@@ -35,5 +35,7 @@ As of version 6.2.18-3, the log collector tool has two modes:
 
    {{< note >}} If you get an error because the yaml module is not found, install the pyYAML module with `pip install pyyaml`.
   {{< /note >}}
+
+
 
 1. Upload the resulting `tar.gz` file containing all the logs to [Redis Support](https://support.redislabs.com/).

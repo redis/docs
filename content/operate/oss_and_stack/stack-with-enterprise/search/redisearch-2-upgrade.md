@@ -65,7 +65,7 @@ To replicate a RediSearch 1.x database to a RediSearch 2.x database:
 
 1. In **redis modules**, select the **Add module** button.
 
-    ![upgrade_module](/images/rs/upgrade_module.png)
+    {{< image filename="/images/rs/upgrade_module.png" >}}
 
 1. Use the file browser to select the module package and upload it to the cluster.
 
@@ -77,13 +77,13 @@ To replicate a RediSearch 1.x database to a RediSearch 2.x database:
 
     1. Select the **Add** button:
     
-        {{<image filename="images/rs/icon_add.png" width="30px" alt="The Add icon">}}{{</image>}}
+        {{<image filename="images/rs/icon_add.png" width="30px" alt="The Add icon">}}
     
     1. Select **RediSearch 2** from the dropdown list.
 
     1. Select the **OK** button to confirm:
 
-        {{<image filename="images/rs/icon_save.png" width="30px" alt="The Save icon">}}{{</image>}}
+        {{<image filename="images/rs/icon_save.png" width="30px" alt="The Save icon">}}
 
 1. Select the **Activate** button to create the database.
 

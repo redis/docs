@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Problems with Redis? Start here.
 linkTitle: Troubleshooting
 title: Troubleshooting Redis

@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Install Redis Stack on Linux, macOS, and Windows
 linkTitle: Install Redis Stack
 stack: true

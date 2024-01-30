@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: How to install Redis Stack on macOS
 linkTitle: MacOS
 title: Install Redis Stack on macOS

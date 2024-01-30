@@ -30,7 +30,7 @@ In the Redis Enterprise admin console, follow these steps to add modules to a da
 
 1. In the **Modules** section, select which modules to add to your database.
 
-    {{<image filename="images/rs/screenshots/databases/quick-db-modules.png" width="75%" alt="Select which modules to add to your database.">}}{{</image>}}
+    {{<image filename="images/rs/screenshots/databases/quick-db-modules.png" width="75%" alt="Select which modules to add to your database.">}}
 
     {{<note>}}
 You cannot use RediSearch 1.x and RediSearch 2.x in the same database.

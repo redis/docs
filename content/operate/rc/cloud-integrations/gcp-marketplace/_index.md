@@ -25,7 +25,7 @@ Here's how to create a new Flexible subscription as part of your Google Cloud Ma
 
 1.  Search Google Cloud Marketplace for [Redis Cloud - Pay as You Go](https://console.cloud.google.com/marketplace/product/redis-marketplace-isaas/redis-enterprise-cloud-flexible-plan).
 
-    {{<image filename="images/rc/gcp-marketplace-rc-payg-plan.png" alt="The Redis Cloud - Pay as You Go plan listing on Google Cloud Marketplace" >}}{{< /image >}}
+    {{<image filename="images/rc/gcp-marketplace-rc-payg-plan.png" alt="The Redis Cloud - Pay as You Go plan listing on Google Cloud Marketplace" >}}
 
     Alternatively, in the navigation panel, select **More Products** and select **Redis Enterprise** under **Partner Solutions**. You can pin Redis Enterprise for easy access.
 
@@ -39,17 +39,17 @@ Here's how to create a new Flexible subscription as part of your Google Cloud Ma
 
 1.  Select the Redis account to be mapped to your GCP Marketplace account and confirm that your payment method will change and that the connection cannot be undone.
 
-    {{<image filename="images/rc/gcp-marketplace-map-account-dialog.png" alt="Use the GCP Marketplace dialog to map your Redis Cloud account to your Google Cloud Marketplace account." width="75%">}}{{< /image >}}
+    {{<image filename="images/rc/gcp-marketplace-map-account-dialog.png" alt="Use the GCP Marketplace dialog to map your Redis Cloud account to your Google Cloud Marketplace account." width="75%">}}
 
 1.  Select **Connect account** to confirm your choice.
 
 1.  After you connect your Redis account to your Google Cloud Marketplace account, a message appears in the upper left corner of the account panel.
 
-    {{<image filename="images/rc/gcp-marketplace-billing-badge.png" alt="The Google Cloud Marketplace badge appears when your Redis Cloud account is mapped to a Google Cloud Marketplace account.">}}{{< /image >}}
+    {{<image filename="images/rc/gcp-marketplace-billing-badge.png" alt="The Google Cloud Marketplace badge appears when your Redis Cloud account is mapped to a Google Cloud Marketplace account.">}}
 
 1. On the Google Cloud Marketplace listing, select **Manage on provider** to go to the Redis Cloud [admin console](https://app.redislabs.com).
 
-    {{<image filename="images/rc/gcp-marketplace-manage-on-provider.png" alt="The Manage on Provider button" >}}{{< /image >}}
+    {{<image filename="images/rc/gcp-marketplace-manage-on-provider.png" alt="The Manage on Provider button" >}}
 
 At this point, you can create a new Flexible subscription using the [standard workflow]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}}), with one important change. You don't need to enter a payment method, as it automatically uses your Google Cloud Marketplace account.
 

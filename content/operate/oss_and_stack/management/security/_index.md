@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Security model and features in Redis
 linkTitle: Security
 title: Redis security
@@ -73,7 +78,7 @@ disable protected mode or manually bind all the interfaces.
 
 Redis provides two ways to authenticate clients.
 The recommended authentication method, introduced in Redis 6, is via Access Control Lists, allowing named users to be created and assigned fine-grained permissions.
-Read more about Access Control Lists [here](/operate/oss_and_stack/management/security/acl/).
+Read more about Access Control Lists [here]({{< relref "/operate/oss_and_stack/management/security/acl" >}}).
 
 The legacy authentication method is enabled by editing the **redis.conf** file, and providing a database password using the `requirepass` setting.
 This password is then used by all clients.

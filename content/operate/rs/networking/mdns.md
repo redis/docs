@@ -13,7 +13,7 @@ weight: $weight
 mDNS is only supported for development and testing environments.
 {{< /note >}}
 
-If you choose to use the mDNS protocol when [you set the cluster name]({{< relref "/operate/rs/networking/cluster-dns/_index.md" >}}),
+If you choose to use the mDNS protocol when [you set the cluster name]({{< relref "/operate/rs/networking/cluster-dns" >}}),
 make sure that the configurations and prerequisites for resolving database endpoints are met on the client machines.
 If you have [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) databases on the cluster,
 the configurations and prerequisites are also required for the Redis Enterprise Software nodes.

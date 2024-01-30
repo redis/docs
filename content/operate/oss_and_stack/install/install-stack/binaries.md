@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: How to install Redis Stack using tarballs
 linkTitle: Binaries
 title: Install Redis Stack from binaries

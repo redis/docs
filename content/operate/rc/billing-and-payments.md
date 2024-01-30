@@ -19,7 +19,7 @@ The **Billing & Payments** screen:
 - Helps you manage your payment methods
 - Applies coupon credits to your account
 
-{{<image filename="images/rc/billing-billing-history-tab.png" alt="The Billing & Payments screen shows billing transactions and manage payment methods." >}}{{< /image >}}
+{{<image filename="images/rc/billing-billing-history-tab.png" alt="The Billing & Payments screen shows billing transactions and manage payment methods." >}}
 
 The following tabs are available:
 
@@ -38,19 +38,19 @@ The following tabs are available:
 
     A **Pay Now** button appears in selected regions.
 
-    {{<image filename="images/rc/billing-payments-pay-now.png" width="100px" alt="Use the Pay Now button to Pay your invoice in selected regions." >}}{{< /image >}} 
+    {{<image filename="images/rc/billing-payments-pay-now.png" width="100px" alt="Use the Pay Now button to Pay your invoice in selected regions." >}} 
     
     Select this button to pay your invoice.
 
 - The **Payment Methods** tab lists your current payment methods.  You can add a new payment method, associate different payment methods with specific subscriptions, and remove payment methods.
 
-    {{<image filename="images/rc/billing-payment-method-tab.png" alt="The Payments Methods tab helps you manage payments for your subscriptions." >}}{{< /image >}}
+    {{<image filename="images/rc/billing-payment-method-tab.png" alt="The Payments Methods tab helps you manage payments for your subscriptions." >}}
 
     Select **Add Credit Card** to enter new credit card details.
 
 - The **Credits** tab shows coupon credits that have been applied to your account, if any.
 
-    {{<image filename="images/rc/billing-payments-credits-tab.png" alt="The Credits tab lets you apply coupons to your account and shows credits that have already been applied." >}}{{< /image >}}
+    {{<image filename="images/rc/billing-payments-credits-tab.png" alt="The Credits tab lets you apply coupons to your account and shows credits that have already been applied." >}}
 
     | Detail | Description |
     |:-------|:------------|
@@ -72,7 +72,7 @@ To download an invoice:
 
 3.  Select the **Download invoice** icon displayed to the right of the invoice amount.
 
-    {{<image filename="images/rc/icon-billing-download.png" width="50px" alt="Use the download icon to download a PDF for the selected invoice." >}}{{< /image >}}
+    {{<image filename="images/rc/icon-billing-download.png" width="50px" alt="Use the download icon to download a PDF for the selected invoice." >}}
 
 The invoice is downloaded as an Acrobat PDF file.  Use your browser's download features to manage the file.
 
@@ -84,11 +84,11 @@ To add a new payment method:
 
 2.  Select **Add credit card** and add the credit card details.
 
-    {{<image filename="images/rc/billing-add-credit-card.png" width="80%" alt="Select Add Credit Card to add a new payment method" >}}{{< /image >}}
+    {{<image filename="images/rc/billing-add-credit-card.png" width="80%" alt="Select Add Credit Card to add a new payment method" >}}
 
 3.  If you need to change the account billing address for this card, activate the **Change Address** slider and enter the new billing address.
 
-    {{<image filename="images/rc/billing-update-billing-address.png" width="80%" alt="Deactivate the Use account address slider to specify a different billing address." >}}{{< /image >}}
+    {{<image filename="images/rc/billing-update-billing-address.png" width="80%" alt="Deactivate the Use account address slider to specify a different billing address." >}}
 
     {{< note >}}
 Changing the billing address for your account will remove any payment methods associated with the old billing address. 
@@ -96,7 +96,7 @@ Changing the billing address for your account will remove any payment methods as
 
 4.  Select the **Add Credit Card** button to save your changes.
 
-    {{<image filename="images/rc/button-billing-save-card.png" width="150px" alt="Use the Save Card button to save new payment details." >}}{{< /image >}}
+    {{<image filename="images/rc/button-billing-save-card.png" width="150px" alt="Use the Save Card button to save new payment details." >}}
 
 ## Edit billing address
 
@@ -106,15 +106,15 @@ To edit the Redis Cloud account billing address:
 
 2. Select **Credit card options > Edit billing address**.
 
-    {{<image filename="images/rc/billing-credit-card-options-menu.png" alt="The Credit card options menu on the upper-right hand corner of the payment method." width="200px">}}{{< /image >}}
+    {{<image filename="images/rc/billing-credit-card-options-menu.png" alt="The Credit card options menu on the upper-right hand corner of the payment method." width="200px">}}
 
 3. Enter the new billing address. You must re-enter your payment method details to confirm your address change.
 
-    {{<image filename="images/rc/account-settings-change-billing-address.png" alt="The Edit account billing address screen." width="80%">}}{{< /image >}}
+    {{<image filename="images/rc/account-settings-change-billing-address.png" alt="The Edit account billing address screen." width="80%">}}
 
     Select the checkbox to confirm that your previous payment methods will be removed.
 
-    {{<image filename="images/rc/account-settings-confirm-billing-address.png" alt="The Edit account billing address screen." width="80%">}}{{< /image >}}
+    {{<image filename="images/rc/account-settings-confirm-billing-address.png" alt="The Edit account billing address screen." width="80%">}}
 
     Select **Continue** to save your new address.
 
@@ -130,11 +130,11 @@ To edit the mailing address associated with a payment method:
 
 2. Select **Credit card options > Edit mailing address**.
 
-    {{<image filename="images/rc/billing-credit-card-options-menu.png" alt="The Credit card options menu on the upper-right hand corner of the payment method." width="200px">}}{{< /image >}}
+    {{<image filename="images/rc/billing-credit-card-options-menu.png" alt="The Credit card options menu on the upper-right hand corner of the payment method." width="200px">}}
 
 3. If the mailing address is different from the billing address, deactivate the **Use billing address** slider and enter the new mailing address. 
 
-    {{<image filename="images/rc/billing-change-mailing-address.png" alt="The Edit mailing address screen." width="80%">}}{{< /image >}}
+    {{<image filename="images/rc/billing-change-mailing-address.png" alt="The Edit mailing address screen." width="80%">}}
 
 ## Apply coupon
 
@@ -144,7 +144,7 @@ Coupons apply credits to your Redis Cloud account.  To redeem a coupon:
 
 2.  Enter the coupon code and then select the **Apply** button.
 
-    {{<image filename="images/rc/button-billing-payments-apply.png" width="80px" alt="Use the Apply button to redeem a coupon." >}}{{< /image >}}
+    {{<image filename="images/rc/button-billing-payments-apply.png" width="80px" alt="Use the Apply button to redeem a coupon." >}}
 
     The value of the coupon is applied to your account when accepted.  
 

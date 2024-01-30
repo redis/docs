@@ -51,7 +51,7 @@ The cluster recovery process includes:
 
 1. (Optional) If you want to recover the cluster to the original cluster nodes, uninstall RS from the nodes.
 
-1. Install [RS]({{< relref "/operate/rs/installing-upgrading/_index.md" >}}) on the new cluster nodes.
+1. Install [RS]({{< relref "/operate/rs/installing-upgrading" >}}) on the new cluster nodes.
 
     Do not configure the cluster nodes (`rladmin cluster create` in the CLI or **Setup** in the admin console).
 
@@ -119,7 +119,7 @@ Otherwise, the node gets the same rack ID as the original node.
     {{% expand "Command syntax" %}}
 `nodes` - The IP address of a node in the cluster that this node is joining.
 
-`name` - The [FQDN name]({{< relref "/operate/rs/networking/cluster-dns/_index.md" >}})
+`name` - The [FQDN name]({{< relref "/operate/rs/networking/cluster-dns" >}})
 of the cluster this node is joining.
 
 `username` - The email address of the cluster administrator.
@@ -150,7 +150,7 @@ providing a different value and using the `override_rack_id` flag.
     and that the databases are pending recovery.
 
     {{< note >}}
-Make sure that you update your [DNS records]({{< relref "/operate/rs/networking/cluster-dns/_index.md" >}})
+Make sure that you update your [DNS records]({{< relref "/operate/rs/networking/cluster-dns" >}})
 with the IP addresses of the new nodes.
     {{< /note >}}
 

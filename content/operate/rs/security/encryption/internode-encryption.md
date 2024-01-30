@@ -18,7 +18,7 @@ Internode encryption is supported for the _data plane_, which encrypts communica
 
 The following diagram shows how this works.
 
-{{<image filename="images/rs/internode-encryption.png" alt="A diagram showing the interaction between data plane encryption, control plane encryption, and various elements of a cluster." >}}{{< /image >}}
+{{<image filename="images/rs/internode-encryption.png" alt="A diagram showing the interaction between data plane encryption, control plane encryption, and various elements of a cluster." >}}
 
 Data plane encryption is disabled by default for individual databases in order to optimize for performance.  Encryption adds latency and overhead; the impact is measurable and varies according to the database, its field types, and the details of the underlying use case. 
 
@@ -62,7 +62,7 @@ To enable internode encryption for new databases by default, use one of the foll
 
 - Cluster Manager UI
 
-    1. On the **Databases** screen, select <img src="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px"> to open a list of additional actions.
+    1. On the **Databases** screen, select {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" >}} to open a list of additional actions.
 
     1. Select **Database defaults**.
 

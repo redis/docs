@@ -54,7 +54,7 @@ the database memory limit and required throughput.
 {{< note >}}
 For Redis Cloud Essentials, clustering is only available in the
 "Pay-As-You-Go" subscription.
-![clustering-subscription](/images/rc/clustering-subscription.png)
+{{< image filename="/images/rc/clustering-subscription.png" >}}
 {{< /note >}}
 -->
 
@@ -68,7 +68,7 @@ are supported, with the following limitations:
     only if all the affected keys reside in the same slot (thus on the same shard).
     This restriction applies to all mulit-key commands, including BITOP, BLPOP, BRPOP, BRPOPLPUSH, MSETNX,
     RPOPLPUSH, SDIFF, SDIFFSTORE, SINTER, SINTERSTORE, SMOVE, SORT,
-    SUNION, XREAD, ZINTER, ZINTERSTORE, ZUNION, ZUNIONSTORE, ZDIFF, ZDIFFSTORE
+    SUNION, XREAD, XREADGROUP, ZINTER, ZINTERSTORE, ZUNION, ZUNIONSTORE, ZDIFF, ZDIFFSTORE
 1. **Geo commands:** In GEORADIUS/GEORADIUSBYMEMBER/GEOSEARCHSTORE commands, the
     STORE and STOREDIST options can only be used when all affected keys
     reside in the same slot.

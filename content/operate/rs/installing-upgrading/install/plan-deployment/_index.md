@@ -22,7 +22,7 @@ Before installing Redis Enterprise Software, you need to:
     - Multiple Linux distributions (Ubuntu, Red Hat Enterprise Linux (RHEL), IBM CentOS, Oracle Linux)
     - [Amazon AWS AMI]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/configuring-aws-instances" >}})
     - [Docker container]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) (for development and testing only)
-    - [Kubernetes]({{< relref "/operate/kubernetes/_index.md" >}})
+    - [Kubernetes]({{< relref "/operate/kubernetes" >}})
 
     For more details, see [Supported platforms]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/supported-platforms.md" >}}).
 

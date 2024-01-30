@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Documents describing internals in early Redis implementations
 linkTitle: Internals
 title: Redis internals

@@ -9,7 +9,7 @@ description: null
 linktitle: Log security
 weight: 50
 ---
-Redis Enterprise comes with [a set of logs]({{< relref "/operate/rs/clusters/logging/_index.md" >}}) on the server and available through the user interface to assist users in investigating actions taken on the server and to troubleshoot issues.
+Redis Enterprise comes with [a set of logs]({{< relref "/operate/rs/clusters/logging" >}}) on the server and available through the user interface to assist users in investigating actions taken on the server and to troubleshoot issues.
 
 ## Send logs to a remote logging server
 

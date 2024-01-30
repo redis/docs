@@ -25,35 +25,35 @@ If you haven't already installed RedisInsight, you can download the latest versi
 
 Open the RedisInsight application, and connect to your database by clicking on its database alias.
 
-<img src="/docs/interact/programmability/triggers-and-functions/images/tf-rdi-0.png">
+{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-0.png" >}}
 
 ## Load a library
 
 Click on the triggers and functions icon and then on **+ Library** as shown below.
 
-<img src="/docs/interact/programmability/triggers-and-functions/images/tf-rdi-1.png">
+{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-1.png" >}}
 
 Add your code to the **Library Code** section of the right-hand panel and then click **Add Library**.
 
-<img src="/docs/interact/programmability/triggers-and-functions/images/tf-rdi-2.png">
+{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-2.png" >}}
 
 You'll see the following when the library was added:
 
-<img src="/docs/interact/programmability/triggers-and-functions/images/tf-rdi-3.png">
+{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-3.png" >}}
 
 The [`TFCALL`]({{< relref "/commands/tfcall" >}}) command is used to execute the JavaScript Function. If the command fails, an error will be returned. Click on the **>_ CLI**  button in the lower left-hand corner to open a console window and then run the command shown below.
 
-<img src="/docs/interact/programmability/triggers-and-functions/images/tf-rdi-3a.png">
+{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-3a.png" >}}
 
 To update a library you can edit the library code directly in the interface by clicking on the edit (pencil) icon. When you save your changes, the libary will be reloaded.
 
-<img src="/docs/interact/programmability/triggers-and-functions/images/tf-rdi-4.png">
+{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-4.png" >}}
 
 ## Uploading an external file
 
 Click on the **+ Add Library** button as before and, instead of adding the code directly into the editor, click on the **Upload** button, select the file from your file browser, and then click on **Add Library**. The file needs to contain the header, which contains the engine identifier, the API version, and the library name: `#!js api_version=1.0 name=myFirstLibrary`.
 
-<img src="/docs/interact/programmability/triggers-and-functions/images/tf-rdi-5.png">
+{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-5.png" >}}
 
 ## Creating triggers
 

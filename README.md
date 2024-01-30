@@ -85,3 +85,32 @@ RelRefs with dots (`.`) and hashtags (`#`) in the reference name, such as `/comm
 ```
 [compaction]({{< baseurl >}}/develop/data-types/timeseries/configuration#compaction_policy)
 ```
+
+
+## Templating
+
+Variables are scoped in the context of their block. Overriding a variable within an if block doesn't change the variable value as soon as you leave that block. This is a specific limitation of the Go templating language.
+
+The following will give you the `/` outside of the condition block if the path was initially set to `/`:
+
+```
+{{ $path := $parsed.Path }}
+{{ if (eq $path "/") }}
+	{{ $path = "" }}
+{{ end }}
+
+{{- $path -}}
+```
+
+The solution is to use a scratchpad for storing the 'global' state:
+
+```
+{{ $path := $parsed.Path }}
+{{ if (eq $path "/") }}
+	{{ .Scratch.Set "path" ""}}
+{{ else }}
+    {{ .Scratch.Set "path" $path}}
+{{ end }}
+
+{{- .Scratch.Get "path" -}}
+```

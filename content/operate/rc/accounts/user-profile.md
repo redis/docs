@@ -14,7 +14,7 @@ When you sign in to the [Redis Cloud console](https://app.redislabs.com/), you u
 
 This account has a profile with settings that you can manage using the Profile control located near the top, right corner of the admin console:
 
-{{<image filename="images/rc/account-selector-single-account.png" alt="Use the Profile control to manage your user account profile and to switch between Redis Cloud accounts." width="300px">}}{{< /image >}}
+{{<image filename="images/rc/account-selector-single-account.png" alt="Use the Profile control to manage your user account profile and to switch between Redis Cloud accounts." width="300px">}}
 
 When you open the Profile control, you can:
 
@@ -28,7 +28,7 @@ When you open the Profile control, you can:
 
 To review your user profile settings, select **User profile** from the Profile control.  This displays the **User Profile** screen:
 
-{{<image filename="images/rc/user-profile-settings.png" alt="The User Profile screen lets you manage selected settings associated with your user account." width="75%">}}{{< /image >}}
+{{<image filename="images/rc/user-profile-settings.png" alt="The User Profile screen lets you manage selected settings associated with your user account." width="75%">}}
 
 This screen contains up to three sections, including:
 
@@ -52,7 +52,7 @@ To sign out from the admin console, select **Logout** from the profile control.
 
 When your user account is authorized to manage multiple Redis Cloud accounts, each account is displayed in the Profile control.
 
-{{<image filename="images/rc/account-selector-switch-account.png" alt="To switch between Redis Cloud accounts, select the desired account from the list shown on the Profile control." width="300px">}}{{< /image >}}
+{{<image filename="images/rc/account-selector-switch-account.png" alt="To switch between Redis Cloud accounts, select the desired account from the list shown on the Profile control." width="300px">}}
 
 To switch accounts, select the desired account from the list shown in the Profile control.
 

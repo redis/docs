@@ -134,7 +134,7 @@ At _t4_, the stream is deleted from Region 1. At the same time, an entry with ID
 
 Usually, you should allow Redis streams generate its own stream entry IDs. You do this by specifying `*` as the ID in calls to XADD. However, you _can_ provide your own custom ID when adding entries to a stream.
 
-Because Active-Active databases replicate asynchronously, providing your own IDs can create streams with duplicate IDs. This can occur when your write to the same stream from multiple regions.
+Because Active-Active databases replicate asynchronously, providing your own IDs can create streams with duplicate IDs. This can occur when you write to the same stream from multiple regions.
 
 | Time | Region 1                      | Region 2                      |
 | ---- | ------------------------------- | ------------------------------- |
@@ -154,7 +154,7 @@ To prevent duplicate IDs and to comply with the original Redis streams design, A
 1. **Semi-strict**: _Semi-strict_ mode is just like _strict_ mode except that it allows full IDs (MS-SEQ). Because it allows full IDs, duplicate IDs are possible in this mode.
 1. **Liberal**: XADD allows any monotonically ascending ID. When given the millisecond portion of the ID, the sequence number will be set to `0`. This mode may also lead to duplicate IDs.
 
-The default and recommended mode is _strict_, which prevents duplicate IDs
+The default and recommended mode is _strict_, which prevents duplicate IDs.
 
 {{% warning %}}
 Why do you want to prevent duplicate IDs? First, XDEL, XCLAIM, and other commands can affect more than one entry when duplicate IDs are present in a stream. Second, duplicate entries may be removed if a database is exported or renamed.

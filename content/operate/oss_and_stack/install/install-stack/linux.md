@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: How to install Redis Stack on Linux
 linkTitle: Linux
 title: Install Redis Stack on Linux

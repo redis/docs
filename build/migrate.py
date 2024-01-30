@@ -146,6 +146,69 @@ def fq_link_to_page_link_in_file(file_path, old_prefix, new_prefix):
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(updated_content)
 
+
+'''
+Returns the content of a file as string
+'''
+def _read_file(file_path):
+    file = open(file_path, 'r', encoding='utf-8')
+    file_content = file.read()
+    file.close()
+    return file_content
+
+
+'''
+Writes a string to the file
+'''
+def _write_file(file_path, updated_content):
+    file = open(file_path, 'w', encoding='utf-8')
+    file.write(updated_content)
+    file.close()
+
+
+'''
+The documentation currently uses the shortcode in a way like:
+
+{{<image filename="images/rc/account-settings-cloud-account-tab.png" alt="Use the Cloud Account tab of the Account Settings screen to define cloud accounts for your Redis Cloud subscription." width="75%">}}Test regexp{{< /image >}}
+
+However, none of the files uses the text below the image because it's strictly seen really just plain text. Instead the alt property is used for the file caption. So we are rewriting the {{< image >}}{{< /image >}} to just {{< image >}}
+'''
+def replace_img_short_code(file_path):
+    print("Replacing file " + file_path)
+    file_content = _read_file(file_path)
+    img_pattern = re.compile(r'({{<.*image.*>}})' + r'(.*{{<.*/image.*>}})')
+    updated_content = re.sub(img_pattern, r'\1', file_content)
+    updated_content = updated_content.replace('{{< /image >}}', '')
+    _write_file(file_path, updated_content)
+
+
+
+'''
+Assumes that there is an image tag with an absolute path to the image
+
+
+<img src="/docs/interact/programmability/triggers-and-functions/images/tf-rdi-1.png">
+'''
+def replace_img_tag_in_file(file_path, old_prefix, new_prefix):
+    
+    file_content = _read_file(file_path)
+    img_pattern = re.compile(r'(<img src=")(' + re.escape(old_prefix) + r')(.*?)' + r'(">|"/>)')
+    updated_content = re.sub(img_pattern, '{{< image filename="' +  new_prefix + r'\3' + '" >}}', file_content)
+    _write_file(file_path, updated_content)
+
+
+'''
+Assumes that there is image markdown syntax. Here an example.
+
+![Pending status icon](/images/rc/icon-database-update-status-pending.png#no-click "Pending database status")
+'''
+def replace_img_md_in_file(file_path, old_prefix, new_prefix):
+    file_content = _read_file(file_path)
+    img_pattern = re.compile(r'\!\[(.*?)\]\((' + re.escape(old_prefix) + r')(.*?)\s*(?:"(.*?)")?\)')
+    updated_content = re.sub(img_pattern, '{{< image filename="' +  new_prefix + r'\3' + '" alt="' + r'\4' + '" >}}', file_content)
+    updated_content = updated_content.replace(' alt=""', '')
+    _write_file(file_path, updated_content)
+
 '''
 Replace the link within the file
 '''
@@ -193,14 +256,15 @@ Write the front matter to a markdown file
 '''
 def _write_front_matter(file_path, front_matter):
     
-    with open(file_path, 'r', encoding='utf-8') as file:
-        markdown_content = file.read()
-    
-    updated_front_matter = yaml.dump(front_matter, default_flow_style=False)
-    updated_content = re.sub(r'^\s*---\n.*?\n---\n', '---\n' + updated_front_matter + '---\n', markdown_content, flags=re.DOTALL)
-    
-    with open(file_path, 'w', encoding='utf-8') as file:
-        file.write(updated_content)
+    markdown_content = _read_file(file_path)
+
+    try:    
+        updated_front_matter = yaml.dump(front_matter, default_flow_style=False)
+        updated_content = re.sub(r'^\s*---\n.*?\n---\n', '---\n' + updated_front_matter + '---\n', markdown_content, flags=re.DOTALL)
+        _write_file(file_path, updated_content)
+    except Exception as e:
+        print("ERR: Could not write front matter to file {}".format(file_path))
+
 
 
 '''
@@ -224,24 +288,19 @@ def add_categories(file_path, ctg_name, ctgs_arr):
         _write_front_matter(file_path, front_matter)
 
 
-def _get_short_code_patterns(tag):
-    return [r'{{<\s*' + re.escape(tag) + r'\s*[^>]*\s*/\s*>}}', r'{{<\s*' + re.escape(tag) + r'\s*[^>]*\s*>}}']
+# TODO: Why did I use two patterns here?
+#def _get_short_code_patterns(tag):
+#    return [r'{{<\s*' + re.escape(tag) + r'\s*[^>]*\s*/\s*>}}', r'{{<\s*' + re.escape(tag) + r'\s*[^>]*\s*>}}']
 
 
 '''
 Removes a short code entirely from Markdown
 '''
 def remove_short_code(file_path, tag):
-    
-    with open(file_path, 'r', encoding='utf-8') as file:
-        markdown_content = file.read()
-    
-    updated_content = markdown_content
-    for p in _get_short_code_patterns(tag):
-        updated_content = re.sub(p, '', updated_content)
-
-    with open(file_path, 'w', encoding='utf-8') as file:
-        file.write(updated_content)
+    markdown_content = _read_file(file_path)
+    pattern = r'{{<\s*' + re.escape(tag) + r'.*' + r'\s*>}}'
+    updated_content = re.sub(pattern, '', markdown_content)
+    _write_file(file_path, updated_content)
 
 '''
 Prepends a prefix to the rel refs
@@ -367,16 +426,16 @@ def migrate_developer_docs():
     for f in markdown_files:
         print("Replacing links in {}".format(f))
         
+        # Links
         fq_link_to_page_link_in_file(f, 'https://redis.io/', '/')
-
-        # Map /docs to /develop
-        replace_links_in_file(f, '/docs', '/develop')
-        
-        # Ensures that the URL-s are rewritten in relrefs
+        replace_links_in_file(f, '/docs', '/develop')       
         replace_links_in_file(f, '/commands', '/commands')
 
-        
+        # Images
+        replace_img_tag_in_file(f, '/docs', '/develop')
+        replace_img_md_in_file(f, '/docs', '/develop')
 
+        # Front matter
         remove_prop_from_file(f, "aliases")
         add_categories(f, 'categories', ['docs', 'develop', 'stack', 'oss', 'rs', 'rc', 'oss', 'kubernetes', 'clients'])
 
@@ -406,8 +465,17 @@ def migrate_oss_ops_docs():
     
     for f in markdown_files:
         print("Replacing links in {}".format(f))
+
+        # Links
         replace_links_in_file(f, '/docs', '/operate/oss_and_stack')
         remove_prop_from_file(f, 'aliases')
+
+        # Images
+        replace_img_tag_in_file(f, '/docs', '/operate/oss_and_stack')
+        replace_img_md_in_file(f, '/docs', '/operate/oss_and_stack')
+
+        # Front matter
+        remove_prop_from_file(f, "aliases")
         add_categories(f, 'categories', ['docs', 'operate', 'stack', 'oss'])
 
 '''
@@ -416,6 +484,18 @@ Fetch all the docs of docs.redis.com
 def fetch_docs_redis_com():
     repo = clone_repo("https://github.com/RedisLabs/redislabs-docs")
     return repo
+
+
+def _test_img_short_code_rewrite():
+
+    for t in ['rc', 'rs', 'kubernetes', 'oss_and_stack']:
+        target = slash(DOCS_OPS, t)
+        markdown_files = find_markdown_files(target)
+        for f in markdown_files:
+            replace_img_short_code(f)
+
+            # Most images in the Enterprise docs are taken from the static images folder
+            replace_img_md_in_file(f,'/images', '/images') 
 
 '''
 Migrate the docs from docs.redis.com
@@ -437,18 +517,37 @@ def migrate_enterprise_ops_docs(repo):
         markdown_files = find_markdown_files(target)
         for f in markdown_files:
             try:
+                # Front matter
                 remove_prop_from_file(f, 'aliases')
                 remove_prop_from_file(f, 'categories')
                 add_categories(f, 'categories', ['docs', 'operate', topic])
+                
+                # Short codes
                 remove_short_code(f, 'allchildren')
-
-                #TODO: Don't kick table-children out!
+                # TODO: Don't kick table-children out! Should be addressed in another branch.
                 remove_short_code(f, 'table-children')
+                # TODO: The embeds need to be preserved. Should be addressed in another branch.
+                remove_short_code(f, 'embed-html')
+                
+                # Links
+                # TODO: See if we can use the replace_links_in_file function for all of that
                 prepend_to_rel_ref_short_code(f,'operate')
                 find_and_replace(f, '/operate/glossary', '/glossary')
                 find_and_replace(f, '/operate/stack', '/operate/oss_and_stack/stack-with-enterprise')
+
+                # Causes to fix links with that prefix from the CSV file
+                replace_links_in_file(f, '/glossary', '/glossary')
+                replace_links_in_file(f, '/operate', '/operate')
+                replace_links_in_file(f, '/develop', '/develop')
+                
+                # Images
+                replace_img_short_code(f)
+                replace_img_tag_in_file(f, '/images', '/images')
+                replace_img_md_in_file(f, '/images', '/images')
+
+
             except Exception as e:
-                print("Error processing file {} with error {}".format(f, e))
+                print("ERR: Error processing file {} with error {}".format(f, e))
 
 
 '''
@@ -487,23 +586,23 @@ if __name__ == "__main__":
     print("## Setting the migration environment ...")
     print(set_env())
 
-    #print("## Fetching temporary development documentation content ...")
+    print("## Fetching temporary development documentation content ...")
     fetch_io()
 
-    #print("## Migrating commands to {}".format(DOCS_CMD))
+    print("## Migrating commands to {}".format(DOCS_CMD))
     migrate_commands()
     
 
-    #print("## Migrating developer documentation to {} ...".format(DOCS_DEV))
+    print("## Migrating developer documentation to {} ...".format(DOCS_DEV))
     migrate_developer_docs()
 
-    #print("## Migrating operator documentation to {} ...".format(DOCS_OPS))
-    #migrate_oss_ops_docs()
+    print("## Migrating operator documentation to {} ...".format(DOCS_OPS))
+    migrate_oss_ops_docs()
 
     print("## Fetching temporary Enterprise documentation content ...")
-    #repo = fetch_docs_redis_com()
-    #migrate_enterprise_ops_docs(repo)
-    #migrate_gloassary(repo)
-    #migrate_static_files(repo)
-    #delete_folder(repo)
+    repo = fetch_docs_redis_com()
+    migrate_enterprise_ops_docs(repo)
+    migrate_gloassary(repo)
+    migrate_static_files(repo)
+    delete_folder(repo)
 

@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: What's an event library, and how was the original Redis event library
   implemented?
 linkTitle: Event library

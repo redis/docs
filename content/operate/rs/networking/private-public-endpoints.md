@@ -26,7 +26,7 @@ To enable private and public endpoints:
 
 1. During cluster setup, turn on **Enable public endpoints support** in the **Cluster** screen's **Configuration** section.
 
-    {{<image filename="images/rs/screenshots/cluster/setup/enable-public-endpoints.png" width="75%" alt="The endpoint support setting appears in the **Configuration section** of the **Cluster** setup screen." >}}{{</image>}}
+    {{<image filename="images/rs/screenshots/cluster/setup/enable-public-endpoints.png" width="75%" alt="The endpoint support setting appears in the **Configuration section** of the **Cluster** setup screen." >}}
 
     If this setting is not enabled when the cluster is created, databases on the cluster support only a single endpoint.
 
@@ -42,4 +42,4 @@ After cluster creation, both sets of endpoints are available for databases in th
 
 To view and copy public and private endpoints for a database in the cluster, see the database's **Configuration > General** section.
 
-{{<image filename="images/rs/screenshots/databases/config-general-endpoints.png" width="75%" alt="View public and private endpoints from the General section of the database's Configuration screen." >}}{{</image>}}
+{{<image filename="images/rs/screenshots/databases/config-general-endpoints.png" width="75%" alt="View public and private endpoints from the General section of the database's Configuration screen." >}}

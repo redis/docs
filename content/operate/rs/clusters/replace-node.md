@@ -9,7 +9,7 @@ description: Replace a node in your cluster that is down.
 linkTitle: Replace node
 weight: 90
 ---
-A failed node will appear as `Down` (![Node down indicator](/images/rs/icons/node-down-icon.png)) in the **Nodes** list.
+A failed node will appear as `Down` ({{< image filename="/images/rs/icons/node-down-icon.png" >}}) in the **Nodes** list.
 
 To replace a failed node: 
 
