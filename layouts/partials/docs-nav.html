@@ -68,11 +68,11 @@
 {{- end }}
 
 <div class="w-full md:w-64 h-fit md:h-full shrink-0 text-sm font-mono font-normal py-6">
-  <nav class="w-full md:w-64 z-40 bg-white md:fixed md:-ml-6 md:pt-6 h-fit md:h-full max-h-[calc(100vh-7rem-14rem)] leading-7">
+  <nav class="w-full md:w-64 z-40 bg-white md:fixed md:pt-6 h-fit md:h-full max-h-[calc(100vh-7rem)] leading-7">
     {{ $navRoot := cond (eq .Site.Home.Type "docs") .Site.Home .FirstSection -}}
     {{ $ulNr := 0 -}}
     {{ $ulShow := 1 -}}
-    <div class="max-h-[calc(100vh-7rem-14rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
+    <div class="max-h-[calc(100vh-7rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
       <div class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer md:cursor-default"><a href="{{ $navRoot.RelPermalink }}">{{ $navRoot.LinkTitle }}</a><span class="md:hidden self-center">{{ partial "icons/chevron.html" }}</span></div>
       <ul class="hidden md:block overflow-y-auto grow pr-6 border-y border-opacity-50 border-y-redis-ink-900">
         {{/*  {{ template "li" (dict "page" . "section" $navRoot "ulNr" $ulNr "ulShow" (add $ulShow 1)) }}  */}}
