@@ -7,7 +7,7 @@ categories:
 - rc
 description: Shows two ways to migrate data to a database in a new subscription.
 linkTitle: Migrate databases
-weight: 35
+weight: 30
 ---
 There are times when you need to migrate data from one database to another.  
 
@@ -52,11 +52,11 @@ To migrate data using Active-Passive syncing, specify the target database as an 
 5.  Disable Active-Passive for the target database.
 
 {{< note >}}
-An error will appear when syncing the two databases if the source database has [Transport Layer Security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}) enabled. [Contact support](https://redis.com/company/support/) if you want to migrate a TLS-enabled database using Active-Passive.
-{{< /note >}}
+Before you use Active-Passive, be aware of the following limitations:
 
-{{< note >}}
-An error will appear when syncing the two databases if the source and target databases are hosted on different Redis Cloud accounts. [Contact support](https://redis.com/company/support/) if you want to migrate a database between accounts using Active-Passive.
+- An error will appear when syncing the two databases if the source database has [Transport Layer Security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}) enabled. [Contact support](https://redis.com/company/support/) if you want to migrate a TLS-enabled database using Active-Passive.
+- An error will appear when syncing the two databases if the source and target databases are hosted on different Redis Cloud accounts. [Contact support](https://redis.com/company/support/) if you want to migrate a database between accounts using Active-Passive.
+- As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}). We recommend that you turn off Active-Passive after the databases are synced. 
 {{< /note >}}
 
 ### Detailed Active-Passive syncing process

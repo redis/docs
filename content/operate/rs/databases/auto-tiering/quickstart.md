@@ -12,7 +12,7 @@ weight: 80
 ---
 This page guides you through a quick setup of [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}}) with a single node for testing and demo purposes. 
 
-For production environments, you can find more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/installing-upgrading/_index.md" >}}) section.
+For production environments, you can find more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/installing-upgrading" >}}) section.
 
 The steps to set up a Redis Enterprise Software cluster using Auto Tiering
 with a single node are:

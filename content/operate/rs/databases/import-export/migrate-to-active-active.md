@@ -10,7 +10,7 @@ linktitle: Migrate to Active-Active
 weight: $weight
 ---
 
-If you have data in a single-region Redis Enterprise Software database that you want to migrate to an [Active-Active databases]({{< relref "/operate/rs/databases/active-active/_index.md" >}}),
+If you have data in a single-region Redis Enterprise Software database that you want to migrate to an [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}),
 you'll need to create a new Active-Active database and migrate the data into the new database as a [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) the existing database.
 This process will gradually populate the data in the Active-Active database.
 
@@ -67,7 +67,7 @@ To migrate a Redis Enterprise Software database to Active-Active:
 If you regenerate the password, replication to existing destinations fails until you update their configuration with the new password.
             {{< /warning >}}
 
-        1. In the destination database, paste the URL of the source endpoint in the **Replica Of** box, and click {{< image filename="/images/rs/icon_save.png#no-click "Save"" >}}.
+        1. In the destination database, paste the URL of the source endpoint in the **Replica Of** box, and click {{< image filename="/images/rs/icon_save.png#no-click" alt="Save" >}}.
 
         {{< note >}}
 For a source database on a different Redis Enterprise Software cluster,
@@ -96,7 +96,7 @@ the [client mDNS prerequisites]({{< relref "/operate/rs/networking/mdns.md" >}})
     {{< /note >}}
 
 1. Click **Update** at the bottom of the page.
-1. When the synchronization icon turns green {{< image filename="/images/rs/icon_sync_green.png#no-click "Synchronization complete"" >}}, the migration is complete. Note that migration can take minutes to hours to complete depending on the dataset size and network quality.
+1. When the synchronization icon turns green {{< image filename="/images/rs/icon_sync_green.png#no-click" alt="Synchronization complete" >}}, the migration is complete. Note that migration can take minutes to hours to complete depending on the dataset size and network quality.
 1. Edit the configuration of the Active-Active database and select the **Stop** button to disable **Migration using Replica Of**.
 {{<image filename="images/rs/Migration_using_Replica_Of_complete.png" alt="disable migration using replica of" >}}
 1. Redirect your database connections to the Active-Active database.

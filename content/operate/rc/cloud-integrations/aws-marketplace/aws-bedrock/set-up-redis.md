@@ -137,15 +137,33 @@ For your database to be fully secure, you must enable [Transport Layer Security 
 
     {{<image filename="images/rc/button-database-config-security-server-ca-download.png" width="250px" alt="Use the Download server certificate button to download the Redis Cloud CA certificates." >}}
 
-1. Either provide an [X.509 certificate](https://en.wikipedia.org/wiki/X.509) that contains a public key for your client or select **Generate certificate** to create one:
+1. Select the **Mutual TLS (require client authentication)** checkbox to require client authentication.
 
-    {{<image filename="images/rc/database-details-configuration-tab-security-tls-client-auth-certificate.png" width="300px" alt="Provide or generate a certificate for TLS client authentication." >}}
+1. Select **Add client certificate** to add a certificate.
 
-    If you generate your certificate from the admin console, select **Download client certificate**. The download contains:
+    {{<image filename="images/rc/mtls-add-client-certificate.png" width="200px" alt="The Add client certificate button." >}}
 
-    - `redis_user.crt` – the certificate's public key.
+1. Either provide an [X.509 client certificate](https://en.wikipedia.org/wiki/X.509) or chain in PEM format for your client or select **Generate** to create one:
 
-    - `redis_user_private.key` – the certificate's private key.
+    {{<image filename="images/rc/database-details-configuration-tab-security-tls-client-auth-certificate.png" alt="Provide or generate a certificate for Mutual TLS." >}}
+
+    - If you generate your certificate from the Redis Cloud console, a **Download certificate** button will appear after it is generated. Select it to download the certificate. 
+
+        {{<image filename="images/rc/mtls-download-certificate.png" alt="The Download certificate button." >}}
+        
+        The download contains:
+
+        - `redis-db-<database_id>.crt` – the certificate's public key.
+
+        - `redis-db-<database_id>.key` – the certificate's private key.
+
+        {{<note>}}
+You must download the certificate using the button at this point.  After your changes have been applied, the full bundle of public and private keys will no longer be available for download.
+        {{</note>}}
+    
+    - If you provide a client certificate, you will see the certificate details before you save your changes.
+
+        {{<image filename="images/rc/mtls-certificate-details.png" alt="The Download certificate button." >}}
 
 1. To apply your changes and enable TLS, select the **Save database** button:
 
@@ -177,7 +195,7 @@ To create your vector index in RedisInsight:
 
 1. In the Redis Cloud [admin console](https://app.redislabs.com/), in your subscription's **Databases** tab, select the **Connect** button next to your database to open the connection wizard.
 
-    {{< image filename="/images/rc/connection-wizard-button.png#no-click "Connect button."" >}}
+    {{< image filename="/images/rc/connection-wizard-button.png#no-click" alt="Connect button." >}}
 
 1. In the connection wizard, under **RedisInsight Desktop**, select **Public Endpoint**. Select **Open with RedisInsight** to connect to the database with RedisInsight.
 

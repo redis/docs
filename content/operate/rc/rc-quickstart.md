@@ -63,7 +63,7 @@ If you would rather customize your subscription and database, select **Create a 
 
 1.  In the upper corner, an icon shows the current status of the database.  If the icon shows an orange clock, this means your database is still being created and its status is _pending_.
 
-       {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click "Pending database status"" >}} &nbsp; {{< image filename="/images/rc/icon-database-update-status-active.png#no-click "Active database status"" >}}
+       {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" >}} &nbsp; {{< image filename="/images/rc/icon-database-update-status-active.png#no-click" alt="Active database status" >}}
 
        Once the database has been created, it becomes _active_ and the status indicator switches to a green circle containing a checkmark.  
 
@@ -81,7 +81,7 @@ To connect to your database, you need your username and password. Each database 
 
 Once you have the username and password, select **Connect** to open the connection wizard.
 
-{{< image filename="/images/rc/connection-wizard-button.png#no-click "Connect button."" >}}
+{{< image filename="/images/rc/connection-wizard-button.png#no-click" alt="Connect button." >}}
 
 The connection wizard provides the following database connection methods:
 
@@ -138,7 +138,7 @@ See [Redis CLI](https://redis.io/docs/connect/cli/) to learn how to use `redis-c
 
 - [Connect your application](https://redis.io/docs/connect/clients/)
 - [Import data]({{< relref "/operate/rc/databases/import-data.md" >}})
-- [Manage databases]({{< relref "/operate/rc/databases/_index.md" >}})
+- [Manage databases]({{< relref "/operate/rc/databases" >}})
 - [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}})
 - [Secure your Redis Cloud database]({{< relref "/operate/rc/security/" >}})
 - [Back-up Flexible databases]({{< relref "/operate/rc/databases/back-up-data.md" >}})

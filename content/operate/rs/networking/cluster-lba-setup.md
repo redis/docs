@@ -35,12 +35,12 @@ Depending on which Redis Enterprise services you want to access outside the clus
 One or more Virtual IPs (VIPs) are defined on the load balancer to expose Redis Enterprise services.
 The architecture is shown in the following diagram with 3 nodes Redis Enterprise cluster with one database (DB1) configured on port 12000:
 
-{{< image filename="/images/rs/cluster-behind-load-balancer-top-down.png "cluster-behind-load-balancer-top-down"" >}}
+{{< image filename="/images/rs/cluster-behind-load-balancer-top-down.png" alt="cluster-behind-load-balancer-top-down" >}}
 ## Setting up an RS cluster with load balancers
 
 ### Prerequisites
 
-- [Install]({{< relref "/operate/rs/installing-upgrading/_index.md" >}}) the latest version of RS on your clusters
+- [Install]({{< relref "/operate/rs/installing-upgrading" >}}) the latest version of RS on your clusters
 - Configure the cluster with the cluster name (FQDN) even though DNS is not in use.
     Remember that the same cluster name is used to issue the licence keys.
     We recommend that you use a “.local” suffix in the FQDN.

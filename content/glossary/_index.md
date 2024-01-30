@@ -1,11 +1,10 @@
 ---
 Title: Glossary
-aliases: /glossary/
-alwaysopen: false
-categories:
-- Glossary
-description: null
+description:
 weight: 100
+alwaysopen: false
+categories: ["Glossary"]
+aliases: /glossary/
 ---
 <dl class="glossary">
 
@@ -26,7 +25,7 @@ More info: [redis.io/topics/acl](https://redis.io/topics/acl); [ACL wikipedia](h
 {{%definition "Active-Active database (CRDB)"%}}
 Geo-distributed databases that span multiple [Redis Enterprise Software]({{<relref "#redis-enterprise-software">}}) [clusters]({{<relref "#cluster">}}). Active-Active databases, also known as conflict-free replicated databases (CRDB), depend on [multi-master replication (MMR)]({{<relref "#multi-master-replication-mmr">}}) and [conflict-free replicated data types (CRDTs)]({{<relref "#conflict-free-replicated-data-types-crdt">}}) to power a simple development experience for geo-distributed applications.
 
-More info: [Active-Active geo-distributed Redis]({{<relref "/operate/rs/databases/active-active">}}), [Geo-distributed Active-Active Redis applications]({{<relref "/operate/rs/databases/active-active/" >}}), [Developing applications for Active-Active databases]({{<relref "/operate/rs/databases/active-active/develop">}})
+More info: [Active-Active geo-distributed Redis]({{<relref "/operate/rs/databases/active-active/_index.md">}}), [Geo-distributed Active-Active Redis applications]({{<relref "/operate/rs/databases/active-active/" >}}), [Developing applications for Active-Active databases]({{<relref "rs/databases/active-active/develop/_index.md">}})
 {{%/definition%}}
 
 {{%definition "Active-Active database instance"%}}
@@ -104,7 +103,7 @@ Conflict-free replicated databases (CRDB) are an alternate name for [Active-Acti
 {{%definition "conflict-free replicated data types (CRDT)"%}}
 Techniques used by Redis data types in Active-Active databases that handle conflicting concurrent writes across member Active-Active databases. The Redis Enterprise implementation of CRDT is called an Active-Active database (formerly known as CRDB).
 
-More info: [CRDT info]({{<relref "/operate/rs/databases/active-active/develop/#info" >}}), [Active-Active geo-distributed Redis]({{< relref "/operate/rs/databases/active-active/_index.md" >}}), [CRDT wikipedia](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)
+More info: [CRDT info]({{<relref "/operate/rs/databases/active-active/develop/#info" >}}), [Active-Active geo-distributed Redis]({{< relref "/operate/rs/databases/active-active" >}}), [CRDT wikipedia](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)
 {{%/definition%}}
 
 {{%definition "CustomResourceDefinition (CRD)"%}}
@@ -191,7 +190,7 @@ More info: [Overview of kubectl](https://kubernetes.io/docs/reference/kubectl/ov
 {{%definition "Lightweight Directory Access Protocol (LDAP)"%}}
 A protocol for accessing and maintaining distributed directory services over an IP network, often used to authenticate users.
 
-More info: [LDAP wikipedia](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol/), [LDAP authentication]({{<relref "/operate/rs/security/access-control/ldap">}})
+More info: [LDAP wikipedia](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol/), [LDAP authentication]({{<relref "/operate/rs/security/ldap/_index.md">}})
 {{%/definition%}}
 
 ## M - O {#letter-m}

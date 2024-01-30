@@ -95,10 +95,11 @@ You can select more than one advanced capability for a database, though there ar
     - Probabilistic
 
 - Graph cannot be combined with other capabilities.
+- JSON is the only capability supported for [Active-Active subscriptions]({{< relref "/operate/rc/subscriptions/create-active-active-subscription" >}}).
 
 You don't have to combine capabilities.  To remove a selected capability, either clear the checkbox in the menu or select its **Delete** icon.  
 
-<nobr>{{<image filename="images/rc/icon-checkbox-clear.png" alt="To remove a selected capability, clear the checkbox in the menu." width="30px">}}</nobr>
+<nobr>{{<image filename="images/rc/icon-checkbox-clear.png" alt="To remove a selected capability, clear the checkbox in the menu." width="30px">}}&nbsp;{{<image filename="images/rc/icon-module-delete.png" alt="You can also use the delete icon to remove a capability." width="30px">}}</nobr>
 
 To learn more, see [Redis Stack](https://redis.io/docs/stack/) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
 
@@ -148,7 +149,15 @@ The **Durability** section helps you keep your database (and your data) availabl
 | **Data persistence**     | Defines whether (and how) data is saved to disk; [available options]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}}) depend on your plan type            |
 | **Data eviction policy** | Configures which [policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}) is applied when your database reaches its memory limit              |
 | **Remote backup**        | (_paid Fixed, Flexible, or Annual subscriptions only_) When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data.md" >}}) |
-| **Active-Passive Redis** | (_Flexible or Annual subscriptions only_) When enabled, identifies a path to the linked database                                                                           |
+| **Active-Passive Redis** | (_Flexible or Annual subscriptions only_) When enabled, identifies a path to the linked database. See [Migrate data]({{< relref "/operate/rc/databases/migrate-databases.md" >}}) for more information.           |
+
+## Tags section
+
+The **Tags** section lets you add [tags]({{< relref "/operate/rc/databases/tag-database" >}}) to the database.
+
+{{<image filename="images/rc/database-new-tags.png" alt="Use the Tag settings to add tags to the database." >}}
+
+{{< embed-md "rc-tags-tag-module.md" >}}
 
 ## Security section
 
@@ -162,7 +171,7 @@ The **Security** section helps you control access to your database.
 | **Default user**                   | When enabled, permits access using a simple password                                                                                                                                  |
 | **Redis password**                 | Password assigned to the database when created                                                                                                                                        |  
 | **CIDR allow list**                | (_paid Fixed, Flexible, or Annual subscriptions only_) [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database |
-| **Transport layer security (TLS)** | (_Flexible or Annual subscriptions only_) Enables [transport security layer]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}})(TLS) encryption for database access          |
+| **Transport layer security (TLS)** | (_Flexible or Annual subscriptions only_) Enables [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access          |
 
 
 ## Alerts section

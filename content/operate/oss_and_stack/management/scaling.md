@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Horizontal scaling with Redis Cluster
 linkTitle: Scale with Redis Cluster
 title: Scale with Redis Cluster
@@ -321,7 +326,7 @@ to run the script.
 #### Interact with the cluster
 
 To connect to Redis Cluster, you'll need a cluster-aware Redis client. 
-See the [documentation](/operate/oss_and_stack/clients) for your client of choice to determine its cluster support.
+See the [documentation]({{< relref "/develop/connect/clients/" >}}) for your client of choice to determine its cluster support.
 
 You can also test your Redis Cluster using the `redis-cli` command line utility:
 
@@ -868,6 +873,14 @@ An alternative to remove a master node is to perform a manual failover of it
 over one of its replicas and remove the node after it turned into a replica of the
 new master. Obviously this does not help when you want to reduce the actual
 number of masters in your cluster, in that case, a resharding is needed.
+
+There is a special scenario where you want to remove a failed node.
+You should not use the `del-node` command because it tries to connect to all nodes and you will encounter a "connection refused" error.
+Instead, you can use the `call` command:
+
+    redis-cli --cluster call 127.0.0.1:7000 cluster forget `<node-id>`
+
+This command will execute [`CLUSTER FORGET`](/commands/cluster-forget) command on every node. 
 
 #### Replica migration
 

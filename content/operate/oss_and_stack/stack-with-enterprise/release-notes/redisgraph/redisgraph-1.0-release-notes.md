@@ -1,15 +1,13 @@
 ---
 Title: RedisGraph 1.0 release notes
-aliases: /modules/redisgraph/release-notes/redisgraph-1.0-release-notes/
-alwaysopen: false
-categories:
-- Modules
-description: "Fixed memory leaks. Support \u2018*\u2019 within RETURN clause. Added\
-  \ TYPE function. Initial support for UNWIND clause."
 linkTitle: v1.0 (November 2018)
-min-version-db: 4.0.0
-min-version-rs: 5.0.0
+description: Fixed memory leaks. Support ‘*’ within RETURN clause. Added TYPE function. Initial support for UNWIND clause.
+min-version-db: "4.0.0"
+min-version-rs: "5.0.0"
 weight: 100
+alwaysopen: false
+categories: ["Modules"]
+aliases: /modules/redisgraph/release-notes/redisgraph-1.0-release-notes/
 ---
 ## Requirements
 

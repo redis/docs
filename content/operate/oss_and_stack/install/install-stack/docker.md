@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: How to install Redis Stack using Docker
 linkTitle: Docker
 title: Run Redis Stack on Docker

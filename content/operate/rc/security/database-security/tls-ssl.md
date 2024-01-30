@@ -60,29 +60,46 @@ To enable TLS for a Redis Cloud database:
     
     - If you do not want to require client authentication, skip to the final step to apply your changes.
 
-1. To require client authentication, select the **TLS client authentication** checkbox.
+1. To require client authentication, select the **Mutual TLS (require client authentication)** checkbox. 
 
-1. Either provide an [X.509 certificate](https://en.wikipedia.org/wiki/X.509) that contains a public key for your client or select **Generate certificate** to create one:
+1. Select **Add client certificate** to add a certificate.
 
-    {{<image filename="images/rc/database-details-configuration-tab-security-tls-client-auth-certificate.png" width="300px" alt="Provide or generate a certificate for TLS client authentication." >}}
+    {{<image filename="images/rc/mtls-add-client-certificate.png" width="200px" alt="The Add client certificate button." >}}
 
-    If you generate your certificate from the Redis Cloud console, a download button will appear after it is generated. The download contains:
+1. Either provide an [X.509 client certificate](https://en.wikipedia.org/wiki/X.509) or chain in PEM format for your client or select **Generate** to create one:
 
-    - `redis_user.crt` – the certificate's public key.
+    {{<image filename="images/rc/database-details-configuration-tab-security-tls-client-auth-certificate.png" alt="Provide or generate a certificate for Mutual TLS." >}}
 
-    - `redis_user_private.key` – the certificate's private key.
+    - If you generate your certificate from the Redis Cloud console, a **Download certificate** button will appear after it is generated. Select it to download the certificate. 
 
-    {{<note>}}
+        {{<image filename="images/rc/mtls-download-certificate.png" alt="The Download certificate button." >}}
+        
+        The download contains:
+
+        - `redis-db-<database_id>.crt` – the certificate's public key.
+
+        - `redis-db-<database_id>.key` – the certificate's private key.
+
+        {{<note>}}
 You must download the certificate using the button at this point.  After your changes have been applied, the full bundle of public and private keys will no longer be available for download.
-    {{</note>}}
+        {{</note>}}
+    
+    - If you provide a client certificate or a certificate chain, you will see the certificate details before you save your changes.
 
-2. To apply your changes and enable TLS, select the **Save database** button:
+        {{<image filename="images/rc/mtls-certificate-details.png" alt="The Download certificate button." >}}
+
+1. You can select **Add client certificate** again to add another certificate.
+
+    {{<image filename="images/rc/mtls-add-client-certificate.png" width="200px" alt="The Add client certificate button." >}}
+
+1. To apply your changes and enable TLS, select the **Save database** button:
 
     {{<image filename="images/rc/button-database-save.png" width="140px" alt="Use the Save database button to save database changes." >}}
 
 {{<note>}}
-Once you've enabled TLS, all client connections to your database must use TLS. Unencrypted connections
-will no longer be permitted.
+- When you enable or turn off TLS, the change applies to new connections but does not affect existing connections. Clients must close existing connections and reconnect to apply the change.
+
+- Once you've enabled TLS, all client connections to your database must use TLS. Unencrypted connections will no longer be permitted.
 {{</note>}}
 
 ## Connect over TLS

@@ -16,3 +16,4 @@ weight: 70
 Redis, Inc. has announced the end of life for RedisGraph. We will carry out the process gradually and in accordance with our commitment to our customers. See [details](https://redis.com/blog/redisgraph-eol/).
 {{</banner-article>}}
 
+

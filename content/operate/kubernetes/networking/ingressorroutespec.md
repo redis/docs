@@ -27,7 +27,7 @@ Install your chosen Ingress controller, making sure `ssl-passthrough` is enabled
 1. Choose the hostname (FQDN) you will use to access your database according to the recommended naming conventions below, replacing `<placeholders>` with your own values.
 
      REC API hostname: `api-<rec-name>-<rec-namespace>.<subdomain>`
-     REAADB hostname: `*-db-<rec-name>-<rec-namespace>.<subdomain>`
+     REAADB hostname: `-db-<rec-name>-<rec-namespace>.<subdomain>`
      
      We recommend using a wildcard (`*`) in place of the database name, followed by the hostname suffix.
 

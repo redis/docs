@@ -7,7 +7,7 @@ categories:
 - rc
 description: null
 linktitle: Back up database
-weight: 35
+weight: 25
 ---
 
 The backup options for Redis Cloud databases depend on your plan:

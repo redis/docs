@@ -26,7 +26,7 @@ provide smart and automatic conflict resolution based on the data type's
 intent.
 
 For more information, go here. For information, go to [Developing with
-Active-Active databases]({{< relref "/operate/rs/developing/crdbs/_index.md" >}}).
+Active-Active databases]({{< relref "/operate/rs/developing/crdbs" >}}).
 
 ## Redis modules
 
@@ -40,17 +40,17 @@ Enterprise is known for.
 
 Redis developed and certified these modules for use with Redis Enterprise Software:
 
-- [RedisBloom]({{< relref "/operate/modules/redisbloom/_index.md" >}})
+- [RedisBloom]({{< relref "/operate/modules/redisbloom" >}})
     - Enables Redis to have a scalable bloom filter as a data type. Bloom
       filters are probabilistic data structures that quickly determine if something is contained within a set.
 - [RedisGraph](https://oss.redislabs.com/redisgraph/#quickstart)
     - RedisGraph is the first queryable Property Graph database to use sparse
       matrices to represent the adjacency matrix in graphs and linear algebra to query the graph.
       RedisGraph uses [Cypher](https://www.opencypher.org/) as its query language.
-- [RedisJSON]({{< relref "/operate/modules/redisjson/_index.md" >}})
+- [RedisJSON]({{< relref "/operate/modules/redisjson" >}})
     - Now you have the convenience JSON as a built-in data type and easily
       able to address nested data via a path.
-- [RediSearch]({{< relref "/operate/modules/redisearch/_index.md" >}})
+- [RediSearch]({{< relref "/operate/modules/redisearch" >}})
     - This module turns Redis into a distributed in-memory
       full-text indexing and search beast.
 

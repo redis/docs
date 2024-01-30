@@ -1,12 +1,12 @@
 ---
-Title: View or change a Fixed subscription
+Title: View or edit Fixed subscription
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
 description: null
-linktitle: View Fixed subscription
+linktitle: View or edit Fixed subscription
 weight: 40
 ---
 To view the details of a Fixed subscription:
@@ -27,10 +27,6 @@ From here, you can:
 
     {{<image filename="images/rc/button-subscription-upgrade-plan.png" alt="Select the Upgrade plan button to update your subscription settings." >}}
 
-- Select the **New Database** button to [create a new database]({{< relref "/operate/rc/databases/create-database" >}}) for your subscription.
-
-    {{<image filename="images/rc/button-database-new.png" alt="Use the **New database** button to create a new database for your subscription." >}}
-
 - Select the **Overview** tab to view and edit subscription details.
 
 The following sections provide more details.
@@ -49,15 +45,18 @@ To change your subscription tier, select the desired tier from the list and sele
 
 {{<image filename="images/rc/subscription-change-fixed-tiers.png" width="100%" alt="Select the desired subscription tier from the ones shown." >}}
 
-Each tier in a Fixed plan provides a variety of benefits, including increased memory, number of databases, connections, and so on.
-
+Each tier in a Fixed plan provides a variety of benefits, including increased memory and number of connections.
 For a comparison of available tiers, see [Fixed size subscription tiers]({{< relref "/operate/rc/subscriptions/create-fixed-subscription.md#fixed-size-subscription-tiers" >}}).
 
 When you change your plan tier, your data and endpoints are not disrupted.  
 
 If you upgrade a free plan to a paid tier, you need to add a payment method.
 
-If you change your subscription to a lower tier, make sure your data (and databases) fit within the limits of the new tier; otherwise, the change attempt will fail.
+If you change your subscription to a lower tier, make sure your data fits within the limits of the new tier; otherwise, the change attempt will fail.
+
+{{< note >}}
+{{< embed-md "rc-fixed-upgrade-limitation.md" >}}
+{{< /note >}}
 
 ### Change high availability
 

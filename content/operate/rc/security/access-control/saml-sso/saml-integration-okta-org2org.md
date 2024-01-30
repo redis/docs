@@ -138,7 +138,7 @@ Now that your group is populated with its users, assign the SAML integration app
 
     {{<image filename="images/rc/saml/okta_saml_group_7.png" alt="Use the Okta admin console to locate the Org2Org application template." >}}
 
-1. Now, define the Redis account mapping string default for this group and select **Save and go back**. The key-value pair consists of the lowercase role name (owner, member, manager, or viewer) and your **Redis Cloud Account ID** found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}). Select **"Done"**.
+1. Now, define the Redis account mapping string default for this group and select **Save and go back**. The key-value pair consists of the lowercase role name (owner, member, manager, billing_admin, or viewer) and your **Redis Cloud Account ID** found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}). Select **"Done"**.
 
     {{<image filename="images/rc/saml/okta_saml_group_8.png" alt="Use the Okta admin console to locate the Org2Org application template." >}}
 
@@ -196,33 +196,33 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
     {{<image filename="images/rc/saml/sm_saml_1.png" alt="Use the Okta admin console to locate the Org2Org application template." >}}
 
-    {{<image filename="images/rc/saml/sm_saml_2.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_2.png" >}}
 
 1. Select **Enable** and wait a few seconds for the status to change. Then, download the service provider (SP) metadata. Save the file to your local hard disk.
 
-    {{<image filename="images/rc/saml/sm_saml_3.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_3.png" >}}
 
 1. Open the file in any text editor. Save the following text from the metadata:
 
    * **EntityID**: Unique name of the service provider (SP)
 
-    {{<image filename="images/rc/saml/sm_saml_4.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_4.png" >}}
 
    * **Location**: Location of the assertion consumer service
 
-    {{<image filename="images/rc/saml/sm_saml_5.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_5.png" >}}
 
 
 1. Return to Okta, select **Applications > Redis Cloud > General**, then select **Edit**.
 
-    {{<image filename="images/rc/saml/sm_saml_6.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_6.png" >}}
 
 1. Update this information in **Advanced Sign-on Settings**.
 
    * **Hub ACS URL**: Use the information that you copied for **Location**.
    * **Audience URI**: Use the information that you copied for **EntityID**.
 
-    {{<image filename="images/rc/saml/sm_saml_7.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_7.png" >}}
 
 
 Select **Save**.
@@ -239,24 +239,24 @@ Replace `<ID>` so it matches the AssertionConsumerService Location URL ID (the c
 
 1. Return to Redis Cloud console and select **Activate**.
 
-    {{<image filename="images/rc/saml/sm_saml_8.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_8.png" >}}
 
    A popup appears, explaining that, to test the SAML connection, you need to log in with Okta credentials of the user defined in the Redis Cloud group. This user is part of the group to which you assigned the Redis Cloud application.
 
-    {{<image filename="images/rc/saml/sm_saml_9.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_9.png" >}}
 
 1. The Okta log-in screen appears. Enter the credentials and select **Sign In**.
 
-    {{<image filename="images/rc/saml/sm_saml_10.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_10.png" >}}
 
 1. If the test succeeds, the next screen appears. Your local account is now considered a SAML account. Going forward, to log in to Redis Cloud console, select **Sign in with SSO**.
 
-    {{<image filename="images/rc/saml/sm_saml_11.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_11.png" >}}
 
 1. Enter your SAML email and select **Login**
 
-    {{<image filename="images/rc/saml/sm_saml_12.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_12.png" >}}
 
 You have successfully configured SAML as an identity provider.
 
-    {{<image filename="images/rc/saml/sm_saml_13.png" alt="" >}}
+    {{<image filename="images/rc/saml/sm_saml_13.png" >}}

@@ -1,12 +1,12 @@
 ---
-Title: View Flexible subscription details
+Title: View or edit Flexible subscription
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
 description: null
-linktitle: View Flexible subscription
+linktitle: View or edit Flexible subscription
 weight: 40
 ---
 To view the details of a Flexible subscription:
@@ -29,7 +29,7 @@ From here, you can:
 
 - View the Status icon to learn the status of your subscription.  Active subscriptions display a green circle with a check mark. Pending subscriptions display an animated, grey circle.
 
-    {{<image filename="images/rc/icon-database-status-active.png" alt="When a subscription is active, the status icon displays a green circle with a checkmark." >}}
+    {{<image filename="images/rc/icon-database-status-active.png" alt="When a subscription is active, the status icon displays a green circle with a checkmark." >}} &nbsp; {{<image filename="images/rc/icon-subscription-status-pending.png" alt="When a subscription is pending, the status icon displays a gre, animated circle." >}}
 
 - {{< embed-md "rc-opt-in-to-72.md" >}}
 
@@ -55,7 +55,7 @@ The following details are provided:
 
 | Detail | Description |
 |:---------|:--------------|
-| **Status** | An icon indicating whether the database is active (a green circle) or pending (yellow circle)<br/>{{<image filename="images/rc/icon-database-detail-status-active.png" alt="Active status is indicated by a teal circle." >}} |
+| **Status** | An icon indicating whether the database is active (a green circle) or pending (yellow circle)<br/>{{<image filename="images/rc/icon-database-detail-status-active.png" alt="Active status is indicated by a teal circle." >}}&nbsp;{{<image filename="images/rc/icon-database-detail-status-pending.png" alt="Pending status is indicated by a yellow circle." >}} |
 | **Name** | The database name |
 | **Endpoint** | Use the **Copy** button to copy the endpoint URI to the Clipboard |
 | **Memory** | Memory size of the database, showing the current size and the maximum size |
@@ -86,14 +86,14 @@ The **Overview** summarizes the options use to created the subscription.
     | **Multi-AZ** | Checked when multiple availability zones are enabled |
     | **Active-Active Redis** | Checked when Active-Active Redis is enabled for your subscription |
     | **Region** | Describes the region your subscription is deployed to |
+    | **Availability Zones** | The availability zones your subscription is deployed in (Visible if you selected availability zones on creation) |
+
 
 - The **Price** panel shows the monthly cost of your Flexible subscription.
 
 - The **Payment Method** panel shows the current payment details.
 
     Select the {{< image filename="/images/rc/icon-subscription-detail-change-payment-flexible.png" >}} button to change the credit card associated with this subscription.
-
-- The **Redis price** panel breaks down your subscription price.
 
 - The **Maintenance Window** panel shows your current [maintenance window settings]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}).
 
@@ -102,6 +102,8 @@ The **Overview** summarizes the options use to created the subscription.
 - The **Provisioned cloud resources** panel shows the storage resources used by your subscription.
 
   If your subscription is attached to a cloud account, the details appear in the panel header.
+
+- The **Redis price** panel breaks down your subscription price.
 
 ## **Connectivity** tab
 
@@ -114,5 +116,7 @@ Here, you can:
 - Set up a [VPC peering]({{< relref "/operate/rc/security/vpc-peering.md" >}}) relationship between the virtual PC (VPC) hosting your subscription and another virtual PC.
 
 - Set up a [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) containing IP addresses or security groups (_AWS only_) permitted to access your subscription.
+
+- Set up [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) (*Google Cloud only*) or [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) (*AWS only*).
 
 See the individual links to learn more.

@@ -6,7 +6,7 @@ categories:
 - operate
 - rc
 description: null
-weight: 35
+weight: 40
 ---
 
 The [FLUSHALL](https://redis.io/commands/flushall) command provides a fast way to remove all data from a database.
@@ -48,7 +48,7 @@ redis-cli -h redis-12345.server.cloud.redislabs.example.com -p 12345 -a xyz flus
 
 ### RedisInsight
 
-If you install [RedisInsight]({{< relref "/develop/connect/insight" >}}) and [add your database]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}}), you can use the RedisInsight workbench to run commands:
+If you install [RedisInsight]({{< relref "/develop/connect/insight/" >}}) and [add your database]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}}), you can use the RedisInsight workbench to run commands:
 
 1.  Start RedisInsight and connect to your database.
 

@@ -62,7 +62,7 @@ To enable internode encryption for new databases by default, use one of the foll
 
 - Cluster Manager UI
 
-    1. On the **Databases** screen, select <img src="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px"> to open a list of additional actions.
+    1. On the **Databases** screen, select {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" >}} to open a list of additional actions.
 
     1. Select **Database defaults**.
 

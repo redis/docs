@@ -24,6 +24,6 @@ Possible BDB sync values:
 | 'paused' | Pauses the sync process. The process is configured but is not currently executing any sync commands. | 'enabled' <br />'stopped' |
 | 'stopped' | An unrecoverable error occurred during the sync process, which caused the system to stop the sync. | 'enabled' |
 
-{{< image filename="/images/rs/rest-api-bdb-sync.png#no-click "BDB sync"" >}}
+{{< image filename="/images/rs/rest-api-bdb-sync.png#no-click" alt="BDB sync" >}}
 
 When the sync is in the 'stopped' or 'paused' state, then the `last_error` field in the relevant source entry in the `sync_sources` "status" field contains the detailed error message.

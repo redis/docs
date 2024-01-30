@@ -12,11 +12,6 @@
 {{ else }}
 	{{ .Scratch.Set "file" $fname }}
 {{ end }}
-
-<!-- DEBUG: -->
-<!--{{ .Scratch.Get "path" }}-->
-<!--{{ .Scratch.Get "file" }}-->
-
 {{- $width :=  .Get "width" | default "75%" }}
 <a href='{{- .Scratch.Get "path" -}}{{.Page.Params.id}}{{- .Scratch.Get "file" -}}' sdata-lightbox="{{- .Scratch.Get "file" -}}">
 	<img src='{{- .Scratch.Get "path" -}}{{.Page.Params.id}}{{- .Scratch.Get "file" -}}' style="border:0px" 

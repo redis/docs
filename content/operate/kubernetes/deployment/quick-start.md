@@ -17,7 +17,7 @@ To deploy Redis Enterprise Software for Kubernetes and start your Redis Enterpri
 - Apply the operator bundle and verify it's running.
 - Create a Redis Enterprise cluster (REC).
 
-This guide works with most supported Kubernetes distributions. If you're using OpenShift, see [Redis Enterprise on OpenShift]({{< relref "/operate/kubernetes/deployment/openshift/_index.md" >}}). For details on what is currently supported, see [supported distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions.md" >}}).
+This guide works with most supported Kubernetes distributions. If you're using OpenShift, see [Redis Enterprise on OpenShift]({{< relref "/operate/kubernetes/deployment/openshift" >}}). For details on what is currently supported, see [supported distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions.md" >}}).
 
 
 ## Prerequisites
@@ -41,7 +41,7 @@ Throughout this guide, each command is applied to the namespace in which the Red
   kubectl create namespace <rec-namespace>
   ```
 
-. Change the namespace context to make the newly created namespace default for future commands.
+2. Change the namespace context to make the newly created namespace default for future commands.
 
   ```sh
   kubectl config set-context --current --namespace=<rec-namespace>

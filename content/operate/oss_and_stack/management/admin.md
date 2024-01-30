@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Advice for configuring and managing Redis in production
 linkTitle: Administration
 title: Redis administration
