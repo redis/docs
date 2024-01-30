@@ -91,7 +91,7 @@ select {
 }
 
 #TableOfContents a {
-  @apply relative block text-redis-pen-600 hover:text-redis-pen-300 py-0.5 pl-6 transition-colors leading-6;
+  @apply relative block text-redis-pen-600 hover:text-redis-pen-300 -my-0.5 py-1 pl-6 transition-colors leading-6;
 }
 
 #TableOfContents a:before {
@@ -100,7 +100,7 @@ select {
 }
 
 #TableOfContents a.active {
-  @apply text-redis-ink-900 before:bg-redis-ink-900 pointer-events-none;
+  @apply text-redis-ink-900 before:bg-redis-ink-900 pointer-events-none z-40;
 }
 
 /* search */
