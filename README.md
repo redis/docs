@@ -86,6 +86,21 @@ RelRefs with dots (`.`) and hashtags (`#`) in the reference name, such as `/comm
 [compaction]({{< baseurl >}}/develop/data-types/timeseries/configuration#compaction_policy)
 ```
 
+## Images
+
+The image shortcode doesn't need to be closed anymore. Here is an example;
+
+```
+{{< image filename="/images/rc/icon-database-update-status-pending.png" alt="Database update" >}}
+```
+
+The `filename` property value can be any file name path which is relative to the site's base path.
+
+We added a new property `class` which allows you to override the CSS class of the image. Images have by default a `block` display in Tailwind. You can change this by setting the class property to `inline`. The following example shows two images that are in a single line:
+
+```
+{{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" >}} &nbsp; {{< image filename="/images/rc/icon-database-update-status-active.png#no-click" alt="Active database status" class="inline" >}}
+```
 
 ## Templating
 
