@@ -25,7 +25,7 @@ To programmatically maintain an Active-Active database and its instances, you ca
 
 ## `crdb-cli` commands
 
-
+{{<table-children columnNames="Command,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
 ## Use the crdb-cli
 

@@ -14,4 +14,4 @@ The `crdb-cli task` commands help investigate Active-Active database performance
 
 ## `crdb-cli task` commands
 
-
+{{<table-children columnNames="Command,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}

@@ -14,3 +14,4 @@ The RedisGears JVM plugin provides a set of classes and functions for you to use
 
 ## Classes
 
+{{<table-children columnNames="Class,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}

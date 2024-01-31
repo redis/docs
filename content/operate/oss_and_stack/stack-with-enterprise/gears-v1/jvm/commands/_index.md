@@ -15,7 +15,7 @@ Use a Redis client like `redis-cli` to send commands to the RedisGears JVM plugi
 
 ## JVM plugin commands
 
-
+{{<table-children columnNames="Command,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
 See the general [RedisGears commands](https://oss.redis.com/redisgears/commands.html) page for more commands.
 
