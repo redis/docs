@@ -1,6 +1,3 @@
----
-{}
----
 Here, you can:
 
 - Select **Add tag** to add a tag.

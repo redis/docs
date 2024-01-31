@@ -1,6 +1,3 @@
----
-{}
----
 1. Verify the `admission-tls` secret exists.
 
     ```sh

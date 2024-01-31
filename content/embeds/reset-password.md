@@ -1,6 +1,3 @@
----
-{}
----
 To reset a user password from the CLI, run:
 
 `rladmin cluster reset_password <username>`

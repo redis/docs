@@ -1,6 +1,3 @@
----
-{}
----
 ## Give it a try
 
 After you load RedisGraph, you can interact with it using redis-cli.

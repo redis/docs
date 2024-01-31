@@ -1,6 +1,3 @@
----
-{}
----
 To enable TLS for Replica Of cluster connections:
 
 1. For each cluster hosting a replica:

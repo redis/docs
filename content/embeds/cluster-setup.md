@@ -1,6 +1,3 @@
----
-{}
----
 1. In the web browser on the host machine, go to [https://localhost:8443/new](https://localhost:8443/new) to see
 the new Redis Enterprise Software Cluster Manager UI. The cluster generates self-signed TLS certificates to secure the connection.  These self-signed certificates are unknown to the browser and must be accepted before you proceed.
 

@@ -1,6 +1,3 @@
----
-{}
----
 By default, Redis Enterprise Software deployments use DNS to communicate between nodes.  You can also use the [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}), which uses IP addresses to connect and complies with the [Redis Sentinel API](https://redis.io/topics/sentinel) supported by open source Redis.
 
 Each node in a Redis Enterprise cluster includes a small DNS server to manage internal functions, such as high availability, automatic failover, automatic migration, and so on.

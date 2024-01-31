@@ -1,6 +1,3 @@
----
-{}
----
 | heading 1 | heading 2 | heading 3 |
 | :-----| :-----: |-----: |
 | cell 1x1  | cell 1x2  | cell 1x3  |

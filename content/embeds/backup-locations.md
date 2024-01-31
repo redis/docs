@@ -1,6 +1,3 @@
----
-{}
----
 ### FTP server
 
 Before you choose to backup to an FTP server, make sure that:

@@ -1,6 +1,3 @@
----
-{}
----
 In addition to the shard placement policy, considerations that determine shard placement are:
 
 - Separation of master and replica shards

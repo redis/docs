@@ -1,6 +1,3 @@
----
-{}
----
 The hardware requirements for Redis Enterprise Software are different for development and production environments.
 
 - In a development environment, you can test your application with a live database.

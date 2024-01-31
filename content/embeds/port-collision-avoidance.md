@@ -1,6 +1,3 @@
----
-{}
----
 To avoid port collision, update `/etc/sysctl.conf` to include:
 
 ``` sh

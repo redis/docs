@@ -1,6 +1,3 @@
----
-{}
----
 Yes we are. Not only are we are the home of Redis, but most of the core engineers on open source Redis also work here.  We contribute extensively to the open source Redis project. As a rule, we adhere to the open source’s specifications and make every effort to update our service with its latest versions.
 
 That said, the following Redis features are not applicable in the context of our service:

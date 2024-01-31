@@ -1,6 +1,3 @@
----
-{}
----
 Redis OSS Cluster API reduces access times and latency with near-linear scalability.
 The Redis OSS Cluster API provides a simple mechanism for Redis clients to know the cluster topology.
 

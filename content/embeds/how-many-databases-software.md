@@ -1,6 +1,3 @@
----
-{}
----
 The number of databases is unlimited. The limiting factor is the
 available memory in the cluster, and the number of shards in the
 subscription.

@@ -1,6 +1,3 @@
----
-{}
----
 To encrypt Replica Of synchronization traffic, you must also [configure encryption for the replica database]({{< relref "/operate/rs/databases/import-export/replica-of/create#configure-tls-on-replica-database" >}}) (the destination).
 
 ### Encrypt source synchronization traffic

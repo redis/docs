@@ -1,6 +1,3 @@
----
-{}
----
 1. On the **Databases** screen, select **Quick database**.
 
     {{<image filename="images/rs/screenshots/databases/db-screen.png" alt="Select Quick database on the Databases screen." >}}

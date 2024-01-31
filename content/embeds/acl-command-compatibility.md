@@ -1,6 +1,3 @@
----
-{}
----
 | Command | Supported |
 |:--------|:----------|
 | [ACL CAT](https://redis.io/commands/acl-cat) | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> 

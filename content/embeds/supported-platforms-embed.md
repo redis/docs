@@ -1,6 +1,3 @@
----
-{}
----
 
 Redis Enterprise Software is supported on several operating systems, cloud environments, and virtual environments.
 
