@@ -229,6 +229,10 @@ select {
   @apply before:bg-redis-ink-900 pointer-events-none;
 }
 
+.child-list a.active-red {
+  @apply before:bg-redis-red-500 pointer-events-none;
+}
+
 #search-cancel {
   appearance: none;
   flex: none;
