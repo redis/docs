@@ -81,6 +81,10 @@
   @apply text-redis-ink-900;
 }
 
+.prose .alert p {
+  @apply m-0;
+}
+
 select {
   background-repeat: no-repeat;
   background-size: 1.5em 1.5em;

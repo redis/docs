@@ -1,7 +1,8 @@
-<div class="relative pl-9 text-sm before:content-[''] before:absolute before:left-0 before:top-1.5 before:w-2 before:h-2 before:rounded before:bg-black">
-  <div>
+<div class="alert p-3 relative flex flex-row items-center text-sm bg-redis-pencil-200 rounded-md">
+  <div class="p-2 pr-5">{{ partial "icons/alert-circle.html" }}</div>
+  <div class="p-1 pl-6 border-l border-l-redis-ink-900 border-opacity-50">
   {{ with .Get "title" }}
-  <div class="font-medium">{{ . | safeHTML }}</div>
+  <div class="font-medium">{{ . | safeHTML }}:</div>
   {{ end }}
   {{- .Inner | markdownify -}}
   </div>
