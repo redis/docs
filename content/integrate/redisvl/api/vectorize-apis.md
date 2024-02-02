@@ -204,7 +204,7 @@ Initialize the OpenAI vectorizer.
 
 **Raises**:
 
-- `ImportError` - If the openai library is not installed.
+- `ImportError` - If the OpenAI library is not installed.
 - `ValueError` - If the OpenAI API key is not provided.
 
 
@@ -639,7 +639,7 @@ task downstream, you should set input_type= "classification" or
 
 **Raises**:
 
-- `TypeError` - In an invalid input_type is provided.
+- `TypeError` - If an invalid input_type is provided.
 
 
 # vectorize.base

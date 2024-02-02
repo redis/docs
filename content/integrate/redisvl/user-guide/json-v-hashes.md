@@ -44,7 +44,7 @@ table_print(data)
 Both storage options offer a variety of features and tradeoffs. Below we will work through a dummy dataset to learn when and how to use both.
 
 ### Working with Hashes
-Hashes in Redis are simple collections of field-value pairs. Think of it like a mutable single-level dictionary contains multiple "rows":
+Hashes in Redis are simple collections of field-value pairs. Think of it like a mutable single-level dictionary that contains multiple "rows":
 
 
 ```python

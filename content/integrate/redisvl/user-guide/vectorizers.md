@@ -196,13 +196,13 @@ pip install cohere
 
 ```python
 import getpass
-# setup the API Key
+# set up the API Key
 api_key = os.environ.get("COHERE_API_KEY") or getpass.getpass("Enter your Cohere API key: ")
 ```
 
 Special attention needs to be paid to the `input_type` parameter for each `embed` call. For example, for embedding 
 queries, you should set `input_type='search_query'`; for embedding documents, set `input_type='search_document'`. See
-more information [here](https://docs.cohere.com/reference/embed)
+more information [here](https://docs.cohere.com/reference/embed).
 
 ```python
 from redisvl.vectorize.text import CohereTextVectorizer

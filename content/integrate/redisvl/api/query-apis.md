@@ -59,7 +59,7 @@ def set_paging(first: int, limit: int)
 ```
 
 Set the paging parameters for the query to limit the results between
-fist and num_results.
+first and num_results.
 
 **Arguments**:
 
@@ -289,7 +289,7 @@ Read more: https://redis.io/docs/interact/search-and-query/search/vectors/`range
 - `filter_expression` _FilterExpression, optional_ - A filter to apply to the query. Defaults to None.
 - `dtype` _str, optional_ - The dtype of the vector. Defaults to "float32".
 - `distance_threshold` _str, float_ - The threshold for vector distance. Defaults to 0.2.
-- `num_results` _int_ - The MAX number of results to return. defaults to 10.
+- `num_results` _int_ - The MAX number of results to return. Defaults to 10.
 - `return_score` _bool, optional_ - Whether to return the score. Defaults to True.
   
 
