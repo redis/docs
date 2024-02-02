@@ -5,10 +5,10 @@
 {{ define "main" }}
 <main>
   <header class="h-96 bg-redis-ink-900 text-white">
-    <div class="w-[800px] mx-auto px-5 flex flex-col gap-8 items-center justify-center h-full">
-      <h1 class="text-5xl font-medium">{{ .Title }}</h1>
+    <div class="max-w-[800px] mx-auto px-5 flex flex-col gap-8 md:items-center justify-center h-full">
+      <h1 class="text-3xl md:text-5xl font-medium">{{ .Title }}</h1>
       {{ with .Params.description }}
-      <p class="text-2xl">{{ . | markdownify }}</p>
+      <p class="text-xl md:text-2xl">{{ . | markdownify }}</p>
       {{ end }}
       <form class="flex flex-row items-center border border-redis-pen-600 rounded-md px-6 gap-6 w-full">
         <label class="" for="search-input-home" id="search-label-home">
@@ -20,24 +20,69 @@
       </form>
     </div>
   </header>
-  <div class="flex flex-row px-11 py-28 max-w-[1440px] min-h-[100rem]">
-    <div class="md:sticky md:top-32 w-full md:w-64 h-fit md:h-full shrink-0 text-sm font-mono font-normal">
-      <nav class="w-full md:w-64 z-40 bg-white h-fit md:h-full leading-7">
+  <div class="flex flex-col lg:flex-row gap-8 px-4 md:px-11 py-6 md:py-28 max-w-[1440px]">
+    <div class="lg:sticky lg:top-32 w-full lg:w-64 h-fit lg:h-full shrink-0 text-sm font-mono font-normal">
+      <nav class="w-full lg:w-64 z-40 bg-white h-fit lg:h-full leading-7">
         <div id="sidebar" class="max-h-[calc(100vh-7rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
-          <div class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer md:cursor-default">
+          <div class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer lg:cursor-default">
             <a href="">{{ .Title }}</a>
-            <span class="md:hidden self-center">{{ partial "icons/chevron.html" }}</span>
+            <span class="lg:hidden self-center">{{ partial "icons/chevron.html" }}</span>
           </div>
-          <div class="hidden md:block p-6 pl-0 border-y border-opacity-50 border-y-redis-ink-900 text-redis-pen-600">
+          <div class="hidden lg:block p-6 pl-0 border-y border-opacity-50 border-y-redis-ink-900 text-redis-pen-600">
             <ul class="child-list  overflow-y-auto ">
               <li class=""><a class="active-red pl-6 text-redis-ink-900 font-bold before:bg-redis-red-500">Section 1 - Title</a></li>
               <li><a class="pl-6">Section 2 - Title</a></li>
               <li><a class="pl-6">Section 3 - Title</a></li>
             </ul>
           </div>
-          <div class="hidden md:block w-full py-7"></div>
+          <div class="hidden lg:block w-full py-7"></div>
         </div>
       </nav>
+    </div>
+    <div class="lg:px-11 w-full">
+      <div>
+        <h1 class="text-5xl font-medium">Develop</h1>
+        <div class="w-full border-t border-t-redis-pen-300 mt-14 pt-14 flex flex-col md:flex-row gap-11 md:gap-0">
+          <div class="flex flex-col gap-5 flex-1">
+            <h3 class="text-2xl">Cloud</h3>
+            <p>Hosted and serverless database-as-a-service (DBaaS). The fastest way to deploy Redis Enterprise via Amazon AWS, Google Cloud Platform, or Microsoft Azure.</p>
+            <button class="p-4 mt-3 mr-auto text-sm font-mono bg-redis-yellow-500 border border-redis-pen-600 rounded hover:bg-redis-yellow-300 transition-colors">Get started</button>
+          </div>
+          <div class="flex-1">
+            <div class="h-full flex flex-col md:flex-row gap-11 md:gap-8 md:pl-8 md:ml-8 md:border-l md:border-l-redis-pen-300">
+              <div class="flex flex-col gap-5 flex-1">
+                <p class="uppercase">Redis Cloud Services</p>
+                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Overview →</a>
+              </div>
+              <div class="flex flex-col gap-5 flex-1">
+                <p class="uppercase">Learn more about</p>
+                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Subscriptions →</a>
+                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Databases →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full border-t border-t-redis-pen-300 mt-14 pt-14 flex flex-col md:flex-row gap-11 md:gap-0">
+          <div class="flex flex-col gap-5 flex-1">
+            <h3 class="text-2xl">Software</h3>
+            <p>A self-managed data platform that unlocks the full potential of Redis at enterprise scale.</p>
+            <button class="p-4 mt-3 mr-auto text-sm font-mono bg-redis-yellow-500 border border-redis-pen-600 rounded hover:bg-redis-yellow-300 transition-colors">Get started</button>
+          </div>
+          <div class="flex-1">
+            <div class="h-full flex flex-col md:flex-row gap-11 md:gap-8 md:pl-8 md:ml-8 md:border-l md:border-l-redis-pen-300">
+              <div class="flex flex-col gap-5 flex-1">
+                <p class="uppercase">Redis Enterprise Services</p>
+                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Overview →</a>
+              </div>
+              <div class="flex flex-col gap-5 flex-1">
+                <p class="uppercase">Learn more about</p>
+                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Clusters →</a>
+                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Databases →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
