@@ -39,10 +39,10 @@
         </div>
       </nav>
     </div>
-    <div class="lg:px-11 w-full">
+    <div class="lg:px-11 w-full flex flex-col gap-24">
       <div>
         <h1 class="text-5xl font-medium">Develop</h1>
-        <div class="w-full border-t border-t-redis-pen-300 mt-14 pt-14 flex flex-col md:flex-row gap-11 md:gap-0">
+        {{/*  <div class="w-full border-t border-t-redis-pen-300 mt-14 pt-14 flex flex-col md:flex-row gap-11 md:gap-0">
           <div class="flex flex-col gap-5 flex-1">
             <h3 class="text-2xl">Cloud</h3>
             <p>Hosted and serverless database-as-a-service (DBaaS). The fastest way to deploy Redis Enterprise via Amazon AWS, Google Cloud Platform, or Microsoft Azure.</p>
@@ -61,27 +61,83 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="w-full border-t border-t-redis-pen-300 mt-14 pt-14 flex flex-col md:flex-row gap-11 md:gap-0">
-          <div class="flex flex-col gap-5 flex-1">
-            <h3 class="text-2xl">Software</h3>
-            <p>A self-managed data platform that unlocks the full potential of Redis at enterprise scale.</p>
-            <button class="p-4 mt-3 mr-auto text-sm font-mono bg-redis-yellow-500 border border-redis-pen-600 rounded hover:bg-redis-yellow-300 transition-colors">Get started</button>
-          </div>
-          <div class="flex-1">
-            <div class="h-full flex flex-col md:flex-row gap-11 md:gap-8 md:pl-8 md:ml-8 md:border-l md:border-l-redis-pen-300">
-              <div class="flex flex-col gap-5 flex-1">
-                <p class="uppercase">Redis Enterprise Services</p>
-                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Overview →</a>
-              </div>
-              <div class="flex flex-col gap-5 flex-1">
-                <p class="uppercase">Learn more about</p>
-                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Clusters →</a>
-                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Databases →</a>
-              </div>
-            </div>
-          </div>
-        </div>
+        </div>  */}}
+        {{ partial "docs-section.html" (dict
+          "Title" "Cloud"
+          "Description" "Hosted and serverless database-as-a-service (DBaaS). The fastest way to deploy Redis Enterprise via Amazon AWS, Google Cloud Platform, or Microsoft Azure."
+          "LinksLeftTitle" "Redis Cloud Services"
+          "LinksLeft" (slice
+          (dict "Text" "Overview" "URL" "/"))
+          "LinksRightTitle" "Learn more about"
+          "LinksRight" (slice
+            (dict "Text" "Subscriptions" "URL" "/")
+            (dict "Text" "Databases" "URL" "/")
+            )
+          ) }}
+        {{ partial "docs-section.html" (dict
+          "Title" "Software"
+          "Description" "A self-managed data platform that unlocks the full potential of Redis at enterprise scale."
+          "ButtonLabel" "Get started"
+          "ButtonLink" "#"
+          "LinksLeftTitle" "Redis Enterprise Services"
+          "LinksLeft" (slice
+              (dict "Text" "Overview" "URL" "/"))
+          "LinksRightTitle" "Learn more about"
+          "LinksRight" (slice
+              (dict "Text" "Clusters" "URL" "/")
+              (dict "Text" "Databases" "URL" "/")
+          )
+        ) }}
+      </div>
+      <div>
+        <h1 class="text-5xl font-medium">Operate</h1>
+        {{ partial "docs-section.html" (dict
+          "Title" "Kubernetes"
+          "Description" "Redis Enterprise deployed on containerized software platforms and integrated with our partners."
+          "LinksLeftTitle" "Learn more about"
+          "LinksLeft" (slice
+            (dict "Text" "Architecture" "URL" "/")
+            (dict "Text" "Clusters" "URL" "/")
+            (dict "Text" "Deployments" "URL" "/")
+            (dict "Text" "Databases" "URL" "/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
+          "Title" "Redis stack"
+          "Description" "Redis Enterprise supports Redis Stack features (formerly modules), which extend the core Redis feature set."
+          "LinksLeftTitle" "Learn more about"
+          "LinksLeft" (slice
+            (dict "Text" "Search and query" "URL" "/")
+            (dict "Text" "JSON" "URL" "/")
+            (dict "Text" "Time series" "URL" "/")
+            (dict "Text" "Probabilistic" "URL" "/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
+          "Title" "Redis data integration"
+          "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
+          "LinksLeftTitle" "Redis Data Integration Services"
+          "LinksLeft" (slice
+          (dict "Text" "Overview" "URL" "/"))
+          "LinksRightTitle" "Learn more about"
+          "LinksRight" (slice
+            (dict "Text" "Subscriptions" "URL" "/")
+            (dict "Text" "Databases" "URL" "/")
+          )
+        ) }}
+      </div>
+      <div>
+        <h1 class="text-5xl font-medium">Explore</h1>
+        {{ partial "docs-section.html" (dict
+          "Title" "RedisInsight"
+          "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
+          "LinksLeftTitle" "Learn more about"
+          "LinksLeft" (slice
+            (dict "Text" "Installation guide" "URL" "/")
+            (dict "Text" "Subscriptions" "URL" "/")
+            (dict "Text" "Databases" "URL" "/")
+          )
+        ) }}
       </div>
     </div>
   </div>
