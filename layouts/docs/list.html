@@ -23,13 +23,13 @@
   <div class="flex flex-col lg:flex-row gap-8 mx-auto px-4 md:px-11 py-6 md:py-28 max-w-[1440px]">
     <div class="lg:sticky lg:top-32 w-full lg:w-64 h-fit lg:h-full shrink-0 text-sm font-mono font-normal">
       <nav class="w-full lg:w-64 z-40 bg-white h-fit lg:h-full leading-7">
-        <div id="sidebar" class="border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
-          <div class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer lg:cursor-default">
-            <a class="uppercase" href="">{{ .Title }}</a>
-            <span class="lg:hidden self-center">{{ partial "icons/chevron.html" }}</span>
-          </div>
-          <div class="hidden lg:block p-6 border-t border-opacity-50 border-redis-ink-900 text-redis-pen-600">
-            <ul id="TableOfContents" class="docs-toc">
+        <div class="border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
+          <button class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer lg:cursor-default" onclick="dropdownToggle()">
+            <div class="uppercase">{{ .Title }}</div>
+            <div id="dropdownChevron" class="lg:hidden self-center">{{ partial "icons/chevron.html" }}</div>
+          </button>
+          <div id="dropdown" class="hidden lg:block border-t border-opacity-50 border-redis-ink-900 text-redis-pen-600">
+            <ul id="TableOfContents" class="docs-toc p-6">
               <li><a class="pl-6" href="#develop">Develop</a></li>
               <li><a class="pl-6" href="#operate">Operate</a></li>
               <li><a class="pl-6" href="#explore">Explore</a></li>
@@ -64,6 +64,7 @@
         {{ partial "docs-section.html" (dict
           "Title" "Cloud"
           "Description" "Hosted and serverless database-as-a-service (DBaaS). The fastest way to deploy Redis Enterprise via Amazon AWS, Google Cloud Platform, or Microsoft Azure."
+          "ButtonLink" ""
           "LinksLeftTitle" "Redis Cloud Services"
           "LinksLeft" (slice
           (dict "Text" "Overview" "URL" "/"))
@@ -76,6 +77,7 @@
         {{ partial "docs-section.html" (dict
           "Title" "Software"
           "Description" "A self-managed data platform that unlocks the full potential of Redis at enterprise scale."
+          "ButtonLink" ""
           "ButtonLabel" "Get started"
           "ButtonLink" "#"
           "LinksLeftTitle" "Redis Enterprise Services"
@@ -93,6 +95,7 @@
         {{ partial "docs-section.html" (dict
           "Title" "Kubernetes"
           "Description" "Redis Enterprise deployed on containerized software platforms and integrated with our partners."
+          "ButtonLink" ""
           "LinksLeftTitle" "Learn more about"
           "LinksLeft" (slice
             (dict "Text" "Architecture" "URL" "/")
@@ -104,6 +107,7 @@
         {{ partial "docs-section.html" (dict
           "Title" "Redis stack"
           "Description" "Redis Enterprise supports Redis Stack features (formerly modules), which extend the core Redis feature set."
+          "ButtonLink" ""
           "LinksLeftTitle" "Learn more about"
           "LinksLeft" (slice
             (dict "Text" "Search and query" "URL" "/")
@@ -115,6 +119,7 @@
         {{ partial "docs-section.html" (dict
           "Title" "Redis data integration"
           "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
+          "ButtonLink" ""
           "LinksLeftTitle" "Redis Data Integration Services"
           "LinksLeft" (slice
           (dict "Text" "Overview" "URL" "/"))
@@ -130,6 +135,7 @@
         {{ partial "docs-section.html" (dict
           "Title" "RedisInsight"
           "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
+          "ButtonLink" ""
           "LinksLeftTitle" "Learn more about"
           "LinksLeft" (slice
             (dict "Text" "Installation guide" "URL" "/")
@@ -140,5 +146,13 @@
       </div>
     </div>
   </div>
+  <script>
+    function dropdownToggle() {
+      document.getElementById('dropdownChevron').classList.toggle('rotate-180');
+      document.getElementById('dropdown').classList.toggle('hidden');
+    }
+  </script>
 </main>
+
+
 {{ end }}
