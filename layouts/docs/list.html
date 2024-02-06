@@ -23,25 +23,24 @@
   <div class="flex flex-col lg:flex-row gap-8 mx-auto px-4 md:px-11 py-6 md:py-28 max-w-[1440px]">
     <div class="lg:sticky lg:top-32 w-full lg:w-64 h-fit lg:h-full shrink-0 text-sm font-mono font-normal">
       <nav class="w-full lg:w-64 z-40 bg-white h-fit lg:h-full leading-7">
-        <div id="sidebar" class="max-h-[calc(100vh-7rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
+        <div id="sidebar" class="border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
           <div class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer lg:cursor-default">
             <a class="uppercase" href="">{{ .Title }}</a>
             <span class="lg:hidden self-center">{{ partial "icons/chevron.html" }}</span>
           </div>
-          <div class="hidden lg:block p-6 pl-0 border-y border-opacity-50 border-y-redis-ink-900 text-redis-pen-600">
-            <ul class="child-list  overflow-y-auto ">
-              <li class=""><a class="active-red pl-6 text-redis-ink-900 font-bold before:bg-redis-red-500">Section 1 - Title</a></li>
-              <li><a class="pl-6">Section 2 - Title</a></li>
-              <li><a class="pl-6">Section 3 - Title</a></li>
+          <div class="hidden lg:block p-6 border-t border-opacity-50 border-redis-ink-900 text-redis-pen-600">
+            <ul id="TableOfContents" class="docs-toc">
+              <li><a class="pl-6" href="#develop">Develop</a></li>
+              <li><a class="pl-6" href="#operate">Operate</a></li>
+              <li><a class="pl-6" href="#explore">Explore</a></li>
             </ul>
           </div>
-          <div class="hidden lg:block w-full py-7"></div>
         </div>
       </nav>
     </div>
     <div class="lg:px-11 w-full flex flex-col gap-24">
       <div>
-        <h1 class="text-5xl font-medium">Develop</h1>
+        <h1 class="text-5xl font-medium" id="develop">Develop</h1>
         {{/*  <div class="w-full border-t border-t-redis-pen-300 mt-14 pt-14 flex flex-col md:flex-row gap-11 md:gap-0">
           <div class="flex flex-col gap-5 flex-1">
             <h3 class="text-2xl">Cloud</h3>
@@ -90,7 +89,7 @@
         ) }}
       </div>
       <div>
-        <h1 class="text-5xl font-medium">Operate</h1>
+        <h1 class="text-5xl font-medium" id="operate">Operate</h1>
         {{ partial "docs-section.html" (dict
           "Title" "Kubernetes"
           "Description" "Redis Enterprise deployed on containerized software platforms and integrated with our partners."
@@ -127,7 +126,7 @@
         ) }}
       </div>
       <div>
-        <h1 class="text-5xl font-medium">Explore</h1>
+        <h1 class="text-5xl font-medium" id="explore">Explore</h1>
         {{ partial "docs-section.html" (dict
           "Title" "RedisInsight"
           "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
