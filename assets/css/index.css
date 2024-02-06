@@ -107,6 +107,10 @@ select {
   @apply text-redis-ink-900 before:bg-redis-ink-900 pointer-events-none z-40;
 }
 
+#TableOfContents.docs-toc a.active {
+  @apply before:bg-redis-red-500 pointer-events-none text-redis-ink-900 font-bold;
+}
+
 /* search */
 .search-active {
   @apply overflow-hidden !important;
@@ -227,10 +231,6 @@ select {
 
 .child-list a.active {
   @apply before:bg-redis-ink-900 pointer-events-none;
-}
-
-.child-list a.active-red {
-  @apply before:bg-redis-red-500 pointer-events-none;
 }
 
 #search-cancel {
