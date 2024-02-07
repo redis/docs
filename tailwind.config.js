@@ -8,6 +8,7 @@ module.exports = {
       fontFamily: {
 				sans: [ 'Space Grotesk', ...defaultTheme.fontFamily.sans ],
 				mono: [ 'Space Mono', 'SF Mono', ...defaultTheme.fontFamily.mono ],
+				trailers: [ 'TT Trailers', ...defaultTheme.fontFamily.sans ],
       },
 			colors: {
 				midnight: {

@@ -31,9 +31,19 @@
     font-style: normal;
     font-display: swap;
   }
+
+  @font-face {
+    font-family: 'TT Trailers';
+    src: url('{{ $basePath }}/fonts/TT_Trailers_Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
 </style>
 
 {{/* Todo: Could probably delete old font files?  */}}
 <link rel="preload" href='{{ $basePath }}/fonts/SpaceMono-Regular.ttf' as="font" type="font/ttf" crossorigin />
 <link rel="preload" href='{{ $basePath }}/fonts/SpaceMono-Bold.ttf' as="font" type="font/ttf" crossorigin />
 <link rel="preload" href='{{ $basePath }}/fonts/SpaceGrotesk-VariableFont_wght.ttf' as="font" type="font/ttf" crossorigin />
+<link rel="preload" href='{{ $basePath }}/fonts/TT_Trailers_Bold.woff2' as="font" type="font/woff2" crossorigin />
+
