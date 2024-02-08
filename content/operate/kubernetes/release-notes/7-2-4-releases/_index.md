@@ -26,7 +26,7 @@ The following are the notable changes:
 
 ## Detailed release notes
 
-
+{{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
 ## Version changes
 
