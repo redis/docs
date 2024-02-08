@@ -1,16 +1,43 @@
 <header class="sticky top-0 z-50 w-full border border-b-redis-pen-300 bg-white text-midnight-900 font-mono text-sm flex justify-center">
   {{/*  {{ partial "banner.html" . }}  */}}
   <div class="flex h-16 px-4 lg:pl-11 lg:pr-0 justify-between self-center grow">
-    <div class="h-full flex gap-7 items-center">
-      <a class="relative mr-6 transition-colors text-redis-red-500 hover:text-redis-red-600" href="{{ .Site.Home.RelPermalink }}">
+    <div class="h-full flex gap-6 items-center">
+      <a class="relative mr-4 transition-colors text-redis-red-500 hover:text-redis-red-600" href="{{ .Site.Home.RelPermalink }}">
         {{ partial "icons/logo-script.html" }}
       </a>
-      <a class="hidden lg:flex group flex-row gap-2 items-center cursor-pointer" href="/develop"><span class="group-hover:font-bold group-hover:tracking-tight">Products</span><span class="text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span></a>
-      <a class="hidden lg:flex group flex-row gap-2 items-center cursor-pointer"><span class="group-hover:font-bold group-hover:tracking-tight">Solutions</span><span class="text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span></a>
-      <a class="hidden lg:flex group flex-row gap-2 items-center cursor-pointer"><span class="group-hover:font-bold group-hover:tracking-tight">Support</span><span class="text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span></a>
-      <a class="hidden lg:flex group flex-row gap-2 items-center cursor-pointer"><span class="group-hover:font-bold group-hover:tracking-tight">Company</span><span class="text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span></a>
-      <a class="hidden lg:flex group flex-row gap-2 items-center cursor-pointer"><span class="group-hover:font-bold group-hover:tracking-tight">Docs</span><span class="text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span></a>
-      <a class="hidden lg:flex group flex-row gap-2 items-center cursor-pointer"><span class="group-hover:font-bold group-hover:tracking-tight">Pricing</span></a>
+      <div class="hidden lg:flex flex-row h-full items-center">
+        <div class="group h-full px-3">
+          <div class="flex flex-row h-full items-center cursor-pointer">
+            <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Products</span><span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span>
+          </div>
+          {{ partial "header/products-dropdown.html" . }}
+        </div>
+        <div class="group h-full px-3">
+          <div class="flex flex-row h-full items-center cursor-pointer">
+            <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Solutions</span><span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span>
+          </div>
+          {{ partial "header/solutions-dropdown.html" . }}
+        </div>
+        <div class="group h-full px-3">
+          <div class="flex flex-row h-full items-center cursor-pointer">
+            <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Support</span><span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span>
+          </div>
+          {{ partial "header/support-dropdown.html" . }}
+        </div>
+        <div class="group h-full px-3">
+          <div class="flex flex-row h-full items-center cursor-pointer">
+            <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Company</span><span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span>
+          </div>
+          {{ partial "header/company-dropdown.html" . }}
+        </div>
+        <div class="group h-full px-3">
+          <div class="flex flex-row h-full items-center cursor-pointer">
+            <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Docs</span><span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span>
+          </div>
+          {{ partial "header/docs-dropdown.html" . }}
+        </div>
+      </div>
+      <a class="hidden lg:flex group flex-row gap-2 items-center" href=""><span class="group-hover:font-bold group-hover:tracking-tight">Pricing</span></a>
     </div>
 
     <div class="h-full flex gap-7 items-center text-center">
