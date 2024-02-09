@@ -3,7 +3,7 @@
 {{ end }}
 
 {{ define "main" }}
-  <main class="docs w-full max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 md:flex gap-16 relative">
+  <main class="docs w-full max-w-[1440px] mx-auto px-11 flex flex-col md:flex-row gap-8 lg:gap-16">
     <section class="w-full py-12">
       <h1 class="text-3xl tracking-tighter font-semibold text-redis-ink-900">Commands</h1>
 
@@ -25,7 +25,7 @@
                 {{ $id }}
               </option>
           {{ end */}}
-          <optgroup label="Core">rounded-md
+          <optgroup label="Core">
             <option value="bitmap" data-kind="core">Bitmap</option>
             <option value="cluster" data-kind="core">Cluster management</option>
             <option value="connection" data-kind="core">Connection management</option>

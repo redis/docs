@@ -1,4 +1,7 @@
-<div class="pl-4 border-l-8">
-    <div class="font-semibold text-slate-900">Tip:</div>
-    {{- .Inner | markdownify -}}
+<div class="alert p-3 relative flex flex-row items-center text-sm bg-redis-pencil-200 rounded-md">
+    <div class="p-2 pr-5">{{ partial "icons/alert-circle.html" }}</div>
+    <div class="p-1 pl-6 border-l border-l-redis-ink-900 border-opacity-50">
+    <div class="font-medium">Tip:</div>
+        {{- .Inner | markdownify -}}
+    </div>
 </div>

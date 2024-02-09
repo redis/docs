@@ -1,45 +1,4 @@
 {{ define "li" -}}
-  {{ $s := .section -}}
-  {{ $p := .page -}}
-  {{ $ulNr := .ulNr -}}
-  {{ $ulShow := .ulShow -}}
-  {{ $active := eq $s $p -}}
-  {{ $activePath := $p.IsDescendant $s -}}
-  {{ $show := cond (or (lt $ulNr $ulShow) $activePath (eq $s.Parent $p.Parent) (eq $s.Parent $p) ($p.IsDescendant $s.Parent)) true false -}}
-  {{ $pages := (union $s.Pages $s.Sections).ByWeight -}}
-  {{ $withChild := gt (len $pages) 0 -}}
-  {{ $rootDir := lt $ulNr 1 -}}
-
-  {{ if and $show (not (default false $s.Params.hidden)) }}
-    <li class="">
-      <a class="flex justify-start items-center pl-6 py-1.5 {{ if $rootDir}} mb-3 py-4 text-redis-ink-900 border-b border-opacity-50 border-b-redis-ink-900 font-medium {{ else if and ($active) (not $rootDir) }} active text-redis-ink-900{{ else }} text-redis-pen-600 hover:text-redis-pen-400{{ end }}" href="{{ $s.RelPermalink }}">
-        {{ if and $ulNr $withChild }}
-          {{ if or $active $activePath }}
-            <span class="pr-3">↓</span>
-          {{ else }}
-            <span class="pr-3">→</span>
-          {{ end }}
-        {{ end }}  
-        <span class="">{{ $s.LinkTitle }}</span>
-          {{/*  {{ if and (isset $s.Params "stack") (eq $s.Params.stack true)}}
-            {{ partial "icons/logo-stack.html" (dict "context" . "class" "stack-logo-inline") }}
-          {{ end }}  */}}
-      </a>
-      {{- if $withChild }}
-        {{- $ulNr := add $ulNr 1 }}
-        <ul class="{{ if gt $ulNr 1}}child-list{{ end }}">
-          {{ range $pages -}}
-            {{ if (not (eq $s $p.Site.Home)) -}}
-              {{ template "li" (dict "page" $p "section" . "ulNr" $ulNr "ulShow" $ulShow) }}
-            {{- end }}
-          {{- end }}
-        </ul>
-      {{- end }}
-    </li>
-  {{- end }}
-{{- end }}
-
-{{ define "li2" -}}
   {{ $page := .page -}}
   {{ $pages := .pages -}}
 
@@ -61,7 +20,7 @@
     </li>
     {{ if and (gt (len $childPages) 0) (or $isActive $isActivePath)}}
       <ul class="child-list">
-        {{ template "li2" (dict "page" $page "pages" $childPages) }}
+        {{ template "li" (dict "page" $page "pages" $childPages) }}
       </ul>
     {{ end }}
   {{- end }}
@@ -75,8 +34,7 @@
     <div id="sidebar" class="max-h-[calc(100vh-8rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
       <div class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer md:cursor-default"><a href="{{ $navRoot.RelPermalink }}">{{ $navRoot.LinkTitle }}</a><span class="md:hidden self-center">{{ partial "icons/chevron.html" }}</span></div>
       <ul class="hidden md:block overflow-y-auto grow pr-6 border-y border-opacity-50 border-y-redis-ink-900">
-        {{/*  {{ template "li" (dict "page" . "section" $navRoot "ulNr" $ulNr "ulShow" (add $ulShow 1)) }}  */}}
-        {{ template "li2" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
+        {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
       </ul>
       <div class="hidden md:block w-full py-7"></div>
     </div>
