@@ -48,7 +48,7 @@
     {{ $isActivePath := $page.IsDescendant . -}}
     {{ $childPages := (union .Pages .Sections).ByWeight -}}
     <li class="my-2">
-      <a class="pl-6 flex {{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-600 hover:text-redis-pen-400 {{ end }}" href="{{.RelPermalink}}">
+      <a class="pl-6 flex {{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" href="{{.RelPermalink}}">
         {{ if gt (len $childPages) 0 }}
           {{ if or $isActive $isActivePath -}}
             <span class="pr-3">↓</span>
@@ -72,7 +72,7 @@
     {{ $navRoot := cond (eq .Site.Home.Type "docs") .Site.Home .FirstSection -}}
     {{ $ulNr := 0 -}}
     {{ $ulShow := 1 -}}
-    <div id="sidebar" class="max-h-[calc(100vh-7rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
+    <div id="sidebar" class="max-h-[calc(100vh-8rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
       <div class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer md:cursor-default"><a href="{{ $navRoot.RelPermalink }}">{{ $navRoot.LinkTitle }}</a><span class="md:hidden self-center">{{ partial "icons/chevron.html" }}</span></div>
       <ul class="hidden md:block overflow-y-auto grow pr-6 border-y border-opacity-50 border-y-redis-ink-900">
         {{/*  {{ template "li" (dict "page" . "section" $navRoot "ulNr" $ulNr "ulShow" (add $ulShow 1)) }}  */}}
@@ -91,9 +91,9 @@
     window.addEventListener('scroll', function() {
       const scrolledHeight = window.scrollY + window.innerHeight;
       if (scrolledHeight >= footer.offsetTop) {
-          sidebar.style.maxHeight = `calc(100vh - 7rem - ${scrolledHeight - footer.offsetTop + 20}px)`;
+          sidebar.style.maxHeight = `calc(100vh - 8rem - ${scrolledHeight - footer.offsetTop + 20}px)`;
         } else {
-        sidebar.style.maxHeight = 'calc(100vh - 7rem)';
+        sidebar.style.maxHeight = 'calc(100vh - 8rem)';
       }
     });
   })

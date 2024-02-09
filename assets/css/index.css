@@ -618,7 +618,7 @@ main.download:after {
 }
 
 #alpha-filter-container .active {
-  @apply bg-indigo-50 text-indigo-600 border-indigo-200;
+  @apply bg-red-50 text-redis-red-500 border-red-100;
 }
 
 html {
