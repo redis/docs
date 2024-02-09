@@ -11,7 +11,7 @@ Install `redisvl` into your Python (>=3.8) environment using `pip`:
 $ pip install redisvl
 ```
 
-RedisVL comes with a few dependencies that are automatically installed, however, a few dependencies
+RedisVL comes with a few dependencies that are automatically installed. However, a few dependencies
 are optional and can be installed separately if needed:
 
 ```bash
@@ -19,13 +19,13 @@ $ pip install redisvl[all]  # install vectorizer dependencies
 $ pip install redisvl[dev]  # install dev dependencies
 ```
 
-If you use ZSH, remember to escape the brackets:
+If you use Zsh, remember to escape the brackets:
 
 ```bash
 $ pip install redisvl\[all\]
 ```
 
-This library supports the use of hiredis, so you can also install by running:
+This library supports the use of [hiredis](https://redis.com/lp/hiredis/), so you can also install RedisVL by running:
 
 ```bash
 pip install redisvl[hiredis]
@@ -45,7 +45,7 @@ $ pip install -e .
 
 ## Install Redis
 
-RedisVL requires a distribution of Redis that supports the [Search and Query](https://redis.com/modules/redis-search/) capability, of which there are three:
+RedisVL requires a distribution of Redis that supports the [search and query](https://redis.com/modules/redis-search/) capability, of which there are three:
 
 1. [Redis Cloud](https://redis.com/try-free), a fully managed cloud offering that you can try for free.
 2. [Redis Stack](https://redis.io/docs/getting-started/install-stack/docker/), a local docker image for testing and development.
@@ -53,9 +53,7 @@ RedisVL requires a distribution of Redis that supports the [Search and Query](ht
 
 ### Redis Cloud
 
-Redis Cloud is the easiest way to get started with RedisVL. You can sign up for a free account [here](https://redis.com/try-free). Make sure to have the `Search and Query`
-capability enabled when creating your database.
-
+Redis Cloud is the easiest way to get started with RedisVL. You can sign up for a free account [here](https://redis.com/try-free). Make sure to have the **Search and Query** capability enabled when creating your database.
 
 ### Redis Stack (local development)
 
@@ -66,8 +64,7 @@ in a docker container. To do so, run the following command:
 docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
 ```
 
-This will also spin up the [Redis Insight GUI](https://redis.com/redis-enterprise/redis-insight/) at `http://localhost:8001`.
-
+This will also start the [RedisInsight application](https://redis.com/redis-enterprise/redis-insight/) at `http://localhost:8001`.
 
 ### Redis Enterprise (self-hosted)
 
