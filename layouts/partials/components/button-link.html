@@ -1,1 +1,4 @@
-<a class="w-fit p-4 text-sm font-mono bg-redis-yellow-500 text-redis-ink-900 border border-redis-pen-600 rounded hover:bg-redis-yellow-300 transition-colors" href="{{ .Href }}">{{ .Text }}</a>
+{{ $defaultWidth := "fit" }}
+{{ $defaultColor := "redis-yellow-500" }}
+{{ $defaultHover := "redis-yellow-300" }}
+<a class="w-{{- .Width | default $defaultWidth }} p-4 text-sm font-mono bg-{{- .Color | default $defaultColor }} text-redis-ink-900 border border-redis-pen-600 rounded hover:bg-{{- .Hover | default $defaultHover }} transition-colors" href="{{ .Href }}">{{ .Text }}</a>
