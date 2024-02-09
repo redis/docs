@@ -1,8 +1,8 @@
 ---
-title: Install
-linkTitle: Install
-type: integration
 description: Install RIOT on macOS, Linux, Windows, and Docker
+linkTitle: Install
+title: Install
+type: integration
 weight: 2
 ---
 
@@ -35,7 +35,7 @@ docker run fieldengineering/riot [OPTIONS] [COMMAND]
 
 ## Manual installation
 
-Download the pre-compiled binary from the [releases page](https://github.com/redis-developer/riot/releases), uncompress and copy to the desired location.
+Download the pre-compiled binary from the [releases page](https://github.com/redis-developer/riot/releases), uncompress, and copy to the desired location.
 
 {{< note >}}
 `riot-3.1.5.zip` requires Java 11 or greater to be installed while `riot-standalone-3.1.5-*.zip` includes its own Java runtime and does not require a Java installation.

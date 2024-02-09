@@ -1,8 +1,8 @@
 ---
-title: Other topics
-linkTitle: Other topics
-type: integration
 description: PING and generate-completion
+linkTitle: Other topics
+title: Other topics
+type: integration
 weight: 9
 ---
 

@@ -1,28 +1,29 @@
 ---
-title: Architecture
-linkTitle: Architecture
-type: integration
 description: RIOT architecture
+linkTitle: Architecture
+title: Architecture
+type: integration
 weight: 4
 ---
 
 {{< image filename="/integrate/riot/images/architecture.svg" >}}
 
-{project-title} processes data in batch fashion: a fixed number of records (batch AKA chunk) is read, processed, and written at a time.
-Then the cycle is repeated until there’s no more data on the source.
+RIOT processes data in batch fashion: a fixed number of records (a batch or a chunk) is read, processed, and written at a time.
+Then the cycle is repeated until there is no more data on the source.
 
 ## Keys
-Import commands ([`file-import`]({{< relref "/integrate/riot/files#file_import" >}}), [`faker-import`]({{< relref "/integrate/riot/generators#faker" >}}), [`db-import`]({{< relref "/integrate/riot/databases#database-import" >}})) construct keys from input records by concatenating a keyspace prefix and fields.
+
+Import commands ([`file-import`]({{< relref "/integrate/riot/files#file_import" >}}), [`faker-import`]({{< relref "/integrate/riot/generators#faker" >}}), [`db-import`]({{< relref "/integrate/riot/databases#database-import" >}})) construct keys from input records by concatenating a keyspace prefix with the field names.
 
 {{< image filename="/integrate/riot/images/mapping.png" >}}
 
 ## Batching
 
-The default batch size is 50, which means that an execution step reads 50 items at a time from the source, processes them, and finally writes then to the target.
-If the target is Redis, writing is done in a single command ([Redis Pipelining](https://redis.io/topics/pipelining)) to minimize the number of roundtrips to the server.
+The default batch size is 50, which means that an execution step reads 50 items at a time from the source, processes them, and writes them to the target.
+If the target is Redis, writing is done in a single command (see [Redis Pipelining](https://redis.io/topics/pipelining)) to minimize the number of roundtrips to the server.
 
-You can change the batch size (and hence pipeline size) using the `--batch` option.
-The optimal batch size in terms of throughput depends on many factors like record size and command types (see [Redis Pipeline Tuning](https://stackoverflow.com/a/32165090) for details).
+You can change the batch size (and hence the pipeline size) using the `--batch` option.
+The optimal batch size in terms of throughput depends on many factors like record size and command types. See [Redis Pipeline Tuning](https://stackoverflow.com/a/32165090) for details.
 
 **Batching example**
 
@@ -34,7 +35,7 @@ riot faker-import value="random.nextDouble" --count 10 --batch 1 --sleep 1
 ## Multi-threading
 
 It is possible to parallelize processing by using multiple threads.
-In that configuration, each chunk of items is read, processed, and written in a separate thread of execution.
+In this configuration, each chunk of items is read, processed, and written in a separate thread of execution.
 This is different from partitioning where items would be read by multiple readers.
 Here, only one reader is being accessed from multiple threads.
 
@@ -58,7 +59,7 @@ Processors are applied to records in the following order:
 
 ### Transforms
 
-Transforms allow you to create/update/delete fields using the [Spring Expression Language](https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#expressions) (SpEL):
+Transforms allow you to create, update, and delete fields using the [Spring Expression Language](https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#expressions) (SpEL):
 
 * `field1='foo'` -> generate a field named `field1` containing the string `foo`
 * `temp=(temp-32)*5/9` -> convert temperature from Fahrenheit to Celsius
@@ -74,13 +75,13 @@ The transform processor also exposes functions and variables that can be accesse
 * `index`: Sequence number of the item being generated.
 * `redis`: Handle to invoke Redis commands ([Lettuce API](https://lettuce.io/core/release/api/io/lettuce/core/api/sync/RedisCommands.html)).
 
-**Processor Example**
+**Transform processor example**
 
 ```
 riot file-import --process epoch="#date.parse(mydate).getTime()" location="#geo(lon,lat)" id="#index" name="#redis.hget('person1','lastName')" ...
 ```
 
-### Regular Expressions
+### Regular expressions
 
 Extract patterns from source fields using regular expressions:
 ```
