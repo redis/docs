@@ -1,3 +1,5 @@
+{{ define "head" }}
+
 {{ $base := .Site.BaseURL }}
 {{ $parsed := urls.Parse $base }}
 {{ $path := $parsed.Path }}
@@ -7,8 +9,6 @@
   {{ .Scratch.Set "path" $path}}
 {{ end }}
 
-
-{{ define "head" }}
 <script src='{{ .Scratch.Get "path" }}/js/cli.js' defer></script>
 {{ end }}
 
