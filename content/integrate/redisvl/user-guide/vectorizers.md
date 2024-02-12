@@ -18,13 +18,14 @@ This document is a converted form of [this Jupyter notebook](https://github.com/
 
 Before beginning, be sure of the following:
 
-1. You have installed `redisvl` and have that environment activated.
+1. You have installed RedisVL and have that environment activated.
 1. You have a running Redis instance with the search and query capability.
 
 ```python
 # import necessary modules
 import os
 ```
+
 ## Create text embeddings
 
 This example will show how to create an embedding from three simple sentences with a number of different text vectorizers in RedisVL.
@@ -99,7 +100,7 @@ embeddings[0][:10]
 ```
 
 ```python
-# openai also supports asyncronous requests, which we can use to speed up the vectorization process.
+# openai also supports asyncronous requests, which you can use to speed up the vectorization process.
 embeddings = await oai.aembed_many(sentences)
 print("Number of Embeddings:", len(embeddings))
 
@@ -108,7 +109,7 @@ Number of Embeddings: 3
 
 ### Huggingface
 
-[Huggingface](https://huggingface.co/models) is a popular NLP platform that has a number of pre-trained models you can use off the shelf. RedisVL supports using Huggingface "Sentence Transformers" to create embeddings from text. To use Huggingface, you will need to install the `sentence-transformers` library.
+[Huggingface](https://huggingface.co/models) is a popular natural language processing (NLP) platform that has a number of pre-trained models you can use off the shelf. RedisVL supports using Huggingface "Sentence Transformers" to create embeddings from text. To use Huggingface, you will need to install the `sentence-transformers` library.
 
 ```bash
 pip install sentence-transformers
@@ -117,7 +118,6 @@ pip install sentence-transformers
 ```python
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from redisvl.vectorize.text import HFTextVectorizer
-
 
 # create a vectorizer
 # choose your model from the huggingface website
@@ -146,18 +146,17 @@ embeddings = hf.embed_many(sentences, as_buffer=True)
 
 ### VertexAI
 
-[VertexAI](https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-text-embeddings) is GCP's fully-featured AI platform, which includes a number of pretrained LLMs. RedisVL supports using VertexAI to create embeddings from these models. To use VertexAI, you will first need to install the ``google-cloud-aiplatform`` library.
+[VertexAI](https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-text-embeddings) is GCP's fully-featured AI platform, which includes a number of pre-trained LLMs. RedisVL supports using VertexAI to create embeddings from these models. To use VertexAI, you will first need to install the `google-cloud-aiplatform` library.
 
 ```bash
 pip install google-cloud-aiplatform>=1.26
 ```
 
-Then you need to gain access to a [Google Cloud Project](https://cloud.google.com/gcp?hl=en) and provide [access to credentials](https://cloud.google.com/docs/authentication/application-default-credentials). This is accomplished by setting the `GOOGLE_APPLICATION_CREDENTIALS` environment variable pointing to the path of a JSON key file downloaded from your service account on GCP.
+Then you need to gain access to a [Google Cloud Project](https://cloud.google.com/gcp?hl=en) and provide [access to credentials](https://cloud.google.com/docs/authentication/application-default-credentials). This is accomplished by setting the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to the path of a JSON key file downloaded from your service account on GCP.
 
 Finally, you need to find your [project ID](https://support.google.com/googleapi/answer/7014113?hl=en) and [geographic region for VertexAI](https://cloud.google.com/vertex-ai/docs/general/locations).
 
-
-**Make sure the following env vars are set:**
+Make sure the following env vars are set:
 
 ```bash
 GOOGLE_APPLICATION_CREDENTIALS=<path to your gcp JSON creds>
@@ -186,6 +185,7 @@ test[:10]
  -0.0036560404114425182,
  0.013746795244514942]
 ```
+
 ### Cohere
 
 [Cohere](https://dashboard.cohere.ai/) allows you to implement language AI in your product. The `CohereTextVectorizer` makes it simple to use RedisVL with the embedding models at Cohere. For this, you will need to install `cohere`.
@@ -201,7 +201,7 @@ api_key = os.environ.get("COHERE_API_KEY") or getpass.getpass("Enter your Cohere
 ```
 
 Special attention needs to be paid to the `input_type` parameter for each `embed` call. For example, for embedding 
-queries, you should set `input_type='search_query'`; for embedding documents, set `input_type='search_document'`. See
+queries, you should set `input_type='search_query'`. For embedding documents, set `input_type='search_document'`. See
 more information [here](https://docs.cohere.com/reference/embed).
 
 ```python
@@ -264,7 +264,6 @@ index.connect("redis://localhost:6379")
 # create the index (no data yet)
 index.create(overwrite=True)
 ```
-
 
 ```python
 # use the CLI to see the created index

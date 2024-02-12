@@ -5,15 +5,15 @@ type: integration
 description: Get started with RedisVL
 weight: 2
 ---
-RedisVL is a versatile Python library with an integrated CLI, designed to enhance AI applications implemented using Redis. This guide will walk you through the following steps:
+RedisVL is a versatile Python library with an integrated CLI, which is designed to enhance AI applications implemented using Redis. This guide will walk you through the following steps:
 
-1. Defining an `IndexSchema`
-2. Preparing a sample dataset
-3. Creating a `SearchIndex` object
-4. Testing `rvl` CLI functionality
-5. Loading the sample data
-6. Building `VectorQuery` objects and executing searches
-7. Updating a `SearchIndex` object
+1. Defining an `IndexSchema`.
+2. Preparing a sample dataset.
+3. Creating a `SearchIndex` object.
+4. Testing `rvl` CLI functionality.
+5. Loading the sample data.
+6. Building `VectorQuery` objects and executing searches.
+7. Updating a `SearchIndex` object.
 
 {{< note >}}
 This document is a converted form of [this Jupyter notebook](https://github.com/RedisVentures/redisvl/blob/main/docs/user_guide/getting_started_01.ipynb).
@@ -21,7 +21,7 @@ This document is a converted form of [this Jupyter notebook](https://github.com/
 
 Before beginning, be sure of the following:
 
-1. You have installed `redisvl` and have that environment activated.
+1. You have installed RedisVL and have that environment activated.
 1. You have a running Redis instance with the search and query capability.
 
 ## Define an `IndexSchema`
@@ -38,7 +38,7 @@ and a three-dimensional `user_embedding` vector.
 You must decide on a Redis index name and key prefix to use for this
 dataset. Below are example schema definitions in both YAML and Python `dict` formats.
 
-**YAML Definition:**
+**YAML definition:**
 
 ```yaml
 index:
@@ -67,7 +67,7 @@ fields:
 
 Store this information in a local file, such as `schema.yaml`, for use with RedisVL.
 
-**Python Dictionary:**
+**Python dictionary:**
 
 ```python
 schema = {
@@ -103,7 +103,6 @@ For more information on creating real-world embeddings, refer to this
 ```python
 import numpy as np
 
-
 data = [
     {
         'user': 'john',
@@ -133,7 +132,7 @@ As seen above, the sample `user_embedding` vectors are converted into bytes usin
 
 ## Create a `SearchIndex`
 
-With the schema and sample dataset ready, instantiate a `SearchIndex`:
+With the schema and sample dataset ready, create a `SearchIndex`:
 
 ```python
 from redisvl.index import SearchIndex
@@ -143,11 +142,11 @@ index.connect("redis://localhost:6379")
 index.create(overwrite=True)
 ```
 
-Note: at this point, the index has no entries. Data loading follows.
+Note: at this point, the index has no associated data. Data loading follows.
 
 ## Inspect with the `rvl` command
 
-Use the `rvl` CLI command to inspect the created index and its fields:
+Use the `rvl` CLI command to inspect the newly-created index and its fields:
 
 ```python
 $ rvl index listall
@@ -224,9 +223,9 @@ print(keys)
 ['user:054a3091bd99457f826f3278f4a0dc98']
 ```
 
-## Creating `VectorQuery` objects
+## Create `VectorQuery` objects
 
-Next, create a vector query object for your newly populated index. This example will use a simple vector to demonstrate how vector search works. Vectors in production will likely be much larger than three floats and often require machine learning models (e.g., Huggingface sentence transformers) or an embeddings API (e.g., Cohere and OpenAI). `redisvl` provides a set of [Vectorizers](TBD) to assist in vector creation.
+Next, create a vector query object for your newly-populated index. This example will use a simple vector to demonstrate how vector search works. Vectors in production will likely be much larger than three floating point numbers and often require machine learning models (e.g., [Huggingface](https://huggingface.co/models) sentence transformers) or an embeddings API (e.g., Cohere and OpenAI). RedisVL provides a set of vectorizers to assist with vector creation.
 
 ```python
 from redisvl.query import VectorQuery
@@ -242,24 +241,22 @@ query = VectorQuery(
 
 ### Executing queries
 
-With our `VectorQuery` object defined above, we can execute the query over the `SearchIndex` using the `query` method.
-
+With your `VectorQuery` object defined, you can execute the query over the `SearchIndex` using the `query` method.
 
 ```python
 results = index.query(query)
 result_print(results)
 ```
 
-
 <table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0.0566299557686</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
 
 ## Using an asynchronous Redis client
 
 The `SearchIndex` class allows queries, index creation, and data loading to be done asynchronously. This is the
-recommended route for working with `redisvl` in production settings.
+recommended route for working with RedisVL in production settings.
 
 In order to enable it, you must either pass the `use_async` flag to the index
-initializer, or provide an existing async Redis client connection.
+initializer, or provide an existing asynchronous Redis client connection.
 
 
 ```python
@@ -274,12 +271,11 @@ results = await index.aquery(query)
 result_print(results)
 ```
 
-
 <table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0.0566299557686</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
 
 ## Update a `SearchIndex`
 
-In some scenarios, it makes sense to update the index schema. With Redis and `redisvl`, this is easy because Redis can keep the underlying data in place while you change or make updates to the index configuration.
+In some scenarios, it makes sense to update the index schema. With Redis and RedisVL, this is easy because Redis can keep the underlying data in place while you update to the index configuration.
 
 
 ```python
@@ -304,10 +300,10 @@ $ rvl index info -i user_index
     ╰────────────────┴────────────────┴─────────┴────────────────┴────────────────╯
 ```
 
-Imagine youi want to re-index this data in the following ways:
+Imagine you want to re-index this data in the following ways:
 
-- by using a `Tag` type for the `job` field instead of `Text`
-- by using an `HNSW` index for the `Vector` field instead of `flat`
+- Use a `Tag` type for the `job` field instead of `Text`.
+- Use an `HNSW` index for the `Vector` field instead of `flat`.
 
 ```python
 # Inspect the previous schema
@@ -352,10 +348,10 @@ schema
 ```
 
 ```python
-# Delete existing index without clearing out the underlying data
+# Delete the existing index without deleting the underlying data
 await index.adelete(drop=False)
 
-# Build the new index interface with the updated schema
+# Build the new index with the updated schema
 index = (
     SearchIndex
     .from_dict(schema)
@@ -374,10 +370,9 @@ result_print(results)
 
 <table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0.0566299557686</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
 
-
 ## Check index stats
 
-Use the `rvl` CLI to check the stats for the index:
+Use `rvl` to check the statistics for the index:
 
 ```python
 $ rvl stats -i user_index

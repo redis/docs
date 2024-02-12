@@ -1,8 +1,8 @@
 ---
-title: Databases
-linkTitle: Databases
-type: integration
 description: RIOT database import and export
+linkTitle: Databases
+title: Databases
+type: integration
 weight: 7
 ---
 
@@ -34,12 +34,12 @@ It includes JDBC drivers for the most common database systems:
 
   `jdbc:sqlite:sqlite_database_file_path`
 
-**Tip**:
-
+{{< tip >}}
 For non-included databases you must install the corresponding JDBC driver under the `lib` directory and modify the `CLASSPATH`:
 
 * *nix: `bin/riot` -> `CLASSPATH=$APP_HOME/lib/myjdbc.jar:$APP_HOME/lib/...`
 * Windows: `bin\riot.bat` -> `set CLASSPATH=%APP_HOME%\lib\myjdbc.jar;%APP_HOME%\lib...`
+{{< /tip >}}
 
 ## Database Import
 
@@ -75,6 +75,7 @@ riot db-import "SELECT * FROM orders" --url "jdbc:postgresql://host:port/databas
 ```
 
 This will produce Redis strings that look like this:
+
 ```json
 {
   "order_id": 10248,
@@ -98,11 +99,13 @@ This will produce Redis strings that look like this:
 Use the `db-export` command to read from a Redis database and writes to a SQL database.
 
 The general usage is:
+
 ```
 riot -h <redis host> -p <redis port> db-export --url <jdbc url> SQL
 ```
 
 To show the full usage, run:
+
 ```
 riot db-export --help
 ```

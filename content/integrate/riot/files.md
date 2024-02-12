@@ -1,8 +1,8 @@
 ---
-title: Files
-linkTitle: Files
-type: integration
 description: File import and export
+linkTitle: Files
+title: Files
+type: integration
 weight: 5
 ---
 
@@ -18,6 +18,7 @@ RIOT can import from and export to files in various formats:
 The `file-import` command reads data from files and writes it to Redis.
 
 The basic usage for file imports is:
+
 ```
 riot -h <host> -p <port> file-import FILE... [REDIS COMMAND...]
 ```
@@ -35,9 +36,9 @@ You must specify at least one Redis command as a target.
 The keys that will be written are constructed from input records by concatenating the keyspace prefix and key fields.
 
 {{< alert title="Important" >}}
-Redis connection options apply to the root command (`riot`) and not to subcommands.
+Redis connection options apply to the root command (`riot`) and not to sub-commands.
 
-In the following example, the redis options will not be taken into account:
+In the following example, the Redis options will not be taken into account:
 {{< /alert >}}
 
 ```
@@ -52,13 +53,13 @@ riot file-import my.json hset -h myredis.com -p 6380
 riot file-import my.json hset --keyspace blah --keys id
 ```
 
-**Import into hashes **and** set TTL on the key**
+**Import into hashes and set TTL on the key**
 
 ```
 riot file-import my.json hset --keyspace blah --keys id expire --keyspace blah --keys id
 ```
 
-**Import into hashes in keyspace `blah:<id>` **and** set TTL **and** add each `id` to a set named `myset`**
+**Import into hashes in keyspace `blah:<id>` and set TTL and add each `id` to a set named `myset`**
 
 ```
 riot file-import my.json hset --keyspace blah --keys id expire --keyspace blah --keys id sadd --keyspace myset --members id
@@ -106,7 +107,7 @@ It can be changed with the `--delimiter` option.
 If the file has a header, use the `--header` option to automatically extract field names.
 Otherwise specify the field names using the `--fields` option.
 
-Let’s consider this CSV file:
+Consider this CSV file:
 
 **[beers.csv](https://raw.githubusercontent.com/nickhould/craft-beers-dataset/master/data/processed/beers.csv)**
 |   | abv   | ibu | id   | name                | style                   | brewery_id | ounces |
@@ -116,19 +117,19 @@ Let’s consider this CSV file:
 | 2 | 0.071 |     | 2264 | Rise of the Phoenix | American IPA            | 177        | 12.0   |
 
 The following command imports that CSV file into Redis as hashes using `beer` as the key prefix and `id` as primary key.
-This creates hashes with keys `beer:1436`, `beer:2265`, ...
+This creates hashes with keys `beer:1436`, `beer:2265`, etc.
 
 ```
 riot file-import https://storage.googleapis.com/jrx/beers.csv --header hset --keyspace beer --keys id
 ```
 
-This command imports a CSV file into a geo set named `airportgeo` with airport IDs as members:
+This command imports a CSV file into a geospatial set named `airportgeo` with airport IDs as members:
 
 ```
 riot file-import https://storage.googleapis.com/jrx/airports.csv --header --skip-limit 3 geoadd --keyspace airportgeo --members AirportID --lon Longitude --lat Latitude
 ```
 
-### Fixed-Length
+### Fixed-length
 
 Fixed-length files can be imported by specifying the width of each field using the `--ranges` option.
 
@@ -157,9 +158,9 @@ The expected format for JSON files is:
 riot file-import https://storage.googleapis.com/jrx/beers.json hset --keyspace beer --keys id
 ```
 
-JSON records are trees with potentially nested values that need to be flattened when the target is a Redis hash for example.
+JSON records are trees with potentially nested values that need to be flattened when the target is, for example, a Redis hash.
 
-To that end, RIOT uses a field naming convention to flatten JSON objects and arrays:
+RIOT uses a field naming convention to flatten JSON objects and arrays:
 
 **Nested object**
 
@@ -195,23 +196,24 @@ Here is a sample XML file that can be imported by RIOT:
 </records>
 ```
 
-**XML Import Example**
+**XML import example**
 
 ```
 riot file-import https://storage.googleapis.com/jrx/trades.xml hset --keyspace trade --keys id
 ```
 
-
-## File Export
+## File export
 
 The `file-export` command reads data from a Redis database and writes it to a JSON or XML file, potentially gzip-compressed.
 
 The general usage is:
+
 ```
 riot -h <host> -p <port> file-export FILE
 ```
 
 To show the full usage, run:
+
 ```
 riot file-export --help
 ```
@@ -252,6 +254,7 @@ riot file-export --help
     Number of memory usage samples for a key (default: 5).
 
 ### Examples
+
 **Compressed JSON export example**
 
 ```
@@ -330,7 +333,7 @@ riot file-export /tmp/redis.xml
 ]
 ```
 
-## Dump Import
+## Dump import
 
 RIOT can import Redis data structure files in JSON or XML formats. See [File Export]({{< relref "/integrate/riot/files#file-export" >}}) section to generate such files.
 

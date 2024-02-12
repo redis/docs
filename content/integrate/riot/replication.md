@@ -1,15 +1,15 @@
 ---
-title: Replication
-linkTitle: Replication
-type: integration
 description: Database replication with RIOT
+linkTitle: Replication
+title: Replication
+type: integration
 weight: 8
 ---
 
 ## Replication
 
 Most Redis migration tools available today are offline in nature.
-Migrating data from AWS ElastiCache to Redis Enterprise Cloud for example means backing up your Elasticache data to an AWS S3 bucket and importing it into Redis Enterprise Cloud using its UI.
+Migrating data from AWS ElastiCache to Redis Enterprise Cloud, for example, means backing up your Elasticache data to an AWS S3 bucket and importing it into Redis Enterprise Cloud using its UI.
 
 Redis has a replication command called [REPLICAOF](https://redis.io/commands/replicaof) but it is not always available (see [ElastiCache restrictions](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/RestrictedCommands.html)).
 Instead, RIOT implements [client-side replication]({{< relref "/integrate/riot/architecture" >}}) using **dump & restore** or **type-based read & write**. Both snapshot and live replication modes are supported.
@@ -25,6 +25,7 @@ riot <source> replicate <target> --mode <snapshot|live|compare> [OPTIONS]
 ```
 
 For the full usage, run:
+
 ```
 riot replicate --help
 ```
@@ -110,7 +111,6 @@ Max connections for target Redis pool (default: `8`).
 Which target Redis cluster nodes to read data from.
 * **`--ttl-tolerance`**\
 Max TTL difference to use for dataset verification (default: `100`).
-
 * **`--type`**\
 Replication strategy (default: `dump`).
 * `dump`: [Dump & Restore]({{< relref "/integrate/riot/replication#dump--restore" >}}).
@@ -140,7 +140,7 @@ Replication strategy (default: `dump`).
 * **`--read-queue`**\
     Max number of items that reader threads can put in the shared queue.
     When the queue is full, reader threads wait for space to become available.
-    Queue size should be at least **#threads * batch**, e.g. `--read-threads 4 --read-batch 500` => `--read-queue 2000`
+    Queue size should be at least `#threads * batch`, e.g. `--read-threads 4 --read-batch 500` => `--read-queue 2000`
 * **`--read-pool`**\
     Size of the connection pool shared by reader threads.
     Can be smaller than the number of threads
@@ -162,10 +162,10 @@ Policy for stream message IDs (default: `propagate`).
 * `propagate`: Pass along stream message IDs from source to target
 * `drop`: Drop message IDs (target will generate its own message IDs)
 
-#### Performance Tuning
+#### Performance tuning
 
-Performance tuning is an art but RIOT offers some options to identify potential bottlenecks.
-In addition to the [batch]({{< relref "/integrate/riot/architecture#batching" >}}) and [threads]( {{< relref "/integrate/riot/architecture#multi-threading" >}}) options you have the `--dry-run` option which disables writing to the target Redis database so that you can tune the reader (see Source Reader section above) in isolation.
+RIOT offers some options to identify potential bottlenecks.
+In addition to the [batch]({{< relref "/integrate/riot/architecture#batching" >}}) and [threads]( {{< relref "/integrate/riot/architecture#multi-threading" >}}) options, you have the `--dry-run` option which disables writing to the target Redis database so that you can tune the reader (see Source Reader section above) in isolation.
 Add that option to your existing `replicate` command-line to compare replication speeds with and without writing to the target Redis database:
 
 ```
@@ -176,7 +176,7 @@ riot <source> replicate <target> --dry-run
 
 Once replication is complete RIOT will perform a verification step by iterating over keys in the source database and comparing values and TTLs between source and target databases.
 
-The verification step happens automatically after the scan is complete (snapshot replication), or for live replication when keyspace notifications have become idle (see [Usage](#usage) section).
+The verification step happens automatically after the scan is complete (snapshot replication), or for live replication when keyspace notifications have become idle (see the [Usage](#usage) section).
 
 Verification can also be run on-demand using the `compare` mode:
 ```
@@ -192,11 +192,11 @@ The output looks like this:
 * **missing**\
 Number of keys only present in source database
 * **type**\
-Number of keys with mismatched data structure type
+Number of keys with mismatched data structure types
 * **value**\
-Number of keys with mismatched value
+Number of keys with mismatched values
 * **ttl**\
-Number of keys with mismatched TTL i.e. difference is greater than tolerance (can be specified with `--ttl-tolerance`)
+Number of keys with mismatched TTL, that is, the difference is greater than the tolerance (can be specified with `--ttl-tolerance`)
 
 To show which keys are different use the `--show-diffs` option:
 
@@ -215,9 +215,9 @@ Each process (scan iterator and/or event listener in case of live replication) h
 * **Listening**\
     Progress is indefinite as total number of keys is unknown.
 
-### Live Replication
+### Live replication
 
-In live replication mode RIOT listens for changes happening on the source database using keyspace notifications.
+In live replication mode, RIOT listens for changes happening on the source database using keyspace notifications.
 Each time a key is modified, RIOT reads the corresponding value and propagates that change to the target database.
 
 Live replication relies on keyspace notifications. 
@@ -228,18 +228,18 @@ For more details see [Redis Keyspace Notifications](https://redis.io/docs/manual
 {{< warning >}}
 The live replication mechanism does not guarantee data consistency.
 Redis sends keyspace notifications over pub/sub which does not provide guaranteed delivery.
-It is possible that RIOT can miss some notifications in case of network failures for example.
+It is possible that RIOT can miss some notifications; for example, in case of network failures.
 
 Also, depending on the type, size, and rate of change of data structures on the source it is possible that RIOT cannot keep up with the change stream.
 For example if a big set is repeatedly updated, RIOT will need to read the whole set on each update and transfer it over to the target database.
-With a big-enough set, RIOT could fall behind and the internal queue could fill up leading up to updates being dropped.
+With a big-enough set, RIOT could fall behind and the internal queue could fill up, leading to dropped updates.
 Some preliminary sizing using Redis statistics and `bigkeys`/`memkeys` (or `--mem-limit` in [source reader options](#source-reader-options)) is recommended for these migrations.
 If you need assistance please contact your Redis account team.
 {{< /warning >}}
 
-### Dump & Restore
+### Dump and restore
 
-The default replication mechanism in RIOT is DUMP & RESTORE:
+The default replication mechanism in RIOT is dump and restore:
 
 {{< image filename="/integrate/riot/images/dump-and-restore.svg" alt="dump-and-restore" >}}
 
@@ -248,14 +248,14 @@ If live replication is enabled the reader also subscribes to keyspace notificati
 2. Reader threads iterate over the keys to read corresponding values (DUMP) and TTLs.
 3. Reader threads enqueue key/value/TTL tuples into the reader queue, from which the writer dequeues key/value/TTL tuples and writes them to the target Redis database by calling RESTORE and EXPIRE.
 
-### Type-Based Replication
+### Type-based replication
 
-In some cases DUMP & RESTORE cannot be used. For example:
+In some cases dump and restore cannot be used. For example:
 
 * The target Redis database does not support the RESTORE command ([Redis Enterprise CRDB](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/))
 * Incompatible DUMP formats between source and target ([Redis 7.0](https://raw.githubusercontent.com/redis/redis/7.0/00-RELEASENOTES))
 
-For these RIOT includes another replication strategy called **Type-Based Replication** where data type has a corresponding pair of read/write commands:
+For these, RIOT includes another replication strategy called type-based replication, where each data type has a corresponding pair of read/write commands:
 
 |Type|Read|Write|
 |----|----|----|
@@ -279,44 +279,46 @@ This replication strategy is more intensive in terms of CPU, memory, and network
 Adjust number of threads, batch, and queue sizes accordingly.
 {{< /warning >}}
 
-## Migrating from Elasticache
+## Migrating from ElastiCache
 
-This recipe contains step-by-step instructions to migrate an Elasticache (EC) database to [Redis Enterprise](https://redis.com/redis-enterprise-software/overview/) (RE).
+This recipe contains step-by-step instructions to migrate an ElastiCache (EC) database to [Redis Enterprise](https://redis.com/redis-enterprise-software/overview/) (RE).
 
 The following scenarios are covered:
 
 * One-time (snapshot) migration
 * Online (live) migration
 
-**IMPORTANT**:
+{{% alert title="Important" %}}
 It is recommended that you read the replication section (top of this document) to familiarize yourself with its usage and architecture.
+{{% /alert %}}
 
 ### Setup
 
 #### Prerequisites
 
-For this recipe you will require the following resources:
+For this recipe, you will require the following resources:
  
 * AWS ElastiCache: _Primary Endpoint_ in case of Single Master and _Configuration Endpoint_ in case of Clustered EC.
 Refer to [this link](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Endpoints.html) to learn more.
 * Redis Enterprise: hosted on Cloud or On-Prem.
 * An Amazon EC2 instance.
 
-**IMPORTANT**:
+{{% alert title="Important" %}}
 Keyspace Notifications
 
-For a live migration you need to enable keyspace notifications on your Elasticache instance (see [AWS Knowledge Center](https://aws.amazon.com/premiumsupport/knowledge-center/elasticache-redis-keyspace-notifications)).
+For a live migration you need to enable keyspace notifications on your ElastiCache instance (see [AWS Knowledge Center](https://aws.amazon.com/premiumsupport/knowledge-center/elasticache-redis-keyspace-notifications)).
+{{% /alert %}}
 
-#### Migration Host
+#### Migration host
 
-To run the migration tool we will need an EC2 instance.
+To run the migration tool you will need an EC2 instance.
 
 You can either create a new EC2 instance or leverage an existing one if available.
-In the example below we first create an instance on AWS Cloud Platform.
+In the example below you first create an instance on AWS Cloud Platform.
 The most common scenario is to access an ElastiCache cluster from an Amazon EC2 instance in the same Amazon Virtual Private Cloud (Amazon VPC).
-We have used Ubuntu 16.04 LTS for this setup but you can choose any Ubuntu or Debian distribution of your choice.
+Ubuntu 16.04 LTS is used for this setup, but you can choose the Ubuntu or Debian distribution of your choice.
  
-SSH to this EC2 instance from your laptop:
+SSH to this EC2 instance from your computer:
 
 ```
 ssh -i “public key” <AWS EC2 Instance>
@@ -329,22 +331,22 @@ sudo apt update
 sudo apt install -y redis-tools
 ```
 
-Use `redis-cli` to check connectivity with the Elasticache database:
+Use `redis-cli` to check connectivity with the ElastiCache database:
 
 ```
 redis-cli -h <ec primary endpoint> -p 6379
 ```
 
-Ensure that the above command allows you to connect to the remote Elasticache database successfully.
+Ensure that the above command allows you to connect to the remote ElastiCache database successfully.
 
-#### Installing RIOT
+#### Install RIOT
 
-Let’s install RIOT on the EC2 instance we set up previously.
-For this we’ll follow the steps for [Linux installation]({{< relref "/integrate/riot/install#linux-via-homebrew" >}}).
+Install RIOT on the EC2 instance you set up previously.
+Follow the [Linux installation]({{< relref "/integrate/riot/install#linux-via-homebrew" >}}) steps.
 
-### Performing Migration
+### Performing migration
 
-We are now all set to begin the migration process.
+You're now set to begin the migration process.
 The options you will use depend on your source and target databases, as well as the replication mode (snapshot or live).
 
 #### EC Single Master -> RE
@@ -357,12 +359,13 @@ riot -h <source EC host> -p <source EC port> replicate -h <target RE host> -p <t
 riot -h <source EC host> -p <source EC port> replicate --mode live -h <target RE host> -p <target RE port> --pass <RE password>
 ```
 
-{{< alert title="IMPORTANT" >}}
-In case ElastiCache is configured with [AUTH TOKEN enabled](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html), you need to pass `--tls` as well as `--pass` option:
+{{% alert title="Important" %}}
+In case ElastiCache is configured with [AUTH TOKEN enabled](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html), you need to pass `--tls` as well as the `--pass` options:
+
 ```console
 riot -h <source EC host> -p <source EC port> --tls --pass <token> replicate -h <target RE host> -p <target RE port> --pass <RE password>
 ```
-{{< /alert >}}
+{{% /alert %}}
 
 #### EC Cluster -> RE
 
@@ -371,8 +374,8 @@ riot -h <source EC host> -p <source EC port> --cluster replicate -h <target RE h
 ```
 
 {{< note >}}
-`--cluster` is an important parameter used ONLY for ElastiCache whenever cluster-mode is enabled.
-Do note that the source database is specified first and the target database is specified after the replicate command and it is applicable for all the scenarios.
+`--cluster` is an important parameter used only for ElastiCache whenever cluster-mode is enabled.
+Do note that the source database is specified first and the target database is specified after the replicate command, and it is applicable for all the scenarios.
 {{< /note >}}
 
 #### EC Single Master -> RE (with specific db index)
@@ -394,7 +397,7 @@ riot -h <source EC host> -p <source EC port> --cluster replicate --mode live -h 
 
 ### Important Considerations
 
-* As stated earlier, this tool is not officially supported by Redis Inc.
+* As stated earlier, this tool is not officially supported by Redis, Inc.
 * It is recommended to test migration in UAT before production use.
-* Once migration is completed, ensure that application traffic gets redirected to Redis Enterprise Endpoint successfully.
-* It is recommended to perform the migration process during low traffic so as to avoid chances of data loss.
+* Once migration is completed, ensure that application traffic gets redirected to the Redis Enterprise endpoint successfully.
+* It is recommended to perform the migration process during periods of low traffic to avoid data loss.

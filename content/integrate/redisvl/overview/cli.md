@@ -3,7 +3,7 @@ title: RedisVL CLI
 type: integration
 description: How to use RedisVL's CLI
 ---
-RedisVL is a bash library with a dedicated CLI to help load and create vector search indices within Redis.
+RedisVL is a Bash library with a dedicated CLI to help load and create vector search indexes within Redis.
 
 This document will walk through how to use the RedisVL CLI (`rvl`).
 
@@ -13,7 +13,7 @@ This document is a converted form of [this Jupyter notebook](https://github.com/
 
 Before beginning, be sure of the following:
 
-1. You have installed `redisvl` and have that environment activated.
+1. You have installed RedisVL and have that environment activated.
 1. You have a running Redis instance with the search and query capability.
 
 ```bash
@@ -24,7 +24,7 @@ $ rvl version
 
 ## Index
 
-The `rvl index` command is can be used for a number of tasks related to creating and managing vector indexes. Wether you are working in bash or another language, this CLI tool can still be useful for managing and inspecting your indexes.
+The `rvl index` command can be used for a number of tasks related to creating and managing vector indexes. Whether you are working in Bash or another shell, this CLI tool can still be useful for managing and inspecting your indexes.
 
 First, create an index from a YAML schema that looks like the following:
 
@@ -44,7 +44,6 @@ fields:
           distance_metric: cosine
 ```
 
-
 ```bash
 # Create an index from a yaml schema
 $ rvl index create -s schema.yaml
@@ -52,7 +51,7 @@ $ rvl index create -s schema.yaml
 ```
 
 ```bash
-# List the indices that are available
+# List the indexes that are available
 $ rvl index listall
 11:13:56 [RedisVL] INFO   Indices:
 11:13:56 [RedisVL] INFO   1. providers
@@ -84,14 +83,14 @@ $ rvl index delete -i providers
 ```
 
 ```bash
-# see the index
+# view the index
 $ rvl index listall
 11:14:00 [RedisVL] INFO   Indices:
 ```
 
 ## Stats
 
-The `rvl stats` command will return some basic information about the index. This is useful for checking the status of an index, or for getting information about the index to use in other commands.
+The `rvl stats` command will return some basic information about an index. This is useful for checking the status of an index, or for getting information about the index to use in other commands.
 
 
 ```bash
@@ -101,7 +100,7 @@ $ rvl index create -s schema.yaml
 ```
 
 ```bash
-# list the indices that are available
+# list the indexes that are available
 $ rvl index listall
 11:14:03 [RedisVL] INFO   Indices:
 11:14:03 [RedisVL] INFO   1. providers

@@ -5,7 +5,7 @@ type: integration
 description: Query and filter with RedisVL
 weight: 3
 ---
-In this document, you will explore more complex queries that can be performed with `redisvl`
+In this document, you will explore more complex queries that can be performed with RedisVL.
 
 {{< note >}}
 This document is a converted form of [this Jupyter notebook](https://github.com/RedisVentures/redisvl/blob/main/docs/user_guide/hybrid_queries_02.ipynb).
@@ -13,10 +13,10 @@ This document is a converted form of [this Jupyter notebook](https://github.com/
 
 Before beginning, be sure of the following:
 
-1. You have installed `redisvl` and have that environment activated.
+1. You have installed RedisVL and have that environment activated.
 1. You have a running Redis instance with the search and query capability.
 
-The sample, binary data is in [this file on GitHub](https://github.com/RedisVentures/redisvl/blob/main/docs/user_guide/hybrid_example_data.pkl).
+The sample binary data is in [this file on GitHub](https://github.com/RedisVentures/redisvl/blob/main/docs/user_guide/hybrid_example_data.pkl).
 
 ```python
 import pickle
@@ -66,7 +66,7 @@ index.create(overwrite=True)
 ```
 
 ```python
-# use the CLI to see the created index
+# inspect the newly-created index
 $ rvl index listall
 
 18:26:34 [RedisVL] INFO   Indices:
@@ -99,6 +99,7 @@ v = VectorQuery([0.1, 0.1, 0.5],
 results = index.query(v)
 result_print(results)
 ```
+
 <table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.158809006214</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr></table>
 
 ```python
@@ -131,11 +132,11 @@ result_print(index.query(v))
 
 <table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr><tr><td>0.158809006214</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td><td>-122.0839,37.3861</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.653301358223</td><td>joe</td><td>medium</td><td>35</td><td>dentist</td><td>-122.0839,37.3861</td></tr></table>
 
-What about scenarios where you might want to dynamically generate a list of tags? Have no fear. RedisVL allows you to do this gracefully without having to check for the **empty case**. The **empty case** is when you attempt to run a Tag filter on a field with no defined values to match:
+What about scenarios where you might want to dynamically generate a list of tags? RedisVL allows you to do this gracefully without having to check for the empty case. The empty case is when you attempt to run a tag filter on a field with no defined values to match. For example:
 
 `Tag("credit_score") == []`
 
-An empty filter like the one above will yield a `*` Redis query filter which implies the base case, that is, there is no filter.
+An empty filter like the one above will yield a `*` Redis query filter that implies the base case: no filter.
 
 ```python
 # gracefully fallback to "*" filter if empty case
@@ -218,7 +219,6 @@ result_print(index.query(v))
 
 <table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td><td>-122.4194,37.7749</td></tr><tr><td>0.266666650772</td><td>nancy</td><td>high</td><td>94</td><td>doctor</td><td>-122.4194,37.7749</td></tr></table>
 
-
 ```python
 # fuzzy match filter
 fuzzy_match = Text("job") % "%%engine%%"
@@ -287,7 +287,7 @@ result_print(index.query(v))
 
 ## Combining Filters
 
-In this example, we will combine a numeric filter with a tag filter. We will search for users that are between the ages of 20 and 30 and have a job of "engineer".
+In this example, you will combine a numeric filter with a tag filter, and search for users that are between the ages of 20 and 30 and have a job title of "engineer".
 
 ### Intersection ("and")
 
@@ -328,10 +328,10 @@ result_print(index.query(v))
 ### Dynamic combination
 
 There are often situations where you may or may not want to use a filter in a
-given query. As shown above, filters will except the ``None`` type and revert
-to a wildcard filter essentially returning all results.
+given query. As shown above, filters will except the `None` type and revert
+to a wildcard filter that returns all results.
 
-The same goes for filter combinations which enables rapid reuse of filters in
+The same goes for filter combinations, which enable rapid reuse of filters in
 requests with different parameters as shown below. This removes the need for
 a number of "if-then" conditionals to test for the empty case.
 
@@ -405,7 +405,7 @@ result_print(results)
 
 ## Count queries
 
-In some cases, you may need to use a ``FilterExpression`` to execute a ``CountQuery`` that simply returns the count of the number of entities in the pertaining set. It is similar to the ``FilterQuery`` class but does not return the values of the underlying data.
+In some cases, you may need to use a `FilterExpression` to execute a `CountQuery` that simply returns the count of the number of entities in the pertaining set. It is similar to the `FilterQuery` class but does not return the values of the underlying data.
 
 ```python
 from redisvl.query import CountQuery
@@ -423,7 +423,7 @@ print(f"{count} records match the filter expression {str(has_low_credit)} for th
 
 ## Range queries
 
-Range Queries are a useful method to perform a vector search where only results within a vector ``distance_threshold`` are returned. This enables the user to find all records within their dataset that are similar to a query vector where "similar" is defined by a quantitative value.
+Range Queries are useful for performing a vector search where only the results within a vector `distance_threshold` are returned. This enables the user to find all records within their dataset that are similar to a query vector where "similar" is defined by a quantitative value.
 
 ```python
 from redisvl.query import RangeQuery
@@ -443,7 +443,7 @@ result_print(results)
 
 <table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td></tr><tr><td>0.158809006214</td><td>tim</td><td>high</td><td>12</td><td>dermatologist</td></tr></table>
 
-We can also change the distance threshold of the query object between uses if we like. Here we will set ``distance_threshold==0.1``. This means that the query object will return all matches that are within 0.1 of the query object. This is a small distance, so we expect to get fewer matches than before.
+You can also change the distance threshold of the query object between uses. Here, you will set `distance_threshold==0.1`. This means that the query object will return all matches that are within 0.1 of the query object. This is a small distance, so expect to get fewer matches than before.
 
 ```python
 range_query.set_distance_threshold(0.1)
@@ -453,7 +453,7 @@ result_print(index.query(range_query))
 
 <table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td></tr><tr><td>0</td><td>derrick</td><td>low</td><td>14</td><td>doctor</td></tr></table>
 
-Range queries can also be used with filters like any other query type. The following limits the results to only include records with a ``job`` of ``engineer`` while also being within the vector range (aka distance).
+Range queries can also be used with filters like any other query type. The following limits the results to only those records with a `job` of `engineer` while also being within the vector range (i.e., distance).
 
 ```python
 is_engineer = Text("job") == "engineer"
@@ -467,13 +467,12 @@ result_print(index.query(range_query))
 
 ## Other Redis queries
 
-Sometimes there may be a case where RedisVL does not cover the explicit functionality required by the query either because of new releases that haven't been implemented in the client, or because of a very specific use case. In these cases, it is possible to use the ``SearchIndex.search`` method to execute query with a redis-py ``Query`` object or through a raw redis string.
+There may be cases where RedisVL does not cover the explicit functionality required by the query, either because of new releases that haven't been implemented in the client, or because of a very specific use case. In these cases, it is possible to use the `SearchIndex.search` method to execute queries with a redis-py `Query` object or through a raw Redis string.
 
-### Redis-Py
-
+### redis-py
 
 ```python
-# Manipulate the Redis-py Query object
+# Manipulate the redis-py Query object
 redis_py_query = v.query
 
 # choose to sort by age instead of vector distance
@@ -488,7 +487,7 @@ result_print(result)
 
 ### Raw Redis query string
 
-One case might be where you simply want to have a search that only filters on a tag field and don't need other functionality. Conversely, you may need to have a query that is more complex than what is currently supported by RedisVL. In these cases, you can use the ``SearchIndex.search`` again with just a raw redis query string.
+One case might be where you want to have a search that only filters on a tag field and doesn't need other functionality. Conversely, you may require a query that is more complex than what is currently supported by RedisVL. In these cases, you can use the `SearchIndex.search` method with a raw Redis query string.
 
 ```python
 t = Tag("credit_score") == "high"
@@ -513,7 +512,7 @@ for r in results.docs:
 
 In this example, you will learn how to inspect the query that is generated by RedisVL. This can be useful for debugging purposes or for understanding how the query is being executed.
 
-Again, take the example of a query that combines a numeric filter with a tag filter. This will search for users that are between the ages of between 18 and 100, have a high credit score, and sort by closest vector distance to the query vector.
+Consider an example of a query that combines a numeric filter with a tag filter. This will search for users that are between the ages of between 18 and 100, have a high credit score, and sort the results by closest vector distance to the query vector.
 
 ```python
 t = Tag("credit_score") == "high"

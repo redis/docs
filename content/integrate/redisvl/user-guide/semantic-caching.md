@@ -12,17 +12,16 @@ This document is a converted form of [this Jupyter notebook](https://github.com/
 
 Before beginning, be sure of the following:
 
-1. You have installed `redisvl` and have that environment activated.
+1. You have installed RedisVL and have that environment activated.
 1. You have a running Redis instance with the search and query capability.
 
-## Semantic Caching for LLMs
+## Semantic caching for LLMs
 
-RedisVL provides an ``SemanticCache`` interface to turn Redis into a semantic cache to store responses to previously asked questions. This reduces the number of requests and tokens sent to the Large Language Models (LLM) service, decreasing costs and enhancing application throughput (by reducing the time taken to generate responses).
+RedisVL provides an `SemanticCache` interface to turn Redis into a semantic cache to store responses to previously asked questions. This reduces the number of requests and tokens sent to the LLM service, decreasing costs and enhancing application throughput by reducing the time taken to generate responses.
 
-This notebook will go over how to use Redis as a Semantic Cache for your applications
+This document will teach you how to use Redis as a semantic cache for your applications.
 
-First, we will import [OpenAI](https://platform.openai.com) to use their API for responding to user prompts. We will also create a simple `ask_openai` helper method to assist.
-
+Begin by importing [OpenAI](https://platform.openai.com) so you can use their API for responding to user prompts. You will also create a simple `ask_openai` helper method to assist.
 
 ```python
 import os
@@ -44,7 +43,6 @@ def ask_openai(question: str) -> str:
     return response.choices[0].text.strip()
 ```
 
-
 ```python
 # Test
 print(ask_openai("What is the capital of France?"))
@@ -52,11 +50,9 @@ print(ask_openai("What is the capital of France?"))
 
     The capital of France is Paris.
 
+## Initializing `SemanticCache`
 
-## Initializing ``SemanticCache``
-
-``SemanticCache`` will automatically create an index within Redis upon initialization for the semantic cache content.
-
+Upon initialization, `SemanticCache` will automatically create an index within Redis for the semantic cache content.
 
 ```python
 from redisvl.llmcache import SemanticCache
@@ -69,14 +65,10 @@ llmcache = SemanticCache(
 )
 ```
 
-
 ```python
 # look at the index specification created for the semantic cache lookup
 $ rvl index info -i llmcache
-```
 
-    
-    
     Index Information:
     ╭──────────────┬────────────────┬──────────────┬─────────────────┬────────────╮
     │ Index Name   │ Storage Type   │ Prefixes     │ Index Options   │   Indexing │
@@ -91,15 +83,13 @@ $ rvl index info -i llmcache
     │ response      │ response      │ TEXT   │ WEIGHT         │              1 │
     │ prompt_vector │ prompt_vector │ VECTOR │                │                │
     ╰───────────────┴───────────────┴────────┴────────────────┴────────────────╯
-
+```
 
 ## Basic Cache Usage
-
 
 ```python
 question = "What is the capital of France?"
 ```
-
 
 ```python
 # Check the semantic cache -- should be empty
@@ -107,14 +97,12 @@ if response := llmcache.check(prompt=question):
     print(response)
 else:
     print("Empty cache")
-```
 
     Empty cache
+```
 
-
-Our initial cache check should be empty since we have not yet stored anything in the cache. Below, store the `question`,
-proper `response`, and any arbitrary `metadata` (as a python dictionary object) in the cache.
-
+Your initial cache check should be empty since you have yet to store anything in the cache. Below, store the `question`, the
+proper `response`, and any arbitrary `metadata` (as a Python dictionary object) in the cache.
 
 ```python
 # Cache the question, answer, and arbitrary metadata
@@ -125,53 +113,37 @@ llmcache.store(
 )
 ```
 
-
 ```python
 # Check the cache again
 if response := llmcache.check(prompt=question, return_fields=["prompt", "response", "metadata"]):
     print(response)
 else:
     print("Empty cache")
-```
 
     [{'id': 'llmcache:115049a298532be2f181edb03f766770c0db84c22aff39003fec340deaec7545', 'vector_distance': '8.34465026855e-07', 'prompt': 'What is the capital of France?', 'response': 'Paris', 'metadata': {'city': 'Paris', 'country': 'france'}}]
-
-
+```
 
 ```python
 # Check for a semantically similar result
 question = "What actually is the capital of France?"
 llmcache.check(prompt=question)[0]['response']
-```
-
-
-
 
     'Paris'
-
-
-
+```
 
 ```python
 # Widen the semantic distance threshold
 llmcache.set_threshold(0.3)
 ```
 
-
 ```python
 # Really try to trick it by asking around the point
 # But is able to slip just under our new threshold
 question = "What is the capital city of the country in Europe that also has a city named Nice?"
 llmcache.check(prompt=question)[0]['response']
-```
-
-
-
 
     'Paris'
-
-
-
+```
 
 ```python
 # Invalidate the cache completely by clearing it out
@@ -179,19 +151,13 @@ llmcache.clear()
 
 # should be empty now
 llmcache.check(prompt=question)
-```
-
-
-
 
     []
-
-
+```
 
 ## Simple performance testing
 
-Next, we will measure the speedup obtained by using ``SemanticCache``. We will use the ``time`` module to measure the time taken to generate responses with and without ``SemanticCache``.
-
+Next, you will measure the speedup obtained by using `SemanticCache`. You will use the `time` module to measure the time taken to generate responses with and without `SemanticCache`.
 
 ```python
 import time
@@ -215,7 +181,6 @@ def answer_question(question: str) -> str:
         return answer
 ```
 
-
 ```python
 start = time.time()
 # asking a question -- openai response time
@@ -223,16 +188,13 @@ answer = answer_question("What is the capital of France?")
 end = time.time()
 
 print(f"Without caching, a call to openAI to answer this simple question took {end-start} seconds.")
-```
 
     Without caching, a call to openAI to answer this simple question took 0.5017588138580322 seconds.
-
-
+```
 
 ```python
 llmcache.store(prompt="What is the capital of France?", response="Paris")
 ```
-
 
 ```python
 cached_start = time.time()
@@ -240,19 +202,17 @@ cached_answer = answer_question("What is the capital of France?")
 cached_end = time.time()
 print(f"Time Taken with cache enabled: {cached_end - cached_start}")
 print(f"Percentage of time saved: {round(((end - start) - (cached_end - cached_start)) / (end - start) * 100, 2)}%")
-```
 
     Time Taken with cache enabled: 0.327639102935791
     Percentage of time saved: 34.7%
+```
 
 
 
 ```python
 # check the stats of the index
 $ rvl stats -i llmcache
-```
 
-    
     Statistics:
     ╭─────────────────────────────┬─────────────╮
     │ Stat Key                    │ Value       │
@@ -277,8 +237,7 @@ $ rvl stats -i llmcache
     │ total_inverted_index_blocks │ 7           │
     │ vector_index_sz_mb          │ 3.0161      │
     ╰─────────────────────────────┴─────────────╯
-
-
+```
 
 ```python
 # Clear the cache AND delete the underlying index

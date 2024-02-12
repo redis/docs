@@ -1,8 +1,8 @@
 ---
-title: Quick Start
-linkTitle: Quick Start
-type: integration
 description: RIOT quick start guide
+linkTitle: Quick Start
+title: Quick Start
+type: integration
 weight: 3
 ---
 
@@ -19,12 +19,12 @@ riot --help
 ```
 
 {{< tip >}}
-You can use `--help` on any command and subcommand:
+You can use `--help` on any command and sub-command:
 {{< /tip >}}
 
 ```
 riot command --help
-riot command subcommand --help
+riot command sub-command --help
 ```
 
 ## Commands
@@ -50,7 +50,7 @@ Replicate a Redis database into another Redis database.
 * **[`ping`]({{< relref "/integrate/riot/misc-topics#generate-completion#ping" >}})**\
 Test connectivity to a Redis database.
 * **[`generate-completion`]({{< relref "/integrate/riot/misc-topics#generate-completion" >}})**\
-Generate bash/zsh completion script for `riot`.
+Generate Bash/Zsh completion script for `riot`.
 
 ## General options
 
