@@ -125,7 +125,7 @@
         </dt>
         {{ range . }}
           <dd>
-            <a class="block font-mono font-medium mb-2 {{- if eq $this . }} text-indigo-600{{- end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
+            <a class="block font-mono font-medium mb-2 {{- if eq $this . }} text-redis-red-500{{- end }} hover:text-redis-pen-600" href="{{ .RelPermalink }}">{{ .Title }}</a>
           </dd>
         {{ end }}
       </dl>

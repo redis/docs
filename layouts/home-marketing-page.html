@@ -1,0 +1,200 @@
+{{ define "head" }}
+<script src='{{ relURL "" }}/js/cli.js' defer></script>
+{{ end }}
+
+{{ define "main" }}
+<main>
+  <header class="min-h-fit h-[calc(100vh-66px)] flex flex-col text-center">
+    <div class="px-auto p-5 flex flex-col gap-8 items-center justify-center h-full bg-redis-ink-900 text-white">
+      <h1 class="text-[6.25rem] leading-[85px] md:text-[11.25rem] md:leading-[144px] font-bold uppercase font-trailers">See&nbsp;how fast&nbsp;feels</h1>
+      <p class="text-xl md:text-2xl">Get the world's fastest in-memory database from the ones who built it.</p>
+      <div class="flex flex-col md:flex-row gap-4 md:mt-4">
+        {{ partial "components/button-link.html" (dict "Href" "" "Text" "Start for free") }}
+        <a class="p-4 text-sm font-mono hover:underline rounded" href="">Talk to sales →</a>
+      </div>
+    </div>
+    <div class="h-28">logo wheel</div>
+  </header>
+  <div class="px-11 flex flex-col gap-4 bg-redis-ink-900 text-white">
+    <div class="py-28 flex flex-col gap-14 items-center border-b border-redis-pen-600">
+      <h2 class="text-5xl font-medium">Work really simply in real time</h2>
+      <div class="flex flex-row gap-8 w-full">
+        <div class="flex-1 flex flex-col bg-redis-pen-700 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Open Source</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">→
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-600" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-600" href="">View docs</a>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-redis-pen-800 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Redis Cloud</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-700" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-700" href="">View docs</a>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-redis-ink-900 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Redis Enterprise</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-800" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-800" href="">View docs</a>
+          </div>
+        </div>
+      </div>
+      {{ partial "components/button-link.html" (dict "Text" "Visit demo center" "Href" "") }}
+    </div>
+    <div class="py-28 flex flex-col gap-14 items-center border-b border-redis-pen-600">
+      <h2 class="text-5xl font-medium">Spend more time building</h2>
+      {{/*  <div class="flex flex-row gap-8 w-full">
+        <div class="flex-1 flex flex-col bg-redis-pen-700 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Open Source</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-600" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-600" href="">View docs</a>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-redis-pen-800 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Redis Cloud</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-700" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-700" href="">View docs</a>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-redis-ink-900 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Redis Enterprise</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-800" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-800" href="">View docs</a>
+          </div>
+        </div>
+      </div>  */}}
+      {{ partial "components/button-link.html" (dict "Text" "Visit demo center" "Href" "") }}
+    </div>
+    <div class="py-28 flex flex-col gap-14 items-center border-b border-redis-pen-600">
+      <h2 class="text-2xl font-medium">Work seamlessly in your stack</h2>
+      <div class="flex flex-row gap-16">
+        <div>AWS Logo</div>
+        <div>Google Cloud Logo</div>
+        <div>Microsoft Azure Logo</div>
+      </div>
+    </div>
+    <div class="py-28 flex flex-col gap-14 items-center border-b border-redis-pen-600">
+      <h2 class="text-5xl font-medium">Find what you need to get started</h2>
+      <div class="flex flex-row gap-8 w-full">
+        <div class="flex-1 flex flex-col bg-redis-pen-700 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Open Source</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-600" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-600" href="">View docs</a>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-redis-pen-800 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Redis Cloud</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-700" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-700" href="">View docs</a>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-redis-ink-900 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Redis Enterprise</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-800" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-800" href="">View docs</a>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-redis-pen-700 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Open Source</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-600" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-600" href="">View docs</a>
+          </div>
+        </div>
+      </div>
+      {{ partial "components/button-link.html" (dict "Text" "Show all resources" "Href" "") }}
+    </div>
+    <div class="py-28 flex flex-col gap-14 items-center border-b border-redis-pen-600">
+      <div class="flex flex-col gap-5 text-center">
+        <h2 class="text-5xl font-medium">Our cloud customers build apps—fast</h2>
+        <p class="text-lg">See how Redis Cloud can improve the way you operate and scale.</p>
+      </div>
+      <div>Hover wave</div>
+    </div>
+    <div class="py-28 flex flex-col gap-14 items-center border-b border-redis-pen-600">
+      <h2 class="text-5xl font-medium">Customer stories</h2>
+      <div class="flex flex-row gap-8 w-full">
+        <div class="flex-1 flex flex-col bg-redis-pen-700 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Open Source</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-600" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-600" href="">View docs</a>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-redis-pen-800 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Redis Cloud</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-700" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-700" href="">View docs</a>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-redis-ink-900 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Redis Enterprise</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-800" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-800" href="">View docs</a>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-row gap-8 w-full">
+        <div class="flex-1 flex flex-col bg-redis-pen-700 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Open Source</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-600" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-600" href="">View docs</a>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-redis-pen-800 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Redis Cloud</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-700" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-700" href="">View docs</a>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-redis-ink-900 border border-redis-pen-400 rounded-md">
+          <div class="px-6 py-3 text-2xl border-b border-redis-pen-400">Redis Enterprise</div>
+          <div class="min-w-32 min-h-32">image</div>
+          <div class="flex flex-row border-t border-redis-pen-400 text-center">
+            <a class="inline-block w-full p-4 border-r border-redis-pen-400 hover:bg-redis-pen-800" href="">Learn more</a>
+            <a class="inline-block w-full p-4 hover:bg-redis-pen-800" href="">View docs</a>
+          </div>
+        </div>
+      </div>
+      {{ partial "components/button-link.html" (dict "Text" "See all customer stories" "Href" "") }}
+    </div>
+    <div class="py-28 flex flex-col gap-14 items-center border-b border-redis-pen-600">
+      <h2 class="text-5xl font-medium text-center">Need&nbsp;help? Get&nbsp;answers</h2>
+      <div class="flex flex-col w-1/2">
+        <a class="flex flex-row justify-between py-6 text-base border-b border-redis-pen-400 hover:underline" href=""><span>Documentation</span><span>→</span></a>
+        <a class="flex flex-row justify-between py-6 text-base border-b border-redis-pen-400 hover:underline" href=""><span>Demo center</span><span>→</span></a>
+        <a class="flex flex-row justify-between py-6 text-base border-b border-redis-pen-400 hover:underline" href=""><span>Solutions</span><span>→</span></a>
+        <a class="flex flex-row justify-between py-6 text-base border-b border-redis-pen-400 hover:underline" href=""><span>Contact us</span><span>→</span></a>
+        <a class="flex flex-row justify-between py-6 text-base border-b border-redis-pen-400 hover:underline" href=""><span>Pricing</span><span>→</span></a>
+      </div>
+    </div>
+  </div>
+</main>
+{{ end }}

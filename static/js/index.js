@@ -87,7 +87,6 @@ const mobileMenu = (() => {
     const focusable = container.querySelectorAll('button, [href], input, select, textarea')
     focusable.forEach(el => el.setAttribute('tabindex', state ? '' : '-1'))
     container.classList.toggle('hidden')
-    container.classList.toggle('grid')
   }
 
   // Trap focus to currently open modal

@@ -1,4 +1,3 @@
-const { red } = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
 const plugin = require('tailwindcss/plugin');
 
@@ -7,34 +6,67 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-				sans: [ 'Inter', ...defaultTheme.fontFamily.sans ],
-				mono: [ 'Fira Code', 'SF Mono', ...defaultTheme.fontFamily.mono ],
-				display: [ 'Inter Display', ...defaultTheme.fontFamily.sans ],
+				sans: [ 'Space Grotesk', ...defaultTheme.fontFamily.sans ],
+				mono: [ 'Space Mono', 'SF Mono', ...defaultTheme.fontFamily.mono ],
+				trailers: [ 'TT Trailers', ...defaultTheme.fontFamily.sans ],
       },
-	  colors: {
-		midnight: {
-			700: '#161F31',
-		  },
-		'redis-indigo': {
-			500: '#5961ff',
-			600: '#454CD5'
-		},
-        'redis-neutral': {
-			800: '#4E545B'
-		}
-	  },
+			colors: {
+				midnight: {
+					700: '#161F31',
+					},
+				neutral: {
+					150: '#F0F0F0'
+				},
+				'redis-red': {
+					500: '#FF4438',
+					600: '#D52D1F'
+				},
+				'redis-yellow': {
+					100: '#FBFFE8',
+					300: '#EDFF8E',
+					500: '#DCFF1E',
+				},
+				'redis-indigo': {
+					500: '#5961ff',
+					600: '#454CD5'
+				},
+				'redis-pen': {
+					200: '#E8EBEC',
+					300: '#B9C2C6',
+					400: '#8A99A0',
+					600: '#5C707A',
+					700: '#2D4754',
+					800: '#163341'
+				},
+				'redis-pencil': {
+					200: '#E5E5E5',
+
+					250: '#D9D9D9',
+
+					300: '#B2B2B2',
+					500: '#808080',
+					600: '#4C4C4C',
+
+					700: '#444444',
+
+					900: '#191919',
+					950: '#000000'
+				},
+				'redis-ink': {
+					900: '#091A23'
+				},
+				'redis-neutral': {
+					800: '#4E545B'
+				}
+			},
       typography: (theme) => (  {
         DEFAULT: {
           css: {
-            color: theme('colors.slate.600'),
+            color: theme('colors.redis-ink.900'),
             a: {
               transition: '.2s all',
-              color: theme('colors.redis-indigo.500'),
-              textDecorationColor: theme('colors.indigo.300'),
-			  textDecoration: 'none',
-              '&:hover': {
-                color: theme('colors.redis-indigo.600'),
-              },
+			  			textDecoration: 'underline',
+							fontWeight: '400',
             },
             code: {
               fontWeight: '500',
