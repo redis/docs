@@ -67,42 +67,42 @@
     </div>
     <div class="lg:px-11 w-full flex flex-col gap-24">
       <div>
-        <h1 class="text-5xl font-medium" id="develop">Develop</h1>
-        {{/*  <div class="w-full border-t border-t-redis-pen-300 mt-14 pt-14 flex flex-col md:flex-row gap-11 md:gap-0">
-          <div class="flex flex-col gap-5 flex-1">
-            <h3 class="text-2xl">Cloud</h3>
-            <p>Hosted and serverless database-as-a-service (DBaaS). The fastest way to deploy Redis Enterprise via Amazon AWS, Google Cloud Platform, or Microsoft Azure.</p>
-            <button class="p-4 mt-3 mr-auto text-sm font-mono bg-redis-yellow-500 border border-redis-pen-600 rounded hover:bg-redis-yellow-300 transition-colors">Get started</button>
-          </div>
-          <div class="flex-1">
-            <div class="h-full flex flex-col md:flex-row gap-11 md:gap-8 md:pl-8 md:ml-8 md:border-l md:border-l-redis-pen-300">
-              <div class="flex flex-col gap-5 flex-1">
-                <p class="uppercase">Redis Cloud Services</p>
-                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Overview →</a>
-              </div>
-              <div class="flex flex-col gap-5 flex-1">
-                <p class="uppercase">Learn more about</p>
-                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Subscriptions →</a>
-                <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="">Databases →</a>
-              </div>
-            </div>
-          </div>
-        </div>  */}}
+        <h1 class="text-5xl font-medium" id="develop">Learn how to</h1>
         {{ partial "docs-section.html" (dict
-          "Title" "Cloud"
-          "Description" "Hosted and serverless database-as-a-service (DBaaS). The fastest way to deploy Redis Enterprise via Amazon AWS, Google Cloud Platform, or Microsoft Azure."
-          "ButtonLink" ""
-          "LinksLeftTitle" "Redis Cloud Services"
+          "Title" "Develop"
+          "Description" "Read more about how to use the Redis in-memory data store as a cache, vector database, document database, streaming engine, and message broker."
+          "ButtonLink" "./develop"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "Featured content"
           "LinksLeft" (slice
-          (dict "Text" "Overview" "URL" "/"))
-          "LinksRightTitle" "Learn more about"
+            (dict "Text" "Vector search" "URL" "./develop/interact/search-and-query/query/vector-search")
+            (dict "Text" "Query and aggregate" "URL" "./develop/interact/search-and-query/query")
+            (dict "Text" "Debug functions" "URL" "./develop/interact/programmability/triggers-and-functions/debugging")
+            )
+          "LinksRightTitle" "Quick starts"
           "LinksRight" (slice
-            (dict "Text" "Subscriptions" "URL" "/")
-            (dict "Text" "Databases" "URL" "/")
+            (dict "Text" "Data structure store" "URL" "./develop/get-started/data-store/")
+            (dict "Text" "Document database" "URL" "./develop/get-started/document-database/")
+            (dict "Text" "Vector database" "URL" "./develop/get-started/vector-database/")
             )
           ) }}
         {{ partial "docs-section.html" (dict
-          "Title" "Software"
+          "Title" "Integrate"
+          "Description" "A self-managed data platform that unlocks the full potential of Redis at enterprise scale."
+          "ButtonLink" ""
+          "ButtonLabel" "Huhu"
+          "ButtonLink" "#"
+          "LinksLeftTitle" "Redis Enterprise Services"
+          "LinksLeft" (slice
+              (dict "Text" "Overview" "URL" "/"))
+          "LinksRightTitle" "Learn more about"
+          "LinksRight" (slice
+              (dict "Text" "Clusters" "URL" "/")
+              (dict "Text" "Databases" "URL" "/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
+          "Title" "Operate"
           "Description" "A self-managed data platform that unlocks the full potential of Redis at enterprise scale."
           "ButtonLink" ""
           "ButtonLabel" "Get started"
@@ -123,6 +123,7 @@
           "Title" "Kubernetes"
           "Description" "Redis Enterprise deployed on containerized software platforms and integrated with our partners."
           "ButtonLink" ""
+          "ButtonLabel" "Test"
           "LinksLeftTitle" "Learn more about"
           "LinksLeft" (slice
             (dict "Text" "Architecture" "URL" "/")
@@ -147,6 +148,7 @@
           "Title" "Redis data integration"
           "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
           "ButtonLink" ""
+          "ButtonLabel" ""
           "LinksLeftTitle" "Redis Data Integration Services"
           "LinksLeft" (slice
           (dict "Text" "Overview" "URL" "/"))
@@ -163,6 +165,7 @@
           "Title" "RedisInsight"
           "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
           "ButtonLink" ""
+          "ButtonLabel" ""
           "LinksLeftTitle" "Learn more about"
           "LinksLeft" (slice
             (dict "Text" "Installation guide" "URL" "/")
