@@ -502,13 +502,15 @@ Migrate the docs from docs.redis.com
 '''
 def migrate_enterprise_ops_docs(repo):
     repo_content = slash(repo, 'content/') 
-    content = ['rs', 'rc', 'kubernetes', 'stack']    
+    content = ['rs', 'rc', 'kubernetes', 'stack', 'embeds']    
 
     for topic in content:
         source = slash(repo_content, topic)
 
         if topic == 'stack':
             target = slash(DOCS_OPS, 'oss_and_stack/stack-with-enterprise')
+        elif topic == 'embeds':
+            target = slash(DOCS_ROOT, 'embeds')
         else:
             target = slash(DOCS_OPS, topic)
 
@@ -524,7 +526,6 @@ def migrate_enterprise_ops_docs(repo):
                 
                 # Short codes
                 remove_short_code(f, 'allchildren')
-                # TODO: The embeds need to be preserved. Should be addressed in another branch.
                 remove_short_code(f, 'embed-html')
                 
                 # Links
