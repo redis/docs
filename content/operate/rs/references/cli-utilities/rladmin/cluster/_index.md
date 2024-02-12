@@ -16,8 +16,8 @@ Manages cluster configuration and administration. Most `rladmin cluster` command
 
 ## Commands for configured clusters
 
-
+{{<table-children columnNames="Command,Description" columnSources="linkTitle,Description" enableLinks="linkTitle" limitTags="configured">}}
 
 ## Commands for non-configured clusters
 
-
+{{<table-children columnNames="Command,Description" columnSources="linkTitle,Description" enableLinks="linkTitle" limitTags="non-configured">}}

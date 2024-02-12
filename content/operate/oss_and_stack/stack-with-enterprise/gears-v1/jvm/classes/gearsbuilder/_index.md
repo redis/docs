@@ -24,3 +24,4 @@ builder = GearsBuilder.CreateGearsBuilder(reader);
 
 ## Functions
 
+{{<table-children columnNames="Function,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}

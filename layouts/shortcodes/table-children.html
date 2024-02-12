@@ -1,0 +1,45 @@
+{{ $columnNamesStr :=  .Get "columnNames" }}
+{{ $columnNames := split $columnNamesStr "," }}
+{{ $columnSourcesStr :=  .Get "columnSources" }}
+{{ $columnSources := split $columnSourcesStr "," }}
+{{ $enableLinksStr :=  .Get "enableLinks" }}
+{{ $enableLinks := split $enableLinksStr "," }}
+{{ $limitTags := .Get "limitTags" }}
+{{ $children := .Page.Pages }}
+
+<table>
+    <thead>
+        <tr>
+            {{ range $i, $column := $columnNames }}
+                <th style="text-align:left">{{ $column | safeHTML }}</th>
+            {{ end }}
+        </tr>
+    </thead>
+
+    <tbody>
+        {{ range $i, $child := $children }}
+
+        {{ $addRow := true }}
+        {{ if $limitTags }}
+            {{ $childTags := $child.Param "tags" }}
+            {{ if in $childTags $limitTags }}
+                {{ $addRow = true }}
+            {{ else }}
+                {{ $addRow = false }}
+            {{ end }}
+        {{ end }}
+
+        {{ if $addRow }}
+        <tr>
+            {{ range $j, $cSource := $columnSources }}
+                    {{ if in $enableLinks $cSource }}
+                        <td style="text-align:left"><a href="{{$child.RelPermalink}}" >{{ $child.Param $cSource }}</a></td>
+                    {{ else }}
+                        <td style="text-align:left">{{ $child.Param $cSource }}</td>
+                    {{ end }}
+            {{ end }}
+        </tr>
+        {{ end }}
+        {{ end }}
+    </tbody>
+</table>

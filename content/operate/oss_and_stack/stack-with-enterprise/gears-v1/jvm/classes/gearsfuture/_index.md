@@ -20,3 +20,4 @@ You can use a `GearsFuture` object with the following [`GearsBuilder`]({{< relre
 
 ## Functions
 
+{{<table-children columnNames="Function,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}

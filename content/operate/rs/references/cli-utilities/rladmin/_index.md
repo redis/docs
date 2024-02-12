@@ -16,7 +16,7 @@ Although you can use the admin console for some of these tasks, others are uniqu
 
 ## `rladmin` commands
 
-
+{{<table-children columnNames="Command,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
 ## Use the `rladmin` shell
 

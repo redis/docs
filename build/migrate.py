@@ -526,8 +526,6 @@ def migrate_enterprise_ops_docs(repo):
                 
                 # Short codes
                 remove_short_code(f, 'allchildren')
-                # TODO: Don't kick table-children out! Should be addressed in another branch.
-                remove_short_code(f, 'table-children')
                 remove_short_code(f, 'embed-html')
                 
                 # Links
