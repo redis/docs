@@ -1,5 +1,12 @@
 {{ define "head" }}
-  {{ partial "path-scratch.html" }}
+  {{ $base := .Site.BaseURL }}
+  {{ $parsed := urls.Parse $base }}
+  {{ $path := $parsed.Path }}
+  {{ if (eq $path "/") }}
+	{{ .Scratch.Set "path" ""}}
+{{ else }}
+    {{ .Scratch.Set "path" $path}}
+{{ end }}
   {{ $basePath := .Scratch.Get "path" }}
   <script src='{{ $basePath }}/js/commands-filters.js' defer></script>
 {{ end }}
@@ -11,7 +18,7 @@
     <section class="w-full py-12">
       <div class="flex flex-row">
         <h1 class="text-3xl tracking-tighter font-semibold text-redis-ink-900 basis-5/6">Commands</h1>
-        <a href='{{ $basePath }}/' class="font-mono no-underline basis-1/6 text-right opacity-70 hover:bg-red-50/50">
+        <a href='../' class="font-mono no-underline basis-1/6 text-right opacity-70 hover:bg-red-50/50">
           Back ↑
         </a>
        </div>

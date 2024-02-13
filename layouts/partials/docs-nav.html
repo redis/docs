@@ -27,7 +27,14 @@
 {{- end }}
 
 
-{{ partial "path-scratch.html" }}
+{{ $base := .Site.BaseURL }}
+{{ $parsed := urls.Parse $base }}
+{{ $path := $parsed.Path }}
+{{ if (eq $path "/") }}
+  {{ .Scratch.Set "path" ""}}
+{{ else }}
+  {{ .Scratch.Set "path" $path}}
+{{ end }}
 
 <div class="hidden md:block w-full md:w-64 h-fit md:h-full shrink-0 text-sm font-mono font-normal py-6">
   <nav class="w-full md:w-64 z-40 bg-white md:fixed md:pt-6 h-fit md:h-full max-h-[calc(100vh-7rem)] leading-7">
