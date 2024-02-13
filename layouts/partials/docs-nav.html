@@ -69,6 +69,11 @@
         <div class="hidden md:block w-full py-6"></div>
       {{ end }}      
     </div>
+    {{ if in (slice "Develop" "Integrate" "Operate") $navRoot.LinkTitle }}
+    <div id="sidebar-cmd" class="max-h-[calc(100vh-8rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col mt-4">
+      <a class='px-6 py-4 hover:bg-redis-pen-200 text-redis-red-600 {{ if eq $navRoot.LinkTitle "Commands" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/commands'>Commands</a>
+    </div>
+    {{ end }}
   </nav>
 </div>
 

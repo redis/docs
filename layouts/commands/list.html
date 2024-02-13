@@ -3,10 +3,10 @@
   {{ $parsed := urls.Parse $base }}
   {{ $path := $parsed.Path }}
   {{ if (eq $path "/") }}
-	{{ .Scratch.Set "path" ""}}
-{{ else }}
+	  {{ .Scratch.Set "path" ""}}
+  {{ else }}
     {{ .Scratch.Set "path" $path}}
-{{ end }}
+  {{ end }}
   {{ $basePath := .Scratch.Get "path" }}
   <script src='{{ $basePath }}/js/commands-filters.js' defer></script>
 {{ end }}
@@ -15,13 +15,12 @@
   {{ partial "path-scratch.html" }}
   {{ $basePath := .Scratch.Get "path" }}
   <main class="docs w-full max-w-[1440px] mx-auto px-11 flex flex-col md:flex-row gap-8 lg:gap-16">
+    {{ partial "docs-nav-collapsed.html" . }}
     <section class="w-full py-12">
-      <div class="flex flex-row">
-        <h1 class="text-3xl tracking-tighter font-semibold text-redis-ink-900 basis-5/6">Commands</h1>
-        <a href='../' class="font-mono no-underline basis-1/6 text-right opacity-70 hover:bg-red-50/50">
-          Back ↑
-        </a>
-       </div>
+      {{ partial "breadcrumbs" . }}
+      <section class="prose py-12">
+        <h1>Commands</h1>
+      </section>
       <form id="command-filter" class="text-center flex flex-col sm:grid grid-cols-2 gap-4 mt-6 mb-8">
         <label class="relative flex items-center">
           <span class="sr-only">Search commands&hellip;</span>
