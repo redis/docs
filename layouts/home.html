@@ -88,89 +88,108 @@
           ) }}
         {{ partial "docs-section.html" (dict
           "Title" "Integrate"
-          "Description" "A self-managed data platform that unlocks the full potential of Redis at enterprise scale."
-          "ButtonLink" ""
-          "ButtonLabel" "Huhu"
-          "ButtonLink" "#"
-          "LinksLeftTitle" "Redis Enterprise Services"
+          "Description" "Read about frameworks and integrations available for Redis."
+          "ButtonLink" "./integrate"
+          "ButtonLabel" "Browse integrations"
+          "LinksLeftTitle" "Featured libraries"
           "LinksLeft" (slice
-              (dict "Text" "Overview" "URL" "/"))
-          "LinksRightTitle" "Learn more about"
+            (dict "Text" "RedisVL" "URL" "./integrate/redisvl/")
+            (dict "Text" "RedisOM for Python" "URL" "./integrate/om-python")
+            (dict "Text" "RedisOM for Java" "URL" "./integrate/om-java")
+          )
+          "LinksRightTitle" "Data Integration"
           "LinksRight" (slice
-              (dict "Text" "Clusters" "URL" "/")
-              (dict "Text" "Databases" "URL" "/")
+            (dict "Text" "Ingest" "URL" "./integrate/rdi/quickstart/ingest-guide/")
+            (dict "Text" "Write-behind" "URL" "./integrate/rdi/quickstart/write-behind-guide/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
           "Title" "Operate"
+          "Description" "Read about how to install, administer, and monitor Redis OSS, Redis Stack, Redis Enterprise, and Redis Cloud."
+          "ButtonLink" "./operate"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "Featured content"
+          "LinksLeft" (slice
+              (dict "Text" "From Fixed to Flexible" "URL" "./operate/rc/subscriptions/upgrade-fixed-flexible/")
+              (dict "Text" "Redis Cloud REST API" "URL" "./operate/rc/api/")
+              (dict "Text" "Prometheus and Grafana with Redis Cloud" "URL" "./operate/rc/cloud-integrations/prometheus-integration/")
+              )
+        ) }}
+      </div>
+      <div>
+        <h1 class="text-5xl font-medium" id="operate">Explore by product</h1>
+        {{ partial "docs-section.html" (dict
+          "Title" "Redis OSS and Stack"
+          "Description" "Redis Stack extends Redis with modern data models and processing engines to provide a complete developer experience."
+          "ButtonLink" "./operate/oss_and_stack/"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "Learn more about"
+          "LinksLeft" (slice
+            (dict "Text" "Install" "URL" "./operate/oss_and_stack/install/install-stack/")
+            (dict "Text" "Quick start" "URL" "./develop/get-started/")
+            (dict "Text" "Search and query" "URL" "./develop/interact/search-and-query/")
+            (dict "Text" "JSON" "URL" "./develop/data-types/json/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
+        "Title" "Redis Cloud"
+        "Description" "Redis Stack extends Redis with modern data models and processing engines to provide a complete developer experience."
+        "ButtonLink" "./operate/rc"
+        "ButtonLabel" "Read more"
+        "LinksLeftTitle" "Learn more about"
+        "LinksLeft" (slice
+          (dict "Text" "Quick start" "URL" "./operate/rc/rc-quickstart/")
+          (dict "Text" "Subscriptions" "URL" "./operate/rc/subscriptions/")
+          (dict "Text" "Databases" "URL" "./operate/rc/databases/")
+        )
+      ) }}
+      {{ partial "docs-section.html" (dict
+          "Title" "Redis Enterprise Software"
           "Description" "A self-managed data platform that unlocks the full potential of Redis at enterprise scale."
           "ButtonLink" ""
-          "ButtonLabel" "Get started"
-          "ButtonLink" "#"
-          "LinksLeftTitle" "Redis Enterprise Services"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "Learn more about"
           "LinksLeft" (slice
-              (dict "Text" "Overview" "URL" "/"))
-          "LinksRightTitle" "Learn more about"
-          "LinksRight" (slice
-              (dict "Text" "Clusters" "URL" "/")
-              (dict "Text" "Databases" "URL" "/")
+            (dict "Text" "Quick start" "URL" "./operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart/")
+            (dict "Text" "Clusters" "URL" "./operate/rs/clusters/")
+            (dict "Text" "Databases" "URL" "./operate/rs/databases/")
           )
         ) }}
-      </div>
-      <div>
-        <h1 class="text-5xl font-medium" id="operate">Operate</h1>
         {{ partial "docs-section.html" (dict
-          "Title" "Kubernetes"
+          "Title" "Redis Enterprise for Kubernetes"
           "Description" "Redis Enterprise deployed on containerized software platforms and integrated with our partners."
-          "ButtonLink" ""
-          "ButtonLabel" "Test"
+          "ButtonLink" "./operate/kubernetes/"
+          "ButtonLabel" "Read more"
           "LinksLeftTitle" "Learn more about"
           "LinksLeft" (slice
-            (dict "Text" "Architecture" "URL" "/")
-            (dict "Text" "Clusters" "URL" "/")
-            (dict "Text" "Deployments" "URL" "/")
-            (dict "Text" "Databases" "URL" "/")
+            (dict "Text" "Architecture" "URL" "./operate/kubernetes/architecture/")
+            (dict "Text" "Deployments" "URL" "./operate/kubernetes/deployment/")
+            (dict "Text" "Clusters" "URL" "./operate/kubernetes/re-clusters/")
+            (dict "Text" "Databases" "URL" "./operate/kubernetes/re-databases/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
-          "Title" "Redis stack"
-          "Description" "Redis Enterprise supports Redis Stack features (formerly modules), which extend the core Redis feature set."
-          "ButtonLink" ""
-          "LinksLeftTitle" "Learn more about"
-          "LinksLeft" (slice
-            (dict "Text" "Search and query" "URL" "/")
-            (dict "Text" "JSON" "URL" "/")
-            (dict "Text" "Time series" "URL" "/")
-            (dict "Text" "Probabilistic" "URL" "/")
-          )
-        ) }}
-        {{ partial "docs-section.html" (dict
-          "Title" "Redis data integration"
+          "Title" "Redis Data Integration"
           "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
-          "ButtonLink" ""
-          "ButtonLabel" ""
-          "LinksLeftTitle" "Redis Data Integration Services"
+          "ButtonLink" "./integrate/rdi"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "LEARN MORE ABOUT"
           "LinksLeft" (slice
-          (dict "Text" "Overview" "URL" "/"))
-          "LinksRightTitle" "Learn more about"
-          "LinksRight" (slice
-            (dict "Text" "Subscriptions" "URL" "/")
-            (dict "Text" "Databases" "URL" "/")
+            (dict "Text" "Quick start" "URL" "./integrate/rdi/quickstart/")
+            (dict "Text" "Architecture" "URL" "./integrate/rdi/architecture/")
+            (dict "Text" "Install" "URL" "./integrate/rdi/installation/")
+            (dict "Text" "Reference" "URL" "./integrate/rdi/reference/")
           )
         ) }}
-      </div>
-      <div>
-        <h1 class="text-5xl font-medium" id="explore">Explore</h1>
         {{ partial "docs-section.html" (dict
           "Title" "RedisInsight"
-          "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
-          "ButtonLink" ""
-          "ButtonLabel" ""
+          "Description" "RedisInsight is a cross-platform GUI for Redis, with focus on reducing memory usage and improving application performance."
+          "ButtonLink" "./develop/connect/insight/"
+          "ButtonLabel" "Read more"
           "LinksLeftTitle" "Learn more about"
           "LinksLeft" (slice
-            (dict "Text" "Installation guide" "URL" "/")
-            (dict "Text" "Subscriptions" "URL" "/")
-            (dict "Text" "Databases" "URL" "/")
+            (dict "Text" "User guide" "URL" "./develop/connect/insight/")
+            (dict "Text" "Manage Streams in RedisInsight" "URL" "./develop/connect/insight/tutorials/insight-stream-consumer/")
           )
         ) }}
       </div>
