@@ -37,12 +37,11 @@
 {{ end }}
 
 <div class="hidden md:block w-full md:w-64 h-fit md:h-full shrink-0 text-sm font-mono font-normal py-6">
-  <nav class="w-full md:w-64 z-40 bg-white md:fixed md:pt-6 h-fit md:h-full max-h-[calc(100vh-7rem)] leading-7">
+  <nav id="sidebar" class="max-h-[calc(100vh-7rem)] flex flex-col gap-4 w-full md:w-64 z-40 bg-white md:fixed md:pt-6 h-fit md:h-full leading-7">
     {{ $navRoot := cond (eq .Site.Home.Type "docs") .Site.Home .FirstSection -}}
     {{ $ulNr := 0 -}}
     {{ $ulShow := 1 -}}
-    <div id="sidebar" class="max-h-[calc(100vh-8rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
-      {{ if in (slice "Develop" "Integrate" "Operate") $navRoot.LinkTitle }}
+      <div class='min-h-0  border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col {{ if not (in (slice "Develop" "Integrate" "Operate") $navRoot.LinkTitle) }} shrink-0 {{ end }}'>
         <a class='px-6 py-4 rounded-t-md hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "Develop" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/develop'>Develop</a>
         {{ if eq $navRoot.LinkTitle "Develop" }}
           <ul class="hidden md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
@@ -61,19 +60,16 @@
             {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
           </ul>
         {{ end }}
-      {{ else }}
-        <a class='px-6 py-4 rounded-t-md hover:bg-redis-pen-200 font-bold' href="{{ $navRoot.RelPermalink }}">{{ $navRoot.LinkTitle }}</a>
-        <ul class="hidden md:block overflow-y-auto grow pr-6 border-y border-opacity-50 border-y-redis-ink-900">
-          {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
-        </ul>
-        <div class="hidden md:block w-full py-6"></div>
-      {{ end }}      
-    </div>
-    {{ if in (slice "Develop" "Integrate" "Operate") $navRoot.LinkTitle }}
-    <div id="sidebar-cmd" class="max-h-[calc(100vh-8rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col mt-4">
-      <a class='px-6 py-4 hover:bg-redis-pen-200 text-redis-red-600 {{ if eq $navRoot.LinkTitle "Commands" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/commands'>Commands</a>
-    </div>
-    {{ end }}
+      </div>
+      <div class='min-h-0 border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col {{ if not (eq $navRoot.LinkTitle "Commands") }} shrink-0 {{ end }}'>
+        <a class='px-6 py-4 hover:bg-redis-pen-200 text-redis-red-600 {{ if eq $navRoot.LinkTitle "Commands" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/commands'>Commands</a>
+        {{ if eq $navRoot.LinkTitle "Commands" }}
+          <ul class="hidden md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
+            {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
+          </ul>
+        {{ end }}
+      </div>
+  </div>
   </nav>
 </div>
 
@@ -85,9 +81,9 @@
     window.addEventListener('scroll', function() {
       const scrolledHeight = window.scrollY + window.innerHeight;
       if (scrolledHeight >= footer.offsetTop) {
-          sidebar.style.maxHeight = `calc(100vh - 8rem - ${scrolledHeight - footer.offsetTop + 20}px)`;
+          sidebar.style.maxHeight = `calc(100vh - 7rem - ${scrolledHeight - footer.offsetTop}px)`;
         } else {
-        sidebar.style.maxHeight = 'calc(100vh - 8rem)';
+        sidebar.style.maxHeight = 'calc(100vh - 7rem)';
       }
     });
   })

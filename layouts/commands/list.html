@@ -14,7 +14,7 @@
 {{ define "main" }}
   {{ partial "path-scratch.html" }}
   {{ $basePath := .Scratch.Get "path" }}
-  <main class="docs w-full max-w-[1440px] mx-auto px-11 flex flex-col md:flex-row gap-8 lg:gap-16">
+  <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row gap-8 lg:gap-16">
     {{ partial "docs-nav-collapsed.html" . }}
     <section class="w-full py-12">
       {{ partial "breadcrumbs" . }}
