@@ -1,44 +1,30 @@
 {{/* Search Modal */}}
-<div class="sr-only w-screen h-screen fixed z-[200] top-0 left-0 cursor-auto flex flex-col bg-slate-900/75 p-4 sm:p-6 md:p-[10vh] lg:p-[12vh]" id="search-container" role="button" aria-expanded="true" aria-haspopup="listbox" aria-labelledby="search-label" tabindex="0">
-  <div class="search-modal">
-    <header class="search-bar">
-      <form id="search-form" class="search-form">
+<div class="sr-only w-screen h-screen fixed z-[200] top-0 left-0 cursor-auto flex flex-col bg-redis-ink-900/75 p-4 sm:p-6 md:p-[10vh] lg:p-[12vh]" id="search-container" role="button" aria-expanded="true" aria-haspopup="listbox" aria-labelledby="search-label" tabindex="0">
+  <div class="my-0 mx-auto w-full max-w-[47.375rem] flex flex-col min-h-0 rounded-lg shadow-lg bg-white p-6 gap-4">
+    <header class="flex flex-row gap-4 p-2">
+      <form id="search-form" class="border border-redis-pen-800 px-3 rounded-md grow flex flex-row gap-3 items-center">
         <label class="search-magnifier-label" for="search-input" id="search-label">
-          <svg width="20" height="20" class="search-icon" viewBox="0 0 20 20">
-            <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          {{ partial "icons/search.html" }}
         </label>
-        <div class="search-loading-indicator">
-          <svg viewBox="0 0 38 38" stroke="currentColor" stroke-opacity=".5">
-            <g fill="none" fill-rule="evenodd">
-              <g transform="translate(1 1)" stroke-width="2">
-                <circle stroke-opacity=".3" cx="18" cy="18" r="18" />
-                <path d="M36 18c0-9.94-8.06-18-18-18">
-                  <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite" />
-                </path>
-              </g>
-            </g>
-          </svg>
-        </div>
-        <input class="search-input" aria-autocomplete="both" aria-labelledby="search-label" id="search-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search&hellip;" maxlength="64" type="search" value="">
+        <input id="search-input" class="search-input w-full appearance-none py-3 focus:outline-none" aria-autocomplete="both" aria-labelledby="search-label" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search&hellip;" maxlength="64" type="search" value="">
         <button type="reset" title="Clear the query" class="search-reset" aria-label="Clear the query" hidden="">
           <svg width="20" height="20" viewBox="0 0 20 20">
             <path d="M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
       </form>
-      <button id="search-cancel" type="reset" aria-label="Cancel">
-        Cancel
+      <button id="search-cancel" type="reset" aria-label="Cancel" class="px-3 border border-redis-pen-800 rounded-md text-center bg-redis-yellow-500 hover:bg-redis-yellow-300">
+        ESC
       </button>
     </header>
-    <dl id="search-results" class="search-results" role="listbox"></dl>
-    <footer class="search-footer">
+    <dl id="search-results" class="min-h-48 overflow-auto px-2" role="listbox"></dl>
+    {{/*  <footer class="search-footer">
       <a href="/docs/stack/search/" target="_blank" rel="noopener noreferrer">
         <span class="logo-label">Powered by Redis Stack</span>
         {{ with resources.Get "icons/stack-icon.svg" }}
         {{ ( . | minify).Content | safeHTML }}{{ end }}
       </a>
-    </footer>
+    </footer>  */}}
   </div>
 </div>
 
@@ -151,19 +137,19 @@
           resultsContainer.insertAdjacentHTML(
             'beforeend',
             `<dt class="sr-only">${escapedSearchTerm}:</dt>
-            <dd class="search-no-results">
-              No results for \"<span class="search-title">${escapedSearchTerm}</span>\"
+            <dd class="text-center">
+              No results for \"<span class="font-bold">${escapedSearchTerm}</span>\"
             </dd>`
           )
         } else {
           sortData(data).forEach((result) => {
             resultsContainer.insertAdjacentHTML(
               'beforeend', 
-              `<dt class="search-item-source">
+              `<dt class="font-bold text-md my-4">
                 ${result.category}
               </dt>`
             )
-    
+            console.log(result);
             delete result.category
     
             Object.keys(result).forEach((key, index) => {
