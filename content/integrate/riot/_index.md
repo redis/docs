@@ -12,12 +12,12 @@ categories:
 description: Redis Input/Output Tools
 group: mig
 hidden: false
-linkTitle: Riot
+linkTitle: RIOT
 summary: Redis Input/Output Tools (RIOT) is a command-line utility designed to help
   you get data in and out of Redis.
-title: Riot
+title: RIOT
 type: integration
-weight: 1
+weight: 2
 ---
 
 Redis Input/Output Tools (RIOT) is a command-line utility designed to help you get data in and out of Redis.
