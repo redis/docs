@@ -4,6 +4,6 @@
   {{ with .Title }}
   <div class="font-medium">{{ . | safeHTML }}:</div>
   {{ end }}
-  {{- .context.Inner | markdownify -}}
+  {{- .Inner | markdownify -}}
   </div>
 </div>

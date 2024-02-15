@@ -1,1 +1,2 @@
-{{ partial "components/alert.html" (dict "Title" "Warning" "context" . ) }}
+{{ $inner := .Inner }}
+{{ partial "components/alert.html" (dict "Title" "Warning" "Inner" $inner ) }}
