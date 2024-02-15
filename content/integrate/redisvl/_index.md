@@ -2,13 +2,12 @@
 type: integration
 categories:
 - docs
-- develop
+- integrate
 - stack
 - oss
 - rs
 - rc
 - oss
-- kubernetes
 - clients
 description: This is the Redis vector library.
 group: library
