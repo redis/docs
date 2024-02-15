@@ -16,7 +16,6 @@ import csv
 Set the migration environment
 '''
 def set_env():
-    print("## Setting the migration environment ...")
     globals()['WORK_DIR'] = parent_dir(parent_dir(os.path.abspath(__file__)))
     globals()['DATA_ROOT'] = slash(WORK_DIR, 'data/')
     globals()['DOCS_ROOT'] = slash(WORK_DIR, 'content/')
@@ -27,6 +26,7 @@ def set_env():
     globals()['DOCS_CMD'] = slash(DOCS_ROOT, 'commands/')
     globals()['DOCS_DEV'] = slash(DOCS_ROOT, 'develop/')
     globals()['DOCS_OPS'] = slash(DOCS_ROOT, 'operate/')
+    globals()['DOCS_INT'] = slash(DOCS_ROOT, 'integrate/')
     globals()['TMP'] = '/tmp'
 
     return globals()
@@ -213,11 +213,10 @@ def replace_img_md_in_file(file_path, old_prefix, new_prefix):
 Replace the link within the file
 '''
 def replace_links_in_file(file_path, old_prefix, new_prefix):
-    with open(file_path, 'r', encoding='utf-8') as file:
-        file_content = file.read()
+    
+    file_content = _read_file(file_path)
 
     link_pattern = re.compile(r'(\[.*?\]\()(' + re.escape(old_prefix) + r')(.*?)' + r'(\))')
-    #updated_content = re.sub(link_pattern, r'\1' + '{{< relref "' + new_prefix + r'\3' + '" >}}' + r'\4', file_content)
     updated_content = re.sub(link_pattern, lambda match: _replace_link(match, new_prefix), file_content)
 
     # Correct links based on a list
@@ -232,16 +231,14 @@ def replace_links_in_file(file_path, old_prefix, new_prefix):
         else:
             updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< relref "' + corrected_links[k] + '" >}}')    
 
-    with open(file_path, 'w', encoding='utf-8') as file:
-        file.write(updated_content)
+    _write_file(file_path, updated_content)
 
 '''
 Read the front matter from a markdown file
 '''
 def _read_front_matter(file_path):
     
-    with open(file_path, 'r', encoding='utf-8') as file:
-        markdown_content = file.read()
+    markdown_content = _read_file(file_path)
 
     front_matter_match = re.match(r'^\s*---\n(.*?\n)---\n', markdown_content, re.DOTALL)
     
@@ -287,6 +284,16 @@ def add_categories(file_path, ctg_name, ctgs_arr):
         front_matter[ctg_name] = ctgs_arr
         _write_front_matter(file_path, front_matter)
 
+
+'''
+Adds type meta data to the markdown file
+'''
+def add_properties(file_path, prop_dict):
+    front_matter = _read_front_matter(file_path)
+    if front_matter:
+        for k  in prop_dict:
+            front_matter[k] = prop_dict[k]
+        _write_front_matter(file_path, front_matter)
 
 # TODO: Why did I use two patterns here?
 #def _get_short_code_patterns(tag):
@@ -576,6 +583,115 @@ def migrate_static_files(repo):
         target = slash(STATIC_ROOT, folder)
         copy_files(source, target)
 
+'''
+Creates a slug name from a file name
+'''
+def _slug(name):
+    return name.replace(" ", "-").lower()
+
+
+'''
+Move some integrations documentation from the operational docs to the integrations section
+'''
+def migrate_integration_docs(repo):
+    
+    integrations = {
+        "AWS Bedrock" : {"weight" : "3", "source" : "operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/", "type": "cloud-service", "desc": "With Amazon Bedrock, users can access foundational AI models from a variety of vendors through a single API, streamlining the process of leveraging generative artificial intelligence."},
+        "Confluent with Redis Cloud" : {"weight" : "8", "source" : "operate/rc/cloud-integrations/confluent-cloud.md", "type": "di", "desc" : "The Redis Sink connector for Confluent Cloud allows you to send data from Confluent Cloud to your Redis Cloud database." },
+        "Prometheus with Redis Cloud" : { "weight" : "6", "source" : "operate/rc/cloud-integrations/prometheus-integration.md", "type": "observability", "desc" : "You can use Prometheus and Grafana to collect and visualize your Redis Cloud metrics."},
+        "Prometheus with Redis Enterprise" : {"weight" : "5", "source" : "operate/rs/clusters/monitoring/prometheus-integration.md", "type": "observability", "desc" : "You can use Prometheus and Grafana to collect and visualize your Redis Enterprise Software metrics."},
+        "Prometheus metrics" : { "weight" : "5", "source" : "operate/rs/clusters/monitoring/prometheus-metrics-definitions.md", "type": "subpage", "target" : "Prometheus with Redis Enterprise", "desc" : "You can use Prometheus and Grafana to collect and visualize your Redis Enterprise Software metrics."},
+        "Uptrace with Redis Enterprise" : { "weight" : "7", "source" : "operate/rs/clusters/monitoring/uptrace-integration.md", "type": "observability", "desc" : "To collect, view, and monitor metrics data from your databases and other cluster components, you can connect Uptrace to your Redis Enterprise cluster using OpenTelemetry Collector."},
+        "Nagios with Redis Enterprise" : { "weight" : "7", "source" : "operate/rs/clusters/monitoring/nagios-plugin.md", "type": "observability", "desc" : "This Nagios plugin enables you to monitor the status of Redis Enterprise related components and alerts."},
+        "Pulumi provider for Redis Cloud" : { "weight" : "4", "source" : "operate/rc/cloud-integrations/pulumi/", "type": "provisioning", "desc" : "With the Redis Cloud Resource Provider you can provision Redis Cloud resources by using the programming language of your choice."},
+        "Terraform provider for Redis Cloud" : { "weight" : "4", "source" : "operate/rc/cloud-integrations/terraform/", "type": "provisioning", "desc" : "The Redis Cloud Terraform provider allows you to provision and manage Redis Cloud resources." },
+        "Redis Data Integration" : { "weight" : "1", "source" : "repo/content/rdi", "type" : "di", "desc" : "Redis Data Integration keeps Redis in sync with the primary database in near real time."}
+    }
+
+    ## Move files from operate to integrate
+    for k in integrations:
+        data = integrations[k]
+        source = data['source']
+        ctype = data['type']
+        desc = data['desc']
+        weight = data.get('weight')
+
+        if source.startswith('operate'):
+
+            source = slash(DOCS_ROOT, source)
+
+            if ctype != "subpage":
+
+                slug = _slug(k)
+                target = slash(DOCS_INT, slug)
+                print("Copying from {} to {} ...".format(source, target))
+            
+                if source.endswith('/'):
+                    copy_files(source, target)
+                elif source.endswith('.md'):
+                    copy_file(source, slash(target, '_index.md'))
+            
+            else:
+                sptarget = data['target']
+                slug = _slug(sptarget)
+                target = slash(DOCS_INT, slug)
+                print("Copying from {} to {} ...".format(source, target))
+                copy_file(source, target)
+
+        elif source.startswith('repo'):
+            source = source.replace('repo', repo)
+            slug = _slug(k)
+            target = slash(DOCS_INT, slug)
+            print("Copying from {} to {} ...".format(source, target))
+            copy_files(source, target)
+            
+        markdown_files = find_markdown_files(target)
+
+        for f in markdown_files:
+            print("Postprocessing {}".format(f))
+
+            ## Add front matter
+            categories = [ "docs", "integrate" ]
+                
+            if "cloud" in slug:
+                categories.append("rc")
+            elif "aws" in slug:
+                categories.append("rc")
+            elif "enterprise" in slug:
+                categories.append("rs")
+            elif "integration" in slug:
+                categories.append("rs")
+                categories.append("rdi")
+            else:
+                categories.append("oss")
+                categories.append("rs")
+                categories.append("rc")
+                    
+            meta = { "type": "integration", "group" : ctype, "summary" : desc, "weight" : weight, "categories": categories}
+
+            if os.path.basename(f) == '_index.md' and  os.path.dirname(f) == target and ctype != "subpage":
+                meta['Title'] = k
+                meta['LinkTitle'] = k
+                meta['linkTitle'] = k
+
+            add_properties(f, meta)
+            remove_prop_from_file(f, 'linkTitle')
+                
+            ## Redmove short codes
+            remove_short_code(f, 'allchildren')
+
+            ## Fix internal links for the rdi docs
+            if _slug(k) == 'redis-data-integration':
+                find_and_replace(f, '"/rdi', '"/integrate/{}'.format(_slug(k)))
+                find_and_replace(f, '"rdi/', '"/integrate/{}/'.format(_slug(k)))
+                find_and_replace(f, '"/stack', '"/operate/oss_and_stack/stack-with-enterprise')
+                find_and_replace(f, '"/rs', '"/operate/rs')
+
+            # Replace the image markdown with the shortcode
+            replace_img_md_in_file(f, '/images', '/images')           
+
+    # TODO: Migrating the OM clients is more complicated
+
 
 '''
 Migration script
@@ -585,6 +701,7 @@ if __name__ == "__main__":
     print("## Setting the migration environment ...")
     print(set_env())
 
+    '''
     print("## Fetching temporary development documentation content ...")
     fetch_io()
 
@@ -604,4 +721,13 @@ if __name__ == "__main__":
     migrate_gloassary(repo)
     migrate_static_files(repo)
     delete_folder(repo)
+    '''
 
+    print("## Fetching temporary Enterprise documentation content ...")
+    repo = fetch_docs_redis_com()
+
+    print("## Migrating the integrations docs ...")
+    migrate_integration_docs(repo)
+    delete_folder(repo)
+
+    

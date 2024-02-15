@@ -1,9 +1,9 @@
-public/
-resources/
-node_modules/
-content/tmp/
+/public/
+/resources/
+/content/tmp/
+/data/*.json
+/examples
 venv/**
-data/*.json
-examples
+node_modules/
 package-lock.json 
 .hugo_build.lock
