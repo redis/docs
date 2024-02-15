@@ -5,9 +5,9 @@
 {{ define "main" }}
   <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row gap-8 lg:gap-16">
     {{ partial "docs-nav.html" . }}
-    <div class="w-full max-w-[47rem] py-12">
+    <div class="w-full py-12">
       {{ partial "breadcrumbs" . }}
-      <section class="prose prose-slate w-full max-w-[47rem] py-12">
+      <section class="prose prose-slate w-full py-12">
         <h1>
           {{ if and (isset .Params "stack") (eq .Params.stack true)}}
           {{ partial "icons/logo-stack.html" (dict "context" . "class" "stack-logo-inline") }}
