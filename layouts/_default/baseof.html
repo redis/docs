@@ -35,8 +35,8 @@
     {{ partialCached "css.html" . }}
 
     {{ block "head" . }}{{ end }}
-
-    {{ partial "fonts.html" }}
+    
+    {{ partial "fonts.html" . }}
     
     {{ if hugo.IsProduction -}}
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
