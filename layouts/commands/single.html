@@ -8,7 +8,7 @@
   {{ $component := cond $isModule .Params.module "Redis" }}
   <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row gap-8 lg:gap-16">
     {{ partial "docs-nav.html" . }}
-    <div class="w-full max-w-[47rem] py-12">
+    <div class="w-full py-12">
       {{ partial "breadcrumbs" . }}
       <section class="prose prose-slate pt-10">
         <h1 class="command-name">
@@ -37,27 +37,27 @@
           {{ end }}
         {{ end }}
         {{ if (gt (len $syntax) 0) }}
-        <div class="font-semibold text-slate-900">Syntax</div>
+        <div class="font-semibold text-redis-ink-900">Syntax</div>
         <pre class="command-syntax">
           {{- $syntax -}}
         </pre>
         {{ end }}
-        <dl class="grid grid-cols-[auto,1fr] gap-x-2 mb-12">
+        <dl class="grid grid-cols-[auto,1fr] gap-2 mb-12">
           {{ if not $isModule }}
-          <dt class="font-semibold text-slate-900">Available since:</dt>
-          <dd>{{ .Params.since }}</dd>
+          <dt class="font-semibold text-redis-ink-900 m-0">Available since:</dt>
+          <dd class="m-0">{{ .Params.since }}</dd>
           {{ else }}
-          <dt class="font-semibold text-slate-900">Available in:</dt>
-          <dd>
+          <dt class="font-semibold text-redis-ink-900 m-0">Available in:</dt>
+          <dd class="m-0">
             <a href="/docs/stack">Redis Stack</a> /
             <a href="/{{ .Params.stack_path }}">{{ .Params.module }} {{ .Params.since }}</a>
           </dd>
           {{ end }}
-          <dt class="font-semibold text-slate-900">Time complexity:</dt>
-          <dd>{{ replace .Params.complexity "*" "\\*" | markdownify }}</dd>
+          <dt class="font-semibold text-redis-ink-900 m-0">Time complexity:</dt>
+          <dd class="m-0">{{ replace .Params.complexity "*" "\\*" | markdownify }}</dd>
           {{ if .Params.acl_categories }}
-          <dt class="font-semibold text-slate-900">ACL categories:</dt>
-            <dd>
+          <dt class="font-semibold text-redis-ink-900 m-0">ACL categories:</dt>
+            <dd class="m-0">
               {{ range .Params.acl_categories }}
                 {{ printf "`%s`<span class='mr-1 last:hidden'>,</span>" . | markdownify }}
               {{ end}}
