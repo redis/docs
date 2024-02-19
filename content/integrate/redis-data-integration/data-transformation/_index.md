@@ -8,10 +8,11 @@ categories:
 - rs
 - rdi
 description: null
-group: library
-summary: Redis OM for Node.js is an object-mapping library for Redis.
+group: di
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
 type: integration
-weight: '9'
+weight: '1'
 ---
 
 The key functionality that RDI performs is mapping the data coming from [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) (representing a Source Database row data or row state change) into a Redis key with a value of [Hash](https://redis.io/docs/data-types/hashes/) or [JSON](https://redis.io/docs/stack/json/).

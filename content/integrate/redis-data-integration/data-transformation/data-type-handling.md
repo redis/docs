@@ -8,10 +8,11 @@ categories:
 - rs
 - rdi
 description: Describes how relational data types are converted to Redis data types
-group: library
-summary: Redis OM for Node.js is an object-mapping library for Redis.
+group: di
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
 type: integration
-weight: '9'
+weight: '1'
 ---
 
 ## Debezium type handling

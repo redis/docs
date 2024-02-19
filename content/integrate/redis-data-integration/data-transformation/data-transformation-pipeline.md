@@ -8,10 +8,11 @@ categories:
 - rs
 - rdi
 description: Learn how to transform data to Redis types
-group: library
-summary: Redis OM for Node.js is an object-mapping library for Redis.
+group: di
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
 type: integration
-weight: '9'
+weight: '1'
 ---
 
 Redis Data Integration's (RDI) data transformation capabilities allow users to transform their data beyond the default translation of source types to Redis types. The transformation involves no coding. Instead, it is described in a set of human readable YAML files, one per source table.

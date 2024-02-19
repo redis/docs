@@ -9,11 +9,12 @@ categories:
 - rdi
 description: Get started creating a write-behind pipeline
 draft: null
-group: library
+group: di
 hidden: false
-summary: Redis OM for Node.js is an object-mapping library for Redis.
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
 type: integration
-weight: '9'
+weight: '1'
 ---
 
 This guide takes you through the creation of a write-behind pipeline.

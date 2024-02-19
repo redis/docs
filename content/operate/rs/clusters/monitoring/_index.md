@@ -15,7 +15,7 @@ You can use the metrics that measure the performance of your Redis Enterprise So
 to keep an eye on the performance of your databases.
 In the RS admin console, you can see the real-time metrics and you can configure alerts that send notifications based on alert parameters.
 
-You can also access the metrics and configure alerts through the REST API so that you can integrate the RS metrics into your monitoring environment, for example, using [Prometheus with Grafana]({{< relref "/operate/rs/clusters/monitoring/prometheus-integration.md" >}}) or [Uptrace]({{< relref "/operate/rs/clusters/monitoring/uptrace-integration.md" >}}).
+You can also access the metrics and configure alerts through the REST API so that you can integrate the RS metrics into your monitoring environment, for example, using [Prometheus with Grafana]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) or [Uptrace]({{< relref "/integrate/uptrace-with-redis-enterprise/" >}}).
 
 Make sure you read the [definition of each metric]({{< relref "/operate/rs/references/metrics/" >}})
 so that you understand exactly what it represents.

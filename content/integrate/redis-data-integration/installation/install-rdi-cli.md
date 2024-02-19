@@ -8,10 +8,11 @@ categories:
 - rs
 - rdi
 description: Install Redis Data Integration CLI
-group: library
-summary: Redis OM for Node.js is an object-mapping library for Redis.
+group: di
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
 type: integration
-weight: '9'
+weight: '1'
 ---
 
 The following installation instructions install the RDI CLI on a local workstation. For installing in Kubernetes (K8s) or OpenShift please see [k8s installation]({{<relref "/integrate/redis-data-integration/installation/install-k8s">}}).

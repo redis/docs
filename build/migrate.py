@@ -360,15 +360,24 @@ def clone_repo(url):
     Repo.clone_from(url, tmpdir)
     return tmpdir
 
+
+'''
+Find all files that match a specific name pattern
+'''
+def find_files(directory, filter):
+    resulting_files = []
+    for root, dirs, files in os.walk(directory):
+        for file in fnmatch.filter(files, filter):
+            resulting_files.append(os.path.join(root, file))
+    return resulting_files
+
 '''
 Find all markdown files
 '''
 def find_markdown_files(directory):
-    markdown_files = []
-    for root, dirs, files in os.walk(directory):
-        for file in fnmatch.filter(files, '*.md'):
-            markdown_files.append(os.path.join(root, file))
-    return markdown_files
+    return find_files(directory, '*.md')
+
+
 
 '''
 Read a markdown file
@@ -595,7 +604,7 @@ def migrate_static_files(repo):
 Creates a slug name from a file name
 '''
 def _slug(name):
-    return name.replace(".", " ").replace(" ", "-").lower()
+    return name.replace(".", " ").replace(" ", "-").replace('--', '-').lower()
 
 
 '''
@@ -615,7 +624,7 @@ def migrate_integration_docs(repo):
         "Terraform provider for Redis Cloud" : { "weight" : "4", "source" : "operate/rc/cloud-integrations/terraform/", "type": "provisioning", "desc" : "The Redis Cloud Terraform provider allows you to provision and manage Redis Cloud resources." },
         "Redis Data Integration" : { "weight" : "1", "source" : "repo/content/rdi", "type" : "di", "desc" : "Redis Data Integration keeps Redis in sync with the primary database in near real time."},
         "RedisOM for Java" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-spring.md", "type" : "library", "desc" : "The Redis OM for Java library is based on the Spring framework and provides object-mapping abstractions.", "images" : "images/*_spring.png", "parent_page" : "_index.md" },
-        "RedisOM for .NET" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-dotnet.md", "type" : "library", "desc" : "Redis OM for .NET is an object-mapping library for Redis.", "images" : "images/*_spring.png", "parent_page" : "_index.md"},
+        "RedisOM for .NET" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-dotnet.md", "type" : "library", "desc" : "Redis OM for .NET is an object-mapping library for Redis.", "parent_page" : "_index.md"},
         "RedisOM for Python" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-python.md", "type" : "library", "desc" : "Redis OM for Python is an object-mapping library for Redis.", "images" : "images/python_*.png", "parent_page" : "_index.md"},
         "RedisOM for Node.js" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-node.md", "type" : "library", "desc" : "Redis OM for Node.js is an object-mapping library for Redis.", "images" : "images/* | grep -e '^[A-Z]'", "parent_page" : "_index.md"}
     }
@@ -667,13 +676,52 @@ def migrate_integration_docs(repo):
             except FileNotFoundError as e:
                 print("Skipping deletion of {}".format(source))
 
+
+        elif source.startswith('develop'):
+
+            source = slash(DOCS_ROOT, source)
+            img_src_folder=slash(os.path.dirname(source), 'images')
+            slug = _slug(k)
+            target = slash(DOCS_INT, slug)
+            mkdir(slash(target, 'images'))
+
+            try:
+                print("Copying from {} to {}".format(source, target))
+                # Copy files
+                copy_file(source, slash(target, '_index.md'))
+
+                if slug.endswith('java'):
+                    images = find_files(img_src_folder, '*_spring.png')
+                elif slug.endswith('python'):
+                    images  = find_files(img_src_folder, 'python_*.png')
+                elif slug.endswith('net'):
+                    images = [slash(img_src_folder, 'Add_Redis_Database_button.png'), 
+                          slash(img_src_folder, 'Configure_Redis_Insight_Database.png'),
+                          slash(img_src_folder, 'Accept_EULA.png')
+                    ]
+                else:
+                    images = []
+            
+                for img in images:
+                    copy_file(img, slash(target, 'images'))
+            except FileNotFoundError as e:
+                print("Skipping ...")
+
+            # Delete files
+            try:
+                delete_file(source)
+                for img in images:
+                    delete_file(img)
+            except FileNotFoundError as e:
+                print("Skipping deletion of {}".format(source))
         elif source.startswith('repo'):
             source = source.replace('repo', repo)
             slug = _slug(k)
             target = slash(DOCS_INT, slug)
             print("Copying from {} to {} ...".format(source, target))
             copy_files(source, target)
-            
+
+        # Post-process files within the target
         markdown_files = find_markdown_files(target)
 
         for f in markdown_files:
@@ -719,8 +767,8 @@ def migrate_integration_docs(repo):
                 find_and_replace(f, '"/stack', '"/operate/oss_and_stack/stack-with-enterprise')
                 find_and_replace(f, '"/rs', '"/operate/rs')
 
-            ## Fix internal links for the stuff that was moved from /operate
-            if data['source'].startswith("operate"):
+            ## Fix internal links for the stuff that was moved from /operate and /develop
+            if data['source'].startswith('operate') or data['source'].startswith('develop'):
                 old_prefix = data['source']
 
                 if old_prefix.endswith('.md'):
@@ -732,26 +780,23 @@ def migrate_integration_docs(repo):
                 find_and_replace(f,  old_prefix, new_prefix)
 
             # Replace the image markdown with the shortcode
-            replace_img_md_in_file(f, '/images', '/images')           
+            replace_img_md_in_file(f, '/images', '/images')
+
+            # Fix broken dev images
+            find_and_replace(f, '../images/', './images/')           
 
     
     # Fix remaining links
-    markdown_files = find_markdown_files(DOCS_INT)
-    corrected_links = _load_csv_file('./migrate/corrected_int_refs.csv')
+    target_folders = [DOCS_INT, DOCS_OPS, DOCS_DEV]
+
+    for tf in target_folders:
+        markdown_files = find_markdown_files(tf)
+        corrected_links = _load_csv_file('./migrate/corrected_int_refs.csv')
     
-    for f in markdown_files:
-          for k in corrected_links:
-            find_and_replace(f, k, corrected_links[k])
+        for f in markdown_files:
+            for k in corrected_links:
+                find_and_replace(f, k, corrected_links[k])
 
-    markdown_files = find_markdown_files(DOCS_OPS)
-    corrected_links = _load_csv_file('./migrate/corrected_int_refs.csv')
-
-    for f in markdown_files:
-          for k in corrected_links:
-            find_and_replace(f, k, corrected_links[k])
-
-
-    # TODO: Migrating the OM clients is more complicated
 
 
 '''

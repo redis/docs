@@ -1,19 +1,21 @@
 ---
+LinkTitle: RedisOM for Java
+Title: RedisOM for Java
 categories:
 - docs
-- develop
-- stack
+- integrate
 - oss
 - rs
 - rc
-- oss
-- kubernetes
-- clients
 description: Learn how to build with Redis Stack and Spring
-linkTitle: OM for Spring / Java
+group: library
+linkTitle: RedisOM for Java
 stack: true
+summary: The Redis OM for Java library is based on the Spring framework and provides
+  object-mapping abstractions.
 title: Redis OM Spring
-weight: 20
+type: integration
+weight: '9'
 ---
 
 Redis Stack provides a seamless and straightforward way to use different data models and functionality from Redis, including a document store, a time series data database, probabilistic data structures, and a full-text search engine.
@@ -45,7 +47,7 @@ We’ll start by creating a skeleton app using the [Spring Initializer](https://
 
 The `web` (Spring Web) gives us the ability to build RESTful applications using Spring MVC. With `devtools` we get fast application restarts and reloads. And `lombok` reduces boilerplate code like getters and setters.
 
-![Spring Initializer](../images/001_stack_spring.png "Spring Initializer")
+![Spring Initializer](./images/001_stack_spring.png "Spring Initializer")
 
 Click `Generate` and download the ZIP file, unzip it and load the Maven project into your IDE of choice.
 
@@ -308,7 +310,7 @@ We create a `Person` object using the Lombok generated builder method and then s
 
 Let’s launch RedisInsight and connect to the localhost at port 6379. With a clean Redis Stack install, we can use the built-in CLI to check the keys in the system:
 
-![RedisInsight](../images/002_stack_spring.png "RedisInsight")
+![RedisInsight](./images/002_stack_spring.png "RedisInsight")
 
 For a small amount of data, you can use the `keys` command (for any significant amount of data, use `scan`):
 
@@ -327,17 +329,17 @@ Let's start our Spring Boot application by using the Maven command:
 
 On RedisInsight, if the application starts correctly, you should see a barrage of commands fly by on the profiler:
 
-![RedisInsight](../images/003_stack_spring.png "RedisInsight")
+![RedisInsight](./images/003_stack_spring.png "RedisInsight")
 
 Now we can inspect the newly loaded data by simply refreshing the "Keys" view:
 
-![RedisInsight](../images/004_stack_spring.png "RedisInsight")
+![RedisInsight](./images/004_stack_spring.png "RedisInsight")
 
 You should now see two keys; one for the JSON document for “Thor” and one for the Redis Set that Spring Data Redis (and Redis OM Spring) use to maintain the list of primary keys for an entity.
 
 You can select any of the keys on the key list to reveal their contents on the details panel. For JSON documents, we get a nice tree-view:
 
-![RedisInsight](../images/005_stack_spring.png "RedisInsight")
+![RedisInsight](./images/005_stack_spring.png "RedisInsight")
 
 Several Redis commands were executed on application startup. Let’s break them down so that we can understand what's transpired.
 
@@ -441,7 +443,7 @@ CommandLineRunner loadTestData(PeopleRepository repo) {
 
 We have 6 People in the database now; since we’re using the devtools in Spring, the app should have reloaded, and the database reseeded with new data. Press enter the key pattern input box in RedisInsight to refresh the view. Notice that we used the repository’s `saveAll` to save several objects in bulk.
 
-![RedisInsight](../images/006_stack_spring.png "RedisInsight")
+![RedisInsight](./images/006_stack_spring.png "RedisInsight")
 
 ## Web Service Endpoints
 
@@ -475,15 +477,15 @@ In this controller, we inject a repository and use one of the CRUD methods, `fin
 
 If we navigate to http://localhost:8080/swagger-ui/ you should see the Swagger UI:
 
-![SwaggerUI](../images/007_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/007_stack_spring.png "SwaggerUI")
 
 We can see the `/all` method from our people-controller-v-1, expanding that you should see:
 
-![SwaggerUI](../images/008_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/008_stack_spring.png "SwaggerUI")
 
 And if you select “Try it out” and then “Execute,” you should see the resulting JSON array containing all People documents in the database:
 
-![SwaggerUI](../images/009_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/009_stack_spring.png "SwaggerUI")
 
 Let’s also add the ability to retrieve a Person by its id by using the repo’s findById method:
 
@@ -502,7 +504,7 @@ SRANDMEMBER com.redis.om.skeleton.models.Person
 
 Plugging the resulting ID in the Swagger UI, we can get the corresponding  JSON document:
 
-![SwaggerUI](../images/010_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/010_stack_spring.png "SwaggerUI")
 
 ## Custom Repository Finders
 
@@ -530,16 +532,16 @@ Iterable<Person> byAgeBetween( //
 
 Refreshing the UI, we can see the new endpoint. Let’s try it with some data:
 
-![SwaggerUI](../images/011_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/011_stack_spring.png "SwaggerUI")
 
 Invoke the endpoint with the value `30` for `min` and `37` for `max` we get two hits;
 “Scarlett Johansson” and “Elizabeth Olsen” are the only two people with ages between 30 and 37.
 
-![SwaggerUI](../images/012_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/012_stack_spring.png "SwaggerUI")
 
 If we look at the RedisInsight Profiler, we can see the resulting query, which is a range query on the index numeric field `age`:
 
-![RedisInsight](../images/013_stack_spring.png "RedisInsight Profiler")
+![RedisInsight](./images/013_stack_spring.png "RedisInsight Profiler")
 
 We can also create query methods with more than one property. For example, if we wanted to do a query by first and last names, we would declare a repository method like:
 
@@ -560,15 +562,15 @@ Iterable<Person> byFirstNameAndLastName(@RequestParam("first") String firstName,
 
 Once again, we can refresh the swagger UI and test the newly created endpoint:
 
-![SwaggerUI](../images/014_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/014_stack_spring.png "SwaggerUI")
 
 Executing the request with the first name `Robert` and last name `Downey`, we get:
 
-![SwaggerUI](../images/015_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/015_stack_spring.png "SwaggerUI")
 
 And the resulting query on RedisInsight:
 
-![RedisInsight](../images/016_stack_spring.png "RedisInsight Profiler")
+![RedisInsight](./images/016_stack_spring.png "RedisInsight Profiler")
 
 Now let’s try a Geospatial query. The `homeLoc` property is a Geo Point, and by using the “Near” predicate in our method declaration, we can get a finder that takes a point and a radius around that point to search:
 
@@ -589,15 +591,15 @@ Iterable<Person> byHomeLoc(//
 
 Refreshing the Swagger US, we should now see the `byHomeLoc` endpoint. Let’s see which of the Avengers live within 10 miles of Suffolk Park Pub in South Wales, Australia... hmmm.
 
-![SwaggerUI](../images/017_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/017_stack_spring.png "SwaggerUI")
 
 Executing the request, we get the record for Chris Hemsworth:
 
-![SwaggerUI](../images/018_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/018_stack_spring.png "SwaggerUI")
 
 and in Redis Insight we can see the backing query:
 
-![RedisInsight](../images/019_stack_spring.png "RedisInsight Profiler")
+![RedisInsight](./images/019_stack_spring.png "RedisInsight Profiler")
 
 Let’s try a full-text search query against the `personalStatement` property. To do so, we prefix our query method with the word `search` as shown below:
 
@@ -617,15 +619,15 @@ Iterable<Person> byPersonalStatement(@RequestParam("q") String q) {
 
 Once again, we can try it on the Swagger UI with the text “mother”:
 
-![SwaggerUI](../images/020_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/020_stack_spring.png "SwaggerUI")
 
 Which results in a single hit, the record for Robert Downey Jr.:
 
-![SwaggerUI](../images/021_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/021_stack_spring.png "SwaggerUI")
 
 Notice that you can pass a query string like “moth*” with wildcards if needed
 
-![SwaggerUI](../images/022_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/022_stack_spring.png "SwaggerUI")
 
 ### Nested object searches
 
@@ -647,11 +649,11 @@ Iterable<Person> byCity(@RequestParam("city") String city) {
 
 Let’s test the byCity endpoint:
 
-![SwaggerUI](../images/023_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/023_stack_spring.png "SwaggerUI")
 
 As expected, we should get two hits; Scarlett Johansson and Elizabeth Olsen, both with addresses in Nee York:
 
-![SwaggerUI](../images/024_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/024_stack_spring.png "SwaggerUI")
 
 The skills set is indexed as tag search. To find a Person with any of the skills in a provided list, we can add a repository method like:
 
@@ -671,15 +673,15 @@ Iterable<Person> byAnySkills(@RequestParam("skills") Set<String> skills) {
 
 Let's test the endpoint with the value "deception":
 
-![SwaggerUI](../images/025_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/025_stack_spring.png "SwaggerUI")
 
 The search returns the records for Scarlett Johansson and Samuel L. Jackson:
 
-![SwaggerUI](../images/026_stack_spring.png "SwaggerUI")
+![SwaggerUI](./images/026_stack_spring.png "SwaggerUI")
 
 We can see the backing query using a tag search:
 
-![RedisInsight](../images/027_stack_spring.png "RedisInsight Profiler")
+![RedisInsight](./images/027_stack_spring.png "RedisInsight Profiler")
 
 ## Fluid Searching with Entity Streams
 

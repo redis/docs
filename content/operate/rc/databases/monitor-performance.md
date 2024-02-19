@@ -59,7 +59,7 @@ Several metric graphs are available:
 | [Expired objects/sec]({{< relref "/operate/rs/references/metrics/database-operations#expired-objectssec" >}}) | Number of expired objects per second. An expired object is an object with expired TTL that was deleted from the database. |
 | [Hit ratio]({{< relref "/operate/rs/references/metrics/database-operations#hit-ratio" >}}) | Percent of operations on existing keys out of the total number database operations |
 
-For more detailed analysis, consider using [RedisInsight]({{< relref "/develop/connect/insight/" >}}) or [Prometheus and Grafana]({{< relref "/operate/rc/cloud-integrations/prometheus-integration" >}}).
+For more detailed analysis, consider using [RedisInsight]({{< relref "/develop/connect/insight/" >}}) or [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}).
 
 ## Configure metric alerts
 

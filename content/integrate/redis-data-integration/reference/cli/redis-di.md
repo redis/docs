@@ -8,10 +8,11 @@ categories:
 - rs
 - rdi
 description: A command line tool to manage & configure Redis Data Integration
-group: library
-summary: Redis OM for Node.js is an object-mapping library for Redis.
+group: di
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
 type: integration
-weight: '9'
+weight: '1'
 ---
 
 A command line tool to manage & configure Redis Data Integration

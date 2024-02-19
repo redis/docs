@@ -8,10 +8,11 @@ categories:
 - rs
 - rdi
 description: Resets the pipeline into initial full sync mode
-group: library
-summary: Redis OM for Node.js is an object-mapping library for Redis.
+group: di
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
 type: integration
-weight: '9'
+weight: '1'
 ---
 
 Resets the pipeline into initial full sync mode

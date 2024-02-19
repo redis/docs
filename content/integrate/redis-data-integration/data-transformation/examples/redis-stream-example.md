@@ -8,10 +8,11 @@ categories:
 - rs
 - rdi
 description: null
-group: library
-summary: Redis OM for Node.js is an object-mapping library for Redis.
+group: di
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
 type: integration
-weight: '9'
+weight: '1'
 ---
 
 In the example below, data is captured from the source table named `invoice` and is written to a Redis stream. The connection is an optional parameter that must refer to the corresponding connection name defined in `config.yaml`. 

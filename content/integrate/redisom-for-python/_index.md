@@ -1,19 +1,20 @@
 ---
+LinkTitle: RedisOM for Python
+Title: RedisOM for Python
 categories:
 - docs
-- develop
-- stack
+- integrate
 - oss
 - rs
 - rc
-- oss
-- kubernetes
-- clients
 description: Learn how to build with Redis Stack and Python
-linkTitle: OM for Python
+group: library
+linkTitle: RedisOM for Python
 stack: true
+summary: Redis OM for Python is an object-mapping library for Redis.
 title: Redis OM Python
-weight: 40
+type: integration
+weight: '9'
 ---
 
 [Redis OM Python](https://github.com/redis/redis-om-python) is a Redis client that provides high-level abstractions for managing document data in Redis. This tutorial shows you how to get up and running with Redis OM Python, Redis Stack, and the [Flask](https://flask.palletsprojects.com/) micro-framework.
@@ -128,7 +129,7 @@ $ flask run
 
 You're now up and running, and ready to perform CRUD operations on data with Redis, Search and Query, JSON and Redis OM for Python! To make sure the server's running, point your browser at `http://127.0.0.1:5000/`, where you can expect to see the application's basic home page:
 
-![screenshot](../images/python_server_running.png)
+![screenshot](./images/python_server_running.png)
 
 ### Load the Sample Data
 
@@ -275,7 +276,7 @@ $ redis-cli
 
 If you're using RedisInsight, the browser will render the key value for you when you click on the key name:
 
-![Data in RedisInsight](../images/python_insight_explore_person.png)
+![Data in RedisInsight](./images/python_insight_explore_person.png)
 
 When storing data as JSON in Redis, we can update and retrieve the whole document, or just parts of it.  For example, to retrieve only the person's address and first skill, use the following command (RedisInsight users should use the built in redis-cli for this):
 

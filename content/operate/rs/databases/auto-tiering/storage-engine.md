@@ -63,4 +63,4 @@ Versions of Redis Enterprise 7.2 and later provide a metric called `bdb_bigstore
   bdb_bigstore_shard_count{bdb="1",cluster="mycluster.local",driver="speedb"} 2.0
   ```
 
-For more about metrics for Redis Enterprise’s integration with Prometheus, see [Prometheus integration]({{< relref "/operate/rs/clusters/monitoring/prometheus-metrics-definitions" >}}).
+For more about metrics for Redis Enterprise’s integration with Prometheus, see [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}}).

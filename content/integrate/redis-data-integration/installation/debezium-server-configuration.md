@@ -8,10 +8,11 @@ categories:
 - rs
 - rdi
 description: Learn how to configure Debezium Server
-group: library
-summary: Redis OM for Node.js is an object-mapping library for Redis.
+group: di
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
 type: integration
-weight: '9'
+weight: '1'
 ---
 
 This document closely follows [Debezium's documentation](https://debezium.io/documentation/reference/stable/operations/debezium-server.html). It explains how to use Debezium Server's `application.properties` configuration file to configure Debezium Server.

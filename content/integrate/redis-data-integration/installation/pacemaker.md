@@ -8,10 +8,11 @@ categories:
 - rs
 - rdi
 description: Deploy a Debezium Server VM cluster using Pacemaker
-group: library
-summary: Redis OM for Node.js is an object-mapping library for Redis.
+group: di
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
+  real time.
 type: integration
-weight: '9'
+weight: '1'
 ---
 
 This document will guide you through the steps required to deploy a three-node, active/passive cluster of Debezium Server VMs using [Pacemaker](https://wiki.clusterlabs.org/wiki/Pacemaker).
