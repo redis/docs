@@ -16,7 +16,7 @@ type: integration
 weight: '4'
 ---
 
-Here, you'll learn how to use the [Redis Cloud Pulumi provider]({{< relref "/operate/rc/cloud-integrations/pulumi" >}}) to create a Flexible subscription and a database using Python.
+Here, you'll learn how to use the [Redis Cloud Pulumi provider]({{< relref "/integrate/pulumi-provider-for-redis-cloud/" >}}) to create a Flexible subscription and a database using Python.
 
 ## Prerequisites
 

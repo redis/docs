@@ -8,12 +8,11 @@ categories:
 - rs
 - rdi
 description: null
-group: di
+group: library
 headerRange: '[2]'
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
-  real time.
+summary: Redis OM for Node.js is an object-mapping library for Redis.
 type: integration
-weight: '1'
+weight: '9'
 ---
 
 Redis Data Integration (RDI) is a product that helps Redis Enterprise users ingest and export data in near real time.

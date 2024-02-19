@@ -9,11 +9,10 @@ categories:
 - rdi
 description: Generates configuration files for RDI and Debezium (when ingesting data
   to Redis)
-group: di
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
-  real time.
+group: library
+summary: Redis OM for Node.js is an object-mapping library for Redis.
 type: integration
-weight: '1'
+weight: '9'
 ---
 
 Generates configuration files for RDI and Debezium (when ingesting data to Redis)

@@ -8,11 +8,10 @@ categories:
 - rs
 - rdi
 description: Install multiple Debezium Servers on the same host
-group: di
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
-  real time.
+group: library
+summary: Redis OM for Node.js is an object-mapping library for Redis.
 type: integration
-weight: '1'
+weight: '9'
 ---
 
 Some use cases require ingesting data from several different data sources.

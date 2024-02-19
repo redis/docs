@@ -22,7 +22,7 @@ You need to set up your Redis Cloud database before you can set it as the vector
 1. [Store database credentials in AWS secrets manager](#store-secret)
 1. [Create a vector index in your database](#create-vector-index) for Bedrock to use
 
-After you set up the database, you can use the database information to set it as your knowledge base database when you [create a knowledge base]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/create-knowledge-base" >}}).
+After you set up the database, you can use the database information to set it as your knowledge base database when you [create a knowledge base]({{< relref "/integrate/aws-bedrock/create-knowledge-base" >}}).
 
 ## Sign up and create a database  {#sign-up-create-subscription}
 
@@ -278,4 +278,4 @@ Replace the following fields:
 
 ## Next steps
 
-After your Redis subscription and database is set up, you can use it to [create a knowledge base]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/create-knowledge-base" >}}) in Amazon Bedrock.
+After your Redis subscription and database is set up, you can use it to [create a knowledge base]({{< relref "/integrate/aws-bedrock/create-knowledge-base" >}}) in Amazon Bedrock.

@@ -25,7 +25,7 @@ Redis develops and maintains a [Terraform provider for Redis Cloud](https://regi
 The Redis Cloud Terraform provider supports Flexible subscriptions. It does not support Fixed subscriptions.
 {{< /note >}}
 
-See [Get started with Terraform]({{< relref "/operate/rc/cloud-integrations/terraform/get-started" >}}) for an example of how to use the Terraform provider.
+See [Get started with Terraform]({{< relref "/integrate/terraform-provider-for-redis-cloud/get-started" >}}) for an example of how to use the Terraform provider.
 
 ## Data sources and Resources
 
@@ -59,7 +59,7 @@ It also allows you to create and manage the following resources:
 
 ## More info
 
-- [Get started with Terraform]({{< relref "/operate/rc/cloud-integrations/terraform/get-started" >}})
+- [Get started with Terraform]({{< relref "/integrate/terraform-provider-for-redis-cloud/get-started" >}})
 - [Redis Cloud Terraform Registry](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs)
 - [Terraform documentation](https://developer.hashicorp.com/terraform/docs)
 - [Terraform configuration syntax](https://developer.hashicorp.com/terraform/language/syntax/configuration)

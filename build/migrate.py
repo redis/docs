@@ -72,6 +72,14 @@ Delete a folder
 def delete_folder(folder_path):
     shutil.rmtree(folder_path)
 
+
+'''
+TODO: Delete a single file
+'''
+def delete_file(file_path):
+    os.remove(file_path)
+
+
 '''
 Copy files recursively
 '''
@@ -587,7 +595,7 @@ def migrate_static_files(repo):
 Creates a slug name from a file name
 '''
 def _slug(name):
-    return name.replace(" ", "-").lower()
+    return name.replace(".", " ").replace(" ", "-").lower()
 
 
 '''
@@ -605,10 +613,13 @@ def migrate_integration_docs(repo):
         "Nagios with Redis Enterprise" : { "weight" : "7", "source" : "operate/rs/clusters/monitoring/nagios-plugin.md", "type": "observability", "desc" : "This Nagios plugin enables you to monitor the status of Redis Enterprise related components and alerts."},
         "Pulumi provider for Redis Cloud" : { "weight" : "4", "source" : "operate/rc/cloud-integrations/pulumi/", "type": "provisioning", "desc" : "With the Redis Cloud Resource Provider you can provision Redis Cloud resources by using the programming language of your choice."},
         "Terraform provider for Redis Cloud" : { "weight" : "4", "source" : "operate/rc/cloud-integrations/terraform/", "type": "provisioning", "desc" : "The Redis Cloud Terraform provider allows you to provision and manage Redis Cloud resources." },
-        "Redis Data Integration" : { "weight" : "1", "source" : "repo/content/rdi", "type" : "di", "desc" : "Redis Data Integration keeps Redis in sync with the primary database in near real time."}
+        "Redis Data Integration" : { "weight" : "1", "source" : "repo/content/rdi", "type" : "di", "desc" : "Redis Data Integration keeps Redis in sync with the primary database in near real time."},
+        "RedisOM for Java" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-spring.md", "type" : "library", "desc" : "The Redis OM for Java library is based on the Spring framework and provides object-mapping abstractions.", "images" : "images/*_spring.png", "parent_page" : "_index.md" },
+        "RedisOM for .NET" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-dotnet.md", "type" : "library", "desc" : "Redis OM for .NET is an object-mapping library for Redis.", "images" : "images/*_spring.png", "parent_page" : "_index.md"},
+        "RedisOM for Python" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-python.md", "type" : "library", "desc" : "Redis OM for Python is an object-mapping library for Redis.", "images" : "images/python_*.png", "parent_page" : "_index.md"},
+        "RedisOM for Node.js" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-node.md", "type" : "library", "desc" : "Redis OM for Node.js is an object-mapping library for Redis.", "images" : "images/* | grep -e '^[A-Z]'", "parent_page" : "_index.md"}
     }
 
-    ## Move files from operate to integrate
     for k in integrations:
         data = integrations[k]
         source = data['source']
@@ -616,6 +627,7 @@ def migrate_integration_docs(repo):
         desc = data['desc']
         weight = data.get('weight')
 
+        ## Move files from operate to integrate
         if source.startswith('operate'):
 
             source = slash(DOCS_ROOT, source)
@@ -625,18 +637,35 @@ def migrate_integration_docs(repo):
                 slug = _slug(k)
                 target = slash(DOCS_INT, slug)
                 print("Copying from {} to {} ...".format(source, target))
-            
-                if source.endswith('/'):
-                    copy_files(source, target)
-                elif source.endswith('.md'):
-                    copy_file(source, slash(target, '_index.md'))
+
+                try:
+                    if source.endswith('/'):
+                        copy_files(source, target)
+                    elif source.endswith('.md'):
+                        copy_file(source, slash(target, '_index.md'))
+                except FileNotFoundError as e:
+                    print("Skipping {}".format(source))
+
             
             else:
                 sptarget = data['target']
                 slug = _slug(sptarget)
                 target = slash(DOCS_INT, slug)
                 print("Copying from {} to {} ...".format(source, target))
-                copy_file(source, target)
+                
+                try:
+                    copy_file(source, target)
+                except FileNotFoundError as e:
+                    print("Skipping {}".format(source))
+
+            # Delete the old folder under /operate
+            try:
+                if source.endswith('.md'):
+                    delete_file(source)
+                else:
+                    delete_folder(source)
+            except FileNotFoundError as e:
+                print("Skipping deletion of {}".format(source))
 
         elif source.startswith('repo'):
             source = source.replace('repo', repo)
@@ -675,7 +704,10 @@ def migrate_integration_docs(repo):
                 meta['linkTitle'] = k
 
             add_properties(f, meta)
-            remove_prop_from_file(f, 'linkTitle')
+            try:
+                remove_prop_from_file(f, 'linkTitle')
+            except KeyError as e:
+                print("The file {} doesn't have a property linkTitle".format(f))
                 
             ## Redmove short codes
             remove_short_code(f, 'allchildren')
@@ -687,8 +719,37 @@ def migrate_integration_docs(repo):
                 find_and_replace(f, '"/stack', '"/operate/oss_and_stack/stack-with-enterprise')
                 find_and_replace(f, '"/rs', '"/operate/rs')
 
+            ## Fix internal links for the stuff that was moved from /operate
+            if data['source'].startswith("operate"):
+                old_prefix = data['source']
+
+                if old_prefix.endswith('.md'):
+                    old_prefix = old_prefix.replace('.md', '')
+                
+                new_prefix = "integrate" + "/" + _slug(k) + "/"
+
+                print("Fixing links from {} to {}".format(old_prefix, new_prefix))
+                find_and_replace(f,  old_prefix, new_prefix)
+
             # Replace the image markdown with the shortcode
             replace_img_md_in_file(f, '/images', '/images')           
+
+    
+    # Fix remaining links
+    markdown_files = find_markdown_files(DOCS_INT)
+    corrected_links = _load_csv_file('./migrate/corrected_int_refs.csv')
+    
+    for f in markdown_files:
+          for k in corrected_links:
+            find_and_replace(f, k, corrected_links[k])
+
+    markdown_files = find_markdown_files(DOCS_OPS)
+    corrected_links = _load_csv_file('./migrate/corrected_int_refs.csv')
+
+    for f in markdown_files:
+          for k in corrected_links:
+            find_and_replace(f, k, corrected_links[k])
+
 
     # TODO: Migrating the OM clients is more complicated
 

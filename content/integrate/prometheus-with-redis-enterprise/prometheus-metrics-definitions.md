@@ -13,7 +13,7 @@ summary: You can use Prometheus and Grafana to collect and visualize your Redis 
 type: integration
 weight: '5'
 ---
-The [integration with Prometheus]({{< relref "/operate/rs/clusters/monitoring/prometheus-integration.md" >}})
+The [integration with Prometheus]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}})
 lets you create dashboards that highlight the metrics that are important to you.
 
 Here are the metrics available to Prometheus:

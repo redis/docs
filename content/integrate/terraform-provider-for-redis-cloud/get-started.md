@@ -16,7 +16,7 @@ type: integration
 weight: '4'
 ---
 
-Here, you'll learn how to use the [Redis Cloud Terraform Provider]({{< relref "/operate/rc/cloud-integrations/terraform" >}}) to create a subscription and a database.
+Here, you'll learn how to use the [Redis Cloud Terraform Provider]({{< relref "/integrate/terraform-provider-for-redis-cloud/" >}}) to create a subscription and a database.
 
 ## Prerequisites
 

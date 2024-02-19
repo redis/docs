@@ -8,11 +8,10 @@ categories:
 - rs
 - rdi
 description: null
-group: di
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
-  real time.
+group: library
+summary: Redis OM for Node.js is an object-mapping library for Redis.
 type: integration
-weight: '1'
+weight: '9'
 ---
 
 The `redis.write` block can be used in the `output` section of the write-behind job in order to enable writing data to the Redis Enterprise target database. Multiple blocks can be used at the same time to write data to different data types. The following example captures data modified in the `address:*` keyspace, then creates a new JSON-like string field named `json_addr`,  and, finally, writes the results to multiple keys in target Redis Enteprise database:

@@ -24,7 +24,7 @@ Redis Cloud exposes its metrics through a Prometheus endpoint. You can configure
 
 The Redis Cloud Prometheus endpoint is exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}). Both options are only available with Flexible or Annual subscriptions. You cannot use Prometheus and Grafana with Fixed or Free subscriptions.
 
-For more information on how Prometheus communicates with Redis Enterprise clusters, see [Prometheus integration with Redis Enterprise Software]({{< relref "/operate/rs/clusters/monitoring/prometheus-integration" >}}).
+For more information on how Prometheus communicates with Redis Enterprise clusters, see [Prometheus integration with Redis Enterprise Software]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
 
 ## Quick start
 
@@ -133,7 +133,7 @@ To get started with custom monitoring with Prometheus on Docker:
 
     If Prometheus is connected to the cluster, you can type **node_up** in the Expression field on the Prometheus home page to see the cluster metrics.
 
-See [Prometheus Metrics]({{< relref "/operate/rs/clusters/monitoring/prometheus-metrics-definitions" >}}) for a list of metrics that Prometheus collects from Redis Enterprise clusters.
+See [Prometheus Metrics]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}}) for a list of metrics that Prometheus collects from Redis Enterprise clusters.
 
 ### Set up Grafana
 

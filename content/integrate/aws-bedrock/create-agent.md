@@ -15,13 +15,13 @@ type: integration
 weight: '3'
 ---
 
-After you have [created a knowledge base]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/create-knowledge-base" >}}), you can use it to create an agent on Amazon Bedrock.
+After you have [created a knowledge base]({{< relref "/integrate/aws-bedrock/create-knowledge-base" >}}), you can use it to create an agent on Amazon Bedrock.
 
 Before you begin this guide, you will need:
 
 - An [AWS IAM Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-service.html) with [permissions for the Bedrock agent](https://docs.aws.amazon.com/bedrock/latest/userguide/security_iam_id-based-policy-examples.html).
 
-- A [Bedrock knowledge base]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/create-knowledge-base" >}}) connected to a [Redis Cloud vector database]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/set-up-redis" >}}).
+- A [Bedrock knowledge base]({{< relref "/integrate/aws-bedrock/create-knowledge-base" >}}) connected to a [Redis Cloud vector database]({{< relref "/integrate/aws-bedrock/set-up-redis" >}}).
 
 ## Create an agent
 

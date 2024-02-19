@@ -26,13 +26,13 @@ With the [Redis Cloud Resource Provider](https://www.pulumi.com/registry/package
 * Go
 * YAML
 
-The Redis Cloud Pulumi provider is based on the [Redis Cloud Terraform provider]({{< relref "/operate/rc/cloud-integrations/terraform" >}}).
+The Redis Cloud Pulumi provider is based on the [Redis Cloud Terraform provider]({{< relref "/integrate/terraform-provider-for-redis-cloud/" >}}).
 
 {{<note>}}
 The Redis Cloud Pulumi Redis Cloud provider supports Flexible subscriptions. It does not support Fixed subscriptions.
 {{</note>}}
 
-See [Get started with Pulumi]({{< relref "/operate/rc/cloud-integrations/pulumi/get-started" >}}) for an example of how to use the Pulumi provider with Python.
+See [Get started with Pulumi]({{< relref "/integrate/pulumi-provider-for-redis-cloud/get-started" >}}) for an example of how to use the Pulumi provider with Python.
 
 ## Resources and functions
 
@@ -74,6 +74,6 @@ The "bring your own AWS account" option for Redis Cloud has been deprecated. The
 
 ## More info
 
-- [Get started with Pulumi]({{< relref "/operate/rc/cloud-integrations/pulumi/get-started" >}})
+- [Get started with Pulumi]({{< relref "/integrate/pulumi-provider-for-redis-cloud/get-started" >}})
 - [Redis Cloud Pulumi registry](https://www.pulumi.com/registry/packages/rediscloud/)
 - [Pulumi documentation](https://www.pulumi.com/docs/)

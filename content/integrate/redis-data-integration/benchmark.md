@@ -8,12 +8,11 @@ categories:
 - rs
 - rdi
 description: Learn how to use the Redis Data Integration Benchmark tool
-group: di
+group: library
 headerRange: '[2]'
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
-  real time.
+summary: Redis OM for Node.js is an object-mapping library for Redis.
 type: integration
-weight: '1'
+weight: '9'
 ---
 
 The goal of Redis Data Integration (RDI) Benchmark Tool is to produce `INSERT` statements on the source database and calculate the lag between the time a key is inserted into the source database and the time at which the same key is stored in the target Redis database.

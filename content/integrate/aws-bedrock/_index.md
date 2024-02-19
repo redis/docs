@@ -25,11 +25,11 @@ For more information about the Redis integration with Amazon Bedrock, see the [A
 
 To fully set up Bedrock with Redis Cloud, you will need to do the following:
 
-1. [Set up a Redis Cloud subscription and vector database]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/set-up-redis" >}}) for Bedrock.
+1. [Set up a Redis Cloud subscription and vector database]({{< relref "/integrate/aws-bedrock/set-up-redis" >}}) for Bedrock.
 
-1. [Create a knowledge base]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/create-knowledge-base" >}}) connected to your vector database.
+1. [Create a knowledge base]({{< relref "/integrate/aws-bedrock/create-knowledge-base" >}}) connected to your vector database.
 
-1. [Create an agent]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/create-agent" >}}) connected to your knowledge base.
+1. [Create an agent]({{< relref "/integrate/aws-bedrock/create-agent" >}}) connected to your knowledge base.
 
 ## More info
 
