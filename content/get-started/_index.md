@@ -5,68 +5,69 @@ description: Learn how to get started with Redis
 hideListLinks: true
          
 ---
-
-Redis is an in-memory and persistent on-disk data structure store that achieves high write and read speed by using key value pairs for storage. Values can contain more complex data types (strings, hashes, lists, sets, and sorted sets), with atomic operations defined on those data types. The
-two on-disk storage formats, Redis Database Backup (RDB) and Append Only File (AOF) are compact and always generated in an append-only fashion. 
+Redis is an [in-memory data store]({{< relref "/develop/get-started/data-store/" >}}) used by millions of developers as a cache, [vector database]({{< relref "/develop/get-started/vector-database/" >}}), [document database]({{< relref "/develop/get-started/document-database/" >}}), [streaming engine]({{< relref "/develop/data-types/streams/" >}}, and message broker. Redis has built-in replication and different levels of [on-disk persistence]({{< relref "/operate/oss_and_stack/management/persistence/" >}}). It supports complex [data types]({{< relref "/develop/data-types/" >}}) (e.g., strings, hashes, lists, sets, sorted sets, and JSON), with atomic operations defined on those data types.
 
 This document describes how to get started with Redis based on your role as a developer or operator. 
 
 ## Developer
 
-Redis can be used as a database, cache, streaming engine, message broker, and more. The following quick start guides will show you how to use Redis for the following specific purposes:
+The following quick start guides will show you how to use Redis for the following specific purposes:
 
-- [Data structure store](/docs/develop/get-started/data-store)
-- [Document database](/docs/develop/get-started/document-database)
-- [Vector database](/docs/develop/get-started/vector-database)
+- [Data structure store]({{< relref "/develop/get-started/data-store/" >}})
+- [Document database]({{< relref "/develop/get-started/document-database/" >}})
+- [Vector database]({{< relref "/develop/get-started/vector-database/" >}})
+
+As a developer, you might also be interested in data integration, libraries, and frameworks:
+
+- [Redis Data Integration]({{< relref "/integrate/redis-data-integration/" >}})
+- [Redis vector library for Python]({{< relref "/integrate/redisvl/" >}})
+- [Redis Cloud with Amazon Bedrock]({{< relref "/integrate/aws-bedrock/" >}})
+- [Object-mapping for .NET]({{< relref "/integrate/redisom-for-net/" >}})
+- [Spring Data Redis for Java]({{< relref "/integrate/spring-framework-cache/" >}})
+
+You can find a complete list of integrations on the [integrations and frameworks hub]({{< relref "/integrate/" >}}).
+
 
 ## Operator 
 
-You can run Redis Enterprise Software in an on-premises data center or on your preferred cloud platform. You can also deploy on a variety of Kubernetes distributions both on-prem and in the cloud by using the Redis Enterprise operator for Kubernetes.
+You can deploy Redis ...
 
-Build a small-scale cluster with the Redis Enterprise Software container image.
-- [Linux quickstart]({{<relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
-- [Docker quickstart]({{<relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart">}})
-- [Get started with Active-Active]({{<relref "/operate/operate/rs/databases/active-active/get-started">}})
+- as a service by using [Redis Cloud]({{< relref "/operate/rc/" >}}), the fastest way to deploy Redis on your preferred cloud platform.
+- by installing [Redis Enterprise Software]({{< relref "/operate/rs/" >}}) in an on-premises data center or on Cloud infrastructure.
+- on a variety Kubernetes distributions by using the [Redis Enterprise operator for Kubernetes]({{< relref "/operate/kubernetes/" >}}).
+- by installing [Redis OSS/Stack](({{< relref "/operate/oss_and_stack/" >}}).
 
-[Install & set up]({{<relref "/operate/rs/installing-upgrading">}}) a Redis Enterprise Software cluster.
+The following guides will help you to get started with your preferred deployment method.
 
-Create a new Redis Cloud subscription:
-- The [Redis Cloud quick start]({{<relref "/operate/rc/rc-quickstart.md">}}) helps you create a free subscription and your first database.  (Start here if you're new.)
-- [Create a Fixed subscription]({{<relref "/operate/rc/subscriptions/create-fixed-subscription.md">}})
-- [Create a Flexible subscription]({{<relref "/operate/rc/subscriptions/create-flexible-subscription.md">}})
-- To create an Annual subscription, contact [support](https://redis.com/company/support).
+Get started with **[Redis Cloud]({{< relref "/operate/rc/" >}})** by creating a subscription:
 
-Redis Enterprise for Kubernetes provides a simple way to get a Redis Enterprise cluster on Kubernetes and enables more complex deployment scenarios:
-- [Deploy Redis Enterprise Software for Kubernetes](/docs/operate/kubernetes/deployment/quick-start/)
-- [Deploy Redis Enterprise for Kubernetes with OpenShift](/docs/operate/kubernetes/deployment/openshift/)
+- The [Redis Cloud quick start]({{< relref "/operate/rc/rc-quickstart" >}}) helps you create a free subscription and your first database.  (Start here if you're new.)
+- [Create a Fixed subscription]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}}) for databases with a memory limit up to 12 GB.
+- [Create a Flexible subscription]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}}) that suits your workload and offers seamless scaling.
 
-## Integrations
+Install a **[Redis Enterprise Software]({{< relref "/operate/rs/" >}})** cluster:
 
-Redis Enterprise supports integrations for ingest, write-behind, large language machine learning models (LLMs), visualizing metrics, and provisioning infrastructure as code.
+- [Linux quick start]({{<relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
+- [Docker quick start]({{<relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
+- [Get started with Active-Active]({{<relref "/operate/operate/rs/databases/active-active/get-started" >}})
+- [Install and upgrade Redis Enterprise]({{<relref "/operate/rs/installing-upgrading">}}) a Redis Enterprise Software cluster.
 
-### Ingest and write-behind
+Leverage **[Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/" >}})** to simply deploy a Redis Enterprise cluster on Kubernetes:
 
-You can use Redis Data Integration (RDI) to ingest data in near real-time, so that Redis becomes part of the data fabric without additional integration efforts. RDI can also map and transform Redis types and models to downstream types and models if an application needs fast writes and reads for some queries, but has to provide data to other downstream services that need them in different models for other uses.
+- [Deploy Redis Enterprise Software for Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start/" >}})
+- [Deploy Redis Enterprise for Kubernetes with OpenShift]({{< relref "/operate/kubernetes/deployment/openshift/" >}})
 
-- Create an ingest pipeline using the [Ingest quickstart](/docs/integrate/rdi/quickstart/ingest-guide/)
-- Create a write-behind pipeline using the [Write-behind quickstart](/docs/integrate/rdi/quickstart/write-behind-guide/)
+Run **[Redis OSS and Stack]({{< relref "/operate/oss_and_stack/ >}})** on your local machine:
 
-### LLMs 
+- [Run Redis Stack on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}})
+- [Install Redis Stack on Linux]({{< relref "/operate/oss_and_stack/install/install-stack/linux" >}})
+- [Install Redis OSS on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
 
-You can use Amazon Bedrock with Redis Enterprise Cloud to build LLM applications. This integration offers a robust, scalable, and efficient solution for developers, streamlining the use of LLMs with Redis as a vector database. 
+As an operator, you might also be interested in the following provisioning and observability integrations: 
 
-- [Use Redis Cloud with Amazon Bedrock](/docs/integrate/rc/cloud-integrations/aws-marketplace/aws-bedrock/)
+- [Pulumi provider for Redis Cloud]({{< relref "/integrate/pulumi-provider-for-redis-cloud/" >}})
+- [Terraform provider for Redis Cloud]({{< relref "/integrate/terraform-provider-for-redis-cloud/" >}})
+- [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud" >}})
+- [Prometheus and Grafana with Redis Enterprise]({{< relref "/integrate/prometheus-with-redis-enterprise/ >}})
 
-### Visualizing metrics
-
-You can use Prometheus and Grafana to collect and visualize your Redis Cloud metrics.
-
-- [Use Prometheus and Grafana with Redis Cloud](/docs/integrate/rc/cloud-integrations/prometheus-integration/)
-
-### Provisioning infrastructure as code
-
-You can use the Redis Cloud Terraform Provider to create a subscription and a database. Alternatively, you can use the Redis Cloud Pulumi provider to create a Flexible subscription and a database in TypeScript, Python, C#, Java, Go, or YAML.
-
--[Get started with Terraform](/docs/integrate/rc/cloud-integrations/terraform/get-started/)
--[The Redis Cloud Pulumi provider](/docs/integrate/rc/cloud-integrations/pulumi/)
- 
+You can find a complete list of integrations on the [integrations and frameworks hub]({{< relref "/integrate/" >}}).
