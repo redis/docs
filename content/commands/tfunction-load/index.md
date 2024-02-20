@@ -24,6 +24,16 @@ bannerText: 'The triggers and functions feature of Redis Stack and its documenta
   GitHub using the "Create new issue" link in the top right-hand corner of this page.
 
   '
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Load a new JavaScript library into Redis
 group: triggers_and_functions
@@ -33,7 +43,7 @@ module: Triggers and functions
 since: 2.0.0
 stack_path: docs/interact/programmability/triggers-and-functions
 summary: Load a new JavaScript library into Redis
-syntax: "TFUNCTION LOAD [REPLACE] [CONFIG <config>] \"<library code>\" \n"
+syntax: 'TFUNCTION LOAD [REPLACE] [CONFIG <config>] "<library code>" '
 syntax_fmt: "TFUNCTION LOAD [REPLACE] [CONFIG\_config] library code"
 syntax_str: "[CONFIG\_config] library code"
 title: TFUNCTION LOAD
@@ -67,8 +77,8 @@ A string representation of a JSON object that will be provided to the library on
 
 TFUNCTION LOAD returns either
 
-* ["OK"](/docs/reference/protocol-spec/#resp-simple-strings) when the library was loaded correctly.
-* [Error reply](/docs/reference/protocol-spec/#resp-errors) when the library could not be loaded.
+* ["OK"]({{< baseurl >}}/develop/reference/protocol-spec#resp-simple-strings) when the library was loaded correctly.
+* [Error reply]({{< baseurl >}}/develop/reference/protocol-spec#resp-errors) when the library could not be loaded.
 
 ## Examples
 

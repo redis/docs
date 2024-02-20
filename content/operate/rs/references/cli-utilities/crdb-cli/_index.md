@@ -19,13 +19,13 @@ Each cluster that hosts an instance is called a **participating cluster**.
 
 An Active-Active database requires two or more participating clusters.
 Each instance is responsible for updating the instances that reside on other participating clusters with the transactions it receives.
-Write conflicts are resolved using [conflict-free replicated data types]({{< relref "/operate/rs/databases/active-active/_index.md" >}}) (CRDTs).
+Write conflicts are resolved using [conflict-free replicated data types]({{< relref "/operate/rs/databases/active-active" >}}) (CRDTs).
 
 To programmatically maintain an Active-Active database and its instances, you can use the `crdb-cli` command-line tool.
 
 ## `crdb-cli` commands
 
-
+{{<table-children columnNames="Command,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
 ## Use the crdb-cli
 

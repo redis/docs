@@ -7,7 +7,7 @@ categories:
 - rc
 description: null
 linkTitle: Edit and view
-weight: 20
+weight: 15
 ---
 
 Use the **Databases** menu of the Redis Cloud console to manage your subscription databases.
@@ -22,7 +22,7 @@ To view the details of a database:
 
 4. Select the database name to open the **Database** page.
 
-    {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}{{< /image >}}
+    {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}
 
 The **Database** screen lets you review:
 - Configuration details of a database
@@ -31,9 +31,9 @@ The **Database** screen lets you review:
 
 For help changing database settings, see [Edit database details](#edit-database-details).
 
-## Configuration details tab
+## Configuration tab
 
-The **Configuration details** screen is divided into sections, each dedicated to a specific category.  Note that not every section or setting is available to every [subscription plan]({{< relref "/operate/rc/subscriptions/" >}}).
+The **Configuration** screen is divided into sections, each dedicated to a specific category.  Note that not every section or setting is available to every [subscription plan]({{< relref "/operate/rc/subscriptions/" >}}).
 
 ### General settings
 
@@ -46,6 +46,7 @@ The available settings vary according to your subscription plan, cloud provider,
 | **Database Name**         | The name given to your database                                                                                                                             |
 | **Public endpoint**       | Public URI used by any application or client to access the database.                                                                                        |
 | **Private endpoint**      | Private endpoint URI available to approved clients; use CIDR allow list and VPC peering to enabled access (_Flexible or Annual subscriptions only_)         |
+| **Tags**                  | A list of the [tags]({{< relref "/operate/rc/databases/tag-database" >}}) associated with the database. Select [Manage tags]({{< relref "/operate/rc/databases/tag-database#tags-tab" >}}) to manage the database tags. |
 | **Type**                  | Displays 'Redis', 'Redis Stack' or 'memcached' based on the value selected when the database was created                                                    |
 | **Redis version**         | Redis version used to create the database                                                                                                                   |
 | **Auto Tiering**          | Checked when the subscription supports Auto Tiering (_Flexible or Annual subscriptions only_)                                                               |
@@ -59,7 +60,7 @@ The available settings vary according to your subscription plan, cloud provider,
 
 The **Scalability** section describes the memory size, throughput, and hashing policy for a database.
 
-{{<image filename="images/rc/database-details-configuration-tab-scalability-flexible.png" alt="Use the Scalability section to control the size, throughput, and hashing policy for a database." >}}{{< /image >}}
+{{<image filename="images/rc/database-details-configuration-tab-scalability-flexible.png" alt="Use the Scalability section to control the size, throughput, and hashing policy for a database." >}}
 
 The **Scalability** section is primarily for Flexible and Annual plans. Free and Fixed plans have options for memory limit and memory used.
 
@@ -77,7 +78,7 @@ To learn more about these settings and when to use them, see [Database clusterin
 
 The Durability section helps protect your data when problems occur.  These settings define replication, persistence, backup, and eviction policies.
 
-{{<image filename="images/rc/database-details-configuration-tab-durability-flexible.png" alt="Use the Durability  section to protect your data from unexpected problems." >}}{{< /image >}}
+{{<image filename="images/rc/database-details-configuration-tab-durability-flexible.png" alt="Use the Durability  section to protect your data from unexpected problems." >}}
 
 | Setting name             | Description                                                                                                                                                     |
 |:-------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -91,7 +92,7 @@ The Durability section helps protect your data when problems occur.  These setti
 
 The **Security** section helps you control access to your database.
 
-{{<image filename="images/rc/database-details-configuration-tab-security-flexible.png" alt="Use the Security settings to control access to your database." >}}{{< /image >}}
+{{<image filename="images/rc/database-details-configuration-tab-security-flexible.png" alt="Use the Security settings to control access to your database." >}}
 
 
 |Setting name| Description                                                                                                                                                                    |
@@ -106,7 +107,7 @@ The **Security** section helps you control access to your database.
 
 The **Alerts** section defines notification emails sent to your account and the conditions that trigger them.
 
-{{<image filename="images/rc/database-details-configuration-tab-alerts-flexible.png" alt="The Alerts section defines the notification emails and their triggering conditions." >}}{{< /image >}}
+{{<image filename="images/rc/database-details-configuration-tab-alerts-flexible.png" alt="The Alerts section defines the notification emails and their triggering conditions." >}}
 
 The available alerts vary according to the subscription type.
 
@@ -125,7 +126,7 @@ The available alerts vary according to the subscription type.
 
 Actions in the **Danger Zone** are permanent and should not be taken lightly.
 
-{{<image filename="images/rc/database-details-configuration-tab-danger-flexible.png" alt="The Danger Zone includes activities that impact data, such as deleting a database.  Use with care." >}}{{< /image >}}
+{{<image filename="images/rc/database-details-configuration-tab-danger-flexible.png" alt="The Danger Zone includes activities that impact data, such as deleting a database.  Use with care." >}}
 
 Here, you can:
 
@@ -137,7 +138,7 @@ Here, you can:
 
     When you choose this action, you're asked to specify the source and location of the data to import
 
-    {{<image filename="images/rc/database-import-dialog.png" alt="The Import data dialog helps you import data into a database." >}}{{< /image >}}
+    {{<image filename="images/rc/database-import-dialog.png" alt="The Import data dialog helps you import data into a database." >}}
 
     To learn more, see [Import data]({{< relref "/operate/rc/databases/import-data.md" >}}).
 
@@ -151,23 +152,23 @@ You can:
 
 - Search by typing into the search box located above the database list.
 
-    {{<image filename="images/rc/database-list-search.png" alt="Use the search bar to filter the list." >}}{{< /image >}}
+    {{<image filename="images/rc/database-list-search.png" alt="Use the search bar to filter the list." >}}
 
 - Filter by selecting a filter type and then selecting the checkbox next to the options you want to include from the dropdown.  Select the Filter toggle, located on the right of the search bar, if the filter types are hidden.
 
-    {{<image filename="images/rc/database-list-filter.png" alt="Use the filter toggle to display filter options." >}}{{< /image >}}
+    {{<image filename="images/rc/database-list-filter.png" alt="Use the filter toggle to display filter options." >}}
 
-    You can filter the list on **Status**, **Subscription**, **Capabilities**, and **Options**.  String matches are _not_ case-sensitive.  You can specify more than one filter expression at a time.  
+    You can filter the list on **Status**, **Subscription**, **Capabilities**, **Options**, and **Tags**.  String matches are _not_ case-sensitive.  You can specify more than one filter expression at a time.  
 
     A list of selected filters appears below the filter types.
 
     To remove a filter click the **x** to the right of the name of that filter.  To remove all filters, select **Clear all**.
 
-    {{<image filename="images/rc/database-list-filter-selected.png" alt="Use the filter toggle to display filter options." >}}{{< /image >}}
+    {{<image filename="images/rc/database-list-filter-selected.png" alt="Use the filter toggle to display filter options." >}}
 
-- Sort the list in descending or ascending order using the arrow displayed to right of the field name in the header.  Supported fields include **Subscription**, **Name**, **Database ID**, and **Memory**.
+- Sort the list in descending or ascending order using the arrow displayed to right of the field name in the header.  Supported fields include **Subscription**, **Database name**, **Memory**, and **Tags**.
 
-    {{<image filename="images/rc/icon-database-list-sort-ascending.png" alt="Use the arrows in the list header to sort the list." >}}{{< /image >}} {{<image filename="images/rc/icon-database-list-sort-descending.png" alt="The direction of the arrow corresponds to the direction of the sort." >}}{{< /image >}}
+    {{<image filename="images/rc/icon-database-list-sort-ascending.png" alt="Use the arrows in the list header to sort the list." >}} {{<image filename="images/rc/icon-database-list-sort-descending.png" alt="The direction of the arrow corresponds to the direction of the sort." >}}
 
     Select the arrow icon to change the sort order.  One sort order can be active at any given time.
 
@@ -183,11 +184,12 @@ The **View Database** screen also has tabs that let you view:
 
 - **Slowlog**: a log showing recent [slow queries](https://redis.io/commands/slowlog) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
 
+
 ## Edit database details
 
 Use the **Edit database** button to edit database details.
 
-{{<image filename="images/rc/button-database-edit.png" alt="The Edit database button lets you change selected database properties." >}}{{< /image >}}
+{{<image filename="images/rc/button-database-edit.png" alt="The Edit database button lets you change selected database properties." >}}
 
 Because databases exist within the context of a deployment, certain fields cannot be updated, especially those that might lead to data loss.
 
@@ -196,23 +198,25 @@ Here's what you can change:
 | Section | Setting                        | Comments |
 |:-----------|:-------------------------------|:---------|
 | General | Database name                  ||
-| Scalability | Memory limit                   | _Flexible and Annual subscriptions only)_ |
-| | Throughput                     | _Flexible and Annual subscriptions only)_ |
-| | Hashing policy                 | _Flexible and Annual subscriptions only)_ |
-| | Cluster OSS                    | _Flexible and Annual subscriptions only)_ |
-| Durability | High-availability              | _paid Fixed, Flexible, and Annual subscriptions only)_ |
-| | Data persistence               | _paid Fixed, Flexible, and Annual subscriptions only)_ |
+| | Supported protocol(s)                  ||
+| | Tags                                   ||
+| Scalability | Memory limit                   | _Flexible and Annual subscriptions only_ |
+| | Throughput                     | _Flexible and Annual subscriptions only_ |
+| | Hashing policy                 | _Flexible and Annual subscriptions only_ |
+| | OSS Cluster API                | _Flexible and Annual subscriptions only_ |
+| Durability | High-availability              | _paid Fixed, Flexible, and Annual subscriptions only_ |
+| | Data persistence               | _paid Fixed, Flexible, and Annual subscriptions only_ |
 | | Data eviction policy           | |
-| | Remote backup                  | _paid Fixed, Flexible,  Annual subscriptions only)_ |
-| | Active-Passive Redis           | _Flexible and Annual subscriptions only)_ |
-| Security | Default user                   |
+| | Remote backup                  | _paid Fixed, Flexible,  Annual subscriptions only_ |
+| | Active-Passive Redis           | _Flexible and Annual subscriptions only_ |
+| Security | Default user                   | |
 | | Default user password          |
-| | CIDR allow list                | _paid Fixed, Flexible, and Annual subscriptions only)_ |
-| | Transport layer security (TLS) | _Flexible and Annual subscriptions only)_ |
+| | CIDR allow list                | _paid Fixed, Flexible, and Annual subscriptions only_ |
+| | Transport layer security (TLS) | _Flexible and Annual subscriptions only_ |
 | Alerts | all available for subscription |
 
 Choose **Save database** to save your changes.
 
-{{<image filename="images/rc/button-database-save.png" alt="Use the Save database button to save database changes." >}}{{< /image >}}
+{{<image filename="images/rc/button-database-save.png" alt="Use the Save database button to save database changes." >}}
 
 If you need to change other details, create a new database and then migrate existing data.

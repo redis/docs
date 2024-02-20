@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: 'A guide to debugging Redis server processes
 
   '

@@ -41,16 +41,28 @@ jobs:
       run: |
           ./google-cloud-sdk/bin/gcloud auth activate-service-account $BUCKET_SERVICE_ACCOUNT --key-file=./service_account.json --project=$GCP_PROJECT \
           && ./google-cloud-sdk/bin/gcloud auth list
+    - name: Validate the branch name before sync
+      run: |
+          if [[ "${{ github.ref_name }}" =~ ^[a-zA-Z0-9_.-]+$ ]]
+          then
+            echo "The branch name ${{ github.ref_name }} is valid."
+          else
+            echo "ERROR: Invalid branch name ${{ github.ref_name }}!"
+            exit 1
+          fi
     - name: Sync the branch to the bucket
       run: |
-          if [[ "${{ github.ref_name }}" == "main" || "${{ github.ref_name }}" == "latest" ]]
+          if [[ "${{ github.ref_name }}" == "main" ]]
+          then
+            bucket_path=staging/dev
+          elif [[ "${{ github.ref_name }}" == "latest" ]]
           then
             bucket_path=${{ github.ref_name }}
           elif [[ "${{ endsWith(github.ref_name, '-build') }}" == "true" ]]
           then
             bucket_path=`echo ${{ github.ref_name }} | sed 's/-build$//'`
           else
-            bucket_path="/staging/${{ github.ref_name }}"
+            bucket_path=staging/${{ github.ref_name }}
           fi \
           && ./google-cloud-sdk/bin/gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
     - name: End

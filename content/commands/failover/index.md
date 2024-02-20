@@ -31,6 +31,16 @@ arguments:
   token: TIMEOUT
   type: integer
 arity: -1
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -49,7 +59,7 @@ title: FAILOVER
 This command will start a coordinated failover between the currently-connected-to master and one of its replicas.
 The failover is not synchronous, instead a background task will handle coordinating the failover. 
 It is designed to limit data loss and unavailability of the cluster during the failover.
-This command is analogous to the [`CLUSTER FAILOVER`](/commands/cluster-failover) command for non-clustered Redis and is similar to the failover support provided by sentinel.
+This command is analogous to the [`CLUSTER FAILOVER`]({{< relref "/commands/cluster-failover" >}}) command for non-clustered Redis and is similar to the failover support provided by sentinel.
 
 The specific details of the default failover flow are as follows:
 
@@ -65,7 +75,7 @@ The field `master_failover_state` in `INFO replication` can be used to track the
 * `waiting-for-sync`: The master is waiting for the replica to catch up to its replication offset.
 * `failover-in-progress`: The master has demoted itself, and is attempting to hand off ownership to a target replica.
 
-If the previous master had additional replicas attached to it, they will continue replicating from it as chained replicas. You will need to manually execute a [`REPLICAOF`](/commands/replicaof) on these replicas to start replicating directly from the new master.
+If the previous master had additional replicas attached to it, they will continue replicating from it as chained replicas. You will need to manually execute a [`REPLICAOF`]({{< relref "/commands/replicaof" >}}) on these replicas to start replicating directly from the new master.
 
 ## Optional arguments
 The following optional arguments exist to modify the behavior of the failover flow:
@@ -89,4 +99,4 @@ For this purpose, the `FAILOVER ABORT` command exists, which will abort an ongoi
 The command has no side effects if issued in the `waiting-for-sync` state but can introduce multi-master scenarios in the `failover-in-progress` state. 
 If a multi-master scenario is encountered, you will need to manually identify which master has the latest data and designate it as the master and have the other replicas.
 
-NOTE: [`REPLICAOF`](/commands/replicaof) is disabled while a failover is in progress, this is to prevent unintended interactions with the failover that might cause data loss.
+NOTE: [`REPLICAOF`]({{< relref "/commands/replicaof" >}}) is disabled while a failover is in progress, this is to prevent unintended interactions with the failover that might cause data loss.

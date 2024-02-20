@@ -2,6 +2,16 @@
 acl_categories:
 - '@slow'
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: Depends on subcommand.
 description: A container for consumer groups commands.
 group: stream
@@ -15,4 +25,4 @@ title: XGROUP
 ---
 This is a container command for stream consumer group management commands.
 
-To see the list of available commands you can call [`XGROUP HELP`](/commands/xgroup-help).
+To see the list of available commands you can call [`XGROUP HELP`]({{< relref "/commands/xgroup-help" >}}).

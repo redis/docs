@@ -17,6 +17,16 @@ arguments:
   name: timeout
   type: double
 arity: 4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -60,7 +70,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: BRPOPLPUSH
-replaced_by: '[`BLMOVE`](/commands/blmove) with the `RIGHT` and `LEFT` arguments'
+replaced_by: '[`BLMOVE`]({{< relref "/commands/blmove" >}}) with the `RIGHT` and `LEFT` arguments'
 since: 2.2.0
 summary: Pops an element from a list, pushes it to another list and returns it. Block
   until an element is available otherwise. Deletes the list if the last element was
@@ -69,19 +79,19 @@ syntax_fmt: BRPOPLPUSH source destination timeout
 syntax_str: destination timeout
 title: BRPOPLPUSH
 ---
-`BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`](/commands/rpoplpush).
-When `source` contains elements, this command behaves exactly like [`RPOPLPUSH`](/commands/rpoplpush).
-When used inside a [`MULTI`](/commands/multi)/[`EXEC`](/commands/exec) block, this command behaves exactly like [`RPOPLPUSH`](/commands/rpoplpush).
+`BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
+When `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
+When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block, this command behaves exactly like [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}).
 When `source` is empty, Redis will block the connection until another client
 pushes to it or until `timeout` is reached.
 A `timeout` of zero can be used to block indefinitely.
 
-See [`RPOPLPUSH`](/commands/rpoplpush) for more information.
+See [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) for more information.
 
 ## Pattern: Reliable queue
 
-Please see the pattern description in the [`RPOPLPUSH`](/commands/rpoplpush) documentation.
+Please see the pattern description in the [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) documentation.
 
 ## Pattern: Circular list
 
-Please see the pattern description in the [`RPOPLPUSH`](/commands/rpoplpush) documentation.
+Please see the pattern description in the [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) documentation.

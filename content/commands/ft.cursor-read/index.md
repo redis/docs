@@ -8,6 +8,16 @@ arguments:
   optional: true
   token: COUNT
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Reads from a cursor
 group: search
@@ -29,7 +39,7 @@ Read next results from an existing cursor
 
 [Examples](#examples)
 
-See [Cursor API](/docs/stack/search/reference/aggregations/#cursor-api) for more details.
+See [Cursor API]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api) for more details.
 
 ## Required arguments
 
@@ -48,7 +58,7 @@ is id of the cursor.
 <details open>
 <summary><code>[COUNT read_size]</code></summary>
 
-is number of results to read. This parameter overrides `COUNT` specified in [`FT.AGGREGATE`](/commands/ft.aggregate).
+is number of results to read. This parameter overrides `COUNT` specified in [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/).
 </details>
 
 ## Return
@@ -67,8 +77,8 @@ FT.CURSOR READ returns an array reply where each row is an array reply and repre
 
 ## See also
 
-[`FT.CURSOR DEL`](/commands/ft.cursor-del) | [`FT.AGGREGATE`](/commands/ft.aggregate)
+[`FT.CURSOR DEL`]({{< baseurl >}}/commands/ft.cursor-del/) | [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/)
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

@@ -215,15 +215,15 @@ Alex's updated friend count: [[1]]
 
 ## Visualize graphs with RedisInsight
 
-You can use the [RedisInsight]({{< relref "/develop/connect/insight" >}}) workbench to visualize the relationships between the nodes of your graph.
+You can use the [RedisInsight]({{< relref "/develop/connect/insight/" >}}) workbench to visualize the relationships between the nodes of your graph.
 
-1. Connect to your database with RedisInsight. You can connect manually or use the auto-discovery feature.
+1. Connect to your database with RedisInsight. You can [connect manually]({{< baseurl >}}/develop/connect/insight/#add-a-standalone-redis-database) or use the [auto-discovery]({{< baseurl >}}/develop/connect/insight/#auto-discovery-for-redis-cloud-databases) feature.
 
-2. Select the **Workbench** button:
+1. Select the **Workbench** button:
 
-   {{<image filename="images/ri/icon-workbench.png" width="30px" alt="The Workbench icon">}}{{</image>}}
+   {{<image filename="images/ri/icon-workbench.png" width="30px" alt="The Workbench icon">}}
 
-3. Enter a graph query in the text editor.
+1. Enter a graph query in the text editor.
 
    For example, this query returns all nodes and relationships in the graph:
 
@@ -231,13 +231,13 @@ You can use the [RedisInsight]({{< relref "/develop/connect/insight" >}}) workbe
    GRAPH.QUERY MotoGP "MATCH (n) RETURN n"
    ```
 
-4. Select **Run**:
+1. Select **Run**:
 
-   {{<image filename="images/ri/icon-run-command.png" width="30px" alt="The Run command icon">}}{{</image>}}
+   {{<image filename="images/ri/icon-run-command.png" width="30px" alt="The Run command icon">}}
 
 After you run a query, the output log displays a visual representation of your graph's nodes and relationships:
 
-{{<image filename="images/modules/visualize-graph.png" alt="Visualize a graph with RedisInsight workbench.">}}{{</image>}}
+{{<image filename="images/modules/visualize-graph.png" alt="Visualize a graph with RedisInsight workbench.">}}
 
 ## More info
 

@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Discovering slow server events in Redis
 linkTitle: Latency monitoring
 title: Redis latency monitoring

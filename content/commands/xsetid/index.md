@@ -24,6 +24,16 @@ arguments:
   token: MAXDELETEDID
   type: string
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -51,7 +61,7 @@ key_specs:
 linkTitle: XSETID
 since: 5.0.0
 summary: An internal command for replicating stream values.
-syntax_fmt: "XSETID key last-id [ENTRIESADDED\_entries-added]\n  [MAXDELETEDID\_max-deleted-id]"
+syntax_fmt: "XSETID key last-id [ENTRIESADDED\_entries-added] [MAXDELETEDID\_max-deleted-id]"
 syntax_str: "last-id [ENTRIESADDED\_entries-added] [MAXDELETEDID\_max-deleted-id]"
 title: XSETID
 ---

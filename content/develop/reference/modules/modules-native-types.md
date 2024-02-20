@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/modules-native-types
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'How to use native types in a Redis module
 
   '
@@ -24,7 +32,7 @@ We call the ability of Redis modules to implement new data structures that
 feel like native Redis ones **native types support**. This document describes
 the API exported by the Redis modules system in order to create new data
 structures and handle the serialization in RDB files, the rewriting process
-in AOF, the type reporting via the [`TYPE`](/commands/type) command, and so forth.
+in AOF, the type reporting via the [`TYPE`]({{< relref "/commands/type" >}}) command, and so forth.
 
 Overview of native types
 ---
@@ -95,7 +103,7 @@ finds no matching module, the integer is converted back to a name in order to
 provide some clue to the user about what module is missing in order to load
 the data.
 
-The type name is also used as a reply for the [`TYPE`](/commands/type) command when called
+The type name is also used as a reply for the [`TYPE`]({{< relref "/commands/type" >}}) command when called
 with a key holding the registered type.
 
 The `encver` argument is the encoding version used by the module to store data
@@ -123,8 +131,8 @@ registration function: `rdb_load`, `rdb_save`, `aof_rewrite`, `digest` and
 * `rdb_save` is called when saving data to the RDB file.
 * `aof_rewrite` is called when the AOF is being rewritten, and the module needs to tell Redis what is the sequence of commands to recreate the content of a given key.
 * `digest` is called when `DEBUG DIGEST` is executed and a key holding this module type is found. Currently this is not yet implemented so the function ca be left empty.
-* `mem_usage` is called when the [`MEMORY`](/commands/memory) command asks for the total memory consumed by a specific key, and is used in order to get the amount of bytes used by the module value.
-* `free` is called when a key with the module native type is deleted via [`DEL`](/commands/del) or in any other mean, in order to let the module reclaim the memory associated with such a value.
+* `mem_usage` is called when the [`MEMORY`]({{< relref "/commands/memory" >}}) command asks for the total memory consumed by a specific key, and is used in order to get the amount of bytes used by the module value.
+* `free` is called when a key with the module native type is deleted via [`DEL`]({{< relref "/commands/del" >}}) or in any other mean, in order to let the module reclaim the memory associated with such a value.
 
 Ok, but *why* modules types require a 9 characters name?
 ---

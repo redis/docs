@@ -35,7 +35,7 @@ To define the CIDR allow list for a database:
 
 1. Enter the first IP address (in CIDR format) you want to allow in the text box and then select the check mark to add it to the allow list:
 
-    {{<image filename="images/rc/database-details-configuration-tab-security-cidr-allowlist-add-first-ip.png" width="300px" alt="Add the first IP address to the CIDR allow list." >}}{{< /image >}}
+    {{<image filename="images/rc/database-details-configuration-tab-security-cidr-allowlist-add-first-ip.png" width="300px" alt="Add the first IP address to the CIDR allow list." >}}
    
 1. To allow additional IP addresses:
 
@@ -43,7 +43,7 @@ To define the CIDR allow list for a database:
 
     1. Enter the new IP address in the text box and then select check to add it to the allow list.
 
-        {{<image filename="images/rc/database-details-configuration-tab-security-cidr-allowlist-add-more-ips.png" width="300px" alt="Add a new IP address to the CIDR allow list." >}}{{< /image >}}
+        {{<image filename="images/rc/database-details-configuration-tab-security-cidr-allowlist-add-more-ips.png" width="300px" alt="Add a new IP address to the CIDR allow list." >}}
 
 1. Select **Save database** to apply your changes.
 
@@ -66,7 +66,7 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
 
 1. Select an entry **Type** from the list:
 
-    {{<image filename="images/rc/subscription-connectivity-allow-list-type-dropdown.png" width="350px" alt="Select the type of entry to add to the allow list from the Type list." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-connectivity-allow-list-type-dropdown.png" width="350px" alt="Select the type of entry to add to the allow list from the Type list." >}}
 
 1. In the **Value** box, enter one of these options:
 
@@ -82,6 +82,6 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
 
     1. Select the new entry's **Type**, enter the **Value**, and select check to add it to the allow list.
 
-        {{<image filename="images/rc/subscription-connectivity-allow-list-add-entry.png" width="350px" alt="Define the new entry and select the Submit entry button to add it to the allow list." >}}{{< /image >}}
+        {{<image filename="images/rc/subscription-connectivity-allow-list-add-entry.png" width="350px" alt="Define the new entry and select the Submit entry button to add it to the allow list." >}}
 
 1. Select **Apply all changes** to apply the allow list updates.

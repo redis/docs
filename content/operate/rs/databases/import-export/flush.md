@@ -52,7 +52,7 @@ To flush data from an Active-Active database:
 
     1. If you are using the new Cluster Manager UI, switch to the legacy admin console.
 
-        {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}{{</image>}}
+        {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
 
     1. Go to **database** and select the Active-Active database that you want to flush.
     1. Go to **configuration** and click **Flush** at the bottom of the page.

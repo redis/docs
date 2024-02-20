@@ -82,9 +82,9 @@ You can't add a module to an existing database.
 
     1. In the **Modules** section, select one or more modules.
     
-    2. To customize module configuration, select **Modules parameters** and enter the optional custom configuration.
+    1. To customize module configuration, select **Modules parameters** and enter the optional custom configuration.
     
-    3. Select **Done**.
+    1. Select **Done**.
 
 ### High availability & durability
 

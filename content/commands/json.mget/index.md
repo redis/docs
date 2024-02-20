@@ -5,6 +5,16 @@ arguments:
   type: key
 - name: path
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(M*N) when path is evaluated to a single value where M is the number
   of keys and N is the size of the value, O(N1+N2+...+Nm) when path is evaluated to
   multiple values where m is the number of keys and Ni is the size of the i-th key
@@ -42,7 +52,7 @@ is JSONPath to specify. Returns `null` for nonexistent paths.
 ## Return
 
 JSON.MGET returns an array of bulk string replies specified as the JSON serialization of the value at each key's path.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -69,9 +79,9 @@ redis> JSON.MGET doc1 doc2 $..a
 
 ## See also
 
-[`JSON.SET`](/commands/json.set) | [`JSON.GET`](/commands/json.get) 
+[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.GET`]({{< baseurl >}}/commands/json.get/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ .Site.Language.Lang }}">
+<html lang="{{ .Site.Language.Lang }}" class="scroll-smooth">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -35,8 +35,8 @@
     {{ partialCached "css.html" . }}
 
     {{ block "head" . }}{{ end }}
-
-    {{ partial "fonts.html" }}
+    
+    {{ partial "fonts.html" . }}
     
     {{ if hugo.IsProduction -}}
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -46,7 +46,7 @@
         })(window,document,'script','dataLayer','{{ .Site.Params.tagManagerId }}');</script>
     {{ end -}}
     
-    <script src="/js/index.js" defer></script>
+    <script src='{{ "js/index.js" | relURL }}' defer></script>
     {{ if .Params.math }}
         {{ partial "mathjax.html" }}
     {{ end }}
@@ -57,17 +57,22 @@
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     {{ end -}}
 
-    <header class="sticky top-0 z-50 flex flex-col items-center w-full text-xs lg:text-sm font-semibold lg:font-medium text-white shadow bg-midnight-700">
+    {{/*  <header class="sticky top-0 z-50 flex flex-col items-center w-full text-xs lg:text-sm font-semibold lg:font-medium border border-b-redis-pen-300 bg-white text-midnight-900">
       {{ partial "banner.html" . }}
       {{ partial "navbar.html" . }}
-    </header>
+    </header>  */}}
+
+    {{ partial "header.html" }}
 
     {{ block "main" . }}{{ end }}
 
-    <footer class="bg-midnight-700 relative z-50">
+    {{/*  <footer class="bg-midnight-700 relative z-50">
       {{ partial "footer.html" . }}
       {{ partial "toc-js.html" . }}
-    </footer>
+    </footer>  */}}
+
+    {{ partial "footer.html" . }}
+    {{ partial "toc-js.html" . }}
 
     {{ partial "search-modal.html" . }}
   </body>

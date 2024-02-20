@@ -14,13 +14,15 @@ To review or manage the settings associated with your Redis Cloud account, sign 
 
 This displays the **Account Settings** screen:
 
-{{<image filename="images/rc/account-settings-account-tab.png" alt="Use the Account tab of the Account Settings screen to review and update settings associated with your Redis Cloud account." width="75%">}}{{< /image >}}
+{{<image filename="images/rc/account-settings-account-tab.png" alt="Use the Account tab of the Account Settings screen to review and update settings associated with your Redis Cloud account." width="75%">}}
 
 The available tabs depend on your subscription type and may include:
 
 - The **Account** tab displays basic information associated with your account, including general info, address details, time zone setting, security settings, and provider integration details.
 
-- The **Cloud Account** tab is displayed for Flexible (or Annual) subscriptions hosted on Amazon Web Services (AWS).  To learn more, see [Manage AWS cloud accounts]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/" >}}).  
+- The **Cloud Account** tab is displayed for Flexible (or Annual) subscriptions hosted on Amazon Web Services (AWS).  To learn more, see [Manage AWS cloud accounts]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/" >}}).
+
+- The **Integrations** tab lets you manage certain integrations. For more information on the Confluent Cloud integration, see [Use the Redis Sink Confluent Connector]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/" >}}).
     
 ## Account info settings
 
@@ -43,9 +45,9 @@ In addition, this section may include fields unique to your location.  For examp
 
 Select **Edit** to change the account's billing address. You must re-enter your payment method details to confirm your address change. 
 
-   {{<image filename="images/rc/account-settings-edit-address-button.png" alt="Select the Edit button to change the account's billing address." width="400px">}}{{< /image >}}
+   {{<image filename="images/rc/account-settings-edit-address-button.png" alt="Select the Edit button to change the account's billing address." width="400px">}}
 
-   {{<image filename="images/rc/account-settings-change-billing-address.png" alt="The Edit account billing address screen." width="75%">}}{{< /image >}}
+   {{<image filename="images/rc/account-settings-change-billing-address.png" alt="The Edit account billing address screen." width="75%">}}
 
 {{< note >}}
 Changing the billing address for your account will remove any payment methods associated with the old billing address. See [Add payment method]({{< relref "/operate/rc/billing-and-payments#add-payment-method" >}}) to learn how to add a payment method back to your account.
@@ -75,7 +77,7 @@ Few account settings can be changed; however, you can update a few details, such
 
 Use the **Save changes** button to save changes or **Discard changes** to revert them.
 
-{{<image filename="images/rc/account-settings-buttons-save-discard.png" alt="Use the Discard Changes and the Save Changes buttons to manage changes to account settings." width="300px">}}{{< /image >}}
+{{<image filename="images/rc/account-settings-buttons-save-discard.png" alt="Use the Discard Changes and the Save Changes buttons to manage changes to account settings." width="300px">}}
 
 For help changing other settings, [contact Support](https://redis.com/company/support/).
 

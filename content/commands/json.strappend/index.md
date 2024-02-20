@@ -7,6 +7,16 @@ arguments:
   type: string
 - name: value
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
 description: Appends a string to a JSON string value at path
@@ -51,7 +61,7 @@ is JSONPath to specify. Default is root `$`.
 ## Return value 
 
 JSON.STRAPPEND returns an array of integer replies for each path, the string's new length, or `nil`, if the matching JSON value is not a string.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec). 
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
 
@@ -68,10 +78,10 @@ redis> JSON.GET doc $
 
 ## See also
 
-`JSON.ARRAPEND` | [`JSON.ARRINSERT`](/commands/json.arrinsert) 
+`JSON.ARRAPEND` | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
 

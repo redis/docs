@@ -25,4 +25,4 @@ Possible status values:
 | 'pending' | Temporary status during database creation | 'active'<br />'creation-failed' |
 | 'recovery' | Not currently relevant (intended for future use) | |
 
-![BDB status](/images/rs/rest-api-bdb-status.png#no-click "BDB status")
+{{< image filename="/images/rs/rest-api-bdb-status.png#no-click" alt="BDB status" >}}

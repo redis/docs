@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/json/performance
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Performance benchmarks
 
   '
@@ -61,7 +69,7 @@ Last but not least, some adding and multiplying:
 
 ### Baseline
 
-To establish a baseline, we'll use the Redis [`PING`](/commands/ping) command.
+To establish a baseline, we'll use the Redis [`PING`]({{< relref "/commands/ping" >}}) command.
 First, lets see what `redis-benchmark` reports:
 
 ```

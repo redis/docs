@@ -58,11 +58,11 @@ First, configure Private Service Connect in Redis Cloud:
 
 3. Select the **Create connection** button:
 
-    {{<image filename="images/rc/button-subscription-connectivity-psc-create-connection.png" width="140px" alt="Use the Create connection button to configure a new PSC endpoint." >}}{{< /image >}}
+    {{<image filename="images/rc/button-subscription-connectivity-psc-create-connection.png" width="140px" alt="Use the Create connection button to configure a new PSC endpoint." >}}
 
 4. Read the **Latency and cost impact** message and select **Accept and continue**:
 
-    {{<image filename="images/rc/button-subscription-connectivity-psc-accept-continue.png" width="140px" alt="Use the Accept and continue button to acknowledge PSC's impact on latency and cost." >}}{{< /image >}}
+    {{<image filename="images/rc/button-subscription-connectivity-psc-accept-continue.png" width="140px" alt="Use the Accept and continue button to acknowledge PSC's impact on latency and cost." >}}
 
 5. For **Create connection**, enter the following **Endpoint details**:
 
@@ -75,15 +75,15 @@ First, configure Private Service Connect in Redis Cloud:
 
 6. Continue to the **Add connections** step:
     
-    {{<image filename="images/rc/button-subscription-connectivity-psc-continue.png" width="100px" alt="Use the Continue button to proceed to the Add connections step." >}}{{< /image >}}
+    {{<image filename="images/rc/button-subscription-connectivity-psc-continue.png" width="100px" alt="Use the Continue button to proceed to the Add connections step." >}}
 
 7. Select either **Bash Shell** or **PowerShell** and then download or copy the provided `gcloud` script for later:
 
-    {{<image filename="images/rc/subscription-connectivity-psc-gcloud-script.png" width="350px" alt="Use the Download or Copy buttons to save the gcloud script for later use." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-connectivity-psc-gcloud-script.png" width="350px" alt="Use the Download or Copy buttons to save the gcloud script for later use." >}}
 
 8. Select **Continue** to save this endpoint configuration:
 
-    {{<image filename="images/rc/button-subscription-connectivity-psc-continue.png" width="100px" alt="Use the Continue button to save the PSC endpoint configuration." >}}{{< /image >}}
+    {{<image filename="images/rc/button-subscription-connectivity-psc-continue.png" width="100px" alt="Use the Continue button to save the PSC endpoint configuration." >}}
 
 ### Create endpoints {#create-endpoints}
 
@@ -99,7 +99,7 @@ Since it can take some time for the DNS changes to become active, we recommend y
 
     1. Otherwise, return to your Redis Cloud subscription's **Connectivity > Private Service Connect** screen and select **Complete setup** for the pending endpoint:
 
-        {{<image filename="images/rc/button-subscription-connectivity-psc-complete-setup.png" width="140px" alt="Use the Complete setup button if you need access to the gcloud script again." >}}{{< /image >}}
+        {{<image filename="images/rc/button-subscription-connectivity-psc-complete-setup.png" width="140px" alt="Use the Complete setup button if you need access to the gcloud script again." >}}
 
     1. Download or copy the script.
 
@@ -121,7 +121,7 @@ After the `gcloud` script finishes creating the Private Service Connect endpoint
 
 1. Find your pending endpoint connection in the list and select **Accept**:
 
-    {{<image filename="images/rc/button-subscription-connectivity-psc-accept.png" width="100px" alt="Use the Accept button to finish PSC endpoint setup." >}}{{< /image >}}
+    {{<image filename="images/rc/button-subscription-connectivity-psc-accept.png" width="100px" alt="Use the Accept button to finish PSC endpoint setup." >}}
 
 ### Connect to database {#connect-db}
 
@@ -129,7 +129,7 @@ Once your Private Service Connect endpoint is active, you can connect your appli
 
 1. From your subscription's **Connectivity > Private Service Connect** tab, select the **Connect** button for the active endpoint:
 
-    {{<image filename="images/rc/button-subscription-connectivity-psc-connect.png" width="100px" alt="Use the Connect button to retrieve PSC connection details." >}}{{< /image >}}
+    {{<image filename="images/rc/button-subscription-connectivity-psc-connect.png" width="100px" alt="Use the Connect button to retrieve PSC connection details." >}}
 
 1. Select a database from the list.
 
@@ -148,7 +148,7 @@ To deactivate Private Service Connect for your subscription:
 
     1. Select the **Delete PSC endpoint** button:
 
-        {{<image filename="images/rc/icon-psc-delete-endpoint.png" width="40px" alt="Use the Delete PSC endpoint button to remove an endpoint." >}}{{< /image >}}
+        {{<image filename="images/rc/icon-psc-delete-endpoint.png" width="40px" alt="Use the Delete PSC endpoint button to remove an endpoint." >}}
 
     1. Copy the provided `gcloud` script from the **Remove endpoint** dialog.
 
@@ -156,11 +156,11 @@ To deactivate Private Service Connect for your subscription:
 
 1. After you remove all endpoints, select the **Actions** button to see a list of available actions:
 
-    {{<image filename="images/rc/icon-psc-actions.png" width="40px" alt="Use the Toggle actions button to see a list of actions." >}}{{< /image >}}
+    {{<image filename="images/rc/icon-psc-actions.png" width="40px" alt="Use the Toggle actions button to see a list of actions." >}}
 
 1. Select **Remove service** and then **Confirm**:
 
-    {{<image filename="images/rc/button-subscription-connectivity-psc-remove-service-confirm.png" width="100px" alt="Use the Confirm button to deactivate Private Service Connect." >}}{{< /image >}}
+    {{<image filename="images/rc/button-subscription-connectivity-psc-remove-service-confirm.png" width="100px" alt="Use the Confirm button to deactivate Private Service Connect." >}}
 
 ## Limitations
 

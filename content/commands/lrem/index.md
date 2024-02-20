@@ -15,6 +15,16 @@ arguments:
   name: element
   type: string
 arity: 4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 complexity: O(N+M) where N is the length of the list and M is the number of elements

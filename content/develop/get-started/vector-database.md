@@ -1,8 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/vectors/
-- /redisearch/reference/vectors
-- /docs/interact/search-and-query/search/vectors/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Understand how to use Redis as a vector database
 linkTitle: Vector database
 stack: true
@@ -24,13 +30,13 @@ Data is often unstructured, which means that it isn't described by a well-define
 
 You can use Redis Stack as a vector database. It allows you to:
 
-* Store vectors and the associated metadata within hashes or [JSON](/docs/data-types/json) documents
+* Store vectors and the associated metadata within hashes or [JSON]({{< relref "/develop/data-types/json" >}}) documents
 * Retrieve vectors
 * Perform vector searches
 
 ## Set a vector database up
 
-The easiest way to get started with [Redis Stack](/docs/about/about-stack/) is to use Redis Cloud:
+The easiest way to get started with [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}) is to use Redis Cloud:
 
 1. Create a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 2. Follow the instructions to create a free database.
@@ -39,13 +45,13 @@ The easiest way to get started with [Redis Stack](/docs/about/about-stack/) is t
 
 This free Redis Cloud database comes out of the box with all the Redis Stack features.
 
-You can alternatively use the [installation guides](/docs/install/install-stack) to install Redis Stack on your local machine.
+You can alternatively use the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis Stack on your local machine.
 
 ## Install the required Python packages
 
 The code examples are currently provided for Redis CLI and Python. For Python, you will need to create a virtual environment and install the following Python packages:
 
-* `redis`: You can find further details about the `redis-py` client library in the [clients](/docs/connect/clients/python/) section of this documentation site.
+* `redis`: You can find further details about the `redis-py` client library in the [clients]({{< relref "/develop/connect/clients/python" >}}) section of this documentation site.
 * `pandas`: Pandas is a data analysis library.
 * `sentence-transformers`: You will use the [SentenceTransformers](https://www.sbert.net/) framework to generate embeddings on full text. Sentence-BERT (SBERT) is a [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)) model modification that produces consistent and contextually rich sentence embeddings. SBERT improves tasks like semantic search and text grouping by allowing for efficient and meaningful comparison of sentence-level semantic similarity.
 * `tabulate`: This package is optional. Pandas use it to render Markdown. 
@@ -96,7 +102,7 @@ The following code allows you to look at the structure of one of our bike JSON d
 {{< clients-example search_vss dump_data />}}
 
 ### 2. Store the demo data in your database
-Then, you iterate over the `bikes`  array to store the data as [JSON](https://redis.io/docs/stack/json/) documents in the database by using the [JSON.SET](https://redis.io/commands/json.set/) command. The below code uses a [pipeline](https://redis.io/docs/manual/pipelining/) to minimize the round-trip times:
+Then, you iterate over the `bikes`  array to store the data as [JSON]({{< relref "/develop/data-types/json/" >}}) documents in the database by using the [JSON.SET]({{< baseurl >}}/commands/json.set//) command. The below code uses a [pipeline]({{< relref "/develop/use/pipelining" >}}) to minimize the round-trip times:
 
 {{< clients-example search_vss load_data />}}
 
@@ -119,11 +125,11 @@ In the next step, you must iterate over all the Redis keys with the prefix `bike
 
 {{< clients-example search_vss get_keys />}}
 
-Use the keys as a parameter to the [JSON.MGET](https://redis.io/commands/json.mget/) command, along with the JSONPath expression `$.description` to collect the descriptions in a list. Then, pass the list to the `encode` method to get a list of vectorized embeddings:
+Use the keys as a parameter to the [JSON.MGET]({{< baseurl >}}/commands/json.mget//) command, along with the JSONPath expression `$.description` to collect the descriptions in a list. Then, pass the list to the `encode` method to get a list of vectorized embeddings:
 
 {{< clients-example search_vss generate_embeddings />}}
 
-You now need to add the vectorized descriptions to the JSON documents in Redis using the [JSON.SET](https://redis.io/commands/json.set/) command. The following command inserts a new field in each of the documents under the JSONPath `$.description_embeddings`. Once again, you'll do this using a pipeline:
+You now need to add the vectorized descriptions to the JSON documents in Redis using the [JSON.SET]({{< baseurl >}}/commands/json.set//) command. The following command inserts a new field in each of the documents under the JSONPath `$.description_embeddings`. Once again, you'll do this using a pipeline:
 
 {{< clients-example search_vss load_embeddings />}}
 
@@ -142,7 +148,7 @@ In the example above, the array was shortened considerably for the sake of reada
 
 ### 1. Create an index with a vector field
 
-You must create an index to query based on vector metadata or perform vector searches. Use the [FT.CREATE](https://redis.io/commands/ft.create/) command:
+You must create an index to query based on vector metadata or perform vector searches. Use the [FT.CREATE]({{< baseurl >}}/commands/ft.create//) command:
 
 {{< clients-example search_vss create_index >}}
 FT.CREATE idx:bikes_vss ON JSON 
@@ -164,19 +170,19 @@ Here is a breakdown of the `VECTOR` schema field definition:
 * `DIM 768`: The length or dimension of the embeddings, which you determined previously to be `768`.
 * `DISTANCE_METRIC COSINE`: The distance function is, in this example, [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity).  
 
-You can find further details about all these options in the [vector reference documentation](/docs/interact/search-and-query/advanced-concepts/vectors/).
+You can find further details about all these options in the [vector reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
 
 ### 2. Check the state of the index
 
-As soon as you execute the [FT.CREATE](https://redis.io/commands/ft.create/) command, the indexing process runs in the background. In a short time, all JSON documents should be indexed and ready to be queried. To validate that, you can use the [FT.INFO](https://redis.io/commands/ft.info/) command, which provides details and statistics about the index. Of particular interest are the number of documents successfully indexed and the number of failures:  
+As soon as you execute the [FT.CREATE]({{< baseurl >}}/commands/ft.create//) command, the indexing process runs in the background. In a short time, all JSON documents should be indexed and ready to be queried. To validate that, you can use the [FT.INFO]({{< baseurl >}}/commands/ft.info//) command, which provides details and statistics about the index. Of particular interest are the number of documents successfully indexed and the number of failures:  
 
 {{< clients-example search_vss validate_index >}}
-FT_INFO idx:bikes_vss
+FT.INFO idx:bikes_vss
 {{< /clients-example >}}
 
 ## Search and query
 
-This quick start guide focuses on the vector search aspect. Still, you can learn more about how to query based on vector metadata in the [document database quick start guide](/docs/get-started/document-database/).
+This quick start guide focuses on the vector search aspect. Still, you can learn more about how to query based on vector metadata in the [document database quick start guide]({{< relref "/develop/get-started/document-database" >}}).
 
 ### 1. Embed your prompts
 
@@ -207,7 +213,7 @@ query = (
 ```
 
 {{% alert title="Note" color="warning" %}}
-To utilize a vector query with the [`FT.SEARCH`](/commands/ft.search) command, you must specify DIALECT 2 or greater.
+To utilize a vector query with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command, you must specify DIALECT 2 or greater.
 {{% /alert  %}}
 
 You must pass the vectorized query as `$query_vector` as a byte array. The following code shows an example of creating a Python NumPy array from a vectorized query prompt (`encoded_query`) as a single precision floating point array and converting it into a compact, byte-level representation that can be passed as a parameter to the query:
@@ -239,6 +245,6 @@ From the description, this bike is an excellent match for younger children, and 
 
 ## Next steps
 
-1. You can learn more about the query options, such as pre-filters and radius queries, by reading the [vector reference documentation](/docs/interact/search-and-query/advanced-concepts/vectors/).
-2. The complete [search and query documentation](https://redis.io/docs/interact/search-and-query/) might be interesting for you.
+1. You can learn more about the query options, such as pre-filters and radius queries, by reading the [vector reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
+2. The complete [search and query documentation]({{< relref "/develop/interact/search-and-query/" >}}) might be interesting for you.
 3. If you want to follow the code examples more interactively, then you can use the [Jupyter notebook](https://github.com/RedisVentures/redis-vss-getting-started/blob/main/vector_similarity_with_redis.ipynb) that inspired this quick start guide.

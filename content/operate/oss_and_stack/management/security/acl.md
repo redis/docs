@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Redis Access Control List
 linkTitle: ACL
 title: ACL

@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: reverse_rank
   type: double
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns, for each input reverse rank, an estimation of the value (floating-point)
   with that reverse rank
@@ -41,7 +51,7 @@ _n_-1 is the reverse rank of the value of the smallest observation; _n_ denotes 
 
 ## Return value
 
-[Array reply](/docs/reference/protocol-spec#arrays) - an array of floating-points populated with value_1, value_2, ..., value_R:
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - an array of floating-points populated with value_1, value_2, ..., value_R:
 
 - Return an accurate result when `revrank` is 0 (the value of the largest observation)
 - Return an accurate result when `revrank` is _n_-1 (the value of the smallest observation), where _n_ denotes the number of observations added to the sketch.

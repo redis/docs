@@ -9,6 +9,16 @@ arguments:
   name: key
   type: key
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 - fast
@@ -36,7 +46,7 @@ syntax_fmt: PEXPIRETIME key
 syntax_str: ''
 title: PEXPIRETIME
 ---
-`PEXPIRETIME` has the same semantic as [`EXPIRETIME`](/commands/expiretime), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.
+`PEXPIRETIME` has the same semantic as [`EXPIRETIME`]({{< relref "/commands/expiretime" >}}), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.
 
 ## Examples
 

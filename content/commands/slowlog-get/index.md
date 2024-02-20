@@ -9,6 +9,16 @@ arguments:
   optional: true
   type: integer
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - loading
@@ -47,7 +57,7 @@ Each entry from the slow log is comprised of the following six values:
 3. The amount of time needed for its execution, in microseconds.
 4. The array composing the arguments of the command.
 5. Client IP address and port.
-6. Client name if set via the [`CLIENT SETNAME`](/commands/client-setname) command.
+6. Client name if set via the [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}) command.
 
 The entry's unique ID can be used in order to avoid processing slow log entries multiple times (for instance you may have a script sending you an email alert for every new slow log entry).
 The ID is never reset in the course of the Redis server execution, only a server

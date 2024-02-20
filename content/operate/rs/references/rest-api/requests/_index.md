@@ -22,4 +22,4 @@ Some requests may also require:
 - [JSON](http://www.json.org) request body
 - [Permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}})
 
-
+{{< table-children columnNames="Request,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle" >}}

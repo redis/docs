@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: A design for the RDB format written in the early days of Redis
 linkTitle: Redis design draft
 title: 'Redis design draft #2 (historical)'

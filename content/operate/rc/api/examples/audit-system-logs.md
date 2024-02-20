@@ -12,7 +12,7 @@ Service logs collect and report actions performed on various entities in your Re
 
 To view the log, sign in to the Redis Cloud [admin console](https://app.redislabs.com/) and then select **Logs** from the main menu.
 
-{{<image filename="images/rc/system-logs.png" alt="Choose the Logs command from the Redis Cloud admin console menu to view your subscription system log." width="75%">}}{{< /image >}} 
+{{<image filename="images/rc/system-logs.png" alt="Choose the Logs command from the Redis Cloud admin console menu to view your subscription system log." width="75%">}} 
 
 To learn more, see [System logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}).
 

@@ -12,4 +12,4 @@ weight: 90
 
 The following features (modules) have been deprecated or replaced with a new version:
 
-
+{{<table-children columnNames="Feature,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}

@@ -32,7 +32,7 @@ To prevent this from happening, make sure your database is large enough to hold 
 
 `volatile-lru` is the default eviction policy for most databases.
 
-The default policy for [Active-Active databases]({{< relref "/operate/rs/databases/active-active/_index.md" >}}) is _noeviction_ policy.
+The default policy for [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}) is _noeviction_ policy.
 
 ## Active-Active database eviction
 

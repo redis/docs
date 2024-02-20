@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Count-min sketch is a probabilistic data structure that estimates the
   frequency of an element in a data stream.
 linkTitle: Count-min sketch
@@ -92,7 +102,7 @@ or
 error = threshold/total_count
 ```
 
-where `total_count` is the sum of the count of all elements that can be obtained from the `count` key of the result of the [`CMS.INFO`](/commands/cms.info) command and is of course dynamic - it changes with every new increment in the sketch. At creation time you can approximate the `total_count` ratio as a product of the average count you'll be expecting in the sketch and the average number of elements.
+where `total_count` is the sum of the count of all elements that can be obtained from the `count` key of the result of the [`CMS.INFO`]({{< baseurl >}}/commands/cms.info/) command and is of course dynamic - it changes with every new increment in the sketch. At creation time you can approximate the `total_count` ratio as a product of the average count you'll be expecting in the sketch and the average number of elements.
 
 Since the threshold is a function of the total count in the filter it's very important to note that it will grow as  the count grows, but knowing the total count we can always dynamically calculate the threshold. If a result is below it - it can be discarded.
 

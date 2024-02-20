@@ -13,6 +13,16 @@ arguments:
   name: destination
   type: key
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -51,7 +61,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: RPOPLPUSH
-replaced_by: '[`LMOVE`](/commands/lmove) with the `RIGHT` and `LEFT` arguments'
+replaced_by: '[`LMOVE`]({{< relref "/commands/lmove" >}}) with the `RIGHT` and `LEFT` arguments'
 since: 1.2.0
 summary: Returns the last element of a list after removing and pushing it to another
   list. Deletes the list if the last element was popped.
@@ -91,18 +101,18 @@ LRANGE myotherlist 0 -1
 Redis is often used as a messaging server to implement processing of background
 jobs or other kinds of messaging tasks.
 A simple form of queue is often obtained pushing values into a list in the
-producer side, and waiting for this values in the consumer side using [`RPOP`](/commands/rpop)
-(using polling), or [`BRPOP`](/commands/brpop) if the client is better served by a blocking
+producer side, and waiting for this values in the consumer side using [`RPOP`]({{< relref "/commands/rpop" >}})
+(using polling), or [`BRPOP`]({{< relref "/commands/brpop" >}}) if the client is better served by a blocking
 operation.
 
 However in this context the obtained queue is not _reliable_ as messages can
 be lost, for example in the case there is a network problem or if the consumer
 crashes just after the message is received but before it can be processed.
 
-`RPOPLPUSH` (or [`BRPOPLPUSH`](/commands/brpoplpush) for the blocking variant) offers a way to avoid
+`RPOPLPUSH` (or [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}) for the blocking variant) offers a way to avoid
 this problem: the consumer fetches the message and at the same time pushes it
 into a _processing_ list.
-It will use the [`LREM`](/commands/lrem) command in order to remove the message from the
+It will use the [`LREM`]({{< relref "/commands/lrem" >}}) command in order to remove the message from the
 _processing_ list once the message has been processed.
 
 An additional client may monitor the _processing_ list for items that remain
@@ -113,7 +123,7 @@ again if needed.
 
 Using `RPOPLPUSH` with the same source and destination key, a client can visit
 all the elements of an N-elements list, one after the other, in O(N) without
-transferring the full list from the server to the client using a single [`LRANGE`](/commands/lrange)
+transferring the full list from the server to the client using a single [`LRANGE`]({{< relref "/commands/lrange" >}})
 operation.
 
 The above pattern works even if one or both of the following conditions occur:

@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: 'Compile and install Redis from source
 
   '
@@ -29,6 +34,12 @@ cd redis-stable
 make
 {{< / highlight >}}
 
+To build with TLS support, you'll need to install OpenSSL development libraries (e.g., libssl-dev on Debian/Ubuntu) and then run:
+
+{{< highlight bash >}}
+make BUILD_TLS=yes
+{{< / highlight >}}
+
 If the compile succeeds, you'll find several Redis binaries in the `src` directory, including:
 
 * **redis-server**: the Redis Server itself
@@ -52,4 +63,4 @@ If successful, you'll see the startup logs for Redis, and Redis will be running 
 
 To stop Redis, enter `Ctrl-C`.
 
-For a more complete installation, continue with [these instructions](/operate/oss_and_stack/install/#install-redis-more-properly).
+For a more complete installation, continue with [these instructions]({{< relref "/operate/oss_and_stack/install/#install-redis-more-properly" >}}).

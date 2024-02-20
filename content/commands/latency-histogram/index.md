@@ -10,6 +10,16 @@ arguments:
   optional: true
   type: string
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -51,7 +61,7 @@ Each histogram consists of the following fields:
 This command requires the extended latency monitoring feature to be enabled, which is the default.
 If you need to enable it, call `CONFIG SET latency-tracking yes`.
 
-To delete the latency histograms' data use the [`CONFIG RESETSTAT`](/commands/config-resetstat) command.
+To delete the latency histograms' data use the [`CONFIG RESETSTAT`]({{< relref "/commands/config-resetstat" >}}) command.
 
 ## Examples
 

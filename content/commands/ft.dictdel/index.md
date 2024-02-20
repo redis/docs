@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: term
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Deletes terms from a dictionary
 group: search
@@ -57,8 +67,8 @@ FT.DICTDEL returns an integer reply, the number of new terms that were deleted.
 
 ## See also
 
-[`FT.DICTADD`](/commands/ft.dictadd) | [`FT.DICTDUMP`](/commands/ft.dictdump)
+[`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd/) | [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump/)
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

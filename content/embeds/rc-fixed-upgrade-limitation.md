@@ -1,0 +1,1 @@
+As of January 2024, new and upgraded Fixed subscriptions are limited to one database per subscription. If you have a Fixed subscription created before January 2024, you can add databases up to the previous plan limit. If you choose to upgrade your plan, you can keep your databases, but you will need to create a new subscription to add another database.

@@ -2,6 +2,16 @@
 acl_categories:
 - '@slow'
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: Depends on subcommand.
 description: A container for slow log commands.
 group: server
@@ -15,4 +25,4 @@ title: SLOWLOG
 ---
 This is a container command for slow log management commands.
 
-To see the list of available commands you can call [`SLOWLOG HELP`](/commands/slowlog-help).
+To see the list of available commands you can call [`SLOWLOG HELP`]({{< relref "/commands/slowlog-help" >}}).

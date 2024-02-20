@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Redis TLS support
 linkTitle: TLS
 title: TLS

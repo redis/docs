@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/insight
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Visualize and optimize Redis data
 linkTitle: RedisInsight
 stack: true
@@ -32,7 +40,7 @@ RedisInsight is a powerful tool for visualizing and optimizing data in Redis or 
 
 Browse, filter and visualize your key-value Redis data structures.
 * [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) support for lists, hashes, strings, sets, sorted sets, and streams 
-* CRUD support for [JSON](/docs/stack/json)
+* CRUD support for [JSON]({{< relref "/develop/data-types/json/" >}})
 * Group keys according to their namespaces
 
   <img src="images/Browser.png">
@@ -61,7 +69,7 @@ Advanced command line interface with intelligent command auto-complete and compl
 * Built-in guides: you can conveniently discover Redis and Redis Stack features using the built-in guides.
 * Command auto-complete support for all features in Redis and Redis Stack.
 * Visualizations of your indexes, queries, and aggregations.
-* Visualizations of your [time series](https://redis.io/docs/stack/timeseries/) data.
+* Visualizations of your [time series]({{< relref "/develop/data-types/timeseries/" >}}) data.
 
   <img src="images/Workbench_TimeSeries.png">
 

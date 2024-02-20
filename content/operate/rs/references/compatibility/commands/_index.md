@@ -14,4 +14,4 @@ Learn which open source Redis commands are compatible with Redis Enterprise Soft
 
 Select a command group for more details about compatibility with standard and Active-Active Redis Enterprise.
 
-
+{{<table-children columnNames="Command group,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}

@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to Redis sets
 
   '
@@ -16,13 +26,13 @@ You can use Redis sets to efficiently:
 
 ## Basic commands
 
-* [`SADD`](/commands/sadd) adds a new member to a set.
-* [`SREM`](/commands/srem) removes the specified member from the set.
-* [`SISMEMBER`](/commands/sismember) tests a string for set membership.
-* [`SINTER`](/commands/sinter) returns the set of members that two or more sets have in common (i.e., the intersection).
-* [`SCARD`](/commands/scard) returns the size (a.k.a. cardinality) of a set.
+* [`SADD`]({{< relref "/commands/sadd" >}}) adds a new member to a set.
+* [`SREM`]({{< relref "/commands/srem" >}}) removes the specified member from the set.
+* [`SISMEMBER`]({{< relref "/commands/sismember" >}}) tests a string for set membership.
+* [`SINTER`]({{< relref "/commands/sinter" >}}) returns the set of members that two or more sets have in common (i.e., the intersection).
+* [`SCARD`]({{< relref "/commands/scard" >}}) returns the size (a.k.a. cardinality) of a set.
 
-See the [complete list of set commands](https://redis.io/commands/?group=set).
+See the [complete list of set commands]({{< relref "/commands/?group=set" >}}).
 
 ## Examples
 
@@ -60,7 +70,7 @@ if you add a member that already exists, it will be ignored.
 {{< /clients-example >}}
 ## Tutorial
 
-The [`SADD`](/commands/sadd) command adds new elements to a set. It's also possible
+The [`SADD`]({{< relref "/commands/sadd" >}}) command adds new elements to a set. It's also possible
 to do a number of other operations against sets like testing if a given element
 already exists, performing the intersection, union or difference between
 multiple sets, and so forth.
@@ -103,7 +113,7 @@ to know which bikes are racing in France but not in the USA:
 There are other non trivial operations that are still easy to implement
 using the right Redis commands. For instance we may want a list of all the
 bikes racing in France, the USA, and some other races. We can do this using
-the [`SINTER`](/commands/sinter) command, which performs the intersection between different
+the [`SINTER`]({{< relref "/commands/sinter" >}}) command, which performs the intersection between different
 sets. In addition to intersection you can also perform
 unions, difference, and more. For example 
 if we add a third race we can see some of these commands in action:
@@ -131,14 +141,14 @@ if we add a third race we can see some of these commands in action:
 1) "bike:4"
 {{< /clients-example >}}
 
-You'll note that the [`SDIFF`](/commands/sdiff) command returns an empty array when the
+You'll note that the [`SDIFF`]({{< relref "/commands/sdiff" >}}) command returns an empty array when the
 difference between all sets is empty. You'll also note that the order of sets
-passed to [`SDIFF`](/commands/sdiff) matters, since the difference is not commutative.
+passed to [`SDIFF`]({{< relref "/commands/sdiff" >}}) matters, since the difference is not commutative.
 
-When you want to remove items from a set, you can use the [`SREM`](/commands/srem) command to
-remove one or more items from a set, or you can use the [`SPOP`](/commands/spop) command to
+When you want to remove items from a set, you can use the [`SREM`]({{< relref "/commands/srem" >}}) command to
+remove one or more items from a set, or you can use the [`SPOP`]({{< relref "/commands/spop" >}}) command to
 remove a random item from a set. You can also _return_ a random item from a
-set without removing it using the [`SRANDMEMBER`](/commands/srandmember) command:
+set without removing it using the [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}) command:
 
 {{< clients-example sets_tutorial srem >}}
 > SADD bikes:racing:france bike:1 bike:2 bike:3 bike:4 bike:5
@@ -163,17 +173,17 @@ The max size of a Redis set is 2^32 - 1 (4,294,967,295) members.
 
 Most set operations, including adding, removing, and checking whether an item is a set member, are O(1).
 This means that they're highly efficient.
-However, for large sets with hundreds of thousands of members or more, you should exercise caution when running the [`SMEMBERS`](/commands/smembers) command.
+However, for large sets with hundreds of thousands of members or more, you should exercise caution when running the [`SMEMBERS`]({{< relref "/commands/smembers" >}}) command.
 This command is O(n) and returns the entire set in a single response. 
-As an alternative, consider the [`SSCAN`](/commands/sscan), which lets you retrieve all members of a set iteratively.
+As an alternative, consider the [`SSCAN`]({{< relref "/commands/sscan" >}}), which lets you retrieve all members of a set iteratively.
 
 ## Alternatives
 
 Sets membership checks on large datasets (or on streaming data) can use a lot of memory.
-If you're concerned about memory usage and don't need perfect precision, consider a [Bloom filter or Cuckoo filter](/docs/stack/bloom) as an alternative to a set.
+If you're concerned about memory usage and don't need perfect precision, consider a [Bloom filter or Cuckoo filter]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}}) as an alternative to a set.
 
 Redis sets are frequently used as a kind of index.
-If you need to index and query your data, consider the [JSON](/docs/stack/json) data type and the [Search and query](/docs/stack/search) features.
+If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Search and query]({{< relref "/develop/interact/search-and-query/" >}}) features.
 
 ## Learn more
 

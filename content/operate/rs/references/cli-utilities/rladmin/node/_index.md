@@ -14,4 +14,4 @@ weight: $weight
 
 `rladmin node` commands manage nodes in the cluster.
 
-
+{{<table-children columnNames="Command,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}

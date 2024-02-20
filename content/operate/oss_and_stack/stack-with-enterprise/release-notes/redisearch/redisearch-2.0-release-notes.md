@@ -232,7 +232,7 @@ Finally, RediSearch 2.x keeps its indexes outside of the main Redis key space. I
 
 You can read more details in [the RediSearch 2.0 announcement blog post](https://redislabs.com/blog/introducing-redisearch-2-0/), and you can get started by checking out this [quick start blog post](https://redislabs.com/blog/getting-started-with-redisearch-2-0/).
 
-{{<image filename="images/modules/redisearch-2-0-architecture.png" alt="Compares the architecture of RediSearch 2.0 to architecture of earlier versions." >}}{{< /image >}}
+{{<image filename="images/modules/redisearch-2-0-architecture.png" alt="Compares the architecture of RediSearch 2.0 to architecture of earlier versions." >}}
 
 ### Details
 

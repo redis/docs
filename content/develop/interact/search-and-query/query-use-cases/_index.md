@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/use-cases/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Search and query use cases
 
   '

@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: How Redis handles common Unix signals
 linkTitle: Signal handling
 title: Redis signal handling

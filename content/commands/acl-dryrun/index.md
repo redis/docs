@@ -16,6 +16,16 @@ arguments:
   optional: true
   type: string
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -43,6 +53,6 @@ This command can be used to test the permissions of a given user without having 
 "OK"
 > ACL DRYRUN VIRGINIA SET foo bar
 "OK"
-> ACL DRYRUN VIRGINIA GET foo bar
-"This user has no permissions to run the 'GET' command"
+> ACL DRYRUN VIRGINIA GET foo
+"User VIRGINIA has no permissions to run the 'get' command"
 ```

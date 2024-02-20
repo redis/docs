@@ -1,8 +1,14 @@
 ---
-aliases:
-- /topics/distlock
-- /docs/reference/patterns/distributed-locks
-- /docs/reference/patterns/distributed-locks.md
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'A distributed lock pattern with Redis
 
   '
@@ -99,7 +105,7 @@ Basically the random value is used in order to release the lock in a safe way, w
     end
 
 This is important in order to avoid removing a lock that was created by another client. For example a client may acquire the lock, get blocked performing some operation for longer than the lock validity time (the time at which the key will expire), and later remove the lock, that was already acquired by some other client.
-Using just [`DEL`](/commands/del) is not safe as a client may remove another client's lock. With the above script instead every lock is “signed” with a random string, so the lock will be removed only if it is still the one that was set by the client trying to remove it.
+Using just [`DEL`]({{< relref "/commands/del" >}}) is not safe as a client may remove another client's lock. With the above script instead every lock is “signed” with a random string, so the lock will be removed only if it is still the one that was set by the client trying to remove it.
 
 What should this random string be? We assume it’s 20 bytes from `/dev/urandom`, but you can find cheaper ways to make it unique enough for your tasks.
 For example a safe pick is to seed RC4 with `/dev/urandom`, and generate a pseudo random stream from that.
@@ -131,7 +137,7 @@ This paper contains more information about similar systems requiring a bound *cl
 
 ### Retry on Failure
 
-When a client is unable to acquire the lock, it should try again after a random delay in order to try to desynchronize multiple clients trying to acquire the lock for the same resource at the same time (this may result in a split brain condition where nobody wins). Also the faster a client tries to acquire the lock in the majority of Redis instances, the smaller the window for a split brain condition (and the need for a retry), so ideally the client should try to send the [`SET`](/commands/set) commands to the N instances at the same time using multiplexing.
+When a client is unable to acquire the lock, it should try again after a random delay in order to try to desynchronize multiple clients trying to acquire the lock for the same resource at the same time (this may result in a split brain condition where nobody wins). Also the faster a client tries to acquire the lock in the majority of Redis instances, the smaller the window for a split brain condition (and the need for a retry), so ideally the client should try to send the [`SET`]({{< relref "/commands/set" >}}) commands to the N instances at the same time using multiplexing.
 
 It is worth stressing how important it is for clients that fail to acquire the majority of locks, to release the (partially) acquired locks ASAP, so that there is no need to wait for key expiry in order for the lock to be acquired again (however if a network partition happens and the client is no longer able to communicate with the Redis instances, there is an availability penalty to pay as it waits for key expiration).
 
@@ -159,7 +165,7 @@ The system liveness is based on three main features:
 2. The fact that clients, usually, will cooperate removing the locks when the lock was not acquired, or when the lock was acquired and the work terminated, making it likely that we don’t have to wait for keys to expire to re-acquire the lock.
 3. The fact that when a client needs to retry a lock, it waits a time which is comparably greater than the time needed to acquire the majority of locks, in order to probabilistically make split brain conditions during resource contention unlikely.
 
-However, we pay an availability penalty equal to [`TTL`](/commands/ttl) time on network partitions, so if there are continuous partitions, we can pay this penalty indefinitely.
+However, we pay an availability penalty equal to [`TTL`]({{< relref "/commands/ttl" >}}) time on network partitions, so if there are continuous partitions, we can pay this penalty indefinitely.
 This happens every time a client acquires a lock and gets partitioned away before being able to remove the lock.
 
 Basically if there are infinite continuous network partitions, the system may become not available for an infinite amount of time.
@@ -172,7 +178,7 @@ However there is another consideration around persistence if we want to target a
 
 Basically to see the problem here, let’s assume we configure Redis without persistence at all. A client acquires the lock in 3 of 5 instances. One of the instances where the client was able to acquire the lock is restarted, at this point there are again 3 instances that we can lock for the same resource, and another client can lock it again, violating the safety property of exclusivity of lock.
 
-If we enable AOF persistence, things will improve quite a bit. For example we can upgrade a server by sending it a [`SHUTDOWN`](/commands/shutdown) command and restarting it. Because Redis expires are semantically implemented so that time still elapses when the server is off, all our requirements are fine.
+If we enable AOF persistence, things will improve quite a bit. For example we can upgrade a server by sending it a [`SHUTDOWN`]({{< relref "/commands/shutdown" >}}) command and restarting it. Because Redis expires are semantically implemented so that time still elapses when the server is off, all our requirements are fine.
 However everything is fine as long as it is a clean shutdown. What about a power outage? If Redis is configured, as by default, to fsync on disk every second, it is possible that after a restart our key is missing. In theory, if we want to guarantee the lock safety in the face of any kind of instance restart, we need to enable `fsync=always` in the persistence settings. This will affect performance due to the additional sync overhead.
 
 However things are better than they look like at a first glance. Basically,
@@ -182,14 +188,14 @@ set of currently active locks when the instance restarts were all obtained
 by locking instances other than the one which is rejoining the system.
 
 To guarantee this we just need to make an instance, after a crash, unavailable
-for at least a bit more than the max [`TTL`](/commands/ttl) we use.  This is the time needed
+for at least a bit more than the max [`TTL`]({{< relref "/commands/ttl" >}}) we use.  This is the time needed
 for all the keys about the locks that existed when the instance crashed to
 become invalid and be automatically released.
 
 Using *delayed restarts* it is basically possible to achieve safety even
 without any kind of Redis persistence available, however note that this may
 translate into an availability penalty. For example if a majority of instances
-crash, the system will become globally unavailable for [`TTL`](/commands/ttl) (here globally means
+crash, the system will become globally unavailable for [`TTL`]({{< relref "/commands/ttl" >}}) (here globally means
 that no resource at all will be lockable during this time).
 
 ### Making the algorithm more reliable: Extending the lock

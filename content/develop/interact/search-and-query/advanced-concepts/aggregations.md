@@ -1,8 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/aggregations/
-- /redisearch/reference/aggregations
-- /docs/interact/search-and-query/search/aggregations/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Groupings, projections, and aggregation functions
 linkTitle: Aggregations
 title: Aggregations
@@ -143,7 +149,7 @@ FT.AGGREGATE myIndex "*"
   SORTBY 2 @hour ASC
 ```
 
-And as a final step, format the hour as a human readable timestamp. This is done by calling the transformation function `timefmt` that formats Unix timestamps. You can specify a format to be passed to the system's `strftime` function ([see documentation](http://strftime.org/)), but not specifying one is equivalent to specifying `%FT%TZ` to `strftime`.
+And as a final step, format the hour as a human readable timestamp. This is done by calling the transformation function `timefmt` that formats Unix timestamps. You can specify a format to be passed to the system's `strftime` function ([see documentation](https://pubs.opengroup.org/onlinepubs/9699919799/functions/strftime.html)), but not specifying one is equivalent to specifying `%FT%TZ` to `strftime`.
 
 ```
 FT.AGGREGATE myIndex "*"
@@ -401,7 +407,7 @@ Note that these operators apply only to numeric values and numeric sub-expressio
 
 | Function            | Description                                                  |
 | ------------------- | ------------------------------------------------------------ |
-| timefmt(x, [fmt])      | Return a formatted time string based on a numeric timestamp value x. <br /> See [strftime](http://strftime.org/) for formatting options. <br />Not specifying `fmt` is equivalent to `%FT%TZ`. |
+| timefmt(x, [fmt])      | Return a formatted time string based on a numeric timestamp value x. <br /> See [strftime](https://pubs.opengroup.org/onlinepubs/9699919799/functions/strftime.html) for formatting options. <br />Not specifying `fmt` is equivalent to `%FT%TZ`. |
 | parsetime(timesharing, [fmt]) | The opposite of timefmt() - parse a time format using a given format string |
 | day(timestamp) | Round a Unix timestamp to midnight (00:00) start of the current day. |
 | hour(timestamp) | Round a Unix timestamp to the beginning of the current hour. |
@@ -475,12 +481,12 @@ FT.CURSOR READ {idx} {cid} [COUNT {read size}]
 FT.CURSOR DEL {idx} {cid}
 ```
 
-You can use cursors with [`FT.AGGREGATE`](/commands/ft.aggregate), with the `WITHCURSOR` keyword. Cursors allow you to
+You can use cursors with [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), with the `WITHCURSOR` keyword. Cursors allow you to
 consume only part of the response, allowing you to fetch additional results as needed.
 This is much quicker than using `LIMIT` with offset, since the query is executed only
 once, and its state is stored on the server.
 
-To use cursors, specify the `WITHCURSOR` keyword in [`FT.AGGREGATE`](/commands/ft.aggregate). For example:
+To use cursors, specify the `WITHCURSOR` keyword in [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/). For example:
 
 ```
 FT.AGGREGATE idx * WITHCURSOR
@@ -488,16 +494,16 @@ FT.AGGREGATE idx * WITHCURSOR
 
 This will return a response of an array with two elements. The first element is
 the actual (partial) result, and the second is the cursor ID. The cursor ID
-can then be fed to [`FT.CURSOR READ`](/commands/ft.cursor-read) repeatedly until the cursor ID is 0, in
+can then be fed to [`FT.CURSOR READ`]({{< baseurl >}}/commands/ft.cursor-read/) repeatedly until the cursor ID is 0, in
 which case all results have been returned.
 
-To read from an existing cursor, use [`FT.CURSOR READ`](/commands/ft.cursor-read). For example:
+To read from an existing cursor, use [`FT.CURSOR READ`]({{< baseurl >}}/commands/ft.cursor-read/). For example:
 
 ```
 FT.CURSOR READ idx 342459320
 ```
 
-Assuming `342459320` is the cursor ID returned from the [`FT.AGGREGATE`](/commands/ft.aggregate) request, here is an example in pseudo-code:
+Assuming `342459320` is the cursor ID returned from the [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) request, here is an example in pseudo-code:
 
 ```
 response, cursor = FT.AGGREGATE "idx" "redis" "WITHCURSOR";
@@ -517,8 +523,8 @@ Note that even if the cursor is 0, a partial result may still be returned.
 #### Read size
 
 You can control how many rows are read for each cursor fetch by using the
-`COUNT` parameter. This parameter can be specified both in [`FT.AGGREGATE`](/commands/ft.aggregate)
-(immediately after `WITHCURSOR`) or in [`FT.CURSOR READ`](/commands/ft.cursor-read).
+`COUNT` parameter. This parameter can be specified both in [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/)
+(immediately after `WITHCURSOR`) or in [`FT.CURSOR READ`]({{< baseurl >}}/commands/ft.cursor-read/).
 
 The following example will read 10 rows at a time:
 ```

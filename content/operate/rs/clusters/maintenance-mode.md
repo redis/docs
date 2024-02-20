@@ -26,7 +26,7 @@ When you activate maintenance mode, Redis Enterprise does the following:
 
     At this point, [`rladmin status`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}) displays the node's shards field in yellow, which indicates that shards cannot migrate to the node.
 
-    ![maintenance_mode](/images/rs/maintenance_mode.png)
+    {{< image filename="/images/rs/maintenance_mode.png" >}}
 
 1. Migrates shards and binds endpoints to other nodes, when space is available.
 

@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/chinese/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Chinese support
 linkTitle: Chinese
 title: Chinese

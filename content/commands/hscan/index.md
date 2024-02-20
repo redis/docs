@@ -22,6 +22,16 @@ arguments:
   token: COUNT
   type: integer
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(1) for every call. O(N) for a complete iteration, including enough command
@@ -52,4 +62,4 @@ syntax_fmt: "HSCAN key cursor [MATCH\_pattern] [COUNT\_count]"
 syntax_str: "cursor [MATCH\_pattern] [COUNT\_count]"
 title: HSCAN
 ---
-See [`SCAN`](/commands/scan) for `HSCAN` documentation.
+See [`SCAN`]({{< relref "/commands/scan" >}}) for `HSCAN` documentation.

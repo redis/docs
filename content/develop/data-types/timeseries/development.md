@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/timeseries/development
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Developing RedisTimeSeries
 
   '

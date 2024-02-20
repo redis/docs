@@ -6,6 +6,16 @@ arguments:
   type: integer
 - name: to_timestamp
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) where N is the number of data points that will be removed
 description: Delete all samples between two timestamps for a given time series
 group: timeseries
@@ -59,7 +69,7 @@ The given timestamp interval is closed (inclusive), meaning that samples whose t
 
 Returns one of these replies:
 
-- [Integer reply](/docs/reference/protocol-spec#integers) - the number of samples that were deleted
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the number of samples that were deleted
 - [] on error (invalid arguments, wrong key type, etc.), when `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated
 
 ## Examples 
@@ -95,8 +105,8 @@ Delete the range of data points for temperature in Tel Aviv.
 
 ## See also
 
-[`TS.ADD`](/commands/ts.add) 
+[`TS.ADD`]({{< baseurl >}}/commands/ts.add/) 
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

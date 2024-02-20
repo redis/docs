@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/design/design/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Details about design choices and implementations
 
   '
@@ -67,7 +75,7 @@ When searching, priority queue of the top N results requested is maintained, whi
 
 ## Index ppecs and field weights
 
-When creating an "index" using [`FT.CREATE`](/commands/ft.create), the user specifies the fields to be indexed and their respective weights. This can be used to give some document fields, like a title, more weight in ranking results.
+When creating an "index" using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), the user specifies the fields to be indexed and their respective weights. This can be used to give some document fields, like a title, more weight in ranking results.
 
 For example:
 
@@ -83,7 +91,7 @@ When documents are indexed, the weights are taken from the saved *index Spec* th
 
 It is not mandatory to save the document data when indexing a document. Specifying `NOSAVE` for `FT.ADD` will cause the document to be indexed but not saved.
 
-If the user does save the document, a HASH key is created in Redis that contains all fields (including ones not indexed), and upon search, perform an [`HGETALL`](/commands/hgetall) query on each retrieved document to retrieve all of its data.
+If the user does save the document, a HASH key is created in Redis that contains all fields (including ones not indexed), and upon search, perform an [`HGETALL`]({{< relref "/commands/hgetall" >}}) query on each retrieved document to retrieve all of its data.
 
 **TODO**: Document snippets should be implemented down the road.
 

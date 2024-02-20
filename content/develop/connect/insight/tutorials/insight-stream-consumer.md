@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Learn how to manage streams and consumer groups in RedisInsight
 linkTitle: Streams
 title: Manage streams and consumer groups in RedisInsight
@@ -9,7 +19,7 @@ A _stream_ is an append-only log file.
 When you add data to it, you cannot change it. 
 That may seem like a disadvantage; however, a stream serves as a log or single source of truth. 
 It can also be used as a buffer between processes that work at different speeds and do not need to know about each other. 
-For more conceptual information about streams, see [Redis Streams](/docs/manual/data-types/streams). 
+For more conceptual information about streams, see [Redis Streams]({{< relref "/develop/data-types/streams" >}}). 
 
 In this topic, you will learn how to add and work with streams as well as consumer groups in RedisInsight.
 
@@ -26,13 +36,13 @@ For example, if the temperature is above a certain threshold, it puts a message 
 It is possible to have multiple consumers doing different jobs, one measuring humidity, and another taking temperature measurements over periods of time. 
 Redis stores a copy of the entire dataset in memory, which is a finite resource.
 To avoid runaway data, streams can be trimmed when you add something to them. 
-When adding to a stream with [`XADD`](/commands/xadd), you can optionally specify that the stream should be trimmed to a specific or approximate number of the newest entries, or to only include entries whose ID is higher than the ID specified.
+When adding to a stream with [`XADD`]({{< relref "/commands/xadd" >}}), you can optionally specify that the stream should be trimmed to a specific or approximate number of the newest entries, or to only include entries whose ID is higher than the ID specified.
 You can also manage the storage required for streaming data using key expiry.  For example, by writing each day's data to its own stream in Redis and expiring each stream's key after a period of time, say a week.
 An ID can be any number, but each new entry in the stream must have an ID whose value is higher than the last ID added to the stream.
 
 ## Adding new entries 
 
-Use [`XADD`](/commands/xadd) with `*` for the ID to have Redis automatically generate a new ID for you consisting of a millisecond precision timestamp, a dash and a sequence number.  For example `1656416957625-0`.  Then supply the field names and values to store in the new stream entry.
+Use [`XADD`]({{< relref "/commands/xadd" >}}) with `*` for the ID to have Redis automatically generate a new ID for you consisting of a millisecond precision timestamp, a dash and a sequence number.  For example `1656416957625-0`.  Then supply the field names and values to store in the new stream entry.
 
 There are a couple of ways of retrieving things. You can retrieve entries by time range or you could ask for everything that's happened since a timestamp or ID that you specify. Using a single command you can ask for anything from 10:30 until 11:15 am on a given day.
 
@@ -64,7 +74,7 @@ Then, enter fields and values using + to add more than one (for example, name an
 Now you have a stream that appears in the **Streams** view and you can continue adding fields and values to it.
 
 RedisInsight runs read commands for you so you can see the stream entries in the **Streams** view. 
-And the **Consumer Groups** view shows each consumers in a given consumer group and the last time Redis allocated a message, what the ID of it was and how many times that process has happened, and whether a consumer has you have told Redis that you are finished working with that task using the [`XACK`](/commands/xack) command.
+And the **Consumer Groups** view shows each consumers in a given consumer group and the last time Redis allocated a message, what the ID of it was and how many times that process has happened, and whether a consumer has you have told Redis that you are finished working with that task using the [`XACK`]({{< relref "/commands/xack" >}}) command.
 
 ## Monitor temperature and humidity from sensors in RedisInsight
 
@@ -74,7 +84,7 @@ This example shows how to bring an existing stream into RedisInsight and work wi
 
 1. Install [RedisInsight](https://redis.com/redis-enterprise/redis-insight/?_ga=2.48624486.1318387955.1655817244-1963545967.1655260674#insight-form).
 2. Download and install [Node.js](https://nodejs.org/en/download/) (LTS version).
-3. Install [Redis](https://redis.io/download/). In Docker, check that Redis is running locally on the default port 6379 (with no password set). 
+3. Install [Redis](/download/). In Docker, check that Redis is running locally on the default port 6379 (with no password set). 
 4. Clone the [code repository](https://github.com/redis-developer/introducing-redis-talk) for this example. 
 See the [README](https://github.com/redis-developer/introducing-redis-talk/tree/main/streams) for more information about this example and installation tips.
 5. On your command-line, navigate to the folder containing the code repository and install the Node.js package manager (npm). 
@@ -187,9 +197,9 @@ Note that in this model, each consumer instance does not receive all of the entr
 
 You can now toggle between **Stream** and **Consumer Groups** views to see your data. 
 As mentioned earlier in this topic, a stream is an append-only log so you can't modify the contents of an entry, but you can delete an entire entry. 
-A case when that's useful is in the event of a so-called _poison-pill message_ that can cause consumers to crash. You can physically remove such messages in the **Streams** view or use the [`XDEL`](/commands/xdel) command at the command-line interface (CLI).
+A case when that's useful is in the event of a so-called _poison-pill message_ that can cause consumers to crash. You can physically remove such messages in the **Streams** view or use the [`XDEL`]({{< relref "/commands/xdel" >}}) command at the command-line interface (CLI).
 
-You can continue interacting with your stream at the CLI. For example, to get the current length of a stream, use the [`XLEN`](/commands/xlen) command:
+You can continue interacting with your stream at the CLI. For example, to get the current length of a stream, use the [`XLEN`]({{< relref "/commands/xlen" >}}) command:
 
 {{< highlight bash >}}
 XLEN ingest:temphumidity
@@ -199,5 +209,5 @@ Use streams for auditing and processing events in banking, gaming, supply chain,
 
 ## Related topics
 
-- [Redis Streams](/docs/manual/data-types/streams)
+- [Redis Streams]({{< relref "/develop/data-types/streams" >}})
 - [Introducing Redis Streams with RedisInsight, node.js, and Python](https://www.youtube.com/watch?v=q2UOkQmIo9Q) (video)

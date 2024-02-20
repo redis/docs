@@ -13,6 +13,16 @@ arguments:
   token: SAMPLES
   type: integer
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N) where N is the number of samples.
@@ -42,7 +52,7 @@ The `MEMORY USAGE` command reports the number of bytes that a key and its value
 require to be stored in RAM.
 
 The reported usage is the total of memory allocations for data and
-administrative overheads that a key its value require.
+administrative overheads that a key and its value require.
 
 For nested data types, the optional `SAMPLES` option can be provided, where
 `count` is the number of sampled nested values. The samples are averaged to estimate the total size.

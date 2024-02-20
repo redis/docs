@@ -7,7 +7,7 @@ categories:
 - rc
 description: null
 linktitle: Import data
-weight: 35
+weight: 20
 ---
 You can import an existing dataset into your Redis Cloud instance from an existing Redis server or an RDB file.
 

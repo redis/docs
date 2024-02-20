@@ -14,6 +14,16 @@ bannerText: 'The triggers and functions feature of Redis Stack and its documenta
   GitHub using the "Create new issue" link in the top right-hand corner of this page.
 
   '
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Delete a JavaScript library from Redis by name
 group: triggers_and_functions
@@ -23,7 +33,7 @@ module: Triggers and functions
 since: 2.0.0
 stack_path: docs/interact/programmability/triggers-and-functions
 summary: Delete a JavaScript library from Redis by name
-syntax: "TFUNCTION DELETE \"<library name>\" \n"
+syntax: 'TFUNCTION DELETE "<library name>" '
 syntax_fmt: TFUNCTION DELETE library name
 syntax_str: ''
 title: TFUNCTION DELETE
@@ -43,8 +53,8 @@ The name of the library to delete.
 
 `TFUNCTION DELETE` returns either
 
-* ["OK"](/docs/reference/protocol-spec/#resp-simple-strings) when the library was deleted correctly.
-* [Error reply](/docs/reference/protocol-spec/#resp-errors) when the library could not be deleted.
+* ["OK"]({{< baseurl >}}/develop/reference/protocol-spec#resp-simple-strings) when the library was deleted correctly.
+* [Error reply]({{< baseurl >}}/develop/reference/protocol-spec#resp-errors) when the library could not be deleted.
 
 ## Examples
 

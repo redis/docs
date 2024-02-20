@@ -68,7 +68,7 @@ You can migrate resources by using the `rladmin` command-line interface
 (CLI)]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}).
 
 {{< note >}}
-The [DNS records]({{< relref "/operate/rs/networking/cluster-dns/_index.md" >}}) must be updated each time a node is added or replaced.
+The [DNS records]({{< relref "/operate/rs/networking/cluster-dns" >}}) must be updated each time a node is added or replaced.
 {{< /note >}}
 
 ## Remove a node
@@ -77,7 +77,7 @@ To remove a node using the admin console:
 
 1. If you are using the new admin console, switch to the legacy admin console.
 
-    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}{{</image>}}
+    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
 
 1. On the **nodes** page, select the node you want to remove.
 
@@ -107,5 +107,5 @@ POST https://<hostname>:9443/v1/nodes/<node_id>/actions/remove
 {{< note >}}
 If you need to add a removed node back to the cluster,
 you must [uninstall]({{< relref "/operate/rs/installing-upgrading/uninstalling.md" >}})
-and [reinstall]({{< relref "/operate/rs/installing-upgrading/_index.md" >}}) the software on that node.
+and [reinstall]({{< relref "/operate/rs/installing-upgrading" >}}) the software on that node.
 {{< /note >}}

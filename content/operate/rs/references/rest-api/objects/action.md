@@ -18,7 +18,7 @@ The REST API provides a simplified interface that allows callers to invoke actio
 
 The action lifecycle is based on the following status and status transitions:
 
-![Action lifecycle](/images/rs/rest-api-action-cycle.png#no-click "Action lifecycle")
+{{< image filename="/images/rs/rest-api-action-cycle.png#no-click" alt="Action lifecycle" >}}
 
 | Name | Type/Value | Description |
 |------|------------|-------------|

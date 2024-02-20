@@ -11,6 +11,16 @@ arguments:
 - multiple: true
   name: term
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Creates or updates a synonym group with additional terms
 group: search
@@ -20,8 +30,8 @@ module: Search
 since: 1.2.0
 stack_path: docs/interact/search-and-query
 summary: Creates or updates a synonym group with additional terms
-syntax: "FT.SYNUPDATE index synonym_group_id \n  [SKIPINITIALSCAN] term [term ...]\n"
-syntax_fmt: "FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term\n  ...]"
+syntax: 'FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term ...] '
+syntax_fmt: FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term ...]
 syntax_str: synonym_group_id [SKIPINITIALSCAN] term [term ...]
 title: FT.SYNUPDATE
 ---
@@ -76,8 +86,8 @@ OK
 
 ## See also
 
-[`FT.SYNDUMP`](/commands/ft.syndump) 
+[`FT.SYNDUMP`]({{< baseurl >}}/commands/ft.syndump/) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

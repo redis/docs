@@ -5,6 +5,16 @@ arguments:
 - name: path
   optional: true
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
 description: Returns the length of the JSON String at path in key
@@ -40,7 +50,7 @@ is JSONPath to specify. Default is root `$`, if not provided. Returns null if th
 ## Return
 
 JSON.STRLEN returns by recursive descent an array of integer replies for each path, the array's length, or `nil`, if the matching JSON value is not a string.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec). 
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
 
@@ -55,9 +65,9 @@ redis> JSON.STRLEN doc $..a
 
 ## See also
 
-[`JSON.ARRLEN`](/commands/json.arrlen) | [`JSON.ARRINSERT`](/commands/json.arrinsert) 
+[`JSON.ARRLEN`]({{< baseurl >}}/commands/json.arrlen/) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

@@ -27,7 +27,7 @@ To import data into a database:
 
 1.  Select the database from the **Databases** list.
 1. Select the target database from the list.
-1. Click <img src="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px"> to open a list of additional actions.
+1. Click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" >}} to open a list of additional actions.
 1. Select **Import**.
 1. Select the tab that corresponds to your storage location type and enter the location details.
 

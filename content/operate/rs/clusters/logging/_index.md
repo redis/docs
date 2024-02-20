@@ -25,7 +25,7 @@ To get the list of logged events, you can use the REST API or
 the **Logs** screen in the UI. The **Logs** screen displays the system and user
 events regarding alerts, notifications, and configuration.
 
-{{<image filename="images/rs/screenshots/cluster/cluster-logs.png" alt="Logs screen in the new Cluster Manager UI.">}}{{</image>}}
+{{<image filename="images/rs/screenshots/cluster/cluster-logs.png" alt="Logs screen in the new Cluster Manager UI.">}}
 
 You can use the **Logs** screen to review what actions a user has performed, such as editing a database's configuration.
 

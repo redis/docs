@@ -37,31 +37,31 @@ To define a role for database access:
 
 1. From **Access Control** > **Roles**, you can:
 
-    - Point to a role and select <img src="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px"> to edit an existing role.
+    - Point to a role and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" >}} to edit an existing role.
 
     - Select **+ Add role** to create a new role.
 
-    {{<image filename="images/rs/access-control-role-panel.png" alt="Add role with name" >}}{{</image>}}
+    {{<image filename="images/rs/access-control-role-panel.png" alt="Add role with name" >}}
 
 1. Enter a descriptive name for the role. This will be used to reference the role when configuring users.
 
-    {{<image filename="images/rs/access-control-role-name.png" alt="Add role with name" >}}{{</image>}}
+    {{<image filename="images/rs/access-control-role-name.png" alt="Add role with name" >}}
 
 1. Choose a **Cluster management role**. The default is **None**.
     
 1. Select **+ Add ACL**.
 
-    {{<image filename="images/rs/access-control-role-acl.png" alt="Add role database acl" >}}{{</image>}}
+    {{<image filename="images/rs/access-control-role-acl.png" alt="Add role database acl" >}}
 
 1.  Choose a Redis ACL and databases to associate with the role.
 
-    {{<image filename="images/rs/access-control-role-databases.png" alt="Add databases to access" >}}{{</image>}}
+    {{<image filename="images/rs/access-control-role-databases.png" alt="Add databases to access" >}}
 
-1. Select the check mark <img src="/images/rs/buttons/checkmark-button.png#no-click" alt="The Check button" width="25px"> to confirm.
+1. Select the check mark {{< image filename="/images/rs/buttons/checkmark-button.png#no-click" alt="The Check button" width="25px" >}} to confirm.
 
 1. Select **Save**.
 
-    {{<image filename="images/rs/access-control-role-save.png" alt="Add databases to access" >}}{{</image>}}
+    {{<image filename="images/rs/access-control-role-save.png" alt="Add databases to access" >}}
 
 ## Next steps
 

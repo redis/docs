@@ -6,6 +6,16 @@ arguments:
   type: string
 - name: value
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(M+N) when path is evaluated to a single value where M is the size of
   the original value (if it exists) and N is the size of the new value, O(M+N) when
   path is evaluated to multiple values where M is the size of the key and N is the
@@ -56,7 +66,7 @@ is JSON value to merge with at the specified path. Merging is done according to 
 
 JSET.MERGE returns a simple string reply: `OK` if executed correctly or `error` if fails to set the new values
 
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -127,7 +137,7 @@ redis> JSON.SET doc $ '{"f1": {"a":1}, "f2":{"a":2}}'
 OK
 redis> JSON.GET doc
 "{\"f1\":{\"a\":1},\"f2\":{\"a\":2}}"
-redis> JSON.MERGE doc $ '{"f1": 'null', "f2":{"a":3, "b":4}, "f3":'[2,4,6]'}' 
+redis> JSON.MERGE doc $ '{"f1": null, "f2":{"a":3, "b":4}, "f3":[2,4,6]}'
 OK
 redis> JSON.GET doc
 "{\"f2\":{\"a\":3,\"b\":4},\"f3\":[2,4,6]}"
@@ -137,10 +147,10 @@ redis> JSON.GET doc
 
 ## See also
 
-[`JSON.GET`](/commands/json.get) | [`JSON.MGET`](/commands/json.mget) | [`JSON.SET`](/commands/json.set) | [`JSON.MSET`](/commands/json.mset)
+[`JSON.GET`]({{< baseurl >}}/commands/json.get/) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget/) | [`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.MSET`]({{< baseurl >}}/commands/json.mset/)
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
 

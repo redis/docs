@@ -10,7 +10,7 @@ description: How to configure distributed synchronization so that any available 
 linktitle: Distributed synchronization
 weight: 80
 ---
-Replicated databases, such as [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) and [Active-Active]({{< relref "/operate/rs/databases/active-active/_index.md" >}}) databases,
+Replicated databases, such as [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) and [Active-Active]({{< relref "/operate/rs/databases/active-active" >}}) databases,
 use proxy endpoints to synchronize database changes with the databases on other participating clusters.
 
 To improve the throughput and lower the latency for synchronization traffic,

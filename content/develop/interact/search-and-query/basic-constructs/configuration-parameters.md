@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/configuring/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Querying and searching in Redis Stack can be tuned through multiple
   configuration parameters. Some of these parameters can only be set at load-time,
   while other parameters can be set either at load-time or at run-time.
@@ -15,13 +23,13 @@ weight: 4
 
 Setting configuration parameters at load-time is done by appending arguments after the `--loadmodule` argument when starting a server from the command line, or after the `loadmodule` directive in a Redis config file. For example:
 
-In [redis.conf](/docs/manual/config/):
+In [redis.conf]({{< relref "/operate/oss_and_stack/management/config" >}}):
 
 ```
 loadmodule ./redisearch.so [OPT VAL]...
 ```
 
-From the [Redis CLI](/docs/manual/cli/), using the [MODULE LOAD](/commands/module-load/) command:
+From the [Redis CLI]({{< relref "/develop/connect/cli" >}}), using the [MODULE LOAD]({{< relref "/commands/module-load" >}}) command:
 
 ```
 127.0.0.6379> MODULE LOAD redisearch.so [OPT VAL]...
@@ -50,7 +58,7 @@ FT.CONFIG GET OPT1
 FT.CONFIG GET *
 ```
 
-Values set using [`FT.CONFIG SET`](/commands/ft.config-set) are not persisted after server restart.
+Values set using [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) are not persisted after server restart.
 
 ## RediSearch configuration parameters
 
@@ -174,7 +182,7 @@ $ redis-server --loadmodule ./redisearch.so CONCURRENT_WRITE_MODE
 
 ### EXTLOAD
 
-If present, RediSearch will try to load an extension dynamic library from its specified file path. See [Extensions](/docs/interact/search-and-query/administration/extensions/) for details.
+If present, RediSearch will try to load an extension dynamic library from its specified file path. See [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}) for details.
 
 #### Default
 
@@ -240,7 +248,7 @@ $ redis-server --loadmodule ./redisearch.so MAXDOCTABLESIZE 3000000
 
 ### MAXSEARCHRESULTS
 
-The maximum number of results to be returned by the [`FT.SEARCH`](/commands/ft.search) command if LIMIT is used.
+The maximum number of results to be returned by the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command if LIMIT is used.
 Setting value to `-1` will remove the limit. 
 
 #### Default
@@ -257,7 +265,7 @@ $ redis-server --loadmodule ./redisearch.so MAXSEARCHRESULTS 3000000
 
 ### MAXAGGREGATERESULTS
 
-The maximum number of results to be returned by the [`FT.AGGREGATE`](/commands/ft.aggregate) command if LIMIT is used.
+The maximum number of results to be returned by the [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) command if LIMIT is used.
 Setting value to `-1` will remove the limit. 
 
 #### Default
@@ -274,7 +282,7 @@ $ redis-server --loadmodule ./redisearch.so MAXAGGREGATERESULTS 3000000
 
 ### FRISOINI
 
-If present, load the custom Chinese dictionary from the specified path. See [Using custom dictionaries](/docs/interact/search-and-query/advanced-concepts/chinese/#using-custom-dictionaries) for more details.
+If present, load the custom Chinese dictionary from the specified path. See [Using custom dictionaries]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/chinese#using-custom-dictionaries) for more details.
 
 #### Default
 
@@ -290,7 +298,7 @@ $ redis-server --loadmodule ./redisearch.so FRISOINI /opt/dict/friso.ini
 
 ### CURSOR_MAX_IDLE
 
-The maximum idle time (in ms) that can be set to the [cursor api](/docs/interact/search-and-query/search/aggregations/#cursor-api).
+The maximum idle time (in ms) that can be set to the [cursor api]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api).
 
 #### Default
 
@@ -471,11 +479,11 @@ $ redis-server --loadmodule ./redisearch.so GC_POLICY FORK FORK_GC_CLEAN_THRESHO
 
 ### UPGRADE_INDEX
 
-This configuration is a special configuration option introduced to upgrade indices from v1.x RediSearch versions, otherwise known as legacy indices. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [ft.create api](/commands/ft.create). 
+This configuration is a special configuration option introduced to upgrade indices from v1.x RediSearch versions, otherwise known as legacy indices. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [ft.create api]({{< baseurl >}}/commands/ft.create/). 
 
 #### Default
 
-There is no default for index name, and the other arguments have the same defaults as with the [`FT.CREATE`](/commands/ft.create) API.
+There is no default for index name, and the other arguments have the same defaults as with the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) API.
 
 #### Example
 
@@ -517,7 +525,7 @@ $ redis-server --loadmodule ./redisearch.so OSS_GLOBAL_PASSWORD password
 
 ### DEFAULT_DIALECT
 
-The default DIALECT to be used by [`FT.CREATE`](/commands/ft.create), [`FT.AGGREGATE`](/commands/ft.aggregate), [`FT.EXPLAIN`](/commands/ft.explain), [`FT.EXPLAINCLI`](/commands/ft.explaincli), and [`FT.SPELLCHECK`](/commands/ft.spellcheck).
+The default DIALECT to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain/), [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), and [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck/).
 
 #### Default
 
@@ -532,7 +540,7 @@ $ redis-server --loadmodule ./redisearch.so DEFAULT_DIALECT 2
 {{% alert title="Notes" color="info" %}}
 
 * Vector search, added in v2.4.3, requires `DIALECT 2` or greater.
-* Returning multiple values from [`FT.SEARCH`](/commands/ft.search) and [`FT.AGGREGATE`](/commands/ft.aggregate) requires `DIALECT 3` or greater.
+* Returning multiple values from [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) requires `DIALECT 3` or greater.
 
 {{% /alert %}}
 
@@ -540,7 +548,7 @@ $ redis-server --loadmodule ./redisearch.so DEFAULT_DIALECT 2
 
 ### VSS_MAX_RESIZE
 
-The maximum memory resize for vector similarity indexes in bytes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`](/docs/interact/search-and-query/search/vectors/#creation-attributes-per-algorithm).
+The maximum memory resize for vector similarity indexes in bytes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< baseurl >}}/develop/get-started/vector-database#creation-attributes-per-algorithm).
 
 #### Default
 

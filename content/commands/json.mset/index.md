@@ -10,6 +10,16 @@ arguments:
   multiple: true
   name: triplet
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(K*(M+N)) where k is the number of keys in the command, when path is
   evaluated to a single value where M is the size of the original value (if it exists)
   and N is the size of the new value, or O(K*(M+N)) when path is evaluated to multiple
@@ -58,7 +68,7 @@ is value to set at the specified path
 
 JSET.MSET returns a simple string reply: `OK` if executed correctly or `error` if fails to set the new values
 
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -66,22 +76,24 @@ For more information about replies, see [Redis serialization protocol specificat
 <summary><b>Add a new values in multiple keys</b></summary>
 
 {{< highlight bash >}}
-redis> JSON.MSET doc1 $ '{"a":2}' doc2 $.f.a '3' doc3 $ '{"f1": {"a":1}, "f2":{"a":2}}'
+redis> JSON.MSET doc1 $ '{"a":1}' doc2 $ '{"f":{"a":2}}' doc3 $ '{"f1":{"a":0},"f2":{"a":0}}'
+OK
+redis> JSON.MSET doc1 $ '{"a":2}' doc2 $.f.a '3' doc3 $ '{"f1":{"a":1},"f2":{"a":2}}'
 OK
 redis> JSON.GET doc1 $
 "[{\"a\":2}]"
 redis> JSON.GET doc2 $
-"[{\"f\":{\"a\":3]"
+"[{\"f\":{\"a\":3}}]"
 redis> JSON.GET doc3
-"{\"f1\":{\"a\":3},\"f2\":{\"a\":3}}"
+"{\"f1\":{\"a\":1},\"f2\":{\"a\":2}}"
 {{< / highlight >}}
 </details>
 
 ## See also
 
-[`JSON.SET`](/commands/json.set) | [`JSON.MGET`](/commands/json.mget) | [`JSON.GET`](/commands/json.get) 
+[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget/) | [`JSON.GET`]({{< baseurl >}}/commands/json.get/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

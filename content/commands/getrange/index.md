@@ -15,6 +15,16 @@ arguments:
   name: end
   type: integer
 arity: 4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N) where N is the length of the returned string. The complexity is ultimately

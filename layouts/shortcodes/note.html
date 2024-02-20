@@ -1,4 +1,2 @@
-<div class="pl-4 border-l-8">
-    <div class="font-semibold text-slate-900">Note:</div>
-    {{- .Inner | markdownify -}}
-</div>
+{{ $inner := .Inner }}
+{{ partial "components/alert.html" (dict "Title" "Note" "Inner" $inner ) }}

@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/sentinel-clients
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: How to build clients for Redis Sentinel
 linkTitle: Sentinel clients
 title: Sentinel client spec
@@ -67,10 +75,10 @@ Step 3: call the ROLE command in the target instance
 ---
 
 Once the client discovered the address of the master instance, it should
-attempt a connection with the master, and call the [`ROLE`](/commands/role) command in order
+attempt a connection with the master, and call the [`ROLE`]({{< relref "/commands/role" >}}) command in order
 to verify the role of the instance is actually a master.
 
-If the [`ROLE`](/commands/role) commands is not available (it was introduced in Redis 2.8.12), a client may resort to the `INFO replication` command parsing the `role:` field of the output.
+If the [`ROLE`]({{< relref "/commands/role" >}}) commands is not available (it was introduced in Redis 2.8.12), a client may resort to the `INFO replication` command parsing the `role:` field of the output.
 
 If the instance is not a master as expected, the client should wait a short amount of time (a few hundreds of milliseconds) and should try again starting from Step 1.
 
@@ -95,7 +103,7 @@ command to the instance in order to make sure all the clients are disconnected
 from the reconfigured instance. This will force clients to resolve the master
 address again.
 
-If the client will contact a Sentinel with yet not updated information, the verification of the Redis instance role via the [`ROLE`](/commands/role) command will fail, allowing the client to detect that the contacted Sentinel provided stale information, and will try again.
+If the client will contact a Sentinel with yet not updated information, the verification of the Redis instance role via the [`ROLE`]({{< relref "/commands/role" >}}) command will fail, allowing the client to detect that the contacted Sentinel provided stale information, and will try again.
 
 Note: it is possible that a stale master returns online at the same time a client contacts a stale Sentinel instance, so the client may connect with a stale master, and yet the ROLE output will match. However when the master is back again Sentinel will try to demote it to replica, triggering a new disconnection. The same reasoning applies to connecting to stale replicas that will get reconfigured to replicate with a different master.
 
@@ -112,7 +120,7 @@ The clients should call instead:
 
 In order to retrieve a list of replica instances.
 
-Symmetrically the client should verify with the [`ROLE`](/commands/role) command that the
+Symmetrically the client should verify with the [`ROLE`]({{< relref "/commands/role" >}}) command that the
 instance is actually a replica, in order to avoid scaling read queries with
 the master.
 

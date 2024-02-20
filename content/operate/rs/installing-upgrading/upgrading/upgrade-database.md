@@ -12,7 +12,7 @@ weight: 50
 
 ## Default Redis database versions {#default-db-versions}
 
-When you upgrade an existing database or create a new one, it uses the default Redis version (`default_redis_version`) unless you specify the database version explicitly with `redis_version` in the [REST API]({{< relref "/operate/rs/references/rest-api/requests/bdbs" >}}) or [`rladmin upgrade db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db" >}}).
+When you upgrade an existing database, it uses the latest bundled Redis version unless you specify a different version with the `redis_version` option in the [REST API]({{< relref "/operate/rs/references/rest-api/requests/bdbs" >}}) or [`rladmin upgrade db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db" >}}).
 
 Redis Enterprise Software v6.x includes two Redis database versions: 6.0 and 6.2.
 As of version 7.2, Redis Enterprise Software includes three Redis database versions.
@@ -38,13 +38,13 @@ The upgrade policy is only relevant for Redis Enterprise Software versions 6.2.4
 
 Before upgrading a database:
 
-- Review the relevant [release notes]({{< relref "/operate/rs/release-notes/_index.md" >}}) for any preparation instructions.
+- Review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
 
 - Verify that the database version meets the minimums specified earlier.
 
     To determine the database version:
 
-    - Use the admin console to open the **Configuration** tab for the database and select <img src="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px"> **About**.
+    - Use the admin console to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" >}} **About**.
 
     - _(Optional)_ Use the [`rladmin status extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}) command to display configuration details:
 
@@ -110,7 +110,7 @@ To upgrade a database:
 
     To do so:
 
-    - Use the admin console to open the **Configuration** tab for the database and select <img src="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px"> **About**.
+    - Use the admin console to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" >}} **About**.
 
     - Use [`rladmin status databases extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version:
 

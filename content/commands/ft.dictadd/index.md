@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: term
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Adds terms to a dictionary
 group: search
@@ -57,8 +67,8 @@ FT.DICTADD returns an integer reply, the number of new terms that were added.
 
 ## See also
 
-[`FT.DICTDEL`](/commands/ft.dictdel) | [`FT.DICTDUMP`](/commands/ft.dictdump)
+[`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel/) | [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump/)
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

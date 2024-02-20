@@ -4,6 +4,16 @@ arguments:
   type: key
 - name: iterator
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n), where n is the capacity
 description: Begins an incremental save of the bloom filter
 group: cf
@@ -19,7 +29,7 @@ title: CF.SCANDUMP
 ---
 Begins an incremental save of the cuckoo filter.
 
-This command is useful for large cuckoo filters that cannot fit into the [`DUMP`](/commands/dump) and [`RESTORE`](/commands/restore) model.
+This command is useful for large cuckoo filters that cannot fit into the [`DUMP`]({{< relref "/commands/dump" >}}) and [`RESTORE`]({{< relref "/commands/restore" >}}) model.
 
 The first time this command is called, the value of `iter` should be 0. 
 
@@ -41,11 +51,11 @@ Iterator value; either 0 or the iterator from a previous invocation of this comm
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) of [Integer reply](/docs/reference/protocol-spec#integers) (_Iterator_) and [] (_Data_). 
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (_Iterator_) and [] (_Data_). 
 
   The Iterator is passed as input to the next invocation of `CF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
 
-  The iterator-data pair should also be passed to [`CF.LOADCHUNK`](/commands/cf.loadchunk) when restoring the filter.
+  The iterator-data pair should also be passed to [`CF.LOADCHUNK`]({{< baseurl >}}/commands/cf.loadchunk/) when restoring the filter.
 
 - [] on error (invalid arguments, key not found, wrong key type, etc.)
 

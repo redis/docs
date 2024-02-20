@@ -20,7 +20,7 @@ You can configure LDAP roles using the Redis Enterprise admin console or [REST A
 
 Here's how role-based LDAP integration works:
 
-{{<image filename="images/rs/access-control-ldap-diagram.png" alt="LDAP overview" >}}{{</image>}}
+{{<image filename="images/rs/access-control-ldap-diagram.png" alt="LDAP overview" >}}
 
 1.  A user signs in with their LDAP credentials.  
 
@@ -63,7 +63,7 @@ To enable LDAP:
 
 1.  From **Access Control > LDAP** in the Cluster Manager UI, select the **Configuration** tab and [enable LDAP access]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}}).
 
-    {{<image filename="images/rs/access-control-ldap-panel.png" alt="Enable LDAP Panel" >}}{{</image>}}
+    {{<image filename="images/rs/access-control-ldap-panel.png" alt="Enable LDAP Panel" >}}
 
 2.  Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}}).
 
@@ -73,7 +73,7 @@ If you already have appropriate roles, you can update them to include LDAP group
 
 ## More info
 
-- Enable and configure [role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap" >}})
+- Enable and configure [role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}})
 - Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}})
 - Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}})
 - Learn more about Redis Enterprise Software [security and practices]({{< relref "/operate/rs/security/" >}})

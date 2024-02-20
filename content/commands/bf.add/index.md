@@ -4,6 +4,16 @@ arguments:
   type: key
 - name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k), where k is the number of hash functions used by the last sub-filter
 description: Adds an item to a Bloom Filter
 group: bf
@@ -19,7 +29,7 @@ title: BF.ADD
 ---
 Adds an item to a Bloom filter.
 
-This command is similar to [`BF.MADD`](/commands/bf.madd), except that only one item can be added.
+This command is similar to [`BF.MADD`]({{< baseurl >}}/commands/bf.madd/), except that only one item can be added.
 
 ## Required arguments
 
@@ -27,7 +37,7 @@ This command is similar to [`BF.MADD`](/commands/bf.madd), except that only one 
 
 is key name for a Bloom filter to add the item to.
 
-If `key` does not exist - a new Bloom filter is created with default error rate, capacity, and expansion (see [`BF.RESERVE`](/commands/bf.reserve)).
+If `key` does not exist - a new Bloom filter is created with default error rate, capacity, and expansion (see [`BF.RESERVE`]({{< baseurl >}}/commands/bf.reserve/)).
 </details>
 
 <details open><summary><code>item</code></summary>
@@ -39,7 +49,7 @@ is an item to add.
 
 Returns one of these replies:
 
-- [Integer reply](/docs/reference/protocol-spec#integers) - where "1" means that the item has been added successfully, and "0" means that such item was already added to the filter (which could be wrong)
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - where "1" means that the item has been added successfully, and "0" means that such item was already added to the filter (which could be wrong)
 - [] on error (invalid arguments, wrong key type, etc.) and also when the filter is full
 
 ## Examples

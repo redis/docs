@@ -27,6 +27,16 @@ arguments:
   name: subcommand
   type: oneof
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - stale
@@ -38,7 +48,7 @@ hidden: false
 linkTitle: CLUSTER SETSLOT
 since: 3.0.0
 summary: Binds a hash slot to a node.
-syntax_fmt: "CLUSTER SETSLOT slot <IMPORTING\_node-id | MIGRATING\_node-id |\n  NODE\_\
+syntax_fmt: "CLUSTER SETSLOT slot <IMPORTING\_node-id | MIGRATING\_node-id | NODE\_\
   node-id | STABLE>"
 syntax_str: "<IMPORTING\_node-id | MIGRATING\_node-id | NODE\_node-id | STABLE>"
 title: CLUSTER SETSLOT
@@ -76,13 +86,13 @@ the node is not already owner of the specified hash slot.
 
 When a slot is set in importing state, the node changes behavior in the following way:
 
-1. Commands about this hash slot are refused and a `MOVED` redirection is generated as usually, but in the case the command follows an [`ASKING`](/commands/asking) command, in this case the command is executed.
+1. Commands about this hash slot are refused and a `MOVED` redirection is generated as usually, but in the case the command follows an [`ASKING`]({{< relref "/commands/asking" >}}) command, in this case the command is executed.
 
-In this way when a node in migrating state generates an `ASK` redirection, the client contacts the target node, sends [`ASKING`](/commands/asking), and immediately after sends the command. This way commands about non-existing keys in the old node or keys already migrated to the target node are executed in the target node, so that:
+In this way when a node in migrating state generates an `ASK` redirection, the client contacts the target node, sends [`ASKING`]({{< relref "/commands/asking" >}}), and immediately after sends the command. This way commands about non-existing keys in the old node or keys already migrated to the target node are executed in the target node, so that:
 
 1. New keys are always created in the target node. During a hash slot migration we'll have to move only old keys, not new ones.
 2. Commands about keys already migrated are correctly processed in the context of the node which is the target of the migration, the new hash slot owner, in order to guarantee consistency.
-3. Without [`ASKING`](/commands/asking) the behavior is the same as usually. This guarantees that clients with a broken hash slots mapping will not write for error in the target node, creating a new version of a key that has yet to be migrated.
+3. Without [`ASKING`]({{< relref "/commands/asking" >}}) the behavior is the same as usually. This guarantees that clients with a broken hash slots mapping will not write for error in the target node, creating a new version of a key that has yet to be migrated.
 
 ## CLUSTER SETSLOT `<slot>` STABLE
 
@@ -111,7 +121,7 @@ The `CLUSTER SETSLOT` command is an important piece used by Redis Cluster in ord
 
 1. Set the destination node slot to *importing* state using `CLUSTER SETSLOT <slot> IMPORTING <source-node-id>`.
 2. Set the source node slot to *migrating* state using `CLUSTER SETSLOT <slot> MIGRATING <destination-node-id>`.
-3. Get keys from the source node with [`CLUSTER GETKEYSINSLOT`](/commands/cluster-getkeysinslot) command and move them into the destination node using the [`MIGRATE`](/commands/migrate) command.
+3. Get keys from the source node with [`CLUSTER GETKEYSINSLOT`]({{< relref "/commands/cluster-getkeysinslot" >}}) command and move them into the destination node using the [`MIGRATE`]({{< relref "/commands/migrate" >}}) command.
 4. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the destination node.
 5. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the source node.
 6. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the other master nodes (optional).

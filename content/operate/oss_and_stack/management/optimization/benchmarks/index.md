@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: 'Using the redis-benchmark utility on a Redis server
 
   '

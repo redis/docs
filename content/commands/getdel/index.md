@@ -9,6 +9,16 @@ arguments:
   name: key
   type: key
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - fast
@@ -38,7 +48,7 @@ syntax_str: ''
 title: GETDEL
 ---
 Get the value of `key` and delete the key.
-This command is similar to [`GET`](/commands/get), except for the fact that it also deletes the key on success (if and only if the key's value type is a string).
+This command is similar to [`GET`]({{< relref "/commands/get" >}}), except for the fact that it also deletes the key on success (if and only if the key's value type is a string).
 
 ## Examples
 

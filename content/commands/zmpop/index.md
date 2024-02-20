@@ -29,6 +29,16 @@ arguments:
   token: COUNT
   type: integer
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - movablekeys
@@ -62,12 +72,12 @@ title: ZMPOP
 ---
 Pops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.
 
-`ZMPOP` and [`BZMPOP`](/commands/bzmpop) are similar to the following, more limited, commands:
+`ZMPOP` and [`BZMPOP`]({{< relref "/commands/bzmpop" >}}) are similar to the following, more limited, commands:
 
-- [`ZPOPMIN`](/commands/zpopmin) or [`ZPOPMAX`](/commands/zpopmax) which take only one key, and can return multiple elements.
-- [`BZPOPMIN`](/commands/bzpopmin) or [`BZPOPMAX`](/commands/bzpopmax) which take multiple keys, but return only one element from just one key.
+- [`ZPOPMIN`]({{< relref "/commands/zpopmin" >}}) or [`ZPOPMAX`]({{< relref "/commands/zpopmax" >}}) which take only one key, and can return multiple elements.
+- [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}) or [`BZPOPMAX`]({{< relref "/commands/bzpopmax" >}}) which take multiple keys, but return only one element from just one key.
 
-See [`BZMPOP`](/commands/bzmpop) for the blocking variant of this command.
+See [`BZMPOP`]({{< relref "/commands/bzmpop" >}}) for the blocking variant of this command.
 
 When the `MIN` modifier is used, the elements popped are those with the lowest scores from the first non-empty sorted set. The `MAX` modifier causes elements with the highest scores to be popped.
 The optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.

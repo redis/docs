@@ -12,6 +12,16 @@ arguments:
   name: index
   type: integer
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N) where N is the number of elements to traverse to get to the element

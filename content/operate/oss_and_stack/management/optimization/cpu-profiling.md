@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: 'Performance engineering guide for on-CPU profiling and tracing
 
   '

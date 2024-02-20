@@ -35,7 +35,7 @@ To limit API access to a specified range of source IP addresses:
 1. [Log in to admin console](https://app.redislabs.com) as an account owner.
 1. Go to: **Settings** > **Cloud API Keys**
 1. Click **Manage IPs** for the access key that you want to limit.
-1. Click ![Add](/images/rs/icon_add.png#no-click "Add") to add a new whitelist subnet.
+1. Click {{< image filename="/images/rs/icon_add.png#no-click" alt="Add" >}} to add a new whitelist subnet.
 1. Enter the subnet in [CIDR format](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation), for example: `10.2.5.0/24`
 1. Save the subnet.
 

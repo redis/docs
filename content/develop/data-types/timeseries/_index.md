@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/timeseries/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Ingest and query time series data with Redis
 linkTitle: Time series
 stack: true

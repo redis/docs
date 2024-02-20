@@ -3,6 +3,16 @@ acl_categories:
 - '@slow'
 - '@scripting'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 - allow_busy
@@ -35,6 +45,6 @@ The reply is map with two keys:
    Engine map contains statistics about the engine like number of functions and number of libraries.
 
 
-You can use this command to inspect the invocation of a long-running function and decide whether kill it with the [`FUNCTION KILL`](/commands/function-kill) command.
+You can use this command to inspect the invocation of a long-running function and decide whether kill it with the [`FUNCTION KILL`]({{< relref "/commands/function-kill" >}}) command.
 
 For more information please refer to [Introduction to Redis Functions](/topics/functions-intro).

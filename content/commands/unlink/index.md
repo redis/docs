@@ -10,6 +10,16 @@ arguments:
   name: key
   type: key
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - fast
@@ -42,10 +52,10 @@ syntax_fmt: UNLINK key [key ...]
 syntax_str: ''
 title: UNLINK
 ---
-This command is very similar to [`DEL`](/commands/del): it removes the specified keys.
-Just like [`DEL`](/commands/del) a key is ignored if it does not exist. However the command
+This command is very similar to [`DEL`]({{< relref "/commands/del" >}}): it removes the specified keys.
+Just like [`DEL`]({{< relref "/commands/del" >}}) a key is ignored if it does not exist. However the command
 performs the actual memory reclaiming in a different thread, so it is not
-blocking, while [`DEL`](/commands/del) is. This is where the command name comes from: the
+blocking, while [`DEL`]({{< relref "/commands/del" >}}) is. This is where the command name comes from: the
 command just **unlinks** the keys from the keyspace. The actual removal
 will happen later asynchronously.
 

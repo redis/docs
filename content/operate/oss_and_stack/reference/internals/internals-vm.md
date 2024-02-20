@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: A description of the Redis virtual memory system that was deprecated
   in 2.6. This document exists for historical interest.
 linkTitle: Virtual memory

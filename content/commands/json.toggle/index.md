@@ -4,6 +4,16 @@ arguments:
   type: key
 - name: path
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
 description: Toggles a boolean value
@@ -40,7 +50,7 @@ is JSONPath to specify. Default is root `$`.
 ## Return
 
 JSON.TOGGLE returns an array of integer replies for each path, the new value (`0` if `false` or `1` if `true`), or `nil` for JSON values matching the path that are not Boolean.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -85,10 +95,10 @@ redis> JSON.GET doc $
 
 ## See also
 
-[`JSON.SET`](/commands/json.set) | [`JSON.GET`](/commands/json.get) 
+[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.GET`]({{< baseurl >}}/commands/json.get/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
 

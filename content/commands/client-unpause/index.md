@@ -5,6 +5,16 @@ acl_categories:
 - '@dangerous'
 - '@connection'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -21,4 +31,4 @@ syntax_fmt: CLIENT UNPAUSE
 syntax_str: ''
 title: CLIENT UNPAUSE
 ---
-`CLIENT UNPAUSE` is used to resume command processing for all clients that were paused by [`CLIENT PAUSE`](/commands/client-pause).
+`CLIENT UNPAUSE` is used to resume command processing for all clients that were paused by [`CLIENT PAUSE`]({{< relref "/commands/client-pause" >}}).

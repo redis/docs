@@ -12,6 +12,16 @@ arguments:
   name: group
   type: string
 arity: 4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(1)
@@ -49,8 +59,8 @@ The following information is provided for each consumer in the group:
 
 * **name**: the consumer's name
 * **pending**: the number of entries in the PEL: pending messages for the consumer, which are messages that were delivered but are yet to be acknowledged
-* **idle**: the number of milliseconds that have passed since the consumer's last attempted interaction (Examples: [`XREADGROUP`](/commands/xreadgroup), [`XCLAIM`](/commands/xclaim), [`XAUTOCLAIM`](/commands/xautoclaim))
-* **inactive**: the number of milliseconds that have passed since the consumer's last successful interaction (Examples: [`XREADGROUP`](/commands/xreadgroup) that actually read some entries into the PEL, [`XCLAIM`](/commands/xclaim)/[`XAUTOCLAIM`](/commands/xautoclaim) that actually claimed some entries)
+* **idle**: the number of milliseconds that have passed since the consumer's last attempted interaction (Examples: [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), [`XCLAIM`]({{< relref "/commands/xclaim" >}}), [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}))
+* **inactive**: the number of milliseconds that have passed since the consumer's last successful interaction (Examples: [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) that actually read some entries into the PEL, [`XCLAIM`]({{< relref "/commands/xclaim" >}})/[`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) that actually claimed some entries)
 
 ## Examples
 

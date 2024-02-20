@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/interact/programmability/triggers-and-functions/quick_start
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Get started with triggers and functions using redis-cli
 
   '
@@ -9,7 +17,7 @@ title: Quick start using redis-cli
 weight: 2
 ---
 
-Make sure that you have [Redis Stack installed](/docs/getting-started/install-stack/) and running. Alternatively, you can create a [free Redis Cloud account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users). The triggers and functions preview is available in the fixed subscription plan for the Google Cloud Asia Pacific (Tokyo) and AWS Asia Pacific (Singapore) regions.
+Make sure that you have [Redis Stack installed]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) and running. Alternatively, you can create a [free Redis Cloud account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users). The triggers and functions preview is available in the fixed subscription plan for the Google Cloud Asia Pacific (Tokyo) and AWS Asia Pacific (Singapore) regions.
 
 ## Connect to Redis Stack
 
@@ -26,7 +34,7 @@ Use the `TFUNCION LOAD` command to create a new library in your Redis instance.
 OK
 ```
 
-When the library is created successfully, an `OK` response is returned. Run the [`TFUNCTION LIST`](/commands/tfunction-list) command to confirm your library was added to Redis.
+When the library is created successfully, an `OK` response is returned. Run the [`TFUNCTION LIST`]({{< relref "/commands/tfunction-list" >}}) command to confirm your library was added to Redis.
 
 ```shell
 > TFUNCTION LIST
@@ -54,14 +62,14 @@ When the library is created successfully, an `OK` response is returned. Run the 
    22) "default"
 ```
 
-The [`TFCALL`](/commands/tfcall) command is used to execute the JavaScript Function. If the command fails, an error will be returned.
+The [`TFCALL`]({{< relref "/commands/tfcall" >}}) command is used to execute the JavaScript Function. If the command fails, an error will be returned.
 
 ```Shell
 127.0.0.1:6379> TFCALL myFirstLibrary.hello 0
 "Hello World"
 ```
 
-To update the library run the [`TFUNCTION LOAD`](/commands/tfunction-load) command with the additional parameter `REPLACE`.
+To update the library run the [`TFUNCTION LOAD`]({{< relref "/commands/tfunction-load" >}}) command with the additional parameter `REPLACE`.
 
 ```Shell
 127.0.0.1:6379> TFUNCTION LOAD REPLACE "#!js api_version=1.0 name=myFirstLibrary\n redis.registerFunction('hello', ()=>{ return 'Hello World updated'})"
@@ -90,7 +98,7 @@ redis-cli -x TFUNCTION LOAD REPLACE < ./main.js
 
 Functions within Redis can respond to events using keyspace triggers. While the majority of these events are initiated by command invocations, they also include events that occur when a key expires or is removed from the database.
 
-For the full list of supported events, please refer to the [Redis keyspace notifications page](https://redis.io/docs/manual/keyspace-notifications/#events-generated-by-different-commands/?utm_source=redis\&utm_medium=app\&utm_campaign=redisinsight_triggers_and_functions_guide).
+For the full list of supported events, please refer to the [Redis keyspace notifications page]({{< baseurl >}}/develop/use/keyspace-notifications#events-generated-by-different-commands/?utm_source=redis\&utm_medium=app\&utm_campaign=redisinsight_triggers_and_functions_guide).
 
 The following code creates a new keyspace trigger that adds a new field to a new or updated hash with the latest update time. 
 

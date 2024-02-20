@@ -20,15 +20,15 @@ To enable the API:
 1. From the menu, choose **Access Management**.
 1. When the **Access Management** screen appears, select the **API Keys** tab.
 
-    {{<image filename="images/rc/access-management-api-keys-tab.png" width="75%" alt="Use the **API Keys** tab of the **Access Management** screen to manage your REST API keys." >}}{{< /image >}}
+    {{<image filename="images/rc/access-management-api-keys-tab.png" width="75%" alt="Use the **API Keys** tab of the **Access Management** screen to manage your REST API keys." >}}
 
 1. If a **Copy** button appears to the right of the API account key, the API is enabled.  This button copies the account key to the Clipboard.
 
-    {{<image filename="images/rc/button-access-management-api-key-copy.png" alt="Use the **Copy** button to copy the access key to the Clipboard." >}}{{< /image >}}
+    {{<image filename="images/rc/button-access-management-api-key-copy.png" alt="Use the **Copy** button to copy the access key to the Clipboard." >}}
 
     If you see an **Enable API** button, select it to enable the API and generate your API account key.
 
-    {{<image filename="images/rc/button-access-management-enable-api.png" alt="Use the **Enable API** button to enable the REST API for your account." >}}{{< /image >}}
+    {{<image filename="images/rc/button-access-management-enable-api.png" alt="Use the **Enable API** button to enable the REST API for your account." >}}
 
 To authenticate REST API calls, you need to combine the API account key with an [API user key]({{< relref "/operate/rc/api/get-started/manage-api-keys.md#secret" >}}) to make API calls.
 

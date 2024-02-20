@@ -12,6 +12,16 @@ arguments:
   name: increment
   type: double
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -82,5 +92,5 @@ INCRBYFLOAT mykey 2.0e2
 ## Implementation details
 
 The command is always propagated in the replication link and the Append Only
-File as a [`SET`](/commands/set) operation, so that differences in the underlying floating point
+File as a [`SET`]({{< relref "/commands/set" >}}) operation, so that differences in the underlying floating point
 math implementation will not be sources of inconsistency.

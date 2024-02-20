@@ -15,6 +15,16 @@ arguments:
   name: stop
   type: integer
 arity: 4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(S+N) where S is the distance of start offset from HEAD for small lists,

@@ -3,6 +3,16 @@ acl_categories:
 - '@fast'
 - '@transaction'
 arity: 1
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 - loading
@@ -25,4 +35,4 @@ connection state to normal.
 
 [tt]: /topics/transactions
 
-If [`WATCH`](/commands/watch) was used, `DISCARD` unwatches all keys watched by the connection.
+If [`WATCH`]({{< relref "/commands/watch" >}}) was used, `DISCARD` unwatches all keys watched by the connection.

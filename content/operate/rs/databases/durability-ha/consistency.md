@@ -28,7 +28,7 @@ the following flow shown below;
 7. The write to a replica is persisted to disk
 8. The write is acknowledged within the replica
 
-![Weak Consistency](/images/rs/weak-consistency.png)
+{{< image filename="/images/rs/weak-consistency.png" >}}
 
 With the WAIT command, applications can ask to wait for
 acknowledgments only after replication or persistence is confirmed on
@@ -45,7 +45,7 @@ With this flow, the application only gets the acknowledgment from the
 write after durability is achieved with replication to the replica and to
 the persistent storage.
 
-![Strong Consistency](/images/rs/strong-consistency.png)
+{{< image filename="/images/rs/strong-consistency.png" >}}
 
 With the WAIT command, applications can have a guarantee that even under
 a node failure or node restart, an acknowledged write is recorded.

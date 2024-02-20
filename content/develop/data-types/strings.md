@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to Redis strings
 
   '
@@ -23,16 +33,16 @@ for a number of use cases, like caching HTML fragments or pages.
     "Deimos"
 {{< /clients-example >}}
 
-As you can see using the [`SET`](/commands/set) and the [`GET`](/commands/get) commands are the way we set
-and retrieve a string value. Note that [`SET`](/commands/set) will replace any existing value
+As you can see using the [`SET`]({{< relref "/commands/set" >}}) and the [`GET`]({{< relref "/commands/get" >}}) commands are the way we set
+and retrieve a string value. Note that [`SET`]({{< relref "/commands/set" >}}) will replace any existing value
 already stored into the key, in the case that the key already exists, even if
-the key is associated with a non-string value. So [`SET`](/commands/set) performs an assignment.
+the key is associated with a non-string value. So [`SET`]({{< relref "/commands/set" >}}) performs an assignment.
 
 Values can be strings (including binary data) of every kind, for instance you
 can store a jpeg image inside a value. A value can't be bigger than 512 MB.
 
-The [`SET`](/commands/set) command has interesting options, that are provided as additional
-arguments. For example, I may ask [`SET`](/commands/set) to fail if the key already exists,
+The [`SET`]({{< relref "/commands/set" >}}) command has interesting options, that are provided as additional
+arguments. For example, I may ask [`SET`]({{< relref "/commands/set" >}}) to fail if the key already exists,
 or the opposite, that it only succeed if the key already exists:
 
 {{< clients-example set_tutorial setnx_xx >}}
@@ -43,17 +53,17 @@ or the opposite, that it only succeed if the key already exists:
 {{< /clients-example >}}
 
 There are a number of other commands for operating on strings. For example
-the [`GETSET`](/commands/getset) command sets a key to a new value, returning the old value as the
+the [`GETSET`]({{< relref "/commands/getset" >}}) command sets a key to a new value, returning the old value as the
 result. You can use this command, for example, if you have a
-system that increments a Redis key using [`INCR`](/commands/incr)
+system that increments a Redis key using [`INCR`]({{< relref "/commands/incr" >}})
 every time your web site receives a new visitor. You may want to collect this
 information once every hour, without losing a single increment.
-You can [`GETSET`](/commands/getset) the key, assigning it the new value of "0" and reading the
+You can [`GETSET`]({{< relref "/commands/getset" >}}) the key, assigning it the new value of "0" and reading the
 old value back.
 
 The ability to set or retrieve the value of multiple keys in a single
 command is also useful for reduced latency. For this reason there are
-the [`MSET`](/commands/mset) and [`MGET`](/commands/mget) commands:
+the [`MSET`]({{< relref "/commands/mset" >}}) and [`MGET`]({{< relref "/commands/mget" >}}) commands:
 
 {{< clients-example set_tutorial mset >}}
     > mset bike:1 "Deimos" bike:2 "Ares" bike:3 "Vanth"
@@ -64,7 +74,7 @@ the [`MSET`](/commands/mset) and [`MGET`](/commands/mget) commands:
     3) "Vanth"
 {{< /clients-example >}}
 
-When [`MGET`](/commands/mget) is used, Redis returns an array of values.
+When [`MGET`]({{< relref "/commands/mget" >}}) is used, Redis returns an array of values.
 
 ### Strings as counters
 Even if strings are the basic values of Redis, there are interesting operations
@@ -79,10 +89,10 @@ you can perform with them. For instance, one is atomic increment:
     (integer) 11
 {{< /clients-example >}}
 
-The [`INCR`](/commands/incr) command parses the string value as an integer,
+The [`INCR`]({{< relref "/commands/incr" >}}) command parses the string value as an integer,
 increments it by one, and finally sets the obtained value as the new value.
-There are other similar commands like [`INCRBY`](/commands/incrby),
-[`DECR`](/commands/decr) and [`DECRBY`](/commands/decrby). Internally it's
+There are other similar commands like [`INCRBY`]({{< relref "/commands/incrby" >}}),
+[`DECR`]({{< relref "/commands/decr" >}}) and [`DECRBY`]({{< relref "/commands/decrby" >}}). Internally it's
 always the same command, acting in a slightly different way.
 
 What does it mean that INCR is atomic?
@@ -102,31 +112,31 @@ By default, a single Redis string can be a maximum of 512 MB.
 
 ### Getting and setting Strings
 
-* [`SET`](/commands/set) stores a string value.
-* [`SETNX`](/commands/setnx) stores a string value only if the key doesn't already exist. Useful for implementing locks.
-* [`GET`](/commands/get) retrieves a string value.
-* [`MGET`](/commands/mget) retrieves multiple string values in a single operation.
+* [`SET`]({{< relref "/commands/set" >}}) stores a string value.
+* [`SETNX`]({{< relref "/commands/setnx" >}}) stores a string value only if the key doesn't already exist. Useful for implementing locks.
+* [`GET`]({{< relref "/commands/get" >}}) retrieves a string value.
+* [`MGET`]({{< relref "/commands/mget" >}}) retrieves multiple string values in a single operation.
 
 ### Managing counters
 
-* [`INCRBY`](/commands/incrby) atomically increments (and decrements when passing a negative number) counters stored at a given key.
-* Another command exists for floating point counters: [`INCRBYFLOAT`](/commands/incrbyfloat).
+* [`INCRBY`]({{< relref "/commands/incrby" >}}) atomically increments (and decrements when passing a negative number) counters stored at a given key.
+* Another command exists for floating point counters: [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}).
 
 ### Bitwise operations
 
-To perform bitwise operations on a string, see the [bitmaps data type](/docs/data-types/bitmaps) docs.
+To perform bitwise operations on a string, see the [bitmaps data type]({{< relref "/develop/data-types/bitmaps" >}}) docs.
 
-See the [complete list of string commands](/commands/?group=string).
+See the [complete list of string commands]({{< relref "/commands/?group=string" >}}).
 
 ## Performance
 
 Most string operations are O(1), which means they're highly efficient.
-However, be careful with the [`SUBSTR`](/commands/substr), [`GETRANGE`](/commands/getrange), and [`SETRANGE`](/commands/setrange) commands, which can be O(n).
+However, be careful with the [`SUBSTR`]({{< relref "/commands/substr" >}}), [`GETRANGE`]({{< relref "/commands/getrange" >}}), and [`SETRANGE`]({{< relref "/commands/setrange" >}}) commands, which can be O(n).
 These random-access string commands may cause performance issues when dealing with large strings.
 
 ## Alternatives
 
-If you're storing structured data as a serialized string, you may also want to consider Redis [hashes](/docs/data-types/hashes) or [JSON](/docs/stack/json).
+If you're storing structured data as a serialized string, you may also want to consider Redis [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json/" >}}).
 
 ## Learn more
 

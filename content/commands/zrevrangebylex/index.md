@@ -26,6 +26,16 @@ arguments:
   token: LIMIT
   type: block
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(log(N)+M) with N being the number of elements in the sorted set and
@@ -52,7 +62,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: ZREVRANGEBYLEX
-replaced_by: '[`ZRANGE`](/commands/zrange) with the `REV` and `BYLEX` arguments'
+replaced_by: '[`ZRANGE`]({{< relref "/commands/zrange" >}}) with the `REV` and `BYLEX` arguments'
 since: 2.8.9
 summary: Returns members in a sorted set within a lexicographical range in reverse
   order.
@@ -62,7 +72,7 @@ title: ZREVRANGEBYLEX
 ---
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `max` and `min`.
 
-Apart from the reversed ordering, `ZREVRANGEBYLEX` is similar to [`ZRANGEBYLEX`](/commands/zrangebylex).
+Apart from the reversed ordering, `ZREVRANGEBYLEX` is similar to [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}).
 
 ## Examples
 

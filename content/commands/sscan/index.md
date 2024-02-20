@@ -22,6 +22,16 @@ arguments:
   token: COUNT
   type: integer
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(1) for every call. O(N) for a complete iteration, including enough command
@@ -52,4 +62,4 @@ syntax_fmt: "SSCAN key cursor [MATCH\_pattern] [COUNT\_count]"
 syntax_str: "cursor [MATCH\_pattern] [COUNT\_count]"
 title: SSCAN
 ---
-See [`SCAN`](/commands/scan) for `SSCAN` documentation.
+See [`SCAN`]({{< relref "/commands/scan" >}}) for `SSCAN` documentation.

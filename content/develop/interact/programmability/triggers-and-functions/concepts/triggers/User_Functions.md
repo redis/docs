@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Execute JavaScript functions via `TFCALL` or `TFCALLASYNC`
 
   '
@@ -8,7 +18,7 @@ weight: 1
 ---
 
 
-All [[`TFCALL`](/commands/tfcall)](docs/commands.md#tfcall) command arguments that follow the function name are passed to the function callback. The following example shows how to implement a simple function that returns the value of a key of type string or hash:
+All [[`TFCALL`]({{< relref "/commands/tfcall" >}})](docs/commands.md#tfcall) command arguments that follow the function name are passed to the function callback. The following example shows how to implement a simple function that returns the value of a key of type string or hash:
 
 ```js
 #!js api_version=1.0 name=lib

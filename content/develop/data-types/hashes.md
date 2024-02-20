@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to Redis hashes
 
   '
@@ -33,8 +43,8 @@ While hashes are handy to represent *objects*, actually the number of fields you
 put inside a hash has no practical limits (other than available memory), so you can use
 hashes in many different ways inside your application.
 
-The command [`HSET`](/commands/hset) sets multiple fields of the hash, while [`HGET`](/commands/hget) retrieves
-a single field. [`HMGET`](/commands/hmget) is similar to [`HGET`](/commands/hget) but returns an array of values:
+The command [`HSET`]({{< relref "/commands/hset" >}}) sets multiple fields of the hash, while [`HGET`]({{< relref "/commands/hget" >}}) retrieves
+a single field. [`HMGET`]({{< relref "/commands/hmget" >}}) is similar to [`HGET`]({{< relref "/commands/hget" >}}) but returns an array of values:
 
 {{< clients-example hash_tutorial hmget >}}
 > HMGET bike:1 model price no-such-field
@@ -44,7 +54,7 @@ a single field. [`HMGET`](/commands/hmget) is similar to [`HGET`](/commands/hget
 {{< /clients-example >}}
 
 There are commands that are able to perform operations on individual fields
-as well, like [`HINCRBY`](/commands/hincrby):
+as well, like [`HINCRBY`]({{< relref "/commands/hincrby" >}}):
 
 {{< clients-example hash_tutorial hincrby >}}
 > HINCRBY bike:1 price 100
@@ -53,19 +63,19 @@ as well, like [`HINCRBY`](/commands/hincrby):
 (integer) 4972
 {{< /clients-example >}}
 
-You can find the [full list of hash commands in the documentation](https://redis.io/commands#hash).
+You can find the [full list of hash commands in the documentation]({{< relref "/commands#hash" >}}).
 
 It is worth noting that small hashes (i.e., a few elements with small values) are
 encoded in special way in memory that make them very memory efficient.
 
 ## Basic commands
 
-* [`HSET`](/commands/hset) sets the value of one or more fields on a hash.
-* [`HGET`](/commands/hget) returns the value at a given field.
-* [`HMGET`](/commands/hmget) returns the values at one or more given fields.
-* [`HINCRBY`](/commands/hincrby) increments the value at a given field by the integer provided.
+* [`HSET`]({{< relref "/commands/hset" >}}) sets the value of one or more fields on a hash.
+* [`HGET`]({{< relref "/commands/hget" >}}) returns the value at a given field.
+* [`HMGET`]({{< relref "/commands/hmget" >}}) returns the values at one or more given fields.
+* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) increments the value at a given field by the integer provided.
 
-See the [complete list of hash commands](https://redis.io/commands/?group=hash).
+See the [complete list of hash commands]({{< relref "/commands/?group=hash" >}}).
 
 
 ## Examples
@@ -94,7 +104,7 @@ See the [complete list of hash commands](https://redis.io/commands/?group=hash).
 
 Most Redis hash commands are O(1).
 
-A few commands - such as [`HKEYS`](/commands/hkeys), [`HVALS`](/commands/hvals), and [`HGETALL`](/commands/hgetall) - are O(n), where _n_ is the number of field-value pairs.
+A few commands - such as [`HKEYS`]({{< relref "/commands/hkeys" >}}), [`HVALS`]({{< relref "/commands/hvals" >}}), and [`HGETALL`]({{< relref "/commands/hgetall" >}}) - are O(n), where _n_ is the number of field-value pairs.
 
 ## Limits
 

@@ -17,7 +17,7 @@ In a cluster that consists of only one node, some features and capabilities are 
 such as database replication that provides high availability.
 {{< /note >}}
 
-To set up a new cluster, you must first [install the Redis Enterprise Software package]({{< relref "/operate/rs/installing-upgrading/_index.md" >}})
+To set up a new cluster, you must first [install the Redis Enterprise Software package]({{< relref "/operate/rs/installing-upgrading" >}})
 and then set up the cluster as described below.
 After the cluster is created you can [add multiple nodes to the cluster]({{< relref "/operate/rs/clusters/add-node.md" >}}).
 

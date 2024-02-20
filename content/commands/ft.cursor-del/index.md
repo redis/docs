@@ -4,6 +4,16 @@ arguments:
   type: string
 - name: cursor_id
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Deletes a cursor
 group: search
@@ -63,8 +73,8 @@ Check that the cursor is deleted.
 
 ## See also
 
-[`FT.CURSOR READ`](/commands/ft.cursor-read) 
+[`FT.CURSOR READ`]({{< baseurl >}}/commands/ft.cursor-read/) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})
