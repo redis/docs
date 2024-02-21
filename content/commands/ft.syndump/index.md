@@ -2,6 +2,16 @@
 arguments:
 - name: index
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Dumps the contents of a synonym group
 group: search
@@ -56,8 +66,8 @@ FT.SYNDUMP returns an array reply, with a pair of `term` and an array of synonym
 
 ## See also
 
-[`FT.SYNUPDATE`](/commands/ft.synupdate) 
+[`FT.SYNUPDATE`]({{< baseurl >}}/commands/ft.synupdate/) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

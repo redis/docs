@@ -40,6 +40,16 @@ arguments:
   token: FREQ
   type: integer
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -77,7 +87,7 @@ key_specs:
 linkTitle: RESTORE-ASKING
 since: 3.0.0
 summary: An internal command for migrating keys in a cluster.
-syntax_fmt: "RESTORE-ASKING key ttl serialized-value [REPLACE] [ABSTTL]\n  [IDLETIME\_\
+syntax_fmt: "RESTORE-ASKING key ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME\_\
   seconds] [FREQ\_frequency]"
 syntax_str: "ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME\_seconds] [FREQ\_frequency]"
 title: RESTORE-ASKING

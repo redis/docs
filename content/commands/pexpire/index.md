@@ -33,6 +33,16 @@ arguments:
   since: 7.0.0
   type: oneof
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - fast
@@ -63,7 +73,7 @@ syntax_fmt: PEXPIRE key milliseconds [NX | XX | GT | LT]
 syntax_str: milliseconds [NX | XX | GT | LT]
 title: PEXPIRE
 ---
-This command works exactly like [`EXPIRE`](/commands/expire) but the time to live of the key is
+This command works exactly like [`EXPIRE`]({{< relref "/commands/expire" >}}) but the time to live of the key is
 specified in milliseconds instead of seconds.
 
 ## Options

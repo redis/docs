@@ -12,6 +12,16 @@ arguments:
   name: group
   type: string
 arity: 4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 complexity: O(N) where N is the number of entries in the group's pending entries list

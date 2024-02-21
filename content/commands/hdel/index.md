@@ -13,6 +13,16 @@ arguments:
   name: field
   type: string
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - fast

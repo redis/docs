@@ -2,6 +2,16 @@
 acl_categories:
 - '@slow'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - loading
 - stale
@@ -23,7 +33,7 @@ A shard is defined as a collection of nodes that serve the same set of slots and
 A shard may only have a single master at a given time, but may have multiple or no replicas.
 It is possible for a shard to not be serving any slots while still having replicas.
 
-This command replaces the [`CLUSTER SLOTS`](/commands/cluster-slots) command, by providing a more efficient and extensible representation of the cluster. 
+This command replaces the [`CLUSTER SLOTS`]({{< relref "/commands/cluster-slots" >}}) command, by providing a more efficient and extensible representation of the cluster. 
 
 The command is suitable to be used by Redis Cluster client libraries in order to understand the topology of the cluster.
 A client should issue this command on startup in order to retrieve the map associating cluster *hash slots* with actual node information.

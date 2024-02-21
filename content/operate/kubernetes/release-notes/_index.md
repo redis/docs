@@ -10,3 +10,4 @@ linkTitle: Release notes
 weight: 90
 ---
 
+{{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}

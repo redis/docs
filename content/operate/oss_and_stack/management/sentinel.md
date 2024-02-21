@@ -1,11 +1,16 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: High availability for non-clustered Redis
 linkTitle: High availability with Sentinel
 title: High availability with Redis Sentinel
 weight: 4
 ---
 
-Redis Sentinel provides high availability for Redis when not using [Redis Cluster](/operate/oss_and_stack/manual/scaling). 
+Redis Sentinel provides high availability for Redis when not using [Redis Cluster]({{< relref "/operate/oss_and_stack/management/scaling" >}}). 
 
 Redis Sentinel also provides other collateral tasks such as monitoring,
 notifications and acts as a configuration provider for clients.

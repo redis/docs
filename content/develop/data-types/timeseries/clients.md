@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/timeseries/clients
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Time Series Client Libraries
 
   '

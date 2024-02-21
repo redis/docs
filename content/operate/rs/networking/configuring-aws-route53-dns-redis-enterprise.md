@@ -29,21 +29,21 @@ A hosted zone functions as a container for the DNS records of a specific domain.
 
 The hosted zone provides you with a set of Name Server (NS) records, which you will need to update at your domain registrar. This process effectively delegates the DNS management of your domain to Route 53, allowing you to create, update, and manage DNS records for your domain within the AWS ecosystem.
 
-![00-CreateHostedZone-en](/images/rs/00-CreateHostedZone-en.png)
+{{< image filename="/images/rs/00-CreateHostedZone-en.png" >}}
 
 Once created, it will appear in the list of **Hosted zones**
 
-![03-HostedZoneSelection-en](/images/rs/03-HostedZoneSelection-en.png)
+{{< image filename="/images/rs/03-HostedZoneSelection-en.png" >}}
 
 ## Create glue records
 
 A **glue record** is a type of DNS record that helps prevent circular dependencies by providing the IP addresses of your nameservers. To create glue records in Route 53, you first need to set up a hosted zone for your domain. You will create a separate A record for each node in your Redis Enterprise cluster. The **Record name** will be a subdomain definition of the NS record you will define and the **value** should be set to the IP address of the node in your cluster.
 
-![05-NS1Configuration-en](/images/rs/05-NS1Configuration-en.png)
+{{< image filename="/images/rs/05-NS1Configuration-en.png" >}}
 
 Once complete, it should look something like this
 
-![06-NSList-en](/images/rs/06-NSList-en.png)
+{{< image filename="/images/rs/06-NSList-en.png" >}}
 
 
 ## Create nameserver record
@@ -56,14 +56,14 @@ You will need to create a new NS record which will point to the glue records cre
 It is important to make sure that the **Record Name** of the NS record equals the FQDN (Fully Qualified Domain Name) of your Redis Enterprise cluster. If not, DNS resolution will not function correctly.
 {{</note>}}
 
-![07-NSRecord-en](/images/rs/07-NSRecord-en.png)
+{{< image filename="/images/rs/07-NSRecord-en.png" >}}
 
 
 ## Validate
 
 Once all steps are completed, the configuration should look similar to this
 
-![08-FinalConfig-en](/images/rs/08-FinalConfig-en.png)
+{{< image filename="/images/rs/08-FinalConfig-en.png" >}}
 
 You can test and validate your settings by using the ```dig``` command.
 

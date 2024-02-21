@@ -16,6 +16,16 @@ arguments:
   name: condition
   optional: true
   type: oneof
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(M+N) when path is evaluated to a single value where M is the size of
   the original value (if it exists) and N is the size of the new value, O(M+N) when
   path is evaluated to multiple values where M is the size of the key and N is the
@@ -70,7 +80,7 @@ sets the key only if it already exists.
 ## Return value 
 
 JSET.SET returns a simple string reply: `OK` if executed correctly or `nil` if the specified `NX` or `XX` conditions were not met.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -115,9 +125,9 @@ redis> JSON.GET doc
 
 ## See also
 
-[`JSON.GET`](/commands/json.get) | [`JSON.MGET`](/commands/json.mget) 
+[`JSON.GET`]({{< baseurl >}}/commands/json.get/) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/clients/dotnet/
-- /docs/redis-clients/dotnet/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Connect your .NET application to a Redis database
 linkTitle: C#/.NET
 title: C#/.NET guide
@@ -13,7 +20,7 @@ Install Redis and the Redis client, then connect your .NET application to a Redi
 ## NRedisStack
 
 [NRedisStack](https://github.com/redis/NRedisStack) is a .NET client for Redis.
-`NredisStack` requires a running Redis or [Redis Stack](https://redis.io/docs/getting-started/install-stack/) server. See [Getting started](/docs/getting-started/) for Redis installation instructions.
+`NredisStack` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
 ### Install
 
@@ -98,7 +105,7 @@ Console.WriteLine(db.StringGet("foo")); // prints bar
 
 #### Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security](/docs/management/security/) guidelines.
+When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
 
 Before connecting your application to the TLS-enabled Redis server, ensure that your certificates and private keys are in the correct format.
 
@@ -213,7 +220,7 @@ var user3 = new {
 };
 ```
 
-Create an index. In this example, all JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax](/docs/interact/search-and-query/query/).
+Create an index. In this example, all JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}).
 
 ```csharp
 var schema = new Schema()
@@ -227,7 +234,7 @@ ft.Create(
     schema);
 ```
 
-Use [`JSON.SET`](/commands/json.set) to set each user value at the specified path.
+Use [`JSON.SET`]({{< baseurl >}}/commands/json.set/) to set each user value at the specified path.
 
 ```csharp
 json.Set("user:1", "$", user1);

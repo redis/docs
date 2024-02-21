@@ -92,14 +92,14 @@ To set up your machine as a Redis Enterprise Software cluster:
 
 ## Connect to your database
 
-After you create the Redis database, it is ready for you to store data.
-See the [test connectivity]({{< relref "/operate/rs/databases/connect/test-client-connectivity.md" >}}) page to learn how to connect to your database.
+After you create the Redis database, you can connect to it and store data.
+See [Test client connection]({{< relref "/operate/rs/databases/connect/test-client-connectivity" >}}) for connection options and examples.
 
 ## Supported web browsers
 
-To use the Redis Enterprise Software admin console, you need a modern browser with JavaScript enabled.
+To use the Redis Enterprise Software Cluster Manager UI, you need a modern browser with JavaScript enabled.
 
-The following browsers have been tested with the current version of the admin console:
+The following browsers have been tested with the current version of the Cluster Manager UI:
 
 - Microsoft Windows, version 10 or later.
     - [Google Chrome](https://www.google.com/chrome/), version 48 and later
@@ -116,10 +116,3 @@ The following browsers have been tested with the current version of the admin co
     - [Google Chrome](https://www.google.com/chrome/), version 49 and later
     - [Mozilla Firefox](https://www.mozilla.org/firefox/), version 44 and and later
     - [Opera](https://www.opera.com/), version 35 and later
-
-
-## Next steps
-
-- Connect to your Redis database with a [Redis client](https://redis.io/clients) and start adding data.
-
-- Use the [`memtier_benchmark` quickstart]({{< relref "/operate/rs/clusters/optimize/memtier-benchmark.md" >}}) to check the cluster performance.

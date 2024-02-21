@@ -2,6 +2,16 @@
 arguments:
 - name: key
   type: key
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Returns information about a sketch
 group: cms
@@ -23,7 +33,7 @@ Returns width, depth and total count of the sketch.
 
 ## Return
 
-[Array reply](/docs/reference/protocol-spec#arrays) with information of the filter.
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with information of the filter.
 
 ## Examples
 

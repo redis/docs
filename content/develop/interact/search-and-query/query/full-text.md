@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Perform a full-text search
 linkTitle: Full-text
 title: Full-text search
@@ -7,7 +17,7 @@ weight: 3
 
 A full-text search finds words or phrases within larger texts. You can search within a specific text field or across all text fields. 
 
-This article provides a good overview of the most relevant full-text search capabilities. Please find further details about all the full-text search features in the [reference documentation](/docs/interact/search-and-query/advanced-concepts/).
+This article provides a good overview of the most relevant full-text search capabilities. Please find further details about all the full-text search features in the [reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/" >}}).
 
 The examples in this article use a schema with the following fields:
 
@@ -32,7 +42,7 @@ Instead of searching across all text fields, you might want to limit the search 
 FT.SEARCH index "@field: word"
 ```
 
-Words that occur very often in natural language, such as `the` or `a` for the English language, aren't indexed and will not return a search result. You can find further details in the [stop words article](/docs/interact/search-and-query/advanced-concepts/stopwords).
+Words that occur very often in natural language, such as `the` or `a` for the English language, aren't indexed and will not return a search result. You can find further details in the [stop words article]({{< relref "/develop/interact/search-and-query/advanced-concepts/stopwords" >}}).
 
 The following example searches for all bicycles that have the word 'kids' in the description:
 
@@ -42,7 +52,7 @@ FT.SEARCH idx:bicycle "@description: kids"
 
 ## Phrase
 
-A phrase is a sentence, sentence fragment, or small group of words. You can find further details about how to find exact phrases in the [exact match article](/docs/interact/search-and-query/query/exact-match).
+A phrase is a sentence, sentence fragment, or small group of words. You can find further details about how to find exact phrases in the [exact match article]({{< relref "/develop/interact/search-and-query/query/exact-match" >}}).
 
 
 ## Word prefix

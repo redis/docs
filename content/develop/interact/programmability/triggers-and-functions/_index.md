@@ -11,6 +11,16 @@ bannerText: 'The triggers and functions feature of Redis Stack and its documenta
   GitHub using the "Create new issue" link in the top right-hand corner of this page.
 
   '
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Trigger and execute JavaScript functions in the Redis process
 linktitle: Triggers and functions
 stack: true
@@ -25,7 +35,7 @@ The triggers and functions feature of Redis Stack allows running JavaScript func
 
 ## Quick links
 
-* [Quick start guide](/docs/interact/programmability/triggers-and-functions/quick_start)
+* [Quick start guide]({{< relref "/develop/interact/programmability/triggers-and-functions/Quick_Start_CLI" >}})
 * [Source code](https://github.com/RedisGears/RedisGears)
 * [Latest release](https://github.com/RedisGears/RedisGears/releases)
 * [Docker image](https://hub.docker.com/r/redis/redis-stack-server/)

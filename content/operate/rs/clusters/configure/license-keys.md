@@ -96,7 +96,7 @@ When the license is expired:
  
 ## Monitor cluster license
 
-As of version 7.2, Redis Enterprise exposes the license quotas and the shards consumption metrics in the Cluster Manager UI or via the [Prometheus integration]({{< relref "/operate/rs/clusters/monitoring/prometheus-integration.md" >}}).
+As of version 7.2, Redis Enterprise exposes the license quotas and the shards consumption metrics in the Cluster Manager UI or via the [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
 
 The 'cluster_shards_limit' metric displays the total shard limit by the license by shard type (ram / flash).
 Examples:

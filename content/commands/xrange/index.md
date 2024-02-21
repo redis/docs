@@ -20,6 +20,16 @@ arguments:
   token: COUNT
   type: integer
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N) with N being the number of elements being returned. If N is constant
@@ -61,12 +71,12 @@ The `XRANGE` command has a number of applications:
   Stream IDs are [related to time](/topics/streams-intro).
 * Iterating a stream incrementally, returning just
   a few items at every iteration. However it is semantically much more
-  robust than the [`SCAN`](/commands/scan) family of functions.
+  robust than the [`SCAN`]({{< relref "/commands/scan" >}}) family of functions.
 * Fetching a single entry from a stream, providing the ID of the entry
   to fetch two times: as start and end of the query interval.
 
 The command also has a reciprocal command returning items in the
-reverse order, called [`XREVRANGE`](/commands/xrevrange), which is otherwise identical.
+reverse order, called [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}), which is otherwise identical.
 
 ## `-` and `+` special IDs
 
@@ -194,8 +204,8 @@ a specific time, by providing a given incomplete start ID. Moreover, we
 can limit the iteration to a given ID or time, by providing an end
 ID or incomplete ID instead of `+`.
 
-The command [`XREAD`](/commands/xread) is also able to iterate the stream.
-The command [`XREVRANGE`](/commands/xrevrange) can iterate the stream reverse, from higher IDs
+The command [`XREAD`]({{< relref "/commands/xread" >}}) is also able to iterate the stream.
+The command [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}) can iterate the stream reverse, from higher IDs
 (or times) to lower IDs (or times).
 
 ### Iterating with earlier versions of Redis
@@ -224,7 +234,7 @@ Also, note that once the sequence part of the last ID equals
 sequence part to 0. For example, incrementing the ID
 `1526985685298-18446744073709551615` should result in `1526985685299-0`.
 
-A symmetrical pattern applies to iterating the stream with [`XREVRANGE`](/commands/xrevrange). The
+A symmetrical pattern applies to iterating the stream with [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}). The
 only difference is that the client needs to decrement the ID for the subsequent
 calls. When decrementing an ID with a sequence part of 0, the timestamp needs
 to be decremented by 1 and the sequence set to 18446744073709551615.

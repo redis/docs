@@ -13,6 +13,16 @@ arguments:
   name: element
   type: string
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -47,7 +57,7 @@ title: LPUSHX
 ---
 Inserts specified values at the head of the list stored at `key`, only if `key`
 already exists and holds a list.
-In contrary to [`LPUSH`](/commands/lpush), no operation will be performed when `key` does not yet
+In contrary to [`LPUSH`]({{< relref "/commands/lpush" >}}), no operation will be performed when `key` does not yet
 exist.
 
 ## Examples

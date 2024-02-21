@@ -43,6 +43,16 @@ arguments:
   optional: true
   token: LABELS
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) where N is the number of labels requested to update
 description: Update the retention, chunk size, duplicate policy, and labels of an
   existing time series
@@ -54,10 +64,10 @@ since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Update the retention, chunk size, duplicate policy, and labels of an existing
   time series
-syntax: "TS.ALTER key \n  [RETENTION retentionPeriod] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY\
-  \ policy] \n  [LABELS [{label value}...]]\n"
-syntax_fmt: "TS.ALTER key [RETENTION\_retentionPeriod] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_\
-  <BLOCK | FIRST | LAST | MIN | MAX | SUM>]\n  [LABELS\_label value [label value ...]]"
+syntax: 'TS.ALTER key [RETENTION retentionPeriod] [CHUNK_SIZE size] [DUPLICATE_POLICY
+  policy] [LABELS [{label value}...]] '
+syntax_fmt: "TS.ALTER key [RETENTION\_retentionPeriod] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_\
+  <BLOCK | FIRST | LAST | MIN | MAX | SUM>] [LABELS\_label value [label value ...]]"
 syntax_str: "[RETENTION\_retentionPeriod] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK\
   \ | FIRST | LAST | MIN | MAX | SUM>] [LABELS\_label value [label value ...]]"
 title: TS.ALTER
@@ -80,31 +90,31 @@ is key name for the time series.
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary>
 
-is maximum retention period, compared to the maximum existing timestamp, in milliseconds. See `RETENTION` in [`TS.CREATE`](/commands/ts.create).
+is maximum retention period, compared to the maximum existing timestamp, in milliseconds. See `RETENTION` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
 <details open><summary><code>CHUNK_SIZE size</code></summary> 
 
-is the initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. See `CHUNK_SIZE` in [`TS.CREATE`](/commands/ts.create). Changing this value does not affect existing chunks.
+is the initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. See `CHUNK_SIZE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/). Changing this value does not affect existing chunks.
 </details>
 
 <details open><summary><code>DUPLICATE_POLICY policy</code></summary> 
 
-is policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`](/commands/ts.create).
+is policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
 <details open><summary><code>LABELS [{label value}...]</code></summary> 
 
 is set of label-value pairs that represent metadata labels of the key and serve as a secondary index.
 
-If `LABELS` is specified, the given label list is applied. Labels that are not present in the given list are removed implicitly. Specifying `LABELS` with no label-value pairs removes all existing labels. See `LABELS` in [`TS.CREATE`](/commands/ts.create).
+If `LABELS` is specified, the given label list is applied. Labels that are not present in the given list are removed implicitly. Specifying `LABELS` with no label-value pairs removes all existing labels. See `LABELS` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
 ## Return value
 
 Returns one of these replies:
 
-- [Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly
+- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
 - [] on error (invalid arguments, wrong key type, key does not exist, etc.)
 
 ## Examples
@@ -128,8 +138,8 @@ OK
 
 ## See also
 
-[`TS.CREATE`](/commands/ts.create) 
+[`TS.CREATE`]({{< baseurl >}}/commands/ts.create/) 
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

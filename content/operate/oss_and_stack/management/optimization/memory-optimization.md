@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Strategies for optimizing memory usage in Redis
 linkTitle: Memory optimization
 title: Memory optimization
@@ -233,7 +238,7 @@ To store user keys, Redis allocates at most as much memory as the `maxmemory`
 setting enables (however there are small extra allocations possible).
 
 The exact value can be set in the configuration file or set later via
-[`CONFIG SET`](/commands/config-set) (for more info, see [Using memory as an LRU cache](/operate/oss_and_stack/reference/eviction)).
+[`CONFIG SET`](/commands/config-set) (for more info, see [Using memory as an LRU cache]({{< relref "/develop/reference/eviction/" >}})).
 There are a few things that should be noted about how Redis manages memory:
 
 * Redis will not always free up (return) memory to the OS when keys are removed.

@@ -19,20 +19,20 @@ See the following topics for metrics definitions:
 - [Resource usage]({{< relref "/operate/rs/references/metrics/resource-usage" >}}) for resource and database usage metrics
 - [Auto Tiering]({{< relref "/operate/rs/references/metrics/auto-tiering" >}}) for additional metrics for [Auto Tiering ]({{< relref "/operate/rs/databases/auto-tiering" >}}) databases
 
-## [Prometheus metrics]({{< relref "/operate/rs/clusters/monitoring/prometheus-metrics-definitions" >}})
+## [Prometheus metrics]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}})
 
 To collect and display metrics data from your databases and other cluster components,
 you can connect your [Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/) server to your Redis Enterprise Software cluster.
 
 We recommend you use Prometheus and Grafana to view metrics history and trends.
 
-See [Prometheus integration]({{< relref "/operate/rs/clusters/monitoring/prometheus-integration" >}}) to learn how to connect Prometheus and Grafana to your Redis Enterprise database.
+See [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) to learn how to connect Prometheus and Grafana to your Redis Enterprise database.
 
 ## Limitations
 
 ### Shard limit
 
-Metrics information is not shown for clusters with more than 128 shards. For large clusters, we recommend you use [Prometheus and Grafana]({{< relref "/operate/rs/clusters/monitoring/prometheus-integration" >}}) to view metrics.
+Metrics information is not shown for clusters with more than 128 shards. For large clusters, we recommend you use [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) to view metrics.
 
 ### Metrics not shown during shard migration
 

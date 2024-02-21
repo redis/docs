@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Use Redis on Windows for development
 linkTitle: Windows
 title: Install Redis on Windows
@@ -15,7 +20,7 @@ Microsoft provides [detailed instructions for installing WSL](https://docs.micro
 
 ## Install Redis
 
-Once you're running Ubuntu on Windows, you can follow the steps detailed at [Install on Ubuntu/Debian](/operate/oss_and_stack/install/install-redis/install-redis-on-linux#install-on-ubuntu-debian) to install recent stable versions of Redis from the official `packages.redis.io` APT repository.
+Once you're running Ubuntu on Windows, you can follow the steps detailed at [Install on Ubuntu/Debian]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux#install-on-ubuntu-debian" >}}) to install recent stable versions of Redis from the official `packages.redis.io` APT repository.
 Add the repository to the <code>apt</code> index, update it, and then install:
 
 {{< highlight bash  >}}

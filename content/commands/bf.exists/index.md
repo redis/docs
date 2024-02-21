@@ -4,6 +4,16 @@ arguments:
   type: key
 - name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k), where k is the number of hash functions used by the last sub-filter
 description: Checks whether an item exists in a Bloom Filter
 group: bf
@@ -19,7 +29,7 @@ title: BF.EXISTS
 ---
 Determines whether a given item was added to a Bloom filter.
 
-This command is similar to [`BF.MEXISTS`](/commands/bf.mexists), except that only one item can be checked.
+This command is similar to [`BF.MEXISTS`]({{< baseurl >}}/commands/bf.mexists/), except that only one item can be checked.
 
 ## Required arguments
 
@@ -38,7 +48,7 @@ is an item to check.
 
 Returns one of these replies:
 
-- [Integer reply](/docs/reference/protocol-spec#integers), where `1` means that, with high probability, `item` was already added to the filter, and `0` means that `key` does not exist or that `item` had not been added to the filter.
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where `1` means that, with high probability, `item` was already added to the filter, and `0` means that `key` does not exist or that `item` had not been added to the filter.
 - [] on error (invalid arguments, wrong key type, etc.)
 
 ## Examples

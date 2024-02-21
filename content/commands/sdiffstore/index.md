@@ -14,6 +14,16 @@ arguments:
   name: key
   type: key
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -53,7 +63,7 @@ syntax_fmt: SDIFFSTORE destination key [key ...]
 syntax_str: key [key ...]
 title: SDIFFSTORE
 ---
-This command is equal to [`SDIFF`](/commands/sdiff), but instead of returning the resulting set, it
+This command is equal to [`SDIFF`]({{< relref "/commands/sdiff" >}}), but instead of returning the resulting set, it
 is stored in `destination`.
 
 If `destination` already exists, it is overwritten.

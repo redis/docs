@@ -8,6 +8,16 @@ arguments:
   name: library-name
   type: string
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - noscript
@@ -35,8 +45,8 @@ For more information please refer to [Introduction to Redis Functions](/topics/f
 ## Examples
 
 ```
-redis> FUNCTION LOAD Lua mylib "redis.register_function('myfunc', function(keys, args) return 'hello' end)"
-OK
+redis> FUNCTION LOAD "#!lua name=mylib \n redis.register_function('myfunc', function(keys, args) return 'hello' end)"
+"mylib"
 redis> FCALL myfunc 0
 "hello"
 redis> FUNCTION DELETE mylib

@@ -4,6 +4,16 @@ arguments:
   type: string
 - name: index
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Adds or updates an alias to the index
 group: search
@@ -52,8 +62,8 @@ OK
 
 ## See also
 
-[`FT.ALIASADD`](/commands/ft.aliasadd) | [`FT.ALIASDEL`](/commands/ft.aliasdel) 
+[`FT.ALIASADD`]({{< baseurl >}}/commands/ft.aliasadd/) | [`FT.ALIASDEL`]({{< baseurl >}}/commands/ft.aliasdel/) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

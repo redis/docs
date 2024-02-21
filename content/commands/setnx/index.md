@@ -12,6 +12,16 @@ arguments:
   name: value
   type: string
 arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -37,7 +47,7 @@ key_specs:
     type: range
   insert: true
 linkTitle: SETNX
-replaced_by: '[`SET`](/commands/set) with the `NX` argument'
+replaced_by: '[`SET`]({{< relref "/commands/set" >}}) with the `NX` argument'
 since: 1.0.0
 summary: Set the string value of a key only when the key doesn't exist.
 syntax_fmt: SETNX key value
@@ -45,7 +55,7 @@ syntax_str: value
 title: SETNX
 ---
 Set `key` to hold string `value` if `key` does not exist.
-In that case, it is equal to [`SET`](/commands/set).
+In that case, it is equal to [`SET`]({{< relref "/commands/set" >}}).
 When `key` already holds a value, no operation is performed.
 `SETNX` is short for "**SET** if **N**ot e**X**ists".
 
@@ -62,9 +72,9 @@ GET mykey
 
 **Please note that:**
 
-1. The following pattern is discouraged in favor of [the Redlock algorithm](https://redis.io/topics/distlock) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
+1. The following pattern is discouraged in favor of [the Redlock algorithm]({{< relref "/develop/use/patterns/distributed-locks" >}}) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
 2. We document the old pattern anyway because certain existing implementations link to this page as a reference. Moreover it is an interesting example of how Redis commands can be used in order to mount programming primitives.
-3. Anyway even assuming a single-instance locking primitive, starting with 2.6.12 it is possible to create a much simpler locking primitive, equivalent to the one discussed here, using the [`SET`](/commands/set) command to acquire the lock, and a simple Lua script to release the lock. The pattern is documented in the [`SET`](/commands/set) command page.
+3. Anyway even assuming a single-instance locking primitive, starting with 2.6.12 it is possible to create a much simpler locking primitive, equivalent to the one discussed here, using the [`SET`]({{< relref "/commands/set" >}}) command to acquire the lock, and a simple Lua script to release the lock. The pattern is documented in the [`SET`]({{< relref "/commands/set" >}}) command page.
 
 That said, `SETNX` can be used, and was historically used, as a locking primitive. For example, to acquire the lock of the key `foo`, the client could try the
 following:
@@ -90,7 +100,7 @@ timestamp.
 If such a timestamp is equal to the current Unix time the lock is no longer
 valid.
 
-When this happens we can't just call [`DEL`](/commands/del) against the key to remove the lock
+When this happens we can't just call [`DEL`]({{< relref "/commands/del" >}}) against the key to remove the lock
 and then try to issue a `SETNX`, as there is a race condition here, when
 multiple clients detected an expired lock and are trying to release it.
 
@@ -120,12 +130,12 @@ Let's see how C4, our sane client, uses the good algorithm:
     GETSET lock.foo <current Unix timestamp + lock timeout + 1>
     ```
 
-*   Because of the [`GETSET`](/commands/getset) semantic, C4 can check if the old value stored at
+*   Because of the [`GETSET`]({{< relref "/commands/getset" >}}) semantic, C4 can check if the old value stored at
     `key` is still an expired timestamp.
     If it is, the lock was acquired.
 
 *   If another client, for instance C5, was faster than C4 and acquired the lock
-    with the [`GETSET`](/commands/getset) operation, the C4 [`GETSET`](/commands/getset) operation will return a non
+    with the [`GETSET`]({{< relref "/commands/getset" >}}) operation, the C4 [`GETSET`]({{< relref "/commands/getset" >}}) operation will return a non
     expired timestamp.
     C4 will simply restart from the first step.
     Note that even if C4 set the key a bit a few seconds in the future this is
@@ -133,7 +143,7 @@ Let's see how C4, our sane client, uses the good algorithm:
 
 In order to make this locking algorithm more robust, a
 client holding a lock should always check the timeout didn't expire before
-unlocking the key with [`DEL`](/commands/del) because client failures can be complex, not just
+unlocking the key with [`DEL`]({{< relref "/commands/del" >}}) because client failures can be complex, not just
 crashing but also blocking a lot of time against some operations and trying
-to issue [`DEL`](/commands/del) after a lot of time (when the LOCK is already held by another
+to issue [`DEL`]({{< relref "/commands/del" >}}) after a lot of time (when the LOCK is already held by another
 client).

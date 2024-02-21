@@ -2,6 +2,7 @@
 baseURL = "https://redis.io"
 title = "Redis Documentation"
 
+refLinksErrorLevel = "WARNING"
 enableRobotsTXT = true
 enableGitInfo = true
 enableEmoji = true
@@ -40,9 +41,16 @@ quality = 75
 anchor = "smart"
 
 [params]
-  tagManagerId = "GTM-T4MTBKP"
-  # Display and sort order for client examples
-  clientsExamples = ["Python", "Node", "Java", "Go", "C#"]
+tagManagerId = "GTM-T4MTBKP"
+# Display and sort order for client examples
+clientsExamples = ["Python", "Node", "Java", "Go", "C#"]
+
+# RDI params
+rdi_rlec_min_version = "6.2.18"
+rdi_redis_gears_version = "1.2.6"
+rdi_debezium_server_version = "2.3.0.Final"
+rdi_db_types = "cassandra|mysql|oracle|postgresql|sqlserver"
+rdi_cli_latest = "latest"
 
 # Markup
 [markup]

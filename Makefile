@@ -25,8 +25,5 @@ clean:
 	@rm -Rf ./node_modules/
 	@rm -f ./package-lock.json
 	@rm -f ./.hugo_build.lock
-	@mv ./data/meta.json ./data/components/meta.json
-	@rm -f ./data/*.json
-	@mv ./data/components/meta.json ./data/meta.json
 	@rm -Rf ./examples
 	@rm -Rf ./public/tmp/*

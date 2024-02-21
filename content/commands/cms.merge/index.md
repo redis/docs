@@ -17,6 +17,16 @@ arguments:
   name: weight
   optional: true
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n) where n is the number of sketches
 description: Merges several sketches into one sketch
 group: cms
@@ -26,8 +36,8 @@ module: Bloom
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Merges several sketches into one sketch
-syntax_fmt: "CMS.MERGE destination numKeys source [source ...] [WEIGHTS weight\n \
-  \ [weight ...]]"
+syntax_fmt: CMS.MERGE destination numKeys source [source ...] [WEIGHTS weight  [weight
+  ...]]
 syntax_str: numKeys source [source ...] [WEIGHTS weight [weight ...]]
 title: CMS.MERGE
 ---
@@ -42,7 +52,7 @@ Merges several sketches into one sketch. All sketches must have identical width 
 
 ## Return
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly, or [] otherwise.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
 
 ## Examples
 

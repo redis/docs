@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/design/indexing/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: This document describes how documents are added to the index.
 linkTitle: Indexing
 title: Document Indexing

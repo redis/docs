@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: items
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n * k) where n is the number of items and k is the depth
 description: Increases the count of one or more items by increment
 group: topk
@@ -31,7 +41,7 @@ This allows dynamic heavy-hitter detection of items being entered or expelled fr
 
 ### Return
 
-[Array reply](/docs/reference/protocol-spec#arrays) of [Simple string reply](/docs/reference/protocol-spec#simple-strings) - if an element was dropped from the TopK list, [Nil reply](/docs/reference/protocol-spec#bulk-strings) otherwise..
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - if an element was dropped from the TopK list, [Nil reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) otherwise..
 
 #### Example
 

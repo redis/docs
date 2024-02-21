@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/highlight/
-- /redisearch/reference/highlight
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Highlighting full-text results
 linkTitle: Highlighting
 title: Highlighting

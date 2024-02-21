@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: Guide to the original implementation of Redis strings
 linkTitle: String internals
 title: String internals

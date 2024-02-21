@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: 'Exploring Redis on the ARM CPU Architecture
 
   '

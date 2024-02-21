@@ -6,6 +6,16 @@ arguments:
   optional: true
   token: COMPRESSION
   type: integer
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Allocates memory and initializes a new t-digest sketch
 group: tdigest
@@ -37,7 +47,7 @@ is a controllable tradeoff between accuracy and memory consumption. 100 is a com
   
 ## Return value
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly, or [] otherwise.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
 
 ## Examples
 

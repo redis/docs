@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/modules-intro
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Introduction to writing Redis modules
 
   '
@@ -21,7 +29,7 @@ modules, rapidly implementing new Redis commands with features
 similar to what can be done inside the core itself.
 
 Redis modules are dynamic libraries that can be loaded into Redis at
-startup, or using the [`MODULE LOAD`](/commands/module-load) command. Redis exports a C API, in the
+startup, or using the [`MODULE LOAD`]({{< relref "/commands/module-load" >}}) command. Redis exports a C API, in the
 form of a single C header file called `redismodule.h`. Modules are meant
 to be written in C, however it will be possible to use C++ or other languages
 that have C binding functionalities.
@@ -57,7 +65,7 @@ following command:
 
 Note that `mymodule` above is not the filename without the `.so` suffix, but
 instead, the name the module used to register itself into the Redis core.
-The name can be obtained using [`MODULE LIST`](/commands/module-list). However it is good practice
+The name can be obtained using [`MODULE LIST`]({{< relref "/commands/module-list" >}}). However it is good practice
 that the filename of the dynamic library is the same as the name the module
 uses to register itself into the Redis core.
 
@@ -113,7 +121,7 @@ The following is the function prototype:
                          int module_version, int api_version);
 
 The `Init` function announces the Redis core that the module has a given
-name, its version (that is reported by [`MODULE LIST`](/commands/module-list)), and that is willing
+name, its version (that is reported by [`MODULE LIST`]({{< relref "/commands/module-list" >}})), and that is willing
 to use a specific version of the API.
 
 If the API version is wrong, the name is already taken, or there are other
@@ -155,7 +163,7 @@ Zooming into the example command implementation, we can find another call:
     int RedisModule_ReplyWithLongLong(RedisModuleCtx *ctx, long long integer);
 
 This function returns an integer to the client that invoked the command,
-exactly like other Redis commands do, like for example [`INCR`](/commands/incr) or [`SCARD`](/commands/scard).
+exactly like other Redis commands do, like for example [`INCR`]({{< relref "/commands/incr" >}}) or [`SCARD`]({{< relref "/commands/scard" >}}).
 
 ## Module cleanup
 
@@ -199,7 +207,7 @@ Using the macro or just comparing with NULL is a matter of personal preference.
 
 # Passing configuration parameters to Redis modules
 
-When the module is loaded with the [`MODULE LOAD`](/commands/module-load) command, or using the
+When the module is loaded with the [`MODULE LOAD`]({{< relref "/commands/module-load" >}}) command, or using the
 `loadmodule` directive in the `redis.conf` file, the user is able to pass
 configuration parameters to the module by adding arguments after the module
 file name:
@@ -303,7 +311,7 @@ kind of strings: null-terminated C strings, RedisModuleString objects as
 received from the `argv` parameter in the command implementation, binary
 safe C buffers with a pointer and a length, and so forth.
 
-For example if I want to call [`INCRBY`](/commands/incrby) using a first argument (the key)
+For example if I want to call [`INCRBY`]({{< relref "/commands/incrby" >}}) using a first argument (the key)
 a string received in the argument vector `argv`, which is an array
 of RedisModuleString object pointers, and a C string representing the
 number "10" as second argument (the increment), I'll use the following
@@ -661,7 +669,7 @@ replaced with the new value.
 
 If the key has an expire, and the special value `REDISMODULE_NO_EXPIRE` is
 used as a new expire, the expire is removed, similarly to the Redis
-[`PERSIST`](/commands/persist) command. In case the key was already persistent, no operation is
+[`PERSIST`]({{< relref "/commands/persist" >}}) command. In case the key was already persistent, no operation is
 performed.
 
 ## Obtaining the length of values
@@ -677,12 +685,12 @@ If the key does not exist, 0 is returned by the function:
 
 ## String type API
 
-Setting a new string value, like the Redis [`SET`](/commands/set) command does, is performed
+Setting a new string value, like the Redis [`SET`]({{< relref "/commands/set" >}}) command does, is performed
 using:
 
     int RedisModule_StringSet(RedisModuleKey *key, RedisModuleString *str);
 
-The function works exactly like the Redis [`SET`](/commands/set) command itself, that is, if
+The function works exactly like the Redis [`SET`]({{< relref "/commands/set" >}}) command itself, that is, if
 there is a prior value (of any type) it will be deleted.
 
 Accessing existing string values is performed using DMA (direct memory
@@ -860,7 +868,7 @@ specific functions, that are exact replacements for `malloc`, `free`,
 
 They work exactly like their `libc` equivalent calls, however they use
 the same allocator Redis uses, and the memory allocated using these
-functions is reported by the [`INFO`](/commands/info) command in the memory section, is
+functions is reported by the [`INFO`]({{< relref "/commands/info" >}}) command in the memory section, is
 accounted when enforcing the `maxmemory` policy, and in general is
 a first citizen of the Redis executable. On the contrary, the method
 allocated inside modules with libc `malloc()` is transparent to Redis.

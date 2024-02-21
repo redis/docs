@@ -10,7 +10,7 @@ description: How to create an Active-Active database and things to consider when
 linkTitle: Create
 weight: 25
 ---
-[Active-Active geo-replicated databases]({{< relref "/operate/rs/databases/active-active/_index.md" >}}) (formerly known as CRDBs) give applications write access
+[Active-Active geo-replicated databases]({{< relref "/operate/rs/databases/active-active" >}}) (formerly known as CRDBs) give applications write access
 to replicas of the dataset in different geographical locations.
 
 The participating Redis Enterprise Software clusters that host the instances can be in [distributed geographic locations]({{< relref "/operate/rs/databases/active-active/" >}}).
@@ -41,12 +41,12 @@ Every instance of an Active-Active database can receive write operations, and al
 
         If you are using the new Cluster Manager UI, switch to the legacy admin console.
 
-        {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}{{</image>}}
+        {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
 
-    1. Go to **access control > users** and select ![Add](/images/rs/icon_add.png#no-click "Add").
-    1. Enter the name, email, and password for the user, select the **Admin** role, and select ![Save](/images/rs/icon_save.png#no-click "Save").
+    1. Go to **access control > users** and select {{< image filename="/images/rs/icon_add.png#no-click" alt="Add" >}}.
+    1. Enter the name, email, and password for the user, select the **Admin** role, and select {{< image filename="/images/rs/icon_save.png#no-click" alt="Save" >}}.
 
-    ![Service Account Creation](/images/rs/create-service-account.png)
+    {{< image filename="/images/rs/create-service-account.png" >}}
 
 1. To make sure that there is network connectivity between the participating clusters,
     telnet on port 9443 from each participating cluster to each of the other participating clusters.
@@ -58,7 +58,7 @@ Every instance of an Active-Active database can receive write operations, and al
 1. In your web browser, open the admin console of the cluster that you want to connect to in order to create the Active-Active database.
     By default, the address is: `https://<RS_address>:8443`
 
-1. In **databases**, click ![Add](/images/rs/icon_add.png#no-click "Add").
+1. In **databases**, click {{< image filename="/images/rs/icon_add.png#no-click" alt="Add" >}}.
 
     If you do not have any databases on the node, you are prompted to create a database.
 
@@ -68,7 +68,7 @@ Every instance of an Active-Active database can receive write operations, and al
     in **Runs on** you can select **Flash** so that your database uses Flash memory. We recommend that you use AOF every 1 sec
     for the best performance during the initial Active-Active database sync of a new replica.
 
-    ![new_geo-distributed](/images/rs/new_geo-distrbuted.png)
+    {{< image filename="/images/rs/new_geo-distrbuted.png" >}}
 
 1. Enter the name of the new Active-Active database and select from the options:
 
@@ -84,8 +84,8 @@ Every instance of an Active-Active database can receive write operations, and al
 
     - [**Data persistence**]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}) -
         To protect against loss of data stored in RAM,
-        you can enable data persistence and select to store a copy of the data on disk with snapshots or Append Only File (AOF).
-        AOF provides the fastest and most reliable method for instance failure recovery.
+        you can enable data persistence to store a copy of the data on disk.
+        Active-Active databases support append-only file (AOF) persistence only. Snapshot persistence is not supported for Active-Active databases.
 
     - **Default database access** - When you configure a password for your database,
         all connections to the database must authenticate with the [AUTH command](https://redis.io/commands/auth).
@@ -100,7 +100,7 @@ Every instance of an Active-Active database can receive write operations, and al
 
         To define an access control list:
 
-        1. In the Access control list section of the database configuration, click ![Add](/images/rs/icon_add.png#no-click "Add").
+        1. In the Access control list section of the database configuration, click {{< image filename="/images/rs/icon_add.png#no-click" alt="Add" >}}.
         1. Select the [role]({{< relref "/operate/rs/security/access-control/rbac/create-roles" >}}) that you want to have access to the database.
         1. Select the [ACL]({{< relref "/operate/rs/security/access-control/rbac/configure-acl" >}}) that you want the role to have in the database.
         1. Click **Save** to save the ACL.
@@ -124,9 +124,9 @@ Every instance of an Active-Active database can receive write operations, and al
 
     - **Participating Clusters** - You must specify the URL of the clusters that you want to
         host instances of an Active-Active database and the admin user account to connect to each cluster.
-        1. In the **Participating Clusters** list, click ![Add](/images/rs/icon_add.png#no-click "Add") to add clusters.
+        1. In the **Participating Clusters** list, click {{< image filename="/images/rs/icon_add.png#no-click" alt="Add" >}} to add clusters.
         1. For each cluster, enter the URL for the cluster (`https://<cluster_fqdn>:9443`),
-            enter the credentials (email address and password) for the service account that you created, and click ![Save](/images/rs/icon_save.png#no-click "Save").
+            enter the credentials (email address and password) for the service account that you created, and click {{< image filename="/images/rs/icon_save.png#no-click" alt="Save" >}}.
 
     - **[Causal Consistency]({{< relref "/operate/rs/databases/active-active/causal-consistency.md" >}})** -
         Causal Consistency in an Active-Active database guarantees that the order of operations

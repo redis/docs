@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Converting RESP to and from JavaScript
 
   '

@@ -17,7 +17,7 @@ Database upgrade configuration includes cluster-wide policies that affect defaul
 
 To edit database upgrade configuration using the Cluster Manager UI:
 
-1. On the **Databases** screen, select <img src="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px"> to open a list of additional actions.
+1. On the **Databases** screen, select {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" >}} to open a list of additional actions.
 
 1. Select **Upgrade configuration**.
 

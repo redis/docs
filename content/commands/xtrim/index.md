@@ -45,6 +45,16 @@ arguments:
   name: trim
   type: block
 arity: -4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 complexity: O(N), with N being the number of evicted entries. Constant times are very

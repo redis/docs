@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'RedisBloom supports multiple module configuration parameters. All of
   these parameters can only be set at load-time.
 
@@ -12,13 +22,13 @@ weight: 100
 
 Setting configuration parameters at load-time is done by appending arguments after the `--loadmodule` argument when starting a server from the command line or after the `loadmodule` directive in a Redis config file. For example:
 
-In [redis.conf](/docs/manual/config/):
+In [redis.conf]({{< relref "/operate/oss_and_stack/management/config" >}}):
 
 ```sh
 loadmodule ./redisbloom.so [OPT VAL]...
 ```
 
-From the [Redis CLI](/docs/manual/cli/), using the [MODULE LOAD](/commands/module-load/) command:
+From the [Redis CLI]({{< relref "/develop/connect/cli" >}}), using the [MODULE LOAD]({{< relref "/commands/module-load" >}}) command:
 
 ```
 127.0.0.6379> MODULE LOAD redisbloom.so [OPT VAL]...

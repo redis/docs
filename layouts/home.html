@@ -1,258 +1,207 @@
 {{ define "head" }}
-<script src='{{ relURL "" }}/js/cli.js' defer></script>
+
+{{ $base := .Site.BaseURL }}
+{{ $parsed := urls.Parse $base }}
+{{ $path := $parsed.Path }}
+{{ if (eq $path "/") }}
+	{{ .Scratch.Set "path" ""}}
+{{ else }}
+  {{ .Scratch.Set "path" $path}}
+{{ end }}
+
+<script src='{{ .Scratch.Get "path" }}/js/cli.js' defer></script>
 {{ end }}
 
 {{ define "main" }}
 <main>
-  <header class="bg-gradient-to-b from-indigo-50/30 via-indigo-50/30 to-white">
-    <div class="lg:grid grid-cols-2 gap-x-10 items-center container max-w-[85rem] mx-auto px-4 sm:px-8 pt-20 pb-28">
-      <div class="text-center lg:text-left">
-        <h1 class="font-display text-6xl leading-none midnight-redis font-medium mb-4">Documentation</h1>
-        <p class="text-redis-neutral-800 text-xl mb-7 max-w-2xl mx-auto lg:mx-0">
-          Read more about how to develop with, integrate to, and operate Redis.
-        </p>
-        <a href='{{ relURL "" }}/develop/get-started/' class="button-xl button-indigo">Get started</a>
-        <a href='{{ relURL "" }}/operate/install' class="button-xl button-outline ml-2">Install</a>
-      </div>
-      <div
-        class="relative left-3.5 lg:left-0 lg:mt-0 mx-auto lg:ml-0  lg:-mr-7 pt-7 pr-7 bg-no-repeat bg-right-top max-w-2xl lg:max-w-none">
-        <div class="search-bar shadow-lg">
-          <form id="search-form-home" class="search-form">
-            <label class="search-magnifier-label" for="search-input-home" id="search-label-home">
-              <svg>
-                <path
-                  d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z"
-                  stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
-                </path>
-              </svg>
-            </label>
-            <input class="search-input" aria-autocomplete="both" aria-labelledby="search-label-home"
-              id="search-input-home" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-              placeholder="Search…" maxlength="64" type="search" value="" tabindex="">
-          </form>
-        </div>
-      </div>
+  <header class="h-96 bg-redis-ink-900 text-white">
+    <div class="max-w-[800px] mx-auto px-5 flex flex-col gap-8 md:items-center justify-center h-full">
+      <h1 class="text-3xl md:text-5xl font-medium">{{ .Title }}</h1>
+      {{ with .Params.description }}
+      <p class="text-xl md:text-2xl">{{ . | markdownify }}</p>
+      {{ end }}
+      <form class="flex flex-row items-center border border-redis-pen-600 rounded-md px-6 gap-6 w-full">
+        <label class="" for="search-input-home" id="search-label-home">
+          {{ partial "icons/search.html" }}
+        </label>
+        <input class="appearance-none bg-transparent text-lg w-full h-16 focus:outline-none" aria-autocomplete="both" aria-labelledby="search-label-home"
+          id="search-input-home" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+          placeholder="Search keyword" maxlength="64" type="search" value="" tabindex="">
+      </form>
     </div>
   </header>
-  <article class="">
-    <section class="py-28 bg-gradient-to-b from-indigo-50/30 via-indigo-50/30 to-white">
-      <div class="container max-w-[85rem] mx-auto px-4 sm:px-8">
-        <h2 class="text-center font-display text-4xl leading-tight text-slate-900 font-semibold mb-10 -mt-4">
-          Learn how to
-        </h2>
-        <ul class="flex flex-col sm:grid md:grid-cols-2 xl:grid-cols-3 gap-14">
-          <li class="flex flex-col h-full">
-            <span class="inline-flex items-center justify-center w-14 h-14 p-3 bg-indigo-50 rounded-md mb-6">{{ with
-              resources.Get "icons/programmability.svg" }}{{
-              ( . | minify).Content | safeHTML }}{{ end }}</span>
-            <h3 class="font-semibold text-xl mb-2">
-              Develop
-            </h3>
-            <p class="text-redis-neutral-800 mb-5">
-              Read more about how to leverage Redis as a data structure store, message broker, document database, vector
-              database and more.
-            </p>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href='{{ relURL "" }}/develop'>
-              Learn more
-              <span
-                class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-            </a>
-          </li>
-          <li class="flex flex-col h-full">
-            <span class="inline-flex items-center justify-center w-14 h-14 p-3 bg-indigo-50 rounded-md mb-6">{{ with
-              resources.Get "icons/extensibility-icon.svg" }}{{ ( . |
-              minify).Content | safeHTML }}{{ end }}</span>
-            <h3 class="font-semibold text-xl mb-2">
-              Integrate
-            </h3>
-            <p class="text-redis-neutral-800 mb-5">
-              Read about frameworks and integrations available for Redis.
-            </p>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href='{{ relURL "" }}/integrate'>
-              Learn more
-              <span
-                class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-            </a>
-          </li>
-          <li class="flex flex-col h-full">
-            <span class="inline-flex items-center justify-center w-14 h-14 p-3 bg-indigo-50 rounded-md mb-6">{{ with
-              resources.Get "icons/cluster.svg" }}{{ ( . |
-              minify).Content | safeHTML }}{{ end }}</span>
-            <h3 class="font-semibold text-xl mb-2">
-              Operate
-            </h3>
-            <p class="text-redis-neutral-800 mb-5">
-              Read about how to install, administer, and monitor Redis, Redis Enterprise, and Redis Cloud.
-            </p>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href='{{ relURL "" }}/operate'>
-              Learn more
-              <span
-                class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-            </a>
-          </li>
-        </ul>
+  <div class="flex flex-col lg:flex-row gap-8 mx-auto px-4 md:px-11 py-6 md:py-28 max-w-[1440px]">
+    <div class="lg:sticky lg:top-32 w-full lg:w-64 h-fit lg:h-full shrink-0 text-sm font-mono font-normal">
+      <nav class="lg:hidden w-full lg:w-64 z-40 bg-white h-fit lg:h-full leading-7">
+        <div class="border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
+          <button class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer lg:cursor-default" onclick="dropdownToggle()">
+            <div class="uppercase">Documentation</div>
+            <div id="dropdownChevron" class="lg:hidden self-center">{{ partial "icons/chevron.html" }}</div>
+          </button>
+          <div id="dropdown" class="hidden lg:block border-t border-opacity-50 border-redis-ink-900 text-redis-pen-800">
+            <ul class="p-6">
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/get-started'>Get started</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/develop'>Develop</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/integrate'>Integrate</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/operate'>Operate</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600">APIs</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <nav class="hidden lg:block w-full lg:w-64 z-40 h-full leading-7">
+        <div class="flex flex-col gap-4">
+          <a class="px-6 py-4 hover:bg-redis-pen-200 border border-redis-ink-900 border-opacity-50 rounded-md" href='{{ .Scratch.Get "path" }}/get-started'>Get started</a>
+          <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
+            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/develop'>Develop</a>
+            <a class="px-6 py-4 hover:bg-redis-pen-200 border-y border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/integrate'>Integrate</a>
+            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/operate'>Operate</a>
+          </div>
+          <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
+            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200 text-redis-red-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a>
+            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/apis'>APIs</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="lg:px-11 w-full flex flex-col gap-24">
+      <div>
+        <h1 class="text-5xl font-medium" id="develop">Learn how to</h1>
+        {{ partial "docs-section.html" (dict
+          "Title" "Develop"
+          "Description" "Read more about how to use the Redis in-memory data store as a cache, vector database, document database, streaming engine, and message broker."
+          "ButtonLink" "./develop"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "Featured content"
+          "LinksLeft" (slice
+            (dict "Text" "Vector search" "URL" "./develop/interact/search-and-query/query/vector-search")
+            (dict "Text" "Query data" "URL" "./develop/interact/search-and-query/query")
+            (dict "Text" "Debug functions" "URL" "./develop/interact/programmability/triggers-and-functions/debugging")
+            )
+          "LinksRightTitle" "Quick starts"
+          "LinksRight" (slice
+            (dict "Text" "Data structure store" "URL" "./develop/get-started/data-store/")
+            (dict "Text" "Document database" "URL" "./develop/get-started/document-database/")
+            (dict "Text" "Vector database" "URL" "./develop/get-started/vector-database/")
+            )
+          ) }}
+        {{ partial "docs-section.html" (dict
+          "Title" "Integrate"
+          "Description" "Read about frameworks and integrations available for Redis."
+          "ButtonLink" "./integrate"
+          "ButtonLabel" "Browse integrations"
+          "LinksLeftTitle" "Featured libraries"
+          "LinksLeft" (slice
+            (dict "Text" "RedisVL" "URL" "./integrate/redisvl/")
+            (dict "Text" "RedisOM for Python" "URL" "./integrate/om-python")
+            (dict "Text" "RedisOM for Java" "URL" "./integrate/om-java")
+          )
+          "LinksRightTitle" "Data Integration"
+          "LinksRight" (slice
+            (dict "Text" "Ingest" "URL" "./integrate/rdi/quickstart/ingest-guide/")
+            (dict "Text" "Write-behind" "URL" "./integrate/rdi/quickstart/write-behind-guide/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
+          "Title" "Operate"
+          "Description" "Read about how to install, administer, and monitor Redis OSS, Redis Stack, Redis Enterprise, and Redis Cloud."
+          "ButtonLink" "./operate"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "Featured content"
+          "LinksLeft" (slice
+              (dict "Text" "From Fixed to Flexible" "URL" "./operate/rc/subscriptions/upgrade-fixed-flexible/")
+              (dict "Text" "Redis Cloud REST API" "URL" "./operate/rc/api/")
+              (dict "Text" "Prometheus and Grafana with Redis Cloud" "URL" "./operate/rc/cloud-integrations/prometheus-integration/")
+              )
+        ) }}
       </div>
-    </section>
-    <section class="pb-28">
-      <div class="container max-w-[85rem] mx-auto px-4 sm:px-8">
-        <h2 class="text-center font-display text-4xl leading-tight text-slate-900 font-semibold mb-10">
-          Explore by product
-        </h2>
-        <ul class="flex flex-col sm:grid md:grid-cols-2 xl:grid-cols-3 gap-14">
-          <li class="flex flex-col h-full">
-            <h3 class="font-semibold text-xl pt-5 mb-2 border-t-2 border-indigo-500">
-              Redis OSS and Stack
-            </h3>
-            <p class="text-redis-neutral-800 mb-5">
-              Redis Stack extends Redis with modern data models and processing engines to provide a complete developer
-              experience. Download the source, install using your favorite package manager, or spin it up for free in
-              the cloud.
-            </p>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href='{{ relURL "" }}/operate/oss_and_stack'>
-              Learn more
-              <span
-                class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-            </a>
-          </li>
-
-          <!-- TODO-->
-
-          <li class="flex flex-col h-full">
-            <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
-              Redis Cloud
-            </h3>
-            <p class="text-redis-neutral-800 mb-5">
-              Hosted and serverless database-as-a-service (DBaaS). The fastest way to deploy Redis via Amazon AWS,
-              Google Cloud Platform, or Microsoft Azure.
-            </p>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href='{{ relURL "" }}/operate/rc'>
-              Learn more
-              <span
-                class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-            </a>
-          </li>
-          <li class="flex flex-col h-full">
-            <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
-              Redis Enterprise Software
-            </h3>
-            <p class="text-redis-neutral-800 mb-5">
-              A self-managed data platform that unlocks the full potential of Redis at enterprise scale.
-            </p>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href='{{ relURL "" }}/operate/rs'>
-              Learn more
-              <span
-                class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-            </a>
-          </li>
-          <li class="flex flex-col h-full">
-            <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
-              Redis Enterprise for Kubernetes
-            </h3>
-            <p class="text-redis-neutral-800 mb-5">
-              Redis Enterprise deployed on containerized software platforms and integrated with our partners.
-            </p>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href='{{ relURL "" }}/operate/kubernetes'>
-              Learn more
-              <span
-                class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-            </a>
-          </li>
-          <li class="flex flex-col h-full">
-            <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
-              Redis Data Integreation
-            </h3>
-            <p class="text-redis-neutral-800 mb-5">
-              Redis Data Integration keeps Redis in sync with the primary database in near real time.
-            </p>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href='{{ relURL "" }}/integrate/TODO'>
-              Learn more
-              <span
-                class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-            </a>
-          </li>
-          <li class="flex flex-col h-full">
-            <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
-              RedisInsight
-            </h3>
-            <p class="text-redis-neutral-800 mb-5">
-              RedisInsight is a powerful tool for visualizing and optimizing data in Redis or Redis Stack, making
-              real-time application development easier and more fun than ever before,
-            </p>
-            <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-              href='{{ relURL "" }}/develop/connect/insight'>
-              Learn more
-              <span
-                class="ml-1.5 text-redis-indigo-500 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-            </a>
-          </li>
-        </ul>
+      <div>
+        <h1 class="text-5xl font-medium" id="operate">Explore by product</h1>
+        {{ partial "docs-section.html" (dict
+          "Title" "Redis OSS and Stack"
+          "Description" "Redis Stack extends Redis with modern data models and processing engines to provide a complete developer experience."
+          "ButtonLink" "./operate/oss_and_stack/"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "Learn more about"
+          "LinksLeft" (slice
+            (dict "Text" "Install" "URL" "./operate/oss_and_stack/install/install-stack/")
+            (dict "Text" "Quick start" "URL" "./develop/get-started/")
+            (dict "Text" "Search and query" "URL" "./develop/interact/search-and-query/")
+            (dict "Text" "JSON" "URL" "./develop/data-types/json/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
+        "Title" "Redis Cloud"
+        "Description" "Database-as-a-service (DBaaS) and the fastest way to deploy Redis Enterprise on Amazon Web Services, Google Cloud, or Microsoft Azure."
+        "ButtonLink" "./operate/rc"
+        "ButtonLabel" "Read more"
+        "LinksLeftTitle" "Learn more about"
+        "LinksLeft" (slice
+          (dict "Text" "Quick start" "URL" "./operate/rc/rc-quickstart/")
+          (dict "Text" "Subscriptions" "URL" "./operate/rc/subscriptions/")
+          (dict "Text" "Databases" "URL" "./operate/rc/databases/")
+        )
+      ) }}
+      {{ partial "docs-section.html" (dict
+          "Title" "Redis Enterprise Software"
+          "Description" "A self-managed data platform that unlocks the full potential of Redis at enterprise scale."
+          "ButtonLink" ""
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "Learn more about"
+          "LinksLeft" (slice
+            (dict "Text" "Quick start" "URL" "./operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart/")
+            (dict "Text" "Clusters" "URL" "./operate/rs/clusters/")
+            (dict "Text" "Databases" "URL" "./operate/rs/databases/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
+          "Title" "Redis Enterprise for Kubernetes"
+          "Description" "Redis Enterprise deployed on containerized software platforms and integrated with our partners."
+          "ButtonLink" "./operate/kubernetes/"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "Learn more about"
+          "LinksLeft" (slice
+            (dict "Text" "Architecture" "URL" "./operate/kubernetes/architecture/")
+            (dict "Text" "Deployments" "URL" "./operate/kubernetes/deployment/")
+            (dict "Text" "Clusters" "URL" "./operate/kubernetes/re-clusters/")
+            (dict "Text" "Databases" "URL" "./operate/kubernetes/re-databases/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
+          "Title" "Redis Data Integration"
+          "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
+          "ButtonLink" "./integrate/rdi"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "LEARN MORE ABOUT"
+          "LinksLeft" (slice
+            (dict "Text" "Quick start" "URL" "./integrate/rdi/quickstart/")
+            (dict "Text" "Architecture" "URL" "./integrate/rdi/architecture/")
+            (dict "Text" "Install" "URL" "./integrate/rdi/installation/")
+            (dict "Text" "Reference" "URL" "./integrate/rdi/reference/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
+          "Title" "RedisInsight"
+          "Description" "RedisInsight is a cross-platform GUI for Redis, with focus on reducing memory usage and improving application performance."
+          "ButtonLink" "./develop/connect/insight/"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "Learn more about"
+          "LinksLeft" (slice
+            (dict "Text" "User guide" "URL" "./develop/connect/insight/")
+            (dict "Text" "Manage Streams in RedisInsight" "URL" "./develop/connect/insight/tutorials/insight-stream-consumer/")
+          )
+        ) }}
       </div>
-    </section>
-  </article>
-
-  <div class="py-28 bg-gradient-to-b from-indigo-50/30 via-indigo-50/30 to-white">
-    <div class="container max-w-[85rem] mx-auto px-4 sm:px-8">
-      <h2 class="text-center font-display text-4xl leading-tight text-slate-900 font-semibold mb-10 -mt-4">
-        Explore by use case
-      </h2>
-      <p class="text-center mb-10 mr-10 ml-10">Redis can be used as a database, cache, streaming engine, message broker,
-        and more.</p>
-      <ul class="flex flex-col sm:grid md:grid-cols-2 xl:grid-cols-3 gap-14">
-        <li class="flex flex-col h-full">
-          <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
-            Data structure store
-          </h3>
-          <p class="text-redis-neutral-800 mb-5">
-            Redis stands for Remote Dictionary Server. It allows using same data types as in your local programming
-            environment but on the side of Redis.
-          </p>
-          <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-            href='{{ relURL "" }}/develop/TODO'>
-            Quick start guide
-            <span
-              class="ml-1.5 text-indigo-600 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-          </a>
-        </li>
-        <li class="flex flex-col h-full">
-          <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
-            Document database
-          </h3>
-          <p class="text-redis-neutral-800 mb-5">
-            Leverage JSON and its flexible data model to use Redis as a document database. Model, search, and query your
-            data efficiently without needing an additional cache.
-          </p>
-          <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-            href='{{ relURL "" }}/develop/TODO'>
-            Quick start guide
-            <span
-              class="ml-1.5 text-indigo-600 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-          </a>
-        </li>
-        <li class="flex flex-col h-full">
-          <h3 class="font-semibold text-xl mb-2 pt-5 border-t-2 border-indigo-500">
-            Vector database
-          </h3>
-          <p class="text-redis-neutral-800 mb-5">
-            Develop AI-powered applications by querying vector embeddings. You can use Redis as a vector database to
-            implement recommendation systems, Retrieval Augmented Generation (RAG), LLM semantic caching, and more.
-          </p>
-          <a class="group inline-flex items-center text-midnight-700 hover:text-indigo-600 font-medium mt-auto self-start"
-            href='{{ relURL "" }}/develop/TODO'>
-            Quick start guide
-            <span
-              class="ml-1.5 text-indigo-600 opacity-50 group-hover:opacity-100 transition group-hover:translate-x-1">&rarr;</span>
-          </a>
-        </li>
-      </ul>
     </div>
   </div>
+  <script>
+    function dropdownToggle() {
+      document.getElementById('dropdownChevron').classList.toggle('rotate-180');
+      document.getElementById('dropdown').classList.toggle('hidden');
+    }
+  </script>
 </main>
+
+
 {{ end }}

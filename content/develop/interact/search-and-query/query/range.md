@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Perform numeric range queries
 linkTitle: Range
 title: Range queries
@@ -27,13 +37,13 @@ The values `-inf`, `inf`, and `+inf` are valid values that allow you to define o
 
 An open-range query can lead to a large result set. 
 
-By default, [`FT.SEARCH`](/commands/ft.search) returns only the first ten results. The `LIMIT` argument helps you to scroll through the result set. The `SORTBY` argument ensures that the documents in the result set are returned in the specified order.
+By default, [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) returns only the first ten results. The `LIMIT` argument helps you to scroll through the result set. The `SORTBY` argument ensures that the documents in the result set are returned in the specified order.
 
 ```
 FT.SEARCH index "@field:[start end]" SORTBY field LIMIT page_start page_end
 ```
 
-You can find further details about using the `LIMIT` and `SORTBY` in the [[`FT.SEARCH`](/commands/ft.search) command reference](/commands/ft.search/).
+You can find further details about using the `LIMIT` and `SORTBY` in the [[`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command reference](/commands/ft.search/).
 
 ## Examples
 
@@ -69,4 +79,4 @@ FT.SEARCH idx:bicycle "@price:[-inf 2000] SORTBY price LIMIT 0 5"
 
 ## Non-numeric range queries
 
-You can learn more about non-numeric range queries, such as [geospatial](/docs/interact/search-and-query/query/geo-spatial) or [vector search](/docs/interact/search-and-query/query/vector-search) queries, in their dedicated articles.
+You can learn more about non-numeric range queries, such as [geospatial]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}}) or [vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) queries, in their dedicated articles.

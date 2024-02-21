@@ -4,6 +4,16 @@ acl_categories:
 - '@slow'
 - '@dangerous'
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript

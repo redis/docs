@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(k * n), where k is the number of hash functions and n is the number
   of items
 description: Checks whether one or more items exist in a Bloom Filter
@@ -21,7 +31,7 @@ title: BF.MEXISTS
 ---
 Determines whether one or more items were added to a Bloom filter.
 
-This command is similar to [`BF.EXISTS`](/commands/bf.exists), except that more than one item can be checked.
+This command is similar to [`BF.EXISTS`]({{< baseurl >}}/commands/bf.exists/), except that more than one item can be checked.
 
 ## Required arguments
 
@@ -40,7 +50,7 @@ One or more items to check.
 
 Returns one of these replies:
 
-- [Array reply](/docs/reference/protocol-spec#arrays) of [Integer reply](/docs/reference/protocol-spec#integers) - where "1" means that, with high probability, `item` was already added to the filter, and "0" means that `key` does not exist or that `item` was definitely not added to the filter.
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - where "1" means that, with high probability, `item` was already added to the filter, and "0" means that `key` does not exist or that `item` was definitely not added to the filter.
 - [] on error (invalid arguments, wrong key type, etc.)
 
 ## Examples

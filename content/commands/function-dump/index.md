@@ -3,6 +3,16 @@ acl_categories:
 - '@slow'
 - '@scripting'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 complexity: O(N) where N is the number of functions
@@ -17,14 +27,14 @@ syntax_str: ''
 title: FUNCTION DUMP
 ---
 Return the serialized payload of loaded libraries.
-You can restore the serialized payload later with the [`FUNCTION RESTORE`](/commands/function-restore) command.
+You can restore the serialized payload later with the [`FUNCTION RESTORE`]({{< relref "/commands/function-restore" >}}) command.
 
 For more information please refer to [Introduction to Redis Functions](/topics/functions-intro).
 
 ## Examples
 
-The following example shows how to dump loaded libraries using `FUNCTION DUMP` and then it calls [`FUNCTION FLUSH`](/commands/function-flush) deletes all the libraries.
-Then, it restores the original libraries from the serialized payload with [`FUNCTION RESTORE`](/commands/function-restore).
+The following example shows how to dump loaded libraries using `FUNCTION DUMP` and then it calls [`FUNCTION FLUSH`]({{< relref "/commands/function-flush" >}}) deletes all the libraries.
+Then, it restores the original libraries from the serialized payload with [`FUNCTION RESTORE`]({{< relref "/commands/function-restore" >}}).
 
 ```
 redis> FUNCTION DUMP

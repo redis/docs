@@ -1,7 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/reference/query_syntax/
-- /redisearch/reference/query_syntax
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Learn how to use query syntax
 
   '
@@ -42,7 +49,7 @@ You can use simple syntax for complex queries using these rules:
 * Georadius matches on geo fields with the syntax `@field:[{lon} {lat} {radius} {m|km|mi|ft}]`.
 * As of 2.6, range queries on vector fields with the syntax `@field:[VECTOR_RANGE {radius} $query_vec]`, where `query_vec` is given as a query parameter.
 * As of v2.4, k-nearest neighbors (KNN) queries on vector fields with or without pre-filtering with the syntax `{filter_query}=>[KNN {num} @field $query_vec]`.
-* Tag field filters with the syntax `@field:{tag | tag | ...}`. See the full documentation on [tags](/docs/interact/search-and-query/advanced-concepts/tags/).
+* Tag field filters with the syntax `@field:{tag | tag | ...}`. See the full documentation on [tags]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}}).
 * Optional terms or clauses: `foo ~bar` means bar is optional but documents containing `bar` will rank higher.
 * Fuzzy matching on terms: `%hello%` means all terms with Levenshtein distance of 1 from it. Use multiple pairs of '%' brackets to increase the Levenshtein distance.
 * An expression in a query can be wrapped in parentheses to disambiguate, for example, `(hello|hella) (world|werld)`.
@@ -137,7 +144,7 @@ Tag clauses can be combined into any subclause, used as negative expressions, op
 
 ## Geo filters
 
-As of v0.21, it is possible to add geo radius queries directly into the query language with the syntax `@field:[{lon} {lat} {radius} {m|km|mi|ft}]`. This filters the result to a given radius from a lon,lat point, defined in meters, kilometers, miles or feet. See Redis's own [`GEORADIUS`](/commands/georadius) command for more details.
+As of v0.21, it is possible to add geo radius queries directly into the query language with the syntax `@field:[{lon} {lat} {radius} {m|km|mi|ft}]`. This filters the result to a given radius from a lon,lat point, defined in meters, kilometers, miles or feet. See Redis's own [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command for more details.
 
 Radius filters can be added into the query just like numeric filters. For example, in a database of businesses, looking for Chinese restaurants near San Francisco (within a 5km radius) would be expressed as: `chinese restaurant @location:[-122.41 37.77 5 km]`.
 
@@ -153,13 +160,13 @@ There is a new schema field type called `GEOSHAPE`, which can be specified as ei
 - `FLAT` for Cartesian X Y coordinates
 - `SPHERICAL` for geographic longitude and latitude coordinates. This is the default coordinate system.
 
-Finally, there's new [`FT.SEARCH`](/commands/ft.search) syntax that allows you to query for polygons that either contain or are within a given geoshape.
+Finally, there's new [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) syntax that allows you to query for polygons that either contain or are within a given geoshape.
 
 `@field:[{WITHIN|CONTAINS} $geometry] PARAMS 2 geometry {geometry}`
 
 Here's an example using two stacked polygons that represent a box contained within a house.
 
-![two stacked polygons](/docs/interact/search-and-query/img/polygons.png)
+![two stacked polygons]({{< baseurl >}}/develop/interact/search-and-query/img/polygons.png)
 
 First, create an index using a `FLAT` `GEOSHAPE`, representing a 2D X Y coordinate system.
 
@@ -171,7 +178,7 @@ Next, create the data structures that represent the geometries in the picture.
 HSET shape:1 t "this is my house" g "POLYGON((2 2, 2 8, 6 11, 10 8, 10 2, 2 2))"
 HSET shape:2 t "this is a square in my house" g "POLYGON((4 4, 4 6, 6 6, 6 4, 4 4))"
 ```
-Finally, use [`FT.SEARCH`](/commands/ft.search) to query the geometries. Note the use of `DIALECT 3`, which is required. Here are a few examples.
+Finally, use [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) to query the geometries. Note the use of `DIALECT 3`, which is required. Here are a few examples.
 
 Search for a polygon that contains a specified point:
 
@@ -232,7 +239,7 @@ Note that both the house and box shapes were returned.
 GEOSHAPE does not support JSON multi-value or SORTABLE options.
 {{< /alert >}}
 
-For more examples, see the [`FT.CREATE`](/commands/ft.create) and [`FT.SEARCH`](/commands/ft.search) command pages.
+For more examples, see the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) and [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command pages.
 
 ## Vector search
 
@@ -258,7 +265,7 @@ The general syntax for hybrid query is `{some filter query}=>[ KNN {num|$num} @v
 
   `@vector_field:[VECTOR_RANGE 0.5 $query_vec]`
 
-As of v2.4, the KNN vector search can be used at most once in a query, while, as of v2.6, the vector range filter can be used multiple times in a query. For more information on vector similarity syntax, see [Querying vector fields](/docs/interact/search-and-query/advanced-concepts/vectors/), and [Vector search examples](/docs/interact/search-and-query/advanced-concepts/vectors/#vector-search-examples) sections.
+As of v2.4, the KNN vector search can be used at most once in a query, while, as of v2.6, the vector range filter can be used multiple times in a query. For more information on vector similarity syntax, see [Querying vector fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}), and [Vector search examples]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#vector-search-examples) sections.
 
 ## Prefix matching
 
@@ -363,7 +370,7 @@ The supported attributes are:
 As of v2.6.1, the query attributes syntax supports these additional attributes:
 
 * **$yield_distance_as**: specifies the distance field name, used for later sorting and/or returning, for clauses that yield some distance metric. It is currently supported for vector queries only (both KNN and range).   
-* **vector query params**: pass optional parameters for [vector queries](/docs/interact/search-and-query/advanced-concepts/vectors/#querying-vector-fields) in key-value format.
+* **vector query params**: pass optional parameters for [vector queries]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#querying-vector-fields) in key-value format.
 
 ## A few query examples
 
@@ -453,4 +460,4 @@ As of v2.6.1, the query attributes syntax supports these additional attributes:
 
 The query parser is built using the Lemon Parser Generator and a Ragel based lexer. You can see the `DIALECT 2` grammar definition [at this git repo](https://github.com/RediSearch/RediSearch/blob/master/src/query_parser/v2/parser.y).
 
-You can also see the [DEFAULT_DIALECT](/docs/interact/search-and-query/basic-constructs/configuration-parameters/#default_dialect) configuration parameter.
+You can also see the [DEFAULT_DIALECT]({{< baseurl >}}/develop/interact/search-and-query/basic-constructs/configuration-parameters#default_dialect) configuration parameter.

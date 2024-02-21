@@ -35,6 +35,16 @@ arguments:
   token: ID
   type: integer
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - admin
 - noscript
@@ -63,7 +73,7 @@ history:
 linkTitle: CLIENT LIST
 since: 2.4.0
 summary: Lists open connections.
-syntax_fmt: "CLIENT LIST [TYPE\_<NORMAL | MASTER | REPLICA | PUBSUB>]\n  [ID\_client-id\
+syntax_fmt: "CLIENT LIST [TYPE\_<NORMAL | MASTER | REPLICA | PUBSUB>] [ID\_client-id\
   \ [client-id ...]]"
 syntax_str: "[ID\_client-id [client-id ...]]"
 title: CLIENT LIST
@@ -71,7 +81,7 @@ title: CLIENT LIST
 The `CLIENT LIST` command returns information and statistics about the client
 connections server in a mostly human readable format.
 
-You can use one of the optional subcommands to filter the list. The `TYPE type` subcommand filters the list by clients' type, where *type* is one of `normal`, `master`, `replica`, and `pubsub`. Note that clients blocked by the [`MONITOR`](/commands/monitor) command belong to the `normal` class.
+You can use one of the optional subcommands to filter the list. The `TYPE type` subcommand filters the list by clients' type, where *type* is one of `normal`, `master`, `replica`, and `pubsub`. Note that clients blocked by the [`MONITOR`]({{< relref "/commands/monitor" >}}) command belong to the `normal` class.
 
 The `ID` filter only returns entries for clients with IDs matching the `client-id` arguments.
 
@@ -81,7 +91,7 @@ Here is the meaning of the fields:
 * `addr`: address/port of the client
 * `laddr`: address/port of local address client connected to (bind address)
 * `fd`: file descriptor corresponding to the socket
-* `name`: the name set by the client with [`CLIENT SETNAME`](/commands/client-setname)
+* `name`: the name set by the client with [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}})
 * `age`: total duration of the connection in seconds
 * `idle`: idle time of the connection in seconds
 * `flags`: client flags (see below)

@@ -72,6 +72,16 @@ arguments:
   name: data
   type: block
 arity: -5
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -105,8 +115,8 @@ key_specs:
 linkTitle: XADD
 since: 5.0.0
 summary: Appends a new message to a stream. Creates the key if it doesn't exist.
-syntax_fmt: "XADD key [NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold\n  [LIMIT\_\
-  count]] <* | id> field value [field value ...]"
+syntax_fmt: "XADD key [NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]]\
+  \ <* | id> field value [field value ...]"
 syntax_str: "[NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]] <* |\
   \ id> field value [field value ...]"
 title: XADD
@@ -118,10 +128,10 @@ disabled with the `NOMKSTREAM` option.
 
 An entry is composed of a list of field-value pairs.
 The field-value pairs are stored in the same order they are given by the user.
-Commands that read the stream, such as [`XRANGE`](/commands/xrange) or [`XREAD`](/commands/xread), are guaranteed to return the fields and values exactly in the same order they were added by `XADD`.
+Commands that read the stream, such as [`XRANGE`]({{< relref "/commands/xrange" >}}) or [`XREAD`]({{< relref "/commands/xread" >}}), are guaranteed to return the fields and values exactly in the same order they were added by `XADD`.
 
 `XADD` is the *only Redis command* that can add data to a stream, but 
-there are other commands, such as [`XDEL`](/commands/xdel) and [`XTRIM`](/commands/xtrim), that are able to
+there are other commands, such as [`XDEL`]({{< relref "/commands/xdel" >}}) and [`XTRIM`]({{< relref "/commands/xtrim" >}}), that are able to
 remove data from a stream.
 
 ## Specifying a Stream ID as an argument
@@ -170,7 +180,7 @@ IDs to match the one of this other system.
 
 ## Capped streams
 
-`XADD` incorporates the same semantics as the [`XTRIM`](/commands/xtrim) command - refer to its documentation page for more information.
+`XADD` incorporates the same semantics as the [`XTRIM`]({{< relref "/commands/xtrim" >}}) command - refer to its documentation page for more information.
 This allows adding new entries and keeping the stream's size in check with a single call to `XADD`, effectively capping the stream with an arbitrary threshold.
 Although exact trimming is possible and is the default, due to the internal representation of steams it is more efficient to add an entry and trim stream with `XADD` using **almost exact** trimming (the `~` argument).
 

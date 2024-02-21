@@ -30,11 +30,11 @@ To configure MFA for your user account:
 1. Sign in to your account.
 2. From the Redis Cloud console menu, select your name and then **User Profile** from the drop down menu.
 
-    {{<image filename="images/rc/multi-factor-authentication-user-dropdown.png"  width="300px" alt="Use the user drop down menu to get to the User Profile section." >}}{{< /image >}}
+    {{<image filename="images/rc/multi-factor-authentication-user-dropdown.png"  width="300px" alt="Use the user drop down menu to get to the User Profile section." >}}
 
 3. Under your user profile, locate **Multi-factor authentication**.
 
-    {{<image filename="images/rc/multi-factor-authentication-user-profile.png" alt="Multi-factor authentication is located on the user profile page." >}}{{< /image >}}
+    {{<image filename="images/rc/multi-factor-authentication-user-profile.png" alt="Multi-factor authentication is located on the user profile page." >}}
 
 4. Enter your mobile phone number in the **Text message** box and then select **Send code**.
 5. You will receive a confirmation code sent by text message. Enter the code when prompted by the Redis Cloud console and select **Verify**.
@@ -95,7 +95,7 @@ To enable MFA enforcement for all user accounts:
 2. Go to **Account Settings**.
 3. Under **Security**, switch the **MFA environment** toggle to *On*.
 
-    {{<image filename="images/rc/multi-factor-authentication-force-all-users-on.png" alt="Multi-factor authentication toggle for all users on." >}}{{< /image >}}
+    {{<image filename="images/rc/multi-factor-authentication-force-all-users-on.png" alt="Multi-factor authentication toggle for all users on." >}}
 
 - When you enable MFA enforcement, users cannot disable MFA for their account.
 - When you disable MFA enforcement, users can disable MFA for their account.

@@ -17,6 +17,16 @@ arguments:
   optional: true
   token: PAYLOAD
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Adds a suggestion string to an auto-complete suggestion dictionary
 group: suggestion
@@ -29,7 +39,7 @@ module: Search
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Adds a suggestion string to an auto-complete suggestion dictionary
-syntax: "FT.SUGADD key string score \n  [INCR] \n  [PAYLOAD payload]\n"
+syntax: 'FT.SUGADD key string score [INCR] [PAYLOAD payload] '
 syntax_fmt: "FT.SUGADD key string score [INCR] [PAYLOAD\_payload]"
 syntax_str: "string score [INCR] [PAYLOAD\_payload]"
 title: FT.SUGADD
@@ -72,7 +82,7 @@ increments the existing entry of the suggestion by the given score, instead of r
 <details open>
 <summary><code>PAYLOAD {payload}</code></summary> 
 
-saves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`](/commands/ft.sugget).
+saves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]({{< baseurl >}}/commands/ft.sugget/).
 </details>
 
 ## Return
@@ -92,8 +102,8 @@ FT.SUGADD returns an integer reply, which is the current size of the suggestion 
 
 ## See also
 
-[`FT.SUGGET`](/commands/ft.sugget) | [`FT.SUGDEL`](/commands/ft.sugdel) | [`FT.SUGLEN`](/commands/ft.suglen) 
+[`FT.SUGGET`]({{< baseurl >}}/commands/ft.sugget/) | [`FT.SUGDEL`]({{< baseurl >}}/commands/ft.sugdel/) | [`FT.SUGLEN`]({{< baseurl >}}/commands/ft.suglen/) 
 
 ## Related topics
 
-[RediSearch](/docs/stack/search)
+[RediSearch]({{< relref "/develop/interact/search-and-query/" >}})

@@ -138,6 +138,16 @@ arguments:
   name: groupby
   optional: true
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n/m+k) where n = Number of data points, m = Chunk size (data points
   per chunk), k = Number of data points that are in the requested ranges
 description: Query a range across multiple time-series by filters in reverse direction
@@ -148,17 +158,17 @@ module: TimeSeries
 since: 1.4.0
 stack_path: docs/data-types/timeseries
 summary: Query a range across multiple time-series by filters in reverse direction
-syntax: "TS.MREVRANGE fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS TS...]\n\
-  \  [FILTER_BY_VALUE min max]\n  [WITHLABELS | SELECTED_LABELS label...]\n  [COUNT\
-  \ count]\n  [[ALIGN align] AGGREGATION aggregator bucketDuration [BUCKETTIMESTAMP\
-  \ bt] [EMPTY]]\n  FILTER filterExpr...\n  [GROUPBY label REDUCE reducer]\n"
-syntax_fmt: "TS.MREVRANGE fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS\_Timestamp\
-  \ [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [WITHLABELS | SELECTED_LABELS label1\
-  \ [label1 ...]] [COUNT\_count]\n  [[ALIGN\_value] AGGREGATION\_<AVG | FIRST | LAST\
-  \ | MIN | MAX | SUM |\n  RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA>\n\
-  \  bucketDuration [BUCKETTIMESTAMP] [EMPTY]] FILTER\_<l=v | l!=v | l=\n  | l!= |\
-  \ l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v | l= | l!= |\n  l=(v1,v2,...) | l!=(v1,v2,...)\
-  \ ...]> [GROUPBY label REDUCE\n  reducer]"
+syntax: 'TS.MREVRANGE fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS TS...]   [FILTER_BY_VALUE
+  min max] [WITHLABELS | SELECTED_LABELS label...] [COUNT count] [[ALIGN align] AGGREGATION
+  aggregator bucketDuration [BUCKETTIMESTAMP bt] [EMPTY]] FILTER filterExpr... [GROUPBY
+  label REDUCE reducer] '
+syntax_fmt: "TS.MREVRANGE fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp\
+  \ [Timestamp ...]] [FILTER_BY_VALUE min max] [WITHLABELS | SELECTED_LABELS label1\
+  \ [label1 ...]] [COUNT\_count] [[ALIGN\_value] AGGREGATION\_<AVG | FIRST | LAST\
+  \ | MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA>   bucketDuration\
+  \ [BUCKETTIMESTAMP] [EMPTY]] FILTER\_<l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...)\
+  \ [l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]> [GROUPBY label REDUCE\
+  \ reducer]"
 syntax_str: "toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp [Timestamp ...]] [FILTER_BY_VALUE\
   \ min max] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]] [COUNT\_count] [[ALIGN\_\
   value] AGGREGATION\_<AVG | FIRST | LAST | MIN | MAX | SUM | RANGE | COUNT | STD.P\
@@ -168,7 +178,7 @@ syntax_str: "toTimestamp [LATEST] [FILTER_BY_TS\_Timestamp [Timestamp ...]] [FIL
 title: TS.MREVRANGE
 ---
 
-Query a range across multiple time series by filters in reverse direction
+Query a range across multiple time series by filters in the reverse direction
 
 [Examples](#examples)
 
@@ -177,31 +187,31 @@ Query a range across multiple time series by filters in reverse direction
 <details open>
 <summary><code>fromTimestamp</code></summary> 
 
-is start timestamp for the range query (integer Unix timestamp in milliseconds) or `-` to denote the timestamp of the earliest sample amongs all time series that passes `FILTER filterExpr...`.
+is the start timestamp for the range query (integer Unix timestamp in milliseconds) or `-` to denote the timestamp of the earliest sample among all the time series that passes `FILTER filterExpr...`.
 </details>
 
 <details open>
 <summary><code>toTimestamp</code></summary> 
 
-is end timestamp for the range query (integer Unix timestamp in milliseconds) or `+` to denote the timestamp of the latest sample amongs all time series that passes `FILTER filterExpr...`.
+is the end timestamp for the range query (integer Unix timestamp in milliseconds) or `+` to denote the timestamp of the latest sample among all the time series that passes `FILTER filterExpr...`.
 </details>
 
 <details open>
 <summary><code>FILTER filterExpr...</code></summary> 
 
-filters time series based on their labels and label values. Each filter expression has one of the following syntaxes:  
+filters time series based on their labels and label values. Each filter expression has one of the following syntaxes:
 
-  - `label=value`, where `label` equals `value`
-  - `label!=value`, where `label` does not equal `value`
-  - `label=`, where `key` does not have label `label`
-  - `label!=`, where `key` has label `label`
-  - `label=(value1,value2,...)`, where `key` with label `label` equals one of the values in the list
-  - `label!=(value1,value2,...)`, where key with label `label` does not equal any of the values in the list
+  - `label!=` - the time series has a label named `label`
+  - `label=value` - the time series has a label named `label` with a value equal to `value`
+  - `label=(value1,value2,...)` - the time series has a label named `label` with a value equal to one of the values in the list
+  - `label=` - the time series does not have a label named `label`
+  - `label!=value` - the time series does not have a label named `label` with a value equal to `value`
+  - `label!=(value1,value2,...)` - the time series does not have a label named `label` with a value equal to any of the values in the list
 
-<note><b>Notes:</b> 
-   - At least one `label=value` filter is required.
-   - Filters are conjunctive. For example, the FILTER `type=temperature room=study` means the a time series is a temperature time series of a study room.
-   - Don't use whitespaces in the filter expression.
+  <note><b>Notes:</b>
+   - At least one filter expression with a syntax `label=value` or `label=(value1,value2,...)` is required.
+   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that a time series is a temperature time series of a study room.
+   - Whitespaces are unallowed in a filter expression except between quotes or double quotes in values - e.g., `x="y y"` or `x='(y y,z z)'`.
    </note>
 </details>
 
@@ -210,9 +220,9 @@ filters time series based on their labels and label values. Each filter expressi
 <details open>
 <summary><code>LATEST</code> (since RedisTimeSeries v1.8)</summary> 
 
-is used when a time series is a compaction. With `LATEST`, TS.MREVRANGE also reports the compacted value of the latest possibly partial bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.MREVRANGE does not report the latest possibly partial bucket. When a time series is not a compaction, `LATEST` is ignored.
+is used when a time series is a compaction. With `LATEST`, TS.MREVRANGE also reports the compacted value of the latest (possibly partial) bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.MREVRANGE does not report the latest (possibly partial) bucket. When a time series is not a compaction, `LATEST` is ignored.
   
-The data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest possibly partial bucket is also required. In such a case, use `LATEST`.
+The data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon the arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.
 </details>
 
 <details open>
@@ -365,22 +375,22 @@ When combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregat
 
 If `GROUPBY label REDUCE reducer` is not specified:
 
-- [Array reply](/docs/reference/protocol-spec#arrays): for each time series matching the specified filters, the following is reported:
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
   - bulk-string-reply: The time series key name
-  - [Array reply](/docs/reference/protocol-spec#arrays): label-value pairs ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings))
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
     - By default, an empty list is reported
     - If `WITHLABELS` is specified, all labels associated with this time series are reported
     - If `SELECTED_LABELS label...` is specified, the selected labels are reported
-  - [Array reply](/docs/reference/protocol-spec#arrays): timestamp-value pairs ([Integer reply](/docs/reference/protocol-spec#integers), [Simple string reply](/docs/reference/protocol-spec#simple-strings) (double)): all samples/aggregations matching the range
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) (double)): all samples/aggregations matching the range
 
 If `GROUPBY label REDUCE reducer` is specified:
 
-- [Array reply](/docs/reference/protocol-spec#arrays): for each group of time series matching the specified filters, the following is reported:
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each group of time series matching the specified filters, the following is reported:
   - bulk-string-reply with the format `label=value` where `label` is the `GROUPBY` label argument
-  - [Array reply](/docs/reference/protocol-spec#arrays): a single pair ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings)): the `GROUPBY` label argument and value
-  - [Array reply](/docs/reference/protocol-spec#arrays): a single pair ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings)):  the string `__reducer__` and the reducer argument
-  - [Array reply](/docs/reference/protocol-spec#arrays): a single pair ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings)): the string `__source__` and the time series key names separated by `,`
-  - [Array reply](/docs/reference/protocol-spec#arrays): timestamp-value pairs ([Integer reply](/docs/reference/protocol-spec#integers), [Simple string reply](/docs/reference/protocol-spec#simple-strings) (double)): all samples/aggregations matching the range
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the `GROUPBY` label argument and value
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):  the string `__reducer__` and the reducer argument
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the string `__source__` and the time series key names separated by `,`
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) (double)): all samples/aggregations matching the range
 
 ## Examples
 
@@ -578,8 +588,8 @@ Query all time series with the metric label equal to `cpu`, but only return the 
 
 ## See also
 
-[`TS.MRANGE`](/commands/ts.mrange) | [`TS.RANGE`](/commands/ts.range) | [`TS.REVRANGE`](/commands/ts.revrange) 
+[`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/) | [`TS.RANGE`]({{< baseurl >}}/commands/ts.range/) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange/) 
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

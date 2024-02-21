@@ -78,9 +78,9 @@ To set up OCSP stapling with the [REST API]({{< relref "/operate/rs/references/r
 
 To set up OCSP stapling with the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) command-line utility:
 
-1. Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate" >}}) to [replace the proxy certificate]({{< relref "/operate/rs/security/certificates/updating-certificates#use-the-cli" >}}) with a certificate signed by your third-party CA.
+1. Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/certificate" >}}) to [replace the proxy certificate]({{< baseurl >}}/operate/rs/security/certificates/updating-certificates#use-the-cli) with a certificate signed by your third-party CA.
 
-2. Update the cluster's OCSP settings with the [`rladmin cluster ocsp config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/ocsp#ocsp-config" >}}) command if you don't want to use their default values.
+1. Update the cluster's OCSP settings with the [`rladmin cluster ocsp config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/ocsp#ocsp-config" >}}) command if you don't want to use their default values.
 
     For example: 
 
@@ -88,7 +88,7 @@ To set up OCSP stapling with the [`rladmin`]({{< relref "/operate/rs/references/
     rladmin cluster ocsp config recovery_frequency set 30
     ```
 
-3. Enable OCSP:
+1. Enable OCSP:
 
     ```sh
     rladmin cluster ocsp config ocsp_functionality set enabled

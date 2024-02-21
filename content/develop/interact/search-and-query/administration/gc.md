@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/design/gc/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Details about garbage collection
 linkTitle: Garbage collection
 title: Garbage collection

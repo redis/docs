@@ -1,6 +1,14 @@
 ---
-aliases:
-- /topics/notifications
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'Monitor changes to Redis keys and values in real time
 
   '
@@ -25,10 +33,10 @@ disconnected are lost.
 ### Type of events
 
 Keyspace notifications are implemented by sending two distinct types of events
-for every operation affecting the Redis data space. For instance a [`DEL`](/commands/del)
+for every operation affecting the Redis data space. For instance a [`DEL`]({{< relref "/commands/del" >}})
 operation targeting the key named `mykey` in database `0` will trigger
 the delivering of two messages, exactly equivalent to the following two
-[`PUBLISH`](/commands/publish) commands:
+[`PUBLISH`]({{< relref "/commands/publish" >}}) commands:
 
     PUBLISH __keyspace@0__:mykey del
     PUBLISH __keyevent@0__:del mykey
@@ -89,60 +97,60 @@ You can use the string `KEA` to enable most types of events.
 
 Different commands generate different kind of events according to the following list.
 
-* [`DEL`](/commands/del) generates a `del` event for every deleted key.
-* [`RENAME`](/commands/rename) generates two events, a `rename_from` event for the source key, and a `rename_to` event for the destination key.
-* [`MOVE`](/commands/move) generates two events, a `move_from` event for the source key, and a `move_to` event for the destination key.
-* [`COPY`](/commands/copy) generates a `copy_to` event.
-* [`MIGRATE`](/commands/migrate) generates a `del` event if the source key is removed.
-* [`RESTORE`](/commands/restore) generates a `restore` event for the key.
-* [`EXPIRE`](/commands/expire) and all its variants ([`PEXPIRE`](/commands/pexpire), [`EXPIREAT`](/commands/expireat), [`PEXPIREAT`](/commands/pexpireat)) generate an `expire` event when called with a positive timeout (or a future timestamp). Note that when these commands are called with a negative timeout value or timestamp in the past, the key is deleted and only a `del` event is generated instead.
-* [`SORT`](/commands/sort) generates a `sortstore` event when `STORE` is used to set a new key. If the resulting list is empty, and the `STORE` option is used, and there was already an existing key with that name, the result is that the key is deleted, so a `del` event is generated in this condition.
-* [`SET`](/commands/set) and all its variants ([`SETEX`](/commands/setex), [`SETNX`](/commands/setnx),[`GETSET`](/commands/getset)) generate `set` events. However [`SETEX`](/commands/setex) will also generate an `expire` events.
-* [`MSET`](/commands/mset) generates a separate `set` event for every key.
-* [`SETRANGE`](/commands/setrange) generates a `setrange` event.
-* [`INCR`](/commands/incr), [`DECR`](/commands/decr), [`INCRBY`](/commands/incrby), [`DECRBY`](/commands/decrby) commands all generate `incrby` events.
-* [`INCRBYFLOAT`](/commands/incrbyfloat) generates an `incrbyfloat` events.
-* [`APPEND`](/commands/append) generates an `append` event.
-* [`LPUSH`](/commands/lpush) and [`LPUSHX`](/commands/lpushx) generates a single `lpush` event, even in the variadic case.
-* [`RPUSH`](/commands/rpush) and [`RPUSHX`](/commands/rpushx) generates a single `rpush` event, even in the variadic case.
-* [`RPOP`](/commands/rpop) generates an `rpop` event. Additionally a `del` event is generated if the key is removed because the last element from the list was popped.
-* [`LPOP`](/commands/lpop) generates an `lpop` event. Additionally a `del` event is generated if the key is removed because the last element from the list was popped.
-* [`LINSERT`](/commands/linsert) generates an `linsert` event.
-* [`LSET`](/commands/lset) generates an `lset` event.
-* [`LREM`](/commands/lrem) generates an `lrem` event, and additionally a `del` event if the resulting list is empty and the key is removed.
-* [`LTRIM`](/commands/ltrim) generates an `ltrim` event, and additionally a `del` event if the resulting list is empty and the key is removed.
-* [`RPOPLPUSH`](/commands/rpoplpush) and [`BRPOPLPUSH`](/commands/brpoplpush) generate an `rpop` event and an `lpush` event. In both cases the order is guaranteed (the `lpush` event will always be delivered after the `rpop` event). Additionally a `del` event will be generated if the resulting list is zero length and the key is removed.
-* [`LMOVE`](/commands/lmove) and [`BLMOVE`](/commands/blmove) generate an `lpop`/`rpop` event (depending on the wherefrom argument) and an `lpush`/`rpush` event (depending on the whereto argument). In both cases the order is guaranteed (the `lpush`/`rpush` event will always be delivered after the `lpop`/`rpop` event). Additionally a `del` event will be generated if the resulting list is zero length and the key is removed.
-* [`HSET`](/commands/hset), [`HSETNX`](/commands/hsetnx) and [`HMSET`](/commands/hmset) all generate a single `hset` event.
-* [`HINCRBY`](/commands/hincrby) generates an `hincrby` event.
-* [`HINCRBYFLOAT`](/commands/hincrbyfloat) generates an `hincrbyfloat` event.
-* [`HDEL`](/commands/hdel) generates a single `hdel` event, and an additional `del` event if the resulting hash is empty and the key is removed.
-* [`SADD`](/commands/sadd) generates a single `sadd` event, even in the variadic case.
-* [`SREM`](/commands/srem) generates a single `srem` event, and an additional `del` event if the resulting set is empty and the key is removed.
-* [`SMOVE`](/commands/smove) generates an `srem` event for the source key, and an `sadd` event for the destination key.
-* [`SPOP`](/commands/spop) generates an `spop` event, and an additional `del` event if the resulting set is empty and the key is removed.
-* [`SINTERSTORE`](/commands/sinterstore), [`SUNIONSTORE`](/commands/sunionstore), [`SDIFFSTORE`](/commands/sdiffstore) generate `sinterstore`, `sunionstore`, `sdiffstore` events respectively. In the special case the resulting set is empty, and the key where the result is stored already exists, a `del` event is generated since the key is removed.
+* [`DEL`]({{< relref "/commands/del" >}}) generates a `del` event for every deleted key.
+* [`RENAME`]({{< relref "/commands/rename" >}}) generates two events, a `rename_from` event for the source key, and a `rename_to` event for the destination key.
+* [`MOVE`]({{< relref "/commands/move" >}}) generates two events, a `move_from` event for the source key, and a `move_to` event for the destination key.
+* [`COPY`]({{< relref "/commands/copy" >}}) generates a `copy_to` event.
+* [`MIGRATE`]({{< relref "/commands/migrate" >}}) generates a `del` event if the source key is removed.
+* [`RESTORE`]({{< relref "/commands/restore" >}}) generates a `restore` event for the key.
+* [`EXPIRE`]({{< relref "/commands/expire" >}}) and all its variants ([`PEXPIRE`]({{< relref "/commands/pexpire" >}}), [`EXPIREAT`]({{< relref "/commands/expireat" >}}), [`PEXPIREAT`]({{< relref "/commands/pexpireat" >}})) generate an `expire` event when called with a positive timeout (or a future timestamp). Note that when these commands are called with a negative timeout value or timestamp in the past, the key is deleted and only a `del` event is generated instead.
+* [`SORT`]({{< relref "/commands/sort" >}}) generates a `sortstore` event when `STORE` is used to set a new key. If the resulting list is empty, and the `STORE` option is used, and there was already an existing key with that name, the result is that the key is deleted, so a `del` event is generated in this condition.
+* [`SET`]({{< relref "/commands/set" >}}) and all its variants ([`SETEX`]({{< relref "/commands/setex" >}}), [`SETNX`]({{< relref "/commands/setnx" >}}),[`GETSET`]({{< relref "/commands/getset" >}})) generate `set` events. However [`SETEX`]({{< relref "/commands/setex" >}}) will also generate an `expire` events.
+* [`MSET`]({{< relref "/commands/mset" >}}) generates a separate `set` event for every key.
+* [`SETRANGE`]({{< relref "/commands/setrange" >}}) generates a `setrange` event.
+* [`INCR`]({{< relref "/commands/incr" >}}), [`DECR`]({{< relref "/commands/decr" >}}), [`INCRBY`]({{< relref "/commands/incrby" >}}), [`DECRBY`]({{< relref "/commands/decrby" >}}) commands all generate `incrby` events.
+* [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) generates an `incrbyfloat` events.
+* [`APPEND`]({{< relref "/commands/append" >}}) generates an `append` event.
+* [`LPUSH`]({{< relref "/commands/lpush" >}}) and [`LPUSHX`]({{< relref "/commands/lpushx" >}}) generates a single `lpush` event, even in the variadic case.
+* [`RPUSH`]({{< relref "/commands/rpush" >}}) and [`RPUSHX`]({{< relref "/commands/rpushx" >}}) generates a single `rpush` event, even in the variadic case.
+* [`RPOP`]({{< relref "/commands/rpop" >}}) generates an `rpop` event. Additionally a `del` event is generated if the key is removed because the last element from the list was popped.
+* [`LPOP`]({{< relref "/commands/lpop" >}}) generates an `lpop` event. Additionally a `del` event is generated if the key is removed because the last element from the list was popped.
+* [`LINSERT`]({{< relref "/commands/linsert" >}}) generates an `linsert` event.
+* [`LSET`]({{< relref "/commands/lset" >}}) generates an `lset` event.
+* [`LREM`]({{< relref "/commands/lrem" >}}) generates an `lrem` event, and additionally a `del` event if the resulting list is empty and the key is removed.
+* [`LTRIM`]({{< relref "/commands/ltrim" >}}) generates an `ltrim` event, and additionally a `del` event if the resulting list is empty and the key is removed.
+* [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}) and [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}) generate an `rpop` event and an `lpush` event. In both cases the order is guaranteed (the `lpush` event will always be delivered after the `rpop` event). Additionally a `del` event will be generated if the resulting list is zero length and the key is removed.
+* [`LMOVE`]({{< relref "/commands/lmove" >}}) and [`BLMOVE`]({{< relref "/commands/blmove" >}}) generate an `lpop`/`rpop` event (depending on the wherefrom argument) and an `lpush`/`rpush` event (depending on the whereto argument). In both cases the order is guaranteed (the `lpush`/`rpush` event will always be delivered after the `lpop`/`rpop` event). Additionally a `del` event will be generated if the resulting list is zero length and the key is removed.
+* [`HSET`]({{< relref "/commands/hset" >}}), [`HSETNX`]({{< relref "/commands/hsetnx" >}}) and [`HMSET`]({{< relref "/commands/hmset" >}}) all generate a single `hset` event.
+* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) generates an `hincrby` event.
+* [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) generates an `hincrbyfloat` event.
+* [`HDEL`]({{< relref "/commands/hdel" >}}) generates a single `hdel` event, and an additional `del` event if the resulting hash is empty and the key is removed.
+* [`SADD`]({{< relref "/commands/sadd" >}}) generates a single `sadd` event, even in the variadic case.
+* [`SREM`]({{< relref "/commands/srem" >}}) generates a single `srem` event, and an additional `del` event if the resulting set is empty and the key is removed.
+* [`SMOVE`]({{< relref "/commands/smove" >}}) generates an `srem` event for the source key, and an `sadd` event for the destination key.
+* [`SPOP`]({{< relref "/commands/spop" >}}) generates an `spop` event, and an additional `del` event if the resulting set is empty and the key is removed.
+* [`SINTERSTORE`]({{< relref "/commands/sinterstore" >}}), [`SUNIONSTORE`]({{< relref "/commands/sunionstore" >}}), [`SDIFFSTORE`]({{< relref "/commands/sdiffstore" >}}) generate `sinterstore`, `sunionstore`, `sdiffstore` events respectively. In the special case the resulting set is empty, and the key where the result is stored already exists, a `del` event is generated since the key is removed.
 * `ZINCR` generates a `zincr` event.
-* [`ZADD`](/commands/zadd) generates a single `zadd` event even when multiple elements are added.
-* [`ZREM`](/commands/zrem) generates a single `zrem` event even when multiple elements are deleted. When the resulting sorted set is empty and the key is generated, an additional `del` event is generated.
+* [`ZADD`]({{< relref "/commands/zadd" >}}) generates a single `zadd` event even when multiple elements are added.
+* [`ZREM`]({{< relref "/commands/zrem" >}}) generates a single `zrem` event even when multiple elements are deleted. When the resulting sorted set is empty and the key is generated, an additional `del` event is generated.
 * `ZREMBYSCORE` generates a single `zrembyscore` event. When the resulting sorted set is empty and the key is generated, an additional `del` event is generated.
 * `ZREMBYRANK` generates a single `zrembyrank` event. When the resulting sorted set is empty and the key is generated, an additional `del` event is generated.
-* [`ZDIFFSTORE`](/commands/zdiffstore), [`ZINTERSTORE`](/commands/zinterstore) and [`ZUNIONSTORE`](/commands/zunionstore) respectively generate `zdiffstore`, `zinterstore` and `zunionstore` events. In the special case the resulting sorted set is empty, and the key where the result is stored already exists, a `del` event is generated since the key is removed.
-* [`XADD`](/commands/xadd) generates an `xadd` event, possibly followed an `xtrim` event when used with the `MAXLEN` subcommand.
-* [`XDEL`](/commands/xdel) generates a single `xdel` event even when multiple entries are deleted.
-* [`XGROUP CREATE`](/commands/xgroup-create) generates an `xgroup-create` event.
-* [`XGROUP CREATECONSUMER`](/commands/xgroup-createconsumer) generates an `xgroup-createconsumer` event.
-* [`XGROUP DELCONSUMER`](/commands/xgroup-delconsumer) generates an `xgroup-delconsumer` event.
-* [`XGROUP DESTROY`](/commands/xgroup-destroy) generates an `xgroup-destroy` event.
-* [`XGROUP SETID`](/commands/xgroup-setid) generates an `xgroup-setid` event.
-* [`XSETID`](/commands/xsetid) generates an `xsetid` event.
-* [`XTRIM`](/commands/xtrim) generates an `xtrim` event.
-* [`PERSIST`](/commands/persist) generates a `persist` event if the expiry time associated with key has been successfully deleted.
+* [`ZDIFFSTORE`]({{< relref "/commands/zdiffstore" >}}), [`ZINTERSTORE`]({{< relref "/commands/zinterstore" >}}) and [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}) respectively generate `zdiffstore`, `zinterstore` and `zunionstore` events. In the special case the resulting sorted set is empty, and the key where the result is stored already exists, a `del` event is generated since the key is removed.
+* [`XADD`]({{< relref "/commands/xadd" >}}) generates an `xadd` event, possibly followed an `xtrim` event when used with the `MAXLEN` subcommand.
+* [`XDEL`]({{< relref "/commands/xdel" >}}) generates a single `xdel` event even when multiple entries are deleted.
+* [`XGROUP CREATE`]({{< relref "/commands/xgroup-create" >}}) generates an `xgroup-create` event.
+* [`XGROUP CREATECONSUMER`]({{< relref "/commands/xgroup-createconsumer" >}}) generates an `xgroup-createconsumer` event.
+* [`XGROUP DELCONSUMER`]({{< relref "/commands/xgroup-delconsumer" >}}) generates an `xgroup-delconsumer` event.
+* [`XGROUP DESTROY`]({{< relref "/commands/xgroup-destroy" >}}) generates an `xgroup-destroy` event.
+* [`XGROUP SETID`]({{< relref "/commands/xgroup-setid" >}}) generates an `xgroup-setid` event.
+* [`XSETID`]({{< relref "/commands/xsetid" >}}) generates an `xsetid` event.
+* [`XTRIM`]({{< relref "/commands/xtrim" >}}) generates an `xtrim` event.
+* [`PERSIST`]({{< relref "/commands/persist" >}}) generates a `persist` event if the expiry time associated with key has been successfully deleted.
 * Every time a key with a time to live associated is removed from the data set because it expired, an `expired` event is generated.
 * Every time a key is evicted from the data set in order to free memory as a result of the `maxmemory` policy, an `evicted` event is generated.
 * Every time a new key is added to the data set, a `new` event is generated.
 
-**IMPORTANT** all the commands generate events only if the target key is really modified. For instance an [`SREM`](/commands/srem) deleting a non-existing element from a Set will not actually change the value of the key, so no event will be generated.
+**IMPORTANT** all the commands generate events only if the target key is really modified. For instance an [`SREM`]({{< relref "/commands/srem" >}}) deleting a non-existing element from a Set will not actually change the value of the key, so no event will be generated.
 
 If in doubt about how events are generated for a given command, the simplest
 thing to do is to watch yourself:

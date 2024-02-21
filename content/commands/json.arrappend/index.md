@@ -8,6 +8,16 @@ arguments:
 - multiple: true
   name: value
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
 description: Append one or more json values into the array at path after the last
@@ -53,8 +63,8 @@ is JSONPath to specify. Default is root `$`.
 
 ## Return value 
 
-`JSON.ARRAPEND` returns an [array](/docs/reference/protocol-spec/#resp-arrays) of integer replies for each path, the array's new size, or `nil`, if the matching JSON value is not an array. 
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec). 
+`JSON.ARRAPEND` returns an [array]({{< baseurl >}}/develop/reference/protocol-spec#resp-arrays) of integer replies for each path, the array's new size, or `nil`, if the matching JSON value is not an array. 
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
 
@@ -86,9 +96,9 @@ redis> JSON.GET item:1
 
 ## See also
 
-[`JSON.ARRINDEX`](/commands/json.arrindex) | [`JSON.ARRINSERT`](/commands/json.arrinsert) 
+[`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex/) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

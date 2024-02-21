@@ -2,6 +2,16 @@
 acl_categories:
 - '@slow'
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: Depends on subcommand.
 description: A container for server configuration commands.
 group: server
@@ -15,4 +25,4 @@ title: CONFIG
 ---
 This is a container command for runtime configuration commands.
 
-To see the list of available commands you can call [`CONFIG HELP`](/commands/config-help).
+To see the list of available commands you can call [`CONFIG HELP`]({{< relref "/commands/config-help" >}}).

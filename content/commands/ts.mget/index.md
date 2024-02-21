@@ -37,6 +37,16 @@ arguments:
   name: filterExpr
   token: FILTER
   type: oneof
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n) where n is the number of time-series that match the filters
 description: Get the sample with the highest timestamp from each time series matching
   a specific filter
@@ -51,9 +61,9 @@ summary: Get the sample with the highest timestamp from each time series matchin
 syntax: 'TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label...] FILTER filterExpr...
 
   '
-syntax_fmt: "TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]]\n\
-  \  FILTER\_<l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...)\n  [l=v | l!=v\
-  \ | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>"
+syntax_fmt: "TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]] \
+  \  FILTER\_<l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v |\
+  \ l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>"
 syntax_str: "[WITHLABELS | SELECTED_LABELS label1 [label1 ...]] FILTER\_<l=v | l!=v\
   \ | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v | l= | l!= | l=(v1,v2,...)\
   \ | l!=(v1,v2,...) ...]>"
@@ -67,21 +77,21 @@ Get the sample with the highest timestamp from each time series matching a speci
 ## Required arguments
 
 <details open>
-<summary><code>FILTER filterExpr...</code></summary> 
+<summary><code>FILTER filterExpr...</code></summary>
 
 filters time series based on their labels and label values. Each filter expression has one of the following syntaxes:
 
-  - `label=value`, where `label` equals `value`
-  - `label!=value`, where `label` does not equal `value`
-  - `label=`, where `key` does not have label `label`
-  - `label!=`, where `key` has label `label`
-  - `label=(value1,value2,...)`, where `key` with label `label` equals one of the values in the list
-  - `label!=(value1,value2,...)` where key with label `label` does not equal any of the values in the list
+  - `label!=` - the time series has a label named `label`
+  - `label=value` - the time series has a label named `label` with a value equal to `value`
+  - `label=(value1,value2,...)` - the time series has a label named `label` with a value equal to one of the values in the list
+  - `label=` - the time series does not have a label named `label`
+  - `label!=value` - the time series does not have a label named `label` with a value equal to `value`
+  - `label!=(value1,value2,...)` - the time series does not have a label named `label` with a value equal to any of the values in the list
 
-  <note><b>NOTES:</b> 
-   - At least one `label=value` filter is required.
-   - Filters are conjunctive. For example, the FILTER `type=temperature room=study` means the a time series is a temperature time series of a study room.
-   - Don't use whitespaces in the filter expression.
+  <note><b>Notes:</b>
+   - At least one filter expression with a syntax `label=value` or `label=(value1,value2,...)` is required.
+   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that a time series is a temperature time series of a study room.
+   - Whitespaces are unallowed in a filter expression except between quotes or double quotes in values - e.g., `x="y y"` or `x='(y y,z z)'`.
    </note>
 </details>
 
@@ -90,9 +100,9 @@ filters time series based on their labels and label values. Each filter expressi
 <details open>
 <summary><code>LATEST</code> (since RedisTimeSeries v1.8)</summary> 
 
-is used when a time series is a compaction. With `LATEST`, TS.MGET also reports the compacted value of the latest possibly partial bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.MGET does not report the latest possibly partial bucket. When a time series is not a compaction, `LATEST` is ignored.
+is used when a time series is a compaction. With `LATEST`, TS.MGET also reports the compacted value of the latest (possibly partial) bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.MGET does not report the latest (possibly partial) bucket. When a time series is not a compaction, `LATEST` is ignored.
   
-The data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest possibly partial bucket is also required. In such a case, use `LATEST`.
+The data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon the arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.
 </details>
 
 <details open>
@@ -112,17 +122,17 @@ If `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty lis
 
 </details>
 
-<note><b>Note:</b> The [`MGET`](/commands/mget) command cannot be part of transaction when running on a Redis cluster.</note>
+<note><b>Note:</b> The [`MGET`]({{< relref "/commands/mget" >}}) command cannot be part of a transaction when running on a Redis cluster.</note>
 
 ## Return value
 
-- [Array reply](/docs/reference/protocol-spec#arrays): for each time series matching the specified filters, the following is reported:
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): for each time series matching the specified filters, the following is reported:
   - bulk-string-reply: The time series key name
-  - [Array reply](/docs/reference/protocol-spec#arrays): label-value pairs ([Bulk string reply](/docs/reference/protocol-spec#bulk-strings), [Bulk string reply](/docs/reference/protocol-spec#bulk-strings))
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): label-value pairs ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}))
     - By default, an empty array is reported
     - If `WITHLABELS` is specified, all labels associated with this time series are reported
     - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)
-  - [Array reply](/docs/reference/protocol-spec#arrays): a single timestamp-value pair ([Integer reply](/docs/reference/protocol-spec#integers), [Simple string reply](/docs/reference/protocol-spec#simple-strings) (double))
+  - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single timestamp-value pair ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) (double))
 
 ## Examples
 
@@ -187,9 +197,9 @@ To get only the `location` label for each last sample, use `SELECTED_LABELS`.
 
 ## See also
 
-[`TS.MRANGE`](/commands/ts.mrange) | [`TS.RANGE`](/commands/ts.range) | [`TS.MREVRANGE`](/commands/ts.mrevrange) | [`TS.REVRANGE`](/commands/ts.revrange)
+[`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/) | [`TS.RANGE`]({{< baseurl >}}/commands/ts.range/) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange/)
 
 ## Related topics
 
-[RedisTimeSeries](/docs/stack/timeseries)
+[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
 

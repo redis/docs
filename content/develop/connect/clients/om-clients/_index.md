@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: Object-Mapper libraries for Redis Stack
 linkTitle: Object mapping (Beta)
 stack: true
@@ -10,9 +20,9 @@ Redis OM (pronounced *REDiss OHM*) is a library that provides object mapping for
 
 You can use Redis OM with the following four programming languages:
 
-* [Node.js](/docs/connect/clients/om-clients/stack-node/)
-* [Python](/docs/connect/clients/om-clients/stack-python/)
-* [C# | .NET](/docs/connect/clients/om-clients/stack-dotnet/)
-* [Java | Spring](/docs/connect/clients/om-clients/stack-spring/)
+* [Node.js]({{< relref "/integrate/redisom-for-node-js/" >}})
+* [Python]({{< relref "/integrate/redisom-for-python/" >}})
+* [C# | .NET]({{< relref "/integrate/redisom-for-net/" >}})
+* [Java | Spring]({{< relref "/integrate/redisom-for-java/" >}})
 
 <hr/>

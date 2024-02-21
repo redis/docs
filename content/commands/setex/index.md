@@ -15,6 +15,16 @@ arguments:
   name: value
   type: string
 arity: 4
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -40,7 +50,7 @@ key_specs:
     type: range
   update: true
 linkTitle: SETEX
-replaced_by: '[`SET`](/commands/set) with the `EX` argument'
+replaced_by: '[`SET`]({{< relref "/commands/set" >}}) with the `EX` argument'
 since: 2.0.0
 summary: Sets the string value and expiration time of a key. Creates the key if it
   doesn't exist.
@@ -68,4 +78,4 @@ GET mykey
 
 ## See also
 
-[`TTL`](/commands/ttl)
+[`TTL`]({{< relref "/commands/ttl" >}})

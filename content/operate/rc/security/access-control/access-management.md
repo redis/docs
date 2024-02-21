@@ -23,7 +23,7 @@ For help managing API keys, see [Manage API keys]({{< relref "/operate/rc/api/ge
 
 The **Team** tab lets you manage the people allowed to access your account. Each authorized person is assigned to a role that specifies their privileges.
 
-{{<image filename="images/rc/access-management-team-tab.png" alt="The Access management tab helps you manage the people allowed to access your subscription." >}}{{< /image >}}
+{{<image filename="images/rc/access-management-team-tab.png" alt="The Access management tab helps you manage the people allowed to access your subscription." >}}
 
 The list contains one entry summarizing the team settings for each user in your team. By default, the list includes the account owner.
 
@@ -31,11 +31,11 @@ The list includes several buttons and icons to help you manage the list:
 
 | Icon | Description |
 |:----:|-------------|
-| {{<image filename="images/rc/button-access-management-add.png" width="30px" alt="Use the Add button to add members to your team." >}}{{< /image >}} | The **Add** button lets you add members to your team |
-| {{<image filename="images/rc/icon-access-management-edit-user.png" width="30px" alt="Use the Edit button change details for a team member." >}}{{< /image >}} | The **Edit** button lets you edit the settings for the selected team member |
-| {{<image filename="images/rc/icon-access-management-delete-user.png" width="30px" alt="Use the Delete button to remove a member from your team." >}}{{< /image >}} | The **Delete** button lets you remove members from your team
-| {{<image filename="images/rc/icon-list-filter.png" width="30px" alt="Use the Filter button to display team members that match specified conditions." >}}{{< /image >}} | **Filter** icons let you display team members matching conditions you specify |
-| <nobr>{{<image filename="images/rc/icon-list-sort-asc.png" width="30px" alt="The Sort ascending button displays members in ascending order according to the values of the selected field." >}}{{< /image >}}{{<image filename="images/rc/icon-list-sort-desc.png" width="30px" alt="The Sort descending button displays members in descending order according to the values of the selected field." >}}{{< /image >}}</nobr> | The **Sort ascending** and **Sort descending** icons display the list according to the selected order |
+| {{<image filename="images/rc/button-access-management-add.png" width="30px" alt="Use the Add button to add members to your team." >}} | The **Add** button lets you add members to your team |
+| {{<image filename="images/rc/icon-access-management-edit-user.png" width="30px" alt="Use the Edit button change details for a team member." >}} | The **Edit** button lets you edit the settings for the selected team member |
+| {{<image filename="images/rc/icon-access-management-delete-user.png" width="30px" alt="Use the Delete button to remove a member from your team." >}} | The **Delete** button lets you remove members from your team
+| {{<image filename="images/rc/icon-list-filter.png" width="30px" alt="Use the Filter button to display team members that match specified conditions." >}} | **Filter** icons let you display team members matching conditions you specify |
+| <nobr>{{<image filename="images/rc/icon-list-sort-asc.png" width="30px" alt="The Sort ascending button displays members in ascending order according to the values of the selected field." >}}{{<image filename="images/rc/icon-list-sort-desc.png" width="30px" alt="The Sort descending button displays members in descending order according to the values of the selected field." >}}</nobr> | The **Sort ascending** and **Sort descending** icons display the list according to the selected order |
 
 If you have a large team, you can use the controls in the list footer to navigate quickly through the list. These controls are deactivated for small teams.
 
@@ -43,7 +43,7 @@ If you have a large team, you can use the controls in the list footer to navigat
 
 When you add a member to your team, the **Add user** dialog appears.  
 
-{{<image filename="images/rc/access-mgmt-add-user-dialog.png" width="50%" alt="Use the Add User dialog to specify the details for your new user." >}}{{< /image >}}
+{{<image filename="images/rc/access-mgmt-add-user-dialog.png" width="50%" alt="Use the Add User dialog to specify the details for your new user." >}}
 
 Use the dialog to specify these values.
 
@@ -67,7 +67,7 @@ Redis will send an activation email to the user once their details are saved. Af
 To edit user team details, select the user from the list and then select the **Edit** button.
 The **Edit user** dialog displays the details you can change.  
 
-{{<image filename="images/rc/access-mgmt-edit-user-dialog.png" width="50%" alt="Use the Edit User dialog to change the details for a user" >}}{{< /image >}}
+{{<image filename="images/rc/access-mgmt-edit-user-dialog.png" width="50%" alt="Use the Edit User dialog to change the details for a user" >}}
 
 You can change any detail except the team member's email address.
 
@@ -77,7 +77,7 @@ Select **Save user** to save your changes.
 
 To remove a member from your team, select them from the list and then select the **Delete** button. A confirmation dialog appears.  
 
-{{<image filename="images/rc/access-management-delete-user-dialog.png" width="50%" alt="Confirm that you want to remove a user from your team" >}}{{< /image >}}
+{{<image filename="images/rc/access-management-delete-user-dialog.png" width="50%" alt="Confirm that you want to remove a user from your team" >}}
 
 Select **Delete user** to confirm removal. This is a permanent action that cannot be undone.
 
@@ -93,6 +93,10 @@ Roles and responsibilities are:
 
     Owners can also manage subscriptions, databases, and API keys.
 
+- **Billing Admin** can view and edit settings related to billing and payments.
+
+    Billing Admins can add and remove payment methods and change the payment method for a subscription, but they cannot change any other subscription or database settings.
+
 - **Manager** can view, create, and edit any setting in the subscription. 
 
     Managers can change subscription costs and change payment methods associated with a subscription, but they cannot add or remove available payment methods.
@@ -105,15 +109,22 @@ Roles and responsibilities are:
 
 This table shows each role's ability to perform common tasks using the Redis Cloud console.
 
-| Task | Owner | Manager | Member | Viewer |
-|------|:-----:|:-------:|:------:|:------:|
-| Access management | <span title="Owners can manage account access">&#x2705; Yes</span> | <span title="Managers may not manage account access">&#x274c; No</span> | <span title="Members may not manage account access">&#x274c; No</span> | <span title="Viewers may not manage account access">&#x274c; No</span> | 
-| Account settings | <span title="Owners can change account settings">&#x2705; Yes</span> |  <span title="Managers may not manage account settings">&#x274c; No</span> | <span title="Members may not manage account settings">&#x274c; No</span> | <span title="Viewers may not manage account settings">&#x274c; No</span>  | 
-| Billing & payments |  <span title="Owners can add/remove payment methods and view history">&#x2705; Yes</span> | <span title="Managers may not add/remove payment methods or view billing history (Managers may change subscription payment methods between those available to the account)">&#x274c; No</span> | <span title="Members may not add/remove payment methods or view billing history">&#x274c; No</span> | <span title="Viewers may not add/remove payment methods or view billing history">&#x274c; No</span> | 
-| Create subscription | <span title="Owners can create new subscriptions">&#x2705; Yes</span> | <span title="Managers can create new subscriptions">&#x2705; Yes</span> | <span title="Members may not create subscriptions">&#x274c; No</span> | <span title="Viewers may not create subscriptions">&#x274c; No</span> |
-| Create database (Flexible) | <span title="Owners can create databases in Flexible subscriptions">&#x2705; Yes</span> | <span title="Managers can create databases in Flexible subscriptions">&#x2705; Yes</span> | <span title="Members may not create databases in Flexible subscriptions">&#x274c; No</span> | <span title="Viewers may not create databases in Flexible subscriptions">&#x274c; No</span> |
-| Edit database (affects cost) | <span title="Owners can edit databases in ways that impact subscription cost">&#x2705; Yes</span> | <span title="Managers can edit databases in ways that impact subscription costs">&#x2705; Yes</span> | <span title="Members may not edit databases in ways tht impact subscription cost">&#x274c; No</span> | <span title="Viewers may not edit databases in ways that impact subscription cost">&#x274c; No</span> |
-| Create database (Fixed) | <span title="Owners can create databases in Fixed subscriptions">&#x2705; Yes</span> | <span title="Managers can create databases in Fixed subscriptions">&#x2705; Yes</span> | <span title="Members can create databases in Fixed subscriptions">&#x2705; Yes</span> | <span title="Viewers may not create databases in Fixed subscriptions">&#x274c; No</span> |
-| Edit database (no cost impact) | <span title="Owners can change databases in ways that do not affect subscription cost">&#x2705; Yes</span> | <span title="Managers can change databases in ways that do not affect subscription cost">&#x2705; Yes</span> | <span title="Members can change databases in ways that do not affect subscription cost">&#x2705; Yes</span> | <span title="Viewers may not create databases in ways that do not affect subscription cost">&#x274c; No</span> | 
-| View subscription | <span title="Owners can view subscription details">&#x2705; Yes</span> | <span title="Managers can view subscription details">&#x2705; Yes</span> | <span title="Members can view subscription details">&#x2705; Yes</span> | <span title="Viewers can view subscription details">&#x2705; Yes</span> |
-| View database | <span title="Owners can view database details">&#x2705; Yes</span> | <span title="Managers can view database details">&#x2705; Yes</span> | <span title="Members can view database details">&#x2705; Yes</span> | <span title="Viewers can view database details">&#x2705; Yes</span> |
+| **Task** | **Owner** | **Billing Admin** | **Manager** | **Member** | **Viewer** |
+|---|---|---|---|---|---|
+| Access management | <span title="Owners can manage account access">&#x2705; Yes</span> | <span title="Billing Admins may not manage account access">&#x274c; No</span> | <span title="Managers may not manage account access">&#x274c; No</span> | <span title="Members may not manage account access">&#x274c; No</span> | <span title="Viewers may not manage account access">&#x274c; No</span> |
+| Account settings | <span title="Owners can change account settings">&#x2705; Yes</span> | <span title="Billing Admins can change the billing address in account settings">&#x2705; Yes<sup>[1](#table-note-1)</sup></span> | <span title="Managers may not manage account settings">&#x274c; No</span> | <span title="Members may not manage account settings">&#x274c; No</span> | <span title="Viewers may not manage account settings">&#x274c; No</span> |
+| Billing & payments | <span title="Owners can add/remove payment methods and view history">&#x2705; Yes</span> | <span title="Billing Admins can add/remove payment methods and view history">&#x2705; Yes</span> | <span title="Managers may not add/remove payment methods or view billing history (Managers may change subscription payment methods between those available to the account)">&#x274c; No</span> | <span title="Members may not add/remove payment methods or view billing history">&#x274c; No</span> | <span title="Viewers may not add/remove payment methods or view billing history">&#x274c; No</span> |
+| Create subscription | <span title="Owners can create new subscriptions">&#x2705; Yes</span> | <span title="Billing Admins may not create subscriptions">&#x274c; No</span> | <span title="Managers can create new subscriptions">&#x2705; Yes</span> | <span title="Members may not create subscriptions">&#x274c; No</span> | <span title="Viewers may not create subscriptions">&#x274c; No</span> |
+| Edit subscription | <span title="Owners can edit subscriptions">&#x2705; Yes</span> | <span title="Billing Admins can edit subscriptions to change the payment method">&#x2705; Yes<sup>[2](#table-note-2)</sup></span> | <span title="Managers can edit subscriptions">&#x2705; Yes</span> | <span title="Members may not edit subscriptions">&#x274c; No</span> | <span title="Viewers may not edit subscriptions">&#x274c; No</span> |
+| Create database (Flexible) | <span title="Owners can create databases in Flexible subscriptions">&#x2705; Yes</span> | <span title="Billing Admins may not create databases in Flexible subscriptions">&#x274c; No</span> | <span title="Managers can create databases in Flexible subscriptions">&#x2705; Yes</span> | <span title="Members may not create databases in Flexible subscriptions">&#x274c; No</span> | <span title="Viewers may not create databases in Flexible subscriptions">&#x274c; No</span> |
+| Edit database (affects cost) | <span title="Owners can edit databases in ways that impact subscription cost">&#x2705; Yes</span> | <span title="Billing Admins may not edit databases in ways that impact subscription cost">&#x274c; No</span> | <span title="Managers can edit databases in ways that impact subscription costs">&#x2705; Yes</span> | <span title="Members may not edit databases in ways tht impact subscription cost">&#x274c; No</span> | <span title="Viewers may not edit databases in ways that impact subscription cost">&#x274c; No</span> |
+| Create database (Fixed) | <span title="Owners can create databases in Fixed subscriptions">&#x2705; Yes</span> | <span title="Billing Admins may not create databases in Fixed subscriptions">&#x274c; No</span> | <span title="Managers can create databases in Fixed subscriptions">&#x2705; Yes</span> | <span title="Members can create databases in Fixed subscriptions">&#x2705; Yes</span> | <span title="Viewers may not create databases in Fixed subscriptions">&#x274c; No</span> |
+| Edit database (no cost impact) | <span title="Owners can change databases in ways that do not affect subscription cost">&#x2705; Yes</span> | <span title="Billing Admins may not change databases in ways that do not affect subscription cost">&#x274c; No</span> | <span title="Managers can change databases in ways that do not affect subscription cost">&#x2705; Yes</span> | <span title="Members can change databases in ways that do not affect subscription cost">&#x2705; Yes</span> | <span title="Viewers may not change databases in ways that do not affect subscription cost">&#x274c; No</span> |
+| View subscription | <span title="Owners can view subscription details">&#x2705; Yes</span> | <span title="Billing Admins can view subscription details">&#x2705; Yes</span> | <span title="Managers can view subscription details">&#x2705; Yes</span> | <span title="Members can view subscription details">&#x2705; Yes</span> | <span title="Viewers can view subscription details">&#x2705; Yes</span> |
+| View database | <span title="Owners can view database details">&#x2705; Yes</span> | <span title="Billing Admins can view the list of databases but not database details">&#x2705; Yes<sup>[3](#table-note-3)</sup></span> | <span title="Managers can view database details">&#x2705; Yes</span> | <span title="Members can view database details">&#x2705; Yes</span> | <span title="Viewers can view database details">&#x2705; Yes</span> |
+
+1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a>Billing Admins can only edit the account billing address in Account Settings.
+
+2. <a name="table-note-2" style="display: block; height: 80px; margin-top: -80px;"></a>Billing Admins can only change the payment method when editing a subscription.
+
+3. <a name="table-note-3" style="display: block; height: 80px; margin-top: -80px;"></a>Billing Admins can see the list of databases, but can not see database details, including connection details.

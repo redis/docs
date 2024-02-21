@@ -5,6 +5,16 @@ arguments:
 - multiple: true
   name: item
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n) where n is the number of items
 description: Checks whether one or more items are in a sketch
 group: topk
@@ -28,7 +38,7 @@ Multiple items can be checked at once.
 
 ## Return
 
-[Array reply](/docs/reference/protocol-spec#arrays) of [Integer reply](/docs/reference/protocol-spec#integers) - "1" if item is in Top-K, otherwise "0".
+[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - "1" if item is in Top-K, otherwise "0".
 
 ## Examples
 

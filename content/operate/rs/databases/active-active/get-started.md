@@ -54,17 +54,17 @@ Depending on your browser, you may see a certificate error. Continue to the webs
 
     If you are using the new Cluster Manager UI, switch to the legacy admin console.
 
-    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}{{</image>}}
+    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
 
 1. Click the **Setup** button.
 
-    ![getstarted-setup](/images/rs/getstarted-setup.png)
+    {{< image filename="/images/rs/getstarted-setup.png" >}}
 
 1. On the **node configuration** page, select your default settings and
 provide a cluster FQDN, for example `cluster1.local`. Then click
 **Next** button.
 
-    ![getstarted-nodeconfig](/images/rs/getstarted-nodeconfig.png)
+    {{< image filename="/images/rs/getstarted-nodeconfig.png" >}}
 
 1. If you don't have a license key, click the **Next** button to try the
 trial version of the product.
@@ -72,7 +72,7 @@ trial version of the product.
 1. On the next screen, set up a Cluster Administrator account using an
 email for the login and a password.
 
-    ![getstarted-admincredentials](/images/rs/getstarted-admincredentials.png)
+    {{< image filename="/images/rs/getstarted-admincredentials.png" >}}
 
 1. Click **OK** to confirm that you are aware of the replacement of the HTTPS SSL/TLS
     certificate on the node, and proceed through the browser warning.
@@ -95,7 +95,7 @@ Each Active-Active instance must have a unique fully-qualified domain name (FQDN
 1. After you login to cluster1.local, select the Redis database and deployment type
 **Geo-Distributed**. Then click **Next**.
 
-    ![new_geo-distrbuted](/images/rs/new_geo-distrbuted.png)
+    {{< image filename="/images/rs/new_geo-distrbuted.png" >}}
 
 1. In **create database**, click the **show advanced option** and:
 
@@ -119,7 +119,7 @@ You cannot enable or disable database clustering after the Active-Active databas
 
 1. Click **Activate** to create your Active-Active database.
 
-    ![crdb-activate](/images/rs/crdb-activate.png)
+    {{< image filename="/images/rs/crdb-activate.png" >}}
 
     {{< note >}}
     {{< embed-md "docker-memory-limitation.md" >}}

@@ -5,6 +5,16 @@ arguments:
 - name: path
   optional: true
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1) where path is evaluated to a single value, O(N) where path is evaluated
   to multiple values, where N is the size of the key
 description: Returns the length of the array at path
@@ -39,8 +49,8 @@ is JSONPath to specify. Default is root `$`, if not provided. Returns null if th
 
 ## Return
 
-`JSON.ARRLEN` returns an [array](/docs/reference/protocol-spec/#resp-arrays) of integer replies, an integer for each matching value, each is the array's length, or `nil`, if the matching value is not an array.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec). 
+`JSON.ARRLEN` returns an [array]({{< baseurl >}}/develop/reference/protocol-spec#resp-arrays) of integer replies, an integer for each matching value, each is the array's length, or `nil`, if the matching value is not an array.
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
 
@@ -85,9 +95,9 @@ redis> JSON.GET item:2 '$..max_level'
 
 ## See also
 
-[`JSON.ARRINDEX`](/commands/json.arrindex) | [`JSON.ARRINSERT`](/commands/json.arrinsert) 
+[`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex/) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

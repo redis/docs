@@ -3,6 +3,16 @@ acl_categories:
 - '@slow'
 - '@scripting'
 arity: 2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - noscript
 - allow_busy
@@ -20,7 +30,7 @@ syntax_fmt: SCRIPT KILL
 syntax_str: ''
 title: SCRIPT KILL
 ---
-Kills the currently executing [`EVAL`](/commands/eval) script, assuming no write operation was yet
+Kills the currently executing [`EVAL`]({{< relref "/commands/eval" >}}) script, assuming no write operation was yet
 performed by the script.
 
 This command is mainly useful to kill a script that is running for too much
@@ -34,4 +44,4 @@ In such a case, only `SHUTDOWN NOSAVE` can kill the script, killing
 the Redis process in a hard way and preventing it from persisting with half-written
 information.
 
-For more information about [`EVAL`](/commands/eval) scripts please refer to [Introduction to Eval Scripts](/topics/eval-intro).
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts](/topics/eval-intro).

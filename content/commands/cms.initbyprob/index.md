@@ -6,6 +6,16 @@ arguments:
   type: double
 - name: probability
   type: double
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(1)
 description: Initializes a Count-Min Sketch to accommodate requested tolerances.
 group: cms
@@ -34,7 +44,7 @@ Initializes a Count-Min Sketch to accommodate requested tolerances.
     
 ## Return
 
-[Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly, or [] otherwise.
+[Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly, or [] otherwise.
 
 ## Examples
 

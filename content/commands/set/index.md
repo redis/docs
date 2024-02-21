@@ -60,6 +60,16 @@ arguments:
   optional: true
   type: oneof
 arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -97,7 +107,7 @@ linkTitle: SET
 since: 1.0.0
 summary: Sets the string value of a key, ignoring its type. The key is created if
   it doesn't exist.
-syntax_fmt: "SET key value [NX | XX] [GET] [EX\_seconds | PX\_milliseconds |\n  EXAT\_\
+syntax_fmt: "SET key value [NX | XX] [GET] [EX\_seconds | PX\_milliseconds | EXAT\_\
   unix-time-seconds | PXAT\_unix-time-milliseconds | KEEPTTL]"
 syntax_str: "value [NX | XX] [GET] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
   \ | PXAT\_unix-time-milliseconds | KEEPTTL]"
@@ -111,16 +121,16 @@ Any previous time to live associated with the key is discarded on successful `SE
 
 The `SET` command supports a set of options that modify its behavior:
 
-* `EX` *seconds* -- Set the specified expire time, in seconds.
-* `PX` *milliseconds* -- Set the specified expire time, in milliseconds.
-* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds.
-* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds.
+* `EX` *seconds* -- Set the specified expire time, in seconds (a positive integer).
+* `PX` *milliseconds* -- Set the specified expire time, in milliseconds (a positive integer).
+* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds (a positive integer).
+* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds (a positive integer).
 * `NX` -- Only set the key if it does not already exist.
 * `XX` -- Only set the key if it already exists.
 * `KEEPTTL` -- Retain the time to live associated with the key.
 * `GET` -- Return the old string stored at key, or nil if key did not exist. An error is returned and `SET` aborted if the value stored at key is not a string.
 
-Note: Since the `SET` command options can replace [`SETNX`](/commands/setnx), [`SETEX`](/commands/setex), [`PSETEX`](/commands/psetex), [`GETSET`](/commands/getset), it is possible that in future versions of Redis these commands will be deprecated and finally removed.
+Note: Since the `SET` command options can replace [`SETNX`]({{< relref "/commands/setnx" >}}), [`SETEX`]({{< relref "/commands/setex" >}}), [`PSETEX`]({{< relref "/commands/psetex" >}}), [`GETSET`]({{< relref "/commands/getset" >}}), it is possible that in future versions of Redis these commands will be deprecated and finally removed.
 
 ## Examples
 
@@ -138,18 +148,18 @@ SET anotherkey "will expire in a minute" EX 60
 
 ## Patterns
 
-**Note:** The following pattern is discouraged in favor of [the Redlock algorithm](https://redis.io/topics/distlock) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
+**Note:** The following pattern is discouraged in favor of [the Redlock algorithm]({{< relref "/develop/use/patterns/distributed-locks" >}}) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
 
 The command `SET resource-name anystring NX EX max-lock-time` is a simple way to implement a locking system with Redis.
 
-A client can acquire the lock if the above command returns `OK` (or retry after some time if the command returns Nil), and remove the lock just using [`DEL`](/commands/del).
+A client can acquire the lock if the above command returns `OK` (or retry after some time if the command returns Nil), and remove the lock just using [`DEL`]({{< relref "/commands/del" >}}).
 
 The lock will be auto-released after the expire time is reached.
 
 It is possible to make this system more robust modifying the unlock schema as follows:
 
 * Instead of setting a fixed string, set a non-guessable large random string, called token.
-* Instead of releasing the lock with [`DEL`](/commands/del), send a script that only removes the key if the value matches.
+* Instead of releasing the lock with [`DEL`]({{< relref "/commands/del" >}}), send a script that only removes the key if the value matches.
 
 This avoids that a client will try to release the lock after the expire time deleting the key created by another client that acquired the lock later.
 

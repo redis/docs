@@ -27,7 +27,7 @@ Before you can use RedisGears with the JVM, you need to install the RedisGears m
 
 1. From the Redis Enterprise admin console's **databases** page, select the **Add** button to create a new database:
 
-    {{<image filename="images/rs/icon_add.png" width="30px" alt="The Add icon">}}{{</image>}}
+    {{<image filename="images/rs/icon_add.png" width="30px" alt="The Add icon">}}
 
 1. Confirm that you want to create a new Redis database with the **Next** button.
 
@@ -37,7 +37,7 @@ Before you can use RedisGears with the JVM, you need to install the RedisGears m
 
 1. Select **Add Configuration**, enter `Plugin gears_jvm` in the box, then select the **OK** button:
 
-    {{<image filename="images/rs/icon_save.png" width="30px" alt="The Save icon">}}{{</image>}}
+    {{<image filename="images/rs/icon_save.png" width="30px" alt="The Save icon">}}
 
     {{<note>}}
 You can configure additional JVM options in this box. For example:<br></br>

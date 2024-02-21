@@ -5,6 +5,16 @@ arguments:
 - name: path
   optional: true
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) when path is evaluated to a single value, where N is the size of
   the value, O(N) when path is evaluated to multiple values, where N is the size of
   the key
@@ -41,7 +51,7 @@ is JSONPath to specify. Default is root `$`.
 ## Return
 
 JSON.DEBUG MEMORY returns an integer reply specified as the value size in bytes.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec).
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -65,10 +75,10 @@ redis> JSON.DEBUG MEMORY item:2
 
 ## See also
 
-[`JSON.SET`](/commands/json.set) | [`JSON.ARRLEN`](/commands/json.arrlen) 
+[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.ARRLEN`]({{< baseurl >}}/commands/json.arrlen/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
 

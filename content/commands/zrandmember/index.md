@@ -21,6 +21,16 @@ arguments:
   optional: true
   type: block
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N) where N is the number of members returned
@@ -52,7 +62,7 @@ title: ZRANDMEMBER
 When called with just the `key` argument, return a random element from the sorted set value stored at `key`.
 
 If the provided `count` argument is positive, return an array of **distinct elements**.
-The array's length is either `count` or the sorted set's cardinality ([`ZCARD`](/commands/zcard)), whichever is lower.
+The array's length is either `count` or the sorted set's cardinality ([`ZCARD`]({{< relref "/commands/zcard" >}})), whichever is lower.
 
 If called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.
 In this case, the number of returned elements is the absolute value of the specified `count`.

@@ -43,6 +43,9 @@ The order of the multiple Replica Of sources has no material impact on replicati
 
 For best results when using the [Multicast DNS](https://en.wikipedia.org/wiki/Multicast_DNS) (mDNS) protocol to resolve the fully-qualified domain name (FQDN) of the cluster, verify that your client connections meet the [client mDNS prerequisites]({{< relref "/operate/rs/networking/mdns.md" >}}).
 
+{{< note >}}
+As long as Replica Of is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}}).
+{{< /note >}}
 
 ### Same Redis Enterprise cluster {#same-cluster}
 
@@ -76,7 +79,7 @@ To configure a Replica Of database in a different Redis Enterprise cluster from 
 
     1. Copy the Replica Of source URL.
 
-        {{<image filename="images/rs/screenshots/databases/config-replica-of-copy-source-url.png" alt="Copy the Replica Of source URL from the Connection link to destination dialog.">}}{{</image>}}
+        {{<image filename="images/rs/screenshots/databases/config-replica-of-copy-source-url.png" alt="Copy the Replica Of source URL from the Connection link to destination dialog.">}}
 
         To change the internal password, select **Regenerate password**.
 
@@ -152,7 +155,7 @@ To enable TLS for Replica Of in the destination database:
 
     1. Expand the **Replica Of and Active-Active authentication (Syncer certificate)** section.
 
-        {{<image filename="images/rs/screenshots/cluster/security-syncer-cert.png"  alt="Syncer certificate for Replica Of and Active-Active authentication.">}}{{</image>}}
+        {{<image filename="images/rs/screenshots/cluster/security-syncer-cert.png"  alt="Syncer certificate for Replica Of and Active-Active authentication.">}}
 
      1. Download or copy the syncer certificate.
 
@@ -160,7 +163,7 @@ To enable TLS for Replica Of in the destination database:
 
 1. Expand the **Replica Of** section.
 
-1. Point to the source database entry and select <img src="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px"> to edit it.
+1. Point to the source database entry and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" >}} to edit it.
 
 1. Paste or upload the source syncer certificate, then select **Done**.
 

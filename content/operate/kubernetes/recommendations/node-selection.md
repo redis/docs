@@ -235,7 +235,7 @@ metadata:
   name: redis-enterprise-operator
 subjects:
 - kind: ServiceAccount
-  namespace: NAMESPACE_OF_SERVICE_ACCOUNT
+  namespace: OPERATOR_NAMESPACE
   name: redis-enterprise-operator
 roleRef:
   kind: ClusterRole

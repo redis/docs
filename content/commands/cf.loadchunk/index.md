@@ -6,6 +6,16 @@ arguments:
   type: integer
 - name: data
   type: string
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(n), where n is the capacity
 description: Restores a filter previously saved using SCANDUMP
 group: cf
@@ -19,9 +29,9 @@ syntax_fmt: CF.LOADCHUNK key iterator data
 syntax_str: iterator data
 title: CF.LOADCHUNK
 ---
-Restores a cuckoo filter previously saved using [`CF.SCANDUMP`](/commands/cf.scandump).
+Restores a cuckoo filter previously saved using [`CF.SCANDUMP`]({{< baseurl >}}/commands/cf.scandump/).
 
-See the [`CF.SCANDUMP`](/commands/cf.scandump) command for example usage.
+See the [`CF.SCANDUMP`]({{< baseurl >}}/commands/cf.scandump/) command for example usage.
 
 <note><b>Notes</b>
 
@@ -39,21 +49,21 @@ is key name for a cuckoo filter to restore.
 
 <details open><summary><code>iterator</code></summary>
 
-Iterator value associated with `data` (returned by [`CF.SCANDUMP`](/commands/cf.scandump))
+Iterator value associated with `data` (returned by [`CF.SCANDUMP`]({{< baseurl >}}/commands/cf.scandump/))
 </details>
 
 <details open><summary><code>data</code></summary>
 
-Current data chunk (returned by [`CF.SCANDUMP`](/commands/cf.scandump))
+Current data chunk (returned by [`CF.SCANDUMP`]({{< baseurl >}}/commands/cf.scandump/))
 </details>
 
 ## Return value
 
 Returns one of these replies:
 
-- [Simple string reply](/docs/reference/protocol-spec#simple-strings) - `OK` if executed correctly
+- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
 - [] on error (invalid arguments, wrong key type, wrong data, etc.)
 
 ## Examples
 
-See [`CF.SCANDUMP`](/commands/cf.scandump) for an example.
+See [`CF.SCANDUMP`]({{< baseurl >}}/commands/cf.scandump/) for an example.

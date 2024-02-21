@@ -1,4 +1,14 @@
 ---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: 'How to use configuration in JavaScript functions
 
   '
@@ -7,7 +17,7 @@ title: Library configuration
 weight: 6
 ---
 
-When writing a library, you may want to provide a loading configuration so that different users can use the same library with slightly different behaviour, without changing the base code. For example, assume you write a library that adds a `__last_updated__` field to a hash (you can see how it can also be done with [keyspace triggers](/docs/interact/programmability/triggers-and-functions/concepts/triggers/keyspace_triggers/)), the code will look like this:
+When writing a library, you may want to provide a loading configuration so that different users can use the same library with slightly different behaviour, without changing the base code. For example, assume you write a library that adds a `__last_updated__` field to a hash (you can see how it can also be done with [keyspace triggers]({{< relref "/develop/interact/programmability/triggers-and-functions/concepts/triggers/Keyspace_Triggers" >}})), the code will look like this:
 
 ```js
 #!js api_version=1.0 name=lib
@@ -31,7 +41,7 @@ Run example:
 4) "1658653125"
 ```
 
-The problem with the above code is that the `__last_update__` field is hard coded. What if we want to allow the user to configure it at runtime? Triggers and functions provide for specifying a library configuration at load time using a [`CONFIG`](/commands/config) argument that is passed to the [`TFUNCTION LOAD`](/commands/tfunction-load) command. The configuration argument accepts a string representation of a JSON object. The JSON will be provided to the library as a JS object under the `redis.config` variable. We can change the above example to accept the `__last_update__` field name as a library configuration. The code will look like this:
+The problem with the above code is that the `__last_update__` field is hard coded. What if we want to allow the user to configure it at runtime? Triggers and functions provide for specifying a library configuration at load time using a [`CONFIG`]({{< relref "/commands/config" >}}) argument that is passed to the [`TFUNCTION LOAD`]({{< relref "/commands/tfunction-load" >}}) command. The configuration argument accepts a string representation of a JSON object. The JSON will be provided to the library as a JS object under the `redis.config` variable. We can change the above example to accept the `__last_update__` field name as a library configuration. The code will look like this:
 
 ```js
 #!js api_version=1.0 name=lib
@@ -52,7 +62,7 @@ redis.registerFunction("hset", function(client, key, field, val){
 });
 ```
 
-Notice that in the above example we first set `last_update_field_name` to `__last_update__`, the default value in cases where a value is not provided by the configuration. Then we check if we have `last_update_field_name` in our configuration and if we do we use it. We can now load our function with a [`CONFIG`](/commands/config) argument:
+Notice that in the above example we first set `last_update_field_name` to `__last_update__`, the default value in cases where a value is not provided by the configuration. Then we check if we have `last_update_field_name` in our configuration and if we do we use it. We can now load our function with a [`CONFIG`]({{< relref "/commands/config" >}}) argument:
 
 ```bash
 > redis-cli -x TFUNCTION LOAD REPLACE CONFIG '{"last_update_field_name":"last_update"}' < <path to code file>

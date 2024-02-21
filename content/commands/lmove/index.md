@@ -35,6 +35,16 @@ arguments:
   name: whereto
   type: oneof
 arity: 5
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - write
 - denyoom
@@ -94,7 +104,7 @@ removing the first/last element from the list and pushing it as first/last
 element of the list, so it can be considered as a list rotation command (or a
 no-op if `wherefrom` is the same as `whereto`).
 
-This command comes in place of the now deprecated [`RPOPLPUSH`](/commands/rpoplpush). Doing
+This command comes in place of the now deprecated [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}). Doing
 `LMOVE RIGHT LEFT` is equivalent.
 
 ## Examples
@@ -115,18 +125,18 @@ LRANGE myotherlist 0 -1
 Redis is often used as a messaging server to implement processing of background
 jobs or other kinds of messaging tasks.
 A simple form of queue is often obtained pushing values into a list in the
-producer side, and waiting for this values in the consumer side using [`RPOP`](/commands/rpop)
-(using polling), or [`BRPOP`](/commands/brpop) if the client is better served by a blocking
+producer side, and waiting for this values in the consumer side using [`RPOP`]({{< relref "/commands/rpop" >}})
+(using polling), or [`BRPOP`]({{< relref "/commands/brpop" >}}) if the client is better served by a blocking
 operation.
 
 However in this context the obtained queue is not _reliable_ as messages can
 be lost, for example in the case there is a network problem or if the consumer
 crashes just after the message is received but it is still to process.
 
-`LMOVE` (or [`BLMOVE`](/commands/blmove) for the blocking variant) offers a way to avoid
+`LMOVE` (or [`BLMOVE`]({{< relref "/commands/blmove" >}}) for the blocking variant) offers a way to avoid
 this problem: the consumer fetches the message and at the same time pushes it
 into a _processing_ list.
-It will use the [`LREM`](/commands/lrem) command in order to remove the message from the
+It will use the [`LREM`]({{< relref "/commands/lrem" >}}) command in order to remove the message from the
 _processing_ list once the message has been processed.
 
 An additional client may monitor the _processing_ list for items that remain
@@ -137,7 +147,7 @@ again if needed.
 
 Using `LMOVE` with the same source and destination key, a client can visit
 all the elements of an N-elements list, one after the other, in O(N) without
-transferring the full list from the server to the client using a single [`LRANGE`](/commands/lrange)
+transferring the full list from the server to the client using a single [`LRANGE`]({{< relref "/commands/lrange" >}})
 operation.
 
 The above pattern works even in the following conditions:

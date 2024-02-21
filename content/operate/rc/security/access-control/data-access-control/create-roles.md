@@ -16,27 +16,27 @@ To assign [Redis ACLs]({{< relref "/operate/rc/security/access-control/data-acce
 
 1. Go to **Data Access Control** from the [Redis Cloud console](https://app.redislabs.com/#/) menu.
 
-    {{<image filename="images/rc/data-access-control-menu.png" width="200px" alt="Menu for database access control." >}}{{< /image >}}
+    {{<image filename="images/rc/data-access-control-menu.png" width="200px" alt="Menu for database access control." >}}
 
 1. Select the **Roles** tab.
 
-    {{<image filename="images/rc/data-access-control-roles.png" alt="Role configuration area." >}}{{< /image >}}
+    {{<image filename="images/rc/data-access-control-roles.png" alt="Role configuration area." >}}
 
 1. Select `+` to create a new role or point to an existing role and select the pencil icon to edit it.
 
-    {{<image filename="images/rc/data-access-control-roles-add-or-edit.png" width="300px" alt="Add or edit a role." >}}{{< /image >}}
+    {{<image filename="images/rc/data-access-control-roles-add-or-edit.png" width="300px" alt="Add or edit a role." >}}
 
 1. Enter a name for the role.
 
-    {{<image filename="images/rc/data-access-control-roles-add.png" width="400px" alt="Role add screen." >}}{{< /image >}}
+    {{<image filename="images/rc/data-access-control-roles-add.png" width="400px" alt="Role add screen." >}}
 
 1. Select an **ACL rule** to assign to the role.
 
-    {{<image filename="images/rc/data-access-control-roles-select-acl.png" width="300px" alt="Select an ACL Rule." >}}{{< /image >}}
+    {{<image filename="images/rc/data-access-control-roles-select-acl.png" width="300px" alt="Select an ACL Rule." >}}
 
 1. Select one or more databases from the **Databases** list and click the check mark to confirm the association.
 
-    {{<image filename="images/rc/data-access-control-roles-select-databases.png" width="400px" alt="Select an databases." >}}{{< /image >}}
+    {{<image filename="images/rc/data-access-control-roles-select-databases.png" width="400px" alt="Select an databases." >}}
 
 1. Select **Save role**.
 

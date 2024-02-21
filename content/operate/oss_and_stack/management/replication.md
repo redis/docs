@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: How Redis supports high availability and failover with replication
 linkTitle: Replication
 title: Redis replication

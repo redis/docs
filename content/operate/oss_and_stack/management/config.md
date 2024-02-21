@@ -1,4 +1,9 @@
 ---
+categories:
+- docs
+- operate
+- stack
+- oss
 description: 'Overview of redis.conf, the Redis configuration file
 
   '

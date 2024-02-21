@@ -87,7 +87,7 @@ For a full list of fields and options, see the [RERC API reference](https://gith
 * The `<rec-name>/<rec-namespace>` value must be unique for each RERC resource. (RED-96302)
 * Only global database options are supported, no support for specifying configuration per location.
 * No support for migration from old (`crdb-cli`) Active-Active database method to new Active-Active controller.
-* No support for multiple participating clusters on the same Kubernetes cluster.
+* No support for REAADB with participating clusters co-located within the same Kubernetes cluster, except for a single designated local participating cluster.
 
 ## More info
 

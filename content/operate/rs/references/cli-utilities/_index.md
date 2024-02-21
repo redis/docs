@@ -16,7 +16,7 @@ Redis Enterprise Software includes a set of utilities to help you manage and tes
 
 Administrators can use these CLI tools to manage and test a Redis Enterprise cluster. You can find the binaries in the `/opt/redislabs/bin/` directory.
 
-
+{{<table-children columnNames="Utility,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
 ## Internal utilities
 

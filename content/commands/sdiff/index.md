@@ -10,6 +10,16 @@ arguments:
   name: key
   type: key
 arity: -2
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 command_flags:
 - readonly
 complexity: O(N) where N is the total number of elements in all given sets.

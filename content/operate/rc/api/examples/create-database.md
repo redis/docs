@@ -52,4 +52,4 @@ There are many additional parameters and settings that can be defined on databas
 - Select `POST Create database`.
 - Under `Database definition`, click on the `Model` options.
 
-![swagger-database-create-documentation](/images/rv/api/swagger-database-create-documentation.png)
+{{< image filename="/images/rv/api/swagger-database-create-documentation.png" >}}

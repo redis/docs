@@ -61,12 +61,12 @@ The [Redis Cloud Terraform provider](https://registry.terraform.io/providers/Red
     1. Select **Add CIDR**.
     1. Enter additional CIDR-formatted IP address in the box:
 
-        {{<image filename="images/rc/subscription-connectivity-vpc-peering-add-multiple-cidrs.png" width="300px" alt="Select the Add CIDR button to add another VPC CIDR." >}}{{< /image >}}
+        {{<image filename="images/rc/subscription-connectivity-vpc-peering-add-multiple-cidrs.png" width="300px" alt="Select the Add CIDR button to add another VPC CIDR." >}}
 
 1. Select **Initiate peering**.
 1. Note the **Peering ID** of the VPC peering request.
 
-    {{<image filename="images/rc/subscription-connectivity-vpc-peering-aws.png" width="350px" alt="View VPC peering list." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-connectivity-vpc-peering-aws.png" width="350px" alt="View VPC peering list." >}}
 
 ### Approve VPC peering request {#approve-aws-vpc-peering}
 
@@ -76,7 +76,7 @@ After you set up and intitiate VPC peering, you need to approve the VPC peering 
 
 1. After you accept the peering request, select **Modify my route tables now**. This button can be found in the green header once the peering connection is **active**.
 
-{{<image filename="images/rc/modify_route_tables_aws.png" width="800px" alt="Modify Route Table." >}}{{< /image >}}
+{{<image filename="images/rc/modify_route_tables_aws.png" width="800px" alt="Modify Route Table." >}}
 
 ### Update route tables {#update-route-tables}
 
@@ -117,12 +117,12 @@ To set up VPC peering:
 
 1. Copy the **Google cloud command** after you enter the other VPC peering settings. You need this command to accept the peering request later:
 
-    {{<image filename="images/rc/subscription-connectivity-vpc-peering-gcloud-command.png" width="350px" alt="The Initiate peering button creates a VPC peering request." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-connectivity-vpc-peering-gcloud-command.png" width="350px" alt="The Initiate peering button creates a VPC peering request." >}}
 
 1. Select **Initiate peering**.
 1. Note the **Cloud peering ID** of the VPC peering request.
 
-    {{<image filename="images/rc/subscription-connectivity-vpc-peering-gcp.png" width="350px" alt="View VPC peering list." >}}{{< /image >}}
+    {{<image filename="images/rc/subscription-connectivity-vpc-peering-gcp.png" width="350px" alt="View VPC peering list." >}}
 
 ### Approve VPC peering request {#approve-gcp-vpc-peering}
 

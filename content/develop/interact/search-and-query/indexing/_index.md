@@ -1,6 +1,14 @@
 ---
-aliases:
-- /docs/stack/search/indexing_json/
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 description: How to index and search JSON documents
 linkTitle: Indexing
 title: Indexing
@@ -13,21 +21,21 @@ In addition to indexing Redis hashes, Redis Stack can also index JSON documents.
 
 Before you can index and search JSON documents, you need a database with either:
 
-- [Redis Stack](/docs/getting-started/install-stack/), which automatically includes JSON and searching and querying features
+- [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}), which automatically includes JSON and searching and querying features
 - Redis v6.x or later with the following modules installed and enabled:
    - RediSearch v2.2 or later
    - RedisJSON v2.0 or later
 
 ## Create index with JSON schema
 
-When you create an index with the [`FT.CREATE`](/commands/ft.create) command, include the `ON JSON` keyword to index any existing and future JSON documents stored in the database.
+When you create an index with the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) command, include the `ON JSON` keyword to index any existing and future JSON documents stored in the database.
 
-To define the `SCHEMA`, you can provide [JSONPath](/docs/stack/json/path) expressions.
+To define the `SCHEMA`, you can provide [JSONPath]({{< relref "/develop/data-types/json/path" >}}) expressions.
 The result of each JSONPath expression is indexed and associated with a logical name called an `attribute` (previously known as a `field`).
 You can use these attributes in queries.
 
 {{% alert title="Note" color="info" %}}
-Note: `attribute` is optional for [`FT.CREATE`](/commands/ft.create).
+Note: `attribute` is optional for [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/).
 {{% /alert %}}
 
 Use the following syntax to create a JSON index:
@@ -48,7 +56,7 @@ See [Index limitations](#index-limitations) for more details about JSON index `S
 
 After you create an index, Redis Stack automatically indexes any existing, modified, or newly created JSON documents stored in the database. For existing documents, indexing runs asynchronously in the background, so it can take some time before the document is available. Modified and newly created documents are indexed synchronously, so the document will be available by the time the add or modify command finishes.
 
-You can use any JSON write command, such as [`JSON.SET`](/commands/json.set) and [`JSON.ARRAPPEND`](/commands/json.arrappend), to create or modify JSON documents.
+You can use any JSON write command, such as [`JSON.SET`]({{< baseurl >}}/commands/json.set/) and [`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend/), to create or modify JSON documents.
 
 The following examples use these JSON documents to represent individual inventory items.
 
@@ -92,7 +100,7 @@ Item 2 JSON document:
 }
 ```
 
-Use [`JSON.SET`](/commands/json.set) to store these documents in the database:
+Use [`JSON.SET`]({{< baseurl >}}/commands/json.set/) to store these documents in the database:
 
 ```sql
 127.0.0.1:6379> JSON.SET item:1 $ '{"name":"Noise-cancelling Bluetooth headphones","description":"Wireless Bluetooth headphones with noise-cancelling technology","connection":{"wireless":true,"type":"Bluetooth"},"price":99.98,"stock":25,"colors":["black","silver"],"embedding":[0.87,-0.15,0.55,0.03]}'
@@ -101,12 +109,12 @@ Use [`JSON.SET`](/commands/json.set) to store these documents in the database:
 "OK"
 ```
 
-Because indexing is synchronous in this case, the documents will be available on the index as soon as the [`JSON.SET`](/commands/json.set) command returns.
+Because indexing is synchronous in this case, the documents will be available on the index as soon as the [`JSON.SET`]({{< baseurl >}}/commands/json.set/) command returns.
 Any subsequent queries that match the indexed content will return the document.
 
 ## Search the index
 
-To search the index for JSON documents, use the [`FT.SEARCH`](/commands/ft.search) command.
+To search the index for JSON documents, use the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command.
 You can search any attribute defined in the `SCHEMA`.
 
 For example, use this query to search for items with the word "earbuds" in the name:
@@ -159,15 +167,15 @@ And lastly, search for the Bluetooth headphones that are most similar to an imag
    4) "{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"connection\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"],\"embedding\":[-0.7,-0.51,0.88,0.14]}"
 ```
 
-For more information about search queries, see [Search query syntax](/docs/stack/search/reference/query_syntax).
+For more information about search queries, see [Search query syntax]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}).
 
 {{% alert title="Note" color="info" %}}
-[`FT.SEARCH`](/commands/ft.search) queries require `attribute` modifiers. Don't use JSONPath expressions in queries because the query parser doesn't fully support them.
+[`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) queries require `attribute` modifiers. Don't use JSONPath expressions in queries because the query parser doesn't fully support them.
 {{% /alert %}}
 
 ## Index JSON arrays as TAG
 
-If you want to index string or boolean values as TAG within a JSON array, use the [JSONPath](/docs/stack/json/path) wildcard operator.
+If you want to index string or boolean values as TAG within a JSON array, use the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) wildcard operator.
 
 To index an item's list of available colors, specify the JSONPath `$.colors.*` in the `SCHEMA` definition during index creation:
 
@@ -215,7 +223,7 @@ Now you can do full text search for light colored headphones:
 ```
 
 ### Limitations
-- When a JSONPath may lead to multiple values and not only to a single array, e.g., when a JSONPath contains wildcards, etc., specifying `SLOP` or `INORDER` in [`FT.SEARCH`](/commands/ft.search) will return an error, since the order of the values matching the JSONPath is not well defined, leading to potentially inconsistent results.
+- When a JSONPath may lead to multiple values and not only to a single array, e.g., when a JSONPath contains wildcards, etc., specifying `SLOP` or `INORDER` in [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) will return an error, since the order of the values matching the JSONPath is not well defined, leading to potentially inconsistent results.
 
    For example, using a JSONPath such as `$..b[*]` on a JSON value such as
    ```json
@@ -244,7 +252,7 @@ Now you can do full text search for light colored headphones:
 
 ### Handling phrases in different array slots:
 
-When indexing, a predefined delta is used to increase positional offsets between array slots for multiple text values. This delta controls the level of separation between phrases in different array slots (related to the `SLOP` parameter of [`FT.SEARCH`](/commands/ft.search)).
+When indexing, a predefined delta is used to increase positional offsets between array slots for multiple text values. This delta controls the level of separation between phrases in different array slots (related to the `SLOP` parameter of [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/)).
 This predefined value is set by the configuration parameter `MULTI_TEXT_SLOP` (at module load-time). The default value is 100.
 
 ## Index JSON arrays as NUMERIC
@@ -416,7 +424,7 @@ Now you can search for the two headphones that are most similar to the image emb
    4) "{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"],\"embedding\":[-0.7,-0.51,0.88,0.14]}"
 ```
 
-If you want to index multiple numeric arrays as VECTOR, use a [JSONPath](/docs/stack/json/path/) leading to multiple numeric arrays using JSONPath operators such as wildcard, filter, union, array slice, and/or recursive descent.
+If you want to index multiple numeric arrays as VECTOR, use a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to multiple numeric arrays using JSONPath operators such as wildcard, filter, union, array slice, and/or recursive descent.
 
 For example, assume that your JSON items include an array of vector embeddings, where each vector represents a different image of the same product. To index these vectors, specify the JSONPath `$.embeddings[*]` in the schema definition during index creation:
 
@@ -451,7 +459,7 @@ Now you can search for the two headphones that are most similar to an image embe
 ```
 Note that `0.771500051022` is the L2 distance between the query vector and `[-0.8,-0.15,0.33,-0.01]`, which is the second element in the embedding array, and it is lower than the L2 distance between the query vector and `[-0.7,-0.51,0.88,0.14]`, which is the first element in the embedding array.
 
-For more information on vector similarity syntax, see [Vector fields](/docs/interact/search-and-query/advanced-concepts/vectors/).
+For more information on vector similarity syntax, see [Vector fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
 
 ## Index JSON objects
 
@@ -494,7 +502,7 @@ You can also search for items with a Bluetooth connection type:
 
 ## Field projection
 
-[`FT.SEARCH`](/commands/ft.search) returns the entire JSON document by default. If you want to limit the returned search results to specific attributes, you can use field projection.
+[`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) returns the entire JSON document by default. If you want to limit the returned search results to specific attributes, you can use field projection.
 
 ### Return specific attributes
 
@@ -519,7 +527,7 @@ For example, this query only returns the `name` and `price` of each set of headp
 
 ### Project with JSONPath
 
-You can use [JSONPath](/docs/stack/json/path) expressions in a `RETURN` statement to extract any part of the JSON document, even fields that were not defined in the index `SCHEMA`.
+You can use [JSONPath]({{< relref "/develop/data-types/json/path" >}}) expressions in a `RETURN` statement to extract any part of the JSON document, even fields that were not defined in the index `SCHEMA`.
 
 For example, the following query uses the JSONPath expression `$.stock` to return each item's stock in addition to the name and price attributes.
 
@@ -569,9 +577,9 @@ This query returns the field as the alias `"stock"` instead of the JSONPath expr
 
 ### Highlight search terms
 
-You can [highlight](/docs/stack/search/reference/highlight) relevant search terms in any indexed `TEXT` attribute.
+You can [highlight]({{< relref "/develop/interact/search-and-query/advanced-concepts/highlight" >}}) relevant search terms in any indexed `TEXT` attribute.
 
-For [`FT.SEARCH`](/commands/ft.search), you have to explicitly set which attributes you want highlighted after the `RETURN` and `HIGHLIGHT` parameters.
+For [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/), you have to explicitly set which attributes you want highlighted after the `RETURN` and `HIGHLIGHT` parameters.
 
 Use the optional `TAGS` keyword to specify the strings that will surround (or highlight) the matching search terms.
 
@@ -598,9 +606,9 @@ For example, highlight the word "bluetooth" with bold HTML tags in item names an
 
 ## Aggregate with JSONPath
 
-You can use [aggregation](/docs/interact/search-and-query/search/aggregations/) to generate statistics or build facet queries.
+You can use [aggregation]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}}) to generate statistics or build facet queries.
 
-The `LOAD` option accepts [JSONPath](/docs/stack/json/path) expressions. You can use any value in the pipeline, even if the value is not indexed.
+The `LOAD` option accepts [JSONPath]({{< relref "/develop/data-types/json/path" >}}) expressions. You can use any value in the pipeline, even if the value is not indexed.
 
 This example uses aggregation to calculate a 10% price discount for each item and sorts the items from least expensive to most expensive:
 
@@ -622,7 +630,7 @@ This example uses aggregation to calculate a 10% price discount for each item an
 ```
 
 {{% alert title="Note" color="info" %}}
-[`FT.AGGREGATE`](/commands/ft.aggregate) queries require `attribute` modifiers. Don't use JSONPath expressions in queries, except with the `LOAD` option, because the query parser doesn't fully support them.
+[`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) queries require `attribute` modifiers. Don't use JSONPath expressions in queries, except with the `LOAD` option, because the query parser doesn't fully support them.
 {{% /alert %}}
 
 ## Index limitations

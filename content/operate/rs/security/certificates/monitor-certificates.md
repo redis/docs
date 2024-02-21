@@ -14,7 +14,7 @@ You can monitor certificates used by Redis Enterprise Software.
 
 ### Monitor certificates with Prometheus
 
-Redis Enterprise Software exposes the expiration time (in seconds) of each certificate on each node. To learn how to monitor Redis Enterprise Software metrics using Prometheus, see the [Prometheus integration quick start]({{< relref "/operate/rs/clusters/monitoring/prometheus-integration" >}}).
+Redis Enterprise Software exposes the expiration time (in seconds) of each certificate on each node. To learn how to monitor Redis Enterprise Software metrics using Prometheus, see the [Prometheus integration quick start]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
 
 Here are some examples of the `node_cert_expiration_seconds` metric:
 

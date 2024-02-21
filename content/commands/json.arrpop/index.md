@@ -11,6 +11,16 @@ arguments:
   name: path
   optional: true
   type: block
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
 complexity: O(N) when path is evaluated to a single value where N is the size of the
   array and the specified index is not the last element, O(1) when path is evaluated
   to a single value and the specified index is the last element, or O(N) when path
@@ -53,8 +63,8 @@ is JSONPath to specify. Default is root `$`.
 
 ## Return
 
-`JSON.ARRPOP` returns an [array](/docs/reference/protocol-spec/#resp-arrays) of bulk string replies for each path, each reply is the popped JSON value, or `nil`, if the matching JSON value is not an array.
-For more information about replies, see [Redis serialization protocol specification](/docs/reference/protocol-spec). 
+`JSON.ARRPOP` returns an [array]({{< baseurl >}}/develop/reference/protocol-spec#resp-arrays) of bulk string replies for each path, each reply is the popped JSON value, or `nil`, if the matching JSON value is not an array.
+For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
 
@@ -106,9 +116,9 @@ redis> JSON.GET key $.[1].max_level
 
 ## See also
 
-[`JSON.ARRAPPEND`](/commands/json.arrappend) | [`JSON.ARRINDEX`](/commands/json.arrindex) 
+[`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend/) | [`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex/) 
 
 ## Related topics
 
-* [RedisJSON](/docs/stack/json)
-* [Index and search JSON documents](/docs/stack/search/indexing_json)
+* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
+* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
