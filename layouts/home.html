@@ -20,13 +20,15 @@
       {{ with .Params.description }}
       <p class="text-xl md:text-2xl">{{ . | markdownify }}</p>
       {{ end }}
-      <form class="flex flex-row items-center border border-redis-pen-600 rounded-md px-6 gap-6 w-full">
-        <label class="" for="search-input-home" id="search-label-home">
+      <form class="flex flex-row items-center border border-redis-pen-600 rounded-md px-6 gap-6 w-full" action="/chat">
+        <label class="" for="search-home" id="search-label-home">
           {{ partial "icons/search.html" }}
         </label>
-        <input class="appearance-none bg-transparent text-lg w-full h-16 focus:outline-none" aria-autocomplete="both" aria-labelledby="search-label-home"
-          id="search-input-home" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-          placeholder="Search keyword" maxlength="64" type="search" value="" tabindex="">
+        </input>
+        <input id="seach-home" name="q" class="appearance-none bg-transparent text-lg w-full h-16 focus:outline-none" 
+               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+               placeholder="Ask me a question ..." maxlength="64" type="text" value="" tabindex=""/>
+        <input type="submit" value=""/>
       </form>
     </div>
   </header>
