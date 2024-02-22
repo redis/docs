@@ -44,6 +44,7 @@ anchor = "smart"
 tagManagerId = "GTM-T4MTBKP"
 # Display and sort order for client examples
 clientsExamples = ["Python", "Node", "Java", "Go", "C#"]
+searchService = "/convai/api/search-service"
 
 # RDI params
 rdi_rlec_min_version = "6.2.18"

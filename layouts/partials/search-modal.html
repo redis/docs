@@ -191,10 +191,12 @@
       function displayError(error) {
         console.log(error)
       }
-  
-      search(`https://search-service.redislabs.com/search?q=${searchTerm}*&site=https://redis.io`)
+      
+      {{ with .Site.Params.searchService }}
+      search(`{{ . }}?q=${searchTerm}`)
         .then(displayData)
         .catch(displayError)
+      {{ end }}
     }
   
     function loadHandler(event) {
