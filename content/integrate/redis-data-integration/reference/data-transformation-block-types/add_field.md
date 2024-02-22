@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Add fields to a record
 group: di
+linkTitle: add_field
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Add fields to a record

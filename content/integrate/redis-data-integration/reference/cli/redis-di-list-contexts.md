@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Lists all saved contexts
 group: di
+linkTitle: redis-di list-contexts
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Lists all saved contexts

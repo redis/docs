@@ -9,10 +9,11 @@ categories:
 - rdi
 description: null
 group: di
+linkTitle: Write to a Redis set
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 30
 ---
 
 In the example below, data is captured from the source table named `invoice` and is written to a Redis set. The connection is an optional parameter that must refer to the corresponding connection name defined in `config.yaml`. When the `data_type` parameter is specified for the job, it overrides the system-wide setting `target_data_type` defined in `config.yaml`. 

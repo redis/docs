@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Dumps RDI support package
 group: di
+linkTitle: redis-di dump-support-package
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Dumps RDI support package

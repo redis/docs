@@ -14,7 +14,7 @@ stack: true
 summary: Redis OM for Node.js is an object-mapping library for Redis.
 title: Redis OM Node.js
 type: integration
-weight: '9'
+weight: 9
 ---
 
 This tutorial will show you how to build an API using Node.js and Redis Stack.

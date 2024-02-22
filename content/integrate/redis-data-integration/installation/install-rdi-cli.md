@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Install Redis Data Integration CLI
 group: di
+linkTitle: Install RDI CLI
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 The following installation instructions install the RDI CLI on a local workstation. For installing in Kubernetes (K8s) or OpenShift please see [k8s installation]({{<relref "/integrate/redis-data-integration/installation/install-k8s">}}).

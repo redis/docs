@@ -14,7 +14,7 @@ headerRange: '[2]'
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 1
 ---
 
 Redis Data Integration (RDI) is a product that helps [Redis Enterprise](https://redis.com/redis-enterprise-software/overview/) users ingest data in near real-time, so that Redis becomes part of their data fabric without additional integration efforts.

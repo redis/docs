@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Write into a SQL-compatible data store
 group: di
+linkTitle: relational.write
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Write into a SQL-compatible data store

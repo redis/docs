@@ -1,20 +1,22 @@
 ---
-LinkTitle: AWS Bedrock
-Title: AWS Bedrock
+LinkTitle: Amazon Bedrock
+Title: Amazon Bedrock
+aliases: null
 alwaysopen: false
 categories:
 - docs
 - integrate
+- oss
+- rs
 - rc
 description: Shows how to use your Redis database with Amazon Bedrock to customize
   foundational models.
 group: cloud-service
-linkTitle: AWS Bedrock
 summary: With Amazon Bedrock, users can access foundational AI models from a variety
   of vendors through a single API, streamlining the process of leveraging generative
   artificial intelligence.
 type: integration
-weight: '3'
+weight: 3
 ---
 
 [Amazon Bedrock](https://aws.amazon.com/bedrock/) is a service that allows you to securely customize foundational models (FMs) with your own data, and to use these models without having to build complex infrastructure management. With Amazon Bedrock, users can access FMs from a variety of vendors through a single API, streamlining the process of creating generative artificial intelligence (AI).
@@ -25,11 +27,11 @@ For more information about the Redis integration with Amazon Bedrock, see the [A
 
 To fully set up Bedrock with Redis Cloud, you will need to do the following:
 
-1. [Set up a Redis Cloud subscription and vector database]({{< relref "/integrate/aws-bedrock/set-up-redis" >}}) for Bedrock.
+1. [Set up a Redis Cloud subscription and vector database]({{< relref  "/integrate/amazon-bedrock/set-up-redis" >}}) for Bedrock.
 
-1. [Create a knowledge base]({{< relref "/integrate/aws-bedrock/create-knowledge-base" >}}) connected to your vector database.
+1. [Create a knowledge base]({{< relref  "/integrate/amazon-bedrock/create-knowledge-base" >}}) connected to your vector database.
 
-1. [Create an agent]({{< relref "/integrate/aws-bedrock/create-agent" >}}) connected to your knowledge base.
+1. [Create an agent]({{< relref  "/integrate/amazon-bedrock/create-agent" >}}) connected to your knowledge base.
 
 ## More info
 

@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Map a record into a new output based on expressions
 group: di
+linkTitle: map
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Map a record into a new output based on expressions

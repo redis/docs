@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Learn about running RDI on Kubernetes
 group: di
+linkTitle: Running on Kubernetes
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 30
 ---
 
 When running Redis Data Integration (RDI) in a [Kubernetes](https://kubernetes.io/) environment, we recommend creating a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) and adding the RDI CLI as a pod in the cluster.

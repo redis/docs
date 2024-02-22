@@ -14,7 +14,7 @@ summary: The Redis Cloud Terraform provider allows you to provision and manage R
   Cloud resources.
 toc: 'true'
 type: integration
-weight: '4'
+weight: 4
 ---
 
 [Terraform](https://developer.hashicorp.com/terraform) is an open source automation tool developed by Hashicorp that allows you to easily provision infrastructure as code.

@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Describes a transformation engine's job
 group: di
+linkTitle: redis-di describe-job
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Describes a transformation engine's job

@@ -12,7 +12,7 @@ linkTitle: Confluent with Redis Cloud
 summary: The Redis Sink connector for Confluent Cloud allows you to send data from
   Confluent Cloud to your Redis Cloud database.
 type: integration
-weight: '8'
+weight: 8
 ---
 
 You can send data from [Confluent Cloud](https://confluent.cloud/) to your Redis Cloud database using the [Redis Sink connector for Confluent Cloud](https://docs.confluent.io/cloud/current/connectors/cc-redis-sink.html).

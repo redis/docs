@@ -10,10 +10,11 @@ categories:
 description: Describes the `application.properties` settings that configure Debezium
   Server for mysql
 group: di
+linkTitle: mysql
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: null
 ---
 
 ## application.properties

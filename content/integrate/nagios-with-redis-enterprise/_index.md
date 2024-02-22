@@ -15,7 +15,7 @@ summary: "This\_Nagios plugin enables you to monitor the status of Redis Enterpr
   related components and alerts."
 title: Nagios integration with Redis Enterprise Software
 type: integration
-weight: '7'
+weight: 7
 ---
 
 {{<banner-article>}}

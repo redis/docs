@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Learn how to deploy Debezium Server
 group: di
+linkTitle: Deploy Debezium Server
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 60
 ---
 
 ## Containerized deployment

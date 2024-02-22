@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Learn denormalization strategies
 group: di
+linkTitle: Data denormalization
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 30
 ---
 
 The data in the source database is often _normalized_, meaning that column values are scalar and entity relationships are expressed as mappings of primary keys to foreign keys between different tables.

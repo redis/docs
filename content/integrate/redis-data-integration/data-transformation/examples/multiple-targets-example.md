@@ -9,10 +9,11 @@ categories:
 - rdi
 description: null
 group: di
+linkTitle: Multiple Redis targets
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 30
 ---
 
 The `output` section of a job supports multiple `redis.write` blocks. This enables writing the same record to different Redis databases and/or writing it to multiple Redis keys using different data types. For example, RDI can write the captured `invoice` object to a JSON document, update the set holding the list of `invoices`, grouped by countries, and finally, send an update to a Redis stream named `invoice:events` to notify other applications about the change. 

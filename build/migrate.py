@@ -212,6 +212,8 @@ Assumes that there is image markdown syntax. Here an example.
 '''
 def replace_img_md_in_file(file_path, old_prefix, new_prefix):
     file_content = _read_file(file_path)
+
+    # TODO: Some markdown uses a space in between the round brackets
     img_pattern = re.compile(r'\!\[(.*?)\]\((' + re.escape(old_prefix) + r')(.*?)\s*(?:"(.*?)")?\)')
     updated_content = re.sub(img_pattern, '{{< image filename="' +  new_prefix + r'\3' + '" alt="' + r'\4' + '" >}}', file_content)
     updated_content = updated_content.replace(' alt=""', '')
@@ -613,20 +615,20 @@ Move some integrations documentation from the operational docs to the integratio
 def migrate_integration_docs(repo):
     
     integrations = {
-        "AWS Bedrock" : {"weight" : "3", "source" : "operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/", "type": "cloud-service", "desc": "With Amazon Bedrock, users can access foundational AI models from a variety of vendors through a single API, streamlining the process of leveraging generative artificial intelligence."},
-        "Confluent with Redis Cloud" : {"weight" : "8", "source" : "operate/rc/cloud-integrations/confluent-cloud.md", "type": "di", "desc" : "The Redis Sink connector for Confluent Cloud allows you to send data from Confluent Cloud to your Redis Cloud database." },
-        "Prometheus with Redis Cloud" : { "weight" : "6", "source" : "operate/rc/cloud-integrations/prometheus-integration.md", "type": "observability", "desc" : "You can use Prometheus and Grafana to collect and visualize your Redis Cloud metrics."},
-        "Prometheus with Redis Enterprise" : {"weight" : "5", "source" : "operate/rs/clusters/monitoring/prometheus-integration.md", "type": "observability", "desc" : "You can use Prometheus and Grafana to collect and visualize your Redis Enterprise Software metrics."},
-        "Prometheus metrics" : { "weight" : "5", "source" : "operate/rs/clusters/monitoring/prometheus-metrics-definitions.md", "type": "subpage", "target" : "Prometheus with Redis Enterprise", "desc" : "You can use Prometheus and Grafana to collect and visualize your Redis Enterprise Software metrics."},
-        "Uptrace with Redis Enterprise" : { "weight" : "7", "source" : "operate/rs/clusters/monitoring/uptrace-integration.md", "type": "observability", "desc" : "To collect, view, and monitor metrics data from your databases and other cluster components, you can connect Uptrace to your Redis Enterprise cluster using OpenTelemetry Collector."},
-        "Nagios with Redis Enterprise" : { "weight" : "7", "source" : "operate/rs/clusters/monitoring/nagios-plugin.md", "type": "observability", "desc" : "This Nagios plugin enables you to monitor the status of Redis Enterprise related components and alerts."},
-        "Pulumi provider for Redis Cloud" : { "weight" : "4", "source" : "operate/rc/cloud-integrations/pulumi/", "type": "provisioning", "desc" : "With the Redis Cloud Resource Provider you can provision Redis Cloud resources by using the programming language of your choice."},
-        "Terraform provider for Redis Cloud" : { "weight" : "4", "source" : "operate/rc/cloud-integrations/terraform/", "type": "provisioning", "desc" : "The Redis Cloud Terraform provider allows you to provision and manage Redis Cloud resources." },
-        "Redis Data Integration" : { "weight" : "1", "source" : "repo/content/rdi", "type" : "di", "desc" : "Redis Data Integration keeps Redis in sync with the primary database in near real time."},
-        "RedisOM for Java" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-spring.md", "type" : "library", "desc" : "The Redis OM for Java library is based on the Spring framework and provides object-mapping abstractions.", "images" : "images/*_spring.png", "parent_page" : "_index.md" },
-        "RedisOM for .NET" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-dotnet.md", "type" : "library", "desc" : "Redis OM for .NET is an object-mapping library for Redis.", "parent_page" : "_index.md"},
-        "RedisOM for Python" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-python.md", "type" : "library", "desc" : "Redis OM for Python is an object-mapping library for Redis.", "images" : "images/python_*.png", "parent_page" : "_index.md"},
-        "RedisOM for Node.js" : { "weight" : "9", "source" : "develop/connect/clients/om-clients/stack-node.md", "type" : "library", "desc" : "Redis OM for Node.js is an object-mapping library for Redis.", "images" : "images/* | grep -e '^[A-Z]'", "parent_page" : "_index.md"}
+        "Amazon Bedrock" : {"weight" : 3, "source" : "operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/", "type": "cloud-service", "desc": "With Amazon Bedrock, users can access foundational AI models from a variety of vendors through a single API, streamlining the process of leveraging generative artificial intelligence."},
+        "Confluent with Redis Cloud" : {"weight" : 8, "source" : "operate/rc/cloud-integrations/confluent-cloud.md", "type": "di", "desc" : "The Redis Sink connector for Confluent Cloud allows you to send data from Confluent Cloud to your Redis Cloud database." },
+        "Prometheus with Redis Cloud" : { "weight" : 6, "source" : "operate/rc/cloud-integrations/prometheus-integration.md", "type": "observability", "desc" : "You can use Prometheus and Grafana to collect and visualize your Redis Cloud metrics."},
+        "Prometheus with Redis Enterprise" : {"weight" : 5, "source" : "operate/rs/clusters/monitoring/prometheus-integration.md", "type": "observability", "desc" : "You can use Prometheus and Grafana to collect and visualize your Redis Enterprise Software metrics."},
+        "Prometheus metrics" : { "weight" : 5, "source" : "operate/rs/clusters/monitoring/prometheus-metrics-definitions.md", "type": "subpage", "target" : "Prometheus with Redis Enterprise", "desc" : "You can use Prometheus and Grafana to collect and visualize your Redis Enterprise Software metrics."},
+        "Uptrace with Redis Enterprise" : { "weight" : 7, "source" : "operate/rs/clusters/monitoring/uptrace-integration.md", "type": "observability", "desc" : "To collect, view, and monitor metrics data from your databases and other cluster components, you can connect Uptrace to your Redis Enterprise cluster using OpenTelemetry Collector."},
+        "Nagios with Redis Enterprise" : { "weight" : 7, "source" : "operate/rs/clusters/monitoring/nagios-plugin.md", "type": "observability", "desc" : "This Nagios plugin enables you to monitor the status of Redis Enterprise related components and alerts."},
+        "Pulumi provider for Redis Cloud" : { "weight" : 4, "source" : "operate/rc/cloud-integrations/pulumi/", "type": "provisioning", "desc" : "With the Redis Cloud Resource Provider you can provision Redis Cloud resources by using the programming language of your choice."},
+        "Terraform provider for Redis Cloud" : { "weight" : 4, "source" : "operate/rc/cloud-integrations/terraform/", "type": "provisioning", "desc" : "The Redis Cloud Terraform provider allows you to provision and manage Redis Cloud resources." },
+        "Redis Data Integration" : { "weight" : 1, "source" : "repo/content/rdi", "type" : "di", "desc" : "Redis Data Integration keeps Redis in sync with the primary database in near real time."},
+        "RedisOM for Java" : { "weight" : 9, "source" : "develop/connect/clients/om-clients/stack-spring.md", "type" : "library", "desc" : "The Redis OM for Java library is based on the Spring framework and provides object-mapping abstractions.", "images" : "images/*_spring.png", "parent_page" : "_index.md" },
+        "RedisOM for .NET" : { "weight" : 9, "source" : "develop/connect/clients/om-clients/stack-dotnet.md", "type" : "library", "desc" : "Redis OM for .NET is an object-mapping library for Redis.", "parent_page" : "_index.md"},
+        "RedisOM for Python" : { "weight" : 9, "source" : "develop/connect/clients/om-clients/stack-python.md", "type" : "library", "desc" : "Redis OM for Python is an object-mapping library for Redis.", "images" : "images/python_*.png", "parent_page" : "_index.md"},
+        "RedisOM for Node.js" : { "weight" : 9, "source" : "develop/connect/clients/om-clients/stack-node.md", "type" : "library", "desc" : "Redis OM for Node.js is an object-mapping library for Redis.", "images" : "images/* | grep -e '^[A-Z]'", "parent_page" : "_index.md"}
     }
 
     for k in integrations:
@@ -743,19 +745,23 @@ def migrate_integration_docs(repo):
                 categories.append("oss")
                 categories.append("rs")
                 categories.append("rc")
-                    
-            meta = { "type": "integration", "group" : ctype, "summary" : desc, "weight" : weight, "categories": categories}
 
-            if os.path.basename(f) == '_index.md' and  os.path.dirname(f) == target and ctype != "subpage":
+            meta = {}
+            if f.endswith(slash(DOCS_INT, _slug(k) + "/_index.md")) and ctype != "subpage":
+                meta = {"weight" : int(weight)}
                 meta['Title'] = k
                 meta['LinkTitle'] = k
-                meta['linkTitle'] = k
-
+                meta['linkTitle'] = k    
+        
+            meta.update({ "type": "integration", "group" : ctype, "summary" : desc,  "categories": categories})
             add_properties(f, meta)
-            try:
-                remove_prop_from_file(f, 'linkTitle')
-            except KeyError as e:
-                print("The file {} doesn't have a property linkTitle".format(f))
+            
+            # Some files use linkTitle, and some other LinkTitle. Let's remove the redundant link title.
+            if f.endswith(slash(DOCS_INT, _slug(k) + "/_index.md")):
+                try:
+                    remove_prop_from_file(f, 'linkTitle')
+                except KeyError as e:
+                    print("The file {} doesn't have a property linkTitle".format(f))
                 
             ## Redmove short codes
             remove_short_code(f, 'allchildren')
@@ -783,7 +789,10 @@ def migrate_integration_docs(repo):
             replace_img_md_in_file(f, '/images', '/images')
 
             # Fix broken dev images
-            find_and_replace(f, '../images/', './images/')           
+            find_and_replace(f, '../images/', './images/')    
+
+            # Ensure that the right image short code is used
+            replace_img_short_code(f)     
 
     
     # Fix remaining links
@@ -830,10 +839,11 @@ if __name__ == "__main__":
     '''
 
     print("## Fetching temporary Enterprise documentation content ...")
-    repo = fetch_docs_redis_com()
+    #repo = fetch_docs_redis_com()
+    repo = "/tmp/redislabs-docs"
 
     print("## Migrating the integrations docs ...")
     migrate_integration_docs(repo)
-    delete_folder(repo)
+    #delete_folder(repo)
 
     

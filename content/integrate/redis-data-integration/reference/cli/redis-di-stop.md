@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Stops the pipeline
 group: di
+linkTitle: redis-di stop
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Stops the pipeline

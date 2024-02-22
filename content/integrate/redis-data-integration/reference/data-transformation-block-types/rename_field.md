@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Rename fields. All other fields remain unchanged.
 group: di
+linkTitle: rename_field
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Rename fields. All other fields remain unchanged.

@@ -22,7 +22,7 @@ As a developer, you might also be interested in data integration, libraries, and
 
 - [Redis Data Integration]({{< relref "/integrate/redis-data-integration/" >}})
 - [Redis vector library for Python]({{< relref "/integrate/redisvl/" >}})
-- [Redis Cloud with Amazon Bedrock]({{< relref "/integrate/aws-bedrock/" >}})
+- [Redis Cloud with Amazon Bedrock]({{< relref "/integrate/amazon-bedrock/" >}})
 - [Object-mapping for .NET]({{< relref "/integrate/redisom-for-net/" >}})
 - [Spring Data Redis for Java]({{< relref "/integrate/spring-framework-cache/" >}})
 

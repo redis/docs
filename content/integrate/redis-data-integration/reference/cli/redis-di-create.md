@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Creates the RDI Database instance
 group: di
+linkTitle: redis-di create
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Creates the RDI Database instance

@@ -9,10 +9,11 @@ categories:
 - rdi
 description: How to install Redis Data Integration without an active Internet connection
 group: di
+linkTitle: Offline install
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 ## Download

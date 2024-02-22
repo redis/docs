@@ -11,10 +11,11 @@ description: Get started creating a write-behind pipeline
 draft: null
 group: di
 hidden: false
+linkTitle: Write-behind
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 40
 ---
 
 This guide takes you through the creation of a write-behind pipeline.

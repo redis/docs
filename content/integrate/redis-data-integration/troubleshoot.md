@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Resolve common Redis Data Integration problems
 group: di
+linkTitle: Troubleshooting
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 50
 ---
 
 Learn how to diagnose common problems during installation and runtime of Redis Data Integration (RDI).

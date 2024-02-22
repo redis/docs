@@ -12,7 +12,7 @@ linkTitle: Prometheus with Redis Cloud
 summary: You can use Prometheus and Grafana to collect and visualize your Redis Cloud
   metrics.
 type: integration
-weight: '6'
+weight: 6
 ---
 
 You can use Prometheus and Grafana to collect and visualize your Redis Cloud metrics.

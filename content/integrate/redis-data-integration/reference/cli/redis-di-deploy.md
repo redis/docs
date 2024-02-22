@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Deploys the RDI configurations including target
 group: di
+linkTitle: redis-di deploy
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Deploys the RDI configurations including target
