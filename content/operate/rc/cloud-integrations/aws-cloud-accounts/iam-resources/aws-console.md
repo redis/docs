@@ -19,9 +19,9 @@ First, create a policy to use for the new instance role:
 1. In the AWS IAM console, go to **Policies** > **Create policy**.
 1. In the **JSON** tab, paste the contents of the RedisLabsInstanceRolePolicy.json policy file, shown here:
 
-    {{%expand "View RedisLabsInstanceRolePolicy.json" %}}
-	{{% code-include file="rv/RedisLabsInstanceRolePolicy.json" language="js" %}}
-    {{% /expand%}}
+{{% expand "View RedisLabsInstanceRolePolicy.json" %}}
+{{% code-include file="rv/RedisLabsInstanceRolePolicy.json" language="js" %}}
+{{% /expand %}}
 
 1. Validate it and then select **Review Policy**.
 1. Enter **RedisLabsInstanceRolePolicy** as the policy name and then select **Create Policy**.
@@ -48,9 +48,9 @@ Now create a policy to assign to the user:
 1. In the AWS IAM console, go to **Policies** > **Create policy**.
 1. In the **JSON** tab, paste the contents of the RedisLabsIAMUserRestrictedPolicy.json policy file.
 
-    {{%expand "View RedislabsIAMUserRestrictedPolicy.json" %}}
-	{{% code-include file="rv/RedisLabsIAMUserRestrictedPolicy.json" language="js" %}}
-    {{% /expand%}}
+{{% expand "View RedislabsIAMUserRestrictedPolicy.json" %}}
+{{% code-include file="rv/RedisLabsIAMUserRestrictedPolicy.json" language="js" %}}
+{{% /expand %}}
 
 1. Validate the policy and click **Review Policy**.
 1. Enter `RedislabsIAMUserRestrictedPolicy` as the policy name and click **Create Policy**.
