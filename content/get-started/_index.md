@@ -1,6 +1,6 @@
 ---
-linkTitle: Get Started
-title: Get Started
+linkTitle: Get started
+title: Get started
 type: develop
 description: Learn how to get started with Redis
 hideListLinks: true
