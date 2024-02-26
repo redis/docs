@@ -1,6 +1,6 @@
 # The baseURL will be replaced by the build script
 baseURL = "https://redis.io"
-title = "Redis Documentation"
+title = "Redis Docs"
 
 refLinksErrorLevel = "WARNING"
 enableRobotsTXT = true
