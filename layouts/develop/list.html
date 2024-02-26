@@ -3,11 +3,11 @@
 {{ end }}
 
 {{ define "main" }}
-  <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row gap-8 lg:gap-16">
+  <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row">
     {{ partial "docs-nav.html" . }}
-    <div class="w-full py-12">
+    <div class="w-full py-12 md:pl-4 lg:pl-14 xl:pl-28 lg:pr-8">
       {{ partial "breadcrumbs" . }}
-      <section class="prose w-full py-12">
+      <section class="prose w-full py-12 max-w-none">
         <h1>
           {{ .Title }}
         </h1>
