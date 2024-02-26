@@ -216,7 +216,8 @@ def replace_img_md_in_file(file_path, old_prefix, new_prefix):
     file_content = _read_file(file_path)
 
     # TODO: Some markdown uses a space in between the round brackets
-    img_pattern = re.compile(r'\!\[(.*?)\]\((' + re.escape(old_prefix) + r')(.*?)\s*(?:"(.*?)")?\)')
+    #img_pattern = re.compile(r'\!\[(.*?)\]\((' + re.escape(old_prefix) + r')(.*?)\s*(?:"(.*?)")?\)')
+    img_pattern = re.compile(r'\!\[(.*?)\]\(\s*(' + re.escape(old_prefix) + r')(.*?)\s*(?:"(.*?)")?\)')
     updated_content = re.sub(img_pattern, '{{< image filename="' +  new_prefix + r'\3' + '" alt="' + r'\4' + '" >}}', file_content)
     updated_content = updated_content.replace(' alt=""', '')
     _write_file(file_path, updated_content)
@@ -809,7 +810,12 @@ def migrate_integration_docs(repo):
                 find_and_replace(f, k, corrected_links[k])
 
 
-
+'''
+The redis.io template shows all children by default, whereby the
+docs.redis.com needed you to use an "allchildren" shortcode. All
+pages that had the "allchildren" shortcode get "hideListLinks" set
+to false. All the others are getting it set to true.
+'''
 def fix_all_children(content_folders):
     
     all_chidlren_pages = _load_csv_file('./migrate/all_children_pages.csv')
@@ -828,6 +834,35 @@ def fix_all_children(content_folders):
             meta = _read_front_matter(f)
             if (meta != None) and (meta.get("hideListLinks") == None) and (f.endswith('_index.md')):
                 add_properties(f, { "hideListLinks" : True })
+
+
+'''
+Some images in the Kubernetes documentation were not caught before and still use the markdown image syntax
+'''
+def fix_missed_images(content_folders):
+
+    for folder in content_folders:
+        source = slash(DOCS_ROOT, folder)
+        markdown_files = find_markdown_files(source)
+
+        for f in markdown_files:
+            content = _read_file(f)
+
+            if '/images' in content:
+                print("Handling images in {}".format(f))
+                replace_img_md_in_file(f, '/images', '/images')
+
+
+'''
+The RESP2 and RESP3 responses have hard-coded references in the links, we need to rewrite them.
+'''
+def fix_resp_references():
+    resp2 = slash(WORK_DIR, 'data/resp2_replies.json')
+    resp3 = slash(WORK_DIR, 'data/resp3_replies.json')
+
+    find_and_replace(resp2, '/docs/reference/protocol-spec', '/docs/develop/reference/protocol-spec')
+    find_and_replace(resp3, '/docs/reference/protocol-spec', '/docs/develop/reference/protocol-spec')
+
 '''
 Migration script
 '''
@@ -864,5 +899,8 @@ if __name__ == "__main__":
     migrate_integration_docs(repo)
     delete_folder(repo)
 
+    print("Applying additional fixes ...")
     fix_all_children(["operate/rc", "operate/rs", "operate/kubernetes", "operate/oss_and_stack/stack-with-enterprise", "integrate/redis-data-integration"])
+    fix_missed_images(["operate/kubernetes"])
+    fix_resp_references()
     
