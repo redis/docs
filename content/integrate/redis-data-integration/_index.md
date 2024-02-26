@@ -11,6 +11,7 @@ categories:
 description: null
 group: di
 headerRange: '[2]'
+hideListLinks: true
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration

@@ -7,6 +7,7 @@ categories:
 - rs
 description: Learn more about managing your memory and optimizing performance for
   your database.
+hideListLinks: true
 linktitle: Memory and performance
 weight: 70
 ---

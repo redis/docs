@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Manage Active-Active tasks.
+hideListLinks: true
 linkTitle: task
 weight: $weight
 ---

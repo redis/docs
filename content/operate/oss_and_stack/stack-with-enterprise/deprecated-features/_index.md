@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: Features (modules) that have been deprecated or replaced with a new version.
+hideListLinks: true
 linkTitle: Deprecated features
 weight: 90
 ---

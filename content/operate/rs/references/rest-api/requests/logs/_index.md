@@ -7,6 +7,7 @@ categories:
 - rs
 description: Cluster event logs requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: logs
 weight: $weight
 ---

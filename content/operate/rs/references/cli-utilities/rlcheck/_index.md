@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Verify nodes.
+hideListLinks: true
 linkTitle: rlcheck (verify nodes)
 weight: $weight
 ---

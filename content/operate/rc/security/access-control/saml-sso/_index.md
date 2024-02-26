@@ -6,6 +6,7 @@ categories:
 - operate
 - rc
 description: SAML single sign-on (SSO) with Redis Cloud.
+hideListLinks: true
 linkTitle: SAML SSO
 weight: 20
 ---

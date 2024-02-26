@@ -7,6 +7,7 @@ categories:
 - rs
 description: User requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: users
 weight: $weight
 ---

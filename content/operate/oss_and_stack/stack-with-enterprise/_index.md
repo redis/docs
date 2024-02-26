@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: null
+hideListLinks: true
 linkTitle: Redis Stack and Redis Enterprise
 weight: 70
 ---

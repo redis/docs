@@ -7,6 +7,7 @@ categories:
 - stack
 description: The RedisGears Python plugin allows you to run RedisGears functions with
   Python.
+hideListLinks: true
 linkTitle: Run with Python
 weight: 71
 ---

@@ -7,6 +7,7 @@ categories:
 - rs
 description: Manage cluster.
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: cluster
 toc: 'true'
 weight: $weight

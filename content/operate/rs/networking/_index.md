@@ -7,6 +7,7 @@ categories:
 - rs
 description: Networking features and considerations designing your Redis Enteprise
   Software deployment.
+hideListLinks: true
 linktitle: Networking
 weight: 39
 ---

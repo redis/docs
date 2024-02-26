@@ -6,6 +6,7 @@ categories:
 - operate
 - kubernetes
 description: This section provides information about how logs are stored and accessed.
+hideListLinks: true
 linkTitle: Logs
 weight: 60
 ---

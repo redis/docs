@@ -7,6 +7,7 @@ categories:
 - rs
 description: Overview of Redis Enterprise durability features such as replication,
   clustering, and rack-zone awareness.
+hideListLinks: true
 linktitle: Durability and availability
 weight: 60
 ---

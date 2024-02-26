@@ -7,6 +7,7 @@ categories:
 - kubernetes
 description: Release notes for versions of Redis Enterprise for Kubernetes released
   more than 18 months ago.
+hideListLinks: true
 linkTitle: Previous versions
 weight: 91
 ---

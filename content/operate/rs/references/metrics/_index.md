@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Documents the metrics that are tracked with Redis Enterprise Software.
+hideListLinks: true
 linkTitle: Metrics
 weight: $weight
 ---

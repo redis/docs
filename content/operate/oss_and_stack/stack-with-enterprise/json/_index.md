@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: Redis Stack adds support for JSON to Redis databases.
+hideListLinks: true
 linkTitle: JSON
 toc: 'true'
 weight: 30

@@ -7,6 +7,7 @@ categories:
 - kubernetes
 description: This section provides an overview of the architecture and considerations
   for Redis Enterprise for Kubernetes.
+hideListLinks: true
 linkTitle: Architecture
 weight: 11
 ---

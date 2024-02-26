@@ -7,6 +7,7 @@ categories:
 - kubernetes
 description: The Redis Enterprise operators allows you to use Redis Enterprise for
   Kubernetes.
+hideListLinks: false
 linkTitle: Redis Enterprise for Kubernetes
 weight: 50
 ---

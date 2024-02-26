@@ -10,6 +10,7 @@ categories:
 description: Application properties settings used to configure Debezim Server for
   source database servers
 group: di
+hideListLinks: false
 linkTitle: Debezium Server configuration
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.

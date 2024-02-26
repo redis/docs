@@ -7,6 +7,7 @@ categories:
 - rs
 description: Redis modules requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: modules
 weight: $weight
 ---

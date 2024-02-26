@@ -8,6 +8,7 @@ categories:
 - rc
 description: Secure access to the data in your Redis Cloud databases.
 headerRange: '[1-3]'
+hideListLinks: true
 toc: 'true'
 weight: 25
 ---

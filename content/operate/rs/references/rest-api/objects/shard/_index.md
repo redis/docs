@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: An object that represents a database shard
+hideListLinks: true
 linkTitle: shard
 weight: $weight
 ---

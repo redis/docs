@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Install Redis Enterprise Software on Linux.
+hideListLinks: true
 linkTitle: Install
 weight: 35
 ---

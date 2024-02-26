@@ -7,6 +7,7 @@ categories:
 - rs
 description: Active-Active database requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: crdbs
 weight: $weight
 ---

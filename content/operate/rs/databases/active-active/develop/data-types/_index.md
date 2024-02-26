@@ -7,6 +7,7 @@ categories:
 - rs
 description: Introduction to differences in data types between standalone and Active-Active
   Redis databases.
+hideListLinks: true
 linktitle: Data types
 weight: 90
 ---

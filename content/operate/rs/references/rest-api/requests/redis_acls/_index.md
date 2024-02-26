@@ -7,6 +7,7 @@ categories:
 - rs
 description: Redis access control list (ACL) requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: redis_acls
 weight: $weight
 ---

@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Encryption in Redis Enterprise Software.
+hideListLinks: true
 linkTitle: Encryption
 toc: 'true'
 weight: 60

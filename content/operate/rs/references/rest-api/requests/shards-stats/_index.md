@@ -7,6 +7,7 @@ categories:
 - rs
 description: Shard statistics requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: shards/stats
 weight: $weight
 ---

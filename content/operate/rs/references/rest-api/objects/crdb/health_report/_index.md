@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: An object that represents an Active-Active database health report.
+hideListLinks: true
 linkTitle: health_report
 weight: $weight
 ---

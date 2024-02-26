@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: RedisGears supports batch and event-driven processing for Redis data.
+hideListLinks: true
 linkTitle: Gears
 weight: 70
 ---

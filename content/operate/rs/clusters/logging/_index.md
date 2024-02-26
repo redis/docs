@@ -8,6 +8,7 @@ categories:
 description: Management actions performed with Redis Enterprise are logged to make
   sure system management tasks are appropriately performed or monitored by administrators
   and for compliance with regulatory standards.
+hideListLinks: true
 linkTitle: Logging
 weight: 95
 ---

@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Debug info requests
+hideListLinks: true
 linkTitle: debuginfo
 weight: $weight
 ---

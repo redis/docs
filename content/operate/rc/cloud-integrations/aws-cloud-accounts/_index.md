@@ -11,6 +11,7 @@ categories:
 description: Describes how to provision your Redis Cloud subscription to use existing
   cloud provider accounts.
 hidden: true
+hideListLinks: true
 weight: 40
 ---
 

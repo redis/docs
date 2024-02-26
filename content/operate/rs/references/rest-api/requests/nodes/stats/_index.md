@@ -7,6 +7,7 @@ categories:
 - rs
 description: Node statistics requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: stats
 weight: $weight
 ---

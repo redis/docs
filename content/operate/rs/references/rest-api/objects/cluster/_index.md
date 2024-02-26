@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: An object that represents a cluster
+hideListLinks: true
 linkTitle: cluster
 weight: $weight
 ---

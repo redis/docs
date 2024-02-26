@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: An object for database alerts configuration
+hideListLinks: true
 linkTitle: db_alerts_settings
 weight: $weight
 ---

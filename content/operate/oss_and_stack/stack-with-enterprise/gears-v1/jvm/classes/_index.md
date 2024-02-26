@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: null
+hideListLinks: true
 linkTitle: Classes and functions
 weight: 60
 ---

@@ -5,6 +5,7 @@ categories:
 - operate
 - rc
 description: null
+hideListLinks: true
 linkTitle: Create IAM resources
 weight: $weight
 ---

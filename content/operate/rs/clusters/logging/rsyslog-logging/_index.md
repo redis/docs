@@ -7,6 +7,7 @@ categories:
 - rs
 description: This document explains the structure of Redis Enterprise Software log
   entries in `rsyslog` and how to use these log entries to identify events.
+hideListLinks: true
 linktitle: rsyslog
 weight: $weight
 ---

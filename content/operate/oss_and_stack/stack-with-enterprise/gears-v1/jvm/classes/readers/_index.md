@@ -7,6 +7,7 @@ categories:
 - stack
 description: Extracts data from the database and creates records to pass through a
   RedisGears pipeline.
+hideListLinks: true
 linkTitle: Readers
 weight: 60
 ---

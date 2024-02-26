@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: RedisGears release notes for version 1.2 and earlier
+hideListLinks: true
 linkTitle: RedisGears
 tags:
 - visible

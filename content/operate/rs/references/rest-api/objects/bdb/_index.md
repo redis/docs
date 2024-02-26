@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: An object that represents a database
+hideListLinks: true
 linkTitle: bdb
 weight: $weight
 ---

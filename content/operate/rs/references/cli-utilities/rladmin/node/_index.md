@@ -7,6 +7,7 @@ categories:
 - rs
 description: Manage nodes.
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: node
 toc: 'true'
 weight: $weight

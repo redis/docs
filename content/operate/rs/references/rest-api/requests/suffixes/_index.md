@@ -7,6 +7,7 @@ categories:
 - rs
 description: DNS suffixes requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: suffixes
 weight: $weight
 ---

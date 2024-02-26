@@ -6,6 +6,7 @@ categories:
 - operate
 - rc
 description: Describes how to work with Redis Cloud accounts and manage their settings.
+hideListLinks: true
 linkTitle: Accounts & settings
 weight: 39
 ---

@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Overview of the Active-Active database in Redis Enterprise Software
+hideListLinks: true
 linktitle: Active-Active
 weight: 40
 ---

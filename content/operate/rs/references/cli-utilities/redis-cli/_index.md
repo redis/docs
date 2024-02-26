@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Run Redis commands.
+hideListLinks: true
 linkTitle: redis-cli (run Redis commands)
 toc: 'true'
 weight: $weight

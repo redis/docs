@@ -6,6 +6,7 @@ categories:
 - operate
 - rc
 description: Lists new features, enhancements, and other changes in Redis Cloud.
+hideListLinks: true
 linktitle: Changelog
 weight: 95
 ---

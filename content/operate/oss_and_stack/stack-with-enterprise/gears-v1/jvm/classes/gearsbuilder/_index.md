@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: Creates a RedisGears pipeline of operations to transform data.
+hideListLinks: true
 linkTitle: GearsBuilder
 toc: 'false'
 weight: 60

@@ -7,6 +7,7 @@ categories:
 - rs
 description: Configuration changes and information you can use to optimize your performance
   and memory usage.
+hideListLinks: true
 linktitle: Optimize
 weight: 50
 ---

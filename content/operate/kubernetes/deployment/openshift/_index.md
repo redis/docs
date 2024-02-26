@@ -7,6 +7,7 @@ categories:
 - kubernetes
 description: A quick introduction to the steps necessary to get a Redis Enterprise
   cluster installed in your OpenShift Kubernetes cluster
+hideListLinks: true
 linkTitle: OpenShift
 weight: 11
 ---

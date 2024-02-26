@@ -7,6 +7,7 @@ categories:
 - rs
 description: OCSP requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: ocsp
 weight: $weight
 ---

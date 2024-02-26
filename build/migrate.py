@@ -63,7 +63,9 @@ description: {}
 '''
 Concatenate two paths
 '''
-def slash(dir1, dir2):
+def slash(dir1, dir2, strip_slash=False):
+    if dir2.startswith('/') and strip_slash:
+        dir2 = dir2.lstrip('/')
     return os.path.join(dir1, dir2)
 
 '''
@@ -281,7 +283,7 @@ def remove_prop_from_file(file_path, prop):
     
     front_matter = _read_front_matter(file_path)
     if front_matter:
-        if "aliases" in front_matter:
+        if prop in front_matter:
             del front_matter[prop]
         _write_front_matter(file_path, front_matter)
 
@@ -808,6 +810,24 @@ def migrate_integration_docs(repo):
 
 
 
+def fix_all_children(content_folders):
+    
+    all_chidlren_pages = _load_csv_file('./migrate/all_children_pages.csv')
+
+    for k in all_chidlren_pages:
+        f = slash(DOCS_ROOT, k, True)
+        meta = _read_front_matter(f)
+        if (meta.get("hideListLinks") == None) or (meta.get("hideListLinks") == True):
+            add_properties(f, { "hideListLinks" : False })
+    
+    for folder in content_folders:
+        source = slash(DOCS_ROOT, folder)
+        markdown_files = find_markdown_files(source)
+
+        for f in markdown_files:
+            meta = _read_front_matter(f)
+            if (meta != None) and (meta.get("hideListLinks") == None) and (f.endswith('_index.md')):
+                add_properties(f, { "hideListLinks" : True })
 '''
 Migration script
 '''
@@ -816,7 +836,6 @@ if __name__ == "__main__":
     print("## Setting the migration environment ...")
     print(set_env())
 
-    '''
     print("## Fetching temporary development documentation content ...")
     fetch_io()
 
@@ -836,14 +855,14 @@ if __name__ == "__main__":
     migrate_gloassary(repo)
     migrate_static_files(repo)
     delete_folder(repo)
-    '''
-
+    
     print("## Fetching temporary Enterprise documentation content ...")
-    #repo = fetch_docs_redis_com()
+    repo = fetch_docs_redis_com()
     repo = "/tmp/redislabs-docs"
 
     print("## Migrating the integrations docs ...")
     migrate_integration_docs(repo)
-    #delete_folder(repo)
+    delete_folder(repo)
 
+    fix_all_children(["operate/rc", "operate/rs", "operate/kubernetes", "operate/oss_and_stack/stack-with-enterprise", "integrate/redis-data-integration"])
     

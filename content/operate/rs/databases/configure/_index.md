@@ -5,6 +5,7 @@ categories:
 - operate
 - rs
 description: Configure settings specific to each database.
+hideListLinks: true
 linktitle: Configure
 title: Configure database settings
 toc: 'true'

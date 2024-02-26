@@ -9,6 +9,7 @@ description: Redis Enterprise is supported on OpenShift Kubernetes cluster deplo
   via an operator.
 draft: true
 hidden: true
+hideListLinks: false
 weight: 60
 ---
 

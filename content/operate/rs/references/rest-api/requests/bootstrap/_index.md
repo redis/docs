@@ -7,6 +7,7 @@ categories:
 - rs
 description: Bootstrap requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: bootstrap
 weight: $weight
 ---

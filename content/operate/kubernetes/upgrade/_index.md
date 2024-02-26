@@ -6,6 +6,7 @@ categories:
 - operate
 - kubernetes
 description: Information about upgrading your Redis Enterprise cluster on Kubernetes.
+hideListLinks: true
 linkTitle: Upgrade
 weight: 15
 ---

@@ -7,6 +7,7 @@ categories:
 - rs
 description: Documents the requests supported by the Redis Enterprise Software REST
   API calls.
+hideListLinks: true
 linkTitle: Requests
 weight: 30
 ---

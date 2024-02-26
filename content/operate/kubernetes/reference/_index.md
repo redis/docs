@@ -7,6 +7,7 @@ categories:
 - kubernetes
 description: Reference material for the operator, cluster, and database deployment
   options.
+hideListLinks: false
 linkTitle: Reference
 weight: 89
 ---

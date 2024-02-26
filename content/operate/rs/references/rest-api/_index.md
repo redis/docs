@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Documents the REST API available to Redis Enterprise Software deployments.
+hideListLinks: true
 weight: $weight
 ---
 Redis Enterprise Software provides a REST API to help you automate common tasks.

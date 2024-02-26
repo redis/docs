@@ -7,6 +7,7 @@ categories:
 - rs
 description: Cluster settings requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: cluster
 weight: $weight
 ---

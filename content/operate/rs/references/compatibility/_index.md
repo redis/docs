@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Redis Enterprise compatibility with open source Redis.
+hideListLinks: true
 linkTitle: Open source compatibility
 weight: $weight
 ---
