@@ -130,7 +130,7 @@ echo "Q2h5N1BBY28=" | base64 –-decode
 To retrieve your password, navigate to the OpenShift management console, select your project name, go to Resources->Secrets->your_cluster_name
 
 Retrieve your password by selecting “Reveal Secret.”
-![openshift-password-retrieval]( /images/rs/openshift-password-retrieval.png )
+{{< image filename="/images/rs/openshift-password-retrieval.png" >}}
 
 
 ## What capabilities, privileges and permissions are defined by the Security Context Constraint (SCC) yaml?
