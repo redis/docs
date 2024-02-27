@@ -126,7 +126,7 @@ By default, a single Redis string can be a maximum of 512 MB.
 
 To perform bitwise operations on a string, see the [bitmaps data type]({{< relref "/develop/data-types/bitmaps" >}}) docs.
 
-See the [complete list of string commands]({{< relref "/commands/?group=string" >}}).
+See the [complete list of string commands]({{< relref "/commands/" >}}?group=string).
 
 ## Performance
 

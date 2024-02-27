@@ -897,6 +897,24 @@ def fix_topics_links(content_folders):
             strip_md_ext_from_ref(f, '/develop')
             strip_md_ext_from_ref(f, '/operate')
 
+'''
+Shortcodes don't like parameters.  Here is an example:
+[Redis Streams command reference]({{< relref "/commands/?group=stream" >}})
+
+Let's try to fix it by moving the parameter out of the shortcode link.
+
+[Redis Streams command reference]({{< relref "/commands/" >}}?group=stream)
+'''
+def fix_command_group_params(content_folders):
+    for folder in content_folders:
+        source = slash(DOCS_ROOT, folder)
+        markdown_files = find_markdown_files(source)
+
+        for f in markdown_files:
+            content = _read_file(f)
+            pattern = r'(\{\{\<.*relref.*"/commands/)(\?group=.+)(".*\>\}\})'
+            updated_content = re.sub(pattern, r'\1\3\2', content)
+            _write_file(f, updated_content)
 
 '''
 Migration script
@@ -911,7 +929,6 @@ if __name__ == "__main__":
 
     print("## Migrating commands to {}".format(DOCS_CMD))
     migrate_commands()
-    
 
     print("## Migrating developer documentation to {} ...".format(DOCS_DEV))
     migrate_developer_docs()
@@ -941,5 +958,6 @@ if __name__ == "__main__":
     
     # Don't include the RS folder at this point!
     fix_topics_links(["operate/oss_and_stack", "commands", "integrate", "develop", "embeds", "glossary"])
-   
+    
+    fix_command_group_params(["commands", "develop", "operate/oss_and_stack", "integrate"])
     
