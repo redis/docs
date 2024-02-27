@@ -30,7 +30,7 @@ RedisJSON v2.0 introduced [JSONPath](http://goessner.net/articles/JsonPath/) sup
 
 A JSONPath query can resolve to several locations in a JSON document. In this case, the JSON commands apply the operation to every possible location. This is a major improvement over [legacy path](#legacy-path-syntax) queries, which only operate on the first path.
 
-Notice that the structure of the command response often differs when using JSONPath. See the [Commands]({{< relref "/commands/?group=json" >}}) page for more details.
+Notice that the structure of the command response often differs when using JSONPath. See the [Commands]({{< relref "/commands/" >}}?group=json) page for more details.
 
 The new syntax supports bracket notation, which allows the use of special characters like colon ":" or whitespace in key names.
 

@@ -38,7 +38,7 @@ Redis Stack supports the following search and query features. This article provi
 * Retrieval of full document contents or only their IDs
 * Exact phrase search and slop-based search
 * [Numeric filters]({{< relref "/develop/interact/search-and-query/query/#numeric-filters-in-query" >}}) and ranges
-* [Geo-filtering]({{< relref "/develop/interact/search-and-query/query/#geo-filters-in-query" >}}) using Redis [geo commands]({{< relref "/commands/?group=geo" >}})
+* [Geo-filtering]({{< relref "/develop/interact/search-and-query/query/#geo-filters-in-query" >}}) using Redis [geo commands]({{< relref "/commands/" >}}?group=geo)
 * [Vector similartiy search]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}})
 
 

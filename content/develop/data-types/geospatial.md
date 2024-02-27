@@ -25,7 +25,7 @@ This data structure is useful for finding nearby points within a given radius or
 * [`GEOADD`]({{< relref "/commands/geoadd" >}}) adds a location to a given geospatial index (note that longitude comes before latitude with this command).
 * [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) returns locations with a given radius or a bounding box.
 
-See the [complete list of geospatial index commands]({{< relref "/commands/?group=geo" >}}).
+See the [complete list of geospatial index commands]({{< relref "/commands/" >}}?group=geo).
 
 
 ## Examples

@@ -75,7 +75,7 @@ encoded in special way in memory that make them very memory efficient.
 * [`HMGET`]({{< relref "/commands/hmget" >}}) returns the values at one or more given fields.
 * [`HINCRBY`]({{< relref "/commands/hincrby" >}}) increments the value at a given field by the integer provided.
 
-See the [complete list of hash commands]({{< relref "/commands/?group=hash" >}}).
+See the [complete list of hash commands]({{< relref "/commands/" >}}?group=hash).
 
 
 ## Examples
