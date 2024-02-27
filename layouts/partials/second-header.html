@@ -1,0 +1,23 @@
+{{ $mode := . }}
+{{ if or (eq $mode "light") (eq $mode "dark") }}
+{{ if (eq $mode "light") }}
+<header class="w-full border border-b-redis-pen-300 bg-white text-midnight-900 font-mono text-sm flex justify-center">
+  <div class="flex h-12 -m16 px-4 lg:pl-11 lg:pr-0 justify-between self-center grow">
+{{ end }}
+
+{{ if (eq $mode "dark") }}
+<header class="w-full bg-redis-ink-900 text-white font-mono text-sm flex justify-center">
+    <div class="flex h-16 -m16 px-4 lg:pl-11 lg:pr-0 justify-between self-center grow" style="margin-top: -32px;">
+{{ end }}
+
+      <div class="h-full flex gap-6 items-center">
+        <span class="hidden lg:flex group flex-row gap-2 items-center uppercase font-mono md:border-r md:border-r-redis-pen-300 pr-6">Learn</span>
+        <a class="hidden font-bold lg:flex group flex-row gap-2 items-center" href="/docs"><span>Documentation</span></a>
+        <a class="hidden lg:flex group flex-row gap-2 items-center" href="/chat"><span style="filter: brightness(10%); filter: grayscale(100%);" class="group-hover:font-bold group-hover:tracking-tight">&#x2728; AI assistant</span></a>
+        <a class="hidden lg:flex group flex-row gap-2 items-center" href="/kb"><span class="group-hover:font-bold group-hover:tracking-tight">Knowledge base</span></a>
+        <a class="hidden lg:flex group flex-row gap-2 items-center" href="/tutorials"><span class="group-hover:font-bold group-hover:tracking-tight">Tutorials</span></a>
+        <a class="hidden lg:flex group flex-row gap-2 items-center" href="/university"><span class="group-hover:font-bold group-hover:tracking-tight">University</span></a>  
+      </div>    
+    </div>
+  </header>
+{{ end }}

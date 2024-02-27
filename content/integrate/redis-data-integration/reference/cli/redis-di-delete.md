@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Deletes RDI database permanently
 group: di
+linkTitle: redis-di delete
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Deletes RDI database permanently

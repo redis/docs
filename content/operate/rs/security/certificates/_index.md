@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: An overview of certificates in Redis Enterprise Software.
+hideListLinks: true
 linkTitle: Certificates
 weight: 60
 ---

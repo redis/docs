@@ -1,6 +1,6 @@
 # The baseURL will be replaced by the build script
 baseURL = "https://redis.io"
-title = "Redis Documentation"
+title = "Redis Docs"
 
 refLinksErrorLevel = "WARNING"
 enableRobotsTXT = true
@@ -44,6 +44,7 @@ anchor = "smart"
 tagManagerId = "GTM-T4MTBKP"
 # Display and sort order for client examples
 clientsExamples = ["Python", "Node", "Java", "Go", "C#"]
+searchService = "/convai/api/search-service"
 
 # RDI params
 rdi_rlec_min_version = "6.2.18"

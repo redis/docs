@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Documents the objects used with Redis Enterprise Software REST API calls.
+hideListLinks: true
 linkTitle: Objects
 weight: 40
 ---

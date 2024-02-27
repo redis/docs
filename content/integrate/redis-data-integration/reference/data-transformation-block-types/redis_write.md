@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Write to a Redis Enterprise database
 group: di
+linkTitle: redis.write
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Write to a Redis Enterprise database

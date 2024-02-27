@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: An object for optional cluster services settings
+hideListLinks: true
 linkTitle: services_configuration
 weight: $weight
 ---

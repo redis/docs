@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: RedisBloom release notes for version 2.6 and earlier
+hideListLinks: true
 linkTitle: RedisBloom
 tags:
 - visible

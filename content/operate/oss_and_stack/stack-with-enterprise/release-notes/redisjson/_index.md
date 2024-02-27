@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: RedisJSON release notes for version 2.6 and earlier
+hideListLinks: true
 linkTitle: RedisJSON
 tags:
 - visible

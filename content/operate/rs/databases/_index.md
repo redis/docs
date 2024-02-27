@@ -6,6 +6,7 @@ categories:
 - rs
 description: This page will help you find database management information in the Databases
   section.
+hideListLinks: false
 linktitle: Databases
 title: Manage databases
 weight: 37

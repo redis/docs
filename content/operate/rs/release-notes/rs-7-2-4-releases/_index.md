@@ -11,6 +11,7 @@ description: Redis 7.0 and 7.2 features. Auto Tiering (enhanced successor to Red
   Redis Stack 7.2 features. Three Redis database versions. License file structure
   updates. Redis ACL selectors and enhanced key-based permissions. New INFO fields.
   Log rotation enhancements. Multi-OS upgrade support for clusters with modules.
+hideListLinks: true
 linkTitle: 7.2.4 releases
 toc: 'true'
 weight: 71

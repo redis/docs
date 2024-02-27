@@ -7,6 +7,7 @@ categories:
 - rs
 description: Database statistics requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: stats
 weight: $weight
 ---

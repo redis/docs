@@ -7,6 +7,7 @@ categories:
 - rc
 description: Provides background information to help you configure Redis Cloud databases
   to best fit your needs.
+hideListLinks: false
 linkTitle: Configure
 weight: 50
 ---

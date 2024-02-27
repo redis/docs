@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Monitor RDI engine and data processing jobs
 group: di
+linkTitle: Monitoring
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 70
 ---
 
 RDI engine accumulates operating statistics that you can:

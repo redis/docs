@@ -5,6 +5,7 @@ categories:
 - operate
 - rc
 description: null
+hideListLinks: true
 linktitle: Subscriptions
 title: Manage subscriptions
 weight: 20

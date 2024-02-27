@@ -20,7 +20,7 @@ Import commands ([`file-import`]({{< relref "/integrate/riot/files#file_import" 
 ## Batching
 
 The default batch size is 50, which means that an execution step reads 50 items at a time from the source, processes them, and writes them to the target.
-If the target is Redis, writing is done in a single command (see [Redis Pipelining](https://redis.io/topics/pipelining)) to minimize the number of roundtrips to the server.
+If the target is Redis, writing is done in a single command (see [Redis Pipelining]({{< relref "/develop/use/pipelining" >}})) to minimize the number of roundtrips to the server.
 
 You can change the batch size (and hence the pipeline size) using the `--batch` option.
 The optimal batch size in terms of throughput depends on many factors like record size and command types. See [Redis Pipeline Tuning](https://stackoverflow.com/a/32165090) for details.

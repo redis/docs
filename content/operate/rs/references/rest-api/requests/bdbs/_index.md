@@ -7,6 +7,7 @@ categories:
 - rs
 description: Database requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: bdbs
 weight: $weight
 ---

@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Set up and use Debezium to add additional tables to an existing pipeline
 group: di
+linkTitle: Add tables to pipeline
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 80
 ---
 
 If you want to add a new table to a pipeline that is already in streaming (CDC) mode, you can do so without resetting Debezium Server and executing a new full snapshot. In Debezium, this is called incremental snapshot and it is performed using a table on the source database as the interface with the Debezium connector.

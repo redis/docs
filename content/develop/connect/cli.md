@@ -222,7 +222,7 @@ To monitor over time the RSS memory size it's possible to use the following comm
 ## Mass insertion of data using `redis-cli`
 
 Mass insertion using `redis-cli` is covered in a separate page as it is a
-worthwhile topic itself. Please refer to our [mass insertion guide](/topics/mass-insert).
+worthwhile topic itself. Please refer to our [mass insertion guide]({{< relref "/develop/use/patterns/bulk-loading" >}}).
 
 ## CSV output
 
@@ -238,7 +238,7 @@ Note that the `--csv` flag will only work on a single command, not the entirety 
 ## Running Lua scripts
 
 The `redis-cli` has extensive support for using the debugging facility
-of Lua scripting, available with Redis 3.2 onwards. For this feature, refer to the [Redis Lua debugger documentation](/topics/ldb).
+of Lua scripting, available with Redis 3.2 onwards. For this feature, refer to the [Redis Lua debugger documentation]({{< relref "/develop/interact/programmability/lua-debugging" >}}).
 
 Even without using the debugger, `redis-cli` can be used to
 run scripts from a file as an argument:
@@ -447,13 +447,13 @@ are explained in the next sections:
 * Monitoring tool to show continuous stats about a Redis server.
 * Scanning a Redis database for very large keys.
 * Key space scanner with pattern matching.
-* Acting as a [Pub/Sub](/topics/pubsub) client to subscribe to channels.
+* Acting as a [Pub/Sub]({{< relref "/develop/interact/pubsub" >}}) client to subscribe to channels.
 * Monitoring the commands executed into a Redis instance.
-* Checking the [latency](/topics/latency) of a Redis server in different ways.
+* Checking the [latency]({{< relref "/operate/oss_and_stack/management/optimization/latency" >}}) of a Redis server in different ways.
 * Checking the scheduler latency of the local computer.
 * Transferring RDB backups from a remote Redis server locally.
 * Acting as a Redis replica for showing what a replica receives.
-* Simulating [LRU](/topics/lru-cache) workloads for showing stats about keys hits.
+* Simulating [LRU]({{< relref "/develop/reference/eviction" >}}) workloads for showing stats about keys hits.
 * A client for the Lua debugger.
 
 ## Continuous stats mode
@@ -748,7 +748,7 @@ in order to improve the bug report.
 
 ## Performing an LRU simulation
 
-Redis is often used as a cache with [LRU eviction](/topics/lru-cache).
+Redis is often used as a cache with [LRU eviction]({{< relref "/develop/reference/eviction" >}}).
 Depending on the number of keys and the amount of memory allocated for the
 cache (specified via the `maxmemory` directive), the amount of cache hits
 and misses will change. Sometimes, simulating the rate of hits is very

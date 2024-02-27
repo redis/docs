@@ -11,6 +11,7 @@ categories:
 - operate
 - stack
 description: RedisGraph is a queryable graph database built on Redis.
+hideListLinks: true
 linkTitle: Graph
 toc: 'true'
 weight: 40

@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Data type conversion reference
 group: di
+linkTitle: Data type conversion
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 This document describes default conversions of data types of supported databases into target redis data types.

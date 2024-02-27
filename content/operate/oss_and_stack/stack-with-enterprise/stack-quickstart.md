@@ -16,7 +16,7 @@ Alternatively, you can use one of these methods:
 
 - [Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 - Redis Enterprise Software in a [Docker container]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
-- [Other platforms]({{< relref "/operate/kubernetes/_index.md" >}}) for Redis Enterprise Software
+- [Other platforms]({{< relref "/operate/kubernetes/_index" >}}) for Redis Enterprise Software
 
 ## Set up a Redis Cloud database
 
@@ -28,7 +28,7 @@ To set up a Redis Cloud database with Redis Stack features, follow these steps:
 
 1. [Connect to the database](#connect-to-the-database).
 
-For more details, see the Redis Cloud [quick start]({{< relref "/operate/rc/rc-quickstart.md" >}}).
+For more details, see the Redis Cloud [quick start]({{< relref "/operate/rc/rc-quickstart" >}}).
 
 ### Create a subscription
 

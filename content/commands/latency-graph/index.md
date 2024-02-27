@@ -97,4 +97,4 @@ in the lower row) is the minimum, and a # in the higher row is the maximum.
 
 For more information refer to the [Latency Monitoring Framework page][lm].
 
-[lm]: /topics/latency-monitor
+[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md

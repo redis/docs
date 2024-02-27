@@ -7,6 +7,7 @@ categories:
 - stack
 description: Redis Stack adds JavaScript support for triggers and functions to Redis
   databases.
+hideListLinks: true
 linkTitle: Triggers and functions
 toc: 'true'
 weight: 60

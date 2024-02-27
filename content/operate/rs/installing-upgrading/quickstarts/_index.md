@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Follow these quickstarts to try out Redis Enterprise Software.
+hideListLinks: true
 linkTitle: Quickstarts
 weight: 10
 ---

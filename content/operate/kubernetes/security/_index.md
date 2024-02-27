@@ -6,6 +6,7 @@ categories:
 - operate
 - kubernetes
 description: Security settings and configuration for Redis Enterprise for Kubernetes
+hideListLinks: false
 linkTitle: Security
 weight: 50
 ---

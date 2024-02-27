@@ -7,6 +7,7 @@ categories:
 - rc
 description: Describes how Redis Cloud REST API uses keys to authenticate and authorize
   access.
+hideListLinks: true
 linkTitle: Get started
 weight: 10
 ---

@@ -9,10 +9,11 @@ categories:
 - rdi
 description: A command line tool to manage & configure Redis Data Integration
 group: di
+linkTitle: redis-di
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 A command line tool to manage & configure Redis Data Integration

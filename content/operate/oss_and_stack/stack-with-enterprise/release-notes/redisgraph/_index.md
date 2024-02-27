@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: RedisGraph release notes for version 2.10 and earlier
+hideListLinks: true
 linkTitle: RedisGraph
 tags:
 - visible

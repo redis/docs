@@ -7,6 +7,7 @@ categories:
 - rs
 description: Database action requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: actions
 weight: $weight
 ---

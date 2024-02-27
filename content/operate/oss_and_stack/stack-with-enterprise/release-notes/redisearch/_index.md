@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: RediSearch release notes for version 2.8 and earlier
+hideListLinks: true
 linkTitle: RediSearch
 tags:
 - visible

@@ -32,7 +32,7 @@ if a client loses the connection to the server in the context of a
 transaction before calling the [`EXEC`]({{< relref "/commands/exec" >}}) command none of the operations
 are performed, instead if the [`EXEC`]({{< relref "/commands/exec" >}}) command is called, all the
 operations are performed. When using the
-[append-only file](/topics/persistence#append-only-file) Redis makes sure
+[append-only file]({{< relref "/operate/oss_and_stack/management/persistence#append-only-file" >}}) Redis makes sure
 to use a single write(2) syscall to write the transaction on disk.
 However if the Redis server crashes or is killed by the system administrator
 in some hard way it is possible that only a partial number of operations
@@ -122,7 +122,7 @@ EXEC
 -WRONGTYPE Operation against a key holding the wrong kind of value
 ```
 
-[`EXEC`]({{< relref "/commands/exec" >}}) returned two-element [bulk string reply](/topics/protocol#bulk-string-reply) where one is an `OK` code and
+[`EXEC`]({{< relref "/commands/exec" >}}) returned two-element [bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-string-reply" >}}) where one is an `OK` code and
 the other an error reply. It's up to the client library to find a
 sensible way to provide the error to the user.
 
@@ -175,7 +175,7 @@ transactions.
 
 [`WATCH`]({{< relref "/commands/watch" >}})ed keys are monitored in order to detect changes against them. If
 at least one watched key is modified before the [`EXEC`]({{< relref "/commands/exec" >}}) command, the
-whole transaction aborts, and [`EXEC`]({{< relref "/commands/exec" >}}) returns a [Null reply](/topics/protocol#nil-reply) to notify that
+whole transaction aborts, and [`EXEC`]({{< relref "/commands/exec" >}}) returns a [Null reply]({{< relref "/develop/reference/protocol-spec#nil-reply" >}}) to notify that
 the transaction failed.
 
 For example, imagine we have the need to atomically increment the value
@@ -266,7 +266,7 @@ ZREM zset element
 EXEC
 ```
 
-If [`EXEC`]({{< relref "/commands/exec" >}}) fails (i.e. returns a [Null reply](/topics/protocol#nil-reply)) we just repeat the operation.
+If [`EXEC`]({{< relref "/commands/exec" >}}) fails (i.e. returns a [Null reply]({{< relref "/develop/reference/protocol-spec#nil-reply" >}})) we just repeat the operation.
 
 ## Redis scripting and transactions
 

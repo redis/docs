@@ -10,10 +10,12 @@ categories:
 description: Application properties settings used to configure Debezim Server for
   source database servers
 group: di
+hideListLinks: false
+linkTitle: Debezium Server configuration
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 50
 ---
 
 The `application.properties` file configures Debezium Server configuration to support source databases. It contains sections that define the sink connector (Redis) configuration and the source connector configuration.

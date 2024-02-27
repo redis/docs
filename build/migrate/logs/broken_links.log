@@ -1,0 +1,6 @@
+WARN 2024/02/27 14:36:38 [en] REF_NOT_FOUND: Ref "/operate/oss_and_stack/management/sentinel-clients/": "/Users/david/Projects/Git/redis-learn/redis-docs/content/operate/oss_and_stack/management/sentinel.md:894:324": page not found
+WARN 2024/02/27 14:36:38 [en] REF_NOT_FOUND: Ref "/operate/kubernetes/_index": "/Users/david/Projects/Git/redis-learn/redis-docs/content/operate/oss_and_stack/stack-with-enterprise/stack-quickstart.md:19:21": page not found
+WARN 2024/02/27 14:36:39 [en] REF_NOT_FOUND: Ref "/develop/data-types-intro": "/Users/david/Projects/Git/redis-learn/redis-docs/content/develop/interact/programmability/_index.md:26:64": page not found
+WARN 2024/02/27 14:36:39 [en] REF_NOT_FOUND: Ref "/operate/rs/databases/active-active/_index": "/Users/david/Projects/Git/redis-learn/redis-docs/content/glossary/_index.md:1:1": page not found
+WARN 2024/02/27 14:36:39 [en] REF_NOT_FOUND: Ref "rs/databases/active-active/develop/_index": "/Users/david/Projects/Git/redis-learn/redis-docs/content/glossary/_index.md:1:1": page not found
+WARN 2024/02/27 14:36:39 [en] REF_NOT_FOUND: Ref "/operate/rs/security/ldap/_index": "/Users/david/Projects/Git/redis-learn/redis-docs/content/glossary/_index.md:1:1": page not found

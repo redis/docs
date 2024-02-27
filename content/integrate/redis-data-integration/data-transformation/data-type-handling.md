@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Describes how relational data types are converted to Redis data types
 group: di
+linkTitle: Data type handling
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 20
 ---
 
 ## Debezium type handling

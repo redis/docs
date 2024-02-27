@@ -7,6 +7,7 @@ categories:
 - operate
 - rc
 description: Shows how to subscribe to Redis Cloud using AWS Marketplace
+hideListLinks: true
 weight: $weight
 ---
 

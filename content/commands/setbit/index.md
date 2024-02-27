@@ -124,7 +124,7 @@ native programming language. Symmetrically, it is also possible to set an entire
 bitmap by performing the bits-to-bytes encoding in the client and calling [`SET`]({{< relref "/commands/set" >}})
 with the resultant string.
 
-[ti]: /topics/data-types-intro#bitmaps
+[ti]: /develop/data-types-intro#bitmaps
 
 ## Pattern: setting multiple bits
 

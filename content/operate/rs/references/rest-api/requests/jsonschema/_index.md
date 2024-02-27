@@ -7,6 +7,7 @@ categories:
 - rs
 description: API object JSON schema requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: jsonschema
 weight: $weight
 ---

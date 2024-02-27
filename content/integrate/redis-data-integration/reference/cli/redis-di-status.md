@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Displays the status of the pipeline end to end
 group: di
+linkTitle: redis-di status
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Displays the status of the pipeline end to end

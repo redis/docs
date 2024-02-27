@@ -9,10 +9,11 @@ categories:
 - rdi
 description: null
 group: di
+linkTitle: Write to a Redis hash
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 30
 ---
 
 In the following example, the data is captured from the source table named `invoice` and is written to the Redis database as hash keys. The connection is an optional parameter that must refer to the corresponding connection name defined in `config.yaml`. 

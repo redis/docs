@@ -9,7 +9,7 @@ description: null
 linkTitle: Module lifecycle
 weight: 7
 ---
-Redis Enterprise Software follows the [Redis Enterprise lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle.md" >}}).  (For complete details, see the Redis Enterprise Software [subscription agreement](https://redis.com/software-subscription-agreement).)
+Redis Enterprise Software follows the [Redis Enterprise lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle" >}}).  (For complete details, see the Redis Enterprise Software [subscription agreement](https://redis.com/software-subscription-agreement).)
 
 The modules included in Redis Stack also follow a release lifecycle and schedule. Here, you'll find the "end-of-life" dates for each module and release.
 

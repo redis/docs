@@ -6,6 +6,7 @@ categories:
 - operate
 - kubernetes
 description: Redis Enterprise Software for Kubernetes operator release notes.
+hideListLinks: true
 linkTitle: Release notes
 weight: 90
 ---

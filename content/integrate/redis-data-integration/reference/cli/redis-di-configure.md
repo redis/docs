@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Configures the RDI Database so it is ready to process data
 group: di
+linkTitle: redis-di configure
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Configures the RDI Database so it is ready to process data

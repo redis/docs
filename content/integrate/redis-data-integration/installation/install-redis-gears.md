@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Install and set up RedisGears for a Redis Data Integration deployment
 group: di
+linkTitle: Install RedisGears
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 70
 ---
 
 # RedisGears installation

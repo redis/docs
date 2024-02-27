@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: RedisTimeSeries release notes for version 1.10 and earlier
+hideListLinks: true
 linkTitle: RedisTimeSeries
 tags:
 - visible

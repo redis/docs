@@ -8,6 +8,7 @@ categories:
 description: Redis client libraries allow you to connect to Redis instances from within
   your application. This section provides an overview of several recommended Redis
   clients for popular programming and scripting languages.
+hideListLinks: true
 linkTitle: Redis clients
 weight: 80
 ---

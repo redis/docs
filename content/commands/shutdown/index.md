@@ -87,7 +87,7 @@ usually you don't want Redis instances used only for caching to block on when
 shutting down.
 
 Also note: If Redis receives one of the signals `SIGTERM` and `SIGINT`, the same shutdown sequence is performed.
-See also [Signal Handling](/topics/signals).
+See also [Signal Handling]({{< relref "/operate/oss_and_stack/reference/signals" >}}).
 
 ## Modifiers
 

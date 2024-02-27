@@ -141,7 +141,7 @@ Don't use [`KEYS`]({{< relref "/commands/keys" >}}) in your regular application 
 If you're looking for a way to find keys in a subset of your keyspace, consider
 using [`SCAN`]({{< relref "/commands/scan" >}}) or [sets][tdts].
 
-[tdts]: /topics/data-types#sets
+[tdts]: /develop/data-types#sets
 
 Supported glob-style patterns:
 

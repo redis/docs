@@ -6,6 +6,7 @@ categories:
 - operate
 - kubernetes
 description: Content related to Active-Active Redis Enterprise databases for Kubernetes.
+hideListLinks: true
 linkTitle: Active-Active databases
 weight: 40
 ---

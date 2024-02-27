@@ -7,6 +7,7 @@ categories:
 - kubernetes
 description: Support for Redis Enterprise 7.2.4, platform support updates, and bug
   fixes.
+hideListLinks: true
 linkTitle: 7.2.4 releases
 weight: 55
 ---

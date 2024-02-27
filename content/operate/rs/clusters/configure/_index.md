@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Configuration options for your Redis Enterprise cluster.
+hideListLinks: false
 linktitle: Configure
 weight: 50
 ---

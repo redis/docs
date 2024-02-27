@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Remove fields
 group: di
+linkTitle: remove_field
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Remove fields

@@ -7,6 +7,7 @@ categories:
 - rs
 description: Documents the Redis Enterprise Software REST API debuginfo/node requests.
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: node
 weight: $weight
 ---

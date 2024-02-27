@@ -67,4 +67,4 @@ Evaluate a script from the server's cache by its SHA1 digest.
 The server caches scripts by using the [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}}) command.
 The command is otherwise identical to [`EVAL`]({{< relref "/commands/eval" >}}).
 
-Please refer to the [Redis Programmability](/topics/programmability) and [Introduction to Eval Scripts](/topics/eval-intro) for more information about Lua scripts.
+Please refer to the [Redis Programmability]({{< relref "/develop/interact/programmability/" >}}) and [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}) for more information about Lua scripts.

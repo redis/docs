@@ -9,9 +9,11 @@ categories:
 - rdi
 description: null
 group: di
+hideListLinks: false
+linkTitle: Quickstart
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 

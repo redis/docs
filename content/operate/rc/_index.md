@@ -6,6 +6,7 @@ categories:
 - operate
 - rc
 description: null
+hideListLinks: true
 weight: 10
 ---
 [Redis Cloud](https://redis.com/redis-enterprise-cloud/overview/) delivers a fully managed Redis database offering hosted on major public cloud services.

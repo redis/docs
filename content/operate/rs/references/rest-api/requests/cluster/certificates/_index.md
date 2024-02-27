@@ -7,6 +7,7 @@ categories:
 - rs
 description: Cluster certificates requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: certificates
 weight: $weight
 ---

@@ -44,4 +44,4 @@ In such a case, only `SHUTDOWN NOSAVE` can kill the script, killing
 the Redis process in a hard way and preventing it from persisting with half-written
 information.
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts](/topics/eval-intro).
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).

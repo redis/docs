@@ -9,6 +9,7 @@ compatibleOSSVersion: Redis 6.2.10
 description: Pub/sub ACLs & default permissions. Validate client certificates by subject
   attributes. Ubuntu 20.04 support.
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: 6.4.2 releases
 toc: 'true'
 weight: 72

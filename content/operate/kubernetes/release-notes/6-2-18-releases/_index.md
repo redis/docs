@@ -7,6 +7,7 @@ categories:
 - kubernetes
 description: Release notes for the 6.2.18 releases of Redis Enterprise Software for
   Kubernetes.
+hideListLinks: true
 linkTitle: 6.2.18 releases
 weight: 58
 ---

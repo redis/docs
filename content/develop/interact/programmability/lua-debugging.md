@@ -242,7 +242,7 @@ lua debugger> e redis.sha1hex('foo')
 
 ## Debugging clients
 
-LDB uses the client-server model where the Redis server acts as a debugging server that communicates using [RESP](/topics/protocol). While `redis-cli` is the default debug client, any [client](/clients) can be used for debugging as long as it meets one of the following conditions:
+LDB uses the client-server model where the Redis server acts as a debugging server that communicates using [RESP]({{< relref "/develop/reference/protocol-spec" >}}). While `redis-cli` is the default debug client, any [client](/clients) can be used for debugging as long as it meets one of the following conditions:
 
 1. The client provides a native interface for setting the debug mode and controlling the debug session.
 2. The client provides an interface for sending arbitrary commands over RESP.

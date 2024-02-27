@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Learn how to install, set up, and upgrade Redis Enterprise Software.
+hideListLinks: true
 linkTitle: Install and upgrade
 toc: 'true'
 weight: 35

@@ -47,4 +47,4 @@ The reply is map with two keys:
 
 You can use this command to inspect the invocation of a long-running function and decide whether kill it with the [`FUNCTION KILL`]({{< relref "/commands/function-kill" >}}) command.
 
-For more information please refer to [Introduction to Redis Functions](/topics/functions-intro).
+For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).

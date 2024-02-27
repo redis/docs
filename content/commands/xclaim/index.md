@@ -106,7 +106,7 @@ command argument. Normally this is what happens:
 4. Then suddenly that consumer fails forever.
 5. Other consumers may inspect the list of pending messages, that are stale for quite some time, using the [`XPENDING`]({{< relref "/commands/xpending" >}}) command. In order to continue processing such messages, they use `XCLAIM` to acquire the ownership of the message and continue. Consumers can also use the [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) command to automatically scan and claim stale pending messages.
 
-This dynamic is clearly explained in the [Stream intro documentation](/topics/streams-intro).
+This dynamic is clearly explained in the [Stream intro documentation]({{< relref "/develop/data-types/streams" >}}).
 
 Note that the message is claimed only if its idle time is greater than the minimum idle time we specify when calling `XCLAIM`. Because as a side effect `XCLAIM` will also reset the idle time (since this is a new attempt at processing the message), two consumers trying to claim a message at the same time will never both succeed: only one will successfully claim the message. This avoids that we process a given message multiple times in a trivial way (yet multiple processing is possible and unavoidable in the general case).
 

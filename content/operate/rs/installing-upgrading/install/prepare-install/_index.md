@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Prepare to install Redis Enterprise Software.
+hideListLinks: true
 linkTitle: Prepare to install
 weight: 6
 ---

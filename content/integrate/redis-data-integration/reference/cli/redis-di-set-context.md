@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Sets a context to be the active one
 group: di
+linkTitle: redis-di set-context
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Sets a context to be the active one

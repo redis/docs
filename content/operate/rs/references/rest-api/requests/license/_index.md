@@ -7,6 +7,7 @@ categories:
 - rs
 description: License requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: license
 weight: $weight
 ---

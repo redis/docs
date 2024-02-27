@@ -7,6 +7,7 @@ categories:
 - rs
 description: Administrative tasks and information related to the Redis Enterprise
   cluster.
+hideListLinks: true
 linktitle: Clusters
 weight: 36
 ---

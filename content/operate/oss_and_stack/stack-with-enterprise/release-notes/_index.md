@@ -6,6 +6,7 @@ categories:
 - operate
 - stack
 description: Redis Stack and modules release notes
+hideListLinks: true
 linkTitle: Release notes
 weight: 99
 ---

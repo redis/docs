@@ -7,6 +7,7 @@ categories:
 - rs
 description: LDAP mappings requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: ldap_mappings
 weight: $weight
 ---

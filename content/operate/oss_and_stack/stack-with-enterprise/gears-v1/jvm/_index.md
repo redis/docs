@@ -7,6 +7,7 @@ categories:
 - stack
 description: The RedisGears JVM plugin allows you to run RedisGears functions in the
   Java virtual machine.
+hideListLinks: true
 linkTitle: Run with JVM
 weight: 75
 ---

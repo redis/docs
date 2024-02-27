@@ -6,6 +6,7 @@ categories:
 - rs
 description: Learn how to connect your application to a Redis database hosted by Redis
   Enterprise Software and test your connection.
+hideListLinks: true
 linkTitle: Connect
 weight: 20
 ---

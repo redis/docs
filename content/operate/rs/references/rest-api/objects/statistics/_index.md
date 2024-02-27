@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: An object that contains metrics for clusters, databases, nodes, or shards
+hideListLinks: true
 linkTitle: statistics
 weight: $weight
 ---

@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Learn how to configure Debezium Server
 group: di
+linkTitle: Configure Debezium Server
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 50
 ---
 
 This document closely follows [Debezium's documentation](https://debezium.io/documentation/reference/stable/operations/debezium-server.html). It explains how to use Debezium Server's `application.properties` configuration file to configure Debezium Server.

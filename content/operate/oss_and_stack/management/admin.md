@@ -44,7 +44,7 @@ weight: 1
 
 ### Security
 
-* By default, Redis does not require any authentication and listens to all the network interfaces. This is a big security issue if you leave Redis exposed on the internet or other places where attackers can reach it. See for example [this attack](http://antirez.com/news/96) to see how dangerous it can be. Please check our [security page](/topics/security) and the [quick start](/topics/quickstart) for information about how to secure Redis.
+* By default, Redis does not require any authentication and listens to all the network interfaces. This is a big security issue if you leave Redis exposed on the internet or other places where attackers can reach it. See for example [this attack](http://antirez.com/news/96) to see how dangerous it can be. Please check our [security page]({{< relref "/operate/oss_and_stack/management/security/" >}}) and the [quick start]({{< relref "/develop/get-started/" >}}) for information about how to secure Redis.
 
 ## Running Redis on EC2
 
@@ -75,7 +75,7 @@ Follow these steps to avoid downtime.
 
 * Once you confirm that the master is no longer receiving any queries (you can check this using the [`MONITOR`](/commands/monitor) command), elect the replica to master using the `REPLICAOF NO ONE` command, and then shut down your master.
 
-If you are using [Redis Sentinel](/topics/sentinel) or [Redis Cluster](/topics/cluster-tutorial), the simplest way to upgrade to newer versions is to upgrade one replica after the other. Then you can perform a manual failover to promote one of the upgraded replicas to master, and finally promote the last replica.
+If you are using [Redis Sentinel]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) or [Redis Cluster]({{< relref "/operate/oss_and_stack/management/scaling" >}}), the simplest way to upgrade to newer versions is to upgrade one replica after the other. Then you can perform a manual failover to promote one of the upgraded replicas to master, and finally promote the last replica.
 
 ---
 **NOTE** 

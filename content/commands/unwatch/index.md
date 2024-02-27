@@ -32,6 +32,6 @@ title: UNWATCH
 ---
 Flushes all the previously watched keys for a [transaction][tt].
 
-[tt]: /topics/transactions
+[tt]: /develop/interact/transactions
 
 If you call [`EXEC`]({{< relref "/commands/exec" >}}) or [`DISCARD`]({{< relref "/commands/discard" >}}), there's no need to manually call `UNWATCH`.

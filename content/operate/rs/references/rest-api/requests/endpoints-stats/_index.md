@@ -7,6 +7,7 @@ categories:
 - rs
 description: Endpoint statistics requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: endpoints/stats
 weight: $weight
 ---

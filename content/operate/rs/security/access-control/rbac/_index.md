@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: An overview of role-based access control (RBAC) in Redis Enterprise Software.
+hideListLinks: true
 linkTitle: Role-based access control
 weight: 40
 ---

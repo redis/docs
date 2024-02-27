@@ -27,17 +27,20 @@
         </input>
         <input id="seach-home" name="q" class="appearance-none bg-transparent text-lg w-full h-16 focus:outline-none" 
                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-               placeholder="Ask me a question ..." maxlength="64" type="text" value="" tabindex=""/>
-        <input type="submit" value=""/>
+               placeholder="Ask the Redis AI assistant a question …" maxlength="64" type="text" value="" tabindex=""/>
+        <!--<input type="submit" class="hover:text-redis-pen-300" value="&#x23CE;"/>-->
+        <input class="invisible" type="submit" class="hover:text-redis-pen-300" value=""/>
+
       </form>
     </div>
   </header>
+  {{ partial "second-header.html" "disabled" }}
   <div class="flex flex-col lg:flex-row gap-8 mx-auto px-4 md:px-11 py-6 md:py-28 max-w-[1440px]">
     <div class="lg:sticky lg:top-32 w-full lg:w-64 h-fit lg:h-full shrink-0 text-sm font-mono font-normal">
       <nav class="lg:hidden w-full lg:w-64 z-40 bg-white h-fit lg:h-full leading-7">
         <div class="border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
           <button class="px-6 py-4 text-redis-ink-900 font-medium flex justify-between cursor-pointer lg:cursor-default" onclick="dropdownToggle()">
-            <div class="uppercase">Documentation</div>
+            <div class="uppercase">Docs</div>
             <div id="dropdownChevron" class="lg:hidden self-center">{{ partial "icons/chevron.html" }}</div>
           </button>
           <div id="dropdown" class="hidden lg:block border-t border-opacity-50 border-redis-ink-900 text-redis-pen-800">
@@ -96,13 +99,13 @@
           "LinksLeftTitle" "Featured libraries"
           "LinksLeft" (slice
             (dict "Text" "RedisVL" "URL" "./integrate/redisvl/")
-            (dict "Text" "RedisOM for Python" "URL" "./integrate/om-python")
-            (dict "Text" "RedisOM for Java" "URL" "./integrate/om-java")
+            (dict "Text" "RedisOM for Python" "URL" "./integrate/redisom-for-python")
+            (dict "Text" "RedisOM for Java" "URL" "./integrate/redisom-for-java")
           )
           "LinksRightTitle" "Data Integration"
           "LinksRight" (slice
-            (dict "Text" "Ingest" "URL" "./integrate/rdi/quickstart/ingest-guide/")
-            (dict "Text" "Write-behind" "URL" "./integrate/rdi/quickstart/write-behind-guide/")
+            (dict "Text" "Ingest" "URL" "./integrate/redis-data-integration/quickstart/ingest-guide/")
+            (dict "Text" "Write-behind" "URL" "./integrate/redis-data-integration/quickstart/write-behind-guide/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
@@ -114,7 +117,7 @@
           "LinksLeft" (slice
               (dict "Text" "From Fixed to Flexible" "URL" "./operate/rc/subscriptions/upgrade-fixed-flexible/")
               (dict "Text" "Redis Cloud REST API" "URL" "./operate/rc/api/")
-              (dict "Text" "Prometheus and Grafana with Redis Cloud" "URL" "./operate/rc/cloud-integrations/prometheus-integration/")
+              (dict "Text" "Prometheus and Grafana with Redis Cloud" "URL" "/integrate/prometheus-with-redis-cloud/")
               )
         ) }}
       </div>
@@ -127,8 +130,8 @@
           "ButtonLabel" "Read more"
           "LinksLeftTitle" "Learn more about"
           "LinksLeft" (slice
-            (dict "Text" "Install" "URL" "./operate/oss_and_stack/install/install-stack/")
             (dict "Text" "Quick start" "URL" "./develop/get-started/")
+            (dict "Text" "Install" "URL" "./operate/oss_and_stack/install/install-stack/")
             (dict "Text" "Search and query" "URL" "./develop/interact/search-and-query/")
             (dict "Text" "JSON" "URL" "./develop/data-types/json/")
           )
@@ -148,7 +151,7 @@
       {{ partial "docs-section.html" (dict
           "Title" "Redis Enterprise Software"
           "Description" "A self-managed data platform that unlocks the full potential of Redis at enterprise scale."
-          "ButtonLink" ""
+          "ButtonLink" "./operate/rs"
           "ButtonLabel" "Read more"
           "LinksLeftTitle" "Learn more about"
           "LinksLeft" (slice
@@ -173,14 +176,14 @@
         {{ partial "docs-section.html" (dict
           "Title" "Redis Data Integration"
           "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
-          "ButtonLink" "./integrate/rdi"
+          "ButtonLink" "./integrate/redis-data-integration"
           "ButtonLabel" "Read more"
           "LinksLeftTitle" "LEARN MORE ABOUT"
           "LinksLeft" (slice
-            (dict "Text" "Quick start" "URL" "./integrate/rdi/quickstart/")
-            (dict "Text" "Architecture" "URL" "./integrate/rdi/architecture/")
-            (dict "Text" "Install" "URL" "./integrate/rdi/installation/")
-            (dict "Text" "Reference" "URL" "./integrate/rdi/reference/")
+            (dict "Text" "Quick start" "URL" "./integrate/redis-data-integration/quickstart/")
+            (dict "Text" "Architecture" "URL" "./integrate/redis-data-integration/architecture/")
+            (dict "Text" "Install" "URL" "./integrate/redis-data-integration/installation/")
+            (dict "Text" "Reference" "URL" "./integrate/redis-data-integration/reference/")
           )
         ) }}
         {{ partial "docs-section.html" (dict

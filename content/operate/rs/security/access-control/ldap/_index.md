@@ -7,6 +7,7 @@ categories:
 description: Describes how Redis Enterprise Software integrates LDAP authentication
   and authorization. Also describes how to enable LDAP for your deployment of Redis
   Enterprise Software.
+hideListLinks: true
 linkTitle: LDAP authentication
 title: LDAP authentication
 weight: 50

@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: An object for bootstrap configuration
+hideListLinks: true
 linkTitle: bootstrap
 weight: $weight
 ---

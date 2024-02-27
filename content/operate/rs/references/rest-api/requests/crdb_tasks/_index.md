@@ -7,6 +7,7 @@ categories:
 - rs
 description: Active-Active database task status requests
 headerRange: '[1-2]'
+hideListLinks: true
 linkTitle: crdb_tasks
 weight: $weight
 ---

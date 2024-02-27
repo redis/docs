@@ -7,6 +7,7 @@ categories:
 - kubernetes
 description: Settings and configuration recommendations for your Redis Enterprise
   deployment.
+hideListLinks: false
 linkTitle: Recommendations
 weight: 80
 ---

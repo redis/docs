@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Learn about RDI topologies and configurations
 group: di
+linkTitle: Installation topologies
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 60
 ---
 
 This document explains the different topologies and configurations you can have with Redis Data Integration (RDI).

@@ -129,3 +129,11 @@ The solution is to use a scratchpad for storing the 'global' state:
 
 {{- .Scratch.Get "path" -}}
 ```
+
+### Children pages
+
+The redis.io template does add a list of links to child pages by default to the bottom of each section page. You can prevent this by adding the following front matter property:
+
+```
+hideListLinks: true
+```

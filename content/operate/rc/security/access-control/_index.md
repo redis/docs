@@ -7,6 +7,7 @@ categories:
 - operate
 - rc
 description: Control who can access the Redis Cloud console and databases.
+hideListLinks: true
 toc: 'true'
 weight: 5
 ---

@@ -193,7 +193,7 @@ Will add a new entry but will also evict old entries so that the stream will con
 ## Additional information about streams
 
 For further information about Redis streams please check our
-[introduction to Redis Streams document](/topics/streams-intro).
+[introduction to Redis Streams document]({{< relref "/develop/data-types/streams" >}}).
 
 ## Examples
 

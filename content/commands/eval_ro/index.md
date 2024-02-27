@@ -67,7 +67,7 @@ This is a read-only variant of the [`EVAL`]({{< relref "/commands/eval" >}}) com
 
 For more information about when to use this command vs [`EVAL`]({{< relref "/commands/eval" >}}), please refer to [Read-only scripts]({{< baseurl >}}/develop/interact/programmability#read-only-scripts).
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts](/topics/eval-intro).
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).
 
 ## Examples
 

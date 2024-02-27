@@ -34,7 +34,7 @@ To learn how to use JSON, it's best to start with the Redis CLI. The following e
 
 ### `redis-cli` examples
 
-First, start [`redis-cli`](http://redis.io/topics/rediscli) in interactive mode.
+First, start [`redis-cli`](http://redis.io/develop/connect/cli) in interactive mode.
 
 The first JSON command to try is [`JSON.SET`]({{< baseurl >}}/commands/json.set/), which sets a Redis key with a JSON value. [`JSON.SET`]({{< baseurl >}}/commands/json.set/) accepts all JSON value types. This example creates a JSON string:
 

@@ -8,6 +8,7 @@ categories:
 description: Use the metrics that measure the performance of your Redis Enterprise
   Software (RS) clusters, nodes, databases, and shards to track the performance of
   your databases.
+hideListLinks: true
 linkTitle: Monitoring
 weight: 96
 ---

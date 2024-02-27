@@ -51,7 +51,7 @@ Redis is, after all, a direct result of its current design.
 
 If your real problem is not the total RAM needed, but the fact that you need
 to split your data set into multiple Redis instances, please read the
-[partitioning page](/topics/partitioning) in this documentation for more info.
+[partitioning page]({{< relref "/operate/oss_and_stack/management/scaling" >}}) in this documentation for more info.
 
 Redis Ltd., the company sponsoring Redis development, has developed a
 "Redis on Flash" solution that uses a mixed RAM/flash approach for
@@ -74,7 +74,7 @@ and not refreshed on cache misses.
 
 A good practice is to consider memory consumption when mapping your logical data model to the physical data model within Redis. These considerations include using specific data types, key patterns, and normalization.
 
-Beyond data modeling, there is more info in the [Memory Optimization page](/topics/memory-optimization).
+Beyond data modeling, there is more info in the [Memory Optimization page]({{< relref "/operate/oss_and_stack/management/optimization/memory-optimization" >}}).
 
 ## What happens if Redis runs out of memory?
 
@@ -131,7 +131,7 @@ the same box and treat them as different servers. At some point a single
 box may not be enough anyway, so if you want to use multiple CPUs you can
 start thinking of some way to shard earlier.
 
-You can find more information about using multiple Redis instances in the [Partitioning page](/topics/partitioning).
+You can find more information about using multiple Redis instances in the [Partitioning page]({{< relref "/operate/oss_and_stack/management/scaling" >}}).
 
 As of version 4.0, Redis has started implementing threaded actions. For now this is limited to deleting objects in the background and blocking commands implemented via Redis modules. For subsequent releases, the plan is to make Redis more and more threaded.
 

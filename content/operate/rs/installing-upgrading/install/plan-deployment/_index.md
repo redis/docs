@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Plan a deployment of Redis Enterprise Software.
+hideListLinks: true
 linkTitle: Plan deployment
 weight: 4
 ---

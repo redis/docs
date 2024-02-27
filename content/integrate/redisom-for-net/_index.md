@@ -14,7 +14,7 @@ stack: true
 summary: Redis OM for .NET is an object-mapping library for Redis.
 title: Redis OM .NET
 type: integration
-weight: '9'
+weight: 9
 ---
 
 [Redis OM .NET](https://github.com/redis/redis-om-dotnet) is a purpose-built library for handling documents in Redis Stack. In this tutorial, we'll build a simple ASP.NET Core Web-API app for performing CRUD operations on a simple Person & Address model, and we'll accomplish all of this with Redis OM .NET.

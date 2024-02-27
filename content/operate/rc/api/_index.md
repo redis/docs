@@ -6,6 +6,7 @@ categories:
 - operate
 - rc
 description: Describes the Redis Cloud REST API and links to additional info
+hideListLinks: true
 linkTitle: REST API
 weight: 80
 ---

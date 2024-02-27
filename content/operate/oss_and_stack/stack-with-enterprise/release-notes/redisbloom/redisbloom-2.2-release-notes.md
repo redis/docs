@@ -83,7 +83,7 @@ Details:
 
 - Bug fixes:
 
-    - [#392](https://github.com/RedisBloom/RedisBloom/pull/392) Fixed a potential crash on Bloom filter expansion when loading from [AOF](https://redis.io/topics/persistence)
+    - [#392](https://github.com/RedisBloom/RedisBloom/pull/392) Fixed a potential crash on Bloom filter expansion when loading from [AOF]({{< relref "/operate/oss_and_stack/management/persistence" >}})
     - [#404](https://github.com/RedisBloom/RedisBloom/pull/404) Fixed a potential crash on Cuckoo filter when calling [`CF.LOADCHUNK`](https://oss.redis.com/redisbloom/Cuckoo_Commands/#cfloadchunk) on a filter with `EXPANSION` greater than 1
 
 ## v2.2.9 (November 2021)

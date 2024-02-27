@@ -8,6 +8,7 @@ categories:
 - rc
 description: Describes maintenance that Redis performs on a Redis Cloud subscription.
 headerRange: '[1-3]'
+hideListLinks: true
 toc: 'true'
 weight: $weight
 ---

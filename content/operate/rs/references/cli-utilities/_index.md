@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: Documents the command-line utilities included with Redis Enterprise Software.
+hideListLinks: true
 linkTitle: Command-line utilities
 weight: $weight
 ---

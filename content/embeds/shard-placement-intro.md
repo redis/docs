@@ -2,7 +2,7 @@ In addition to the shard placement policy, considerations that determine shard p
 
 - Separation of master and replica shards
 - Available persistence and Auto Tiering storage
-- [Rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}})
+- [Rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness" >}})
 - Memory available to host the database when fully populated
 
 The shard placement policies are:

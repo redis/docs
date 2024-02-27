@@ -9,10 +9,11 @@ categories:
 - rdi
 description: Starts a trace session for troubleshooting data transformation
 group: di
+linkTitle: redis-di trace
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: '1'
+weight: 10
 ---
 
 Starts a trace session for troubleshooting data transformation

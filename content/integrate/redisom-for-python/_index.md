@@ -14,7 +14,7 @@ stack: true
 summary: Redis OM for Python is an object-mapping library for Redis.
 title: Redis OM Python
 type: integration
-weight: '9'
+weight: 9
 ---
 
 [Redis OM Python](https://github.com/redis/redis-om-python) is a Redis client that provides high-level abstractions for managing document data in Redis. This tutorial shows you how to get up and running with Redis OM Python, Redis Stack, and the [Flask](https://flask.palletsprojects.com/) micro-framework.

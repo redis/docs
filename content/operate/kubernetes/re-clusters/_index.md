@@ -6,6 +6,7 @@ categories:
 - operate
 - kubernetes
 description: Articles to help you manage your Redis Enterprise clusters (REC).
+hideListLinks: false
 linkTitle: Redis Enterprise clusters (REC)
 weight: 30
 ---

@@ -15,7 +15,7 @@ summary: The Redis OM for Java library is based on the Spring framework and prov
   object-mapping abstractions.
 title: Redis OM Spring
 type: integration
-weight: '9'
+weight: 9
 ---
 
 Redis Stack provides a seamless and straightforward way to use different data models and functionality from Redis, including a document store, a time series data database, probabilistic data structures, and a full-text search engine.

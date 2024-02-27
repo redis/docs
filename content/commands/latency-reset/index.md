@@ -68,4 +68,4 @@ Valid values for `event` are:
 
 For more information refer to the [Latency Monitoring Framework page][lm].
 
-[lm]: /topics/latency-monitor
+[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md

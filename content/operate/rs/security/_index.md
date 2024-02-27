@@ -6,6 +6,7 @@ categories:
 - operate
 - rs
 description: null
+hideListLinks: true
 weight: 60
 ---
 Security is an important part of any production system. This section describes the security features and settings available in Redis Enterprise.

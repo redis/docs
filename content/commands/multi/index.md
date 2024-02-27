@@ -33,4 +33,4 @@ title: MULTI
 Marks the start of a [transaction][tt] block.
 Subsequent commands will be queued for atomic execution using [`EXEC`]({{< relref "/commands/exec" >}}).
 
-[tt]: /topics/transactions
+[tt]: /develop/interact/transactions

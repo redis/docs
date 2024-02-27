@@ -101,9 +101,9 @@ Command flags are an array. It can contain the following simple strings (status 
 * **no_auth:** executing the command doesn't require authentication.
 * **no_async_loading:** the command is denied during asynchronous loading (that is when a replica uses disk-less `SWAPDB SYNC`, and allows access to the old dataset).
 * **no_mandatory_keys:** the command may accept key name arguments, but these aren't mandatory.
-* **no_multi:** the command isn't allowed inside the context of a [transaction](/topics/transactions).
-* **noscript:** the command can't be called from [scripts](/topics/eval-intro) or [functions](/topics/functions-intro).
-* **pubsub:** the command is related to [Redis Pub/Sub](/topics/pubsub).
+* **no_multi:** the command isn't allowed inside the context of a [transaction]({{< relref "/develop/interact/transactions" >}}).
+* **noscript:** the command can't be called from [scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}) or [functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).
+* **pubsub:** the command is related to [Redis Pub/Sub]({{< relref "/develop/interact/pubsub" >}}).
 * **random**: the command returns random results, which is a concern with verbatim script replication.
   As of Redis 7.0, this flag is a [command tip][tb].
 * **readonly:** the command doesn't modify data.
@@ -222,10 +222,10 @@ This is an array containing all of the command's subcommands, if any.
 Some Redis commands have subcommands (e.g., the `REWRITE` subcommand of [`CONFIG`]({{< relref "/commands/config" >}})).
 Each element in the array represents one subcommand and follows the same specifications as those of `COMMAND`'s reply.
 
-[ta]: /topics/acl
-[tb]: /topics/command-tips
-[td]: /topics/key-specs
-[tr]: /topics/key-specs
+[ta]: /operate/oss_and_stack/management/security/acl
+[tb]: /develop/reference/command-tips.md
+[td]: /develop/reference/key-specs.md
+[tr]: /develop/reference/key-specs.md
 
 ## Examples
 

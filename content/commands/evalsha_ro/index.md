@@ -66,4 +66,4 @@ This is a read-only variant of the [`EVALSHA`]({{< relref "/commands/evalsha" >}
 
 For more information about when to use this command vs [`EVALSHA`]({{< relref "/commands/evalsha" >}}), please refer to [Read-only scripts]({{< baseurl >}}/develop/interact/programmability#read-only-scripts).
 
-For more information about [`EVALSHA`]({{< relref "/commands/evalsha" >}}) scripts please refer to [Introduction to Eval Scripts](/topics/eval-intro).
+For more information about [`EVALSHA`]({{< relref "/commands/evalsha" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).

@@ -40,7 +40,7 @@ parts:
 
 The rest of this document covers the latency monitoring subsystem
 details. For more information about the general topic of Redis
-and latency, see [Redis latency problems troubleshooting](/topics/latency).
+and latency, see [Redis latency problems troubleshooting]({{< relref "/operate/oss_and_stack/management/optimization/latency" >}}).
 
 ## Events and time series
 
