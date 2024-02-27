@@ -1,3 +1,5 @@
-WARN 2024/02/26 12:41:34 [en] REF_NOT_FOUND: Ref "/develop/reference/eviction/": "/content/operate/oss_and_stack/management/optimization/memory-optimization.md:241:89": page not found
-WARN 2024/02/26 12:41:35 [en] REF_NOT_FOUND: Ref "rs/databases/active-active/develop/_index.md": "/content/glossary/_index.md:1:1": page not found
-WARN 2024/02/26 12:41:35 [en] REF_NOT_FOUND: Ref "/operate/rs/security/ldap/_index.md": "/content/glossary/_index.md:1:1": page not found
+WARN 2024/02/27 13:59:58 [en] REF_NOT_FOUND: Ref "/operate/oss_and_stack/management/sentinel-clients/": "/Users/david/Projects/Git/redis-learn/redis-docs/content/operate/oss_and_stack/management/sentinel.md:894:324": page not found
+WARN 2024/02/27 13:59:58 [en] REF_NOT_FOUND: Ref "/operate/kubernetes/_index": "/Users/david/Projects/Git/redis-learn/redis-docs/content/operate/oss_and_stack/stack-with-enterprise/stack-quickstart.md:19:21": page not found
+WARN 2024/02/27 13:59:59 [en] REF_NOT_FOUND: Ref "/develop/data-types-intro": "/Users/david/Projects/Git/redis-learn/redis-docs/content/develop/interact/programmability/_index.md:26:64": page not found
+WARN 2024/02/27 13:59:59 [en] REF_NOT_FOUND: Ref "rs/databases/active-active/develop/_index.md": "/Users/david/Projects/Git/redis-learn/redis-docs/content/glossary/_index.md:1:1": page not found
+WARN 2024/02/27 13:59:59 [en] REF_NOT_FOUND: Ref "/operate/rs/security/ldap/_index.md": "/Users/david/Projects/Git/redis-learn/redis-docs/content/glossary/_index.md:1:1": page not found

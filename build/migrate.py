@@ -225,24 +225,25 @@ def replace_img_md_in_file(file_path, old_prefix, new_prefix):
 '''
 Replace the link within the file
 '''
-def replace_links_in_file(file_path, old_prefix, new_prefix):
+def replace_links_in_file(file_path, old_prefix, new_prefix, correct_links=True):
     
     file_content = _read_file(file_path)
 
     link_pattern = re.compile(r'(\[.*?\]\()(' + re.escape(old_prefix) + r')(.*?)' + r'(\))')
     updated_content = re.sub(link_pattern, lambda match: _replace_link(match, new_prefix), file_content)
 
-    # Correct links based on a list
-    corrected_links = _load_csv_file('./migrate/corrected_refs.csv')
+    if correct_links:
+        # Correct links based on a list
+        corrected_links = _load_csv_file('./migrate/corrected_refs.csv')
 
-    for k in corrected_links:
-        # Relrefs don't like dots and hashtags in the link
-        if '.' in corrected_links[k]:
-            updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< baseurl >}}' + corrected_links[k])
-        elif '#' in k:
-            updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< baseurl >}}' + corrected_links[k] + '#' + k.split('#')[1])
-        else:
-            updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< relref "' + corrected_links[k] + '" >}}')    
+        for k in corrected_links:
+            # Relrefs don't like dots and hashtags in the link
+            if '.' in corrected_links[k]:
+                updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< baseurl >}}' + corrected_links[k])
+            elif '#' in k:
+                updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< baseurl >}}' + corrected_links[k] + '#' + k.split('#')[1])
+            else:
+                updated_content = updated_content.replace('{{< relref "' + k + '" >}}', '{{< relref "' + corrected_links[k] + '" >}}')    
 
     _write_file(file_path, updated_content)
 
@@ -860,8 +861,42 @@ def fix_resp_references():
     resp2 = slash(WORK_DIR, 'data/resp2_replies.json')
     resp3 = slash(WORK_DIR, 'data/resp3_replies.json')
 
-    find_and_replace(resp2, '/docs/reference/protocol-spec', '/docs/develop/reference/protocol-spec')
-    find_and_replace(resp3, '/docs/reference/protocol-spec', '/docs/develop/reference/protocol-spec')
+    find_and_replace(resp2, '/docs/reference/protocol-spec', '../../develop/reference/protocol-spec')
+    find_and_replace(resp3, '/docs/reference/protocol-spec', '../../develop/reference/protocol-spec')
+
+
+def strip_md_ext_from_ref(file_path, prefix):
+    content = _read_file(file_path)
+    pattern = r'(\(.*' + re.escape(prefix) + r'/.*\.md.*\))'
+    updated_content = re.sub(pattern, lambda match: match.group(0).replace('.md', ''), content)
+    _write_file(file_path, updated_content)
+
+
+'''
+Some pages still use topics links. Let's try to remove them.
+'''
+def fix_topics_links(content_folders):
+    for folder in content_folders:
+        source = slash(DOCS_ROOT, folder)
+        topics_csv = _load_csv_file('./migrate/topics.csv')
+
+        markdown_files = find_markdown_files(source)
+
+        # Ensure that we don't use /topics links
+        for f in markdown_files:
+            for k in topics_csv:
+                find_and_replace(f, k, topics_csv[k])
+                find_and_replace(f, 'https://redis.io/operate/', '/operate/')
+                find_and_replace(f, 'https://redis.io/develop/', '/develop/')
+
+            # Rewrite to relref
+            replace_links_in_file(f, '/develop', '/develop', False)
+            replace_links_in_file(f, '/operate', '/operate', False)
+
+            # Ensure that we have no .md refs
+            strip_md_ext_from_ref(f, '/develop')
+            strip_md_ext_from_ref(f, '/operate')
+
 
 '''
 Migration script
@@ -871,6 +906,7 @@ if __name__ == "__main__":
     print("## Setting the migration environment ...")
     print(set_env())
 
+    '''
     print("## Fetching temporary development documentation content ...")
     fetch_io()
 
@@ -903,4 +939,7 @@ if __name__ == "__main__":
     fix_all_children(["operate/rc", "operate/rs", "operate/kubernetes", "operate/oss_and_stack/stack-with-enterprise", "integrate/redis-data-integration"])
     fix_missed_images(["operate/kubernetes"])
     fix_resp_references()
+    '''
+    fix_topics_links(["operate/oss_and_stack", "commands", "integrate", "develop"])
+   
     

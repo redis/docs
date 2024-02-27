@@ -68,7 +68,7 @@ an ID between the two specified or exactly one of the two IDs specified
 The `XRANGE` command has a number of applications:
 
 * Returning items in a specific time range. This is possible because
-  Stream IDs are [related to time](/topics/streams-intro).
+  Stream IDs are [related to time]({{< relref "/develop/data-types/streams" >}}).
 * Iterating a stream incrementally, returning just
   a few items at every iteration. However it is semantically much more
   robust than the [`SCAN`]({{< relref "/commands/scan" >}}) family of functions.
@@ -260,7 +260,7 @@ of XRANGE:
 ## Additional information about streams
 
 For further information about Redis streams please check our
-[introduction to Redis Streams document](/topics/streams-intro).
+[introduction to Redis Streams document]({{< relref "/develop/data-types/streams" >}}).
 
 ## Examples
 

@@ -46,7 +46,7 @@ title: AUTH
 The AUTH command authenticates the current connection in two cases:
 
 1. If the Redis server is password protected via the `requirepass` option.
-2. A Redis 6.0 instance, or greater, is using the [Redis ACL system](/topics/acl).
+2. A Redis 6.0 instance, or greater, is using the [Redis ACL system]({{< relref "/operate/oss_and_stack/management/security/acl" >}}).
 
 Redis versions prior of Redis 6 were only able to understand the one argument
 version of the command:
@@ -65,7 +65,7 @@ When Redis ACLs are used, the command should be given in an extended way:
     AUTH <username> <password>
 
 In order to authenticate the current connection with one of the connections
-defined in the ACL list (see [`ACL SETUSER`]({{< relref "/commands/acl-setuser" >}})) and the official [ACL guide](/topics/acl) for more information.
+defined in the ACL list (see [`ACL SETUSER`]({{< relref "/commands/acl-setuser" >}})) and the official [ACL guide]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) for more information.
 
 When ACLs are used, the single argument form of the command, where only the password is specified, assumes that the implicit username is "default".
 

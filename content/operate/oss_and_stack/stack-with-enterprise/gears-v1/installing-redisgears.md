@@ -14,7 +14,7 @@ Before you can use RedisGears, you have to install the RedisGears module on your
 ## Minimum requirements
 
 - Redis Enterprise 6.0.12 or later
-- The [cluster is setup]({{< relref "/operate/rs/clusters/new-cluster-setup.md" >}}) and all of the nodes are joined to the cluster
+- The [cluster is setup]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) and all of the nodes are joined to the cluster
 
 ## Install RedisGears
 

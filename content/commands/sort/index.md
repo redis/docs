@@ -133,9 +133,9 @@ By default, sorting is numeric and elements are compared by their value
 interpreted as double precision floating point number.
 This is `SORT` in its simplest form:
 
-[tdtl]: /topics/data-types#lists
-[tdts]: /topics/data-types#set
-[tdtss]: /topics/data-types#sorted-sets
+[tdtl]: /develop/data-types#lists
+[tdts]: /develop/data-types#set
+[tdtss]: /develop/data-types#sorted-sets
 
 ```
 SORT mylist

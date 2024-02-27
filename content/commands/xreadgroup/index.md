@@ -95,7 +95,7 @@ with support for consumer groups. Probably you will have to understand the
 [`XREAD`]({{< relref "/commands/xread" >}}) command before reading this page will makes sense.
 
 Moreover, if you are new to streams, we recommend to read our
-[introduction to Redis Streams](/topics/streams-intro).
+[introduction to Redis Streams]({{< relref "/develop/data-types/streams" >}}).
 Make sure to understand the concept of consumer group in the introduction
 so that following how this command works will be simpler.
 
@@ -221,6 +221,6 @@ OK
          2) (nil)
 ```
 
-Reading the [Redis Streams introduction](/topics/streams-intro) is highly
+Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams" >}}) is highly
 suggested in order to understand more about the streams overall behavior
 and semantics.

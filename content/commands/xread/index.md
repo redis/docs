@@ -76,7 +76,7 @@ This command has an option to block if items are not available, in a similar
 fashion to [`BRPOP`]({{< relref "/commands/brpop" >}}) or [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}) and others.
 
 Please note that before reading this page, if you are new to streams,
-we recommend to read [our introduction to Redis Streams](/topics/streams-intro).
+we recommend to read [our introduction to Redis Streams]({{< relref "/develop/data-types/streams" >}}).
 
 ## Non-blocking usage
 
@@ -269,6 +269,6 @@ are not removed from the stream when clients are served, so every
 client waiting will be served as soon as an [`XADD`]({{< relref "/commands/xadd" >}}) command provides
 data to the stream.
 
-Reading the [Redis Streams introduction](/topics/streams-intro) is highly
+Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams" >}}) is highly
 suggested in order to understand more about the streams overall behavior
 and semantics.

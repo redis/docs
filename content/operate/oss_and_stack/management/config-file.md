@@ -848,7 +848,7 @@ replica-priority 100
 # this is used in order to send invalidation messages to clients. Please
 # check this page to understand more about the feature:
 #
-#   https://redis.io/topics/client-side-caching
+#   /develop/use/client-side-caching
 #
 # When tracking is enabled for a client, all the read only queries are assumed
 # to be cached: this will force Redis to store information in the invalidation
@@ -1026,7 +1026,7 @@ replica-priority 100
 # * stream - Data type: streams related.
 #
 # For more information about ACL configuration please refer to
-# the Redis web site at https://redis.io/topics/acl
+# the Redis web site at /operate/oss_and_stack/management/security/acl
 
 # ACL LOG
 #
@@ -1403,7 +1403,7 @@ disable-thp yes
 # restarting the server can lead to data loss. A conversion needs to be done
 # by setting it via CONFIG command on a live server first.
 #
-# Please check https://redis.io/topics/persistence for more information.
+# Please check /operate/oss_and_stack/management/persistence for more information.
 
 appendonly no
 
@@ -1890,7 +1890,7 @@ latency-monitor-threshold 0
 ############################# EVENT NOTIFICATION ##############################
 
 # Redis can notify Pub/Sub clients about events happening in the key space.
-# This feature is documented at https://redis.io/topics/notifications
+# This feature is documented at /develop/use/keyspace-notifications
 #
 # For instance if keyspace events notification is enabled, and a client
 # performs a DEL operation on key "foo" stored in the Database 0, two

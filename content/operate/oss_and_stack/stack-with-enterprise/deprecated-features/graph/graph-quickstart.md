@@ -16,7 +16,7 @@ For this quick start tutorial, you need:
 
 - A Redis database with the RedisGraph module enabled. You can use either:
 
-    - A [Redis Cloud]({{< relref "/operate/oss_and_stack/stack-with-enterprise/stack-quickstart.md" >}}) database
+    - A [Redis Cloud]({{< relref "/operate/oss_and_stack/stack-with-enterprise/stack-quickstart" >}}) database
 
     - A [Redis Enterprise Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database" >}}) database
 

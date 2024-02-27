@@ -52,7 +52,7 @@ Don't use `KEYS` in your regular application code.
 If you're looking for a way to find keys in a subset of your keyspace, consider
 using [`SCAN`]({{< relref "/commands/scan" >}}) or [sets][tdts].
 
-[tdts]: /topics/data-types#sets
+[tdts]: /develop/data-types#sets
 
 Supported glob-style patterns:
 

@@ -14,7 +14,7 @@ Redis scales horizontally with a deployment topology called Redis Cluster.
 This topic will teach you how to set up, test, and operate Redis Cluster in production.
 You will learn about the availability and consistency characteristics of Redis Cluster from the end user's point of view.
 
-If you plan to run a production Redis Cluster deployment or want to understand better how Redis Cluster works internally, consult the [Redis Cluster specification](/topics/cluster-spec). To learn how Redis Enterprise handles scaling, see [Linear Scaling with Redis Enterprise](https://redis.com/redis-enterprise/technology/linear-scaling-redis-enterprise/).
+If you plan to run a production Redis Cluster deployment or want to understand better how Redis Cluster works internally, consult the [Redis Cluster specification]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}). To learn how Redis Enterprise handles scaling, see [Linear Scaling with Redis Enterprise](https://redis.com/redis-enterprise/technology/linear-scaling-redis-enterprise/).
 
 ## Redis Cluster 101
 
@@ -895,7 +895,7 @@ The automatic reconfiguration of replicas is called *replicas migration* and is
 able to improve the reliability of a Redis Cluster.
 
 {{% alert title="Note" color="info" %}} 
-You can read the details of replicas migration in the [Redis Cluster Specification](/topics/cluster-spec), here we'll only provide some information about the
+You can read the details of replicas migration in the [Redis Cluster Specification]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}), here we'll only provide some information about the
 general idea and what you should do in order to benefit from it.
 {{% /alert %}} 
 
@@ -1003,7 +1003,7 @@ Starting with Redis 5, if not for backward compatibility, the Redis project no l
 
 ## Learn more
 
-* [Redis Cluster specification](/topics/cluster-spec)
+* [Redis Cluster specification]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}})
 * [Linear Scaling with Redis Enterprise](https://redis.com/redis-enterprise/technology/linear-scaling-redis-enterprise/)
 * [Docker documentation](https://docs.docker.com/engine/userguide/networking/dockernetworks/)
 

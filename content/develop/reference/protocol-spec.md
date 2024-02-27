@@ -644,7 +644,7 @@ Pipelining is supported, so multiple commands can be sent with a single write op
 The client can skip reading replies and continue to send the commands one after the other.
 All the replies can be read at the end.
 
-For more information, see [Pipelining](/topics/pipelining).
+For more information, see [Pipelining]({{< relref "/develop/use/pipelining" >}}).
 
 ## Inline commands
 Sometimes you may need to send a command to the Redis server but only have `telnet` available.
@@ -703,7 +703,7 @@ While comparable in performance to a binary protocol, the Redis protocol is sign
 
 ## Tips for Redis client authors
 
-* For testing purposes, use [Lua's type conversions](/topics/lua-api#lua-to-resp3-type-conversion) to have Redis reply with any RESP2/RESP3 needed.
+* For testing purposes, use [Lua's type conversions]({{< baseurl >}}/develop/interact/programmability/lua-api#lua-to-resp3-type-conversion) to have Redis reply with any RESP2/RESP3 needed.
   As an example, a RESP3 double can be generated like so:
   ```
   EVAL "return { double = tonumber(ARGV[1]) }" 0 1e0

@@ -94,7 +94,7 @@ ACL rules are either words like "on", "off", "reset", "allkeys", or are
 special rules that start with a special character, and are followed by
 another string (without any space in between), like "+SET".
 
-The following documentation is a reference manual about the capabilities of this command, however our [ACL tutorial](/topics/acl) may be a more gentle introduction to how the ACL system works in general.
+The following documentation is a reference manual about the capabilities of this command, however our [ACL tutorial]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) may be a more gentle introduction to how the ACL system works in general.
 
 ## ACL rules
 
@@ -104,8 +104,8 @@ This is a list of all the supported Redis ACL rules:
 ### Command rules
 
 * `~<pattern>`: Adds the specified key pattern (glob style pattern, like in the [`KEYS`]({{< relref "/commands/keys" >}}) command), to the list of key patterns accessible by the user. This grants both read and write permissions to keys that match the pattern. You can add multiple key patterns to the same user. Example: `~objects:*`
-* `%R~<pattern>`: (Available in Redis 7.0 and later) Adds the specified read key pattern. This behaves similar to the regular key pattern but only grants permission to read from keys that match the given pattern. See [key permissions](/topics/acl#key-permissions) for more information.
-* `%W~<pattern>`: (Available in Redis 7.0 and later) Adds the specified write key pattern. This behaves similar to the regular key pattern but only grants permission to write to keys that match the given pattern. See [key permissions](/topics/acl#key-permissions) for more information.
+* `%R~<pattern>`: (Available in Redis 7.0 and later) Adds the specified read key pattern. This behaves similar to the regular key pattern but only grants permission to read from keys that match the given pattern. See [key permissions]({{< relref "/operate/oss_and_stack/management/security/acl#key-permissions" >}}) for more information.
+* `%W~<pattern>`: (Available in Redis 7.0 and later) Adds the specified write key pattern. This behaves similar to the regular key pattern but only grants permission to write to keys that match the given pattern. See [key permissions]({{< relref "/operate/oss_and_stack/management/security/acl#key-permissions" >}}) for more information.
 * `%RW~<pattern>`: (Available in Redis 7.0 and later) Alias for `~<pattern>`.
 * `allkeys`: Alias for `~*`, it allows the user to access all the keys.
 * `resetkeys`: Removes all the key patterns from the list of key patterns the user can access.

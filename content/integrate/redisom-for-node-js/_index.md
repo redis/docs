@@ -759,7 +759,7 @@ app.use('/persons', searchRouter)
 
 And that's that. But this just isn't enough to satisfy. It doesn't show you anything new, except maybe the usage of a `date` field. And, it's not really location *tracking*. It just shows where these people last were, no history. So let's add some!.
 
-To add some history, we're going to use a [Redis Stream](/topics/streams-intro). Streams are a big topic but don't worry if you’re not familiar with them, you can think of them as being sort of like a log file stored in a Redis key where each entry represents an event. In our case, the event would be the person moving about or checking in or whatever.
+To add some history, we're going to use a [Redis Stream]({{< relref "/develop/data-types/streams" >}}). Streams are a big topic but don't worry if you’re not familiar with them, you can think of them as being sort of like a log file stored in a Redis key where each entry represents an event. In our case, the event would be the person moving about or checking in or whatever.
 
 But there's a problem. Redis OM doesn’t support Streams even though Redis Stack does. So how do we take advantage of them in our application? By using [Node Redis](https://github.com/redis/node-redis). Node Redis is a low-level Redis client for Node.js that gives you access to all the Redis commands and data types. Internally, Redis OM is creating and using a Node Redis connection. You can use that connection too. Or rather, Redis OM can be *told* to use the connection you are using. Let me show you how.
 

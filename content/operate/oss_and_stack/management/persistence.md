@@ -27,7 +27,7 @@ To learn more about how to evaluate your Redis persistence strategy, read on.
 * RDB is very good for disaster recovery, being a single compact file that can be transferred to far data centers, or onto Amazon S3 (possibly encrypted).
 * RDB maximizes Redis performances since the only work the Redis parent process needs to do in order to persist is forking a child that will do all the rest. The parent process will never perform disk I/O or alike.
 * RDB allows faster restarts with big datasets compared to AOF.
-* On replicas, RDB supports [partial resynchronizations after restarts and failovers](https://redis.io/topics/replication#partial-resynchronizations-after-restarts-and-failovers).
+* On replicas, RDB supports [partial resynchronizations after restarts and failovers]({{< relref "/operate/oss_and_stack/management/replication#partial-resynchronizations-after-restarts-and-failovers" >}}).
 
 ## RDB disadvantages
 

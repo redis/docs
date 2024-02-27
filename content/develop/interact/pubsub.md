@@ -59,7 +59,7 @@ Messages in streams are persisted, and support both _at-most-once_ as well as _a
 
 ## Format of pushed messages
 
-A message is an [array-reply](/topics/protocol#array-reply) with three elements.
+A message is an [array-reply]({{< relref "/develop/reference/protocol-spec#array-reply" >}}) with three elements.
 
 The first element is the kind of message:
 

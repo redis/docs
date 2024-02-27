@@ -79,7 +79,7 @@ The following keys may be included in the mapped reply:
 * **arguments:** an array of maps that describe the command's arguments.
   Please refer to the [Redis command arguments][td] page for more information.
 
-[td]: /topics/command-arguments
+[td]: /develop/reference/command-arguments
 
 ## Examples
 

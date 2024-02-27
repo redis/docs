@@ -181,7 +181,7 @@ Details:
 
 - Support for scaling reads
     - #[1054](https://github.com/RedisGraph/RedisGraph/pull/1054)
- Drastic reduction of memory consumption during replication (and [Active-Passive]({{< relref "/operate/rs/databases/import-export/replica-of/create.md" >}})). Break down a large graph into several portions, each accommodating a virtual key and distribute those for reconstruction at the replica end, by doing so we reduce memory consumption on the replica's end.
+ Drastic reduction of memory consumption during replication (and [Active-Passive]({{< relref "/operate/rs/databases/import-export/replica-of/create" >}})). Break down a large graph into several portions, each accommodating a virtual key and distribute those for reconstruction at the replica end, by doing so we reduce memory consumption on the replica's end.
 
 - `OPTIONAL MATCH` support
     Unlike MATCH, which requires for a pattern to exist, `OPTIONAL MATCH` continues processing when the optional pattern doesn't exist. We can easily compare `OPTIONAL MATCH` in Cypher to an outer join in SQL. It works just like a regular `MATCH` with the difference that if no matches are found, [`OPTIONAL MATCH`](https://oss.redislabs.com/redisgraph/commands/#optional-match) will use a null for missing parts of the pattern.

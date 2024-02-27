@@ -23,7 +23,7 @@ Redis provides a programming interface that lets you execute custom scripts on t
 
 Redis is, by [definition](https://github.com/redis/redis/blob/unstable/MANIFESTO#L7), a _"domain-specific language for abstract data types"_.
 The language that Redis speaks consists of its [commands]({{< relref "/commands" >}}).
-Most the commands specialize at manipulating core [data types](/topics/data-types-intro) in different ways.
+Most the commands specialize at manipulating core [data types]({{< relref "/develop/data-types-intro" >}}) in different ways.
 In many cases, these commands provide all the functionality that a developer requires for managing application data in Redis.
 
 The term **programmability** in Redis means having the ability to execute arbitrary user-defined logic by the server.
@@ -36,7 +36,7 @@ Such APIs can encapsulate business logic and maintain a data model across multip
 User scripts are executed in Redis by an embedded, sandboxed scripting engine.
 Presently, Redis supports a single scripting engine, the [Lua 5.1](https://www.lua.org/) interpreter.
 
-Please refer to the [Redis Lua API Reference](/topics/lua-api) page for complete documentation.
+Please refer to the [Redis Lua API Reference]({{< baseurl >}}/develop/interact/programmability/lua-api) page for complete documentation.
 
 ## Running scripts
 
@@ -56,11 +56,11 @@ In this case, loading a function to the database becomes an administrative deplo
 
 Please refer to the following pages for more information:
 
-* [Redis Eval Scripts](/topics/eval-intro)
-* [Redis Functions](/topics/functions-intro)
+* [Redis Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}})
+* [Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}})
 
 When running a script or a function, Redis guarantees its atomic execution.
-The script's execution blocks all server activities during its entire time, similarly to the semantics of [transactions](/topics/transactions).
+The script's execution blocks all server activities during its entire time, similarly to the semantics of [transactions]({{< relref "/develop/interact/transactions" >}}).
 These semantics mean that all of the script's effects either have yet to happen or had already happened.
 The blocking semantics of an executed script apply to all connected clients at all times.
 
@@ -71,7 +71,7 @@ However, if you intend to use a slow script in your application, be aware that a
 ## Read-only scripts
 
 A read-only script is a script that only executes commands that don't modify any keys within Redis.
-Read-only scripts can be executed either by adding the `no-writes` [flag](/topics/lua-api#script_flags) to the script or by executing the script with one of the read-only script command variants: [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}), [`EVALSHA_RO`]({{< relref "/commands/evalsha_ro" >}}), or [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}).
+Read-only scripts can be executed either by adding the `no-writes` [flag]({{< baseurl >}}/develop/interact/programmability/lua-api#script_flags) to the script or by executing the script with one of the read-only script command variants: [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}), [`EVALSHA_RO`]({{< relref "/commands/evalsha_ro" >}}), or [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}).
 They have the following properties:
 
 * They can always be executed on replicas.
@@ -91,7 +91,7 @@ In addition to the benefits provided by all read-only scripts, the read-only scr
 Read-only scripts and read-only script commands were introduced in Redis 7.0
 
 * Before Redis 7.0.1 [`PUBLISH`]({{< relref "/commands/publish" >}}), [`SPUBLISH`]({{< relref "/commands/spublish" >}}) and [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) were not considered write commands in scripts
-* Before Redis 7.0.1 the `no-writes` [flag](/topics/lua-api#script_flags) did not imply `allow-oom`
+* Before Redis 7.0.1 the `no-writes` [flag]({{< baseurl >}}/develop/interact/programmability/lua-api#script_flags) did not imply `allow-oom`
 * Before Redis 7.0.1 the `no-writes` flag did not permit the script to run during write pauses.
 
 
