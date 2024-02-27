@@ -44,7 +44,7 @@ weight: 1
 
 ### Security
 
-* By default, Redis does not require any authentication and listens to all the network interfaces. This is a big security issue if you leave Redis exposed on the internet or other places where attackers can reach it. See for example [this attack](http://antirez.com/news/96) to see how dangerous it can be. Please check our [security page](/topics/security) and the [quick start](/topics/quickstart) for information about how to secure Redis.
+* By default, Redis does not require any authentication and listens to all the network interfaces. This is a big security issue if you leave Redis exposed on the internet or other places where attackers can reach it. See for example [this attack](http://antirez.com/news/96) to see how dangerous it can be. Please check our [security page]({{< relref "/operate/oss_and_stack/management/security/" >}}) and the [quick start]({{< relref "/develop/get-started/" >}}) for information about how to secure Redis.
 
 ## Running Redis on EC2
 

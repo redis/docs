@@ -108,4 +108,4 @@ all the keys will be evicted using an approximated LRU algorithm as long
 as we hit the 2 megabyte memory limit.
 
 Basically, in this configuration Redis acts in a similar way to memcached.
-We have more extensive documentation about using Redis as an LRU cache [here](/topics/lru-cache).
+We have more extensive documentation about using Redis as an LRU cache [here]({{< relref "/develop/reference/eviction" >}}).

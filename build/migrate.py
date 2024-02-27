@@ -906,7 +906,6 @@ if __name__ == "__main__":
     print("## Setting the migration environment ...")
     print(set_env())
 
-    '''
     print("## Fetching temporary development documentation content ...")
     fetch_io()
 
@@ -939,7 +938,8 @@ if __name__ == "__main__":
     fix_all_children(["operate/rc", "operate/rs", "operate/kubernetes", "operate/oss_and_stack/stack-with-enterprise", "integrate/redis-data-integration"])
     fix_missed_images(["operate/kubernetes"])
     fix_resp_references()
-    '''
-    fix_topics_links(["operate/oss_and_stack", "commands", "integrate", "develop"])
+    
+    # Don't include the RS folder at this point!
+    fix_topics_links(["operate/oss_and_stack", "commands", "integrate", "develop", "embeds", "glossary"])
    
     

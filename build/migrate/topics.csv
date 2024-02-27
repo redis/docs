@@ -15,6 +15,7 @@ broken_ref;fixed_ref;comment
 /topics/governance;/about/governance;
 /topics/internals-sds;/operate/oss_and_stack/reference/internals/internals-sds;
 /topics/lru_cache;/develop/reference/eviction;
+/topics/lru-cache;/develop/reference/eviction;
 /topics/latency-monitor;/operate/oss_and_stack/management/optimization/latency-monitor.md;
 /topics/encryption;/operate/oss_and_stack/management/security/encryption.md;
 /topics/lua-api;/develop/interact/programmability/lua-api.md;
@@ -56,3 +57,5 @@ broken_ref;fixed_ref;comment
 /topics/modules-native-types;/develop/reference/modules/modules-native-types;
 /topics/modules-api-ref;/develop/reference/modules/modules-api-ref;
 /topics/debugging;/operate/oss_and_stack/management/debugging;
+/topics/security;/operate/oss_and_stack/management/security/;
+/topics/quickstart;/develop/get-started/;

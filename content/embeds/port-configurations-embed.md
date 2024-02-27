@@ -15,7 +15,7 @@ update your firewall with the port for that new database endpoint.
 | ICMP | * | Internal | For connectivity checking between nodes |
 | TCP | 1968 | Internal | Proxy traffic |
 | TCP | 3333, 3334, 3335, 3336, 3337, 3338, 3339, 36379, 36380 | Internal | Cluster traffic |
-| TCP | 8001 | Internal, External | Traffic from application to RS [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) |
+| TCP | 8001 | Internal, External | Traffic from application to RS [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service" >}}) |
 | TCP | 8002, 8004 | Internal | System health monitoring |
 | TCP | 8443 | Internal, External | Secure (HTTPS) access to the management web UI |
 | TCP | 8444, 9080 | Internal | For nginx <-> cnm_http/cm traffic |

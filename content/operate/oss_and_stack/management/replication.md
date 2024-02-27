@@ -176,7 +176,7 @@ for more details.
 Since Redis 2.6, replicas support a read-only mode that is enabled by default.
 This behavior is controlled by the `replica-read-only` option in the redis.conf file, and can be enabled and disabled at runtime using [`CONFIG SET`](/commands/config-set).
 
-Read-only replicas will reject all write commands, so that it is not possible to write to a replica because of a mistake. This does not mean that the feature is intended to expose a replica instance to the internet or more generally to a network where untrusted clients exist, because administrative commands like [`DEBUG`](/commands/debug) or [`CONFIG`](/commands/config) are still enabled. The [Security](/topics/security) page describes how to secure a Redis instance.
+Read-only replicas will reject all write commands, so that it is not possible to write to a replica because of a mistake. This does not mean that the feature is intended to expose a replica instance to the internet or more generally to a network where untrusted clients exist, because administrative commands like [`DEBUG`](/commands/debug) or [`CONFIG`](/commands/config) are still enabled. The [Security]({{< relref "/operate/oss_and_stack/management/security/" >}}) page describes how to secure a Redis instance.
 
 You may wonder why it is possible to revert the read-only setting
 and have replica instances that can be targeted by write operations.

@@ -453,7 +453,7 @@ are explained in the next sections:
 * Checking the scheduler latency of the local computer.
 * Transferring RDB backups from a remote Redis server locally.
 * Acting as a Redis replica for showing what a replica receives.
-* Simulating [LRU](/topics/lru-cache) workloads for showing stats about keys hits.
+* Simulating [LRU]({{< relref "/develop/reference/eviction" >}}) workloads for showing stats about keys hits.
 * A client for the Lua debugger.
 
 ## Continuous stats mode
@@ -748,7 +748,7 @@ in order to improve the bug report.
 
 ## Performing an LRU simulation
 
-Redis is often used as a cache with [LRU eviction](/topics/lru-cache).
+Redis is often used as a cache with [LRU eviction]({{< relref "/develop/reference/eviction" >}}).
 Depending on the number of keys and the amount of memory allocated for the
 cache (specified via the `maxmemory` directive), the amount of cache hits
 and misses will change. Sometimes, simulating the rate of hits is very
