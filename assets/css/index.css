@@ -368,11 +368,7 @@ select {
 }
 
 .cli-footer a.rounded {
-  background-color: #3E4977;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-.cli-footer a.rounded:hover {
-  background-color: #3E4981;
+  @apply bg-red-900/80 hover:bg-red-700/80 text-white;
 }
 
 .codetabs.cli > .panel .highlight > .chroma {
