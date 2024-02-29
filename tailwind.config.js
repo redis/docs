@@ -62,6 +62,7 @@ module.exports = {
       typography: (theme) => (  {
         DEFAULT: {
           css: {
+						maxWidth: '100%',
             color: theme('colors.redis-ink.900'),
             a: {
               transition: '.2s all',

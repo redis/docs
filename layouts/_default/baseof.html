@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ .Site.Language.Lang }}" class="scroll-smooth">
+<html lang="{{ .Site.Language.Lang }}" class="scroll-smooth w-full">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -51,7 +51,7 @@
         {{ partial "mathjax.html" }}
     {{ end }}
   </head>
-  <body class="antialiased tracking-[-0.01em] bg-white">
+  <body class="antialiased tracking-[-0.01em] bg-white w-full">
     {{ if hugo.IsProduction -}}
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ .Site.Params.tagManagerId }}"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

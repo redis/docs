@@ -14,11 +14,11 @@
 {{ define "main" }}
   {{ partial "path-scratch.html" }}
   {{ $basePath := .Scratch.Get "path" }}
-  <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row gap-8 lg:gap-16">
+  <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row overflow-hidden">
     {{ partial "docs-nav-collapsed.html" . }}
-    <section class="w-full py-12">
+    <div class="py-12 md:px-4 xl:px-16 overflow-hidden">
       {{ partial "breadcrumbs" . }}
-      <section class="prose py-12">
+      <section class="prose w-full py-12"> 
         <h1>Commands</h1>
       </section>
       <form id="command-filter" class="text-center flex flex-col sm:grid grid-cols-2 gap-4 mt-6 mb-8">
@@ -142,8 +142,8 @@
           </article>
         {{ end }}
       </div>
-    </section>
-    
+    </div>
+
     {{ partial "commands-nav.html" . }}
   </main>
 {{ end }}

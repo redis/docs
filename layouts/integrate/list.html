@@ -1,5 +1,5 @@
 {{ define "head" }}
-{{ $base := .Site.BaseURL }}
+  {{ $base := .Site.BaseURL }}
   {{ $parsed := urls.Parse $base }}
   {{ $path := $parsed.Path }}
   {{ if (eq $path "/") }}
@@ -7,18 +7,18 @@
   {{ else }}
     {{ .Scratch.Set "path" $path}}
   {{ end }}
-{{ $basePath := .Scratch.Get "path" }}
-<script src='{{ $basePath }}/js/integrations-filters.js' defer></script>
+  {{ $basePath := .Scratch.Get "path" }}
+  <script src='{{ $basePath }}/js/integrations-filters.js' defer></script>
 {{ end }}
 
 {{ define "main" }}
-{{ partial "path-scratch.html" }}
-{{ $basePath := .Scratch.Get "path" }}
-  <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row gap-8 lg:gap-16">
+  {{ partial "path-scratch.html" }}
+  {{ $basePath := .Scratch.Get "path" }}
+  <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row overflow-hidden">
     {{ partial "docs-nav-collapsed.html" . }}
-    <section class="w-full py-12">
+    <div class="py-12 md:px-4 xl:px-16 overflow-hidden">
       {{ partial "breadcrumbs" . }}
-      <section class="prose py-12">
+      <section class="prose w-full py-12 max-w-none">
         <h1>{{ .Title }}</h1>
       </section>
       <form id="integration-filter" class="text-center flex flex-col sm:grid grid-cols-2 gap-4 mt-6 mb-8">
@@ -50,7 +50,6 @@
           </optgroup>
 
         </select>
-        </div>
       </form>
             
       <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-slate-500 mx-auto">
@@ -74,7 +73,7 @@
           </article>
         {{ end }}
       </div>
-    </section>
+    </div>
     
     {{ partial "commands-nav.html" . }}
   </main>

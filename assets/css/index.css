@@ -486,14 +486,6 @@ select {
   @apply w-8 h-8;
 }
 
-main.docs:before,
-main.docs:after,
-main.download:before,
-main.download:after {
-  content: '';
-  @apply w-80 h-80 fixed right-0 bottom-0 z-[-1] bg-contain bg-no-repeat bg-center;
-}
-
 #alpha-filter-container .active {
   @apply bg-red-50 text-redis-red-500 border-red-100;
 }
