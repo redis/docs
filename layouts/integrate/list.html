@@ -53,20 +53,26 @@
       </form>
             
       <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-slate-500 mx-auto">
+        {{ $labelColors := (dict "library" "bg-redis-yellow-500" "framework" "bg-violet-300" "observability" "bg-blue-300" "provisioning" "bg-redis-red-500" "mig" "bg-pink-300" "di" "bg-teal-300" "cloud-service" "bg-rose-300") }}
+        {{ $labelText := (dict "mig" "data migration" "di" "data integration" "cloud-service" "cloud service") }}
         {{ range .CurrentSection.Sections }}
           <article 
-            class="flex flex-col justify-start transition relative h-full p-6 text-sm text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-ink-900 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md" 
+            class="flex flex-col justify-start transition relative h-full text-sm text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-ink-900 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md" 
             data-name="{{ .Title }}" 
             data-group="{{ .Params.group }}"
             data-version
             data-top
           >
-            <h1 class="truncate font-mono font-medium mb-1.5">
+            <h1 class="truncate font-mono font-medium mb-1.5 px-6 pt-2">
               {{ .Title }}
             </h1>
-            <p class="opacity-70">
+            <p class="opacity-70 px-6 pb-6">
               {{ .Params.summary }}
             </p>
+            <div class="absolute left-6 bottom-1 flex flex-row items-center gap-1 uppercase font-mono text-xs">
+              <div class='h-3 w-3 rounded-md border border-redis-pen-600 {{ index $labelColors .Params.group | default "bg-green-300" }}'></div>
+              {{ index $labelText .Params.group | default .Params.group }}
+            </div>
             <a class="absolute inset-0 outline-0" href="{{ .RelPermalink }}">
               <span class="sr-only">Read more</span>
             </a>
