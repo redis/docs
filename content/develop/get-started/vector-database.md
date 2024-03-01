@@ -133,7 +133,7 @@ You now need to add the vectorized descriptions to the JSON documents in Redis u
 
 {{< clients-example search_vss load_embeddings />}}
 
-Inspect one of the vectorized bike documents using the [JSON.GET]((https://redis.io/commands/json.get/)) command:
+Inspect one of the vectorized bike documents using the [JSON.GET](({{< relref "/commands" >}}/json.get/)) command:
 
 {{< clients-example search_vss dump_example />}}
 

@@ -916,7 +916,7 @@ def fix_command_group_params(content_folders):
             updated_content = re.sub(pattern, r'\1\3\2', content)
             _write_file(f, updated_content)
 
-def fix_fq_links(content_folders):
+def fix_fq_io_links(content_folders, target_folders):
     links_csv = _load_csv_file('./migrate/io-links-misc-mapped.csv')
     result = {}
 
@@ -940,36 +940,44 @@ def fix_fq_links(content_folders):
                 path = parsed[0]
                 anchor = parsed[1]
 
+            stripped_path = path.rstrip('/')
+
             #Try to find a file that either matches path/_index.md, path/index.md or parent_path/name.md
             for c in content_folders:
                 markdown_files = find_markdown_files(slash(DOCS_ROOT, c))
             
                 for f in markdown_files:
                     if not '/tmp' in f:
-                        stripped_path = path.strip('/')
                         if f.endswith(stripped_path + '/_index.md') or f.endswith(stripped_path + '/index.md') or f.endswith(stripped_path + '.md'):
                             new_path = f.split('/content')[1]
-
+                            
                             if new_path.endswith('_index.md'):
                                 new_path = new_path.replace('_index.md', '')
                             else:
                                 new_path = new_path.replace('/index.md', '')
                                 new_path = new_path.replace('.md', '')
-                            
+                               
                             if anchor:
                                 relref = '{{< relref "' + new_path + '" >}}#' + anchor
                                 
                             else:
                                 relref = '{{< relref "' + new_path + '" >}}'
-                            
+                        
                             result[k] = relref
 
     # Replace in files
-    for c in content_folders:
+    for c in target_folders:
         markdown_files = find_markdown_files(slash(DOCS_ROOT, c))
         for f in markdown_files:
+            
+            # Replace the command links
+            find_and_replace(f, 'https://redis.io/commands', '{{< relref "/commands" >}}')
+
+            # Replace the previously mapped links
             for k in result:
                 find_and_replace(f, k, result[k])
+
+        
 
 '''
 Migration script
@@ -1018,5 +1026,5 @@ if __name__ == "__main__":
     fix_command_group_params(["commands", "develop", "operate/oss_and_stack", "integrate"])
     '''
 
-    fix_fq_links(["commands", "develop", "operate/oss_and_stack", "integrate"])
+    fix_fq_io_links(["commands", "develop", "operate/oss_and_stack", "integrate"], ["commands", "develop", "operate", "integrate", "embeds", "glossary"])
     

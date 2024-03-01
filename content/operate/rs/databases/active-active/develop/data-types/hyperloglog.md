@@ -17,7 +17,7 @@ Because it estimates the cardinality by probability, the HyperLogLog algorithm c
 ## HyperLogLog in Redis
 
 Open source Redis implements [HyperLogLog](https://redislabs.com/redis-best-practices/counting/hyperloglog/) (HLL) as a native data-structure.
-It supports adding elements ([PFADD](https://redis.io/commands/pfadd)) to an HLL, counting elements ([PFCOUNT](https://redis.io/commands/pfcount)) of HLLs, and merging of ([PFMERGE](https://redis.io/commands/pfmerge)) HLLs.
+It supports adding elements ([PFADD]({{< relref "/commands" >}}/pfadd)) to an HLL, counting elements ([PFCOUNT]({{< relref "/commands" >}}/pfcount)) of HLLs, and merging of ([PFMERGE]({{< relref "/commands" >}}/pfmerge)) HLLs.
 
 Here is an example of a simple write case:
 

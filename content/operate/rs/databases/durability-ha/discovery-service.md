@@ -81,7 +81,7 @@ $ ./redis-cli -p 8001
 
 It is important to note that, the Discovery Service is not a full
 implementation of the [Redis Sentinel
-protocol](https://redis.io/topics/sentinel). There are aspects of the
+protocol]({{< relref "/operate/oss_and_stack/management/sentinel" >}}). There are aspects of the
 protocol that are not applicable or would be duplication with existing
 technology in Redis Enterprise Software. The Discovery Service
 implements only the parts required to provide applications with easy

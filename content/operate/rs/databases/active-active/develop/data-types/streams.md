@@ -9,7 +9,7 @@ description: Information about using streams with an Active-Active database.
 linkTitle: Streams
 weight: $weight
 ---
-A [Redis Stream](https://redis.io/topics/streams-intro) is a data structure that acts like an append-only log.
+A [Redis Stream]({{< relref "/develop/data-types/streams" >}}) is a data structure that acts like an append-only log.
 Each stream entry consists of:
 
 - A unique, monotonically increasing ID

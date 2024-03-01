@@ -289,7 +289,7 @@ the node was pinged and the last time the pong was received, the current
 *configuration epoch* of the node (explained later in this specification),
 the link state and finally the set of hash slots served.
 
-A detailed [explanation of all the node fields](https://redis.io/commands/cluster-nodes) is described in the [`CLUSTER NODES`](/commands/cluster-nodes) documentation.
+A detailed [explanation of all the node fields]({{< relref "/commands" >}}/cluster-nodes) is described in the [`CLUSTER NODES`](/commands/cluster-nodes) documentation.
 
 The [`CLUSTER NODES`](/commands/cluster-nodes) command can be sent to any node in the cluster and provides the state of the cluster and the information for each node according to the local view the queried node has of the cluster.
 

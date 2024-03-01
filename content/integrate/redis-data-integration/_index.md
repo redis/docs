@@ -75,7 +75,7 @@ RDI is an enterprise-grade product with an extensive set of features.
 
 - At least once guarantee, end to end
 - Data in transit is replicated to replica a shard
-- Data persistence (see [Redis AOF](https://redis.io/docs/management/persistence/))
+- Data persistence (see [Redis AOF]({{< relref "/operate/oss_and_stack/management/persistence" >}}))
 - A back-pressure mechanism that prevents cascading failures
 - Reconnect on failure and write retries
 

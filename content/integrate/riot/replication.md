@@ -11,7 +11,7 @@ weight: 8
 Most Redis migration tools available today are offline in nature.
 Migrating data from AWS ElastiCache to Redis Enterprise Cloud, for example, means backing up your Elasticache data to an AWS S3 bucket and importing it into Redis Enterprise Cloud using its UI.
 
-Redis has a replication command called [REPLICAOF](https://redis.io/commands/replicaof) but it is not always available (see [ElastiCache restrictions](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/RestrictedCommands.html)).
+Redis has a replication command called [REPLICAOF]({{< relref "/commands" >}}/replicaof) but it is not always available (see [ElastiCache restrictions](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/RestrictedCommands.html)).
 Instead, RIOT implements [client-side replication]({{< relref "/integrate/riot/architecture" >}}) using **dump & restore** or **type-based read & write**. Both snapshot and live replication modes are supported.
 
 {{< warning >}}
@@ -119,7 +119,7 @@ Replication strategy (default: `dump`).
 #### Source reader options
 
 * **`--scan-count`**\
-    How many keys to read at once on each call to [SCAN](https://redis.io/commands/scan#the-count-option)
+    How many keys to read at once on each call to [SCAN]({{< relref "/commands" >}}/scan#the-count-option)
 * **`--scan-match`**\
     Pattern of keys to scan for (default: `*` i.e. all keys)
 * **`--scan-type`**\
@@ -222,7 +222,7 @@ Each time a key is modified, RIOT reads the corresponding value and propagates t
 
 Live replication relies on keyspace notifications. 
 Make sure the source database has keyspace notifications enabled using `notify-keyspace-events = KA` in `redis.conf` or via `CONFIG SET`.
-For more details see [Redis Keyspace Notifications](https://redis.io/docs/manual/keyspace-notifications).
+For more details see [Redis Keyspace Notifications]({{< relref "/develop/use/keyspace-notifications" >}}).
 
 
 {{< warning >}}

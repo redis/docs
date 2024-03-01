@@ -53,4 +53,4 @@ Users, roles, and Redis ACLs are cluster-level entities, which means:
 
 - [Control database access using RBAC]({{< relref "/operate/rs/security/access-control/database-access" >}})
 
-- [Redis ACL rules](https://redis.io/docs/manual/security/acl/#acl-rules)
+- [Redis ACL rules]({{< relref "/operate/oss_and_stack/management/security/acl" >}})

@@ -35,4 +35,4 @@ Rack-zone awareness maps each node in your Redis Enterprise cluster to a physica
 
 ## [Discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}})
 
-The discovery service provides an IP-based connection management service used when connecting to Redis Enterprise Software databases. It lets your application discover which node hosts the database endpoint. The discovery service API complies with the [Redis Sentinel API](https://redis.io/docs/management/sentinel/#sentinel-api).
+The discovery service provides an IP-based connection management service used when connecting to Redis Enterprise Software databases. It lets your application discover which node hosts the database endpoint. The discovery service API complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}#sentinel-api).

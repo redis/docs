@@ -136,7 +136,7 @@ caCertPool.AppendCertsFromPEM(caCert)
 
 client := redis.NewClient(&redis.Options{
     Addr:     "my-redis.cloud.redislabs.com:6379",
-    Username: "default", // use your Redis user. More info https://redis.io/docs/management/security/acl/
+    Username: "default", // use your Redis user. More info {{< relref "/operate/oss_and_stack/management/security/acl" >}}
     Password: "secret", // use your Redis password
     TLSConfig: &tls.Config{
         MinVersion:   tls.VersionTLS12,

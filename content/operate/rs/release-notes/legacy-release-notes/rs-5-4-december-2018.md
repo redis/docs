@@ -19,7 +19,7 @@ You can upgrade to RS 5.4 from RS 5.0 and above according to the [upgrade instru
 
 ### Redis 5.0 GA - Redis Streams
 
-RS 5.4 adds support for Redis 5.0 (GA version- 5.0.2), which introduces the new [Redis Streams](https://redis.io/topics/streams-intro) data type. Redis Streams models a log data structure in-memory and implements additional powerful operations, such as Consumer Groups.
+RS 5.4 adds support for Redis 5.0 (GA version- 5.0.2), which introduces the new [Redis Streams]({{< relref "/develop/data-types/streams" >}}) data type. Redis Streams models a log data structure in-memory and implements additional powerful operations, such as Consumer Groups.
 
 ### Redis graph module
 

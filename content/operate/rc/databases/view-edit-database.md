@@ -27,7 +27,7 @@ To view the details of a database:
 The **Database** screen lets you review:
 - Configuration details of a database
 - Graphs showing performance metrics
-- Recent activity via a "[slowlog](https://redis.io/commands/slowlog)," which lists queries that exceed a certain execution time.
+- Recent activity via a "[slowlog]({{< relref "/commands" >}}/slowlog)," which lists queries that exceed a certain execution time.
 
 For help changing database settings, see [Edit database details](#edit-database-details).
 
@@ -53,7 +53,7 @@ The available settings vary according to your subscription plan, cloud provider,
 | **Creation time**         | Date and time the database was created                                                                                                                      |
 | **Active-Active Redis**   | Checked when the database is part of an Active-Active relationship                                                                                          |
 | **Last changed**          | Date and time of last update                                                                                                                                |
-| **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol](https://redis.io/docs/reference/protocol-spec/#resp-versions) for details |
+| **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 | **Advanced Capabilites**  | This setting appears when when an [advanced capability]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) is enabled for a database                                                  |
 
 ### Scalability section
@@ -182,7 +182,7 @@ The **View Database** screen also has tabs that let you view:
 
 - **Metrics**: a series of graphs showing database performance over time.  See [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance.md" >}})
 
-- **Slowlog**: a log showing recent [slow queries](https://redis.io/commands/slowlog) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
+- **Slowlog**: a log showing recent [slow queries]({{< relref "/commands" >}}/slowlog) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
 
 
 ## Edit database details

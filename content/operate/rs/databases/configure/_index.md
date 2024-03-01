@@ -22,7 +22,7 @@ You can manage your Redis Enterprise Software databases with several tools:
 
     - [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) for Active-Active database configuration
 
-    - [`redis-cli`](https://redis.io/docs/manual/cli/) for open source Redis configuration
+    - [`redis-cli`]({{< relref "/develop/connect/cli" >}}) for open source Redis configuration
 
 - [REST API]({{< relref "/operate/rs/references/rest-api/_index.md" >}})
 
@@ -148,7 +148,7 @@ You can require [**TLS**]({{< relref "/operate/rs/security/encryption/tls/" >}})
 
 - **Unauthenticated access** - You can access the database as the default user without providing credentials.
 
-- **Password-only authentication** - When you configure a password for your database's default user, all connections to the database must authenticate with the [AUTH command](https://redis.io/commands/auth).
+- **Password-only authentication** - When you configure a password for your database's default user, all connections to the database must authenticate with the [AUTH command]({{< relref "/commands" >}}/auth).
 
     If you also configure an access control list, connections can specify other users for authentication, and requests are allowed according to the Redis ACLs specified for that user.
 

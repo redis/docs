@@ -209,7 +209,7 @@ def __init__(vector: Union[List[float], bytes],
 
 Query for vector fields.
 
-Read more: https://redis.io/docs/interact/search-and-query/search/vectors/`knn`-search
+Read more: {{< relref "/develop/interact/search-and-query/" >}}search/vectors/`knn`-search
 
 **Arguments**:
 
@@ -279,7 +279,7 @@ Range queries are for filtering vector search results
 by the distance between a vector field value and a query
 vector, in terms of the index distance metric.
 
-Read more: https://redis.io/docs/interact/search-and-query/search/vectors/`range`-query
+Read more: {{< relref "/develop/interact/search-and-query/" >}}search/vectors/`range`-query
 
 **Arguments**:
 

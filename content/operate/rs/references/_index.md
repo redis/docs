@@ -14,7 +14,7 @@ weight: 80
 
 Redis client libraries allow you to connect to Redis instances from within your application. This section provides an overview of several recommended Redis clients for popular programming and scripting languages.
 
-For a list of available Redis clients sorted by language, see [Clients (redis.io)](https://redis.io/resources/clients/).
+For a list of available Redis clients sorted by language, see [Clients (redis.io)]({{< relref "/develop/connect/clients/" >}}).
 
 ## [Command-line utilities]({{< relref "/operate/rs/references/cli-utilities" >}})
 
