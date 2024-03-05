@@ -1,52 +1,57 @@
-<header class="sticky top-0 z-50 w-full border border-b-redis-pen-300 bg-white text-midnight-900 font-mono text-sm flex justify-center">
+<header class="sticky top-0 z-50 w-full border-b border-redis-pen-300 bg-white text-midnight-900 font-mono text-[15px] flex justify-center">
   {{/*  {{ partial "banner.html" . }}  */}}
-  <div class="flex h-16 px-4 lg:pl-11 lg:pr-0 justify-between self-center grow">
-    <div class="h-full flex gap-6 items-center">
-      <a class="relative mr-4 transition-colors text-redis-red-500 hover:text-redis-red-600" href="http://redis.io/">
-        {{ partial "icons/logo-script.html" }}
-      </a>
+  <div class="flex h-[70px] px-4 lg:pl-11 lg:pr-0 items-center self-center grow">
+    <a class="relative text-redis-red-500" href="http://redis.io/">
+      {{ partial "icons/logo-script.html" }}
+    </a>
+    <div class="h-full flex items-center mx-4 grow">
       <div class="hidden lg:flex flex-row h-full items-center">
-        <div class="group h-full px-3">
-          <div class="flex flex-row h-full items-center cursor-pointer">
-            <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Products</span><span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span>
+        <div class="group h-full px-1.5 xl:px-3">
+          <div class="flex flex-row h-full items-center cursor-pointer w-[10ch] justify-between">
+            <span class="inline-block group-hover:font-bold">Products</span>
+            <span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/products-dropdown.html" . }}
         </div>
-        <div class="group h-full px-3">
-          <div class="flex flex-row h-full items-center cursor-pointer">
-            <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Solutions</span><span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span>
+        <div class="group h-full px-1.5 xl:px-4">
+          <div class="flex flex-row h-full items-center cursor-pointer w-[11ch] justify-between">
+            <span class="inline-block group-hover:font-bold">Solutions</span>
+            <span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/solutions-dropdown.html" . }}
         </div>
-        <div class="group h-full px-3">
-          <div class="flex flex-row h-full items-center cursor-pointer">
-            <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Support</span><span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span>
+        <div class="group h-full px-1.5 xl:px-3">
+          <div class="flex flex-row h-full items-center cursor-pointer w-[9ch] justify-between">
+            <span class="inline-block group-hover:font-bold">Support</span>
+            <span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/support-dropdown.html" . }}
         </div>
-        <div class="group h-full px-3">
-          <div class="flex flex-row h-full items-center cursor-pointer">
-            <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Company</span><span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span>
+        <div class="group h-full px-1.5 xl:px-4">
+          <div class="flex flex-row h-full items-center cursor-pointer w-[9ch] justify-between">
+            <span class="inline-block group-hover:font-bold">Company</span>
+            <span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/company-dropdown.html" . }}
         </div>
-        <div class="group h-full px-3">
-          <div class="flex flex-row h-full items-center cursor-pointer">
-            <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Docs</span><span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180">{{ partial "icons/caret.html" }}</span>
+        <div class="group h-full px-1.5 xl:px-4">
+          <div class="flex flex-row h-full items-center cursor-pointer w-[6ch] justify-between">
+            <span class="inline-block group-hover:font-bold">Docs</span>
+            <span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/docs-dropdown.html" . }}
         </div>
       </div>
-      <a class="hidden lg:flex group flex-row gap-2 items-center" href="http://redis.io/pricing"><span class="group-hover:font-bold group-hover:tracking-tight">Pricing</span></a>
+      <a class="hidden lg:flex group flex-row items-center pl-1.5 xl:pl-3" href="http://redis.io/pricing"><span class="group-hover:font-bold">Pricing</span></a>
     </div>
 
-    <div class="h-full flex gap-7 items-center text-center">
+    <div class="h-full flex gap-3 xl:gap-7 items-center text-center">
       <button id="search-button" type="button" class="p-1 mt-1 transition-colors hover:text-redis-red-500">
         {{ partial "icons/search.html" }}
       </button>
       <a class="hidden lg:block py-1 transition-colors hover:text-redis-red-500" href="https://app.redislabs.com/">Login</a>
       <a class="hidden lg:block py-1 transition-colors hover:text-redis-red-500" href="https://redis.io/meeting/">Book a meeting</a>
-      <a class="hidden lg:inline-flex transition-colors items-center justify-center bg-redis-red-500 hover:bg-redis-red-600 hover:text-midnight-900 h-full px-6" href="http://redis.com/try-free/">Try Redis</a>
+      <a class="hidden lg:inline-flex transition-colors hover:duration-0 duration-500 ease-out items-center justify-center bg-redis-red-500 hover:bg-redis-yellow-500 hover:text-midnight-900 min-w-[168px] h-full px-6" href="http://redis.com/try-free/">Try Redis</a>
       <button data-menu-toggle aria-expanded="false" type="button" class="menu-toggle lg:hidden p-1 mt-1 transition-colors hover:text-redis-red-500">
         <span class="sr-only">Open main menu</span> 
         {{ partial "icons/hamburger.html" }}

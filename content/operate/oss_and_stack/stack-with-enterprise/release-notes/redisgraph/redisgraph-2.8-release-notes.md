@@ -184,7 +184,7 @@ Details:
 - Features:
 
     - [#2403](https://github.com/RedisGraph/RedisGraph/pull/2403) Introduce `toFloat` function
-    - [#2365](https://github.com/RedisGraph/RedisGraph/issues/2365) Commands that don't execute on the main thread now also appear in [SLOWLOG](https://redis.io/commands/slowlog/)
+    - [#2365](https://github.com/RedisGraph/RedisGraph/issues/2365) Commands that don't execute on the main thread now also appear in [SLOWLOG]({{< relref "/commands" >}}/slowlog/)
 
 - Bug fixes:
 
@@ -245,7 +245,7 @@ Details:
 
 - Bug fixes:
 
-    - [#2259](https://github.com/RedisGraph/RedisGraph/issues/2259), [#2258](https://github.com/RedisGraph/RedisGraph/pull/2258) Fix memory leak and potential crash on [RDB](https://redis.io/docs/manual/persistence/) saving
+    - [#2259](https://github.com/RedisGraph/RedisGraph/issues/2259), [#2258](https://github.com/RedisGraph/RedisGraph/pull/2258) Fix memory leak and potential crash on [RDB]({{< relref "/operate/oss_and_stack/management/persistence" >}}) saving
 
 ## v2.8.10 (March 2022)
 
@@ -257,7 +257,7 @@ Details:
 
 - Features:
 
-    - [#2245](https://github.com/RedisGraph/RedisGraph/pull/2245) Support graphs [eviction](https://redis.io/docs/manual/eviction/)
+    - [#2245](https://github.com/RedisGraph/RedisGraph/pull/2245) Support graphs [eviction]({{< relref "/develop/reference/eviction" >}})
 
 - Bug fixes:
 
@@ -271,7 +271,7 @@ Details:
 
 - Improvements:
 
-    - [#2235](https://github.com/RedisGraph/RedisGraph/pull/2235) Improved [RDB](https://redis.io/docs/manual/persistence/) loading performance
+    - [#2235](https://github.com/RedisGraph/RedisGraph/pull/2235) Improved [RDB]({{< relref "/operate/oss_and_stack/management/persistence" >}}) loading performance
 
 ## v2.8.9 (March 2022)
 

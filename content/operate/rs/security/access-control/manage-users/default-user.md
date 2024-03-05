@@ -19,7 +19,7 @@ Select **Password-only authentication**, then enter and confirm a default databa
 
 ## Authenticate as default user
 
-When you configure a password for your database, all connections to the database must authenticate using the [AUTH](https://redis.io/commands/auth) command.
+When you configure a password for your database, all connections to the database must authenticate using the [AUTH]({{< relref "/commands" >}}/auth) command.
 
 ```sh
 AUTH <default-database-password>

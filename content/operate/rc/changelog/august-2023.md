@@ -31,7 +31,7 @@ To use it, [create a fixed subscription]({{< relref "/operate/rc/subscriptions/c
 
 If you'd like to use triggers and functions with a [Flexible subscription]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}}), contact [support](https://redis.com/company/support/).
 
-For more information about triggers and functions, see the [triggers and functions documentation](https://redis.io/docs/interact/programmability/triggers-and-functions).
+For more information about triggers and functions, see the [triggers and functions documentation]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}}).
 
 ### Maintenance windows
 

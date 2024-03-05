@@ -88,7 +88,7 @@ Every instance of an Active-Active database can receive write operations, and al
         Active-Active databases support append-only file (AOF) persistence only. Snapshot persistence is not supported for Active-Active databases.
 
     - **Default database access** - When you configure a password for your database,
-        all connections to the database must authenticate with the [AUTH command](https://redis.io/commands/auth).
+        all connections to the database must authenticate with the [AUTH command]({{< relref "/commands" >}}/auth).
         If you also configure an access control list, connections can specify other users for authentication,
         and requests are allowed according to the Redis ACLs specified for that user.
 

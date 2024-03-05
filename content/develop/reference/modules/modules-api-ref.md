@@ -362,7 +362,7 @@ example "write deny-oom". The set of flags are:
                          the arguments that are channels.
 
 The last three parameters specify which arguments of the new command are
-Redis keys. See [https://redis.io/commands/command]({{< relref "/commands/command" >}}) for more information.
+Redis keys. See [{{< relref "/commands" >}}/command]({{< relref "/commands/command" >}}) for more information.
 
 * `firstkey`: One-based index of the first argument that's a key.
               Position 0 is always the command name itself.
@@ -5560,7 +5560,7 @@ If the user is able to access the pubsub channel then `REDISMODULE_OK` is return
 Adds a new entry in the ACL log.
 Returns `REDISMODULE_OK` on success and `REDISMODULE_ERR` on error.
 
-For more information about ACL log, please refer to [https://redis.io/commands/acl-log]({{< relref "/commands/acl-log" >}})
+For more information about ACL log, please refer to [{{< relref "/commands" >}}/acl-log]({{< relref "/commands/acl-log" >}})
 
 <span id="RedisModule_ACLAddLogEntryByUserName"></span>
 
@@ -5576,7 +5576,7 @@ For more information about ACL log, please refer to [https://redis.io/commands/a
 Adds a new entry in the ACL log with the `username` `RedisModuleString` provided.
 Returns `REDISMODULE_OK` on success and `REDISMODULE_ERR` on error.
 
-For more information about ACL log, please refer to [https://redis.io/commands/acl-log]({{< relref "/commands/acl-log" >}})
+For more information about ACL log, please refer to [{{< relref "/commands" >}}/acl-log]({{< relref "/commands/acl-log" >}})
 
 <span id="RedisModule_AuthenticateClientWithUser"></span>
 

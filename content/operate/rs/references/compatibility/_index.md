@@ -26,7 +26,7 @@ See [Compatibility with open source Redis commands]({{< relref "/operate/rs/refe
 
 ## Redis clients
 
-You can use any standard [Redis client](https://redis.io/docs/clients/) with Redis Enterprise.
+You can use any standard [Redis client]({{< relref "/develop/connect/clients/" >}}) with Redis Enterprise.
 
 ## RESP compatibility
 

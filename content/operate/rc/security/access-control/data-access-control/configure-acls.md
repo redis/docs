@@ -50,19 +50,19 @@ After you create a Redis ACL, you can assign it to a role. Redis ACLs are not fu
 
 ## Define permissions with ACL syntax
 
-You can define these permissions using the [Redis ACL syntax](https://redis.io/docs/management/security/acl/#acl-rules). This syntax lets you concisely specify which commands, command categories, keys, and pub/sub channels to allow.
+You can define these permissions using the [Redis ACL syntax]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#acl-rules). This syntax lets you concisely specify which commands, command categories, keys, and pub/sub channels to allow.
 
 - `+` *includes* commands or command categories
 - `-` *excludes* commands or command categories
 - `@` indicates a command category
 - `~` defines a permitted key pattern
-- `&` allows access to a [pub/sub channel](https://redis.io/docs/manual/pubsub/)
+- `&` allows access to a [pub/sub channel]({{< relref "/develop/interact/pubsub" >}})
 
 The Redis Cloud console will validate your ACL syntax while you are typing.
 
 ### Command ACL rules
 
-A **command** can be any [Redis command](https://redis.io/commands/).
+A **command** can be any [Redis command]({{< relref "/commands" >}}/).
 
 For example, this Redis ACL rule indicates that the `SET` command is permitted:
 
@@ -72,7 +72,7 @@ For example, this Redis ACL rule indicates that the `SET` command is permitted:
 
 ### Command category ACL rules
 
-A [**command category**](https://redis.io/docs/management/security/acl/#command-categories) is a predefined, named set of commands.
+A [**command category**]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#command-categories) is a predefined, named set of commands.
 
 For example, the Redis commands that
 read data are available in the `read` command category. This Redis ACL rule permits access to all read commands:
@@ -90,7 +90,7 @@ ACL CAT read
 
 ### Key ACL rules
 
-To specify which **keys** are accessible, use the [key permissions syntax](https://redis.io/docs/management/security/acl/#key-permissions).
+To specify which **keys** are accessible, use the [key permissions syntax]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#key-permissions).
 
 The following ACL rule allows access to all keys:
 
@@ -112,11 +112,11 @@ The following ACL rule allows you to copy information from keys prefixed with `c
 +@all ~app:* %R~cache:*
 ```
 
-For more information on how this works, see the [key permissions syntax](https://redis.io/docs/management/security/acl/#key-permissions).
+For more information on how this works, see the [key permissions syntax]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#key-permissions).
 
 ### Pub/sub ACL rules
 
-Pub/sub ACL rules determine which pub/sub channels a user can access. For more information see, [Redis pub/sub](https://redis.io/docs/manual/pubsub/)
+Pub/sub ACL rules determine which pub/sub channels a user can access. For more information see, [Redis pub/sub]({{< relref "/develop/interact/pubsub" >}})
 
 For versions older than Redis 7.0, pub/sub is permissive and allows access to all channels by default.
 
@@ -152,7 +152,7 @@ allchannels
 
 ### Selectors
 
-Starting with Redis 7.0, Redis supports adding multiple sets of rules that are evaluated independently of each other, called [selectors](https://redis.io/docs/management/security/acl/#selectors). 
+Starting with Redis 7.0, Redis supports adding multiple sets of rules that are evaluated independently of each other, called [selectors]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#selectors). 
 
 The following ACL rule allows a user to execute `GET` on keys prefixed with `cache` and `SET` on keys prefixed with `app`:
 

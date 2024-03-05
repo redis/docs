@@ -16,12 +16,14 @@
   {{- $pages_by_letters = merge $pages_by_letters (dict $first_letter $new_list) -}}
 {{ end }}
 
-<section id="alpha-filter-container" class="z-40 hidden md:flex flex-col bg-white/75 overflow-clip mt-24 pt-2.5 w-7 h-full max-h-[calc(100vh-15rem)] text-[0.8125rem]">
-  <button class="flex justify-center items-center w-6 h-6 rounded-md font-medium text-slate-500 hover:bg-red-50 focus:bg-red-50 hover:text-redis-red-500 focus:text-redis-red-500  border border-transparent hover:border-indigo-200 focus:border-indigo-200 transition-colors" type="button" value="">#</button>
-  {{ range $key, $items := $pages_by_letters }}
-    <button class="flex justify-center items-center w-6 h-6 rounded-md font-medium text-slate-500 hover:bg-red-50 focus:bg-red-50 hover:text-redis-red-500 focus:text-redis-red-500 border border-transparent hover:border-indigo-200 focus:border-indigo-200 transition-colors" type="button" value="{{ lower $key }}">
-      {{ $key }}
-    </button>
-  {{ end }}
-  <input id="alpha-filter" type="hidden" value="">
-</section>
+<div class="hidden md:block w-7 h-full shrink-0 py-6">
+  <section id="alpha-filter-container" class="fixed pt-6 flex flex-col bg-white/75 overflow-clip w-7 h-full max-h-[calc(100vh-15rem)] text-[0.8125rem]">
+    <button class="flex justify-center items-center w-6 h-6 rounded-md font-medium text-slate-500 hover:bg-red-50 focus:bg-red-50 hover:text-redis-red-500 focus:text-redis-red-500  border border-transparent hover:border-indigo-200 focus:border-indigo-200 transition-colors" type="button" value="">#</button>
+    {{ range $key, $items := $pages_by_letters }}
+      <button class="flex justify-center items-center w-6 h-6 rounded-md font-medium text-slate-500 hover:bg-red-50 focus:bg-red-50 hover:text-redis-red-500 focus:text-redis-red-500 border border-transparent hover:border-indigo-200 focus:border-indigo-200 transition-colors" type="button" value="{{ lower $key }}">
+        {{ $key }}
+      </button>
+    {{ end }}
+    <input id="alpha-filter" type="hidden" value="">
+  </section>
+</div>

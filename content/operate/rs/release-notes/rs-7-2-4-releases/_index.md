@@ -69,11 +69,11 @@ To prevent potential application issues due to RESP3 breaking changes, see [Clie
 
 #### Command deprecations
 
-- [`CLUSTER SLOTS`](https://redis.io/commands/cluster-slots) is deprecated as of Redis 7.0
+- [`CLUSTER SLOTS`]({{< relref "/commands" >}}/cluster-slots) is deprecated as of Redis 7.0
 
-- [`JSON.RESP`](https://redis.io/commands/json.resp/) is deprecated as of Redis Stack 7.2.
+- [`JSON.RESP`]({{< relref "/commands" >}}/json.resp/) is deprecated as of Redis Stack 7.2.
 
-- [`QUIT`](https://redis.io/commands/quit/) is deprecated as of Redis 7.2
+- [`QUIT`]({{< relref "/commands" >}}/quit/) is deprecated as of Redis 7.2
 
 #### API deprecations
 
@@ -253,7 +253,7 @@ Certain operating systems, such as RHEL 8, have already removed support for the 
 
 #### Command limitations
 
-- [`CLIENT NO-TOUCH`](https://redis.io/commands/client-no-touch/) might not run correctly in the following cases:
+- [`CLIENT NO-TOUCH`]({{< relref "/commands" >}}/client-no-touch/) might not run correctly in the following cases:
 
     - The Redis database version is earlier than 7.2.0.
 
@@ -261,9 +261,9 @@ Certain operating systems, such as RHEL 8, have already removed support for the 
 
     Before sending this command, clients should verify the database version is 7.2.0 or later and that using this command is allowed. 
 
-- You cannot use [`SUNSUBSCRIBE`](https://redis.io/commands/sunsubscribe/) to unsubscribe from a shard channel if the regex changed while subscribed.
+- You cannot use [`SUNSUBSCRIBE`]({{< relref "/commands" >}}/sunsubscribe/) to unsubscribe from a shard channel if the regex changed while subscribed.
 
-- Using [`XREADGROUP BLOCK`](https://redis.io/commands/xreadgroup/) with `>` to return all new streams will cause the Redis database to freeze until the shard is restarted. ([#12031](https://github.com/redis/redis/pull/12301))
+- Using [`XREADGROUP BLOCK`]({{< relref "/commands" >}}/xreadgroup/) with `>` to return all new streams will cause the Redis database to freeze until the shard is restarted. ([#12031](https://github.com/redis/redis/pull/12301))
 
 - Because a rejected command does not record the duration for command stats, an error will appear after it is reprocessed that will cause the Redis database to freeze until the shard is restarted. ([#12247](https://github.com/redis/redis/pull/12247))
 

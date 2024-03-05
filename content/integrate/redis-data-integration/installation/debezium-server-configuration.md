@@ -37,7 +37,7 @@ debezium.sink.redis.password=<REDIS_DI_PASSWORD>
 
 ### Preventing data loss
 
-To prevent data loss the Debezium Redis Sink Connector needs to be configured to [wait](https://redis.io/commands/wait/) for write acknowledgment from the RDI database replica shard. Use the following property to achieve this:
+To prevent data loss the Debezium Redis Sink Connector needs to be configured to [wait]({{< relref "/commands" >}}/wait/) for write acknowledgment from the RDI database replica shard. Use the following property to achieve this:
 
 ```properties
 debezium.sink.redis.wait.retry.enabled=true

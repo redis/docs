@@ -143,7 +143,7 @@ Select **More options** to specify values for the following settings.
 |:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **OSS Cluster API** | Enable to use the open-source Redis Cluster API.                                                                                                                |
 | **Type** | Set to **Redis**, otherwise **Memcached** database for legacy database support.                                                                                     |
-| **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 only)_. See [Redis serialization protocol](https://redis.io/docs/reference/protocol-spec/#resp-versions) for details |
+| **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 | **Quantity** | Number of databases to create with these settings.                                                                                                              |
 
 When finished, select **Save database** to create your database.

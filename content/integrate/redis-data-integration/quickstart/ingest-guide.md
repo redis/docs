@@ -67,7 +67,7 @@ Update the `connection/target` details to match the target database settings. Se
 
 ## Preventing data loss on the Redis target database
 
-To prevent the Redis Target database from losing data, configure RDI to [wait](https://redis.io/commands/wait/) for replica shard write acknowledgment. This can be done by adding the following lines in the `applier` section of `config.yaml`:
+To prevent the Redis Target database from losing data, configure RDI to [wait]({{< relref "/commands" >}}/wait/) for replica shard write acknowledgment. This can be done by adding the following lines in the `applier` section of `config.yaml`:
 
 ```yaml
 applier:

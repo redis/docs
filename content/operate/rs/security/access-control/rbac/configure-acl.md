@@ -18,11 +18,11 @@ Redis Enterprise Software provides one predefined Redis ACL named **Full Access*
 
 ## Redis ACL syntax
 
-Redis ACLs are defined by a [Redis syntax](https://redis.io/docs/manual/security/acl/#acl-rules) where you specify the commands or command categories that are allowed for specific keys.
+Redis ACLs are defined by a [Redis syntax]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) where you specify the commands or command categories that are allowed for specific keys.
 
 ### Commands and categories
 
-Redis ACL rules can allow or block specific [Redis commands](https://redis.io/commands/) or [command categories](https://redis.io/docs/management/security/acl/#command-categories).
+Redis ACL rules can allow or block specific [Redis commands]({{< relref "/commands" >}}/) or [command categories]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#command-categories).
 
 - `+` includes commands
 
@@ -42,7 +42,7 @@ Module commands have several ACL limitations:
 
 - [Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) do not have command categories.
 
-- Other [command category](https://redis.io/docs/management/security/acl/#command-categories) ACLs, such as `+@read` and `+@write`, do not include Redis module commands. `+@all` is the only exception because it allows all Redis commands.
+- Other [command category]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#command-categories) ACLs, such as `+@read` and `+@write`, do not include Redis module commands. `+@all` is the only exception because it allows all Redis commands.
 
 - You have to include individual module commands in a Redis ACL rule to allow them.
 
@@ -72,7 +72,7 @@ The following example allows read and write access to all keys that start with "
 
 ### Pub/sub channels
 
-The `&` prefix allows access to [pub/sub channels](https://redis.io/docs/manual/pubsub/) (only supported for databases with Redis version 6.2 or later).
+The `&` prefix allows access to [pub/sub channels]({{< relref "/develop/interact/pubsub" >}}) (only supported for databases with Redis version 6.2 or later).
 
 To limit access to specific channels, include `resetchannels` before the allowed channels:
 
@@ -82,7 +82,7 @@ resetchannels &channel1 &channel2
 
 ### Selectors
 
-[Selectors](https://redis.io/docs/management/security/acl/#selectors) let you define multiple sets of rules in a single Redis ACL (only supported for databases with Redis version 7.2 or later). A command is allowed if it matches the base rule or any selector in the Redis ACL.
+[Selectors]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#selectors) let you define multiple sets of rules in a single Redis ACL (only supported for databases with Redis version 7.2 or later). A command is allowed if it matches the base rule or any selector in the Redis ACL.
 
 - `(<rule set>)` creates a new selector.
 
@@ -120,7 +120,7 @@ For multi-key commands on multi-slot keys, the return value is `failure`, but th
 
 ## Default pub/sub permissions
 
-Redis database version 6.2 introduced pub/sub ACL rules that determine which [pub/sub channels](https://redis.io/docs/manual/pubsub/) a user can access.
+Redis database version 6.2 introduced pub/sub ACL rules that determine which [pub/sub channels]({{< relref "/develop/interact/pubsub" >}}) a user can access.
 
 The configuration option `acl-pubsub-default`, added in Redis Enterprise Software version 6.4.2, determines the cluster-wide default level of access for all pub/sub channels. Redis Enterprise Software uses the following pub/sub permissions by default:
 

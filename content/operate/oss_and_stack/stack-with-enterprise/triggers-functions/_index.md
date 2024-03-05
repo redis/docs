@@ -47,7 +47,7 @@ Types of triggers include:
 
 - Keyspace triggers:
 
-    - [Redis commands](https://redis.io/commands/) - Run registered functions when Redis commands add, modify, or delete data.
+    - [Redis commands]({{< relref "/commands" >}}/) - Run registered functions when Redis commands add, modify, or delete data.
 
     - Key expiration - Run registered functions when keys expire.
 
@@ -63,6 +63,6 @@ After you load a function into your database, you can run them manually or use t
 
 ## More info
 
-- [Triggers and functions quick start](https://redis.io/docs/interact/programmability/triggers-and-functions/quick_start/)
+- [Triggers and functions quick start]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}}/quick_start/)
 
-- [Triggers and functions documentation](https://redis.io/docs/interact/programmability/triggers-and-functions/)
+- [Triggers and functions documentation]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}}/)

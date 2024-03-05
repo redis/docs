@@ -40,7 +40,7 @@ Create and manage [Redis databases]({{< relref "/operate/rc/databases" >}}) in t
 - [View and edit databases]({{< relref "/operate/rc/databases/view-edit-database" >}})
 - [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance" >}})
 - [Manage databases]({{< relref "/operate/rc/databases/configuration" >}})
-- [Redis commands](https://redis.io/commands/) & [compatibility]({{< relref "/operate/rs/references/compatibility" >}})
+- [Redis commands]({{< relref "/commands" >}}/) & [compatibility]({{< relref "/operate/rs/references/compatibility" >}})
 
 ## Security
 Manage [secure connections]({{< relref "/operate/rc/security" >}}) to cloud databases.
