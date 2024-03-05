@@ -11,7 +11,7 @@ weight: 96
 ---
 If you are upgrading from a previous version, make sure to review the
 [upgrade
-instructions](https://docs.redis.com/latest/rs/installing-upgrading/upgrading/)
+instructions]({{< relref "/operate/rs/installing-upgrading/upgrading" >}})
 before running through the upgrade process.
 
 You can upgrade to this version from any 4.2 version. If you have a
@@ -31,7 +31,7 @@ upgrade to this version.
     when you upgrade the databases they will be updated to this version.
     If you would like to change the default version to Redis 2.8 refer
     to the instruction in the [Upgrading
-    databases](https://docs.redis.com/latest/rs/installing-upgrading/upgrading/)
+    databases]({{< relref "/operate/rs/installing-upgrading/upgrading" >}})
     section. If you would like to upgrade existing databases to the
     latest 2.8 minor version, refer to the Known Issues section below.
 - Complete cluster failure recovery instructions added. For additional
@@ -48,14 +48,14 @@ upgrade to this version.
 - rlcheck installation verification utility added to facilitate
     checking node health. For additional details, refer to [rlcheck
     installation verification
-    utility](https://docs.redis.com/latest/rs/references/rlcheck).
+    utility]({{< relref "/operate/rs/references/rlcheck" >}}).
 - Added the ability to allow the user to configure how machine IP
     addresses are used in Node Configuration setup in the management UI.
     For additional details, refer to [Initial setup - creating a new
-    cluster.](https://docs.redis.com/latest/rs/clusters/new-cluster-setup/)
+    cluster.]({{< relref "/operate/rs/clusters/new-cluster-setup" >}})
 - Connection to database endpoint can now be encrypted with SSL. For
     additional details, refer to [Securing client connection with
-    SSL](https://docs.redis.com/latest/rs/security/tls-ssl).
+    SSL]({{< relref "/operate/rs/security/tls-ssl" >}}).
 - Added support for running the cluster on the following operating
     systems and versions: RHEL/CentOS 6.6, 7.1, 7.2, RHEL 6.7, Oracle
     Linux 6.5.

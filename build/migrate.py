@@ -46,6 +46,12 @@ def mkdir(dir):
 
 
 '''
+Check if a file exists
+'''
+def file_exists(fpath):
+    return os.path.isfile(fpath)
+
+'''
 Creates an _index.md file in a specific folder
 '''
 def create_index_file(folder_path, title, desc):
@@ -977,7 +983,72 @@ def fix_fq_io_links(content_folders, target_folders):
             for k in result:
                 find_and_replace(f, k, result[k])
 
+
+'''
+The release notes contain fully qualified links to the latest documentation. Let's replace them by relrefs, too.
+'''
+def fix_fq_docs_redis_com_links(target_folders):
+    links_csv = _load_csv_file('./migrate/docs-redis-com-links-mapped.csv')
+    result = {}
+    
+    for k in links_csv:
+        source_url = k
+
+        # Preserve the anchor
+        anchor = None
+        if '#' in source_url:
+            parsed = source_url.split('#')
+            source_url = parsed[0]       
+            anchor = parsed[1]
+
+        # Decide if the mapped source URL is needed
+        if links_csv[k] != "":
+            source_url = links_csv[k]
+            
+        target_url = "/not_defined"
+
+        prefixes = ["stack", "rs", "kubernetes", "rc"]
+
+        if source_url.startswith("https://docs.redis.com/latest/stack/"):
+            target_url = source_url.split("/stack/")[1]
+            target_url = "/operate/oss_and_stack/stack-with-enterprise/" + target_url
+        elif source_url.startswith("https://docs.redis.com/latest/rs/"):
+            target_url = source_url.split("/rs/")[1]
+            target_url = "/operate/rs/" + target_url
+        elif source_url.startswith("https://docs.redis.com/latest/kubernetes/"):
+            target_url = source_url.split("/kubernetes/")[1]
+            target_url = "/operate/kubernetes/" + target_url
+        elif source_url.startswith("https://docs.redis.com/latest/rc/"):
+            target_url = source_url.split("/rc/")[1]
+            target_url = "/operate/rc/" + target_url
+        else:
+            print("WARN: {} not covered by the link fixing script.".format(source_url))
         
+        if not file_exists(target_url + '_index.md'):
+            target_url = target_url.rstrip('/')
+            
+        if anchor:
+            if not "." in target_url:
+                relref = '{{< relref "' + target_url + '" >}}#' + anchor
+            else:
+                relref = '{{< baseurl >}}' + target_url + "#" + anchor
+        else:
+            if not "." in target_url:
+                relref = '{{< relref "' + target_url + '" >}}'
+            else:
+                relref = '{{< baseurl >}}' + target_url 
+
+        result[k] = relref
+
+    
+    for c in target_folders:
+        markdown_files = find_markdown_files(slash(DOCS_ROOT, c))
+        for f in markdown_files:
+            # Replace the previously mapped links
+            for k in result:
+                # Some links have a _index path, e.g., https://docs.redis.com/latest/rs/installing-upgrading/_index/
+                find_and_replace(f, '/_index/', '/')
+                find_and_replace(f, k, result[k])
 
 '''
 Migration script
@@ -1024,7 +1095,6 @@ if __name__ == "__main__":
     fix_topics_links(["operate/oss_and_stack", "commands", "integrate", "develop", "embeds", "glossary"])
     
     fix_command_group_params(["commands", "develop", "operate/oss_and_stack", "integrate"])
-    '''
-
     fix_fq_io_links(["commands", "develop", "operate/oss_and_stack", "integrate"], ["commands", "develop", "operate", "integrate", "embeds", "glossary"])
-    
+    '''
+    fix_fq_docs_redis_com_links(["operate"])

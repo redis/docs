@@ -13,7 +13,7 @@ Redis Enterprise Software (RS) 5.4 is now available. RS 5.4 adds support for Red
 
 ## Overview
 
-You can upgrade to RS 5.4 from RS 5.0 and above according to the [upgrade instructions](https://docs.redis.com/latest/rs/installing-upgrading/upgrading/). If you have a version older than 5.0, you should first upgrade to version 5.2 (or at least 5.0).
+You can upgrade to RS 5.4 from RS 5.0 and above according to the [upgrade instructions]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}). If you have a version older than 5.0, you should first upgrade to version 5.2 (or at least 5.0).
 
 ## New features
 
@@ -75,7 +75,7 @@ RS 5.4 expands the high availability capabilities by adding the ability to autom
 
 ### Upgrade
 
-- Before you upgrade a database with the RediSearch module to Redis 5.0, you must [upgrade the RediSearch module on that DB](https://docs.redis.com/latest/modules/install/upgrade-module) to 1.4.2 or higher. We recommend that you upgrade the RediSearch module before you upgrade the cluster to RS 5.4.
+- Before you upgrade a database with the RediSearch module to Redis 5.0, you must [upgrade the RediSearch module on that DB]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) to 1.4.2 or higher. We recommend that you upgrade the RediSearch module before you upgrade the cluster to RS 5.4.
 - Node upgrade fails if SSL certificates were configured in version 5.0.2 and above by updating the certificates on the disk instead of using the new API. For assistance with this issue, please [contact Redis support](https://redislabs.com/company/support/).
 
 ### Cluster API
