@@ -9,7 +9,7 @@ jobs:
     env:
       HUGO_VERSION: 0.111.2
       GCLOUD_VERSION: 458.0.1-linux-x86_64
-      BUCKET: docs-staging-learn-redis-com
+      BUCKET: docs-prod-learn-redis-com
       BUCKET_SERVICE_ACCOUNT: ${{ secrets.BUCKET_DOCUMENTATION_SA_PROD }}
       BUCKET_SECRET: ${{ secrets.BUCKET_DOCUMENTATION_PROD }}
       GCP_PROJECT: ${{ secrets.GCP_PROJECT_PROD }}
