@@ -17,7 +17,7 @@ This API operation uses the same [provisioning lifecycle]({{< relref "/operate/r
 
 The primary component of a database update request is the JSON request body that contains the details of the requested database changes.
 
-You can see [the complete set of JSON elements]({{< relref "/operate/rc/api/get-started/use-rest-api.md#inputs-for-operations-in-swagger" >}}) accepted by the database update API operation in the [Swagger UI](https://api.redislabs.com/v1/swagger-ui.html).
+You can see [the complete set of JSON elements]({{< relref "/operate/rc/api/get-started/use-rest-api#inputs-for-operations-in-swagger" >}}) accepted by the database update API operation in the [Swagger UI](https://api.redislabs.com/v1/swagger-ui.html).
 To see the JSON elements, expand the specific API operation and, in the request section, click **Model**.
 
 Here are several examples of JSON requests to update a database:

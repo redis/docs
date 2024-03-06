@@ -9,7 +9,6 @@ categories:
 description: null
 group: provisioning
 headerRange: '[1-3]'
-linkTitle: Terraform provider for Redis Cloud
 summary: The Redis Cloud Terraform provider allows you to provision and manage Redis
   Cloud resources.
 toc: 'true'

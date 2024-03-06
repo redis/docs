@@ -13,7 +13,7 @@ summary: The Redis Cloud Terraform provider allows you to provision and manage R
   Cloud resources.
 toc: 'true'
 type: integration
-weight: '4'
+weight: $weight
 ---
 
 Here, you'll learn how to use the [Redis Cloud Terraform Provider]({{< relref "/integrate/terraform-provider-for-redis-cloud/" >}}) to create a subscription and a database.

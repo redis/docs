@@ -54,13 +54,18 @@ def file_exists(fpath):
 '''
 Creates an _index.md file in a specific folder
 '''
-def create_index_file(folder_path, title, desc):
+def create_index_file(folder_path, title, desc, linkTitle=None):
+
+    if linkTitle is None:
+        linkTitle = title
+
     tmpl = '''---
 title: {}
 description: {}
+linkTitle: {}
 ---'''
 
-    contents = tmpl.format(title, desc)
+    contents = tmpl.format(title, desc, linkTitle)
     with open(slash(folder_path, '_index.md'), 'w', encoding='utf-8') as file:
         file.write(contents)
 
@@ -80,6 +85,12 @@ Delete a folder
 def delete_folder(folder_path):
     shutil.rmtree(folder_path)
 
+
+'''
+Create a folder
+'''
+def create_folder(folder_path):
+    os.makedirs(folder_path)
 
 '''
 TODO: Delete a single file
@@ -537,6 +548,9 @@ def _test_img_short_code_rewrite():
 Migrate the docs from docs.redis.com
 '''
 def migrate_enterprise_ops_docs(repo):
+
+    create_index_file(DOCS_OPS, "Operate", "Operate any Redis, from Redis OSS to Redis Cloud")
+
     repo_content = slash(repo, 'content/') 
     content = ['rs', 'rc', 'kubernetes', 'stack', 'embeds']    
 
@@ -624,6 +638,8 @@ Move some integrations documentation from the operational docs to the integratio
 '''
 def migrate_integration_docs(repo):
     
+    create_index_file(DOCS_INT, "Integrations and frameworks", "", "Integrate")
+
     integrations = {
         "Amazon Bedrock" : {"weight" : 3, "source" : "operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/", "type": "cloud-service", "desc": "With Amazon Bedrock, users can access foundational AI models from a variety of vendors through a single API, streamlining the process of leveraging generative artificial intelligence."},
         "Confluent with Redis Cloud" : {"weight" : 8, "source" : "operate/rc/cloud-integrations/confluent-cloud.md", "type": "di", "desc" : "The Redis Sink connector for Confluent Cloud allows you to send data from Confluent Cloud to your Redis Cloud database." },
@@ -663,6 +679,8 @@ def migrate_integration_docs(repo):
                     if source.endswith('/'):
                         copy_files(source, target)
                     elif source.endswith('.md'):
+                        if not os.path.exists(target):
+                            mkdir(target)
                         copy_file(source, slash(target, '_index.md'))
                 except FileNotFoundError as e:
                     print("Skipping {}".format(source))
@@ -1050,15 +1068,45 @@ def fix_fq_docs_redis_com_links(target_folders):
                 find_and_replace(f, '/_index/', '/')
                 find_and_replace(f, k, result[k])
 
+
+'''
+Cleanup before starting a new migration
+'''
+def cleanup():
+
+    # Delete and recreate
+    folders = [DOCS_DEV, DOCS_OPS, DOCS_CMD, slash(DOCS_ROOT, 'glossary'), slash(DOCS_ROOT, 'embeds')]
+    
+    for f in folders:
+        delete_folder(f)
+        create_folder(f)
+
+    skipped_int = ['spring-framework-cache', 'redisvl', 'riot']
+
+    for f in os.listdir(DOCS_INT):
+        if f not in skipped_int:
+            full_path = slash(DOCS_INT, f)
+            if os.path.isdir(full_path):
+                delete_folder(full_path)
+            else:
+                delete_file(full_path)
+
+
+    
+
 '''
 Migration script
 '''
 if __name__ == "__main__":
+
     # The working directory is the parent folder of the directory of this script
     print("## Setting the migration environment ...")
     print(set_env())
 
-    '''
+    print("## Cleaning the content folders ...")
+    cleanup()
+
+
     print("## Fetching temporary development documentation content ...")
     fetch_io()
 
@@ -1076,25 +1124,32 @@ if __name__ == "__main__":
     migrate_enterprise_ops_docs(repo)
     migrate_gloassary(repo)
     migrate_static_files(repo)
-    delete_folder(repo)
     
-    print("## Fetching temporary Enterprise documentation content ...")
-    repo = fetch_docs_redis_com()
-    repo = "/tmp/redislabs-docs"
-
     print("## Migrating the integrations docs ...")
     migrate_integration_docs(repo)
+    
+    print("## Cleaning up the docs.redis.com repo folder ...")
     delete_folder(repo)
 
-    print("Applying additional fixes ...")
+    print("## Applying additional fixes ...")
+    print("### Fixing the all_children shortcode ...")
     fix_all_children(["operate/rc", "operate/rs", "operate/kubernetes", "operate/oss_and_stack/stack-with-enterprise", "integrate/redis-data-integration"])
+    
+    print("### Fixing missing images in Kubernetes ...")
     fix_missed_images(["operate/kubernetes"])
+
+    print("### Fixing RESP references ...")
     fix_resp_references()
     
+    print("### Fixing topics links ...")
     # Don't include the RS folder at this point!
     fix_topics_links(["operate/oss_and_stack", "commands", "integrate", "develop", "embeds", "glossary"])
     
+    print("### Fixing command group parameters ...")
     fix_command_group_params(["commands", "develop", "operate/oss_and_stack", "integrate"])
+
+    print("### Fixing fully qualified redis.io links ...")
     fix_fq_io_links(["commands", "develop", "operate/oss_and_stack", "integrate"], ["commands", "develop", "operate", "integrate", "embeds", "glossary"])
-    '''
+    
+    print("### Fixing fully qualified docs.redis.com links ...")
     fix_fq_docs_redis_com_links(["operate"])

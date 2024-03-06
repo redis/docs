@@ -46,7 +46,7 @@ The available settings vary according to your subscription plan, cloud provider,
 | **Database Name**         | The name given to your database                                                                                                                             |
 | **Public endpoint**       | Public URI used by any application or client to access the database.                                                                                        |
 | **Private endpoint**      | Private endpoint URI available to approved clients; use CIDR allow list and VPC peering to enabled access (_Flexible or Annual subscriptions only_)         |
-| **Tags**                  | A list of the [tags]({{< relref "/operate/rc/databases/tag-database" >}}) associated with the database. Select [Manage tags]({{< relref "/operate/rc/databases/tag-database#tags-tab" >}}) to manage the database tags. |
+| **Tags**                  | A list of the [tags]({{< relref "/operate/rc/databases/tag-database" >}}) associated with the database. Select [Manage tags]({{< relref "/operate/rc/databases/tag-database#configuration-tab" >}}) to manage the database tags. |
 | **Type**                  | Displays 'Redis', 'Redis Stack' or 'memcached' based on the value selected when the database was created                                                    |
 | **Redis version**         | Redis version used to create the database                                                                                                                   |
 | **Auto Tiering**          | Checked when the subscription supports Auto Tiering (_Flexible or Annual subscriptions only_)                                                               |
@@ -66,11 +66,11 @@ The **Scalability** section is primarily for Flexible and Annual plans. Free and
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Plan Memory limit** | Maximum size (in GB) for your database |
-| **Memory used**       | Memory currently used for your database  |
+| **Plan Memory limit** | Maximum size (in GB) for your database. |
+| **Memory used**       | Memory currently used for your database.  |
 | **Throughput**        | Defines throughput in terms of maximum operations per second for the database <br/><br/>Databases with search and query enabled use the number of shards to determine throughput. To determine how many shards you need for your database, use the [sizing calculator](https://redis.com/modules/redis-search/redisearch-sizing-calculator/). | |
-| **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering.md#supported-hashing-policies" >}}) |
-| **Cluster OSS**       | Enables the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) for a database<br/><br/>When this option is enabled, you cannot define a custom hashing policy|
+| **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
+| **OSS Cluster API**       | Enables the [OSS Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) for a database.<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
 
 To learn more about these settings and when to use them, see [Database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}).
 

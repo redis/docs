@@ -109,7 +109,7 @@ To connect to a Redis Cloud database over TLS, you need:
 * A Redis client that supports TLS
 * Redis Cloud CA certificates
 
-### Download CA certificates
+### Download CA certificates {#download-certificates}
 
 If you don't have the Redis Cloud CA certificates, you can download them from the Redis Cloud console:
 

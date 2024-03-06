@@ -24,7 +24,7 @@ Active-Active databases consist of multiple copies (also called _instances_) dep
 
 This reduces latency for local users and improves availability should a region fail.
 
-Consistency between each instance is maintained in the background; that is, each copy eventually includes updates from every region.  As a result, [memory size]({{< relref "/operate/rc/databases/create-database#memory-size" >}}) and throughput increase.
+Consistency between each instance is maintained in the background; that is, each copy eventually includes updates from every region.  As a result, [memory limit]({{< relref "/operate/rc/databases/create-database#memory-limit" >}}) and throughput increase.
 
 
 ## Define regions
@@ -98,6 +98,6 @@ Throughput requirements grow dramatically as regions increase.  As a result, con
 ## More info
 
 - [Create a Flexible subscription]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}})
-- Database [memory size]({{< relref "/operate/rc/databases/create-database#memory-size" >}})
+- Database [memory limit]({{< relref "/operate/rc/databases/create-database#memory-limit" >}})
 - Redis Cloud [subscription plans]({{< relref "/operate/rc/subscriptions/" >}})
 - [Redis Cloud pricing](https://redis.com/redis-enterprise-cloud/pricing/)

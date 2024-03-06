@@ -70,8 +70,6 @@ You can only use the **Backup now** button after you turn on backups.
 
 Database backups can be stored to a cloud provider service or saved to a URI using FTP/FTPS.
 
-When stored to a cloud provider, backup locations need to be available on the same provider in the same region as your subscription.
-
 Your subscription needs the ability to view permissions and update objects in the storage location.  Specific details vary according to the provider.  To learn more, consult the provider's documentation.
 
 The following sections describe specific backup options. Be aware that provider features change frequently.  For best results, use your provider's documentation for the latest info.
@@ -167,11 +165,11 @@ An AWS S3 bucket can be used by only one Redis Cloud account. If you have more t
 
 ### Google Cloud Storage
 
-For [Google Cloud](https://developers.google.com/console/) subscriptions, store your backups in a Google Cloud Storage bucket:
+To store backups in a Google Cloud Storage [bucket](https://cloud.google.com/storage/docs/creating-buckets):
 
-1. Sign in to Google Cloud Platform console.
+1. Sign in to the Google Cloud console.
 
-1. In the admin console menu, locate the _Storage_ section than select **Cloud Storage&nbsp;>&nbsp;Buckets**.
+1. In the console menu, locate the _Storage_ section, then select **Cloud Storage&nbsp;>&nbsp;Buckets**.
 
 1. Create or select a bucket.
 
@@ -209,7 +207,7 @@ To store your backup in Microsoft Azure Blob Storage, sign in to the Azure porta
 
 1. [Create a container](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container) if you do not already have one.
 
-1. [Manage storage account access keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage)
+1. Find your storage account's primary access key. See [Manage storage account access keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage) for instructions.
 
 Set your resource's **Backup Path** to the path of your storage account.
 

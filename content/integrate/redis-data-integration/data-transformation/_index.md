@@ -17,7 +17,7 @@ type: integration
 weight: 30
 ---
 
-The key functionality that RDI performs is mapping the data coming from [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) (representing a Source Database row data or row state change) into a Redis key with a value of [Hash]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json/" >}}).
+The key functionality that RDI performs is mapping the data coming from [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) (representing a Source Database row data or row state change) into a Redis key with a value of [Hash]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/integrate/redisvl/user-guide/get-started" >}}json/).
 There are two types of data transformations in RDI:
 
 1. By default, each source row is converted into one [Hash]({{< relref "/develop/data-types/hashes" >}}) or one JSON key in Redis.

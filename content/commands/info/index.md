@@ -127,7 +127,9 @@ Here is the meaning of all fields in the **clients** section:
      [`BRPOP`]({{< relref "/commands/brpop" >}}), [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}), [`BLMOVE`]({{< relref "/commands/blmove" >}}), [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}), [`BZPOPMAX`]({{< relref "/commands/bzpopmax" >}}))
 *   `tracking_clients`: Number of clients being tracked ([`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}))
 *   `pubsub_clients`: Number of clients in pubsub mode ([`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}), [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}})). Added in Redis 8.0
+*   `watching_clients`: Number of clients in watching mode ([`WATCH`]({{< relref "/commands/watch" >}})). Added in Redis 8.0
 *   `clients_in_timeout_table`: Number of clients in the clients timeout table
+*   `total_watched_keys`: Number of watched keys. Added in Redis 8.0.
 *   `total_blocking_keys`: Number of blocking keys. Added in Redis 7.2.
 *   `total_blocking_keys_on_nokey`: Number of blocking keys that one or more clients that would like to be unblocked when the key is deleted. Added in Redis 7.2.
 
@@ -193,6 +195,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `mem_replication_backlog`: Memory used by replication backlog
 *   `mem_total_replication_buffers`: Total memory consumed for replication buffers - Added in Redis 7.0.
 *   `mem_allocator`: Memory allocator, chosen at compile time.
+*   `mem_overhead_db_hashtable_rehashing`: Temporary memory overhead of database dictionaries currently being rehashed - Added in 8.0.
 *   `active_defrag_running`: When `activedefrag` is enabled, this indicates whether defragmentation is currently active, and the CPU percentage it intends to utilize.
 *   `lazyfree_pending_objects`: The number of objects waiting to be freed (as a
      result of calling [`UNLINK`]({{< relref "/commands/unlink" >}}), or [`FLUSHDB`]({{< relref "/commands/flushdb" >}}) and [`FLUSHALL`]({{< relref "/commands/flushall" >}}) with the **ASYNC**

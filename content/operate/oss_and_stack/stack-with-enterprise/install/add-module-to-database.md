@@ -24,21 +24,21 @@ Modules add additional functionality to Redis databases for specific use cases. 
 You can only add modules to a database when you first create it. You cannot add modules to an existing database.
 {{</note>}}
 
-In the Redis Enterprise admin console, follow these steps to add modules to a database:
+In the Redis Enterprise Cluster Manager UI, follow these steps to add modules to a database:
 
 1. From the **Databases** screen, select **Quick database** or **Create database**.
 
-1. In the **Modules** section, select which modules to add to your database.
+1. In the **Capabilities** section, select one or more capabilities:
 
-    {{<image filename="images/rs/screenshots/databases/quick-db-modules.png" width="75%" alt="Select which modules to add to your database.">}}
+    {{<image filename="images/rs/screenshots/databases/quick-db-capabilities.png" alt="Select which capabilities to add to your database.">}}
 
     {{<note>}}
 You cannot use RediSearch 1.x and RediSearch 2.x in the same database.
     {{</note>}}
 
-1. To use custom configuration with a module:
+1. To use custom configuration for capabilities:
 
-    1. Select **Modules parameters**.
+    1. Select **Parameters**.
     
     1. Enter the [configuration options](#module-configuration-options).
     

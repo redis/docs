@@ -52,6 +52,10 @@ Before you can set up Transit Gateway:
 
 1. [Share the transit gateway](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-transit-gateways.html#tgw-sharing) from the [AWS resource access manager](https://console.aws.amazon.com/ram/).
 
+{{< note >}}
+If you have a self-managed AWS account, you will need to set its IAM Instance Policy to include Transit Gateway. See [Create IAM resources using the AWS console]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources/aws-console.md" >}}) (deprecated) for more information.
+{{< /note >}}
+
 ## AWS Transit Gateway
 
 To set up Transit Gateway:

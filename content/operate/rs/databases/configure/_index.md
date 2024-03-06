@@ -72,18 +72,19 @@ If you create a database with Auto Tiering enabled, you also need to set the RAM
 for this database. Minimum RAM is 10%. Maximum RAM is 50%.
     {{< /note >}}
 
-- [**Modules**]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) - When you create a new in-memory database, you can enable multiple Redis modules in the database. For Auto Tiering databases, you can add modules that support Auto Tiering.
+- [**Capabilities**]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) (previously **Modules**) - When you create a new in-memory database, you can enable multiple Redis Stack capabilities in the database. For Auto Tiering databases, you can enable capabilities that support Auto Tiering. See [Redis Enterprise and Redis Stack feature compatibility 
+]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities" >}}) for compatibility details.
         
     {{< note >}}
-To use modules, add them when you create a new database.
-You can't add a module to an existing database.
+To use Redis Stack capabilities, enable them when you create a new database.
+You cannot enable them after database creation.
     {{< /note >}} 
         
-    To add a module to the database:
+    To add capabilities to the database:
 
-    1. In the **Modules** section, select one or more modules.
+    1. In the **Capabilities** section, select one or more capabilities.
     
-    1. To customize module configuration, select **Modules parameters** and enter the optional custom configuration.
+    1. To customize capabilities, select **Parameters** and enter the optional custom configuration.
     
     1. Select **Done**.
 
@@ -144,7 +145,7 @@ You can also choose to [send alerts by email]({{< relref "/operate/rs/clusters/m
 
 You can require [**TLS**]({{< relref "/operate/rs/security/encryption/tls/" >}}) encryption and authentication for all communications, TLS encryption and authentication for Replica Of communication only, and TLS authentication for clients.
 
-### Database access
+### Access control
 
 - **Unauthenticated access** - You can access the database as the default user without providing credentials.
 

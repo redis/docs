@@ -53,7 +53,7 @@ To quickly create a database and skip additional configuration options during in
 
     - Endpoint port (set by the cluster if not set manually)
 
-    - Modules to enable
+    - Capabilities (previously modules) to enable
 
 1. Optionally select **Full options** to configure [additional settings]({{< relref "/operate/rs/databases/configure#config-settings" >}}).
 
@@ -63,7 +63,25 @@ To quickly create a database and skip additional configuration options during in
 
 To create a new database and configure additional settings:
 
-1. Either click the **+** button next to **Databases** in the navigation menu, or go to the **Databases** screen and select **Create database**.
+1. Open the **Create database** menu with one of the following methods:
+
+    - Click the **+** button next to **Databases** in the navigation menu:
+
+        {{<image filename="images/rs/screenshots/databases/create-db-plus-drop-down.png" width="350px" alt="Create database menu has two options: Single Region and Active-Active database.">}}
+        
+    - Go to the **Databases** screen and select **Create database**:
+
+        {{<image filename="images/rs/screenshots/databases/create-db-button-drop-down.png" width="350px" alt="Create database menu has two options: Single Region and Active-Active database.">}}
+
+1. Select the database type:
+
+    - **Single Region**
+
+    - **Active-Active database** - Multiple participating Redis Enterprise clusters can host instances of the same [Active-Active database]({{< relref "/operate/rs/databases/active-active" >}}) in different geographic locations. Every instance can receive write operations, which are synchronized across all instances without conflict.
+
+    {{<note>}}
+For Active-Active databases, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).
+    {{</note>}}
 
 1. Enter a **Database name**.
 

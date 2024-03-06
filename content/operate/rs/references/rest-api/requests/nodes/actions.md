@@ -214,13 +214,49 @@ POST /nodes/1/actions/remove
 | action | string | The name of the action required. |
 
 Currently supported actions are:
+
 - `remove`: Removes the node from the cluster after migrating all bound resources to other nodes. As soon as a successful remove request is received, the cluster will no longer automatically migrate resources (shards/endpoints) to the node, even if the remove task fails at some point.
+
 - `maintenance_on`: Creates a snapshot of the node, migrates shards to other nodes, and prepares the node for maintenance. See [maintenance mode]({{< relref "/operate/rs/clusters/maintenance-mode" >}}) for more information.
-    - If there aren't enough resources to migrate shards out of the maintained node, set `"keep_slave_shards":`&nbsp;`true` in the request body to keep the replica shards in place but demote any master shards.
+
+    - As of Redis Enterprise Software version 7.4.2, a new node snapshot is created only if no maintenance mode snapshots already exist or if you set `"overwrite_snapshot": true` in the request body.
+
+        ```sh
+        POST /v1/nodes/1/actions/maintenance_on
+        {
+            "overwrite_snapshot": true
+        }
+        ```
+
+    - If there aren't enough resources to migrate shards out of the maintained node, set `"evict_ha_replica": false` and `"evict_active_active_replica": false` in the request body to keep the replica shards in place but demote any master shards. Use these two parameters instead of `keep_slave_shards`, which is deprecated as of Redis Enterprise Software version 7.4.2.
+
+        ```sh
+        POST /v1/nodes/1/actions/maintenance_on
+        {
+            "overwrite_snapshot": true,
+            "evict_ha_replica": false,
+            "evict_active_active_replica": false
+        }
+        ```
+
+    - To specify databases whose shards should be evicted from the node when entering maintenance mode, set `"evict_dbs": ["List of database ID strings"]` in the request body.
+
+        ```sh
+        POST /v1/nodes/1/actions/maintenance_on
+        {
+            "overwrite_snapshot": true,
+            "evict_dbs": ["1", "3"] 
+        }
+        ```
+
 - `maintenance_off`: Restores node to its previous state before maintenance started. See [maintenance mode]({{< relref "/operate/rs/clusters/maintenance-mode" >}}) for more information.
+
     - By default, it uses the latest node snapshot.
+
     - Use `"snapshot_name":`&nbsp;`"..."` in the request body to restore the state from a specific snapshot.
+
     - To avoid restoring shards at the node, use `"skip_shards_restore":`&nbsp;`true`.
+
 - `enslave_node`: Turn node into a replica.
 
 ### Response {#post-response}

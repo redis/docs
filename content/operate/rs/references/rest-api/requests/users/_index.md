@@ -65,7 +65,8 @@ Returns a JSON array of [user objects]({{< relref "/operate/rs/references/rest-a
         "email_alerts": true,
         "bdbs_email_alerts": ["1","2"],
         "role": "admin",
-        "auth_method": "regular"
+        "auth_method": "regular",
+        "status": "active"
     },
     {
         "uid": 2,
@@ -74,7 +75,8 @@ Returns a JSON array of [user objects]({{< relref "/operate/rs/references/rest-a
         "name": "Jane Poe",
         "email_alerts": true,
         "role": "db_viewer",
-        "auth_method": "regular"
+        "auth_method": "regular",
+        "status": "active"
     }
 ]
 ```
@@ -135,7 +137,8 @@ Returns a [user object]({{< relref "/operate/rs/references/rest-api/objects/user
     "bdbs_email_alerts": ["1","2"],
     "email": "user@redislabs.com",
     "name": "John Doe",
-    "auth_method": "regular"
+    "auth_method": "regular",
+    "status": "active"
 }
 ```
 

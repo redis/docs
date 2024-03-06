@@ -11,6 +11,7 @@ linkTitle: Prometheus metrics
 summary: You can use Prometheus and Grafana to collect and visualize your Redis Enterprise
   Software metrics.
 type: integration
+weight: 45
 ---
 The [integration with Prometheus]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}})
 lets you create dashboards that highlight the metrics that are important to you.

@@ -8,7 +8,6 @@ categories:
 - rs
 description: Use Prometheus and Grafana to collect and visualize Redis Cloud metrics.
 group: subpage
-linkTitle: Prometheus with Redis Enterprise
 summary: You can use Prometheus and Grafana to collect and visualize your Redis Enterprise
   Software metrics.
 type: integration

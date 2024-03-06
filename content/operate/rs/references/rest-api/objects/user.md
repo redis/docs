@@ -28,3 +28,4 @@ An API object that represents a Redis Enterprise user.
 | password_issue_date | string | The date in which the password was set (read-only) |
 | role | 'admin'<br />'cluster_member'<br />'cluster_viewer'<br />'db_member'<br /> **'db_viewer'** <br />'none' | User's [role]({{< relref "/operate/rs/references/rest-api/permissions#roles" >}}) |
 | role_uids | array of integers | List of role UIDs associated with the LDAP group |
+| status | 'active'<br />'locked' | User sign-in status (read-only)<br />**active**: able to sign in<br />**locked**: unable to sign in |

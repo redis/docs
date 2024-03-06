@@ -286,3 +286,9 @@ For clusters containing databases with manually uploaded modules, [cluster recov
 After installing Redis Enterprise Software on the cluster nodes, upload compatible modules to `modulesdir` (`/opt/redislabs/lib/modules`) before continuing the recovery process.
 
 This limitation was fixed in [Redis Enterprise Software version 7.2.4-64]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-64" >}}).
+
+#### Cannot create Redis v6.x Active-Active databases with modules
+
+You cannot create Active-Active databases that use Redis version 6.0 or 6.2 with modules. Databases that use Redis version 7.2 do not have this limitation.
+
+This limitation will be fixed in a maintenance release for Redis Enterprise version 7.4.2.

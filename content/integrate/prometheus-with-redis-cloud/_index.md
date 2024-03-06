@@ -8,7 +8,6 @@ categories:
 - rc
 description: Use Prometheus and Grafana to collect and visualize Redis Cloud metrics.
 group: observability
-linkTitle: Prometheus with Redis Cloud
 summary: You can use Prometheus and Grafana to collect and visualize your Redis Cloud
   metrics.
 type: integration
@@ -36,7 +35,7 @@ You can quickly set up Prometheus and Grafana for testing using the Prometheus a
 
 1. Set up [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) for your subscription.
 
-1. Extract the Prometheus endpoint from the private endpoint to your database. The private endpoint is in the [Redis Cloud console](https://app.redislabs.com/) under the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-details-tab" >}}) of your database. The Prometheus endpoint is on port 8070 of the internal server.
+1. Extract the Prometheus endpoint from the private endpoint to your database. The private endpoint is in the [Redis Cloud console](https://app.redislabs.com/) under the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-tab" >}}) of your database. The Prometheus endpoint is on port 8070 of the internal server.
 
     For example, if your private endpoint is:
 
@@ -178,7 +177,7 @@ Once the Prometheus and Grafana Docker containers are running, and Prometheus is
 Redis publishes two preconfigured dashboards for Redis Cloud and Grafana:
 
 * The [subscription status dashboard](https://grafana.com/grafana/dashboards/18406-subscription-status-dashboard/) provides an overview of your Redis Cloud subscriptions.
-* The [database status dashboard](https://grafana.com/grafana/dashboards/18408-database-status-dashboard/) displays specific database metrics, including latency, memory usage, ops/second, and key count.
+* The [database status dashboard](https://grafana.com/grafana/dashboards/18407-database-status-dashboard/) displays specific database metrics, including latency, memory usage, ops/second, and key count.
 
 These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Enterprise Grafana Dashboards Github repository](https://github.com/redis-field-engineering/redis-enterprise-grafana-dashboards).
 

@@ -15,6 +15,7 @@ Cluster resources management policy
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | acl_pubsub_default | `resetchannels`<br /> `allchannels` | Default pub/sub ACL rule for all databases in the cluster:<br />•`resetchannels` blocks access to all channels (restrictive)<br />•`allchannels` allows access to all channels (permissive) |
+| auto_recovery | boolean (default:&nbsp;false) | Defines whether to use automatic recovery after shard failure |
 | bigstore_migrate_node_threshold | integer | Minimum free memory (excluding reserved memory) allowed on a node before automatic migration of shards from it to free more memory |
 | bigstore_migrate_node_threshold_p | integer | Minimum free memory (excluding reserved memory) allowed on a node before automatic migration of shards from it to free more memory |
 | bigstore_provision_node_threshold | integer | Minimum free memory (excluding reserved memory) allowed on a node before new shards can no longer be added to it |
@@ -45,7 +46,7 @@ Cluster resources management policy
 | resp3_default | boolean (default:&nbsp;true) | Determines the default value of the `resp3` option upon upgrading a database to version 7.2 |
 | shards_overbooking | boolean | If true, all databases' memory_size is ignored during shards placement |
 | show_internals | boolean | Show internal databases (and their shards and endpoints) REST APIs |
-| slave_ha | boolean | Enable the replica high-availability mechanism |
+| slave_ha | boolean | Enable the replica high-availability mechanism. Deprecated as of Redis Enterprise Software v7.4.2. |
 | slave_ha_bdb_cooldown_period | integer | Time in seconds between runs of the replica high-availability mechanism on different nodes on the same database |
 | slave_ha_cooldown_period | integer | Time in seconds between runs of the replica high-availability mechanism on different nodes on the same database |
 | slave_ha_grace_period | integer | Time in seconds between a node failure and when the replica high-availability mechanism starts relocating shards |

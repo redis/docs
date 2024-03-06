@@ -8,7 +8,6 @@ categories:
 - rc
 description: Explains how to use Pulumi to provision Redis Cloud infrastructure
 group: provisioning
-linkTitle: Pulumi provider for Redis Cloud
 summary: With the Redis Cloud Resource Provider you can provision Redis Cloud resources
   by using the programming language of your choice.
 type: integration

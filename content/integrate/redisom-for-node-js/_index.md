@@ -9,7 +9,6 @@ categories:
 - rc
 description: Learn how to build with Redis Stack and Node.js
 group: library
-linkTitle: RedisOM for Node.js
 stack: true
 summary: Redis OM for Node.js is an object-mapping library for Redis.
 title: Redis OM Node.js

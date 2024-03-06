@@ -13,6 +13,7 @@ summary: With the Redis Cloud Resource Provider you can provision Redis Cloud re
   by using the programming language of your choice.
 toc: 'true'
 type: integration
+weight: $weight
 ---
 
 Here, you'll learn how to use the [Redis Cloud Pulumi provider]({{< relref "/integrate/pulumi-provider-for-redis-cloud/" >}}) to create a Flexible subscription and a database using Python.

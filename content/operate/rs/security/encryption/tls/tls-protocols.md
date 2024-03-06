@@ -20,15 +20,15 @@ The communications for which you can modify TLS protocols are:
 - Data plane - The TLS configuration for the communication between applications and databases.
 - Discovery service (Sentinel) - The TLS configuration for the [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}).
 
-You can configure the TLS protocols with the `rladmin` commands shown here or with the REST API.
+You can configure TLS protocols with the [Cluster Manager UI](#edit-tls-ui), [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}), or the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}).
 
 {{<warning>}}
-After you set the minimum TLS version, Redis Enterprise Software does not accept communications with TLS versions older than the specified version.
+- After you set the minimum TLS version, Redis Enterprise Software does not accept communications with TLS versions older than the specified version.
+
+- If you set TLS 1.3 as the minimum TLS version, clients must support TLS 1.3 to connect to Redis Enterprise.
 {{</warning>}}
 
 TLS support depends on the operating system. You cannot enable support for protocols or versions that aren't supported by the operating system running Redis Enterprise Software.  In addition, updates to the operating system or to Redis Enterprise Software can impact protocol and version support.  
-
-To illustrate, version 6.2.8 of Redis Enterprise Software removed support for TLS 1.0 and TLS 1.1 on Red Hat Enterprise Linux 8 (RHEL 8) because that operating system [does not enable support](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/security_hardening/using-the-system-wide-cryptographic-policies_security-hardening) for these versions by default.  
 
 If you have trouble enabling specific versions of TLS, verify that they're supported by your operating system and that they're configured correctly.
 
@@ -36,16 +36,35 @@ If you have trouble enabling specific versions of TLS, verify that they're suppo
 TLSv1.2 is generally recommended as the minimum TLS version for encrypted communications. Check with your security team to confirm which TLS protocols meet your organization's policies.
 {{</note>}}
 
-### Control plane
+### Edit TLS settings in the UI {#edit-tls-ui}
 
-To set the minimum TLS protocol for the control plane:
+To configure minimum TLS versions using the Cluster Manager UI:
+
+1. Go to **Cluster > Security**, then select the **TLS** tab.
+
+1. Click **Edit**.
+
+1. Select the minimum TLS version for cluster connections, database connections, and the discovery service:
+
+    {{<image filename="images/rs/screenshots/cluster/security-tls-protocols-edit.png" alt="Cluster > Security > TLS settings in edit mode in the Cluster Manager UI." >}}
+  
+1. Select the TLS mode for the discovery service:
+
+    - **Allowed** - Allows both TLS and non-TLS connections
+    - **Required** - Allows only TLS connections
+    - **Disabled** - Allows only non-TLS connections
+
+1. Click **Save**.
+
+### Control plane TLS
+
+To set the minimum TLS protocol for the control plane using `rladmin`:
 
 - Default minimum TLS protocol: TLSv1.2
 - Syntax: `rladmin cluster config min_control_TLS_version <TLS_Version>`
 - TLS versions available:
-  - For TLSv1 - 1
-  - For TLSv1.1 - 1.1
   - For TLSv1.2 - 1.2
+  - For TLSv1.3 - 1.3
 
 For example:
 
@@ -53,16 +72,15 @@ For example:
 rladmin cluster config min_control_TLS_version 1.2
 ```
 
-### Data plane
+### Data plane TLS
 
-To set the minimum TLS protocol for the data path:
+To set the minimum TLS protocol for the data path using `rladmin`:
 
 - Default minimum TLS protocol: TLSv1.2
 - Syntax: `rladmin cluster config min_data_TLS_version <TLS_Version>`
 - TLS versions available:
-  - For TLSv1 - 1
-  - For TLSv1.1 - 1.1
   - For TLSv1.2 - 1.2
+  - For TLSv1.3 - 1.3
 
 For example:
 
@@ -71,32 +89,31 @@ rladmin cluster config min_data_TLS_version 1.2
 ```
 
 
-### Discovery service
+### Discovery service TLS
 
-To enable TLS for the discovery service:
+To enable TLS for the discovery service using `rladmin`:
 
 - Default: Allows both TLS and non-TLS connections
-- Syntax: `rladmin cluster config sentinel_ssl_policy <ssl_policy>`
+- Syntax: `rladmin cluster config sentinel_tls_mode <ssl_policy>`
 - `ssl_policy` values available:
   - `allowed` - Allows both TLS and non-TLS connections
   - `required` - Allows only TLS connections
   - `disabled` - Allows only non-TLS connections
 
-To set the minimum TLS protocol for the discovery service:
+To set the minimum TLS protocol for the discovery service using `rladmin`:
 
 - Default minimum TLS protocol: TLSv1.2
 - Syntax: `rladmin cluster config min_sentinel_TLS_version <TLS_Version>`
 - TLS versions available:
-  - For TLSv1 - 1
-  - For TLSv1.1 - 1.1
   - For TLSv1.2 - 1.2
+  - For TLSv1.3 - 1.3
 
 To enforce a minimum TLS version for the discovery service, run the following commands:
 
 1. Allow only TLS connections:
 
     ```sh
-    rladmin cluster config sentinel_ssl_policy required
+    rladmin cluster config sentinel_tls_mode required
     ```
 
 1. Set the minimal TLS version:

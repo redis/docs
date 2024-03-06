@@ -30,10 +30,10 @@ To upgrade your Fixed subscription to a Flexible subscription:
 
 ### Create Flexible subscription
 
-[Create a new Flexible subscription]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}}) with the following specifications:
+[Create a new Flexible subscription]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}}) with the following specifications:
 
 - Select the **Version** that matches the Redis version your Fixed subscriptions use.
-- In the [**Sizing tab**]({{< relref "/operate/rc/subscriptions/create-fixed-subscription#sizing-tab" >}}), create your databases with the following specifications:
+- In the [**Sizing tab**]({{< relref "/operate/rc/subscriptions/create-flexible-subscription#sizing-tab" >}}), create your databases with the following specifications:
     - Set the memory limit to comply with [Active-Passive memory requirements]({{< relref "/operate/rc/databases/migrate-databases#active-passive-memory-requirements" >}}) if you want to migrate your database using [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}).
     - Select any advanced capabilities that your Fixed database offers. You can find a list of enabled advanced capabilities in the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-details-tab" >}}) of your database.
 

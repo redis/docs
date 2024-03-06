@@ -18,6 +18,7 @@ A bootstrap configuration object.
 | action | 'create_cluster'<br />'join_cluster'<br />'recover_cluster' | Action to perform |
 | cluster | [cluster_identity]({{< relref "/operate/rs/references/rest-api/objects/bootstrap/cluster_identity" >}}) object | Cluster to join or create |
 | cnm_https_port | integer | Port to join a cluster with non-default cnm_https port |
+| crdb_coordinator_port | integer, (range:&nbsp;1024-65535) (default:&nbsp;9081) | CRDB coordinator port |
 | credentials | [credentials]({{< relref "/operate/rs/references/rest-api/objects/bootstrap/credentials" >}}) object | Cluster admin credentials |
 | dns_suffixes | {{<code>}}
 [{

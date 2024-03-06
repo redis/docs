@@ -8,7 +8,6 @@ categories:
 - rc
 description: Describes how to integrate Redis Cloud into Confluent Cloud.
 group: di
-linkTitle: Confluent with Redis Cloud
 summary: The Redis Sink connector for Confluent Cloud allows you to send data from
   Confluent Cloud to your Redis Cloud database.
 type: integration

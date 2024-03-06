@@ -14,15 +14,17 @@ When you upgrade an [Active-Active (CRDB) database]({{< relref "/operate/rs/data
 
 ## CRDB protocol version guidelines
 
-Starting with version 5.4.2, a new CRDB protocol version helps support Active-Active features.
+Redis Enterprise Software versions 5.4.2 and later use CRDB protocol version 1 to help support Active-Active features.
 
-The new CRDB protocol is backward compatible, which means v5.4.2 CRDB instances can understand write operations from instances using the the earlier CRDB protocol. 
+CRDB protocol version 1 is backward compatible, which means Redis Enterprise v5.4.2 CRDB instances can understand write operations from instances using the earlier CRDB protocol version 0.
 
-After you upgrade the CRDB protocol on one instance, non-upgraded instances cannot receive write updates from the upgraded instance.
+After you upgrade one instance's CRDB protocol to version 1:
 
-The upgraded instance receives updates from upgraded and non-upgraded instances.
+- Any instances that use CRDB protocol version 1 can receive updates from both version 1 and version 0 instances.
 
-When upgraded to the latest protocol version, upgraded instances automatically receive any missing write operations.
+- However, instances that still use CRDB protocol version 0 cannot receive write updates from version 1 instances.
+
+- After you upgrade an instance from CRDB protocol version 0 to version 1, it automatically receives any missing write operations.
 
 Follow these upgrade guidelines:
 
@@ -32,7 +34,7 @@ Follow these upgrade guidelines:
 
 - As of v6.0.20, protocol version 0 is deprecated and support will be removed in a future version.
 
-- To avoid upgrade failures, update all Active-Active databases to the latest protocol version _before_ upgrading Redis Enterprise Software to v6.0.20 or later.
+- To avoid upgrade failures, update all Active-Active databases to protocol version 1 _before_ upgrading Redis Enterprise Software to v6.0.20 or later.
 
 ## Feature version guidelines
 
@@ -44,7 +46,7 @@ Follow these upgrade guidelines:
 
 - As of v6.0.20, feature version 0 is deprecated and support will be removed in a future version.
 
-- To avoid upgrade failures, update all Active-Active databases to the latest protocol version _before_ upgrading Redis Enterprise Software to v6.0.20 or later.
+- To avoid upgrade failures, update all Active-Active databases to protocol version 1 _before_ upgrading Redis Enterprise Software to v6.0.20 or later.
 
 ## Upgrade Active-Active database instance
 
