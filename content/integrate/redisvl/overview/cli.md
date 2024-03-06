@@ -3,7 +3,7 @@ title: RedisVL CLI
 type: integration
 description: How to use RedisVL's CLI
 ---
-RedisVL is a Bash library with a dedicated CLI to help load and create vector search indexes within Redis.
+RedisVL is a Python library with a dedicated CLI to help load and create vector search indexes within Redis.
 
 This document will walk through how to use the RedisVL CLI (`rvl`).
 
@@ -19,29 +19,32 @@ Before beginning, be sure of the following:
 ```bash
 # First, see if the rvl tool is installed
 $ rvl version
-11:13:52 [RedisVL] INFO   RedisVL version 0.0.5
+11:13:52 [RedisVL] INFO   RedisVL version 0.1.2
 ```
 
 ## Index
 
-The `rvl index` command can be used for a number of tasks related to creating and managing vector indexes. Whether you are working in Bash or another shell, this CLI tool can still be useful for managing and inspecting your indexes.
+The `rvl index` command can be used for a number of tasks related to creating and managing indexes. Whether you are working in Bash or another shell, this CLI tool can still be useful for managing and inspecting your indexes.
 
 First, create an index from a YAML schema that looks like the following:
 
 ```yaml
+version: '0.1.0'
+
 index:
-    name: providers
-    prefix: rvl
+    name: vectorizers
+    prefix: doc
     storage_type: hash
 
 fields:
-    text:
-        - name: sentence
-    vector:
-        - name: embedding
-          dims: 768
-          algorithm: flat
-          distance_metric: cosine
+    - name: sentence
+      type: text
+    - name: embedding
+      type: vector
+      attrs:
+        dims: 768
+        algorithm: flat
+        distance_metric: cosine
 ```
 
 ```bash
@@ -54,7 +57,7 @@ $ rvl index create -s schema.yaml
 # List the indexes that are available
 $ rvl index listall
 11:13:56 [RedisVL] INFO   Indices:
-11:13:56 [RedisVL] INFO   1. providers
+11:13:56 [RedisVL] INFO   1. vectorizers
 ```
 
 ```bash
@@ -65,7 +68,7 @@ Index Information:
 ╭──────────────┬────────────────┬────────────┬─────────────────┬────────────╮
 │ Index Name   │ Storage Type   │ Prefixes   │ Index Options   │   Indexing │
 ├──────────────┼────────────────┼────────────┼─────────────────┼────────────┤
-│ providers    │ HASH           │ ['rvl']    │ []              │          0 │
+│ vectorizers  │ HASH           │ ['doc']    │ []              │          0 │
 ╰──────────────┴────────────────┴────────────┴─────────────────┴────────────╯
 Index Fields:
 ╭───────────┬─────────────┬────────┬────────────────┬────────────────╮
@@ -78,7 +81,7 @@ Index Fields:
 
 ```bash
 # delete an index without deleting the data within it
-$ rvl index delete -i providers
+$ rvl index delete -i vectorizers
 11:13:59 [RedisVL] INFO   Index deleted successfully
 ```
 
@@ -103,7 +106,7 @@ $ rvl index create -s schema.yaml
 # list the indexes that are available
 $ rvl index listall
 11:14:03 [RedisVL] INFO   Indices:
-11:14:03 [RedisVL] INFO   1. providers
+11:14:03 [RedisVL] INFO   1. vectorizers
 ```
 
 ```bash
@@ -134,4 +137,10 @@ Statistics:
 │ total_inverted_index_blocks │ 0          │
 │ vector_index_sz_mb          │ 0.00818634 │
 ╰─────────────────────────────┴────────────╯
+```
+
+```bash
+$ rvl index destroy -i vectorizers
+
+09:00:27 [RedisVL] INFO   Index deleted successfully
 ```
