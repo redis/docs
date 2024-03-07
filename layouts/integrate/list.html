@@ -57,24 +57,24 @@
         {{ $labelText := (dict "mig" "data migration" "di" "data integration" "cloud-service" "cloud service") }}
         {{ range .CurrentSection.Sections }}
           <article 
-            class="flex flex-col gap-2 relative transition h-full text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-ink-900 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md px-6 py-4 group" 
+            class="flex flex-col gap-2 relative transition h-full text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group" 
             data-name="{{ .Title }}" 
             data-group="{{ .Params.group }}"
             data-version
             data-top
           >
-            <div class="flex flex-row items-center gap-1 uppercase font-mono text-xs">
+            <div class="flex flex-row items-center gap-1 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
               <div class='h-3 w-3 rounded-md border border-redis-pen-600 {{ index $labelColors .Params.group | default "bg-green-300" }}'></div>
               {{ index $labelText .Params.group | default .Params.group }}
             </div>
-            <h1 class="text-xl leading-tight">
+            <h1 class="text-xl leading-tight px-6 py-4">
               {{ .Title }}
             </h1>
-            <p class="text-sm pt-4">
+            <p class="text-sm px-6">
               {{ .Params.summary }}
             </p>
             <div class="grow"></div>
-            <div class="text-xs font-mono group-hover:underline">Learn more →</div>
+            <div class="text-xs font-mono group-hover:underline px-6 pb-4">Learn more →</div>
             <a class="absolute inset-0 outline-0" href="{{ .RelPermalink }}">
               <span class="sr-only">Read more</span>
             </a>
