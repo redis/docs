@@ -19,27 +19,27 @@ compatible with Redis Enterprise databases with JSON enabled.
 
 ## JSON paths
 
-[Paths]({{< relref "/integrate/redisvl/user-guide/get-started" >}}json/path) let you traverse the structure of a JSON document, starting from the root, and interact only with the data you want. You can also use paths to perform operations on specific JSON elements.
+[Paths]({{< relref "/develop/get-started/" >}}json/path) let you traverse the structure of a JSON document, starting from the root, and interact only with the data you want. You can also use paths to perform operations on specific JSON elements.
 
 Since there is no standard for JSON path syntax, Redis Stack implements its own.
 
 ### JSONPath syntax
 
-RedisJSON v2.0 and later support the [JSONPath syntax]({{< relref "/integrate/redisvl/user-guide/get-started" >}}json/path/#jsonpath-support), which resembles [Goessner's design](https://goessner.net/articles/JsonPath/):
+RedisJSON v2.0 and later support the [JSONPath syntax]({{< relref "/develop/get-started/" >}}json/path/#jsonpath-support), which resembles [Goessner's design](https://goessner.net/articles/JsonPath/):
   
   - Paths start with a dollar sign (`$`), which represents the root of the JSON document.
 
-  - See the [JSONPath syntax table]({{< relref "/integrate/redisvl/user-guide/get-started" >}}json/path/#jsonpath-syntax) to learn how to access various elements within a JSON document.
+  - See the [JSONPath syntax table]({{< relref "/develop/get-started/" >}}json/path/#jsonpath-syntax) to learn how to access various elements within a JSON document.
 
 The following path refers to `headphones`, which is a child of `inventory` under the root:
 
 `$.inventory.headphones`
   
-See [JSONPath examples]({{< relref "/integrate/redisvl/user-guide/get-started" >}}json/path/#jsonpath-examples) for examples with more complex syntax.
+See [JSONPath examples]({{< relref "/develop/get-started/" >}}json/path/#jsonpath-examples) for examples with more complex syntax.
 
 ### Legacy path syntax
 
-The [legacy path syntax]({{< relref "/integrate/redisvl/user-guide/get-started" >}}json/path/#legacy-path-syntax) refers to the path implementation in RedisJSON v1. RedisJSON v2 still supports this legacy path syntax in addition to JSONPath syntax.
+The [legacy path syntax]({{< relref "/develop/get-started/" >}}json/path/#legacy-path-syntax) refers to the path implementation in RedisJSON v1. RedisJSON v2 still supports this legacy path syntax in addition to JSONPath syntax.
 
 The legacy path syntax works as follows:
 
@@ -69,7 +69,7 @@ You can only use the [legacy path syntax](#legacy-path-syntax) to access JSON ke
 
 You can index, search, and query stored JSON documents.
 
-For more information about how to search and query JSON documents, see the [quick start]({{< relref "/integrate/redisvl/user-guide/get-started" >}}search/indexing_json/).
+For more information about how to search and query JSON documents, see the [quick start]({{< relref "/develop/get-started/" >}}search/indexing_json/).
 
 ## JSON in Active-Active databases
 
@@ -79,6 +79,6 @@ For details about how Redis Enterprise resolves JSON operation conflicts that ca
 
 ## More info
 
-- [JSON quick start]({{< relref "/integrate/redisvl/user-guide/get-started" >}}json/#use-redisjson)
+- [JSON quick start]({{< relref "/develop/get-started/" >}}json/#use-redisjson)
 - [JSON commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json/commands" >}})
 - [RedisJSON source](https://github.com/RedisJSON/RedisJSON)

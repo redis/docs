@@ -132,7 +132,7 @@ An API object that represents a managed database in the cluster.
 {{</code>}} | List of modules associated with the database<br /><br />**module_id**: Module UID <br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version<br /><br />As of Redis Enterprise Software v7.4.2, **module_id** and **semantic_version** are optional. |
 | mtls_allow_outdated_certs | boolean | An optional mTLS relaxation flag for certs verification |
 | mtls_allow_weak_hashing | boolean | An optional mTLS relaxation flag for certs verification |
-| name | string | Database name |
+| name | string | Database name. Only letters, numbers, or hyphens are valid characters. The name must start and end with a letter or number. |
 | oss_cluster | boolean (default:&nbsp;false) | OSS Cluster mode option. Cannot be enabled with `'hash_slots_policy': 'legacy'` |
 | oss_cluster_api_preferred_ip_type | **'internal'** <br />'external' | Internal/external IP type in OSS cluster API. Default value for new endpoints |
 | oss_sharding | boolean (default:&nbsp;false) | An alternative to `shard_key_regex` for using the common case of the OSS shard hashing policy |

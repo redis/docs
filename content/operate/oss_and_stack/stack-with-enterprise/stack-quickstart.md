@@ -81,7 +81,7 @@ With this information, you can connect to your database with the [`redis-cli`]({
 
 To try out Redis Stack features, follow the examples provided by the corresponding guides:
 
-- [Search and query quick start]({{< relref "/integrate/redisvl/user-guide/get-started" >}}search/quick_start/)
-- [JSON quick start]({{< relref "/integrate/redisvl/user-guide/get-started" >}}json/#use-redisjson)
-- [Time series quick start]({{< relref "/integrate/redisvl/user-guide/get-started" >}}timeseries/quickstart/)
-- [Probabilistic data structures quick start]({{< relref "/integrate/redisvl/user-guide/get-started" >}}bloom/quick_start/)
+- [Search and query quick start]({{< relref "/develop/get-started/" >}}search/quick_start/)
+- [JSON quick start]({{< relref "/develop/get-started/" >}}json/#use-redisjson)
+- [Time series quick start]({{< relref "/develop/get-started/" >}}timeseries/quickstart/)
+- [Probabilistic data structures quick start]({{< relref "/develop/get-started/" >}}bloom/quick_start/)

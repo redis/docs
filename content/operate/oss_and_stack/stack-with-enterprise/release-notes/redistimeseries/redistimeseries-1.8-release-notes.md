@@ -16,10 +16,30 @@ weight: 96
 ---
 ## Requirements
 
-RedisTimeSeries v1.8.11 requires:
+RedisTimeSeries v1.8.12 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v1.8.12 (December 2023)
+
+This is a maintenance release for RedisTimeSeries 1.8.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- Security and privacy:
+
+  - [#1506](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1506) Don’t expose internal commands (MOD-5643)
+
+- Bug fixes:
+
+  - [#1494](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1494) Potential crash when using an invalid argument value
+
+- Improvements:
+
+  - [#1516](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1516) Added support for CBL-Mariner 2
 
 ## v1.8.11 (July 2023)
 
@@ -104,7 +124,7 @@ Details:
     - [#1347](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1347) When adding samples with [TS.ADD]({{< relref "/commands" >}}/ts.add/) or [TS.MADD]({{< relref "/commands" >}}/ts.madd/) using  `*` as timestamp, the timestamp could differ between master and replica shards
 
 - Improvements:
-    - [#1215](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1215) OSS cluster: Support TLS and IPv6; introduce new configuration parameter: [OSS_GLOBAL_PASSWORD]({{< relref "/integrate/redisvl/user-guide/get-started" >}}timeseries/configuration/#oss_global_password)
+    - [#1215](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1215) OSS cluster: Support TLS and IPv6; introduce new configuration parameter: [OSS_GLOBAL_PASSWORD]({{< relref "/develop/get-started/" >}}timeseries/configuration/#oss_global_password)
 
 
 ## v1.8 GA (v1.8.3) (November 2022)
@@ -191,7 +211,7 @@ RedisTimeSeries 1.8 introduces seven highly requested features, performance impr
 
   But what if we want to aggregate daily events from 06:00 to 06:00 the next day? We can now specify alignment for compaction rules.
 
-  Alignment can be specified with the new optional `alignTimestamp` parameter of [TS.CREATERULE]({{< relref "/commands" >}}/ts.createrule/) and the [COMPACTION_POLICY]({{< relref "/integrate/redisvl/user-guide/get-started" >}}timeseries/configuration/#compaction_policy) configuration parameter. Specifying `alignTimestamp` ensures that there is a bucket that starts exactly at `alignTimestamp` and all other buckets are aligned accordingly. `alignTimestamp` is expressed in milliseconds. The default value is 0 (aligned with the epoch).
+  Alignment can be specified with the new optional `alignTimestamp` parameter of [TS.CREATERULE]({{< relref "/commands" >}}/ts.createrule/) and the [COMPACTION_POLICY]({{< relref "/develop/get-started/" >}}timeseries/configuration/#compaction_policy) configuration parameter. Specifying `alignTimestamp` ensures that there is a bucket that starts exactly at `alignTimestamp` and all other buckets are aligned accordingly. `alignTimestamp` is expressed in milliseconds. The default value is 0 (aligned with the epoch).
 
 * **New reducers**
 

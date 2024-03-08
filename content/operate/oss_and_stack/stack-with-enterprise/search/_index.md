@@ -21,11 +21,11 @@ The search and query engine indexes documents, which are objects that represent 
 As the documents in your database change, the index automatically processes these changes to keep the search results up to date.
 
 With indexes, you can do:
-- Language-aware [fuzzy matching]({{< relref "/integrate/redisvl/user-guide/get-started" >}}search/reference/query_syntax/#fuzzy-matching)
-- Fast [auto-complete]({{< relref "/integrate/redisvl/user-guide/get-started" >}}search/design/overview/#auto-completion)
-- [Exact phrase matching]({{< relref "/integrate/redisvl/user-guide/get-started" >}}search/reference/query_syntax/)
-- [Numeric filtering]({{< relref "/integrate/redisvl/user-guide/get-started" >}}search/reference/query_syntax/#numeric-filters-in-query)
-- [Geo-radius queries]({{< relref "/integrate/redisvl/user-guide/get-started" >}}search/reference/query_syntax/#geo-filters-in-query)
+- Language-aware [fuzzy matching]({{< relref "/develop/get-started/" >}}search/reference/query_syntax/#fuzzy-matching)
+- Fast [auto-complete]({{< relref "/develop/get-started/" >}}search/design/overview/#auto-completion)
+- [Exact phrase matching]({{< relref "/develop/get-started/" >}}search/reference/query_syntax/)
+- [Numeric filtering]({{< relref "/develop/get-started/" >}}search/reference/query_syntax/#numeric-filters-in-query)
+- [Geo-radius queries]({{< relref "/develop/get-started/" >}}search/reference/query_syntax/#geo-filters-in-query)
 
 ## Supported document types
 
@@ -41,7 +41,7 @@ You can run [`HGETALL`]({{< relref "/commands" >}}/hgetall/) to retrieve the ent
 
 You can index, search, and query JSON documents stored in your database.
 
-For more information about how to search and query JSON documents, see the [quick start]({{< relref "/integrate/redisvl/user-guide/get-started" >}}search/indexing_json/).
+For more information about how to search and query JSON documents, see the [quick start]({{< relref "/develop/get-started/" >}}search/indexing_json/).
 
 ## Search features
 
@@ -49,7 +49,7 @@ For full-text searches, you can customize the field queries and ranking of the s
 When querying, you can use multiple predicates that query text, numeric, and geospatial fields in one query.
 You can also sort by a specific field and limit the results with an offset to produce customized results pages.
 
-Redis Stack supports [over 15 natural languages]({{< relref "/integrate/redisvl/user-guide/get-started" >}}search/reference/stemming#supported-languages) for stemming and includes auto-complete engines with specific commands that can provide real-time [interactive search suggestions]({{< relref "/commands" >}}/ft.sugadd/).
+Redis Stack supports [over 15 natural languages]({{< relref "/develop/get-started/" >}}search/reference/stemming#supported-languages) for stemming and includes auto-complete engines with specific commands that can provide real-time [interactive search suggestions]({{< relref "/commands" >}}/ft.sugadd/).
 
 ## Search and query Active-Active databases
 
@@ -69,8 +69,8 @@ Because the index on the new shard is created synchronously though, it's expecte
 ## More info
 
 - [Getting Started with RediSearch 2.0](https://redis.com/blog/getting-started-with-redisearch-2-0/)
-- [Search and query quick start]({{< relref "/integrate/redisvl/user-guide/get-started" >}}search/quick_start/)
+- [Search and query quick start]({{< relref "/develop/get-started/" >}}search/quick_start/)
 - [Search and query configuration]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/config" >}})
 - [Search and query commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/commands" >}})
-- [Search and query references]({{< relref "/integrate/redisvl/user-guide/get-started" >}}search/reference/)
+- [Search and query references]({{< relref "/develop/get-started/" >}}search/reference/)
 - [RediSearch source](https://github.com/RediSearch/RediSearch)

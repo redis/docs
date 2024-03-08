@@ -1149,7 +1149,7 @@ if __name__ == "__main__":
     fix_command_group_params(["commands", "develop", "operate/oss_and_stack", "integrate"])
 
     print("### Fixing fully qualified redis.io links ...")
-    fix_fq_io_links(["commands", "develop", "operate/oss_and_stack", "integrate"], ["commands", "develop", "operate", "integrate", "embeds", "glossary"])
+    fix_fq_io_links(["commands", "develop", "operate/oss_and_stack"], ["commands", "develop", "operate", "integrate", "embeds", "glossary"])
     
     print("### Fixing fully qualified docs.redis.com links ...")
     fix_fq_docs_redis_com_links(["operate"])

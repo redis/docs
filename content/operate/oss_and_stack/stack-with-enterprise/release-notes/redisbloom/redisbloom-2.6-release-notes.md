@@ -14,10 +14,47 @@ weight: 95
 ---
 ## Requirements
 
-RedisBloom v2.6.8 requires:
+RedisBloom v2.6.11 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.6.11 (January 2024)
+
+This is a maintenance release for RedisBloom 2.6.
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Details:
+
+- Bug fixes:
+
+  - [#727](https://github.com/RedisBloom/RedisBloom/pull/727) Additional fixes for potential crash on `CF.LOADCHUNK` (MOD-6344)
+
+## v2.6.10 (January 2024)
+
+This is a maintenance release for RedisBloom 2.6.
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Details:
+
+- Bug fixes:
+
+  - [#735](https://github.com/RedisBloom/RedisBloom/pull/735) Potential crash on `CF.RESERVE` (MOD-6343)
+  - [#727](https://github.com/RedisBloom/RedisBloom/pull/727) Potential crash on `CF.LOADCHUNK` (MOD-6344)
+
+## v2.6.9 (December 2023)
+
+This is a maintenance release for RedisBloom 2.6.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+- Bug fixes:
+
+  - [#707](https://github.com/RedisBloom/RedisBloom/pull/707) Top-K: `TOPK.ADD` and `TOPK.QUERY` crash when an item name is an empty string (RED-114676)
 
 ## v2.6.8 (October 2023)
 

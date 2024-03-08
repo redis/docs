@@ -46,7 +46,7 @@ The available settings vary according to your subscription plan:
 | **Auto Tiering**          | Checked when the subscription supports Auto Tiering (_Flexible or Annual subscriptions only_)                                                                                                                                                                                                                     |
 | **Database name**         | A name for your database (_required_)                                                                                                                                                                                                                                                                             |
 | **Database port**         | Automatically or manually assigns a database port (range: 10000-19999) (_Flexible or Annual subscriptions only_)                                                                                                                                                                                                  |
-| **Type**                  | Controls advanced database capabilities and protocol.  Supported values include _[Redis Stack]({{< relref "/integrate/redisvl/user-guide/get-started" >}})_ (available only for Fixed and Free), _Redis_ (default for Flexible and Annual subscriptions), and _Memcached_                                                                       |
+| **Type**                  | Controls advanced database capabilities and protocol.  Supported values include _[Redis Stack]({{< relref "/develop/get-started/" >}})_ (available only for Fixed and Free), _Redis_ (default for Flexible and Annual subscriptions), and _Memcached_                                                                       |
 | **Advanced capabilities** | Extend core Redis functionality using [advanced capabilities]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).  Redis Cloud supports selected advanced capabilities; for details, see [Redis Enterprise and Redis Stack feature compatibility]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities#redis-enterprise-module-support" >}})   |
 | **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details                                                                                                                                                   |
 
@@ -67,7 +67,7 @@ Available options depend on your subscription and your database **Type**.
 
 #### Fixed (and Free) advanced capability options {#fixed-and-free-module-options}
 
-Fixed and Free subscriptions support [Redis Stack]({{< relref "/integrate/redisvl/user-guide/get-started" >}}), which enables the most frequently used capabilities.
+Fixed and Free subscriptions support [Redis Stack]({{< relref "/develop/get-started/" >}}), which enables the most frequently used capabilities.
 
 {{<image filename="images/rc/new-database-general-type-free-stack.png" alt="For Fixed and Free subscriptions, the Type setting in the General section includes an option for Redis Stack." width="75%">}}
 
@@ -101,7 +101,7 @@ You don't have to combine capabilities.  To remove a selected capability, either
 
 <nobr>{{<image filename="images/rc/icon-checkbox-clear.png" alt="To remove a selected capability, clear the checkbox in the menu." width="30px">}}&nbsp;{{<image filename="images/rc/icon-module-delete.png" alt="You can also use the delete icon to remove a capability." width="30px">}}</nobr>
 
-To learn more, see [Redis Stack]({{< relref "/integrate/redisvl/user-guide/get-started" >}}) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
+To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
 
 ## Scalability section
 

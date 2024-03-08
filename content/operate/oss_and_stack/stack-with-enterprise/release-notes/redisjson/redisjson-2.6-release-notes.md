@@ -14,10 +14,40 @@ weight: 96
 ---
 ## Requirements
 
-RedisJSON v2.6.7 requires:
+RedisJSON v2.6.9 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.6.9 (January 2024)
+
+This is a maintenance release for RedisJSON 2.6.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Improvements:
+
+   - [#1131](https://github.com/RedisJSON/RedisJSON/issues/1131), [#1143](https://github.com/RedisJSON/RedisJSON/pull/1143) **BREAKING** - Revert JSONPath default path value from `$` to `.` under RESP3 (MOD-6156)
+
+- Bug fixes:
+
+  - [#1095](https://github.com/RedisJSON/RedisJSON/pull/1095) Fix for RediSearch deadlock. See RediSearch 2.8.10 release notes (MOD-5895)
+
+## v2.6.8 (November 2023)
+
+This is a maintenance release for RedisJSON 2.6.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+{{<note>}}
+RHEL 7 is no longer supported as of v2.6.8.
+{{</note>}}
+
+This is a version number alignment with RedisJSON for Redis Enterprise (with Active-Active support).
 
 ## v2.6.7 (October 2023)
 
