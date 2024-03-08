@@ -12,9 +12,9 @@ toc: 'true'
 weight: $weight
 ---
 
-The `redis-cli` command-line utility lets you interact with a Redis database. With `redis-cli`, you can run [Redis commands](https://redis.io/commands/) directly from the command-line terminal or with [interactive mode](#interactive-mode).
+The `redis-cli` command-line utility lets you interact with a Redis database. With `redis-cli`, you can run [Redis commands]({{< relref "/commands" >}}/) directly from the command-line terminal or with [interactive mode](#interactive-mode).
 
-If you want to run Redis commands without `redis-cli`, you can [connect to a database with RedisInsight]({{< relref "/develop/connect/insight/" >}}) and use the built-in [CLI](https://redis.io/docs/stack/insight/#cli) prompt instead.
+If you want to run Redis commands without `redis-cli`, you can [connect to a database with RedisInsight]({{< relref "/develop/connect/insight/" >}}) and use the built-in [CLI]({{< relref "/integrate/redisvl/user-guide/get-started" >}}insight/#cli) prompt instead.
 
 ## Install `redis-cli`
 
@@ -22,7 +22,7 @@ When you install Redis Enterprise Software or open source Redis, it also install
 
 To learn how to install Redis and `redis-cli`, see the following installation guides:
 
-- [Open source Redis](https://redis.io/docs/getting-started/installation/)
+- [Open source Redis]({{< relref "/integrate/redisvl/overview/install" >}}installation/)
 
 - [Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 
@@ -101,15 +101,15 @@ $ redis-cli -h <endpoint> -p 12000 GET mykey
 "Hello world"
 ```
 
-For more information, see [Command line usage](https://redis.io/docs/manual/cli/#command-line-usage).
+For more information, see [Command line usage]({{< relref "/develop/connect/cli" >}}#command-line-usage).
 
 ## Interactive mode
 
-In `redis-cli` [interactive mode](https://redis.io/docs/manual/cli/#interactive-mode), you can:
+In `redis-cli` [interactive mode]({{< relref "/develop/connect/cli" >}}#interactive-mode), you can:
 
 - Run any `redis-cli` command without prefacing it with `redis-cli`.
-- Enter `?` for more information about how to use the `HELP` command and [set `redis-cli` preferences](https://redis.io/docs/manual/cli/#preferences).
-- Enter [`HELP`](https://redis.io/docs/manual/cli/#showing-help-about-redis-commands) followed by the name of a command for more information about the command and its options.
+- Enter `?` for more information about how to use the `HELP` command and [set `redis-cli` preferences]({{< relref "/develop/connect/cli" >}}#preferences).
+- Enter [`HELP`]({{< relref "/develop/connect/cli" >}}#showing-help-about-redis-commands) followed by the name of a command for more information about the command and its options.
 - Press the `Tab` key for command completion.
 - Enter `exit` or `quit` or press `Control+D` to exit interactive mode and return to the terminal prompt.
 
@@ -129,7 +129,7 @@ OK
 
 ### Check slowlog
 
-Run [`slowlog get`](https://redis.io/commands/slowlog-get/) for a list of recent slow commands:
+Run [`slowlog get`]({{< relref "/commands" >}}/slowlog-get/) for a list of recent slow commands:
 
 ```sh
 redis-cli -h <endpoint> -p <port> slowlog get <number of entries>
@@ -143,9 +143,9 @@ Scan the database for big keys:
 redis-cli -h <endpoint> -p <port> --bigkeys
 ```
 
-See [Scanning for big keys](https://redis.io/docs/connect/cli/#scanning-for-big-keys) for more information.
+See [Scanning for big keys]({{< relref "/develop/connect/cli" >}}#scanning-for-big-keys) for more information.
 
 ## More info
 
-- [Redis CLI documentation](https://redis.io/docs/manual/cli/)
-- [Redis commands reference](https://redis.io/commands/)
+- [Redis CLI documentation]({{< relref "/develop/connect/cli" >}})
+- [Redis commands reference]({{< relref "/commands" >}}/)

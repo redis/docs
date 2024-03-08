@@ -118,7 +118,7 @@ When you deploy your application, use TLS and follow the [Redis security]({{< re
 
 ```js
 const client = createClient({
-    username: 'default', // use your Redis user. More info https://redis.io/docs/management/security/acl/
+    username: 'default', // use your Redis user. More info {{< relref "/operate/oss_and_stack/management/security/acl" >}}
     password: 'secret', // use your password here
     socket: {
         host: 'my-redis.cloud.redislabs.com',

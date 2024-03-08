@@ -42,7 +42,7 @@ database and store data using one of the following methods:
 
 - [RedisInsight](https://redis.com/redis-enterprise/redis-insight/), a free Redis GUI that is available for macOS, Windows, and Linux 
 
-- An application using a Redis client library, such as [`redis-py`](https://github.com/redis/redis-py) for Python. See the [client list](https://redis.io/resources/clients/) to view all Redis clients by language.
+- An application using a Redis client library, such as [`redis-py`](https://github.com/redis/redis-py) for Python. See the [client list]({{< relref "/develop/connect/clients/" >}}) to view all Redis clients by language.
 
 ### Connect with redis-cli
 

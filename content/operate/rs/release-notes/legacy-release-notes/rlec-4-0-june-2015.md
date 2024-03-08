@@ -11,7 +11,7 @@ weight: 98
 ---
 If you are upgrading from a previous version, make sure to review the
 [upgrade
-instructions](https://docs.redis.com/latest/rs/installing-upgrading/upgrading/)
+instructions]({{< relref "/operate/rs/installing-upgrading/upgrading" >}})
 before running through the upgrade process.
 
 In addition, when running the install.sh script to upgrade the software,

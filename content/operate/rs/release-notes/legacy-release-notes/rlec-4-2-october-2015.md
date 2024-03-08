@@ -11,7 +11,7 @@ weight: 97
 ---
 If you are upgrading from a previous version, make sure to review the
 [upgrade
-instructions](https://docs.redis.com/latest/rs/installing-upgrading/upgrading/)
+instructions]({{< relref "/operate/rs/installing-upgrading/upgrading" >}})
 before running through the upgrade process.
 
 ## New features
@@ -140,7 +140,7 @@ before running through the upgrade process.
 
 - **Issue**: When upgrading a node to a new RLEC version (refer to
     [Upgrading
-    nodes](https://docs.redis.com/latest/rs/installing-upgrading/upgrading/)
+    nodes]({{< relref "/operate/rs/installing-upgrading/upgrading" >}})
     while the node is in the offline state (refer to [Taking a node
     offline]({{< relref "/operate/rs/clusters/remove-node.md" >}}),
     the upgrade process succeeds but might result in an unstable

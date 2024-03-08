@@ -253,7 +253,7 @@ You can read more details in [the RediSearch 2.0 announcement blog post](https:/
 - [#1384](https://github.com/RediSearch/RediSearch/pull/1384): [`FT.DROPINDEX`](https://oss.redislabs.com/redisearch/Commands/#ftdropindex), which by default does not delete documents underlying the index (see deprecated `FT.DROP`).
 - [#1385](https://github.com/RediSearch/RediSearch/pull/1385): Add index definition to [`FT.INFO`](https://oss.redislabs.com/redisearch/master/Commands/#ftinfo) response.
 - [#1097](https://github.com/RediSearch/RediSearch/pull/1097): Add Hindi snowball stemmer.
-- The `FT._LIST` command returns a list of all available indices.  Note that this is a temporary command, as indicated by the `_` in the name, so it's not documented. We're working on a [`SCAN`](https://redis.io/commands/scan)-like command for databases with many indexes.
+- The `FT._LIST` command returns a list of all available indices.  Note that this is a temporary command, as indicated by the `_` in the name, so it's not documented. We're working on a [`SCAN`]({{< relref "/commands" >}}/scan)-like command for databases with many indexes.
 - The RediSearch version will appear in Redis as `20000`, which is equivalent to 2.0.0 in semantic versioning. Since the version of a module in Redis is numeric, we cannot explicitly add an GA flag.
 - RediSearch 2.x requires Redis 6.0 or later.
 

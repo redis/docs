@@ -50,7 +50,7 @@ $ pip install -e .
 RedisVL requires a distribution of Redis that supports the [search and query](https://redis.com/modules/redis-search/) capability, of which there are three:
 
 1. [Redis Cloud](https://redis.com/try-free), a fully managed cloud offering that you can try for free.
-2. [Redis Stack](https://redis.io/docs/getting-started/install-stack/docker/), a local docker image for testing and development.
+2. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}}), a local docker image for testing and development.
 3. [Redis Enterprise](https://redis.com/redis-enterprise/), a commercial self-hosted offering.
 
 ### Redis Cloud

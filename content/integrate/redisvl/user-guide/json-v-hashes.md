@@ -7,7 +7,7 @@ weight: 6
 ---
 
 Out of the box, Redis provides a [variety of data structures](https://redis.com/redis-enterprise/data-structures/) that can be used for your domain specific applications and use cases.
-In this document, you will learn how to use RedisVL with both [hash](https://redis.io/docs/data-types/hashes/) and [JSON](https://redis.io/docs/data-types/json/) data.
+In this document, you will learn how to use RedisVL with both [hash]({{< relref "/develop/data-types/hashes" >}}) and [JSON]({{< relref "/develop/data-types/json/" >}}) data.
 
 {{< note >}}
 This document is a converted form of [this Jupyter notebook](https://github.com/RedisVentures/redisvl/blob/main/docs/user_guide/hash_vs_json_05.ipynb).
@@ -188,7 +188,7 @@ hindex.delete()
 
 ### Working with JSON
 
-Redis also supports native **JSON** objects. These can be multi-level (nested) objects, with full [JSONPath](https://redis.io/docs/data-types/json/path/) support for retrieving and updating sub-elements:
+Redis also supports native **JSON** objects. These can be multi-level (nested) objects, with full [JSONPath]({{< relref "/develop/data-types/json/" >}}path/) support for retrieving and updating sub-elements:
 
 ```python
 {

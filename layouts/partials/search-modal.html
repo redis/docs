@@ -179,7 +179,7 @@
       }
       
       {{ with .Site.Params.searchService }}
-      search(`{{ . }}?q=${searchTerm}`)
+      search(`{{ . }}?q=${searchTerm}*`)
         .then(displayData)
         .catch(displayError)
       {{ end }}

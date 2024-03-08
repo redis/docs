@@ -191,9 +191,9 @@ After you store this secret, you can view and copy the [Amazon Resource Name (AR
 
 ## Create a vector index in your database {#create-vector-index}
 
-After your database is set up, create an index with a vector field using [FT.CREATE](https://redis.io/commands/ft.create/) as your knowledge base for Amazon Bedrock. You can accomplish this using **RedisInsight** or `redis-cli`.
+After your database is set up, create an index with a vector field using [FT.CREATE]({{< relref "/commands" >}}/ft.create/) as your knowledge base for Amazon Bedrock. You can accomplish this using **RedisInsight** or `redis-cli`.
 
-### [RedisInsight](https://redis.io/docs/connect/insight/)
+### [RedisInsight]({{< relref "/develop/connect/insight/" >}})
 
 RedisInsight is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
 
@@ -221,7 +221,7 @@ To create your vector index in RedisInsight:
 
     {{<image filename="/images/rc/ri-bedrock-workbench.png" width=50px alt="The RedisInsight workbench icon." >}}
 
-1. Enter the [FT.CREATE](https://redis.io/commands/ft.create/) command to create an index. 
+1. Enter the [FT.CREATE]({{< relref "/commands" >}}/ft.create/) command to create an index. 
 
     ```text
     FT.CREATE <index_name>                    
@@ -249,7 +249,7 @@ To create your vector index in RedisInsight:
 
 ### [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}})
 
-The `redis-cli` command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis](https://redis.io/docs/getting-started/).
+The `redis-cli` command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis]({{< relref "/integrate/redisvl/overview/install" >}}).
 
 Public endpoint and port details are available from the **Databases** list or the database's **Configuration** screen. Select **Connect** to view how to connect to your database with `redis-cli`.
 
@@ -258,7 +258,7 @@ redis-cli -h <endpoint> -p <port> --tls --cacert redis_ca.pem \
     --cert redis_user.crt --key redis_user_private.key
 ```
 
-After you are connected with `redis-cli`, create an index using [FT.CREATE](https://redis.io/commands/ft.create/). 
+After you are connected with `redis-cli`, create an index using [FT.CREATE]({{< relref "/commands" >}}/ft.create/). 
 
 ```text
 FT.CREATE <index_name>                    

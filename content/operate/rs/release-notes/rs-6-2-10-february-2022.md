@@ -42,13 +42,13 @@ The following table shows the MD5 checksums for the available packages.
 
 ### Prerequisites and notes 
 
--  You can [upgrade to v6.2.10](https://docs.redis.com/latest/rs/installing-upgrading/upgrading/) from Redis Enterprise Software v6.0 and later. 
+-  You can [upgrade to v6.2.10]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}) from Redis Enterprise Software v6.0 and later. 
 
-- Refer to [v6.2.4 release notes](https://docs.redis.com/latest/rs/release-notes/rs-6-2-4-august-2021/) for important notes regarding changes made to the upgrade.
+- Refer to [v6.2.4 release notes]({{< relref "/operate/rs/release-notes/rs-6-2-4-august-2021" >}}) for important notes regarding changes made to the upgrade.
 
 - Upgrades from versions earlier than v6.0 are not supported.
 
-- If you plan to upgrade your cluster to RHEL 8, refer to [v6.2.8 release notes](https://docs.redis.com/latest/rs/release-notes/rs-6-2-8-october-2021/) for known limitations.
+- If you plan to upgrade your cluster to RHEL 8, refer to [v6.2.8 release notes]({{< relref "/operate/rs/release-notes/rs-6-2-8-october-2021" >}}) for known limitations.
 
 - If you are using Active-Active or Active-Passive (ReplicaOf) databases and experience synchronization issues as a result of the upgrade, see RS67434 details in [Resolved issues](#resolved-issues) for help resolving the problem.
 
@@ -56,29 +56,29 @@ The following table shows the MD5 checksums for the available packages.
 
 Redis Enterprise Software v6.0.x will reach end of life (EOF) on May 31, 2022.
 
-To learn more, see the Redis Enterprise Software [product lifecycle](https://docs.redis.com/latest/rs/installing-upgrading/product-lifecycle/), which details the release number and the end-of-life schedule for Redis Enterprise Software.
+To learn more, see the Redis Enterprise Software [product lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle" >}}), which details the release number and the end-of-life schedule for Redis Enterprise Software.
 
-For Redis modules information and lifecycle, see [Module lifecycle](https://docs.redis.com/latest/modules/modules-lifecycle/).
+For Redis modules information and lifecycle, see [Module lifecycle]({{< relref "/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle" >}}).
 
 ## Redis modules 
 
 Redis Enterprise Software v6.2.10 includes the following Redis modules:
 
-- [RediSearch v2.2.6](https://docs.redis.com/latest/modules/redisearch/release-notes/)
-- [RedisJSON v2.0.6](https://docs.redis.com/latest/modules/redisjson/release-notes/)
-- [RedisBloom v2.2.9](https://docs.redis.com/latest/modules/redisbloom/release-notes/)
-- [RedisGraph v2.4.12](https://docs.redis.com/latest/modules/redisgraph/release-notes/)
-- [RedisTimeSeries v1.4.13](https://docs.redis.com/latest/modules/redistimeseries/release-notes/)
+- [RediSearch v2.2.6]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch" >}})
+- [RedisJSON v2.0.6]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson" >}})
+- [RedisBloom v2.2.9]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}release-notes/)
+- [RedisGraph v2.4.12]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph" >}})
+- [RedisTimeSeries v1.4.13]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries" >}})
 
 Starting with Redis Enterprise Software v6.2.10 build 121, the included modules versions are:
 
-- [RediSearch v2.4.6](https://docs.redis.com/latest/modules/redisearch/release-notes/)
-- [RedisJSON v2.0.8](https://docs.redis.com/latest/modules/redisjson/release-notes/)
-- [RedisBloom v2.2.14](https://docs.redis.com/latest/modules/redisbloom/release-notes/)
-- [RedisGraph v2.8.12](https://docs.redis.com/latest/modules/redisgraph/release-notes/)
-- [RedisTimeSeries v1.6.9](https://docs.redis.com/latest/modules/redistimeseries/release-notes/)
+- [RediSearch v2.4.6]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch" >}})
+- [RedisJSON v2.0.8]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson" >}})
+- [RedisBloom v2.2.14]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}release-notes/)
+- [RedisGraph v2.8.12]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph" >}})
+- [RedisTimeSeries v1.6.9]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries" >}})
 
-For help upgrading a module, see [Add a module to a cluster](https://docs.redis.com/latest/modules/add-module-to-cluster/#upgrading-the-module-for-the-database). 
+For help upgrading a module, see [Add a module to a cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster" >}}#upgrading-the-module-for-the-database). 
 
 ## Interface enhancements
 
@@ -100,16 +100,16 @@ For help upgrading a module, see [Add a module to a cluster](https://docs.redis.
 
 - RS58219 - Fixes a UI error message that showed a path instead of a relevant error message.
 - RS44958 - Fixes incorrect description for the graph "incoming traffic" in Active-Active (geo-distributed) database UI Metrics.
-- RS66280 - Fixes the lexicographic [SORT](https://redis.io/commands/sort) command on Active-Active databases (e.g. `SORT mylist ALPHA`). The SORT command should only run on keys mapped to the same slot.
+- RS66280 - Fixes the lexicographic [SORT]({{< relref "/commands" >}}/sort) command on Active-Active databases (e.g. `SORT mylist ALPHA`). The SORT command should only run on keys mapped to the same slot.
 - RS64575 - Fixes a bug in the replication between primary and replica shards of a destination Active-active database in the scenario of using Replica-Of from a single to an Active-Active database, where the syncer process went down during the full sync.
 - RS65370 - Adds logic to remove old syncer entries in the cluster configuration during upgrades.
-- RS67434 - Version 6.2.10 fixes the mTLS handshake between the [syncer process](https://docs.redis.com/latest/rs/databases/active-active/#syncer-process) and the [proxy (DMC)](https://docs.redis.com/latest//rs/references/terminology/#proxy), where the proxy presented a leaf certificate without its full chain to the syncer. After upgrading to 6.2.10, syncer connections using invalid certificates will break the synchronization between Active-Active instances or deployments using Replica Of when TLS is enabled. To ensure certificates are valid before upgrading do the following: 
+- RS67434 - Version 6.2.10 fixes the mTLS handshake between the [syncer process]({{< relref "/operate/rs/databases/active-active" >}}#syncer-process) and the [proxy (DMC)](https://docs.redis.com/latest//rs/references/terminology/#proxy), where the proxy presented a leaf certificate without its full chain to the syncer. After upgrading to 6.2.10, syncer connections using invalid certificates will break the synchronization between Active-Active instances or deployments using Replica Of when TLS is enabled. To ensure certificates are valid before upgrading do the following: 
 
     - For Active-Active databases, run the following command from one of the clusters:
         
         `crdb-cli crdb update --crdb-guid <CRDB-GUID> --force`
          
-    - For Active-Passive (Replica Of) databases: use the admin console to verify that the destination syncer has the correct certificate for the source proxy (DMC).  For details, see [Configure TLS for Replica Of](https://docs.redis.com/latest/rs/databases/import-export/replica-of/create/#configure-tls-on-replica-database).
+    - For Active-Passive (Replica Of) databases: use the admin console to verify that the destination syncer has the correct certificate for the source proxy (DMC).  For details, see [Configure TLS for Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of" >}}create/#configure-tls-on-replica-database).
 
 ### Issues resolved in build 96
 
@@ -125,7 +125,7 @@ For help upgrading a module, see [Add a module to a cluster](https://docs.redis.
 
 ### Issues resolved in build 100
 
-- RS74171 - A new command was added as part of Redis 6.2: [XAUTOCLAIM](https://redis.io/commands/xautoclaim/). When used in an Active-Active configuration, this command may cause Redis shards to crash, potentially resulting in data loss. The issue is fixed in Redis Enterprise Software version 6.2.12. Additionally, we recommend enabling AOF persistence for all Active-Active configurations.
+- RS74171 - A new command was added as part of Redis 6.2: [XAUTOCLAIM]({{< relref "/commands" >}}/xautoclaim/). When used in an Active-Active configuration, this command may cause Redis shards to crash, potentially resulting in data loss. The issue is fixed in Redis Enterprise Software version 6.2.12. Additionally, we recommend enabling AOF persistence for all Active-Active configurations.
 
 ### Issues resolved in build 121
 

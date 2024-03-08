@@ -21,27 +21,27 @@ The search and query engine indexes documents, which are objects that represent 
 As the documents in your database change, the index automatically processes these changes to keep the search results up to date.
 
 With indexes, you can do:
-- Language-aware [fuzzy matching](https://redis.io/docs/stack/search/reference/query_syntax/#fuzzy-matching)
-- Fast [auto-complete](https://redis.io/docs/stack/search/design/overview/#auto-completion)
-- [Exact phrase matching](https://redis.io/docs/stack/search/reference/query_syntax/)
-- [Numeric filtering](https://redis.io/docs/stack/search/reference/query_syntax/#numeric-filters-in-query)
-- [Geo-radius queries](https://redis.io/docs/stack/search/reference/query_syntax/#geo-filters-in-query)
+- Language-aware [fuzzy matching]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}})
+- Fast [auto-complete]({{< relref "/develop/interact/search-and-query/administration/overview" >}})
+- [Exact phrase matching]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}})
+- [Numeric filtering]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}#numeric-filters-in-query)
+- [Geo-radius queries]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}#geo-filters-in-query)
 
 ## Supported document types
 
-You can store documents as Redis [hashes](https://redis.io/docs/manual/data-types/#hashes) or [JSON](http://www.json.org/). To search and query JSON documents, you also need to enable [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) in your database.
+You can store documents as Redis [hashes]({{< relref "/develop/data-types/" >}}) or [JSON](http://www.json.org/). To search and query JSON documents, you also need to enable [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) in your database.
 
 ### Hash documents
 
-With Redis [hashes](https://redis.io/docs/manual/data-types/#hashes), each document is assigned to a single key and uses field-value pairs to represent the document's contents.
+With Redis [hashes]({{< relref "/develop/data-types/" >}}), each document is assigned to a single key and uses field-value pairs to represent the document's contents.
 
-You can run [`HGETALL`](https://redis.io/commands/hgetall/) to retrieve the entire hash document.
+You can run [`HGETALL`]({{< relref "/commands" >}}/hgetall/) to retrieve the entire hash document.
 
 ### JSON documents
 
 You can index, search, and query JSON documents stored in your database.
 
-For more information about how to search and query JSON documents, see the [quick start](https://redis.io/docs/stack/search/indexing_json/).
+For more information about how to search and query JSON documents, see the [quick start]({{< relref "/develop/interact/search-and-query/indexing/" >}}).
 
 ## Search features
 
@@ -49,7 +49,7 @@ For full-text searches, you can customize the field queries and ranking of the s
 When querying, you can use multiple predicates that query text, numeric, and geospatial fields in one query.
 You can also sort by a specific field and limit the results with an offset to produce customized results pages.
 
-Redis Stack supports [over 15 natural languages](https://redis.io/docs/stack/search/reference/stemming#supported-languages) for stemming and includes auto-complete engines with specific commands that can provide real-time [interactive search suggestions](https://redis.io/commands/ft.sugadd/).
+Redis Stack supports [over 15 natural languages]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}}) for stemming and includes auto-complete engines with specific commands that can provide real-time [interactive search suggestions]({{< relref "/commands" >}}/ft.sugadd/).
 
 ## Search and query Active-Active databases
 
@@ -69,8 +69,8 @@ Because the index on the new shard is created synchronously though, it's expecte
 ## More info
 
 - [Getting Started with RediSearch 2.0](https://redis.com/blog/getting-started-with-redisearch-2-0/)
-- [Search and query quick start](https://redis.io/docs/stack/search/quick_start/)
+- [Search and query quick start]({{< relref "/develop/get-started/document-database" >}})
 - [Search and query configuration]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/config" >}})
 - [Search and query commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/commands" >}})
-- [Search and query references](https://redis.io/docs/stack/search/reference/)
+- [Search and query references]({{< relref "/develop/interact/search-and-query/advanced-concepts/" >}})
 - [RediSearch source](https://github.com/RediSearch/RediSearch)

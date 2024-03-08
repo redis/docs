@@ -40,8 +40,8 @@ This preview version is not supported for networks that are isolated from the in
 
 To set up a cluster with nodes that can host databases with multiple modules, you must follow this procedure on each node in the cluster:
 
-1. [Install RS 5.5](https://docs.redis.com/latest/rs/installing-upgrading/get-started-redis-enterprise-software/).
+1. [Install RS 5.5]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}).
 1. To install the modules, run: `sudo ./install-modules.sh`
 1. Either:
-    - Set up the node as the [first node in the cluster](https://docs.redis.com/latest/rs/clusters/new-cluster-setup/).
-    - [Join the node to an existing cluster](https://docs.redis.com/latest/rs/clusters/add-node/).
+    - Set up the node as the [first node in the cluster]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}).
+    - [Join the node to an existing cluster]({{< relref "/operate/rs/clusters/add-node" >}}).

@@ -11,7 +11,7 @@ toc: 'true'
 weight: 80
 ---
 
-RESP (Redis Serialization Protocol) is the protocol that clients use to communicate with Redis databases. See the [RESP protocol specification](https://redis.io/docs/reference/protocol-spec/) for more information.
+RESP (Redis Serialization Protocol) is the protocol that clients use to communicate with Redis databases. See the [RESP protocol specification]({{< relref "/develop/reference/protocol-spec" >}}) for more information.
 
 ## Supported RESP versions
 
