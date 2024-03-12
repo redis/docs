@@ -38,7 +38,7 @@ To learn more, see [Redis Cloud Pricing](https://redislabs.com/redis-enterprise-
 
 ### Free plans
 
-Free plans are a tier of Fixed plans designed for training purposes and prototyping. They can be seamlessly upgraded to Fixed plans with no data loss.
+Free plans are a type of Fixed plans designed for training purposes and prototyping. They can be seamlessly upgraded to Fixed plans with no data loss.
 
 ### Fixed plans
 Fixed plans are cost-efficient and designed for low-throughput scenarios. They support a range of availability, persistence, and backup options.  Pricing supports low throughput workloads.

@@ -191,5 +191,5 @@ Replace `ID` so it matches the `AssertionConsumerService` Location URL ID (the c
 
 You have successfully configured SAML as an identification provider.
 
-    {{<image filename="images/rc/saml/auth0_saml_14.png" >}}
+{{<image filename="images/rc/saml/auth0_saml_14.png" >}}
 

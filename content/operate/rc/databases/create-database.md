@@ -128,7 +128,7 @@ Here are some general guidelines:
 
 - Memory limit represents an upper limit.  You cannot store more data than the memory limit.  Depending on your other selections, available memory for data may be much less than expected.
 
-- Replication doubles memory consumption; that is, 512MB of data requires at least 1GB of memory limit when replication is enabled.
+- Replication doubles memory consumption; that is, 512MB of data requires at least 1GB of memory limit when replication is enabled. This also affects Fixed plans. For example, if you subscribe to a 1 GB Fixed plan, Redis will allocate 512 MB for your dataset and the other 512 MB for replication.
 
 - Active-Active also doubles memory consumption and the effect is cumulative with replication's impact. Since Active-Active requires replication to be turned on, the memory limit impact can be as large as four times (4x) the original data size.
 

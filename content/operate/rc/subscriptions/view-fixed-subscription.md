@@ -23,7 +23,7 @@ To view the details of a Fixed subscription:
 
 From here, you can:
 
-- Select the **Upgrade Plan** button to update the subscription plan tier, high availability settings, or payment method.
+- Select the **Upgrade Plan** button to update your subscription plan, high availability settings, or payment method.
 
     {{<image filename="images/rc/button-subscription-upgrade-plan.png" alt="Select the Upgrade plan button to update your subscription settings." >}}
 
@@ -33,26 +33,26 @@ The following sections provide more details.
 
 ## Upgrade subscription plan
 
-Use the **Upgrade plan** button to update your Fixed subscription tier, your high availability settings, or your payment method.
+Use the **Upgrade plan** button to update your Fixed subscription plan, your high availability settings, or your payment method. Upgrading your database between Fixed plans does not impact database availability during the update.
 
 {{<image filename="images/rc/button-subscription-upgrade-plan.png" alt="Use the Upgrade plan button to change selected Fixed subscription detils." >}}
 
 For information on how to upgrade to a Flexible subscription, see [upgrade subscription plan from Fixed to Flexible]({{< relref "/operate/rc/subscriptions/upgrade-fixed-flexible" >}}).
 
-### Change subscription tier
+### Change subscription plan
 
-To change your subscription tier, select the desired tier from the list and select the **Upgrade plan** button:
+To change your subscription plan, select the desired plan from the list and select the **Upgrade plan** button:
 
-{{<image filename="images/rc/subscription-change-fixed-tiers.png" width="100%" alt="Select the desired subscription tier from the ones shown." >}}
+{{<image filename="images/rc/subscription-change-fixed-tiers.png" width="100%" alt="Select the desired subscription plan from the ones shown." >}}
 
-Each tier in a Fixed plan provides a variety of benefits, including increased memory and number of connections.
-For a comparison of available tiers, see [Fixed plan subscription tiers]({{< relref "/operate/rc/subscriptions/create-fixed-subscription.md#fixed-plan-subscription-tiers" >}}).
+Each Fixed plan provides a variety of benefits, including increased memory and number of connections.
+For a comparison of available plans, see [Fixed plans]({{< relref "/operate/rc/subscriptions/create-fixed-subscription.md#fixed-plans" >}}).
 
-When you change your plan tier, your data and endpoints are not disrupted.  
+When you change your plan, your data and endpoints are not disrupted.  
 
-If you upgrade a free plan to a paid tier, you need to add a payment method.
+If you upgrade a free plan to a paid plan, you need to add a payment method.
 
-If you change your subscription to a lower tier, make sure your data fits within the limits of the new tier; otherwise, the change attempt will fail.
+If you change your subscription to a lower plan, make sure your data fits within the limits of the new plan; otherwise, the change attempt will fail.
 
 {{< note >}}
 {{< embed-md "rc-fixed-upgrade-limitation.md" >}}
@@ -64,9 +64,7 @@ To change your plan's high availability settings, select the desired setting in 
 
 {{<image filename="images/rc/subscription-fixed-high-availability-panel.png" alt="Use the High availability panel to set Fixed subscription replication settings." >}}
 
-Fixed plans support either no replication or single-zone replication.
-
-Free tiers do not support replication.
+You can switch between **No replication** and **Single-zone replication** at any time, but you cannot choose **Multi-zone replication** after your subscription is created. You also cannot switch from **Multi-zone replication** to another high availability option.
 
 ### Change payment method
 
@@ -98,7 +96,7 @@ The following details are displayed:
 | **Plan description** | Brief summary of subscription, including the plan type, cloud provider, region, and data size limit |
 | **Availability** | Describes high availability settings |
 | **Region** | The region your subscription is deployed to |
-| **Plan** | The tier of your Fixed plan, expressed in terms of maximum database size.  Also displays the cost for paid plans. |
+| **Plan** | The maximum database size of your Fixed plan. Also displays the cost for paid plans. |
 | **Databases** | Maximum number of databases for your plan |
 | **Connections** | Maximum number of concurrent connections |
 | **CIDR allow rules** | Maximum number of authorization rules |

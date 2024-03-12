@@ -99,7 +99,7 @@ Here are the metrics available to Prometheus:
 | node_available_flash_no_overbooking | Available flash in node (bytes), without taking into account overbooking |
 | node_available_memory | Amount of free memory in node (bytes) that is available for database provisioning |
 | node_available_memory_no_overbooking | Available ram in node (bytes) without taking into account overbooking |
-| node_avg_latency | Average latency of requests handled by endpoints on node (seconds); returned only when there is traffic |
+| node_avg_latency | Average latency of requests handled by endpoints on the node in milliseconds; returned only when there is traffic |
 | node_bigstore_free | Sum of free space of back-end flash (used by flash DB's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
 | node_bigstore_iops | Rate of i/o operations against back-end flash for all shards which are part of a flash based DB (BigRedis) in cluster (ops/sec); returned only when BigRedis is enabled |
 | node_bigstore_kv_ops | Rate of value read/write operations against back-end flash for all shards which are part of a flash based DB (BigRedis) in cluster (ops/sec); returned only when BigRedis is enabled |

@@ -18,7 +18,7 @@ weight: 74
 
 Redis is updating our [Fixed subscriptions]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}}) on Redis Cloud. These plans offer increased capacity at lower prices compared to legacy plans.
 
-See [Fixed plan subscription tiers]({{< relref "/operate/rc/subscriptions/create-fixed-subscription#fixed-plan-subscription-tiers" >}}) for an updated list of all Fixed plans.
+See [Fixed plan subscription tiers]({{< relref "/operate/rc/subscriptions/create-fixed-subscription#fixed-plans" >}}) for an updated list of all Fixed plans.
 
 ### Redis 7.2 Fixed region support
 

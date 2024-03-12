@@ -34,15 +34,17 @@ Your replication options depend on your [subscription plan]({{< relref "/operate
 
 After database creation, you can still enable or turn off replication.  However, [zone settings]({{< relref "/operate/rc/databases/configuration/high-availability#zone-setting-maintenance" >}}) are only configurable during database creation.  
 
-## Performance and cost impact 
+## Performance impact 
 
 Replication can affect performance as traffic increases to synchronize all copies. 
 
-Database storage costs also increase:
+## Memory limit
 
-- For Fixed plans, single-zone and multi-zone replication effectively doubles storage costs
+For both Fixed and Flexible plans, replication doubles the memory limit you need for your database. 
 
-- For Flexible and Annual plans, replication requires additional shards and can affect subscription costs
+For Fixed plans, The size of the plan you choose includes replication. Therefore, if you choose replication, the dataset size you can use is half of the stated plan size. For example, if you choose a 1GB plan, Redis allocates 512 GB for the memory limit, and the other 512 MB for Replication.
+
+For Flexible and Annual plans, you also need to double the amount of memory needed if you choose replication.
 
 ## Zone setting maintenance
 

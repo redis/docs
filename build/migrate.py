@@ -93,7 +93,7 @@ def create_folder(folder_path):
     os.makedirs(folder_path)
 
 '''
-TODO: Delete a single file
+Delete a single file
 '''
 def delete_file(file_path):
     os.remove(file_path)
@@ -988,6 +988,11 @@ def fix_fq_io_links(content_folders, target_folders):
                                 relref = '{{< relref "' + new_path + '" >}}'
                         
                             result[k] = relref
+    
+    # Find and replace is problematic because the path https://redis.io/docs/stack gets replaced before https://redis.io/docs/stack/bloom/
+    sorted_result = sorted(result, key=lambda k: len(k.split('#')[0]), reverse=True)
+    
+    #_write_file("./result.txt", str(sorted_result))                        
 
     # Replace in files
     for c in target_folders:
@@ -998,7 +1003,7 @@ def fix_fq_io_links(content_folders, target_folders):
             find_and_replace(f, 'https://redis.io/commands', '{{< relref "/commands" >}}')
 
             # Replace the previously mapped links
-            for k in result:
+            for k in sorted_result:
                 find_and_replace(f, k, result[k])
 
 

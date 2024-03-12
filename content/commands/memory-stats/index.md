@@ -49,6 +49,8 @@ values. The following metrics are reported:
 *   `aof.buffer`: The summed size in bytes of AOF related buffers.
 *   `lua.caches`: the summed size in bytes of the overheads of the Lua scripts'
      caches
+*   `functions.caches`: the summed size in bytes of the overheads of the Function scripts'
+     caches
 *   `dbXXX`: For each of the server's databases, the overheads of the main and
      expiry dictionaries (`overhead.hashtable.main` and
     `overhead.hashtable.expires`, respectively) are reported in bytes
@@ -68,6 +70,17 @@ values. The following metrics are reported:
      memory usage
 *   `peak.percentage`: The percentage of `total.allocated` out of
      `peak.allocated`
+*   `allocator.allocated`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_allocated`
+*   `allocator.active`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_active`
+*   `allocator.resident`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_resident`
+*   `allocator.muzzy`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_muzzy`
+*   `allocator-fragmentation.ratio`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_frag_ratio`
+*   `allocator-fragmentation.bytes`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_frag_bytes`
+*   `allocator-rss.ratio`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_rss_ratio`
+*   `allocator-rss.bytes`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_rss_bytes`
+*   `rss-overhead.ratio`: See [`INFO`]({{< relref "/commands/info" >}})'s `rss_overhead_ratio`
+*   `rss-overhead.bytes`: See [`INFO`]({{< relref "/commands/info" >}})'s `rss_overhead_bytes`
 *   `fragmentation`: See [`INFO`]({{< relref "/commands/info" >}})'s `mem_fragmentation_ratio`
+*   `fragmentation.bytes`: See [`INFO`]({{< relref "/commands/info" >}})'s `mem_fragmentation_bytes`
 
 **A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.

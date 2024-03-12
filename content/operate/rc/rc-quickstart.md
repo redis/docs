@@ -18,7 +18,7 @@ You'll learn how to:
 
 1.  Connect to your database
 
-If you already have an account, see [Create a Fixed subscription]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}}) to create a Free 30MB subscription. Free plans are a tier of fixed plans; this provides an easy upgrade path when you need it.
+If you already have an account, see [Create a Fixed subscription]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}}) to create a Free 30MB subscription. Free plans are a type of fixed plans; this provides an easy upgrade path when you need it.
 
 If you already have a subscription, see [Manage subscriptions]({{< relref "/operate/rc/subscriptions/" >}}) and [Manage databases]({{< relref "/operate/rc/databases/" >}}).
 

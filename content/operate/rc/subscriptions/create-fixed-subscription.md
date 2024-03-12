@@ -8,31 +8,49 @@ categories:
 description: null
 weight: 30
 ---
-Fixed Size subscription plans support low throughput workflows.  Several tiers are available, each designed for different memory sizes and integration requirements.
+Fixed plans support low throughput workflows.  Several plans are available, each designed for different memory sizes.
 
-When creating your subscription, you'll need to know which tier to choose.
+When creating your subscription, you'll need to choose the plan that suits your needs.
 
 If you're new to Redis Cloud, the [quick start]({{< relref "/operate/rc/rc-quickstart.md" >}}) helps you create an account with a free subscription and an initial database.  You also learn how to connect to your database.
 
+## Fixed plans
 
-## Fixed plan subscription tiers
+Fixed plan [pricing](https://redis.com/cloud/pricing/) scales according to the memory size of the database defined in the subscription.  Additional limits also apply, as shown in the tables below (updated February 2024). 
 
-Fixed plan pricing scales according to the memory size of the database defined in the subscription.  Additional limits also apply, as shown here (updated January 2024):
+The 30 MB Fixed plan is free; it's designed for learning and building test projects. It gives you enough space to learn Redis concepts and develop application prototypes.
 
-| **Max DB size &nbsp;** | **Concurrent<br/>connections<br/>per database** | **CIDR<br/> allow rules** |
-|---|---|---|
-| (Free) 30 MB &nbsp;&nbsp;&nbsp;&nbsp; | 30 | 1 |
-| 250 MB &nbsp;&nbsp;&nbsp;&nbsp; | 256 | 4-8 |
-| 1 GB &nbsp;&nbsp;&nbsp;&nbsp; | 1024 | 4-8 |
-| 2.5 GB &nbsp;&nbsp;&nbsp;&nbsp; | Unlimited | 4-8 |
-| 5 GB &nbsp;&nbsp;&nbsp;&nbsp; | Unlimited | 4-16 |
-| 12 GB &nbsp;&nbsp;&nbsp;&nbsp; | Unlimited | 4-32 |
+Our paid plans start at 250 MB and offer extra features, like high availability and backups (both daily and instant). They are great for bigger projects or production environments that require increased storage, reliability, and other features to support your operational needs.
 
-The 30 MB Fixed plan is free; it's designed for training and prototype purposes.
+If you need additional resources, you can [upgrade your subscription]({{< relref "/operate/rc/subscriptions/view-fixed-subscription#upgrade-subscription-plan" >}}) at any time.
 
-All paid (250 MB and above) Fixed plans support replication and backups (daily and instant).
+There are some differences between plans for the different high availability options. See the tables for [No replication and single-zone replication](#cache-standard) and [Multi-zone replication](#multi-az) for more details.
 
-If you need additional resources, you can update your subscription at any time.
+### No replication and single-zone replication {#cache-standard}
+
+| **DB&nbsp;size**<sup>[1](#table-note-1-cache-standard)</sup> | **30&nbsp;MB&nbsp;(Free)** | **250 MB** | **1 GB** | **2.5 GB** | **5 GB** | **12 GB** |
+|---|---|---|---|---|---|---|
+| **Concurrent<br/>connections<br/>per database** | 30 | 256 | 1024 | 2500 | 5000 | 10000 |
+| **CIDR<br/> allow rules** | 1 | 4 | 4-8 | 4-8 | 4-16 | 4-32 |
+| **Monthly<br/> total network<br/> bandwidth** | 5&nbsp;GB | 100&nbsp;GB | 200&nbsp;GB | 400&nbsp;GB | 800&nbsp;GB | 2000&nbsp;GB |
+| **Maximum<br/> throughput<sup>[2](#table-note-2-cache-standard)</sup>** | 100&nbsp;ops/sec | 1000&nbsp;ops/sec | 2000&nbsp;ops/sec | 4000&nbsp;ops/sec | 8000&nbsp;ops/sec | 16000&nbsp;ops/sec |
+
+1. <a name="table-note-1-cache-standard" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication where applicable. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#performance-and-cost-impact" >}}) for more information.
+
+2. <a name="table-note-2-cache-standard" style="display: block; height: 80px; margin-top: -80px;"></a> Assumes request size of 1 KiB. Maximums are capped by actual MB/s reached. To find the MB/s limit, divide the Maximum throughput by 1024.
+
+### Multi-zone replication {#multi-az}
+
+| **DB&nbsp;size&nbsp;**<sup>[1](#table-note-1-multi-az)</sup> | **250 MB** | **1 GB** | **2.5 GB** | **5 GB** | **12 GB** |
+|---|---|---|---|---|---|
+| **Concurrent<br/>connections<br/>per database** | 256 | 1024 | 2500 | 5000 | 10000 |
+| **CIDR<br/> allow rules** | 4 | 8 | 8 | 16 | 32 |
+| **Monthly<br/> total network<br/> bandwidth** | 64&nbsp;GB | 200 GB | 400 GB | 800 GB | 2000 GB |
+| **Maximum<br/> throughput<sup>[2](#table-note-2-multi-az)</sup>** | 1000 ops/sec | 2000 ops/sec | 4000 ops/sec | 8000 ops/sec | 16000 ops/sec |
+
+1. <a name="table-note-1-multi-az" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#performance-and-cost-impact" >}}) for more information.
+
+2. <a name="table-note-2-multi-az" style="display: block; height: 80px; margin-top: -80px;"></a> Assumes request size of 1 KiB. Maximums are capped by actual MB/s reached. To find the MB/s limit, divide the Maximum throughput by 1024.
 
 ## Create a Fixed subscription
 
@@ -66,7 +84,7 @@ To create a Fixed subscription:
 
     To create a Free subscription, select the 30 MB plan size.  
 
-    {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available tiers for Fixed size subscription plans." >}}
+    {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Fixed subscription plans." >}}
 
 6.  Enter a subscription name and payment details.
 

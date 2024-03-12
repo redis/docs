@@ -14,7 +14,7 @@ Fixed subscription plans support low throughput workflows. They support a range 
 
 For more information about the different subscription plans, see [Subscription plans]({{< relref "/operate/rc/subscriptions#subscription-plans" >}}).
 
-To upgrade your Fixed plan to a higher subscription tier, see [Upgrade subscription plan]({{< relref "/operate/rc/subscriptions/view-fixed-subscription#upgrade-subscription-plan" >}}).
+To upgrade your Fixed plan, see [Upgrade subscription plan]({{< relref "/operate/rc/subscriptions/view-fixed-subscription#upgrade-subscription-plan" >}}).
 
 ## Upgrade Fixed subscription to Flexible
 
