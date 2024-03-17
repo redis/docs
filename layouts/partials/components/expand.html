@@ -3,9 +3,9 @@
       class="expand-label cursor-pointer"
       onclick="toggleExpand(event)"
   >
-      <div class="flex flex-row gap-3 items-center">
+      <div class="flex flex-row gap-3 items-center hover:text-redis-red-500 transition-colors ease-in-out duration-150">
         {{- .Title -}}
-        <div class="expand-chevron transition-all duration-500 ease-in-out">
+        <div class="expand-chevron transition-transform duration-500 ease-in-out">
           {{- partial "icons/chevron.html" -}}
         </div>
       </div>
