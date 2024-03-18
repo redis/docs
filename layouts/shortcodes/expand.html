@@ -1,7 +1,14 @@
-{{ $inner := .Inner }}
 {{- $expandTitle := T "Expand-title" -}}
+{{ $trimmedInner := trim .Inner " \t\n\r" }}
+{{ if eq (slicestr $trimmedInner 0 1) "<" }}
+{{ .Scratch.Set "content" .Inner }}
+{{ else }}
+{{ .Scratch.Set "content" (.Inner | markdownify) }}
+{{ end }}
+{{ $inner := .Scratch.Get "content" }}
+
 {{- if .IsNamedParams -}}
-    {{- partial "components/expand.html" (dict "Title" (.Get "default" | default $expandTitle) "Inner" $inner ) -}}
+    {{- partial "components/expand.html" (dict "Title" (.Get "default" | default $expandTitle) "Inner" $inner) -}}
 {{- else -}}
     {{- partial "components/expand.html" (dict "Title" (.Get 0 | default $expandTitle) "Inner" $inner ) -}}
 {{- end -}}
