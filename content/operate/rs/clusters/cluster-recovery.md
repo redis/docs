@@ -83,23 +83,23 @@ of the configuration and persistence files on each of the nodes.
     rladmin cluster recover filename [ <persistent_path> | <ephemeral_path> ]<filename> node_uid <node_uid> rack_id <rack_id>
     ```
 
-    {{% expand "Command syntax" %}}
-`<filename>` - The full path of the old cluster configuration file in the persistent storage.
-The cluster configuration file is `/css/ccs-redis.rdb`.
+    {{< expand "Command syntax" >}}
+    `<filename>` - The full path of the old cluster configuration file in the persistent storage.
+    The cluster configuration file is `/css/ccs-redis.rdb`.
 
-`<node_uid>` - The id of the node, in this case `1`.
+    `<node_uid>` - The id of the node, in this case `1`.
 
-`<persistent_path>` (optional) - The location of the [persistent storage ]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
-in the new node.
+    `<persistent_path>` (optional) - The location of the [persistent storage ]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
+    in the new node.
 
-`<ephemeral_path>` (optional) - The location of the [ephemeral storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
-in the new node.
+    `<ephemeral_path>` (optional) - The location of the [ephemeral storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
+    in the new node.
 
-`<rack_id>` (optional) - If [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}})
-was enabled in the cluster,
-you can use this parameter to override the rack ID value that was set for the node with ID 1 with a new rack ID.
-Otherwise, the node gets the same rack ID as the original node.
-    {{% /expand %}}
+    `<rack_id>` (optional) - If [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}})
+    was enabled in the cluster,
+    you can use this parameter to override the rack ID value that was set for the node with ID 1 with a new rack ID.
+    Otherwise, the node gets the same rack ID as the original node.
+    {{< /expand >}}
 
     For example:
 
@@ -116,29 +116,29 @@ Otherwise, the node gets the same rack ID as the original node.
     rladmin cluster join [ nodes <cluster_member_ip_address> | name <cluster_FQDN> ] username <username> password <password> replace_node <node_id>
     ```
 
-    {{% expand "Command syntax" %}}
-`nodes` - The IP address of a node in the cluster that this node is joining.
+    {{< expand "Command syntax" >}}
+    `nodes` - The IP address of a node in the cluster that this node is joining.
 
-`name` - The [FQDN name]({{< relref "/operate/rs/networking/cluster-dns" >}})
-of the cluster this node is joining.
+    `name` - The [FQDN name]({{< relref "/operate/rs/networking/cluster-dns" >}})
+    of the cluster this node is joining.
 
-`username` - The email address of the cluster administrator.
+    `username` - The email address of the cluster administrator.
 
-`password` - The password of the cluster administrator.
+    `password` - The password of the cluster administrator.
 
-`replace_node` - The ID of the node that this node replaces from the old cluster.
+    `replace_node` - The ID of the node that this node replaces from the old cluster.
 
-`persistent_path` (optional) - The location of the [persistent storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
-in the new node.
+    `persistent_path` (optional) - The location of the [persistent storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
+    in the new node.
 
-`ephemeral_path` (optional) - The location of the [ephemeral storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
-in the new node.
+    `ephemeral_path` (optional) - The location of the [ephemeral storage]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}})
+    in the new node.
 
-`rack_id` (optional) - If [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}) was enabled in the cluster,
-use this parameter to set the rack ID to be the same as the rack ID
-of the old node. You can also change the value of the rack ID by
-providing a different value and using the `override_rack_id` flag.
-    {{% /expand %}}
+    `rack_id` (optional) - If [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}) was enabled in the cluster,
+    use this parameter to set the rack ID to be the same as the rack ID
+    of the old node. You can also change the value of the rack ID by
+    providing a different value and using the `override_rack_id` flag.
+    {{< /expand >}}
 
     For example:
 
