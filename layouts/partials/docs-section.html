@@ -9,15 +9,17 @@
       <div class="flex flex-col gap-5 flex-1">
         <p class="uppercase">{{ .LinksLeftTitle }}</p>
         {{ range .LinksLeft }}
-          <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="{{ .URL }}">{{ .Text }} →</a>
+          <a class="hover:text-redis-red-500 transition-colors text-balance" href="{{ .URL }}">{{ .Text }}&nbsp;→</a>
         {{ end }}
       </div>
+      {{ if .LinksRight }}
       <div class="flex flex-col gap-5 flex-1">
         <p class="uppercase">{{ .LinksRightTitle }}</p>
         {{ range .LinksRight }}
-          <a class="hover:text-redis-red-500 transition-colors whitespace-nowrap" href="{{ .URL }}">{{ .Text }} →</a>
+          <a class="hover:text-redis-red-500 transition-colors text-balance" href="{{ .URL }}">{{ .Text }}&nbsp;→</a>
         {{ end }}
       </div>
+      {{ end }}
     </div>
   </div>
 </div>
