@@ -47,6 +47,7 @@ gitHubRepo = "https://github.com/redis-learn/redis-docs"
 # Display and sort order for client examples
 clientsExamples = ["Python", "Node", "Java", "Go", "C#"]
 searchService = "/convai/api/search-service"
+ratingsService = "/docusight/api/rate"
 
 # RDI params
 rdi_rlec_min_version = "6.2.18"
@@ -74,33 +75,3 @@ rdi_cli_latest = "latest"
 # Comment out if you don't want the "print entire section" link enabled.
 [outputs]
 section = ["HTML", "RSS"] # print
-
-[menu]
-  [[menu.main]]
-    pageRef = "/develop"
-    name = "Develop"
-    weight = 1
-
-  [[menu.main]]
-    pageRef = "/integrate"
-    name = "Integrate"
-    weight = 2
-
-  [[menu.main]]
-    pageRef = "/operate"
-    name = "Operate"
-    weight = 3
-
-  [[menu.buttons]]
-    identifier = "commands"
-    name = "Commands"
-    url = "/commands"
-    weight = 1
-
-  [[menu.buttons]]
-    identifier = "try-free"
-    name = "Try Redis Cloud"
-    url = "http://redis.com/try-free/"
-    weight = 2
-    [menu.buttons.params]
-      style = "solid"
