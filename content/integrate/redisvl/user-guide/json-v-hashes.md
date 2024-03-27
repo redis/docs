@@ -22,7 +22,7 @@ Before beginning, be sure of the following:
 # import necessary modules
 import pickle
 
-from redisvl.utils.utils import buffer_to_array
+from redisvl.redis.utils import buffer_to_array
 from jupyterutils import result_print, table_print
 from redisvl.index import SearchIndex
 
@@ -65,23 +65,27 @@ Hashes are best suited for use cases with the following characteristics:
 # define the hash index schema
 hash_schema = {
     "index": {
-        "name": "user-hashes",
-        "storage_type": "hash", # default setting
-        "prefix": "hash",
+        "name": "user-hash",
+        "prefix": "user-hash-docs",
+        "storage_type": "hash", # default setting -- HASH
     },
-    "fields": {
-        "tag": [{"name": "credit_score"}, {"name": "user"}],
-        "text": [{"name": "job"}],
-        "numeric": [{"name": "age"}],
-        "geo": [{"name": "office_location"}],
-        "vector": [{
-                "name": "user_embedding",
+    "fields": [
+        {"name": "user", "type": "tag"},
+        {"name": "credit_score", "type": "tag"},
+        {"name": "job", "type": "text"},
+        {"name": "age", "type": "numeric"},
+        {"name": "office_location", "type": "geo"},
+        {
+            "name": "user_embedding",
+            "type": "vector",
+            "attrs": {
                 "dims": 3,
                 "distance_metric": "cosine",
                 "algorithm": "flat",
-                "datatype": "float32"}
-        ]
-    },
+                "datatype": "float32"
+            }
+        }
+    ],
 }
 ```
 
@@ -126,7 +130,7 @@ keys = hindex.load(data)
 ```
 
 ```python
-$ rvl stats -i user-hashes
+$ rvl stats -i user-hash
 
     Statistics:
     ╭─────────────────────────────┬─────────────╮
@@ -140,7 +144,7 @@ $ rvl stats -i user-hashes
     │ hash_indexing_failures      │ 0           │
     │ number_of_uses              │ 1           │
     │ bytes_per_record_avg        │ 3.40909     │
-    │ doc_table_size_mb           │ 0.000700951 │
+    │ doc_table_size_mb           │ 0.000767708 │
     │ inverted_sz_mb              │ 0.000143051 │
     │ key_table_size_mb           │ 0.000248909 │
     │ offset_bits_per_record_avg  │ 8           │
@@ -148,9 +152,9 @@ $ rvl stats -i user-hashes
     │ offsets_per_term_avg        │ 0.204545    │
     │ records_per_doc_avg         │ 6.28571     │
     │ sortable_values_size_mb     │ 0           │
-    │ total_indexing_time         │ 0.121       │
+    │ total_indexing_time         │ 0.587       │
     │ total_inverted_index_blocks │ 18          │
-    │ vector_index_sz_mb          │ 0.0200424   │
+    │ vector_index_sz_mb          │ 0.0202332   │
     ╰─────────────────────────────┴─────────────╯
 ```
 
@@ -177,6 +181,11 @@ result_print(results)
 
 <table><tr><th>vector_distance</th><th>user</th><th>credit_score</th><th>age</th><th>job</th><th>office_location</th></tr><tr><td>0</td><td>john</td><td>high</td><td>18</td><td>engineer</td><td>-122.4194,37.7749</td></tr><tr><td>0.109129190445</td><td>tyler</td><td>high</td><td>100</td><td>engineer</td><td>-122.0839,37.3861</td></tr></table>
 
+```python
+# clean up
+hindex.delete()
+```
+
 ### Working with JSON
 
 Redis also supports native **JSON** objects. These can be multi-level (nested) objects, with full [JSONPath]({{< relref "/develop/data-types/json/" >}}path/) support for retrieving and updating sub-elements:
@@ -201,30 +210,37 @@ JSON is best suited for use cases with the following characteristics:
 
 #### Full JSON Path support
 
-Because RedisJSON enables full path support, elements must be indexed and selected by their path with the `name` param and aliased using the `as_name` param when creating an index, as shown below.
+Because Redis enables full JSONPath support, when creating an index schema, elements need to be indexed and selected by their path with the desired `name` and `path` that points to where the data is located within the objects.
+
+{{< note >}}
+By default, RedisVL will assume the path as `$.{name}` if not provided in JSON fields schema.
+{{< /note >}}
 
 ```python
 # define the json index schema
 json_schema = {
     "index": {
         "name": "user-json",
-        "storage_type": "json", # updated storage_type option
-        "prefix": "json",
+        "prefix": "user-json-docs",
+        "storage_type": "json", # JSON storage type
     },
-    "fields": {
-        "tag": [{"name": "$.credit_score", "as_name": "credit_score"}, {"name": "$.user", "as_name": "user"}],
-        "text": [{"name": "$.job", "as_name": "job"}],
-        "numeric": [{"name": "$.age", "as_name": "age"}],
-        "geo": [{"name": "$.office_location", "as_name": "office_location"}],
-        "vector": [{
-                "name": "$.user_embedding",
-                "as_name": "user_embedding",
+    "fields": [
+        {"name": "user", "type": "tag"},
+        {"name": "credit_score", "type": "tag"},
+        {"name": "job", "type": "text"},
+        {"name": "age", "type": "numeric"},
+        {"name": "office_location", "type": "geo"},
+        {
+            "name": "user_embedding",
+            "type": "vector",
+            "attrs": {
                 "dims": 3,
                 "distance_metric": "cosine",
                 "algorithm": "flat",
-                "datatype": "float32"}
-        ]
-    },
+                "datatype": "float32"
+            }
+        }
+    ],
 }
 ```
 
@@ -286,6 +302,5 @@ result_print(jindex.query(v))
 ## Cleanup
 
 ```python
-hindex.delete()
 jindex.delete()
 ```
