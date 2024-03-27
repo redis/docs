@@ -32,6 +32,7 @@
 
 
 {{ with .Site.Params.ratingsService }}
+<script>
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.querySelector("#page-feedback");
     form.addEventListener("submit", function(event) {
@@ -55,4 +56,5 @@ document.addEventListener("DOMContentLoaded", function() {
         xhr.send(params);
     });
 });
+</script>
 {{ end }}
