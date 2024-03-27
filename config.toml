@@ -42,7 +42,8 @@ anchor = "smart"
 
 [params]
 tagManagerId = "GTM-T4MTBKP"
-gitHubRepo = "https://github.com/redis/docs"
+# gitHubRepo = "https://github.com/redis/docs" TODO: for when new repo is ready
+gitHubRepo = "https://github.com/redis-learn/redis-docs"
 # Display and sort order for client examples
 clientsExamples = ["Python", "Node", "Java", "Go", "C#"]
 searchService = "/convai/api/search-service"

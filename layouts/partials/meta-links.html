@@ -1,7 +1,15 @@
-{{ $gh_repo := .Params.github_repo }}
-{{ $gh_path := .Params.github_path }}
-{{ $gh_branch := .Params.github_branch }}
-{{ $editURL := printf "%s/edit/%s/%s" $gh_repo $gh_branch $gh_path }}
+{{ $gh_repo := .Site.Params.gitHubRepo }}
+{{ $gh_file := .File }}
+{{ $gh_branch := "main" }}
+{{ $parts := split .RelPermalink "/" }}
+{{ if eq (index $parts 1) "staging" }}
+  {{ $gh_branch := index $parts 2 }}
+{{ end }}
+{{ if eq $gh_branch "dev" }}
+  {{ $gh_branch := "main" }}
+{{ end }}
+
+{{ $editURL := printf "%s/edit/%s/content/%s" $gh_repo $gh_branch $gh_file }}
 {{ $issuesURL := printf "%s/issues/new?title=%s" $gh_repo (safeURL $.Title )}}
 
 <nav class="flex flex-col gap-3 pb-3 w-52 text-redis-pencil-600 border-b border-b-redis-pen-700 border-opacity-50">
