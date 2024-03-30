@@ -14,10 +14,23 @@ weight: 95
 ---
 ## Requirements
 
-RedisTimeSeries v1.10.9 requires:
+RedisTimeSeries v1.10.11 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v1.10.11 (October 2023)
+
+This is a maintenance release for RedisTimeSeries 1.10.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+- Bug fixes:
+
+  - [LibMR#51](https://github.com/RedisGears/LibMR/pull/51) Crash on SSL initialization failure (MOD-5647)
+  - [#1538](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1538) Amazon Linux 2: crash on SSL initialization. We now use openssl11-devel instead of openssl-devel (MOD-6015)
 
 ## v1.10.9 (October 2023)
 

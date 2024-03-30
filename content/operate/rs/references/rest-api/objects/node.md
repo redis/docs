@@ -49,6 +49,4 @@ An API object that represents a node in the cluster.
 | system_time | string | System time (UTC) (read-only) |
 | total_memory | integer | Total memory of node (bytes) (read-only) |
 | uptime | integer | System uptime (seconds) (read-only) |
-
-
-
+| use_internal_ipv6 | boolean (default:&nbsp;false) | Node uses IPv6 for internal communication. Value is taken from bootstrap identity (read-only) |

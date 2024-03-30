@@ -22,7 +22,7 @@ You can use Redis OM with the following four programming languages:
 
 * [Node.js]({{< relref "/integrate/redisom-for-node-js/" >}})
 * [Python]({{< relref "/integrate/redisom-for-python/" >}})
-* [C# | .NET]({{< relref "/integrate/redisom-for-net/" >}})
+* [C# | .NET]({{< relref "/integrate/redisom-for-net" >}})
 * [Java | Spring]({{< relref "/integrate/redisom-for-java/" >}})
 
 <hr/>

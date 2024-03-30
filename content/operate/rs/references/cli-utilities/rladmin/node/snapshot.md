@@ -51,6 +51,10 @@ Deletes an existing snapshot of a node.
 rladmin node <ID> snapshot delete <name>
 ```
 
+{{<note>}}
+You cannot use this command to delete a snapshot created by maintenance mode. As of Redis Enterprise Software version 7.4.2, only the latest maintenance mode snapshot is kept.
+{{</note>}}
+
 ### Parameters
 
 | Parameter             | Type/Value                     | Description                                                                               |

@@ -46,15 +46,26 @@ def mkdir(dir):
 
 
 '''
+Check if a file exists
+'''
+def file_exists(fpath):
+    return os.path.isfile(fpath)
+
+'''
 Creates an _index.md file in a specific folder
 '''
-def create_index_file(folder_path, title, desc):
+def create_index_file(folder_path, title, desc, linkTitle=None):
+
+    if linkTitle is None:
+        linkTitle = title
+
     tmpl = '''---
 title: {}
 description: {}
+linkTitle: {}
 ---'''
 
-    contents = tmpl.format(title, desc)
+    contents = tmpl.format(title, desc, linkTitle)
     with open(slash(folder_path, '_index.md'), 'w', encoding='utf-8') as file:
         file.write(contents)
 
@@ -76,7 +87,13 @@ def delete_folder(folder_path):
 
 
 '''
-TODO: Delete a single file
+Create a folder
+'''
+def create_folder(folder_path):
+    os.makedirs(folder_path)
+
+'''
+Delete a single file
 '''
 def delete_file(file_path):
     os.remove(file_path)
@@ -474,12 +491,14 @@ Migrate the operational documentation from redis.io
 '''
 def migrate_oss_ops_docs():
     DOCS_OPS_OSS_STACK = slash(DOCS_OPS, 'oss_and_stack')
+    DOCS_OPS_OSS_RI = slash(DOCS_OPS, "redisinsight")
     mkdir(DOCS_OPS_OSS_STACK)
+    mkdir(DOCS_OPS_OSS_RI)
     mkdir(slash(DOCS_OPS_OSS_STACK, 'reference'))
     create_index_file(DOCS_OPS_OSS_STACK, 'Redis OSS and Stack', 'Operate Redis OSS and Redis Stack')
     create_index_file(slash(DOCS_OPS_OSS_STACK, 'reference'), 'Reference', 'Redis OSS and Redis Stack reference documentation')
-
-    ops_content = ['install', 'management', 'reference/internals', 'reference/signals.md', 'reference/cluster-spec.md', 'reference/arm.md']
+    create_index_file(DOCS_OPS_OSS_RI, 'RedisInsight', 'Install and manage RedisInsight')
+    ops_content = ['install/install-redis', 'install/install-stack', 'install/_index.md', 'install/install-redisinsight', 'management', 'reference/internals', 'reference/signals.md', 'reference/cluster-spec.md', 'reference/arm.md']
 
     for topic in ops_content:
         source = slash(DOCS_SRC_DOCS, topic)
@@ -489,10 +508,13 @@ def migrate_oss_ops_docs():
             copy_file(source, target)
         else:
             target = slash(DOCS_OPS_OSS_STACK, topic)
-            copy_files(source, target)
 
+            if topic == "install/install-redisinsight":
+                target = slash(DOCS_OPS_OSS_RI, "install")
+            
+            copy_files(source, target)        
+        
     markdown_files = find_markdown_files(DOCS_OPS_OSS_STACK)
-    
     for f in markdown_files:
         print("Replacing links in {}".format(f))
 
@@ -507,6 +529,22 @@ def migrate_oss_ops_docs():
         # Front matter
         remove_prop_from_file(f, "aliases")
         add_categories(f, 'categories', ['docs', 'operate', 'stack', 'oss'])
+
+    markdown_files = find_markdown_files(DOCS_OPS_OSS_RI)
+    for f in markdown_files:
+        print("Replacing links in {}".format(f))
+
+        # Links
+        replace_links_in_file(f, '/docs', '/operate/redisinsight')
+        remove_prop_from_file(f, 'aliases')
+
+        # Images
+        replace_img_tag_in_file(f, '/docs', '/operate/redisinsight')
+        replace_img_md_in_file(f, '/docs', '/operate/redisinsight')
+
+        # Front matter
+        remove_prop_from_file(f, "aliases")
+        add_categories(f, 'categories', ['docs', 'operate', 'redisinsight'])
 
 '''
 Fetch all the docs of docs.redis.com
@@ -531,6 +569,9 @@ def _test_img_short_code_rewrite():
 Migrate the docs from docs.redis.com
 '''
 def migrate_enterprise_ops_docs(repo):
+
+    create_index_file(DOCS_OPS, "Operate", "Operate any Redis, from Redis OSS to Redis Cloud")
+
     repo_content = slash(repo, 'content/') 
     content = ['rs', 'rc', 'kubernetes', 'stack', 'embeds']    
 
@@ -618,6 +659,8 @@ Move some integrations documentation from the operational docs to the integratio
 '''
 def migrate_integration_docs(repo):
     
+    create_index_file(DOCS_INT, "Integrations and frameworks", "", "Integrate")
+
     integrations = {
         "Amazon Bedrock" : {"weight" : 3, "source" : "operate/rc/cloud-integrations/aws-marketplace/aws-bedrock/", "type": "cloud-service", "desc": "With Amazon Bedrock, users can access foundational AI models from a variety of vendors through a single API, streamlining the process of leveraging generative artificial intelligence."},
         "Confluent with Redis Cloud" : {"weight" : 8, "source" : "operate/rc/cloud-integrations/confluent-cloud.md", "type": "di", "desc" : "The Redis Sink connector for Confluent Cloud allows you to send data from Confluent Cloud to your Redis Cloud database." },
@@ -657,6 +700,8 @@ def migrate_integration_docs(repo):
                     if source.endswith('/'):
                         copy_files(source, target)
                     elif source.endswith('.md'):
+                        if not os.path.exists(target):
+                            mkdir(target)
                         copy_file(source, slash(target, '_index.md'))
                 except FileNotFoundError as e:
                     print("Skipping {}".format(source))
@@ -964,6 +1009,11 @@ def fix_fq_io_links(content_folders, target_folders):
                                 relref = '{{< relref "' + new_path + '" >}}'
                         
                             result[k] = relref
+    
+    # Find and replace is problematic because the path https://redis.io/docs/stack gets replaced before https://redis.io/docs/stack/bloom/
+    sorted_result = sorted(result, key=lambda k: len(k.split('#')[0]), reverse=True)
+    
+    #_write_file("./result.txt", str(sorted_result))                        
 
     # Replace in files
     for c in target_folders:
@@ -974,20 +1024,115 @@ def fix_fq_io_links(content_folders, target_folders):
             find_and_replace(f, 'https://redis.io/commands', '{{< relref "/commands" >}}')
 
             # Replace the previously mapped links
-            for k in result:
+            for k in sorted_result:
                 find_and_replace(f, k, result[k])
 
+
+'''
+The release notes contain fully qualified links to the latest documentation. Let's replace them by relrefs, too.
+'''
+def fix_fq_docs_redis_com_links(target_folders):
+    links_csv = _load_csv_file('./migrate/docs-redis-com-links-mapped.csv')
+    result = {}
+    
+    for k in links_csv:
+        source_url = k
+
+        # Preserve the anchor
+        anchor = None
+        if '#' in source_url:
+            parsed = source_url.split('#')
+            source_url = parsed[0]       
+            anchor = parsed[1]
+
+        # Decide if the mapped source URL is needed
+        if links_csv[k] != "":
+            source_url = links_csv[k]
+            
+        target_url = "/not_defined"
+
+        prefixes = ["stack", "rs", "kubernetes", "rc"]
+
+        if source_url.startswith("https://docs.redis.com/latest/stack/"):
+            target_url = source_url.split("/stack/")[1]
+            target_url = "/operate/oss_and_stack/stack-with-enterprise/" + target_url
+        elif source_url.startswith("https://docs.redis.com/latest/rs/"):
+            target_url = source_url.split("/rs/")[1]
+            target_url = "/operate/rs/" + target_url
+        elif source_url.startswith("https://docs.redis.com/latest/kubernetes/"):
+            target_url = source_url.split("/kubernetes/")[1]
+            target_url = "/operate/kubernetes/" + target_url
+        elif source_url.startswith("https://docs.redis.com/latest/rc/"):
+            target_url = source_url.split("/rc/")[1]
+            target_url = "/operate/rc/" + target_url
+        else:
+            print("WARN: {} not covered by the link fixing script.".format(source_url))
         
+        if not file_exists(target_url + '_index.md'):
+            target_url = target_url.rstrip('/')
+            
+        if anchor:
+            if not "." in target_url:
+                relref = '{{< relref "' + target_url + '" >}}#' + anchor
+            else:
+                relref = '{{< baseurl >}}' + target_url + "#" + anchor
+        else:
+            if not "." in target_url:
+                relref = '{{< relref "' + target_url + '" >}}'
+            else:
+                relref = '{{< baseurl >}}' + target_url 
+
+        result[k] = relref
+
+    
+    for c in target_folders:
+        markdown_files = find_markdown_files(slash(DOCS_ROOT, c))
+        for f in markdown_files:
+            # Replace the previously mapped links
+            for k in result:
+                # Some links have a _index path, e.g., https://docs.redis.com/latest/rs/installing-upgrading/_index/
+                find_and_replace(f, '/_index/', '/')
+                find_and_replace(f, k, result[k])
+
+
+'''
+Cleanup before starting a new migration
+'''
+def cleanup():
+
+    # Delete and recreate
+    folders = [DOCS_DEV, DOCS_OPS, DOCS_CMD, slash(DOCS_ROOT, 'glossary'), slash(DOCS_ROOT, 'embeds')]
+    
+    for f in folders:
+        delete_folder(f)
+        create_folder(f)
+
+    skipped_int = ['spring-framework-cache', 'redisvl', 'riot']
+
+    for f in os.listdir(DOCS_INT):
+        if f not in skipped_int:
+            full_path = slash(DOCS_INT, f)
+            if os.path.isdir(full_path):
+                delete_folder(full_path)
+            else:
+                delete_file(full_path)
+
+
+    
 
 '''
 Migration script
 '''
 if __name__ == "__main__":
+
     # The working directory is the parent folder of the directory of this script
     print("## Setting the migration environment ...")
     print(set_env())
 
-    '''
+    print("## Cleaning the content folders ...")
+    cleanup()
+
+
     print("## Fetching temporary development documentation content ...")
     fetch_io()
 
@@ -1005,26 +1150,32 @@ if __name__ == "__main__":
     migrate_enterprise_ops_docs(repo)
     migrate_gloassary(repo)
     migrate_static_files(repo)
-    delete_folder(repo)
     
-    print("## Fetching temporary Enterprise documentation content ...")
-    repo = fetch_docs_redis_com()
-    repo = "/tmp/redislabs-docs"
-
     print("## Migrating the integrations docs ...")
     migrate_integration_docs(repo)
+    
+    print("## Cleaning up the docs.redis.com repo folder ...")
     delete_folder(repo)
 
-    print("Applying additional fixes ...")
+    print("## Applying additional fixes ...")
+    print("### Fixing the all_children shortcode ...")
     fix_all_children(["operate/rc", "operate/rs", "operate/kubernetes", "operate/oss_and_stack/stack-with-enterprise", "integrate/redis-data-integration"])
+    
+    print("### Fixing missing images in Kubernetes ...")
     fix_missed_images(["operate/kubernetes"])
+
+    print("### Fixing RESP references ...")
     fix_resp_references()
     
+    print("### Fixing topics links ...")
     # Don't include the RS folder at this point!
     fix_topics_links(["operate/oss_and_stack", "commands", "integrate", "develop", "embeds", "glossary"])
     
+    print("### Fixing command group parameters ...")
     fix_command_group_params(["commands", "develop", "operate/oss_and_stack", "integrate"])
-    '''
 
-    fix_fq_io_links(["commands", "develop", "operate/oss_and_stack", "integrate"], ["commands", "develop", "operate", "integrate", "embeds", "glossary"])
+    print("### Fixing fully qualified redis.io links ...")
+    fix_fq_io_links(["commands", "develop", "operate/oss_and_stack"], ["commands", "develop", "operate", "integrate", "embeds", "glossary"])
     
+    print("### Fixing fully qualified docs.redis.com links ...")
+    fix_fq_docs_redis_com_links(["operate"])

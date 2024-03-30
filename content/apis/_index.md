@@ -1,10 +1,9 @@
 ---
+description: An overview of Redis APIs for developers and operators
+hideListLinks: true
 linkTitle: APIs
 title: APIs
 type: develop
-description: An overview of Redis APIs for developers and operators
-hideListLinks: true
-         
 ---
 
 Redis provides a number of APIs for developers and operators. The following sections provide you easy access to the client API, the several programmability APIs, the RESTFul management APIs and the Kubernetes resource defintions.

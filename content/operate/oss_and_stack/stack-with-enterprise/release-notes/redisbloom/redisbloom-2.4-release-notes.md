@@ -14,10 +14,51 @@ weight: 96
 ---
 ## Requirements
 
-RedisBloom v2.4.5 requires:
+RedisBloom v2.4.8 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.4.8 (January 2024)
+
+This is a maintenance release for RedisBloom 2.4.
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Details:
+
+- Bug fixes:
+
+  - [#727](https://github.com/RedisBloom/RedisBloom/pull/727) Additional fixes for potential crash on `CF.LOADCHUNK` (MOD-6344)
+
+## v2.4.7 (January 2024)
+
+This is a maintenance release for RedisBloom 2.4.
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Details:
+
+- Bug fixes:
+
+  - [#735](https://github.com/RedisBloom/RedisBloom/pull/735) Potential crash on `CF.RESERVE` (MOD-6343)
+  - [#727](https://github.com/RedisBloom/RedisBloom/pull/727) Potential crash on `CF.LOADCHUNK` (MOD-6344)
+
+## v2.4.6 (December 2023)
+
+This is a maintenance release for RedisBloom 2.4.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+- Bug fixes:
+
+  - [#707](https://github.com/RedisBloom/RedisBloom/pull/707) Top-K: `TOPK.ADD` and `TOPK.QUERY` crash when an item name is an empty string (RED-114676)
+
+- Improvements:
+
+  - [#706](https://github.com/RedisBloom/RedisBloom/pull/706) Added support for CBL-Mariner 2 (MOD-6200)
 
 ## v2.4.5 (April 2023)
 

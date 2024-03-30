@@ -18,20 +18,3 @@
     {{ end }}
   </nav>
 </div>
-
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const sidebar = document.getElementById('sidebar');
-    const footer = document.querySelector('footer');
-
-    window.addEventListener('scroll', function() {
-      const scrolledHeight = window.scrollY + window.innerHeight;
-      if (scrolledHeight >= footer.offsetTop) {
-          sidebar.style.maxHeight = `calc(100vh - 8rem - ${scrolledHeight - footer.offsetTop + 20}px)`;
-        } else {
-        sidebar.style.maxHeight = 'calc(100vh - 8rem)';
-      }
-    });
-  })
-</script>

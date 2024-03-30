@@ -162,3 +162,40 @@ their order to suit your application's requirements.
 1. The following flag is enabled in our regular expression parser:
    - **PCRE_ANCHORED:** the pattern is constrained to match only at
         the start of the string which is being searched.
+
+## Dataset size
+
+The dataset size represents the maximum amount of memory for the database, which includes data values, keys, module data, and overhead for specific features.  High availability features, such as replication and Active-Active,  increase memory consumption.  
+
+Here are some general guidelines:
+
+- Memory limit represents an upper limit.  You cannot store more data than the memory limit.  Depending on your other selections, available memory for data may be less than expected.
+
+- [Replication](HA LINK) doubles memory consumption; that is, 512MB of data requires at least 1GB of memory limit when replication is enabled. This affects both Redis Cloud Pro and Redis Cloud Essentials. For example, if you subscribe to a 1 GB Essentials plan, Redis will allocate 512 MB for your dataset and the other 512 MB for replication.
+
+- Active-Active also doubles memory consumption and the effect is cumulative with replication's impact. Since Active-Active requires replication to be turned on, the memory limit impact can be as large as four times (4x) the original data size.
+
+- Advanced capabilities also consume memory.
+
+Memory limits in Redis Cloud are subject to the same considerations as Redis Enterprise Software; to learn more, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit.md" >}}).
+
+## Throughput
+
+Throughput is the amount of operations a database can handle over a certain period of time. For most Redis Cloud databases, throughput is defined in operations per second (ops/sec).
+
+For a Redis Cloud Pro subscription, you define throughput for a database when you create it. For a Redis Cloud Essentials subscription, your maximum throughput depends on your plan.
+
+We assume a typical workload that includes a different mix of commands and an average key and value size of 1KB. Therefore, your actual throughput may be higher or lower than the throughput you set when you create your database. The following properties can affect your database's throughput:
+- **Command complexity**: O(N) and O(log(N)) commands will take more time than O(1) commands, and will affect throughput accordingly.
+- **Key and value sizing**: If your database's keys and values are very large, your actual throughput may be lower than expected. If the keys and values are smaller than the typical workload, the actual throughput might be higher than expected.
+- **Replication**: Using [multi-zone replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) affects throughput as each write operation is executed asynchronously in each zone.
+- **Security**: Some security options, such as [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}), may affect throughput.
+- **Number of client connections**: The number of client connections affects throughput. Increasing or decreasing the number of client connections can result in higher or lower throughput.
+
+## OSS Cluster API
+
+{{< embed-md "oss-cluster-api-intro.md"  >}}
+
+The OSS Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the Scalability section of the configuration screen.
+
+Review [Redis OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.

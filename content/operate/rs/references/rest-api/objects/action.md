@@ -22,7 +22,7 @@ The action lifecycle is based on the following status and status transitions:
 
 | Name | Type/Value | Description |
 |------|------------|-------------|
-| progress        | integer <nobr>(range: 0-100)</nobr> | Represents percent completed  |
+| progress        | float <nobr>(range: 0-100)</nobr> | Represents percent completed (As of v7.4.2, the return value type changed to 'float' to provide improved progress indication) |
 | status          | queued | Requested operation and added it to the queue to await processing |
 |                 | starting | Picked up operation from the queue and started processing |
 |                 | running | Currently executing operation |

@@ -1,8 +1,8 @@
 ---
+description: Supported vectorizers
 linkTitle: Vectorizers
 title: Vectorizers
 type: integration
-description: Supported vectorizers
 weight: 4
 ---
 In this document, you will learn how to use RedisVL to create embeddings using the built-in text embedding vectorizers. RedisVL supports:
@@ -50,7 +50,7 @@ api_key = os.environ.get("OPENAI_API_KEY") or getpass.getpass("Enter your OpenAI
 ```
 
 ```python
-from redisvl.vectorize.text import OpenAITextVectorizer
+from redisvl.utils.vectorize import OpenAITextVectorizer
 
 # create a vectorizer
 oai = OpenAITextVectorizer(
@@ -117,7 +117,7 @@ pip install sentence-transformers
 
 ```python
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-from redisvl.vectorize.text import HFTextVectorizer
+from redisvl.utils.vectorize import HFTextVectorizer
 
 # create a vectorizer
 # choose your model from the huggingface website
@@ -165,10 +165,15 @@ GCP_LOCATION=<your gcp geo region for vertex ai>
 ```
 
 ```python
-from redisvl.vectorize.text import VertexAITextVectorizer
+from redisvl.utils.vectorize import VertexAITextVectorizer
+
 
 # create a vectorizer
-vtx = VertexAITextVectorizer()
+vtx = VertexAITextVectorizer(api_config={
+    "project_id": os.environ.get("GCP_PROJECT_ID") or getpass.getpass("Enter your GCP Project ID: "),
+    "location": os.environ.get("GCP_LOCATION") or getpass.getpass("Enter your GCP Location: "),
+    "google_application_credentials": os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") or getpass.getpass("Enter your Google App Credentials path: ")
+})
 
 # embed a sentence
 test = vtx.embed("This is a test sentence.")
@@ -205,7 +210,7 @@ queries, you should set `input_type='search_query'`. For embedding documents, se
 more information [here](https://docs.cohere.com/reference/embed).
 
 ```python
-from redisvl.vectorize.text import CohereTextVectorizer
+from redisvl.utils.vectorize import CohereTextVectorizer
 
 # create a vectorizer
 co = CohereTextVectorizer(
@@ -225,7 +230,11 @@ print(test[:10])
 
 Vector dimensions:  1024
 [-0.010856628, -0.019683838, -0.0062179565, 0.003545761, -0.047943115, 0.0009365082, -0.005924225, 0.016174316, -0.03289795, 0.049194336]
+Vector dimensions:  1024
+[-0.009712219, -0.016036987, 2.8073788e-05, -0.022491455, -0.041259766, 0.002281189, -0.033294678, -0.00057029724, -0.026260376, 0.0579834]
 ```
+
+Learn more about using RedisVL and Cohere together through [this dedicated user guide](https://docs.cohere.com/docs/redis-and-cohere).
 
 ## Search with provider embeddings
 
@@ -236,20 +245,22 @@ First, create the schema for your index.
 Here's what the schema for the example looks like in YAML for the HuggingFace vectorizer:
 
 ```yaml
+version: '0.1.0'
+
 index:
-    name: providers
-    prefix: rvl
+    name: vectorizers
+    prefix: doc
     storage_type: hash
-    key_separator: ':'
 
 fields:
-    text:
-        - name: sentence
-    vector:
-        - name: embedding
-          dims: 768
-          algorithm: flat
-          distance_metric: cosine
+    - name: sentence
+      type: text
+    - name: embedding
+      type: vector
+      attrs:
+        dims: 768
+        algorithm: flat
+        distance_metric: cosine
 ```
 
 ```python
@@ -270,7 +281,7 @@ index.create(overwrite=True)
 !rvl index listall
 
 22:02:27 [RedisVL] INFO   Indices:
-22:02:27 [RedisVL] INFO   1. providers
+22:02:27 [RedisVL] INFO   1. vectorizers
 ```
 
 ```python
@@ -282,6 +293,10 @@ data = [{"text": t,
         for t, v in zip(sentences, embeddings)]
 
 index.load(data)
+
+    ['doc:17c401b679ce43cb82f3ab2280ad02f2',
+     'doc:3fc0502bec434b17a3f06e20824b2e59',
+     'doc:199f17b0e5d24dcaa1fd4fb41558150c']
 ```
 
 ```python
@@ -304,4 +319,9 @@ for doc in results:
 That is a happy dog 0.160862326622
 That is a happy person 0.273598492146
 Today is a sunny day 0.744559407234
+```
+
+```python
+# cleanup
+index.delete()
 ```

@@ -17,10 +17,30 @@ weight: 97
 ---
 ## Requirements
 
-RedisJSON v2.4.7 requires:
+RedisJSON v2.4.8 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.18
+
+## v2.4.8 (January 2024)
+
+This is a maintenance release for RedisJSON 2.4.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+{{<note>}}
+Ubuntu 16.04 and RHEL 7 are no longer supported as of v2.4.8.
+{{</note>}}
+
+Details:
+
+- Improvements:
+
+  - [#1149](https://github.com/RedisJSON/RedisJSON/pull/1149) Added support for CBL-Mariner 2
+
+- Bug fixes:
+
+  - [#1025](https://github.com/RedisJSON/RedisJSON/pull/1025) `JSON.TOGGLE` - missing keyspace notification
 
 ## v2.4.7 (April 2023)
 

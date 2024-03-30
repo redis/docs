@@ -49,16 +49,20 @@ For example:
 
 ## Configure high availability for replica shards
 
-You can enable or turn off replica high availability for a database or for the entire cluster using the Cluster Manager UI, `rladmin`, or the REST API.
-
-When replica HA is enabled for both the cluster and a database,
-replica shards for that database are automatically migrated to another node in the event of a master or replica shard failure.
-If replica HA is disabled at the cluster level,
+If replica high availability is enabled for both the cluster and a database,
+the database's replica shards automatically migrate to another node when a master or replica shard fails.
+If replica HA is not enabled at the cluster level,
 replica HA will not migrate replica shards even if replica HA is enabled for a database.
 
-{{< note >}}
-By default, replica HA is enabled for the cluster but not enabled for each database.
-{{< /note >}}
+Replica high availability is enabled for the cluster by default.
+
+When you create a database using the Cluster Manager UI, replica high availability is enabled for the database by default if you enable replication.
+
+{{<image filename="images/rs/screenshots/databases/config-replica-ha-enabled.png" alt="When you select the Replication checkbox in the High availability & durability section of the database configuration screen, the Replica high availability checkbox is also selected by default.">}}
+
+To use replication without replication high availability, clear the **Replica high availability** checkbox.
+
+You can also enable or turn off replica high availability for a database using `rladmin` or the REST API.
 
 {{< note >}}
 For Active-Active databases, replica HA is enabled for the database by default to make sure that replica shards are available for Active-Active replication.
@@ -66,17 +70,11 @@ For Active-Active databases, replica HA is enabled for the database by default t
 
 ### Configure cluster policy for replica HA
 
+{{<note>}}
+The replica HA cluster policy is deprecated as of Redis Enterprise Software version 7.2.4.
+{{</note>}}
+
 To enable or turn off replica high availability by default for the entire cluster, use one of the following methods:
-
-- Cluster Manager UI:
-
-    1. On the **Databases** screen, select {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" >}} to open a list of additional actions.
-
-    1. Select **Database defaults**.
-
-    1. Enable or turn off **Replica High Availability**.
-
-    1. Select **Save**.
 
 - [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
     
@@ -93,7 +91,7 @@ To enable or turn off replica high availability by default for the entire cluste
 
 ### Turn off replica HA for a database
 
-To disable replica HA for a specific database using `rladmin`, run:
+To turn off replica high availability for a specific database using `rladmin`, run:
 
 ``` text
 rladmin tune db db:<ID> slave_ha disabled

@@ -49,13 +49,18 @@ values. The following metrics are reported:
 *   `aof.buffer`: The summed size in bytes of AOF related buffers.
 *   `lua.caches`: the summed size in bytes of the overheads of the Lua scripts'
      caches
+*   `functions.caches`: the summed size in bytes of the overheads of the Function scripts'
+     caches
 *   `dbXXX`: For each of the server's databases, the overheads of the main and
      expiry dictionaries (`overhead.hashtable.main` and
     `overhead.hashtable.expires`, respectively) are reported in bytes
+*   `overhead.db.hashtable.lut`: Total overhead of dictionary buckets in databases (Added in Redis 8.0)
+*   `overhead.db.hashtable.rehashing`: Temporary memory overhead of database dictionaries currently being rehashed (Added in Redis 8.0) 
 *   `overhead.total`: The sum of all overheads, i.e. `startup.allocated`,
      `replication.backlog`, `clients.slaves`, `clients.normal`, `aof.buffer` and
      those of the internal data structures that are used in managing the
      Redis keyspace (see [`INFO`]({{< relref "/commands/info" >}})'s `used_memory_overhead`)
+*   `db.dict.rehashing.count`: Number of DB dictionaries currently being rehashed (Added in Redis 8.0)
 *   `keys.count`: The total number of keys stored across all databases in the
      server
 *   `keys.bytes-per-key`: The ratio between `dataset.bytes` and `keys.count` 
@@ -65,6 +70,17 @@ values. The following metrics are reported:
      memory usage
 *   `peak.percentage`: The percentage of `total.allocated` out of
      `peak.allocated`
+*   `allocator.allocated`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_allocated`
+*   `allocator.active`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_active`
+*   `allocator.resident`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_resident`
+*   `allocator.muzzy`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_muzzy`
+*   `allocator-fragmentation.ratio`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_frag_ratio`
+*   `allocator-fragmentation.bytes`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_frag_bytes`
+*   `allocator-rss.ratio`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_rss_ratio`
+*   `allocator-rss.bytes`: See [`INFO`]({{< relref "/commands/info" >}})'s `allocator_rss_bytes`
+*   `rss-overhead.ratio`: See [`INFO`]({{< relref "/commands/info" >}})'s `rss_overhead_ratio`
+*   `rss-overhead.bytes`: See [`INFO`]({{< relref "/commands/info" >}})'s `rss_overhead_bytes`
 *   `fragmentation`: See [`INFO`]({{< relref "/commands/info" >}})'s `mem_fragmentation_ratio`
+*   `fragmentation.bytes`: See [`INFO`]({{< relref "/commands/info" >}})'s `mem_fragmentation_bytes`
 
 **A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.

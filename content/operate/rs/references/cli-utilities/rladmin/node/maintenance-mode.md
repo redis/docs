@@ -21,7 +21,11 @@ Migrates shards out of the node and turns the node into a quorum node to prevent
 ```sh
 rladmin node <ID> maintenance_mode on
         [ keep_slave_shards ]
+        [ evict_ha_replica { enabled | disabled } ]
+        [ evict_active_active_replica { enabled | disabled } ]
+        [ evict_dbs <list of database names or IDs> ]
         [ demote_node ]
+        [ overwrite_snapshot ]
         [ max_concurrent_actions <integer> ]
 ```
 
@@ -31,8 +35,12 @@ rladmin node <ID> maintenance_mode on
 |-----------------------|--------------------------------|-------------------------------------------------------------------------------------------|
 | node                  | integer                        | Turns the specified node into a quorum node                                              |
 | demote_node           |                                | If the node is a primary node, changes the node to replica                                |
-| keep_slave_shards     |                                | Keeps replica shards in the node and demotes primary shards to replicas                    |
+| evict_ha_replica | `enabled`<br />`disabled` | Migrates the HA replica shards in the node |
+| evict_active_active_replica | `enabled`<br />`disabled` | Migrates the Active-Active replica shards in the node |
+| evict_dbs | list of database names or IDs | Specify databases whose shards should be evicted from the node when entering maintenance mode.<br /><br />Examples:<br />`$ rladmin node 1 maintenance_mode on evict_dbs db:1 db:2`<br />`$ rladmin node 1 maintenance_mode on evict_dbs db_name1 db_name2` |
+| keep_slave_shards     |                                | Keeps replica shards in the node and demotes primary shards to replicas.<br /><br />Deprecated as of Redis Enterprise Software 7.4.2. Use `evict_ha_replica disabled evict_active_active_replica disabled` instead. |
 | max_concurrent_actions | integer | Maximum number of concurrent actions during node maintenance |
+| overwrite_snapshot | | Overwrites the latest existing node snapshot taken when enabling maintenance mode |
 
 ### Returns
 
@@ -43,9 +51,10 @@ Use [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rl
 ### Example
 
 ```sh
-$ rladmin node 2 maintenance_mode on
+$ rladmin node 2 maintenance_mode on overwrite_snapshot
+Found snapshot from 2024-01-06T11:36:47Z, overwriting the snapshot
 Performing maintenance_on action on node:2: 0%
-created snapshot NodeSnapshot<name=maintenance_mode_2022-05-12_20-25-37,time=None,node_uid=2>
+created snapshot NodeSnapshot<name=maintenance_mode_2024-01-11_20-25-37,time=None,node_uid=2>
 
 node:2 will not accept any more shards
 Performing maintenance_on action on node:2: 100%

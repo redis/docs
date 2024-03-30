@@ -97,6 +97,8 @@ Returns a JSON object that contains the license details:
 
 Validate and install a new license string.
 
+If you do not provide a valid license, the cluster behaves as if the license was deleted. See [Expired cluster license]({{< relref "/operate/rs/clusters/configure/license-keys#expired-cluster-license" >}}) for a list of available actions and restrictions.
+
 #### Required permissions
 
 | Permission name |

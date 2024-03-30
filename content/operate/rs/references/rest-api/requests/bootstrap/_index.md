@@ -51,7 +51,7 @@ The `bootstrap_status` object contains the following information:
 
 | Field | Description |
 |-------|-------------|
-| state | Current bootstrap state.<br></br>`idle`: No bootstrapping started.<br></br>`initiated`: Bootstrap request received.<br></br>`creating_cluster`: In the process of creating a new cluster.<br></br>`joining_cluster`: In the process of joining an existing cluster.<br></br>`error`: The last bootstrap action failed.<br></br>`completed`: The last bootstrap action completed successfully.|
+| state | Current bootstrap state.<br></br>`idle`: No bootstrapping started.<br></br>`initiated`: Bootstrap request received.<br></br>`creating_cluster`: In the process of creating a new cluster.<br></br>`recovering_cluster`: In the process of recovering a cluster.<br /><br />`joining_cluster`: In the process of joining an existing cluster.<br></br>`error`: The last bootstrap action failed.<br></br>`completed`: The last bootstrap action completed successfully.|
 | start_time | Bootstrap process start time |
 | end_time | Bootstrap process end time |
 | error_code | If state is `error`, this error code describes the type of error encountered. |
@@ -206,7 +206,7 @@ POST /bootstrap/create_cluster
        },
        "bigstore_driver": "rocksdb"
     },
-    "license": "",
+    "license": "----- LICENSE START -----\ndi+iK...KniI9\n----- LICENSE END -----\n",
     "credentials": {
        "username": "my_username",
        "password": "my_password"

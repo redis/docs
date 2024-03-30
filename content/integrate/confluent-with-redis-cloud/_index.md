@@ -8,7 +8,6 @@ categories:
 - rc
 description: Describes how to integrate Redis Cloud into Confluent Cloud.
 group: di
-linkTitle: Confluent with Redis Cloud
 summary: The Redis Sink connector for Confluent Cloud allows you to send data from
   Confluent Cloud to your Redis Cloud database.
 type: integration
@@ -21,9 +20,7 @@ You can send data from [Confluent Cloud](https://confluent.cloud/) to your Redis
 
 Before you add the Redis Sink Confluent connector to your Confluent Cloud cluster:
 
-1. Create a [Fixed]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}}) or [Flexible]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}}) subscription in the same region as your Confluent Cloud cluster.
-
-1. [Create a database]({{< relref "/operate/rc/databases/create-database" >}}) in the subscription.
+1. [Create a database]({{< relref "/operate/rc/databases/create-database" >}}) in the same region as your Confluent Cloud cluster.
 
 1. If you decide to [enable Transport Layer Security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}) for your Redis database, [download the server certificate]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) from the Redis Cloud console and [encode it](#encode-server-certificate) to be used with Confluent Cloud.
 

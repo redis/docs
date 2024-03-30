@@ -10,7 +10,6 @@ description: "The Redis Enterprise Software (RS)\_Nagios plugin enables you to m
   \ the status of RS\_related objects and alerts. The RS\_alerts can be related to\
   \ the cluster, nodes, or databases."
 group: observability
-linkTitle: Nagios with Redis Enterprise
 summary: "This\_Nagios plugin enables you to monitor the status of Redis Enterprise\_\
   related components and alerts."
 title: Nagios integration with Redis Enterprise Software

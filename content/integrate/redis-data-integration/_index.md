@@ -24,9 +24,17 @@ RDI currently supports these scenarios:
 
 * [Ingest scenario]({{<relref "/integrate/redis-data-integration/quickstart/ingest-guide">}}). RDI mirrors the application's primary database to Redis using a Capture Data Change (CDC) tool. RDI transforms the database model and types to a Redis model and types. This scenario is useful when the application database is not performant and scalable enough to serve the read queries. RDI helps to offload all read queries to Redis.
 
+{{<note>}}
+ Ingest is supported with targets of Redis database or [CRDB](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/) (Active Active Replication)
+ {{</note>}}
+
   {{< image filename="/images/rdi/ingest.png" >}}
   
 * [Write-behind scenario (Preview)]({{<relref "/integrate/redis-data-integration/quickstart/write-behind-guide">}}). RDI applies data changes in Redis to one or more downstream data stores. RDI can map and transform Redis types and models to downstream types and models. This scenario is useful when the application needs fast writes and reads for some of the queries, but has to provide data to other downstream services that need them in different models for other uses.
+
+{{<note>}}
+Write-behind in NOT supported with [CRDB](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/) (Active Active Replication)
+{{</note>}}
 
   {{< image filename="/images/rdi/write-behind.png" >}}  
 
@@ -50,6 +58,7 @@ RDI supports the following database sources using [Debezium Server](https://debe
 | Google Cloud SQL MySQL      | 8.0                    ||
 | Google Cloud SQL Postgres   | 15                     ||
 | Google Cloud SQL SQL Server | 2019                   ||
+| Google Cloud AlloyDB for PostgreSQL | ||
 
 ## Supported targets (write-behind)
 

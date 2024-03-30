@@ -16,10 +16,30 @@ weight: 96
 ---
 ## Requirements
 
-RedisTimeSeries v1.8.11 requires:
+RedisTimeSeries v1.8.12 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v1.8.12 (December 2023)
+
+This is a maintenance release for RedisTimeSeries 1.8.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- Security and privacy:
+
+  - [#1506](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1506) Don’t expose internal commands (MOD-5643)
+
+- Bug fixes:
+
+  - [#1494](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1494) Potential crash when using an invalid argument value
+
+- Improvements:
+
+  - [#1516](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1516) Added support for CBL-Mariner 2
 
 ## v1.8.11 (July 2023)
 

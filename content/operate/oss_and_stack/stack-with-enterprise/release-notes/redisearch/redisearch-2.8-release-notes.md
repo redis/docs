@@ -13,10 +13,64 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.9 requires:
+RediSearch v2.8.11 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.11 (January 2024)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+
+  - [#4324](https://github.com/RediSearch/RediSearch/pull/4324) Internal cluster mechanism not waiting until all replies from shards causing a crash (MOD-6287)
+  - [#4297](https://github.com/RediSearch/RediSearch/pull/4297) Execution loader when using `FT.AGGREGATE` with `LOAD` stage failing to buffer the right results potentially causing a crash (MOD-6385)
+
+- Improvements:
+
+  - [#4264](https://github.com/RediSearch/RediSearch/pull/4264) Granularity of the time reporting counters on `FT.PROFILE` (MOD-6002)
+
+## v2.8.10 (January 2024)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Details:
+
+- Bug fixes:
+
+  - [#4287](https://github.com/RediSearch/RediSearch/pull/4287) Re-index process while syncing from the replica causes a crash due to internal index variable initialization (MOD-6337, MOD-6336)
+  - [#4249](https://github.com/RediSearch/RediSearch/pull/4249) Memory tracking on cluster setups causing high memory usage and potentially Out-of-Memory (MOD-6123, MOD-5639)
+  - [#4244](https://github.com/RediSearch/RediSearch/pull/4244) Profiling `FT.AGGREGATE` using the `WITHCURSOR` flag with a `-` clause causes a crash due to timeout (MOD-5512)
+  - [#3916](https://github.com/RediSearch/RediSearch/pull/3916) Expiring `JSON` documents while querying it causing a crash due to deadlock (MOD-5769, MOD-5895, MOD-6189, MOD-5895)
+  - [#4235](https://github.com/RediSearch/RediSearch/pull/4235) Memory excessively growing on databases caused by unbalanced nodes on inverted index trie (MOD-5880, MOD-5952, MOD-6003) 
+  - [#4190](https://github.com/RediSearch/RediSearch/pull/4190) Profiling `FT.AGGREGATE` causes a crash on RESP3 replies (MOD-6250, MOD-6295)
+  - [#4148](https://github.com/RediSearch/RediSearch/pull/4148), [#4038](https://github.com/RediSearch/RediSearch/pull/4038) `ON_TIMEOUT FAIL\RETURN` policies in the cluster setup not being respected (MOD-6035, MOD-5948, MOD-6090)
+  - [#4110](https://github.com/RediSearch/RediSearch/pull/4110) Format of error response contains inconsistencies when timing out (MOD-6011, MOD-5965)
+  - [#4104](https://github.com/RediSearch/RediSearch/pull/4104) `FT.SEARCH` not responding when using TLS encryption on Amazon Linux 2 (MOD-6012)
+  - [#4009](https://github.com/RediSearch/RediSearch/pull/4009) In cluster setup does not return a timeout error for `FT.SEARCH` (MOD-5911)
+  - [#3920](https://github.com/RediSearch/RediSearch/pull/3920) In cluster setup does not return a timeout error for `FT.AGGREGATE` (MOD-5209)
+  - [#3914](https://github.com/RediSearch/RediSearch/pull/3914) `FT.CURSOR READ` with geo queries causing a crash when data is updated between the cursor reads (MOD-5646) 
+  - [#4220](https://github.com/RediSearch/RediSearch/pull/4220) Server crash when attempting to run the ForkGC (Garbage Collection routine) after dropping the index (MOD-6276)
+
+- Improvements:
+
+  - [#3682](https://github.com/RediSearch/RediSearch/pull/3682) Report last key error and field type indexing failures on `FT.INFO` (MOD-5364)
+  - [#4236](https://github.com/RediSearch/RediSearch/pull/4236) Adding Vector index parameters at the `FT.INFO` report (MOD-6198)
+  - [#4196](https://github.com/RediSearch/RediSearch/pull/4196) Check for timeout after results processing in `FT.SEARCH` on cluster setup (MOD-6278)
+  - [#4164](https://github.com/RediSearch/RediSearch/pull/4164) Report `TIMEOUT`, `MAXPREFIXEXPANSION` warnings in RESP3 replies (MOD-6234)
+  - [#4165](https://github.com/RediSearch/RediSearch/pull/4165) Indicate timeout on `FT.PROFILE` report (MOD-6184)
+  - [#4149](https://github.com/RediSearch/RediSearch/pull/4149) Indicate timeout from Cursor on `FAIL` timeout policy (MOD-5990)
+  - [#4147](https://github.com/RediSearch/RediSearch/pull/4147) Initialization of the maximum numeric value range leading to a better balance of the index leaf splitting (MOD-6232)
+  - [#3940](https://github.com/RediSearch/RediSearch/pull/3940) Query optimization when predicate contains multiple `INTERSECTION` (AND) of `UNION` (OR) (MOD-5910)
+  - [#4059](https://github.com/RediSearch/RediSearch/pull/4059) Return cursor id when experiencing a timeout, when the policy is `ON_TIMEOUT RETURN` (MOD-5966)
+  - [#4006](https://github.com/RediSearch/RediSearch/pull/4006) Possibly problematic index name alias validation (MOD-5945)
 
 ## v2.8.9 (October 2023)
 

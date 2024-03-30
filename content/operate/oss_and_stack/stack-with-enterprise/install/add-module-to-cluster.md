@@ -10,7 +10,7 @@ linkTitle: Install on a cluster
 weight: 10
 ---
 
-[Redis Enterprise]({{< relref "/operate/rs" >}}) comes packaged with several modules. You can view the installed modules and their versions from **Cluster > Modules** in the Redis Enterprise admin console.
+[Redis Enterprise]({{< relref "/operate/rs" >}}) comes packaged with several modules. As of version 7.4.2, Redis Enterprise includes two feature sets, compatible with different Redis database versions. You can view the installed modules, their versions, and their minimum compatible Redis database versions from **Cluster > Modules** in the Redis Enterprise Cluster Manager UI.
 
 To use other modules or upgrade an existing module to a more recent version, you need to install the new module package on your cluster.
 
@@ -28,7 +28,7 @@ To install or upgrade a module on a [Redis Enterprise]({{< relref "/operate/rs" 
 
 - For earlier versions of Redis Enterprise modules that are no longer available from the Redis download center, [contact support](https://redis.com/company/support/).
 
-- For custom-packaged modules, either download a [custom-packaged module](https://redislabs.com/community/redis-modules-hub/) from the developer or [package the module yourself]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/packaging-modules" >}}).
+- For custom-packaged modules, download a [custom-packaged module](https://redislabs.com/community/redis-modules-hub/) from the developer.
 
 ## Add a module to a cluster
 
@@ -36,7 +36,7 @@ Use one of the following methods to add a module to a Redis Enterprise cluster:
 
 - REST API [`POST` request to the `/v2/modules`]({{< relref "/operate/rs/references/rest-api/requests/modules#post-module-v2" >}}) endpoint
 
-- Redis Enterprise admin console
+- Redis Enterprise Cluster Manager UI
 
 - For RedisGears, follow these [installation instructions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears" >}})
 
@@ -57,9 +57,9 @@ To add a module to the cluster using the REST API:
 
 1. If the module installation succeeds, the `POST` request returns a [JSON object]({{< relref "/operate/rs/references/rest-api/objects/module" >}}) that represents the new module. If it fails, it may return a JSON object with an `error_code` and `description` with more details.
 
-### Admin console method
+### Cluster Manager UI method
 
-To add a module to the cluster using the admin console:
+To add a module to the cluster using the Cluster Manager UI:
 
 1. Go to **Cluster > Modules**.
 

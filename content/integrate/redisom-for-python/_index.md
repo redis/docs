@@ -9,7 +9,6 @@ categories:
 - rc
 description: Learn how to build with Redis Stack and Python
 group: library
-linkTitle: RedisOM for Python
 stack: true
 summary: Redis OM for Python is an object-mapping library for Redis.
 title: Redis OM Python

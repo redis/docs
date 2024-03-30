@@ -33,7 +33,7 @@ In the **Roles** tab, you [create roles]({{< relref "/operate/rc/security/access
 
 {{<image filename="images/rc/data-access-control-roles.png" alt="Data access control screen." >}}
 
-Finally, in the **Users** tab, you [create users]({{< relref "/operate/rc/security/access-control/data-access-control/create-assign-users" >}}) and [assign each user a role]({{< relref "/operate/rc/security/access-control/data-access-control/create-assign-users#assign-roles-to-users" >}}).
+Finally, in the **Users** tab, you [create users]({{< relref "/operate/rc/security/access-control/data-access-control/create-assign-users" >}}) and [assign each user a role]({{< relref "/operate/rc/security/access-control/data-access-control/create-assign-users#assign-roles-to-existing-users" >}}).
 
 {{<image filename="images/rc/data-access-control-users.png" alt="Data access control screen." >}}
 

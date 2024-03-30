@@ -18,7 +18,7 @@ This changelog lists new features, enhancements, and other changes added to Redi
 
 ### Redis 7.2 flexible opt-in
 
-You can opt in to Redis 7.2 on [Flexible subscriptions]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}}). Redis 7.2 introduces several changes to existing Redis commands; see the [list of breaking changes]({{< relref "/operate/rc/changelog/june-2023#redis-72-breaking-changes" >}}) published in June's changelog for more details.
+You can opt in to Redis 7.2 on [Flexible subscriptions]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}). Redis 7.2 introduces several changes to existing Redis commands; see the [list of breaking changes]({{< relref "/operate/rc/changelog/june-2023#redis-72-breaking-changes" >}}) published in June's changelog for more details.
 
 ### Triggers and functions preview
 
@@ -27,9 +27,9 @@ A preview of [triggers and functions]({{< relref "/operate/oss_and_stack/stack-w
 - AWS Asia Pacific - Singapore (`ap-southeast-1`)
 - GCP Asia Pacific - Tokyo (`asia-northeast1`)
 
-To use it, [create a fixed subscription]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}}) in one of these regions. Then, [create your database]({{< relref "/operate/rc/databases/create-database" >}}) and set the database Type to Redis and select Triggers and Functions in the drop-down. Or, set the database Type to Redis Stack to get all of our advanced capabilities.
+To use it, [create a fixed subscription]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}) in one of these regions. Then, [create your database]({{< relref "/operate/rc/databases/create-database" >}}) and set the database Type to Redis and select Triggers and Functions in the drop-down. Or, set the database Type to Redis Stack to get all of our advanced capabilities.
 
-If you'd like to use triggers and functions with a [Flexible subscription]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}}), contact [support](https://redis.com/company/support/).
+If you'd like to use triggers and functions with a [Flexible subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}), contact [support](https://redis.com/company/support/).
 
 For more information about triggers and functions, see the [triggers and functions documentation]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}}).
 

@@ -50,7 +50,7 @@ provide smart and automatic conflict resolution based on the data type's
 intent.
 
 For more information, go here. For information, go to [Developing with
-CRDBs](https://docs.redis.com/latest/rs/databases/active-active/develop/develop-for-aa/).
+CRDBs]({{< relref "/operate/rs/databases/active-active" >}}develop/develop-for-aa/).
 
 ### Redis modules
 
@@ -65,13 +65,13 @@ Enterprise is known for.
 Redis has developed and certified the following modules for use with 
 Redis Enterprise Pack:
 
-- [RediSearch](https://docs.redis.com/latest/modules/redisearch/)
+- [RediSearch]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}})
     - This module turns RS into a supercharged distributed in-memory
       full-text indexing and search beast.
-- [ReJSON](https://docs.redis.com/latest/modules/redisjson/)
+- [ReJSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})
     - Now you have the convenience JSON as a built-in data type and
       easily able to address nested data via a path.
-- [RedisBloom](https://docs.redis.com/latest/modules/redisbloom/)
+- [RedisBloom]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}})
     - Enables RS to have a scalable bloom filter as a data type. Bloom
       filters are probabilistic data structures that
       quickly determine if values are in a set.
@@ -91,7 +91,7 @@ easily and quickly test several containers to build the scalable
 and highly available cluster Redis Enterprise Software is famous for.
 
 For more information, go to [quick start with Redis Enterprise on
-Docker.](https://docs.redis.com/latest/rs/installing-upgrading/get-started-docker)
+Docker.]({{< relref "/operate/rs/installing-upgrading/get-started-docker" >}})
 
 ## LDAP Integration
 
@@ -102,7 +102,7 @@ accounts can be used for administering resources on the cluster via
 command line, Rest API, or admin console.
 
 For more information see [LDAP
-Integration](https://docs.redis.com/latest/rs/security/ldap/).
+Integration]({{< relref "/operate/rs/security/ldap" >}}).
 
 ## Additional capabilities
 

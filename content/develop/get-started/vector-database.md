@@ -39,9 +39,9 @@ You can use Redis Stack as a vector database. It allows you to:
 The easiest way to get started with [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}) is to use Redis Cloud:
 
 1. Create a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
-2. Follow the instructions to create a free database.
-   
+
    <img src="../img/free-cloud-db.png" width="500px">
+2. Follow the instructions to create a free database.
 
 This free Redis Cloud database comes out of the box with all the Redis Stack features.
 

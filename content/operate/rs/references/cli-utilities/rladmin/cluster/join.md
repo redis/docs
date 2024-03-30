@@ -33,7 +33,7 @@ rladmin cluster join
         [ external_addr <IP.address.1> [<IP.address.2> ... <IP.address.N>] ]
         [ override_repair ]
         [ accept_servers { enabled | disabled } ]
-        [ cmn_http_port <port> ]
+        [ cnm_http_port <port> ]
 ```
 
 ### Parameters
@@ -43,7 +43,7 @@ rladmin cluster join
 | accept_servers | 'enabled'<br />'disabled' | Allows allocation of resources on the new node when enabled (optional) |
 | addr | IP address | Sets a node's internal IP address. If not provided, the node sets the address automatically. (optional) |
 | ccs_persistent_path | filepath (default:&nbsp;/var/opt/redislabs/persist) | Path to the CCS snapshot location (the default is the same as persistent_path) (optional) |
-| cmn_http_port | integer | Joins a cluster that has a non-default cnm_http_port (optional) |
+| cnm_http_port | integer | Joins a cluster that has a non-default cnm_http_port (optional) |
 | ephemeral_path | filepath | Path to the ephemeral storage location (optional) |
 | external_addr | list of IP addresses | Sets a node's external IP addresses (space-delimited list). If not provided, the node sets the address automatically. (optional) |
 | flash_enabled |  | Enables flash capabilities for a database (optional) |

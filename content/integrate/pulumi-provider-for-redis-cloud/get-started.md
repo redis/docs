@@ -13,9 +13,10 @@ summary: With the Redis Cloud Resource Provider you can provision Redis Cloud re
   by using the programming language of your choice.
 toc: 'true'
 type: integration
+weight: $weight
 ---
 
-Here, you'll learn how to use the [Redis Cloud Pulumi provider]({{< relref "/integrate/pulumi-provider-for-redis-cloud/" >}}) to create a Flexible subscription and a database using Python.
+Here, you'll learn how to use the [Redis Cloud Pulumi provider]({{< relref "/integrate/pulumi-provider-for-redis-cloud/" >}}) to create a Redis Cloud Pro subscription and a database using Python.
 
 ## Prerequisites
 
@@ -51,7 +52,7 @@ The Pulumi Python project includes three main files:
 
 - `pulumi.YOUR_PROJECT_NAME.yaml`: Contains the information related to the Cloud API access and secret key, credit card type and last 4 digits.
 
-- `__main__.py`: A Pulumi template file that creates a Redis Cloud flexible subscription. Use this template file as a starting point to create the subscription with a cloud provider and define specifications for the database (this includes memory, throughput, Redis advanced capabilities, and other information).
+- `__main__.py`: A Pulumi template file that creates a Redis Cloud Pro subscription. Use this template file as a starting point to create the subscription with a cloud provider and define specifications for the database (this includes memory, throughput, Redis advanced capabilities, and other information).
 
 To deploy the resources described in `__main__.py`, run `pulumi up`. This will take some time. You will be able to see your subscription being created through the [admin console](https://app.redislabs.com/).
 

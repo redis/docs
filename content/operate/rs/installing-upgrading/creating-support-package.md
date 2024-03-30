@@ -68,16 +68,34 @@ Upload the tar file to [Redis support](https://redis.com/company/support/). The 
 
 ## REST API method
 
-You can also use [`debuginfo` REST API requests]({{< relref "/operate/rs/references/rest-api/requests/debuginfo" >}}) to create and download support packages.
+You can also use `debuginfo` [REST API]({{< relref "/operate/rs/references/rest-api" >}}) requests to create and download support packages.
 
-To download debug info for all nodes:
+To download debug info from all nodes and databases:
 
 ```sh
-GET /v1/debuginfo/all
+GET /v1/cluster/debuginfo
 ```
 
-To download debug info from all nodes that relates to a specific database, replace `<uid>` in the following request with the database ID:
+To download debug info from all nodes:
 
 ```sh
-GET /v1/debuginfo/all/bdb/<uid>
+GET /v1/nodes/debuginfo
+```
+
+To download debug info from a specific node, replace `<uid>` in the following request with the node ID:
+
+```sh
+GET /v1/nodes/<uid>/debuginfo
+```
+
+To download debug info from all databases:
+
+```sh
+GET /v1/bdbs/debuginfo
+```
+
+To download debug info from a specific database, replace `<uid>` in the following request with the database ID:
+
+```sh
+GET /v1/bdbs/<uid>/debuginfo
 ```

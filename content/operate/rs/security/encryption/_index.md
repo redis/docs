@@ -40,7 +40,7 @@ You can also [enable TLS authentication]({{< relref "/operate/rs/security/encryp
 
 Internode encryption uses TLS to encrypt data in transit between cluster nodes.
 
-By default, internode encryption is enabled for the control plane, which manages the cluster and databases. If you also want to encrypt replication and proxy communications between database shards on different nodes, [enable data plane internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption#enable-data-plane-encryption" >}}).
+By default, internode encryption is enabled for the control plane, which manages the cluster and databases. If you also want to encrypt replication and proxy communications between database shards on different nodes, [enable data internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption#enable-data-internode-encryption" >}}).
 
 ### [Require HTTPS for REST API endpoints]({{< relref "/operate/rs/references/rest-api/encryption" >}})
 

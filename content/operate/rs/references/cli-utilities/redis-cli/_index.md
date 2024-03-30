@@ -14,7 +14,7 @@ weight: $weight
 
 The `redis-cli` command-line utility lets you interact with a Redis database. With `redis-cli`, you can run [Redis commands]({{< relref "/commands" >}}/) directly from the command-line terminal or with [interactive mode](#interactive-mode).
 
-If you want to run Redis commands without `redis-cli`, you can [connect to a database with RedisInsight]({{< relref "/develop/connect/insight/" >}}) and use the built-in [CLI]({{< relref "/integrate/redisvl/user-guide/get-started" >}}insight/#cli) prompt instead.
+If you want to run Redis commands without `redis-cli`, you can [connect to a database with RedisInsight]({{< relref "/develop/connect/insight/" >}}) and use the built-in [CLI]({{< relref "/develop/connect/insight/" >}}) prompt instead.
 
 ## Install `redis-cli`
 
@@ -22,7 +22,7 @@ When you install Redis Enterprise Software or open source Redis, it also install
 
 To learn how to install Redis and `redis-cli`, see the following installation guides:
 
-- [Open source Redis]({{< relref "/integrate/redisvl/overview/install" >}}installation/)
+- [Open source Redis]({{< relref "/operate/oss_and_stack/install/install-redis/" >}})
 
 - [Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 

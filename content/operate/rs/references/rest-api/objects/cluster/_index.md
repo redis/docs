@@ -23,10 +23,13 @@ An API object that represents the cluster.
 | cnm_http_port | integer, (range:&nbsp;1024-65535) | API HTTP listening port |
 | cnm_https_port | integer, (range:&nbsp;1024-65535) | API HTTPS listening port |
 | control_cipher_suites | string | Specifies the enabled ciphers for the control plane. The ciphers are specified in the format understood by the BoringSSL library. |
+| control_cipher_suites_tls_1_3 | string | Specifies the enabled TLS 1.3 ciphers for the control plane. The ciphers are specified in the format understood by the BoringSSL library. (read-only) |
+| crdb_coordinator_port | integer, (range:&nbsp;1024-65535) (default:&nbsp;9081) | CRDB coordinator port |
 | crdt_rest_client_retries | integer | Maximum number of retries for the REST client used by the Active-Active management API |
 | crdt_rest_client_timeout | integer | Timeout for REST client used by the Active-Active management API |
 | created_time | string | Cluster creation date (read-only) |
 | data_cipher_list | string | Specifies the enabled ciphers for the data plane. The ciphers are specified in the format understood by the OpenSSL library. |
+| data_cipher_suites_tls_1_3 | string | Specifies the enabled TLS 1.3 ciphers for the data plane. |
 | debuginfo_path | string | Path to a local directory used when generating support packages |
 | default_non_sharded_proxy_policy | string (default:&nbsp;single) | Default proxy_policy for newly created non-sharded databases' endpoints (read-only) |
 | default_sharded_proxy_policy | string (default:&nbsp;all-master-shards) | Default proxy_policy for newly created sharded databases' endpoints (read-only) |
@@ -39,9 +42,9 @@ An API object that represents the cluster.
 | gossip_envoy_admin_port | integer, (range:&nbsp;1024-65535) | Gossip envoy admin port|
 | handle_redirects | boolean (default:&nbsp;false) | Handle API HTTPS requests and redirect to the master node internally |
 | http_support | boolean (default:&nbsp;false) | Enable or turn off HTTP support |
-| min_control_TLS_version | '1' <br />'1.1' <br />'1.2' <br />'1.3' | The minimum version of TLS protocol which is supported at the control path |
-| min_data_TLS_version | '1' <br />'1.1' <br />'1.2' | The minimum version of TLS protocol which is supported at the data path |
-| min_sentinel_TLS_version | '1' <br />'1.1' <br />'1.2' | The minimum version of TLS protocol which is supported at the data path |
+| min_control_TLS_version | '1.2'<br />'1.3' | The minimum version of TLS protocol which is supported at the control path |
+| min_data_TLS_version | '1.2'<br />'1.3' | The minimum version of TLS protocol which is supported at the data path |
+| min_sentinel_TLS_version | '1.2'<br />'1.3' | The minimum version of TLS protocol which is supported at the data path |
 | name | string | Cluster's fully qualified domain name (read-only) |
 | password_complexity | boolean (default:&nbsp;false) | Enforce password complexity policy |
 | password_expiration_duration | integer (default:&nbsp;0) | The number of days a password is valid until the user is required to replace it |
@@ -51,8 +54,9 @@ An API object that represents the cluster.
 | reserved_ports | array of strings | List of reserved ports and/or port ranges to avoid using for database endpoints (for example <nobr>`"reserved_ports": ["11000", "13000-13010"]`</nobr>) |
 | s3_url | string | Specifies the URL for S3 export and import |
 | saslauthd_ldap_conf | string | saslauthd LDAP configuration |
-| sentinel_cipher_suites | array | Specifies the list of enabled ciphers for the sentinel service. The supported ciphers are ones that were implemented by the [cipher_suits.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package. |
-| sentinel_ssl_policy | 'allowed'<br />'disabled' <br />'required' | Determines whether the discovery service allows, blocks, or requires TLS connections<br />**allowed**: Allows both TLS and non-TLS connections<br />**disabled**: Allows only non-TLS connections<br />**required**: Allows only TLS connections |
+| sentinel_cipher_suites | array | Specifies the list of enabled ciphers for the sentinel service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package. |
+| sentinel_cipher_suites_tls_1_3 | string | Specifies the list of enabled TLS 1.3 ciphers for the discovery (sentinel) service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package.(read-only) |
+| sentinel_tls_mode | 'allowed'<br />'disabled' <br />'required' | Determines whether the discovery service allows, blocks, or requires TLS connections (previously named `sentinel_ssl_policy`)<br />**allowed**: Allows both TLS and non-TLS connections<br />**disabled**: Allows only non-TLS connections<br />**required**: Allows only TLS connections |
 | slave_ha | boolean (default:&nbsp;false) | Enable the replica high-availability mechanism (read-only) |
 | slave_ha_bdb_cooldown_period | integer (default:&nbsp;86400) | Time in seconds between runs of the replica high-availability mechanism on different nodes on the same database (read-only) |
 | slave_ha_cooldown_period | integer (default:&nbsp;3600) | Time in seconds between runs of the replica high-availability mechanism on different nodes (read-only) |

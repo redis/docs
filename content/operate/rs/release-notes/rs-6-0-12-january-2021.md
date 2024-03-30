@@ -15,12 +15,12 @@ weight: 78
 [Redis Enterprise Software (RS) 6.0.12](https://redislabs.com/download-center/#downloads) is now available!
 This version includes the following new features and improvements:
 
-- [Synchronization](https://docs.redis.com/latest/rs/databases/active-active#syncer-process) can now be [distributed across the nodes]({{< relref "/operate/rs/databases/active-active/synchronization-mode.md" >}}) of Active-Active or Active-Passive databases
+- [Synchronization]({{< relref "/operate/rs/databases/active-active" >}}#syncer-process) can now be [distributed across the nodes]({{< relref "/operate/rs/databases/active-active/synchronization-mode.md" >}}) of Active-Active or Active-Passive databases
 - You can [disable several internal RS services]({{< relref "/operate/rs/clusters/optimize/turn-off-services.md" >}}) to free up more memory
 - User accounts can have multiple passwords to allow for [password rotation]({{< relref "/operate/rs/security/access-control/manage-passwords/rotate-passwords" >}})
 - [Dependencies are automatically installed]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster#rest-api-method" >}}) when you add modules to a cluster
 - [Envoy replaces NGINX]({{< relref "/operate/rs/networking/port-configurations.md" >}}) for internal cluster administration
-- Automatic recovery of the [syncer process](https://docs.redis.com/latest/rs/databases/active-active#syncer-process)s from out-of-memory (preview mode)
+- Automatic recovery of the [syncer process]({{< relref "/operate/rs/databases/active-active" >}}#syncer-process)s from out-of-memory (preview mode)
 
 And other functional and stability improvements.
 

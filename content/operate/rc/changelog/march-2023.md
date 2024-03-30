@@ -18,7 +18,7 @@ This changelog lists new features, enhancements, and other changes added to Redi
 
 ### Redis 7.0 preview
 
-A preview of Redis 7.0 is available for [Fixed subscriptions]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}}) in selected regions in AWS and GCP. However, some Redis 7.0 functionality might not be fully available during preview. Redis 7.0 also introduces several changes to existing Redis commands; see the [list of breaking changes](#redis-70-breaking-changes) for more details.
+A preview of Redis 7.0 is available for [Fixed subscriptions]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}) in selected regions in AWS and GCP. However, some Redis 7.0 functionality might not be fully available during preview. Redis 7.0 also introduces several changes to existing Redis commands; see the [list of breaking changes](#redis-70-breaking-changes) for more details.
 
 The following tables show which new open source Redis 7.0 commands are supported in Redis 7.0 subscriptions.
 

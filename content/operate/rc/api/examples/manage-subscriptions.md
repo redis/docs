@@ -10,7 +10,7 @@ description: This article describes how to create and manage a subscription usin
 weight: 10
 ---
 
-The Redis Cloud REST API lets you create and manage all kinds of subscriptions. The examples in this article refer to Flexible subscriptions.
+The Redis Cloud REST API lets you create and manage all kinds of subscriptions. The examples in this article refer to Redis Cloud Pro subscriptions.
 
 ## Create a subscription
 

@@ -128,6 +128,22 @@ To change the amount of time that the user account is locked after excessive fai
 
 ### Unlock locked user accounts
 
+To unlock a user account in the Cluster Manager UI:
+
+1. Go to **Access Control > Users**. Locked users have a "User is locked out" label:
+
+   {{<image filename="images/rs/screenshots/access-control/users-locked-out.png" alt="The Access Control > Users configuration screen in the Cluster Manager UI" >}}
+
+1. Point to the user you want to unlock, then click **Reset to unlock**:
+
+   {{<image filename="images/rs/screenshots/access-control/users-reset-to-unlock.png" alt="Reset to unlock button appears when you point to a locked user in the list" >}}
+
+1. In the **Reset user password** dialog, enter a new password for the user:
+
+   {{<image filename="images/rs/screenshots/access-control/users-reset-user-password-dialog.png" alt="Reset user password dialog" >}}
+
+1. Select **Save** to reset the user's password and unlock their account.
+
 To unlock a user account or reset a user password with `rladmin`, run:
 
 ```sh

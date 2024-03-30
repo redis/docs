@@ -35,22 +35,22 @@ If you turn off data persistence, data is lost when the database goes down.
 
 In Redis Cloud, data persistence is a database configuration setting that can be changed by [editing your database]({{< relref "/operate/rc/databases/view-edit-database.md" >}}) settings.
 
-The availability of the setting depends on your subscription:
+The availability of the setting depends on your plan:
 
-- Free subscriptions do not support data persistence; the setting is disabled entirely.
+- Free Redis Cloud Essentials plans do not support data persistence; the setting is disabled entirely.
 
-- For Fixed plans, persistence requires a standard plan and is not available for cache subscriptions.
+- For paid Redis Cloud Essentials plans, persistence requires a standard plan and is not available for cache subscriptions.
 
     Use the **Plan description** setting to determine your subscription type.  You might need to change your subscription type to enable data persistence.
 
-- Flexible and Annual plans enable data persistence settings for every database.
+- Redis Cloud Pro enables data persistence settings for every database.
 
 When enabled, you can change the **Data persistence** setting to one of the following values:
 
 | **Options** | **Description** |
 |------------|-----------------|
 |  None | Data is not persisted to disk at all. |
-|  Append Only File (AoF) every write | _(Flexible and Annual subscriptions only)_ Every write is recorded (synchronized to disk using `fsync`) |
+|  Append Only File (AoF) every write | _(Redis Cloud Pro only)_ Every write is recorded (synchronized to disk using `fsync`) |
 |  Append Only File (AoF) every 1 second | Record is updated every second (synchronized to disk using `fsync`)|
 |  Snapshot every 1 hour | A snapshot of the database is created every hour |
 |  Snapshot every 6 hours | A snapshot of the database is created every 6 hours |
