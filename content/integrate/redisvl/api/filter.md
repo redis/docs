@@ -1,8 +1,8 @@
 ---
+description: The filter APIs
 linkTitle: Filter
 title: Filter
 type: integration
-description: The filter APIs
 weight: 5
 ---
 

@@ -17,7 +17,7 @@ weight: 40
 
 Many customers use cloud provider accounts provisioned and maintained by Redis.  
 
-Customers with existing Amazon Web Services (AWS) accounts can provision their Flexible or Annual subscriptions to use their existing AWS accounts.  
+Customers with existing Amazon Web Services (AWS) accounts can provision their Redis Cloud Pro subscriptions to use their existing AWS accounts.  
 
 To do so, you associate your existing AWS account as a _cloud account_ for your subscription.  This requires setting up and entering credentials that enable monitoring, maintenance, and technical support of your subscription.
 
@@ -48,7 +48,7 @@ To create or edit a cloud account in Redis Cloud:
 
 The **Cloud account** tab lets you manage cloud accounts associated with your Redis Cloud subscription.
 
-The **Cloud Account** tab is not available (or supported) for Free or Fixed Redis Cloud subscriptions.  If you do not see a **Cloud Account** tab on the Account Settings page, verify that you have selected a Flexible or Annual subscription. 
+The **Cloud Account** tab is not available (or supported) for Redis Cloud Essentials subscriptions.  If you do not see a **Cloud Account** tab on the Account Settings page, verify that you have selected a Redis Cloud Essentials subscription. 
 
 ## Add a new cloud account
 

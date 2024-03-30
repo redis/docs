@@ -1,8 +1,8 @@
 ---
+description: Semantic caching with RedisVL
 linkTitle: Semantic caching
 title: Semantic caching
 type: integration
-description: Semantic caching with RedisVL
 weight: 5
 ---
 

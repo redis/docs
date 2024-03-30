@@ -1,8 +1,8 @@
 ---
+description: The query APIs
 linkTitle: Query
 title: Query
 type: integration
-description: The query APIs
 weight: 3
 ---
 
@@ -35,7 +35,7 @@ expression.
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
 {{< note >}}
-Learn more about vector queries in Redis: [https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search](https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search)
+Learn more about vector queries in Redis: [{{< relref "/develop/interact/search-and-query/" >}}search/vectors/#knn-search]({{< relref "/develop/interact/search-and-query/" >}}search/vectors/#knn-search)
 {{< /note >}}
 
 ### get_filter()
@@ -116,7 +116,7 @@ distance threshold.
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
 {{< note >}}
-Learn more about vector range queries: [https://redis.io/docs/interact/search-and-query/search/vectors/#range-query](https://redis.io/docs/interact/search-and-query/search/vectors/#range-query)
+Learn more about vector range queries: [{{< relref "/develop/interact/search-and-query/" >}}search/vectors/#range-query]({{< relref "/develop/interact/search-and-query/" >}}search/vectors/#range-query)
 {{< /note >}}
 
 ### get_filter()

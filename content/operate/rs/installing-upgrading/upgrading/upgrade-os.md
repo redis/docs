@@ -60,6 +60,8 @@ The uploaded module packages have the following requirements:
 - The module version matches the version currently used by databases.
         {{</note>}}
 
+1. If the cluster uses custom directories, make sure the OS upgrade version also supports custom directories, and specify the same custom directories during installation for all nodes. See [Customize installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}) for details.
+
 ## Perform OS rolling upgrade
 
 To upgrade the cluster's operating system, use one of the following rolling upgrade methods:

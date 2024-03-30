@@ -1,8 +1,8 @@
 ---
+description: Query and filter with RedisVL
 linkTitle: Query and filter
 title: Query and filter
 type: integration
-description: Query and filter with RedisVL
 weight: 3
 ---
 In this document, you will explore more complex queries that can be performed with RedisVL.

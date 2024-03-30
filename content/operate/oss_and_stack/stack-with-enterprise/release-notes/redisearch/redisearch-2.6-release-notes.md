@@ -15,10 +15,55 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.12 requires:
+RediSearch v2.6.15 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.15 (December 2023)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Details:
+
+- Bug fixes:
+
+  - [#4244](https://github.com/RediSearch/RediSearch/pull/4244), [#4255](https://github.com/RediSearch/RediSearch/pull/4255) Profiling `FT.AGGREGATE` using the `WITHCURSOR` flag causes a crash due to timeout (MOD-5512)
+  - [#4238](https://github.com/RediSearch/RediSearch/pull/4238) Memory excessively growing on databases caused by unbalanced nodes on inverted index trie (MOD-5880, MOD-5952, MOD-6003) 
+  - [#3995](https://github.com/RediSearch/RediSearch/pull/3995) `FT.CURSOR READ` with geo queries causing a crash when data is updated between the cursor reads (MOD-5646) 
+  - [#4155](https://github.com/RediSearch/RediSearch/pull/4155) `FT.SEARCH` not responding when using TLS encryption on Amazon Linux 2 (MOD-6012)
+
+- Improvements:
+
+  - [#4176](https://github.com/RediSearch/RediSearch/pull/4176) Initialization of the maximum numeric value range leading to a better balance of the index leaf splitting (MOD-6232) 
+  - [#4123](https://github.com/RediSearch/RediSearch/pull/4123) Possibly problematic index name alias check-in command multiplexing (MOD-5945)
+  - [#4195](https://github.com/RediSearch/RediSearch/pull/4195) Query optimization when predicate contains multiple `INTERSECTION` (AND) of `UNION` (OR) (MOD-5910)
+
+## v2.6.14 (November 2023)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- Bug fixes:
+
+  - [#3783](https://github.com/RediSearch/RediSearch/pull/3783) Broken lower and upper `APPLY` functions in `FT.AGGREGATE` on `DIALECT 3` (MOD-5041)
+  - [#3823](https://github.com/RediSearch/RediSearch/pull/3823) `APPLY` or `FILTER` expression causing a leak (MOD-5751)
+  - [#3899](https://github.com/RediSearch/RediSearch/pull/3899) Connection using TLS fail on Redis (MOD-5768)
+  - [#3910](https://github.com/RediSearch/RediSearch/pull/3910) Heavy document updates causing memory growth if memory blocks weren't properly released (MOD-5181)(MOD-5757)
+  - [#3928](https://github.com/RediSearch/RediSearch/pull/3928) Queries with `WITHCURSOR` making memory growth since `CURSOR` wasn't invalidated in the shards (MOD-5580)
+  - [#3946](https://github.com/RediSearch/RediSearch/pull/3946) Vector range query could cause Out-of-Memory due to memory corruption (MOD-5791)
+  - [#3972](https://github.com/RediSearch/RediSearch/pull/3972) Adding new nodes to OSS cluster can cause a crash (MOD-5778)
+  - [#3957](https://github.com/RediSearch/RediSearch/pull/3957) After cleaning the index, the GC could corrupt unique values (MOD-5815)
+  - [#4002](https://github.com/RediSearch/RediSearch/pull/4002) Setting a low `MAXIDLE` parameter value in `FT.AGGREGATE` causes a crash (MOD-5608)
+
+- Security and privacy:
+
+  - [#3844](https://github.com/RediSearch/RediSearch/pull/3844) Limits maximum phonetic length to avoid vulnerability (MOD 5767)
 
 ## v2.6.12 (July 2023)
 

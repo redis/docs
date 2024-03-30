@@ -123,7 +123,7 @@ Establish a secure connection with your Redis database using this snippet.
 ConfigurationOptions options = new ConfigurationOptions
 {
     EndPoints = { { "my-redis.cloud.redislabs.com", 6379 } },
-    User = "default",  // use your Redis user. More info {{< relref "/operate/oss_and_stack/management/security/acl" >}}
+    User = "default",  // use your Redis user. More info https://redis.io/docs/management/security/acl/
     Password = "secret", // use your Redis password
     Ssl = true,
     SslProtocols = System.Security.Authentication.SslProtocols.Tls12                

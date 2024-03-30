@@ -1,8 +1,8 @@
 ---
+description: The vectorizer APIs
 linkTitle: Vectorizers
 title: Vectorizers
 type: integration
-description: The vectorizer APIs
 weight: 6
 ---
 

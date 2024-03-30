@@ -98,7 +98,8 @@ Set or update the cluster LDAP configuration.
     "bind_dn": "rl_admin",
     "bind_pass": "secret",
     "user_dn_template": "cn=%u,dc=example,dc=org",
-    "dn_group_attr": "MemberOf"
+    "dn_group_attr": "MemberOf",
+    "directory_timeout_s": 5
 }
 ```
 

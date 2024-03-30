@@ -51,7 +51,7 @@ Where:
 
 - `taskId` - The unique identifier (UUID) of the specific task
 - `commandType` - The request (command) type
-- `status` - The [status]({{< relref "/operate/rc/api/get-started/process-lifecycle.md#provisioning-statuses" >}}) of the task
+- `status` - The [status]({{< relref "/operate/rc/api/get-started/process-lifecycle#task-process-states" >}}) of the task
 - `description` - A description of the status
 - `timestamp` - The time of the response in ISO-8601 date format and in the UTC timezone
 - `_links` - URI links to resources related to the task including:

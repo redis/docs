@@ -74,7 +74,7 @@ metadata:
     app: redis-enterprise
 subjects:
 - kind: ServiceAccount
-  name: redis-enterprise-operator-consumer-ns
+  name: redis-enterprise-operator
   namespace: <rec-namespace>
 - kind: ServiceAccount
   name: <service-account-name>

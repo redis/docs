@@ -20,7 +20,6 @@ Downloads a support package to the specified path. If you do not specify a path,
 rladmin cluster debug_info
         [ node <ID> ]
         [ path <path> ]
-        [ sanitized ]
 ```
 
 ### Parameters
@@ -29,7 +28,6 @@ rladmin cluster debug_info
 |-----------|------------|-------------|
 | node | integer | Downloads a support package for the specified node |
 | path | filepath | Specifies the location where the support package should download |
-| sanitized | | Removes sensitive data (passwords, certificates, etc.) from the support package |
 
 ### Returns
 
@@ -38,7 +36,7 @@ Reports the progress of the support package download.
 ### Example
 
 ```sh
-$ rladmin cluster debug_info node 1 sanitized
+$ rladmin cluster debug_info node 1
 Preparing the debug info files package
 Downloading...
 [==================================================]

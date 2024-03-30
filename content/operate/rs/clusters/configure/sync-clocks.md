@@ -75,7 +75,7 @@ For more details, refer to the official [Ubuntu 20.04 documentation](https://ubu
    sudo systemctl status chronyd
    ```
 
-For more details, refer to the official [RHEL 7 documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/sect-using_chrony).
+For more details, refer to the official [RHEL 7 documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/ch-configuring_ntp_using_the_chrony_suite#sect-Using_chrony).
 
 ### RHEL 8 and RHEL 9
 
@@ -101,7 +101,7 @@ For more details, refer to the official [RHEL 7 documentation](https://access.re
    sudo systemctl status chronyd
    ```
 
-For more details, refer to the official [RHEL 8 and 9 documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_basic_system_settings/using-chrony-to-configure-ntp).
+For more details, refer to the official [RHEL 8 and 9 documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_basic_system_settings/configuring-time-synchronization_configuring-basic-system-settings).
 
 ### Amazon Linux 2
 

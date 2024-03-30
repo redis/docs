@@ -212,18 +212,22 @@ Returns the status of modules installed on the cluster and modules used by datab
 $ rladmin status modules extra all                
 CLUSTER MODULES:
 MODULE           VERSION   MIN_REDIS_VERSION  ID                                
-RedisBloom       2.6.3     7.1                34db7c796489202a0ae5dda292211c87  
-RediSearch 2     2.8.8     7.1                4812fb26eda4a7372ffbc18c04b268d5  
+RedisBloom       2.4.5     6.0                1b895a180592cbcae5bd3bff6af24be2  
+RedisBloom       2.6.8     7.1                95264e7c9ac9540268c115c86a94659b  
+RediSearch 2     2.6.12    6.0                2c000539f65272f7a2712ed3662c2b6b  
+RediSearch 2     2.8.9     7.1                dd9a75710db528afa691767e9310ac6f  
 RedisGears       2.0.15    7.1                18c83d024b8ee22e7caf030862026ca6  
 RedisGraph       2.10.12   6.0                5a1f2fdedb8f6ca18f81371ea8d28f68  
-RedisJSON        2.6.6     7.1                11e55072ef5216f721fcff3575e35d1a  
-RedisTimeSeries  1.10.6    7.1                95d5258cb1ad6cf2c25fa4852954eeb1  
+RedisJSON        2.4.7     6.0                28308b101a0203c21fa460e7eeb9344a  
+RedisJSON        2.6.8     7.1                b631b6a863edde1b53b2f7a27a49c004  
+RedisTimeSeries  1.8.11    6.0                8fe09b00f56afe5dba160d234a6606af  
+RedisTimeSeries  1.10.9    7.1                98a492a017ea6669a162fd3503bf31f3  
 
 DATABASE MODULES:
 DB:ID      NAME             MODULE            VERSION  ARGS              STATUS 
-db:1       search-json-db   RediSearch 2      2.8.8    PARTITIONS AUTO   OK     
-db:1       search-json-db   RedisJSON         2.6.6                      OK     
-db:2       timeseries-db    RedisTimeSeries   1.10.6                     OK     
+db:1       search-json-db   RediSearch 2      2.8.9    PARTITIONS AUTO   OK     
+db:1       search-json-db   RedisJSON         2.6.8                      OK     
+db:2       timeseries-db    RedisTimeSeries   1.10.9                     OK      
 ```
 
 ## `status nodes`

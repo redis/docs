@@ -13,17 +13,27 @@ When you enable causal consistency in Active-Active databases,
 the order of operations on a specific key are maintained across all Active-Active database instances.
 
 For example, if operations A and B were applied on the same key and the effect of A was observed by the instance that initiated B before B was applied to the key.
-All instances of an Active-Active databases would then observe the effect of A before observing the effect of B.
+All instances of an Active-Active database would then observe the effect of A before observing the effect of B.
 This way, any causal relationship between operations on the same key is also observed and maintained by every replica.
 
 ### Enable causal consistency
 
-When you create an Active-Active database, causal consistency is set as follows in the legacy admin console:
+When you create an Active-Active database, you can enable causal consistency in the Cluster Manager UI:
 
-{{< image filename="/images/rs/create_db_causal.png" >}}
+1. In the **Participating clusters** section of the **Create Active-Active database** screen, locate **Causal Consistency**:
 
-Once enabled, additional operations to enable or disable can only be performed using the REST API or the `crdb-cli` tool.
-In this case, the updated Active-Active database behavior happens only for commands and operations received after the change.
+    {{<image filename="images/rs/screenshots/databases/active-active-databases/create-a-a-db-participating-clusters.png" alt="The Participating clusters section of the Create Active-Active database screen.">}}
+
+1. Click **Change** to open the **Causal Consistency** dialog.
+
+1. Select **Enabled**:
+
+    {{<image filename="images/rs/screenshots/databases/active-active-databases/enable-causal-consistency.png" alt="Enabled is selected in the Causal Consistency dialog.">}}
+
+1. Click **Change** to confirm your selection.
+
+After database creation, you can only turn causal consistency on or off using the REST API or `crdb-cli`.
+The updated setting only affects commands and operations received after the change.
 
 ### Causal consistency side effects
 

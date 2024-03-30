@@ -10,43 +10,82 @@ description: Information and requirements for using multiple IP addresses or IPv
 linkTitle: Multi-IP and IPv6
 weight: $weight
 ---
-Redis Enterprise Software (RS) supports server/instances/VMs with
-multiple IP addresses, as well as IPv6 addresses.
+Redis Enterprise Software supports servers, instances, and VMs with
+multiple IPv4 or IPv6 addresses.
 
 ## Traffic overview
 
-RS related traffic can be logically and physically divided into internal
-traffic and external traffic:
+Redis Enterprise Software traffic is divided into internal traffic and external traffic:
 
-- "Internal traffic" refers to internal cluster communications, such
-    as communications between the nodes for cluster management purposes.
-- "External traffic" refers to communications between the clients and
-    the databases, as well as connections to the management UI in the
-    browser.
+- "Internal traffic" refers to internal cluster communications, such as communications between the nodes for cluster management.
 
-When only one IP address exists on a machine that serves as an RS node,
-it is used for both internal and external traffic.
+- "External traffic" refers to communications between clients and databases and connections to the Cluster Manager UI.
+
+When only one IP address exists on a machine that serves as a Redis Enterprise node, it is used for both internal and external traffic.
 
 ## Multiple IP addresses
 
-When more than one IP address exists on an RS node:
+During node configuration on a machine with multiple IP addresses, you must assign one address for internal traffic and one or more other addresses for external traffic.
 
-- One of the IPv4 addresses is used for internal traffic
-- Other IP addresses may only be used for external traffic
+If the cluster uses IPv4 for internal traffic, all communication between cluster nodes uses IPv4 addresses. If the cluster uses IPv6 for internal traffic, all communication between cluster nodes uses IPv6 addresses.
 
-As part of the node configuration process, if the machine has multiple
-IP addresses, you are required to assign one of the machine's IPv4
-addresses for internal traffic use, and assign one or more IPv4/IPv6
-addresses for external traffic.
+To update IP address configuration after cluster setup, see [Change internal IP address](#change-internal-ip-address) or [Configure external IP addresses](#configure-external-ip-addresses).
 
-If at a later stage you would like to update the IP address allocation,
-run the relevant commands in [`rladmin` command-line interface
-(CLI)]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}).
+## Enable IPv6 for internal traffic
+
+IPv6 for internal communication is supported only for new clusters with Redis Enterprise Software version 7.4.2 or later.
+
+If the server has only IPv6 interfaces, IPv6 is automatically used for internal and external traffic. Otherwise, internal traffic uses IPv4 by default. 
+
+To use IPv6 for internal traffic on a machine with both IPv4 and IPv6 interfaces, set `use_internal_ipv6` to `true` when you create a cluster using the [bootstrap REST API request]({{< relref "/operate/rs/references/rest-api/requests/bootstrap#post-bootstrap" >}}):
+
+```sh
+POST /v1/bootstrap/create_cluster
+{
+    "action": "create_cluster",
+    "cluster": { 
+        "name": "cluster.fqdn" 
+    },
+    "credentials": {
+       "username": "admin_username",
+       "password": "admin_password"
+    },
+    "node": {
+       "identity": {
+          "addr": "2001:DB8::/32",
+          "external_addr": ["2001:0db8:85a3:0000:0000:8a2e:0370:7334"],
+          "use_internal_ipv6": true
+       },
+    },
+    ...
+}
+```
+
+When other IPv6 nodes join a cluster that has `use_internal_ipv6` enabled, they automatically use IPv6 for internal traffic. Do not manually set `use_internal_ipv6` when joining a node to an existing IPv6 cluster, or a `NodeBootstrapError` can occur if the values do not match.
+
+If you try to add a node without an IPv6 interface to a cluster that has `use_internal_ipv6` enabled, a `NodeBootstrapError` occurs.
+
+The host file `/etc/hosts` on each node in the cluster must include the following entry:
+
+```sh
+::1 localhost
+```
 
 ## Change internal IP address
 
-When manually configuring an internal address for a node, make sure the address is valid and bound to an active interface on the node. Failure to do so prevents the node from coming back online and rejoining the
-cluster.
+If you need to update the internal IP address in the OS, you must remove that node from the Redis Enterprise cluster, make the IP change, and then add the node back into the cluster.
+
+Before you change an internal IP address, consider the following:
+
+- Verify the address is valid and bound to an active interface on the node. Failure to do so prevents the node from coming back online and rejoining the cluster.
+
+- Joining a node that only has IPv4 network interfaces to a master node with IPv6 enabled causes a `NodeBootstrapError`.
+
+- Joining a node that only has IPv6 network interfaces to a master node that does not have IPv6 enabled causes a `NodeBootstrapError`.
+
+{{<note>}}
+You cannot change the internal address from IPv4 to IPv6 or IPv6 to IPv4 in a running cluster. You can only change the internal address within the same protocol as the cluster.
+{{</note>}}
 
 To update a node's internal IP address:
 
@@ -125,3 +164,13 @@ during the node bootstrap process,
 when prompted to provide an IP of an existing node in the cluster,
 if you use the node's IP, provide the node's internal IP address.
 {{< /note >}}
+
+## Known limitations
+
+- Using IPv6 for internal traffic is supported only for new clusters running Redis Enterprise Software version 7.4.2 or later.
+
+- Changing an existing cluster's internal traffic from IPv4 to IPv6 is not supported.
+
+- All nodes must use the same protocol for internal traffic.
+
+- If a Redis Enterprise node's host machine has both IPv4 and IPv6 addresses, internal communication within the node initially uses IPv4 until the bootstrap process finishes.

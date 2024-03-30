@@ -1,8 +1,8 @@
 ---
+description: An overview of RedisVL
 linkTitle: Overview
 title: RedisVL Overview
 type: integration
-description: An overview of RedisVL
 weight: 1
 ---
 

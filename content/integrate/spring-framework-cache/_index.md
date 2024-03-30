@@ -13,7 +13,9 @@ categories:
 - client
 description: Plug Redis into your Spring application with minimal effort
 group: framework
-summary: Spring Data Redis implements the Spring framework's cache abstraction for Redis, which allows you to plug Redis into your Spring application with minimal effort.
+summary: Spring Data Redis implements the Spring framework's cache abstraction for
+  Redis, which allows you to plug Redis into your Spring application with minimal
+  effort.
 type: integration
 weight: 8
 ---

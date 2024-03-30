@@ -9,7 +9,6 @@ categories:
 - rc
 description: Learn how to build with Redis Stack and Spring
 group: library
-linkTitle: RedisOM for Java
 stack: true
 summary: The Redis OM for Java library is based on the Spring framework and provides
   object-mapping abstractions.

@@ -10,47 +10,73 @@ linktitle: Manage
 weight: 30
 ---
 
-You can configure and manage your Active-Active database from either the admin console or the command line.
+You can configure and manage your Active-Active database from either the Cluster Manager UI or the command line.
 
-To change the global configuration of the Active-Active database, use the [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}).
+To change the global configuration of the Active-Active database, use [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}).
 
-If you need to apply changes locally to one database instance, you use the admin console or the `rladmin` CLI.
-
-If you are using the new Cluster Manager UI, switch to the legacy admin console to manage Active-Active databases.
-
-{{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
+If you need to apply changes locally to one database instance, you use the Cluster Manager UI or [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}).
 
 ## Database settings
 
-The following table shows a list of database settings, tools you can use to change those settings, and links to more information.
-
-Much of the Active-Active database settings can be changed after the database has been created. One notable exception is database clustering. Database clustering can't be turned on or off after the database has been created and will remain the same through the lifetime of the database.
+Many Active-Active database settings can be changed after database creation. One notable exception is database clustering. Database clustering can't be turned on or off after the database has been created.
 
 ## Participating clusters
 
 You can add and remove participating clusters of an Active-Active database to change the topology.
-To manage the changes to Active-Active topology, use the [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/" >}}) tool or the participating clusters list in the admin console.
-You can make multiple changes at once and changes will be committed when the database configuration is saved.
-
-{{< image filename="/images/rs/add-active-active-participants.png" >}}
+To manage the changes to Active-Active topology, use [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/" >}}) or the participating clusters list in the Cluster Manager UI.
 
 ### Add participating clusters
 
-All of the existing participating clusters must be online and in a syncing state when you add new participating clusters.
+All existing participating clusters must be online and in a syncing state when you add new participating clusters.
 
 New participating clusters create the Active-Active database instance based on the global Active-Active database configuration.
 After you add new participating clusters to an existing Active-Active database,
 the new database instance can accept connections and read operations.
 The new instance does not accept write operations until it is in the syncing state.
 
+{{<note>}}
+You cannot add RAM-only clusters and [flash-enabled clusters]({{< relref "/operate/rs/databases/auto-tiering" >}}) to the same Active-Active configuration.
+{{</note>}}
+
+To add a new participating cluster to an existing Active-Active configuration using the Cluster Manager UI:
+
+1. Select the Active-Active database from the **Databases** list and go to its **Configuration** screen.
+
+1. Click **Edit**.
+
+1. In the **Participating clusters** section, go to **Other participating clusters** and click **+ Add cluster**.
+
+1. In the **Add cluster** configuration panel, enter the new cluster's URL, port number, and the admin username and password for the new participating cluster:
+
+    {{<image filename="images/rs/screenshots/databases/active-active-databases/participating-clusters-add-cluster.png" alt="Add cluster panel.">}}
+
+1. Click **Join cluster** to add the cluster to the list of participating clusters. 
+
+1. Click **Save**.
+
+
 ### Remove participating clusters
 
-All of the existing participating clusters must be online and in a syncing state when you remove an online participating clusters.
-If you must remove offline participating clusters, you can do this with forced removal.
-If a participating cluster that was removed forcefully returns attempts to re-join the cluster,
-it will have an out of date on Active-Active database membership.
+All existing participating clusters must be online and in a syncing state when you remove an online participating cluster.
+If you must remove offline participating clusters, you can forcefully remove them.
+If a forcefully removed participating cluster tries to rejoin the cluster,
+its Active-Active database membership will be out of date.
 The joined participating clusters reject updates sent from the removed participating cluster.
-To avoid re-join attempts, purge the forcefully removed instance from the participating cluster.
+To prevent rejoin attempts, purge the forcefully removed instance from the participating cluster.
+
+To remove a participating cluster using the Cluster Manager UI:
+
+1. Select the Active-Active database from the **Databases** list and go to its **Configuration** screen.
+
+1. Click **Edit**.
+
+1. In the **Participating clusters** section, point to the cluster you want to delete in the **Other participating clusters** list:
+
+    {{<image filename="images/rs/screenshots/databases/active-active-databases/participating-clusters-edit-delete.png" alt="Edit and delete buttons appear when you point to an entry in the Other participating clusters list.">}}
+
+1. Click {{< image filename="/images/rs/buttons/delete-button.png#no-click" alt="The Delete button" width="25px" >}} to remove the cluster.
+
+1. Click **Save**.
 
 ## Replication backlog
 

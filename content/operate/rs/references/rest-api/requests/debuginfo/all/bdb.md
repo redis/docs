@@ -11,9 +11,13 @@ linkTitle: bdb
 weight: $weight
 ---
 
+{{<banner-article>}}
+This REST API path is deprecated as of Redis Enterprise Software version 7.4.2. Use the new path [`/v1/bdbs/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/bdbs/debuginfo" >}}) instead.
+{{</banner-article>}}
+
 | Method | Path | Description |
 |--------|------|-------------|
-| [GET](#get-all-debuginfo-bdb) | `/v1/debuginfo/all/bdb{bdb_uid}` | Get debug info for a database from all nodes |
+| [GET](#get-all-debuginfo-bdb) | `/v1/debuginfo/all/bdb/{bdb_uid}` | Get debug info for a database from all nodes |
 
 ## Get database debug info for all nodes {#get-all-debuginfo-bdb}
 

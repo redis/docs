@@ -61,6 +61,8 @@ Upgrade a database.
 | preserve_roles | boolean | Preserve shards' master/replica roles (requires an extra failover) (default: false) |
 | parallel_shards_upgrade | integer | Max number of shards to upgrade in parallel (default: all) |
 | modules | list of modules | List of dicts representing the modules that will be upgraded.<br></br>Each dict includes:<br></br>• `current_module`: uid of a module to upgrade<br></br>• `new_module`: uid of the module we want to upgrade to<br></br>• `new_module_args`: args list for the new module (no defaults for the three module-related parameters).
+| redis_version | version number | Upgrades the database to the specified Redis version instead of the latest version |
+| latest_with_modules | boolean | Upgrades the database to the latest Redis version and latest supported versions of modules available in the cluster |
 
 ### Response {#post-response} 
 

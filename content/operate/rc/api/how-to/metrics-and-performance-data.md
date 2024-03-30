@@ -14,7 +14,7 @@ You can get metrics and usage statistics for a database from the API operation:
 
 `GET /subscriptions/{subscription-id}/databases/{database-id}/metrics?metricSpan={metric-span}`.
 
-The metrics API is supported for Flexible and Annual subscriptions.
+The metrics API is supported for Redis Cloud Pro subscriptions.
 
 The query accepts 3 parameters:
 

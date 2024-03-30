@@ -25,21 +25,21 @@ Since there is no standard for JSON path syntax, Redis Stack implements its own.
 
 ### JSONPath syntax
 
-RedisJSON v2.0 and later support the [JSONPath syntax]({{< relref "/develop/data-types/json/path" >}}/#jsonpath-support), which resembles [Goessner's design](https://goessner.net/articles/JsonPath/):
+RedisJSON v2.0 and later support the [JSONPath syntax]({{< relref "/develop/data-types/json/path" >}}), which resembles [Goessner's design](https://goessner.net/articles/JsonPath/):
   
   - Paths start with a dollar sign (`$`), which represents the root of the JSON document.
 
-  - See the [JSONPath syntax table]({{< relref "/develop/data-types/json/path" >}}/#jsonpath-syntax) to learn how to access various elements within a JSON document.
+  - See the [JSONPath syntax table]({{< relref "/develop/data-types/json/path" >}}) to learn how to access various elements within a JSON document.
 
 The following path refers to `headphones`, which is a child of `inventory` under the root:
 
 `$.inventory.headphones`
   
-See [JSONPath examples]({{< relref "/develop/data-types/json/path" >}}/#jsonpath-examples) for examples with more complex syntax.
+See [JSONPath examples]({{< relref "/develop/data-types/json/path" >}}) for examples with more complex syntax.
 
 ### Legacy path syntax
 
-The [legacy path syntax]({{< relref "/develop/data-types/json/path" >}}/#legacy-path-syntax) refers to the path implementation in RedisJSON v1. RedisJSON v2 still supports this legacy path syntax in addition to JSONPath syntax.
+The [legacy path syntax]({{< relref "/develop/data-types/json/path" >}}) refers to the path implementation in RedisJSON v1. RedisJSON v2 still supports this legacy path syntax in addition to JSONPath syntax.
 
 The legacy path syntax works as follows:
 
@@ -79,6 +79,6 @@ For details about how Redis Enterprise resolves JSON operation conflicts that ca
 
 ## More info
 
-- [JSON quick start]({{< relref "/develop/data-types/json/" >}})
+- [JSON quick start]({{< relref "/develop/data-types/json/" >}}#use-redisjson)
 - [JSON commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json/commands" >}})
 - [RedisJSON source](https://github.com/RedisJSON/RedisJSON)

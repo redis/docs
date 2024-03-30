@@ -9,7 +9,6 @@ categories:
 - rc
 description: Learn how to build with Redis Stack and .NET
 group: library
-linkTitle: RedisOM for .NET
 stack: true
 summary: Redis OM for .NET is an object-mapping library for Redis.
 title: Redis OM .NET

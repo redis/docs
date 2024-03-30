@@ -142,7 +142,7 @@ Now that your group is populated with its users, assign the SAML integration app
 
     {{<image filename="images/rc/saml/okta_saml_group_8.png" alt="Use the Okta admin console to locate the Org2Org application template." >}}
 
-The mapping field is now defined as a default for each member of the group. 
+    The mapping field is now defined as a default for each member of the group. 
 
     {{<image filename="images/rc/saml/okta_saml_group_9.png" alt="Use the Okta admin console to locate the Org2Org application template." >}}
 
@@ -259,4 +259,4 @@ Replace `<ID>` so it matches the AssertionConsumerService Location URL ID (the c
 
 You have successfully configured SAML as an identity provider.
 
-    {{<image filename="images/rc/saml/sm_saml_13.png" >}}
+{{<image filename="images/rc/saml/sm_saml_13.png" >}}

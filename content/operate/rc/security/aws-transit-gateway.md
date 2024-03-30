@@ -18,10 +18,10 @@ weight: 80
 - One or more Transit Gateway Connect attachments
 - One or more transit gateway peering connections
 
-You can connect your Redis flexible subscription to a Transit Gateway which is attached to the VPC of your application. This lets your application connect securely to your Redis Cloud database while optimizing performance.
+You can connect your Redis Cloud Pro subscription to a Transit Gateway which is attached to the VPC of your application. This lets your application connect securely to your Redis Cloud database while optimizing performance.
 
 {{< note >}}
-Transit Gateway is available only with Flexible or Annual subscriptions.  It is not supported for Fixed or Free subscriptions.
+Transit Gateway is available only with Redis Cloud Pro.  It is not supported for Redis Cloud Essentials.
 {{< /note >}}
 
 ## Considerations
@@ -46,11 +46,15 @@ Consider using VPC peering and Transit Gateway in parallel for the following sit
 
 Before you can set up Transit Gateway:
 
-1. [Create a flexible subscription]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}}) from the Redis cloud [admin console](https://app.redislabs.com/#/).
+1. [Create a database with Redis Cloud Pro]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) from the Redis cloud [admin console](https://app.redislabs.com/#/).
 
 1. [Create a transit gateway](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-transit-gateways.html#create-tgw) from the [AWS VPC console](https://console.aws.amazon.com/vpc/).
 
 1. [Share the transit gateway](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-transit-gateways.html#tgw-sharing) from the [AWS resource access manager](https://console.aws.amazon.com/ram/).
+
+{{< note >}}
+If you have a self-managed AWS account, you will need to set its IAM Instance Policy to include Transit Gateway. See [Create IAM resources using the AWS console]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources/aws-console.md" >}}) (deprecated) for more information.
+{{< /note >}}
 
 ## AWS Transit Gateway
 
@@ -153,5 +157,9 @@ To finish Transit gateway setup, [update your route tables for the peering conne
 1. In the **Target** field, select **Transit Gateway** and select the relevant **Transit gateway ID**.
 
 After Transit gateway is established, we recommend switching your application connection string to the private endpoint.
+
+{{< note >}}
+If you've enabled the database's [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}}), you must also [add the Transit Gateway's IP address to the CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist#define-cidr-allow-list" >}}) to connect to the database via the private endpoint.
+{{< /note >}}
 
 

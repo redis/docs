@@ -20,7 +20,7 @@ When you activate maintenance mode, Redis Enterprise does the following:
 
     Maintenance mode does not protect against quorum loss. If you activate maintenance mode for the majority of nodes in a cluster and restart them simultaneously, quorum is lost, which can lead to  data loss.
 
-1. Takes a snapshot of the node configuration in order to record the shard and endpoint configuration of the node.
+1. If no maintenance mode snapshots already exist or if you use `overwrite_snapshot` when you activate maintenance mode, Redis Enterprise creates a new node snapshot that records the node's shard and endpoint configuration.
 
 1. Marks the node as a quorum node to prevent shards and endpoints from migrating to it.
 
@@ -37,7 +37,7 @@ Add the `demote_node` option to the `rladmin` command to [demote a master node](
 To activate maintenance mode for a node, run the following command:
 
 ```sh
-rladmin node <node_id> maintenance_mode on
+rladmin node <node_id> maintenance_mode on overwrite_snapshot
 ```
 
 You can start server maintenance if:
@@ -57,7 +57,7 @@ If the maintenance node fails in this case, the master shards do not have replic
 To activate maintenance mode without replica shard migration, run:
 
 ```sh
-rladmin node <node_id> maintenance_mode on keep_slave_shards
+rladmin node <node_id> maintenance_mode on evict_ha_replica disabled evict_active_active_replica disabled
 ```
 
 ### Demote a master node
@@ -80,7 +80,7 @@ Avoid activating maintenance mode when it is already active.  Maintenance mode a
 
 When you deactivate maintenance mode, Redis Enterprise:
 
-1. Loads a [specified snapshot](#specify-a-snapshot) or defaults to the latest snapshot.
+1. Loads a [specified node snapshot](#specify-a-snapshot) or defaults to the latest maintenance mode snapshot.
 
 1. Unmarks the node as a quorum node to allow shards and endpoints to migrate to the node.
 
@@ -98,7 +98,7 @@ By default, a snapshot is required to deactivate maintenance mode.  If the snaps
 
 ### Specify a snapshot
 
-Redis Enterprise saves a snapshot of the node configuration every time you turn on maintenance mode. If multiple snapshots exist, you can restore a specific snapshot when you turn maintenance mode off.
+When you turn off maintenance mode, you can restore the node configuration from a maintenance mode snapshot or any snapshots previously created by [`rladmin node <node_id> snapshot create`]({{< relref "/operate/rs/references/cli-utilities/rladmin/node/snapshot#node-snapshot-create" >}}). If you do not specify a snapshot, Redis Enterprise uses the latest maintenance mode snapshot by default.
 
 To get a list of available snapshots, run:
 
@@ -177,18 +177,22 @@ Now node 2 has `0/0` shards because shards cannot migrate to it while it is in m
 
 ## Maintenance mode REST API
 
-You can also turn maintenance mode on or off via [REST API requests]({{< relref "/operate/rs/references/rest-api" >}}) to [<nobr>POST `/nodes/{node_uid}/actions/{action}`</nobr>]({{< relref "/operate/rs/references/rest-api/requests/nodes/actions#post-node-action" >}}).
+You can also turn maintenance mode on or off using [REST API requests]({{< relref "/operate/rs/references/rest-api" >}}) to [<nobr>POST `/nodes/{node_uid}/actions/{action}`</nobr>]({{< relref "/operate/rs/references/rest-api/requests/nodes/actions#post-node-action" >}}).
 
 ### Activate maintenance mode (REST API)
 
 Use <nobr>`POST /nodes/{node_uid}/actions/maintenance_on`</nobr> to activate maintenance mode:
 
-```
+```sh
 POST https://<hostname>:9443/v1/nodes/<node_id>/actions/maintenance_on
-     '{"keep_slave_shards":true}'
+{
+    "overwrite_snapshot": true,
+    "evict_ha_replica": true,
+    "evict_active_active_replica": true
+}
 ```
 
-The `keep_slave_shards` boolean flag [prevents replica shard migration](#prevent-replica-shard-migration) when set to `true`.
+You can set `evict_ha_replica` and `evict_active_active_replica` to `false` to [prevent replica shard migration](#prevent-replica-shard-migration).
 
 The `maintenance_on` request returns a JSON response body:
 
@@ -203,9 +207,9 @@ The `maintenance_on` request returns a JSON response body:
 
 Use <nobr>`POST /nodes/{node_uid}/actions/maintenance_off`</nobr> deactivate maintenance mode:
 
-```
+```sh
 POST https://<hostname>:9443/v1/nodes/<node_id>/actions/maintenance_off
-     '{"skip_shards_restore":false}'
+{ "skip_shards_restore": false }
 ```
 
 The `skip_shards_restore` boolean flag allows the `maintenance_off` action to [skip shard restoration](#skip-shard-restoration) when set to `true`.
@@ -225,7 +229,7 @@ You can send a request to [<nobr>GET `/nodes/{node_uid}/actions/{action}`</nobr>
 
 This request returns the status of the `maintenance_on` action:
 
-```
+```sh
 GET https://<hostname>:9443/v1/nodes/<node_id>/actions/maintenance_on
 ```
 

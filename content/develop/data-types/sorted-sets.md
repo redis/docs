@@ -214,7 +214,7 @@ the #4932 best score here").
 
 ## Examples
 
-* There are two ways we can use a sorted set to represent a leaderbaord. If we know a racer's new score, we can update it directly via the [`ZADD`]({{< relref "/commands/zadd" >}}) command. However, if we want to add points to an existing score, we can use the [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) command.
+* There are two ways we can use a sorted set to represent a leaderboard. If we know a racer's new score, we can update it directly via the [`ZADD`]({{< relref "/commands/zadd" >}}) command. However, if we want to add points to an existing score, we can use the [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) command.
 {{< clients-example ss_tutorial leaderboard >}}
 > ZADD racer_scores 100 "Wood"
 (integer) 1

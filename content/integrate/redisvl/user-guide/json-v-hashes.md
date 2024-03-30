@@ -1,8 +1,8 @@
 ---
+description: Storing JSON and hashes with RedisVL
 linkTitle: JSON vs. hash storage
 title: JSON vs. hash storage
 type: integration
-description: Storing JSON and hashes with RedisVL
 weight: 6
 ---
 

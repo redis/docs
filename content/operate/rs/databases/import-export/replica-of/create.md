@@ -71,7 +71,7 @@ To configure a Replica Of database in the same Redis Enterprise cluster as the s
 
 To configure a Replica Of database in a different Redis Enterprise cluster from the source database:
 
-1. Sign in to the admin console of the cluster hosting the source database.
+1. Sign in to the Cluster Manager UI of the cluster hosting the source database.
 
     1. In **Databases**, select the source database and then select the **Configuration** tab.
 
@@ -85,7 +85,7 @@ To configure a Replica Of database in a different Redis Enterprise cluster from 
 
         If you regenerate the password, replication to existing destinations fails until their credentials are updated with the new password.
 
-1. Sign in to the admin console of the destination database's cluster.
+1. Sign in to the Cluster Manager UI of the destination database's cluster.
 
 1. [Create a new database]({{< relref "/operate/rs/databases/create" >}}) or select an existing database from the **Databases** screen.
 
@@ -149,7 +149,7 @@ To encrypt Replica Of synchronization traffic, configure encryption for the [rep
 
 To enable TLS for Replica Of in the destination database:
 
-1. From the admin console of the cluster hosting the source database:
+1. From the Cluster Manager UI of the cluster hosting the source database:
 
     1. Go to **Cluster > Security > Certificates**.
 

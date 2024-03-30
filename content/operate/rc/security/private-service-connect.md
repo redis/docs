@@ -14,7 +14,7 @@ weight: 50
 
 [Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) (PSC) creates a private endpoint that allows secure connections to Redis Cloud databases without exposing your application's [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC). 
 
-This feature is only available for Flexible and Annual subscriptions hosted on Google Cloud.
+This feature is only available for Redis Cloud Pro subscriptions hosted on Google Cloud.
 
 ## Considerations
 
@@ -135,6 +135,10 @@ Once your Private Service Connect endpoint is active, you can connect your appli
 
 1. Copy the endpoint and use it in your application to connect to your database.
 
+{{< note >}}
+Once your Private Service Connect endpoint is active, you must connect to the database from the Private Service Connect endpoint if you want to connect with Private Service connect. If you previously used the public or private endpoint to connect to your database, you must migrate any connections to the Private Service Connect endpoint.
+{{< /note >}}
+
 
 ## Deactivate Private Service Connect {#deactivate-psc}
 
@@ -162,10 +166,12 @@ To deactivate Private Service Connect for your subscription:
 
     {{<image filename="images/rc/button-subscription-connectivity-psc-remove-service-confirm.png" width="100px" alt="Use the Confirm button to deactivate Private Service Connect." >}}
 
+Once you remove all of your Private Service Connect endpoints and deactivate it, you must migrate any connections from a Private Service Connect endpoint to the public or private endpoint of your database.
+
 ## Limitations
 
 Private Service Connect has the following limitations in Redis Cloud:
 
-- Although Redis Cloud supports using Private Service Connect with Enterprise clustering, you cannot use the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) with Private Service Connect enabled.
+- Although Redis Cloud supports using Private Service Connect with Enterprise clustering, you cannot use the [OSS Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) with Private Service Connect enabled.
 
-- Private Service Connect is not available for clusters with Redis versions 6.2.12 and earlier. Contact [Redis support](https://redis.com/company/support) to upgrade the cluster to a compatible version or [create a new subscription]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}}).
+- Private Service Connect is not available for clusters with Redis versions 6.2.12 and earlier. Contact [Redis support](https://redis.com/company/support) to upgrade the cluster to a compatible version or [create a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}).

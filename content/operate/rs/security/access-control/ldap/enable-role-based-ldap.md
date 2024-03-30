@@ -83,6 +83,14 @@ These settings define the group authorization query:
 
 In this example, `%D` is replaced by the Distinguished Name of the user attempting to access the Redis Enterprise resource.
 
+### Authentication timeout
+
+The **Authentication timeout** setting determines the connection timeout to the LDAP server during user authentication.
+
+By default, the timeout is 5 seconds, which is recommended for most cases.
+ 
+However, if you enable multi-factor authentication (MFA) for your LDAP server, you might need to increase the timeout to provide enough time for MFA verification. You can set it to any integer in the range of 5-60 seconds.
+
 ## More info
 
 - Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}})

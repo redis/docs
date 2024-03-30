@@ -37,9 +37,7 @@ especially helpful if you have multiple clusters.
 
 ### Set time zone
 
-You can set your time zone in the **Time zone** field. This is
-recommended to make sure the date, time fields, and log
-entries are shown in your preferred time zone.
+You can change the **Time zone** field to ensure the date, time fields, and log entries in the Cluster Manager UI are shown in your preferred time zone. This setting doesn't affect other system logs or services.
 
 ## Alert settings tab
 

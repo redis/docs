@@ -33,7 +33,7 @@ To create the Okta SAML integration application:
 
     * **App name**: Redis Cloud
 
-    * **App logo**: Upload a [Redis icon](https://saml-integration-logo.s3.amazonaws.com/redis-cube-red_white-rgb.png).
+    * **App logo**: Upload a Redis icon.
 
     Select **Next**.
 
@@ -164,7 +164,7 @@ Now that your group is populated with its users, you can assign the SAML integra
 
     {{<image filename="images/rc/saml/okta_saml_group_8.png" >}}
 
-  The mapping field has now been defined as a default for each member of the group.
+    The mapping field has now been defined as a default for each member of the group.
 
     {{<image filename="images/rc/saml/okta_saml_group_9.png" >}}
 

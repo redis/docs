@@ -8,7 +8,6 @@ categories:
 - rc
 description: Explains how to use Pulumi to provision Redis Cloud infrastructure
 group: provisioning
-linkTitle: Pulumi provider for Redis Cloud
 summary: With the Redis Cloud Resource Provider you can provision Redis Cloud resources
   by using the programming language of your choice.
 type: integration
@@ -29,7 +28,7 @@ With the [Redis Cloud Resource Provider](https://www.pulumi.com/registry/package
 The Redis Cloud Pulumi provider is based on the [Redis Cloud Terraform provider]({{< relref "/integrate/terraform-provider-for-redis-cloud/" >}}).
 
 {{<note>}}
-The Redis Cloud Pulumi Redis Cloud provider supports Flexible subscriptions. It does not support Fixed subscriptions.
+The Redis Cloud Pulumi Redis Cloud provider supports Redis Cloud Pro. It does not support Redis Cloud Essentials.
 {{</note>}}
 
 See [Get started with Pulumi]({{< relref "/integrate/pulumi-provider-for-redis-cloud/get-started" >}}) for an example of how to use the Pulumi provider with Python.

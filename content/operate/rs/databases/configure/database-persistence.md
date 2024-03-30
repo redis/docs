@@ -99,15 +99,9 @@ crdb-cli crdb update --crdb-guid <CRDB_GUID> --default-db-config \
 
 ## Auto Tiering data persistence
 
-If you are enabling data persistence for databases running on Redis
-Enterprise Flash, by default both master and replica shards are
-configured to write to disk. This is unlike a standard Redis Enterprise
-Software database where only the replica shards persist to disk. This
-master and replica dual data persistence with replication is done to
-better protect the database against node failures. Flash-based databases
-are expected to hold larger datasets and repair times for shards can
-be longer under node failures. Having dual-persistence provides better
-protection against failures under these longer repair times.
+Auto Tiering flash storage is not considered persistent storage.
+
+Flash-based databases are expected to hold larger datasets, and shard repair times can take longer after node failures. To better protect the database against node failures with longer repair times, consider enabling master and replica dual data persistence.
 
 However, dual data persistence with replication adds some processor
 and network overhead, especially for cloud configurations
@@ -115,10 +109,11 @@ with network-attached persistent storage, such as EBS-backed
 volumes in AWS.
 
 There may be times when performance is critical for your use case and
-you don't want to risk data persistence adding latency. If that is the
-case, you can disable data-persistence on the master shards using the
+you don't want to risk data persistence adding latency.
+
+You can enable or turn off data persistence on the master shards using the
 following `rladmin` command:
 
 ```sh
-rladmin tune db <database_ID_or_name> master_persistence disabled
+rladmin tune db <database_ID_or_name> master_persistence <disabled | enabled>
 ```

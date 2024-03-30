@@ -63,6 +63,6 @@ After you load a function into your database, you can run them manually or use t
 
 ## More info
 
-- [Triggers and functions quick start]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}}/quick_start/)
+- [Triggers and functions quick start]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}}quick_start/)
 
-- [Triggers and functions documentation]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}}/)
+- [Triggers and functions documentation]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}})

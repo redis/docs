@@ -1,8 +1,8 @@
 ---
+description: The schema APIs
 linkTitle: Schema
 title: Schema
 type: integration
-description: The schema APIs
 weight: 2
 ---
 
@@ -334,4 +334,4 @@ Each field type supports specific attributes that customize its behavior. Below 
 - epsilon: Range search boundary factor.
 
 Note:
-: See fully documented Redis-supported fields and options here: [https://redis.io/commands/ft.create/](https://redis.io/commands/ft.create/)
+: See fully documented Redis-supported fields and options here: [{{< relref "/commands" >}}/ft.create/]({{< relref "/commands" >}}/ft.create/)
