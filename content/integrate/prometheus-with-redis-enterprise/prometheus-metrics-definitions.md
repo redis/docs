@@ -6,7 +6,7 @@ categories:
 - integrate
 - rs
 description: The metrics available to Prometheus.
-group: subpage
+group: observability
 linkTitle: Prometheus metrics
 summary: You can use Prometheus and Grafana to collect and visualize your Redis Enterprise
   Software metrics.
