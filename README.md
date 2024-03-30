@@ -86,7 +86,7 @@ RelRefs with dots (`.`) and hashtags (`#`) in the reference name, such as `/comm
 [compaction]({{< baseurl >}}/develop/data-types/timeseries/configuration#compaction_policy)
 ```
 
-## Images
+### Images
 
 The image shortcode doesn't need to be closed anymore. Here is an example;
 
@@ -102,7 +102,7 @@ We added a new property `class` which allows you to override the CSS class of th
 {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" >}} &nbsp; {{< image filename="/images/rc/icon-database-update-status-active.png#no-click" alt="Active database status" class="inline" >}}
 ```
 
-## Templating
+### Templating
 
 Variables are scoped in the context of their block. Overriding a variable within an if block doesn't change the variable value as soon as you leave that block. This is a specific limitation of the Go templating language.
 
@@ -137,3 +137,16 @@ The redis.io template does add a list of links to child pages by default to the 
 ```
 hideListLinks: true
 ```
+## Troubleshooting
+
+### NIL pointer error when rendering a section
+
+You might sometimes see the following error message:
+
+```
+nil pointer evaluating page.Page.Params
+```
+
+This happend for me when Hugo executed the `bannerText` logic, which inspected all parent pages by checking if they have a banner text set. The problem was that one of my parent folders missed an `_index.md` file, which caused that the folder couldn't be identified as a page. The solution was to add an `_index.md` file to the folder that didn't have it yet.
+
+
