@@ -29,7 +29,7 @@ To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< 
 
    {{<image filename="images/rc/saml/google_workspace_saml_1.png" >}}
 
-1. To begin, change the **App name** and **Description** to **Redis Cloud**. You can also choose an **App icon** for the application. We suggest you upload a [Redis icon](https://saml-integration-logo.s3.amazonaws.com/redis-cube-red_white-rgb.png). Once complete, select **Continue**.
+1. To begin, change the **App name** and **Description** to **Redis Cloud**. You can also choose an **App icon** for the application. We suggest you upload a Redis icon. Once complete, select **Continue**.
 
    {{<image filename="images/rc/saml/google_workspace_saml_2.png" >}}
 

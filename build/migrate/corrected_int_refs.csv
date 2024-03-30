@@ -12,6 +12,6 @@ broken_ref;fixed_ref;comment
 /develop/connect/clients/om-clients/stack-dotnet;/integrate/redisom-for-net;
 /develop/connect/clients/om-clients/stack-node;/integrate/redisom-for-node-js/;
 /develop/connect/clients/om-clients/stack-python;/integrate/redisom-for-python/;
-/develop/connect/clients/om-clients/stack-spring;/integrate/redisom-for-node-js/;
+/develop/connect/clients/om-clients/stack-spring;/integrate/redisom-for-java/;
 
 

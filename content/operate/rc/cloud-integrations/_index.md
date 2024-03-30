@@ -1,6 +1,6 @@
 ---
-LinkTitle: Cloud integrations
-Title: Manage cloud integrations
+LinkTitle: Marketplace integrations
+Title: Manage marketplace integrations
 alwaysopen: false
 categories:
 - docs

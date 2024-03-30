@@ -1,7 +1,7 @@
 ---
+description: How to use RedisVL's CLI
 title: RedisVL CLI
 type: integration
-description: How to use RedisVL's CLI
 ---
 RedisVL is a Python library with a dedicated CLI to help load and create vector search indexes within Redis.
 

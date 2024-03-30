@@ -30,7 +30,7 @@ We recommend the following clients when using a [discovery service]({{< relref "
 
 - [redis-py]({{< relref "/develop/connect/clients/python" >}}) (Python Redis client)
 - [Hiredis](https://github.com/redis/hiredis) (C Redis client)
-- [Jedis]({{< relref "/develop/connect/clients/java" >}}) (Java Redis client)
+- [Jedis]({{< relref "/develop/connect/clients/java/" >}}) (Java Redis client)
 - [NRedisStack]({{< relref "/develop/connect/clients/dotnet" >}}) (.Net Redis client)
 - [go-redis]({{< relref "/develop/connect/clients/go" >}}) (Go Redis client)
 

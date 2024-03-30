@@ -1,8 +1,8 @@
 ---
+description: The LLMCache APIs
 linkTitle: LLMCache
 title: LLMCache
 type: integration
-description: The LLMCache APIs
 weight: 7
 ---
 

@@ -33,7 +33,7 @@ You can use the API to:
 
 1. [Manage subscriptions]({{< relref "/operate/rc/api/examples/manage-subscriptions.md" >}})
 1. Database examples
-    1. [Create database]({{< relref "/operate/rc/api/examples/create-database.md" >}})
+    1. [Create database]({{< relref "/operate/rc/api/examples/create-database" >}})
     1. [Update database]({{< relref "/operate/rc/api/examples/update-database.md" >}})
     1. [Back up and import data]({{< relref "/operate/rc/api/examples/back-up-and-import-data.md" >}})
 1. [Manage cloud accounts]({{< relref "/operate/rc/api/examples/manage-cloud-accounts.md" >}})

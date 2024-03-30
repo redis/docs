@@ -24,6 +24,7 @@ An API object that represents a [proxy](https://en.wikipedia.org/wiki/Proxy_serv
 | dynamic_threads_scaling | boolean | Automatically adjust the number of threads|
 | ignore_bdb_cconn_limit | boolean | Ignore client connection limits |
 | ignore_bdb_cconn_output_buff_limits | boolean | Ignore buffer limit |
+| log_level | `crit`<br />`error`<br />`warn`<br />`info`<br />`trace`<br />`debug` | Minimum log level to log. Only logs with this level or greater will be logged. |
 | max_listeners | integer | Max number of listeners |
 | max_servers | integer | Max number of Redis servers |
 | max_threads | integer, <nobr>(range: 1-256)</nobr> | Max number of threads |

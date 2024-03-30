@@ -13,7 +13,7 @@ summary: The Redis Cloud Terraform provider allows you to provision and manage R
   Cloud resources.
 toc: 'true'
 type: integration
-weight: '4'
+weight: $weight
 ---
 
 Here, you'll learn how to use the [Redis Cloud Terraform Provider]({{< relref "/integrate/terraform-provider-for-redis-cloud/" >}}) to create a subscription and a database.
@@ -57,7 +57,7 @@ Here, you'll learn how to use the [Redis Cloud Terraform Provider]({{< relref "/
 
 In your Terraform configuration file, you can add resources and data sources to plan and create subscriptions and databases. See the [Redis Cloud Terraform Registry documentation](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs) for more info about the resources and data sources you can use as part of the Redis Cloud provider.
 
-The steps in this section show you how to plan and create a flexible subscription with one database.
+The steps in this section show you how to plan and create a Redis Cloud Pro subscription with one database.
 
 1. Use the [`rediscloud_payment_method`](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_payment_method) data source to get the payment method ID.
 

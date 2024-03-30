@@ -12,7 +12,7 @@ weight: 40
 The [FLUSHALL]({{< relref "/commands" >}}/flushall) command provides a fast way to remove all data from a database.
 
 {{< note >}}
-When you _flush_ a database, you remove all data.  This is a prerequisite to deleting a database.<br/><br/>
+When you _flush_ a database, you remove all data.<br/><br/>
 
 This _permanently_ removes all data from the database.  The data cannot be recovered, except by restoring from earlier backups.<br/><br/>
 
@@ -27,10 +27,10 @@ There are several ways to do this, depending on your circumstances and environme
 
 The following sections provide some options:
 
-- [`redis-cli`]({{< relref "/operate/rc/databases/flush-data#the-redis-cli-utility" >}})
-- [RedisInsight CLI]({{< relref "/operate/rc/databases/flush-data#redisinsight-cli" >}})
-- [`netcat`]({{< relref "/operate/rc/databases/flush-data#the-netcat-utility" >}})
-- [SASL connection]({{< relref "/operate/rc/databases/flush-data#sasl-connection" >}})
+- [`redis-cli`](#redis-cli)
+- [RedisInsight CLI](#redisinsight)
+- [`netcat`](#netcat)
+- [SASL connection](#sasl-connection)
 
 ### redis-cli
 

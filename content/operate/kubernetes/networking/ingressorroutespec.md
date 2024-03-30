@@ -15,7 +15,7 @@ An Ingress is an API resource that provides a standardized and flexible way to m
 
 Redis Enterprise for Kubernetes supports the Ingress controllers below:
 * [HAProxy](https://haproxy-ingress.github.io/)
-* [NGINX](https://kubernetes.github.io/Ingress-nginx/)
+* [NGINX](https://kubernetes.github.io/ingress-nginx/)
 * [Istio](https://istio.io/latest/docs/setup/getting-started/)
 
 OpenShift users can use [routes]({{< relref "/operate/kubernetes/networking/routes.md" >}}) instead of an Ingress.
@@ -56,7 +56,7 @@ Edit the RedisEnterpriseCluster (REC) spec to add the `ingressOrRouteSpec` field
 * Define the REC API hostname (`apiFqdnUrl`) and database hostname suffix (`dbFqdnSuffix`) you chose when configuring DNS.
 * Set `method` to `ingress`.
 * Set `ssl-passthrough` to "true".
-* Add any additional annotations required for your ingress controller. See [NGINX docs](https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/advanced-configuration-with-annotations/) or [HAproxy docs](https://www.haproxy.com/documentation/kubernetes/latest/community/configuration-reference/ingress/) for more information.
+* Add any additional annotations required for your ingress controller. See [NGINX docs](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/) or [HAproxy docs](https://haproxy-ingress.github.io/docs/configuration/keys/) for more information.
 
 ```sh
 kubectl patch rec  <rec-name> --type merge --patch "{\"spec\": \
@@ -64,9 +64,9 @@ kubectl patch rec  <rec-name> --type merge --patch "{\"spec\": \
       {\"apiFqdnUrl\": \"api-<rec-name>-<rec-namespace>.example.com\", \
       \"dbFqdnSuffix\": \"-db-<rec-name>-<rec-namespace>.example.com\", \
       \"ingressAnnotations\": \
-       {\"kubernetes.io/ingress.class\": \
+       {\"<kubernetes | github>.io/ingress.class\": \
        \"<ingress-controller>\", \
-       \"<ingress-controller>.ingress.kubernetes.io/ssl-passthrough\": \ \"true\"}, \
+       \"<ingress-controller-annotation>/ssl-passthrough\": \ \"true\"}, \
       \"method\": \"ingress\"}}}"
 ```
 

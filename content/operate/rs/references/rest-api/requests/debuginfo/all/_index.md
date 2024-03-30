@@ -12,6 +12,10 @@ linkTitle: all
 weight: $weight
 ---
 
+{{<banner-article>}}
+This REST API path is deprecated as of Redis Enterprise Software version 7.4.2. Use the new path [`/v1/cluster/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/cluster/debuginfo" >}}) instead.
+{{</banner-article>}}
+
 | Method | Path | Description |
 |--------|------|-------------|
 | [GET](#get-all-debuginfo) | `/v1/debuginfo/all` | Get debug info for all nodes |

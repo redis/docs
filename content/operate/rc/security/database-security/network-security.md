@@ -16,9 +16,9 @@ These features are available in most Redis Cloud configurations, as shown here:
 
 | Cloud&nbsp;provider | VPC peering | IP restrictions |
 |:-------------------:|-------------|-----------------|
-| AWS | Flexible and Annual | Fixed (paid), Flexible, and Annual |
-| Google Cloud | Flexible and Annual | Fixed (paid), Flexible, and Annual |
-| Azure | Annual | Annual |
+| AWS | Redis Cloud Pro | Paid Redis Cloud Essentials and Redis Cloud Pro |
+| Google Cloud | Redis Cloud Pro | Paid Redis Cloud Essentials and Redis Cloud Pro |
+| Azure | Redis Cloud Pro | Redis Cloud Pro |
 
 ## IP and subnet restrictions {#ip}
 
@@ -32,7 +32,7 @@ To restrict a database to a specific set of source IP addresses or subnets, see 
 
 A [Virtual Private Cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC) is an isolated set of resources within a [public cloud](https://en.wikipedia.org/wiki/Cloud_computing#Public_cloud), usually having its own subnets and VLAN.
 
-Databases in Flexible and Annual subscriptions are almost always deployed in a Redis VPC. In most cases, you'll need to create a [VPC peering connection]({{< relref "/operate/rc/security/vpc-peering" >}}) to access these databases. A VPC peering connection allows unrestricted network access between two VPCs.
+Redis Cloud Pro databases are almost always deployed in a Redis VPC. In most cases, you'll need to create a [VPC peering connection]({{< relref "/operate/rc/security/vpc-peering" >}}) to access these databases. A VPC peering connection allows unrestricted network access between two VPCs.
 
 Connection creation and supported features vary by public cloud provider. Learn more about VPC usage for [AWS](#vpcs-with-aws), [Google Cloud](#vpcs-with-google-cloud), and [Azure](#vpcs-with-azure).
 

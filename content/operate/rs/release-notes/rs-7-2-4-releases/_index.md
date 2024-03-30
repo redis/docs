@@ -121,6 +121,8 @@ Fields deprecated as of Redis Enterprise v7.2.4:
 
 - `authentication_redis_pass` (replaced with multiple passwords feature in version 6.0.X)
 
+- `slave_ha` cluster policy
+
 Other deprecated fields:
 
 - `import/rdb_url` (deprecated as of Redis Enterprise v4.X)
@@ -173,7 +175,7 @@ Amazon Linux 1 support is considered deprecated and will be removed in a future 
 
 #### Ubuntu 16.04
 
-The deprecation of Ubuntu 16.04 was announced in the [Redis Enterprise Software 6.4.2 release notes](http://localhost:1313/rs/release-notes/rs-6-4-2-releases/#deprecations). As of Redis Enterprise Software 7.2.4, Ubuntu 16.04 is no longer supported.
+The deprecation of Ubuntu 16.04 was announced in the [Redis Enterprise Software 6.4.2 release notes]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases#deprecations" >}}). As of Redis Enterprise Software 7.2.4, Ubuntu 16.04 is no longer supported.
 
 #### RC4 encryption cipher
 
@@ -192,6 +194,8 @@ Please verify that all clients, apps, and connections support TLS 1.2. Support f
 Certain operating systems, such as RHEL 8, have already removed support for the earlier protocols. Redis Enterprise Software cannot support connection protocols that are not supported by the underlying operating system.
 
 ### Supported platforms
+
+The following table provides a snapshot of supported platforms as of this Redis Enterprise Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
 
 <span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Enterprise Software.
 
@@ -286,3 +290,9 @@ For clusters containing databases with manually uploaded modules, [cluster recov
 After installing Redis Enterprise Software on the cluster nodes, upload compatible modules to `modulesdir` (`/opt/redislabs/lib/modules`) before continuing the recovery process.
 
 This limitation was fixed in [Redis Enterprise Software version 7.2.4-64]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-64" >}}).
+
+#### Cannot create Redis v6.x Active-Active databases with modules
+
+You cannot create Active-Active databases that use Redis version 6.0 or 6.2 with modules. Databases that use Redis version 7.2 do not have this limitation.
+
+This limitation will be fixed in a maintenance release for Redis Enterprise version 7.4.2.

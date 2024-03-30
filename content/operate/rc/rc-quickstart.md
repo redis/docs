@@ -14,17 +14,17 @@ If you're new to Redis Cloud, this quick start helps you get up and running.
 
 You'll learn how to:
 
-1.  Create an account, a free subscription, and a database
+1.  Create an account and a free database
 
 1.  Connect to your database
 
-If you already have an account, see [Create a Fixed subscription]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}}) to create a Free 30MB subscription. Free plans are a tier of fixed plans; this provides an easy upgrade path when you need it.
+If you already have an account, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}) to create a Free 30 MB Essentials database. Free plans are a type of Essentials plans; this provides an easy upgrade path when you need it.
 
-If you already have a subscription, see [Manage subscriptions]({{< relref "/operate/rc/subscriptions/" >}}) and [Manage databases]({{< relref "/operate/rc/databases/" >}}).
+If you already have a database, see [Manage databases]({{< relref "/operate/rc/databases/" >}}).
 
 ## Create an account
 
-To create a new account with a free subscription and database:
+To create a new account with a free database:
 
 1. Go to the [Sign up](https://redis.com/try-free/) page.
 
@@ -34,7 +34,7 @@ To create a new account with a free subscription and database:
 
 1. After you enter your information, you should receive an activation email from Redis. Select **Activate account** to go to the **Get Started** page in the [Redis Cloud console](https://app.redislabs.com).
 
-    {{<image filename="images/rc/quickstart-get-started.png" width="75%" alt="Dialog to create your free subscription." >}}
+    {{<image filename="images/rc/quickstart-get-started.png" width="75%" alt="Dialog to create your free database." >}}
 
     1. Choose your role from the **Role** drop-down.
     1. Choose your company size from the **myself/company** drop-down. If you are working on a personal project, select **myself**.
@@ -45,17 +45,17 @@ To create a new account with a free subscription and database:
 
 1. Select your preferred cloud vendor and region.
 
-   {{<image filename="images/rc/quickstart-create-free-database.png" width="75%" alt="Dialog to create your free subscription." >}}
+   {{<image filename="images/rc/quickstart-create-free-database.png" width="75%" alt="Dialog to create your free database." >}}
 
-1. Select **Let's start free** to create your subscription and database.
+1. Select **Let's start free** to create your database.
 
     {{< note >}}
-If you would rather customize your subscription and database, select **Create a custom database** to go to the **New subscription** page. From there, you can [create a fixed subscription]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}}) or [create a flexible subscription]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}}).
+If you would rather customize your database, select **Create a custom database** to go to the **New database** page. From there, you can [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
     {{< /note >}}
 
-    You're taken to the **Overview tab** for your new subscription.
+    The **Database list** appears with your new database in the list.
 
-    {{<image filename="images/rc/quickstart-subscription-overview.png" width="75%" alt="Overview tab showing your new subscription and database." >}}
+    {{<image filename="images/rc/quickstart-database-list.png" width="75%" alt="The database list showing your new Database." >}}
 
 1.  Select the database name to view the **Configuration** tab for your new database.
 
@@ -63,7 +63,7 @@ If you would rather customize your subscription and database, select **Create a 
 
 1.  In the upper corner, an icon shows the current status of the database.  If the icon shows an orange clock, this means your database is still being created and its status is _pending_.
 
-       {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" >}} &nbsp; {{< image filename="/images/rc/icon-database-update-status-active.png#no-click" alt="Active database status" class="inline" >}}
+       {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" >}} &nbsp; {{< image filename="/images/rc/icon-database-update-status-active.png#no-click" alt="Active database status" >}}
 
        Once the database has been created, it becomes _active_ and the status indicator switches to a green circle containing a checkmark.  
 
@@ -141,5 +141,5 @@ See [Redis CLI]({{< relref "/develop/connect/cli" >}}) to learn how to use `redi
 - [Manage databases]({{< relref "/operate/rc/databases" >}})
 - [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}})
 - [Secure your Redis Cloud database]({{< relref "/operate/rc/security/" >}})
-- [Back-up Flexible databases]({{< relref "/operate/rc/databases/back-up-data.md" >}})
+- [Back-up databases]({{< relref "/operate/rc/databases/back-up-data.md" >}})
 - [Monitor Redis Cloud performance]({{< relref "/operate/rc/databases/monitor-performance.md" >}}).

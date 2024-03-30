@@ -1,8 +1,8 @@
 ---
+description: The search index APIs
 linkTitle: Search index
 title: Search index
 type: integration
-description: The search index APIs
 weight: 3
 ---
 

@@ -20,6 +20,7 @@ An API object that represents the cluster's [LDAP]({{< relref "/operate/rs/secur
 | cache_ttl | integer (default:&nbsp;300) | Maximum TTL (in seconds) of cached entries |
 | control_plane | boolean (default:&nbsp;false) | Use LDAP for user authentication/authorization in the control plane |
 | data_plane | boolean (default:&nbsp;false) | Use LDAP for user authentication/authorization in the data plane |
+| directory_timeout_s | integer (range:&nbsp;5-60) (default:&nbsp;5) | The connection timeout to the LDAP server when authenticating a user, in seconds |
 | dn_group_attr | string | The name of an attribute of the LDAP user entity that contains a list of the groups that user belongs to. (Mutually exclusive with "dn_group_query") |
 | dn_group_query | complex object | An LDAP search query for mapping from a user DN to the groups the user is a member of. The substring "%D" in the filter will be replaced with the user's DN. (Mutually exclusive with "dn_group_attr") |
 | starttls | boolean (default:&nbsp;false) | Use StartTLS negotiation for the LDAP connection |

@@ -1,8 +1,8 @@
 ---
+description: Supported vectorizers
 linkTitle: Vectorizers
 title: Vectorizers
 type: integration
-description: Supported vectorizers
 weight: 4
 ---
 In this document, you will learn how to use RedisVL to create embeddings using the built-in text embedding vectorizers. RedisVL supports:

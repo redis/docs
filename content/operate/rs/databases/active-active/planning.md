@@ -19,7 +19,11 @@ See [Active-Active Redis]({{< relref "/operate/rs/databases/active-active/" >}})
 
 ## Participating clusters
 
-For Active-Active databases, you need to [set up your participating clusters]({{< relref "/operate/rs/clusters/new-cluster-setup.md" >}}). At least two participating clusters. If your database requires more than ten participating clusters, contact Redis support. You can [add or remove participating clusters]({{< relref "/operate/rs/databases/active-active/manage#participating-clusters/" >}}) after database creation.
+You need at least [two participating clusters]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) for an Active-Active database. If your database requires more than ten participating clusters, contact Redis support. You can [add or remove participating clusters]({{< relref "/operate/rs/databases/active-active/manage#participating-clusters/" >}}) after database creation.
+
+{{<note>}}
+You cannot add RAM-only clusters and [flash-enabled clusters]({{< relref "/operate/rs/databases/auto-tiering" >}}) to the same Active-Active configuration.
+{{</note>}}
 
 Changes made from the admin console to an Active-Active database configuration only apply to the cluster you are editing. For global configuration changes across all clusters, use the `crdb-cli` command-line utility.
 

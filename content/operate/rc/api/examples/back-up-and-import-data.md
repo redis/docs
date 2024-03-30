@@ -13,7 +13,7 @@ weight: 40
 
 ## Back up a database
 
-When you create or update a database in a Flexible or Annual account, you can specify the (optional) `periodicBackupPath` parameter
+When you create or update a database, you can specify the (optional) `periodicBackupPath` parameter
 with a [backup path]({{< relref "/operate/rc/databases/back-up-data" >}}).
 This parameter enables periodic and on-demand backup operations for the specified database.
 

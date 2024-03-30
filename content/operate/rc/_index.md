@@ -24,23 +24,24 @@ Use the [Quick start]({{< relref "/operate/rc/rc-quickstart" >}}) to create a fr
 - [Connect with Redis client]({{< relref "/operate/rc/rc-quickstart#using-redis-client" >}})
 - [Connect with RedisInsight]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}})
 
-## Subscriptions
-Learn about the [types of subscriptions]({{< relref "/operate/rc/subscriptions" >}}).
-- [Create a fixed subscription]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}})
-- [Create a flexible subscription]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}})
-
-## Accounts & settings
-Manage Redis Cloud [accounts and settings]({{< relref "/operate/rc/accounts" >}}).
-- [Billing and payments]({{< relref "/operate/rc/billing-and-payments" >}})
-- [Manage cloud integrations]({{< relref "/operate/rc/cloud-integrations" >}})
-
 ## Databases
 Create and manage [Redis databases]({{< relref "/operate/rc/databases" >}}) in the cloud.
 - [Create database]({{< relref "/operate/rc/databases/create-database" >}})
 - [View and edit databases]({{< relref "/operate/rc/databases/view-edit-database" >}})
 - [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance" >}})
 - [Manage databases]({{< relref "/operate/rc/databases/configuration" >}})
-- [Redis commands]({{< relref "/commands" >}}/) & [compatibility]({{< relref "/operate/rs/references/compatibility" >}})
+- [Redis commands]({{< relref "/commands" >}}/) & [compatibility]({{< relref "/operate/rc/compatibility" >}})
+
+## Subscriptions
+Learn about the [types of subscriptions]({{< relref "/operate/rc/subscriptions" >}}).
+- [View and upgrade Essentials plan]({{< relref "/operate/rc/subscriptions/view-essentials-subscription" >}})
+- [Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}})
+- [View and edit Pro plan]({{< relref "/operate/rc/subscriptions/view-pro-subscription" >}})
+
+## Accounts & settings
+Manage Redis Cloud [accounts and settings]({{< relref "/operate/rc/accounts" >}}).
+- [Billing and payments]({{< relref "/operate/rc/billing-and-payments" >}})
+- [Manage cloud integrations]({{< relref "/operate/rc/cloud-integrations" >}})
 
 ## Security
 Manage [secure connections]({{< relref "/operate/rc/security" >}}) to cloud databases.

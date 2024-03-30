@@ -9,7 +9,6 @@ categories:
 description: null
 group: provisioning
 headerRange: '[1-3]'
-linkTitle: Terraform provider for Redis Cloud
 summary: The Redis Cloud Terraform provider allows you to provision and manage Redis
   Cloud resources.
 toc: 'true'
@@ -22,7 +21,7 @@ weight: 4
 Redis develops and maintains a [Terraform provider for Redis Cloud](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest). The Redis Cloud Terraform provider allows many of the same actions as found in the [Redis Cloud API]({{< relref "/operate/rc/api" >}}).
 
 {{< note >}}
-The Redis Cloud Terraform provider supports Flexible subscriptions. It does not support Fixed subscriptions.
+The Redis Cloud Terraform provider supports Redis Cloud Pro. It does not support Redis Cloud Essentials.
 {{< /note >}}
 
 See [Get started with Terraform]({{< relref "/integrate/terraform-provider-for-redis-cloud/get-started" >}}) for an example of how to use the Terraform provider.

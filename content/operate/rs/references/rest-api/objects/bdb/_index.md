@@ -129,16 +129,17 @@ An API object that represents a managed database in the cluster.
   "module_name": string,
   "semantic_version": string
 }, ...]
-{{</code>}} | List of modules associated with database<br />**module_id**: Module UID <br />**module_args**: Module command line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version |
+{{</code>}} | List of modules associated with the database<br /><br />**module_id**: Module UID <br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version<br /><br />As of Redis Enterprise Software v7.4.2, **module_id** and **semantic_version** are optional. |
 | mtls_allow_outdated_certs | boolean | An optional mTLS relaxation flag for certs verification |
 | mtls_allow_weak_hashing | boolean | An optional mTLS relaxation flag for certs verification |
-| name | string | Database name |
+| name | string | Database name. Only letters, numbers, or hyphens are valid characters. The name must start and end with a letter or number. |
 | oss_cluster | boolean (default:&nbsp;false) | OSS Cluster mode option. Cannot be enabled with `'hash_slots_policy': 'legacy'` |
 | oss_cluster_api_preferred_ip_type | **'internal'** <br />'external' | Internal/external IP type in OSS cluster API. Default value for new endpoints |
 | oss_sharding | boolean (default:&nbsp;false) | An alternative to `shard_key_regex` for using the common case of the OSS shard hashing policy |
 | port | integer | TCP port on which the database is available. Generated automatically if omitted and returned as 0 |
 | proxy_policy | 'single'<br />'all-master-shards'<br />'all-nodes' | The default policy used for proxy binding to endpoints |
 | rack_aware | boolean (default:&nbsp;false) | Require the database to always replicate across multiple racks |
+| recovery_wait_time | integer (default:&nbsp;-1) | Defines how many seconds to wait for the persistence file to become available during auto recovery. After the wait time expires, auto recovery completes with potential data loss. The default `-1` means to wait forever. |
 | redis_version | string | Version of the redis-server processes: e.g. 6.0, 5.0-big |
 | repl_backlog_size | string | Redis replication backlog size ('auto' or size in bytes) |
 | replica_sources | array of [syncer_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/syncer_sources" >}}) objects | Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section |

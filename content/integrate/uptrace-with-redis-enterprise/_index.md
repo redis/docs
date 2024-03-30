@@ -10,7 +10,6 @@ description: To collect, view, and monitor metrics data from your databases and 
   cluster components, you can connect Uptrace to your Redis Enterprise cluster using
   OpenTelemetry Collector.
 group: observability
-linkTitle: Uptrace with Redis Enterprise
 summary: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect Uptrace to your Redis Enterprise cluster using
   OpenTelemetry Collector.

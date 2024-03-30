@@ -28,7 +28,7 @@ To delete a subscription:
 
 3.  Select the **Overview** tab.
 
-    {{<image filename="images/rc/subscription-details-fixed-overview-tab.png" width="75%" alt="The Overview tab displays the details of your Fixed subscription." >}}
+    {{<image filename="images/rc/subscription-details-fixed-overview-tab.png" width="75%" alt="The Overview tab displays the details of your subscription." >}}
 
 4.  Select the **Delete subscription** button.
 

@@ -10,7 +10,7 @@ linkTitle: Edit and view
 weight: 15
 ---
 
-Use the **Databases** menu of the Redis Cloud console to manage your subscription databases.
+Use the **Databases** menu of the Redis Cloud console to manage your databases.
 
 To view the details of a database:
 
@@ -39,19 +39,19 @@ The **Configuration** screen is divided into sections, each dedicated to a speci
 
 The **General** section defines basic properties about your database.
 
-The available settings vary according to your subscription plan, cloud provider, and design choices.  For example, if you do not select an Advanced Capability when creating a database, the **Advanced Capabilities** setting is not displayed when you view its configuration details.
+The available settings vary according to your plan, cloud provider, and design choices.  For example, if you do not select an Advanced Capability when creating a database, the **Advanced Capabilities** setting is not displayed when you view its configuration details.
 
 | Setting name              | Description                                                                                                                                                 |
 |:--------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Database Name**         | The name given to your database                                                                                                                             |
 | **Public endpoint**       | Public URI used by any application or client to access the database.                                                                                        |
-| **Private endpoint**      | Private endpoint URI available to approved clients; use CIDR allow list and VPC peering to enabled access (_Flexible or Annual subscriptions only_)         |
-| **Tags**                  | A list of the [tags]({{< relref "/operate/rc/databases/tag-database" >}}) associated with the database. Select [Manage tags]({{< relref "/operate/rc/databases/tag-database#tags-tab" >}}) to manage the database tags. |
+| **Private endpoint**      | Private endpoint URI available to approved clients; use CIDR allow list and VPC peering to enable access (_Redis Cloud Pro only_)         |
+| **Tags**                  | A list of the [tags]({{< relref "/operate/rc/databases/tag-database" >}}) associated with the database. Select [Manage tags]({{< relref "/operate/rc/databases/tag-database#configuration-tab" >}}) to manage the database tags. |
 | **Type**                  | Displays 'Redis', 'Redis Stack' or 'memcached' based on the value selected when the database was created                                                    |
 | **Redis version**         | Redis version used to create the database                                                                                                                   |
-| **Auto Tiering**          | Checked when the subscription supports Auto Tiering (_Flexible or Annual subscriptions only_)                                                               |
+| **Auto Tiering**          | Checked when the subscription supports Auto Tiering (_Redis Cloud Pro only_)                                                               |
 | **Creation time**         | Date and time the database was created                                                                                                                      |
-| **Active-Active Redis**   | Checked when the database is part of an Active-Active relationship                                                                                          |
+| **Active-Active Redis**   | Checked when the database is part of an Active-Active relationship (_Redis Cloud Pro only_)                                                                                         |
 | **Last changed**          | Date and time of last update                                                                                                                                |
 | **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 | **Advanced Capabilites**  | This setting appears when when an [advanced capability]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) is enabled for a database                                                  |
@@ -62,15 +62,15 @@ The **Scalability** section describes the memory size, throughput, and hashing p
 
 {{<image filename="images/rc/database-details-configuration-tab-scalability-flexible.png" alt="Use the Scalability section to control the size, throughput, and hashing policy for a database." >}}
 
-The **Scalability** section is primarily for Flexible and Annual plans. Free and Fixed plans have options for memory limit and memory used.
+The **Scalability** section is primarily for Redis Cloud Pro plans. Redis Cloud Essentials plans have options for memory limit and memory used.
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Plan Memory limit** | Maximum size (in GB) for your database |
-| **Memory used**       | Memory currently used for your database  |
-| **Throughput**        | Defines throughput in terms of maximum operations per second for the database <br/><br/>Databases with search and query enabled use the number of shards to determine throughput. To determine how many shards you need for your database, use the [sizing calculator](https://redis.com/modules/redis-search/redisearch-sizing-calculator/). | |
-| **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering.md#supported-hashing-policies" >}}) |
-| **Cluster OSS**       | Enables the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) for a database<br/><br/>When this option is enabled, you cannot define a custom hashing policy|
+| **Plan Memory limit** | Maximum size (in GB) for your database.  |
+| **Memory used**       | Memory currently used for your database.  |
+| **Throughput**        | Defines throughput in terms of maximum operations per second for the database | |
+| **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
+| **OSS Cluster API**       | Enables the [OSS Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) for a database.<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
 
 To learn more about these settings and when to use them, see [Database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}).
 
@@ -82,11 +82,11 @@ The Durability section helps protect your data when problems occur.  These setti
 
 | Setting name             | Description                                                                                                                                                     |
 |:-------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **High availability**    | Replicates your data across multiple nodes, as allowed by your subscription plan                                                                                |
-| **Data persistence**     | Defines whether (and how) data is saved to disk; [available options]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}}) depend on your plan type |
+| **High availability**    | Replicates your data across multiple nodes, as allowed by your plan                                                                                |
+| **Data persistence**     | Defines whether (and how) data is saved to disk; [available options]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) depend on your plan type |
 | **Data eviction policy** | Configures which [policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}) is applied when your database reaches its memory limit        |
-| **Remote backup**        | When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data.md" >}}). (_paid subscriptions only_)                |
-| **Active-Passive Redis** | When enabled, identifies a path to the linked database. (_Flexible or Annual subscriptions only_)                                                               |
+| **Remote backup**        | When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data.md" >}}). (_Paid plans only_)                |
+| **Active-Passive Redis** | When enabled, identifies a path to the linked database. (_Redis Cloud Pro only_)                                                               |
 
 ### Security section
 
@@ -99,8 +99,8 @@ The **Security** section helps you control access to your database.
 |:-----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Default user** | When enabled, permits access using a simple password                                                                                                                           |
 | **Default user password** | Password for default user. A default password is assigned to the database on creation and may be updated.                                                                      |
-| **CIDR allow list** | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database. (_paid subscriptions only_)                    |
-| **Transport layer security (TLS)** | Enables [transport security layer]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}})(TLS) encryption for database access. (_Flexible or Annual subscriptions only_)  |
+| **CIDR allow list** | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database. (_Paid plans only_)                    |
+| **Transport layer security (TLS)** | Enables [transport security layer]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}})(TLS) encryption for database access. (_Pro plans only_)  |
 
 ### Alerts section
 
@@ -109,18 +109,18 @@ The **Alerts** section defines notification emails sent to your account and the 
 
 {{<image filename="images/rc/database-details-configuration-tab-alerts-flexible.png" alt="The Alerts section defines the notification emails and their triggering conditions." >}}
 
-The available alerts vary according to the subscription type.
+The available alerts vary according to the plan type.
 
 |Setting name| Description                                                                                                                                   |
 |:-----------|:----------------------------------------------------------------------------------------------------------------------------------------------|
-| **Dataset size has reached** | When enabled, sends an an email when the database reaches the defined memory limit _(Free, Flexible, or Annuals plans only_)                  |
-| **Total size of datasets under this plan reached** | When enabled, sends an an email when the database reaches the defined memory limit _(paid Fixed plans only_)                                  |
-| **Throughput is higher than** | When enabled, sends an email when the operations per second exceed the defined threshold _(paid Fixed, Flexible, or Annuals plans only_)      |
-| **Throughput is lower than** | When enabled, sends an email when the operations per second falls below the defined threshold _(paid Fixed, Flexible, or Annuals plans only_) |
-| **Latency is higher than** | When enabled, sends an an email when the latency exceeds the defined limit _(paid Fixed plans only_)                                          |
-| **Number of connections** | When enabled, sends an email when the connections exceeds the defined limit.  _(Free and Fixed plans only)_                                   |
-| **Replica Of - database unable to sync with source** | When enabled, sends email when the replica database cannot sync with the primary (source) database _(Flexible or Annuals plans only_)         |
-| **Replica Of - sync lag is higher than** | When enabled, sends email when the sync lag exceeds the defined threshold _(Flexible or Annuals plans only_)                                  |
+| **Dataset size has reached** | When enabled, sends an an email when the database reaches the defined memory limit (_Free Essentials or Pro only_)                  |
+| **Total size of datasets under this plan reached** | When enabled, sends an an email when the database reaches the defined memory limit (_Paid Essentials plans only_)                                  |
+| **Throughput is higher than** | When enabled, sends an email when the operations per second exceed the defined threshold (_Paid Essentials or Pro plans only_)      |
+| **Throughput is lower than** | When enabled, sends an email when the operations per second falls below the defined threshold (_Paid Essentials or Pro plans only_) |
+| **Latency is higher than** | When enabled, sends an an email when the latency exceeds the defined limit (_Paid Essentials plans only_)                                          |
+| **Number of connections** | When enabled, sends an email when the connections exceeds the defined limit.  (_Essentials plans only_)                                   |
+| **Replica Of - database unable to sync with source** | When enabled, sends email when the replica database cannot sync with the primary (source) database (_Pro plans only_)         |
+| **Replica Of - sync lag is higher than** | When enabled, sends email when the sync lag exceeds the defined threshold (_Pro plans only_)                                  |
 
 ### Danger zone
 
@@ -146,7 +146,7 @@ For best results, we recommend backing up data before starting any **Danger Zone
 
 ## Manage the database list
 
-The **Databases** list summarizes the status of all databases from the subscriptions associated with your account.  
+The **Databases** list summarizes the status of all databases associated with your account.  
 
 You can:
 
@@ -200,20 +200,20 @@ Here's what you can change:
 | General | Database name                  ||
 | | Supported protocol(s)                  ||
 | | Tags                                   ||
-| Scalability | Memory limit                   | _Flexible and Annual subscriptions only_ |
-| | Throughput                     | _Flexible and Annual subscriptions only_ |
-| | Hashing policy                 | _Flexible and Annual subscriptions only_ |
-| | OSS Cluster API                | _Flexible and Annual subscriptions only_ |
-| Durability | High-availability              | _paid Fixed, Flexible, and Annual subscriptions only_ |
-| | Data persistence               | _paid Fixed, Flexible, and Annual subscriptions only_ |
+| Scalability | Memory limit                   | |
+| | Throughput                     | _Pro plans only_ |
+| | Hashing policy                 | _Pro plans only_ |
+| | OSS Cluster API                | _Pro plans only_ |
+| Durability | High-availability              | _Paid plans only_ |
+| | Data persistence               | _Paid plans only_ |
 | | Data eviction policy           | |
-| | Remote backup                  | _paid Fixed, Flexible,  Annual subscriptions only_ |
-| | Active-Passive Redis           | _Flexible and Annual subscriptions only_ |
+| | Remote backup                  | _Paid plans only_ |
+| | Active-Passive Redis           | _Pro plans only_ |
 | Security | Default user                   | |
 | | Default user password          |
-| | CIDR allow list                | _paid Fixed, Flexible, and Annual subscriptions only_ |
-| | Transport layer security (TLS) | _Flexible and Annual subscriptions only_ |
-| Alerts | all available for subscription |
+| | CIDR allow list                | _Paid plans only_ |
+| | Transport layer security (TLS) | _Pro plans only_ |
+| Alerts | all available for plan type |
 
 Choose **Save database** to save your changes.
 

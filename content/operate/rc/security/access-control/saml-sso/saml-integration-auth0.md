@@ -84,7 +84,7 @@ To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< 
 
     {{<image filename="images/rc/saml/auth0_saml_7.png" >}}
 
-    * We suggest that you update the default logo of the application to the [Redis icon](https://saml-integration-logo.s3.amazonaws.com/redis-cube-red_white-rgb.png) for better visibility. 
+    * We suggest that you update the default logo of the application to the Redis icon for better visibility. 
 
 1. From the newly created application, go to **Addons** and enable **SAML 2 WEB APP**.
 
@@ -191,5 +191,5 @@ Replace `ID` so it matches the `AssertionConsumerService` Location URL ID (the c
 
 You have successfully configured SAML as an identification provider.
 
-    {{<image filename="images/rc/saml/auth0_saml_14.png" >}}
+{{<image filename="images/rc/saml/auth0_saml_14.png" >}}
 
