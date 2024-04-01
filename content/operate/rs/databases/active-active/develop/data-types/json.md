@@ -8,6 +8,7 @@ categories:
 description: Information about using JSON with an Active-Active database.
 linkTitle: JSON
 weight: $weight
+tocEmbedHeaders: true
 ---
 Active-Active databases support JSON data structures.
 
