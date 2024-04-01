@@ -8,6 +8,7 @@ categories:
 description: Redis Cloud compatibility with open source Redis.
 linkTitle: Open source compatibility
 weight: 90
+tocEmbedHeaders: true
 ---
 
 Both [Redis Enterprise Software]({{< relref "/operate/rs" >}}) and Redis Cloud are compatible with open source

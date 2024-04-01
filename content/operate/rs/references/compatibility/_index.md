@@ -9,6 +9,7 @@ description: Redis Enterprise compatibility with open source Redis.
 hideListLinks: true
 linkTitle: Open source compatibility
 weight: $weight
+tocEmbedHeaders: true
 ---
 Both Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) are compatible with open source
 Redis (OSS Redis). 

@@ -8,6 +8,7 @@ categories:
 description: JSON support and conflict resolution rules for Active-Active databases.
 linkTitle: Active-Active databases
 weight: 50
+tocEmbedHeaders: true
 ---
 
 RedisJSON v2.2 adds support for JSON in [Active-Active Redis Enterprise databases]({{< relref "/operate/rs/databases/active-active" >}}).
