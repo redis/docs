@@ -17,7 +17,7 @@ Available options depend on your database plan and **Type**.
 
 ## Redis Cloud Essentials {#essentials}
 
-All Redis Cloud Essentials databases support [Redis Stack]({{< relref "/operate/oss-and-stack/" >}}), which enables the most frequently used capabilities.
+All Redis Cloud Essentials databases support [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}), which enables the most frequently used capabilities.
 
 {{<image filename="images/rc/new-database-general-type-free-stack.png" alt="For Essentials, the Type setting in the General section includes an option for Redis Stack." width="75%">}}
 
