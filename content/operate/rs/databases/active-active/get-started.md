@@ -148,7 +148,7 @@ You cannot enable or turn off database clustering after the Active-Active databa
 1. Click **Create**.
 
     {{< note >}}
-    {{< embed-md "docker-memory-limitation.md" >}}
+{{< embed-md "docker-memory-limitation.md" >}}
     {{< /note >}}
 
 1. After the Active-Active database is created, sign in to the Cluster Manager UIs for cluster 1 at `https://localhost:8443` and cluster 2 at `https://localhost:8445`.
