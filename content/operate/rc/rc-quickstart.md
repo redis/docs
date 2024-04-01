@@ -18,7 +18,7 @@ You'll learn how to:
 
 1.  Connect to your database
 
-If you already have an account, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}) to create a Free 30 MB Essentials database. Free plans are a type of Essentials plans; this provides an easy upgrade path when you need it.
+If you already have an account, see [Create an Essentials database]({{< relref "/operate/rc/databases/create-essentials-database" >}}) to create a Free 30 MB Essentials database. Free plans are a type of Essentials plans; this provides an easy upgrade path when you need it.
 
 If you already have a database, see [Manage databases]({{< relref "/operate/rc/databases/" >}}).
 
@@ -142,4 +142,4 @@ See [Redis CLI]({{< relref "/develop/connect/cli" >}}) to learn how to use `redi
 - [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}})
 - [Secure your Redis Cloud database]({{< relref "/operate/rc/security/" >}})
 - [Back-up databases]({{< relref "/operate/rc/databases/back-up-data.md" >}})
-- [Monitor Redis Cloud performance]({{< relref "/operate/rc/databases/monitor-performance.md" >}}).
+- [Monitor Redis Cloud performance]({{< relref "/operate/rc/databases/monitor-performance.md" >}})
