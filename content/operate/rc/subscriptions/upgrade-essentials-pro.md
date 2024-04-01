@@ -15,7 +15,7 @@ Redis Cloud Essentials supports low throughput workflows. It supports a range of
 
 For more information about the different subscription plans, see [Subscription plans]({{< relref "/operate/rc/subscriptions#subscription-plans" >}}).
 
-To upgrade your Essentials plan, see [Upgrade subscription plan]({{< relref "/operate/rc/subscriptions/view-essentials-subscription#upgrade-subscription-plan" >}}).
+To upgrade your Essentials plan, see [Upgrade subscription plan]({{< relref "/operate/rc/subscriptions/view-essentials-subscription#upgrade-plan" >}}).
 
 ## Upgrade Essentials subscription to Pro
 
@@ -25,7 +25,7 @@ To upgrade your Essentials database to Redis Cloud Pro:
 
 1. [Create a new database in Redis Cloud Pro](#create-rcp) with the right specifications to be able to migrate your database.
 
-1. [Migrate your Essentials database](#migrate-databases) to your new Redis Cloud Pro database.
+1. [Migrate your Essentials database](#migrate-database) to your new Redis Cloud Pro database.
 
 ### Create Redis Cloud Pro database {#create-rcp}
 
