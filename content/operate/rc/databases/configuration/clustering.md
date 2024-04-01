@@ -171,11 +171,11 @@ Here are some general guidelines:
 
 - Memory limit represents an upper limit.  You cannot store more data than the memory limit.  Depending on your other selections, available memory for data may be less than expected.
 
-- [Replication](HA LINK) doubles memory consumption; that is, 512MB of data requires at least 1GB of memory limit when replication is enabled. This affects both Redis Cloud Pro and Redis Cloud Essentials. For example, if you subscribe to a 1 GB Essentials plan, Redis will allocate 512 MB for your dataset and the other 512 MB for replication.
+- [Replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) doubles memory consumption; that is, 512MB of data requires at least 1GB of memory limit when replication is enabled. This affects both Redis Cloud Pro and Redis Cloud Essentials. For example, if you subscribe to a 1 GB Essentials plan, Redis will allocate 512 MB for your dataset and the other 512 MB for replication.
 
-- Active-Active also doubles memory consumption and the effect is cumulative with replication's impact. Since Active-Active requires replication to be turned on, the memory limit impact can be as large as four times (4x) the original data size.
+- [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) also doubles memory consumption and the effect is cumulative with replication's impact. Since Active-Active requires replication to be turned on, the memory limit impact can be as large as four times (4x) the original data size.
 
-- Advanced capabilities also consume memory.
+- [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) also consume memory.
 
 Memory limits in Redis Cloud are subject to the same considerations as Redis Enterprise Software; to learn more, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit.md" >}}).
 
