@@ -25,7 +25,7 @@ More info: [redis.io/operate/oss_and_stack/management/security/acl]({{< relref "
 {{%definition "Active-Active database (CRDB)"%}}
 Geo-distributed databases that span multiple [Redis Enterprise Software]({{<relref "#redis-enterprise-software">}}) [clusters]({{<relref "#cluster">}}). Active-Active databases, also known as conflict-free replicated databases (CRDB), depend on [multi-master replication (MMR)]({{<relref "#multi-master-replication-mmr">}}) and [conflict-free replicated data types (CRDTs)]({{<relref "#conflict-free-replicated-data-types-crdt">}}) to power a simple development experience for geo-distributed applications.
 
-More info: [Active-Active geo-distributed Redis]({{<relref "/operate/rs/databases/active-active/_index">}}), [Geo-distributed Active-Active Redis applications]({{<relref "/operate/rs/databases/active-active/" >}}), [Developing applications for Active-Active databases]({{<relref "rs/databases/active-active/develop/_index">}})
+More info: [Active-Active geo-distributed Redis]({{<relref "/operate/rs/databases/active-active">}}), [Geo-distributed Active-Active Redis applications]({{<relref "/operate/rs/databases/active-active/" >}}), [Developing applications for Active-Active databases]({{<relref "rs/databases/active-active/develop/_index">}})
 {{%/definition%}}
 
 {{%definition "Active-Active database instance"%}}
@@ -190,7 +190,7 @@ More info: [Overview of kubectl](https://kubernetes.io/docs/reference/kubectl/ov
 {{%definition "Lightweight Directory Access Protocol (LDAP)"%}}
 A protocol for accessing and maintaining distributed directory services over an IP network, often used to authenticate users.
 
-More info: [LDAP wikipedia](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol/), [LDAP authentication]({{<relref "/operate/rs/security/ldap/_index">}})
+More info: [LDAP wikipedia](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol/), [LDAP authentication]({{<relref "/operate/rs/security/access-control/ldap">}})
 {{%/definition%}}
 
 ## M - O {#letter-m}
