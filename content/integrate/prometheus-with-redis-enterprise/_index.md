@@ -1,6 +1,6 @@
 ---
-LinkTitle: Prometheus with Redis Enterprise
-Title: Prometheus with Redis Enterprise
+LinkTitle: Prometheus & Grafana with Redis Enterprise
+Title: Prometheus & Grafana with Redis Enterprise
 alwaysopen: false
 categories:
 - docs
