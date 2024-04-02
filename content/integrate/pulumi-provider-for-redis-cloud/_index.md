@@ -12,6 +12,7 @@ summary: With the Redis Cloud Resource Provider you can provision Redis Cloud re
   by using the programming language of your choice.
 type: integration
 weight: 4
+hideListLinks: true
 ---
 
 [Pulumi](https://www.pulumi.com/) is an automation tool that allows you to easily provision infrastructure as code. Pulumi allows developers to write infrastructure code using programming languages rather than using domain-specific languages.
