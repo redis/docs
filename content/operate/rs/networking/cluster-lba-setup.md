@@ -5,8 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Set up a cluster using a load balancer instead of DS to direct traffic
-  to cluster nodes.
+description: Set up a cluster using a load balancer instead of DNS to direct traffic to cluster nodes.
 linkTitle: Cluster load balancer setup
 weight: $weight
 ---

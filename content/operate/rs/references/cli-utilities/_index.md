@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the command-line utilities included with Redis Enterprise Software.
+description: Reference for Redis Enterprise Software command-line utilities, including rladmin, redis-cli, crdb-cli, and rlcheck.
 hideListLinks: true
 linkTitle: Command-line utilities
 weight: $weight

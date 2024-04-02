@@ -1,5 +1,5 @@
 ---
-Title: Benchmark a Auto Tiering enabled database
+Title: Benchmark an Auto Tiering enabled database
 alwaysopen: false
 categories:
 - docs
