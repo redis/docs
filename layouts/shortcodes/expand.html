@@ -1,19 +1,14 @@
-<!-- TODO: This isn't going to work out of the box.-->
+{{- $expandTitle := T "Expand-title" -}}
+{{ $trimmedInner := trim .Inner " \t\n\r" }}
+{{ if eq (slicestr $trimmedInner 0 1) "<" }}
+{{ .Scratch.Set "content" .Inner }}
+{{ else }}
+{{ .Scratch.Set "content" (.Inner | markdownify) }}
+{{ end }}
+{{ $inner := .Scratch.Get "content" }}
 
-<div class="expand">
-    <div class="expand-label" style="cursor: pointer;"
-        onclick="$h = $(this);$h.next('div').slideToggle(100,function () {$h.children('i').attr('class',function () {return $h.next('div').is(':visible') ? 'icon-icons_minus' : 'icon-icons_plus';});}); var t = this; setTimeout(function() {handleToggleExpandItem(t)}, 200)">
-        <i class="icon-icons_plus"></i>
-        <span>
-            {{$expandMessage := T "Expand-title"}}
-            {{ if .IsNamedParams }}
-            {{.Get "default" | default $expandMessage}}
-            {{else}}
-            {{.Get 0 | default $expandMessage}}
-            {{end}}
-        </span>
-    </div>
-    <div class="expand-content" style="display: none;">
-        {{.Inner }}
-    </div>
-</div>
+{{- if .IsNamedParams -}}
+    {{- partial "components/expand.html" (dict "Title" (.Get "default" | default $expandTitle) "Inner" $inner) -}}
+{{- else -}}
+    {{- partial "components/expand.html" (dict "Title" (.Get 0 | default $expandTitle) "Inner" $inner ) -}}
+{{- end -}}
