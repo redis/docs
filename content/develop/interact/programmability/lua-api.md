@@ -190,7 +190,7 @@ redis> EVAL "..." 0 hello world
 * Available in scripts: yes
 * Available in functions: yes
 
-This is a helper function that returns an [error reply]({{< relref "/develop/reference/protocol-spec#resp-errors" >}}).
+This is a helper function that returns an [error reply]({{< baseurl >}}/develop/reference/protocol-spec/#simple-errors).
 The helper accepts a single string argument and returns a Lua table with the _err_ field set to that string.
 
 The outcome of the following code is that _error1_ and _error2_ are identical for all intents and purposes:
@@ -223,7 +223,7 @@ Scripts are advised to follow this convention, as shown in the example above, bu
 * Available in scripts: yes
 * Available in functions: yes
 
-This is a helper function that returns a [simple string reply]({{< relref "/develop/reference/protocol-spec#resp-simple-strings" >}}).
+This is a helper function that returns a [simple string reply]({{< baseurl >}}/develop/reference/protocol-spec#simple-strings).
 "OK" is an example of a standard Redis status reply.
 The Lua API represents status replies as tables with a single field, _ok_, set with a simple status string.
 
@@ -559,27 +559,35 @@ The following sections describe the type conversion rules between Lua and Redis 
 
 The following type conversion rules apply to the execution's context by default as well as after calling `redis.setresp(2)`:
 
-* [RESP2 integer reply]({{< relref "/develop/reference/protocol-spec#resp-integers" >}}) -> Lua number
-* [RESP2 bulk string reply]({{< relref "/develop/reference/protocol-spec#resp-bulk-strings" >}}) -> Lua string
-* [RESP2 array reply]({{< relref "/develop/reference/protocol-spec#resp-arrays" >}}) -> Lua table (may have other Redis data types nested)
-* [RESP2 status reply]({{< relref "/develop/reference/protocol-spec#resp-simple-strings" >}}) -> Lua table with a single _ok_ field containing the status string
-* [RESP2 error reply]({{< relref "/develop/reference/protocol-spec#resp-errors" >}}) -> Lua table with a single _err_ field containing the error string
-* [RESP2 null bulk reply]({{< relref "/develop/reference/protocol-spec#null-elements-in-arrays" >}}) and [null multi bulk reply]({{< relref "/develop/reference/protocol-spec#resp-arrays" >}}) -> Lua false boolean type
+* [RESP2 integer reply]({{< baseurl>}}/develop/reference/protocol-spec#integers) -> Lua number
+* [RESP2 bulk string reply]({{< baseurl>}}/develop/reference/protocol-spec#bulk-strings) -> Lua string
+* [RESP2 array reply]({{< baseurl>}}/develop/reference/protocol-spec#arrays) -> Lua table (may have other Redis data types nested)
+* [RESP2 status reply]({{< baseurl>}}/develop/reference/protocol-spec#simple-strings) -> Lua table with a single _ok_ field containing the status string
+* [RESP2 error reply]({{< baseurl>}}/develop/reference/protocol-spec#simple-errors) -> Lua table with a single _err_ field containing the error string
+* [RESP2 null bulk reply]({{< baseurl>}}/develop/reference/protocol-spec#bulk-strings) and [RESP2 null multi-bulk reply]({{< baseurl>}}/develop/reference/protocol-spec#arrays) -> Lua false boolean type
+
+[RESP2 integer reply]({{< baseurl>}}/develop/reference/protocol-spec#integers)
+[RESP2 bulk string reply]({{< baseurl>}}/develop/reference/protocol-spec#bulk-strings)
+[RESP2 array reply]({{< baseurl>}}/develop/reference/protocol-spec#arrays)
+[RESP2 status reply]({{< baseurl>}}/develop/reference/protocol-spec#simple-strings)
+[RESP2 error reply]({{< baseurl>}}/develop/reference/protocol-spec#simple-errors)
+[RESP2 null bulk reply]({{< baseurl>}}/develop/reference/protocol-spec#bulk-strings)
+[RESP2 null multi-bulk reply]({{< baseurl>}}/develop/reference/protocol-spec#arrays)
 
 ## Lua to RESP2 type conversion
 
 The following type conversion rules apply by default as well as after the user had called `HELLO 2`:
 
-* Lua number -> [RESP2 integer reply]({{< relref "/develop/reference/protocol-spec#resp-integers" >}}) (the number is converted into an integer)
-* Lua string -> [RESP bulk string reply]({{< relref "/develop/reference/protocol-spec#resp-bulk-strings" >}})
-* Lua table (indexed, non-associative array) -> [RESP2 array reply]({{< relref "/develop/reference/protocol-spec#resp-arrays" >}}) (truncated at the first Lua `nil` value encountered in the table, if any)
-* Lua table with a single _ok_ field -> [RESP2 status reply]({{< relref "/develop/reference/protocol-spec#resp-simple-strings" >}})
-* Lua table with a single _err_ field -> [RESP2 error reply]({{< relref "/develop/reference/protocol-spec#resp-errors" >}})
-* Lua boolean false -> [RESP2 null bulk reply]({{< relref "/develop/reference/protocol-spec#null-elements-in-arrays" >}})
+* Lua number -> [RESP2 integer reply]({{< baseurl>}}/develop/reference/protocol-spec#integers) (the number is converted into an integer)
+* Lua string -> [RESP2 bulk string reply]({{< baseurl>}}/develop/reference/protocol-spec#bulk-strings)
+* Lua table (indexed, non-associative array) -> [RESP2 array reply]({{< baseurl>}}/develop/reference/protocol-spec#arrays) (truncated at the first Lua `nil` value encountered in the table, if any)
+* Lua table with a single _ok_ field -> [RESP2 status reply]({{< baseurl>}}/develop/reference/protocol-spec#simple-strings)
+* Lua table with a single _err_ field -> [RESP2 error reply]({{< baseurl>}}/develop/reference/protocol-spec#simple-errors)
+* Lua boolean false -> [RESP2 null bulk reply]({{< baseurl>}}/develop/reference/protocol-spec#bulk-strings)
 
 There is an additional Lua-to-Redis conversion rule that has no corresponding Redis-to-Lua conversion rule:
 
-* Lua Boolean `true` -> [RESP2 integer reply]({{< relref "/develop/reference/protocol-spec#resp-integers" >}}) with value of 1.
+* Lua Boolean `true` -> [RESP2 integer reply]({{< baseurl>}}/develop/reference/protocol-spec#integers) with value of 1.
 
 There are three additional rules to note about converting Lua to Redis data types:
 
