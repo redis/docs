@@ -8,7 +8,7 @@ categories:
 - rc
 description: Shows how to subscribe to Redis Cloud using Google Cloud Marketplace
 hideListLinks: true
-weight: $weight
+weight: 30
 ---
 
 You can use Google Cloud Marketplace to subscribe to Redis Cloud. This lets you provision according to your needs and pay using your Google Cloud account.
@@ -52,7 +52,7 @@ Here's how to subscribe to Redis Cloud with Google Cloud Marketplace:
 
     {{<image filename="images/rc/gcp-marketplace-manage-on-provider.png" alt="The Manage on Provider button" >}}
 
-At this point, you can create a new database using the standard workflow, with one important change. You don't need to enter a payment method, as it automatically uses your Google Cloud Marketplace account.
+At this point, you can create a new database using the [standard workflow]({{< relref "/operate/rc/databases/create-database" >}}), with one important change. You don't need to enter a payment method, as it automatically uses your Google Cloud Marketplace account.
 
 To confirm this, review the payment method associated with your subscription.
 
