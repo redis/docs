@@ -55,7 +55,7 @@ To use your Redis database to create a knowledge base on Amazon Bedrock:
     - **Credentials Secret ARN**: [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#iam-resources) of your [database credentials secret]({{< relref "/integrate/amazon-bedrock/set-up-redis#store-secret" >}}).
     - **Vector Index name**: Name of the [vector index]({{< relref "/integrate/amazon-bedrock/set-up-redis#create-vector-index" >}}) 
     - **Vector field**: Name of the [vector field]({{< relref "/integrate/amazon-bedrock/set-up-redis#create-vector-index" >}}) of the vector index
-    - **Text field**: Name of the [text field]({{< relref "/integrate/amazon-bedrock/set-up-redis#create-vector-index" >}}x) of the vector index
+    - **Text field**: Name of the [text field]({{< relref "/integrate/amazon-bedrock/set-up-redis#create-vector-index" >}}) of the vector index
     - **Metadata field**: Name of the [metadata field]({{< relref "/integrate/amazon-bedrock/set-up-redis#create-vector-index" >}}) of the vector index
 
     Select **Next** to review your settings.
