@@ -16,9 +16,9 @@ Redis Enterprise Software uses encryption to secure communications between clust
 
 ## Encrypt data in transit
 
-### [TLS]({{< relref "/operate/rs/security/encryption/tls" >}})
+### TLS
 
-Redis Enterprise Software uses Transport Layer Security (TLS) to encrypt communications for the following:
+Redis Enterprise Software uses [Transport Layer Security (TLS)]({{<relref "/operate/rs/security/encryption/tls">}}) to encrypt communications for the following:
 
 - Cluster Manager UI
 
@@ -36,13 +36,13 @@ You can also [enable TLS authentication]({{< relref "/operate/rs/security/encryp
 
 - Communication to and from your database to other clusters for [Active-Active]({{< relref "/operate/rs/databases/active-active/_index.md" >}}) synchronization
 
-### [Internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}})
+### Internode encryption
 
-Internode encryption uses TLS to encrypt data in transit between cluster nodes.
+[Internode encryption]({{<relref "/operate/rs/security/encryption/internode-encryption">}}) uses TLS to encrypt data in transit between cluster nodes.
 
 By default, internode encryption is enabled for the control plane, which manages the cluster and databases. If you also want to encrypt replication and proxy communications between database shards on different nodes, [enable data internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption#enable-data-internode-encryption" >}}).
 
-### [Require HTTPS for REST API endpoints]({{< relref "/operate/rs/references/rest-api/encryption" >}})
+### Require HTTPS for REST API endpoints
 
 By default, the Redis Enterprise Software API supports communication over HTTP and HTTPS. However, you can [turn off HTTP support]({{< relref "/operate/rs/references/rest-api/encryption" >}}) to ensure that API requests are encrypted.
 
@@ -52,9 +52,9 @@ By default, the Redis Enterprise Software API supports communication over HTTP a
 
 To encrypt data stored on disk, use file system-based encryption capabilities available on Linux operating systems before you install Redis Enterprise Software.
 
-### [Private key encryption]({{< relref "/operate/rs/security/encryption/pem-encryption" >}})
+### Private key encryption
 
-[Enable PEM encryption]({{< relref "/operate/rs/security/encryption/pem-encryption#enable-pem-encryption" >}}) to encrypt all private keys on disk.
+Enable PEM encryption to [encrypt all private keys]({{< relref "/operate/rs/security/encryption/pem-encryption" >}}) on disk.
 
 ## Encrypt data in use
 

@@ -5,8 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: You can use Redis OSS Cluster API improve performance and let applications
-  stay current with cluster topology changes.
+description: Use the Redis OSS Cluster API to improve performance and keep applications current with cluster topology changes.
 linktitle: "Redis OSS Cluster\_API"
 weight: $weight
 ---

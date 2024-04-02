@@ -5,9 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: You can manually export your data from a specific Redis Enterprise Software
-  database at any time. You can also schedule backups of your databases to make sure
-  you always have valid backups.
+description: Schedule backups of your databases to make sure you always have valid backups.
 linktitle: Schedule backups
 weight: 40
 ---
