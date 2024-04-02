@@ -17,9 +17,7 @@ The following example uses the `terraform-aws-Redislabs-Cloud-Account-IAM-Resour
 
     Note that a `pgp_key` is required. For details, see the [Terraform docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_login_profile#pgp_key). 
 
-    {{%expand "View terraformIAMTemplate.json" %}}
     {{% code-include file="rv/terraformIAMTemplate.json" language="js" %}}
-    {{% /expand%}}
 
 2. Initialize Terraform with the module:
 

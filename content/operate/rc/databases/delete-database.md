@@ -18,10 +18,6 @@ Deleted databases cannot be recovered.  We recommend [making a backup]({{< relre
 
 1. Sign in to the [Redis Cloud console](https://app.redislabs.com/).
 
-1. If you have more than one subscription, select the target subscription from the list.  This displays the **Databases** tab for the selected subscription.
-
-    {{<image filename="images/rc/subscription-flexible-databases-tab-update.png" alt="The Databases tab summarizes databases created for a given subscription." >}}
-
 1.  Select the database from the list.  The **Configuration** tab is selected by default.
 
     {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}

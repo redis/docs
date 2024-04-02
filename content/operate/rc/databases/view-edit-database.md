@@ -51,10 +51,10 @@ The available settings vary according to your plan, cloud provider, and design c
 | **Redis version**         | Redis version used to create the database                                                                                                                   |
 | **Auto Tiering**          | Checked when the subscription supports Auto Tiering (_Redis Cloud Pro only_)                                                               |
 | **Creation time**         | Date and time the database was created                                                                                                                      |
-| **Active-Active Redis**   | Checked when the database is part of an Active-Active relationship (_Redis Cloud Pro only_)                                                                                         |
+| **Active-Active Redis**   | Checked when the database is part of an [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) relationship (_Redis Cloud Pro only_)                                                                                         |
 | **Last changed**          | Date and time of last update                                                                                                                                |
 | **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
-| **Advanced Capabilites**  | This setting appears when when an [advanced capability]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) is enabled for a database                                                  |
+| **Advanced Capabilites**  | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database                                                  |
 
 ### Scalability section
 
@@ -82,11 +82,11 @@ The Durability section helps protect your data when problems occur.  These setti
 
 | Setting name             | Description                                                                                                                                                     |
 |:-------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **High availability**    | Replicates your data across multiple nodes, as allowed by your plan                                                                                |
+| **High availability**    | Replicates your data across multiple nodes; [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) depend on your plan type  |
 | **Data persistence**     | Defines whether (and how) data is saved to disk; [available options]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) depend on your plan type |
-| **Data eviction policy** | Configures which [policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}) is applied when your database reaches its memory limit        |
-| **Remote backup**        | When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data.md" >}}). (_Paid plans only_)                |
-| **Active-Passive Redis** | When enabled, identifies a path to the linked database. (_Redis Cloud Pro only_)                                                               |
+| **Data eviction policy** | Configures which [policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies" >}}) is applied when your database reaches its memory limit        |
+| **Remote backup**        | When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data" >}}). (_Paid plans only_)                |
+| **Active-Passive Redis** | When enabled, identifies a path to the [linked database]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}). (_Redis Cloud Pro only_)                                                               |
 
 ### Security section
 
@@ -100,7 +100,7 @@ The **Security** section helps you control access to your database.
 | **Default user** | When enabled, permits access using a simple password                                                                                                                           |
 | **Default user password** | Password for default user. A default password is assigned to the database on creation and may be updated.                                                                      |
 | **CIDR allow list** | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database. (_Paid plans only_)                    |
-| **Transport layer security (TLS)** | Enables [transport security layer]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}})(TLS) encryption for database access. (_Pro plans only_)  |
+| **Transport layer security (TLS)** | Enables [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access. (_Pro plans only_)  |
 
 ### Alerts section
 
