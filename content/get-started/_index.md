@@ -41,11 +41,11 @@ You can deploy Redis ...
 
 The following guides will help you to get started with your preferred deployment method.
 
-Get started with **[Redis Cloud]({{< relref "/operate/rc/" >}})** by creating a subscription:
+Get started with **[Redis Cloud]({{< relref "/operate/rc/" >}})** by creating a database:
 
-- The [Redis Cloud quick start]({{< relref "/operate/rc/rc-quickstart" >}}) helps you create a free subscription and your first database.  (Start here if you're new.)
-- [Create a Fixed subscription]({{< relref "/operate/rc/subscriptions/create-fixed-subscription" >}}) for databases with a memory limit up to 12 GB.
-- [Create a Flexible subscription]({{< relref "/operate/rc/subscriptions/create-flexible-subscription" >}}) that suits your workload and offers seamless scaling.
+- The [Redis Cloud quick start]({{< relref "/operate/rc/rc-quickstart" >}}) helps you create a free database.  (Start here if you're new.)
+- [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}) with a memory limit up to 12 GB.
+- [Create a Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) that suits your workload and offers seamless scaling.
 
 Install a **[Redis Enterprise Software]({{< relref "/operate/rs/" >}})** cluster:
 
