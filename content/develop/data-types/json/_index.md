@@ -34,7 +34,7 @@ To learn how to use JSON, it's best to start with the Redis CLI. The following e
 
 ### `redis-cli` examples
 
-First, start [`redis-cli`](http://redis.io/develop/connect/cli) in interactive mode.
+First, start [`redis-cli`]({{< relref "/develop/connect/cli" >}}) in interactive mode.
 
 The first JSON command to try is [`JSON.SET`]({{< baseurl >}}/commands/json.set/), which sets a Redis key with a JSON value. [`JSON.SET`]({{< baseurl >}}/commands/json.set/) accepts all JSON value types. This example creates a JSON string:
 
@@ -176,7 +176,7 @@ For more information about running Redis Stack in a Docker container, see [Run R
 
 To download and run the RedisJSON module that provides the JSON data structure from a precompiled binary:
 
-1. Download a precompiled version from the [Redis download center](https://redis.com/download-center/modules/).
+1. Download a precompiled version from the [Redis download center](https://redis.io/downloads).
 
 2. Load the module it in Redis
 
@@ -212,7 +212,7 @@ Requirements:
 
 Generally, it is best to run the latest Redis version.
 
-If your OS has a [Redis 6.x package or later](http://redis.io/download), you can install it using the OS package manager.
+If your OS has a [Redis 6.x package or later](http://redis.io/downloads), you can install it using the OS package manager.
 
 Otherwise, you can invoke 
 
@@ -253,7 +253,7 @@ In the above lines replace `/path/to/module/` with the actual path to the module
 
 Alternatively, you can download and run Redis from a precompiled binary:
 
-1. Download a precompiled version of RedisJSON from the [Redis download center](https://redis.com/download-center/modules/).
+1. Download a precompiled version of RedisJSON from the [Redis download center](https://redis.io/downloads).
 
 #### Command-line option
 
