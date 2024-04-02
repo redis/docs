@@ -35,7 +35,7 @@ This approach also lets you transfer data between databases hosted by different 
 
 ## Sync using Active-Passive
 
-If your target database is hosted on Redis Cloud Pro, you can use Active-Passive to sync (synchronize) the source database to the target database.  (The source database can be hosted on Redis Cloud Pro or Redis Cloud Essentials.)
+If your target database is hosted on Redis Cloud Pro, you can use Active-Passive to sync the source database to the target database.  The source database can be hosted on Redis Cloud Pro or Redis Cloud Essentials.
 
 The source database remains active while the data migrates.
 

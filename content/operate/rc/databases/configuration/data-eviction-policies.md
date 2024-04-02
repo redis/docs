@@ -14,7 +14,7 @@ weight: $weight
 
 The data eviction policy of a database controls what happens when new data exceeds the memory size of a database.  Typically, such situations require _evicting_ (or deleting) data previously added to the database.  
 
-To control this behavior, [edit database details]({{< relref "/operate/rc/databases/view-edit-database.md" >}}) to change the **Data eviction policy** setting at the database level.
+You can [edit database details]({{< relref "/operate/rc/databases/view-edit-database.md" >}}) to change the **Data eviction policy** setting at the database level.
 
 ## Available policies
 

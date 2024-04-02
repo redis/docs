@@ -29,7 +29,6 @@ The following sections provide some options:
 
 - [`redis-cli`](#redis-cli)
 - [RedisInsight CLI](#redisinsight)
-- [`netcat`](#netcat)
 - [SASL connection](#sasl-connection)
 
 ### redis-cli
@@ -59,7 +58,7 @@ If you install [RedisInsight]({{< relref "/develop/connect/insight/" >}}) and [a
     {{<image filename="images/rc/redisinsight-cli-flushall-example.png" alt="You can use RedisInsight to issue commands to a database." >}}
 
     The 'OK' response indicates that the command executed properly.
-
+<!--
 ### netcat 
 
 If you have shell access to your database's host server, you can use [netcat](https://en.wikipedia.org/wiki/Netcat) (`nc`) to send the `flush_all` command to your database:
@@ -67,6 +66,7 @@ If you have shell access to your database's host server, you can use [netcat](ht
 ```sh
 echo "flush_all" | nc redis-12345.server.cloud.redislabs.example.com 12345
 ```
+-->
 
 ### SASL connection
 

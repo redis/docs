@@ -1,0 +1,28 @@
+<div class="expand my-4">
+  <div 
+      class="expand-label cursor-pointer"
+      onclick="toggleExpand(event)"
+  >
+      <div class="flex flex-row gap-3 items-center hover:text-redis-red-500 transition-colors ease-in-out duration-150">
+        {{- .Title -}}
+        <div class="expand-chevron transition-transform duration-500 ease-in-out">
+          {{- partial "icons/chevron.html" -}}
+        </div>
+      </div>
+  </div>
+  <div class="expand-content h-0 overflow-hidden transition-all duration-500 ease-in-out">
+      {{- .Inner -}}
+  </div>
+</div>
+
+<script>
+  function toggleExpand(event) {
+      var parent = event.currentTarget.parentElement;
+      var content = parent.getElementsByClassName('expand-content')[0];
+      content.classList.toggle('h-0');
+      content.classList.toggle('h-[600px]');
+
+      var chevron = parent.getElementsByClassName('expand-chevron')[0];
+      chevron.classList.toggle('rotate-180');
+  }
+</script>

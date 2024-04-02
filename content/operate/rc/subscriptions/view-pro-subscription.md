@@ -11,7 +11,7 @@ weight: 40
 ---
 To view the details of a Redis Cloud Pro subscription:
 
-1.  Sign in to the [Redis Cloud console](https://app.redislabs.com/#).
+1.  Sign in to the [Redis Cloud console](https://app.redislabs.com/#) and select **Subscriptions**.
 
 1.  If you have more than one subscription, select the target subscription from the subscription list.
 
@@ -29,7 +29,7 @@ From here, you can:
 
 - View the Status icon to learn the status of your subscription.  Active subscriptions display a green circle with a check mark. Pending subscriptions display an animated, grey circle.
 
-    {{<image filename="images/rc/icon-database-status-active.png" alt="When a subscription is active, the status icon displays a green circle with a checkmark." >}} &nbsp; {{<image filename="images/rc/icon-subscription-status-pending.png" alt="When a subscription is pending, the status icon displays a gre, animated circle." >}}
+    {{<image filename="images/rc/icon-database-status-active.png" alt="When a subscription is active, the status icon displays a green circle with a checkmark." class="inline" >}} &nbsp; {{<image filename="images/rc/icon-subscription-status-pending.png" alt="When a subscription is pending, the status icon displays a gre, animated circle." class="inline">}}
 
 - {{< embed-md "rc-opt-in-to-72.md" >}}
 
@@ -55,7 +55,7 @@ The following details are provided:
 
 | Detail | Description |
 |:---------|:--------------|
-| **Status** | An icon indicating whether the database is active (a green circle) or pending (yellow circle)<br/>{{<image filename="images/rc/icon-database-detail-status-active.png" alt="Active status is indicated by a teal circle." >}}&nbsp;{{<image filename="images/rc/icon-database-detail-status-pending.png" alt="Pending status is indicated by a yellow circle." >}} |
+| **Status** | An icon indicating whether the database is active (a green circle) or pending (yellow circle)<br/>{{<image filename="images/rc/icon-database-detail-status-active.png" alt="Active status is indicated by a teal circle." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-database-detail-status-pending.png" alt="Pending status is indicated by a yellow circle." class="inline">}} |
 | **Name** | The database name |
 | **Endpoint** | Use the **Copy** button to copy the endpoint URI to the Clipboard |
 | **Memory** | Memory size of the database, showing the current size and the maximum size |
@@ -73,7 +73,7 @@ The **Overview** summarizes the options use to created the subscription.
 
 - The general settings panel describes the cloud vendor, region, and high-availability settings for your subscription.
 
-    Select the **Edit** button to change the name of the subscription.
+    Select **Edit** to change the name of the subscription.
 
     {{<image filename="images/rc/icon-edit-subscription-name.png" alt="Use the **Edit** button to change the subscription name." >}}
 
@@ -93,7 +93,9 @@ The **Overview** summarizes the options use to created the subscription.
 
 - The **Payment Method** panel shows the current payment details.
 
-    Select the {{< image filename="/images/rc/icon-subscription-detail-change-payment-flexible.png" >}} button to change the credit card associated with this subscription.
+    Select the **Edit payment method** button to change the credit card associated with this subscription.
+
+    {{< image filename="/images/rc/icon-subscription-detail-change-payment-flexible.png" alt="The update credit card button." >}}
 
 - The **Maintenance Window** panel shows your current [maintenance window settings]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}).
 
