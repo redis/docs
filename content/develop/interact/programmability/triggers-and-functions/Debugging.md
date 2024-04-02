@@ -46,7 +46,7 @@ After loading the library and executing the function with [`TFCALL`]({{< relref 
 
 ### Use Redis pub/sub
 
-If you don't have access to your Redis database log files, you can use pub/sub. The following example demonstrates how to use the [client.call]({{< baseurl >}}/develop/interact/programmability/triggers-and-functions/concepts/JavaScript_API#clientcall) API to publish to a pub/sub channel.
+If you don't have access to your Redis database log files, you can use pub/sub. The following example demonstrates how to use the [client.call]({{< baseurl >}}/develop/interact/programmability/triggers-and-functions/concepts/javascript_api/#clientcall) API to publish to a pub/sub channel.
 
 ```javascript
 #!js api_version=1.0 name=lib
