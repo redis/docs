@@ -14,7 +14,7 @@ Assign a role, associated with specific databases and access control lists (ACLs
 
 1. From the **Access Control > Users** tab in the admin console, you can:
 
-    - Point to an existing user and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" >}} to edit the user.
+    - Point to an existing user and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit the user.
     
     - Select **+ Add user** to [create a new user]({{< relref "/operate/rs/security/access-control/manage-users/add-users" >}}).
 

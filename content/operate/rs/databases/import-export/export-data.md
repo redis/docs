@@ -36,7 +36,7 @@ To export data from a database:
 
 1.  Select the database from the **Databases** list.
 
-1. Click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" >}} to open a list of additional actions.
+1. Click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" class="inline" >}} to open a list of additional actions.
 
 1. Select **Export**.
 

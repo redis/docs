@@ -45,7 +45,7 @@ Before upgrading a database:
 
     To determine the database version:
 
-    - Use the admin console to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" >}} **About**.
+    - Use the admin console to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
 
     - _(Optional)_ Use the [`rladmin status extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}) command to display configuration details:
 
@@ -111,7 +111,7 @@ To upgrade a database:
 
     To do so:
 
-    - Use the admin console to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" >}} **About**.
+    - Use the admin console to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
 
     - Use [`rladmin status databases extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version:
 
