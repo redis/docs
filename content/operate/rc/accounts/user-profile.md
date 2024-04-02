@@ -38,7 +38,7 @@ This screen contains up to three sections, including:
 
     If you're using single sign-on authentication, you cannot change the password using the *User Profile* screen.  Such accounts are managed by an identity provider (IdP).  For help changing (or recovering) the passwords for these accounts, consult your identity provider docs.
 
-- The **Multi-factor authentication (MFA)** section lets you manage MFA settings for the current user account.  
+- The **Multi-factor authentication (MFA)** section lets you [manage MFA settings]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}}) for the current user account.  
 
     When you activate a mobile device, you can use SMS MFA as a second authentication factor.
 

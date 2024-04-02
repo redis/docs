@@ -8,7 +8,7 @@ categories:
 - rc
 description: Shows how to subscribe to Redis Cloud using AWS Marketplace
 hideListLinks: true
-weight: $weight
+weight: 20
 ---
 
 You can use AWS Marketplace to subscribe to Redis Cloud through AWS Marketplace.  This lets you provision according to your needs and pay using your AWS account.
@@ -43,6 +43,6 @@ At this point, you can create a new database using the [standard workflow]({{< r
 
 To confirm this, review the payment method associated with your subscription.
 
-{{<image filename="images/rc/aws-marketplace-billing-confirm.png" alt="The AWS Marketplace billing confirmation." width="80%">}}
+{{<image filename="images/rc/aws-marketplace-billing-confirm.png" alt="The AWS Marketplace billing confirmation." width="300px">}}
 
 If, for whatever reason, your AWS Marketplace account is disabled or otherwise unavailable, you won't be able to use your databases until the billing method is updated.  For help, [contact support](https://redis.com/company/support/).
