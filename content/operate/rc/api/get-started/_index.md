@@ -63,7 +63,7 @@ Doing so lets you [audit API requests]({{< relref "/operate/rc/api/examples/audi
 
 Every API request must use the **account key** and a **user key** to authenticate.
 
-The keys are provided as [HTTP request headers]({{< relref "/operate/rc/api/get-started/use-rest-api.md#using-the-curl-http-client" >}}), shown earlier.
+The keys are provided as [HTTP request headers]({{< relref "/operate/rc/api/get-started/use-rest-api#use-the-curl-http-client" >}}), shown earlier.
 
 ## Authenticate a request
 

@@ -25,7 +25,7 @@ When a subscription is created, it is created with at least one database.
 
 You can add databases to the subscription; you can also update or delete existing databases.
 
-Creating a database is an [asynchronous operation]({{< relref "/operate/rc/api/get-started/process-lifecycle.md#asynchronous-operations" >}}).
+Creating a database is an [asynchronous operation]({{< relref "/operate/rc/api/get-started/process-lifecycle" >}}).
 
 The following API call creates a database.
 

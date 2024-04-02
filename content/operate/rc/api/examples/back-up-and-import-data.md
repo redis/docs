@@ -22,7 +22,7 @@ The number of database backups that can run simultaneously on a cluster is limit
 {{</note>}}
 
 The API operation for on-demand backups is `POST /subscriptions/{subscriptionId}/databases/{databaseId}/backup`.
-On-demand database backup is an [asynchronous operation]({{< relref "/operate/rc/api/get-started/process-lifecycle.md#asynchronous-operations" >}}).
+On-demand database backup is an [asynchronous operation]({{< relref "/operate/rc/api/get-started/process-lifecycle" >}}).
 
 ```shell
 POST "https://[host]/v1/subscriptions/<subscriptionId>/databases/<databaseId>/backup"    
@@ -34,7 +34,7 @@ Instead, the `periodicBackupPath` must be set to a valid path with available sto
 ## Import a database
 
 You can import data into an existing database from multiple storage sources, including AWS S3, Redis, and FTP.
-Database import is an [asynchronous operation]({{< relref "/operate/rc/api/get-started/process-lifecycle.md#asynchronous-operations" >}}).
+Database import is an [asynchronous operation]({{< relref "/operate/rc/api/get-started/process-lifecycle" >}}).
 
 The API operation for performing on-demand backup is `POST /v1/subscriptions/{subscriptionId}/databases/{databaseId}/import`.
 
