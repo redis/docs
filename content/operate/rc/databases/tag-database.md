@@ -41,8 +41,8 @@ To get to the database list, select **Databases** from the main menu.
 
 Hover over the database and select **Manage tags**, or select **More actions** > **Manage tags** to open the [tag manager](#tag-manager).
 
-{{<image filename="images/rc/tags-icon-manage-tags.png" width=30px alt="Manage tags button." >}}
-{{<image filename="images/rc/tags-icon-more-actions.png" width=30px alt="More actions button." >}}
+{{<image filename="images/rc/tags-icon-manage-tags.png" width=30px alt="Manage tags button." class="inline">}}
+{{<image filename="images/rc/tags-icon-more-actions.png" width=30px alt="More actions button." class="inline">}}
 
 ### Use the tag manager {#tag-manager}
 
