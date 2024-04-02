@@ -566,14 +566,6 @@ The following type conversion rules apply to the execution's context by default 
 * [RESP2 error reply]({{< baseurl>}}/develop/reference/protocol-spec#simple-errors) -> Lua table with a single _err_ field containing the error string
 * [RESP2 null bulk reply]({{< baseurl>}}/develop/reference/protocol-spec#bulk-strings) and [RESP2 null multi-bulk reply]({{< baseurl>}}/develop/reference/protocol-spec#arrays) -> Lua false boolean type
 
-[RESP2 integer reply]({{< baseurl>}}/develop/reference/protocol-spec#integers)
-[RESP2 bulk string reply]({{< baseurl>}}/develop/reference/protocol-spec#bulk-strings)
-[RESP2 array reply]({{< baseurl>}}/develop/reference/protocol-spec#arrays)
-[RESP2 status reply]({{< baseurl>}}/develop/reference/protocol-spec#simple-strings)
-[RESP2 error reply]({{< baseurl>}}/develop/reference/protocol-spec#simple-errors)
-[RESP2 null bulk reply]({{< baseurl>}}/develop/reference/protocol-spec#bulk-strings)
-[RESP2 null multi-bulk reply]({{< baseurl>}}/develop/reference/protocol-spec#arrays)
-
 ## Lua to RESP2 type conversion
 
 The following type conversion rules apply by default as well as after the user had called `HELLO 2`:
