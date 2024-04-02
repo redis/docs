@@ -22,6 +22,7 @@ Here's how to perform a variety of tasks:
     - [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}})
     - [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
     - [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}})
+    - [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}})
 
 - [View and edit databases]({{< relref "/operate/rc/databases/view-edit-database" >}})
 

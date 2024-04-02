@@ -17,7 +17,7 @@ The 30 MB Essentials plan is free; it's designed for learning and building test 
 
 Our paid plans start at 250 MB and offer extra features, like high availability and backups (both daily and instant). They are great for bigger projects or production environments that require increased storage, reliability, and other features to support your operational needs.
 
-If you need additional resources, you can [upgrade your subscription]({{< relref "/operate/rc/subscriptions/view-essentials-subscription#upgrade-subscription-plan" >}}) at any time.
+If you need additional resources, you can [upgrade your subscription]({{< relref "/operate/rc/subscriptions/view-essentials-subscription#upgrade-plan" >}}) at any time.
 
 ## Current plans
 
@@ -30,7 +30,7 @@ These plans are currently offered for all new and upgraded Essentials subscripti
 | **Monthly<br/> total network<br/> bandwidth** | 5&nbsp;GB | 100&nbsp;GB | 200&nbsp;GB | 400&nbsp;GB | 800&nbsp;GB | 2000&nbsp;GB |
 | **Maximum<br/> throughput<sup>[2](#table-note-2)</sup>** | 100&nbsp;ops/sec | 1000&nbsp;ops/sec | 2000&nbsp;ops/sec | 4000&nbsp;ops/sec | 8000&nbsp;ops/sec | 16000&nbsp;ops/sec |
 
-1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication where applicable. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#performance-and-cost-impact" >}}) for more information.
+1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication where applicable. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#dataset-size" >}}) for more information.
 
 2. <a name="table-note-2" style="display: block; height: 80px; margin-top: -80px;"></a> Assumes request size of 1 KiB. Maximums are capped by actual MB/s reached. To find the MB/s limit, divide the Maximum throughput by 1024.
 
@@ -46,6 +46,6 @@ These plans were available before November 2023.
 | **Maximum<br/> throughput**                                                       | 100&nbsp;ops/sec | 500&nbsp;ops/sec | 1000&nbsp;ops/sec | 1500&nbsp;ops/sec | 2000&nbsp;ops/sec | 4000&nbsp;ops/sec | 8000&nbsp;ops/sec | 16000&nbsp;ops/sec |
 {{</table-scrollable>}}
 
-1. <a name="table-note-1-legacy" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#performance-and-cost-impact" >}}) for more information.
+1. <a name="table-note-1-legacy" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#dataset-size" >}}) for more information.
 
 2. <a name="table-note-2-legacy" style="display: block; height: 80px; margin-top: -80px;"></a> Assumes request size of 1 KiB. Maximums are capped by actual MB/s reached. To find the MB/s limit, divide the Maximum throughput by 1024.

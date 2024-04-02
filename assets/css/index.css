@@ -946,3 +946,14 @@ input[type="radio"] {
   text-decoration: underline;
 }
 
+.expand-content > div {
+  @apply h-full overflow-hidden;
+}
+
+.expand-content > div > pre {
+  @apply h-full m-0;
+}
+
+.expand-content > div > pre > code {
+  @apply h-full overflow-y-auto;
+}

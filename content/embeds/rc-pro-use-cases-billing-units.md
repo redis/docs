@@ -13,7 +13,7 @@ The following table shows the default use case settings for a Pro database.
 
 The Redis Billing Unit types associated with your Pro subscription depend on your database memory size and throughput requirements.  
 
-| Shard type | Capacity (Memory/Throughput) |
+| Billing unit type | Capacity (Memory/Throughput) |
 |:------------|:----------|
 | Micro | 1GB / 1K ops/sec |
 | High-throughput | 2.5GB / 25K ops/sec |

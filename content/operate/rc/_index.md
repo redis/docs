@@ -12,7 +12,7 @@ weight: 10
 [Redis Cloud](https://redis.com/redis-enterprise-cloud/overview/) delivers a fully managed Redis database offering hosted on major public cloud services.
 
 With Redis Cloud, you get all of the features of Redis Enterprise, including:
-- [Redis](https://redis.io/) and [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) support
+- [Redis]({{< relref "/develop/" >}}) and [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) support
 - Linear scalability
 - Instant failover, backups, and recovery
 - Predictable performance
@@ -41,7 +41,7 @@ Learn about the [types of subscriptions]({{< relref "/operate/rc/subscriptions" 
 ## Accounts & settings
 Manage Redis Cloud [accounts and settings]({{< relref "/operate/rc/accounts" >}}).
 - [Billing and payments]({{< relref "/operate/rc/billing-and-payments" >}})
-- [Manage cloud integrations]({{< relref "/operate/rc/cloud-integrations" >}})
+- [Manage marketplace integrations]({{< relref "/operate/rc/cloud-integrations" >}})
 
 ## Security
 Manage [secure connections]({{< relref "/operate/rc/security" >}}) to cloud databases.
@@ -59,6 +59,6 @@ Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage the database.
 
 ## Related info
 - [Redis Enterprise Software]({{< relref "/operate/rs" >}})
-- [Open source Redis](https://redis.io/) (redis.io)
+- [Develop with Redis]({{< relref "/develop/" >}})
 - [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}})
 - [Glossary]({{< relref "/glossary" >}})

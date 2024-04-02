@@ -17,7 +17,7 @@ Available options depend on your database plan and **Type**.
 
 ## Redis Cloud Essentials {#essentials}
 
-All Redis Cloud Essentials databases support [Redis Stack]({{< relref "/develop/get-started/" >}}), which enables the most frequently used capabilities.
+All Redis Cloud Essentials databases support [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}), which enables the most frequently used capabilities.
 
 {{<image filename="images/rc/new-database-general-type-free-stack.png" alt="For Essentials, the Type setting in the General section includes an option for Redis Stack." width="75%">}}
 
@@ -47,6 +47,6 @@ You can select more than one advanced capability for a database, though there ar
 
 You don't have to combine capabilities.  To remove a selected capability, either clear the checkbox in the menu or select its **Delete** icon.  
 
-<nobr>{{<image filename="images/rc/icon-checkbox-clear.png" alt="To remove a selected capability, clear the checkbox in the menu." width="30px">}}&nbsp;{{<image filename="images/rc/icon-module-delete.png" alt="You can also use the delete icon to remove a capability." width="30px">}}</nobr>
+{{<image filename="images/rc/icon-checkbox-clear.png" alt="To remove a selected capability, clear the checkbox in the menu." width="30px" class="inline">}}&nbsp;{{<image filename="images/rc/icon-module-delete.png" alt="You can also use the delete icon to remove a capability." width="30px" class="inline">}}
 
 To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
