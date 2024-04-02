@@ -1,6 +1,6 @@
 ---
 LinkTitle: Active-Active roles
-Title: Create roles for Active-Active subscriptions
+Title: Create roles for Active-Active databases
 alwaysopen: false
 categories:
 - docs
@@ -18,9 +18,9 @@ For [Active-Active databases]({{< relref "/operate/rc/databases/configuration/ac
 
 1. In the **Associations** section of the **Edit role** or **Create new role** screen, you can select `+` to create a new association or point to an existing association and select the pencil icon to edit it.
 
-1. Select one or more Active-Active databases from the **Databases** list. Active-Active subscriptions are marked with a globe icon.
+1. Select one or more Active-Active databases from the **Databases** list. Active-Active databases are marked with a globe icon.
 
-    {{<image filename="images/rc/roles-select-aa-database.png" alt="List of subscriptions. Active-Active subscriptions are marked with a globe icon." >}}
+    {{<image filename="images/rc/roles-select-aa-database.png" alt="List of databases. Active-Active databases are marked with a globe icon." >}}
 
 1. To set the role's default level of access to the selected databases, choose a **Redis ACL** from the list and select the check mark to confirm the association.
 

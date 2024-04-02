@@ -103,9 +103,9 @@ To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< 
 
 Now that you have you Auth0 IdP server ready, configure support for SAML in Redis Cloud.
 
-### Log in to your Redis Cloud account
+### Sign in to Redis Cloud
 
-Log in to your account at [https://app.redislabs.com/#/login](https://app.redislabs.com/#/login)
+Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#/login).
 
 ### Activate SAML in Access Management
 
@@ -119,7 +119,7 @@ To activate SAML, you need to have a local user (or social sign-on user) with th
 
     You will also have to add:
 
-    * **Email domain binding** - The domain used in your company's email addresses
+    * **Email domain binding**: The domain used in your company's email addresses
 
     {{<image filename="images/rc/saml/auth0_saml_11.png" >}}
 

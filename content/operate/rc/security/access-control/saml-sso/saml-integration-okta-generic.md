@@ -204,9 +204,9 @@ Then, edit the user assignment.
 
 Now that you have a test IdP server ready as well as your user group, configure support for SAML in Redis Cloud.
 
-### Sign in to your Redis Cloud account
+### Sign in to Redis Cloud
 
-Sign in to your [Redis Cloud console](https://app.redislabs.com/#/login).
+Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#/login).
 
 ### Activate SAML in Access Management
 

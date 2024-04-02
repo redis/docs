@@ -60,9 +60,9 @@ Both the IAM Identity Center sign-in URL and the IAM Identity Center SAML issuer
 
 Now that you have your IAM Identity Center IdP server information, configure support for SAML in Redis Cloud.
 
-### Log in to your Redis Cloud account
+### Sign in to Redis Cloud
 
-Log in to your account at [Redis Cloud console](https://app.redislabs.com/#/login)
+Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#/login).
 
 ### Activate SAML in Access Management
 
@@ -146,11 +146,11 @@ The final step in our SAML integration with AWS IAM identity Center is to activa
 
    {{<image filename="images/rc/saml/aws_iam_identity_center_saml_16.png" >}}
 
-1. Enter you AWS IAM Identity Center credentials.
+1. Enter your AWS IAM Identity Center credentials.
 
    {{<image filename="images/rc/saml/aws_iam_identity_center_saml_18.png" >}}
 
-1. If everything is configured correctly, you should get a **SAML activation succeeded** message. From this point forward, users need to click **SSO** to log in to the Redis Cloud console.
+1. If everything is configured correctly, you should get a **SAML activation succeeded** message. From this point forward, users need to click **SSO** to sign in to the Redis Cloud console.
 
    {{<image filename="images/rc/saml/aws_iam_identity_center_saml_19.png" >}}
 
