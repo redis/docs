@@ -22,4 +22,4 @@ Redis Enterprise Software and Redis Cloud support RESP2 and RESP3. In Redis Clou
 
 ## Compatibility with open source Redis Cluster API
 
-Redis Cloud supports [Redis OSS Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) on Redis Cloud Pro if it is enabled for a database. Review [Redis OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
+Redis Cloud supports [Redis OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) on Redis Cloud Pro if it is enabled for a database. Review [Redis OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
