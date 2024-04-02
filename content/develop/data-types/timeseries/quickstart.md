@@ -36,7 +36,7 @@ docker run -p 6379:6379 -it --rm redis/redis-stack-server
 
 ### Download and running binaries
 
-First download the pre-compiled version from the [Redis download center](https://app.redislabs.com/#/rlec-downloads).
+First download the pre-compiled version from the [Redis download center](https://redis.io/downloads).
 
 Next, run Redis with RedisTimeSeries:
 
