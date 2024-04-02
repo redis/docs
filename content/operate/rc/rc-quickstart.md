@@ -18,7 +18,7 @@ You'll learn how to:
 
 1.  Connect to your database
 
-If you already have an account, see [Create an Essentials database]({{< relref "/operate/rc/databases/create-essentials-database" >}}) to create a Free 30 MB Essentials database. Free plans are a type of Essentials plans; this provides an easy upgrade path when you need it.
+If you already have an account, see [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}) to create a Free 30 MB Essentials database. Free plans are a type of Essentials plans; this provides an easy upgrade path when you need it.
 
 If you already have a database, see [Manage databases]({{< relref "/operate/rc/databases/" >}}).
 
