@@ -100,7 +100,7 @@ To configure a Redis ACL rule that you can assign to a user role:
 
 1. From **Access Control > Redis ACLs**, you can either:
 
-    - Point to a Redis ACL and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" >}} to edit an existing Redis ACL.
+    - Point to a Redis ACL and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit an existing Redis ACL.
 
     - Select **+ Add Redis ACL** to create a new Redis ACL.
 

@@ -37,7 +37,7 @@ To define a role for database access:
 
 1. From **Access Control** > **Roles**, you can:
 
-    - Point to a role and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" >}} to edit an existing role.
+    - Point to a role and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit an existing role.
 
     - Select **+ Add role** to create a new role.
 
@@ -57,7 +57,7 @@ To define a role for database access:
 
     {{<image filename="images/rs/access-control-role-databases.png" alt="Add databases to access" >}}
 
-1. Select the check mark {{< image filename="/images/rs/buttons/checkmark-button.png#no-click" alt="The Check button" width="25px" >}} to confirm.
+1. Select the check mark {{< image filename="/images/rs/buttons/checkmark-button.png#no-click" alt="The Check button" width="25px" class="inline" >}} to confirm.
 
 1. Select **Save**.
 
