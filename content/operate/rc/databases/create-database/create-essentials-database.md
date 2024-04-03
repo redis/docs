@@ -9,7 +9,7 @@ description: Shows how to create an Essentials database.
 linkTitle: Create Essentials database
 weight: 5
 aliases:
-    - /operate/rc/subscriptions/create-fixed-subscription/
+    - /operate/rc/subscriptions/create-fixed-subscription
 ---
 
 {{< embed-md "rc-create-db-first-steps.md" >}}

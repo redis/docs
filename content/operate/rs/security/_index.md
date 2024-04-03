@@ -9,7 +9,7 @@ description: null
 hideListLinks: true
 weight: 60
 aliases:
-    - /operate/rs/administering/designing-production/security/
+    - /operate/rs/administering/designing-production/security
 ---
 Security is an important part of any production system. This section describes the security features and settings available in Redis Enterprise.
 
