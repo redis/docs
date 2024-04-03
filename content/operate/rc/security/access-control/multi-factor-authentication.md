@@ -5,7 +5,8 @@ categories:
 - docs
 - operate
 - rc
-description: Redis Cloud supports multi-factor authentication to reduce the risk of unauthorized Redis Cloud console access. 
+description: Redis Cloud supports multi-factor authentication to reduce the risk of
+  unauthorized Redis Cloud console access.
 linkTitle: Multi-factor authentication
 weight: 15
 ---

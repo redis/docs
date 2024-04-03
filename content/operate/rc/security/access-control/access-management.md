@@ -5,7 +5,8 @@ categories:
 - docs
 - operate
 - rc
-description: Control who can make changes to your databases using the Redis Cloud console.
+description: Control who can make changes to your databases using the Redis Cloud
+  console.
 weight: 5
 ---
 

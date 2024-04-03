@@ -5,7 +5,8 @@ categories:
 - docs
 - operate
 - rc
-description: null
+description: You can view and export system logs to track any activity associated
+  with your subscriptions and databases.
 weight: 35
 ---
 The **Logs** page contains events, alerts, and logs from the activities, databases, and subscriptions associated with your account.

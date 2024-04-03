@@ -5,7 +5,10 @@ categories:
 - docs
 - operate
 - rc
-description: Redis Cloud supports both IdP-initiated and SP-initiated single sign-on (SSO) with SAML (Security Assertion Markup Language). You can use any identity provider to integrate with Redis Cloud as long as it supports the SAML protocol, or you can refer to integration guides for a few specific providers.
+description: Redis Cloud supports both IdP-initiated and SP-initiated single sign-on
+  (SSO) with SAML (Security Assertion Markup Language). You can use any identity provider
+  to integrate with Redis Cloud as long as it supports the SAML protocol, or you can
+  refer to integration guides for a few specific providers.
 hideListLinks: true
 linkTitle: SAML SSO
 weight: 20
