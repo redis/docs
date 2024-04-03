@@ -104,7 +104,9 @@ You cannot add RAM-only clusters and [flash-enabled clusters]({{< relref "/opera
 
 ## Configuration settings
 
-- **Name** - The database name requirements are:
+- **Database version** - The Redis version used by your database.
+
+- **Database name** - The database name requirements are:
 
     - Maximum of 63 characters
 
@@ -114,7 +116,7 @@ You cannot add RAM-only clusters and [flash-enabled clusters]({{< relref "/opera
 
     - Case-sensitive
 
-- **Endpoint port number** - You can define the port number that clients use to connect to the database. Otherwise, a port is randomly selected.
+- **Port** - You can define the port number that clients use to connect to the database. Otherwise, a port is randomly selected.
 
     {{< note >}}
 You cannot change the [port number]({{< relref "/operate/rs/networking/port-configurations.md" >}})
