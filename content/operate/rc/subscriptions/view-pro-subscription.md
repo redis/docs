@@ -29,7 +29,7 @@ From here, you can:
 
 - View the Status icon to learn the status of your subscription.  Active subscriptions display a green circle with a check mark. Pending subscriptions display an animated, grey circle.
 
-    {{<image filename="images/rc/icon-database-status-active.png" alt="When a subscription is active, the status icon displays a green circle with a checkmark." class="inline" >}} &nbsp; {{<image filename="images/rc/icon-subscription-status-pending.png" alt="When a subscription is pending, the status icon displays a gre, animated circle." class="inline">}}
+    {{<image filename="images/rc/icon-database-status-active.png#no-click" alt="When a subscription is active, the status icon displays a green circle with a checkmark." class="inline" >}} &nbsp; {{<image filename="images/rc/icon-subscription-status-pending.png#no-click" alt="When a subscription is pending, the status icon displays a gre, animated circle." class="inline">}}
 
 - {{< embed-md "rc-opt-in-to-72.md" >}}
 
@@ -55,7 +55,7 @@ The following details are provided:
 
 | Detail | Description |
 |:---------|:--------------|
-| **Status** | An icon indicating whether the database is active (a green circle) or pending (yellow circle)<br/>{{<image filename="images/rc/icon-database-detail-status-active.png" alt="Active status is indicated by a teal circle." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-database-detail-status-pending.png" alt="Pending status is indicated by a yellow circle." class="inline">}} |
+| **Status** | An icon indicating whether the database is active (a green circle) or pending (yellow circle)<br/>{{<image filename="images/rc/icon-database-detail-status-active.png#no-click" alt="Active status is indicated by a teal circle." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-database-detail-status-pending.png#no-click" alt="Pending status is indicated by a yellow circle." class="inline">}} |
 | **Name** | The database name |
 | **Endpoint** | Use the **Copy** button to copy the endpoint URI to the Clipboard |
 | **Memory** | Memory size of the database, showing the current size and the maximum size |
