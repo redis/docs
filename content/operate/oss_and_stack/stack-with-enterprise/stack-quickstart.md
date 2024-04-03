@@ -16,7 +16,7 @@ Alternatively, you can use one of these methods:
 
 - [Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 - Redis Enterprise Software in a [Docker container]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
-- [Other platforms]({{< relref "/operate/kubernetes/_index" >}}) for Redis Enterprise Software
+- [Other platforms]({{< relref "/operate/kubernetes" >}}) for Redis Enterprise Software
 
 ## Set up a Redis Cloud database
 
