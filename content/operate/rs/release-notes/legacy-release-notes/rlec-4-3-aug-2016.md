@@ -48,14 +48,14 @@ upgrade to this version.
 - rlcheck installation verification utility added to facilitate
     checking node health. For additional details, refer to [rlcheck
     installation verification
-    utility]({{< relref "/operate/rs/references/rlcheck" >}}).
+    utility]({{< relref "/operate/rs/references/cli-utilities/rlcheck" >}}).
 - Added the ability to allow the user to configure how machine IP
     addresses are used in Node Configuration setup in the management UI.
     For additional details, refer to [Initial setup - creating a new
     cluster.]({{< relref "/operate/rs/clusters/new-cluster-setup" >}})
 - Connection to database endpoint can now be encrypted with SSL. For
     additional details, refer to [Securing client connection with
-    SSL]({{< relref "/operate/rs/security/tls-ssl" >}}).
+    SSL]({{< relref "/operate/rs/security/encryption/tls" >}}).
 - Added support for running the cluster on the following operating
     systems and versions: RHEL/CentOS 6.6, 7.1, 7.2, RHEL 6.7, Oracle
     Linux 6.5.

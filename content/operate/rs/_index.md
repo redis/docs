@@ -50,11 +50,11 @@ Create and manage a [Redis database]({{< relref "/operate/rs/databases" >}}) on 
 Use command-line utilities and the REST API to manage the cluster and databases.
 - [rladmin]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}), [crdb-cli]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}), & [other utilities]({{< relref "/operate/rs/references/cli-utilities" >}})
 - [REST API reference]({{< relref "/operate/rs/references/rest-api" >}}) & [examples]({{< relref "/operate/rs/references/rest-api/quick-start" >}})
-- [Redis commands]({{< relref "/commands" >}}/) (redis.io)
+- [Redis commands]({{< relref "/commands" >}}/)
 
 ## Related info
 - [Redis Cloud]({{< relref "/operate/rc" >}})
-- [Open source Redis](https://redis.io/) (redis.io)
+- [Open source Redis]({{< relref "/operate/oss_and_stack" >}})
 - [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}})
 - [Glossary]({{< relref "/glossary" >}})
 

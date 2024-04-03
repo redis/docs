@@ -91,7 +91,7 @@ easily and quickly test several containers to build the scalable
 and highly available cluster Redis Enterprise Software is famous for.
 
 For more information, go to [quick start with Redis Enterprise on
-Docker.]({{< relref "/operate/rs/installing-upgrading/get-started-docker" >}})
+Docker]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}).
 
 ## LDAP Integration
 
@@ -102,7 +102,7 @@ accounts can be used for administering resources on the cluster via
 command line, Rest API, or admin console.
 
 For more information see [LDAP
-Integration]({{< relref "/operate/rs/security/ldap" >}}).
+Integration]({{< relref "/operate/rs/security/access-control/ldap" >}}).
 
 ## Additional capabilities
 
