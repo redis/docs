@@ -11,7 +11,7 @@ title: Install on Kubernetes
 weight: 4
 ---
 This tutorial shows how to install RedisInsight on [Kubernetes](https://kubernetes.io/) (K8s).
-This is an easy way to use RedisInsight with a [Redis Enterprise K8s deployment](https://redis.io/docs/about/redis-enterprise/#:~:text=and%20Multi%2Dcloud-,Redis%20Enterprise%20Software,-Redis%20Enterprise%20Software).
+This is an easy way to use RedisInsight with a [Redis Enterprise K8s deployment]({{< relref "operate/kubernetes/" >}}).
 
 ## Create the RedisInsight deployment and service
 

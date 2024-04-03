@@ -10,6 +10,8 @@ description: Redis Cloud uses clustering to manage very large databases (25 GB a
   to control how data is managed.
 linkTitle: Clustering
 weight: $weight
+aliases:
+    - /operate/rc/concepts/clustering
 ---
 For very large databases, Redis Cloud distributes database data to different cloud instances.  For example:
 

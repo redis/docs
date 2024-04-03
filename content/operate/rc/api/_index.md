@@ -11,7 +11,7 @@ linkTitle: REST API
 weight: 80
 ---
 
-The [Redis Cloud REST API](https://api.redislabs.com/v1/swagger-ui.html) helps you manage your Redis Cloud subscription programmatically.
+The [Redis Cloud REST API](https://api.redislabs.com/v1/swagger-ui.html) helps you manage your Redis Cloud databases programmatically.
 
 You can use the API to:
  
@@ -20,7 +20,7 @@ You can use the API to:
 - Audit access via logs  
 - Backup or import databases  
 
-## Getting started
+## Get started
 
 1. [Enable the API]({{< relref "/operate/rc/api/get-started/enable-the-api.md" >}})
 1. [Authenticate and authorize]({{< relref "/operate/rc/api/get-started" >}})
@@ -33,9 +33,9 @@ You can use the API to:
 
 1. [Manage subscriptions]({{< relref "/operate/rc/api/examples/manage-subscriptions.md" >}})
 1. Database examples
-    1. [Create database]({{< relref "/operate/rc/api/examples/create-database" >}})
-    1. [Update database]({{< relref "/operate/rc/api/examples/update-database.md" >}})
-    1. [Back up and import data]({{< relref "/operate/rc/api/examples/back-up-and-import-data.md" >}})
+    - [Create database]({{< relref "/operate/rc/api/examples/create-database" >}})
+    - [Update database]({{< relref "/operate/rc/api/examples/update-database.md" >}})
+    - [Back up and import data]({{< relref "/operate/rc/api/examples/back-up-and-import-data.md" >}})
 1. [Manage cloud accounts]({{< relref "/operate/rc/api/examples/manage-cloud-accounts.md" >}})
 1. [Estimate costs]({{< relref "/operate/rc/api/examples/dryrun-cost-estimates.md" >}})
 1. [View account info]({{< relref "/operate/rc/api/examples/view-account-information.md" >}})

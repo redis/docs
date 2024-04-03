@@ -10,6 +10,8 @@ description: Data eviction policies control what happens when new data exceeds t
   to change which one is used for a database.
 linkTitle: Data eviction
 weight: $weight
+aliases: 
+  - /operate/rc/concepts/data-eviction-policies
 ---
 
 The data eviction policy of a database controls what happens when new data exceeds the memory size of a database.  Typically, such situations require _evicting_ (or deleting) data previously added to the database.  

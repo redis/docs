@@ -11,7 +11,7 @@ title: Install on Docker
 weight: 2
 ---
 This tutorial shows how to install RedisInsight on [Docker](https://www.docker.com/) so you can use RedisInsight in development.
-See a separate guide for installing [RedisInsight on AWS]({{< relref "/operate/redisinsight/install/install-redisinsight/install-on-aws/" >}}).
+See a separate guide for installing [RedisInsight on AWS]({{< relref "/operate/redisinsight/install/install-on-aws" >}}).
 
 ## Install Docker
 

@@ -1787,7 +1787,7 @@ aof-timestamp-enabled no
 # cluster-preferred-endpoint-type ip
 
 # In order to setup your cluster make sure to read the documentation
-# available at https://redis.io web site.
+# available at https://redis.io/docs/latest web site.
 
 ########################## CLUSTER DOCKER/NAT support  ########################
 

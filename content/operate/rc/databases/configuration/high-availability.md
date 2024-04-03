@@ -9,6 +9,8 @@ description: Describes database replication and high availability as it affects 
   Cloud.
 linkTitle: High availability
 weight: $weight
+aliases: 
+  - /operate/rc/databases/high-availability
 ---
 
 Database replication helps ensure high availability. 

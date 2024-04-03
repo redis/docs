@@ -8,6 +8,8 @@ categories:
 description: Shows how to create an Active-Active database
 linkTitle: Create Active-Active database
 weight: 20
+aliases: 
+    - /operate/rc/subscriptions/create-active-active-subscription
 ---
 
 Active-Active databases store data across multiple regions and availability zones.  This improves scalability, performance, and availability, especially when compared to standalone databases. See [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) for more information.

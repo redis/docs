@@ -12,7 +12,7 @@ weight: 80
 ---
 You can use the Redis Cloud REST API to create and manage cloud accounts.
 
-These examples use the [`cURL` utility]({{< relref "/operate/rc/api/get-started/use-rest-api.md#using-the-curl-http-client" >}}); you can use any REST client to work with the Redis Cloud REST API.
+These examples use the [`cURL` utility]({{< relref "/operate/rc/api/get-started/use-rest-api#use-the-curl-http-client" >}}); you can use any REST client to work with the Redis Cloud REST API.
 
 ## Create a cloud account
 
