@@ -46,7 +46,7 @@ sudo yum install redis-stack-server
 
 ## With snap
 
-From [Download](/download/), get the latest Stack snap package.
+From [Download](https://redis.io/downloads/), get the latest Stack snap package.
 
 To install, run:
 
@@ -56,7 +56,7 @@ sudo snap install --dangerous --classic <snapname.snap>
 
 ## With AppImage
 
-From [Download](/download/), get the latest Stack AppImage package.
+From [Download](https://redis.io/downloads/), get the latest Stack AppImage package.
 
 Enable the install:
 

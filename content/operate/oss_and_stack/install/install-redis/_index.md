@@ -24,7 +24,7 @@ How you install Redis depends on your operating system and whether you'd like to
 * [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
 * [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os" >}})
 * [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-windows" >}})
-* [Install Redis with Redis Stack and RedisInsight]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})
+* [Install Redis with Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})
 
 Refer to [Redis Administration]({{< relref "/operate/oss_and_stack/management/admin" >}}) for detailed setup tips.
 
@@ -66,7 +66,7 @@ Note that a Redis instance exposed to the internet without any security [is very
 
 Of course using Redis just from the command line interface is not enough as the goal is to use it from your application. To do so, you need to download and install a Redis client library for your programming language.
 
-You'll find a [full list of clients for different languages in this page](/clients).
+You'll find a [full list of supported clients for different languages in this page]({{< relref "develop/connect/clients/" >}}).
 
 
 ## Redis persistence
