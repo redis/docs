@@ -33,7 +33,7 @@ The **API account key** is used as the value of the `x-api-key` HTTP header in o
 
 By default, the **API account key** is masked; that is, it is obscured for security reasons.  You can use the **Show** button to display the key and the **Hide** button to mask it.
 
-{{<image filename="images/rc/button-access-management-show-key.png" alt="The **Show** button displays the account key." >}} &nbsp; {{<image filename="images/rc/button-access-management-hide-key.png" alt="The **Hide** button masks the account key." >}}
+{{<image filename="images/rc/button-access-management-show-key.png" alt="The **Show** button displays the account key." class="inline" >}} &nbsp; {{<image filename="images/rc/button-access-management-hide-key.png#no-click" alt="The **Hide** button masks the account key." class="inline">}}
 
 The **Copy** button copies the account key to the Clipboard.
 
@@ -123,4 +123,4 @@ To manage the CIDR allow list:
 
     Use the **Edit** button to change the address for a rule or the **Delete button** to remove a rule.
 
-    {{<image filename="images/rc/button-access-management-cidr-rule-edit.png" alt="Use the **Edit** button to change the address for a CIDR allow list rule." >}} &nbsp; {{<image filename="images/rc/button-access-management-cidr-rule-delete.png" alt="Use the **Delete** button to remove an address from the CIDR allow list." >}} 
+    {{<image filename="images/rc/button-access-management-cidr-rule-edit.png#no-click" alt="Use the **Edit** button to change the address for a CIDR allow list rule." class="inline">}} &nbsp; {{<image filename="images/rc/button-access-management-cidr-rule-delete.png#no-click" alt="Use the **Delete** button to remove an address from the CIDR allow list." class="inline" >}} 
