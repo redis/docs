@@ -6,7 +6,7 @@ categories:
 - docs
 - operate
 - rc
-description: Secure access to the data in your Redis Cloud databases.
+description: Control who can access your databases using the default user database password and role-based access control.
 headerRange: '[1-3]'
 hideListLinks: true
 toc: 'true'

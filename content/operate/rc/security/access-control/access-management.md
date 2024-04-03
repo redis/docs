@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rc
-description: Access management
+description: Control who can make changes to your databases using the Redis Cloud console.
 weight: 5
 ---
 
