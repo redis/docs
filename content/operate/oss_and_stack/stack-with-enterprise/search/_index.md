@@ -21,19 +21,19 @@ The search and query engine indexes documents, which are objects that represent 
 As the documents in your database change, the index automatically processes these changes to keep the search results up to date.
 
 With indexes, you can do:
-- Language-aware [fuzzy matching]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}})
-- Fast [auto-complete]({{< relref "/develop/interact/search-and-query/administration/overview" >}})
-- [Exact phrase matching]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}})
-- [Numeric filtering]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}#numeric-filters-in-query)
-- [Geo-radius queries]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}#geo-filters-in-query)
+- Language-aware [fuzzy matching]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax#fuzzy-matching)
+- Fast [auto-complete]({{< baseurl >}}/develop/interact/search-and-query/administration/overview#auto-complete)
+- [Exact phrase matching]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax)
+- [Numeric filtering]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax#numeric-filters-in-query)
+- [Geo-radius queries]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax#geo-filters)
 
 ## Supported document types
 
-You can store documents as Redis [hashes]({{< relref "/develop/data-types/" >}}) or [JSON](http://www.json.org/). To search and query JSON documents, you also need to enable [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) in your database.
+You can store documents as Redis [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json" >}}). To search and query JSON documents, you also need to enable [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) in your database.
 
 ### Hash documents
 
-With Redis [hashes]({{< relref "/develop/data-types/" >}}), each document is assigned to a single key and uses field-value pairs to represent the document's contents.
+With Redis [hashes]({{< relref "/develop/data-types/hashes" >}}), each document is assigned to a single key and uses field-value pairs to represent the document's contents.
 
 You can run [`HGETALL`]({{< relref "/commands" >}}/hgetall/) to retrieve the entire hash document.
 
@@ -41,7 +41,7 @@ You can run [`HGETALL`]({{< relref "/commands" >}}/hgetall/) to retrieve the ent
 
 You can index, search, and query JSON documents stored in your database.
 
-For more information about how to search and query JSON documents, see the [quick start]({{< relref "/develop/interact/search-and-query/indexing/" >}}).
+For more information about how to search and query JSON documents, see the [quick start]({{< relref "/develop/get-started/document-database" >}}).
 
 ## Search features
 
