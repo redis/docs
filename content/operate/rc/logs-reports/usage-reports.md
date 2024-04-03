@@ -5,7 +5,8 @@ categories:
 - docs
 - operate
 - rc
-description: null
+description: You can view usage reports to track the memory usage and shard usage
+  of all your databases.
 weight: 70
 ---
 
