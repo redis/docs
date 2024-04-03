@@ -16,9 +16,9 @@ weight: 1
 
 * Deploy Redis using the Linux operating system. Redis is also tested on OS X, and from time to time on FreeBSD and OpenBSD systems. However, Linux is where most of the stress testing is performed, and where most production deployments are run.
 
-* Set the Linux kernel overcommit memory setting to 1. Add `vm.overcommit_memory = 1` to `/etc/sysctl.conf`. Then, reboot or run the command `sysctl vm.overcommit_memory=1` to activate the setting. See [FAQ: Background saving fails with a fork() error on Linux?]({{< relref "/develop/get-started/faq" >}}#background-saving-fails-with-a-fork-error-on-linux) for details. 
+* Set the Linux kernel overcommit memory setting to 1. Add `vm.overcommit_memory = 1` to `/etc/sysctl.conf`. Then, reboot or run the command `sysctl vm.overcommit_memory=1` to activate the setting. See [FAQ: Background saving fails with a fork() error on Linux?]({{< relref "/develop/get-started/faq" >}}#background-saving-fails-with-a-fork-error-on-linux)({{< baseurl >}}/develop/get-started/faq/#background-saving-fails-with-a-fork-error-on-linux) for details. 
 
-* To ensure the Linux kernel feature Transparent Huge Pages does not impact Redis memory usage and latency, run the command: `echo never > /sys/kernel/mm/transparent_hugepage/enabled` to disable it. See [Latency Diagnosis - Latency induced by transparent huge pages]({{< relref "/operate/oss_and_stack/management/optimization/latency" >}}#latency-induced-by-transparent-huge-pages) for additional context. 
+* To ensure the Linux kernel feature Transparent Huge Pages does not impact Redis memory usage and latency, run the command: `echo never > /sys/kernel/mm/transparent_hugepage/enabled` to disable it. See [Latency Diagnosis - Latency induced by transparent huge pages]({{< baseurl >}}/operate/oss_and_stack/management/optimization/latency#latency-induced-by-transparent-huge-pages) for additional context. 
 
 ### Memory
 
@@ -44,7 +44,7 @@ weight: 1
 
 ### Security
 
-* By default, Redis does not require any authentication and listens to all the network interfaces. This is a big security issue if you leave Redis exposed on the internet or other places where attackers can reach it. See for example [this attack](http://antirez.com/news/96) to see how dangerous it can be. Please check our [security page]({{< relref "/operate/oss_and_stack/management/security/" >}}) and the [quick start]({{< relref "/develop/get-started/" >}}) for information about how to secure Redis.
+* By default, Redis does not require any authentication and listens to all the network interfaces. This is a big security issue if you leave Redis exposed on the internet or other places where attackers can reach it. See for example [this attack](http://antirez.com/news/96) to see how dangerous it can be. Please check our [security page]({{< relref "/operate/oss_and_stack/management/security/" >}}) for information about how to secure Redis.
 
 ## Running Redis on EC2
 
