@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rc
-description: Describes where to view the archive of Redis Enterprise for  Kubernetes
+description: Describes where to view the archive of Redis Enterprise for Kubernetes
   documentation.
 linkTitle: Archive
 weight: 99999999999
