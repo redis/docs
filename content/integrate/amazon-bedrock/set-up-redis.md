@@ -202,7 +202,7 @@ To create your vector index in RedisInsight:
 
 1. [Download and install RedisInsight](https://redis.com/redis-enterprise/redis-insight/) if you don't have it already.
 
-1. In the Redis Cloud [admin console](https://app.redislabs.com/), in your database's **Congifuration** tab, select the **Connect** button next to your database to open the connection wizard.
+1. In the Redis Cloud [admin console](https://app.redislabs.com/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
 
     {{< image filename="/images/rc/connection-wizard-button.png#no-click" alt="Connect button." >}}
 

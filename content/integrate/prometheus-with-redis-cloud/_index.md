@@ -1,6 +1,6 @@
 ---
 LinkTitle: Prometheus & Grafana with Redis Cloud
-Title: Prometheus & Grafana with Redis Cloud
+Title: Prometheus and Grafana with Redis Cloud
 alwaysopen: false
 categories:
 - docs
