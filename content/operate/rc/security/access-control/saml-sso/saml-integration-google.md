@@ -35,9 +35,9 @@ To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< 
 
 1. In the next screen, you will find all of the information needed to configure SAML in Redis Cloud. Select the **copy** button for the following information sections:
 
-* SSO URL
-* Entity ID
-* Certificate
+   * SSO URL
+   * Entity ID
+   * Certificate
 
    {{<image filename="images/rc/saml/google_workspace_saml_3.png" >}}
 
@@ -47,9 +47,9 @@ Once complete, select **Continue**.
 
 Now that you have your Google Workspace IdP server information, configure support for SAML in Redis Cloud.
 
-### Log in to your Redis Cloud account
+### Sign in to Redis Cloud
 
-Log in to your account at [Redis Cloud console](https://app.redislabs.com/#/login)
+Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#/login).
 
 ### Activate SAML in Access Management
 

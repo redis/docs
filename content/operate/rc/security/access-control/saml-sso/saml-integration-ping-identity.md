@@ -99,9 +99,9 @@ To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< 
 
 Now that we have our Ping Identity IdP server ready, we need to configure support for SAML in Redis Cloud.
 
-### Sign in to Redis Cloud console
+### Sign in to Redis Cloud
 
-Log in to [Redis Cloud console](https://app.redislabs.com/#/login)
+Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#/login).
 
 ### Activate SAML in access management
 
