@@ -891,7 +891,7 @@ Before using this configuration, make sure your client library can send the [`AU
 ### Sentinel clients implementation
 ---
 
-Sentinel requires explicit client support, unless the system is configured to execute a script that performs a transparent redirection of all the requests to the new master instance (virtual IP or other similar systems). The topic of client libraries implementation is covered in the document [Sentinel clients guidelines]({{< relref "/operate/oss_and_stack/management/sentinel-clients" >}}).
+Sentinel requires explicit client support, unless the system is configured to execute a script that performs a transparent redirection of all the requests to the new master instance (virtual IP or other similar systems). The topic of client libraries implementation is covered in the document [Sentinel clients guidelines]({{< relref "/develop/reference/sentinel-clients" >}}).
 
 ## More advanced concepts
 
