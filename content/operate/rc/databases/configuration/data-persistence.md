@@ -10,6 +10,8 @@ description: Data persistence enables recovery in the event of memory loss or ot
   and how to apply specific settings to individual databases.
 linkTitle: Data persistence
 weight: $weight
+aliases: 
+  - /operate/rc/concepts/data-persistence
 ---
 Redis Cloud can persist data to enable recovery in the event of memory loss or other catastrophic failure.  When you enable data persistence, in-memory data is copied to persistent storage attached to the underlying cloud instance.
 

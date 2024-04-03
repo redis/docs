@@ -8,6 +8,8 @@ categories:
 description: null
 linktitle: Back up database
 weight: 25
+aliases:
+    - /operate/rc/administration/configuration/backups
 ---
 
 The backup options for Redis Cloud databases depend on your plan:
