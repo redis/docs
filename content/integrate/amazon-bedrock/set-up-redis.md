@@ -57,7 +57,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     In addition, AWS Marketplace is reported as the selected payment method.
 
-### [Create a database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) {#create-sub} 
+### Create a database {#create-sub} 
 
 1. In the [admin console](https://app.redislabs.com/), select **New database**. 
 
@@ -101,7 +101,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     We selected **Search and query** and **JSON** for you already. You can remove **JSON** if you want.
 
-1. Set the Memory limit of your database based on the amount of data that will be pulled from your Simple Storage Service (S3) [bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). See [Find out the size of your S3 buckets](https://aws.amazon.com/blogs/storage/find-out-the-size-of-your-amazon-s3-buckets/) to find out how much training data is stored in your S3 bucket and pick the closest size from the table below. 
+1. Set the Memory limit of your database based on the amount of data that will be pulled from your Simple Storage Service (S3) [bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). See [Find out the size of your S3 buckets](https://aws.amazon.com/blogs/storage/find-out-the-size-of-your-amazon-s3-buckets/) to find out how much training data is stored in your S3 bucket and pick the closest size, rounded up, from the table below. 
 
     | Total Size of Documents in S3 | Database size without replication | Database size with replication |
 |-------------------------------|-----------------------------------|--------------------------------|
@@ -124,9 +124,9 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & pay to create your new database." >}}
 
-    Note that subscriptions are created in the background.  While they are provisioning, you aren't allowed to make changes.  (The process generally takes 10-15 minutes.)
+    Note that databases are created in the background.  While they are provisioning, you aren't allowed to make changes.  (The process generally takes 10-15 minutes.)
 
-    Use the **Subscriptions list** to check the status of your subscription.  You will also receive an email when your subscription is ready to use.
+    Use the **Databases list** to check the status of your subscription.  You will also receive an email when your database is ready to use.
 
 ## Enable TLS and get certificates {#get-certs}
 
@@ -194,15 +194,15 @@ After you store this secret, you can view and copy the [Amazon Resource Name (AR
 
 After your database is set up, create an index with a vector field using [FT.CREATE]({{< relref "/commands" >}}/ft.create/) as your knowledge base for Amazon Bedrock. You can accomplish this using **RedisInsight** or `redis-cli`.
 
-### [RedisInsight]({{< relref "/develop/connect/insight/" >}})
+### RedisInsight
 
-RedisInsight is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
+[RedisInsight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
 
 To create your vector index in RedisInsight:
 
 1. [Download and install RedisInsight](https://redis.com/redis-enterprise/redis-insight/) if you don't have it already.
 
-1. In the Redis Cloud [admin console](https://app.redislabs.com/), in your subscription's **Databases** tab, select the **Connect** button next to your database to open the connection wizard.
+1. In the Redis Cloud [admin console](https://app.redislabs.com/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
 
     {{< image filename="/images/rc/connection-wizard-button.png#no-click" alt="Connect button." >}}
 
@@ -248,9 +248,9 @@ To create your vector index in RedisInsight:
 
     {{<image filename="images/rc/ri-bedrock-run-button.png" width=50px alt="The RedisInsight run button." >}}
 
-### [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}})
+### `redis-cli`
 
-The `redis-cli` command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}).
+The [`redis-cli`]({{< relref "/develop/connect/cli" >}}) command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}).
 
 Public endpoint and port details are available from the **Databases** list or the database's **Configuration** screen. Select **Connect** to view how to connect to your database with `redis-cli`.
 
@@ -282,4 +282,4 @@ Replace the following fields:
 
 ## Next steps
 
-After your Redis subscription and database is set up, you can use it to [create a knowledge base]({{< relref "/integrate/amazon-bedrock/create-knowledge-base" >}}) in Amazon Bedrock.
+After your Redis database is set up, you can use it to [create a knowledge base]({{< relref "/integrate/amazon-bedrock/create-knowledge-base" >}}) in Amazon Bedrock.

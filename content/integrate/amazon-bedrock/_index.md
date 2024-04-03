@@ -16,6 +16,7 @@ summary: With Amazon Bedrock, users can access foundational AI models from a var
   artificial intelligence.
 type: integration
 weight: 3
+hideListLinks: true
 ---
 
 [Amazon Bedrock](https://aws.amazon.com/bedrock/) is a service that allows you to securely customize foundational models (FMs) with your own data, and to use these models without having to build complex infrastructure management. With Amazon Bedrock, users can access FMs from a variety of vendors through a single API, streamlining the process of creating generative artificial intelligence (AI).
