@@ -11,6 +11,8 @@ hideListLinks: true
 linkTitle: Triggers and functions
 toc: 'true'
 weight: 60
+aliases: 
+  - /operate/stack/triggers-functions
 ---
 
 {{<banner-article>}}

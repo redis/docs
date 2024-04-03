@@ -13,6 +13,9 @@ description: Describes how to provision your Redis Cloud subscription to use exi
 hidden: true
 hideListLinks: true
 weight: 40
+aliases:
+  - /operate/rc/how-to/view-edit-cloud-account
+  - /operate/rc/cloud-accounts
 ---
 
 Many customers use cloud provider accounts provisioned and maintained by Redis.  
