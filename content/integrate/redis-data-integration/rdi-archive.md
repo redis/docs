@@ -10,4 +10,4 @@ linkTitle: Archive
 weight: 999
 ---
 
-Previous versions of Redis Data Integration documentation are available on the [Redis Data Integration documentation archive](https://docs.redis.com/rdi-preview/rdi/). 
+Previous versions of Redis Data Integration documentation are available on the [Redis Data Integration documentation archive](https://docs.redis.com/latest/rdi/). 
