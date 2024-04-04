@@ -17,4 +17,4 @@ Previous versions of Redis Enterprise for Kubernetes documentation are available
 
 - [Redis Enterprise for Kubernetes v7.2 documentation archive](https://docs.redis.com/7.2/kubernetes/)  
 
-- [Redis Enterprise for Kubernetes v6.4 documentation archive](https://docs.redis.com/6.4/kubernetes/)
+- [Redis Enterprise for Kubernetes v6.x documentation archive](https://docs.redis.com/6.4/kubernetes/)
