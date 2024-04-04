@@ -67,6 +67,12 @@ Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
 - RS115636: Delete tasks with "aborted" status from the resource manager result queue.
 
+- RS122225: Improved descriptions in Cluster Manager UI logs for database upgrade, check node error, and upgrade mode.
+
+- RS122031: Improved performance of database search in the Cluster Manager UI.
+
+- RS121866: Block scripts that contain write commands from running on stale CRDB servers.
+
 - More TBA
 
 ## Version changes
