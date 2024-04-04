@@ -301,16 +301,44 @@ This limitation will be fixed in a maintenance release for Redis Enterprise vers
 
 If you upgrade an existing cluster to Redis Enterprise Software version 7.2.4 and any existing databases use earlier module versions, new nodes will fail to join the cluster on operating systems other than RHEL, Ubuntu, or Amazon Linux.
 
-As a workaround for affected operating systems compatible with RHEL, such as CentOS or Rocky Linux, manually set the module platform’s `os_name` to the equivalent RHEL version.
+As a workaround for affected operating systems compatible with RHEL, such as CentOS or Rocky Linux:
 
-- For RHEL 7 compatible distributions:
-
-    ```sh
-    ccs-cli hset module_platform:<ID> os_name rhel7
-    ```
-
-- For RHEL 8 compatible distributions:
+1. Generate `module_platform` MD5 checksums for the affected OS and the compatible RHEL version:
 
     ```sh
-    ccs-cli hset module_platform:<ID> os_name rhel8
+    echo -n <module_name>:<module_version>:<os_name>:<arch> | md5sum
     ```
+
+    For example:
+
+    ```sh
+    $ echo -n rg:1.0.1:centos7:x86_64 | md5sum
+    884da2ac09ab728fb6aa8ab98dfc6cc5  -
+    $ echo -n rg:1.0.1:rhel7:x86_64 | md5sum
+    f4899c8a0af694720bb8e0453b752f03  -
+    ```
+
+1. Copy the existing `module_platform` to a new entry for RHEL, using the MD5 checksums from the previous step:
+
+    ```sh
+    ccs-cli copy module_platform:<OS_md5sum> module_platform:<RHEL_md5sum>
+    ```
+
+1. Get the module ID:
+
+    ```sh
+    How do I do this?
+    ```
+
+1. Add the RHEL `module_platform` to the module:
+
+    ```sh
+    ccs-cli sadd module:<module_ID>:all <RHEL_md5sum>
+    ```
+
+1. Manually set the module platform’s `os_name` to the equivalent RHEL version:
+
+    ```sh
+    ccs-cli hset module_platform:<RHEL_md5sum> os_name rhel
+    ```
+
