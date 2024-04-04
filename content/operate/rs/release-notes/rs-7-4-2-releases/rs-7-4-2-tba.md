@@ -61,7 +61,7 @@ Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
 ### Resolved issues
 
-- RS113727: Added `automatic_node_offload` policy, which defines whether the cluster can automatically migrate shards from a node if the node is overbooked and is enabled by default. During upgrade, don't offload even if the policy is enabled.
+- RS113727: Added `automatic_node_offload` policy, which defines whether the cluster can automatically migrate shards from a node if the node is overbooked and is enabled by default. During an upgrade, don't offload even if the policy is enabled.
 
 - RS113828: Removed legacy function that adjusted existing users to role-based access control.
 
@@ -73,7 +73,9 @@ Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
 - RS121866: Block scripts that contain write commands from running on stale CRDB servers.
 
-- More TBA
+- RS122570: Rephrased confusing error message when unable to locate a requested CRDB-compatible module during Active-Active database creation.
+
+- RS120820: When using OSS Cluster API, improved availability during failover, database migration, database upgrade, and node optimization.
 
 ## Version changes
 
