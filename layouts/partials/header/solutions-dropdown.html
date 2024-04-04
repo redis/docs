@@ -2,22 +2,22 @@
   <div class="lg:w-60">
     <div class="flex flex-col gap-4">
       <h3 class="uppercase font-mono mb-2">Use cases</h3>
-      <a class="flex flex-col hover:underline" href="http://redis.io/solutions/caching">
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="http://redis.io/solutions/caching">
         <span class="font-bold">Caching</span>
       </a>
-      <a class="flex flex-col hover:underline" href="http://redis.io/solutions/deduplication">
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="http://redis.io/solutions/deduplication">
         <span class="font-bold">Deduplication</span>
       </a>
-      <a class="flex flex-col hover:underline" href="http://redis.io/solutions/fast-data-ingest">
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="http://redis.io/solutions/fast-data-ingest">
         <span class="font-bold">Fast data ingest</span>
       </a>
-      <a class="flex flex-col hover:underline" href="http://redis.io/solutions/feature-stores">
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="http://redis.io/solutions/feature-stores">
         <span class="font-bold">Feature stores</span>
       </a>
-      <a class="flex flex-col hover:underline" href="http://redis.io/solutions/session-management">
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="http://redis.io/solutions/session-management">
         <span class="font-bold">Session management</span>
       </a>
-      <a class="flex flex-col hover:underline" href="http://redis.io/vector-database">
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="http://redis.io/vector-database">
         <span class="font-bold">Vector search</span>
       </a>
     </div>
@@ -26,16 +26,16 @@
   <div class="lg:w-60">
     <div class="flex flex-col gap-4">
       <h3 class="uppercase font-mono mb-2">Industries</h3>
-      <a class="flex flex-col hover:underline" href="http://redis.io/industries/financial-services">
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="http://redis.io/industries/financial-services">
         <span class="font-bold">Financial services</span>
       </a>
-      <a class="flex flex-col hover:underline" href="http://redis.io/industries/gaming">
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="http://redis.io/industries/gaming">
         <span class="font-bold">Gaming</span>
       </a>
-      <a class="flex flex-col hover:underline" href="http://redis.io/industries/healthcare">
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="http://redis.io/industries/healthcare">
         <span class="font-bold">Healthcare</span>
       </a>
-      <a class="flex flex-col hover:underline" href="http://redis.io/industries/retail">
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="http://redis.io/industries/retail">
         <span class="font-bold">Retail</span>
       </a>
     </div>
@@ -44,11 +44,11 @@
   <div class="lg:w-60">
     <div class="flex flex-col gap-4">
       <h3 class="uppercase font-mono mb-2">Customer case studies</h3>
-      {{ partial "components/button-link.html" (dict "Href" "https://redis.io/demos" "Text" "Demo Center") }}
+      {{ partial "components/button-link.html" (dict "Href" "https://redis.io/demos" "Text" "Read stories") }}
       <div class="w-full h-px bg-redis-pen-300 my-4"></div>
-      <div>customer logo</div>
-      <p class="text-redis-pen-700 font-sans">Sentence preview of customer story lorem ipsum dolor</p>
-      <a class="w-fit p-4 text-sm font-mono text-redis-ink-900 border border-redis-pen-600 rounded hover:bg-redis-pencil-200 transition-colors" href="">See more</a>
+      <div>{{ partial "icons/niantic-midnight.html" }}</div>
+      <p class="text-redis-pen-600 font-sans font-medium">Optimizing Pokémon GO with a Redis Enterprise cluster</p>
+      {{ partial "components/button-link.html" (dict "Href" "https://redis.io/demos" "Text" "See more" "AltColors" true) }}
     </div>
   </div>
 </div>
