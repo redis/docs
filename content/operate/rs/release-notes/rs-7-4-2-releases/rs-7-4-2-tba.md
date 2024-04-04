@@ -61,7 +61,13 @@ Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
 ### Resolved issues
 
-- RS: TBA
+- RS113727: Added `automatic_node_offload` policy, which defines whether the cluster can automatically migrate shards from a node if the node is overbooked and is enabled by default. During upgrade, don't offload even if the policy is enabled.
+
+- RS113828: Removed legacy function that adjusted existing users to role-based access control.
+
+- RS115636: Delete tasks with "aborted" status from the resource manager result queue.
+
+- More TBA
 
 ## Version changes
 
