@@ -73,9 +73,11 @@ Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
 - RS121866: Block scripts that contain write commands from running on stale CRDB servers.
 
-- RS122570: Rephrased confusing error message when unable to locate a requested CRDB-compatible module during Active-Active database creation.
+- RS122570: Improved error message when unable to locate a requested CRDB-compatible module during Active-Active database creation.
 
 - RS120820: When using OSS Cluster API, improved availability during failover, database migration, database upgrade, and node optimization.
+
+- RS117388: Improved `rladmin status` output for stale shards.
 
 ## Version changes
 
