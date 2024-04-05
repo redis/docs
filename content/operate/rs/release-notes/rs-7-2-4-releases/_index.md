@@ -301,6 +301,6 @@ This limitation will be fixed in a maintenance release for Redis Enterprise vers
 
 If you upgrade an existing cluster to Redis Enterprise Software version 7.2.4 and any existing databases use earlier module versions, new nodes will fail to join the cluster on operating systems other than RHEL, Ubuntu, or Amazon Linux.
 
-For a workaround for affected operating systems, [contact support](https://redis.com/company/support/).
+For a workaround for affected operating systems, [contact support](https://redis.io/support/).
 
 This limitation will be fixed in a future release.
