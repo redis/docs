@@ -296,3 +296,11 @@ This limitation was fixed in [Redis Enterprise Software version 7.2.4-64]({{< re
 You cannot create Active-Active databases that use Redis version 6.0 or 6.2 with modules. Databases that use Redis version 7.2 do not have this limitation.
 
 This limitation will be fixed in a maintenance release for Redis Enterprise version 7.4.2.
+
+#### Modules prevent nodes from joining upgraded clusters on certain operating systems
+
+If you upgrade an existing cluster to Redis Enterprise Software version 7.2.4 and any existing databases use earlier module versions, new nodes will fail to join the cluster on operating systems other than RHEL, Ubuntu, or Amazon Linux.
+
+For a workaround for affected operating systems, [contact support](https://redis.io/support/).
+
+This limitation will be fixed in a future release.
