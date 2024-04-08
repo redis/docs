@@ -1,6 +1,9 @@
-# Redis Hugo site template
+# Redis Docs
 
-## Files and folders
+OPEN SOURCE LICENSE VS. TRADEMARKS. The three-clause BSD license gives you the right to redistribute and use the software in source and binary forms, with or without modification, under certain conditions. However, open source licenses like the three-clause BSD license do not address trademarks. For further details please read the [Redis Trademark Policy](https://redis.io/legal/trademark-policy/)."
+
+
+## Site template files and folders
 
 * **/archetypes**: A Markdown file needs to have some front matter. An archetype defines which front matter is used when using `hugo new content`. Right now, the only supported archetype is the default one. **Note:** We might want to add additional archetypes in the future because most of our pages contain additional meta data properties like `linkTitle`. 
 * **/content**: This folder contains the markdown files. We will have the subfolders like `/develop`, `/integrate`, and `/operate`
