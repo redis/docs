@@ -43,6 +43,8 @@ To quickly create a database and skip additional configuration options during in
 
 1. On the **Databases** screen, select **Quick database**.
 
+1. Select a Redis version from the **Database version** list.
+
 1. Configure settings that are required for database creation but can be changed later:
 
     - Database name
@@ -82,6 +84,8 @@ To create a new database and configure additional settings:
     {{<note>}}
 For Active-Active databases, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).
     {{</note>}}
+
+1. Select a Redis version from the **Database version** list.
 
 1. Enter a **Database name**.
 

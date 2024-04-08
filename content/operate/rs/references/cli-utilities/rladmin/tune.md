@@ -46,6 +46,7 @@ rladmin tune cluster
         [ db_conns_auditing { enabled | disabled } ]
         [ acl_pubsub_default { resetchannels | allchannels } ]
         [ resp3_default { enabled | disabled } ]
+        [ automatic_node_offload { enabled | disabled } ]
 ```
 
 ### Parameters
@@ -53,6 +54,7 @@ rladmin tune cluster
 | Parameters                             | Type/Value                        | Description                                                                                                                  |
 |----------------------------------------|-----------------------------------|------------------------------------------------------------------------------------------------------------------------------|
 | acl_pubsub_default | `resetchannels`<br /> `allchannels` | Default pub/sub ACL rule for all databases in the cluster:<br />•`resetchannels` blocks access to all channels (restrictive)<br />•`allchannels` allows access to all channels (permissive) |
+| automatic_node_offload | `enabled`<br />`disabled` | Define whether automatic node offload migration will take place |
 | data_internode_encryption              | `enabled`<br />`disabled`       | Activates or deactivates [internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) for new databases    |
 | db_conns_auditing                      | `enabled`<br /> `disabled`      | Activates or deactivates [connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) by default for new databases of a cluster                                                                  |
 | default_concurrent_restore_actions     | integer<br />`all`              | Default number of concurrent actions when restoring a node from a snapshot (positive integer or "all")                         |
