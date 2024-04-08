@@ -1,57 +1,57 @@
 <header class="sticky top-0 z-50 w-full border-b border-redis-pen-300 bg-white text-midnight-900 font-mono text-[15px] flex justify-center">
   {{/*  {{ partial "banner.html" . }}  */}}
   <div class="flex h-[70px] px-4 lg:pl-11 lg:pr-0 items-center self-center grow">
-    <a class="relative text-redis-red-500" href="http://redis.io/">
+    <a class="relative text-redis-red-500 w-[82px] -mt-[5px] mr-[4px]" href="http://redis.io/">
       {{ partial "icons/logo-script.html" }}
     </a>
     <div class="h-full flex items-center mx-4 grow">
       <div class="hidden lg:flex flex-row h-full items-center">
-        <div class="group h-full px-1.5 xl:px-3">
+        <div class="group h-full px-2 xl:px-[14px]">
           <div class="flex flex-row h-full items-center cursor-pointer w-[10ch] justify-between">
             <span class="inline-block group-hover:font-bold">Products</span>
-            <span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
+            <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/products-dropdown.html" . }}
         </div>
-        <div class="group h-full px-1.5 xl:px-4">
+        <div class="group h-full px-2 xl:px-[14px]">
           <div class="flex flex-row h-full items-center cursor-pointer w-[11ch] justify-between">
             <span class="inline-block group-hover:font-bold">Solutions</span>
-            <span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
+            <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/solutions-dropdown.html" . }}
         </div>
-        <div class="group h-full px-1.5 xl:px-3">
+        <div class="group h-full px-2 xl:px-[14px]">
           <div class="flex flex-row h-full items-center cursor-pointer w-[9ch] justify-between">
             <span class="inline-block group-hover:font-bold">Support</span>
-            <span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
+            <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/support-dropdown.html" . }}
         </div>
-        <div class="group h-full px-1.5 xl:px-4">
+        <div class="group h-full px-2 xl:px-[14px]">
           <div class="flex flex-row h-full items-center cursor-pointer w-[9ch] justify-between">
             <span class="inline-block group-hover:font-bold">Company</span>
-            <span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
+            <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/company-dropdown.html" . }}
         </div>
-        <div class="group h-full px-1.5 xl:px-4">
+        <div class="group h-full px-2 xl:px-[14px]">
           <div class="flex flex-row h-full items-center cursor-pointer w-[6ch] justify-between">
             <span class="inline-block group-hover:font-bold">Docs</span>
-            <span class="inline-block ml-2 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
+            <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/docs-dropdown.html" . }}
         </div>
       </div>
-      <a class="hidden lg:flex group flex-row items-center pl-1.5 xl:pl-3" href="http://redis.io/pricing"><span class="group-hover:font-bold">Pricing</span></a>
+      <a class="hidden lg:flex group flex-row items-center pl-2 xl:pl-[14px]" href="http://redis.io/pricing"><span class="group-hover:font-bold">Pricing</span></a>
     </div>
 
-    <div class="h-full flex gap-3 xl:gap-7 items-center text-center">
+    <div class="h-full flex gap-[18px] xl:gap-7 items-center text-center">
       <button id="search-button" type="button" class="p-1 mt-1 transition-colors hover:text-redis-red-500">
         {{ partial "icons/search.html" }}
       </button>
       <a class="hidden lg:block py-1 transition-colors hover:text-redis-red-500" href="https://app.redislabs.com/">Login</a>
       <a class="hidden lg:block py-1 transition-colors hover:text-redis-red-500" href="https://redis.io/meeting/">Book a meeting</a>
-      <a class="hidden lg:inline-flex transition-colors hover:duration-0 duration-500 ease-out items-center justify-center bg-redis-red-500 hover:bg-redis-yellow-500 hover:text-midnight-900 min-w-[168px] h-full px-6" href="http://redis.com/try-free/">Try Redis</a>
+      <a class="hidden lg:inline-flex transition-colors hover:duration-0 duration-500 ease-out items-center justify-center bg-redis-red-500 hover:bg-redis-yellow-500 hover:text-midnight-900 h-full px-[27px]" href="http://redis.com/try-free/">Try Redis</a>
       <button data-menu-toggle aria-expanded="false" type="button" class="menu-toggle lg:hidden p-1 mt-1 transition-colors hover:text-redis-red-500">
         <span class="sr-only">Open main menu</span> 
         {{ partial "icons/hamburger.html" }}
@@ -62,9 +62,9 @@
 
   <div data-menu class="hidden overflow-auto lg:hidden absolute top-0 left-0 w-screen h-screen bg-white z-50">
     <div class="sticky h-fit top-0 w-full bg-white border-b border-redis-pen-300 font-mono text-sm flex justify-center">
-      <div class="flex h-16 px-4 lg:pl-11 lg:pr-0 justify-between self-center grow">
+      <div class="flex h-[70px] px-4 lg:pl-11 lg:pr-0 justify-between self-center grow">
         <div class="h-full flex gap-6 items-center">
-          <a id="headerLogo" class="relative mr-4 transition-colors text-redis-red-500 hover:text-redis-red-600" href="http://redis.io/">
+          <a id="headerLogo" class="relative mr-4 transition-colors text-redis-red-500 hover:text-redis-red-600 w-[82px]" href="http://redis.io/">
             {{ partial "icons/logo-script.html" }}
           </a>
           <button id="headerBack" class="hidden flex flex-row items-center" onclick="openPage(null)">
@@ -86,26 +86,26 @@
     <div id="headerMenu" class="mt-16">
       <div class="flex flex-col gap-6 px-4 py-6">
         <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('products')">
-          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Products</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90">{{ partial "icons/caret.html" }}</span>
+          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Products</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
         </button>
         <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('solutions')">
-          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Solutions</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90">{{ partial "icons/caret.html" }}</span>
+          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Solutions</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
         </button>
         <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('support')">
-          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Support</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90">{{ partial "icons/caret.html" }}</span>
+          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Support</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
         </button>
         <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('company')">
-          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Company</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90">{{ partial "icons/caret.html" }}</span>
+          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Company</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
         </button>
         <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('docs')">
-          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Docs</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90">{{ partial "icons/caret.html" }}</span>
+          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Docs</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
         </button>
         <a class="group flex-row items-center" href="http://redis.io/pricing"><span class="group-hover:font-bold group-hover:tracking-tight">Pricing</span></a>
       </div>
-      <div class="flex flex-col gap-6 px-4 text-center mt-16">
-        {{ partial "components/button-link.html" (dict "Href" "" "Text" "Try Redis" "Width" "full") }}
-        {{ partial "components/button-link.html" (dict "Href" "" "Text" "Book a meeting" "Width" "full" "Color" "bg-white" "Hover" "bg-redis-pencil-200") }}
-        <a class="font-mono text-sm hover:underline hover:font-bold" href="">Login →</a>
+      <div class="flex flex-col gap-6 px-4 text-center mt-16 max-w-[360px] mx-auto">
+        {{ partial "components/button-link.html" (dict "Href" "https://redis.io/try-free/" "Text" "Try Redis" "Width" "full") }}
+        {{ partial "components/button-link.html" (dict "Href" "https://redis.io/meeting/" "Text" "Book a meeting" "Width" "full" "AltColors" true) }}
+        <a class="font-mono text-sm hover:font-bold hover:text-redis-yellow-500" href="">Login →</a>
       </div>
     </div>  
     <div id="productsPage" class="menuPage hidden overflow-y-scroll mt-16 px-4 py-6">
