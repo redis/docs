@@ -16,7 +16,7 @@ There are three brew casks available.
 
 * `redis-stack` contains both `redis-stack-server` and `redis-stack-redisinsight` casks. 
 * `redis-stack-server` provides Redis Stack server only.
-* `redis-stack-redisinsight` contains RedisInsight.
+* `redis-stack-redisinsight` contains Redis Insight.
 
 ## Install using Homebrew
 
@@ -78,9 +78,9 @@ You can now start Redis Stack Server as follows:
 redis-stack-server
 {{< / highlight >}}
 
-## Launch RedisInsight
+## Launch Redis Insight
 
-To start up the Redis UI, RedisInsight, type:
+To start up the Redis UI, Redis Insight, type:
 
 {{< highlight bash >}}
 redisinsight

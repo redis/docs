@@ -85,7 +85,7 @@ Once you have the username and password, select **Connect** to open the connecti
 
 The connection wizard provides the following database connection methods:
 
-- [RedisInsight](https://redis.com/redis-enterprise/redis-insight/)
+- [Redis Insight](https://redis.com/redis-enterprise/redis-insight/)
 
 - [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli/" >}}) utility
 
@@ -94,22 +94,22 @@ The connection wizard provides the following database connection methods:
 
 {{<image filename="images/rc/connection-wizard.png" alt="The connection wizard." >}}
 
-### RedisInsight{#using-redisinsight}
+### Redis Insight{#using-redisinsight}
 
-RedisInsight is a free Redis GUI that is available for MacOS, Windows, and Linux.
+Redis Insight is a free Redis GUI that is available for MacOS, Windows, and Linux.
 
-1. In the connection wizard, under **RedisInsight**, select your operating system from the **Download RedisInsight** menu.
+1. In the connection wizard, under **Redis Insight**, select your operating system from the **Download Redis Insight** menu.
 
-1. Select **Download** to download RedisInsight.
+1. Select **Download** to download Redis Insight.
 
-1. [Install RedisInsight]({{< relref "/develop/connect/insight/" >}}).
+1. [Install Redis Insight]({{< relref "/develop/connect/insight/" >}}).
 
-1. Once installed, select **Open with RedisInsight**.
+1. Once installed, select **Open with Redis Insight**.
 
-1. A pop-up asks if you wish to open the link with RedisInsight. Select **Open RedisInsight** to connect to your database with RedisInsight.
+1. A pop-up asks if you wish to open the link with Redis Insight. Select **Open Redis Insight** to connect to your database with Redis Insight.
 
 
-See the [RedisInsight documentation]({{< relref "/develop/connect/insight/" >}}) for more information.
+See the [Redis Insight documentation]({{< relref "/develop/connect/insight/" >}}) for more information.
 
 ### Redis client{#using-redis-client}
 

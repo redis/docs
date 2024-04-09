@@ -15,7 +15,7 @@ title: Connect with Redis clients
 weight: 45
 ---
 
-Here, you will learn how to connect your application to a Redis database. If you're new to Redis, you might first want to [install Redis with Redis Stack and RedisInsight]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}).
+Here, you will learn how to connect your application to a Redis database. If you're new to Redis, you might first want to [install Redis with Redis Stack and Redis Insight]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}).
 
 For more Redis topics, see [Using]({{< relref "/develop/use/" >}}) and [Managing]({{< relref "/operate/oss_and_stack/management/" >}}) Redis.
 

@@ -3,25 +3,25 @@ categories:
 - docs
 - operate
 - redisinsight
-description: 'How to install RedisInsight on Kubernetes
+description: 'How to install Redis Insight on Kubernetes
 
   '
 linkTitle: Install on Kubernetes
 title: Install on Kubernetes
 weight: 4
 ---
-This tutorial shows how to install RedisInsight on [Kubernetes](https://kubernetes.io/) (K8s).
-This is an easy way to use RedisInsight with a [Redis Enterprise K8s deployment]({{< relref "operate/kubernetes/" >}}).
+This tutorial shows how to install Redis Insight on [Kubernetes](https://kubernetes.io/) (K8s).
+This is an easy way to use Redis Insight with a [Redis Enterprise K8s deployment]({{< relref "operate/kubernetes/" >}}).
 
-## Create the RedisInsight deployment and service
+## Create the Redis Insight deployment and service
 
-Below is an annotated YAML file that will create a RedisInsight
+Below is an annotated YAML file that will create a Redis Insight
 deployment and a service in a K8s cluster.
 
 1. Create a new file named `redisinsight.yaml` with the content below.
 
 ```yaml
-# RedisInsight service with name 'redisinsight-service'
+# Redis Insight service with name 'redisinsight-service'
 apiVersion: v1
 kind: Service
 metadata:
@@ -40,7 +40,7 @@ spec:
   selector:
     app: redisinsight
 ---
-# RedisInsight deployment with name 'redisinsight'
+# Redis Insight deployment with name 'redisinsight'
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -61,7 +61,7 @@ spec:
 
       - name:  redisinsight #Container name (DNS_LABEL, unique)
         image: redis/redisinsight:latest #repo/image
-        imagePullPolicy: IfNotPresent #Installs the latest RedisInsight version
+        imagePullPolicy: IfNotPresent #Installs the latest Redis Insight version
         volumeMounts:
         - name: redisinsight #Pod volumes to mount into the container's filesystem. Cannot be updated.
           mountPath: /data
@@ -73,13 +73,13 @@ spec:
         emptyDir: {} # node-ephemeral volume https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
 ```
 
-2. Create the RedisInsight deployment and service:
+2. Create the Redis Insight deployment and service:
 
 ```sh
 kubectl apply -f redisinsight.yaml
 ```
 
-3. Once the deployment and service are successfully applied and complete, access RedisInsight. This can be accomplished by using the `<external-ip>` of the service we created to reach RedisInsight.
+3. Once the deployment and service are successfully applied and complete, access Redis Insight. This can be accomplished by using the `<external-ip>` of the service we created to reach Redis Insight.
 
 ```sh
 $ kubectl get svc redisinsight-service
@@ -87,7 +87,7 @@ NAME                   CLUSTER-IP       EXTERNAL-IP      PORT(S)         AGE
 redisinsight-service   <cluster-ip>     <external-ip>    80:32143/TCP    1m
 ```
 
-4. If you are using minikube, run `minikube list` to list the service and access RedisInsight at `http://<minikube-ip>:<minikube-service-port>`.
+4. If you are using minikube, run `minikube list` to list the service and access Redis Insight at `http://<minikube-ip>:<minikube-service-port>`.
 ```
 $ minikube list
 |-------------|----------------------|--------------|---------------------------------------------|
@@ -99,9 +99,9 @@ $ minikube list
 |-------------|----------------------|--------------|---------------------------------------------|
 ```
 
-## Create the RedisInsight deployment with persistant storage
+## Create the Redis Insight deployment with persistant storage
 
-Below is an annotated YAML file that will create a RedisInsight
+Below is an annotated YAML file that will create a Redis Insight
 deployment in a K8s cluster. It will assign a peristent volume created from a volume claim template.
 Write access to the container is configured in an init container. When using deployments
 with persistent writeable volumes, it's best to set the strategy to `Recreate`. Otherwise you may find yourself
@@ -110,7 +110,7 @@ with two pods trying to use the same volume.
 1. Create a new file `redisinsight.yaml` with the content below.
 
 ```yaml
-# RedisInsight service with name 'redisinsight-service'
+# Redis Insight service with name 'redisinsight-service'
 apiVersion: v1
 kind: Service
 metadata:
@@ -143,7 +143,7 @@ spec:
       storage: 2Gi
   storageClassName: default
 ---
-# RedisInsight deployment with name 'redisinsight'
+# Redis Insight deployment with name 'redisinsight'
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -192,15 +192,15 @@ spec:
             protocol: TCP
 ```
 
-2. Create the RedisInsight deployment and service.
+2. Create the Redis Insight deployment and service.
 
 ```sh
 kubectl apply -f redisinsight.yaml
 ```
 
-## Create the RedisInsight deployment without a service.
+## Create the Redis Insight deployment without a service.
 
-Below is an annotated YAML file that will create a RedisInsight
+Below is an annotated YAML file that will create a Redis Insight
 deployment in a K8s cluster.
 
 1. Create a new file redisinsight.yaml with the content below
@@ -253,7 +253,7 @@ spec:
         emptyDir: {} # node-ephemeral volume https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
 ```
 
-2. Create the RedisInsight deployment
+2. Create the Redis Insight deployment
 
 ```sh
 kubectl apply -f redisinsight.yaml
@@ -263,7 +263,7 @@ kubectl apply -f redisinsight.yaml
 If the deployment will be exposed by a service whose name is 'redisinsight', set `RI_APP_HOST` and `RI_APP_PORT` environment variables to override the environment variables created by the service.
 {{< /alert >}}
 
-3. Once the deployment has been successfully applied and the deployment is complete, access RedisInsight. This can be accomplished by exposing the deployment as a K8s Service or by using port forwarding, as in the example below:
+3. Once the deployment has been successfully applied and the deployment is complete, access Redis Insight. This can be accomplished by exposing the deployment as a K8s Service or by using port forwarding, as in the example below:
 
 ```sh
 kubectl port-forward deployment/redisinsight 5540

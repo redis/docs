@@ -62,7 +62,7 @@ To test your LDAP integration, you can:
 
 - Sign in to the Cluster Manager UI using LDAP credentials authorized for admin access.
 
-- Use [RedisInsight]({{< relref "/develop/connect/insight/" >}}) to access a database using authorized LDAP credentials.
+- Use [Redis Insight]({{< relref "/develop/connect/insight/" >}}) to access a database using authorized LDAP credentials.
 
 - Use the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to connect using authorized LDAP credentials.
 
