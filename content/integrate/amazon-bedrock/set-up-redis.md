@@ -194,33 +194,33 @@ After you store this secret, you can view and copy the [Amazon Resource Name (AR
 
 After your Redis Cloud database is set up, create a search index with a vector field using [FT.CREATE]({{< relref "/commands" >}}/ft.create/) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
 
-### RedisInsight
+### Redis Insight
 
-[RedisInsight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
+[Redis Insight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
 
-To create your vector index in RedisInsight:
+To create your vector index in Redis Insight:
 
-1. [Download and install RedisInsight](https://redis.com/redis-enterprise/redis-insight/) if you don't have it already.
+1. [Download and install Redis Insight](https://redis.com/redis-enterprise/redis-insight/) if you don't have it already.
 
 1. In the Redis Cloud [admin console](https://app.redislabs.com/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
 
     {{< image filename="/images/rc/connection-wizard-button.png#no-click" alt="Connect button." >}}
 
-1. In the connection wizard, under **RedisInsight Desktop**, select **Public Endpoint**. Select **Open with RedisInsight** to connect to the database with RedisInsight.
+1. In the connection wizard, under **Redis Insight Desktop**, select **Public Endpoint**. Select **Open with Redis Insight** to connect to the database with Redis Insight.
 
 1. Select **Use TLS**. In the **CA Certificate** section, select **Add new CA certificate**. Give the certificate a name in the **Name** field, and enter the contents of `redis_ca.pem` into the **Certificate** field.
 
-    {{<image filename="images/rc/ri-bedrock-add-ca-cert.png" width=80% alt="The RedisInsight Add CA Certificate section." >}}
+    {{<image filename="images/rc/ri-bedrock-add-ca-cert.png" width=80% alt="The Redis Insight Add CA Certificate section." >}}
 
 1. Select **Requires TLS Client Authentication**. In the **Client Certificate** section, select **Add new certificate**. Give the certificate a name in the **Name** field. Enter the contents of `redis_user.crt` into the **Certificate** field, and the contents of `redis_user_private.key` into the **Private Key** field.
 
-    {{<image filename="images/rc/ri-bedrock-add-client-cert.png" width=80% alt="The RedisInsight Add Client Certificate section." >}}
+    {{<image filename="images/rc/ri-bedrock-add-client-cert.png" width=80% alt="The Redis Insight Add Client Certificate section." >}}
 
 1. Select **Add Redis Database** to connect to the database.
 
 1. Select your database alias to connect to your database. Select the **Workbench** icon to go to the workbench.
 
-    {{<image filename="images/rc/ri-bedrock-workbench.png" width=50px alt="The RedisInsight workbench icon." >}}
+    {{<image filename="images/rc/ri-bedrock-workbench.png" width=50px alt="The Redis Insight workbench icon." >}}
 
 1. Enter the [FT.CREATE]({{< relref "/commands" >}}/ft.create/) command to create an index. 
 
@@ -246,7 +246,7 @@ To create your vector index in RedisInsight:
 
 1. Select **Run** to create the index.
 
-    {{<image filename="images/rc/ri-bedrock-run-button.png" width=50px alt="The RedisInsight run button." >}}
+    {{<image filename="images/rc/ri-bedrock-run-button.png" width=50px alt="The Redis Insight run button." >}}
 
 ### `redis-cli`
 

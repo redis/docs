@@ -9,9 +9,9 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to manage streams and consumer groups in RedisInsight
+description: Learn how to manage streams and consumer groups in Redis Insight
 linkTitle: Streams
-title: Manage streams and consumer groups in RedisInsight
+title: Manage streams and consumer groups in Redis Insight
 weight: 1
 ---
 
@@ -21,7 +21,7 @@ That may seem like a disadvantage; however, a stream serves as a log or single s
 It can also be used as a buffer between processes that work at different speeds and do not need to know about each other. 
 For more conceptual information about streams, see [Redis Streams]({{< relref "/develop/data-types/streams" >}}). 
 
-In this topic, you will learn how to add and work with streams as well as consumer groups in RedisInsight.
+In this topic, you will learn how to add and work with streams as well as consumer groups in Redis Insight.
 
 Here's a stream that models temperature and humidity sensors. Processes interacting with the stream perform one of two roles: _consumer_ and _producer_. 
 The point of a stream is that it's not going to end, so you cannot capture whole datasets and do some processing on them. 
@@ -61,9 +61,9 @@ You get a message whether the temperature is larger than a specific value, which
 And alerting can keep up with the data flow. 
 One way you can scale consumers is _consumer groups_, which allows multiple instances of the same consumer or same code to work as a team to process the stream.
 
-## Managing streams in RedisInsight
+## Managing streams in Redis Insight
 
-You can add a stream in RedisInsight in two ways: create a new stream or add to an existing stream.
+You can add a stream in Redis Insight in two ways: create a new stream or add to an existing stream.
 
 To create a stream, start by selecting the key type (stream). 
 You cannot set time to live (TTL) because it cannot be put on a message in a stream; it can only be done on a Redis key. Name the stream _mystream_. 
@@ -73,16 +73,16 @@ If you have your own ID generation strategy, enter the next ID from your sequenc
 Then, enter fields and values using + to add more than one (for example, name and location). 
 Now you have a stream that appears in the **Streams** view and you can continue adding fields and values to it.
 
-RedisInsight runs read commands for you so you can see the stream entries in the **Streams** view. 
+Redis Insight runs read commands for you so you can see the stream entries in the **Streams** view. 
 And the **Consumer Groups** view shows each consumers in a given consumer group and the last time Redis allocated a message, what the ID of it was and how many times that process has happened, and whether a consumer has you have told Redis that you are finished working with that task using the [`XACK`]({{< relref "/commands/xack" >}}) command.
 
-## Monitor temperature and humidity from sensors in RedisInsight
+## Monitor temperature and humidity from sensors in Redis Insight
 
-This example shows how to bring an existing stream into RedisInsight and work with it.
+This example shows how to bring an existing stream into Redis Insight and work with it.
 
 ### Setup
 
-1. Install [RedisInsight](https://redis.com/redis-enterprise/redis-insight/?_ga=2.48624486.1318387955.1655817244-1963545967.1655260674#insight-form).
+1. Install [Redis Insight](https://redis.com/redis-enterprise/redis-insight/?_ga=2.48624486.1318387955.1655817244-1963545967.1655260674#insight-form).
 2. Download and install [Node.js](https://nodejs.org/en/download/) (LTS version).
 3. Install [Redis]({{< relref "/operate/oss_and_stack/install" >}}). In Docker, check that Redis is running locally on the default port 6379 (with no password set). 
 4. Clone the [code repository](https://github.com/redis-developer/introducing-redis-talk) for this example. 
@@ -186,9 +186,9 @@ npm run consumergroup consumer3
 The consumers will run indefinitely, waiting for new messages to be added to the stream by a producer instance when they have collectively consumed the entire stream. 
 Note that in this model, each consumer instance does not receive all of the entries from the stream, but the three members of the group each receive a subset.
 
-### View the stream in RedisInsight
+### View the stream in Redis Insight
 
-1. Launch RedisInsight.
+1. Launch Redis Insight.
 2. Select `localhost:6379`
 3. Select **STREAM**. Optionally, select full screen from the upper right corner to expand the view.
 
@@ -210,4 +210,4 @@ Use streams for auditing and processing events in banking, gaming, supply chain,
 ## Related topics
 
 - [Redis Streams]({{< relref "/develop/data-types/streams" >}})
-- [Introducing Redis Streams with RedisInsight, node.js, and Python](https://www.youtube.com/watch?v=q2UOkQmIo9Q) (video)
+- [Introducing Redis Streams with Redis Insight, node.js, and Python](https://www.youtube.com/watch?v=q2UOkQmIo9Q) (video)

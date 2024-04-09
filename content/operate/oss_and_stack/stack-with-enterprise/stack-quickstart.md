@@ -75,7 +75,7 @@ After creating the database, you can view its **Configuration** settings. You wi
 - **Public endpoint**: The host address of the database
 - **Redis password**/**Default user password**: The password used to authenticate with the database
 
-With this information, you can connect to your database with the [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) command-line tool, an application, or [RedisInsight](https://redislabs.com/redisinsight/).
+With this information, you can connect to your database with the [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) command-line tool, an application, or [Redis Insight](https://redislabs.com/redisinsight/).
 
 ## Try Redis Stack features
 

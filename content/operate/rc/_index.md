@@ -22,7 +22,7 @@ With Redis Cloud, you get all of the features of Redis Enterprise, including:
 Use the [Quick start]({{< relref "/operate/rc/rc-quickstart" >}}) to create a free subscription and create your first database.
 - [Connect with redis-cli]({{< relref "/operate/rc/rc-quickstart#using-rediscli" >}})
 - [Connect with Redis client]({{< relref "/operate/rc/rc-quickstart#using-redis-client" >}})
-- [Connect with RedisInsight]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}})
+- [Connect with Redis Insight]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}})
 
 ## Databases
 Create and manage [Redis databases]({{< relref "/operate/rc/databases" >}}) in the cloud.
