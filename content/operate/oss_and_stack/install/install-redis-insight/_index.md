@@ -3,7 +3,7 @@ categories:
 - docs
 - operate
 - redisinsight
-description: 'Install RedisInsite on AWS, Docker, and Kubernetes
+description: 'Install Redis Insite on AWS, Docker, and Kubernetes
 
   '
 linkTitle: Install Redis Insight
