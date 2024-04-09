@@ -1,5 +1,5 @@
 ---
-LinkTitle: Create agent
+LinkTitle: Create Bedrock agent
 Title: Create a Bedrock agent
 alwaysopen: false
 categories:

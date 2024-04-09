@@ -99,9 +99,9 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/flexible-add-database-basic.png" width="75%" alt="The New Database dialog with basic settings." >}}
 
-    We selected **Search and query** and **JSON** for you already. You can remove **JSON** if you want.
+    We selected **Search and query** and **JSON** for you already. **Search and query** enables vector database features for your database. You can remove **JSON** if you want.
 
-1. Set the Memory limit of your database based on the amount of data that will be pulled from your Simple Storage Service (S3) [bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). See [Find out the size of your S3 buckets](https://aws.amazon.com/blogs/storage/find-out-the-size-of-your-amazon-s3-buckets/) to find out how much training data is stored in your S3 bucket and pick the closest size, rounded up, from the table below. 
+1. Set the Memory limit of your database based on the amount of data that Bedrock will pull from your Simple Storage Service (S3) [bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). See [Find out the size of your S3 buckets](https://aws.amazon.com/blogs/storage/find-out-the-size-of-your-amazon-s3-buckets/) to find out how much knowledge base data is stored in your S3 bucket and pick the closest size, rounded up, from the table below. 
 
     | Total Size of Documents in S3 | Database size without replication | Database size with replication |
 |-------------------------------|-----------------------------------|--------------------------------|
@@ -192,7 +192,8 @@ After you store this secret, you can view and copy the [Amazon Resource Name (AR
 
 ## Create a vector index in your database {#create-vector-index}
 
-After your database is set up, create an index with a vector field using [FT.CREATE]({{< relref "/commands" >}}/ft.create/) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
+
+After your Redis Cloud database is set up, create a search index with a vector field using [FT.CREATE]({{< relref "/commands" >}}/ft.create/) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
 
 ### Redis Insight
 

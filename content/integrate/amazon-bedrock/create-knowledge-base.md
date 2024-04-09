@@ -1,5 +1,5 @@
 ---
-LinkTitle: Create knowledge base
+LinkTitle: Create Bedrock knowledge base
 Title: Create a Bedrock knowledge base
 alwaysopen: false
 categories:
