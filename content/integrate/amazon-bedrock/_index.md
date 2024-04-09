@@ -11,19 +11,19 @@ categories:
 description: Shows how to use your Redis database with Amazon Bedrock to customize
   foundational models.
 group: cloud-service
+hideListLinks: true
 summary: With Amazon Bedrock, users can access foundational AI models from a variety
   of vendors through a single API, streamlining the process of leveraging generative
   artificial intelligence.
 type: integration
 weight: 3
-hideListLinks: true
 ---
 
-[Amazon Bedrock](https://aws.amazon.com/bedrock/) is a service that allows you to securely customize foundational models (FMs) with your own data, and to use these models without having to build complex infrastructure management. With Amazon Bedrock, users can access FMs from a variety of vendors through a single API, streamlining the process of creating generative artificial intelligence (AI).
+[Amazon Bedrock](https://aws.amazon.com/bedrock/) streamlines GenAI deployment by offering foundational models (FMs) as a unified API, eliminating complex infrastructure management. It lets you create AI-powered [Agents](https://aws.amazon.com/bedrock/agents/) that execute complex tasks. Through [Knowledge Bases](https://aws.amazon.com/bedrock/knowledge-bases/) within Amazon Bedrock, you can seamlessly tether FMs to your proprietary data sources using retrieval-augmented generation (RAG). This direct integration amplifies the FM's intelligence based on your organization's resources.
 
-Amazon Bedrock allows you to choose Redis Cloud as the [vector database](https://redis.com/solutions/use-cases/vector-database/) for your knowledge base. After your database is set up and connected to Amazon Bedrock, it will import text data from an Amazon Simple Storage Service (S3) bucket into Redis Cloud and use it to extract relevant information when prompted.
+Amazon Bedrock lets you choose Redis Cloud as the [vector database](https://redis.io/solutions/vector-search/) for your agent's Knowledge Base. Once Redis Cloud is integrated with Amazon Bedrock, it automatically reads text documents from your Amazon Simple Storage Service (S3) buckets. This process lets the large language model (LLM) pinpoint and extract pertinent context in response to user queries, ensuring your AI agents are well-informed and grounded in their responses.
 
-For more information about the Redis integration with Amazon Bedrock, see the [Amazon Bedrock integration blog post](https://redis.com/blog/amazon-bedrock-integration-with-redis-enterprise/).
+For more information about the Redis integration with Amazon Bedrock, see the [Amazon Bedrock integration blog post](https://redis.io/blog/amazon-bedrock-integration-with-redis-enterprise/).
 
 To fully set up Bedrock with Redis Cloud, you will need to do the following:
 
