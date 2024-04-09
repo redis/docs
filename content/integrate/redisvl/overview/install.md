@@ -66,7 +66,7 @@ in a docker container. To do so, run the following command:
 docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
 ```
 
-This will also start the [RedisInsight application](https://redis.com/redis-enterprise/redis-insight/) at `http://localhost:8001`.
+This will also start the [Redis Insight application](https://redis.com/redis-enterprise/redis-insight/) at `http://localhost:8001`.
 
 ### Redis Enterprise (self-hosted)
 
