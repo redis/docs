@@ -1,14 +1,14 @@
 ---
-Title: RedisInsight v2.48.0, April 2024
+Title: Redis Insight v2.48.0, April 2024
 linkTitle: v2.48.0 (April 2024)
 date: 2024-04-10 00:00:00 +0000
-description: RedisInsight v2.48
+description: Redis Insight v2.48
 weight: 1
 aliases: /ri/release-notes/v2.48.0/
          /ri/release-notes/v2.48.0.md
 ---
 ## 2.48 (April 2024)
-This is the General Availability (GA) release of RedisInsight 2.48.
+This is the General Availability (GA) release of Redis Insight 2.48.
 
 ### Highlights
 - New look, still fast. We've refreshed our Redis Insight app to align with our new brand look
