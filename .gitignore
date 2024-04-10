@@ -7,6 +7,7 @@
 /data/tool_types.json
 /data/versions.json
 /examples
+build/components/__pycache__/
 venv/**
 node_modules/
 package-lock.json 
