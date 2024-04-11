@@ -9,20 +9,18 @@ description: Remove a node from your Redis Enterprise cluster.
 linkTitle: Remove node
 weight: 80
 ---
-There are various reasons why you may want to remove a node in Redis
-Enterprise Software:
+You might want to remove a node from a Redis Enterprise cluster for one of the following reasons:
 
-- You no longer need the extra capacity, meaning you want to permanently remove the node.
-- You would like to replace a faulty node with a healthy node.
-- You would like to replace a healthy node with a different node.
+- You no longer need the extra capacity, so you want to [permanently remove the node](#permanently-remove-a-node).
+- To [replace a faulty node](#replace-a-faulty-node) with a healthy node.
+- To [replace a healthy node](#replace-a-healthy-node) with a different node.
 
-The following section explains how each of these actions can be
-achieved, as well as their impact and considerations.
+You can configure [email alerts from the cluster]({{< relref "/operate/rs/clusters/monitoring#cluster-alerts" >}}) to notify you of cluster changes, including when a node is removed.
 
-You can configure [email alerts from the cluster]({{< relref "/operate/rs/clusters/monitoring/_index.md#cluster-alerts" >}}) to notify you of cluster changes, including when a node is removed.
-
-**Make sure to read through these explanations thoroughly before taking
-any action.**
+{{<warning>}}
+Read through these explanations thoroughly before taking
+any action.
+{{</warning>}}
 
 ## Permanently remove a node
 
@@ -73,9 +71,9 @@ The [DNS records]({{< relref "/operate/rs/networking/cluster-dns" >}}) must be u
 
 ## Remove a node
 
-To remove a node using the admin console:
+To remove a node using the Cluster Manager UI:
 
-1. If you are using the new admin console, switch to the legacy admin console.
+1. If you are using the new Cluster Manager UI, switch to the legacy admin console.
 
     {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
 
@@ -95,13 +93,19 @@ To remove a node using the admin console:
 1. Once the process finishes, the node is no longer shown in
     the UI.
 
-To remove a node using the REST API, use [`POST /v1/nodes/<node_id>/actions/remove`]({{< relref "/operate/rs/references/rest-api/requests/nodes/actions#post-node-action" >}}) with the following JSON data and the "Content-Type: application/json" header.
+To remove a node using the REST API, use [`POST /v1/nodes/<node_id>/actions/remove`]({{< relref "/operate/rs/references/rest-api/requests/nodes/actions#post-node-action" >}}).
+
+By default, the remove node action completes after all resources migrate off the removed node. Node removal does not wait for migrated shards' persistence files to be created on the new nodes.
+
+To change node removal to wait for the creation of new persistence files for all migrated shards, set `wait_for_persistence` to `true` in the request body or [update the cluster policy]({{<relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) `persistent_node_removal` to `true` to change the cluster's default behavior.
 
 For example:
 
 ```sh
 POST https://<hostname>:9443/v1/nodes/<node_id>/actions/remove
-     "{}"
+{
+    "wait_for_persistence": true
+}
 ```
 
 {{< note >}}
