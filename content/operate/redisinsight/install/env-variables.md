@@ -22,4 +22,4 @@ You can configure Redis Insight with the following environment variables.
 | RI_LOG_LEVEL | Configures the log level of the application. | `info` | Supported logging levels are prioritized from highest to lowest: <ul> <li>error<li> warn<li>info<li> http<li> verbose<li> debug<li> silly</ul> |
 | RI_FILES_LOGGER | Logs to file | `true` | By default, you can find log files in the following folders: <ul> <li> Docker: `/data/logs` <li> desktop: `<user-home-dir>/.refisinsight-app/logs` </ul>|
 | RI_STDOUT_LOGGER | Logs to STDOUT | `true` | |
-| RI_PROXY_PATH | Configures the subpath proxy path | n/a | Available only for Docker. |
+| RI_PROXY_PATH | Configures a subpath for a proxy | n/a | Available only for Docker. |
