@@ -1,7 +1,7 @@
 <header class="sticky top-0 z-50 w-full border-b border-redis-pen-300 bg-white text-midnight-900 font-mono text-[15px] flex justify-center">
   {{/*  {{ partial "banner.html" . }}  */}}
   <div class="flex h-[70px] px-4 lg:pl-11 lg:pr-0 items-center self-center grow">
-    <a class="relative text-redis-red-500 w-[82px] -mt-[5px] mr-[4px]" href="http://redis.io/">
+    <a class="relative text-redis-red-500 w-[82px] -mt-[5px] mr-[4px]" href="https://redis.io/">
       {{ partial "icons/logo-script.html" }}
     </a>
     <div class="h-full flex items-center mx-4 grow">
@@ -42,7 +42,7 @@
           {{ partial "header/docs-dropdown.html" . }}
         </div>
       </div>
-      <a class="hidden lg:flex group flex-row items-center pl-2 xl:pl-[14px]" href="http://redis.io/pricing"><span class="group-hover:font-bold">Pricing</span></a>
+      <a class="hidden lg:flex group flex-row items-center pl-2 xl:pl-[14px]" href="https://redis.io/pricing"><span class="group-hover:font-bold">Pricing</span></a>
     </div>
 
     <div class="h-full flex gap-[18px] xl:gap-7 items-center text-center">
@@ -51,7 +51,7 @@
       </button>
       <a class="hidden lg:block py-1 transition-colors hover:text-redis-red-500" href="https://app.redislabs.com/">Login</a>
       <a class="hidden lg:block py-1 transition-colors hover:text-redis-red-500" href="https://redis.io/meeting/">Book a meeting</a>
-      <a class="hidden lg:inline-flex transition-colors hover:duration-0 duration-500 ease-out items-center justify-center bg-redis-red-500 hover:bg-redis-yellow-500 hover:text-midnight-900 h-full px-[27px]" href="http://redis.com/try-free/">Try Redis</a>
+      <a class="hidden lg:inline-flex transition-colors hover:duration-0 duration-500 ease-out items-center justify-center bg-redis-red-500 hover:bg-redis-yellow-500 hover:text-midnight-900 h-full px-[27px]" href="https://redis.com/try-free/">Try Redis</a>
       <button data-menu-toggle aria-expanded="false" type="button" class="menu-toggle lg:hidden p-1 mt-1 transition-colors hover:text-redis-red-500">
         <span class="sr-only">Open main menu</span> 
         {{ partial "icons/hamburger.html" }}
@@ -64,7 +64,7 @@
     <div class="sticky h-fit top-0 w-full bg-white border-b border-redis-pen-300 font-mono text-sm flex justify-center">
       <div class="flex h-[70px] px-4 lg:pl-11 lg:pr-0 justify-between self-center grow">
         <div class="h-full flex gap-6 items-center">
-          <a id="headerLogo" class="relative mr-4 transition-colors text-redis-red-500 hover:text-redis-red-600 w-[82px]" href="http://redis.io/">
+          <a id="headerLogo" class="relative mr-4 transition-colors text-redis-red-500 hover:text-redis-red-600 w-[82px]" href="https://redis.io/">
             {{ partial "icons/logo-script.html" }}
           </a>
           <button id="headerBack" class="hidden flex flex-row items-center" onclick="openPage(null)">
@@ -100,7 +100,7 @@
         <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('docs')">
           <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Docs</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
         </button>
-        <a class="group flex-row items-center" href="http://redis.io/pricing"><span class="group-hover:font-bold group-hover:tracking-tight">Pricing</span></a>
+        <a class="group flex-row items-center" href="https://redis.io/pricing"><span class="group-hover:font-bold group-hover:tracking-tight">Pricing</span></a>
       </div>
       <div class="flex flex-col gap-6 px-4 text-center mt-16 max-w-[360px] mx-auto">
         {{ partial "components/button-link.html" (dict "Href" "https://redis.io/try-free/" "Text" "Try Redis" "Width" "full") }}
