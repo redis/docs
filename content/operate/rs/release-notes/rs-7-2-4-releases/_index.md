@@ -297,7 +297,7 @@ You cannot create Active-Active databases that use Redis version 6.0 or 6.2 with
 
 This limitation will be fixed in a maintenance release for Redis Enterprise version 7.4.2.
 
-#### Modules prevent nodes from joining upgraded clusters on certain operating systems
+#### Modules prevent nodes from joining upgraded clusters on RHEL clones
 
 If you upgrade an existing cluster to Redis Enterprise Software version 7.2.4 and any existing databases use earlier module versions, new nodes will fail to join the cluster on operating systems that are RHEL clones. RHEL, Ubuntu, and Amazon Linux are not affected by this issue.
 
