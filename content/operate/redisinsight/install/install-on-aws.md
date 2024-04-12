@@ -3,19 +3,19 @@ categories:
 - docs
 - operate
 - redisinsight
-description: 'How to install RedisInsight on AWS EC2
+description: 'How to install Redis Insight on AWS EC2
 
   '
 linkTitle: Install on AWS EC2
 title: Install on AWS EC2
 weight: 3
 ---
-This tutorial shows you how to install RedisInsight on an AWS EC2 instance and manage ElastiCache Redis instances using RedisInsight. To complete this tutorial you must have access to the AWS Console and permissions to launch EC2 instances.
+This tutorial shows you how to install Redis Insight on an AWS EC2 instance and manage ElastiCache Redis instances using Redis Insight. To complete this tutorial you must have access to the AWS Console and permissions to launch EC2 instances.
 
 Step 1: Create a new IAM Role (optional)
 --------------
 
-RedisInsight needs read-only access to S3 and ElastiCache APIs. This is an optional step.
+Redis Insight needs read-only access to S3 and ElastiCache APIs. This is an optional step.
 
 1. Log in to the AWS Console and navigate to the IAM screen.
 1. Create a new IAM Role.
@@ -69,17 +69,17 @@ Next, install Docker on the EC2 instance. Run the following commands:
 1. Log out and log back in again to pick up the new docker group permissions.
 1. To verify, run `docker ps`. You should see some output without having to run `sudo`.
 
-Step 5: Run RedisInsight in the Docker container
+Step 5: Run Redis Insight in the Docker container
 -------
 
-Finally, install RedisInsight using one of the options described below.
+Finally, install Redis Insight using one of the options described below.
 
-1. If you do not want to persist your RedisInsight data:
+1. If you do not want to persist your Redis Insight data:
 
 ```bash
 docker run -d --name redisinsight -p 5540:5540 redis/redisinsight:latest
 ```
-2. If you want to persist your RedisInsight data, first attach the Docker volume to the `/data` path and then run the following command:
+2. If you want to persist your Redis Insight data, first attach the Docker volume to the `/data` path and then run the following command:
 
 ```bash
 docker run -d --name redisinsight -p 5540:5540 redis/redisinsight:latest -v redisinsight:/data
@@ -87,11 +87,11 @@ docker run -d --name redisinsight -p 5540:5540 redis/redisinsight:latest -v redi
 
 If the previous command returns a permission error, ensure that the user with `ID = 1000` has the necessary permission to access the volume provided (`redisinsight` in the command above).
 
-Find the IP Address of your EC2 instances and launch your browser at `http://<EC2 IP Address>:5540`. Accept the EULA and start using RedisInsight.
+Find the IP Address of your EC2 instances and launch your browser at `http://<EC2 IP Address>:5540`. Accept the EULA and start using Redis Insight.
 
-RedisInsight also provides a health check endpoint at `http://<EC2 IP Address>:5540/api/health/` to monitor the health of the running container.
+Redis Insight also provides a health check endpoint at `http://<EC2 IP Address>:5540/api/health/` to monitor the health of the running container.
 
 Summary
 ------
 
-In this guide, we installed RedisInsight on an AWS EC2 instance running Docker. As a next step, you should add an ElastiCache Redis Instance and then run the memory analysis.
+In this guide, we installed Redis Insight on an AWS EC2 instance running Docker. As a next step, you should add an ElastiCache Redis Instance and then run the memory analysis.

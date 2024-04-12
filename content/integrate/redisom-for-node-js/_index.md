@@ -31,7 +31,7 @@ Like anything software-related, you need to have some dependencies installed bef
 
 - [Node.js 14.8+](https://nodejs.org/en/): In this tutorial, we're using JavaScript's top-level `await` feature which was introduced in Node 14.8. So, make sure you are using that version or later.
 - [Redis Stack](/download): You need a version of Redis Stack, either running locally on your machine or [in the cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
-- [RedisInsight](https://redis.com/redis-enterprise/redis-insight/): We'll use this to look inside Redis and make sure our code is doing what we think it's doing.
+- [Redis Insight](https://redis.com/redis-enterprise/redis-insight/): We'll use this to look inside Redis and make sure our code is doing what we think it's doing.
 
 
 ## Starter code
@@ -314,7 +314,7 @@ Note that we are also returning the newly created `Person`. Let's see what that 
 
 This is exactly what we handed it with one exception: the `entityId`. Every entity in Redis OM has an entity ID which is—as you've probably guessed—the unique ID of that entity. It was randomly generated when we called `.createAndSave()`. Yours will be different, so make note of it.
 
-You can see this newly created JSON document in Redis with RedisInsight. Go ahead and launch RedisInsight and you should see a key with a name like `Person:01FY9MWDTWW4XQNTPJ9XY9FPMN`. The `Person` bit of the key was derived from the class name of our entity and the sequence of letters and numbers is our generated entity ID. Click on it to take a look at the JSON document you've created.
+You can see this newly created JSON document in Redis with Redis Insight. Go ahead and launch Redis Insight and you should see a key with a name like `Person:01FY9MWDTWW4XQNTPJ9XY9FPMN`. The `Person` bit of the key was derived from the class name of our entity and the sequence of letters and numbers is our generated entity ID. Click on it to take a look at the JSON document you've created.
 
 You'll also see a key named `Person:index:hash`. That's a unique value that Redis OM uses to see if it needs to recreate the index or not when `.createIndex()` is called. You can safely ignore it.
 
@@ -819,7 +819,7 @@ And then in the route itself add a call to `.xAdd()`:
 
 Now, whenever this route is exercised, the longitude and latitude will be logged and the event ID will encode the time. Go ahead and use Swagger to move Joan Jett around a few times.
 
-Now, go into RedisInsight and take a look at the Stream. You'll see it there in the list of keys but if you click on it, you'll get a message saying that "This data type is coming soon!". If you don't get this message, congratualtions, you live in the future! For us here in the past, we'll just issue the raw command instead:
+Now, go into Redis Insight and take a look at the Stream. You'll see it there in the list of keys but if you click on it, you'll get a message saying that "This data type is coming soon!". If you don't get this message, congratulations, you live in the future! For us here in the past, we'll just issue the raw command instead:
 
     XRANGE Person:01FYC7CTPKYNXQ98JSTBC37AS1:locationHistory - +
 

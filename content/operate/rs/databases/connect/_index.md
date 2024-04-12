@@ -27,7 +27,7 @@ Use one of the following connection methods to connect to your database:
 
 - [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli/" >}}) utility
 
-- [RedisInsight](https://redis.com/redis-enterprise/redis-insight/)
+- [Redis Insight](https://redis.com/redis-enterprise/redis-insight/)
 
 - [Redis client]({{< relref "/develop/connect/clients/" >}}) for your preferred programming language
 

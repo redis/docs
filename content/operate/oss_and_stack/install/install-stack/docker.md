@@ -12,7 +12,7 @@ weight: 4
 
 To get started with Redis Stack using Docker, you first need to select a Docker image:
 
-* `redis/redis-stack` contains both Redis Stack server and RedisInsight. This container is best for local development because you can use the embedded RedisInsight to visualize your data.
+* `redis/redis-stack` contains both Redis Stack server and Redis Insight. This container is best for local development because you can use the embedded Redis Insight to visualize your data.
 
 * `redis/redis-stack-server` provides Redis Stack server only. This container is best for production deployment.
 
@@ -34,7 +34,7 @@ To start a Redis Stack container using the `redis-stack` image, run the followin
 docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
 {{< / highlight >}}
 
-The `docker run` command above also exposes RedisInsight on port 8001. You can use RedisInsight by pointing your browser to `localhost:8001`.
+The `docker run` command above also exposes Redis Insight on port 8001. You can use Redis Insight by pointing your browser to `localhost:8001`.
 
 ## Connect with redis-cli
 
@@ -57,7 +57,7 @@ $ docker run -v /local-data/:/data redis/redis-stack:latest
 
 ### Ports
 
-If you want to expose Redis Stack server or RedisInsight on a different port, update the left hand of portion of the `-p` argument. This command exposes Redis Stack server on port `10001` and RedisInsight on port `13333`:
+If you want to expose Redis Stack server or Redis Insight on a different port, update the left hand of portion of the `-p` argument. This command exposes Redis Stack server on port `10001` and Redis Insight on port `13333`:
 {{< highlight bash >}}
 $ docker run -p 10001:6379 -p 13333:8001 redis/redis-stack:latest
 {{< / highlight >}}

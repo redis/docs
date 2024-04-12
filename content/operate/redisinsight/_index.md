@@ -1,5 +1,5 @@
 ---
-title: RedisInsight
-description: Install and manage RedisInsight
-linkTitle: RedisInsight
+title: Redis Insight
+description: Install and manage Redis Insight
+linkTitle: Redis Insight
 ---
