@@ -44,6 +44,7 @@ An API object that represents a managed database in the cluster.
   "C": string
 }, ...]
 {{</code>}} | A list of valid subjects used for additional certificate validations during TLS client authentication. All subject attributes are case-sensitive.<br />**Required subject fields**:<br />"CN" for Common Name<br />**Optional subject fields:**<br />"O" for Organization<br />"OU" for Organizational Unit (array of strings)<br />"L" for Locality (city)<br />"ST" for State/Province<br />"C" for 2-letter country code  |
+| auto_upgrade | boolean (default:&nbsp;false) | Upgrade the database automatically after a cluster upgrade |
 | avoid_nodes | array of strings | Cluster node UIDs to avoid when placing the database's shards and binding its endpoints |
 | background_op | {{<code>}}
 [{
@@ -70,12 +71,15 @@ An API object that represents a managed database in the cluster.
 }, ...]
 {{</code>}} | List of shard UIDs and their bigstore RAM weights;<br /> **shard_uid**: Shard UID;<br /> **weight**: Relative weight of RAM distribution |
 | client_cert_subject_validation_type | **disabled**<br />san_cn<br />full_subject | Enables additional certificate validations that further limit connections to clients with valid certificates during TLS client authentication.<br />**disabled**: Authenticates clients with valid certificates. No additional validations are enforced.<br />**san_cn**: A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other Subject attributes.<br />**full_subject**: A client certificate is valid only if its Subject attributes match an entry in the list of valid subjects. |
+| conns | integer (default&nbsp;5) | Number of internal proxy connections |
+| conns_type | **‘per-thread’**<br />‘per-shard’ | Connections limit type |
 | crdt | boolean (default:&nbsp;false) | Use CRDT-based data types for multi-master replication |
 | crdt_causal_consistency | boolean (default:&nbsp;false) | Causal consistent CRDB. |
 | crdt_config_version | integer | Replica-set configuration version, for internal use only. |
 | crdt_featureset_version | integer | CRDB active FeatureSet version |
 | crdt_ghost_replica_ids | string | Removed replicas IDs, for internal use only. |
 | crdt_guid | string | GUID of CRDB this database belongs to, for internal use only. |
+| crdt_modules | string | CRDB modules information. The string representation of a JSON list, containing hashmaps. |
 | crdt_protocol_version | integer | CRDB active Protocol version |
 | crdt_repl_backlog_size | string | Active-Active replication backlog size ('auto' or size in bytes) |
 | crdt_replica_id | integer | Local replica ID, for internal use only. |
@@ -84,6 +88,7 @@ An API object that represents a managed database in the cluster.
 | crdt_sync | 'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' | Enable, disable, or pause syncing from specified crdt_sources. Applicable only for Active-Active databases. See [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) for more details. |
 | crdt_sync_dist | boolean | Enable/disable distributed syncer in master-master |
 | crdt_syncer_auto_oom_unlatch | boolean (default:&nbsp;true) | Syncer automatically attempts to recover synchronisation from peers after this database throws an Out-Of-Memory error. Otherwise, the syncer exits |
+| crdt_xadd_id_uniqueness_mode | ‘liberal’<br />**‘strict’**<br />‘semi-strict’ | XADD strict ID uniqueness mode. CRDT only. |
 | created_time | string | The date and time the database was created (read-only) |
 | data_internode_encryption | boolean | Should the data plane internode communication for this database be encrypted |
 | data_persistence | **'disabled'** <br />'snapshot'<br />'aof' | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided |
@@ -96,7 +101,7 @@ An API object that represents a managed database in the cluster.
 | endpoint | string | Latest bound endpoint. Used when reconfiguring an endpoint via update |
 | endpoint_ip | complex object | External IP addresses of node hosting the BDB's endpoint. `GET`&nbsp;`/jsonschema` to retrieve the object's structure. (read-only) (deprecated as of Redis Enterprise v4.3.3) |
 | endpoint_node | integer | Node UID hosting the BDB's endpoint (read-only) (deprecated as of Redis Enterprise v4.3.3) |
-| endpoints | array | List of database access endpoints (read-only) |
+| endpoints | array | List of database access endpoints (read-only)<br />**uid**: Unique identification of this source<br />**dns_name**: Endpoint’s DNS name<br />**port**: Endpoint’s TCP port number<br />**addr**: Endpoint’s accessible addresses<br />**proxy_policy**: The policy used for proxy binding to the endpoint<br />**exclude_proxies**: List of proxies to exclude<br />**include_proxies**: List of proxies to include<br />**addr_type**: Indicates if the endpoint is based on internal or external IPs<br />**oss_cluster_api_preferred_ip_type**: Indicates preferred IP type in the OSS cluster API: internal/external<br />**oss_cluster_api_preferred_endpoint_type**: Indicates preferred endpoint type in the OSS cluster API: ip/hostname |
 | enforce_client_authentication | **'enabled'** <br />'disabled' | Require authentication of client certificates for SSL connections to the database. If set to 'enabled', a certificate should be provided in either authentication_ssl_client_certs or authentication_ssl_crdt_certs |
 | eviction_policy | 'volatile-lru'<br />'volatile-ttl'<br />'volatile-random'<br />'allkeys-lru'<br />'allkeys-random'<br />'noeviction'<br />'volatile-lfu'<br />'allkeys-lfu' | Database eviction policy (Redis style).<br />**Redis DB default**:&nbsp;'volatile-lru'<br />**memcached DB default**:&nbsp;'allkeys-lru' |
 | export_failure_reason | 'no-permission'<br />'wrong-file-path'<br /> 'general-error' | Reason of last failed export process (read-only) |
@@ -118,7 +123,10 @@ An API object that represents a managed database in the cluster.
 | last_export_time | string | Time of last successful export (read-only) |
 | max_aof_file_size | integer | Maximum size for shard's AOF file (bytes). Default 300GB, (on bigstore DB 150GB) |
 | max_aof_load_time | integer (default:&nbsp;3600) | Maximum time shard's AOF reload should take (seconds). |
+| max_client_pipeline | integer (default:&nbsp;200) | Maximum number of pipelined commands per connection. Maximum value is 2047. |
 | max_connections | integer (default:&nbsp;0) | Maximum number of client connections allowed (0 unlimited) |
+| max_pipelined | integer (default:&nbsp;2000) | Determines the maximum number of commands in the proxy’s pipeline per shard connection. |
+| master_persistence | boolean (default:&nbsp;false) | Persist the master shard in addition to replica shards in a replicated and persistent database. |
 | memory_size | integer (default:&nbsp;0) | Database memory limit (0 is unlimited), expressed in bytes. |
 | metrics_export_all | boolean | Enable/disable exposing all shard metrics through the metrics exporter |
 | mkms | boolean (default:&nbsp;true) | Are MKMS (Multi Key Multi Slots) commands supported? |
@@ -134,6 +142,7 @@ An API object that represents a managed database in the cluster.
 | mtls_allow_weak_hashing | boolean | An optional mTLS relaxation flag for certs verification |
 | name | string | Database name. Only letters, numbers, or hyphens are valid characters. The name must start and end with a letter or number. |
 | oss_cluster | boolean (default:&nbsp;false) | OSS Cluster mode option. Cannot be enabled with `'hash_slots_policy': 'legacy'` |
+| oss_cluster_api_preferred_endpoint_type | **‘ip’**<br />‘hostname’ | Endpoint type in the OSS cluster API |
 | oss_cluster_api_preferred_ip_type | **'internal'** <br />'external' | Internal/external IP type in OSS cluster API. Default value for new endpoints |
 | oss_sharding | boolean (default:&nbsp;false) | An alternative to `shard_key_regex` for using the common case of the OSS shard hashing policy |
 | port | integer | TCP port on which the database is available. Generated automatically if omitted and returned as 0 |
@@ -153,6 +162,7 @@ An API object that represents a managed database in the cluster.
   "redis_acl_uid": integer
 }, ...]
 {{</code>}} | |
+| sched_policy | **‘cmp’**<br />‘mru’<br />‘spread’<br />‘mnp’ | Controls how server-side connections are used when forwarding traffic to shards.<br />**cmp**: Closest to max_pipelined policy. Pick the connection with the most pipelined commands that has not reached the max_pipelined limit.<br />**mru**: Try to use most recently used connections.<br />**spread**: Try to use all connections.<br />**mnp**: Minimal pipeline policy. Pick the connection with the least pipelined commands. |
 | shard_block_crossslot_keys | boolean (default:&nbsp;false) | In Lua scripts, prevent use of keys from different hash slots within the range owned by the current shard |
 | shard_block_foreign_keys | boolean (default:&nbsp;true) | In Lua scripts, `foreign_keys` prevent use of keys which could reside in a different shard (foreign keys) |
 | shard_key_regex | {{<code>}}
@@ -175,7 +185,9 @@ An API object that represents a managed database in the cluster.
 | snapshot_policy | array of [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) objects | Policy for snapshot-based data persistence. A dataset snapshot will be taken every N secs if there are at least M writes changes in the dataset |
 | ssl | boolean (default:&nbsp;false) | Require SSL authenticated and encrypted connections to the database (deprecated as of Redis Enterprise v5.0.1) |
 | [status]({{< relref "/operate/rs/references/rest-api/objects/bdb/status" >}}) | 'pending'<br />'active'<br />'active-change-pending'<br />'delete-pending'<br />'import-pending'<br />'creation-failed'<br />'recovery' | Database lifecycle status (read-only) |
+| support_syncer_reconf | boolean | Determines whether the syncer handles its own configuration changes. If false, the DMC restarts the syncer upon a configuration change. |
 | sync | 'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' | (deprecated as of Redis Enterprise v5.0.1, use [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) or crdt_sync instead) Enable, disable, or pause syncing from specified sync_sources |
+| sync_dedicated_threads | integer (range:&nbsp;0-10) (default:&nbsp;5) | Number of dedicated Replica Of threads |
 | sync_sources | {{<code>}}
 [{
   "uid": integer,
@@ -189,6 +201,7 @@ An API object that represents a managed database in the cluster.
   "last_error": string
 }, ...]
 {{</code>}} | (deprecated as of Redis Enterprise v5.0.1, instead use replica_sources or crdt_sources) Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section<br />**uid**: Numeric unique identification of this source<br />**uri**: Source Redis URI<br />**compression**: Compression level for the replication link<br />**status**: Sync status of this source<br />**rdb_transferred**: Number of bytes transferred from the source's RDB during the syncing phase<br />**rdb_size**: The source's RDB size to be transferred during the syncing phase<br />**last_update**: Time last update was received from the source<br />**lag**: Lag in millisec between source and destination (while synced)<br />**last_error**: Last error encountered when syncing from the source |
+| syncer_log_level | ‘crit’<br />‘error’<br />‘warn’<br />**‘info’**<br />‘trace’<br />‘debug’ | Minimum syncer log level to log. Only logs with this level or higher will be logged. |
 | syncer_mode | 'distributed'<br />'centralized' | The syncer for replication between database instances is either on a single node (centralized) or on each node that has a proxy according to the proxy policy (distributed). (read-only) |
 | tags | {{<code>}}	
 [{
@@ -201,6 +214,3 @@ An API object that represents a managed database in the cluster.
 | use_nodes | array of strings | Cluster node UIDs to use for database shards and bound endpoints |
 | version | string | Database compatibility version: full Redis/memcached version number, such as 6.0.6. This value can only change during database creation and database upgrades.|
 | wait_command | boolean (default:&nbsp;true) | Supports Redis wait command (read-only) |
-
-
-
