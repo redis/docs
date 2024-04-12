@@ -343,12 +343,12 @@ class All(Component):
                 else:
                     die(f'Unknown component definition for {component}')
                 c.apply()
-        self._persist_commands()
-        self._persist_groups()
+        # self._persist_commands()
+        # self._persist_groups()
         self._persist_examples()
-        self._persist_versions()
-        self._process_commands()
-        self._process_docs()
+        # self._persist_versions()
+        # self._process_commands()
+        # self._process_docs()
         self._make_repos()
 
 
