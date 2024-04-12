@@ -13,6 +13,7 @@ weight: $weight
 
 An API object that represents a managed database in the cluster.
 
+{{<table-scrollable>}}
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | uid | integer | Cluster unique ID of database. Can be set during creation but cannot be updated. |
@@ -23,37 +24,14 @@ An API object that represents a managed database in the cluster.
 | authentication_redis_pass | string | Redis AUTH password authentication.  <br/>Use for Redis databases only.  Ignored for memcached databases. (deprecated as of Redis Enterprise v7.2, replaced with multiple passwords feature in version 6.0.X) |
 | authentication_sasl_pass | string | Binary memcache SASL password |
 | authentication_sasl_uname | string | Binary memcache SASL username (pattern does not allow special characters &,\<,>,") |
-| authentication_ssl_client_certs | {{<code>}}	
-[{
-  "client_cert": string
-}, ...]
-{{</code>}} | List of authorized client certificates<br />**client_cert**: X.509 PEM (base64) encoded certificate |
-| authentication_ssl_crdt_certs | {{<code>}}
-[{
-  "client_cert": string
-}, ...]
-{{</code>}} | List of authorized CRDT certificates<br />**client_cert**: X.509 PEM (base64) encoded certificate |
+| authentication_ssl_client_certs | {{<code>}}[{<br />  "client_cert": string<br />}, ...]{{</code>}} | List of authorized client certificates<br />**client_cert**: X.509 PEM (base64) encoded certificate |
+| authentication_ssl_crdt_certs | {{<code>}}[{<br />  "client_cert": string<br />}, ...]{{</code>}} | List of authorized CRDT certificates<br />**client_cert**: X.509 PEM (base64) encoded certificate |
 | authorized_names | array of strings | Additional certified names (deprecated as of Redis Enterprise v6.4.2; use authorized_subjects instead) |
-| authorized_subjects | {{<code>}}
-[{
-  "CN": string,
-  "O": string,
-  "OU": [array of strings],
-  "L": string,
-  "ST": string,
-  "C": string
-}, ...]
+| authorized_subjects | {{<code>}}[{<br />  "CN": string,<br />  "O": string,<br />  "OU": [array of strings],<br />  "L": string,<br />  "ST": string,<br />  "C": string<br />}, ...]
 {{</code>}} | A list of valid subjects used for additional certificate validations during TLS client authentication. All subject attributes are case-sensitive.<br />**Required subject fields**:<br />"CN" for Common Name<br />**Optional subject fields:**<br />"O" for Organization<br />"OU" for Organizational Unit (array of strings)<br />"L" for Locality (city)<br />"ST" for State/Province<br />"C" for 2-letter country code  |
 | auto_upgrade | boolean (default:&nbsp;false) | Upgrade the database automatically after a cluster upgrade |
 | avoid_nodes | array of strings | Cluster node UIDs to avoid when placing the database's shards and binding its endpoints |
-| background_op | {{<code>}}
-[{
-  "status": string,
-  "name": string,
-  "error": object,
-  "progress": number
-}, ...]
-{{</code>}} | (read-only); **progress**: Percent of completed steps in current operation |
+| background_op | {{<code>}}[{<br />  "status": string,<br />  "name": string,<br />  "error": object,<br />  "progress": number<br />}, ...]{{</code>}} | (read-only); **progress**: Percent of completed steps in current operation |
 | backup | boolean (default:&nbsp;false) | Policy for periodic database backup |
 | backup_failure_reason | 'no-permission'<br />'wrong-file-path'<br />'general-error' | Reason of last failed backup process (read-only) |
 | backup_history | integer (default:&nbsp;0) | Backup history retention policy (number of days, 0 is forever) |
@@ -64,12 +42,7 @@ An API object that represents a managed database in the cluster.
 | backup_status | 'exporting'<br />'succeeded'<br />'failed' | Status of scheduled periodic backup process (read-only) |
 | bigstore | boolean (default:&nbsp;false) | Database bigstore option |
 | bigstore_ram_size | integer (default:&nbsp;0) | Memory size of bigstore RAM part. |
-| bigstore_ram_weights | {{<code>}}	
-[{
-  "shard_uid": integer,
-  "weight": number
-}, ...]
-{{</code>}} | List of shard UIDs and their bigstore RAM weights;<br /> **shard_uid**: Shard UID;<br /> **weight**: Relative weight of RAM distribution |
+| bigstore_ram_weights | {{<code>}}[{<br />  "shard_uid": integer,<br />  "weight": number<br />}, ...]{{</code>}} | List of shard UIDs and their bigstore RAM weights;<br /> **shard_uid**: Shard UID;<br /> **weight**: Relative weight of RAM distribution |
 | client_cert_subject_validation_type | **disabled**<br />san_cn<br />full_subject | Enables additional certificate validations that further limit connections to clients with valid certificates during TLS client authentication.<br />**disabled**: Authenticates clients with valid certificates. No additional validations are enforced.<br />**san_cn**: A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other Subject attributes.<br />**full_subject**: A client certificate is valid only if its Subject attributes match an entry in the list of valid subjects. |
 | conns | integer (default&nbsp;5) | Number of internal proxy connections |
 | conns_type | **‘per-thread’**<br />‘per-shard’ | Connections limit type |
@@ -130,14 +103,7 @@ An API object that represents a managed database in the cluster.
 | memory_size | integer (default:&nbsp;0) | Database memory limit (0 is unlimited), expressed in bytes. |
 | metrics_export_all | boolean | Enable/disable exposing all shard metrics through the metrics exporter |
 | mkms | boolean (default:&nbsp;true) | Are MKMS (Multi Key Multi Slots) commands supported? |
-| module_list | {{<code>}}
-[{
-  "module_id": string,
-  "module_args": [u'string', u'null'],
-  "module_name": string,
-  "semantic_version": string
-}, ...]
-{{</code>}} | List of modules associated with the database<br /><br />**module_id**: Module UID <br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version<br /><br />As of Redis Enterprise Software v7.4.2, **module_id** and **semantic_version** are optional. |
+| module_list | {{<code>}}[{<br />  "module_id": string,<br />  "module_args": [u'string', u'null'],<br />  "module_name": string,<br />  "semantic_version": string<br />}, ...]{{</code>}} | List of modules associated with the database<br /><br />**module_id**: Module UID <br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version<br /><br />As of Redis Enterprise Software v7.4.2, **module_id** and **semantic_version** are optional. |
 | mtls_allow_outdated_certs | boolean | An optional mTLS relaxation flag for certs verification |
 | mtls_allow_weak_hashing | boolean | An optional mTLS relaxation flag for certs verification |
 | name | string | Database name. Only letters, numbers, or hyphens are valid characters. The name must start and end with a letter or number. |
@@ -156,24 +122,11 @@ An API object that represents a managed database in the cluster.
 | replica_sync_dist | boolean | Enable/disable distributed syncer in replica-of |
 | replication | boolean (default:&nbsp;false) | In-memory database replication mode |
 | resp3 | boolean (default:&nbsp;true) | Enables or deactivates RESP3 support |
-| roles_permissions | {{<code>}}
-[{
-  "role_uid": integer,
-  "redis_acl_uid": integer
-}, ...]
-{{</code>}} | |
+| roles_permissions | {{<code>}}[{<br />  "role_uid": integer,<br />  "redis_acl_uid": integer<br />}, ...]{{</code>}} | |
 | sched_policy | **‘cmp’**<br />‘mru’<br />‘spread’<br />‘mnp’ | Controls how server-side connections are used when forwarding traffic to shards.<br />**cmp**: Closest to max_pipelined policy. Pick the connection with the most pipelined commands that has not reached the max_pipelined limit.<br />**mru**: Try to use most recently used connections.<br />**spread**: Try to use all connections.<br />**mnp**: Minimal pipeline policy. Pick the connection with the least pipelined commands. |
 | shard_block_crossslot_keys | boolean (default:&nbsp;false) | In Lua scripts, prevent use of keys from different hash slots within the range owned by the current shard |
 | shard_block_foreign_keys | boolean (default:&nbsp;true) | In Lua scripts, `foreign_keys` prevent use of keys which could reside in a different shard (foreign keys) |
-| shard_key_regex | {{<code>}}
-[{
-  "regex": string
-}, ...]
-{{</code>}} <br /><br />To use the default rules you should set the value to: {{<code>}}
-[
-  { “regex”: “.*\\{(?< tag >.*)\\}.*” }, 
-  { “regex”: “(?< tag >.*)” }
-] {{</code>}} | Custom keyname-based sharding rules.  |
+| shard_key_regex | {{<code>}}[{<br />  "regex": string<br />}, ...]{{</code>}} <br /><br />To use the default rules you should set the value to: {{<code>}}[<br />  { “regex”: “.\*{(?\<tag\>.\*)}.\*” }, <br />  { “regex”: “(?\<tag\>.\*)” }<br />] {{</code>}} | Custom keyname-based sharding rules.  |
 | shard_list | array of integers | Cluster unique IDs of all database shards. |
 | sharding | boolean (default:&nbsp;false) | Cluster mode (server-side sharding). When true, shard hashing rules must be provided by either `oss_sharding` or `shard_key_regex` |
 | shards_count | integer, <nobr>(range: 1-512)</nobr> (default:&nbsp;1) | Number of database server-side shards |
@@ -188,29 +141,13 @@ An API object that represents a managed database in the cluster.
 | support_syncer_reconf | boolean | Determines whether the syncer handles its own configuration changes. If false, the DMC restarts the syncer upon a configuration change. |
 | sync | 'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' | (deprecated as of Redis Enterprise v5.0.1, use [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) or crdt_sync instead) Enable, disable, or pause syncing from specified sync_sources |
 | sync_dedicated_threads | integer (range:&nbsp;0-10) (default:&nbsp;5) | Number of dedicated Replica Of threads |
-| sync_sources | {{<code>}}
-[{
-  "uid": integer,
-  "uri": string,
-  "compression": integer,
-  "status": string,
-  "rdb_transferred": integer,
-  "rdb_size": integer,
-  "last_update": string,
-  "lag": integer,
-  "last_error": string
-}, ...]
-{{</code>}} | (deprecated as of Redis Enterprise v5.0.1, instead use replica_sources or crdt_sources) Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section<br />**uid**: Numeric unique identification of this source<br />**uri**: Source Redis URI<br />**compression**: Compression level for the replication link<br />**status**: Sync status of this source<br />**rdb_transferred**: Number of bytes transferred from the source's RDB during the syncing phase<br />**rdb_size**: The source's RDB size to be transferred during the syncing phase<br />**last_update**: Time last update was received from the source<br />**lag**: Lag in millisec between source and destination (while synced)<br />**last_error**: Last error encountered when syncing from the source |
+| sync_sources | {{<code>}}[{<br />  "uid": integer,<br />  "uri": string,<br />  "compression": integer,<br />  "status": string,<br />  "rdb_transferred": integer,<br />  "rdb_size": integer,<br />  "last_update": string,<br />  "lag": integer,<br />  "last_error": string<br />}, ...]{{</code>}} | (deprecated as of Redis Enterprise v5.0.1, instead use replica_sources or crdt_sources) Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section<br />**uid**: Numeric unique identification of this source<br />**uri**: Source Redis URI<br />**compression**: Compression level for the replication link<br />**status**: Sync status of this source<br />**rdb_transferred**: Number of bytes transferred from the source's RDB during the syncing phase<br />**rdb_size**: The source's RDB size to be transferred during the syncing phase<br />**last_update**: Time last update was received from the source<br />**lag**: Lag in millisec between source and destination (while synced)<br />**last_error**: Last error encountered when syncing from the source |
 | syncer_log_level | ‘crit’<br />‘error’<br />‘warn’<br />**‘info’**<br />‘trace’<br />‘debug’ | Minimum syncer log level to log. Only logs with this level or higher will be logged. |
 | syncer_mode | 'distributed'<br />'centralized' | The syncer for replication between database instances is either on a single node (centralized) or on each node that has a proxy according to the proxy policy (distributed). (read-only) |
-| tags | {{<code>}}	
-[{
-  "key": string,
-  "value": string
-}, ...]
-{{</code>}} | Optional list of tags objects attached to the database<br />**key**: Represents the tag's meaning and must be unique among tags (pattern does not allow special characters &,\<,>,")<br />**value**: The tag's value |
+| tags | {{<code>}}[{<br />  "key": string,<br />  "value": string<br />}, ...]{{</code>}} | Optional list of tags objects attached to the database<br />**key**: Represents the tag's meaning and must be unique among tags (pattern does not allow special characters &,\<,>,")<br />**value**: The tag's value |
 | tls_mode | 'enabled'<br /> **'disabled'** <br />'replica_ssl' | Require TLS-authenticated and encrypted connections to the database |
 | type | **'redis'** <br />'memcached' | Type of database |
 | use_nodes | array of strings | Cluster node UIDs to use for database shards and bound endpoints |
 | version | string | Database compatibility version: full Redis/memcached version number, such as 6.0.6. This value can only change during database creation and database upgrades.|
 | wait_command | boolean (default:&nbsp;true) | Supports Redis wait command (read-only) |
+{{</table-scrollable>}}
