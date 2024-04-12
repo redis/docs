@@ -165,9 +165,9 @@ their order to suit your application's requirements.
    - **PCRE_ANCHORED:** the pattern is constrained to match only at
         the start of the string which is being searched.
 
-## Dataset size
+## Memory limit
 
-The dataset size represents the maximum amount of memory for the database, which includes data values, keys, module data, and overhead for specific features.  High availability features, such as replication and Active-Active,  increase memory consumption.  
+The memory limit represents the maximum amount of memory for the database, which includes data values, keys, module data, and overhead for specific features.  High availability features, such as replication and Active-Active,  increase memory consumption.  
 
 Here are some general guidelines:
 
@@ -177,13 +177,13 @@ Here are some general guidelines:
 
 - [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) also doubles memory consumption and the effect is cumulative with replication's impact. Since Active-Active requires replication to be turned on, the memory limit impact can be as large as four times (4x) the original data size.
 
-- [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) also consume memory.
+- [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) also consume memory. For search databases, consider index size when you size your database.
 
 Memory limits in Redis Cloud are subject to the same considerations as Redis Enterprise Software; to learn more, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit.md" >}}).
 
 ## Throughput
 
-Throughput is the amount of operations a database can handle over a certain period of time. For most Redis Cloud databases, throughput is defined in operations per second (ops/sec).
+Throughput is the amount of operations a database can handle over a certain period of time. For Redis Cloud databases, throughput is defined in operations per second (ops/sec).
 
 For a Redis Cloud Pro subscription, you define throughput for a database when you create it. For a Redis Cloud Essentials subscription, your maximum throughput depends on your plan.
 
