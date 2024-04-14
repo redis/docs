@@ -16,7 +16,7 @@
   {{ $basePath := .Scratch.Get "path" }}
   <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row overflow-hidden">
     {{ partial "docs-nav-collapsed.html" . }}
-    <div class="py-12 md:px-4 xl:px-16 overflow-hidden">
+    <div class="py-12 md:px-4 xl:px-16 overflow-hidden grow">
       {{ partial "breadcrumbs" . }}
       <section class="prose w-full py-12"> 
         <h1>Commands</h1>
