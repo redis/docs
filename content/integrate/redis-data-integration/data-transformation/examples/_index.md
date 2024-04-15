@@ -9,7 +9,7 @@ categories:
 - rdi
 description: null
 group: di
-hideListLinks: true
+hideListLinks: false
 linkTitle: Data transformation examples
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
