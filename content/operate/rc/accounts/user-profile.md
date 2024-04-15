@@ -57,7 +57,7 @@ When your user account is authorized to manage multiple Redis Cloud accounts, ea
 To switch accounts, select the desired account from the list shown in the Profile control.
 
 {{< note >}}
-To create another Redis Cloud account associated with the same email address, you need to [sign up for Redis Cloud]({{< relref "/operate/rc/rc-quickstart" >}}) again with a sub-address of the email address. For many email providers, you can do this by adding `+` and any string to the end of your username. For example, if your address is `example@example.com`, enter `example+account2@example.com`.
+To create another Redis Cloud account associated with the same email address, you need to [sign up for Redis Cloud]({{< relref "/operate/rc/rc-quickstart" >}}) again with a plus address of the email address. For many email providers, you can do this by adding `+` and any string to the end of your username. For example, if your address is `example@example.com`, enter `example+account2@example.com`.
 {{< /note >}}
 
 ## Save or discard changes
