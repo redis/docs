@@ -14,10 +14,22 @@ weight: 96
 ---
 ## Requirements
 
-RedisBloom v2.4.8 requires:
+RedisBloom v2.4.9 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.4.9 (March 2024)
+
+This is a maintenance release for RedisBloom 2.4.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+
+  - [#753](https://github.com/RedisBloom/RedisBloom/issues/753) Potential crash on `CMS.MERGE` when using invalid arguments
 
 ## v2.4.8 (January 2024)
 
