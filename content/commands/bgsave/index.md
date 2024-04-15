@@ -56,7 +56,4 @@ opportunity.
 A client may be able to check if the operation succeeded using the [`LASTSAVE`]({{< relref "/commands/lastsave" >}})
 command.
 
-Please refer to the [persistence documentation][tp] for detailed information.
-
-[tp]: /operate/oss_and_stack/management/persistence
-
+Please refer to the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.

@@ -29,11 +29,9 @@ syntax_fmt: BGREWRITEAOF
 syntax_str: ''
 title: BGREWRITEAOF
 ---
-Instruct Redis to start an [Append Only File][tpaof] rewrite process.
+Instruct Redis to start an [Append Only File]({{< relref "/operate/oss_and_stack/management/persistence" >}}#append-only-file) rewrite process.
 The rewrite will create a small optimized version of the current Append Only
 File.
-
-[tpaof]: /operate/oss_and_stack/management/persistence#append-only-file
 
 If `BGREWRITEAOF` fails, no data gets lost as the old AOF will be untouched.
 
@@ -50,7 +48,4 @@ Specifically:
 Since Redis 2.4 the AOF rewrite is automatically triggered by Redis, however the
 `BGREWRITEAOF` command can be used to trigger a rewrite at any time.
 
-Please refer to the [persistence documentation][tp] for detailed information.
-
-[tp]: /operate/oss_and_stack/management/persistence
-
+Please refer to the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.

@@ -71,9 +71,7 @@ above is to the latest development version.
 It is possible to switch persistence from RDB snapshotting to append-only file
 (and the other way around) using the `CONFIG SET` command.
 For more information about how to do that please check the [persistence
-page][tp].
-
-[tp]: /operate/oss_and_stack/management/persistence
+page]({{< relref "/operate/oss_and_stack/management/persistence" >}}).
 
 In general what you should know is that setting the `appendonly` parameter to
 `yes` will start a background process to save the initial append-only file
