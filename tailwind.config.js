@@ -71,6 +71,7 @@ module.exports = {
             },
             code: {
               fontWeight: '500',
+							fontSize: '1em',
             },
             pre: {
               padding: '1.25rem',
