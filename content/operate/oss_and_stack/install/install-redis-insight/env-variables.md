@@ -9,6 +9,8 @@ description: 'Redis Insight supported environment variables
 linkTitle: Environment variables
 title: Environment variables
 weight: 1
+aliases:
+    - /operate/redisinsight/install/env-variables/
 ---
 You can configure Redis Insight with the following environment variables.
 
