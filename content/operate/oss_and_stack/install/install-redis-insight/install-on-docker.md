@@ -13,7 +13,7 @@ aliases:
     - /operate/redisinsight/install/install-on-docker/
 ---
 This tutorial shows how to install Redis Insight on [Docker](https://www.docker.com/) so you can use Redis Insight in development.
-See a separate guide for installing [Redis Insight on AWS]({{< relref "/operate/redisinsight/install/install-on-aws" >}}).
+See a separate guide for installing [Redis Insight on AWS]({{< relref "/operate/oss_and_stack/install/install-redis-insight/install-on-aws" >}}).
 
 ## Install Docker
 
