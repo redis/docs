@@ -9,8 +9,6 @@ description: 'How to install Redis Insight on AWS EC2
 linkTitle: Install on AWS EC2
 title: Install on AWS EC2
 weight: 3
-aliases:
-    - /operate/redisinsight/install/install-on-aws/
 ---
 This tutorial shows you how to install Redis Insight on an AWS EC2 instance and manage ElastiCache Redis instances using Redis Insight. To complete this tutorial you must have access to the AWS Console and permissions to launch EC2 instances.
 
