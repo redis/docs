@@ -35,7 +35,7 @@ The connection wizard provides the following database connection methods:
 
 ## Redis Insight {#using-redisinsight}
 
-[Redis Insight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that is available for MacOS, Windows, and Linux.
+[Redis Insight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that is available for macOS, Windows, and Linux.
 
 1. If you haven't downloaded Redis Insight, select **Download** under **Redis Insight** in the Connection wizard to download it. 
 
@@ -47,7 +47,7 @@ The connection wizard provides the following database connection methods:
 
 If you get an error when connecting with Redis Insight, [manually connect to your database]({{< relref "/develop/connect/insight/" >}}) from Redis Insight.
 
-You can use Redis Insight it to view your data, run Redis commands, and analyze database performance. See the [Redis Insight docs]({{< relref "/develop/connect/insight/" >}}) for more info.
+You can use Redis Insight to view your data, run Redis commands, and analyze database performance. See the [Redis Insight docs]({{< relref "/develop/connect/insight/" >}}) for more info.
 
 ## Redis client {#using-redis-client}
 
