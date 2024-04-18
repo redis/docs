@@ -32,7 +32,7 @@
 }
 
 .prose p, .prose ol, .prose ul {
-  @apply text-sm;
+  @apply text-base;
 }
 
 .prose pre {

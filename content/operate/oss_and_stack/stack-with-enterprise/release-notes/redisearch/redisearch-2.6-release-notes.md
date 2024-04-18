@@ -15,10 +15,26 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.15 requires:
+RediSearch v2.6.16 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.16 (March 2024)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `MODERATE` : Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+
+  - [#4477](https://github.com/RediSearch/RediSearch/pull/4477) Split `INFIX` and `SUFFIX` report on `FT.EXPLAIN` and `FT.EXPLAINCLI` (MOD-6186)
+  - [#4468](https://github.com/RediSearch/RediSearch/pull/4468) Memory leak upon suffix query for a `TAG` indexed with `WITHSUFFIXTRIE` (MOD-6644)
+  - [#4407](https://github.com/RediSearch/RediSearch/pull/4407) Clustered `FT.SEARCH` hangs forever without replying when an invalid topology is found (MOD-6557)
+  - [#4359](https://github.com/RediSearch/RediSearch/pull/4359) Searching for a synonym will iterate in the same group multiple times, causing a performance hit (MOD-6490)
+  - [#4310](https://github.com/RediSearch/RediSearch/pull/4310) Memory tracking on cluster setups causing high memory usage and potentially Out-of-Memory (MOD-6123, MOD-5639)
 
 ## v2.6.15 (December 2023)
 

@@ -176,4 +176,4 @@ As a workaround:
     $ /bin/firewall-cmd --add-service=redislabs
     ```
 
-This limitation will be fixed in a future maintenance release.
+This limitation was fixed in [Redis Enterprise Software version 7.4.2-129]({{<relref "/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-129">}}).

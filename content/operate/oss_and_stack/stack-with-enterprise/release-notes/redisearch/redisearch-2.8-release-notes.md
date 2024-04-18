@@ -13,10 +13,29 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.11 requires:
+RediSearch v2.8.12 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.12 (March 2024)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+
+  - [#4476](https://github.com/RediSearch/RediSearch/pull/4476) Split `INFIX` and `SUFFIX` report on `FT.EXPLAIN` and `FT.EXPLAINCLI` (MOD-6186)
+  - [#4467](https://github.com/RediSearch/RediSearch/pull/4467) Memory leak upon suffix query for a `TAG` indexed with `WITHSUFFIXTRIE` (MOD-6644)
+  - [#4403](https://github.com/RediSearch/RediSearch/pull/4403) Clustered `FT.SEARCH` hangs forever without replying when an invalid topology is found (MOD-6557)
+  - [#4355](https://github.com/RediSearch/RediSearch/pull/4355) Searching for a synonym will iterate in the same group multiple times, causing a performance hit (MOD-6490)
+
+- Improvements:
+
+  - [#4313](https://github.com/RediSearch/RediSearch/pull/4313) Memory allocation patterns on the memory used to query `GEOSHAPE` types (MOD-6431)
 
 ## v2.8.11 (January 2024)
 
