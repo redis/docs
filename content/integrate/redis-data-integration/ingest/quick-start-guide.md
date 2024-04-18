@@ -110,4 +110,3 @@ In order to see RDI pipeline working in cdc mode, open `pgadmin` and run the fol
 [snippet connecting to chinook]
 [SQL of insert into Track table]
 
-
