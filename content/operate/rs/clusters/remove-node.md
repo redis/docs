@@ -11,7 +11,7 @@ weight: 80
 ---
 You might want to remove a node from a Redis Enterprise cluster for one of the following reasons:
 
-- You no longer need the extra capacity, so you want to [permanently remove the node](#permanently-remove-a-node).
+- To [permanently remove a node](#permanently-remove-a-node) if you no longer need the extra capacity.
 - To [replace a faulty node](#replace-a-faulty-node) with a healthy node.
 - To [replace a healthy node](#replace-a-healthy-node) with a different node.
 
