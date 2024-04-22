@@ -149,10 +149,10 @@ hideListLinks: true
 The fonts are located in the folder `static/fonts`. This folder contains typically file of the formats `ttf`, `woff`, or `woff2`. You can perform the following steps to add a font:
 
 * Copy your font files to the fonts folder `static/fonts`.
-* Ensure that the font is loaded by adding it to the partial `layouts/partials/fonts.html`. This partial uses style sheets to define the font via a style sheet and to preload the font resources.
+* Ensure that the font is loaded by adding it to the partial `layouts/partials/fonts.html`. This partial defines the font via a style sheet and ensures that the font resources are pre-loaded.
 
 
-Here is an example that shows how to define the font-face 'Geist Mono' with a regular font weight. 
+Here is an example that shows how to define the font face 'Geist Mono' with a regular font weight:
 
 ```
 @font-face {
