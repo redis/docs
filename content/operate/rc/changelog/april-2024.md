@@ -12,6 +12,12 @@ linktitle: April 2024
 weight: 55
 ---
 
+## New features
+
+### Nano billing unit
+
+We added a Nano billing unit for Pro databases with a max. size of 500GB and max. throughput of 5K ops/sec. Use it to create smaller databases for a lower cost.
+
 ## Enhancements
 
 ### Search and query throughput in ops/sec
