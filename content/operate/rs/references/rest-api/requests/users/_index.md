@@ -312,8 +312,8 @@ Returns the newly created [user object]({{< relref "/operate/rs/references/rest-
 {
      "uid": 1,
      "password_issue_date": "2017-03-07T15:11:08Z",
-     "email": "user@example.com",
-     "name": "Jane Poe",
+     "email": "newuser@example.com",
+     "name": "Pat Doe",
      "email_alerts": true,
      "bdbs_email_alerts": ["1","2"],
      "role": "db_viewer",
