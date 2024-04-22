@@ -9,6 +9,7 @@ module.exports = {
 				sans: [ 'Space Grotesk', ...defaultTheme.fontFamily.sans ],
 				mono: [ 'Space Mono', 'SF Mono', ...defaultTheme.fontFamily.mono ],
 				geist: [ 'Geist', ...defaultTheme.fontFamily.sans ],
+				monogeist: ['Geist Mono', ...defaultTheme.fontFamily.mono ],
 				trailers: [ 'TT Trailers', ...defaultTheme.fontFamily.sans ],
       },
 			colors: {

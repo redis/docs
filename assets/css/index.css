@@ -19,6 +19,10 @@
   @apply content-[''] absolute inset-0 opacity-50 border border-current rounded-[inherit] transition-opacity;
 }
 
+section.prose {
+  @apply font-geist
+}
+
 .prose h1,
 .prose h3,
 .prose h4,
@@ -40,7 +44,7 @@
 }
 
 .prose pre > code {
-  @apply bg-none;
+  @apply bg-none font-monogeist;
 }
 
 .prose h1 {
