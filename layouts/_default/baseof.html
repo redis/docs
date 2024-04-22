@@ -11,6 +11,7 @@
     {{ if and hugo.IsProduction -}}
       <meta name="robots" content="index, follow">
       <meta name="google-site-verification" content="suIo51jDr2z6o48kiD53RKtRvp-JgZ-njy8SWMdrkMo">
+      <link rel="canonical" href="{{ .Permalink | safeURL }}" />
     {{ else -}}
       <meta name="robots" content="noindex, nofollow">
     {{ end -}}
