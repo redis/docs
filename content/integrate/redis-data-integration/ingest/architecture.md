@@ -19,35 +19,55 @@ weight: 10
 
 ## Overview
 
-RDI runs the data pipeline processing outside of the Redis Enterprise cluster, using a Redis database for data streams and storing configuration and state.
+RDI implements a [change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC) pattern that tracks changes to the data in a
+non-Redis *source* database and makes corresponding changes to a Redis
+*target* database. You can use the target as a cache to improve performance
+because it will typically handle read queries much faster than the source.
 
-## Concepts & terms
+To use RDI, you define a *dataset* that specifies which data items
+you want to capture from the source and how you want to
+represent them in the target. For example, if the source is a
+relational database then you specify which table columns you want
+to capture but you don't need to store them in an equivalent table
+structure in the target. This means you can choose whatever target
+representation is most suitable for your app. To convert from the
+source to the target representation, RDI applies *transformations*
+to the data after capture.
 
-- Source database - The disk based database from where RDI will get the data to stream to Redis.
-- Target database - The Redis database to which RDI will write data.
-- Dataset - The definition of the data which will be synced between the source and Redis. It is typically defined in terms of database schema and database tables. It can go into advanced filtering based on columns and filters.
-- Initial cache loading - A phase where all the existing data in the source database or a user defined subset is being captured and sent to the cache as a baseline. This process takes minutes to hours depending on the size of the data.
-- Change streaming - A phase that starts automatically after the initial cache loading finish. In this stage the CDC collector will stream into RDI all the changes occurring on top of the baseline and RDI will apply them to the cache.
-- CDC collector - A CDC (Change Data Capture) is a type of software that can track changes to a database and replicate the changes to another database or stream. RDI uses Debezium,  an open source platform for change data capture. The Collector gathers baseline data snapshot and changes on this baseline and writes them into RDI data streams in RDI Redis database.
-- Stream Processor(s) - The Stream Processor reads from RDI data streams, run pipeline defaults and user defined jobs and apply results to the target database.
-- Pipeline - The combination of Collector configuration and Stream Processor configuration that allows RDI to run data extraction, streaming, transformation and writing to target.
-Data Transformation Jobs - an optional set of YAML files defining data transformations and filtering per source’s table.
+RDI synchronizes the dataset between the source and target using
+a *data pipeline* that implements several processing steps
+in sequence:
 
-There are 2 topologies for RDI runtime:
+1.  A *CDC collector* captures changes to the source database. RDI
+    currently uses an open source collector called
+    [Debezium](https://debezium.io/) for this step.
 
-- RDI runs on user-provided VMs (2 VMs for high availability)
-- RDI runs on the user-provided Kubernetes cluster.
+1.  The collector records the captured changes using Redis streams
+    in the RDI database.
 
-### RDI Ingest data flow
+1.  A *stream processor* reads data from the streams and applies
+    any transformations that you have defined (if you don't need
+    any custom transformations then it uses defaults).
+    It then writes the data to the target database for your app to use.
 
-- RDI Collector connects to the source database and creates a snapshot of the data set. It starts writing the record to streams on the RDI database.
-- RDI Stream Processors read the records from the stream, transform the data as defined in the pipeline and write the data to the target Redis database.
-- The RDI Collector starts tracking changes on the source database dataset. Whenever changes occur, the Collector writes them to the streams.
-- RDI Stream Processors read the streams, process the records while keeping the order per stream (corresponding to a source table records) and write them to the target Redis database.
+Note that the RDI control processes run on dedicated nodes outside the Redis
+Enterprise cluster where the target database is kept. However, RDI keeps
+its state and configuration data and also the change data streams in a Redis database on the same cluster as the target. The following diagram shows the pipeline steps and the path the data takes on its way from the source to the target:
 
 {{< image filename="images/rdi/ingest/ingest-dataflow.png" >}}
 
-### Supported Sources
+When you first start RDI, the target database is empty and so all
+of the data in the source database is essentially "change" data.
+RDI collects this data in a phase called *initial cache loading*,
+which can take minutes or hours to finish, depending on the size
+of the source data. Once the initial cache loading is complete,
+there is a *baseline* dataset in the target that will gradually
+change when new data gets captured from the source. At this point,
+RDI automatically enters a second phase called *change streaming*, where
+changes in the data are captured as they happen. Changes are usually
+added to the target within a few seconds after capture.
+
+### Supported sources
 
 RDI supports the following database sources using [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) connectors:
 
@@ -67,57 +87,57 @@ RDI supports the following database sources using [Debezium Server](https://debe
 | Google Cloud SQL SQL Server | 2019                   ||
 | Google Cloud AlloyDB for PostgreSQL | ||
 
-### RDI Management & Control Plane
+## How RDI is deployed
 
-There are three main categories of scenarios in which users interact with RDI:
+RDI is designed with 2 *planes* that provide its services.
+The *control plane* contains the processes that keep RDI active.
+It includes:
 
-1. Installing & administrating RDI
-2. Pipeline preparation
-3. Deploying & managing pipeline lifecycle
+- An *operator* process that schedules the CDC collector and the
+stream processor to implement the 2 phases of the pipeline
+lifecycle (initial cache loading and change streaming)
+- A [Prometheus](https://prometheus.io/)
+endpoint to supply metrics about RDI
+- A REST API to control the node.
 
-Users performs this interactions via two tools:
-
-- RDI installation, administration and pipeline management are done via RDI CLI.
-- Pipeline preparation is done via Redis Insight dedicated RDI editor.
-
-RDI control plane is composed of additional components:
-
-- Rest API with which is used by both CLI and Redis Insight.
-- The RDI Operator that is in charge of managing pipeline lifecycle, orchestrating the Collector and the Stream Processors
-- RDI metrics exporter providing a prometheus endpoint for scraping the RDI metrics
+The *management plane* provides 2 tools to let you interact
+with the control plane. Use the CLI tool to install and administer RDI
+and to deploy and manage a pipeline. Use the pipeline editor
+(included in Redis Insight) to design or edit a pipeline. The
+diagram below shows the components of the control and management
+planes and the connections betweeen them:
 
 {{< image filename="images/rdi/ingest/ingest-control-plane.png" >}}
 
-## RDI Topologies
+The following sections describe the node configurations you can use to
+deploy RDI.
 
-RDI Runs outside of the Redis Enterprise cluster. There are two ways to deploy RDI:
+### RDI on your own nodes
 
-1. On user provided VMs, where one VM is active and the other one is a stand-by VM for hot failure.
-2. Inside the user provided Kubernetes namespace where RDI components run as several Kubernetes deployments.
-
-### RDI on VMs
-
-- With this topology RDI Collector and Stream Processor are only active on one of the two VMs at each moment in time.
-- The operators use an algorithm to check which one is the leader and based on that set the local RDI to active or standby
-- The RDI pipeline configuration and state are stored in the RDI Redis database.
-- Secrets must be available to both VMs.
+For this deployment, you must provide 2 nodes. The
+collector and stream processor are active on one node while the other node is a standby to provide high availability. The operators run on both nodes and use an algorithm to decide which node is the active one (the "leader").
+Both the active node and the standby
+need access to the authentication secrets that RDI uses to encrypt network
+traffic. The diagram below shows this configuration:
 
 {{< image filename="images/rdi/ingest/ingest-active-passive-vms.png" >}}
 
 ### RDI on Kubernetes
 
-- RDI is installed on a user-provided Kbuenretes cluster. Inside a namespace.
-- RDI Operator requires a service account with permissions to create & manipulate pods on the RDI namespace.
-- RDI is deployed as K8s deployments for the control plane components (API, Operator and metrics exporter)
-- When a user provides a pipeline configuration through the RDI CLI the operator creates and configures the Collector and Stream Processor deployments.
-- RDI deployments are stateless. The pipeline configuration, the pipeline state and data are all stored in the RDI Redis database.
+You can run RDI in a namespace on your own Kubernetes cluster with
+a separate deployment for each of the control plane
+components (REST API, operator, and metrics exporter). The operator
+creates and configures deployments for the collector and stream processor
+when you start a pipeline from the CLI tool. This means that you must
+provide the operator with a service account that has permissions to create and manipulate pods in the namespace. 
 
-### Secrets & security considerations
+### Secrets and security considerations
 
-- All RDI network connections are encrypted using TLS or mTLS.
-- Credentials for the different connections are saved as secrets. User can select how these secrets are provided.
-- RDI does store any data outside of Redis Enterprise.
-
-
-
-
+RDI encrypts all network connections with
+[TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) or
+[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS).
+The credentials for the connections are saved as secrets and you
+can choose how to provide these secrets to RDI. Note that RDI stores
+all state and configuration data inside the Redis Enterprise cluster
+and does not store any other data on your RDI nodes or anywhere else
+outside the cluster.
