@@ -140,6 +140,56 @@ The redis.io template does add a list of links to child pages by default to the 
 ```
 hideListLinks: true
 ```
+
+
+## Tailwind specifics
+
+### Fonts
+
+The fonts are located in the folder `static/fonts`. This folder contains typically file of the formats `ttf`, `woff`, or `woff2`. You can perform the following steps to add a font:
+
+* Copy your font files to the fonts folder `static/fonts`.
+* Ensure that the font is loaded by adding it to the partial `layouts/partials/fonts.html`. This partial defines the font via a style sheet and ensures that the font resources are pre-loaded.
+
+
+Here is an example that shows how to define the font face 'Geist Mono' with a regular font weight:
+
+```
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('{{ $basePath }}/fonts/GeistMono-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+```
+
+* Make your font available via Tailwind by adding it to the `tailwind.config.js` file.
+
+```
+module.exports = {
+  content: ["content/**/*.md", "layouts/**/*.html", "./tailwindcss.whitelist.txt"],
+  theme: {
+    extend: {
+      fontFamily: {
+                                sans: [ 'Space Grotesk', ...defaultTheme.fontFamily.sans ],
+                                mono: [ 'Space Mono', 'SF Mono', ...defaultTheme.fontFamily.mono ],
+                                monogeist: ['Geist Mono', ...defaultTheme.fontFamily.mono ],
+      },
+	  ...
+```
+
+* Use a `font-*` CSS class within HTML or your style sheets, whereby the `*`  needs to be substituted with one of the Tailwind fonts that you defined in the Tailwind configuration file (`tailwind.config.js`).
+
+Here is an example how to use `font-monogeist` in the global CSS file `assets/css/index.css` to change the font of code blocks:
+
+```
+.prose pre > code {
+  @apply bg-none font-monogeist;
+}
+```
+
+
 ## Troubleshooting
 
 ### NIL pointer error when rendering a section
