@@ -959,7 +959,11 @@ input[type="radio"] {
 }
 
 .expand-content > div > pre > code {
-  @apply h-full overflow-y-auto;
+  @apply h-full overflow-y-auto font-monogeist;
+}
+
+code {
+  @apply font-monogeist;
 }
 
 /* no-click turns off border and click event on small icons */
