@@ -114,7 +114,7 @@ that contains cluster specifications.
 
 The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_cluster_api.md) for more information on the various options available.
 
-The RedisEnterpriseCluster does not support custom domain names. Domain names for the REC are in the following format:`<rec-name>.<namespace>.svc.cluster.local'.
+{{<note>}}The RedisEnterpriseCluster does not support custom domain names. Domain names for the REC are in the following format:`<rec-name>.<namespace>.svc.cluster.local`.{{</note>}}
 
 1. Create a file that defines a Redis Enterprise cluster with three nodes. 
   <note> The REC name (`my-rec` in this example) cannot be changed after cluster creation.</note>
