@@ -1,17 +1,17 @@
 ---
-Title: Redis Cloud compatibility with Redis source available code
+Title: Redis Cloud compatibility with source available Redis
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
-description: Redis Cloud compatibility with Redis source available code.
+description: Redis Cloud compatibility with source available Redis.
 linkTitle: Source available compatibility
 weight: 90
 tocEmbedHeaders: true
 ---
 
-Both [Redis Enterprise Software]({{< relref "/operate/rs" >}}) and Redis Cloud are compatible with Redis source available code. 
+Both [Redis Enterprise Software]({{< relref "/operate/rs" >}}) and Redis Cloud are compatible with source available Redis.
 
 {{< embed-md "rc-rs-oss-compatibility.md"  >}}
 
