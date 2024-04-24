@@ -68,11 +68,11 @@ Red exclamation marks indicate error conditions; the tooltip provides additional
 
 ## Select capabilities
 
-Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type. 
+Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type and [Search and query](({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}})
 
-{{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON advanced capability." >}}
+{{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON and Search and query advanced capabilities." >}}
 
-We select JSON for you when you create an Active-Active database. Select it again to remove it.
+We select both capabilities for you when you create an Active-Active database. Select each capability again to remove it.
 
 ## Define throughput
 
