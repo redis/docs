@@ -68,7 +68,7 @@ Red exclamation marks indicate error conditions; the tooltip provides additional
 
 ## Select capabilities
 
-Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type and [Search and query](({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}})
+Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type and [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) capabilities.
 
 {{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON and Search and query advanced capabilities." >}}
 
