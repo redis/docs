@@ -36,8 +36,8 @@
   {{ .Scratch.Set "path" $path}}
 {{ end }}
 
-<div class="hidden md:block w-full md:w-64 h-fit md:h-full shrink-0 text-sm font-mono font-normal py-6">
-  <nav id="sidebar" class="max-h-[calc(100vh-7rem)] min-h-96 flex flex-col gap-4 w-full md:w-64 z-40 bg-white md:fixed md:pt-6 h-fit md:h-full leading-7">
+<div class="hidden md:block w-full md:w-96 h-fit md:h-full shrink-0 text-base font-mono font-normal py-6">
+  <nav id="sidebar" class="max-h-[calc(100vh-7rem)] min-h-96 flex flex-col gap-4 w-full md:w-96 z-40 bg-white md:fixed md:pt-6 h-fit md:h-full leading-7">
     {{ $navRoot := cond (eq .Site.Home.Type "docs") .Site.Home .FirstSection -}}
     {{ $ulNr := 0 -}}
     {{ $ulShow := 1 -}}
