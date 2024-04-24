@@ -6,7 +6,7 @@ See [Compatibility with Redis commands]({{< relref "/operate/rs/references/compa
 
 ## Configuration settings
 
-[Compatibility with open source Redis configuration settings]({{< relref "/operate/rs/references/compatibility/config-settings" >}}) lists the Redis configuration settings supported by Redis Enterprise Software and Redis Cloud.
+[Compatibility with Redis configuration settings]({{< relref "/operate/rs/references/compatibility/config-settings" >}}) lists the Redis configuration settings supported by Redis Enterprise Software and Redis Cloud.
 
 ## Redis clients
 

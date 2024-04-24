@@ -42,15 +42,15 @@ Finally, in the **Users** tab, you [create users]({{< relref "/operate/rc/securi
 
 ## Redis ACLs vs. Redis Cloud RBAC
 
-In source available Redis, you can create users and assign ACLs to them using the `ACL` command. However, 
+In Redis, you can create users and assign ACLs to them using the `ACL` command. However, 
 Redis does not support generic roles.
 
-In Redis Cloud, you configure RBAC using the Redis Cloud console. As a result, certain source available Redis ACL
+In Redis Cloud, you configure RBAC using the Redis Cloud console. As a result, certain Redis ACL
 subcommands are not available in Redis Cloud. The following table shows which ACL commands are supported.
 
 {{<embed-md "acl-command-compatibility.md">}}
 
-In source available Redis, you must explicitly provide access to the `MULTI`, `EXEC`, and `DISCARD` commands.
+In Redis, you must explicitly provide access to the `MULTI`, `EXEC`, and `DISCARD` commands.
 In Redis Cloud, these commands, which are used in transactions, are always permitted. However, the commands
 run within the transaction block are subject to RBAC permissions.
 
