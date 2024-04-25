@@ -1,0 +1,25 @@
+This tutorial shows how to install desktop Redis Insight so you can use Redis Insight in development.
+
+## Supported operating systems
+
+Redis Insight is supported on multiple operating systems:
+- Windows
+- Linux
+- macOS.
+
+## Installable
+
+
+Redis Insight is vailable to download for free from our [web site](https://redis.io/insight/?utm_source=redisinsight&utm_medium=website&utm_campaign=install_redisinsight#insight-form).
+
+It is also available on:
+- Microsoft Store
+- Apple Store
+- Snapcraft
+- Flathub
+- [Docker Hub]({{< relref "/operate/redisinsight/install/install-on-docker" >}}).
+
+## Build
+
+Alternatively you can also build from source. See our [wiki](https://github.com/RedisInsight/RedisInsight#build
+) for instructions.
