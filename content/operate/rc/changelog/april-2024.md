@@ -7,10 +7,16 @@ categories:
 - rc
 description: New features, enhancements, and other changes added to Redis Cloud during
   April 2024.
-highlights: Search and query throughput in ops/sec
+highlights: Essentials subscriptions through AWS Marketplace
 linktitle: April 2024
 weight: 55
 ---
+
+## New Features
+
+### Essentials subscriptions through AWS Marketplace
+
+You can now use your [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) account to pay for your Essentials subscriptions as well as your Pro subscriptions.
 
 ## Enhancements
 

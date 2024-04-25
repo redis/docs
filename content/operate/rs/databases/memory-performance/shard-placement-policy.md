@@ -29,7 +29,7 @@ For Redis on RAM databases without the OSS cluster API enabled, use the dense po
 
 {{< image filename="/images/rs/dense_placement.png" >}}
 
-*Figure: Three nodes with two master shards (red) and two replica shards (grey) with a dense placement policy*
+*Figure: Three nodes with two master shards (red) and two replica shards (white) with a dense placement policy*
 
 ### Sparse shard placement policy
 
@@ -47,7 +47,7 @@ For Redis on RAM databases with OSS cluster API enabled and for databases with A
 
 {{< image filename="/images/rs/sparse_placement.png" >}}
 
-*Figure: Three nodes with two master shards (red) and two replica shards (grey) with a sparse placement policy*
+*Figure: Three nodes with two master shards (red) and two replica shards (white) with a sparse placement policy*
 
 ## Related articles
 
