@@ -6,8 +6,8 @@ categories:
 description: 'Install and configure desktop Redis Insight or Redis Insight on Docker.
 
   '
-linkTitle: Install Redis Insight
-title: Install Redis Insight
+linkTitle: Install and configure Redis Insight
+title: Install and configure Redis Insight
 weight: 3
 ---
 
