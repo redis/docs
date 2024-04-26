@@ -15,6 +15,8 @@ This guide shows how to configure [Microsoft Azure Active Directory](https://lea
 
 To learn more about Redis Cloud support for SAML, see [SAML single sign on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 
+Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+
 ## Step 1: Set up your identity provider (IdP)
 
 To create the Azure AD SAML Toolkit integration application:
