@@ -13,15 +13,13 @@ weight: 30
 
 The [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) [allow list](https://en.wikipedia.org/wiki/Whitelist) lets you restrict traffic to your Redis Cloud database. When you configure an allow list, only the [IP addresses](https://en.wikipedia.org/wiki/IP_address) defined in the list can connect to the database. Traffic from all other IP addresses is blocked.
 
-## Database allow list
-
 You can configure your database's CIDR allow list to restrict client connections to a specific range of IP addresses.
 
 {{< note >}}
 To use the CDIR allow list, you must be on either paid Redis Cloud Essentials or on Redis Cloud Pro.  This feature is not supported on free Redis Cloud Essentials plans.
 {{< /note >}}
 
-### Define CIDR allow list
+## Define CIDR allow list
 
 To define the CIDR allow list for a database:
 
@@ -48,42 +46,3 @@ To define the CIDR allow list for a database:
 {{< note >}}
 The database CIDR allow list applies to both the public endpoint and the private endpoint. If you use connectivity options such as [VPC Peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) to connect to your database via the private endpoint, you must also add those IPs to your database's CIDR allow list.
 {{< /note >}}
-
-## Subscription allow list
-
-If you use a [self-managed, external cloud account]({{< relref "/operate/rc/cloud-integrations" >}}) to host your Redis Cloud deployment, you can configure a subscription-wide allow list
-to restrict traffic to all databases associated with the subscription.
-
-The subscription CIDR allow list defines a range of IP addresses and [AWS security groups](https://docs.aws.amazon.com/managedservices/latest/userguide/about-security-groups.html) that control inbound and outbound traffic to the Redis Cloud [VPC](https://en.wikipedia.org/wiki/Virtual_private_cloud). When you add security groups to the allow list, you can also use the same security groups to manage access to your application.
-
-### Allow IP address or security group
-
-To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managedservices/latest/userguide/about-security-groups.html) to a subscription's allow list:
-
-1. From the [Redis Cloud console](https://app.redislabs.com/) menu, select **Subscriptions** and then select your subscription from the list.
-
-1. Select **Connectivity > Allow List**.
-
-1. If the allow list is empty, select **Add allow list**.
-
-1. Select an entry **Type** from the list:
-
-    {{<image filename="images/rc/subscription-connectivity-allow-list-type-dropdown.png" alt="Select the type of entry to add to the allow list from the Type list." >}}
-
-1. In the **Value** box, enter one of these options:
-
-    - An IP address in CIDR format
-
-    - The AWS security group ID
-
-1. Select check to add the entry to the allow list.
-
-1. To allow additional IP addresses or security groups:
-
-    1. Select **Add entry**.
-
-    1. Select the new entry's **Type**, enter the **Value**, and select check to add it to the allow list.
-
-        {{<image filename="images/rc/subscription-connectivity-allow-list-add-entry.png" alt="Define the new entry and select the Submit entry button to add it to the allow list." >}}
-
-1. Select **Apply all changes** to apply the allow list updates.
