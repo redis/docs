@@ -15,6 +15,8 @@ This guide shows how to configure [Auth0](https://auth0.com/docs) as a SAML sing
 
 To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 
+Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+
 ## Step 1: Set up your identity provider (IdP)
 
 ### Specify the SAML owner
@@ -117,17 +119,13 @@ To activate SAML, you need to have a local user (or social sign-on user) with th
     * **IdP server URL**: Identity Provider Login URL from Auth0
     * **Assertion signing certificate**: Certificate value from Auth0
 
-    You will also have to add:
-
-    * **Email domain binding**: The domain used in your company's email addresses
-
-    {{<image filename="images/rc/saml/auth0_saml_11.png" >}}
+    {{<image filename="images/rc/saml/sm_saml_1.png" >}}
 
     Once you click **Enable**, wait a few seconds for the status to change.
 
 1. Download the service provider (SP) metadata. Save the file to your local hard disk.
 
-    {{<image filename="images/rc/saml/auth0_saml_15.png" >}}
+    {{<image filename="images/rc/saml/sm_saml_3.png" >}}
 
 1. Open the file in any text editor. Save the following text from the metadata:
 
@@ -190,6 +188,3 @@ Replace `ID` so it matches the `AssertionConsumerService` Location URL ID (the c
 1. Enter your SAML email and select **Login**. 
 
 You have successfully configured SAML as an identification provider.
-
-{{<image filename="images/rc/saml/auth0_saml_14.png" >}}
-
