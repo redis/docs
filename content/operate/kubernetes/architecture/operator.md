@@ -68,4 +68,4 @@ The operator creates the following resources:
 The following diagram shows the high-level architecture of the Redis
 Enterprise operator:
 
-{{< image filename="/images/rs/k8-high-level-architecture-diagram-of-redis-enterprise.png" >}}
+{{< image filename="/images/rs/k8s/k8-high-level-architecture-diagram-of-redis-enterprise.png" >}}
