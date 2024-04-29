@@ -60,7 +60,7 @@ The **Scalability** section lets you manage the maximum size, throughput, and ha
 | **Memory limit**    | Maximum size (in GB) for your database. See [Memory limit]({{< relref "/operate/rs/databases/durability-ha/clustering#dataset-size" >}}) for sizing considerations. |
 | **Throughput**      | Defines throughput in terms of maximum operations per second for the database. See [Throughput]({{< relref "/operate/rs/databases/durability-ha/clustering#throughput" >}}) for more information. |
 | **Hashing policy**  | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
-| **OSS Cluster API** | Enables the [OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database<br/><br/>When this option is enabled, you cannot define a custom hashing policy.  |
+| **OSS Cluster API** | Enables the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database<br/><br/>When this option is enabled, you cannot define a custom hashing policy.  |
 
 To learn more about these settings and when to use them, see [Database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}).
 
