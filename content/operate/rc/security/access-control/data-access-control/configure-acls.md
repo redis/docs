@@ -120,7 +120,7 @@ Pub/sub ACL rules determine which pub/sub channels a user can access. For more i
 
 For versions older than Redis 7.0, pub/sub is permissive and allows access to all channels by default.
 
-Redis 7.0 makes pub/sub restrictive and blocks access to all channels in open source (OSS) Redis. However, Redis Cloud still defaults to permissive pub/sub even for Redis 7.0 subscriptions.
+Redis 7.0 makes pub/sub restrictive and blocks access to all channels in Redis Software. However, Redis Cloud still defaults to permissive pub/sub even for Redis 7.0 subscriptions.
 
 | Redis<br />version | OSS Redis<br />pub/sub ACLs | Redis Cloud<br />pub/sub ACLs |
 |:-------------:|-----------|-------------|

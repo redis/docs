@@ -55,7 +55,6 @@ The following settings are defined in the **General settings** of the **Setup** 
 |:---------|:-----------|
 | **Cloud vendor** | The public cloud vendor to deploy your databases. (_required_) |
 | **Region** | The vendor region where you wish to deploy your databases.  (_required_)|
-| **Subscription&nbsp;Name** | A custom name for your subscription (_required_) |
 | **Active-Active Redis** | Hosts your datasets in multiple read-write locations to support distributed applications and disaster recovery. See [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active. |
 | **Auto Tiering**| Determines if your databases are stored only in memory (RAM) or are split between memory and Flash storage (RAM+Flash).  See [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})|
 
@@ -115,7 +114,7 @@ Select **More options** to specify values for the following settings.
 
 | Database&nbsp;option | Description                                                                                                                                                     |
 |:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **OSS Cluster API** | Enable to use the [Redis OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}).                                                                                                                |
+| **OSS Cluster API** | Enable to use the [Redis Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}).                                                                                                                |
 | **Type** | Set to **Redis**, otherwise **Memcached** database for legacy database support.                                                                                     |
 | **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 | **Quantity** | Number of databases to create with these settings.                                                                                                              |

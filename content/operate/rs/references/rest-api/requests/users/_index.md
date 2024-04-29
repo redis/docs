@@ -60,7 +60,7 @@ Returns a JSON array of [user objects]({{< relref "/operate/rs/references/rest-a
     {
         "uid": 1,
         "password_issue_date": "2017-03-02T09:43:34Z",
-        "email": "user@redislabs.com",
+        "email": "user@example.com",
         "name": "John Doe",
         "email_alerts": true,
         "bdbs_email_alerts": ["1","2"],
@@ -71,7 +71,7 @@ Returns a JSON array of [user objects]({{< relref "/operate/rs/references/rest-a
     {
         "uid": 2,
         "password_issue_date": "2017-03-02T09:43:34Z",
-        "email": "user2@redislabs.com",
+        "email": "user2@example.com",
         "name": "Jane Poe",
         "email_alerts": true,
         "role": "db_viewer",
@@ -135,7 +135,7 @@ Returns a [user object]({{< relref "/operate/rs/references/rest-api/objects/user
     "role": "db_viewer",
     "email_alerts": true,
     "bdbs_email_alerts": ["1","2"],
-    "email": "user@redislabs.com",
+    "email": "user@example.com",
     "name": "John Doe",
     "auth_method": "regular",
     "status": "active"
@@ -178,8 +178,8 @@ PUT /users/1
 
 ```json
 {
-     "name": "Jane Poe",
-     "email_alerts": false
+     "email_alerts": false,
+     "role_uids": [ 2, 4 ]
 }
 ```
 
@@ -212,10 +212,11 @@ Returns the updated [user object]({{< relref "/operate/rs/references/rest-api/ob
 {
      "uid": 1,
      "password_issue_date": "2017-03-07T15:11:08Z",
-     "email": "user@redislabs.com",
+     "email": "user@example.com",
      "name": "Jane Poe",
      "email_alerts": false,
      "role": "db_viewer",
+     "role_uids": [ 2, 4 ],
      "auth_method": "regular"
 }
 ```
@@ -291,7 +292,7 @@ For [RBAC-enabled clusters]({{< relref "/operate/rs/security/access-control" >}}
 
 ```json
 {
-     "email": "newuser@redis.com",
+     "email": "newuser@example.com",
      "password": "my-password",
      "name": "Pat Doe",
      "email_alerts": true,
@@ -311,11 +312,12 @@ Returns the newly created [user object]({{< relref "/operate/rs/references/rest-
 {
      "uid": 1,
      "password_issue_date": "2017-03-07T15:11:08Z",
-     "email": "user@redislabs.com",
-     "name": "Jane Poe",
+     "email": "newuser@example.com",
+     "name": "Pat Doe",
      "email_alerts": true,
      "bdbs_email_alerts": ["1","2"],
      "role": "db_viewer",
+     "role_uids": [ 3, 4 ],
      "auth_method": "regular"
 }
 ```
@@ -347,7 +349,7 @@ The following are possible `error_code` values:
 ```sh
 $ curl -k -X POST -u '[username]:[password]' \
        -H 'Content-Type: application/json' \
-       -d '{ "email": "newuser@redis.com", \
+       -d '{ "email": "newuser@example.com", \
            "password": "my-password", \
            "name": "Pat Doe", \
            "email_alerts": true, \
@@ -367,7 +369,7 @@ url = "https://[host][:port]/v1/users"
 auth = ("[username]", "[password]")
 
 payload = json.dumps({
-  "email": "newuser@redis.com",
+  "email": "newuser@example.com",
   "password": "my-password",
   "name": "Pat Doe",
   "email_alerts": True,
