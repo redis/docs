@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.2.0
-description: RedisGraph v2.10.15. Bug fixes.
+description: Bug fixes.
 linkTitle: 7.2.4-tba (May 2024)
 weight: 67
 ---
@@ -16,8 +16,6 @@ This is a maintenance release for ​[​Redis Enterprise Software version 7.2.4
 ## Highlights
 
 This version offers:
-
-- RedisGraph v2.10.15
 
 - Bug fixes
 
@@ -36,8 +34,6 @@ Redis Enterprise Software versions 7.2.4-tba includes the following Redis Stack 
 - [RedisTimeSeries 1.10.6]({{< baseurl >}}/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.10-release-notes)
 
 - [RedisBloom 2.6.11]({{< baseurl >}}/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.6-release-notes)
-
-- [RedisGraph v2.10.15]({{< baseurl >}}/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.10-release-notes)
 
 - [RedisGears 2.0.17](https://github.com/RedisGears/RedisGears/releases/tag/v2.0.17-m18)
 
