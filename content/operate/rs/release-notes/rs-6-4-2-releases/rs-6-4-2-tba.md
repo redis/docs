@@ -47,7 +47,7 @@ Redis Enterprise Software version 6.4.2-tba includes the following Redis Stack m
 
 ### Resolved issues
 
-- RS123237: CRDT syncer uses the max observed vector clock (OVC) of source replicas to prevent potential data mismatches during full sync after removing  and re-adding replicas.
+- RS123237: CRDT syncer prevents potential data mismatches or data loss due to missing keys when removing and re-adding a cluster in an Active-Active setup with at least three participating clusters after removing older clusters without re-adding them.
 
 ## Version changes 
 
