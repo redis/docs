@@ -41,7 +41,7 @@ Redis Enterprise Software versions 7.2.4-tba includes the following Redis Stack 
 
 - RS121673: Search commands no longer return an error after fixing incorrect configuration.
 
-- RS123237: CRDT syncer uses the max observed vector clock (OVC) of source replicas to prevent potential data mismatches during full sync after removing  and re-adding replicas.
+- RS123237: CRDT syncer prevents potential data mismatches or data loss due to missing keys when removing and re-adding a cluster in an Active-Active setup with at least three participating clusters after removing older clusters without re-adding them.
 
 - RS122221: `redis-server` creates PID file only after binding to a socket.
 
