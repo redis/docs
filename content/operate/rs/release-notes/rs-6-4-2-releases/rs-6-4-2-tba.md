@@ -19,6 +19,10 @@ This version offers:
 
 - RedisGraph v2.10.15
 
+  {{<note>}}
+Redis has announced the end of life for RedisGraph. See the [announcement](https://redis.io/blog/redisgraph-eol/) for details.
+  {{</note>}}
+
 - RedisBloom v2.4.8
 
 - Bug fixes
