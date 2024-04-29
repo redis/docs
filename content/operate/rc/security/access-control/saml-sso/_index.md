@@ -114,7 +114,7 @@ Before you set up SAML SSO in Redis Cloud, you must verify that you own the doma
 
     If we find the TXT record, the domain's status will change to **Verified**.
 
-    IMAGE DOMAIN VERIFIED. NEED IMAGE
+    {{<image filename="images/rc/saml-domain-verified.png" width="80%" alt="The Manage domain bindings panel, with a verified domain">}}
 
     You can select **Add domain** to add another domain.
 
