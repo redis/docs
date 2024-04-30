@@ -74,6 +74,8 @@ Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/st
 
 We select both capabilities for you when you create an Active-Active database. Select each capability again to remove it.
 
+See [Search and query Active-Active databases]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active" >}}) to learn how to use Search and query on Active-Active databases.
+
 ## Define throughput
 
 Each Active-Active instance coordinates changes with every other instance, which increases memory use and throughput.
