@@ -73,7 +73,7 @@ cd ./install
 ./install_boost.sh 1.83.0
 ```
 
-Note that this will install various packages on your system using the native package manager (`sudo` is not required in a docker environment).
+Note that this will install various packages on your system using the native package manager (`sudo` is not required in a Docker environment).
 
 If you prefer to avoid that, you can:
 
@@ -90,7 +90,7 @@ Otherwise, you can build it from source and install it as described in [redis Gi
 
 ## Getting help
 
-```make help``` provides a quick summary of the development features, here we present a partial list that contains  the common and relvant ones:
+```make help``` provides a quick summary of the development features. Following is a partial list that contains  the most common and relevant ones:
 
 ```
 make fetch         # download and prepare dependant modules
