@@ -18,7 +18,7 @@ Sources databases can be:
 - Located in the same Redis Enterprise Software cluster
 - Located in a different Redis Enterprise cluster
 - Hosted by a different deployment, e.g. Redis Cloud
-- Open source Redis (OSS) databases
+- Source available Redis databases
 
 Your apps can connect to the source database to read and write data; they can also use any replica for read-only access.
 
@@ -37,7 +37,7 @@ You can configure a database as a Replica Of, where the source database is in on
 
 - [Different Redis Enterprise cluster](#different-cluster)
 
-- [Open source Redis cluster](#oss-cluster)
+- [Source available Redis cluster](#source-available-cluster)
 
 The order of the multiple Replica Of sources has no material impact on replication.
 
@@ -105,9 +105,9 @@ To configure a Replica Of database in a different Redis Enterprise cluster from 
 
 For source databases on different clusters, you can [compress replication data]({{< relref "/operate/rs/databases/import-export/replica-of/#data-compression-for-replica-of" >}}) to save bandwidth.
         
-### Open source Redis cluster {#oss-cluster}
+### Source available Redis cluster {#source-available-cluster}
 
-To use a database from an open source Redis cluster as a Replica Of source:
+To use a database from a source available Redis cluster as a Replica Of source:
 
 1. [Create a new database]({{< relref "/operate/rs/databases/create" >}}) or select an existing database from the **Databases** screen.
 
