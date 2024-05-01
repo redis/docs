@@ -78,6 +78,18 @@ For Search and query databases, use the [Sizing calculator](https://redis.io/red
 
 See [Search and query Active-Active databases]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active" >}}) to learn how to use Search and query on Active-Active databases.
 
+## Define memory limit
+
+Active-Active databases have specific memory requirements that differ from non-replicated Redis. 
+
+Select **Memory calculator** to calculate the memory limit for your Active-Active database.
+
+{{<image filename="images/rc/active-active-memory-calculator.png" width="75%" alt="The memory calculator. Enter your expected database size to see the memory limit." >}}
+
+In the Memory calculator, enter your expected dataset size. For Search and query databases, add the estimated index size from the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) to your expected dataset size.
+
+Select **Apply** to apply the calculated memory limit.  
+
 ## Define throughput
 
 Each Active-Active instance coordinates changes with every other instance, which increases memory use and throughput.
@@ -106,6 +118,6 @@ Throughput requirements grow dramatically as regions increase.  As a result, con
 
 - [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
 - [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
-- Database [memory limit]({{< relref "/operate/rc/databases/create-database#memory-limit" >}})
+- Database [memory limit]({{< relref "/operate/rc/databases/configure/clustering#dataset-size" >}})
 - Redis Cloud [subscription plans]({{< relref "/operate/rc/subscriptions/" >}})
 - [Redis Cloud pricing](https://redis.com/redis-enterprise-cloud/pricing/)
