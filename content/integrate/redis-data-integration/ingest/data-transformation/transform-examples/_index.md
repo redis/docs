@@ -1,5 +1,5 @@
 ---
-Title: Data transformation
+Title: Transformation examples
 aliases: null
 alwaysopen: false
 categories:
@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: Learn how an RDI pipeline can transform source data before writing
+description: Explore some examples of common RDI transformations
 group: di
 hideListLinks: false
 linkTitle: Data transformation

@@ -1,5 +1,5 @@
 ---
-Title: Data transformation
+Title: Installation
 aliases: null
 alwaysopen: false
 categories:
@@ -7,10 +7,10 @@ categories:
 - integrate
 - rs
 - rdi
-description: Learn how an RDI pipeline can transform source data before writing
+description: Learn how to install RDI ingest
 group: di
 hideListLinks: false
-linkTitle: Data transformation
+linkTitle: Installation
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration

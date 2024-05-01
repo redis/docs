@@ -1,5 +1,5 @@
 ---
-Title: RDI reference
+Title: Reference
 aliases: null
 alwaysopen: false
 categories:
