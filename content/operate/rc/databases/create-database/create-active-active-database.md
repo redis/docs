@@ -72,7 +72,9 @@ Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/st
 
 {{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON and Search and query advanced capabilities." >}}
 
-We select both capabilities for you when you create an Active-Active database. Select each capability again to remove it.
+If you chose the **Vector search** or **Database** use case, we select both capabilities for you automatically. Select each capability again to remove it.
+
+For Search and query databases, use the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) to estimate your index size and throughput requirements.
 
 See [Search and query Active-Active databases]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active" >}}) to learn how to use Search and query on Active-Active databases.
 
