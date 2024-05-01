@@ -34,7 +34,8 @@ The basic idea of an aggregate query is this:
 The pipeline is dynamic and re-entrant, and every operation can be repeated. For example, you can group by property X, sort the top 100 results by group size, then group by property Y and sort the results by some other property, then apply a transformation on the output.
 
 Figure 1: Aggregation Pipeline Example
-![Aggregation Pipeline](https://docs.google.com/drawings/d/e/2PACX-1vRFyP17ingsG86OYNaienojHHA8DwnlVVv67-WlKxv7a7xTJCluWvs3SzXYQSS6QqwB9QZ1vqDuoJ-0/pub?w=518&h=163)
+
+<img src="../../img/pipeline.png">
 
 ## Aggregate request format
 
