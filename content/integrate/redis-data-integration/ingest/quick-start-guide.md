@@ -1,8 +1,8 @@
 ---
-Title: Ingest quickstart
-linkTitle: Ingest
+Title: Quickstart
+linkTitle: Quickstart
 description: Get started creating an ingest pipeline
-weight: 30
+weight: 1
 alwaysopen: false
 categories: ["redis-di"]
 aliases:

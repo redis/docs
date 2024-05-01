@@ -1,5 +1,5 @@
 ---
-Title: Redis Data Integration ingest architecture
+Title: Ingest architecture
 aliases: null
 alwaysopen: false
 categories:
@@ -7,14 +7,14 @@ categories:
 - integrate
 - rs
 - rdi
-description: null
+description: Discover the main components of RDI ingest
 group: di
 headerRange: '[2]'
 linkTitle: Architecture
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 10
+weight: 3
 ---
 
 ## Overview

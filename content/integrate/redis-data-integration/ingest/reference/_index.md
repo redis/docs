@@ -1,5 +1,5 @@
 ---
-Title: Ingest
+Title: RDI reference
 aliases: null
 alwaysopen: false
 categories:
@@ -7,10 +7,10 @@ categories:
 - integrate
 - rs
 - rdi
-description: null
+description: View reference material for Redis Data Integration
 group: di
 hideListLinks: false
-linkTitle: Ingest
+linkTitle: Reference
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration

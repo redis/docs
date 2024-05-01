@@ -7,13 +7,13 @@ categories:
 - integrate
 - rs
 - rdi
-description: How to install Redis Data Integration without an active Internet connection
+description: Install Redis Data Integration without an active Internet connection
 group: di
 linkTitle: Installation
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 10
+weight: 2
 ---
 
 ## Prepare the source database
