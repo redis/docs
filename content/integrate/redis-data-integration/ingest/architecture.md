@@ -50,7 +50,8 @@ in sequence:
     any custom transformations then it uses defaults).
     It then writes the data to the target database for your app to use.
 
-Note that the RDI control processes run on dedicated nodes outside the Redis
+Note that the RDI control processes run on dedicated virtual machines (VMs)
+outside the Redis
 Enterprise cluster where the target database is kept. However, RDI keeps
 its state and configuration data and also the change data streams in a Redis database on the same cluster as the target. The following diagram shows the pipeline steps and the path the data takes on its way from the source to the target:
 
@@ -98,7 +99,7 @@ stream processor to implement the 2 phases of the pipeline
 lifecycle (initial cache loading and change streaming)
 - A [Prometheus](https://prometheus.io/)
 endpoint to supply metrics about RDI
-- A REST API to control the node.
+- A REST API to control the VM.
 
 The *management plane* provides 2 tools to let you interact
 with the control plane. Use the CLI tool to install and administer RDI
@@ -109,14 +110,14 @@ planes and the connections betweeen them:
 
 {{< image filename="images/rdi/ingest/ingest-control-plane.png" >}}
 
-The following sections describe the node configurations you can use to
+The following sections describe the VM configurations you can use to
 deploy RDI.
 
-### RDI on your own nodes
+### RDI on your own VMs
 
-For this deployment, you must provide 2 nodes. The
-collector and stream processor are active on one node while the other node is a standby to provide high availability. The operators run on both nodes and use an algorithm to decide which node is the active one (the "leader").
-Both the active node and the standby
+For this deployment, you must provide 2 VMs. The
+collector and stream processor are active on one VM while the other is a standby to provide high availability. The operators run on both VMs and use an algorithm to decide which is the active one (the "leader").
+Both the active VM and the standby
 need access to the authentication secrets that RDI uses to encrypt network
 traffic. The diagram below shows this configuration:
 
@@ -139,5 +140,5 @@ RDI encrypts all network connections with
 The credentials for the connections are saved as secrets and you
 can choose how to provide these secrets to RDI. Note that RDI stores
 all state and configuration data inside the Redis Enterprise cluster
-and does not store any other data on your RDI nodes or anywhere else
+and does not store any other data on your RDI VMs or anywhere else
 outside the cluster.
