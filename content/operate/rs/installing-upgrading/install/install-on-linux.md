@@ -16,7 +16,9 @@ For installation on machines without an internet connection, see [Offline instal
 
 ## Install on Linux
 
-To install Redis Enterprise Software use the command line:
+To install Redis Enterprise Software, use the command line:
+
+1. Copy the installation package to the node.
 
 1. On the node, change to the directory where the installation package is located and extract the installation files:
 
@@ -24,9 +26,7 @@ To install Redis Enterprise Software use the command line:
     tar vxf <tarfile name>
     ```
 
-1. Copy the installation package to the node.
-
-    _(Optional)_ Use the {{< download "GPG key file" "../GPG-KEY-redislabs-packages.gpg" >}} to confirm the authenticity of Ubuntu/Debian or RHEL RPM packages:
+1.  _(Optional)_ Use the {{< download "GPG key file" "../GPG-KEY-redislabs-packages.gpg" >}} to confirm the authenticity of Ubuntu/Debian or RHEL RPM packages:
 
     - For Ubuntu:
         1. Import the key:  
