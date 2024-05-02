@@ -60,11 +60,13 @@ PersistentVolumeClaims (PVC) are created by the Redis Enterprise for Kubernetes 
   kubectl apply -f <your-rec.yaml>
   ```
 
- After applying the REC changes, the PVCs will begin to resize to the new size.
+After applying the REC changes, the PVCs will begin to resize to the new size.
 
- Once all the PVCs finish the resizing process, the operator will delete and recreate the StatefulSet with the new volume size.
+Once all the PVCs finish the resizing process, the operator will delete and recreate the StatefulSet with the new volume size.
 
-1. Track the progress by monitoring the status of the REC and PersistentVolumeClaim objects.
+### Track progress
+
+You can track the progress by monitoring the status of the REC and PersistentVolumeClaim objects.
 
 The REC status will correspond to the status of one or more PVCs, and will reflect if they resizing is successful or failed.
 
@@ -86,7 +88,7 @@ status:
     succeeded: 3/3
 ```
 
-## Troubleshooting
+### Troubleshooting
 
 If an error occurs during this process:
 
