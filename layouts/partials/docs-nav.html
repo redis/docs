@@ -48,6 +48,7 @@
             {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
           </ul>
         {{ end }}
+       </div>
         <div class='min-h-0 border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col {{ if not (eq $navRoot.LinkTitle "APIs") }} shrink-0 {{ end }}'>
         <a class='px-6 py-4 hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "APIs" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/apis'>APIs</a>
         {{ if eq $navRoot.LinkTitle "APIs" }}
