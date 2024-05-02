@@ -21,6 +21,7 @@ Overall, the process is similar to [creating a Pro database with a new subscript
 - Enable Active-Active Redis
 - [Define the regions](#define-regions) for each database instance
 - Define unique [CIDR addresses](#define-cidr-addresses) for each instance
+- [Define memory limit](#define-memory-limit) for the database
 - [Define throughput](#define-throughput) (read and write operations) for each region
 
 Active-Active databases consist of multiple copies (also called _instances_) deployed to different regions throughout the world.
