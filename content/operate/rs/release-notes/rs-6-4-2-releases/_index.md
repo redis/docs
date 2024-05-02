@@ -76,6 +76,10 @@ Certain operating systems, such as RHEL 8, have already removed support for 3DES
 
 - RS51144, RS102128 - Active-Active: To start successfully, the syncer (`crdt-syncer`) must connect to all sources. In multi-cluster configurations (more than 2 A-A clusters participating), in some cases, if one or more of the clusters is not available, A-A replication will be down.
 
+- RS123142 - In an Active-Active setup with at least three participating clusters, removing and re-adding a cluster after removing older clusters without re-adding them can cause missing keys and potentially lead to data loss or data inconsistency.
+
+    This issue will be fixed in a future maintenance release. To prevent this issue, avoid adding clusters until you upgrade to the upcoming maintenance release when available.
+
 #### Resharding fails for rack-aware databases with no replication
 
 When a database is configured as [rack-aware]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness" >}}) and replication is turned off, the resharding operation fails.
