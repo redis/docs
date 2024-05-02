@@ -45,7 +45,7 @@ An API object that represents a node in the cluster.
   "db_type": string,
   "version": string
 }, ...]
-{{</code>}} | Versions of open source databases supported by Redis Enterprise Software on the node (read-only)<br />**db_type**: Type of database<br />**version**: Version of database |
+{{</code>}} | Versions of source available Redis databases supported by Redis Enterprise Software on the node (read-only)<br />**db_type**: Type of database<br />**version**: Version of database |
 | system_time | string | System time (UTC) (read-only) |
 | total_memory | integer | Total memory of node (bytes) (read-only) |
 | uptime | integer | System uptime (seconds) (read-only) |
