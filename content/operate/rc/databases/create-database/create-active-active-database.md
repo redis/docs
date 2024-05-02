@@ -115,10 +115,12 @@ The total operations per second:
 
 Throughput requirements grow dramatically as regions increase.  As a result, consider your requirements carefully.
 
+For Search and query databases, the estimated throughput from the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) is the total amount of additional throughput you need. When setting throughput for your Active-Active database, add this throughput divided across each region depending on your needs for each region.
+
 ## More info
 
 - [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
 - [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
-- Database [memory limit]({{< relref "/operate/rc/databases/configure/clustering#dataset-size" >}})
+- Database [memory limit]({{< relref "/operate/rc/databases/configuration/clustering#dataset-size" >}})
 - Redis Cloud [subscription plans]({{< relref "/operate/rc/subscriptions/" >}})
 - [Redis Cloud pricing](https://redis.com/redis-enterprise-cloud/pricing/)
