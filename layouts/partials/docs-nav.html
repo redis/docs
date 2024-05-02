@@ -55,6 +55,7 @@
             {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
           </ul>
         {{ end }}
+        </div>
         <div class='min-h-0 border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col {{ if not (eq $navRoot.LinkTitle "Get Started") }} shrink-0 {{ end }}'>
         <a class='px-6 py-4 hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "Get Started" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/get-started'>Get Started</a>
         {{ if eq $navRoot.LinkTitle "Get Started" }}
@@ -62,6 +63,7 @@
             {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
           </ul>
         {{ end }}
+        </div>  
       <div class='min-h-0  border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col {{ if not (in (slice "Develop" "Integrate" "Operate") $navRoot.LinkTitle) }} shrink-0 {{ end }}'>
         <a class='px-6 py-4 rounded-t-md hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "Develop" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/develop'>Develop</a>
         {{ if eq $navRoot.LinkTitle "Develop" }}
