@@ -80,8 +80,8 @@ linkTitle: GEOADD
 since: 3.2.0
 summary: Adds one or more members to a geospatial index. The key is created if it
   doesn't exist.
-syntax_fmt: GEOADD key [NX | XX] [CH] longitude latitude member [longitude latitude
-  member ...]
+syntax_fmt: "GEOADD key [NX | XX] [CH] longitude latitude member [longitude\n  latitude\
+  \ member ...]"
 syntax_str: '[NX | XX] [CH] longitude latitude member [longitude latitude member ...]'
 title: GEOADD
 ---

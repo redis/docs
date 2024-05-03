@@ -43,7 +43,7 @@ module: Triggers and functions
 since: 2.0.0
 stack_path: docs/interact/programmability/triggers-and-functions
 summary: Load a new JavaScript library into Redis
-syntax: 'TFUNCTION LOAD [REPLACE] [CONFIG <config>] "<library code>" '
+syntax: "TFUNCTION LOAD [REPLACE] [CONFIG <config>] \"<library code>\" \n"
 syntax_fmt: "TFUNCTION LOAD [REPLACE] [CONFIG\_config] library code"
 syntax_str: "[CONFIG\_config] library code"
 title: TFUNCTION LOAD

@@ -29,7 +29,7 @@ module: Search
 since: 2.0.0
 stack_path: docs/interact/search-and-query
 summary: Deletes the index
-syntax: 'FT.DROPINDEX index [DD] '
+syntax: "FT.DROPINDEX index \n  [DD]\n"
 syntax_fmt: FT.DROPINDEX index [DD]
 syntax_str: '[DD]'
 title: FT.DROPINDEX

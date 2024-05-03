@@ -43,8 +43,8 @@ hints:
 linkTitle: COMMAND LIST
 since: 7.0.0
 summary: Returns a list of command names.
-syntax_fmt: "COMMAND LIST [FILTERBY\_<MODULE\_module-name | ACLCAT\_category |  PATTERN\_\
-  pattern>]"
+syntax_fmt: "COMMAND LIST [FILTERBY\_<MODULE\_module-name | ACLCAT\_category |\n \
+  \ PATTERN\_pattern>]"
 syntax_str: ''
 title: COMMAND LIST
 ---
