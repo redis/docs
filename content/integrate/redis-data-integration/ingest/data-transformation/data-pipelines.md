@@ -11,18 +11,21 @@ aliases:
 RDI implements
 [change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC)
 with *pipelines*. (See the
-[architecture overview](architecture.md#overview)
+[architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
 for an introduction to pipelines.) There are 2 basic types of pipeline:
 
 - *Ingest* pipelines capture data from an external source database
   and add it to a Redis target database.
-
 - *Write-behind* pipelines capture data from a Redis source database
   and add it to an external target database.
+
+## Overview
 
 RDI uses a set of [YAML](https://en.wikipedia.org/wiki/YAML)
 files to configure each pipeline. The following diagram shows the folder
 structure of the configuration:
+
+{{< image filename="images/rdi/ingest/ingest-config-folders.svg" >}}
 
 The main configuration for the pipeline is in the `config.yaml` file.
 This specifies the connection details for the source database(s) (such
@@ -66,41 +69,58 @@ targets:
       port: 12000
 ```
 
-The main sections of the file are `sources` and `targets`.
+The main sections of the file configure [`sources`](#sources) and [`targets`](#targets).
 
 ### Sources
 
-The `sources` section has one or more subsections for the sources that
-you need to configure. Each source section starts with a unique name
-that you choose to identify the source (in the example we have one source
-called `mysql`). The source configurations contain the following data:
+The `sources` section has one or more subsections for each of the sources that
+you need to configure. Every source section starts with a unique name
+to identify the source (in the example we have a source
+called `mysql` but you can choose any name you like). The example
+configuration contains the following data:
 
-- `type`: The type of collector to use for the pipeline. Currently, the only type
-  we support is `cdc`.
-
-- `connection`: The connection details for the source database: hostname, port, schema/ db name, database credentials and TLS/mTLS secrets.
-
-- `tables`: The dataset to collect: Tables to include (all if not specified), the columns to include per table (all if not specified), In case the table doesn’t have a unique identifier (primary key or unique constraint), a composite unique identifier per table. 
-- There are advanced source configurations per source database type that are generally not needed. Some of them are documented here [link to Debezium configuration reference revised for collector]
+- `type`: The type of collector to use for the pipeline. Currently, the only type we support is `cdc`.
+- `connection`: The connection details for the source database: hostname, port, schema/ db name, database credentials and
+[TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
+[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) secrets.
+- `tables`: The dataset you want to collect from the source. This subsection
+  specifies:
+  - `snapshot_sql`: A query that selects the tables to include in the dataset
+    (the default is to include all tables if you don't specify a query here).
+  - `columns`: A list of the columns you are interested in (the default is to
+    include all columns if you don't supply a list)
+  - `keys`: A list of primary keys, one for each table. If the table doesn't
+    have a column with a
+    [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.asp) or
+    [`UNIQUE`](https://www.w3schools.com/sql/sql_unique.asp) constraint then you can
+    supply a unique composite key.
+ 
+There are also some advanced source configurations that are specific to each
+type of source database but you usually won't need these. Some of them are documented here [link to Debezium configuration reference revised for collector]
 
 ### Targets
 
-The targets section in the ingest pipeline provides the redis connection details including credentials and TLS/mTLS secrets.
-The main sections of this file are:
+Use this section to provide the connection details for the target Redis
+database(s). As with the sources, you should start each target section
+with a unique name that you are free to choose (here, we have used
+`my-redis` as an example). In the `connection` section, you can supply the
+`type` of target database, which will generally be `redis` along with the
+`host` and `port` of the server. You can also supply connection credentials
+and TLS/mTLS secrets here if you use them.
 
-- `sources`: This specifies the connection details
-  (such as the host, username, and password) for the database(s)
-  that hold the source data and also the queries that extract the
-  required subset of the data. An ingest pipeline has an external database
-  as its source while the source of write-behind pipeline is a
-  Redis database.
+## Job files
 
-- `targets`: This specifies where the transformed data
-  will be written. The target is a Redis database for an ingest
-  pipeline, while a write-behind pipeline will target an external
-  database.
+You can optionally supply one or more job files that specify how you want to transform the captured data before writing it to the target. Each job file contains a YAML
+configuration that controls the transformation for a particular table from the source
+database. For ingest pipelines, you can also add a `default-job.yaml` file to provide
+a default transformation for tables that don't have a specific job file of their own.
 
-The optional job files have a structure like the following example:
+The job files have a structure like the following example. This configures a default
+job that:
+
+- Writes the data to a Redis hash
+- Adds a field `app_code` to the hash with a value of `foo`
+- Adds a prefix of `aws` and a suffix of `gcp` to the key
 
 ```yaml
 source:
@@ -124,101 +144,47 @@ output:
 
 The main sections of these files are:
 
-- `source`: This specifies the data items that you want to use.
+- `source`: This is a mandatory section that specifies the data items that you want to 
+  use. The `table`
+  property refers to the table name you supplied in `config.yaml`. The default
+  job doesn't apply to a specific table, so use "*" in place of the table name
+  for this job only.
 
-- `transform`: This describes the transformation that the pipeline
+- `transform`: This is an optional section describing the transformation
+  that the pipeline
   applies to the data before writing it to the target.
 
-- `output`: This specifies the data structure that RDI will write to
-  the target.
+- `output`: This is a mandatory section to specify the data structure(s) that
+  RDI will write to
+  the target along with the text pattern for the key(s) that will access it.
+  Note that you can map one record to more than one key in Redis or nest
+  a record as a field of a JSON structure.
 
-The sections below describes the contents of these files in more detail.
-
-
-- The *transformation job* configuration describes the way that
-  data will be extracted from the input, manipulated, and
-  converted into the desired target representation.
-
-
-
-## Pipeline overview  
-
-A pipeline in RDI is made of the configurations of 4 entities:
-
-- Sources - tracks and ships data changes from the source(s).
-- Transformation Job - that describes the data mapping and manipulation for a particular collection of entries (Source Table for Ingest pipeline or Redis key pattern  for a write-behind pipeline)
-- Targets - The target(s) to which pipeline processed data is written (Redis in case of Ingest or another supported target in case of write-behind)
-- Processors - The configuration of the Stream Processor engine - specifies how many processors will be used during the pipeline full sync phase.
-- Jobs - Optional set of files defining data transformations and mapping between source and target.
-
-The Sources, Targets and Processors sections are defined in the main configuration file of the pipeline the `config.yaml` file
-
-## Pipeline files structure
-
-{{< image filename="images/rdi/ingest/ingest-pipeline-files.png" >}}
-
-## Configuration in `config.yaml`
-
-
-
-
-### Jobs
-
-There are two types of jobs: the default job and the specific job per table. Both are optional.
-
-1. Default job - The default job role is to provide general definitions that covers the data transformations in case a particular job has not been specified for this source table / collection. The main items in the default job are the Redis key-pattern in the target & the data type for the target.
-2. Specific table job - The specific table job is a yaml file with a unique name in the jobs folder. Except for having a unique file name it also has to specify a valid table name as its source.
-
-#### Default job
-
-In situations where there is a need to perform a transformation on all ingested records without creating a specific job for specific tables, the default job is used. The transformation associated with this job will be applied to all tables that lack their own explicitly defined jobs. The default job must have a table name of “*”, and only one instance of this type of job is permitted.
-For example, the default job can streamline tasks such as adding a prefix or postfix to Redis keys, or adding fields to new hashes and JSONs without customizing each source table.
-Currently, the default job is supported for ingest pipelines only.
-Example
-This example demonstrates the process of adding an app_code field with a value of foo using the add_field block to all tables that lack explicitly defined jobs. Additionally, it appends an aws prefix and a gcp postfix to every generated hash key.
-default.yaml
-
-```yaml
-source:
-  table: "*"
-  row_format: full
-transform:
-  - uses: add_field
-    with:
-      fields:
-        - field: after.app_code
-          expression: "`foo`"
-          language: jmespath
-output:
-  - uses: redis.write
-    with:
-      data_type: hash
-      key:
-        expression: concat(['aws', '#', table, '#', keys(key)[0], '#', values(key)[0], '#gcp'])
-        language: jmespath
-```
-
-#### Ingest job structure
-
-The ingest job has the following 3 sections:
-
-- Source (mandatory) - the information to locate the source table for this job 
-- Transformation (optional) - the information about filters and transformations to apply to all records coming from this source. See data transformation [link] for more information.
-- Output (mandatory) - specified the Redis key-pattern & data type to use for records coming from this job. It also maps the data record fields to the right attributes of the Redis data type, allowing for more flexibility. 
-
-Note that an ingest job output section might:
-
-- Map one record to more than one key in Redis
-- Map a record as an attribute of another JSON key in Redis (nesting)
+See [reference section pages when they are ready] for full details about the
+available source, transform, and target configuration options and also a set
+of example job configurations.
 
 ## Ingest pipeline lifecycle
 
-- Deploy - when a user deploys the pipeline it is validated and then based on the configurations, RDI operator creates and configures the Collector and the Stream Processor that will run this pipeline.
-- Snapshot - The Collector will start the pipeline by creating a snapshot of the dataset specified in the pipeline from the source database and will stream into RDI Redis database. The Stream Processor will process the snapshot and write the records into the target Redis. Keep in mind that hydrating Redis with snapshot data might take a long time depending on the size of the data.
-- CDC - When the creation of the snapshot is done, the Collector starts listening to updates made on the data. Committed changes are picked and shipped to RDI. In this mode RDI keeps processing and writing to the target ongoing changes. 
-- Update - When the user updates the pipeline, the operator picks up the new version and applies it to the processor and the collector. Unless the user asked to stop and reset the pipeline, the changes will only apply to new data.
-- Reset - In case the user wants to refresh the data in Redis or a very long disconnect (typically several hours) dictates a new full sync, RDI will make the pipeline go back to Snapshot mode. 
+Once you have created the configuration for a pipeline, it goes through the
+following phases:
 
-
-
-
+1. *Deploy* - when you deploy the pipeline, RDI first validates it before use.
+Then, the [operator]({{< relref "/integrate/redis-data-integration/ingest/architecture#how-rdi-is-deployed">}}) creates and configures the collector and stream processor that will run the pipeline.
+1. *Snapshot* - The collector starts the pipeline by creating a snapshot of the full
+dataset. This involves reading all the relevant source data, transforming it and then
+writing it into the Redis target. You should expect this phase to take minutes or
+hours to complete if you have a lot of data.
+1. *CDC* - Once the snapshot is complete, the collector starts listening for updates to
+the source data. Whenever a change is committed to the source, the collector captures
+it and adds it to the target through the pipeline. This phase continues indefinitely
+unless you change the pipeline configuration. 
+1. *Update* - If you update the pipeline configuration, the operator starts applying it
+to the processor and the collector. Note that the changes only affect newly-captured
+data unless you reset the pipeline completely. Once RDI has accepted the updates, the
+pipeline returns to the CDC phase with the new configuration.
+1. *Reset* - There are circumstances where you might want to rebuild the dataset
+completely. For example, you might want to apply a new transformation to all the source
+data or refresh the dataset if RDI is disconnected from the
+source for a long time. In situations like these, you can *reset* the pipeline back
+to the snapshot phase. When this is complete, the pipeline continues with CDC as usual. 
