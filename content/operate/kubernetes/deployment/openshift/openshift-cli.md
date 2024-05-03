@@ -107,8 +107,10 @@ The Redis Enterprise pods must run in OpenShift with privileges set in a [Securi
 
     You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/reference/cluster-options.md" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_cluster_api.md) for a full list of options.
 
+    The REC name cannot be changed after cluster creation.
+
     {{<note>}}
-Each Redis Enterprise cluster requires at least 3 nodes. Single-node RECs are not supported.
+    Each Redis Enterprise cluster requires at least 3 nodes. Single-node RECs are not supported.
     {{</note>}}
 
 1. Apply the custom resource file to create your Redis Enterprise cluster.
