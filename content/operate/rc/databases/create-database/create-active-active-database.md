@@ -115,7 +115,7 @@ The total operations per second:
 
 Throughput requirements grow dramatically as regions increase.  As a result, consider your requirements carefully.
 
-For Search and query databases, the estimated throughput from the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) is the total amount of additional throughput you need. When setting throughput for your Active-Active database, add this throughput divided across each region depending on your needs for each region.
+For Search and query databases, the estimated throughput from the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) is the total amount of throughput you need. When setting throughput for your Active-Active database, use the total amount for each region and divide it depending on your read (query) and write (update) needs for each region. For example, if the total amount of throughput needed is 50000 ops/sec, you could set each region to have 20000 ops/sec for reads (queries) and 30000 ops/sec for writes (updates).
 
 ## More info
 
