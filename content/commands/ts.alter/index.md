@@ -65,7 +65,7 @@ stack_path: docs/data-types/timeseries
 summary: Update the retention, chunk size, duplicate policy, and labels of an existing
   time series
 syntax: 'TS.ALTER key [RETENTION retentionPeriod] [CHUNK_SIZE size] [DUPLICATE_POLICY
-  policy] [LABELS [{label value}...]] '
+  policy] [LABELS {label value}...] '
 syntax_fmt: "TS.ALTER key [RETENTION\_retentionPeriod] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_\
   <BLOCK | FIRST | LAST | MIN | MAX | SUM>] [LABELS\_label value [label value ...]]"
 syntax_str: "[RETENTION\_retentionPeriod] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK\
