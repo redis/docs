@@ -87,8 +87,8 @@ A Redis Enterprise cluster is composed of identical nodes that are deployed with
 More info: [Database clustering]({{<relref "/operate/rc/databases/configuration/clustering" >}})
 {{%/definition%}}
 
-{{%definition "Cluster Configuration Store (CSS)"%}}
-An internally managed Redis database that acts a single repository for all cluster meta-data.
+{{%definition "Cluster Configuration Store (CCS)"%}}
+An internally managed Redis database that acts as a single repository for all cluster metadata.
 {{%/definition%}}
 
 {{%definition "Cluster Node Manager (CNM)"%}}
