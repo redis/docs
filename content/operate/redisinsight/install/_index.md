@@ -3,9 +3,7 @@ categories:
 - docs
 - operate
 - redisinsight
-description: 'Install Redis Insight on AWS, Docker, and Kubernetes
-
-  '
+description: Install Redis Insight on AWS, Docker, Kubernetes, and desktop
 linkTitle: Install Redis Insight
 title: Install Redis Insight
 weight: 3
