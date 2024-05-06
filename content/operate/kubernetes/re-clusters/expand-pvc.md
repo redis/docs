@@ -33,7 +33,7 @@ PersistentVolumeClaims (PVC) are created by the Redis Enterprise for Kubernetes 
 
 ### Highly recommended
 
-- We highly recommend you backup your databases before beginning this PV expansion process.
+- We highly recommend you backup your databases before beginning this PVC expansion process.
 
 ## Expand REC PVC
 
