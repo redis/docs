@@ -27,15 +27,16 @@ but the benefits of load balancing and automatic updates to IP addresses won't b
 You can compensate for the lack of DNS resolution with load balancers that can expose services and provide service discovery.
 A load balancer is configured in front of Redis Enterprise cluster, exposing several logical services:
 
-- Control plane services, such as the RS admin console to access cluster administration interface
+- Control plane services, such as the Redis Enterprise Cluster Manager UI to access cluster administration interface
 - Data plane services, such as a database endpoint to connect from client applications
 
-Depending on which Redis Enterprise services you want to access outside the cluster you may need to configure the load balancers separately.
-One or more Virtual IPs (VIPs) are defined on the load balancer to expose Redis Enterprise services.
+Depending on which Redis Enterprise services you want to access outside the cluster, you may need to configure the load balancers separately.
+One or more virtual IPs (VIPs) are defined on the load balancer to expose Redis Enterprise services.
 The architecture is shown in the following diagram with 3 nodes Redis Enterprise cluster with one database (DB1) configured on port 12000:
 
 {{< image filename="/images/rs/cluster-behind-load-balancer-top-down.png" alt="cluster-behind-load-balancer-top-down" >}}
-## Setting up an RS cluster with load balancers
+
+## Set up a cluster with load balancers
 
 ### Prerequisites
 
@@ -44,10 +45,10 @@ The architecture is shown in the following diagram with 3 nodes Redis Enterprise
     Remember that the same cluster name is used to issue the licence keys.
     We recommend that you use a “.local” suffix in the FQDN.
 
-### Configuring the load balancers
+### Configure load balancers
 
 - Make sure that the load balancer is performing TCP health checks on the cluster nodes.
-- Expose the services that you require through a Virtual IP, for example:
+- Expose the services that you require through a virtual IP, for example:
     - Web Management Portal (8443)
     - Rest API service (Secured - 9443; Non-secured - 8080)
     - Database ports (In the range of 10000-19999)
@@ -55,16 +56,16 @@ The architecture is shown in the following diagram with 3 nodes Redis Enterprise
 Other ports are shown in the list of [RS network ports]({{< relref "/operate/rs/networking/port-configurations.md" >}}).
 
 {{< note >}}
-Sticky, secured connections are needed only for RS admin console service (provided on port 8443).
+Sticky, secured connections are needed only for the Redis Enterprise Cluster Manager UI, provided on port 8443.
 
 - Certain LBAs provide specific logic to close idle connections. Either disable this feature or make sure the applications connecting to Redis use reconnection logic.
-- Make sure the LB is fast enough to resolve connections between two clusters or applications that are connected to Redis databases through LB.
-- Choose the standard LB which is commonly used in your environment so that you have easy access to in-house expertise for troubleshooting issues.
+- Make sure the load balancer is fast enough to resolve connections between two clusters or applications that are connected to Redis databases through a load balancer.
+- Choose the standard load balancer which is commonly used in your environment so that you have easy access to in-house expertise for troubleshooting issues.
 {{< /note >}}
 
-### RS cluster configuration
+### Configure Redis Enterprise cluster
 
-There are certain recommended settings within the cluster that guarantee a flawless connectivity experience for applications and admin users when they access the cluster through a Load Balancer.
+There are certain recommended settings within the cluster that guarantee a flawless connectivity experience for applications and admin users when they access the cluster through a load balancer.
 
 {{< note >}}
 - Run the `rladmin` commands directly on the cluster.
@@ -87,23 +88,23 @@ An additional setting can be done to allow (on average) closer termination of cl
     rladmin tune cluster default_shards_placement sparse
 ```
 
-### RS database configuration
+### Configure Redis Enterprise database
 
-After the cluster settings are updated and the LBs are configured you can go to the RS admin console at https://load-balancer-virtual-ip:8443/ and [create a new database]({{< relref "/operate/rs/databases/create.md" >}}).
+After you update the cluster settings and configure the load balancers, you can go to the Redis Enterprise Cluster Manager UI at `https://load-balancer-virtual-ip:8443/` and [create a new database]({{< relref "/operate/rs/databases/create.md" >}}).
 
-If you are creating an Active-Active database, you will need to use the `crdb-cli` utility. See the [`crdb-cli` reference]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) for more information about creating Active-Active databases from the command line.
+To create an Active-Active database, use the `crdb-cli` utility. See the [`crdb-cli` reference]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) for more information about creating Active-Active databases from the command line.
 
-### Keep LB configuration updated when the cluster configuration changes
+### Update load balancer configuration when cluster configuration changes
 
-When your RS cluster is located behind a load balancer, you must update the LB when the cluster topology and IP addresses change.
-Some common cases that require you to update the LB are:
+When your Redis Enterprise cluster is located behind a load balancer, you must update the load balancer when the cluster topology and IP addresses change.
+Some common cases that require you to update the load balancer are:
 
 - Adding new nodes to the Redis Enterprise cluster
 - Removing nodes from the Redis Enterprise cluster
 - Maintenance for Redis Enterprise cluster nodes
 - IP address changes for Redis Enterprise cluster nodes
 
-After these changes, make sure that the redis connections in your applications can connect to the Redis database,
+After these changes, make sure that the Redis connections in your applications can connect to the Redis database,
 especially if they are directly connected on IP addresses that have changed.
 
 ## Intercluster communication considerations
@@ -113,7 +114,7 @@ When your Redis Enterprise software clusters are located behind load balancers, 
 
 ### Active-Passive
 
-For Active-Passive communication to work, you will need to expose database port(s) locally in each cluster (as defined above) but also allow these ports through firewalls that may be positioned between the clusters.
+For Active-Passive communication to work, you will need to expose database ports locally in each cluster (as defined above) but also allow these ports through firewalls that may be positioned between the clusters.
 
 ### Active-Active
 
