@@ -8,7 +8,7 @@ linkTitle: Install on desktop
 title: Install on desktop
 weight: 1
 ---
-This tutorial shows how to install desktop Redis Insight so you can use it in development.
+Install desktop Redis Insight to use it in development.
 
 ## Supported operating systems
 
