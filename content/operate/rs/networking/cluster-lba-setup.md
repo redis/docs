@@ -73,19 +73,20 @@ There are certain recommended settings within the cluster that guarantee a flawl
 {{< /note >}}
 
 The following settings are needed to allow inbound connections to be terminated on the relevant node inside the cluster:
-```sh
-    # enable all-node proxy policy by default
-    rladmin tune cluster default_sharded_proxy_policy all-nodes
 
-    # ensure we redirect where necessary when running behind an LBA
-    rladmin cluster config handle_redirects enabled
+```sh
+# Enable all-node proxy policy by default
+rladmin tune cluster default_sharded_proxy_policy all-nodes default_non_sharded_proxy_policy all-nodes
+
+# Ensure we redirect where necessary when running behind an LBA
+rladmin cluster config handle_redirects enabled
 ```
 
 An additional setting can be done to allow (on average) closer termination of client connection to where the Redis shard is located. This is an optional setting.
 
 ```sh
-    # enable sparse placement by default
-    rladmin tune cluster default_shards_placement sparse
+# Enable sparse placement by default
+rladmin tune cluster default_shards_placement sparse
 ```
 
 ### Configure Redis Enterprise database
