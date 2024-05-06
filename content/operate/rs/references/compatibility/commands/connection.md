@@ -10,7 +10,7 @@ linkTitle: Connection management
 weight: 10
 ---
 
-The following tables show which open source Redis [connection management commands]({{< relref "/commands" >}}/?group=connection) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following tables show which source available Redis [connection management commands]({{< relref "/commands" >}}/?group=connection) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 
 | Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |

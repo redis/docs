@@ -21,9 +21,10 @@ weight: 3
 
 Redis Insight is a powerful tool for visualizing and optimizing data in Redis or Redis Stack, making real-time application development easier and more fun than ever before. Redis Insight lets you do both GUI- and CLI-based interactions in a fully-featured desktop GUI client.
 
-### Download the latest Redis Insight
+### Installation and release notes
 
-* Download the latest Redis Insight [here](https://redis.com/redis-enterprise/redis-insight/)
+* See [these pages]({{< relref "/operate/redisinsight/install" >}}) for installation information.
+
 * [Redis Insight Release Notes](https://github.com/Redis-Insight/Redis-Insight/releases)
 
 ## Overview

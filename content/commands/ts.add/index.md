@@ -77,11 +77,12 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Append a sample to a time series
-syntax: 'TS.ADD key timestamp value [RETENTION retentionPeriod] [ENCODING [COMPRESSED|UNCOMPRESSED]]
-  [CHUNK_SIZE size] [ON_DUPLICATE policy]   [LABELS {label value}...] '
-syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED\
-  \ | COMPRESSED>] [CHUNK_SIZE\_size] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
-  \ MAX | SUM>] [LABELS\_label value [label value ...]]"
+syntax: "TS.ADD key timestamp value \n  [RETENTION retentionPeriod] \n  [ENCODING\
+  \ [COMPRESSED|UNCOMPRESSED]] \n  [CHUNK_SIZE size] \n  [ON_DUPLICATE policy] \n\
+  \  [LABELS {label value}...]\n"
+syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod]\n  [ENCODING\_\
+  <UNCOMPRESSED | COMPRESSED>] [CHUNK_SIZE\_size]\n  [ON_DUPLICATE\_<BLOCK | FIRST\
+  \ | LAST | MIN | MAX | SUM>]\n  [LABELS\_label value [label value ...]]"
 syntax_str: "timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED\
   \ | COMPRESSED>] [CHUNK_SIZE\_size] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
   \ MAX | SUM>] [LABELS\_label value [label value ...]]"
