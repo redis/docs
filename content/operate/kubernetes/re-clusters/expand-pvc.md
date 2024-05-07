@@ -23,7 +23,7 @@ PersistentVolumeClaims (PVC) are created by the Redis Enterprise for Kubernetes 
 ### StorageClass
 
 - PVC expansion must be supported and enabled by the StorageClass and underlying storage driver of the REC PVCs.
--The relevant StorageClass is the one associated with the REC PVCs. The StorageClass for existing PVCs cannot be changed.
+- The relevant StorageClass is the one associated with the REC PVCs. The StorageClass for existing PVCs cannot be changed.
 - Verify the StorageClass is configured with `allowVolumeExpansion: true`.
 - Verify your storage driver supports online expansion.
 
@@ -60,7 +60,7 @@ PersistentVolumeClaims (PVC) are created by the Redis Enterprise for Kubernetes 
   kubectl apply -f <your-rec.yaml>
   ```
 
-After applying the REC changes, the PVCs will begin to resize to the new size.
+After applying the REC changes, the PVCs will begin to expand to the new size.
 
 Once all the PVCs finish the resizing process, the operator will delete and recreate the StatefulSet with the new volume size.
 
@@ -68,7 +68,7 @@ Once all the PVCs finish the resizing process, the operator will delete and recr
 
 You can track the progress by monitoring the status of the REC and PersistentVolumeClaim objects.
 
-The REC status will correspond to the status of one or more PVCs, and will reflect if they resizing is successful or failed.
+The REC status will correspond to the status of one or more PVCs, and will reflect if the resizing is successful or failed.
 
 While the resizing is in progress, the status will be:
 
@@ -79,7 +79,7 @@ status:
     succeeded: 2/3
 ```
 
-When the resizing is complete, the status becomes "Provisioned" and the new volume size is available for use by the REC pods.
+When the resizing is complete, the status becomes Provisioned and the new volume size is available for use by the REC pods.
 
 ```yaml
 status:
