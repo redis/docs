@@ -10,7 +10,7 @@ linkTitle: Expand PVC
 weight: 15
 ---
 
-PersistentVolumeClaims (PVC) are created by the Redis Enterprise for Kubernetes operator and use dy the RedisEnterpriseCluster (REC). PVCs are created with a specific size and can be expanded if the underlying storage class supports it.
+PersistentVolumeClaims (PVC) are created by the Redis Enterprise for Kubernetes operator and used by the RedisEnterpriseCluster (REC). PVCs are created with a specific size and can be expanded if the underlying storage class supports it.
 
 ## Before you start
 
