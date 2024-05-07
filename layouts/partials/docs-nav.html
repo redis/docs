@@ -58,7 +58,7 @@
         <div class='min-h-0 border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col {{ if not (eq $navRoot.LinkTitle "Get started") }} shrink-0 {{ end }}'>
         <a class='px-6 py-4 rounded-md hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "Get started" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/get-started'>Get started</a>
         {{ if eq $navRoot.LinkTitle "Get started" }}
-          <ul class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
+          <ul class="md:block overflow-y-auto grow pr-6">
             {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
           </ul>
         {{ end }}
