@@ -5,34 +5,28 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Expand your persistent volume claim with the Redis Enterprise for Kubernetes operator.
+description: Expand your persistent volume claim by editing the REC.
 linkTitle: Expand PVC
 weight: 15
 ---
 
-PersistentVolumeClaims (PVC) are created by the Redis Enterprise for Kubernetes operator and used by the RedisEnterpriseCluster (REC). PVCs are created with a specific size and can be expanded if the underlying storage class supports it.
+This article outlines steps to increase the size of the persistent volume claim for your Redis Enterprise cluster (REC).
 
-## Before you start
+[PersistentVolumeClaims (PVC)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) are created by the Redis Enterprise operator and used by the RedisEnterpriseCluster (REC). PVCs are created with a specific size and [can be expanded](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) with the following steps, if the underlying [storage class](https://kubernetes.io/docs/concepts/storage/storage-classes/) supports it.
 
-### StatefulSet
+This process involves deleting and recreating the REC StatefulSet with a larger persistent volume size. The pods owned by the StatefulSet are not restarted or affected by the deletion and recreation process, except when they are left without an owner momentarily.
 
-- **Be careful!** This process involves deleting and recreating the REC StatefulSet with a new persistent volume size.
-- Do not change any other REC fields related to the StatefulSet while resizing is in progress.
-- The pods owned by the StatefulSet are not restarted or affected by the deletion and recreation process, except when they momentarily become "orphaned".
+{{<note>}}Shrinking (reducing the size) of your PVC is not allowed. This process only allows you to expand (size up) your PVC.{{</note>}}
 
-### StorageClass
+## Prerequisites
+
+{{<warning>}}Do not change any other REC fields related to the StatefulSet while resizing is in progress.
+{{</warning>}}
 
 - PVC expansion must be supported and enabled by the StorageClass and underlying storage driver of the REC PVCs.
-- The relevant StorageClass is the one associated with the REC PVCs. The StorageClass for existing PVCs cannot be changed.
-- Verify the StorageClass is configured with `allowVolumeExpansion: true`.
-- Verify your storage driver supports online expansion.
-
-### Not supported
-
-- Shrinking (reducing the size) of your PVC is not allowed. This process only allows you to expand (size up) your PVC.
-
-### Highly recommended
-
+  - The relevant StorageClass is the one associated with the REC PVCs. The StorageClass for existing PVCs cannot be changed.
+- The StorageClass is must be configured with `allowVolumeExpansion: true`.
+- Your storage driver must support online expansion.
 - We highly recommend you backup your databases before beginning this PVC expansion process.
 
 ## Expand REC PVC
