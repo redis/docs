@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - kubernetes
-description: 
+description: Expand your persistent volume claim with the Redis Enterprise for Kubernetes operator.
 linkTitle: Expand PVC
 weight: 15
 ---
