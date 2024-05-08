@@ -19,7 +19,7 @@ Logged alerts that appear in the UI
 | Alert code name | Alert as shown in the UI | Severity | Notes |
 |-----------------|--------------------------|----------|-------|
 even_node_count | True high availability requires an odd number of nodes with a minimum of three nodes | true:&nbsp;warning<br />false: info |  
-inconsistent_redis_sw | Not all databases are running the same open source version | true:&nbsp;warning<br />false: info |  
+inconsistent_redis_sw | Not all databases are running the same source available version | true:&nbsp;warning<br />false: info |  
 inconsistent_rl_sw | Not all nodes in the cluster are running the same Redis Enterprise Cluster version | true:&nbsp;warning<br />false: info |  
 internal_bdb | Issues with internal cluster databases | true:&nbsp;warning<br />false: info |  
 multiple_nodes_down | Multiple cluster nodes are down - this might cause data loss | true:&nbsp;warning<br />false: info |  

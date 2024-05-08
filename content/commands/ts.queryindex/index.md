@@ -38,8 +38,8 @@ summary: Get all time series keys matching a filter list
 syntax: 'TS.QUERYINDEX filterExpr...
 
   '
-syntax_fmt: TS.QUERYINDEX <l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...)
-  [l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>
+syntax_fmt: "TS.QUERYINDEX <l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2,...)\
+  \ [l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2,...) ...]>"
 syntax_str: ''
 title: TS.QUERYINDEX
 ---

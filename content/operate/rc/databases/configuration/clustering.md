@@ -165,7 +165,7 @@ their order to suit your application's requirements.
    - **PCRE_ANCHORED:** the pattern is constrained to match only at
         the start of the string which is being searched.
 
-## Memory limit
+## Memory limit {#dataset-size}
 
 The memory limit represents the maximum amount of memory for the database, which includes data values, keys, module data, and overhead for specific features.  High availability features, such as replication and Active-Active,  increase memory consumption.  
 

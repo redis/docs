@@ -48,27 +48,27 @@
           </button>
           <div id="dropdown" class="hidden lg:block border-t border-opacity-50 border-redis-ink-900 text-redis-pen-800">
             <ul class="p-6">
+	      <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600">APIs</a></li>
               <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/get-started'>Get started</a></li>
               <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/develop'>Develop</a></li>
               <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/integrate'>Integrate</a></li>
               <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/operate'>Operate</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600">APIs</a></li>
             </ul>
           </div>
         </div>
       </nav>
       <nav class="hidden lg:block w-full lg:w-64 z-40 h-full leading-7">
         <div class="flex flex-col gap-4">
+	<div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
+            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200 text-redis-red-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a>
+            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/apis'>APIs</a>
+          </div>
           <a class="px-6 py-4 hover:bg-redis-pen-200 border border-redis-ink-900 border-opacity-50 rounded-md" href='{{ .Scratch.Get "path" }}/get-started'>Get started</a>
           <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
             <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/develop'>Develop</a>
             <a class="px-6 py-4 hover:bg-redis-pen-200 border-y border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/integrate'>Integrate</a>
             <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/operate'>Operate</a>
-          </div>
-          <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
-            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200 text-redis-red-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a>
-            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/apis'>APIs</a>
           </div>
         </div>
       </nav>
