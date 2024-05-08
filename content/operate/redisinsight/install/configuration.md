@@ -16,12 +16,11 @@ To configure Redis Insight with environment variables:
     - [Linux](https://askubuntu.com/a/58828)
     - [Docker](https://docs.docker.com/engine/reference/commandline/run/#set-environment-variables--e---env---env-file)
 
-1. Set the environment variables.
 1. Restart Redis Insight.
 
 ## Redis Insight environment variables
 
-The following environment variables can be set to configure Redis Insight:
+Use the following environment variables to configure Redis Insight:
 
 ### RIPORT
 
