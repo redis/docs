@@ -49,14 +49,14 @@ The architecture is shown in the following diagram with a 3-node Redis Enterpris
 
 - Make sure that the load balancer is performing TCP health checks on the cluster nodes.
 - Expose the services that you require through a virtual IP, for example:
-    - Cluster Manager UI: 8443
-    - Rest API: 9443 for secure HTTPS connections; 8080 for HTTP
-    - Database ports: 10000-19999
+    - Cluster Manager UI on port 8443
+    - Rest API on port 9443 for secure HTTPS connections and port 8080 for HTTP
+    - Database ports 10000-19999
 
 Other ports are shown in the list of [Redis Enterprise network ports]({{< relref "/operate/rs/networking/port-configurations" >}}).
 
 {{< note >}}
-Sticky, secured connections are needed only for the Redis Enterprise Cluster Manager UI, provided on port 8443.
+Sticky, secured connections are needed only for the Redis Enterprise Cluster Manager UI on port 8443.
 
 - Certain load balancers provide specific logic to close idle connections. Either turn off this feature or make sure the applications connecting to Redis use reconnection logic.
 - Make sure the load balancer is fast enough to resolve connections between two clusters or applications that are connected to Redis databases through a load balancer.
