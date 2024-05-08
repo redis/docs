@@ -173,7 +173,7 @@ spec:
             - /bin/sh
             - '-c'
             - |
-              chown -R 1001 /data
+              chown -R 1000 /data
           resources: {}
           volumeMounts:
             - name: redisinsight
