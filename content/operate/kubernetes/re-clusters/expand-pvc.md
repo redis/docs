@@ -25,7 +25,7 @@ This process involves deleting and recreating the REC StatefulSet with a larger 
 
 - PVC expansion must be supported and enabled by the StorageClass and underlying storage driver of the REC PVCs.
   - The relevant StorageClass is the one associated with the REC PVCs. The StorageClass for existing PVCs cannot be changed.
-- The StorageClass is must be configured with `allowVolumeExpansion: true`.
+- The StorageClass must be configured with `allowVolumeExpansion: true`.
 - Your storage driver must support online expansion.
 - We highly recommend you backup your databases before beginning this PVC expansion process.
 
