@@ -119,6 +119,27 @@ With Redis Insight you can now also extend the core functionality by building yo
 
 Redis Insight includes an opt-in telemetry system. This help us improve the developer experience of the app. We value your privacy; all collected data is anonymized.
 
+## Log files
+
+To get detailed information about errors in Redis Insight, you can review the log files with the `.log` extension in the appropriate location:
+
+- **Docker**: In the `/data/logs` directory *inside the container*.
+- **Mac**: In the `/Users/<your-username>/.redis-insight` directory.
+- **Windows**: In the `C:\Users\<your-username>\.redis-insight` directory.
+- **Linux**: In the `/home/<your-username>/.redis-insight` directory.
+
+{{< note >}}
+You can install Redis Insight on operating systems that are not officially supported, but it may not behave as expected.
+{{< /note >}}
+
+## Using behind a reverse proxy
+
+When you configure Redis Insight to run behind a reverse proxy like [NGINX](https://www.nginx.com/):
+
+- Because some requests can be long-running, it is recommended that the request timeout is set to over 30 seconds on the reverse proxy.
+  Redis Insight also allows you to manage its connection timeout, which is 30 seconds by default, on the form to manage the connection details. 
+- Hosting Redis Insight behind a prefix path (path-rewriting) is not supported.
+
 ## Feedback
 
 To provide your feedback, [open a ticket in our Redis Insight repository](https://github.com/Redis-Insight/Redis-Insight/issues/new).
