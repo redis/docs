@@ -25,7 +25,7 @@ An API object that represents a managed database in the cluster.
 | authentication_sasl_pass | string; Binary memcache SASL password |
 {{</table-scrollable>}}
 
-{{</table-scrollable>}}
+{{<table-scrollable>}}
 | Name | Type/Value & Description |
 |------|-------------------------|
 | authentication_sasl_uname | string; Binary memcache SASL username (pattern does not allow special characters &,\<,>,") |
@@ -36,7 +36,7 @@ An API object that represents a managed database in the cluster.
 {{</code>}} A list of valid subjects used for additional certificate validations during TLS client authentication. All subject attributes are case-sensitive.<br />**Required subject fields**:<br />"CN" for Common Name<br />**Optional subject fields:**<br />"O" for Organization<br />"OU" for Organizational Unit (array of strings)<br />"L" for Locality (city)<br />"ST" for State/Province<br />"C" for 2-letter country code  |
 {{</table-scrollable>}}
 
-{{</table-scrollable>}}
+{{<table-scrollable>}}
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | auto_upgrade | boolean (default:&nbsp;false) | Upgrade the database automatically after a cluster upgrade |
