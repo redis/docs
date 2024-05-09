@@ -22,24 +22,6 @@ Each database type has a different set of preparation steps. Please follow the l
 
 <!-- add links with content for different database types here-->
 
-## Install RDI CLI
-
-RDI CLI is a small executable that provides Command Line Interface for RDI.
-Download the tar file according the operating system you plan to run the CLI on:
-
-**RHEL 8**
-
-**RHEL 9**
-
-**Ubuntu 18.04**
-
-**Ubuntu 20.04**
-
-
-RDI CLI needs to be given execute permissions:
-
-```bash
-chmode +x /usr/local/bin/redis-di
 ```
 ## Install RDI on VMs
 
@@ -76,7 +58,7 @@ cd rdi_install/$RDI_VERSION
 3. Run the installation
 
 ```bash
-sudo redis-di install
+sudo ./install.sh
 ```
 
 The installer will ask you for Redis Enterprise cluster admin credentials in case you want it to create the RDI Redis database for you. 
