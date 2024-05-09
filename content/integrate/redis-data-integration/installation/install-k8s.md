@@ -96,7 +96,10 @@ The `create` command will create a BDB named `redis-di-1` in your cluster. To ru
 
 ## Create the configuration file for RDI
 
-Run `redis-di scaffold --db-type <{{param  rdi_db_types}}> --dir <PATH_TO_DIR>`.
+Run the following command to create the configuration file:
+```bash
+redis-di scaffold --db-type {{< param  rdi_db_types >}} --dir <PATH_TO_DIR>
+```
 Edit the file `config.yaml` that is located under the directory <NAME> to point to the correct Redis Target database settings:
 
 ```yaml
@@ -121,7 +124,7 @@ Run `redis-di status` to check the status of the installation.
 
 ## Install the RDI CLI on the Kubernetes Cluster
 
-### Add CLI pod
+### Add CLI pod {#install-rdi-cli-on-kubernetes-cluster}
 
 ```bash
 cat << EOF > /tmp/redis-di-cli-pod.yml
@@ -164,7 +167,7 @@ kubectl exec -it pod/redis-di-cli -- redis-di
 - Run the following command to create the configuration file for RDI:
 
   ```bash
-  kubectl exec -it pod/redis-di-cli -- redis-di scaffold --db-type <{{param  rdi_db_types}}> --preview config.yaml > config.yaml
+  kubectl exec -it pod/redis-di-cli -- redis-di scaffold --db-type {{< param  rdi_db_types >}} --preview config.yaml > config.yaml
   ```
 
 - Edit the file `config.yaml` to point to the correct Redis Target database settings.
@@ -212,7 +215,7 @@ Run `kubectl exec -it pod/redis-di-cli -- redis-di status` to check the status o
 - Run the following command to create the configuration file for Debezium Server:
 
   ```bash
-  kubectl exec -it pod/redis-di-cli -- redis-di scaffold --db-type <{{param  rdi_db_types}}> --preview debezium/application.properties > application.properties
+  kubectl exec -it pod/redis-di-cli -- redis-di scaffold --db-type {{< param  rdi_db_types >}} --preview debezium/application.properties > application.properties
   ```
 
 - Edit the file `application.properties` and replace the values for the debezium.sink with the service name and credentials of the RDI BDB that was created using the `create` command.
