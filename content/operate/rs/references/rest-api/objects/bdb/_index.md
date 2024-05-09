@@ -14,21 +14,31 @@ weight: $weight
 An API object that represents a managed database in the cluster.
 
 {{<table-scrollable>}}
+| Name | Type/Value & Description |
+|------|-------------------------|
+| uid | integer; Cluster unique ID of database. Can be set during creation but cannot be updated. |
+| account_id | integer; SM account ID |
+| action_uid | string; Currently running action's UID (read-only) |
+| aof_policy | **'appendfsync-every-sec'** <br />'appendfsync-always' Policy for Append-Only File data persistence |
+| authentication_admin_pass | string; Password for administrative access to the BDB (used for SYNC from the BDB) |
+| authentication_redis_pass | string; Redis AUTH password authentication.  <br/>Use for Redis databases only.  Ignored for memcached databases. (deprecated as of Redis Enterprise v7.2, replaced with multiple passwords feature in version 6.0.X) |
+| authentication_sasl_pass | string; Binary memcache SASL password |
+{{</table-scrollable>}}
+
+{{</table-scrollable>}}
+| Name | Type/Value & Description |
+|------|-------------------------|
+| authentication_sasl_uname | string; Binary memcache SASL username (pattern does not allow special characters &,\<,>,") |
+| authentication_ssl_client_certs | {{<code>}}[{<br />  "client_cert": string<br />}, ...]{{</code>}} List of authorized client certificates<br />**client_cert**: X.509 PEM (base64) encoded certificate |
+| authentication_ssl_crdt_certs | {{<code>}}[{<br />  "client_cert": string<br />}, ...]{{</code>}} List of authorized CRDT certificates<br />**client_cert**: X.509 PEM (base64) encoded certificate |
+| authorized_names | array of strings; Additional certified names (deprecated as of Redis Enterprise v6.4.2; use authorized_subjects instead) |
+| authorized_subjects | {{<code>}}[{<br />  "CN": string,<br />  "O": string,<br />  "OU": [array of strings],<br />  "L": string,<br />  "ST": string,<br />  "C": string<br />}, ...]
+{{</code>}} A list of valid subjects used for additional certificate validations during TLS client authentication. All subject attributes are case-sensitive.<br />**Required subject fields**:<br />"CN" for Common Name<br />**Optional subject fields:**<br />"O" for Organization<br />"OU" for Organizational Unit (array of strings)<br />"L" for Locality (city)<br />"ST" for State/Province<br />"C" for 2-letter country code  |
+{{</table-scrollable>}}
+
+{{</table-scrollable>}}
 | Name | Type/Value | Description |
 |------|------------|-------------|
-| uid | integer | Cluster unique ID of database. Can be set during creation but cannot be updated. |
-| account_id | integer | SM account ID |
-| action_uid | string | Currently running action's UID (read-only) |
-| aof_policy | **'appendfsync-every-sec'** <br />'appendfsync-always' | Policy for Append-Only File data persistence |
-| authentication_admin_pass | string | Password for administrative access to the BDB (used for SYNC from the BDB) |
-| authentication_redis_pass | string | Redis AUTH password authentication.  <br/>Use for Redis databases only.  Ignored for memcached databases. (deprecated as of Redis Enterprise v7.2, replaced with multiple passwords feature in version 6.0.X) |
-| authentication_sasl_pass | string | Binary memcache SASL password |
-| authentication_sasl_uname | string | Binary memcache SASL username (pattern does not allow special characters &,\<,>,") |
-| authentication_ssl_client_certs | {{<code>}}[{<br />  "client_cert": string<br />}, ...]{{</code>}} | List of authorized client certificates<br />**client_cert**: X.509 PEM (base64) encoded certificate |
-| authentication_ssl_crdt_certs | {{<code>}}[{<br />  "client_cert": string<br />}, ...]{{</code>}} | List of authorized CRDT certificates<br />**client_cert**: X.509 PEM (base64) encoded certificate |
-| authorized_names | array of strings | Additional certified names (deprecated as of Redis Enterprise v6.4.2; use authorized_subjects instead) |
-| authorized_subjects | {{<code>}}[{<br />  "CN": string,<br />  "O": string,<br />  "OU": [array of strings],<br />  "L": string,<br />  "ST": string,<br />  "C": string<br />}, ...]
-{{</code>}} | A list of valid subjects used for additional certificate validations during TLS client authentication. All subject attributes are case-sensitive.<br />**Required subject fields**:<br />"CN" for Common Name<br />**Optional subject fields:**<br />"O" for Organization<br />"OU" for Organizational Unit (array of strings)<br />"L" for Locality (city)<br />"ST" for State/Province<br />"C" for 2-letter country code  |
 | auto_upgrade | boolean (default:&nbsp;false) | Upgrade the database automatically after a cluster upgrade |
 | avoid_nodes | array of strings | Cluster node UIDs to avoid when placing the database's shards and binding its endpoints |
 | background_op | {{<code>}}[{<br />  "status": string,<br />  "name": string,<br />  "error": object,<br />  "progress": number<br />}, ...]{{</code>}} | (read-only); **progress**: Percent of completed steps in current operation |
