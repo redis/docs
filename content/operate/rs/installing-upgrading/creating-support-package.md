@@ -35,7 +35,7 @@ The following table describes the included files:
 |------|-------------|
 | ccs-redis.json | Primary node's local cluster configuration store (CCS). |
 | /database_<bdb_uid>/ | Directory that includes files for a specific database.<bdb_uid> is the database ID. |
-| database_<bdb_uid>_ccs_info.txt | Database information from cluster configuration store (CCS). Includes settings for databases, endpoints, shards, replicas, and CRDB. |
+| database_<bdb_uid>_ccs_info.txt | Database information from the cluster configuration store (CCS). Includes settings for databases, endpoints, shards, replicas, and CRDB. |
 | database_<bdb_uid>.clientlist | List of clients connected to the database when the support package was created. |
 | database_<bdb_uid>.info | Redis information and statistics for the database. See [`INFO`]({{<relref "/commands/info">}}) for details about the collected fields. |
 | database_<bdb_uid>.rladmin | Database information. See [`rladmin info db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/info#info-db">}}) for an example of collected fields. Also includes creation time, last changed time, Redis version, memory limit, persistence type, eviction policy, hashing policy, and whether SSL, backups, and email alerts are enabled. |
