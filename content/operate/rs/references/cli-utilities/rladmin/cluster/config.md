@@ -23,7 +23,7 @@ Updates the cluster configuration.
         [bigstore_driver {speedb | rocksdb} ]
         [ control_cipher_suites <BoringSSL cipher list> ]
         [ cm_port <number> ]
-        [ cm_session_timeout <minutes> ]
+        [ cm_session_timeout_minutes <minutes> ]
         [ cnm_http_port <number> ]
         [ cnm_https_port <number> ]
         [ crdb_coordinator_port <number> ]
@@ -61,7 +61,7 @@ Updates the cluster configuration.
 | audit_protocol | `tcp`<br/>`local` | Protocol used for [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}})<br/>For production systems, only `tcp` is supported. |
 | control_cipher_suites | list of ciphers | Cipher suites used for TLS connections to the admin console (specified in the format understood by the BoringSSL library)<br />(previously named `cipher_suites`) |
 | cm_port | integer | UI server listening port |
-| cm_session_timeout | integer | Timeout in minutes for the CM session
+| cm_session_timeout_minutes | integer | Timeout in minutes for the CM session
 | cnm_http_port | integer | HTTP REST API server listening port |
 | cnm_https_port | integer | HTTPS REST API server listening port |
 | crdb_coordinator_port | integer, (range:&nbsp;1024-65535) (default:&nbsp;9081) | CRDB coordinator port |
