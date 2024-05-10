@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: Install Redis Data Integration without an active Internet connection
+description: Install Redis Data Integration without an active internet connection
 group: di
 linkTitle: Installation
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
@@ -16,60 +16,69 @@ type: integration
 weight: 2
 ---
 
-## Prepare the source database
+This guide explains how to install RDI and integrate it with your source database.
 
-Each database type has a different set of preparation steps. Please follow the links below to get the right steps for your chosen source database.
+## Preparation
 
+Before you install RDI, you must first prepare your source database.
+Each database type has a different set of preparation steps. Use the links
+below to see the appropriate steps for your source database.
 <!-- add links with content for different database types here-->
 
-```
 ## Install RDI on VMs
 
-RDI can be installed on one VM for non-production environments and on two VMs in production environments for high-availability topology.
+You would normally install RDI on 2 VMs for high availability (HA) but you can also install
+one just 1 VM if you don't need this. For example, you might not need HA during
+development and testing.
 
-**Supported Operating Systems**
+The supported OS versions for RDI are:
 
 - RHEL 8 & 9
 - Ubuntu 18.04 & 20.04
 
-### Prerequisites
-
-RDI installation runs as a privileged user. This is because RDI is needs to install [containerd](https://containerd.io/) and register services.
-
-However, RDI processes themselves do NOT need to run using a privileged user
+You must run the RDI installer as a privileged user because it installs
+[containerd](https://containerd.io/) and registers services. However, you don't
+need any special privileges to run RDI processes for normal operation.
 
 ### Installation steps
 
-Follow the following steps on each of the VMs
+Follow the steps below for each of your VMs:
 
-1. Download RDI installation and unarchive it
+1. Download and extract the RDI installation:
 
-``` bash
-curl https://qa-onprem.s3.amazonaws.com/redis-di/$RDI_VERSION/rdi-installation-$RDI_VERSION.tar.gz -O
-tar -xvf rdi-installation-$RDI_VERSION.tar.gz
-```
+    ``` bash
+    curl https://qa-onprem.s3.amazonaws.com/redis-di/$RDI_VERSION/rdi-installation-$RDI_VERSION.tar.gz -O
+    tar -xvf rdi-installation-$RDI_VERSION.tar.gz
+    ```
 
-2. Change directory to the installation directory
+1. Go to the installation folder:
 
-```bash
-cd rdi_install/$RDI_VERSION
-````
+    ```bash
+    cd rdi_install/$RDI_VERSION
+    ```
 
-3. Run the installation
+1. Run the installer as a privileged user:
 
-```bash
-sudo ./install.sh
-```
+    ```bash
+    sudo ./install.sh
+    ```
 
-The installer will ask you for Redis Enterprise cluster admin credentials in case you want it to create the RDI Redis database for you. 
-> Note: the installer does not create RDI Redis database with TLS/mTLS. If you want to use TLS or other advanced options please create the Redis database in the Redis Enterprise console.
+The installer will ask you for Redis Enterprise cluster admin credentials. You should supply
+these if you want the installer to create the RDI database for you.
+ 
+{{<note>}}The installer does not create the RDI Redis database with
+[TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
+[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS).
+If you want to use TLS or other advanced options then you must create the Redis database
+yourself using the Redis Enterprise console.{{</note>}}
 
 If you don’t want the installation to create the RDI database for you:
 
-- Please go to the Redis console and create a database with 250mb RAM with 1 primary and one replica.
-- Please secure this database with a password and TLS if you are creating it for a production environment.
-- Provide the installation with the required RDI database details
-  
-At the end of the installation RDI is created and ready to be used.
+- Use the Redis console to create a database with 250MB RAM with 1 primary and 1 replica.
+- If you are deploying RDI for a production environment then secure this database with a password
+  and TLS.
+- Provide the installation with the required RDI database details.
 
-Note that RDI is giving you instructions on how to create secrets and create your pipeline
+Once the installation is finished, RDI is ready for use.
+
+{{<note>}}RDI gives you instructions to help you create secrets and create your pipeline.{{</note>}}
