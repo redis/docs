@@ -12,7 +12,7 @@ toc: 'true'
 weight: $weight
 ---
 If you encounter any issues that you are not able to resolve yourself
-and need to [contact Redis support](https://redis.com/company/support/) for assistance, you can [create a support package](#create-support-package) that gathers all essential information to help debug
+and need to [contact Redis support](https://redis.io/support/) for assistance, you can [create a support package](#create-support-package) that gathers all essential information to help debug
 your issues.
 
 {{< note >}}
@@ -23,15 +23,17 @@ The process of creating the support package can take several minutes and generat
 
 The support package is a zip file that contains all cluster configuration and logs.
 
-When downloaded from the Cluster Manager UI, the name of the package is `debuginfo.tar.gz`.
+When downloaded from the Cluster Manager UI, the support package's name is `debuginfo.tar.gz`.
 
 ### Database support package files
 
-The support package includes database details in `database_<bdb_uid>` directories, where `<bdb_uid>` is the database ID, and Redis shard details in `<node_uid>` directories.
+Cluster and database support packages collect database details in `database_<bdb_uid>` directories, where `<bdb_uid>` is the database ID, and Redis shard details in `<node_uid>` directories.
+
+The following table describes the included files:
 
 | File | Description |
 |------|-------------|
-| ccs-redis.json | Master node's local cluster configuration store (CCS). |
+| ccs-redis.json | Primary node's local cluster configuration store (CCS). |
 | /database_<bdb_uid>/ | Directory that includes files for a specific database.<bdb_uid> is the database ID. |
 | database_<bdb_uid>_ccs_info.txt | Database information from cluster configuration store (CCS). Includes settings for databases, endpoints, shards, replicas, and CRDB. |
 | database_<bdb_uid>.clientlist | List of clients connected to the database when the support package was created. |
@@ -42,7 +44,9 @@ The support package includes database details in `database_<bdb_uid>` directorie
 
 ### Node support package files
 
-The support package collects database details in a `node_<node_uid>` directory, where `<node_uid>` is the node ID.
+Cluster and node support packages collect node details in `node_<node_uid>` directories, where `<node_uid>` is the node ID.
+
+The following table describes the included files:
 
 | File | Description |
 |------|-------------|
@@ -50,12 +54,12 @@ The support package collects database details in a `node_<node_uid>` directory, 
 | /conf/ | Directory that contains configuration files. |
 | /logs/ | Directory that includes logs. |
 | node_<node_uid>.ccs | Includes cluster configuration, node configuration, and DMC proxy configuration. |
-| node_<node_uid>_envoy_config.json |  |
+| node_<node_uid>_envoy_config.json | Envoy configuration. |
 | node_<node_uid>.rladmin | Information about the cluster's nodes, databases, endpoints, and shards. See [`rladmin status`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status">}}) for example output. |
 | node_<node_uid>_sys_info.txt | Node's system information including:<br />• Socket files list<br />• Log files list<br />• Processes running on the node<br />• Disk usage<br />• Persistent files list<br />• Memory usage<br />• Network interfaces<br />• Installed packages<br />• Active iptables<br />• OS and platform<br />• Network connection<br />• Status of Redis processes |
 | redis_<shard_uid>.txt | For each shard of the specified database only. Includes shard configuration and [information]({{<relref "/commands/info">}}), slowlog information, and latency information. |
 
-Each node's `/conf/` directory includes the following files:
+Each node's `/conf/` directory contains the following files:
 
 - api_cert.modulus
 - api_key.modulus
