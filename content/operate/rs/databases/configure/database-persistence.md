@@ -56,7 +56,7 @@ For any high availability needs, use replication to further reduce the risk of d
 
 **For use cases where data loss has a high cost:**
 
-Append-only file (AOF) - fsync every write - Redis Enterprise sets the open-source Redis directive `appendfsyncalways`.  With this policy, Redis will wait for the write and the fsync to complete prior to sending an acknowledgement to the client that the data has written. This introduces the performance overhead of the fsync in addition to the execution of the command. The fsync policy always favors durability over performance and should be used when there is a high cost for data loss.
+Append-only file (AOF) - fsync every write - Redis Enterprise sets the Redis directive `appendfsyncalways`.  With this policy, Redis will wait for the write and the fsync to complete prior to sending an acknowledgement to the client that the data has written. This introduces the performance overhead of the fsync in addition to the execution of the command. The fsync policy always favors durability over performance and should be used when there is a high cost for data loss.
 
 **For use cases where data loss is tolerable only limitedly:**
 

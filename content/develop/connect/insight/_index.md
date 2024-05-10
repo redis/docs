@@ -21,9 +21,10 @@ weight: 3
 
 Redis Insight is a powerful tool for visualizing and optimizing data in Redis or Redis Stack, making real-time application development easier and more fun than ever before. Redis Insight lets you do both GUI- and CLI-based interactions in a fully-featured desktop GUI client.
 
-### Download the latest Redis Insight
+### Installation and release notes
 
-* Download the latest Redis Insight [here](https://redis.com/redis-enterprise/redis-insight/)
+* See [these pages]({{< relref "/operate/redisinsight/install" >}}) for installation information.
+
 * [Redis Insight Release Notes](https://github.com/Redis-Insight/Redis-Insight/releases)
 
 ## Overview
@@ -117,6 +118,20 @@ With Redis Insight you can now also extend the core functionality by building yo
 ## Telemetry
 
 Redis Insight includes an opt-in telemetry system. This help us improve the developer experience of the app. We value your privacy; all collected data is anonymized.
+
+## Log files
+
+You can review the Redis Insight log files (files with a `.log` extension) to get detailed information about system issues.
+These are the locations on supported platforms:
+
+- **Docker**: In the `/data/logs` directory *inside the container*.
+- **Mac**: In the `/Users/<your-username>/.redis-insight` directory.
+- **Windows**: In the `C:\Users\<your-username>\.redis-insight` directory.
+- **Linux**: In the `/home/<your-username>/.redis-insight` directory.
+
+{{< note >}}
+You can install Redis Insight on operating systems that are not officially supported, but it may not behave as expected.
+{{< /note >}}
 
 ## Feedback
 

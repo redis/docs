@@ -1,18 +1,17 @@
 ---
-Title: Redis Enterprise compatibility with open source Redis
+Title: Redis Enterprise compatibility with source available Redis
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Redis Enterprise compatibility with open source Redis.
+description: Redis Enterprise compatibility with source available Redis.
 hideListLinks: true
-linkTitle: Open source compatibility
+linkTitle: Source available Redis compatibility
 weight: $weight
 tocEmbedHeaders: true
 ---
-Both Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) are compatible with open source
-Redis (OSS Redis). 
+Both Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) are compatible with source available Redis. 
 
 {{< embed-md "rc-rs-oss-compatibility.md"  >}}
 
@@ -20,6 +19,6 @@ Redis (OSS Redis).
 
 Redis Enterprise Software and Redis Cloud support RESP2 and RESP3. See [RESP compatibility with Redis Enterprise]({{< relref "/operate/rs/references/compatibility/resp" >}}) for more information.
 
-## Compatibility with open source Redis Cluster API
+## Compatibility with Redis Cluster API
 
-Redis Enterprise supports [Redis OSS Cluster API]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) if it is enabled for a database. For more information, see [Enable OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}).
+Redis Enterprise supports [Redis Cluster API]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) if it is enabled for a database. For more information, see [Enable Redis Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}).

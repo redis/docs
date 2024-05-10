@@ -104,7 +104,7 @@ These changes include:
 ### Standard hashing policy
 
 When using the standard hashing policy, a Redis Cloud cluster
-behaves like the standard, open-source Redis cluster, and hashing is
+behaves like a standard Redis cluster, and hashing is
 performed as follows:
 
 1. Keys with a hashtag: a key's hashtag is any substring between '{'
@@ -165,7 +165,7 @@ their order to suit your application's requirements.
    - **PCRE_ANCHORED:** the pattern is constrained to match only at
         the start of the string which is being searched.
 
-## Memory limit
+## Memory limit {#dataset-size}
 
 The memory limit represents the maximum amount of memory for the database, which includes data values, keys, module data, and overhead for specific features.  High availability features, such as replication and Active-Active,  increase memory consumption.  
 
@@ -194,10 +194,10 @@ We assume a typical workload that includes a different mix of commands and an av
 - **Security**: Some security options, such as [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}), may affect throughput.
 - **Number of client connections**: The number of client connections affects throughput. Increasing or decreasing the number of client connections can result in higher or lower throughput.
 
-## OSS Cluster API
+## Cluster API
 
 {{< embed-md "oss-cluster-api-intro.md"  >}}
 
-The OSS Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the Scalability section of the configuration screen.
+The Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the Scalability section of the configuration screen.
 
-Review [Redis OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
+Review [Redis Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.

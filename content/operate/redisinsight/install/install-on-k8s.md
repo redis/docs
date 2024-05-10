@@ -8,7 +8,7 @@ description: 'How to install Redis Insight on Kubernetes
   '
 linkTitle: Install on Kubernetes
 title: Install on Kubernetes
-weight: 4
+weight: 3
 ---
 This tutorial shows how to install Redis Insight on [Kubernetes](https://kubernetes.io/) (K8s).
 This is an easy way to use Redis Insight with a [Redis Enterprise K8s deployment]({{< relref "operate/kubernetes/" >}}).
@@ -173,7 +173,7 @@ spec:
             - /bin/sh
             - '-c'
             - |
-              chown -R 1001 /data
+              chown -R 1000 /data
           resources: {}
           volumeMounts:
             - name: redisinsight

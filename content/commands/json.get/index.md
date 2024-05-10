@@ -39,8 +39,8 @@ module: JSON
 since: 1.0.0
 stack_path: docs/data-types/json
 summary: Gets the value at one or more paths in JSON serialized form
-syntax_fmt: "JSON.GET key [INDENT\_indent] [NEWLINE\_newline] [SPACE\_space] [path\
-  \   [path ...]]"
+syntax_fmt: "JSON.GET key [INDENT\_indent] [NEWLINE\_newline] [SPACE\_space] [path\n\
+  \  [path ...]]"
 syntax_str: "[INDENT\_indent] [NEWLINE\_newline] [SPACE\_space] [path [path ...]]"
 title: JSON.GET
 ---

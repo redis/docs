@@ -86,10 +86,9 @@ latencies. Resharding is performed without downtime.
 
 {{< image filename="/images/rs/sharding.png" >}}
 
-*Figure 2*
-*Redis Enterprise places master node (M) and replicas (R) in separate
-nodes, racks and zones and use in-memory replication to protect data
-against failures.*
+Redis Enterprise places master shards and replicas in separate
+nodes, racks, and zones, and uses in-memory replication to protect data
+against failures.
 
 In Redis Enterprise, each database has a quota of RAM. The quota cannot
 exceed the limits of the RAM available on the node. However, with Redis

@@ -63,7 +63,7 @@ Any distribution not listed below is not supported for production workloads.
 | **Kubernetes version** | **1.22** | **1.23** | **1.24** | **1.25** | **1.26** | **1.27** |
 |---|---|---|---|---|---|---|
 | Community Kubernetes | <span title="X icon">&#x274c;</span> | <span title="X icon">&#x274c;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> |
-| Amazon EKS | <span title="End of life">&#x274c;</span> | <span title="Deprecated">&#x26A0;&#xFE0F;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| Amazon EKS | <span title="End of life">&#x274c;</span> | <span title="Deprecation warning">&#x26A0;&#xFE0F;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | Azure AKS |  | <span title="X icon">&#x274c;</span> | <span title="X icon">&#x274c;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> |
 | Google GKE | <span title="X icon">&#x274c;</span> | <span title="Warning icon">&#x26A0;&#xFE0F;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> |
 | Rancher 2.6 | <span title="X icon">&#x274c;</span> | <span title="X icon">&#x274c;</span> | <span title="Warning icon">&#x26A0;&#xFE0F;</span> |  |  |  |

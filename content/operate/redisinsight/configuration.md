@@ -3,14 +3,11 @@ categories:
 - docs
 - operate
 - redisinsight
-description: 'Redis Insight supported environment variables
-
-  '
-linkTitle: Environment variables
-title: Environment variables
-weight: 1
+linkTitle: Configuration settings
+title: Redis Insight configuration settings
+weight: 5
 ---
-You can configure Redis Insight with the following environment variables.
+## Environment variables
 
 | Variable | Purpose | Default | Additional info |
 | --- | --- | --- | --- |
@@ -23,3 +20,11 @@ You can configure Redis Insight with the following environment variables.
 | RI_FILES_LOGGER | Logs to file | `true` | By default, you can find log files in the following folders: <ul> <li> Docker: `/data/logs` <li> desktop: `<user-home-dir>/.redisinsight-app/logs` </ul>|
 | RI_STDOUT_LOGGER | Logs to STDOUT | `true` | |
 | RI_PROXY_PATH | Configures a subpath for a proxy | n/a | Available only for Docker. |
+
+## Use Redis Insight behind a reverse proxy
+
+When you configure Redis Insight to run behind a reverse proxy like [NGINX](https://www.nginx.com/), set the request timeout to over 30 seconds on the reverse proxy because some requests can be long-running.
+
+Redis Insight also allows you to manage its connection timeout on the form to configure the connection details. The default timeout is 30 seconds.
+
+Hosting Redis Insight behind a prefix path (path-rewriting) is not supported.

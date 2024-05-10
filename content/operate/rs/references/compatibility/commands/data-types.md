@@ -12,7 +12,7 @@ toc: 'true'
 weight: 10
 ---
 
-The following tables show which open source Redis data type commands are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following tables show which source available Redis data type commands are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 ## Bitmap commands
 

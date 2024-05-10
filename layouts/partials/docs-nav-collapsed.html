@@ -1,5 +1,5 @@
-<div class="hidden md:block w-full md:w-64 h-fit md:h-full shrink-0 text-sm font-mono font-normal py-6">
-  <nav class="w-full md:w-64 z-40 bg-white md:fixed md:pt-6 h-fit md:h-full max-h-[calc(100vh-7rem)] leading-7">
+<div class="md:block w-full md:w-96 h-fit md:h-full shrink-0 text-base font-mono font-normal py-6">
+  <nav class="w-full md:w-96 z-40 bg-white md:fixed md:pt-6 h-fit md:h-full max-h-[calc(100vh-7rem)] leading-7">
     {{ $navRoot := cond (eq .Site.Home.Type "docs") .Site.Home .FirstSection -}}
     <div id="sidebar" class="max-h-[calc(100vh-8rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
       {{ if in (slice "Develop" "Integrate" "Operate" "Commands") $navRoot.LinkTitle }}
