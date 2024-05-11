@@ -6,26 +6,49 @@
     {{ $isActive := eq $page . -}}
     {{ $isActivePath := $page.IsDescendant . -}}
     {{ $childPages := (union .Pages .Sections).ByWeight -}}
-    <li class="my-2">
-      <a class="pl-6 flex {{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" href="{{.RelPermalink}}">
+    <li class="my-2 flex">
+      <a class="pl-6 flex {{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}">
         {{ if gt (len $childPages) 0 }}
           {{ if or $isActive $isActivePath -}}
-            <span class="pr-0"></span>
+            <span class="pr-2">↓</span>
           {{ else -}}
-            <span class="pr-0"></span>
+            <span class="pr-2">→</span>
           {{ end -}}
         {{ end -}}
-        <span>{{.LinkTitle}}</span>
+        <span><a href="{{.RelPermalink}}">{{.LinkTitle}}</a></span>
       </a>
     </li>
-    {{ if and (gt (len $childPages) 0) (or $isActive $isActivePath)}}
-      <ul class="child-list">
+    {{ if and (gt (len $childPages) 0)}}
+      <!-- Render the ul all the time but mark them hidden if they are not under the active path -->
+      <ul class="child-list {{ if not (or $isActive $isActivePath) }} hidden {{ end }}">
         {{ template "li" (dict "page" $page "pages" $childPages) }}
       </ul>
     {{ end }}
   {{- end }}
 {{- end }}
 
+<script>
+  // On click, get the ul with id child-list-id and toggle it
+  document.addEventListener('click', function(event) {
+    // If -> then unwrap, if ↓ then wrap
+    if (event.target.tagName == 'SPAN') {
+      if (event.target.innerText === '→') {
+        const parentLi = event.target.parentElement.parentElement;
+        // Remove hidden from the classList
+        parentLi.nextElementSibling.classList.remove('hidden');
+        // Change the target innerText to ↓
+        event.target.innerText = '↓';
+
+      } else if (event.target.innerText === '↓') {
+        const parentLi = event.target.parentElement.parentElement;
+        // Add hidden to the classList
+        parentLi.nextElementSibling.classList.add('hidden');
+        // Change the target innerText to →
+        event.target.innerText = '→';
+      }
+    }
+  });
+</script>
 
 {{ $base := .Site.BaseURL }}
 {{ $parsed := urls.Parse $base }}
