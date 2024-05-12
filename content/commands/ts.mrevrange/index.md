@@ -158,7 +158,7 @@ module: TimeSeries
 since: 1.4.0
 stack_path: docs/data-types/timeseries
 summary: Query a range across multiple time-series by filters in reverse direction
-syntax: "TS.MREVRANGE fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS TS...]\n\
+syntax: "TS.MREVRANGE fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS ts...]\n\
   \  [FILTER_BY_VALUE min max]\n  [WITHLABELS | <SELECTED_LABELS label...>]\n  [COUNT\
   \ count]\n  [[ALIGN align] AGGREGATION aggregator bucketDuration [BUCKETTIMESTAMP\
   \ bt] [EMPTY]]\n  FILTER filterExpr...\n  [GROUPBY label REDUCE reducer]\n"
