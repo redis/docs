@@ -73,12 +73,12 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Create a new time series
-syntax: "TS.CREATE key \n  [RETENTION retentionPeriod] \n  [ENCODING [UNCOMPRESSED|COMPRESSED]]\
+syntax: "TS.CREATE key \n  [RETENTION retentionPeriod] \n  [ENCODING <COMPRESSED|UNCOMPRESSED>]\
   \ \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [LABELS {label value}...]\n"
-syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED |\n\
-  \  COMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST |\n  LAST |\
+syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED |\n\
+  \  UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST |\n  LAST |\
   \ MIN | MAX | SUM>] [LABELS\_label value [label value ...]]"
-syntax_str: "[RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED | COMPRESSED>]\
+syntax_str: "[RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED | UNCOMPRESSED>]\
   \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST | LAST | MIN | MAX | SUM>]\
   \ [LABELS\_label value [label value ...]]"
 title: TS.CREATE
