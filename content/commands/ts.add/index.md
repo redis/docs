@@ -79,7 +79,7 @@ stack_path: docs/data-types/timeseries
 summary: Append a sample to a time series
 syntax: "TS.ADD key timestamp value \n  [RETENTION retentionPeriod] \n  [ENCODING\
   \ <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [ON_DUPLICATE policy] \n\
-  \  [LABELS {label value}...]\n"
+  \  [LABELS label value [label value ...]]\n"
 syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod]\n  [ENCODING\_\
   <COMPRESSED | UNCOMPRESSED>] [CHUNK_SIZE\_size]\n  [ON_DUPLICATE\_<BLOCK | FIRST\
   \ | LAST | MIN | MAX | SUM>]\n  [LABELS\_label value [label value ...]]"
