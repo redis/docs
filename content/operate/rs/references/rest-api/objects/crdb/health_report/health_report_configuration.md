@@ -19,11 +19,15 @@ An object that represents the database configuration to include in an Active-Act
 | encryption | boolean | Intercluster encryption |
 | featureset_version | integer | CRDB active FeatureSet version |
 | instances | {{<code>}}[{
-  "id": integer, // Unique instance ID
-  "db_uid": string, // Local database instance ID
+  // Unique instance ID
+  "id": integer,
+  // Local database instance ID
+  "db_uid": string,
   "cluster": {
-    "name": string // Cluster FQDN
-    "url": string // Cluster access URL
+    // Cluster FQDN
+    "name": string
+    // Cluster access URL
+    "url": string
   }
 }, ...] {{</code>}} | Local database instances  |
 | name | string | Name of database |
