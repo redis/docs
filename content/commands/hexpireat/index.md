@@ -79,9 +79,9 @@ syntax_str: unix-time-seconds [NX | XX | GT | LT] numfields field [field ...]
 title: HEXPIREAT
 ---
 `HEXPIREAT` has the same effect and semantics as [`HEXPIRE`]({{< relref "/commands/hexpire" >}}), but instead of
-specifying the number of seconds for the TTL (time-to-live), it takes
-an absolute [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time) (seconds since January 1, 1970). A
-timestamp in the past will delete the key immediately.
+specifying the number of seconds for the TTL (time to live), it takes
+an absolute [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time) in seconds since Unix epoch. A
+timestamp in the past will delete the field immediately.
 
 For the specific semantics of the command, see [`HEXPIRE`]({{< relref "/commands/hexpire" >}}).
 
@@ -89,12 +89,12 @@ For the specific semantics of the command, see [`HEXPIRE`]({{< relref "/commands
 
 The `HEXPIREAT` command supports a set of options:
 
-* `NX` -- For each specified field, set expiration only when the key has no expiration.
-* `XX` -- For each specified field, set expiration only when the key has an existing expiration.
+* `NX` -- For each specified field, set expiration only when the field has no expiration.
+* `XX` -- For each specified field, set expiration only when the field has an existing expiration.
 * `GT` -- For each specified field, set expiration only when the new expiration is greater than current one.
 * `LT` -- For each specified field, set expiration only when the new expiration is less than current one.
 
-A non-volatile key is treated as an infinite TTL for the purpose of `GT` and `LT`.
+A non-volatile key is treated as an infinite TTL for the purposes of `GT` and `LT`.
 The `GT`, `LT` and `NX` options are mutually exclusive.
 
 ## Example

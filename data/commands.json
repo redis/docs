@@ -7300,6 +7300,135 @@
             "nondeterministic_output_order"
         ]
     },
+    "HGETF": {
+        "summary": "For each specified field, returns its value and optionally set the field's remaining expiration time in seconds / milliseconds",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "expiration",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "seconds",
+                        "type": "integer",
+                        "display_text": "seconds",
+                        "token": "EX"
+                    },
+                    {
+                        "name": "milliseconds",
+                        "type": "integer",
+                        "display_text": "milliseconds",
+                        "token": "PX"
+                    },
+                    {
+                        "name": "unix-time-seconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-seconds",
+                        "token": "EXAT"
+                    },
+                    {
+                        "name": "unix-time-milliseconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-milliseconds",
+                        "token": "PXAT"
+                    },
+                    {
+                        "name": "persist",
+                        "type": "pure-token",
+                        "display_text": "persist",
+                        "token": "PERSIST"
+                    }
+                ]
+            },
+            {
+                "name": "fields",
+                "type": "string",
+                "display_text": "fields"
+            },
+            {
+                "name": "count",
+                "type": "integer",
+                "display_text": "count"
+            },
+            {
+                "name": "field",
+                "type": "string",
+                "display_text": "field",
+                "multiple": true
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "fast"
+        ]
+    },
     "HINCRBY": {
         "summary": "Increments the integer value of a field in a hash by a number. Uses 0 as initial value if the field doesn't exist.",
         "since": "2.0.0",
@@ -8147,6 +8276,191 @@
                 "type": "key",
                 "display_text": "key",
                 "key_spec_index": 0
+            },
+            {
+                "name": "data",
+                "type": "block",
+                "multiple": true,
+                "arguments": [
+                    {
+                        "name": "field",
+                        "type": "string",
+                        "display_text": "field"
+                    },
+                    {
+                        "name": "value",
+                        "type": "string",
+                        "display_text": "value"
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "fast"
+        ]
+    },
+    "HSETF": {
+        "summary": "For each specified field, returns its value and optionally set the field's remaining expiration time in seconds / milliseconds",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -6,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "create key option",
+                "type": "pure-token",
+                "display_text": "create key option",
+                "token": "DC",
+                "optional": true
+            },
+            {
+                "name": "create option",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "dcf",
+                        "type": "pure-token",
+                        "display_text": "dcf",
+                        "token": "DCF"
+                    },
+                    {
+                        "name": "dof",
+                        "type": "pure-token",
+                        "display_text": "dof",
+                        "token": "DOF"
+                    }
+                ]
+            },
+            {
+                "name": "return option",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "getnew",
+                        "type": "pure-token",
+                        "display_text": "getnew",
+                        "token": "GETNEW"
+                    },
+                    {
+                        "name": "getold",
+                        "type": "pure-token",
+                        "display_text": "getold",
+                        "token": "GETOLD"
+                    }
+                ]
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "expiration",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "seconds",
+                        "type": "integer",
+                        "display_text": "seconds",
+                        "token": "EX"
+                    },
+                    {
+                        "name": "milliseconds",
+                        "type": "integer",
+                        "display_text": "milliseconds",
+                        "token": "PX"
+                    },
+                    {
+                        "name": "unix-time-seconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-seconds",
+                        "token": "EXAT"
+                    },
+                    {
+                        "name": "unix-time-milliseconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-milliseconds",
+                        "token": "PXAT"
+                    },
+                    {
+                        "name": "keepttl",
+                        "type": "pure-token",
+                        "display_text": "keepttl",
+                        "token": "KEEPTTL"
+                    }
+                ]
+            },
+            {
+                "name": "fvs",
+                "type": "string",
+                "display_text": "fvs"
+            },
+            {
+                "name": "count",
+                "type": "integer",
+                "display_text": "count"
             },
             {
                 "name": "data",

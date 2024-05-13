@@ -553,6 +553,8 @@
   "HGETALL": [
     "[Map reply](../../develop/reference/protocol-spec#maps): a map of fields and their values stored in the hash, or an empty list when key does not exist."
   ],
+  "HGETF": [
+  ],
   "HINCRBY": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation."
   ],
@@ -595,6 +597,8 @@
   ],
   "HSET": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the number of fields that were added."
+  ],
+  "HSETF": [
   ],
   "HSETNX": [
     "One of the following:",

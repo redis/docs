@@ -53,7 +53,7 @@ syntax_fmt: HPTTL key numfields field [field ...]
 syntax_str: numfields field [field ...]
 title: HPTTL
 ---
-Like [`HTTL`]({{< relref "/commands/httl" >}}) this command returns the remaining TTL (time-to-live) of a key that has an
+Like [`HTTL`]({{< relref "/commands/httl" >}}) this command returns the remaining TTL (time to live) of a key that has an
 expiration set, but in milliseconds instead of seconds.
 
 The return value in case of error is one of:

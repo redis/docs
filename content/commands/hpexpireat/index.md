@@ -79,18 +79,18 @@ syntax_str: unix-time-milliseconds [NX | XX | GT | LT] numfields field [field ..
 title: HPEXPIREAT
 ---
 `HPEXPIREAT` has the same effect and semantics as [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}}), but the Unix time at
-which the key will expire is specified in milliseconds instead of seconds.
+which the key will expire is specified in milliseconds since Unix epoch instead of seconds.
 
 ## Options
 
 The `HPEXPIREAT` command supports a set of options:
 
-* `NX` -- For each specified field, set expiration only when the key has no expiration.
-* `XX` -- For each specified field, set expiration only when the key has an existing expiration.
+* `NX` -- For each specified field, set expiration only when the field has no expiration.
+* `XX` -- For each specified field, set expiration only when the field has an existing expiration.
 * `GT` -- For each specified field, set expiration only when the new expiration is greater than current one.
 * `LT` -- For each specified field, set expiration only when the new expiration is less than current one.
 
-A non-volatile key is treated as an infinite TTL for the purpose of `GT` and `LT`.
+A non-volatile key is treated as an infinite TTL for the purposes of `GT` and `LT`.
 The `GT`, `LT` and `NX` options are mutually exclusive.
 
 ## Example

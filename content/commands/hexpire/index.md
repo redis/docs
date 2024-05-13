@@ -77,7 +77,7 @@ syntax_fmt: HEXPIRE key seconds [NX | XX | GT | LT] numfields field [field ...]
 syntax_str: seconds [NX | XX | GT | LT] numfields field [field ...]
 title: HEXPIRE
 ---
-Set an expiration (TTL, time-to-live) on one or more `field`s of a given hash key. At least one field must be specified.
+Set an expiration (TTL or time to live) on one or more fields of a given hash key. At least one field must be specified.
 After the TTL has expired, the field(s) will automatically be deleted from the hash key.
 
 Field expirations will only be cleared by commands that delete or overwrite the
@@ -97,8 +97,8 @@ will be `del`, not `expired`).
 
 The `HEXPIRE` command supports a set of options:
 
-* `NX` -- For each specified field, set expiration only when the key has no expiration.
-* `XX` -- For each specified field, set expiration only when the key has an existing expiration.
+* `NX` -- For each specified field, set expiration only when the field has no expiration.
+* `XX` -- For each specified field, set expiration only when the field has an existing expiration.
 * `GT` -- For each specified field, set expiration only when the new expiration is greater than current one.
 * `LT` -- For each specified field, set expiration only when the new expiration is less than current one.
 
@@ -108,12 +108,12 @@ The `GT`, `LT` and `NX` options are mutually exclusive.
 ## Refreshing expires
 
 It is possible to call `HEXPIRE` using as argument a key that already has an
-existing expire set.
-In this case the time to live of a field is _updated_ to the new value.
+existing TTL set.
+In this case the time to live is _updated_ to the new value.
 
 ## Example
 
-```redis
+```
 TODO: to be provided.
 ```
 

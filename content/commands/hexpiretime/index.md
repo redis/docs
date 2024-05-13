@@ -53,9 +53,9 @@ syntax_fmt: HEXPIRETIME key numfields field [field ...]
 syntax_str: numfields field [field ...]
 title: HEXPIRETIME
 ---
-Returns the absolute Unix timestamp in seconds (since January 1, 1970) at which the given key field(s) will expire.
+Returns the absolute Unix timestamp in seconds since Unix epoch at which the given key's field(s) will expire.
 
-See also the [`HPEXPIRETIME`]({{< relref "/commands/hpexpiretime" >}}) command which returns the same information with milliseconds resolution.
+See also the [`HPEXPIRETIME`]({{< relref "/commands/hpexpiretime" >}}) command, which returns the same information with millisecond resolution.
 
 ## Examples
 

@@ -53,8 +53,8 @@ syntax_fmt: HPERSIST key numfields field [field ...]
 syntax_str: numfields field [field ...]
 title: HPERSIST
 ---
-Remove the existing expiration on a hash key's `field`(s), turning the field(s) from _volatile_ (a field
-with expiration set) to _persistent_ (a field that will never expire as no TTL (time-to-live)
+Remove the existing expiration on a hash key's field(s), turning the field(s) from _volatile_ (a field
+with expiration set) to _persistent_ (a field that will never expire as no TTL (time to live)
 is associated).
 
 ## Examples

@@ -53,7 +53,7 @@ syntax_fmt: HPEXPIRETIME key numfields field [field ...]
 syntax_str: numfields field [field ...]
 title: HPEXPIRETIME
 ---
-`HPEXPIRETIME` has the same semantics as [`HEXPIRETIME`]({{< relref "/commands/hexpiretime" >}}), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.
+`HPEXPIRETIME` has the same semantics as [`HEXPIRETIME`]({{< relref "/commands/hexpiretime" >}}), but returns the absolute Unix expiration timestamp in milliseconds since Unix epoch instead of seconds.
 
 ## Examples
 
