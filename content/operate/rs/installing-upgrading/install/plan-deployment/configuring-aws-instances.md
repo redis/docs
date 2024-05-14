@@ -64,8 +64,8 @@ implementation.
 When configuring the security group:
 
 - Define a custom TCP rule for port 8443 to allow web browser access
-    to the Redis Enterprise Software admin console from the IP address range you use to
-    access the admin console.
+    to the Redis Enterprise Software Cluster Manager UI from the IP address range you use to
+    access the Cluster Manager UI.
 - If you are using the DNS resolving option with Redis Enterprise Software, define a DNS UDP
     rule for port 53 to allow access to the databases' endpoints by
     using the [DNS resolving mechanism]({{< relref "/operate/rs/networking/cluster-dns" >}}).

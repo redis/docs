@@ -31,13 +31,13 @@ The TLS handshake fails and the client blocks the connection to the server if th
 
 ## Set up OCSP stapling
 
-You can configure and enable OCSP stapling for your Redis Enterprise cluster with the [admin console](#admin-console-method), the [REST API](#rest-api-method), or [`rladmin`](#rladmin-method).
+You can configure and enable OCSP stapling for your Redis Enterprise cluster with the [Cluster Manager UI](#cluster-manager-ui-method), the [REST API](#rest-api-method), or [`rladmin`](#rladmin-method).
 
 While OCSP is enabled, the server always staples the cached OCSP status when a client tries to connect. It is the client's responsibility to use the stapled OCSP status. Some Redis clients, such as [Jedis](https://github.com/redis/jedis) and [redis-py](https://github.com/redis/redis-py), already support OCSP stapling, but others might require additional configuration.
 
-### Admin console method
+### Cluster Manager UI method
 
-To set up OCSP stapling with the Redis Enterprise admin console:
+To set up OCSP stapling with the Redis Enterprise Cluster Manager UI:
 
 1. Go to **Cluster > Security > OCSP**.
 

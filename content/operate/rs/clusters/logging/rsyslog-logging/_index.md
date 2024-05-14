@@ -23,7 +23,7 @@ Redis Enterprise Software logs information from a variety of components in respo
 
 In some cases, a single action, such as removing a node from the cluster, may actually consist of several events. These actions may generate multiple log entries.
 
-All log entries displayed in the admin console are also written to `syslog`.  You can configure `rsyslog` to monitor `syslog`. Enabled alerts are logged to `syslog` and appear with other log entries.
+All log entries displayed in the Cluster Manager UI are also written to `syslog`.  You can configure `rsyslog` to monitor `syslog`. Enabled alerts are logged to `syslog` and appear with other log entries.
 
 ### Types of log entries
 

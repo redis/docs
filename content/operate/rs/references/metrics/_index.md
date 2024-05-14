@@ -11,9 +11,7 @@ linkTitle: Metrics
 weight: $weight
 ---
 
-The Redis Enterprise Software admin console shows performance metrics for clusters, nodes, databases, and shards. 
-
-In the Redis Enterprise admin console, you can see real-time metrics and configure alerts that send notifications based on alert parameters. Select the **Metrics** tab to view the metrics for each component. For more information, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/clusters/monitoring" >}}).
+In the Redis Enterprise Cluster Manager UI, you can see real-time performance metrics for clusters, nodes, databases, and shards, and configure alerts that send notifications based on alert parameters. Select the **Metrics** tab to view the metrics for each component. For more information, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/clusters/monitoring" >}}).
 
 See the following topics for metrics definitions:
 - [Database operations]({{< relref "/operate/rs/references/metrics/database-operations" >}}) for database metrics

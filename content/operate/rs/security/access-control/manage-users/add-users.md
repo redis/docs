@@ -12,7 +12,7 @@ weight: 20
 
 To add a user to the cluster:
 
-1. From the **Access Control > Users** tab in the admin console, select **+ Add user**.
+1. From the **Access Control > Users** tab in the Cluster Manager UI, select **+ Add user**.
 
     {{<image filename="images/rs/access-control-user-panel.png" alt="Add role with name" >}}
 
@@ -34,6 +34,6 @@ To add a user to the cluster:
 
 ## More info
 
-- [Grant admin console and REST API access for cluster management]({{< relref "/operate/rs/security/access-control/admin-console-access" >}})
+- [Grant Cluster Manager UI and REST API access for cluster management]({{< relref "/operate/rs/security/access-control/admin-console-access" >}})
 
 - [Control database access using RBAC]({{< relref "/operate/rs/security/access-control/database-access" >}})

@@ -20,7 +20,7 @@ For examples of each approach, see the [Redis Enterprise Software quickstart]({{
 
 Note: You cannot use client libraries to configure Redis Enterprise Software.  Instead, use:
 
-- The Redis Software [admin console]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
+- The Redis Enterprise Software [Cluster Manager UI]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 - The [REST API]({{< relref "/operate/rs/references/rest-api" >}})
 - Command-line utilities, such as [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}})
 

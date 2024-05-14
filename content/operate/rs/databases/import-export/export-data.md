@@ -150,7 +150,7 @@ To export data to an [Amazon Web Services](https://aws.amazon.com/) (AWS) Simple
 
 1. [Create an access key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) for that user if you do not already have one.
 
-1. In the Redis Enterprise Software admin console, when you enter the export location details:
+1. In the Redis Enterprise Software Cluster Manager UI, when you enter the export location details:
 
     - Select **AWS S3**.
 
@@ -176,7 +176,7 @@ To export to a [Google Cloud](https://developers.google.com/console/) storage bu
 
     - Select "Storage Legacy Bucket Writer" from the **Role** list.
 
-1. In the Redis Enterprise Software admin console, when you enter the export location details:
+1. In the Redis Enterprise Software Cluster Manager UI, when you enter the export location details:
 
     - Select **Google Cloud Storage**.
 
@@ -202,7 +202,7 @@ To export to Microsoft Azure Blob Storage, sign in to the Azure portal and then:
 
 1. [Manage storage account access keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage) to find the storage account name and account keys.
 
-1. In the Redis Enterprise Software admin console, when you enter the export location details:
+1. In the Redis Enterprise Software Cluster Manager UI, when you enter the export location details:
 
     - Select **Azure Blob Storage**.
 
