@@ -53,15 +53,24 @@ Users that don't use Prometheus can get RDI metrics in 2 ways:
 - Using Redis Insight RDI monitoring screen
 - Using RDI CLI status command 
 
-## RDI logs
+## RDI logs\
 
-RDI logs are located at `/opt/rdi/logs` on each RDI VM.
-RDI has a log for each of its components.
-RDI takes care of log rotation.
-The default log level is `INFO`. You can change this level by
+RDI uses flunetd & logrotate to ship and rotate components logs.
+So when a containerized component is removed by operator or by K8s, the logs are available for inspection.
+Out of the box, RDI will store logs in the host VM file system at `/opt/rdi/logs`. The logs will be at minimum `INFO` level and will be rotated after 100mb size. RDI will retain by default the last 5 log rotated files.
+Logs are in JSON format, so they can be analyzed by different observability tools.
+This can be changed by the `redis-di config-rdi` command.
 
 ## Support package
 
 In case you need to send a comprehensive forensics set to Redis support, please run the support package command:
 
 The support package includes:
+
+- All the internal RDI components and their status.
+- All internal RDI configuration.
+- List of secret names used by RDI components (but not the secret itself).
+- RDI logs.
+- RDI components versions
+- RDI status output
+- [optional] RDI DLQ streams content
