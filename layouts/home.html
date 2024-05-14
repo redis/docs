@@ -49,8 +49,8 @@
           <div id="dropdown" class="hidden lg:block border-t border-opacity-50 border-redis-ink-900 text-redis-pen-800">
             <ul class="p-6">
               <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/integrate'>Libraries, frameworks, and tools</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/operate'>Redis Cloud, Enterprise, and Insight</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/integrate'>Libraries and tools</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/operate'>Cloud, Enterprise, and Insight</a></li>
               <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a></li>
               <li><a class="py-2 hover:underline hover:text-redis-pen-600">APIs</a></li>
             </ul>
@@ -61,8 +61,8 @@
         <div class="flex flex-col gap-4">
           <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
             <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a>
-            <a class="px-6 py-4 hover:bg-redis-pen-200 border-y border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/integrate'>Libraries, frameworks, and tools</a>
-            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/operate'>Redis Cloud, Enterprise, and Insight</a>
+            <a class="px-6 py-4 hover:bg-redis-pen-200 border-y border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/integrate'>Libraries and tools</a>
+            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/operate'>Cloud, Enterprise, and Insight</a>
           </div>
           <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
             <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200 text-redis-red-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a>
@@ -71,6 +71,7 @@
         </div>
       </nav>
     </div>
+  <h1 class="text-5xl font-medium" id="operate">Learn how to</h1>
     <div class="lg:px-11 w-full flex flex-col gap-24">
         {{ partial "docs-section.html" (dict
           "Title" "Develop with Redis"
@@ -80,9 +81,6 @@
           "LinksLeftTitle" "Featured content"
           "LinksLeft" (slice
             (dict "Text" "Vector search" "URL" "./develop/interact/search-and-query/query/vector-search")
-            )
-          "LinksRightTitle" "Quick starts"
-          "LinksRight" (slice
             (dict "Text" "Data structure store" "URL" "./develop/get-started/data-store/")
             )
           ) }}
@@ -95,10 +93,6 @@
           "LinksLeft" (slice
             (dict "Text" "RedisVL" "URL" "./integrate/redisvl/")
             (dict "Text" "RedisOM for Python" "URL" "./integrate/redisom-for-python")
-            (dict "Text" "RedisOM for Java" "URL" "./integrate/redisom-for-java")
-          )
-          "LinksRightTitle" "Data Integration"
-          "LinksRight" (slice
             (dict "Text" "Ingest" "URL" "./integrate/redis-data-integration/quickstart/ingest-guide/")
             (dict "Text" "Write-behind" "URL" "./integrate/redis-data-integration/quickstart/write-behind-guide/")
           )
