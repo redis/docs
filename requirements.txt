@@ -2,7 +2,7 @@ gitpython
 pytoml==0.1.21
 PyYAML==6.0.1
 railroad-diagrams==1.1.1
-requests==2.27.1
+requests==2.31.0
 semver==2.13.0
 mkdocs==1.4.3
 mkdocs-material==9.1.14
