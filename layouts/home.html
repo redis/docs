@@ -48,10 +48,9 @@
           </button>
           <div id="dropdown" class="hidden lg:block border-t border-opacity-50 border-redis-ink-900 text-redis-pen-800">
             <ul class="p-6">
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/get-started'>Get started</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/develop'>Develop</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/integrate'>Integrate</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/operate'>Operate</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/integrate'>Integrated libraries, frameworks, and tools</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/operate'>Operate Redis Cloud, Enterprise, and Insight</a></li>
               <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a></li>
               <li><a class="py-2 hover:underline hover:text-redis-pen-600">APIs</a></li>
             </ul>
@@ -60,11 +59,10 @@
       </nav>
       <nav class="hidden lg:block w-full lg:w-64 z-40 h-full leading-7">
         <div class="flex flex-col gap-4">
-          <a class="px-6 py-4 hover:bg-redis-pen-200 border border-redis-ink-900 border-opacity-50 rounded-md" href='{{ .Scratch.Get "path" }}/get-started'>Get started</a>
           <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
-            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/develop'>Develop</a>
-            <a class="px-6 py-4 hover:bg-redis-pen-200 border-y border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/integrate'>Integrate</a>
-            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/operate'>Operate</a>
+            <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a>
+            <a class="px-6 py-4 hover:bg-redis-pen-200 border-y border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/integrate'>Integrated libraries, frameworks, and tools</a>
+            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/operate'>Operate Redis Cloud, Enterprise, and Insight</a>
           </div>
           <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
             <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200 text-redis-red-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a>
@@ -75,23 +73,16 @@
     </div>
     <div class="lg:px-11 w-full flex flex-col gap-24">
       <div>
-        <h1 class="text-5xl font-medium" id="develop">Learn how to</h1>
         {{ partial "docs-section.html" (dict
-          "Title" "Develop"
-          "Description" "Read more about how to use the Redis in-memory data store as a cache, vector database, document database, streaming engine, and message broker."
-          "ButtonLink" "./develop"
-          "ButtonLabel" "Read more"
+          "Title" "Develop with Redis"
+          "Description" "Learn how to use the Redis in-memory data store."
           "LinksLeftTitle" "Featured content"
           "LinksLeft" (slice
             (dict "Text" "Vector search" "URL" "./develop/interact/search-and-query/query/vector-search")
-            (dict "Text" "Query data" "URL" "./develop/interact/search-and-query/query")
-            (dict "Text" "Debug functions" "URL" "./develop/interact/programmability/triggers-and-functions/debugging")
             )
           "LinksRightTitle" "Quick starts"
           "LinksRight" (slice
             (dict "Text" "Data structure store" "URL" "./develop/get-started/data-store/")
-            (dict "Text" "Document database" "URL" "./develop/get-started/document-database/")
-            (dict "Text" "Vector database" "URL" "./develop/get-started/vector-database/")
             )
           ) }}
         {{ partial "docs-section.html" (dict
