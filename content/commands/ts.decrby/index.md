@@ -54,11 +54,11 @@ summary: Decrease the value of the sample with the maximum existing timestamp, o
   create a new sample with a value equal to the value of the sample with the maximum
   existing timestamp with a given decrement
 syntax: "TS.DECRBY key subtrahend \n  [TIMESTAMP timestamp] \n  [RETENTION retentionPeriod]\
-  \ \n  [UNCOMPRESSED] \n  [CHUNK_SIZE size] \n  [LABELS {label value}...]\n"
+  \ \n  [UNCOMPRESSED] \n  [CHUNK_SIZE size] \n  [LABELS [label value ...]]\n"
 syntax_fmt: "TS.DECRBY key value [TIMESTAMP\_timestamp]\n  [RETENTION\_retentionPeriod]\
-  \ [UNCOMPRESSED] [CHUNK_SIZE\_size]\n  [LABELS\_label value [label value ...]]"
+  \ [UNCOMPRESSED] [CHUNK_SIZE\_size]\n  [LABELS\_[label value ...]]"
 syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [UNCOMPRESSED]\
-  \ [CHUNK_SIZE\_size] [LABELS\_label value [label value ...]]"
+  \ [CHUNK_SIZE\_size] [LABELS\_[label value ...]]"
 title: TS.DECRBY
 ---
 

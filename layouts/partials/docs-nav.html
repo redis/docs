@@ -10,9 +10,9 @@
       <a class="pl-6 flex {{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" href="{{.RelPermalink}}">
         {{ if gt (len $childPages) 0 }}
           {{ if or $isActive $isActivePath -}}
-            <span class="pr-3">↓</span>
+            <span class="pr-0"></span>
           {{ else -}}
-            <span class="pr-3">→</span>
+            <span class="pr-0"></span>
           {{ end -}}
         {{ end -}}
         <span>{{.LinkTitle}}</span>
