@@ -18,6 +18,29 @@ RediSearch v2.8.12 requires:
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
 
+## v2.8.13 (March 2024)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Details:
+
+- Bug fixes:
+
+  - [#4481](https://github.com/RediSearch/RediSearch/pull/4481) Query syntax on GEOSHAPE accepting just prefix instead of complete predicate (MOD-6663)
+  - [#4513](https://github.com/RediSearch/RediSearch/pull/4513) FT.CURSOR READ in a numeric query causing a crash (MOD-6597)
+  - [#4534](https://github.com/RediSearch/RediSearch/pull/4534) FT.PROFILE with incorrect arguments could cause a crash on cluster setup (MOD-6791)
+  - [#4530](https://github.com/RediSearch/RediSearch/pull/4530) Some parameter settings using just prefixes instead of full values were working (MOD-6709)
+  - [#4539](https://github.com/RediSearch/RediSearch/pull/4539) Unfree memory while re-indexing a new RDB as it's loading could cause a crash (MOD-6831, 6810)
+  - [#4498](https://github.com/RediSearch/RediSearch/pull/4498) Vector pre-filtered query (hybrid query) that times out causing a crash due to deadlock when trying to write a new document (MOD-6510, MOD-6244)
+  - [#4495](https://github.com/RediSearch/RediSearch/pull/4495) FT.SEARCH accessing an inexistent memory address causes a crash if using the deprecated FT.ADD command (MOD-6599)
+
+- Improvements:
+
+  - [#4502](https://github.com/RediSearch/RediSearch/pull/4502) Handle error properly when trying to execute Search commands on cluster setup as part of MULTI/EXEC or LUA script (MOD-6541)
+  - [#4526](https://github.com/RediSearch/RediSearch/pull/4526) Adding detailed geometry info on error messages (MOD-6701)
+
 ## v2.8.12 (March 2024)
 
 This is a maintenance release for RediSearch 2.8.
