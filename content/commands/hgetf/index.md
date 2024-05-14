@@ -117,7 +117,7 @@ The `HGETF` command supports a set of options that modify its behavior. Except f
 * `PXAT` *timestamp-milliseconds* -- for each specified field, set the specified Unix time at which the fields will expire, in milliseconds (a positive integer) since Unix epoch.
 * `PERSIST` -- remove the field's expiration time.
 
-`NX`, `XX`, `GT`, and `LT` can only be specified when `EX`, `PX`, `EXAT`, or `PXAT` is specified.
+`NX`, `XX`, `GT`, and `LT` can only be specified when one of `EX`, `PX`, `EXAT`, or `PXAT` is also specified.
 
 * `NX` -- for each specified field, set the expiration time only when the field has no expiration.
 * `XX` -- for each specified field, set the expiration time only when the field has an existing expiration.
@@ -130,7 +130,14 @@ The `HGETF` command supports a set of options that modify its behavior. Except f
 ## Examples
 
 ```
-To be provided.
+redis> HGETF no-key EX 10 fields 3 field1 field2 field3
+(nil)
+redis> HSET mykey field1 "hello" field2 "world"
+(integer) 2
+redis> HGETF mykey PERSIST fields 3 field1 field2 field3
+1) "Hello"
+2) "World"
+3) (nil)
 ```
 
 ## RESP2/RESP3 replies
@@ -139,7 +146,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec" >}}#simple-errors) when:
     - parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range
     - `key` exists but is not of type hash
-    - `NX`, `XX`, `GT`, or `LT` is specified but `EX`, `PX`, `EXAT`, or `PXAT` is not specified
+    - `NX`, `XX`, `GT`, or `LT` is specified but none of `EX`, `PX`, `EXAT`, or `PXAT` is specified
     - `FIELDS` is not specified
     - `FIELDS` is specified more than once
 * [Null reply]({{< relref "/develop/reference/protocol-spec" >}}#nulls) if the provided key does not exist.

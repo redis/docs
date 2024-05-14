@@ -53,7 +53,7 @@ syntax_fmt: HTTL key numfields field [field ...]
 syntax_str: numfields field [field ...]
 title: HTTL
 ---
-Returns the remaining TTL (time to live) of a hash key's fields that have a set expiration.
+Returns the remaining TTL (time to live) of a hash key's field(s) that have a set expiration.
 This introspection capability allows a Redis client to check how many seconds a
 given hash key field will continue to be part of the hash key.
 
@@ -67,7 +67,17 @@ See also the [`HPTTL`]({{< relref "/commands/hpttl" >}}) command that returns th
 ## Example
 
 ```
-TODO: to be provided.
+redis> HTTL no-key 10 3 field1 field2 field3
+(nil)
+redis> HSET mykey field1 "hello" field2 "world"
+(integer) 2
+redis> HEXPIRE mykey 300 2 field1 field3
+1) (integer) 1
+2) (integer) -2
+redis> HTTL mykey 3 field1 field2 field3
+1) (integer) 283
+2) (integer) -1
+3) (integer) -2
 ```
 
 ## RESP2/RESP3 replies

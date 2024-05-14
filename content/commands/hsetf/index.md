@@ -172,7 +172,17 @@ When none of `EX`, `PX`, `EXAT`, `PXAT`, or `KEEPTTL` are specified, any previou
 ## Examples
 
 ```
-To be provided.
+redis> HSETF mykey FVS 2 field1 "hello" field2 "WORLD"
+1) (integer) 1
+2) (integer) 1
+redis> HSETF mykey GETOLD EX 10 FVS 3 field1 "hello" field2 "world" field3 "yeah"
+1) "hello"
+2) "WORLD"
+3) (nil)
+redis> HSETF mykey DOF FVS 3 field1 "Hello" field2 "World" field4 "Nah"
+1) (integer) 0
+2) (integer) 0
+3) (integer) 1
 ```
 
 ## RESP2/RESP3 replies
@@ -181,7 +191,7 @@ One of the following:
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec" >}}#simple-errors) when:
     - parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range
     - `key` exists but is not of type hash
-    - `NX`, `XX`, `GT`, or `LT` is specified but `EX`, `PX`, `EXAT`, or `PXAT` is not specified
+    - `NX`, `XX`, `GT`, or `LT` is specified but none of `EX`, `PX`, `EXAT`, or `PXAT` is specified
     - `FVS` is not specified
     - `FVS` is specified more than once
 * [Null reply]({{< relref "/develop/reference/protocol-spec" >}}#nulls) if the provided key does not exist and `DC` or `DCF` were not specified.

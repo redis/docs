@@ -64,7 +64,17 @@ The return value in case of error is one of:
 ## Example
 
 ```
-TODO: to be provided.
+redis> HPTTL no-key 10 3 field1 field2 field3
+(nil)
+redis> HSET mykey field1 "hello" field2 "world"
+(integer) 2
+redis> HEXPIRE mykey 300 2 field1 field3
+1) (integer) 1
+2) (integer) -2
+redis> HPTTL mykey 3 field1 field2 field3
+1) (integer) 292202
+2) (integer) -1
+3) (integer) -2
 ```
 
 ## RESP2/RESP3 replies

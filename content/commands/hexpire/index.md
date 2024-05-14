@@ -85,8 +85,7 @@ contents of the hash key fields, including [`HDEL`]({{< relref "/commands/hdel" 
 commands.
 This means that all the operations that conceptually _alter_ the value stored at a hash key's field without replacing it with a new one will leave the TTL untouched.
 
-The TTL can also be cleared, turning the hash key field back into a persistent field,
-using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}) command.
+The TTL can be cleared using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}) command, turning the hash key field back into a persistent field.
 
 Note that calling `HEXPIRE`/[`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) with a non-positive TTL or
 [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}})/[`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) with a time in the past will result in the key field being
@@ -114,7 +113,16 @@ In this case the time to live is _updated_ to the new value.
 ## Example
 
 ```
-TODO: to be provided.
+redis> HEXPIRE no-key 20 NX 2 field1 field2
+(nil)
+redis> HSET mykey field1 "hello" field2 "world"
+(integer 2)
+redis> HEXPIRE mykey 10 3 field1 field2 field3
+1) (integer) 1
+2) (integer) 1
+3) (integer) -2
+redis> HGETALL mykey
+(empty array)
 ```
 
 ## RESP2/RESP3 replies

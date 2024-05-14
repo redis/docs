@@ -78,7 +78,7 @@ syntax_fmt: "HPEXPIRE key milliseconds [NX | XX | GT | LT] numfields field [fiel
 syntax_str: milliseconds [NX | XX | GT | LT] numfields field [field ...]
 title: HPEXPIRE
 ---
-This command works exactly like [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) but the expiration of the key is
+This command works like [`HEXPIRE`]({{< relref "/commands/hexpire" >}}), but the expiration of the key is
 specified in milliseconds instead of seconds.
 
 ## Options
@@ -96,7 +96,13 @@ The `GT`, `LT` and `NX` options are mutually exclusive.
 ## Example
 
 ```
-TODO: to be provided.
+redis> HSET mykey field1 "hello" field2 "world"
+(integer 2)
+redis> HPEXPIRE mykey 2000 2 field1 field2
+1) (integer) 1
+2) (integer) 1
+redis> HGETALL mykey
+(empty array)
 ```
 
 ## RESP2/RESP3 replies
@@ -104,9 +110,9 @@ TODO: to be provided.
 One of the following:",
 * [Array reply](../../develop/reference/protocol-spec#arrays). For each field:
     - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field(s) exist in the provided hash key.
-    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX | XX | GT | LT condition has not been met.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX, XX, GT, or LT condition has not been met.
     - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.
-    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` if the field(s) were deleted because of previously set expiration(s). This reply may also be returned when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past unix-time in seconds/milliseconds.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` if the field(s) were deleted because of previously set expiration(s). This reply may also be returned when `HEXPIRE` or `HPEXPIRE` is called with 0 seconds or milliseconds, or when `HEXPIREAT` or `HPEXPIREAT` is called with a past unix-time in seconds or milliseconds.
 * [Simple error reply](../../develop/reference/protocol-spec#simple-errors):
     - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.
     - if the provided key exists but is not a hash.

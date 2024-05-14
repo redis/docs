@@ -60,7 +60,14 @@ See also the [`HPEXPIRETIME`]({{< relref "/commands/hpexpiretime" >}}) command, 
 ## Examples
 
 ```
-TODO: to be provided.
+redis> HSET mykey field1 "hello" field2 "world"
+(integer) 2
+redis> HEXPIRE mykey 300  2 field1 field2
+1) (integer) 1
+2) (integer) 1
+redis> HEXPIRETIME mykey 2 field1 field2
+1) (integer) 1715705914
+2) (integer) 1715705914
 ```
 
 ## RESP2/RESP3 replies

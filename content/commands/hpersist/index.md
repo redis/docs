@@ -60,7 +60,19 @@ is associated).
 ## Examples
 
 ```
-TODO: to be provided.
+redis> HSET mykey field1 "hello" field2 "world"
+(integer 2)
+redis> HEXPIRE mykey 300 2 field1 field2
+1) (integer) 1
+2) (integer) 1
+redis> HTTL mykey 2 field1 field2
+1) (integer) 283
+2) (integer) 283
+redis> HPERSIST mykey 1 field2
+1) (integer) 1
+redis> HTTL mykey 2 field1 field2
+1) (integer) 268
+2) (integer) -1
 ```
 
 ## RESP2/RESP3 replies
