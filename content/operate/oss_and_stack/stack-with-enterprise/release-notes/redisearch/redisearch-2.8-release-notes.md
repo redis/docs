@@ -32,8 +32,8 @@ Details:
   - [#4513](https://github.com/RediSearch/RediSearch/pull/4513) FT.CURSOR READ in a numeric query causing a crash (MOD-6597)
   - [#4534](https://github.com/RediSearch/RediSearch/pull/4534) FT.PROFILE with incorrect arguments could cause a crash on cluster setup (MOD-6791)
   - [#4530](https://github.com/RediSearch/RediSearch/pull/4530) Some parameter settings using just prefixes instead of full values were working (MOD-6709)
-  - [#4539](https://github.com/RediSearch/RediSearch/pull/4539) Unfree memory while re-indexing loading a new RDB could cause a crash (MOD-6831, 6810)
-  - [#4498](https://github.com/RediSearch/RediSearch/pull/4498) Vector pre-filtered query (hybrid query) that timeout causing a crash due to deadlock when trying to write a new document (MOD-6510, MOD-6244)
+  - [#4539](https://github.com/RediSearch/RediSearch/pull/4539) Unfree memory while re-indexing a new RDB as it's loading could cause a crash (MOD-6831, 6810)
+  - [#4498](https://github.com/RediSearch/RediSearch/pull/4498) Vector pre-filtered query (hybrid query) that times out causing a crash due to deadlock when trying to write a new document (MOD-6510, MOD-6244)
   - [#4495](https://github.com/RediSearch/RediSearch/pull/4495) FT.SEARCH accessing an inexistent memory address causes a crash if using the deprecated FT.ADD command (MOD-6599)
 
 - Improvements:
