@@ -29,28 +29,6 @@ jobs:
           UPDATE_COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/comments"
           FILES_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/files"
 
-          # Get all changed md files
-          COMMENT="Staging links:<br> $(curl -Ls \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-            $FILES_URL \
-              | jq -r --arg prefix $BRANCH_NAME/ '.[] | select(.filename | test("content\/.+\\.md")) | ($prefix + .filename)' \
-              | sed -E -e 's|(^[^/]+/)([^/]+/)|\1|' -e 's|^|https://redis.io/docs/staging/|' -e 's|(_index)?\.md||' \
-              | uniq \
-              | xargs \
-              | sed 's/ /<br>/g')"
-
-          printf '%s %s\n' 'Writing comment: ' "$COMMENT"
-
-          generate_post_data()
-          {
-            cat <<EOF
-          {
-            "body": "$COMMENT"
-          EOF
-          }
-
           # Check if comment already exists
           EXISTING_COMMENT_JSON=$(curl -Ls \
                               -H "Accept: application/vnd.github+json" \
@@ -61,6 +39,49 @@ jobs:
                             )
           EXISTING_COMMENT_ID=$(jq -r '.id' <<<"$EXISTING_COMMENT_JSON")
           EXISTING_COMMENT=$(jq -r '.body' <<<"$EXISTING_COMMENT_JSON")
+
+          # Get all changed md files
+          CHANGED_FILES=$(curl -Ls \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            $FILES_URL \
+              | jq -r --arg prefix $BRANCH_NAME/ '.[] | select(.filename | test("content\/.+\\.md")) | ($prefix + .filename)' \
+              | sed -E -e 's|(^[^/]+/)([^/]+/)|\1|' -e 's|^|https://redis.io/docs/staging/|' -e 's|(_index)?\.md||' \
+              | uniq \
+              | xargs \
+              | sed 's/ /<br>/g')
+
+          if [[ -z "$CHANGED_FILES" ]]
+          then
+            if [[ -z "$EXISTING_COMMENT_ID" ]]
+            then
+              printf '%s\n' 'Nothing to do!'
+              exit 0
+            else
+              # If a comment already exists but there are no changed files in the PR anymore, delete the comment
+              curl -Ls \
+                -X DELETE \
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                -H "Authorization: token ${GITHUB_TOKEN}" \
+                "${UPDATE_COMMENT_URL}/${EXISTING_COMMENT_ID}"
+              printf '%s\n' 'Comment deleted!'
+              exit 0
+            fi
+          fi
+
+          COMMENT="Staging links:<br> $CHANGED_FILES"
+
+          printf '%s %s\n' 'Writing comment: ' "$COMMENT"
+
+          generate_post_data()
+          {
+            cat <<EOF
+          {
+            "body": "$COMMENT"
+          EOF
+          }
 
           if [[ -n "$EXISTING_COMMENT_ID" ]]
           then
