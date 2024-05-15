@@ -50,7 +50,7 @@
             <ul class="p-6">
               <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a></li>
               <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/integrate'>Libraries and tools</a></li>
-              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/operate'>Cloud, Enterprise, and Insight</a></li>
+              <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/operate'>Redis Products</a></li>
               <li><a class="py-2 hover:underline hover:text-redis-pen-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a></li>
               <li><a class="py-2 hover:underline hover:text-redis-pen-600">APIs</a></li>
             </ul>
@@ -62,7 +62,7 @@
           <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
             <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a>
             <a class="px-6 py-4 hover:bg-redis-pen-200 border-y border-redis-ink-900 border-opacity-50" href='{{ .Scratch.Get "path" }}/integrate'>Libraries and tools</a>
-            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/operate'>Cloud, Enterprise, and Insight</a>
+            <a class="px-6 py-4 rounded-b-md hover:bg-redis-pen-200" href='{{ .Scratch.Get "path" }}/operate'>Redis Products</a>
           </div>
           <div class="flex flex-col border border-redis-ink-900 border-opacity-50 rounded-md">
             <a class="px-6 py-4 rounded-t-md hover:bg-redis-pen-200 text-redis-red-600" href='{{ .Scratch.Get "path" }}/commands'>Commands</a>
@@ -72,7 +72,7 @@
       </nav>
     </div>
     <div class="lg:px-11 w-full flex flex-col gap-24">
-      <h1 class="text-5xl font-medium" id="operate">Learn</h1>
+      <h2 class="text-5xl font-medium" id="operate">Learn</h2>
         {{ partial "docs-section.html" (dict
           "Title" "Develop with Redis"
           "Description" "Learn how to use the Redis in-memory data store."
@@ -85,8 +85,8 @@
             )
           ) }}
         {{ partial "docs-section.html" (dict
-          "Title" "Integrate"
-          "Description" "Read about frameworks and integrations available for Redis."
+          "Title" "Libraries and tools"
+          "Description" "Learn about libraries and tools available for Redis."
           "ButtonLink" "./integrate"
           "ButtonLabel" "Browse integrations"
           "LinksLeftTitle" "Featured libraries"
@@ -98,28 +98,40 @@
           )
         ) }}
         {{ partial "docs-section.html" (dict
-          "Title" "Operate"
-          "Description" "Read about how to install, administer, and monitor Redis OSS, Redis Stack, Redis Enterprise, and Redis Cloud."
-          "ButtonLink" "./operate"
-          "ButtonLabel" "Read more"
-          "LinksLeftTitle" "Featured content"
+          "Title" "Redis Data Integration"
+          "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
+          "ButtonLink" "./integrate/redis-data-integration"
+          "ButtonLabel" "Learn more"
+          "LinksLeftTitle" "LEARN MORE ABOUT"
           "LinksLeft" (slice
-              (dict "Text" "Upgrade database from Essentials to Pro" "URL" "./operate/rc/subscriptions/upgrade-essentials-pro/")
-              (dict "Text" "Redis Cloud REST API" "URL" "./operate/rc/api/")
-              (dict "Text" "Prometheus and Grafana with Redis Cloud" "URL" "./integrate/prometheus-with-redis-cloud/")
-              )
+            (dict "Text" "Quick start" "URL" "./integrate/redis-data-integration/quickstart/")
+            (dict "Text" "Architecture" "URL" "./integrate/redis-data-integration/architecture/")
+            (dict "Text" "Install" "URL" "./integrate/redis-data-integration/installation/")
+            (dict "Text" "Reference" "URL" "./integrate/redis-data-integration/reference/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
+          "Title" "Redis Insight"
+          "Description" "Redis Insight is a cross-platform GUI for Redis, with focus on reducing memory usage and improving application performance."
+          "ButtonLink" "./develop/connect/insight/"
+          "ButtonLabel" "Learn more"
+          "LinksLeftTitle" "Learn more about"
+          "LinksLeft" (slice
+            (dict "Text" "Install" "URL" "./operate/redisinsight/install/")
+            (dict "Text" "User guide" "URL" "./develop/connect/insight/")
+            (dict "Text" "Manage Streams in Redis Insight" "URL" "./develop/connect/insight/tutorials/insight-stream-consumer/")
+          )
         ) }}
       </div>
       <div class="lg:px-11 w-full flex flex-col gap-24">
-        <h1 class="text-5xl font-medium" id="operate">Explore products</h1>
+        <h2 class="text-5xl font-medium" id="operate">Explore products</h2>
         {{ partial "docs-section.html" (dict
-          "Title" "Redis OSS and Stack"
+          "Title" "Redis and Stack"
           "Description" "Redis Stack extends Redis with modern data models and processing engines to provide a complete developer experience."
           "ButtonLink" "./operate/oss_and_stack/"
           "ButtonLabel" "Read more"
           "LinksLeftTitle" "Learn more about"
           "LinksLeft" (slice
-            (dict "Text" "Quick start" "URL" "./develop/get-started/")
             (dict "Text" "Install" "URL" "./operate/oss_and_stack/install/install-stack/")
             (dict "Text" "Search and query" "URL" "./develop/interact/search-and-query/")
             (dict "Text" "JSON" "URL" "./develop/data-types/json/")
@@ -160,31 +172,6 @@
             (dict "Text" "Deployments" "URL" "./operate/kubernetes/deployment/")
             (dict "Text" "Clusters" "URL" "./operate/kubernetes/re-clusters/")
             (dict "Text" "Databases" "URL" "./operate/kubernetes/re-databases/")
-          )
-        ) }}
-        {{ partial "docs-section.html" (dict
-          "Title" "Redis Data Integration"
-          "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
-          "ButtonLink" "./integrate/redis-data-integration"
-          "ButtonLabel" "Read more"
-          "LinksLeftTitle" "LEARN MORE ABOUT"
-          "LinksLeft" (slice
-            (dict "Text" "Quick start" "URL" "./integrate/redis-data-integration/quickstart/")
-            (dict "Text" "Architecture" "URL" "./integrate/redis-data-integration/architecture/")
-            (dict "Text" "Install" "URL" "./integrate/redis-data-integration/installation/")
-            (dict "Text" "Reference" "URL" "./integrate/redis-data-integration/reference/")
-          )
-        ) }}
-        {{ partial "docs-section.html" (dict
-          "Title" "Redis Insight"
-          "Description" "Redis Insight is a cross-platform GUI for Redis, with focus on reducing memory usage and improving application performance."
-          "ButtonLink" "./develop/connect/insight/"
-          "ButtonLabel" "Read more"
-          "LinksLeftTitle" "Learn more about"
-          "LinksLeft" (slice
-            (dict "Text" "Install" "URL" "./operate/redisinsight/install/")
-            (dict "Text" "User guide" "URL" "./develop/connect/insight/")
-            (dict "Text" "Manage Streams in Redis Insight" "URL" "./develop/connect/insight/tutorials/insight-stream-consumer/")
           )
         ) }}
       </div>
