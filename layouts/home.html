@@ -16,9 +16,6 @@
 <main>
   <header class="relative h-96 bg-redis-ink-900 text-white overflow-hidden">
     <div class="absolute w-1/2 h-full top-0 left-1/4">
-      <div class="absolute w-fit -top-10 md:-top-6 -right-80 md:-left-96 scale-75 md:scale-100">
-        {{ partial "icons/redis-cube.html" }}
-      </div>
     </div>
     <div class="relative max-w-[800px] mx-auto px-5 flex flex-col gap-8 md:items-center justify-center h-full z-10">
       <h1 class="text-5xl font-medium">{{ .Title }}</h1>
@@ -72,7 +69,7 @@
       </nav>
     </div>
     <div class="lg:px-11 w-full flex flex-col gap-24">
-      <h1 class="text-5xl font-medium" id="operate">Learn how to</h1>
+      <h1 class="text-5xl font-medium" id="operate">Learn</h1>
         {{ partial "docs-section.html" (dict
           "Title" "Develop with Redis"
           "Description" "Learn how to use the Redis in-memory data store."
@@ -111,7 +108,7 @@
         ) }}
       </div>
       <div class="lg:px-11 w-full flex flex-col gap-24">
-        <h1 class="text-5xl font-medium" id="operate">Explore by product</h1>
+        <h1 class="text-5xl font-medium" id="operate">Explore products</h1>
         {{ partial "docs-section.html" (dict
           "Title" "Redis OSS and Stack"
           "Description" "Redis Stack extends Redis with modern data models and processing engines to provide a complete developer experience."
