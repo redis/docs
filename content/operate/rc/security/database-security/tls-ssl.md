@@ -12,7 +12,11 @@ weight: 20
 
 Transport Layer Security (TLS) uses encryption to secure [network communications](https://en.wikipedia.org/wiki/Transport_Layer_Security).  
 
-Redis Cloud Essentials and Redis Cloud Pro plans can use TLS to encrypt data communications between applications and Redis databases.
+Paid Redis Cloud Essentials plans and Redis Cloud Pro plans can use TLS to encrypt data communications between applications and Redis databases.
+
+{{<note>}}
+TLS is not available for Free Redis Cloud Essentials plans.
+{{</note>}}
 
 ## Use TLS with Redis Cloud
 
