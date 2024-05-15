@@ -47,7 +47,7 @@ jobs:
             -H "Authorization: Bearer ${GITHUB_TOKEN}" \
             $FILES_URL \
               | jq -r --arg prefix $BRANCH_NAME/ '.[] | select(.filename | test("content\/.+\\.md")) | ($prefix + .filename)' \
-              | sed -E -e 's|(^[^/]+/)([^/]+/)|\1|' -e 's|^|https://redis.io/docs/staging/|' -e 's|(_index)?\.md||' \
+              | sed -E -e 's|(^[^/]+/)([^/]+/)|\1|' -e 's|^|https://redis.io/docs/staging/|' -e 's|(_?index)?\.md||' \
               | uniq \
               | xargs \
               | sed 's/ /<br>/g')
