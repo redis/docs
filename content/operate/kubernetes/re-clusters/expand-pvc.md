@@ -96,4 +96,8 @@ If an error occurs during this process:
   kubectl get events
   ```
 
-- Examine the [logs]({{<relref "/operate/kubernetes/logs/collect-logs">}}) of the operator pods.
+- Examine the logs of the operator pods.
+
+  ```sh
+  kubectl logs <operator_pod_name>
+  ```
