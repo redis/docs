@@ -4,7 +4,7 @@ categories:
 - operate
 - redisinsight
 linkTitle: Proxy settings
-title: Redis Insight Proxy
+title: Redis Insight proxy
 weight: 7
 ---
 ## Subpath proxy
@@ -16,13 +16,13 @@ Subpath proxy is available only on the Docker version.
 You can enable the subpath proxy by setting the `RI_PROXY_PATH` environment variable.
 
 
-When `RI_PROXY_PATH` is being set with a path, RedisInsight is
+When `RI_PROXY_PATH` is being set with a path, Redis Insight is
 accessible only on that subpath. The default routes are given the
 provided prefix subpath. There isn’t any way to add another proxy behind
 this one unless the same subpath is used for the new one.
 
 {{<note>}}
-Once we set the static subpath environment variable, RedisInsight is only reachable on the provided subpath. The default endpoint won't work.
+Once you set the static subpath environment variable, Redis Insight is only reachable on the provided subpath. The default endpoint won't work.
 {{</note>}}
 
 
