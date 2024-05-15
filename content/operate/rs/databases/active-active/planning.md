@@ -25,7 +25,7 @@ You need at least [two participating clusters]({{< relref "/operate/rs/clusters/
 You cannot add RAM-only clusters and [flash-enabled clusters]({{< relref "/operate/rs/databases/auto-tiering" >}}) to the same Active-Active configuration.
 {{</note>}}
 
-Changes made from the admin console to an Active-Active database configuration only apply to the cluster you are editing. For global configuration changes across all clusters, use the `crdb-cli` command-line utility.
+Changes made from the Cluster Manager UI to an Active-Active database configuration only apply to the cluster you are editing. For global configuration changes across all clusters, use the `crdb-cli` command-line utility.
 
 ## Memory limits
 
@@ -60,7 +60,7 @@ Networking between the clusters must be configured before creating an Active-Act
 
 ### Network ports
 
-Every node must have access to the REST API ports of every other node as well as other ports for proxies, VPNs, and the admin console. See [Network port configurations]({{< relref "/operate/rs/networking/port-configurations.md" >}}) for more details. These ports should be allowed through firewalls that may be positioned between the clusters.
+Every node must have access to the REST API ports of every other node as well as other ports for proxies, VPNs, and the Cluster Manager UI. See [Network port configurations]({{< relref "/operate/rs/networking/port-configurations.md" >}}) for more details. These ports should be allowed through firewalls that may be positioned between the clusters.
 
 ### Network Time Service {#network-time-service}
 
@@ -82,6 +82,6 @@ Active-Active databases have the following limitations:
 
 - An existing database can't be changed into an Active-Active database. To move data from an existing database to an Active-Active database, you must [create a new Active-Active database]({{< relref "/operate/rs/databases/active-active/create.md" >}}) and [migrate the data]({{< relref "/operate/rs/databases/import-export/migrate-to-active-active.md" >}}).
 - [Discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) is not supported with Active-Active databases. Active-Active databases require FQDNs or [mDNS]({{< relref "/operate/rs/networking/mdns.md" >}}).
-- The `FLUSH` command is not supported from the CLI. To flush your database, use the API or admin console.
+- The `FLUSH` command is not supported from the CLI. To flush your database, use the API or Cluster Manager UI.
 - Cross slot multi commands (such as `MSET`) are not supported with Active-Active databases.
 - The hashing policy can't be changed after database creation.

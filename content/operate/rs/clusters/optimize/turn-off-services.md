@@ -36,7 +36,7 @@ To turn off a service with the API, use the [`PUT /v1/services_configuration`]({
 with the name of the service and the operating mode (enabled/disabled) in JSON format.
 
 For example:
-- To turn off the Redis Enterprise admin console, use this PUT request:
+- To turn off the Redis Enterprise Cluster Manager UI, use this PUT request:
 
     ```sh
     PUT https://[host][:9443]/v1/cluster/services_configuration

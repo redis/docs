@@ -14,7 +14,7 @@ weight: 40
 To delete the data in a database without deleting the database configuration,
 you can flush the data from the database.
 
-You can use the admin console to flush data from Active-Active databases.
+You can use the Cluster Manager UI to flush data from Active-Active databases.
 
 {{< warning title="Data Loss Warning" >}}
 The flush command deletes ALL in-memory and persistence data in the database.
@@ -48,7 +48,7 @@ When you flush an Active-Active database (formerly known as CRDB), all of the re
 
 To flush data from an Active-Active database:
 
-- admin console
+- Cluster Manager UI
 
     1. If you are using the new Cluster Manager UI, switch to the legacy admin console.
 

@@ -69,7 +69,7 @@ To skip the installation questions, use one of the following methods:
 - Create an [answer file]({{< relref "/operate/rs/installing-upgrading/install/manage-installation-questions#configure-file-to-answer" >}}) to answer installation questions automatically.
     {{< /note >}}
 
-1. When installation completes successfully, the output displays the admin console's IP address:
+1. When installation completes successfully, the output displays the Cluster Manager UI's IP address:
 
     ```sh
     Summary:

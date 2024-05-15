@@ -47,9 +47,9 @@ After you add a cluster key, you cannot remove the key to return the cluster to 
 
 You can update the cluster license key:
 
-- During cluster setup using the admin console or CLI
+- During cluster setup using the Cluster Manager UI or CLI
 
-- After cluster setup using the admin console:
+- After cluster setup using the Cluster Manager UI:
 
     1. Go to **Cluster > Configuration > General > License**.
     
@@ -81,7 +81,7 @@ When the license is expired:
 
 - You can do these actions:
 
-    - Sign in to the admin console and view settings and metrics at all resolutions for the cluster, nodes, and databases.
+    - Sign in to the Cluster Manager UI and view settings and metrics at all resolutions for the cluster, nodes, and databases.
 
     - Change cluster settings, including the license key, security for administrators, and cluster alerts.
 

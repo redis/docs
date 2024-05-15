@@ -46,7 +46,7 @@ where:
     | Value | Description |
     |-------|-------------|
     | `api` | The REST API |
-    | `cm` | The admin console |
+    | `cm` | The Cluster Manager UI |
     | `metrics` | The metrics exporter |
     | `proxy` | The database endpoint |
     | `syncer` | The synchronization process |
@@ -63,7 +63,7 @@ $ sudo -u redislabs /opt/redislabs/utils/generate_self_signed_certs.sh \
     -f "mycluster.example.com"`
 ```
 
-Suppose you want to create an admin console certificate to support two clusters for a period of two years.  The following example shows how:
+Suppose you want to create a Cluster Manager UI certificate to support two clusters for a period of two years.  The following example shows how:
 
 ``` bash
 $ sudo -u redislabs /opt/redislabs/utils/generate_self_signed_certs.sh \
@@ -111,7 +111,7 @@ The following values are supported for the _\<CertName>_ parameter:
 | Value | Description |
 |-------|-------------|
 | `api` | The REST API |
-| `cm` | The admin console |
+| `cm` | The Cluster Manager UI |
 | `metrics_exporter` | The metrics exporter |
 | `proxy` | The database endpoint |
 | `syncer` | The synchronization process |

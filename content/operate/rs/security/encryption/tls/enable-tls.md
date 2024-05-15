@@ -69,7 +69,7 @@ To enable mutual TLS for client connections:
 
         {{<image filename="images/rs/screenshots/databases/security-mtls-add-cert-validation-multi-ou.png" width="350px" alt="An example that shows adding a certificate validation with multiple organizational units.">}}
 
-        **Breaking change:** If you use the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) instead of the admin console to configure additional certificate validations, note that `authorized_names` is deprecated as of Redis Enterprise v6.4.2. Use `authorized_subjects` instead. See the [BDB object reference]({{< relref "/operate/rs/references/rest-api/objects/bdb" >}}) for more details.
+        **Breaking change:** If you use the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) instead of the Cluster Manager UI to configure additional certificate validations, note that `authorized_names` is deprecated as of Redis Enterprise v6.4.2. Use `authorized_subjects` instead. See the [BDB object reference]({{< relref "/operate/rs/references/rest-api/objects/bdb" >}}) for more details.
 
 1. Select **Save**.
 
@@ -86,7 +86,7 @@ rladmin tune db < db:id | name > mtls_allow_outdated_certs enabled
 
 To enable TLS for Active-Active cluster connections:
 
-1. If you are using the new admin console, switch to the legacy admin console.
+1. If you are using the new Cluster Manager UI, switch to the legacy admin console.
 
     {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
 
