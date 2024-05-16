@@ -12,7 +12,7 @@ categories:
 description: Connect your Node.js application to a Redis database
 linkTitle: Node.js
 title: Node.js guide
-weight: 4
+weight: 3
 ---
 
 Install Redis and the Redis client, then connect your Node.js application to a Redis database. 
