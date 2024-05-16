@@ -66,13 +66,13 @@ Leverage **[Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/" >
 
 To learn more, refer to the [Redis products]({{< relref "/operate/" >}}) documentation.
 
-## Provisioning and observability integrations 
+## Provisioning and observability tools 
 
 - [Pulumi provider for Redis Cloud]({{< relref "/integrate/pulumi-provider-for-redis-cloud/" >}})
 - [Terraform provider for Redis Cloud]({{< relref "/integrate/terraform-provider-for-redis-cloud/" >}})
 - [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud" >}})
 - [Prometheus and Grafana with Redis Enterprise]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}})
 
-You can find a complete list of integrations on the [integrations and frameworks hub]({{< relref "/integrate/" >}}).
+You can find a complete list of integrations on the [libraries and tools hub]({{< relref "/integrate/" >}}).
 
 
