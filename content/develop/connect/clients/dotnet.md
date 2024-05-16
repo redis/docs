@@ -12,7 +12,7 @@ categories:
 description: Connect your .NET application to a Redis database
 linkTitle: C#/.NET
 title: C#/.NET guide
-weight: 1
+weight: 2
 ---
 
 Install Redis and the Redis client, then connect your .NET application to a Redis database. 
