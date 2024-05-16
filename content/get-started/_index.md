@@ -1,15 +1,22 @@
 ---
-description: Learn how to get started with Redis
+description: Get started with source available Redis
 hideListLinks: true
 linkTitle: Get started
 title: Get started
 type: develop
 ---
-Redis is an [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) used by millions of developers as a cache, [vector database]({{< relref "/develop/get-started/vector-database" >}}), [document database]({{< relref "/develop/get-started/document-database" >}}), [streaming engine]({{< relref "/develop/data-types/streams" >}}), and message broker. Redis has built-in replication and different levels of [on-disk persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It supports complex [data types]({{< relref "/develop/data-types/" >}}) (e.g., strings, hashes, lists, sets, sorted sets, and JSON), with atomic operations defined on those data types.
+Redis is a source available [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) used by millions of developers as a cache, [vector database]({{< relref "/develop/get-started/vector-database" >}}), [document database]({{< relref "/develop/get-started/document-database" >}}), [streaming engine]({{< relref "/develop/data-types/streams" >}}), and message broker. Redis has built-in replication and different levels of [on-disk persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It supports complex [data types]({{< relref "/develop/data-types/" >}}) (for example, strings, hashes, lists, sets, sorted sets, and JSON), with atomic operations defined on those data types.
 
-This document describes how to get started with Redis based on your role as a developer or operator. 
+You can install Redis from source, from an executable for your OS, or bundled with Redis Stack and Redis Insight which include popular features and monitoring.
 
-## Developer
+* [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}})
+* [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
+* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os" >}})
+* [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-windows" >}})
+* [Install Redis with Redis Stack and Redis Insight]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
+* [Run Redis Stack on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}})
+
+## Use cases
 
 The following quick start guides will show you how to use Redis for the following specific purposes:
 
@@ -17,7 +24,7 @@ The following quick start guides will show you how to use Redis for the followin
 - [Document database]({{< relref "/develop/get-started/document-database" >}})
 - [Vector database]({{< relref "/develop/get-started/vector-database" >}})
 
-As a developer, you might also be interested in data integration, libraries, and frameworks:
+## Data integration tools, libraries, and frameworks
 
 - [Redis Data Integration]({{< relref "/integrate/redis-data-integration/" >}})
 - [Redis vector library for Python]({{< relref "/integrate/redisvl/" >}})
@@ -27,17 +34,15 @@ As a developer, you might also be interested in data integration, libraries, and
 
 You can find a complete list of integrations on the [integrations and frameworks hub]({{< relref "/integrate/" >}}).
 
-Want to learn more? Learn how to [develop]({{< relref "/develop/" >}}) applications with Redis.
+Want to learn more? Learn how to [develop with Redis]({{< relref "/develop/" >}}).
 
+## Deployment options
 
-## Operator 
+You can deploy Redis with the following methods:
 
-You can deploy Redis ...
-
-- as a service by using [Redis Cloud]({{< relref "/operate/rc/" >}}), the fastest way to deploy Redis on your preferred cloud platform.
-- by installing [Redis Enterprise Software]({{< relref "/operate/rs/" >}}) in an on-premises data center or on Cloud infrastructure.
-- on a variety Kubernetes distributions by using the [Redis Enterprise operator for Kubernetes]({{< relref "/operate/kubernetes/" >}}).
-- by installing [Redis OSS/Stack]({{< relref "/operate/oss_and_stack/" >}}).
+- As a service by using [Redis Cloud]({{< relref "/operate/rc/" >}}), the fastest way to deploy Redis on your preferred cloud platform.
+- By installing [Redis Enterprise Software]({{< relref "/operate/rs/" >}}) in an on-premises data center or on Cloud infrastructure.
+- On a variety Kubernetes distributions by using the [Redis Enterprise operator for Kubernetes]({{< relref "/operate/kubernetes/" >}}).
 
 The following guides will help you to get started with your preferred deployment method.
 
@@ -59,13 +64,8 @@ Leverage **[Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/" >
 - [Deploy Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start" >}})
 - [Deploy Redis Enterprise for Kubernetes with OpenShift]({{< relref "/operate/kubernetes/deployment/openshift/" >}})
 
-Run **[Redis OSS and Stack]({{< relref "/operate/oss_and_stack/" >}})** on your local machine:
 
-- [Run Redis Stack on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}})
-- [Install Redis Stack on Linux]({{< relref "/operate/oss_and_stack/install/install-stack/linux" >}})
-- [Install Redis OSS on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
-
-As an operator, you might also be interested in the following provisioning and observability integrations: 
+## Provisioning and observability integrations 
 
 - [Pulumi provider for Redis Cloud]({{< relref "/integrate/pulumi-provider-for-redis-cloud/" >}})
 - [Terraform provider for Redis Cloud]({{< relref "/integrate/terraform-provider-for-redis-cloud/" >}})
@@ -74,4 +74,4 @@ As an operator, you might also be interested in the following provisioning and o
 
 You can find a complete list of integrations on the [integrations and frameworks hub]({{< relref "/integrate/" >}}).
 
-Want to learn more? Learn how to [operate]({{< relref "/operate/" >}}) your Redis deployment.
+Want to learn more? Refer to the [Redis products]({{< relref "/operate/" >}}) documentation.
