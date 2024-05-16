@@ -46,7 +46,7 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -H "Authorization: Bearer ${GITHUB_TOKEN}" \
             $FILES_URL \
-              | jq -r --arg prefix $BRANCH_NAME/ '.[] | select(.filename | test("content\/.+\\.md")) | ($prefix + .filename)' \
+              | jq -r --arg prefix $BRANCH_NAME/ '.[] | select(((.filename | test("content\/.+\\.md")) and .status != "removed")) | ($prefix + .filename)' \
               | sed -E -e 's|(^[^/]+/)([^/]+/)|\1|' -e 's|^|https://redis.io/docs/staging/|' -e 's|(_?index)?\.md||' \
               | uniq \
               | xargs \
