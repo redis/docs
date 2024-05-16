@@ -1,8 +1,8 @@
 ---
 description: Get started with source available Redis
 hideListLinks: true
-linkTitle: Get started
-title: Get started
+linkTitle: Source available
+title: Source available
 type: develop
 ---
 Redis is a source available [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) used by millions of developers as a cache, [vector database]({{< relref "/develop/get-started/vector-database" >}}), [document database]({{< relref "/develop/get-started/document-database" >}}), [streaming engine]({{< relref "/develop/data-types/streams" >}}), and message broker. Redis has built-in replication and different levels of [on-disk persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It supports complex [data types]({{< relref "/develop/data-types/" >}}) (for example, strings, hashes, lists, sets, sorted sets, and JSON), with atomic operations defined on those data types.
@@ -34,7 +34,7 @@ The following quick start guides will show you how to use Redis for the followin
 
 You can find a complete list of integrations on the [integrations and frameworks hub]({{< relref "/integrate/" >}}).
 
-Want to learn more? Learn how to [develop with Redis]({{< relref "/develop/" >}}).
+To learn more, refer to the [develop with Redis]({{< relref "/develop/" >}}) documentation.
 
 ## Deployment options
 
@@ -64,6 +64,7 @@ Leverage **[Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/" >
 - [Deploy Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start" >}})
 - [Deploy Redis Enterprise for Kubernetes with OpenShift]({{< relref "/operate/kubernetes/deployment/openshift/" >}})
 
+To learn more, refer to the [Redis products]({{< relref "/operate/" >}}) documentation.
 
 ## Provisioning and observability integrations 
 
@@ -74,4 +75,4 @@ Leverage **[Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/" >
 
 You can find a complete list of integrations on the [integrations and frameworks hub]({{< relref "/integrate/" >}}).
 
-Want to learn more? Refer to the [Redis products]({{< relref "/operate/" >}}) documentation.
+
