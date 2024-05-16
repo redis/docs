@@ -23,16 +23,16 @@
       </section>
       <form id="integration-filter" class="text-center flex flex-col sm:grid grid-cols-2 gap-4 mt-6 mb-8">
         <label class="relative flex items-center">
-          <span class="sr-only">Search integrations&hellip;</span>
+          <span class="sr-only">Search libraries and tools&hellip;</span>
           <svg class="text-redis-ink-900 absolute left-4 w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <circle cx="10" cy="10" r="7" />
             <line x1="21" y1="21" x2="15" y2="15" />
           </svg>
-          <input class="transition appearance-none block w-full pl-12 pr-4 py-3 rounded-md bg-clip-padding bg-white hover:bg-red-50/50 focus:bg-red-50/50 border border-redis-ink-900 ring-red-200 focus:ring-red-200 focus:ring-[3px] focus:outline-none text-redis-ink-900 placeholder:text-redis-ink-900/70" id="name-filter" type="search" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="Search integrations&hellip;" spellcheck="false">
+          <input class="transition appearance-none block w-full pl-12 pr-4 py-3 rounded-md bg-clip-padding bg-white hover:bg-red-50/50 focus:bg-red-50/50 border border-redis-ink-900 ring-red-200 focus:ring-red-200 focus:ring-[3px] focus:outline-none text-redis-ink-900 placeholder:text-redis-ink-900/70" id="name-filter" type="search" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="Search libraries and tools&hellip;" spellcheck="false">
         </label>
         <select id="group-filter" class="cursor-pointer transition appearance-none block w-full pl-4 pr-12 py-3 rounded-md bg-clip-padding bg-white hover:bg-red-50/50 focus:bg-red-50/50 border border-redis-ink-900  ring-red-200 focus:ring-red-200 focus:ring-[3px] focus:outline-none text-redis-ink-900/70">
-          <option value>Filter by integration&hellip;</option>
+          <option value>Filter by type&hellip;</option>
           <optgroup label="Development">
             <option value="library" data-kind="dev">Library</option>
             <option value="framework" data-kind="dev">Framework</option>
