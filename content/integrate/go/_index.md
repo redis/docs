@@ -13,7 +13,7 @@ stack: true
 summary: node-redis is a Go client library for Redis.
 title: go-redis
 type: integration
-weight: 1
+weight: 2
 ---
 
 Connect your Go application to a Redis database using the go-redis client library. 
