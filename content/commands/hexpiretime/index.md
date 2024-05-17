@@ -49,8 +49,8 @@ key_specs:
 linkTitle: HEXPIRETIME
 since: 8.0.0
 summary: Returns the expiration time of a hash field as a Unix timestamp, in seconds.
-syntax_fmt: HEXPIRETIME key numfields field [field ...]
-syntax_str: numfields field [field ...]
+syntax_fmt: HEXPIRETIME key FIELDS numfields field [field ...]
+syntax_str: FIELDS numfields field [field ...]
 title: HEXPIRETIME
 ---
 Returns the absolute Unix timestamp in seconds since Unix epoch at which the given key's field(s) will expire.
@@ -62,10 +62,10 @@ See also the [`HPEXPIRETIME`]({{< relref "/commands/hpexpiretime" >}}) command, 
 ```
 redis> HSET mykey field1 "hello" field2 "world"
 (integer) 2
-redis> HEXPIRE mykey 300  2 field1 field2
+redis> HEXPIRE mykey 300  FIELDS 2 field1 field2
 1) (integer) 1
 2) (integer) 1
-redis> HEXPIRETIME mykey 2 field1 field2
+redis> HEXPIRETIME mykey FIELDS 2 field1 field2
 1) (integer) 1715705914
 2) (integer) 1715705914
 ```

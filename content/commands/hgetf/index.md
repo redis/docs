@@ -98,10 +98,10 @@ linkTitle: HGETF
 since: 8.0.0
 summary: For each specified field, get its value and optionally set the field's remaining time to live or UNIX expiration timestamp in seconds or milliseconds
 syntax_fmt: "HGETF key [NX | XX | GT | LT] [EX\_seconds | PX\_milliseconds |\n  EXAT\_\
-  unix-time-seconds | PXAT\_unix-time-milliseconds | PERSIST]\n  fields count field\
+  unix-time-seconds | PXAT\_unix-time-milliseconds | PERSIST]\n  FIELDS count field\
   \ [field ...]"
 syntax_str: "[NX | XX | GT | LT] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
-  \ | PXAT\_unix-time-milliseconds | PERSIST] fields count field [field ...]"
+  \ | PXAT\_unix-time-milliseconds | PERSIST] FIELDS count field [field ...]"
 title: HGETF
 ---
 For each specified field, get its value and, optionally, set the its remaining TTL (time to live) or its UNIX expiration timestamp in seconds or milliseconds since Unix epoch.
@@ -130,11 +130,11 @@ The `HGETF` command supports a set of options that modify its behavior. Except f
 ## Examples
 
 ```
-redis> HGETF no-key EX 10 fields 3 field1 field2 field3
+redis> HGETF no-key EX 10 FIELDS 3 field1 field2 field3
 (nil)
 redis> HSET mykey field1 "hello" field2 "world"
 (integer) 2
-redis> HGETF mykey PERSIST fields 3 field1 field2 field3
+redis> HGETF mykey PERSIST FIELDS 3 field1 field2 field3
 1) "Hello"
 2) "World"
 3) (nil)

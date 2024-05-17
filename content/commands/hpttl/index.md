@@ -49,11 +49,11 @@ key_specs:
 linkTitle: HPTTL
 since: 8.0.0
 summary: Returns the TTL in milliseconds of a hash field.
-syntax_fmt: HPTTL key numfields field [field ...]
-syntax_str: numfields field [field ...]
+syntax_fmt: HPTTL key FIELDS numfields field [field ...]
+syntax_str: FIELDS numfields field [field ...]
 title: HPTTL
 ---
-Like [`HTTL`]({{< relref "/commands/httl" >}}) this command returns the remaining TTL (time to live) of a key that has an
+Like [`HTTL`]({{< relref "/commands/httl" >}}) this command returns the remaining TTL (time to live) of a field that has an
 expiration set, but in milliseconds instead of seconds.
 
 The return value in case of error is one of:
@@ -64,14 +64,14 @@ The return value in case of error is one of:
 ## Example
 
 ```
-redis> HPTTL no-key 10 3 field1 field2 field3
+redis> HPTTL no-key 10 FIELDS 3 field1 field2 field3
 (nil)
 redis> HSET mykey field1 "hello" field2 "world"
 (integer) 2
-redis> HEXPIRE mykey 300 2 field1 field3
+redis> HEXPIRE mykey 300 FIELDS 2 field1 field3
 1) (integer) 1
 2) (integer) -2
-redis> HPTTL mykey 3 field1 field2 field3
+redis> HPTTL mykey FIELDS 3 field1 field2 field3
 1) (integer) 292202
 2) (integer) -1
 3) (integer) -2

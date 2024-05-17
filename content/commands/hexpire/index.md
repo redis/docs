@@ -73,8 +73,8 @@ key_specs:
 linkTitle: HEXPIRE
 since: 8.0.0
 summary: Set expiration for hash fields using relative time to expire (seconds)
-syntax_fmt: HEXPIRE key seconds [NX | XX | GT | LT] numfields field [field ...]
-syntax_str: seconds [NX | XX | GT | LT] numfields field [field ...]
+syntax_fmt: "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS numfields\n\ \ field [field ...]"
+syntax_str: seconds [NX | XX | GT | LT] FIELDS numfields field [field ...]
 title: HEXPIRE
 ---
 Set an expiration (TTL or time to live) on one or more fields of a given hash key. At least one field must be specified.
@@ -87,10 +87,8 @@ This means that all the operations that conceptually _alter_ the value stored at
 
 The TTL can be cleared using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}) command, turning the hash key field back into a persistent field.
 
-Note that calling `HEXPIRE`/[`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) with a non-positive TTL or
-[`HEXPIREAT`]({{< relref "/commands/hexpireat" >}})/[`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) with a time in the past will result in the key field being
-[deleted]({{< relref "/commands/hdel" >}}) rather than expired (accordingly, the emitted [key event]({{< relref "/develop/use/keyspace-notifications" >}})
-will be `del`, not `expired`).
+Note that calling `HEXPIRE`/[`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) with a zero TTL or
+[`HEXPIREAT`]({{< relref "/commands/hexpireat" >}})/[`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) with a time in the past will result in the key field being deleted.
 
 ## Options
 
@@ -102,22 +100,22 @@ The `HEXPIRE` command supports a set of options:
 * `LT` -- For each specified field, set expiration only when the new expiration is less than current one.
 
 A non-volatile field is treated as an infinite TTL for the purpose of `GT` and `LT`.
-The `GT`, `LT` and `NX` options are mutually exclusive.
+The `NX`, `XX`, `GT`, and `LT` options are mutually exclusive.
 
 ## Refreshing expires
 
-It is possible to call `HEXPIRE` using as argument a key that already has an
+It is possible to call `HEXPIRE` using as argument a field that already has an
 existing TTL set.
 In this case the time to live is _updated_ to the new value.
 
 ## Example
 
 ```
-redis> HEXPIRE no-key 20 NX 2 field1 field2
+redis> HEXPIRE no-key 20 NX FIELDS 2 field1 field2
 (nil)
 redis> HSET mykey field1 "hello" field2 "world"
 (integer 2)
-redis> HEXPIRE mykey 10 3 field1 field2 field3
+redis> HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
 1) (integer) 1
 2) (integer) 1
 3) (integer) -2
@@ -129,10 +127,10 @@ redis> HGETALL mykey
 
 One of the following:",
 * [Array reply](../../develop/reference/protocol-spec#arrays). For each field:
-    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field(s) exist in the provided hash key.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key.
     - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX | XX | GT | LT condition has not been met.
     - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.
-    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` if the field(s) were deleted because of previously set expiration(s). This reply may also be returned when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past unix-time in seconds/milliseconds.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` if the field was deleted because of previously set expiration. This reply may also be returned when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past unix-time in seconds/milliseconds.
 * [Simple error reply](../../develop/reference/protocol-spec#simple-errors):
     - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.
     - if the provided key exists but is not a hash.

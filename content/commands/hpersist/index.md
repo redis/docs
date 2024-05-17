@@ -49,8 +49,8 @@ key_specs:
 linkTitle: HPERSIST
 since: 8.0.0
 summary: Removes the expiration time for each specified field
-syntax_fmt: HPERSIST key numfields field [field ...]
-syntax_str: numfields field [field ...]
+syntax_fmt: HPERSIST key FIELDS numfields field [field ...]
+syntax_str: FIELDS numfields field [field ...]
 title: HPERSIST
 ---
 Remove the existing expiration on a hash key's field(s), turning the field(s) from _volatile_ (a field
@@ -62,15 +62,15 @@ is associated).
 ```
 redis> HSET mykey field1 "hello" field2 "world"
 (integer 2)
-redis> HEXPIRE mykey 300 2 field1 field2
+redis> HEXPIRE mykey 300 FIELDS 2 field1 field2
 1) (integer) 1
 2) (integer) 1
-redis> HTTL mykey 2 field1 field2
+redis> HTTL mykey FIELDS 2 field1 field2
 1) (integer) 283
 2) (integer) 283
-redis> HPERSIST mykey 1 field2
+redis> HPERSIST mykey FIELDS 1 field2
 1) (integer) 1
-redis> HTTL mykey 2 field1 field2
+redis> HTTL mykey FIELDS 2 field1 field2
 1) (integer) 268
 2) (integer) -1
 ```

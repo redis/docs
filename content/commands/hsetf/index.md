@@ -134,10 +134,10 @@ since: 8.0.0
 summary: For each specified field value pair, set field to value and optionally set the field's remaining time to live or UNIX expiration timestamp in seconds or milliseconds
 syntax_fmt: "HSETF key [DC] [DCF | DOF] [GETNEW | GETOLD] [NX | XX | GT | LT]\n  [EX\_\
   seconds | PX\_milliseconds | EXAT\_unix-time-seconds |\n  PXAT\_unix-time-milliseconds\
-  \ | KEEPTTL] fvs count field value\n  [field value ...]"
+  \ | KEEPTTL] FVS count field value\n  [field value ...]"
 syntax_str: "[DC] [DCF | DOF] [GETNEW | GETOLD] [NX | XX | GT | LT] [EX\_seconds |\
   \ PX\_milliseconds | EXAT\_unix-time-seconds | PXAT\_unix-time-milliseconds | KEEPTTL]\
-  \ fvs count field value [field value ...]"
+  \ FVS count field value [field value ...]"
 title: HSETF
 ---
 For each specified field value pair, set the field to the specified value and optionally set the field's remaining TTL (time to live) or its UNIX expiration timestamp in seconds or milliseconds since Unix epoch. Optionally create the key and/or fields if they don't already exist.
