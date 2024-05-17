@@ -57,6 +57,10 @@ To import an RDB file stored on an FTP or HTTP server:
     - `path` - Path to the file, if necessary
     - `filename` - Filename of the RDB file, including the `.gz` suffix if the file is compressed
 
+    {{< note >}}
+If your FTP username or password contains special characters such as `@`, `\`, or `:`, you must URL encode (also known as Percent encode) these special characters. If you don't, your database may become stuck.
+    {{< /note >}}
+
 1. For sharded databases with multiple RDB files, select **Add source** to add another RDB file.
 
 1. Select **Import**.
