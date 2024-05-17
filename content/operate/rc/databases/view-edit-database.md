@@ -66,7 +66,7 @@ The **Scalability** section is primarily for Redis Cloud Pro plans. Redis Cloud 
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Plan Memory limit** | Maximum size (in GB) for your database.  |
+| **Dataset size** | Maximum size (in GB) for your dataset.  |
 | **Memory used**       | Memory currently used for your database.  |
 | **Throughput**        | Defines throughput in terms of maximum operations per second for the database | |
 | **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
