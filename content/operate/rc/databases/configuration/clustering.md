@@ -165,15 +165,19 @@ their order to suit your application's requirements.
    - **PCRE_ANCHORED:** the pattern is constrained to match only at
         the start of the string which is being searched.
 
-## Memory limit {#dataset-size}
+## Dataset size {#dataset-size}
 
-The memory limit represents the maximum amount of memory for the database, which includes data values, keys, module data, and overhead for specific features.  High availability features, such as replication and Active-Active,  increase memory consumption.  
+The dataset size of a database is a part of the full memory limit for the database. The memory limit represents the maximum amount of memory for the database, which includes data values, keys, module data, and overhead for specific features.  High availability features, such as replication and Active-Active,  increase memory consumption, so in those cases your dataset size and memory limit will be different.
+
+For Redis Cloud Essentials, the plan size refers to the full memory limit, not the dataset size. Both the total memory limit and dataset size are listed under **Database details** when you create an Essentials database.
+
+For Redis Cloud Pro, you define your dataset size when you create the database, and we calculate your total memory limit based on the features you choose. 
 
 Here are some general guidelines:
 
 - Memory limit represents an upper limit.  You cannot store more data than the memory limit.  Depending on your other selections, available memory for data may be less than expected.
 
-- [Replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) doubles memory consumption; that is, 512MB of data requires at least 1GB of memory limit when replication is enabled. This affects both Redis Cloud Pro and Redis Cloud Essentials. For example, if you subscribe to a 1 GB Essentials plan, Redis will allocate 512 MB for your dataset and the other 512 MB for replication.
+- [Replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) doubles memory consumption; that is, 512MB of data requires at least 1GB of memory limit when replication is enabled. This affects both Redis Cloud Pro and Redis Cloud Essentials. For example, if you subscribe to a 1 GB Essentials plan, we will allocate 512 MB for your dataset and the other 512 MB for replication.
 
 - [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) also doubles memory consumption and the effect is cumulative with replication's impact. Since Active-Active requires replication to be turned on, the memory limit impact can be as large as four times (4x) the original data size.
 
