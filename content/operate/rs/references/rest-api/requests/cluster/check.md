@@ -94,4 +94,4 @@ Possible `error` messages:
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error |

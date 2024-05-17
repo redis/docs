@@ -30,7 +30,7 @@ Runs the following checks on a cluster node:
 | pidfiles | Verifies all active local shards have PID files. |
 | capabilities | Verifies all binaries have the proper capability bits. |
 | existing_sockets | Verifies sockets exist for all processes that require them. |
-| host_settings | Verifies the following:<br />• Linux `overcommit_memory` setting is 1.<br />•`transparent_hugepage` is disabled.<br />• Socket maximum connections setting `somaxconn` is 1024. |
+| host_settings | Verifies the following:<br />• Linux `overcommit_memory` setting is 1.<br />• `transparent_hugepage` is disabled.<br />• Socket maximum connections setting `somaxconn` is 1024. |
 | tcp_connectivity | Verifies this node can connect to all other alive nodes. |
 
 #### Required permissions
@@ -86,4 +86,4 @@ Possible `error` messages:
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error |
