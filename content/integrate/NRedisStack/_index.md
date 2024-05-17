@@ -13,7 +13,7 @@ stack: true
 summary: NRedisStack is a C#/.NET library for Redis.
 title: NRedisStack
 type: integration
-weight: 1
+weight: 2
 ---
 
 Connect your C#/.NET application to a Redis database using the NRedisStack client library. 
