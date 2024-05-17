@@ -130,7 +130,7 @@ it more readable. To use this, run `redis-cli` with the `--raw` option
 and include formatting keywords such as `INDENT`, `NEWLINE`, and `SPACE`
 with [`JSON.GET`]({{< baseurl >}}/commands/json.get/):
 
-{{< clients-example cli only >}}
+```bash
 $ redis-cli --raw
 > JSON.GET obj INDENT "\t" NEWLINE "\n" SPACE " " $
 [
@@ -140,7 +140,129 @@ $ redis-cli --raw
 		"loggedOut": true
 	}
 ]
-{{< /clients-example >}}
+```
+
+## Enable Redis JSON
+
+Redis JSON is implemented as a module that extends the basic Redis server.
+Redis Stack and Redis Enterprise include this module by default but you can
+also load it dynamically if it isn't already available. The sections below
+the different ways you can access Redis JSON.
+
+### Run with Docker
+
+To run RedisJSON with Docker, use the `redis-stack-server` Docker image:
+
+```sh
+$ docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
+```
+
+For more information about running Redis Stack in a Docker container, see [Run Redis Stack on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}}).
+
+### Download binaries
+
+To download and run the RedisJSON module that provides the JSON data structure from a precompiled binary:
+
+1. Download a precompiled version from the [Redis download center](https://redis.io/downloads).
+
+2. Load the module it in Redis
+
+    ```sh
+    $ redis-server --loadmodule /path/to/module/src/rejson.so
+    ```
+
+### Build from source
+
+To build RedisJSON from the source code:
+
+1. Clone the [repository](https://github.com/RedisJSON/RedisJSON) (make sure you include the `--recursive` option to properly clone submodules):
+
+    ```sh
+    $ git clone --recursive https://github.com/RedisJSON/RedisJSON.git
+    $ cd RedisJSON
+    ```
+
+2. Install dependencies:
+
+    ```sh
+    $ ./sbin/setup
+    ```
+
+3. Build:
+    ```sh
+    $ make build
+    ```
+
+### Load the module to Redis
+
+Requirements:
+
+Generally, it is best to run the latest Redis version.
+
+If your OS has a [Redis 6.x package or later](http://redis.io/downloads), you can install it using the OS package manager.
+
+Otherwise, you can invoke 
+
+```sh
+$ ./deps/readies/bin/getredis
+```
+
+To load the RedisJSON module, use one of the following methods:
+
+* [Makefile recipe](#makefile-recipe)
+* [Configuration file](#configuration-file)
+* [Command-line option](#command-line-option)
+* [MODULE LOAD command]({{< relref "/commands/module-load" >}})
+
+#### Makefile recipe
+
+Run Redis with RedisJSON:
+
+```sh
+$ make run
+```
+
+#### Configuration file
+
+Or you can have Redis load the module during startup by adding the following to your `redis.conf` file:
+
+```
+loadmodule /path/to/module/target/release/librejson.so
+```
+
+On Mac OS, if this module was built as a dynamic library, run:
+
+```
+loadmodule /path/to/module/target/release/librejson.dylib
+```
+
+In the above lines replace `/path/to/module/` with the actual path to the module.
+
+#### Command-line option
+
+You can also have Redis load the module using the following command-line argument syntax:
+
+ ```bash
+ $ redis-server --loadmodule /path/to/module/librejson.so
+ ```
+
+In the above lines replace `/path/to/module/` with the actual path to the module's library.
+
+#### [`MODULE LOAD`]({{< relref "/commands/module-load" >}}) command
+
+You can also use the [`MODULE LOAD`]({{< relref "/commands/module-load" >}}) command to load RedisJSON. Note that [`MODULE LOAD`]({{< relref "/commands/module-load" >}}) is a **dangerous command** and may be blocked/deprecated in the future due to security considerations.
+
+After the module has been loaded successfully, the Redis log should have lines similar to:
+
+```
+...
+9:M 11 Aug 2022 16:24:06.701 * <ReJSON> version: 20009 git sha: d8d4b19 branch: HEAD
+9:M 11 Aug 2022 16:24:06.701 * <ReJSON> Exported RedisJSON_V1 API
+9:M 11 Aug 2022 16:24:06.701 * <ReJSON> Enabled diskless replication
+9:M 11 Aug 2022 16:24:06.701 * <ReJSON> Created new data type 'ReJSON-RL'
+9:M 11 Aug 2022 16:24:06.701 * Module 'ReJSON' loaded from /opt/redis-stack/lib/rejson.so
+...
+```
 
 ## Limitation
 

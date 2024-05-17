@@ -36,9 +36,9 @@ The new syntax supports bracket notation, which allows the use of special charac
 
 If you want to include double quotes in a query from the CLI, enclose the JSONPath within single quotes. For example:
 
-{{< clients-example cli only >}}
+```bash
 JSON.GET store '$.inventory["mountain_bikes"]'
-{{< /clients-example >}}
+```
 
 ## JSONPath syntax
 
