@@ -25,7 +25,7 @@ The following quick start guides will show you how to use Redis for the followin
 - [Vector database]({{< relref "/develop/get-started/vector-database" >}})
 
 ## Data integration tools, libraries, and frameworks
-
+- [Client API libraries]({{< relref "/develop/connect/clients" >}})
 - [Redis Data Integration]({{< relref "/integrate/redis-data-integration/" >}})
 - [Redis vector library for Python]({{< relref "/integrate/redisvl/" >}})
 - [Redis Cloud with Amazon Bedrock]({{< relref "/integrate/amazon-bedrock/" >}})
