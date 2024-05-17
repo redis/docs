@@ -16,6 +16,6 @@ type: integration
 weight: 1
 ---
 
-Connect your Node.js application to a Redis database using the redis-py client library. 
+Connect your Node.js application to a Redis database using the node-redis client library. 
 
 Refer to the complete [Node.js guide]({{< relref "/develop/connect/clients/nodejs" >}}) to install, connect, and use node-redis.
