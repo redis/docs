@@ -1,6 +1,6 @@
 ---
 LinkTitle: node-redis
-Title: Redis client for Node.js
+Title: Node.js client for Redis
 categories:
 - docs
 - integrate
