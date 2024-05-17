@@ -13,7 +13,7 @@ stack: true
 summary: node-redis is a Node.js client library for Redis.
 title: node-redis
 type: integration
-weight: 1
+weight: 2
 ---
 
 Connect your Node.js application to a Redis database using the node-redis client library. 
