@@ -7,7 +7,7 @@ linkTitle: Proxy settings
 title: Redis Insight proxy
 weight: 7
 ---
-## Subpath proxy
+# Subpath proxy
 
 {{<note>}}
 Subpath proxy is available only on the Docker version.
@@ -25,10 +25,18 @@ this one unless the same subpath is used for the new one.
 Once you set the static subpath environment variable, Redis Insight is only reachable on the provided subpath. The default endpoint won't work.
 {{</note>}}
 
+## Using Redis Insight behind a reverse proxy
 
-### Example
+When you configure Redis Insight to run behind a reverse proxy like NGINX, set the request timeout to over 30 seconds on the reverse proxy because some requests can be long-running.
 
-#### Docker compose file
+Redis Insight also allows you to manage its connection timeout on the form to configure the connection details. The default timeout is 30 seconds.
+
+Hosting Redis Insight behind a prefix path (path-rewriting) is not supported.
+
+
+## Example
+
+### Docker compose file
 
 ```yaml
 version: "3.7"
@@ -72,7 +80,7 @@ services:
       - redis-network
 ```
 
-#### nginx config
+### nginx config
 
 ```
 server {
@@ -86,4 +94,15 @@ server {
      proxy_read_timeout     900;
  }
 }
+
 ```
+
+### Login page
+
+{{< image filename="/images/ri/ri-reverse-proxy-login.png" alt="RedisInsight login page" >}}
+
+
+### After login
+
+{{< image filename="/images/ri/ri-reverse-proxy-post-login.png" alt="RedisInsight after login" >}}
+
