@@ -105,7 +105,7 @@ Different commands generate different kind of events according to the following 
 * [`HGETF`]({{< relref "/commands/hgetf" >}}) generates a `hgetf` event when TTLs or expiration times are set.
 * [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) generates an `hincrbyfloat` event.
 * [`HINCRBY`]({{< relref "/commands/hincrby" >}}) generates an `hincrby` event.
-* [`HPERSIST`]({{ < relref "/commands/hpersist" >}}) generates a `hpersist` event.
+* [`HPERSIST`]({{< relref "/commands/hpersist" >}}) generates a `hpersist` event.
 * [`HSET`]({{< relref "/commands/hset" >}}), [`HSETNX`]({{< relref "/commands/hsetnx" >}}) and [`HMSET`]({{< relref "/commands/hmset" >}}) all generate a single `hset` event.
 * [`HSETF`]({{< relref "/commands/hsetf" >}}) generate `new` and `hsetf` events.
 * [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) generates an `incrbyfloat` events.
