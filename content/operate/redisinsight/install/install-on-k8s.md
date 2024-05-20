@@ -3,9 +3,7 @@ categories:
 - docs
 - operate
 - redisinsight
-description: 'How to install Redis Insight on Kubernetes
-
-  '
+description: How to install Redis Insight on Kubernetes
 linkTitle: Install on Kubernetes
 title: Install on Kubernetes
 weight: 3
@@ -263,7 +261,9 @@ kubectl apply -f redisinsight.yaml
 If the deployment will be exposed by a service whose name is 'redisinsight', set `RI_APP_HOST` and `RI_APP_PORT` environment variables to override the environment variables created by the service.
 {{< /alert >}}
 
-3. Once the deployment has been successfully applied and the deployment is complete, access Redis Insight. This can be accomplished by exposing the deployment as a K8s Service or by using port forwarding, as in the example below:
+## Run Redis Insight
+
+Once the deployment has been successfully applied and the deployment is complete, access Redis Insight. This can be accomplished by exposing the deployment as a K8s Service or by using port forwarding, as in the example below:
 
 ```sh
 kubectl port-forward deployment/redisinsight 5540

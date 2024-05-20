@@ -15,22 +15,21 @@ title: C#/.NET guide
 weight: 2
 ---
 
-Install Redis and the Redis client, then connect your .NET application to a Redis database. 
+[NRedisStack](https://github.com/redis/NRedisStack) is the .NET client for Redis.
+The sections below explain how to install `NRedisStack` and connect your application
+to a Redis database.
 
-## NRedisStack
+`NRedisStack` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
-[NRedisStack](https://github.com/redis/NRedisStack) is a .NET client for Redis.
-`NredisStack` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
-
-### Install
+## Install
 
 Using the `dotnet` CLI, run:
 
-```
+```bash
 dotnet add package NRedisStack
 ```
 
-### Connect
+## Connect
 
 Connect to localhost on port 6379.
 
@@ -81,7 +80,7 @@ IJsonCommands json = db.JSON();
 ITimeSeriesCommands ts = db.TS();
 ```
 
-#### Connect to a Redis cluster
+### Connect to a Redis cluster
 
 To connect to a Redis cluster, you just need to specify one or all cluster endpoints in the client configuration:
 
@@ -103,7 +102,7 @@ db.StringSet("foo", "bar");
 Console.WriteLine(db.StringGet("foo")); // prints bar
 ```
 
-#### Connect to your production Redis with TLS
+### Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
 
@@ -166,7 +165,7 @@ conn.StringSet("foo", "bar");
 Console.WriteLine(conn.StringGet("foo"));   
 ```
 
-### Example: Indexing and querying JSON documents
+## Example: Indexing and querying JSON documents
 
 This example shows how to convert Redis search results to JSON format using `NRedisStack`.
 
@@ -274,7 +273,7 @@ for (var i=0; i<result.TotalResults; i++)
 // Tel Aviv - 2
 ```
 
-### Learn more
+## Learn more
 
 * [GitHub](https://github.com/redis/NRedisStack)
  

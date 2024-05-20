@@ -233,4 +233,8 @@ Where:
 - *port*: the port number of the server, if needed.
 - *path*: the backup path, if needed.
 
+    {{< note >}}
+If your FTP username or password contains special characters such as `@`, `\`, or `:`, you must URL encode (also known as Percent encode) these special characters. If you don't, your database may become stuck.
+    {{< /note >}}
+
 The user account needs permission to write files to the server.

@@ -15,6 +15,8 @@ This guide shows how to configure [Microsoft Azure Active Directory](https://lea
 
 To learn more about Redis Cloud support for SAML, see [SAML single sign on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 
+Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+
 ## Step 1: Set up your identity provider (IdP)
 
 To create the Azure AD SAML Toolkit integration application:
@@ -84,17 +86,13 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
    * **IdP server URL**: Login URL
    * **Assertion signing certificate**: Drag-and-drop the certificate file you downloaded to disk in the form text area
 
-   Also add:
-
-   * **Email domain binding**: The domain used in your company's email addresses
-
      {{<image filename="images/rc/saml/sm_saml_1.png" >}}
 
-   Once you click the **enable** button, wait a few seconds for the status to change.
+   Once you click the **Enable** button, wait a few seconds for the status to change.
 
 1. You will then be able to **download** the service provider (SP) metadata. Save the file to your local hard disk.
 
-    {{<image filename="images/rc/saml/ad_saml_10.png" >}}
+    {{<image filename="images/rc/saml/sm_saml_3.png" >}}
 
 1. Open the file in any text editor. Save the following text from the metadata:
 
@@ -175,8 +173,6 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
     {{<image filename="images/rc/saml/ad_saml_21.png" >}}
 
    You have successfully configured SAML as an identification provider.
-
-    {{<image filename="images/rc/saml/ad_saml_22.png" >}}
 
 ## Claim conditions and user groups
 
