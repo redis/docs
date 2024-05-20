@@ -28,6 +28,8 @@ It is also available on:
 - Flathub
 - [Docker Hub]({{< relref "/operate/redisinsight/install/install-on-docker" >}}).
 
+After installation, run the Redis Insight application in the same was as you would run other desktop applications.
+
 ## Build
 
 Alternatively, you can also build Redis Insight from source. See the [wiki](https://github.com/RedisInsight/RedisInsight#build) for instructions.

@@ -47,6 +47,8 @@ This free Redis Cloud database comes out of the box with all the Redis Stack fea
 
 You can alternatively use the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis Stack on your local machine.
 
+You need to have the following features configured for your Redis server: JSON and search and query.
+
 ## Install the required Python packages
 
 The code examples are currently provided for Redis CLI and Python. For Python, you will need to create a virtual environment and install the following Python packages:
