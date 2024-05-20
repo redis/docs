@@ -64,17 +64,69 @@ If MFA enforcement is enabled, note that Redis Cloud does not enforce MFA for SA
 
 To set up SAML single sign-on for a Redis Cloud account:
 
+1. [Verify domain ownership in Redis Cloud](#verify-domain).
+
 1. [Set up a SAML app](#set-up-app) to integrate Redis Cloud with your identity provider.
 
-1. [Configure SAML in Redis Cloud](#configure-idp).
+1. [Configure SAML identity provider in Redis Cloud](#configure-idp).
 
 1. [Download service provider metadata](#download-sp) and upload it to your identity provider.
 
 1. [Activate SAML SSO](#activate-saml-sso).
 
+### Verify domain ownership in Redis Cloud {#verify-domain}
+
+Before you set up SAML SSO in Redis Cloud, you must verify that you own the domain(s) associated with your SAML setup.
+
+1. Sign in to [Redis Cloud](https://app.redislabs.com/#/login) with the email address associated with the SAML user you set up with your identity provider.
+
+1. Select **Access Management** from the [Redis Cloud console](https://app.redislabs.com) menu.
+
+1. Select **Single Sign-On**.
+
+1. Select the **Setup SAML SSO** button:
+
+    {{<image filename="images/rc/button-access-management-sso-setup.png" width="120px" alt="Setup SSO button">}}
+
+1. From the **SAML** screen of the [Redis Cloud console](https://app.redislabs.com), you must verify you own the domains associated with your SAML configuration. Select **Add domain** to open the **Manage domain bindings** panel.
+
+    {{<image filename="images/rc/saml-button-add-domain.png" width="120px" alt="Add domain button">}}
+
+    {{<image filename="images/rc/saml-manage-domain-bindings.png" width="80%" alt="The Manage domain bindings panel">}}
+
+1. Select **Copy** to copy the provided TXT DNS record. For each domain you want to associate with your SAML setup, add the copied TXT record to its DNS records. 
+
+1. Select **Add domain** to add a domain. 
+
+    {{<image filename="images/rc/saml-button-add-domain.png" width="120px" alt="Add domain button">}}
+
+1. Enter the domain name and select {{<image filename="images/rc/saml-button-confirm.png#no-click" width="20px" alt="The confirm domain button" class="inline">}} to save it, or select {{<image filename="images/rc/saml-button-cancel.png#no-click" width="20px" alt="The cancel button" class="inline">}} to cancel.
+
+    {{<image filename="images/rc/saml-enter-domain.png" width="80%" alt="Enter domain name in the Domain field.">}}
+
+1. After you save the domain name, its status is **Pending**. Select **Verify** to verify it. 
+
+    {{<image filename="images/rc/saml-domain-pending.png" width="80%" alt="The Manage domain bindings panel, with a pending domain">}}
+
+    We'll check the domain's DNS records for the provided TXT record. If the TXT record does not exist or we can't resolve your domain, we won't be able to verify the domain and users with that domain won't be able to sign in using SAML SSO. 
+    
+    Select {{<image filename="images/rc/saml-button-delete-domain.png#no-click" width="25px" alt="The delete domain button" class="inline">}} to delete a domain if it was added by mistake.
+
+    If we find the TXT record, the domain's status will change to **Verified**.
+
+    {{<image filename="images/rc/saml-domain-verified.png" width="80%" alt="The Manage domain bindings panel, with a verified domain">}}
+
+    You can select **Add domain** to add another domain.
+
+1. Select **Close** to close the domain binding panel.
+
+    {{<image filename="images/rc/saml-button-close.png" width="100px" alt="Close button">}}
+
+After you verify at least one domain, you can select **Manage domains** to open the **Manage domain bindings** panel again and add or verify more domains.
+
 ### Set up SAML app {#set-up-app}
 
-First, set up a SAML app to integrate Redis Cloud with your identity provider:
+Set up a SAML app to integrate Redis Cloud with your identity provider:
 
 1. Sign in to your identity provider's admin console.
 
@@ -124,7 +176,7 @@ To confirm the identity provider's SAML assertions contain the required attribut
 
 ### Configure SAML in Redis Cloud {#configure-idp}
 
-After you set up the SAML integration app and create a SAML user in your identity provider, you need to configure the Redis Cloud account with some identity provider metadata:
+After you set up the SAML integration app and create a SAML user in your identity provider, you need to configure your Redis Cloud account to set up SAML SSO.
 
 1. Sign in to [Redis Cloud](https://app.redislabs.com/#/login) with the email address associated with the SAML user you set up with your identity provider.
 
@@ -132,11 +184,13 @@ After you set up the SAML integration app and create a SAML user in your identit
 
 1. Select **Single Sign-On**.
 
-1. Select the **Setup SAML SSO** button:
+1. [Verify at least one domain](#verify-domain) if you haven't.
 
-    {{<image filename="images/rc/button-access-management-sso-setup.png" width="120px" alt="Setup SSO button">}}
+1. Configure the **Identity Provider metadata** settings. 
 
-1. You need the following metadata values from your identity provider:
+    {{<image filename="images/rc/access-management-saml-config.png"  alt="SAML Single Sign-On configuration screen.">}}
+
+    To do so, you need the following metadata values from your identity provider:
 
     | Setting | Description |
     |---------|-------------|
@@ -147,13 +201,9 @@ After you set up the SAML integration app and create a SAML user in your identit
 
     To find these metadata values, see your identity provider's documentation.
 
-1. From the **SAML** screen of the [Redis Cloud console](https://app.redislabs.com), configure the **Identity Provider metadata** settings. 
-
-    **Email domain binding** should match the email domain that SAML users will use to sign in from the Redis Cloud console (SP-initiated SSO).
-
-    {{<image filename="images/rc/access-management-saml-config.png"  alt="SAML Single Sign-On configuration screen.">}}
-
 1. Select **Enable**.
+
+    {{<image filename="images/rc/saml-enable-button.png" width="100px" alt="Enable button">}}
 
 1. From the **SAML activation** dialog box, select **Continue**.
 
