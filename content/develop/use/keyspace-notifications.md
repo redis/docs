@@ -107,7 +107,7 @@ Different commands generate different kind of events according to the following 
 * [`HINCRBY`]({{< relref "/commands/hincrby" >}}) generates an `hincrby` event.
 * [`HPERSIST`]({{< relref "/commands/hpersist" >}}) generates a `hpersist` event.
 * [`HSET`]({{< relref "/commands/hset" >}}), [`HSETNX`]({{< relref "/commands/hsetnx" >}}) and [`HMSET`]({{< relref "/commands/hmset" >}}) all generate a single `hset` event.
-* [`HSETF`]({{< relref "/commands/hsetf" >}}) generate `new` and `hsetf` events.
+* [`HSETF`]({{< relref "/commands/hsetf" >}}) generates `new` and `hsetf` events.
 * [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) generates an `incrbyfloat` events.
 * [`INCR`]({{< relref "/commands/incr" >}}), [`DECR`]({{< relref "/commands/decr" >}}), [`INCRBY`]({{< relref "/commands/incrby" >}}), [`DECRBY`]({{< relref "/commands/decrby" >}}) commands all generate `incrby` events.
 * [`LINSERT`]({{< relref "/commands/linsert" >}}) generates an `linsert` event.
