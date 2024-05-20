@@ -15,11 +15,13 @@ title: Lettuce guide
 weight: 2
 ---
 
-Install Redis and the Redis client, then connect your Lettuce application to a Redis database.
+[Lettuce](https://github.com/redis/lettuce/tree/main/src/main) is the *asynchronous* Java client for Redis.
+Use [Jedis]({{< relref "/develop/connect/clients/java/jedis" >}}) if you need
+a *synchronous* Java client.
+The sections below explain how to install `Lettuce` and connect your application
+to a Redis database.
 
-## Lettuce
-
-Lettuce offers a powerful and efficient way to interact with Redis through its asynchronous and reactive APIs. By leveraging these capabilities, you can build high-performance, scalable Java applications that make optimal use of Redis's capabilities.
+`Lettuce` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
 ## Install
 
@@ -171,8 +173,6 @@ RedisURI redisUri = RedisURI.Builder.redis("localhost")
 RedisClient client = RedisClient.create(redisUri);
 ```
 
-
-
 ## Connection Management in Lettuce
 
 Lettuce uses `ClientResources` for efficient management of shared resources like event loop groups and thread pools.
@@ -182,7 +182,6 @@ A typical approach with Lettuce is to create a single `RedisClient` instance and
 These connections are multiplexed; that is, multiple commands can be run concurrently over a single or a small set of connections, making explicit pooling less critical.
 
 Lettuce provides pool config to be used with Lettuce asynchronous connection methods.
-
 
 ```java
 package org.example;
