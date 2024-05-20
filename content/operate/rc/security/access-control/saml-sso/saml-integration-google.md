@@ -15,6 +15,8 @@ This guide shows how to configure [Google Workspace](https://workspace.google.co
 
 To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 
+Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+
 ## Step 1: Set up your identity provider (IdP)
 
 ### Create the Google Workspace SAML application
@@ -55,25 +57,19 @@ Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#
 
 To activate SAML, you must have a local user (or social sign-on user) with the `owner` role. If you have the correct permissions, you will see the **Single Sign-On** tab.
 
-{{<image filename="images/rc/saml/aws_iam_identity_center_saml_7.png" >}}
-
 1. Add the information you saved previously in the **Google identity provider details** screen. This includes:
 
     * **Issuer (IdP Entity ID)**: `Entity ID`.
     * **IdP server URL**: `SSO URL`.
     * **Assertion signing certificate**: `Certificate`.
 
-   Also add:
-
-    * **Email domain binding**: The domain used in your company's email addresses.
-
-      {{<image filename="images/rc/saml/google_workspace_saml_4.png" >}}
+   {{<image filename="images/rc/saml/sm_saml_1.png" >}}
 
    Select **Enable** and wait a few seconds for the status to change.
 
 1. Select **Download** to get the service provider (SP) metadata. Save the file to your local hard disk.
 
-   {{<image filename="images/rc/saml/google_workspace_saml_5.png" >}}
+   {{<image filename="images/rc/saml/sm_saml_3.png" >}}
 
 1. Open the file in any text editor. Save the following text from the metadata:
 
@@ -159,7 +155,7 @@ The final step in our SAML integration with AWS IAM identity Center is to activa
 
 1. In the Single Sign-On screen, select **Activate**.
 
-   {{<image filename="images/rc/saml/google_workspace_saml_17.png" >}}
+   {{<image filename="images/rc/saml/sm_saml_8.png" >}}
 
 A logout notification screen displays, letting you know that you are redirected to Google's login screen.
 
@@ -174,5 +170,3 @@ A logout notification screen displays, letting you know that you are redirected 
 A message displays, stating that your local user is now converted to a SAML user. Select **Confirm**.
 
 You have successfully configured Google Workspace as an identification provider.
-
-{{<image filename="images/rc/saml/google_workspace_saml_20.png" >}}
