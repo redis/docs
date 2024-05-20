@@ -88,7 +88,7 @@ This means that all the operations that conceptually _alter_ the value stored at
 The TTL can be cleared using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}) command, turning the hash key field back into a persistent field.
 
 Note that calling `HEXPIRE`/[`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) with a zero TTL or
-[`HEXPIREAT`]({{< relref "/commands/hexpireat" >}})/[`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) with a time in the past will result in the key field being deleted.
+[`HEXPIREAT`]({{< relref "/commands/hexpireat" >}})/[`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) with a time in the past will result in the hash field being deleted.
 
 ## Options
 
@@ -130,7 +130,7 @@ One of the following:",
     - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key.
     - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX | XX | GT | LT condition has not been met.
     - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.
-    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` if the field was deleted because of previously set expiration. This reply may also be returned when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past unix-time in seconds/milliseconds.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past Unix time in seconds/milliseconds.
 * [Simple error reply](../../develop/reference/protocol-spec#simple-errors):
     - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.
     - if the provided key exists but is not a hash.

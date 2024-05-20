@@ -104,7 +104,7 @@ syntax_str: "[NX | XX | GT | LT] [EX\_seconds | PX\_milliseconds | EXAT\_unix-ti
   \ | PXAT\_unix-time-milliseconds | PERSIST] FIELDS count field [field ...]"
 title: HGETF
 ---
-For each specified field, get its value and, optionally, set the its remaining TTL (time to live) or its UNIX expiration timestamp in seconds or milliseconds since Unix epoch.
+For each specified field, get its value and, optionally, set the its remaining TTL (time to live) or its Unix expiration timestamp in seconds or milliseconds since Unix epoch.
 
 ## Options
 

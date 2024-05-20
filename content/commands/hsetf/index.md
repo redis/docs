@@ -113,7 +113,7 @@ command_flags:
 - denyoom
 - fast
 complexity: O(N) where N is the number of arguments to the command
-description: For each specified field value pair, set field to value and optionally set the field's remaining time to live or UNIX expiration timestamp in seconds or milliseconds
+description: For each specified field-value pair, set field to value and optionally set the field's remaining time to live or UNIX expiration timestamp in seconds or milliseconds
 group: hash
 hidden: false
 key_specs:
@@ -131,7 +131,7 @@ key_specs:
   update: true
 linkTitle: HSETF
 since: 8.0.0
-summary: For each specified field value pair, set field to value and optionally set the field's remaining time to live or UNIX expiration timestamp in seconds or milliseconds
+summary: For each specified field-value pair, set field to value and optionally set the field's remaining time to live or UNIX expiration timestamp in seconds or milliseconds
 syntax_fmt: "HSETF key [DC] [DCF | DOF] [GETNEW | GETOLD] [NX | XX | GT | LT]\n  [EX\_\
   seconds | PX\_milliseconds | EXAT\_unix-time-seconds |\n  PXAT\_unix-time-milliseconds\
   \ | KEEPTTL] FVS count field value\n  [field value ...]"
@@ -140,7 +140,7 @@ syntax_str: "[DC] [DCF | DOF] [GETNEW | GETOLD] [NX | XX | GT | LT] [EX\_seconds
   \ FVS count field value [field value ...]"
 title: HSETF
 ---
-For each specified field value pair, set the field to the specified value and optionally set the field's remaining TTL (time to live) or its UNIX expiration timestamp in seconds or milliseconds since Unix epoch. Optionally create the key and/or fields if they don't already exist.
+For each specified field-value pair, set the field to the specified value and optionally set the field's remaining TTL (time to live) or its Unix expiration timestamp in seconds or milliseconds since Unix epoch. Optionally create the key and/or fields if they don't already exist.
 
 Note: this command cannot set the expiration time of the hash key itself.
 
@@ -166,7 +166,7 @@ When none of `EX`, `PX`, `EXAT`, `PXAT`, or `KEEPTTL` are specified, any previou
 * `XX` -- for each specified field, set the expiration time only when the field has an existing expiration.
 * `GT` -- for each specified field, set the expiration time only when the new expiration time is greater than the field's current expiration. A field with no expiration is treated as an infinite expiration. 
 * `LT` -- for each specified field, set the expiration time only when the new expiration time is less than the field's current expiration. A field with no expiration is treated as an infinite expiration.
-* count -- must be a positive integer and the number of field value pairs must match the provided count.
+* count -- must be a positive integer and the number of field-value pairs must match the provided count.
     - all fields and values must be strings. When the same field is specified more than once, only the last value is used.
 
 ## Examples

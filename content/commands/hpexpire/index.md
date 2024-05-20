@@ -111,7 +111,7 @@ One of the following:",
     - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key.
     - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX, XX, GT, or LT condition has not been met.
     - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.
-    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` if the field was deleted because of previously set expiration. This reply may also be returned when `HEXPIRE` or `HPEXPIRE` is called with 0 seconds or milliseconds, or when `HEXPIREAT` or `HPEXPIREAT` is called with a past unix-time in seconds or milliseconds.
+    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE` or `HPEXPIRE` is called with 0 seconds or milliseconds, or when `HEXPIREAT` or `HPEXPIREAT` is called with a past Unix time in seconds or milliseconds.
 * [Simple error reply](../../develop/reference/protocol-spec#simple-errors):
     - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.
     - if the provided key exists but is not a hash.
