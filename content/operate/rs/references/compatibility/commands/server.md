@@ -15,7 +15,7 @@ The following tables show which source available Redis [server management comman
 
 ## Access control commands
 
-Several access control list (ACL) commands are not available in Redis Enterprise. Instead, you can manage access controls from the admin consoles for [Redis Enterprise Software]({{< relref "/operate/rs/security/access-control" >}}) and [Redis Cloud]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control.md" >}}).
+Several access control list (ACL) commands are not available in Redis Enterprise. Instead, you can manage access controls from the [Redis Enterprise Software Cluster Manager UI]({{< relref "/operate/rs/security/access-control" >}}) and the [Redis Cloud console]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control.md" >}}).
 
 | <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
@@ -67,7 +67,7 @@ Several access control list (ACL) commands are not available in Redis Enterprise
 
 ## Module commands
 
-For Redis Enterprise Software, you can [manage Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}) from the admin console or with [REST API requests]({{< relref "/operate/rs/references/rest-api/requests/modules" >}}).
+For Redis Enterprise Software, you can [manage Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}) from the Cluster Manager UI or with [REST API requests]({{< relref "/operate/rs/references/rest-api/requests/modules" >}}).
 
 Redis Cloud manages modules for you and lets you [enable modules]({{< relref "/operate/rc/databases/create-database#modules" >}}) when you create a database.
 
@@ -82,7 +82,7 @@ Redis Cloud manages modules for you and lets you [enable modules]({{< relref "/o
 
 ## Monitoring commands
 
-Although Redis Enterprise does not support certain monitoring commands, you can use the admin consoles to view Redis Enterprise Software [metrics]({{< relref "/operate/rs/clusters/monitoring" >}}) and [logs]({{< relref "/operate/rs/clusters/logging" >}}) or Redis Cloud [metrics]({{< relref "/operate/rc/databases/monitor-performance" >}}) and [logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}).
+Although Redis Enterprise does not support certain monitoring commands, you can use the Cluster Manager UI to view Redis Enterprise Software [metrics]({{< relref "/operate/rs/clusters/monitoring" >}}) and [logs]({{< relref "/operate/rs/clusters/logging" >}}) or the Redis Cloud console to view Redis Cloud [metrics]({{< relref "/operate/rc/databases/monitor-performance" >}}) and [logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}).
 
 | <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|
@@ -109,7 +109,7 @@ Although Redis Enterprise does not support certain monitoring commands, you can 
 
 ## Persistence commands
 
-Data persistence and backup commands are not available in Redis Enterprise. Instead, you can [manage data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}}) and [backups]({{< relref "/operate/rs/databases/import-export/schedule-backups" >}}) from the admin consoles for Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc/databases/view-edit-database#durability-section" >}}).
+Data persistence and backup commands are not available in Redis Enterprise. Instead, you can [manage data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}}) and [backups]({{< relref "/operate/rs/databases/import-export/schedule-backups" >}}) from the Redis Enterprise Software Cluster Manager UI and the [Redis Cloud console]({{< relref "/operate/rc/databases/view-edit-database#durability-section" >}}).
 
 | <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:--------|:----------------------|:-----------------|:------|

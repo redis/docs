@@ -32,7 +32,7 @@ Before upgrading a cluster:
 
 - Upgrade the cluster's primary (master) node first. To identify the primary node, use one of the following methods:
 
-    - **Nodes** screen in the new admin console (only available for Redis Enterprise versions 7.2 and later)
+    - **Nodes** screen in the new Cluster Manager UI (only available for Redis Enterprise versions 7.2 and later)
 
     - [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes" >}}) command
     
@@ -78,9 +78,9 @@ You cannot change the installation path or the user during the upgrade.
     $ rladmin status extra all
     ```
 
-3.  Visit the admin console.
+3.  Visit the Cluster Manager UI.
 
-    If the admin console was open in a web browser during the upgrade, refresh the browser to reload the console.
+    If the Cluster Manager UI was open in a web browser during the upgrade, refresh the browser to reload the console.
 
 After all nodes are upgraded, the cluster is fully upgraded. Certain features introduced in the new version of Redis Enterprise Software only become available after upgrading the entire cluster.
 

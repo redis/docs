@@ -1,5 +1,5 @@
 ---
-Title: Admin console security
+Title: Cluster Manager UI security
 alwaysopen: false
 categories:
 - docs
@@ -10,7 +10,7 @@ hideListLinks: true
 weight: 5
 ---
 
-Redis Enterprise Software comes with a web-based user interface known as the admin console or the Cluster Manager UI. The admin console provides the following security features:
+Redis Enterprise Software comes with a web-based user interface known as the Cluster Manager UI. The Cluster Manager UI provides the following security features:
 
 - Encryption-in-transit using [TLS]({{< relref "/operate/rs/security/encryption/tls" >}})
 
@@ -24,7 +24,7 @@ We recommend the following practices:
 
 - **Implement standard authentication practices**: If your organization does not support LDAP, you can still use Redis Enterprise's [user account security]({{< relref "/operate/rs/security/access-control/manage-users" >}}). Features include basic password complexity requirements, password expiration, and user login lockouts.
 
-- **Limit session timeouts**: Session timeouts, also known as _automatic sign out_, help prevent unauthorized access. Admin console sessions are allowed to idle for a period of time before users are required to re-authenticate. 
+- **Limit session timeouts**: Session timeouts, also known as _automatic sign out_, help prevent unauthorized access. Cluster Manager UI sessions are allowed to idle for a period of time before users are required to re-authenticate. 
 
     By default, users are signed out after 15 minutes of inactivity. You can [configure the session timeout]({{< relref "/operate/rs/security/access-control/manage-users/login-lockout#configure-session-timeout" >}}).
 

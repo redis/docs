@@ -32,6 +32,10 @@ Secure access to the Redis Cloud console by:
 
 - Enabling [SAML SSO]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 
+{{< note >}}
+A user session on Redis Cloud expires after 30 minutes. You'll be signed out of Redis Cloud after 30 minutes of inactivity.
+{{< /note >}}
+
 ## Database security
 
 You have several options when it comes to securing your Redis Cloud databases. For more information, see [Cloud database security]({{< relref "/operate/rc/security/database-security/" >}}). Options include:

@@ -69,7 +69,7 @@ To create a cluster:
 1. Click **OK** to confirm that you are aware of the replacement of the HTTPS TLS certificate on the node,
     and proceed through the browser warning.
 
-After a short wait, your cluster is created and you can sign in to the admin console.
+After a short wait, your cluster is created and you can sign in to the Cluster Manager UI.
 
 You can now access any of the management capabilities, including:
 

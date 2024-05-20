@@ -125,7 +125,7 @@ To deactivate Redis Cluster API support for a database, either:
     For standard databases, including Replica Of, use `rladmin`:
 
     ```sh
-    $ rladmin tune db <Name or ID> oss_cluster disable
+    $ rladmin tune db <name or ID> oss_cluster disabled
     ```
 
     For Active-Active databases, use `crdb-cli`:

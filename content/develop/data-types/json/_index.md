@@ -30,107 +30,107 @@ The JSON capability of Redis Stack provides JavaScript Object Notation (JSON) su
 
 ## Use Redis JSON
 
-To learn how to use JSON, it's best to start with the Redis CLI. The following examples assume that you're connected to a Redis server with JSON enabled.
-
-### `redis-cli` examples
-
-First, start [`redis-cli`]({{< relref "/develop/connect/cli" >}}) in interactive mode.
-
 The first JSON command to try is [`JSON.SET`]({{< baseurl >}}/commands/json.set/), which sets a Redis key with a JSON value. [`JSON.SET`]({{< baseurl >}}/commands/json.set/) accepts all JSON value types. This example creates a JSON string:
 
-```sh
-> JSON.SET animal $ '"dog"'
-"OK"
-> JSON.GET animal $
-"[\"dog\"]"
-> JSON.TYPE animal $
+{{< clients-example json_tutorial set_get >}}
+> JSON.SET bike $ '"Hyperion"'
+OK
+> JSON.GET bike $
+"[\"Hyperion\"]"
+> JSON.TYPE bike $
 1) "string"
-```
+{{< /clients-example >}}
 
 Note how the commands include the dollar sign character `$`. This is the [path]({{< relref "/develop/data-types/json/path" >}}) to the value in the JSON document (in this case it just means the root).
 
 Here are a few more string operations. [`JSON.STRLEN`]({{< baseurl >}}/commands/json.strlen/) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`]({{< baseurl >}}/commands/json.strappend/).
 
-```sh
-> JSON.STRLEN animal $
-1) "3"
-> JSON.STRAPPEND animal $ '" (Canis familiaris)"'
-1) "22"
-> JSON.GET animal $
-"[\"dog (Canis familiaris)\"]"
-``` 
+{{< clients-example json_tutorial str>}}
+> JSON.STRLEN bike $
+1) (integer) 8
+> JSON.STRAPPEND bike $ '" (Enduro bikes)"'
+1) (integer) 23
+> JSON.GET bike $
+"[\"Hyperion (Enduro bikes)\"]"
+{{< /clients-example >}}
 
 Numbers can be [incremented]({{< baseurl >}}/commands/json.numincrby/) and [multiplied]({{< baseurl >}}/commands/json.nummultby/):
 
-```
-> JSON.SET num $ 0
+{{< clients-example json_tutorial num >}}
+> JSON.SET crashes $ 0
 OK
-> JSON.NUMINCRBY num $ 1
+> JSON.NUMINCRBY crashes $ 1
 "[1]"
-> JSON.NUMINCRBY num $ 1.5
+> JSON.NUMINCRBY crashes $ 1.5
 "[2.5]"
-> JSON.NUMINCRBY num $ -0.75
+> JSON.NUMINCRBY crashes $ -0.75
 "[1.75]"
-> JSON.NUMMULTBY num $ 24
+> JSON.NUMMULTBY crashes $ 24
 "[42]"
-```
+{{< /clients-example >}}
 
 Here's a more interesting example that includes JSON arrays and objects:
 
-```
-> JSON.SET example $ '[ true, { "answer": 42 }, null ]'
+{{< clients-example json_tutorial arr >}}
+> JSON.SET newbike $ '["Deimos", {"crashes": 0}, null]'
 OK
-> JSON.GET example $
-"[[true,{\"answer\":42},null]]"
-> JSON.GET example $[1].answer
-"[42]"
-> JSON.DEL example $[-1]
+> JSON.GET newbike $
+"[[\"Deimos\",{\"crashes\":0},null]]"
+> JSON.GET newbike $[1].crashes
+"[0]"
+> JSON.DEL newbike $[-1]
 (integer) 1
-> JSON.GET example $
-"[[true,{\"answer\":42}]]"
-```
+> JSON.GET newbike $
+"[[\"Deimos\",{\"crashes\":0}]]"
+{{< /clients-example >}}
 
 The [`JSON.DEL`]({{< baseurl >}}/commands/json.del/) command deletes any JSON value you specify with the `path` parameter.
 
 You can manipulate arrays with a dedicated subset of JSON commands:
 
-```
-> JSON.SET arr $ []
+{{< clients-example json_tutorial arr2 >}}
+> JSON.SET riders $ []
 OK
-> JSON.ARRAPPEND arr $ 0
+> JSON.ARRAPPEND riders $ '"Norem"'
 1) (integer) 1
-> JSON.GET arr $
-"[[0]]"
-> JSON.ARRINSERT arr $ 0 -2 -1
-1) (integer) 3
-> JSON.GET arr $
-"[[-2,-1,0]]"
-> JSON.ARRTRIM arr $ 1 1
+> JSON.GET riders $
+"[[\"Norem\"]]"
+> JSON.ARRINSERT riders $ 1 '"Prickett"' '"Royce"' '"Castilla"'
+1) (integer) 4
+> JSON.GET riders $
+"[[\"Norem\",\"Prickett\",\"Royce\",\"Castilla\"]]"
+> JSON.ARRTRIM riders $ 1 1
 1) (integer) 1
-> JSON.GET arr $
-"[[-1]]"
-> JSON.ARRPOP arr $
-1) "-1"
-> JSON.ARRPOP arr $
+> JSON.GET riders $
+"[[\"Prickett\"]]"
+> JSON.ARRPOP riders $
+1) "\"Prickett\""
+> JSON.ARRPOP riders $
 1) (nil)
-```
+{{< /clients-example >}}
 
 JSON objects also have their own commands:
 
-```
-> JSON.SET obj $ '{"name":"Leonard Cohen","lastSeen":1478476800,"loggedOut": true}'
+{{< clients-example json_tutorial obj >}}
+> JSON.SET bike:1 $ '{"model": "Deimos", "brand": "Ergonom", "price": 4972}'
 OK
-> JSON.OBJLEN obj $
+> JSON.OBJLEN bike:1 $
 1) (integer) 3
-> JSON.OBJKEYS obj $
-1) 1) "name"
-   2) "lastSeen"
-   3) "loggedOut"
-```
+> JSON.OBJKEYS bike:1 $
+1) 1) "model"
+   2) "brand"
+   3) "price"
+{{< /clients-example >}}
 
-To return a JSON response in a more human-readable format, run `redis-cli` in raw output mode and include formatting keywords such as `INDENT`, `NEWLINE`, and `SPACE` with the [`JSON.GET`]({{< baseurl >}}/commands/json.get/) command:
+## Format CLI output
 
-```sh
+The CLI has a raw output mode that lets you add formatting to the output from
+[`JSON.GET`]({{< baseurl >}}/commands/json.get/) to make
+it more readable. To use this, run `redis-cli` with the `--raw` option
+and include formatting keywords such as `INDENT`, `NEWLINE`, and `SPACE`
+with [`JSON.GET`]({{< baseurl >}}/commands/json.get/):
+
+```bash
 $ redis-cli --raw
 > JSON.GET obj INDENT "\t" NEWLINE "\n" SPACE " " $
 [
@@ -142,25 +142,12 @@ $ redis-cli --raw
 ]
 ```
 
-### Python example
+## Enable Redis JSON
 
-This code snippet shows how to use JSON with raw Redis commands from Python with [redis-py](https://github.com/redis/redis-py):
-
-```Python
-import redis
-
-data = {
-    'dog': {
-        'scientific-name' : 'Canis familiaris'
-    }
-}
-
-r = redis.Redis()
-r.json().set('doc', '$', data)
-doc = r.json().get('doc', '$')
-dog = r.json().get('doc', '$.dog')
-scientific_name = r.json().get('doc', '$..scientific-name')
-```
+Redis JSON is implemented as a module that extends the basic Redis server.
+Redis Stack and Redis Enterprise include this module by default but you can
+also load it dynamically if it isn't already available. The sections below
+the different ways you can access Redis JSON.
 
 ### Run with Docker
 
@@ -251,13 +238,9 @@ loadmodule /path/to/module/target/release/librejson.dylib
 
 In the above lines replace `/path/to/module/` with the actual path to the module.
 
-Alternatively, you can download and run Redis from a precompiled binary:
-
-1. Download a precompiled version of RedisJSON from the [Redis download center](https://redis.io/downloads).
-
 #### Command-line option
 
-Alternatively, you can have Redis load the module using the following command-line argument syntax:
+You can also have Redis load the module using the following command-line argument syntax:
 
  ```bash
  $ redis-server --loadmodule /path/to/module/librejson.so
@@ -281,6 +264,10 @@ After the module has been loaded successfully, the Redis log should have lines s
 ...
 ```
 
-### Limitation
+## Limitation
 
 A JSON value passed to a command can have a depth of up to 128. If you pass to a command a JSON value that contains an object or an array with a nesting level of more than 128, the command returns an error.
+
+## Further information
+
+Read the other pages in this section to learn more about Redis JSON

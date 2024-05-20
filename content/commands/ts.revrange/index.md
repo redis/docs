@@ -114,7 +114,7 @@ module: TimeSeries
 since: 1.4.0
 stack_path: docs/data-types/timeseries
 summary: Query a range in reverse direction
-syntax: "TS.REVRANGE key fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS TS...]\n\
+syntax: "TS.REVRANGE key fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS ts...]\n\
   \  [FILTER_BY_VALUE min max]\n  [COUNT count]\n  [[ALIGN align] AGGREGATION aggregator\
   \ bucketDuration [BUCKETTIMESTAMP bt] [EMPTY]]\n"
 syntax_fmt: "TS.REVRANGE key fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS\_\

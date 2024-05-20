@@ -12,7 +12,7 @@ categories:
 description: Connect your Python application to a Redis database
 linkTitle: Python
 title: Python guide
-weight: 5
+weight: 1
 ---
 
 Install Redis and the Redis client, then connect your Python application to a Redis database. 

@@ -16,7 +16,7 @@ weight: 50
 
 To enforce an expiration of a user's password after a specified number of days:
 
-- Use the admin console:
+- Use the Cluster Manager UI:
 
     1. Go to **Cluster > Security > Preferences**, then select **Edit**.
 
@@ -37,7 +37,7 @@ To enforce an expiration of a user's password after a specified number of days:
 
 To deactivate password expiration:
 
-- Use the admin console:
+- Use the Cluster Manager UI:
 
     1. Go to **Cluster > Security > Preferences**, then select **Edit**.
 

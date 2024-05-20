@@ -119,6 +119,20 @@ With Redis Insight you can now also extend the core functionality by building yo
 
 Redis Insight includes an opt-in telemetry system. This help us improve the developer experience of the app. We value your privacy; all collected data is anonymized.
 
+## Log files
+
+You can review the Redis Insight log files (files with a `.log` extension) to get detailed information about system issues.
+These are the locations on supported platforms:
+
+- **Docker**: In the `/data/logs` directory *inside the container*.
+- **Mac**: In the `/Users/<your-username>/.redis-insight` directory.
+- **Windows**: In the `C:\Users\<your-username>\.redis-insight` directory.
+- **Linux**: In the `/home/<your-username>/.redis-insight` directory.
+
+{{< note >}}
+You can install Redis Insight on operating systems that are not officially supported, but it may not behave as expected.
+{{< /note >}}
+
 ## Feedback
 
 To provide your feedback, [open a ticket in our Redis Insight repository](https://github.com/Redis-Insight/Redis-Insight/issues/new).
