@@ -81,11 +81,11 @@ Set an expiration (TTL or time to live) on one or more fields of a given hash ke
 After the TTL has expired, the field(s) will automatically be deleted from the hash key.
 
 Field expirations will only be cleared by commands that delete or overwrite the
-contents of the hash key fields, including [`HDEL`]({{< relref "/commands/hdel" >}}) and [`HSET`]({{< relref "/commands/hset" >}})
+contents of the hash fields, including [`HDEL`]({{< relref "/commands/hdel" >}}) and [`HSET`]({{< relref "/commands/hset" >}})
 commands.
 This means that all the operations that conceptually _alter_ the value stored at a hash key's field without replacing it with a new one will leave the TTL untouched.
 
-The TTL can be cleared using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}) command, turning the hash key field back into a persistent field.
+The TTL can be cleared using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}) command, turning the hash field back into a persistent field.
 
 Note that calling `HEXPIRE`/[`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) with a zero TTL or
 [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}})/[`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) with a time in the past will result in the hash field being deleted.

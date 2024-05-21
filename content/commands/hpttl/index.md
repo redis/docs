@@ -58,8 +58,8 @@ expiration set, but in milliseconds instead of seconds.
 
 The return value in case of error is one of:
 
-* The command returns `-2` if the hash key field does not exist.
-* The command returns `-1` if the hash key field exists but has no associated expiration.
+* The command returns `-2` if the hash field does not exist.
+* The command returns `-1` if the hash field exists but has no associated expiration.
 
 ## Example
 

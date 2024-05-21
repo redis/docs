@@ -55,12 +55,12 @@ title: HTTL
 ---
 Returns the remaining TTL (time to live) of a hash key's field(s) that have a set expiration.
 This introspection capability allows a Redis client to check how many seconds a
-given hash key field will continue to be part of the hash key.
+given hash field will continue to be part of the hash key.
 
 The return value in case of an error is one of:
 
-* The command returns `-2` if the hash key field does not exist.
-* The command returns `-1` if the hash key field exists but has no associated expiration.
+* The command returns `-2` if the hash field does not exist.
+* The command returns `-1` if the hash field exists but has no associated expiration.
 
 See also the [`HPTTL`]({{< relref "/commands/hpttl" >}}) command that returns the same information with millisecond resolution.
 
