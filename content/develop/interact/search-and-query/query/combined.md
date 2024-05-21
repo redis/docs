@@ -145,3 +145,11 @@ FT.SEARCH idx:bikes_vss "(@price:[500 1000] @condition:{new})=>[KNN 3 @vector $q
 ```
 
 The [vector search article]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) provides further details about vector queries in general.
+
+## Missing values
+
+You can use the `ismissing(@field)` query function to search for missing fields, that is, fields that are part of the index but missing from a particular set of keys.
+
+```
+FT.SEARCH idx:bikes "ismissing(@price) @description:(kids | small)"
+```

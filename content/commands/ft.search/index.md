@@ -422,7 +422,8 @@ requires the terms in the document to have the same order as the terms in the qu
 
 use a stemmer for the supplied language during search for query expansion. If querying documents in Chinese, set to `chinese` to
   properly tokenize the query terms. Defaults to English. If an unsupported language is sent, the command returns an error.
-  See [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) for the list of languages. 
+  See [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) for the list of languages. If `LANGUAGE` was specified as part of index
+  creation, it doesn't need to specified with `FT.SEARCH`.
 </details>
 
 <details open>

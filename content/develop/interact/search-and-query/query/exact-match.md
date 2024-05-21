@@ -37,6 +37,12 @@ To perform an exact match query on a numeric field, you need to construct a rang
 FT.SEARCH index "@field:[start end]"
 ```
 
+With [DIALECT 5]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-5), you can perform the same search using the following syntax:
+
+```
+FT.SEARCH index "@field==value"
+```
+
 As described in the [article about range queries]({{< relref "/develop/interact/search-and-query/query/range" >}}), you can also use the `FILTER` argument:
 
 ```

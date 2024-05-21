@@ -156,6 +156,35 @@ Dialect version 4 will improve performance in four different scenarios:
 1. **Partial range** - applied when there is a `SORTBY` on a numeric field, either with no filter or with a filter by the same numeric field. Such queries will iterate on a range large enough to satisfy the `LIMIT` of requested results.
 1. **Hybrid** - applied when there is a `SORTBY` on a numeric field in addition to another non-numeric filter. It could be the case that some results will get filtered, leaving too small a range to satisfy any specified `LIMIT`. In such cases, the iterator then is re-wound and additional iterations occur to collect result up to the requested `LIMIT`.
 1. **No optimization** - If there is a sort by score or by a non-numeric field, there is no other option but to retrieve all results and compare their values to the search parameters.
+
+## `DIALECT 5`
+
+Dialect version 5 was introduced in the [@ADRIANO NEED INFO](https://github.com/RediSearch/RediSearch/releases/tag/???) release.
+It introduces support for new comparison operators for `NUMERIC` fields:
+
+* `==` (equal).
+  
+  `FT.SEARCH idx "@numeric==3456"`
+* `!=` (not equal).
+  
+  `FT.SEARCH idx "@numeric!=3456"`
+* `>` (greater than)
+  
+  `FT.SEARCH idx "@numeric>3456"`
+* `>=` (greater than or equal).
+  
+  `FT.SEARCH idx "@numeric>=3456"`
+* `<` (less than)
+  
+  `FT.SEARCH idx "@numeric<3456"`
+* `<=` (less than or equal).
+  
+  `FT.SEARCH idx "@numeric<=3456"`
+
+Dialect version 1 remains the default dialect. To use dialect version 5, append `DIALECT 5` to your query command.
+
+`FT.SEARCH ... DIALECT 5`
+
 ## Use [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/) to compare dialects
 	
 The [[`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/)](/commands/ft.explaincli/) is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.

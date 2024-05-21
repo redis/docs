@@ -285,6 +285,8 @@ Will be expanded to cover `(hello|help|helm|...) world`.
 
   * Prefixes are limited to 2 letters or more. You can change this number by using the `MINPREFIX` setting on the module command line.
 
+  * The minimum word length to stem is 4 letters or more. You can change this number by using the `MINSTEMLEN` setting on the module command line.
+
   * Expansion is limited to 200 terms or less. You can change this number by using the `MAXEXPANSIONS` setting on the module command line.
 
 3. Prefix matching fully supports Unicode and is case insensitive.
