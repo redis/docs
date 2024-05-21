@@ -186,7 +186,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 <note><b>Notes:</b>
 - You can use this command to create a new time series and add data to it in a single command.
-  `RETENTION`, `ENCODING`, `CHUNK_SIZE`, and `LABELS` are used only when creating a new time series, and ignored when adding samples to an existing time series.
+  `RETENTION`, `ENCODING`, `CHUNK_SIZE`, `DUPLICATE_POLICY`, and `LABELS` are used only when creating a new time series, and ignored when adding samples to an existing time series.
 - Setting `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
 
