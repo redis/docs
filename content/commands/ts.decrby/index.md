@@ -12,14 +12,25 @@ arguments:
   optional: true
   token: RETENTION
   type: integer
-- name: uncompressed
+- arguments:
+  - name: uncompressed
+    token: UNCOMPRESSED
+    type: pure-token
+  - name: compressed
+    token: COMPRESSED
+    type: pure-token
+  name: enc
   optional: true
-  token: UNCOMPRESSED
-  type: pure-token
+  token: ENCODING
+  type: oneof
 - name: size
   optional: true
   token: CHUNK_SIZE
   type: integer
+- name: policy
+  optional: true
+  token: DUPLICATE_POLICY
+  type: oneof
 - arguments:
   - name: label
     type: string
@@ -54,11 +65,11 @@ summary: Decrease the value of the sample with the maximum existing timestamp, o
   create a new sample with a value equal to the value of the sample with the maximum
   existing timestamp with a given decrement
 syntax: "TS.DECRBY key subtrahend \n  [TIMESTAMP timestamp] \n  [RETENTION retentionPeriod]\
-  \ \n  [UNCOMPRESSED] \n  [CHUNK_SIZE size] \n  [LABELS [label value ...]]\n"
+  \ \n  [ENCODING <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [LABELS [label value ...]]\n"
 syntax_fmt: "TS.DECRBY key value [TIMESTAMP\_timestamp]\n  [RETENTION\_retentionPeriod]\
-  \ [UNCOMPRESSED] [CHUNK_SIZE\_size]\n  [LABELS\_[label value ...]]"
-syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [UNCOMPRESSED]\
-  \ [CHUNK_SIZE\_size] [LABELS\_[label value ...]]"
+  \ [ENCODING\_<COMPRESSED|UNCOMPRESSED>] [CHUNK_SIZE\_size]\n [DUPLICATE_POLICY\_policy] [LABELS\_[label value ...]]"
+syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED|UNCOMPRESSED>]\
+  \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [LABELS\_[label value ...]]"
 title: TS.DECRBY
 ---
 
@@ -101,30 +112,43 @@ When not specified, the timestamp is set to the Unix time of the server's clock.
 
 <details open><summary><code>RETENTION retentionPeriod</code></summmary> 
 
-is maximum retention period, compared to the maximum existing timestamp, in milliseconds. Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
+is maximum retention period, compared to the maximum existing timestamp, in milliseconds.
+
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
-<details open><summary><code>UNCOMPRESSED</code></summary>
+<details open><summary><code>ENCODING enc</code></summary> 
 
-changes data storage from compressed (default) to uncompressed. Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
+specifies the series sample encoding format.
+
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
 <details open><summary><code>CHUNK_SIZE size</code></summary> 
 
-is memory size, in bytes, allocated for each data chunk. Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
+is memory size, in bytes, allocated for each data chunk.
+
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
+</details>
+
+<details open><summary><code>DUPLICATE_POLICY policy</code></summary>
+
+is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) and [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/)) of multiple samples with identical timestamps.
+
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
 <details open><summary><code>LABELS [{label value}...]</code></summary> 
 
-is set of label-value pairs that represent metadata labels of the key and serve as a secondary index. Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `LABELS` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
+is set of label-value pairs that represent metadata labels of the key and serve as a secondary index.
+
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `LABELS` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
 <note><b>Notes</b>
 
- - You can use this command to add data to a nonexisting time series in a single command.
-  This is why `RETENTION`, `UNCOMPRESSED`,  `CHUNK_SIZE`, and `LABELS` are optional arguments.
- - When specified and the key doesn't exist, a new time series is created.
-  Setting the `RETENTION` and `LABELS` introduces additional time complexity.
+ - You can use this command to add data to a nonexisting time series in a single command. This is why `RETENTION`, `ENCODING`,  `CHUNK_SIZE`, `DUPLICATE_POLICY`, and `LABELS` are optional arguments.
+ - When specified and the key doesn't exist, a new time series is created. Setting the `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
 
 ## Return value
