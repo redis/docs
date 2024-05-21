@@ -119,7 +119,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 <details open><summary><code>ENCODING enc</code></summary> 
 
-specifies the series sample's encoding format.
+specifies the series sample encoding format.
 
 Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
