@@ -147,7 +147,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 <note><b>Notes</b>
 
- - You can use this command to add data to a nonexisting time series in a single command. This is why `RETENTION`, `ENCODING`,  `CHUNK_SIZE`, and `LABELS` are optional arguments.
+ - You can use this command to add data to a nonexisting time series in a single command. This is why `RETENTION`, `ENCODING`,  `CHUNK_SIZE`, `DUPLICATE_POLICY`, and `LABELS` are optional arguments.
  - When specified and the key doesn't exist, a new time series is created. Setting the `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
 
