@@ -85,10 +85,10 @@ syntax: "TS.ADD key timestamp value \n  [RETENTION retentionPeriod] \n  [ENCODIN
   \ <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [ON_DUPLICATE policy_ovr] \n\
   \  [LABELS [label value ...]]\n"
 syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod]\n  [ENCODING\_\
-  <COMPRESSED | UNCOMPRESSED>] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY policy] \n  [ON_DUPLICATE\_<BLOCK | FIRST\
+  <COMPRESSED | UNCOMPRESSED>] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_policy] \n  [ON_DUPLICATE\_<BLOCK | FIRST\
   \ | LAST | MIN | MAX | SUM>]\n  [LABELS\ [label value ...]]"
 syntax_str: "timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED\
-  \ | UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY policy] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
+  \ | UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
   \ MAX | SUM>] [LABELS\ [label value ...]]"
 title: TS.ADD
 ---
@@ -135,7 +135,7 @@ The following arguments are optional because they can be set by [`TS.CREATE`]({{
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary> 
  
- is maximum retention period, compared to the maximum existing timestamp, in milliseconds.
+is maximum retention period, compared to the maximum existing timestamp, in milliseconds.
 
 Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
@@ -147,12 +147,16 @@ specifies the series sample's encoding format.
 Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
-<details open><summary><code>CHUNK_SIZE size</code></summary> is memory size, in bytes, allocated for each data chunk.
+<details open><summary><code>CHUNK_SIZE size</code></summary>
+  
+is memory size, in bytes, allocated for each data chunk.
 
 Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
 <details open><summary><code>DUPLICATE_POLICY policy</code></summary>
+
+is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) and [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/)) of multiple samples with identical timestamps.
 
 Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
