@@ -769,9 +769,14 @@ To sum up, the `INORDER` argument or `$inorder` query attribute require the quer
 </details>
 
 <details open>
-<summary><b>NEW!!! Polygon Search with WITHIN and CONTAINS operators</b></summary>
+<summary><b>Polygon Search with WITHIN, CONTAINS, INTERSECTS, and DISJOINT operators</b></summary>
 
-Query for polygons which contain a given geoshape or are within a given geoshape
+Query for polygons which:
+
+- contain a given geoshape
+- are within a given geoshape
+- intersect with a given geoshape
+- are disjoint (nothing in common) with a given shape
 
 First, create an index using `GEOSHAPE` type with a `FLAT` coordinate system:
 
