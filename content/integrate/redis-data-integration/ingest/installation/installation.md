@@ -40,6 +40,17 @@ You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
 need any special privileges to run RDI processes for normal operation.
 
+### Hardware sizing
+RDI is mainly CPU and network bound. 
+Each of RDI VMs should have:
+
+- CPU: Min 4 cores CPU. Consider a configuration that would allow for 2-6 additional cores depending on how big is your dataset and how fast you would like RDI to ingest the baseline snapshot.
+- RAM: 2GB 
+- Disk: 25GB of disk (this includes the OS footprint)
+- 10 GB or more network interface
+  
+
+
 ### Installation steps
 
 Follow the steps below for each of your VMs:
