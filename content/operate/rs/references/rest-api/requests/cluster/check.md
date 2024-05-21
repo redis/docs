@@ -56,7 +56,7 @@ Runs the following checks on all cluster nodes:
 
 ### Response {#get-response} 
 
-Returns JSON array with results from all nodes.
+Returns a JSON array with results from all nodes.
 
 When errors occur, the server returns a JSON object with `result: false` and an `error` field that provides additional information for each node that had an error. If an error occurs during a check, the `error` field only includes a message for the first check that fails on each node.
 
