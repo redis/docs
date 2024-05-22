@@ -146,7 +146,7 @@ Note: this command cannot set the expiration time of the hash key itself.
 
 ## Options
 
-The `HSETF` command supports a set of options that modify its behavior. Except for `key`, the arguments may be specified in any order. When an optional argument is specified more than once, only the last occurrence is used.
+The `HSETF` command supports a set of options that modify its behavior. Except for `key`, you may specify the arguments in any order. When you specify an optional argument more than once, only the last occurrence is used.
 
 * `key` -- if it already exists, it must be of type hash.
 * `DC` -- when not specified and `key` does not exist, the key will be created. Otherwise, the key will not be created.
@@ -158,16 +158,17 @@ The `HSETF` command supports a set of options that modify its behavior. Except f
 * `PXAT` *timestamp-milliseconds* -- for each specified field, set the specified Unix time at which the fields will expire, in milliseconds (a positive integer) since Unix epoch.
 * `KEEPTTL` -- for each specified field, retain the previous expiration time. If the field is created and `KEEPTTL` is specified, the field is created with no expiration time or TTL.
 
-When none of `EX`, `PX`, `EXAT`, `PXAT`, or `KEEPTTL` are specified, any previous expiration times associated with the fields are discarded.
+If you don't specify one of `EX`, `PX`, `EXAT`, `PXAT`, or `KEEPTTL`, any previous expiration times associated with the fields are discarded.
 
-`NX`, `XX`, `GT`, and `LT` can only be specified when `EX`, `PX`, `EXAT`, or `PXAT` is specified.
+You can only specify one of `NX`, `XX`, `GT`, or `LT` when you also specify one of `EX`, `PX`, `EXAT`, or `PXAT`.
 
 * `NX` -- for each specified field, set the expiration time only when the field has no expiration.
 * `XX` -- for each specified field, set the expiration time only when the field has an existing expiration.
 * `GT` -- for each specified field, set the expiration time only when the new expiration time is greater than the field's current expiration. A field with no expiration is treated as an infinite expiration. 
 * `LT` -- for each specified field, set the expiration time only when the new expiration time is less than the field's current expiration. A field with no expiration is treated as an infinite expiration.
 * count -- must be a positive integer and the number of field-value pairs must match the provided count.
-    - all fields and values must be strings. When the same field is specified more than once, only the last value is used.
+
+All fields and values must be strings. When the same field is specified more than once, only the last value is used.
 
 ## Examples
 

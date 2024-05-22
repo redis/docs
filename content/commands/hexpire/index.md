@@ -77,15 +77,15 @@ syntax_fmt: "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS numfields\n\ \ field
 syntax_str: seconds [NX | XX | GT | LT] FIELDS numfields field [field ...]
 title: HEXPIRE
 ---
-Set an expiration (TTL or time to live) on one or more fields of a given hash key. At least one field must be specified.
-After the TTL has expired, the field(s) will automatically be deleted from the hash key.
+Set an expiration (TTL or time to live) on one or more fields of a given hash key. You must specify at least one field.
+Field(s) will automatically be deleted from the hash key when their TTLs expire.
 
 Field expirations will only be cleared by commands that delete or overwrite the
 contents of the hash fields, including [`HDEL`]({{< relref "/commands/hdel" >}}) and [`HSET`]({{< relref "/commands/hset" >}})
 commands.
 This means that all the operations that conceptually _alter_ the value stored at a hash key's field without replacing it with a new one will leave the TTL untouched.
 
-The TTL can be cleared using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}) command, turning the hash field back into a persistent field.
+You can clear the TTL using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}) command, which turns the hash field back into a persistent field.
 
 Note that calling `HEXPIRE`/[`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) with a zero TTL or
 [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}})/[`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) with a time in the past will result in the hash field being deleted.
@@ -104,9 +104,9 @@ The `NX`, `XX`, `GT`, and `LT` options are mutually exclusive.
 
 ## Refreshing expires
 
-It is possible to call `HEXPIRE` using as argument a field that already has an
+You can call `HEXPIRE` using as argument a field that already has an
 existing TTL set.
-In this case the time to live is _updated_ to the new value.
+In this case, the time to live is _updated_ to the new value.
 
 ## Example
 
@@ -125,7 +125,7 @@ redis> HGETALL mykey
 
 ## RESP2/RESP3 replies
 
-One of the following:",
+One of the following:
 * [Array reply](../../develop/reference/protocol-spec#arrays). For each field:
     - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key.
     - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX | XX | GT | LT condition has not been met.

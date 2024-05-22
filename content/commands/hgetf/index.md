@@ -108,7 +108,7 @@ For each specified field, get its value and, optionally, set the its remaining T
 
 ## Options
 
-The `HGETF` command supports a set of options that modify its behavior. Except for `key`, the arguments may be specified in any order. When an optional argument is specified more than once, only the last occurrence is used.
+The `HGETF` command supports a set of options that modify its behavior. Except for `key`, you may specify the arguments in any order. When you specify an optional argument more than once, only the last occurrence is used.
 
 * `key` -- if it already exists, it must be of type hash.
 * `EX` *seconds* -- for each specified field, set the remaining TTL in seconds (a positive integer).
@@ -117,7 +117,7 @@ The `HGETF` command supports a set of options that modify its behavior. Except f
 * `PXAT` *timestamp-milliseconds* -- for each specified field, set the specified Unix time at which the fields will expire, in milliseconds (a positive integer) since Unix epoch.
 * `PERSIST` -- remove the field's expiration time.
 
-`NX`, `XX`, `GT`, and `LT` can only be specified when one of `EX`, `PX`, `EXAT`, or `PXAT` is also specified.
+You can only specify one of `NX`, `XX`, `GT`, or `LT` when you also specify one of `EX`, `PX`, `EXAT`, or `PXAT`.
 
 * `NX` -- for each specified field, set the expiration time only when the field has no expiration.
 * `XX` -- for each specified field, set the expiration time only when the field has an existing expiration.
@@ -125,7 +125,8 @@ The `HGETF` command supports a set of options that modify its behavior. Except f
 * `LT` -- for each specified field, set the expiration time only when the new expiration time is less than the field's current expiration. A field with no expiration is treated as an infinite expiration.
 
 * count -- must be a positive integer and the number of fields must match the provided count.
-    - all fields must be strings.
+
+All fields must be strings.
 
 ## Examples
 
