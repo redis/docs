@@ -20,7 +20,7 @@ As a result, the number of keys in the source and destination databases can be d
 
 In preparation, make certain the Redis version of the source database is compatible with the database where the data will be imported.
 
-## Import from a Redis OSS server
+## Import from a Redis server {#redis-server}
 
 To import a dataset from any publicly available Redis server:
 
