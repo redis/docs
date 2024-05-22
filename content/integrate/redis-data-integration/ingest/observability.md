@@ -53,7 +53,7 @@ Users that don't use Prometheus can get RDI metrics in 2 ways:
 - Using Redis Insight RDI monitoring screen
 - Using RDI CLI status command 
 
-## RDI logs\
+## RDI logs
 
 RDI uses flunetd & logrotate to ship and rotate components logs.
 So when a containerized component is removed by operator or by K8s, the logs are available for inspection.
