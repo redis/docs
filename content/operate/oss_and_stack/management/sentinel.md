@@ -869,7 +869,7 @@ Where `<username>` and `<password>` are the Sentinel's superuser and password, r
 
 Lastly, for authenticating incoming client connections, you can create a Sentinel restricted user profile such as the following:
 
-    127.0.0.1:5000> ACL SETUSER sentinel-user ON >user-password -@all +auth +client|getname +client|id +client|setname +command +hello +ping +role +sentinel|get-master-addr-by-name +sentinel|master +sentinel|myid +sentinel|replicas +sentinel|sentinels
+    127.0.0.1:5000> ACL SETUSER sentinel-user ON >user-password -@all +auth +client|getname +client|id +client|setname +command +hello +ping +role +sentinel|get-master-addr-by-name +sentinel|master +sentinel|myid +sentinel|replicas +sentinel|sentinels +sentinel|masters
 
 Refer to the documentation of your Sentinel client of choice for further information.
 
