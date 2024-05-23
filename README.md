@@ -6,7 +6,7 @@ OPEN SOURCE LICENSE VS. TRADEMARKS. The three-clause BSD license gives you the r
 
 PRs are merged first to the `main` branch of this repo.
 Periodically, the docs team will merge `main` into `latest`, which will make the changes visible on the docs site.
-Please be patient, as there may be a lag of several days before `main` is merged into `latest`.
+Please be patient, as there may be a lag of several days before `main` is merged into `latest`. If you want to see your changes before they're merged to `latest`, you can see them on https://redis.io/docs/staging/dev/. 
 If your PR is urgent, let the docs team know in the PR comments, and we will do our best to accommodate.
 
 ## Site template files and folders
