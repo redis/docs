@@ -5,7 +5,7 @@ OPEN SOURCE LICENSE VS. TRADEMARKS. The three-clause BSD license gives you the r
 ## A note for Issue and PR submitters
 
 PRs are merged first to the `main` branch of this repo.
-Periodically, `main` is merged into `latest`, making the changes visible on the docs site.
+Periodically, the docs team will merge `main` into `latest`, which will make the changes visible on the docs site.
 Please be patient, as there may be a lag of several days before `main` is merged into `latest`.
 If your PR is urgent, let the docs team know in the PR comments, and we will do our best to accommodate.
 
