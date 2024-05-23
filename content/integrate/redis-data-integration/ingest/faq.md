@@ -1,5 +1,5 @@
 ---
-Title: Ingest FQA
+Title: Ingest FAQ
 aliases: null
 alwaysopen: false
 categories:
@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: null
+description: Find answers to common questions about RDI ingest
 group: di
 hideListLinks: false
 linkTitle: Ingest FAQ
@@ -17,66 +17,96 @@ type: integration
 weight: 10
 ---
 
-## General questions
+## Which license does RDI use?
 
-### Which License RDI uses?
+You must purchase a commercial license for RDI with Redis Enterprise. This includes two extra
+Redis Enterprise shards (primary and replica) for the staging database.
 
-RDI uses a commercial license. RDI license includes additional 2 Redis Enterprise shards (primary & replica) for its data staging Redis database.
+## When should I use RDI ingest and when shouldn't I?
 
-### When should I use RDI ingest and when I shouldn't?
+RDI is designed to support apps that must use a disk based database as the system of record
+but must also be fast and scalable. This is a common requirement for mobile and web
+apps with a rapidly-growing number of users; the performance of the main database is fine at first
+but it will soon struggle to handle the increasing demand without a cache.
 
-RDI is designed for cases where an application must use a disk based database as its system of records but has to speed and scale data access. This is typically true for mobile and web applications that serves a growing audiences and can not meet the required scale and user experience without cache. RDI is best suitable for dynamic data sets where data is constantly updated by the application or other applications.
+You should use RDI when:
 
-RDI is not the recommended tool for the following scenarios:
+- You must use a slow database as the system of record for the app 
+- The app must always *write* its data to the slow database
+- You already intend to use Redis for the app cache
+- The data changes frequently in small increments
+- Your app can tolerate *eventual* consistency of data in the Redis cache
 
-- Ad hoc migration where data needs to be migrated from a static data set
-- Caching data that is being update in the database once or few times a day in large bulk updates.
+You should *not* use RDI when:
 
-### Does RDI have any external dependencies?
+- You are migrating an existing data set into Redis only once
+- The data is updated infrequently and in big batches
+- Your app needs *immediate* cache consistency rather than *eventual* consistency
+- The data is ingested from two replicas of Active-Active at the same time
+- The app must *write* data to the Redis cache, which then updates the source database
+- Your data set will only ever be small
 
-RDI is packaged with all of its dependencies except for two dependencies for IBM Db2 as a source:
+## Does RDI have any external dependencies?
 
-- Db2 JDBC driver.
-- IBM Infopshere Data Replication license.
+RDI is packaged with all of its dependencies except for two dependencies that
+you need if you use IBM Db2 as a source:
 
-### How does RDI trace data changes in the source database
+- [Db2 JDBC driver](https://www.ibm.com/support/pages/db2-jdbc-driver-versions-and-downloads)
+- [IBM Infopshere Data Replication license](https://www.ibm.com/docs/en/db2/10.5?topic=information-licensing-replication)
 
-RDI uses queries against database mechanisms specific for each source type:
+## How does RDI track data changes in the source database?
 
-- Oracle:  RDI uses `logminer` that parse the Oracle `binary log` and `archive logs` and provides changes into a view that RDI queries.
-- mySQL & Maria Db: RDI uses the `binary log replication` to get all the commits.
-- PostgreSQL:  RDI uses the `pgoutput` plugin
-- SQL Server: RDI uses the CDC mechanism
-- Cassandra: RDI uses the CDC log
-- MongoDB: RDI uses the change streams
+RDI uses mechanisms that are specific for each of the supported
+source databases:
 
+- **Oracle**:  RDI uses `logminer` to parse the Oracle `binary log` and `archive logs`. This
+  lists any changes in a database view that RDI can query.
+- **MySQL/MariaDB**: RDI uses `binary log replication` to get all the commits.
+- **PostgreSQL**:  RDI uses the `pgoutput` plugin.
+- **SQL Server**: RDI uses the CDC mechanism.
+- **Cassandra**: RDI uses the CDC log.
+- **MongoDB**: RDI uses the change streams.
 
-### How much data can RDI process?
+## How much data can RDI process?
 
-RDI uses the concept of processing units. Each processing unit uses 1 CPU core and can process 10,000 records per second, assuming the records are in the range of 1KB. This throughput might slightly change according to the number of columns, number of data transformations and network speed.
-Typically one processing unit is sufficient for RDI to deal with a traffic coming from a relational database.
+RDI uses the concept of *processing units*. Each processing unit uses 1 CPU core and can process
+about 10,000 records per second, assuming the records have a size of about 1KB each. This throughput
+might change slightly depending on the number of columns, the number of data transformations,
+and the speed of the network. Typically, one processing unit is enough for RDI to deal with the
+traffic from a relational database.
 
-### Can RDI work with any Redis database?
+## Can RDI work with any Redis database?
 
-RDI is designed and tested to work only with Redis Enterprise.
-RDI staging database must be of version 6.4 or beyond.
-RDI target Redis database can be of any version and can be a replica of Active Active replication setup or Auto tiering.
+No. RDI is designed and tested to work only with Redis Enterprise. The staging database can
+only use version 6.4 or above. The target Redis database can be of any version and can be a
+replica of an Active-Active replication setup or an Auto tiering database.
 
-### If my source data change for example new table or column, can RDI automatically track these changes?
+## Can RDI automatically track changes to the source database schema?
 
-Yes, if RDI was not instructed to follow a specific set of tables in the schema, it will detect new tables added.
-If RDI was not instructed to follow a specific set of columns, it will report new columns if the table changed.
-The same is true for changes in column names.
-Keep in mind that these changes will only reflect in Redis keys corresponding to changed rows in the database.
+If you don't configure RDI to capture a specific set of tables in the schema then it will
+detect any new tables when they are added. Similarly, RDI will capture new table columns
+and changes to column names unless you configure it for a specfic set of columns.
+Bear in mind that the Redis keys in the target database will change to reflect the
+new or renamed tables and columns.
 
-### What happens when RDI can not write to the target Redis database?
+## What happens when RDI can't write to the target Redis database?
 
-RDI will keep attempting to write the changes to the target and if needed to reconnect to the  target.
-This means that RDI streams will keep receiving new change events from the source database and store them in order in streams until RDI runs out of space in its staging Redis database.
-In this case RDI applies a back pressure mechanism and will throttle down it's reporting from the source database. Since the source changes are recorded in logs / tables that are retained for at least few hours, RDI will be able to catchup when the connection is restored or when the target has space for new keys.
+RDI will keep attempting to write the changes to the target and will also attempt
+to reconnect to it, if necessary. While the target is disconnected, RDI
+will keep capturing change events from the source database and adding them to its
+streams in the staging database. This continues until the staging database gets
+low on space to store new events. When RDI detects this, it applies a "back pressure"
+mechanism to capture data from the source less frequently, which reduces the risk of running
+out of space altogether. The systems that the source databases use to record changes can
+retain the change data for at least a few hours, and RDI can catch up with the
+changes as soon as the target connection recovers or the staging database has
+more space available.
 
-### What does RDI do if the data is corrupted or invalid?
+## What does RDI do if the data is corrupted or invalid?
 
-RDI collector reports the data in structured JSON format. In case the payload can not be parsed or there is a bug in the transformation job and RDI can not transform the data, the original data and the rejection reason will be stored in a Dead Letter Queue which is a capped stream in RDI staging Redis database. The user can see rejected records and can browse them using Redis Insight or using the `redis-di get-rejected` command.
-
-
+The collector reports the data to RDI in a structured JSON format. If
+the structure of the JSON data is invalid or if there is a fatal bug in the tranformation
+job then RDI can't transform the data. When this happens, RDI will store the original data
+in a "dead letter queue" along with a message to say why it was rejected. The dead letter
+queue is stored as a capped stream in the RDI staging database. You can see its contents
+with Redis Insight or with the `redis-di get-rejected` command from the CLI.
