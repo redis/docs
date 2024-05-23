@@ -37,7 +37,7 @@ This application answers these questions:
 
 Data flow is the incoming social media posts from which you parse out the different hashtags. 
 
-The [`TOPK.LIST`]({{< baseurl >}}/commands/topk.list/) command has a time complexity of `O(K)` so if `K` is small, there is no need to keep a separate set or sorted set of all the hashtags. You can query directly from the Top K itself. 
+The [`TOPK.LIST`]({{< baseurl >}}/commands/topk.list/) command has a time complexity of `O(K*log(k))` so if `K` is small, there is no need to keep a separate set or sorted set of all the hashtags. You can query directly from the Top K itself. 
 
 ## Example
 
