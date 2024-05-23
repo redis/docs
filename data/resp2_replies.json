@@ -989,7 +989,7 @@
     "[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if _ABORT_ was specified and shutdown was aborted. On successful shutdown, nothing is returned because the server quits and the connection is closed. On failure, an error is returned."
   ],
   "SINTER": [
-    "[Array reply](../../develop/reference/protocol-spec#arrays): a list with the members of the resulting set."
+    "[Array reply](../../develop/reference/protocol-spec#arrays): an array with the members of the resulting set."
   ],
   "SINTERCARD": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting intersection."
@@ -1019,7 +1019,7 @@
     "[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
   ],
   "SMEMBERS": [
-    "[Array reply](../../develop/reference/protocol-spec#arrays): all members of the set."
+    "[Array reply](../../develop/reference/protocol-spec#arrays): an array with all the members of the set."
   ],
   "SMISMEMBER": [
     "[Array reply](../../develop/reference/protocol-spec#arrays): a list representing the membership of the given elements, in the same order as they are requested."
