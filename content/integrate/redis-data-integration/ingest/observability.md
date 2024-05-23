@@ -104,6 +104,9 @@ This command gathers the following data:
 - All internal RDI configuration
 - List of secret names used by RDI components (but not the secrets themselves)
 - RDI logs
-- RDI components versions
-- RDI status output
+- RDI component versions
+- Output from the `redis-di status` command
+- Text of the `config.yaml` file
+- Text of the Job configuration files
 - [optional] RDI DLQ streams content
+- Rejected records along with the reason for their rejection (should not exist in prod)
