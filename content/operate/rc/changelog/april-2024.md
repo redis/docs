@@ -16,7 +16,7 @@ weight: 55
 
 ### Nano billing unit
 
-We added a Nano billing unit for Pro databases with a maximum size of 500MB and a maximum throughput of 500 ops/sec. Use it to create smaller databases for a lower cost.
+We added a Nano billing unit for Pro databases with a maximum size of 500 MB and a maximum throughput of 500 ops/sec. Use it to create smaller databases for a lower cost.
 
 ### Essentials subscriptions through AWS Marketplace
 
