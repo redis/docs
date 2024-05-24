@@ -14,37 +14,13 @@ linkTitle: Ingest FAQ
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 10
+weight: 50
 ---
 
 ## Which license does RDI use?
 
 You must purchase a commercial license for RDI with Redis Enterprise. This includes two extra
 Redis Enterprise shards (primary and replica) for the staging database.
-
-## When should I use RDI ingest and when shouldn't I?
-
-RDI is designed to support apps that must use a disk based database as the system of record
-but must also be fast and scalable. This is a common requirement for mobile and web
-apps with a rapidly-growing number of users; the performance of the main database is fine at first
-but it will soon struggle to handle the increasing demand without a cache.
-
-You should use RDI when:
-
-- You must use a slow database as the system of record for the app 
-- The app must always *write* its data to the slow database
-- You already intend to use Redis for the app cache
-- The data changes frequently in small increments
-- Your app can tolerate *eventual* consistency of data in the Redis cache
-
-You should *not* use RDI when:
-
-- You are migrating an existing data set into Redis only once
-- The data is updated infrequently and in big batches
-- Your app needs *immediate* cache consistency rather than *eventual* consistency
-- The data is ingested from two replicas of Active-Active at the same time
-- The app must *write* data to the Redis cache, which then updates the source database
-- Your data set will only ever be small
 
 ## Does RDI have any external dependencies?
 
@@ -64,8 +40,6 @@ source databases:
 - **MySQL/MariaDB**: RDI uses `binary log replication` to get all the commits.
 - **PostgreSQL**:  RDI uses the `pgoutput` plugin.
 - **SQL Server**: RDI uses the CDC mechanism.
-- **Cassandra**: RDI uses the CDC log.
-- **MongoDB**: RDI uses the change streams.
 
 ## How much data can RDI process?
 

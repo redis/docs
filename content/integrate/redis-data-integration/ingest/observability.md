@@ -14,7 +14,7 @@ linkTitle: Observability
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 2
+weight: 40
 ---
 
 RDI reports metrics about its operation using
