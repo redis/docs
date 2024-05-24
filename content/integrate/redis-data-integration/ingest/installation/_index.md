@@ -19,16 +19,6 @@ weight: 2
 
 This guide explains how to install RDI and integrate it with your source database.
 
-## Preparation
-
-Before you install RDI, you must first prepare your source database to use
-the Debezium connector for *change data capture (CDC)*. See the
-[architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
-for more information about CDC.
-Each database type has a different set of preparation steps. You can
-find the preparation guides for the databases that RDI supports in the
-[Prepare your source database](#prepare-your-source-database) section below.
-
 ## Install RDI on VMs
 
 You would normally install RDI on 2 VMs for high availability (HA) but you can also install

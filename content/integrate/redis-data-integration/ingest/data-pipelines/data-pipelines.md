@@ -164,6 +164,15 @@ See [reference section pages when they are ready] for full details about the
 available source, transform, and target configuration options and also a set
 of example job configurations.
 
+## Source preparation
+Before using the pipeline you must first prepare your source database to use
+the Debezium connector for *change data capture (CDC)*. See the
+[architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
+for more information about CDC.
+Each database type has a different set of preparation steps. You can
+find the preparation guides for the databases that RDI supports in the
+[Prepare your source database](#prepare-your-source-database) section below.
+
 ## Ingest pipeline lifecycle
 
 Once you have created the configuration for a pipeline, it goes through the
