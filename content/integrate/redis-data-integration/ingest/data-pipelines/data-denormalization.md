@@ -16,18 +16,25 @@ type: integration
 weight: 30
 ---
 
-The data in the source database is often _normalized_, meaning that column values are scalar and entity relationships are expressed as mappings of primary keys to foreign keys between different tables.
-Normalized data models are useful when you're inserting, updating, and deleting data at the cost of slower reads.
-Redis as a cache, on the other hand, is focused on speeding up read queries. To that end, RDI provides _denormalization_ of data.
+The data in the source database is often
+[*normalized*](https://en.wikipedia.org/wiki/Database_normalization).
+This means that columns can't have composite values (such as arrays) and relationships between entities
+are expressed as mappings of primary keys to foreign keys between different tables.
+Normalized data models reduce redundancy and improve data integrity for write queries but this comes
+at the expense of speed.
+A Redis cache, on the other hand, is focused on making *read* queries fast, so RDI provides data
+*denormalization* to help with this.
 
 ## Nest strategy
 
-Nest is the only currently supported denormalization strategy.
-This strategy denormalizes many-to-one relationships in the source database to JSON documents, where the parent entity is the root of the document and the children entities are nested inside a JSON `map` attribute.
+*Nesting* is the strategy RDI uses to denormalize many-to-one relationships in the source database.
+It does this by representing the
+parent object (the "one") as a JSON document with the children (the "many") nested inside an
+attribute called `map`.
 
 {{< image filename="/images/rdi/nest-flow.png" >}}
 
-Denormalization is performed by using a `nest` block in the children entities' RDI job, as shown in this example:
+Configure normalization with a `nest` block in the child entities' RDI job, as shown in this example:
 
 ```yaml
 source:

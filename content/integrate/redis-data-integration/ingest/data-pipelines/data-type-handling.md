@@ -16,15 +16,14 @@ type: integration
 weight: 20
 ---
 
-## Debezium type handling
-
 RDI automatically converts data that has a Debezium JSON schema into Redis types.
 Some Debezium types require special conversion. For example:
 
 - Date and Time types are converted to epoch time.
-- Decimal numeric types are converted to strings that can be used by applications without losing precision.
+- Decimal numeric types are converted to strings so your app can use them
+  without losing precision.
 
-The following Debezium logical types are currently handled:
+The following Debezium logical types are supported:
 
 - double
 - float
@@ -42,10 +41,10 @@ The following Debezium logical types are currently handled:
 - org.apache.kafka.connect.data.Decimal
 - org.apache.kafka.connect.data.Time
 
-These types are currently **not** supported and will return "Unsupported Error":
+These types are **not** supported and will return "Unsupported Error":
 
 - io.debezium.time.interval
 
-All other values will be treated as plain String.
+All other values are treated as plain strings.
 
 For more information, see [a full list of source database values conversion]({{<relref "/integrate/redis-data-integration/reference/data-types-conversion">}}).

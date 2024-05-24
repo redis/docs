@@ -1,8 +1,8 @@
 ---
-Title: Pipelines
-linkTitle: Pipelines
-description: Learn how to configure ingest pipelines 
-weight: 4
+Title: Configure data pipelines
+linkTitle: Configure
+description: Learn how to configure ingest pipelines for data transformation
+weight: 1
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
@@ -12,7 +12,7 @@ RDI implements
 [change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC)
 with *pipelines*. (See the
 [architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
-for an introduction to pipelines.) There are 2 basic types of pipeline:
+for an introduction to pipelines.) There are two basic types of pipeline:
 
 - *Ingest* pipelines capture data from an external source database
   and add it to a Redis target database.
@@ -28,12 +28,13 @@ structure of the configuration:
 {{< image filename="images/rdi/ingest/ingest-config-folders.svg" >}}
 
 The main configuration for the pipeline is in the `config.yaml` file.
-This specifies the connection details for the source database(s) (such
+This specifies the connection details for the source database (such
 as host, username, and password) and also the queries that RDI will use
 to extract the required data. You can also specify one or more optional *job* configurations in the `Jobs` folder. Use these to specify custom
-transformations to apply to the source data before writing it to the target.
+*data transformations*
+to apply to the source data before writing it to the target.
 
-The sections below describe these 2 types of configuration files in more detail.
+The sections below describe these two types of configuration files in more detail.
 
 ## The `config.yaml` file
 
@@ -73,8 +74,8 @@ The main sections of the file configure [`sources`](#sources) and [`targets`](#t
 
 ### Sources
 
-The `sources` section has one or more subsections for each of the sources that
-you need to configure. Every source section starts with a unique name
+The `sources` section has a subsection for the source that
+you need to configure. The source section starts with a unique name
 to identify the source (in the example we have a source
 called `mysql` but you can choose any name you like). The example
 configuration contains the following data:
@@ -110,7 +111,9 @@ and TLS/mTLS secrets here if you use them.
 
 ## Job files
 
-You can optionally supply one or more job files that specify how you want to transform the captured data before writing it to the target. Each job file contains a YAML
+You can optionally supply one or more job files that specify how you want to
+transform the captured data before writing it to the target.
+Each job file contains a YAML
 configuration that controls the transformation for a particular table from the source
 database. For ingest pipelines, you can also add a `default-job.yaml` file to provide
 a default transformation for tables that don't have a specific job file of their own.
@@ -165,13 +168,15 @@ available source, transform, and target configuration options and also a set
 of example job configurations.
 
 ## Source preparation
+
 Before using the pipeline you must first prepare your source database to use
 the Debezium connector for *change data capture (CDC)*. See the
 [architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
 for more information about CDC.
 Each database type has a different set of preparation steps. You can
 find the preparation guides for the databases that RDI supports in the
-[Prepare your source database](#prepare-your-source-database) section below.
+[Prepare source databases]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs" >}})
+section.
 
 ## Ingest pipeline lifecycle
 
