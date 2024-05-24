@@ -36,11 +36,11 @@ The [Redis command line interface]({{< relref "/develop/connect/cli" >}}) (also 
 
 It's easy to connect your application to a Redis database. The official client libraries cover the following languages:
 
-* [C#/.NET]({{< relref "/develop/connect/clients/dotnet" >}})
-* [Go]({{< relref "/develop/connect/clients/go" >}})
-* [Java]({{< relref "/develop/connect/clients/java" >}})
-* [Node.js]({{< relref "/develop/connect/clients/nodejs" >}})
-* [Python]({{< relref "/develop/connect/clients/python" >}})
+- [Python]({{< relref "/develop/connect/clients/python" >}})
+- [C#/.NET]({{< relref "/develop/connect/clients/dotnet" >}})
+- [Node.js]({{< relref "/develop/connect/clients/nodejs" >}})
+- [Java]({{< relref "/develop/connect/clients/java" >}})
+- [Go]({{< relref "/develop/connect/clients/java" >}})
 
 <!--You can find a complete list of all client libraries, including the community-maintained ones, on the [clients page](/resources/clients/).-->
 
