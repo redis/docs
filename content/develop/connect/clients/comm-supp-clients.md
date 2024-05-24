@@ -20,6 +20,6 @@ are not supported by Redis directly.
 
 | Language | Client name | Github | Docs |
 | :-- | :-- | :-- | :-- |
-| C | hiredis | https://github.com/redis/hiredis | |
+| C | hiredis | https://github.com/redis/hiredis | https://github.com/redis/hiredis |
 | PHP | predis | https://github.com/predis/predis | https://github.com/predis/predis/wiki |
 | Ruby | redis-rb | https://github.com/redis/redis-rb | https://rubydoc.info/gems/redis |
