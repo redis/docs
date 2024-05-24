@@ -37,7 +37,7 @@ RDI provides enterprise grade streaming data pipelines:
 - **Recovering from full failure** - In case of target failure or very long disconnect, RDI can reset data in Redis using a full snapshot of the defined dataset.
 - **high throughput** - Using Redis for staging and writing to Redis as a target, RDI has high throughput. With a single processing unit, RDI processes around 10,000 records per second. During full snapshot, RDI automatically scale to a configurable number of processing units, multiplying its throughput to speed up Cache backfill.
 
-## When to use RDI
+## When to use RDI Ingest
 
 RDI should be used in the following conditions:
 
