@@ -40,7 +40,7 @@ It's easy to connect your application to a Redis database. The official client l
 - [C#/.NET]({{< relref "/develop/connect/clients/dotnet" >}})
 - [Node.js]({{< relref "/develop/connect/clients/nodejs" >}})
 - [Java]({{< relref "/develop/connect/clients/java" >}})
-- [Go]({{< relref "/develop/connect/clients/java" >}})
+- [Go]({{< relref "/develop/connect/clients/go" >}})
 
 <!--You can find a complete list of all client libraries, including the community-maintained ones, on the [clients page](/resources/clients/).-->
 

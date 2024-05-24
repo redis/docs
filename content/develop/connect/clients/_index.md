@@ -22,7 +22,7 @@ for five main languages:
 - [C#/.NET]({{< relref "/develop/connect/clients/dotnet" >}})
 - [Node.js]({{< relref "/develop/connect/clients/nodejs" >}})
 - [Java]({{< relref "/develop/connect/clients/java" >}})
-- [Go]({{< relref "/develop/connect/clients/java" >}})
+- [Go]({{< relref "/develop/connect/clients/go" >}})
 
 We also provide several higher-level
 [object mapping (OM)]({{< relref "/develop/connect/clients/om-clients" >}})
