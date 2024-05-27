@@ -11,7 +11,7 @@ This is the General Availability (GA) release of Redis Insight 2.50.
 
 ### Highlights
 - Optimize your Redis learning journey by signing in to your Redis Cloud account directly from Redis Insight. Easily provision a free Cloud database and level up your Redis expertise with our interactive tutorial. Or swiftly import databases from your Redis Cloud account to seamlessly continue your journey in Redis Insight.
-- Explore common Redis use cases through a paired-up tutorial opened after uploading sample data for empty databases.
+- Explore common Redis use cases through a paired-up tutorial that opens after uploading sample data for new databases.
 - Performance and UX enhancements for JSON data structure in Browser
 
 ### Details
