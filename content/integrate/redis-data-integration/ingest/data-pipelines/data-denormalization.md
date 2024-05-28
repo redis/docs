@@ -29,12 +29,13 @@ A Redis cache, on the other hand, is focused on making *read* queries fast, so R
 
 *Nesting* is the strategy RDI uses to denormalize many-to-one relationships in the source database.
 It does this by representing the
-parent object (the "one") as a JSON document with the children (the "many") nested inside an
-attribute called `map`.
+parent object (the "one") as a JSON document with the children (the "many") nested inside a JSON map
+attribute in the parent. The diagram belows shows a nesting with the child objects in a map
+called `InvoiceLineItems`:
 
 {{< image filename="/images/rdi/nest-flow.png" >}}
 
-Configure normalization with a `nest` block in the child entities' RDI job, as shown in this example:
+You configure normalization with a `nest` block in the child entities' RDI job, as shown in this example:
 
 ```yaml
 source:
@@ -57,36 +58,52 @@ output:
 ```
 
 The job has a `with` section under `output` that includes the `nest` block.
-The job has to include these attributes in the `nest` block:
+The job must include the following attributes in the `nest` block:
 
-- `parent`: Specifies the RDI data stream for the parent entities. Typically, the parent table name is sufficient, unless you nest children under a parent that comes from a different source database. In that case, you have to specify `server_name` and `schema`.
+- `parent`: This specifies the RDI data stream for the parent entities. Typically, you only
+  need to supply the parent table name, unless you are nesting children under a parent that comes from
+  a different source database. If you do this then you must also specify `server_name` and
+  `schema` attributes.
 - `nesting-key`: The field of the child entity that stores the unique ID (primary key) of the child entity.
 - `parent-key`: The field in the parent entity that stores the unique ID (foreign key) of the parent entity.
-- `child_key`: The field in the child entity that stores the unique ID (foreign key) of the parent entity. It is optional and only required when the name of the child's foreign key field differs from the parent's.
-- `path`: The JSON path for the JSON map of children entities. This has to start with `$` which is the notation for the document root.
-- `structure`: The optional type of JSON structure used for nesting the children entities. Currently, only JSON map is supported so the value must be `map`, if provided.
+- `child_key`: The field in the child entity that stores the unique ID (foreign key) of the parent entity.
+  You only need to add this attribute if the name of the child's foreign key field is different from the parent's.
+- `path`: The [JSONPath](https://goessner.net/articles/JsonPath/)
+  for the map where you want to store the child entities. The path must start with the `$` character, which denotes
+  the document root.
+- `structure`: (Optional) The type of JSON nesting structure for the child entities. Currently, only JSON map
+  is supported so if you supply this attribute then the value must be `map`.
 
-> Notes:
+There are several important things to note when you use nesting:
 
-- When `nest` is specified in the job, RDI automatically overrides `data_type: json` and `on_update: merge` for that output block regardless of the actual values specified in the job or system-wide settings.
-- Key expressions are not supported for the `nest` output blocks. The parent key is always calculated using the following template:
+- When you specify `nest` in the job, RDI automatically supplies the attributes `data_type: json` and
+  `on_update: merge` for that `output` block. These values override any values you specify in the job
+  or in system-wide settings.
+- Key expressions are *not* supported for the `nest` output blocks. The parent key is always calculated
+  using the following template:
 
-  > ```bash
-  > <nest.parent.table>:<nest.parent_key>:<nest.parent_key.value | nest.child_key.value>
-  > ```
-  >
-  > For example:
-  >
-  > ```bash
-  > Invoice:InvoiceId:1
-  > ```
+  ```bash
+  <nest.parent.table>:<nest.parent_key>:<nest.parent_key.value | nest.child_key.value>
+  ```
+  
+  For example:
+  
+  ```bash
+  Invoice:InvoiceId:1
+  ```
 
-- If `expire` is specified in the `nest` output block it will set the expiration on the **parent** object.
-- Only one level of nesting is currently supported.
-- Only applicable to PostgreSQL: To enable nested operations for tables in PostgreSQL databases, the following changes must be made to all child tables:
-  >
-  > ```sql
-  > ALTER TABLE <TABLE_NAME> REPLICA IDENTITY FULL;
-  > ```
-  >
-  > For every table that has nested data in a parent document, it is necessary to perform this task. The configuration impacts the information written to the write-ahead log (WAL) and its availability for capture. By default, PostgreSQL only records the modified fields in the log, which can cause the `parent_key` to be omitted, resulting in erroneous updates to the Redis key in the destination database. Modifying the table to capture all modifications in the log is essential to ensure proper operation of RDI. See more details in [Debezium PostgreSQL Connector Documentation](https://debezium.io/documentation/reference/connectors/postgresql.html#postgresql-replica-identity).
+- If you specify `expire` in the `nest` output block then this will set the expiration on the *parent* object.
+- You can only use one level of nesting.
+- If you are using PostgreSQL then you must make the following change for all child tables that you want to nest:
+  
+  ```sql
+  ALTER TABLE <TABLE_NAME> REPLICA IDENTITY FULL;
+  ```
+  
+  This configuration affects the information written to the write-ahead log (WAL) and whether it is available
+  for RDI to capture. By default, PostgreSQL only records
+  modified fields in the log, which means that it might omit the `parent_key`. This can cause incorrect updates to the
+  Redis key in the destination database.
+  See the
+  [Debezium PostgreSQL Connector Documentation](https://debezium.io/documentation/reference/connectors/postgresql.html#postgresql-replica-identity)
+  for more information about this.
