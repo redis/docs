@@ -471,6 +471,9 @@ For each error type, the following line is added:
 
 *   `errorstat_XXX`: `count=XXX`
 
+If the server detects that this section was flooded with an excessive number of errors, it will be disabled, show a single `ERRORSTATS_DISABLED` error, and print the errors to the server log.
+This can be reset by `CONFIG RESETSTAT`.
+
 The **sentinel** section is only available in Redis Sentinel instances. It consists of the following fields:
 
 *   `sentinel_masters`: Number of Redis masters monitored by this Sentinel instance
@@ -497,13 +500,17 @@ For each database, the following line is added:
 The **debug** section contains experimental metrics, which might change or get removed in future versions.
 It won't be included when `INFO` or `INFO ALL` are called, and it is returned only when `INFO DEBUG` is used.
 
-*   `eventloop_duration_aof_sum`: Total time spent on flushing AOF in eventloop in microseconds
-*   `eventloop_duration_cron_sum`: Total time consumption of cron in microseconds (including serverCron and beforeSleep, but excluding IO and AOF flushing)
-*   `eventloop_duration_max`: The maximal time spent in a single eventloop cycle in microseconds
-*   `eventloop_cmd_per_cycle_max`: The maximal number of commands processed in a single eventloop cycle
+*   `eventloop_duration_aof_sum`: Total time spent on flushing AOF in eventloop in microseconds.
+*   `eventloop_duration_cron_sum`: Total time consumption of cron in microseconds (including serverCron and beforeSleep, but excluding IO and AOF flushing).
+*   `eventloop_duration_max`: The maximal time spent in a single eventloop cycle in microseconds.
+*   `eventloop_cmd_per_cycle_max`: The maximal number of commands processed in a single eventloop cycle.
+*   `allocator_allocated_lua`: Total bytes allocated from the allocator specifically for Lua, including internal-fragmentation.
+*   `allocator_active_lua`: Total bytes in the allocator active pages specifically for Lua, this includes external-fragmentation.
+*   `allocator_resident_lua`: Total bytes resident (RSS) in the allocator specifically for Lua, this includes pages that can be released to the OS (by `MEMORY PURGE`, or just waiting).
+*   `allocator_frag_bytes_lua`: Delta between `allocator_active_lua` and `allocator_allocated_lua`.
 
 [hcgcpgp]: http://code.google.com/p/google-perftools/
 
 **A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
 
-**Modules generated sections**: Starting with Redis 6, modules can inject their info into the `INFO` command, these are excluded by default even when the `all` argument is provided (it will include a list of loaded modules but not their generated info fields). To get these you must use either the `modules` argument or `everything`.,
+**Modules generated sections**: Starting with Redis 6, modules can inject their info into the `INFO` command, these are excluded by default even when the `all` argument is provided (it will include a list of loaded modules but not their generated info fields). To get these you must use either the `modules` argument or `everything`.
