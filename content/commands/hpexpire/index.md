@@ -115,4 +115,4 @@ One of the following:
 * [Simple error reply](../../develop/reference/protocol-spec#simple-errors):
     - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.
     - if the provided key exists but is not a hash.
-* [Null reply](../../develop/reference/protocol-spec#nulls) if the provided key does not exist.
+* Empty [Array reply](../../develop/reference/protocol-spec#arrays) if the provided key does not exist.
