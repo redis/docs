@@ -165,9 +165,13 @@ their order to suit your application's requirements.
    - **PCRE_ANCHORED:** the pattern is constrained to match only at
         the start of the string which is being searched.
 
-## Memory limit {#dataset-size}
+## Dataset size {#dataset-size}
 
-The memory limit represents the maximum amount of memory for the database, which includes data values, keys, module data, and overhead for specific features.  High availability features, such as replication and Active-Active,  increase memory consumption.  
+The dataset size of a database is a part of the full memory limit for the database. The memory limit represents the maximum amount of memory for the database, which includes data values, keys, module data, and overhead for specific features.  High availability features, such as replication and Active-Active,  increase memory consumption, so in those cases your dataset size and memory limit will be different.
+
+For Redis Cloud Essentials, the plan size refers to the full memory limit, not the dataset size. Both the total memory limit and dataset size are listed under **Database details** when you create an Essentials database.
+
+For Redis Cloud Pro, you define your dataset size when you create the database, and we calculate your total memory limit based on the features you choose. 
 
 Here are some general guidelines:
 

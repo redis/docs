@@ -2,12 +2,12 @@
 
 The following table shows the default use case settings for a Pro database.
 
-| **Type** | High Availability | Data Persistence | Capabilities | Eviction Policy |
-|---|---|---|---|---|
-| **Cache** | Single-zone | None | None | `volatile-lru` |
-| **Database** | Multi-zone | Append-only file every 1 sec | Search & query, JSON, Probabilistic, Time Series | None |
-| **Vector Search** | Multi-zone | Append-only file every 1 sec | Search & query, JSON | None |
-| **Custom** | Single-zone | Append-only file every 1 sec | None | None |
+| **Type** | High Availability | Data Persistence | Eviction Policy |
+|---|---|---|---|
+| **Cache** | Single-zone | None | `volatile-lru` |
+| **Database** | Multi-zone | Append-only file every 1 sec | None |
+| **Vector Search** | Multi-zone | Append-only file every 1 sec | None |
+| **Custom** | Single-zone | Append-only file every 1 sec | None |
 
 ## Billing Unit types
 
