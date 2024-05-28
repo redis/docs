@@ -43,6 +43,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(1)
 description: Performs spelling correction on a query, returning suggestions for misspelled
   terms
