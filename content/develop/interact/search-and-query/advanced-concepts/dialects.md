@@ -165,6 +165,10 @@ It introduces support for new comparison operators for `NUMERIC` fields:
 * `==` (equal).
   
   `FT.SEARCH idx "@numeric==3456"`
+
+  and
+
+  `FT.SEARCH idx "@numeric:[3456]"`
 * `!=` (not equal).
   
   `FT.SEARCH idx "@numeric!=3456"`

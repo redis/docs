@@ -34,14 +34,18 @@ You can find more details about creating the index and loading the demo data in 
 To perform an exact match query on a numeric field, you need to construct a range query with the same start and end value:
 
 ```
-FT.SEARCH index "@field:[start end]"
+FT.SEARCH index "@field:[value value]"
+
+or
+
+FT.SEARCH index "@field:[value]" DIALECT 5
+
+or
+
+FT.SEARCH index "@field==value" DIALECT 5
 ```
 
-With [DIALECT 5]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-5), you can perform the same search using the following syntax:
-
-```
-FT.SEARCH index "@field==value"
-```
+See [DIALECT 5]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-5) for more information.
 
 As described in the [article about range queries]({{< relref "/develop/interact/search-and-query/query/range" >}}), you can also use the `FILTER` argument:
 
@@ -53,6 +57,14 @@ The following examples show you how to query for bicycles with a price of exactl
 
 ```
 FT.SEARCH idx:bicycle "@price:[270 270]"
+```
+
+```
+FT.SEARCH idx:bicycle "@price:[270]"
+```
+
+```
+FT.SEARCH idx:bicycle "@price==270"
 ```
 
 ```
@@ -83,6 +95,16 @@ This short example shows you how to query for new bicycles:
 ```
 FT.SEARCH idx:bicycle "@condition:{new}"
 ```
+
+The following characters must be escaped to be used in an exact match query involving tags:
+
+`$` - used to define a variable such as `$params`.
+
+`{}` - used to define `TAG` query attributes.
+
+`\` - used to indicate that the succeeding character should be handled as literal.
+
+`|` - used for the logical OR operator.
 
 ## Full-text field
 

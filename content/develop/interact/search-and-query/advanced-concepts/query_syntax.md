@@ -51,7 +51,7 @@ You can use simple syntax for complex queries using these rules:
 * As of v2.4, k-nearest neighbors (KNN) queries on vector fields with or without pre-filtering with the syntax `{filter_query}=>[KNN {num} @field $query_vec]`.
 * Tag field filters with the syntax `@field:{tag | tag | ...}`. See the full documentation on [tags]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}}).
 * Optional terms or clauses: `foo ~bar` means bar is optional but documents containing `bar` will rank higher.
-* Fuzzy matching on terms: `%hello%` means all terms with Levenshtein distance of 1 from it. Use multiple pairs of '%' brackets to increase the Levenshtein distance.
+* Fuzzy matching on terms: `%hello%` means all terms with Levenshtein distance of 1 from it. Use multiple pairs of '%' brackets, up to three deep, to increase the Levenshtein distance.
 * An expression in a query can be wrapped in parentheses to disambiguate, for example, `(hello|hella) (world|werld)`.
 * Query attributes can be applied to individual clauses, for example, `(foo bar) => { $weight: 2.0; $slop: 1; $inorder: false; }`.
 * Combinations of the above can be used together, for example, `hello (world|foo) "bar baz" bbbb`.
@@ -124,7 +124,7 @@ Example:
 @cities:{ New York | Los Angeles | Barcelona }
 ```
 
-Tags can have multiple words or include other punctuation marks other than the field's separator (`,` by default). Punctuation marks in tags should be escaped with a backslash (`\`). 
+Tags can have multiple words or include other punctuation marks other than the field's separator (`,` by default). The following characters in tags should be escaped with a backslash (`\`): `$`, `{`, `}`, `\`, and `|`.
 
 {{% alert title="Note" color="warning" %}}
 Before RediSearch 2.6, it was also recommended to escape spaces. The reason was that, if a multiword tag included stopwords, a syntax error was returned. So tags, like "to be or not to be" needed be escaped as "to\ be\ or\ not\ to\ be". For good measure, you also could escape all spaces within tags. Starting with RediSearch 2.6, using `DIALECT 2` or greater you can use spaces in a `tag` query, even with stopwords.
