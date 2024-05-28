@@ -164,26 +164,48 @@ It introduces support for new comparison operators for `NUMERIC` fields:
 
 * `==` (equal).
   
-  `FT.SEARCH idx "@numeric==3456"`
+  `FT.SEARCH idx "@numeric==3456" DIALECT 5`
 
   and
 
-  `FT.SEARCH idx "@numeric:[3456]"`
+  `FT.SEARCH idx "@numeric:[3456]" DIALECT 5`
 * `!=` (not equal).
   
-  `FT.SEARCH idx "@numeric!=3456"`
+  `FT.SEARCH idx "@numeric!=3456" DIALECT 5`
 * `>` (greater than)
   
-  `FT.SEARCH idx "@numeric>3456"`
+  `FT.SEARCH idx "@numeric>3456" DIALECT 5`
 * `>=` (greater than or equal).
   
-  `FT.SEARCH idx "@numeric>=3456"`
+  `FT.SEARCH idx "@numeric>=3456" DIALECT 5`
 * `<` (less than)
   
-  `FT.SEARCH idx "@numeric<3456"`
+  `FT.SEARCH idx "@numeric<3456" DIALECT 5`
 * `<=` (less than or equal).
   
-  `FT.SEARCH idx "@numeric<=3456"`
+  `FT.SEARCH idx "@numeric<=3456" DIALECT 5`
+
+Dialect version 5 also introduces simplified syntax for logical operations:
+
+* `|` (or).
+
+  `FT.SEARCH idx "@tag:{3d3586fe-0416-4572-8ce1 | 3d3586fe-0416-6758-4ri8}" DIALECT 5`
+
+  which is equivalent to
+
+  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} | @tag{3d3586fe-0416-6758-4ri8})" DIALECT 5`
+
+* `<space>` (and).
+
+  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} @tag{3d3586fe-0416-6758-4ri8})" DIALECT 5`
+
+* `-` (negation).
+
+  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} -@tag{3d3586fe-0416-6758-4ri8})" DIALECT 5`
+
+* `~` (optional/proximity).
+
+  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} ~@tag{3d3586fe-0416-6758-4ri8})" DIALECT 5`
 
 Dialect version 1 remains the default dialect. To use dialect version 5, append `DIALECT 5` to your query command.
 
