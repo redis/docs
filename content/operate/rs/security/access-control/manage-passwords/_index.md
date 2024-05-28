@@ -1,13 +1,13 @@
 ---
-Title: Manage passwords
+Title: Set password policies
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Manage user passwords.
+description: Set password policies.
 hideListLinks: true
-linkTitle: Manage passwords
+linkTitle: Set password policies
 toc: 'true'
 weight: 30
 ---
