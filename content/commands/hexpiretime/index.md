@@ -47,7 +47,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HEXPIRETIME
-since: 8.0.0
+since: 7.4 RC1
 summary: Returns the expiration time of a hash field as a Unix timestamp, in seconds.
 syntax_fmt: HEXPIRETIME key FIELDS numfields field [field ...]
 syntax_str: FIELDS numfields field [field ...]
