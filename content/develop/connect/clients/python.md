@@ -15,15 +15,13 @@ title: Python guide
 weight: 1
 ---
 
-Install Redis and the Redis client, then connect your Python application to a Redis database. 
-
-## redis-py
-
-Get started with the [redis-py](https://github.com/redis/redis-py) client for Redis. 
+[redis-py](https://github.com/redis/redis-py) is the Python client for Redis. 
+The sections below explain how to install `redis-py` and connect your application
+to a Redis database.
 
 `redis-py` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
-### Install
+## Install
 
 To install `redis-py`, enter:
 
@@ -41,7 +39,7 @@ The Python `distutils` packaging scheme is no longer part of Python 3.12 and gre
 pip install redis[hiredis]
 ```
 
-### Connect
+## Connect
 
 Connect to localhost on port 6379, set a value in Redis, and retrieve it. All responses are returned as bytes in Python. To receive decoded strings, set `decode_responses=True`. For more connection options, see [these examples](https://redis.readthedocs.io/en/stable/examples.html).
 
@@ -73,7 +71,7 @@ r.hgetall('user-session:123')
 # {'surname': 'Smith', 'name': 'John', 'company': 'Redis', 'age': '29'}
 ```
 
-#### Connect to a Redis cluster
+### Connect to a Redis cluster
 
 To connect to a Redis cluster, use `RedisCluster`.
 
@@ -93,7 +91,7 @@ rc.get('foo')
 ```
 For more information, see [redis-py Clustering](https://redis-py.readthedocs.io/en/stable/clustering.html).
 
-#### Connect to your production Redis with TLS
+### Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
 
@@ -117,7 +115,7 @@ r.get('foo')
 ```
 For more information, see [redis-py TLS examples](https://redis-py.readthedocs.io/en/stable/examples/ssl_connection_examples.html).
 
-### Example: Indexing and querying JSON documents
+## Example: Indexing and querying JSON documents
 
 Make sure that you have Redis Stack and `redis-py` installed. Import dependencies:
 
@@ -217,7 +215,7 @@ print(rs.aggregate(req).rows)
 # [[b'city', b'Tel Aviv', b'count', b'2'], [b'city', b'London', b'count', b'1']]
 ```
 
-### Learn more
+## Learn more
 
 * [Command reference](https://redis-py.readthedocs.io/en/stable/commands.html)
 * [Tutorials](https://redis.readthedocs.io/en/stable/examples.html)

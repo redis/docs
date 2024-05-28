@@ -16,7 +16,7 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(k) where k is the value of top-k
+complexity: O(k*log(k)) where k is the value of top-k
 description: Return full list of items in Top K list
 group: topk
 hidden: false
@@ -39,6 +39,8 @@ Return full list of items in Top K list.
 ## Return
 
 k (or less) items in Top K list.
+
+The list is sorted by decreased count estimation.
 
 [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - the names of items in the TopK list.
 If `WITHCOUNT` is requested, [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and 

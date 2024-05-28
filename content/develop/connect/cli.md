@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Overview of redis-cli, the Redis command line interface
-
-  '
+description: 'Overview of redis-cli, the Redis command line interface'
 linkTitle: CLI
 title: Redis CLI
 weight: 1

@@ -3,9 +3,7 @@ categories:
 - docs
 - operate
 - redisinsight
-description: 'How to install Redis Insight on Docker
-
-  '
+description: How to install Redis Insight on Docker
 linkTitle: Install on Docker
 title: Install on Docker
 weight: 2
