@@ -18,52 +18,58 @@ type: integration
 weight: 1
 ---
 
-Redis Data Integration (RDI) is a product that helps [Redis Enterprise](https://redis.com/redis-enterprise-software/overview/) users ingest data in near real-time, so that Redis becomes part of their data fabric without additional integration efforts.
+Redis Data Integration (RDI) is a product for [Redis Enterprise](https://redis.com/redis-enterprise-software/overview/),
+that helps you ingest data in near real-time. Redis then becomes an integral part of your data fabric without any
+extra effort from you.
 
-RDI currently supports these scenarios:
+RDI currently supports two scenarios:
 
-* [Ingest scenario]({{<relref "/integrate/redis-data-integration/quickstart/ingest-guide">}}). RDI mirrors the application's primary database to Redis using a Capture Data Change (CDC) tool. RDI transforms the database model and types to a Redis model and types. This scenario is useful when the application database is not performant and scalable enough to serve the read queries. RDI helps to offload all read queries to Redis.
+* [**Ingest scenario**]({{< relref "/integrate/redis-data-integration/ingest" >}}): RDI mirrors the application's
+  primary database to Redis using a *change data capture* (CDC) tool. RDI transforms the database model and
+  types to a Redis model and types. This scenario is useful when the application database is not performant
+  and scalable enough to serve the read queries. RDI helps you offload all read queries to Redis.
 
-{{<note>}}
- Ingest is supported with targets of Redis database or [CRDB](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/) (Active Active Replication)
- {{</note>}}
+  {{<note>}}
+  Ingest is supported with Redis database or [CRDB](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/) (Active Active Replication) targets.
+  {{</note>}}
 
   {{< image filename="/images/rdi/ingest.png" >}}
   
-* [Write-behind scenario (Preview)]({{<relref "/integrate/redis-data-integration/quickstart/write-behind-guide">}}). RDI applies data changes in Redis to one or more downstream data stores. RDI can map and transform Redis types and models to downstream types and models. This scenario is useful when the application needs fast writes and reads for some of the queries, but has to provide data to other downstream services that need them in different models for other uses.
+* [**Write-behind scenario** (Preview)]({{< relref "/integrate/redis-data-integration/write-behind" >}}): RDI applies data
+  changes in Redis to one or more downstream data stores. RDI can map and transform Redis types and models to downstream types and models. This scenario is useful when the application needs fast writes and reads for some of the queries, but has to provide data to other downstream services that need them in different models for other uses.
 
-{{<note>}}
-Write-behind in NOT supported with [CRDB](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/) (Active Active Replication)
-{{</note>}}
+  {{<note>}}
+  Write-behind is *not* supported with [CRDB](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/) (Active Active Replication)
+  {{</note>}}
 
   {{< image filename="/images/rdi/write-behind.png" >}}  
 
-To learn more, see [Architecture]({{<relref "/integrate/redis-data-integration/architecture">}}).
+See the 
+[Ingest architecture guide]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}})
+and the
+[Write-behind architecture guide]({{< relref "/integrate/redis-data-integration/write-behind/architecture" >}})
+for more information.
 
 ## Supported sources (ingest)
 
 RDI supports the following database sources using [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) connectors:
 
-| Database                    | Versions               |Comments|
-| --------------------------- | ---------------------- |--------|
-| Oracle                      | 12c, 19c, 21c          ||
-| MariaDB                     | >= 10.5                ||
-| MongoDB                     | 4.2, 4.4, 5.0, 6.0     | Driver: 4.7  |
-| MySQL                       | 5.7, 8.0.x             ||
-| Percona XtraDB              | 5.7, 8.0.x             ||
-| Postgres                    | 10, 11, 12, 13, 14, 15 ||
-| SQL Server                  | 2017, 2019             ||
-| Cassandra                   | >= 3.0                 ||
-| Datastax Cassandra          | >= 6.8.0               ||
-| Google Cloud SQL MySQL      | 8.0                    ||
-| Google Cloud SQL Postgres   | 15                     ||
-| Google Cloud SQL SQL Server | 2019                   ||
-| Google Cloud AlloyDB for PostgreSQL | ||
+| Database                    | Versions               |
+| :-------------------------- | :--------------------- |
+| Oracle                      | 12c, 19c, 21c          |
+| MariaDB                     | >= 10.5                |
+| MySQL                       | 5.7, 8.0.x             |
+| Postgres                    | 10, 11, 12, 13, 14, 15 |
+| SQL Server                  | 2017, 2019             |
+| Google Cloud SQL MySQL      | 8.0                    |
+| Google Cloud SQL Postgres   | 15                     |
+| Google Cloud SQL SQL Server | 2019                   |
+| Google Cloud AlloyDB for PostgreSQL | |
 
 ## Supported targets (write-behind)
 
 | Database   |
-| ---------- |
+| :--------- |
 | Oracle     |
 | MariaDB    |
 | MySQL      |
