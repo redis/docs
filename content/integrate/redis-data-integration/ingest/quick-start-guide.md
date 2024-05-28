@@ -114,7 +114,7 @@ replica if you want (this will double the RAM requirements to 250MB).
 During the installation, RDI asked you for a folder path to place the pipeline templates.
 If you go to that folder and run the `ll` command, you will see the pipeline
 configuration file, `config.yaml`, and the `jobs` folder (see the page about
-[Pipelines]({{< relref "/integrate/redis-data-integration/ingest/data-transformation/data-pipelines" >}}) for more information). Use Redis Insight to open
+[Pipelines]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines" >}}) for more information). Use Redis Insight to open
 the `config.yaml` file and then edit the following settings:
 
 - Set the `host` to `localhost` and the `port` to 5432.
@@ -144,7 +144,7 @@ Once the pipeline has loaded a *snapshot* of all the existing data from the sour
 it enters *change data capture (CDC)* mode (see the
 [architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
 and the
-[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/ingest/data-transformation/data-pipelines#ingest-pipeline-lifecycle" >}})
+[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines#ingest-pipeline-lifecycle" >}})
 for more information
 ).
 To see the RDI pipeline working in CDC mode, open the PostgreSQL tool 

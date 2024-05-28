@@ -140,7 +140,8 @@ RDI write-behind allows integration between Redis Enterprise (as the source of c
 RDI captures the changes to a selected set of key patterns in a Redis keyspace and asynchronously writes them in small batches to the downstream database, so the application doesn't need to take care of remodeling the data or managing the connection with the downstream database.
 
 RDI write-behind can normalize a key in Redis to several records in one or more tables at the target.
-To learn more about write-behind declarative jobs and normalization, see the [write-behind quick start guide]({{<relref "/integrate/redis-data-integration/quickstart/write-behind-guide.md">}})
+To learn more about write-behind declarative jobs and normalization, see the
+[write-behind quick start guide]({{< relref "/integrate/redis-data-integration/write-behind/quickstart/write-behind-guide" >}}).
 
 ### Write-behind topology
 

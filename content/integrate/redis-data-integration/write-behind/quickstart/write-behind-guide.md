@@ -49,11 +49,12 @@ RDI write-behind currently supports these target data stores:
 ## Prerequisites
 
 The only prerequisite for running RDI write-behind is [Redis Gears Python](https://redis.com/modules/redis-gears/) >= 1.2.6 installed on the Redis Enterprise Cluster and enabled for the database you want to mirror to the downstream data store.
-For more information, see [RedisGears installation]({{<relref "/integrate/redis-data-integration/installation/install-redis-gears">}}).
+For more information, see
+[RedisGears installation]({{< relref "/integrate/redis-data-integration/write-behind/installation/install-redis-gears" >}}).
 
 ## Preparing the write-behind pipeline
 
-- Install [RDI CLI]({{<relref "/integrate/redis-data-integration/installation/install-rdi-cli">}}) on a Linux host that has connectivity to your Redis Enterprise Cluster.
+- Install [RDI CLI]({{< relref "/integrate/redis-data-integration/write-behind/installation/install-rdi-cli" >}}) on a Linux host that has connectivity to your Redis Enterprise Cluster.
 - Run the [`configure`]({{<relref "/integrate/redis-data-integration/reference/cli/redis-di-configure">}}) command to install the RDI Engine on your Redis database, if you have not used this Redis database with RDI write-behind before.
 - Run the [`scaffold`]({{<relref "/integrate/redis-data-integration/reference/cli/redis-di-scaffold">}}) command with the type of data store you want to use, for example:
 
@@ -250,4 +251,4 @@ If you need to upgrade RDI, you should use the [`upgrade`]({{<relref "/integrate
 redis-di upgrade ...
 ```
 
-See the [Upgrade guide]({{<relref "/integrate/redis-data-integration/upgrade">}}) for more information.
+See the [Upgrade guide]({{< relref "/integrate/redis-data-integration/write-behind/upgrade" >}}) for more information.

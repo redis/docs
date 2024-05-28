@@ -16,7 +16,8 @@ type: integration
 weight: 10
 ---
 
-The following installation instructions install the RDI CLI on a local workstation. For installing in Kubernetes (K8s) or OpenShift please see [k8s installation]({{<relref "/integrate/redis-data-integration/installation/install-k8s">}}).
+The following installation instructions install the RDI CLI on a local workstation. For installing in Kubernetes (K8s) or OpenShift please see
+[k8s installation]({{< relref "/integrate/redis-data-integration/write-behind/installation/install-k8s" >}}).
 
 RDI installation is done via the RDI CLI. The CLI should have network access to the Redis Enterprise cluster API (port 9443 by default).
 

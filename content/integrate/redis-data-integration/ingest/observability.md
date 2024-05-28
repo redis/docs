@@ -48,7 +48,7 @@ These metrics are divided into 3 groups:
 
 RDI reports metrics during the two main phases of the ingest pipeline, the *snapshot*
 phase and the *change data capture (CDC)* phase. (See the
-[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/ingest/data-transformation/data-pipelines" >}})
+[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines" >}})
 docs for more information). The table below shows the full set of metrics that
 RDI reports. 
 

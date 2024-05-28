@@ -23,7 +23,10 @@ Throughout this document, the snippets make use of the Kubernetes `kubectl` tool
 ## Prerequisites
 
 - An existing Redis Enterprise cluster version >= {{<param rdi_rlec_min_version>}}
-- [RedisGears](https://redis.com/modules/redis-gears/) {{<param rdi_redis_gears_version>}} installed on the cluster. In case it's missing, see [Install RedisGears for Redis Data Integration]({{<relref "/integrate/redis-data-integration/installation/install-redis-gears.md">}}) to install.
+- [RedisGears](https://redis.com/modules/redis-gears/) {{<param rdi_redis_gears_version>}} installed on the cluster.
+  In case it's missing, see 
+  [Install RedisGears for Redis Data Integration]({{< relref "/integrate/redis-data-integration/write-behind/installation/install-redis-gears">}})
+  to install.
 - A target Redis DB (can be added after installation).
 
 > Note: The version of RedisGears you will install must match the base OS of the Redis Enterprise containers. In case of [Rancher](https://www.rancher.com/), the Redis Enterprise container base OS is Ubuntu 18.04. Use the following command to install RedisGears:
@@ -56,9 +59,9 @@ curl -k -v -u "user:pwd" https://localhost:9443/v1/modules | jq '.[] | {module_n
 
 There are two options for installing the RDI CLI in an Kubernetes environment:
 
-- Install [RDI CLI]({{<relref "/integrate/redis-data-integration/installation/install-rdi-cli.md">}}) locally
+- Install [RDI CLI]({{< relref "/integrate/redis-data-integration/write-behind/installation/install-rdi-cli" >}}) locally
 
-- [Install RDI CLI as a pod in Kubernetes cluster](#install-rdi-cli-on-kubernetes-cluster)
+- [Install RDI CLI as a pod in Kubernetes cluster](#install-the-rdi-cli-on-the-kubernetes-cluster)
 
 ## Create a new RDI database
 
