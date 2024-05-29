@@ -53,6 +53,8 @@ The following table summarizes which configuration parameters can be set at modu
 | [ENCODING](#encoding) (since RedisTimeSeries v1.6)                         | :white_check_mark: | :white_large_square: |
 | [CHUNK_SIZE_BYTES](#chunk_size_bytes)                                      | :white_check_mark: | :white_large_square: |
 | [OSS_GLOBAL_PASSWORD](#oss_global_password) (since RedisTimeSeries v1.8.4) | :white_check_mark: | :white_large_square: |
+| [IGNORE_MAX_TIME_DIFF](#ignore_max_time_diff) (@LIOR NEED)                 | :white_check_mark: | :white_large_square: |
+| [IGNORE_MAX_VAL_DIFF](#ignore_max_val_diff) (@LIOR NEED)                   | :white_check_mark: | :white_large_square: |
 
 ### NUM_THREADS
 
@@ -245,4 +247,30 @@ Not set
 
 ```
 $ redis-server --loadmodule ./redistimeseries.so OSS_GLOBAL_PASSWORD password
+```
+
+### IGNORE_MAX_TIME_DIFF
+
+The system considers a new insertion a duplicate if the time difference exceeds the maximum allowed.
+The system applies this default value to each new time series when it creates it.
+
+#### Default
+
+0
+
+```
+$ redis-server --loadmodule ./redistimeseries.so IGNORE_MAX_TIME_DIFF 10000
+```
+
+### IGNORE_MAX_VAL_DIFF
+
+The system considers a new insertion a duplicate if the value difference exceeds the maximum allowed.
+The system applies this default value to each new time series when it creates it.
+
+#### Default
+
+0.0
+
+```
+$ redis-server --loadmodule ./redistimeseries.so IGNORE_MAX_VAL_DIFF 0.1
 ```
