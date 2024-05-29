@@ -16,28 +16,35 @@
         {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
        {{ if .Params.categories }}
 <div class="post-categories">
-  <h3>This content is applicable to the following:</h3>
-  <table>
-    {{ range .Params.categories }}
-    {{ if not (in (slice "docs" "operate" "integrate" "develop") .) }} <!-- Check if the category should be excluded -->
-    <tr>
-      {{ $displayName := . }} <!-- Default display name is the category name -->
-      {{ if eq . "rs" }}
-        {{ $displayName = "Redis Enterprise Software" }} <!-- Change display name for 'rs' -->
-      {{ else if eq . "rc" }}
-        {{ $displayName = "Redis Cloud" }} <!-- Change display name for 'rc' -->
-      {{ else if eq . "kubernetes" }}
-        {{ $displayName = "Redis Enterprise for Kubernetes" }} <!-- Change display name for 'kubernetes' -->
-      {{ else if eq . "oss" }}
-        {{ $displayName = "Redis Source Available" }} <!-- Change display name for 'oss' -->
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #ccc;">This content is applicable to the following:</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range .Params.categories }}
+      {{ if not (in (slice "docs" "operate" "integrate" "develop") .) }} <!-- Exclude specific categories -->
+      <tr>
+        {{ $displayName := . }} <!-- Set default display name -->
+        {{ if eq . "rs" }}
+          {{ $displayName = "Redis Enterprise Software" }} <!-- Custom name for 'rs' -->
+        {{ else if eq . "rc" }}
+          {{ $displayName = "Redis Cloud" }} <!-- Custom name for 'rc' -->
+        {{ else if eq . "kubernetes" }}
+          {{ $displayName = "Redis Enterprise for Kubernetes" }} <!-- Custom name for 'kubernetes' -->
+        {{ else if eq . "oss" }}
+          {{ $displayName = "Redis Source Available" }} <!-- Custom name for 'oss' -->
+        {{ end }}
+        <td style="border: 1px solid #ccc; padding: 8px;">{{ $displayName }}</td>
+      </tr>
       {{ end }}
-      <td>{{ $displayName }}</td>
-    </tr>
-    {{ end }}
-    {{ end }}
+      {{ end }}
+    </tbody>
   </table>
 </div>
 {{ end }}
+
 
 
         <!-- In-page banner -->
