@@ -4,16 +4,6 @@
     <section class="prose prose-slate w-full max-w-[51rem] py-12">
       <h1>{{ .Title }}</h1>
       {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
-      {{ if .Params.categories }}
-      <div class="post-categories">
-        <h3>Categories:</h3>
-        <ul>
-          {{ range .Params.categories }}
-          <li><a href="{{ "categories/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>
-          {{ end }}
-        </ul>
-      </div>
-      {{ end }}    
       {{ .Content }}
     </section>
     
