@@ -14,7 +14,17 @@
           {{ end }}
           {{ .Title }}</h1>
         {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
-        
+        {{ if .Params.categories }}
+<div class="post-categories">
+  <h3>Categories:</h3>
+  <ul>
+    {{ range .Params.categories }}
+    <li><a href="{{ "categories/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>
+    {{ end }}
+  </ul>
+</div>
+{{ end }}
+
         <!-- In-page banner -->
         {{ if .Params.bannerText }}
           <!-- Banner params are in the current page's front matter -->
