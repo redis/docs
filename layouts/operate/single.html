@@ -16,14 +16,42 @@
         {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
         {{ if .Params.categories }}
 <div class="post-categories">
-  <h3>Categories:</h3>
-  <ul>
+  <h3>This content is applicable to the following:</h3>
+  <table>
     {{ range .Params.categories }}
-    <li><a href="{{ "categories/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>
+    <tr>
+      {{ $displayName := . }} <!-- Default display name is the category name -->
+      {{ if eq . "rs" }} <!-- Check if the category is 'rs' -->
+        {{ $displayName = "Redis Enterprise Software" }} <!-- Change display name -->
+      {{ end }}
+      <td><a href="{{ "categories/" | relLangURL }}{{ . | urlize }}">{{ $displayName }}</a></td>
+    </tr>
+     <tr>
+      {{ $displayName := . }} <!-- Default display name is the category name -->
+      {{ if eq . "rc" }} <!-- Check if the category is 'rc' -->
+        {{ $displayName = "Redis Cloud" }} <!-- Change display name -->
+      {{ end }}
+      <td><a href="{{ "categories/" | relLangURL }}{{ . | urlize }}">{{ $displayName }}</a></td>
+    </tr>
+     <tr>
+      {{ $displayName := . }} <!-- Default display name is the category name -->
+      {{ if eq . "kubernetes" }} <!-- Check if the category is 'kubernetes' -->
+        {{ $displayName = "Redis Enterprise for Kubernetes" }} <!-- Change display name -->
+      {{ end }}
+      <td><a href="{{ "categories/" | relLangURL }}{{ . | urlize }}">{{ $displayName }}</a></td>
+    </tr>
+    <tr>
+      {{ $displayName := . }} <!-- Default display name is the category name -->
+      {{ if eq . "oss" }} <!-- Check if the category is 'oss' -->
+        {{ $displayName = "Redis Source Available" }} <!-- Change display name -->
+      {{ end }}
+      <td><a href="{{ "categories/" | relLangURL }}{{ . | urlize }}">{{ $displayName }}</a></td>
+    </tr>
     {{ end }}
-  </ul>
+  </table>
 </div>
 {{ end }}
+
 
         <!-- In-page banner -->
         {{ if .Params.bannerText }}
