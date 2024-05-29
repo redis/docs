@@ -126,10 +126,10 @@ Here is the meaning of all fields in the **clients** section:
 *   `blocked_clients`: Number of clients pending on a blocking call ([`BLPOP`]({{< relref "/commands/blpop" >}}),
      [`BRPOP`]({{< relref "/commands/brpop" >}}), [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}), [`BLMOVE`]({{< relref "/commands/blmove" >}}), [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}), [`BZPOPMAX`]({{< relref "/commands/bzpopmax" >}}))
 *   `tracking_clients`: Number of clients being tracked ([`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}))
-*   `pubsub_clients`: Number of clients in pubsub mode ([`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}), [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}})). Added in Redis 8.0
-*   `watching_clients`: Number of clients in watching mode ([`WATCH`]({{< relref "/commands/watch" >}})). Added in Redis 8.0
+*   `pubsub_clients`: Number of clients in pubsub mode ([`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}), [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}})). Added in Redis 7.4 RC1
+*   `watching_clients`: Number of clients in watching mode ([`WATCH`]({{< relref "/commands/watch" >}})). Added in Redis 7.4 RC1
 *   `clients_in_timeout_table`: Number of clients in the clients timeout table
-*   `total_watched_keys`: Number of watched keys. Added in Redis 8.0.
+*   `total_watched_keys`: Number of watched keys. Added in Redis 7.4 RC1.
 *   `total_blocking_keys`: Number of blocking keys. Added in Redis 7.2.
 *   `total_blocking_keys_on_nokey`: Number of blocking keys that one or more clients that would like to be unblocked when the key is deleted. Added in Redis 7.2.
 
@@ -196,7 +196,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `mem_replication_backlog`: Memory used by replication backlog
 *   `mem_total_replication_buffers`: Total memory consumed for replication buffers - Added in Redis 7.0.
 *   `mem_allocator`: Memory allocator, chosen at compile time.
-*   `mem_overhead_db_hashtable_rehashing`: Temporary memory overhead of database dictionaries currently being rehashed - Added in 8.0.
+*   `mem_overhead_db_hashtable_rehashing`: Temporary memory overhead of database dictionaries currently being rehashed - Added in 7.4 RC1.
 *   `active_defrag_running`: When `activedefrag` is enabled, this indicates whether defragmentation is currently active, and the CPU percentage it intends to utilize.
 *   `lazyfree_pending_objects`: The number of objects waiting to be freed (as a
      result of calling [`UNLINK`]({{< relref "/commands/unlink" >}}), or [`FLUSHDB`]({{< relref "/commands/flushdb" >}}) and [`FLUSHALL`]({{< relref "/commands/flushall" >}}) with the **ASYNC**
@@ -319,7 +319,7 @@ Here is the meaning of all fields in the **stats** section:
 *   `expire_cycle_cpu_milliseconds`: The cumulative amount of time spent on active expiry cycles
 *   `evicted_keys`: Number of evicted keys due to `maxmemory` limit
 *   `evicted_clients`: Number of evicted clients due to `maxmemory-clients` limit. Added in Redis 7.0.
-*   `evicted_scripts`: Number of evicted EVAL scripts due to LRU policy, see [`EVAL`]({{< relref "/commands/eval" >}}) for more details. Added in Redis 8.0.
+*   `evicted_scripts`: Number of evicted EVAL scripts due to LRU policy, see [`EVAL`]({{< relref "/commands/eval" >}}) for more details. Added in Redis 7.4 RC1.
 *   `total_eviction_exceeded_time`:  Total time `used_memory` was greater than `maxmemory` since server startup, in milliseconds
 *   `current_eviction_exceeded_time`: The time passed since `used_memory` last rose above `maxmemory`, in milliseconds
 *   `keyspace_hits`: Number of successful lookup of keys in the main dictionary
@@ -471,6 +471,9 @@ For each error type, the following line is added:
 
 *   `errorstat_XXX`: `count=XXX`
 
+If the server detects that this section was flooded with an excessive number of errors, it will be disabled, show a single `ERRORSTATS_DISABLED` error, and print the errors to the server log.
+This can be reset by `CONFIG RESETSTAT`.
+
 The **sentinel** section is only available in Redis Sentinel instances. It consists of the following fields:
 
 *   `sentinel_masters`: Number of Redis masters monitored by this Sentinel instance
@@ -497,13 +500,17 @@ For each database, the following line is added:
 The **debug** section contains experimental metrics, which might change or get removed in future versions.
 It won't be included when `INFO` or `INFO ALL` are called, and it is returned only when `INFO DEBUG` is used.
 
-*   `eventloop_duration_aof_sum`: Total time spent on flushing AOF in eventloop in microseconds
-*   `eventloop_duration_cron_sum`: Total time consumption of cron in microseconds (including serverCron and beforeSleep, but excluding IO and AOF flushing)
-*   `eventloop_duration_max`: The maximal time spent in a single eventloop cycle in microseconds
-*   `eventloop_cmd_per_cycle_max`: The maximal number of commands processed in a single eventloop cycle
+*   `eventloop_duration_aof_sum`: Total time spent on flushing AOF in eventloop in microseconds.
+*   `eventloop_duration_cron_sum`: Total time consumption of cron in microseconds (including serverCron and beforeSleep, but excluding IO and AOF flushing).
+*   `eventloop_duration_max`: The maximal time spent in a single eventloop cycle in microseconds.
+*   `eventloop_cmd_per_cycle_max`: The maximal number of commands processed in a single eventloop cycle.
+*   `allocator_allocated_lua`: Total bytes allocated from the allocator specifically for Lua, including internal-fragmentation.
+*   `allocator_active_lua`: Total bytes in the allocator active pages specifically for Lua, including external-fragmentation.
+*   `allocator_resident_lua`: Total bytes resident (RSS) in the allocator specifically for Lua. This includes pages that can be released to the OS (by `MEMORY PURGE`, or just waiting).
+*   `allocator_frag_bytes_lua`: Delta between `allocator_active_lua` and `allocator_allocated_lua`.
 
 [hcgcpgp]: http://code.google.com/p/google-perftools/
 
 **A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
 
-**Modules generated sections**: Starting with Redis 6, modules can inject their info into the `INFO` command, these are excluded by default even when the `all` argument is provided (it will include a list of loaded modules but not their generated info fields). To get these you must use either the `modules` argument or `everything`.,
+**Modules generated sections**: Starting with Redis 6, modules can inject their information into the `INFO` command. These are excluded by default even when the `all` argument is provided (it will include a list of loaded modules but not their generated info fields). To get these you must use either the `modules` argument or `everything`.

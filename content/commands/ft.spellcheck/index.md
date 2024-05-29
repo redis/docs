@@ -43,6 +43,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(1)
 description: Performs spelling correction on a query, returning suggestions for misspelled
   terms
@@ -86,9 +88,11 @@ See [Spellchecking]({{< relref "/develop/interact/search-and-query/advanced-conc
 ## Optional arguments
 
 <details open>
-<summary><code>TERMS</code></summary> 
+<summary><code>TERMS</code></summary>
 
-specifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary named `{dict}`. Refer to [`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd/), [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel/) and [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump/) about managing custom dictionaries.
+specifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary. To learn more about managing custom dictionaries, see [`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd/), [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel/), and [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump/).
+
+You can specify multiple inclusion and exclusion `TERMS`.
 </details>
 
 <details open>
