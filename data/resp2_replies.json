@@ -198,8 +198,8 @@
   ],
   "CLIENT UNBLOCK": [
     "One of the following:",
-    "* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the client was unblocked successfully.",
-    "* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the client wasn't unblocked."
+    "* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the client was unblocked successfully.",
+    "* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the client wasn't unblocked."
   ],
   "CLIENT UNPAUSE": [
     "[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
