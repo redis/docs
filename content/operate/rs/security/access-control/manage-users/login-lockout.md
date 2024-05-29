@@ -13,15 +13,17 @@ weight: 40
 
 Redis Enterprise Software secures user access in a few different ways, including automatically:
 
-- Locking user accounts after a series of authentication failures (invalid passwords)
+- Locking user accounts after a series of failed attempts to sign in to the Cluster Manager UI due to incorrect passwords.
 
-- Signing sessions out after a period of inactivity
+- Signing sessions out after a period of inactivity.
 
 Here, you learn how to configure the relevant settings.
 
 ## User login lockout
 
-By default, after 5 failed login attempts within 15 minutes, the user account is locked for 30 minutes. You can change the user login lockout settings in the Cluster Manager UI or with [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}).
+By default, a user account is locked for 30 minutes after 5 failed attempts within 15 minutes to sign in to the Cluster Manager UI. Locked user accounts cannot access the Cluster Manager UI or use the REST API for cluster management.
+
+You can change the user login lockout settings in the Cluster Manager UI or with [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}).
 
 ### View login lockout settings
 
