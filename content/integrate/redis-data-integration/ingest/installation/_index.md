@@ -35,13 +35,16 @@ You must run the RDI installer as a privileged user because it installs
 need any special privileges to run RDI processes for normal operation.
 
 ### Hardware sizing
-RDI is mainly CPU and network bound. 
-Each of RDI VMs should have:
 
-- CPU: Min 4 cores CPU. Consider a configuration that would allow for 2-6 additional cores depending on how big is your dataset and how fast you would like RDI to ingest the baseline snapshot.
+RDI is mainly CPU and network bound. 
+Each of the RDI VMs should have:
+
+- CPU: A minimum of 4 CPU cores. You should consider adding
+  2-6 extra cores on top of this if your dataset is big and you want to ingest the
+  baseline snapshot as fast as possible.
 - RAM: 2GB 
 - Disk: 25GB of disk (this includes the OS footprint)
-- 10 GB or more network interface
+- 10GB or more network interface
   
 
 
