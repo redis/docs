@@ -53,14 +53,6 @@ title: FT.SUGGET
 
 Get completion suggestions for a prefix
 
-## Syntax
-
-{{< highlight bash >}}
-
-{{< / highlight >}}
-
-[Examples](#examples)
-
 ## Required arguments
 
 <details open>
@@ -105,7 +97,7 @@ returns optional payloads saved along with the suggestions. If no payload is pre
 
 FT.SUGGET returns an array reply, which is a list of the top suggestions matching the prefix, optionally with score after each entry.
 
-## Examples
+## Example
 
 <details open>
 <summary><b>Get completion suggestions for a prefix</b></summary>
