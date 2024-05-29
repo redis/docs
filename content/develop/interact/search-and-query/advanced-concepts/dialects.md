@@ -159,7 +159,7 @@ Dialect version 4 will improve performance in four different scenarios:
 
 ## `DIALECT 5`
 
-Dialect version 5 was introduced in the [@ADRIANO NEED INFO](https://github.com/RediSearch/RediSearch/releases/tag/???) release.
+Dialect version 5 was introduced in the 2.10 release.
 It introduces support for new comparison operators for `NUMERIC` fields:
 
 * `==` (equal).
