@@ -12,7 +12,7 @@ weight: 70
 
 Use the script `rl_uninstall.sh` to uninstall Redis Enterprise Software and remove its files from a node. The script also deletes all Redis data and configuration from the node.
 
-However, the uninstall script does not remove the node from the cluster. If you uninstall Redis Enterprise Software from a node without removing it, the node remains in the cluster's node list but has the "down" status. See [Remove a cluster node]({{<relref "/operate/rs/clusters/remove-node">}}) for instructions.
+The uninstall script does not remove the node from the cluster, but the node's status changes to down. For node removal instructions, see [Remove a cluster node]({{<relref "/operate/rs/clusters/remove-node">}}).
 
 ## Uninstall Redis Enterprise Software
 
