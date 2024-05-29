@@ -85,7 +85,7 @@ For a full list of fields and options, see the [RERC API reference](https://gith
 
 ### Limitations
 
-* Existing Redis databases cannot be migrated to an REAADB. (DOC-3594)
+* Existing Redis databases cannot be migrated to a REAADB. (DOC-3594)
 
 * Admission is not blocking REAADB with `shardCount` which exceeds license quota. (RED-96301)
 
