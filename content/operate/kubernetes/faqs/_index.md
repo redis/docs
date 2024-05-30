@@ -155,7 +155,7 @@ seLinuxContext:
   type: RunAsAny
 ```
 
-([latest version on GitHub](https://raw.githubusercontent.com/RedisLabs/redis-enterprise-k8s-docs/master/scc.yaml))
+([latest version on GitHub](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/openshift/scc.yaml))
 
 ([latest version on GitHub](https://github.com/RedisLabs/redis-enterprise-k8s-docs/tags))
 
