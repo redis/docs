@@ -23,6 +23,7 @@
         {{ range .Params.categories }}
         {{ if not (in (slice "docs" "operate" "integrate" "develop") .) }} <!-- Exclude specific categories -->
           {{ $displayName := . }} <!-- Set default display name -->
+          {{ $color := "#ffffff" }} <!-- Default background color (white) -->
           {{ if eq . "rs" }}
             {{ $displayName = "Redis Enterprise Software" }} <!-- Custom name for 'rs' -->
             {{ $color = "#ffcccc" }} <!-- Light red background for Redis Enterprise Software -->
