@@ -3,14 +3,15 @@ Title: redis-di start
 aliases: null
 alwaysopen: false
 categories:
-- docs
-- integrate
-- rs
-- rdi
+  - docs
+  - integrate
+  - rs
+  - rdi
 description: Starts the pipeline
 group: di
 linkTitle: redis-di start
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
+summary:
+  Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: 10

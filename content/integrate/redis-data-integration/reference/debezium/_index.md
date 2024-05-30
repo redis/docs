@@ -3,16 +3,18 @@ Title: Debezium Server configuration file
 aliases: null
 alwaysopen: false
 categories:
-- docs
-- integrate
-- rs
-- rdi
-description: Application properties settings used to configure Debezim Server for
+  - docs
+  - integrate
+  - rs
+  - rdi
+description:
+  Application properties settings used to configure Debezim Server for
   source database servers
 group: di
 hideListLinks: false
 linkTitle: Debezium Server configuration
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
+summary:
+  Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: 50
@@ -23,5 +25,3 @@ The `application.properties` file configures Debezium Server configuration to su
 This file needs to be saved in the host running Debezium Server. For details, see [Debezium Server deployment]({{<relref "/integrate/redis-data-integration/installation/debezium-server-deployment">}}).
 
 The following topics describe `application.properties` for specific database servers:
-
-

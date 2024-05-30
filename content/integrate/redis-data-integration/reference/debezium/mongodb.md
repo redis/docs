@@ -3,15 +3,17 @@ Title: RDI configuration for mongodb
 aliases: null
 alwaysopen: false
 categories:
-- docs
-- integrate
-- rs
-- rdi
-description: Describes the `application.properties` settings that configure Debezium
+  - docs
+  - integrate
+  - rs
+  - rdi
+description:
+  Describes the `application.properties` settings that configure Debezium
   Server for mongodb
 group: di
 linkTitle: mongodb
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
+summary:
+  Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: null
