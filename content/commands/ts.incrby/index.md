@@ -143,8 +143,8 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 is the policy for handling insertion of samples that may be duplicates of existing samples according to the following rules:
 
-  - `ignoreMaxTimeDiff`: the system considers a new insertion a duplicate if the time difference exceeds the maximum allowed. This value defaults to the `IGNORE_MAX_TIME_DIFF` configuration parameter.
-  - `ignoreMaxValDiff`: the system considers a new insertion a duplicate if the value difference exceeds the maximum allowed. This value defaults to the `IGNORE_MAX_VAL_DIFF` configuration parameter.
+  - `ignoreMaxTimeDiff`: the system considers a new insertion a duplicate if the time difference does not exceed the maximum allowed. This value defaults to the `IGNORE_MAX_TIME_DIFF` configuration parameter.
+  - `ignoreMaxValDiff`: the system considers a new insertion a duplicate if the value difference does not exceed the maximum allowed. This value defaults to the `IGNORE_MAX_VAL_DIFF` configuration parameter.
 
   When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_val_diff), which are, by default, both set to 0.
 

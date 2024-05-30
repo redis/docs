@@ -44,17 +44,17 @@ $ redis-server --loadmodule ./redistimeseries.so [OPT VAL]...
 
 The following table summarizes which configuration parameters can be set at module load-time and run-time:
 
-| Configuration Parameter                                                    | Load-time          | Run-time             |
-| :-------                                                                   | :-----             | :-----------         |
-| [NUM_THREADS](#num_threads) (since RedisTimeSeries v1.6)                   | :white_check_mark: | :white_large_square: |
-| [COMPACTION_POLICY](#compaction_policy)                                    | :white_check_mark: | :white_large_square: |
-| [RETENTION_POLICY](#retention_policy)                                      | :white_check_mark: | :white_large_square: |
-| [DUPLICATE_POLICY](#duplicate_policy)                                      | :white_check_mark: | :white_large_square: |
-| [ENCODING](#encoding) (since RedisTimeSeries v1.6)                         | :white_check_mark: | :white_large_square: |
-| [CHUNK_SIZE_BYTES](#chunk_size_bytes)                                      | :white_check_mark: | :white_large_square: |
-| [OSS_GLOBAL_PASSWORD](#oss_global_password) (since RedisTimeSeries v1.8.4) | :white_check_mark: | :white_large_square: |
-| [IGNORE_MAX_TIME_DIFF](#ignore_max_time_diff) (@LIOR NEED)                 | :white_check_mark: | :white_large_square: |
-| [IGNORE_MAX_VAL_DIFF](#ignore_max_val_diff) (@LIOR NEED)                   | :white_check_mark: | :white_large_square: |
+| Configuration Parameter                                                     | Load-time          | Run-time             |
+| :-------                                                                    | :-----             | :-----------         |
+| [NUM_THREADS](#num_threads) (since RedisTimeSeries v1.6)                    | :white_check_mark: | :white_large_square: |
+| [COMPACTION_POLICY](#compaction_policy)                                     | :white_check_mark: | :white_large_square: |
+| [RETENTION_POLICY](#retention_policy)                                       | :white_check_mark: | :white_large_square: |
+| [DUPLICATE_POLICY](#duplicate_policy)                                       | :white_check_mark: | :white_large_square: |
+| [ENCODING](#encoding) (since RedisTimeSeries v1.6)                          | :white_check_mark: | :white_large_square: |
+| [CHUNK_SIZE_BYTES](#chunk_size_bytes)                                       | :white_check_mark: | :white_large_square: |
+| [OSS_GLOBAL_PASSWORD](#oss_global_password) (since RedisTimeSeries v1.8.4)  | :white_check_mark: | :white_large_square: |
+| [IGNORE_MAX_TIME_DIFF](#ignore_max_time_diff) (since RedisTimeSeries v1.12) | :white_check_mark: | :white_large_square: |
+| [IGNORE_MAX_VAL_DIFF](#ignore_max_val_diff) (since RedisTimeSeries v1.12)   | :white_check_mark: | :white_large_square: |
 
 ### NUM_THREADS
 
@@ -251,8 +251,8 @@ $ redis-server --loadmodule ./redistimeseries.so OSS_GLOBAL_PASSWORD password
 
 ### IGNORE_MAX_TIME_DIFF
 
-The system considers a new insertion a duplicate if the time difference exceeds the maximum allowed.
-The system applies this default value to each new time series when it creates it.
+The system considers a new insertion a duplicate if it occurs within the maximum allowed time difference.
+This default value applies to each new time series upon its creation.
 
 #### Default
 
@@ -264,8 +264,8 @@ $ redis-server --loadmodule ./redistimeseries.so IGNORE_MAX_TIME_DIFF 10000
 
 ### IGNORE_MAX_VAL_DIFF
 
-The system considers a new insertion a duplicate if the value difference exceeds the maximum allowed.
-The system applies this default value to each new time series when it creates it.
+The system considers a new insertion a duplicate if the value difference does not exceed the maximum allowed.
+This default value applies to each new time series upon its creation.
 
 #### Default
 
