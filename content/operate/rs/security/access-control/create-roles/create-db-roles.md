@@ -1,13 +1,16 @@
 ---
-Title: Configure ACLs to define database permissions
+Title: Create roles with database access only 
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 description: Configure access control lists (ACLs).
-linkTitle: Configure ACLs
-weight: 20
+linkTitle: Create roles with database access only 
+weight: 50
+aliases:
+    - /operate/rs/security/access-control/database-access/
+    - /operate/rs/security/access-control/rbac/configure-acl/
 ---
 
 Redis access control lists (Redis ACLs) allow you to define named permissions for specific Redis commands, keys, and pub/sub channels. You can use defined Redis ACLs for multiple databases and roles.
@@ -221,4 +224,4 @@ Redis ACLs also have the following differences in Redis Enterprise Software:
 
 ## Next steps
 
-- [Create or edit a role]({{< relref "/operate/rs/security/access-control/rbac/create-roles" >}}) and add Redis ACLs to it.
+- [Create or edit a role]({{< relref "/operate/rs/security/access-control/create-roles" >}}) and add Redis ACLs to it.

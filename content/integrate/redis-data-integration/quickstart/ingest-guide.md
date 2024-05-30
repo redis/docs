@@ -27,7 +27,7 @@ redis-di create
 
 The `create` command will create a BDB named `redis-di-<ID>` in your cluster. You will need to use a privileged Redis Enterprise user that has the permissions to create a BDB and to register RedisGears recipes.
 
-> Note: This command requires credentials of a Redis Enterprise cluster user with either `DB Member`, `Cluster Member`, or `Cluster Admin` roles. See[cluster roles]({{<relref "/operate/rs/security/access-control/rbac/create-roles">}}) for more information.
+> Note: This command requires credentials of a Redis Enterprise cluster user with either `DB Member`, `Cluster Member`, or `Cluster Admin` roles. See[cluster roles]({{<relref "/operate/rs/security/access-control/create-roles/create-cluster-roles">}}) for more information.
 
 ## Scaffold configuration files
 

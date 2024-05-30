@@ -1,13 +1,15 @@
 ---
-Title: Create roles
+Title: Create roles with cluster access only
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 description: Create access control roles.
-linkTitle: Create roles
+linkTitle: Create roles with cluster access only
 weight: 20
+aliases:
+    - /operate/rs/security/access-control/admin-console-access/
 ---
 
 From **Access Control** > **Roles**, you can create custom user roles that determine cluster management permissions, data access permissions, or a combination of both.
@@ -27,7 +29,7 @@ Redis Enterprise Software includes five predefined roles that determine a user's
 1. **Admin** - Full cluster access
 1. **None** - For data access only - cannot access the Cluster Manager UI or use the REST API
 
-For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions]({{< relref "/operate/rs/security/access-control/admin-console-access#cluster-manager-ui-permissions" >}}) or [REST API permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}}).
+For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions]({{< relref "/operate/rs/security/access-control/create-roles/create-cluster-roles#cluster-manager-ui-permissions" >}}) or [REST API permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}}).
 
 ## Create roles for database access {#create-db-role}
 
@@ -65,4 +67,4 @@ To define a role for database access:
 
 ## Next steps
 
-- [Assign the role to a user]({{< relref "/operate/rs/security/access-control/rbac/assign-user-role" >}}).
+- [Assign the role to a user]({{< relref "/operate/rs/security/access-control/create-users" >}}).

@@ -1,13 +1,16 @@
 ---
-Title: Cluster Manager UI security
+Title: Recommended security practices
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 description: null
+linkTitle: Recommended security practices
 hideListLinks: true
 weight: 5
+aliases:
+    - /operate/rs/security/admin-console-security/
 ---
 
 Redis Enterprise Software comes with a web-based user interface known as the Cluster Manager UI. The Cluster Manager UI provides the following security features:
@@ -16,7 +19,7 @@ Redis Enterprise Software comes with a web-based user interface known as the Clu
 
 - User authentication using [LDAP]({{< relref "/operate/rs/security/access-control/ldap" >}})
 
-- [Role-based access control]({{< relref "/operate/rs/security/access-control/rbac" >}})
+- [Role-based access control]({{< relref "/operate/rs/security/access-control" >}})
 
 We recommend the following practices:
 
