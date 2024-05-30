@@ -168,3 +168,41 @@ of the Debezium SQL Server connector:
   reduces the load on the database host, but increases latency. The default value is 10.
 
 See the SQL Server documentation for more information about capture agent parameters.
+
+## Handling changes to the schema
+
+RDI can't adapt automatically when you change the schema of a CDC table in SQL Server. For example,
+if you add a new column to a table you are capturing then RDI will generate errors
+instead of capturing the changes correctly. See Debezium's
+[SQL Server schema evolution](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#sqlserver-schema-evolution)
+docs for more information.
+
+If you have administrator privileges, you can follow the steps below to update RDI after
+a schema change and resume CDC. See the
+[online schema updates](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html#online-schema-updates)
+documentation for further details.
+
+1.  Make your changes to the source table schema.
+
+1.  Create a new capture table for the updated source table by running the `sys.sp_cdc_enable_table` stored
+    procedure with a new, unique value for the parameter `@capture_instance`. For example, if the old value
+    was `dbo_customers`, you could replace it with `dbo_customers_v2`:
+
+    ```sql
+    EXEC sys.sp_cdc_enable_table @source_schema = 'dbo', @source_name = 'customers', @role_name = NULL, @supports_net_changes = 0, @capture_instance = 'dbo_customers_v2';
+    GO
+    ```
+
+1.  When Debezium starts streaming from the new capture table, drop the old capture table by running 
+    the `sys.sp_cdc_disable_table` stored procedure with the parameter `@capture_instance` set to the old
+    capture instance name, `dbo_customers`:
+
+    ```sql
+    EXEC sys.sp_cdc_disable_table @source_schema = 'dbo', @source_name = 'dbo_customers', @capture_instance = 'dbo_customers';
+    GO
+    ```
+
+{{< note >}}RDI will *not* correctly capture changes that happen in the time gap between changing
+the source schema (step 1 above) and updating the value of `@capture_instance` (step 2).
+Try to keep the gap as short as possible or perform the update at a time when you expect
+few changes to the data.{{< /note >}}
