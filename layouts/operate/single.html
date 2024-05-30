@@ -26,22 +26,22 @@
           {{ $color := "#ffffff" }} <!-- Default background color (white) -->
           {{ if eq . "rs" }}
             {{ $displayName = "Redis Enterprise Software" }} <!-- Custom name for 'rs' -->
-            {{ $color = "#ffcccc" }} <!-- Light red background for Redis Enterprise Software -->
+            {{ $color = "#DCFF1E" }} <!-- Yellow background for Redis Enterprise Software -->
           {{ else if eq . "rc" }}
             {{ $displayName = "Redis Cloud" }} <!-- Custom name for 'rc' -->
-            {{ $color = "#ccffcc" }} <!-- Light green background for Redis Cloud -->
+            {{ $color = "#80DBFF" }} <!-- Blue background for Redis Cloud -->
           {{ else if eq . "kubernetes" }}
             {{ $displayName = "Redis Enterprise for Kubernetes" }} <!-- Custom name for 'kubernetes' -->
-            {{ $color = "#ccccff" }} <!-- Light blue background for Kubernetes -->
+            {{ $color = "#8A99A0" }} <!-- Light grey background for Kubernetes -->
           {{ else if eq . "oss" }}
             {{ $displayName = "Redis Source Available" }} <!-- Custom name for 'oss' -->
-            {{ $color = "#ffffcc" }} <!-- Light yellow background for Redis Source Available -->
+            {{ $color = "#C795E3" }} <!-- purple background for Redis Source Available -->
          {{ else if eq . "stack" }}
             {{ $displayName = "Redis Stack" }} <!-- Custom name for 'stack' -->
-            {{ $color = "#e6ccff" }} <!-- Light purple background for Redis Stack -->
+            {{ $color = "#2D4754" }} <!-- dark bluegrey background for Redis Stack -->
          {{ else if eq . "redisinsight" }}
             {{ $displayName = "Redis Insight" }} <!-- Custom name for 'redisinsight' -->
-            {{ $color = "#ffebcc" }} <!-- Light orange background for Redis Insight -->
+            {{ $color = "#FD4439" }} <!-- Red background for Redis Insight -->
           {{ end }}
           <th style="border: 1px solid #ccc; padding: 8px; background-color: {{ $color }};">{{ $displayName }}</th>
         {{ end }}
