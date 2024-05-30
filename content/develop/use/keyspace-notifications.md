@@ -101,13 +101,11 @@ Different commands generate different kind of events according to the following 
 * [`DEL`]({{< relref "/commands/del" >}}) generates a `del` event for every deleted key.
 * [`EXPIRE`]({{< relref "/commands/expire" >}}) and all its variants ([`PEXPIRE`]({{< relref "/commands/pexpire" >}}), [`EXPIREAT`]({{< relref "/commands/expireat" >}}), [`PEXPIREAT`]({{< relref "/commands/pexpireat" >}})) generate an `expire` event when called with a positive timeout (or a future timestamp). Note that when these commands are called with a negative timeout value or timestamp in the past, the key is deleted and only a `del` event is generated instead.
 * [`HDEL`]({{< relref "/commands/hdel" >}}) generates a single `hdel` event, and an additional `del` event if the resulting hash is empty and the key is removed.
-* [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) and all its variants ([`HEXPIREAT`]({{< relref "/commands/hpexpireat" >}}), [`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}), [`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}})) generate `hexpire` events and `del` events when the last field expires.
-* [`HGETF`]({{< relref "/commands/hgetf" >}}) generates a `hgetf` event when TTLs or expiration times are set.
+* [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) and all its variants ([`HEXPIREAT`]({{< relref "/commands/hpexpireat" >}}), [`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}), [`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}})) generate `hexpire` events.
 * [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) generates an `hincrbyfloat` event.
 * [`HINCRBY`]({{< relref "/commands/hincrby" >}}) generates an `hincrby` event.
-* [`HPERSIST`]({{< relref "/commands/hpersist" >}}) generates a `hpersist` event.
+* [`HPERSIST`]({{ < relref "/commands/hpersist" >}}) generates a `hpersist` event.
 * [`HSET`]({{< relref "/commands/hset" >}}), [`HSETNX`]({{< relref "/commands/hsetnx" >}}) and [`HMSET`]({{< relref "/commands/hmset" >}}) all generate a single `hset` event.
-* [`HSETF`]({{< relref "/commands/hsetf" >}}) generates `new` and `hsetf` events.
 * [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) generates an `incrbyfloat` events.
 * [`INCR`]({{< relref "/commands/incr" >}}), [`DECR`]({{< relref "/commands/decr" >}}), [`INCRBY`]({{< relref "/commands/incrby" >}}), [`DECRBY`]({{< relref "/commands/decrby" >}}) commands all generate `incrby` events.
 * [`LINSERT`]({{< relref "/commands/linsert" >}}) generates an `linsert` event.
