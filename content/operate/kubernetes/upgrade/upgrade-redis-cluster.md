@@ -113,11 +113,6 @@ Before beginning the upgrade of the Redis Enterprise cluster, check the K8s oper
 
 After the operator upgrade is complete, you can upgrade Redis Enterprise cluster (REC).
 
-### Upgrade an REC with an Active-Active database
-
-- We recommend upgrading all participating clusters to the same operator version.
-- If you are upgrading from a preview version of the Active-Active database controller, remove the following environment variables: `ACTIVE_ACTIVE_DATABASE_CONTROLLER_ENABLED`, `REMOTE_CLUSTER_CONTROLLER_ENABLED`, and `ENABLE_ALPHA_FEATURES`.
-
 ### Edit `redisEnterpriseImageSpec` in the REC spec
 
 1. Edit the REC custom resource YAML file.
@@ -164,11 +159,8 @@ kubectl rollout status sts <REC_name>
 
 ### Upgrade databases
 
-After the cluster is upgraded, you can upgrade your databases. The process for upgrading databases is the same for both Kubernetes and non-Kubernetes deployments. 
 
-For more details on how to [upgrade a database]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-database" >}}), see the [Upgrade an existing Redis Enterprise Software deployment]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}) documentation.
-
-To upgrade Active-Active databases, see [Upgrade an Active-Active database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active/">}}).
+After the cluster is upgraded, you can upgrade your databases. The process for upgrading databases is the same for both Kubernetes and non-Kubernetes deployments. For more details on how to [upgrade a database]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-database" >}}), see the [Upgrade an existing Redis Enterprise Software deployment]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}) documentation.
 
 Note that if your cluster [`redisUpgradePolicy`]({{< relref "/operate/kubernetes/reference/cluster-options#redisupgradepolicy" >}}) or your database [`redisVersion`]({{< relref "/operate/kubernetes/reference/db-options#redisversion" >}}) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy]({{< relref "/operate/rs/installing-upgrading/upgrading#redis-upgrade-policy" >}}) for more details.
 
