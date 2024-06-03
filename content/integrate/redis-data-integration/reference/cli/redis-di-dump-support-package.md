@@ -3,14 +3,15 @@ Title: redis-di dump-support-package
 aliases: null
 alwaysopen: false
 categories:
-- docs
-- integrate
-- rs
-- rdi
+  - docs
+  - integrate
+  - rs
+  - rdi
 description: Dumps RDI support package
 group: di
 linkTitle: redis-di dump-support-package
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
+summary:
+  Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: 10

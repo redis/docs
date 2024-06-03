@@ -3,14 +3,15 @@ Title: redis-di describe-job
 aliases: null
 alwaysopen: false
 categories:
-- docs
-- integrate
-- rs
-- rdi
+  - docs
+  - integrate
+  - rs
+  - rdi
 description: Describes a transformation engine's job
 group: di
 linkTitle: redis-di describe-job
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
+summary:
+  Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: 10

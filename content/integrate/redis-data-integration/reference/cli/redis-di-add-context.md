@@ -3,14 +3,15 @@ Title: redis-di add-context
 aliases: null
 alwaysopen: false
 categories:
-- docs
-- integrate
-- rs
-- rdi
+  - docs
+  - integrate
+  - rs
+  - rdi
 description: Adds a new context
 group: di
 linkTitle: redis-di add-context
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
+summary:
+  Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: 10
