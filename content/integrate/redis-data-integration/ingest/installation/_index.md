@@ -21,8 +21,8 @@ This guide explains how to install RDI and integrate it with your source databas
 
 ## Install RDI on VMs
 
-You would normally install RDI on 2 VMs for high availability (HA) but you can also install
-one just 1 VM if you don't need this. For example, you might not need HA during
+You would normally install RDI on two VMs for high availability (HA) but you can also install
+one just one VM if you don't need this. For example, you might not need HA during
 development and testing.
 
 The supported OS versions for RDI are:
@@ -93,5 +93,6 @@ Once the installation is finished, RDI is ready for use.
 
 ## Prepare your source database
 
-The following pages explain how to set up your source database to use
-the Debezium connector for CDC.
+You must also configure your source database to use the Debezium connector for CDC. See the
+[Prepare source databases]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs" >}})
+section to learn how to do this.

@@ -28,7 +28,7 @@ are typically many times more common than writes, the cache will greatly
 improve performance and let your app scale without a major redesign.
 
 RDI keeps a Redis cache up to date with changes in the primary database, using a
-[*Capture Data Change (CDC)*](https://en.wikipedia.org/wiki/Change_data_capture) mechanism.
+[*Change Data Capture (CDC)*](https://en.wikipedia.org/wiki/Change_data_capture) mechanism.
 It also lets you *transform* the data from relational tables into convenient
 and fast data structures that match your app's requirements. You specify the
 transformations using a configuration system, so no coding is necessary.

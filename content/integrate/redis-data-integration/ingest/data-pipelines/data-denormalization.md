@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: Learn denormalization strategies
+description: Learn about denormalization strategies
 group: di
 linkTitle: Data denormalization
 summary: Redis Data Integration keeps Redis in sync with the primary database in near

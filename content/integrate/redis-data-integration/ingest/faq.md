@@ -83,4 +83,6 @@ the structure of the JSON data is invalid or if there is a fatal bug in the tran
 job then RDI can't transform the data. When this happens, RDI will store the original data
 in a "dead letter queue" along with a message to say why it was rejected. The dead letter
 queue is stored as a capped stream in the RDI staging database. You can see its contents
-with Redis Insight or with the `redis-di get-rejected` command from the CLI.
+with Redis Insight or with the 
+[`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-rejected" >}})
+command from the CLI.

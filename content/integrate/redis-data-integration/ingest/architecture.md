@@ -62,7 +62,7 @@ of the data in the source database is essentially "change" data.
 RDI collects this data in a phase called *initial cache loading*,
 which can take minutes or hours to finish, depending on the size
 of the source data. Once the initial cache loading is complete,
-there is a *baseline* dataset in the target that will gradually
+there is a *snapshot* dataset in the target that will gradually
 change when new data gets captured from the source. At this point,
 RDI automatically enters a second phase called *change streaming*, where
 changes in the data are captured as they happen. Changes are usually
@@ -72,36 +72,32 @@ added to the target within a few seconds after capture.
 
 RDI supports the following database sources using [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) connectors:
 
-| Database                    | Versions               |Comments|
-| --------------------------- | ---------------------- |--------|
-| Oracle                      | 12c, 19c, 21c          ||
-| MariaDB                     | >= 10.5                ||
-| MongoDB                     | 4.2, 4.4, 5.0, 6.0     | Driver: 4.7  |
-| MySQL                       | 5.7, 8.0.x             ||
-| Percona XtraDB              | 5.7, 8.0.x             ||
-| Postgres                    | 10, 11, 12, 13, 14, 15 ||
-| SQL Server                  | 2017, 2019             ||
-| Cassandra                   | >= 3.0                 ||
-| Datastax Cassandra          | >= 6.8.0               ||
-| Google Cloud SQL MySQL      | 8.0                    ||
-| Google Cloud SQL Postgres   | 15                     ||
-| Google Cloud SQL SQL Server | 2019                   ||
-| Google Cloud AlloyDB for PostgreSQL | ||
+| Database                    | Versions               |
+| --------------------------- | ---------------------- |
+| Oracle                      | 12c, 19c, 21c          |
+| MariaDB                     | >= 10.5                |
+| MySQL                       | 5.7, 8.0.x             |
+| Postgres                    | 10, 11, 12, 13, 14, 15 |
+| SQL Server                  | 2017, 2019             |
+| Google Cloud SQL MySQL      | 8.0                    |
+| Google Cloud SQL Postgres   | 15                     |
+| Google Cloud SQL SQL Server | 2019                   |
+| Google Cloud AlloyDB for PostgreSQL | |
 
 ## How RDI is deployed
 
-RDI is designed with 2 *planes* that provide its services.
+RDI is designed with two *planes* that provide its services.
 The *control plane* contains the processes that keep RDI active.
 It includes:
 
 - An *operator* process that schedules the CDC collector and the
-stream processor to implement the 2 phases of the pipeline
+stream processor to implement the two phases of the pipeline
 lifecycle (initial cache loading and change streaming)
 - A [Prometheus](https://prometheus.io/)
 endpoint to supply metrics about RDI
 - A REST API to control the VM.
 
-The *management plane* provides 2 tools to let you interact
+The *management plane* provides tools that let you interact
 with the control plane. Use the CLI tool to install and administer RDI
 and to deploy and manage a pipeline. Use the pipeline editor
 (included in Redis Insight) to design or edit a pipeline. The
@@ -115,7 +111,7 @@ deploy RDI.
 
 ### RDI on your own VMs
 
-For this deployment, you must provide 2 VMs. The
+For this deployment, you must provide two VMs. The
 collector and stream processor are active on one VM while the other is a standby to provide high availability. The operators run on both VMs and use an algorithm to decide which is the active one (the "leader").
 Both the active VM and the standby
 need access to the authentication secrets that RDI uses to encrypt network

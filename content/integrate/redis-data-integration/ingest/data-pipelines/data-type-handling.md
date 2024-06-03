@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: Describes how relational data types are converted to Redis data types
+description: Learn how relational data types are converted to Redis data types
 group: di
 linkTitle: Data type handling
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
@@ -46,5 +46,3 @@ These types are **not** supported and will return "Unsupported Error":
 - io.debezium.time.interval
 
 All other values are treated as plain strings.
-
-For more information, see [a full list of source database values conversion]({{<relref "/integrate/redis-data-integration/reference/data-types-conversion">}}).

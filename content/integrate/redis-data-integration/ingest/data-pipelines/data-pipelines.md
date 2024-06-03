@@ -97,7 +97,10 @@ configuration contains the following data:
     supply a unique composite key.
  
 There are also some advanced source configurations that are specific to each
-type of source database but you usually won't need these. Some of them are documented here [link to Debezium configuration reference revised for collector]
+type of source database but you usually won't need these. Some of them are documented
+in our
+[RDI configuration file]({{< relref "/integrate/redis-data-integration/ingest/reference/config-yaml-reference" >}})
+reference.
 
 ### Targets
 
@@ -163,9 +166,12 @@ The main sections of these files are:
   Note that you can map one record to more than one key in Redis or nest
   a record as a field of a JSON structure.
 
-See [reference section pages when they are ready] for full details about the
-available source, transform, and target configuration options and also a set
-of example job configurations.
+See the
+[RDI configuration file]({{< relref "/integrate/redis-data-integration/ingest/reference/config-yaml-reference" >}})
+reference for full details about the
+available source, transform, and target configuration options and see
+also the
+[Transformation examples]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/transform-examples" >}}).
 
 ## Source preparation
 

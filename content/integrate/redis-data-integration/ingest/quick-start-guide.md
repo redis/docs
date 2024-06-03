@@ -12,7 +12,7 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 
 ## Prerequisites
 
-- A Redis Enterprise database that will serve as the pipeline target. The dataset we will ingest is only [need number] mb in size, so a single shard database should be enough.
+- A Redis Enterprise database that will serve as the pipeline target. The dataset we will ingest is quite small in size, so a single shard database should be enough.
 - [Redis Insight]({{< relref "/develop/connect/insight/" >}})
   to edit your pipeline
 - A virtual machine (VM) with one of the following operating systems:  
@@ -76,7 +76,9 @@ Follow the steps below to install RDI:
       ```
 
       {{<note>}}If you are not a root user, you should download RDI to a folder
-      where you have write permissions and run `redis-di` directly from that folder in
+      where you have write permissions and run
+      [`redis-di`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di" >}})
+      directly from that folder in
       the following steps.
       {{</note>}}
 
@@ -88,7 +90,9 @@ Follow the steps below to install RDI:
     tar -xvf rdi-installation-$RDI_VERSION.tar.gz
     ```
 
-1. Install RDI with the `redis-di` tool, using the commands below:
+1. Install RDI with the
+   [`redis-di`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-install" >}})
+   tool, using the commands below:
 
     ``` bash
     sudo chmod +x /usr/local/bin/redis-di
