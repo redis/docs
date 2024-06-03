@@ -118,6 +118,10 @@ arguments:
     optional: true
     token: WITHSUFFIXTRIE
     type: pure-token
+  - name: ismissing
+    optional: true
+    token: ISMISSING
+    type: pure-token
   - arguments:
     - name: sortable
       token: SORTABLE
@@ -258,6 +262,8 @@ after the SCHEMA keyword, declares which fields to index:
   - `CASESENSITIVE` for `TAG` attributes, keeps the original letter cases of the tags. If not specified, the characters are converted to lowercase.
 
   - `WITHSUFFIXTRIE` for `TEXT` and `TAG` attributes, keeps a suffix trie with all terms which match the suffix. It is used to optimize `contains` (*foo*) and `suffix` (*foo) queries. Otherwise, a brute-force search on the trie is performed. If suffix trie exists for some fields, these queries will be disabled for other fields.
+
+  - `ISMISSING` for all field types, allows you to search for "missing" values, i.e., documents that do not contain a specific field (notice the difference between a field with an empty value and a "missing" value). By default, missing values are not indexed.
 </details>
 
 ## Optional arguments
