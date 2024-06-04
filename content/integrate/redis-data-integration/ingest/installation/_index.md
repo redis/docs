@@ -52,12 +52,8 @@ Each of the RDI VMs should have:
 
 Follow the steps below for each of your VMs:
 
-1. Download and extract the RDI installation:
-
-    ``` bash
-    curl https://qa-onprem.s3.amazonaws.com/redis-di/$RDI_VERSION/rdi-installation-$RDI_VERSION.tar.gz -O
-    tar -xvf rdi-installation-$RDI_VERSION.tar.gz
-    ```
+1.  Download the RDI installer from the [Redis download center](https://redis.io/downloads)
+    and extract it to your preferred installation folder.
 
 1. Go to the installation folder:
 
