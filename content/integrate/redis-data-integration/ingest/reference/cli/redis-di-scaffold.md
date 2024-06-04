@@ -25,7 +25,7 @@ Usage: redis-di scaffold [OPTIONS]
 
 
 * `db_type` (REQUIRED): 
-  * Type: Choice([<DbType.CASSANDRA: 'cassandra'>, <DbType.DB2: 'db2'>, <DbType.MONGODB: 'mongodb'>, <DbType.MYSQL: 'mysql'>, <DbType.ORACLE: 'oracle'>, <DbType.POSTGRESQL: 'postgresql'>, <DbType.REDIS: 'redis'>, <DbType.SQLSERVER: 'sqlserver'>]) 
+  * Type: Choice([<DbType.MYSQL: 'mysql'>, <DbType.ORACLE: 'oracle'>, <DbType.POSTGRESQL: 'postgresql'>, <DbType.REDIS: 'redis'>, <DbType.SQLSERVER: 'sqlserver'>]) 
   * Default: `none`
   * Usage: `--db-type`
 
@@ -78,7 +78,7 @@ Usage: redis-di scaffold [OPTIONS]
 Options:
   -l, --log-level [DEBUG|INFO|WARN|ERROR|CRITICAL]
                                   [default: INFO]
-  --db-type [cassandra|db2|mongodb|mysql|oracle|postgresql|redis|sqlserver]
+  --db-type [mysql|oracle|postgresql|redis|sqlserver]
                                   DB type  [required]
   --strategy [ingest|write_behind]
                                   Strategy  [default: ingest]

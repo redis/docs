@@ -102,7 +102,7 @@ Usage: redis-di get-rejected [OPTIONS]
   * Usage: `--oldest
 -o`
 
-  Displays the oldest rejected records. If omitted, most resent records will be retrieved
+  Displays the oldest rejected records. If omitted, most recent records will be retrieved
 
 
 * `dlq_name`: 
