@@ -47,8 +47,8 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HPEXPIRETIME
-since: 7.4 RC1
-summary: Returns the expiration time of a hash field as a Unix timestamp, in msec.
+since: 7.4.0
+summary: Returns the expiration time of each specified field as a Unix timestamp in milliseconds
 syntax_fmt: HPEXPIRETIME key FIELDS numfields field [field ...]
 syntax_str: FIELDS numfields field [field ...]
 title: HPEXPIRETIME

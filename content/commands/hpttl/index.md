@@ -47,8 +47,8 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HPTTL
-since: 7.4 RC1
-summary: Returns the TTL in milliseconds of a hash field.
+since: 7.4.0
+summary: Returns the TTL of each specified field in milliseconds
 syntax_fmt: HPTTL key FIELDS numfields field [field ...]
 syntax_str: FIELDS numfields field [field ...]
 title: HPTTL

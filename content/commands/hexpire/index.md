@@ -71,8 +71,8 @@ key_specs:
     type: range
   update: true
 linkTitle: HEXPIRE
-since: 7.4 RC1
-summary: Set expiration for hash fields using relative time to expire (seconds)
+since: 7.4.0
+summary: Set expiration for hash fields using relative time to expire in seconds
 syntax_fmt: "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS numfields\n\ \ field [field ...]"
 syntax_str: seconds [NX | XX | GT | LT] FIELDS numfields field [field ...]
 title: HEXPIRE

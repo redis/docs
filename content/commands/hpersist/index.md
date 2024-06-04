@@ -47,7 +47,7 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HPERSIST
-since: 7.4 RC1
+since: 7.4.0
 summary: Removes the expiration time for each specified field
 syntax_fmt: HPERSIST key FIELDS numfields field [field ...]
 syntax_str: FIELDS numfields field [field ...]

@@ -47,8 +47,8 @@ key_specs:
       limit: 0
     type: range
 linkTitle: HTTL
-since: 7.4 RC1
-summary: Returns the TTL in seconds of a hash field.
+since: 7.4.0
+summary: Returns the TTL of each specified field in seconds
 syntax_fmt: HTTL key numfields field [field ...]
 syntax_str: numfields field [field ...]
 title: HTTL

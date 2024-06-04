@@ -71,8 +71,8 @@ key_specs:
     type: range
   update: true
 linkTitle: HPEXPIREAT
-since: 7.4 RC1
-summary: Set expiration for hash fields using an absolute Unix timestamp (milliseconds)
+since: 7.4.0
+summary: Set expiration for hash fields using an absolute Unix timestamp in milliseconds
 syntax_fmt: "HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]\n\ \ FIELDS numfields field [field ...]"
 syntax_str: unix-time-milliseconds [NX | XX | GT | LT] FIELDS numfields field [field ...]
 title: HPEXPIREAT

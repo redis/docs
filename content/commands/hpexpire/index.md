@@ -71,8 +71,8 @@ key_specs:
     type: range
   update: true
 linkTitle: HPEXPIRE
-since: 7.4 RC1
-summary: Set expiration for hash fields using relative time to expire (milliseconds)
+since: 7.4.0
+summary: Set expiration for hash fields using relative time to expire in milliseconds
 syntax_fmt: "HPEXPIRE key milliseconds [NX | XX | GT | LT] FIELDS numfields\n\ \ field [field ...]"
 syntax_str: milliseconds [NX | XX | GT | LT] FIELDS numfields field [field ...]
 title: HPEXPIRE
