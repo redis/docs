@@ -251,13 +251,20 @@ $ redis-server --loadmodule ./redistimeseries.so OSS_GLOBAL_PASSWORD password
 
 ### IGNORE_MAX_TIME_DIFF and IGNORE_MAX_VAL_DIFF
 
-A new sample is considered a duplicate if the following two conditions are met:
+A new sample is considered a duplicate and is ignored if the following conditions are met:
 
-1. The timestamp of the new sample is less than the previous maximum timestamp;
-1. The value of the new sample is less than or equal to the value of the previous, maximum timestamp value.
+1. The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `IGNORE_MAX_TIME_DIFF`;
+1. The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`;
+1. The sample is added in-order (`timestamp ≥ max_timestamp`).
 
 #### Defaults
 
 `IGNORE_MAX_TIME_DIFF`: 0
 
 `IGNORE_MAX_VAL_DIFF`: 0.0
+
+#### Example
+
+```
+$ redis-server --loadmodule ./redistimeseries.so IGNORE_MAX_TIME_DIFF 1 IGNORE_MAX_VALUE_DIFF 0.1
+```

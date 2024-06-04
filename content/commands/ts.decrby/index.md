@@ -140,16 +140,15 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 <details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 
 
-is the policy for handling the insertion of a new sample. Both of the following conditions must be met.
+is the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:
 
-  - The timestamp of the new sample is less than the previous maximum timestamp (`ignoreMaxTimeDiff`).
-  - The absolute value of the new sample is less than the value of maximum timestamp's value (`ignoreMaxValDiff`)
+  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `ignoreMaxTimeDiff`;
+  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `ignoreMaxValDiff`;
+  - The sample is added in-order (`timestamp ≥ max_timestamp`).
 
-  When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
+When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
 
-  These parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters is used).
-  
-  Note that this insertion filter is not effective for out-of-order insertions (timestamp < max_timestamp).
+These parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters is used).
 </details>
 
 <details open><summary><code>LABELS [{label value}...]</code></summary> 

@@ -105,12 +105,13 @@ is policy for handling multiple samples with identical timestamps. See `DUPLICAT
 
 <details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 
 
-is the policy for handling the insertion of a new samples. For each new sample, both of the following conditions must be met.
+is the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:
 
-  - The timestamp of the new sample is less than the previous maximum timestamp (`ignoreMaxTimeDiff`).
-  - The absolute value of the new sample is less than the value of maximum timestamp's value (`ignoreMaxValDiff`)
+  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `ignoreMaxTimeDiff`;
+  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `ignoreMaxValDiff`;
+  - The sample is added in-order (`timestamp ≥ max_timestamp`).
 
-  When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
+When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
 
 See [`TS.ADD`]({{< baseurl >}}/commands/ts.add/) for more details.
 </details>
