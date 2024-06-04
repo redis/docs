@@ -148,7 +148,7 @@ The [vector search article]({{< relref "/develop/interact/search-and-query/query
 
 ## Missing values
 
-You can use the `ismissing(@field)` query function to search for missing fields, that is, fields that are part of the index but missing from a particular set of keys.
+You can use the `ismissing(@field)` query function to search for documents that do not contain a specific field (provided this field indexes missing values).
 
 ```
 FT.SEARCH idx:bikes "ismissing(@price) @description:(kids | small)"
