@@ -38,6 +38,8 @@ the `redis-di status` command from the CLI.{{< /note >}}
 
 ## Collector metrics
 
+The collector metrics can be scraped from https://<RDI_HOST>/metrics-collector-source
+
 These metrics are divided into 3 groups:
 
 - Pipeline state: metrics about the pipeline mode and connectivity
@@ -45,6 +47,8 @@ These metrics are divided into 3 groups:
 - Processing performance: processing speed of RDI micro batches
   
 ## Stream Processor metrics
+
+The Stream Processor metrics can be scraped from https://<RDI_HOST>/metrics/rdi
 
 RDI reports metrics during the two main phases of the ingest pipeline, the *snapshot*
 phase and the *change data capture (CDC)* phase. (See the
