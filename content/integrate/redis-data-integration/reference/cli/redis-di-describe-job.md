@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Describes a transformation engine's job
-
 ## Usage
 
 ```

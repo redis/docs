@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Configures the RDI Database so it is ready to process data
-
 ## Usage
 
 ```

@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Starts a trace session for troubleshooting data transformation
-
 ## Usage
 
 ```

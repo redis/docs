@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Upgrades RDI Engine without losing data or downtime
-
 ## Usage
 
 ```

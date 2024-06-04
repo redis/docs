@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Creates the RDI Database instance
-
 ## Usage
 
 ```

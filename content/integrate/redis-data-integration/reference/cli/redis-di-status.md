@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Displays the status of the pipeline end to end
-
 ## Usage
 
 ```

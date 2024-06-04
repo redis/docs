@@ -19,8 +19,6 @@ type: integration
 weight: 10
 ---
 
-Generates configuration files for RDI and Debezium (when ingesting data to Redis)
-
 ## Usage
 
 ```
@@ -38,7 +36,7 @@ Usage: redis-di scaffold [OPTIONS]
 
 - `db_type` (REQUIRED):
 
-  - Type: Choice([<DbType.CASSANDRA: 'cassandra'>, <DbType.MONGODB: 'mongodb'>, <DbType.MYSQL: 'mysql'>, <DbType.ORACLE: 'oracle'>, <DbType.POSTGRESQL: 'postgresql'>, <DbType.REDIS: 'redis'>, <DbType.SQLSERVER: 'sqlserver'>])
+  - Type: Choice([<DbType.MYSQL: 'mysql'>, <DbType.ORACLE: 'oracle'>, <DbType.POSTGRESQL: 'postgresql'>, <DbType.REDIS: 'redis'>, <DbType.SQLSERVER: 'sqlserver'>])
   - Default: `none`
   - Usage: `--db-type`
 
@@ -89,7 +87,7 @@ Usage: redis-di scaffold [OPTIONS]
 Options:
   -log-level, --loglevel [DEBUG|INFO|WARN|ERROR|CRITICAL]
                                   [default: INFO]
-  --db-type [cassandra|mongodb|mysql|oracle|postgresql|redis|sqlserver]
+  --db-type [mysql|oracle|postgresql|redis|sqlserver]
                                   DB type  [required]
   --strategy [ingest|write_behind]
                                   Strategy  [default: ingest]

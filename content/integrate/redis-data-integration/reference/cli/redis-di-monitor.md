@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Monitors RDI by collecting metrics and exporting to Prometheus
-
 ## Usage
 
 ```

@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Dumps RDI support package
-
 ## Usage
 
 ```

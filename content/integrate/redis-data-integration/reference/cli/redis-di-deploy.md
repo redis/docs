@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Deploys the RDI configurations including target
-
 ## Usage
 
 ```

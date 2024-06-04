@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Resets the pipeline into initial full sync mode
-
 ## Usage
 
 ```

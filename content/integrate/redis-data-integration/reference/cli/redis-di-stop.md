@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Stops the pipeline
-
 ## Usage
 
 ```

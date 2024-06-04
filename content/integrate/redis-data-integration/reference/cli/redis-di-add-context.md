@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Adds a new context
-
 ## Usage
 
 ```

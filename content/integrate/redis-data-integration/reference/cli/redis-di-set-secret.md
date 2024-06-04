@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Writes a secret to Redis secret store
-
 ## Usage
 
 ```

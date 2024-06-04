@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Sets a context to be the active one
-
 ## Usage
 
 ```

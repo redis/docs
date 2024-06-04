@@ -17,8 +17,6 @@ type: integration
 weight: 10
 ---
 
-Returns all the stored rejected entries
-
 ## Usage
 
 ```
