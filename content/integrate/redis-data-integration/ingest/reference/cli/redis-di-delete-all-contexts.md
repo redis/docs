@@ -8,9 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-
-Deletes all contexts
-
 ## Usage
 
 ```

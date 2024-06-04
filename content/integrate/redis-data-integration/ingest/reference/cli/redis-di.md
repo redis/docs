@@ -8,9 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-
-A command line tool to manage & configure Redis Data Integration
-
 ## Usage
 
 ```

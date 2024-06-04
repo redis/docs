@@ -8,9 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-
-Creates a secret of a specified key
-
 ## Usage
 
 ```

@@ -8,9 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-
-Deploys the RDI configurations including target
-
 ## Usage
 
 ```

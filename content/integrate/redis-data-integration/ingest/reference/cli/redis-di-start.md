@@ -8,9 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-
-Starts the pipeline
-
 ## Usage
 
 ```

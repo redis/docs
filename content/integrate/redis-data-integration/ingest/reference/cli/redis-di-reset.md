@@ -8,9 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-
-Resets the pipeline into initial full sync mode
-
 ## Usage
 
 ```
