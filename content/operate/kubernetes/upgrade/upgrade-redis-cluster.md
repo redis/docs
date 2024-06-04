@@ -168,7 +168,7 @@ After the cluster is upgraded, you can upgrade your databases. The process for u
 
 For more details on how to [upgrade a database]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-database" >}}), see the [Upgrade an existing Redis Enterprise Software deployment]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}) documentation.
 
-For Active-Active databases, see [Upgrade an Active-Active database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active/">}}).
+For Active-Active databases, see [Upgrade an Active-Active database]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active">}}).
 
 Note that if your cluster [`redisUpgradePolicy`]({{< relref "/operate/kubernetes/reference/cluster-options#redisupgradepolicy" >}}) or your database [`redisVersion`]({{< relref "/operate/kubernetes/reference/db-options#redisversion" >}}) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy]({{< relref "/operate/rs/installing-upgrading/upgrading#redis-upgrade-policy" >}}) for more details.
 
