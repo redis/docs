@@ -141,14 +141,16 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 <details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 
 
-is the policy for handling insertion of samples that may be duplicates of existing samples according to the following rules:
+is the policy for handling the insertion of a new sample. Both of the following conditions must be met.
 
-  - `ignoreMaxTimeDiff`: the system considers a new insertion a duplicate if the time difference does not exceed the maximum allowed. This value defaults to the `IGNORE_MAX_TIME_DIFF` configuration parameter.
-  - `ignoreMaxValDiff`: the system considers a new insertion a duplicate if the value difference does not exceed the maximum allowed. This value defaults to the `IGNORE_MAX_VAL_DIFF` configuration parameter.
+  - The timestamp of the new sample is less than the previous maximum timestamp (`ignoreMaxTimeDiff`).
+  - The absolute value of the new sample is less than the value of maximum timestamp's value (`ignoreMaxValDiff`)
 
-  When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_val_diff), which are, by default, both set to 0.
+  When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
 
   These parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters is used).
+  
+  Note that this insertion filter is not effective for out-of-order insertions (timestamp < max_timestamp).
 </details>
 
 <details open><summary><code>LABELS [{label value}...]</code></summary> 

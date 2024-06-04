@@ -53,8 +53,8 @@ The following table summarizes which configuration parameters can be set at modu
 | [ENCODING](#encoding) (since RedisTimeSeries v1.6)                          | :white_check_mark: | :white_large_square: |
 | [CHUNK_SIZE_BYTES](#chunk_size_bytes)                                       | :white_check_mark: | :white_large_square: |
 | [OSS_GLOBAL_PASSWORD](#oss_global_password) (since RedisTimeSeries v1.8.4)  | :white_check_mark: | :white_large_square: |
-| [IGNORE_MAX_TIME_DIFF](#ignore_max_time_diff) (since RedisTimeSeries v1.12) | :white_check_mark: | :white_large_square: |
-| [IGNORE_MAX_VAL_DIFF](#ignore_max_val_diff) (since RedisTimeSeries v1.12)   | :white_check_mark: | :white_large_square: |
+| [IGNORE_MAX_TIME_DIFF](#ignore_max_time_diff-and-ignore_max_val_diff) (since RedisTimeSeries v1.12) | :white_check_mark: | :white_large_square: |
+| [IGNORE_MAX_VAL_DIFF](#ignore_max_time_diff-and-ignore_max_val_diff) (since RedisTimeSeries v1.12)   | :white_check_mark: | :white_large_square: |
 
 ### NUM_THREADS
 
@@ -249,28 +249,15 @@ Not set
 $ redis-server --loadmodule ./redistimeseries.so OSS_GLOBAL_PASSWORD password
 ```
 
-### IGNORE_MAX_TIME_DIFF
+### IGNORE_MAX_TIME_DIFF and IGNORE_MAX_VAL_DIFF
 
-The system considers a new insertion a duplicate if it occurs within the maximum allowed time difference.
-This default value applies to each new time series upon its creation.
+A new sample is considered a duplicate if the following two conditions are met:
 
-#### Default
+1. The timestamp of the new sample is less than the previous maximum timestamp;
+1. The value of the new sample is less than or equal to the value of the previous, maximum timestamp value.
 
-0
+#### Defaults
 
-```
-$ redis-server --loadmodule ./redistimeseries.so IGNORE_MAX_TIME_DIFF 10000
-```
+`IGNORE_MAX_TIME_DIFF`: 0
 
-### IGNORE_MAX_VAL_DIFF
-
-The system considers a new insertion a duplicate if the value difference does not exceed the maximum allowed.
-This default value applies to each new time series upon its creation.
-
-#### Default
-
-0.0
-
-```
-$ redis-server --loadmodule ./redistimeseries.so IGNORE_MAX_VAL_DIFF 0.1
-```
+`IGNORE_MAX_VAL_DIFF`: 0.0
