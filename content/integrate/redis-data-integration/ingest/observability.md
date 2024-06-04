@@ -33,22 +33,23 @@ See the
 for an introduction to these concepts.
 
 {{< note >}}If you don't use Prometheus or Grafana, you can still see
-RDI metrics with the RDI monitoring screen in Redis Insight or with
-the `redis-di status` command from the CLI.{{< /note >}}
+RDI metrics with the RDI monitoring screen in Redis Insight or with the
+[`redis-di status`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-status" >}})
+command from the CLI.{{< /note >}}
 
 ## Collector metrics
 
-The collector metrics can be scraped from https://<RDI_HOST>/metrics-collector-source
+The endpoint for the collector metrics is `https://<RDI_HOST>/metrics-collector-source`
 
-These metrics are divided into 3 groups:
+These metrics are divided into three groups:
 
-- Pipeline state: metrics about the pipeline mode and connectivity
-- Data flow counters: counters for data breakdown per source table
-- Processing performance: processing speed of RDI micro batches
+- **Pipeline state**: metrics about the pipeline mode and connectivity
+- **Data flow counters**: counters for data breakdown per source table
+- **Processing performance**: processing speed of RDI micro batches
   
-## Stream Processor metrics
+## Stream processor metrics
 
-The Stream Processor metrics can be scraped from https://<RDI_HOST>/metrics/rdi
+The endpoint for the stream processor metrics is `https://<RDI_HOST>/metrics/rdi`
 
 RDI reports metrics during the two main phases of the ingest pipeline, the *snapshot*
 phase and the *change data capture (CDC)* phase. (See the
@@ -85,7 +86,6 @@ RDI reports.
 
 ## RDI logs
 
-
 RDI uses [fluentd](https://www.fluentd.org/) and
 [logrotate](https://linux.die.net/man/8/logrotate) to ship and rotate logs
 for its Kubernetes (K8s) components.
@@ -95,7 +95,9 @@ By default, RDI stores logs in the host VM file system at `/opt/rdi/logs`.
 The logs are recorded at the minimum `INFO` level and get rotated when they reach a size of 100MB.
 RDI retains the last five log rotated files by default.
 Logs are in JSON format, which lets you analyze them with several different observability tools.
-You can change the default log settings using the `redis-di config-rdi` command.
+You can change the default log settings using the
+[`redis-di config-rdi`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-config-rdi" >}})
+command.
 
 ## Support package
 
