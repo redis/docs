@@ -68,6 +68,12 @@ targets:
       type: redis
       host: localhost
       port: 12000
+# The names of the following files should match the ones you used
+# when setting the TLS/mTLS secrets. Set only `cacert` if you are using
+# TLS, but set all three if you are using mTLS:
+#     key: /etc/certificates/target_db/redis.key
+#     cert: /etc/certificates/target_db/redis.crt
+#     cacert: /etc/certificates/target_db/ca.crt
 ```
 
 The main sections of the file configure [`sources`](#sources) and [`targets`](#targets).
