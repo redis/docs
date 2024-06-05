@@ -34,7 +34,7 @@ If you'd like to use triggers and functions with a [Flexible subscription]({{< r
 For more information about triggers and functions, see the [triggers and functions documentation]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}}).
 
 {{< note >}}
-Triggers and functions is discontinued as of [June 2024]({{< relref "/operate/rc/changelog/june-2024" >}}).
+Triggers and functions is discontinued as of [May 2024]({{< relref "/operate/rc/changelog/may-2024" >}}).
 {{< /note >}}
 
 ### Maintenance windows
