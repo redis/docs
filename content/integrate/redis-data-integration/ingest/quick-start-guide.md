@@ -151,10 +151,9 @@ and the
 [ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines#ingest-pipeline-lifecycle" >}})
 for more information
 ).
-To see the RDI pipeline working in CDC mode, open the PostgreSQL tool 
-[`pgadmin`](https://www.pgadmin.org/) and
-run the following commands:
-
-[snippet connecting to chinook]
-[SQL of insert into Track table]
+To see the RDI pipeline working in CDC mode:
+ 
+- Run load on the source database: [follow the instructions](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres?tab=readme-ov-file#generating-load-on-the-database)
+- Run the status command with `--live` to see the flow of records.
+- User Redis Insight to look at the data in target
 
