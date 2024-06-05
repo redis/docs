@@ -215,7 +215,7 @@ $ redis-server --loadmodule ./redisearch.so MINPREFIX 3
 
 ### MINSTEMLEN
 
-The minimum word length to stem. The default value is `4`. Setting it lower than `4` can hurt performance.
+The minimum word length to stem. The default value is `4`. Setting it lower than `4` can reduce performance.
 
 #### Default
 
