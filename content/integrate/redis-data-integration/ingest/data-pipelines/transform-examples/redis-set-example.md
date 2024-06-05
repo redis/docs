@@ -16,9 +16,10 @@ type: integration
 weight: 30
 ---
 
-In the example below, data is captured from the source table named `invoice` and is written to a Redis set. The connection is an optional parameter that must refer to the corresponding connection name defined in `config.yaml`. When the `data_type` parameter is specified for the job, it overrides the system-wide setting `target_data_type` defined in `config.yaml`. 
+In the example below, data is captured from the source table named `invoice` and is written to a Redis set. The `connection` is an optional parameter that refers to the corresponding connection name defined in `config.yaml`. When you specify the
+`data_type` parameter for the job, it overrides the system-wide setting `target_data_type` defined in `config.yaml`. 
 
-When writing to sets the additional argument `member` must be provided, specifying the field that will be written to a set. In this case, the results will be a Redis set with key names based on the key expression (e.g. `invoices:Germany`, `invoices:USA`) and with and expiration of 100 seconds. If no `expire` parameter is given, the keys will never expire.    
+When writing to a set, you must supply an extra argument, `member`, which specifies the field that will be written. In this case, the result will be a Redis set with key names based on the key expression (for example, `invoices:Germany`, `invoices:USA`) and with an expiration of 100 seconds. If you don't supply an `expire` parameter, the keys will never expire.    
 
 ```yaml
 source:
