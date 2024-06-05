@@ -92,3 +92,21 @@ Once the installation is finished, RDI is ready for use.
 You must also configure your source database to use the Debezium connector for CDC. See the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs" >}})
 section to learn how to do this.
+
+## Uninstall RDI
+
+If you want to remove your RDI installation, go to the installation folder and run
+the uninstall script as a privileged user:
+
+```bash
+sudo ./uninstall.sh
+```
+
+The script will check you are sure before you proceed:
+
+```
+This will uninstall RDI and its dependencies, are you sure? [y, N]
+```
+
+If you type anything other than "y" here, the script will abort without making any changes
+to RDI or your source database.
