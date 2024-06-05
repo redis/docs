@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Methods for debugging your Redis Stack functions
-
-  '
+description: Methods for debugging your Redis Stack functions
 linkTitle: Debugging
 title: Debugging
 weight: 5
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/debugging/
 ---
 ## Overview
 

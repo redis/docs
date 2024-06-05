@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Cluster support for triggers and functions
-
-  '
+description: Cluster support for triggers and functions
 linkTitle: Cluster support
 title: Cluster support
 weight: 4
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/concepts/cluster_support/
 ---
 
 **Notice**: On an OSS cluster, before executing any gears function, you must send a `REDISGEARS_2.REFRESHCLUSTER` command to all the shards so that they will be aware of the cluster topology. Without this step, each shard will act as a single OSS instance.
@@ -31,7 +31,7 @@ redis.registerClusterFunction("dbsize", async(async_client) => {
 });
 ```
 
-`redis.registerClusterFunction` is passed the remote function name, which will be used later to call the remote function, and the remote function code. The remote function must be a Coroutine (async function) and it is executed in the background on the remote shard. For more information about async function, please refer to [sync and async]({{< relref "/develop/interact/programmability/triggers-and-functions/concepts/Sync_Async" >}}) page.
+`redis.registerClusterFunction` is passed the remote function name, which will be used later to call the remote function, and the remote function code. The remote function must be a Coroutine (async function) and it is executed in the background on the remote shard. For more information about async function, please refer to [sync and async]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/Sync_Async" >}}) page.
 
 We have couple of options for calling a remote function. These options are exposed through the async client that is given to a Coroutine:
 
@@ -114,7 +114,7 @@ When using `async_client.runOnShards` API, the timeout will be added as error to
 
 ## Remote function limitations
 
-All the limitations listed on [coroutines]({{< relref "/develop/interact/programmability/triggers-and-functions/concepts/Sync_Async" >}}) also apply to remote functions. Remote function also come with some extra limitations:
+All the limitations listed on [coroutines]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/Sync_Async" >}}) also apply to remote functions. Remote function also come with some extra limitations:
 
 * Remote functions can only perform read operations. An attempt to perform a write operation will result in an error.
 * Remote function are not guaranteed to succeed (if the shard crashed for example). In such cases a timeout error will be given.

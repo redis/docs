@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Function flags for JavaScript functions
-
-  '
+description: Function flags for JavaScript functions
 linkTitle: Function flags
 title: Function flags
 weight: 5
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/concepts/function_flags/
 ---
 
 When registering a function, it is possible to include additional information about its behavior. This information is known as function flags. Function flags are an optional argument that can be specified after the function implementation. The following flags are supported:

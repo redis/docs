@@ -24,11 +24,6 @@ As a developer, you will likely use one of our supported client libraries for co
 
 The existing Redis commands cover most use cases, but if low latency is a critical requirement, you might need to extend Redis' server-side functionality.
 
-The triggers and functions feature of Redis Stack and Redis Enterprise provide a solid way to run JavaScript functions inside Redis. Functions can be invoked based on triggers, which means that the client doesn't need to call for the execution of server-side business logic explicitly.
-
-- [Triggers and functions introduction]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}})
-- [Triggers and functions Javascript API reference]({{< relref "/develop/interact/programmability/triggers-and-functions/concepts/javascript_api" >}})
-
 Lua scripts have been available since early versions of Redis. With Lua, the script is provided by the client and cached on the server side, which implies the risk that different clients might use a different script version.
 
 - [Redis Lua API reference]({{< relref "/develop/interact/programmability/lua-api" >}})

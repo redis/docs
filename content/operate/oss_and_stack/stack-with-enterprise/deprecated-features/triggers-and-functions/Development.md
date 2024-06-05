@@ -9,15 +9,14 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'How to develop for triggers and functions
-
-  '
-linkTitle: Development
+description: How to develop for triggers and functions
 title: Development
 weight: 4
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/development/
 ---
 
-To aid in the development of new libraries of triggers and functions, you can use the type declaration files for the [triggers and functions API]({{< relref "/develop/interact/programmability/triggers-and-functions/concepts/JavaScript_API" >}}), which allows your preferred development environment to provide autocompletion and type checking. You can install this information using the following command:
+To aid in the development of new libraries of triggers and functions, you can use the type declaration files for the [triggers and functions API]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/JavaScript_API" >}}), which allows your preferred development environment to provide autocompletion and type checking. You can install this information using the following command:
 
 ```bash
 npm install https://gitpkg.now.sh/RedisGears/RedisGears/js_api --save-dev

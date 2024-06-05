@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Converting RESP to and from JavaScript
-
-  '
+description: Converting RESP to and from JavaScript
 linkTitle: RESP & JavaScript
 title: RESP & JavaScript
 weight: 7
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/concepts/resp_js_conversion/
 ---
 
 When running Redis commands from within a function using the `client.call` API, the reply is parsed as a resp3 reply and converted to a JS object using the following rules:

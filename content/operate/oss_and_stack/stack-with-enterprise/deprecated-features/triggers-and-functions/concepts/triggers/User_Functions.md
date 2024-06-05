@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Execute JavaScript functions via `TFCALL` or `TFCALLASYNC`
-
-  '
+description: Execute JavaScript functions via `TFCALL` or `TFCALLASYNC`
 linkTitle: User functions
 title: User functions
 weight: 1
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/concepts/triggers/user_functions/
 ---
 
 

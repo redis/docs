@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Overview of the JavaScript API
-
-  '
+description: Overview of the JavaScript API
 linkTitle: JavaScript API
 title: JavaScript API
 weight: 2
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/concepts/javascript_api/
 ---
 
 

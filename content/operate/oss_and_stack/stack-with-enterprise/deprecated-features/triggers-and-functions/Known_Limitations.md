@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Overview of the known limitations
-
-  '
+description: Overview of the known limitations
 linkTitle: Known limitations
 title: Known limitations
 weight: 8
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/known_limitations/
 ---
 
 ## Limited write options

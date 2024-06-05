@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Execute a JavaScript function based on a keyspace notification
-
-  '
+description: Execute a JavaScript function based on a keyspace notification
 linkTitle: Keyspace triggers
 title: Keyspace triggers
 weight: 2
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/concepts/triggers/keyspace_triggers/
 ---
 
 Keyspace triggers allow you to register a function that will be executed whenever an event occurs in the database. Most events are triggered by command invocations, but there are two special events that can occur independently of a command:
@@ -45,7 +45,7 @@ Argument Description:
 
 * `consumer`: The consumer name.
 * `prefix `: The key prefix on which the trigger should be fired.
-* `callback`: The callback function to invoke, following the same rules of [Sync and Async invocation]({{< relref "/develop/interact/programmability/triggers-and-functions/concepts/Sync_Async" >}}). The callback will only be invoked on the primary shard.
+* `callback`: The callback function to invoke, following the same rules of [Sync and Async invocation]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/Sync_Async" >}}). The callback will only be invoked on the primary shard.
 
 Run the example:
 
@@ -121,7 +121,7 @@ We can display trigger information using [`TFUNCTION LIST`]({{< relref "/command
 
 If the callback function passed to the trigger is a `JS` function (not a Coroutine), it is guaranteed that the callback will be invoked atomically along side the operation that caused the trigger; meaning all clients will see the data only after the callback has completed. In addition, it is guaranteed that the effect of the callback will be replicated to the replica and the AOF in a `multi/exec` block together with the command that fired the trigger.
 
-If the callback is a Coroutine, it will be executed in the background and there is no guarantee on where or if it will be executed. The guarantees are the same as described on [sync and async invocation]({{< relref "/develop/interact/programmability/triggers-and-functions/concepts/Sync_Async" >}}).
+If the callback is a Coroutine, it will be executed in the background and there is no guarantee on where or if it will be executed. The guarantees are the same as described on [sync and async invocation]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/Sync_Async" >}}).
 
 ## Upgrades
 

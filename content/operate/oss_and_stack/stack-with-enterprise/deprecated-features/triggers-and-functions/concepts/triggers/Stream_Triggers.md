@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Execute a JavaScript function when an item is added to a stream
-
-  '
+description: Execute a JavaScript function when an item is added to a stream
 linkTitle: Stream triggers
 title: Stream triggers
 weight: 2
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/concepts/triggers/stream_triggers/
 ---
 
 Redis Stack's triggers and functions feature comes with a full stream API to process data from [Redis streams]({{< relref "/develop/data-types/streams" >}}). Unlike RedisGears v1 that provided a micro batching API, the new triggers and functions feature provides a **real streaming** API, which means that the data will be processed as soon as it enters the stream.
@@ -44,9 +44,9 @@ Argument Description:
 
 * consumer - the consumer name.
 * stream - streams name prefix on which to trigger the callback.
-* callback - the callback to invoke on each element in the stream. Following the same rules of [sync and async invocation]({{< relref "/develop/interact/programmability/triggers-and-functions/concepts/Sync_Async" >}}). The callback will be invoke only on primary shard.
+* callback - the callback to invoke on each element in the stream. Following the same rules of [sync and async invocation]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/Sync_Async" >}}). The callback will be invoke only on primary shard.
 
-If we register this library (see the [quick start]({{< relref "/develop/interact/programmability/triggers-and-functions/Quick_Start_CLI" >}}) section to learn how to Register a RedisGears function) and run the following command on our Redis:
+If we register this library (see the [quick start]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/Quick_Start_CLI" >}}) section to learn how to Register a RedisGears function) and run the following command on our Redis:
 
 ```
 XADD stream:1 * foo1 bar1
