@@ -41,7 +41,7 @@ You'll see the following when the library was added:
 
 {{< image filename="/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/images/tf-rdi-3.png" >}}
 
-The [`TFCALL`]({{< relref "/commands/tfcall" >}}) command is used to execute the JavaScript Function. If the command fails, an error will be returned. Click on the **>_ CLI**  button in the lower left-hand corner to open a console window and then run the command shown below.
+The `TFCALL` command is used to execute the JavaScript Function. If the command fails, an error will be returned. Click on the **>_ CLI**  button in the lower left-hand corner to open a console window and then run the command shown below.
 
 {{< image filename="/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/images/tf-rdi-3a.png" >}}
 

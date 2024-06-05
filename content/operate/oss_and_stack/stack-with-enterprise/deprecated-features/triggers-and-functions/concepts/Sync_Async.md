@@ -57,7 +57,7 @@ Running this function will return a `pong` reply:
 "PONG"
 ```
 
-Notice that this time, in order to invoke the function, we used [`TFCALLASYNC`]({{< relref "/commands/tfcallasync" >}}). **We can only invoke async functions using [`TFCALLASYNC`]({{< relref "/commands/tfcallasync" >}})**.
+Notice that this time, in order to invoke the function, we used `TFCALLASYNC`. **We can only invoke async functions using `TFCALLASYNC`**.
 
 Now let's look at a more complex example. Assume we want to write a function that counts the number of hashes in Redis that have a `name` property with some value. As a first attempt, we'll write a synchronous function that uses the [`SCAN`]({{< relref "/commands/scan" >}}) command to scan the key space:
 

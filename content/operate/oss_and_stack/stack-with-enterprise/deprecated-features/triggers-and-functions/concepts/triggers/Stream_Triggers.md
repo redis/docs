@@ -90,7 +90,7 @@ The reason why the record is a list of touples and not an object is because the 
 
 Notice that `stream_name` and `record` fields might contains `null`'s if the data can not be decoded as string. the `*_raw` fields will always be provided and will contains the data as `JS` `ArrayBuffer`.
 
-We can observe the streams which are tracked by our registered consumer using [`TFUNCTION LIST`]({{< relref "/commands/tfunction-list" >}}) command:
+We can observe the streams which are tracked by our registered consumer using `TFUNCTION LIST` command:
 
 ```
 127.0.0.1:6379> TFUNCTION LIST LIBRARY lib vvv
@@ -188,7 +188,7 @@ The default values are:
 * `isStreamTrimmed` - `false`
 * `window` - 1
 
-It is enough that a single consumer will enable trimming so that the stream will be trimmed. The stream will be trim according to the slowest consumer that consume the stream at a given time (even if this is not the consumer that enabled the trimming). Raising exception during the callback invocation will **not prevent the trimming**. The callback should decide how to handle failures by invoke a retry or write some error log. The error will be added to the `last_error` field on [`TFUNCTION LIST`]({{< relref "/commands/tfunction-list" >}}) command.
+It is enough that a single consumer will enable trimming so that the stream will be trimmed. The stream will be trim according to the slowest consumer that consume the stream at a given time (even if this is not the consumer that enabled the trimming). Raising exception during the callback invocation will **not prevent the trimming**. The callback should decide how to handle failures by invoke a retry or write some error log. The error will be added to the `last_error` field on `TFUNCTION LIST` command.
 
 ## Data processing guarantees
 
@@ -196,7 +196,7 @@ As long as the primary shard is up and running we guarantee exactly once propert
 
 ## Upgrades
 
-When upgrading the consumer code (using the `REPLACE` option of [`TFUNCTION LOAD`]({{< relref "/commands/tfunction-load" >}}) command) the following consumer parameters can be updated:
+When upgrading the consumer code (using the `REPLACE` option of `TFUNCTION LOAD` command) the following consumer parameters can be updated:
 
 * Window
 * Trimming
