@@ -36,7 +36,7 @@ The `redis-stack-server` cask will install all Redis and Redis Stack binaries. H
 
 ### First-time Redis installation
 
-If this is the first time you've installed Redis on your system, then all Redis Stack binaries be installed and accessible from the `$PATH`. On Apple silicon Macs, this assumes that `/opt/homebrew/bin` is in your path. On Intel-based Macs, `/usr/local/bin` should be in the `$PATH`.
+If this is the first time you've installed Redis on your system, then all Redis Stack binaries are installed and accessible from the `$PATH`. On Apple silicon Macs, this assumes that `/opt/homebrew/bin` is in your path. On Intel-based Macs, `/usr/local/bin` should be in the `$PATH`.
 
 To check this, run:
 
