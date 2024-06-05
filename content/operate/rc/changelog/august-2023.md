@@ -33,6 +33,10 @@ If you'd like to use triggers and functions with a [Flexible subscription]({{< r
 
 For more information about triggers and functions, see the [triggers and functions documentation]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}}).
 
+{{< note >}}
+Triggers and functions is discontinued as of [June 2024]({{< relref "/operate/rc/changelog/june-2024" >}}).
+{{< /note >}}
+
 ### Maintenance windows
 
 You can now [set manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) if you want to control when Redis can perform [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) for a Flexible subscription.
