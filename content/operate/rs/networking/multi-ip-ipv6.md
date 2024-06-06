@@ -95,10 +95,10 @@ To update a node's internal IP address:
     rladmin node <ID> enslave demote_node
     ```
 
-1. Deactivate the `rlec_supervisord` service on the node:
+1. Deactivate the `rlec_supervisor` service on the node:
 
     ```sh
-    systemctl disable rlec_supervisord 
+    systemctl disable rlec_supervisor 
     ```
 
 1. Restart the node.
@@ -111,17 +111,17 @@ To update a node's internal IP address:
     rladmin node <ID> addr set <IP address>
     ```
 
-1. Enable the `rlec_supervisord` service on the node:
+1. Enable the `rlec_supervisor` service on the node:
 
     ```sh
-    systemctl enable rlec_supervisord 
+    systemctl enable rlec_supervisor 
     ```
 
-1. Restart `rlec_supervisord` or restart the node.
+1. Restart `rlec_supervisor` or restart the node.
 
 
     ```sh
-    systemctl start rlec_supervisord
+    systemctl start rlec_supervisor
     ```
 
 1. Verify the node rejoined the cluster:
