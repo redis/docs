@@ -44,10 +44,9 @@ and is already set up for the RDI collector to use.
 Install RDI using the instructions in the
 [installation guide]({{< relref "/integrate/redis-data-integration/ingest/installation" >}})
 
-During the installation, RDI asks you for the pathname of the folder where you
-want to store the pipeline templates. You will need this pathname later when you
-prepare the pipeline for deployment (see [Prepare the pipeline](#prepare-the-pipeline)
-below).
+RDI will create the pipeline template for your chosen source database type at
+`/opt/rdi/config`. You will need this pathname later when you prepare the pipeline for deployment
+(see [Prepare the pipeline](#prepare-the-pipeline) below).
 
 At the end of the installation, RDI CLI will prompt you to set the access secrets
 for both the source PostgreSQL database and the Redis RDI database. RDI needs these to
