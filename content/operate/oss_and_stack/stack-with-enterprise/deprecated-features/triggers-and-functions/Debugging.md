@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Methods for debugging your Redis Stack functions
-
-  '
+description: Methods for debugging your Redis Stack functions
 linkTitle: Debugging
 title: Debugging
 weight: 5
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/debugging/
 ---
 ## Overview
 
@@ -38,7 +38,7 @@ redis.registerFunction('hello', ()=> {
 })
 ```
 
-After loading the library and executing the function with [`TFCALL`]({{< relref "/commands/tfcall" >}}), you'll see something like the following in your Redis log file:
+After loading the library and executing the function with `TFCALL`, you'll see something like the following in your Redis log file:
 
 ```
 45718:M 01 Nov 2023 07:02:40.593 * <redisgears_2> Hello log

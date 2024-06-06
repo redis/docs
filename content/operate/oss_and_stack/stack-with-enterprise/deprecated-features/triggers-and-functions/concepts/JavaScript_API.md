@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Overview of the JavaScript API
-
-  '
+description: Overview of the JavaScript API
 linkTitle: JavaScript API
 title: JavaScript API
 weight: 2
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/concepts/javascript_api/
 ---
 
 
@@ -28,7 +28,7 @@ The triggers and functions JavaScript API provides a singleton instance of an ob
 
 * Since version: 2.0.0
 
-Register a new function that can later be invoke using [`TFCALL`]({{< relref "/commands/tfcall" >}}) command.
+Register a new function that can later be invoke using `TFCALL` command.
 
 ```JavaScript
 //name and callback mandatory
@@ -47,7 +47,7 @@ redis.registerFunction(
 
 * Since version: 2.0.0
 
-Register a new async function that can later be invoke using [`TFCALLASYNC`]({{< relref "/commands/tfcallasync" >}}) command.
+Register a new async function that can later be invoke using `TFCALLASYNC` command.
 
 ```JavaScript
 redis.registerAsyncFunction(

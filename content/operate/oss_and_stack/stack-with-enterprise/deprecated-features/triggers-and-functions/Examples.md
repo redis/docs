@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'How triggers and functions can be used
-
-  '
+description: How triggers and functions can be used
 linkTitle: Examples
 title: Triggers and functions examples
 weight: 7
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/examples/
 ---
 
 Redis Stack's triggers and functions feature enables the detection of changes to data as they happen and guarantee seamless execution of business logic at the data source. This ensures that new options to manipulate the data are possible and can be delivered for all the clients at the same time, while deployment and maintenance are simplified. Let's explore some industry-specific use cases where these capabilities shine:

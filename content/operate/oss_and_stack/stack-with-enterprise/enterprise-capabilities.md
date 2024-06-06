@@ -24,7 +24,7 @@ The following table shows which Redis Stack features are supported by Redis Ente
 | [Graph]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 | [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | &#x2705; Supported | &#x2705; Supported |
 | [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | &#x2705; Supported | &#x2705; Supported |
-| [Triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/triggers-functions" >}})<br />(preview) | &#x2705; Supported | &#x2705; Supported |
+| [Triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 | [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1" >}}) | &#x2705; Supported | &#x274c; Not supported |
 
 ## Feature compatibility
@@ -63,7 +63,7 @@ For details about individual features, see the corresponding documentation.
 
 [^6]: Although time series are compatible with Auto Tiering, the entire series either lives in RAM or on flash.
 
-| Feature name/capability | [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1" >}}) | [Triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/triggers-functions" >}})<br />(preview) |
+| Feature name/capability | [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1" >}}) | [Triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions" >}}) |
 |--------------------------|:--------------:|:------------:|:----------:|:----------:|  
 | Active-Active (CRDB)[^5] | No             | No           | Yes (v1.0) | No |
 | Backup/Restore           | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) | Yes |

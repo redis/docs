@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Get started with triggers and functions using Redis Insight
-
-  '
+description: Get started with triggers and functions using Redis Insight
 linkTitle: Quick start (Redis Insight)
 title: Quick start using Redis Insight
 weight: 1
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/quick_start_cli/
 ---
 
 Make sure that you have [Redis Stack installed]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) and running. Alternatively, you can create a [free Redis Cloud account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
@@ -25,35 +25,35 @@ If you haven't already installed Redis Insight, you can download the latest vers
 
 Open the Redis Insight application, and connect to your database by clicking on its database alias.
 
-{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-0.png" >}}
+{{< image filename="/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/images/tf-rdi-0.png" >}}
 
 ## Load a library
 
 Click on the triggers and functions icon and then on **+ Library** as shown below.
 
-{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-1.png" >}}
+{{< image filename="/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/images/tf-rdi-1.png" >}}
 
 Add your code to the **Library Code** section of the right-hand panel and then click **Add Library**.
 
-{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-2.png" >}}
+{{< image filename="/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/images/tf-rdi-2.png" >}}
 
 You'll see the following when the library was added:
 
-{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-3.png" >}}
+{{< image filename="/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/images/tf-rdi-3.png" >}}
 
-The [`TFCALL`]({{< relref "/commands/tfcall" >}}) command is used to execute the JavaScript Function. If the command fails, an error will be returned. Click on the **>_ CLI**  button in the lower left-hand corner to open a console window and then run the command shown below.
+The `TFCALL` command is used to execute the JavaScript Function. If the command fails, an error will be returned. Click on the **>_ CLI**  button in the lower left-hand corner to open a console window and then run the command shown below.
 
-{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-3a.png" >}}
+{{< image filename="/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/images/tf-rdi-3a.png" >}}
 
 To update a library you can edit the library code directly in the interface by clicking on the edit (pencil) icon. When you save your changes, the libary will be reloaded.
 
-{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-4.png" >}}
+{{< image filename="/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/images/tf-rdi-4.png" >}}
 
 ## Uploading an external file
 
 Click on the **+ Add Library** button as before and, instead of adding the code directly into the editor, click on the **Upload** button, select the file from your file browser, and then click on **Add Library**. The file needs to contain the header, which contains the engine identifier, the API version, and the library name: `#!js api_version=1.0 name=myFirstLibrary`.
 
-{{< image filename="/develop/interact/programmability/triggers-and-functions/images/tf-rdi-5.png" >}}
+{{< image filename="/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/images/tf-rdi-5.png" >}}
 
 ## Creating triggers
 

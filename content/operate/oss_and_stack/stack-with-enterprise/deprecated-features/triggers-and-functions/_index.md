@@ -1,16 +1,6 @@
 ---
 bannerChildren: true
-bannerText: 'The triggers and functions feature of Redis Stack and its documentation
-  are currently in preview, and only available in Redis Stack 7.2 or later. You can
-  try out the triggers and functions preview with a [free Redis Cloud account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
-  The preview is available in the fixed subscription plan for the **Google Cloud Asia
-  Pacific (Tokyo)** and **AWS Asia Pacific (Singapore)** regions.
-
-
-  If you notice any errors in this documentation, feel free to submit an issue to
-  GitHub using the "Create new issue" link in the top right-hand corner of this page.
-
-  '
+bannerText: 'The Redis Stack triggers and functions feature preview has ended and it will not be promoted to GA.'
 categories:
 - docs
 - develop
@@ -26,6 +16,13 @@ linktitle: Triggers and functions
 stack: true
 title: Triggers and functions
 weight: 16
+aliases:
+  - /develop/interact/programmability/triggers-and-functions/
+  - /commands/tfcall/
+  - /commands/tfcallasync/
+  - /commands/tfunction-delete/
+  - /commands/tfunction-list/
+  - /commands/tfunction-load/
 ---
 
 [![discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/xTbqgTB)
@@ -34,8 +31,7 @@ weight: 16
 The triggers and functions feature of Redis Stack allows running JavaScript functions inside Redis. These functions can be executed on-demand, by an event-driven trigger, or by a stream processing trigger.
 
 ## Quick links
-
-* [Quick start guide]({{< relref "/develop/interact/programmability/triggers-and-functions/Quick_Start_CLI" >}})
+* [Command documentation](https://github.com/RedisGears/RedisGears/tree/master/docs/commands)
 * [Source code](https://github.com/RedisGears/RedisGears)
 * [Latest release](https://github.com/RedisGears/RedisGears/releases)
 * [Docker image](https://hub.docker.com/r/redis/redis-stack-server/)
