@@ -14,7 +14,7 @@
           {{ end }}
           {{ .Title }}</h1>
         {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
-   {{ if .Params.categories }}
+  {{ if .Params.categories }}
 <div class="post-categories" style="display: table;">
   <table style="border-collapse: separate; border-spacing: 0; background-color: #ffffff;">
     <thead>
@@ -22,7 +22,7 @@
         {{ $visibleCategories := slice }}
         {{ range .Params.categories }}
         {{ if not (in (slice "docs" "operate" "integrate" "develop") .) }}
-          {{ $visibleCategories = append $visibleCategories . }}
+          {{ $visibleCategories = $visibleCategories | append (slice .) }} <!-- Corrected Append -->
         {{ end }}
         {{ end }}
         {{ range $index, $element := $visibleCategories }}
@@ -30,22 +30,22 @@
           {{ $color := "#ffffff" }} <!-- Default background color (white) -->
           {{ if eq $element "rs" }}
             {{ $displayName = "Redis Enterprise Software" }}
-            {{ $color = "#DCFF1E" }} <!-- Yellow background for Redis Enterprise Software -->
+            {{ $color = "#DCFF1E" }}
           {{ else if eq $element "rc" }}
             {{ $displayName = "Redis Cloud" }}
-            {{ $color = "#80DBFF" }} <!-- Blue background for Redis Cloud -->
+            {{ $color = "#80DBFF" }}
           {{ else if eq $element "kubernetes" }}
             {{ $displayName = "Redis Enterprise for Kubernetes" }}
-            {{ $color = "#8A99A0" }} <!-- Light grey background for Kubernetes -->
+            {{ $color = "#8A99A0" }}
           {{ else if eq $element "oss" }}
             {{ $displayName = "Redis Source Available" }}
-            {{ $color = "#C795E3" }} <!-- Purple background for Redis Source Available -->
+            {{ $color = "#C795E3" }}
           {{ else if eq $element "stack" }}
             {{ $displayName = "Redis Stack" }}
-            {{ $color = "#49859C" }} <!-- Medium blue background for Redis Stack -->
+            {{ $color = "#49859C" }}
           {{ else if eq $element "redisinsight" }}
             {{ $displayName = "Redis Insight" }}
-            {{ $color = "#FD4439" }} <!-- Red background for Redis Insight -->
+            {{ $color = "#FD4439" }}
           {{ end }}
           <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; background-color: {{ $color }}; {{ if eq $index 0 }}border-top-left-radius: 10px; border-bottom-left-radius: 10px;{{ end }}{{ if eq $index (sub (len $visibleCategories) 1) }}border-top-right-radius: 10px; border-bottom-right-radius: 10px;{{ end }}">
             {{ $displayName }}
@@ -59,6 +59,7 @@
   </table>
 </div>
 {{ end }}
+
 
 
 
