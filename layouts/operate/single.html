@@ -15,11 +15,11 @@
           {{ .Title }}</h1>
         {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
        {{ if .Params.categories }}
-<div class="post-categories">
-  <table style="border-collapse: collapse; background-color: #ffffff;"> <!-- Removed width: 100% -->
+<div class="post-categories" style="display: table;">
+  <table style="border-collapse: collapse; background-color: #ffffff;">
     <thead>
       <tr>
-        <th style="border: 1px solid #ccc; padding: 8px; text-align: left; white-space: nowrap;">This content is applicable to the following product(s):</th>
+        <th style="border: 1px solid #ccc; padding: 8px; text-align: left; white-space: nowrap;">Applies to:</th>
         {{ range .Params.categories }}
         {{ if not (in (slice "docs" "operate" "integrate" "develop") .) }} <!-- Exclude specific categories -->
           {{ $displayName := . }} <!-- Set default display name -->
@@ -36,10 +36,10 @@
           {{ else if eq . "oss" }}
             {{ $displayName = "Redis Source Available" }} <!-- Custom name for 'oss' -->
             {{ $color = "#C795E3" }} <!-- Purple background for Redis Source Available -->
-         {{ else if eq . "stack" }}
+          {{ else if eq . "stack" }}
             {{ $displayName = "Redis Stack" }} <!-- Custom name for 'stack' -->
             {{ $color = "#49859C" }} <!-- Medium blue background for Redis Stack -->
-         {{ else if eq . "redisinsight" }}
+          {{ else if eq . "redisinsight" }}
             {{ $displayName = "Redis Insight" }} <!-- Custom name for 'redisinsight' -->
             {{ $color = "#FD4439" }} <!-- Red background for Redis Insight -->
           {{ end }}
@@ -54,6 +54,7 @@
   </table>
 </div>
 {{ end }}
+
 
 
 
