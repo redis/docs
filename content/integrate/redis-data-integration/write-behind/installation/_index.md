@@ -1,5 +1,5 @@
 ---
-Title: Write-behind
+Title: Installation
 aliases: null
 alwaysopen: false
 categories:
@@ -7,13 +7,13 @@ categories:
 - integrate
 - rs
 - rdi
-description: null
+description: Learn how to install RDI write-behind
 group: di
 hideListLinks: false
-linkTitle: Write-behind
+linkTitle: Installation
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 20
+weight: 8
 ---
 

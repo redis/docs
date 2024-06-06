@@ -1,5 +1,5 @@
 ---
-Title: Write-behind
+Title: CLI reference
 aliases: null
 alwaysopen: false
 categories:
@@ -7,13 +7,12 @@ categories:
 - integrate
 - rs
 - rdi
-description: null
+description: Reference for the RDI CLI commands
 group: di
 hideListLinks: false
-linkTitle: Write-behind
+linkTitle: CLI commands
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 20
+weight: 60
 ---
-

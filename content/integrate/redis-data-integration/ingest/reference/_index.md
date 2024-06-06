@@ -1,5 +1,5 @@
 ---
-Title: Write-behind
+Title: Reference
 aliases: null
 alwaysopen: false
 categories:
@@ -7,13 +7,12 @@ categories:
 - integrate
 - rs
 - rdi
-description: null
+description: View reference material for Redis Data Integration
 group: di
 hideListLinks: false
-linkTitle: Write-behind
+linkTitle: Reference
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 20
+weight: 60
 ---
-
