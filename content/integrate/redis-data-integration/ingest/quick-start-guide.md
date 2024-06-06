@@ -151,9 +151,13 @@ and the
 [ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines#ingest-pipeline-lifecycle" >}})
 for more information
 ).
+
 To see the RDI pipeline working in CDC mode:
  
-- Run load on the source database: [follow the instructions](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres?tab=readme-ov-file#generating-load-on-the-database)
-- Run the status command with `--live` to see the flow of records.
-- User Redis Insight to look at the data in target
-
+- Create a simulated load on the source database
+  (see [Generating load on the database](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres?tab=readme-ov-file#generating-load-on-the-database)
+  to learn how to do this).
+- Run
+  [`redis-di status --live`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-status" >}})
+  to see the flow of records.
+- User [Redis Insight]({{< relref "/develop/connect/insight" >}}) to look at the data in the target database.
