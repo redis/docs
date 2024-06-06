@@ -103,7 +103,7 @@ command.
 
 If you ever need to send a comprehensive set of forensics data to Redis support then you should
 run the
-[`redis-di dump-support-package`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-dump-support-package" >}})
+[`redis-di dump-support-package`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-dump-support-package" >}})
 command from the CLI.
 
 This command gathers the following data:
@@ -113,7 +113,7 @@ This command gathers the following data:
 - List of secret names used by RDI components (but not the secrets themselves)
 - RDI logs
 - RDI component versions
-- Output from the [`redis-di status`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}}) command
+- Output from the [`redis-di status`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-status" >}}) command
 - Text of the `config.yaml` file
 - Text of the Job configuration files
 - [optional] RDI DLQ streams content

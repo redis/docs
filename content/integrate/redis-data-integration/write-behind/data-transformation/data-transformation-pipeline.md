@@ -57,7 +57,10 @@ output:
 
 ## Jobs
 
-Each job is defined in a separate YAML file. All of these files will be uploaded to RDI using the `deploy` command. For more information, see [deploy configuration](#deploy-configuration)). If you are using the [scaffold]({{<relref "/integrate/redis-data-integration/quickstart/ingest-guide.md">}}) command, place the job files in the `jobs` folder.
+Each job is defined in a separate YAML file. All of these files will be uploaded to RDI using the `deploy` command.
+For more information, see [deploy configuration](#deploy-configuration)). If you are using the
+[scaffold]({{< relref "/integrate/redis-data-integration/write-behind/reference/cli/redis-di-scaffold" >}}) command,
+place the job files in the `jobs` folder.
 
 ### Job YAML structure
 
@@ -82,7 +85,9 @@ Each job is defined in a separate YAML file. All of these files will be uploaded
 - `transform`:
 
   This section includes a series of blocks that define how the data will be transformed.
-  For more information, see [supported blocks]({{<relref "/integrate/redis-data-integration/reference/data-transformation-block-types">}}) and [JMESPath custom functions]({{<relref "/integrate/redis-data-integration/reference/jmespath-custom-functions.md">}}).
+  For more information, see
+  [supported blocks]({{< relref "/integrate/redis-data-integration/write-behind/reference/data-transformation-block-types" >}})
+  and [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/write-behind/reference/jmespath-custom-functions.md" >}}).
 
 - `output`:
 
