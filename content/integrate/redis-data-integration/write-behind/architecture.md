@@ -1,5 +1,5 @@
 ---
-Title: Redis Data Integration architecture
+Title: RDI write-behind architecture
 aliases: null
 alwaysopen: false
 categories:
@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: null
+description: Discover the main components of RDI write-behind
 group: di
 headerRange: '[2]'
 linkTitle: Architecture
@@ -17,10 +17,8 @@ type: integration
 weight: 10
 ---
 
-This document describes the architecture of RDI write-behind
-
-RDI write-behind allows integration between Redis Enterprise (as the source of changes to data) and downstream databases or datastores.
-RDI captures the changes to a selected set of key patterns in a Redis keyspace and asynchronously writes them in small batches to the downstream database, so the application doesn't need to take care of remodeling the data or managing the connection with the downstream database.
+RDI write-behind lets you integrate Redis Enterprise (as the source of changes to data) and downstream databases or datastores.
+RDI captures any changes to a selected set of key patterns in a Redis keyspace and asynchronously writes them in small batches to the downstream database. This means that your app doesn't need to handle the data remodeling or manage the connection with the downstream database.
 
 RDI write-behind can normalize a key in Redis to several records in one or more tables at the target.
 To learn more about write-behind declarative jobs and normalization, see the
@@ -28,8 +26,10 @@ To learn more about write-behind declarative jobs and normalization, see the
 
 ## Write-behind topology
 
-RDI's CLI and engine come in one edition that can run both ingest and write-behind. However, the topology for write-behind is different.
-RDI engine is installed on a Redis database containing the application data and not on a separate staging Redis database. RDI streams data and control plane adds a small footprint of few hundreds of MBs to the Redis database. In the write-behind topology, RDI processes in parallel on each shard and establishes a single connection from each shard to the downstream database.
+RDI's CLI and engine are shipped as one product that can run both ingest and write-behind pipelines.
+However, the two different types of pipeline have different topologies.
+
+The RDI engine is installed on the Redis database that contains the application data and not on a separate staging Redis database. The RDI data streams and its control plane add only a small footprint of a few hundred MB to the Redis database. In the write-behind topology, RDI processes data in parallel on each shard and establishes a single connection from each shard to the downstream database.
 
 ### Model translation
 
@@ -40,24 +40,33 @@ RDI write-behind can track changes to the following Redis types:
 - [Set]({{< relref "/develop/data-types/sets" >}})
 - [Sorted Set]({{< relref "/develop/data-types/sorted-sets" >}})
 
-Unlike the ingest scenario, write-behind has no default behavior for model translation. It is up to the user to create a declarative job, specifying the mapping between Redis keys and target database records.
-The job `keys` and `mapping` sections help make this an easy task.
+Unlike the ingest scenario, write-behind has no default behavior for model translation. You must always
+create a declarative job to specify the mapping between Redis keys and target database records.
+The job configuration has `keys` and `mapping` sections that help make this an easy task.
 
-## RDI write behind components
+## RDI write-behind components
 
 ### RDI CLI
 
-RDI comes with a Python-based CLI that is intuitive, self explanatory, and validating, to ease the entire lifecycle of RDI setup and management.
+RDI's Python-based CLI is highly intuitive to use and performs validations to help you avoid mistakes.
+The CLI makes it easy to set up RDI and manage it over its entire lifecycle.
 
 ### RDI Engine
 
-RDI write-behind uses Redis Gears as its runtime environment. Gears and RDI engine logic are installed on all source Redis Enterprise database shards, but only primary shards are processing events and the pipeline
+RDI write-behind uses Redis Gears as its runtime environment. The Gears and RDI engine logic are installed
+on all source Redis Enterprise database shards, but only primary shards process events and handle the pipeline.
 
-The RDI Engine reads Redis change events from Redis Streams (one per tracked key-pattern), process them and translate them to SQL or other language supported by the target database.
+The RDI Engine reads Redis change events from Redis Streams (one for each tracked key-pattern),
+processes them, and translates them to SQL or whatever other language the target database uses.
 
-RDI writes changes to the target in small batches as a transaction. RDI write-behind guarantee at-least once delivery. In case of network hiccup, disconnection or any temporary failure, RDI will keep retrying writing the changes to the target. In case of hard reject, RDI keeps the reject record and the reason in DLQ (Dead Letter Queue).
-
+RDI writes changes to the target in small batches using transactions. RDI write-behind guarantees
+*at-least once* delivery. If any network problems, disconnections, or other temporary failures occur,
+RDI will keep attempting to write the changes to the target. If a hard reject occurs, RDI keeps the reject
+record and the reason in a *dead letter queue (DLQ)*.
 
 ### RDI configuration
 
-RDI configuration is persisted at the cluster level. The configuration is written by the CLI `deploy` command, reflecting the configuration file. This mechanism allows for automatic configuration of new shards when needed, and can survive shard and node failure.
+The RDI configuration is persisted at the cluster level. The configuration is written by the CLI
+[`deploy`]({{< relref "/integrate/redis-data-integration/write-behind/reference/cli/redis-di-deploy" >}})
+command, which saves all changes to the configuration file. This mechanism allows for automatic configuration of new shards
+whenever you need them, and it can survive shard and node failure.
