@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Create access control roles.
+description: Create roles with both cluster and database access.
 linkTitle: Create roles with combined access
 weight: 70
 ---

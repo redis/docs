@@ -12,11 +12,7 @@ aliases:
     - /operate/rs/security/access-control/admin-console-access/
 ---
 
-From **Access Control** > **Roles**, you can create custom user roles that determine cluster management permissions, data access permissions, or a combination of both.
-
-- [**Management roles**](#default-management-roles) - Management roles define user access to the Cluster Manager UI and API.
-
-- **Data access controls** - Data access controls define the permissions each role has for each database in the cluster.
+Roles with cluster access let the user access the Cluster Management UI and REST API.
 
 ## Default management roles
 
@@ -31,11 +27,9 @@ Redis Enterprise Software includes five predefined roles that determine a user's
 
 For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions]({{< relref "/operate/rs/security/access-control/create-roles/create-cluster-roles#cluster-manager-ui-permissions" >}}) or [REST API permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}}).
 
-## Create roles for database access {#create-db-role}
+## Create roles for cluster access {#create-cluster-role}
 
-To create a role that grants database access to users but blocks access to the Redis Enterprise Cluster Manager UI and REST API, set the **Cluster management role** to **None**.
-
-To define a role for database access:
+To create a role that grants access to the Redis Enterprise Cluster Manager UI and REST API but does not grant access to any databases:
 
 1. From **Access Control** > **Roles**, you can:
 
@@ -51,15 +45,7 @@ To define a role for database access:
 
 1. Choose a **Cluster management role**. The default is **None**.
     
-1. Select **+ Add ACL**.
-
-    {{<image filename="images/rs/access-control-role-acl.png" alt="Add role database acl" >}}
-
-1.  Choose a Redis ACL and databases to associate with the role.
-
-    {{<image filename="images/rs/access-control-role-databases.png" alt="Add databases to access" >}}
-
-1. Select the check mark {{< image filename="/images/rs/buttons/checkmark-button.png#no-click" alt="The Check button" width="25px" class="inline" >}} to confirm.
+1. Do not add any ACLs, so databases cannot be accessed when using this role.
 
 1. Select **Save**.
 
