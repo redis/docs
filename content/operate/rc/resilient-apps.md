@@ -52,7 +52,7 @@ We recommend that you enable replication for any databases that need to be highl
 
 Active-Active Redis allows you to [manually fail over to a different region]({{< relref "/operate/rs/databases/active-active/develop/app-failover-active-active" >}}) if a whole region fails. However, you need to specifically develop your app with Active-Active in mind. For more information on developing with Active-Active, see [Active-Active Redis applications]({{< relref "/operate/rs/databases/active-active/develop" >}}).
 
-To create Active-Active databases, you need to create Redis Cloud Pro subscription and enable Active-Active Redis and define the regions for each copy of your databases. See [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for instructions.
+To create Active-Active databases, you need to create a Redis Cloud Pro subscription, then enable Active-Active Redis and define the regions for each copy of your databases. See [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for instructions.
 
 ### Set manual maintenance windows
 
@@ -87,4 +87,4 @@ For example, `redis-py` uses the [Retry](https://redis-py.readthedocs.io/en/stab
 
 ### Refresh DNS
 
-Your application may disconnect from your database either during planned maintenance or for other, unplanned reasons. Most Redis clients are set to refresh their DNS address when they reconnect to the database, and you will not be required to perform any further action. If you encounter connectivity problems for more than a minute during maintenance, please refresh your DNS entries. 
+Your application may disconnect from your database either during planned maintenance or for other, unplanned reasons. Most Redis clients are set to refresh their DNS address when they reconnect to the database, and you will not be required to perform any further action. If you encounter connectivity problems for more than a minute during maintenance then you should refresh your DNS entries. 
