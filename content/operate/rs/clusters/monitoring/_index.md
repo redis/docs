@@ -44,7 +44,7 @@ Configured alerts are shown:
 
 - As a notification on the status icon ( {{< image filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" class="inline" >}} ) for the node and cluster
 - In the **log**
-- In email notifications, if you configure [email alerts](#sending-alerts-by-email)
+- In email notifications, if you configure [email alerts](#send-alerts-by-email)
 
 {{< note >}}
 If you enable alerts for "Node joined" or "Node removed" actions,
@@ -64,7 +64,7 @@ Configured alerts are shown:
 
 - As a notification on the status icon ( {{< image filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" class="inline" >}} ) for the database
 - In the **log**
-- In emails, if you configure [email alerts](#sending-alerts-by-email)
+- In emails, if you configure [email alerts](#send-alerts-by-email)
 
 To enable alerts for a database:
 
