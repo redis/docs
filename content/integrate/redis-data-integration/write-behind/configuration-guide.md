@@ -7,15 +7,15 @@ categories:
 - integrate
 - rs
 - rdi
-description: Configuring write-behind to your database
+description: Configure write-behind to your database
 draft: null
 group: di
 hidden: false
-linkTitle: Write-behind-configuration
+linkTitle: Configuration
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 40
+weight: 10
 ---
 
 This guide shows you how to configure write-behind target connections.

@@ -1,5 +1,5 @@
 ---
-Title: Write-behind quickstart
+Title: Quickstart
 aliases: null
 alwaysopen: false
 categories:
@@ -11,11 +11,11 @@ description: Get started creating a write-behind pipeline
 draft: null
 group: di
 hidden: false
-linkTitle: Write-behind
+linkTitle: Quickstart
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 40
+weight: 5
 ---
 
 This guide takes you through the creation of a write-behind pipeline.
