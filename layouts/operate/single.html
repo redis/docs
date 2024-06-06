@@ -14,37 +14,37 @@
           {{ end }}
           {{ .Title }}</h1>
         {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
-      {{ if .Params.categories }}
+     {{ if .Params.categories }}
 <div class="post-categories" style="display: table;">
   <table style="border-collapse: separate; border-spacing: 0; background-color: #ffffff;">
     <thead>
       <tr>
-        <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; white-space: nowrap; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">Applies to:</th> <!-- Added rounded corners for the first cell -->
-        {{ range .Params.categories }}
+        <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; white-space: nowrap; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">Applies to:</th> <!-- Rounded corners for the first cell -->
+        {{ $total := len .Params.categories }} <!-- Store the total number of categories -->
+        {{ range $index, $element := .Params.categories }}
         {{ if not (in (slice "docs" "operate" "integrate" "develop") .) }} <!-- Exclude specific categories -->
-          {{ $displayName := . }} <!-- Set default display name -->
+          {{ $displayName := $element }} <!-- Set default display name -->
           {{ $color := "#000000" }} <!-- Default color (black) -->
-          {{ if eq . "rs" }}
+          {{ if eq $element "rs" }}
             {{ $displayName = "Redis Enterprise Software" }}
             {{ $color = "#DCFF1E" }} <!-- Yellow bullet point for Redis Enterprise Software -->
-          {{ else if eq . "rc" }}
+          {{ else if eq $element "rc" }}
             {{ $displayName = "Redis Cloud" }}
             {{ $color = "#80DBFF" }} <!-- Blue bullet point for Redis Cloud -->
-          {{ else if eq . "kubernetes" }}
+          {{ else if eq $element "kubernetes" }}
             {{ $displayName = "Redis Enterprise for Kubernetes" }}
             {{ $color = "#8A99A0" }} <!-- Light grey bullet point for Kubernetes -->
-          {{ else if eq . "oss" }}
+          {{ else if eq $element "oss" }}
             {{ $displayName = "Redis Source Available" }}
             {{ $color = "#C795E3" }} <!-- Purple bullet point for Redis Source Available -->
-          {{ else if eq . "stack" }}
+          {{ else if eq $element "stack" }}
             {{ $displayName = "Redis Stack" }}
             {{ $color = "#49859C" }} <!-- Medium blue bullet point for Redis Stack -->
-          {{ else if eq . "redisinsight" }}
+          {{ else if eq $element "redisinsight" }}
             {{ $displayName = "Redis Insight" }}
             {{ $color = "#FD4439" }} <!-- Red bullet point for Redis Insight -->
           {{ end }}
-          {{ $last := eq (add 1 (index $.Params.categories)) (len $.Params.categories) }} <!-- Check if it is the last category -->
-          <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; {{ if $last }}border-top-right-radius: 10px; border-bottom-right-radius: 10px;{{ end }}">
+          <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; {{ if eq $index (sub $total 1) }}border-top-right-radius: 10px; border-bottom-right-radius: 10px;{{ end }}">
             <span style="color: {{ $color }}; font-size: 20px;">&#8226;</span> <!-- Larger colored bullet point -->
             {{ $displayName }}
           </th>
@@ -58,6 +58,7 @@
   </table>
 </div>
 {{ end }}
+
 
 
 
