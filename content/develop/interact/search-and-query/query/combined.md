@@ -145,10 +145,3 @@ FT.SEARCH idx:bikes_vss "(@price:[500 1000] @condition:{new})=>[KNN 3 @vector $q
 ```
 
 The [vector search article]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) provides further details about vector queries in general.
-
-## Empty values
-You can use the simple `isempty(@field)` to query for fields containing empty values (i.e., empty strings for TEXT and TAG fields).
-
-```
-FT.SEARCH idx:bikes "isempty(@description) | @description:(kids | small)"
-```

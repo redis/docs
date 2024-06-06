@@ -118,9 +118,9 @@ arguments:
     optional: true
     token: WITHSUFFIXTRIE
     type: pure-token
-  - name: isempty
+  - name: indexempty
     optional: true
-    token: ISEMPTY
+    token: INDEXEMPTY
     type: pure-token
   - arguments:
     - name: sortable
@@ -263,7 +263,7 @@ after the SCHEMA keyword, declares which fields to index:
 
   - `WITHSUFFIXTRIE` for `TEXT` and `TAG` attributes, keeps a suffix trie with all terms which match the suffix. It is used to optimize `contains` (*foo*) and `suffix` (*foo) queries. Otherwise, a brute-force search on the trie is performed. If suffix trie exists for some fields, these queries will be disabled for other fields.
 
-  - `ISEMPTY` for `TEXT` and `TAG` attributes, allows you to index and search for empty strings. By default, empty strings are not indexed.
+  - `INDEXEMPTY` for `TEXT` and `TAG` attributes, allows you to index and search for empty strings. By default, empty strings are not indexed.
 </details>
 
 ## Optional arguments
