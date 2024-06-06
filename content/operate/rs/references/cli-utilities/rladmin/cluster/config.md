@@ -43,6 +43,7 @@ Updates the cluster configuration.
         [ min_sentinel_TLS_version { 1.2 | 1.3 } ]
         [ reserved_ports <list of ports/port ranges> ]
         [ s3_url <URL> ]
+        [ s3_ca_cert <filepath> ]
         [ saslauthd_ldap_conf </tmp/ldap.conf> ]
         [ sentinel_tls_mode { allowed | required | disabled } ]
         [ sentinel_cipher_suites <golang cipher list> ]
@@ -81,7 +82,7 @@ Updates the cluster configuration.
 | min_sentinel_TLS_version | `1.2`<br />`1.3` | The minimum TLS protocol version that is supported for the discovery service |
 | reserved_ports | list of ports/port ranges | List of reserved ports and/or port ranges to avoid using for database endpoints (for example `reserved_ports 11000 13000-13010`) |
 | s3_url | string | The URL of S3 export and import |
-| s3_ca_cert | string | The CA certificate file path for S3 export and import |
+| s3_ca_cert | string | The CA certificate filepath for S3 export and import |
 | saslauthd_ldap_conf | filepath | Updates LDAP authentication configuration for the cluster |
 | sentinel_cipher_suites | list of ciphers | Cipher suites used by the discovery service (supported ciphers are implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package) |
 | sentinel_tls_mode | `allowed`<br />`required`<br />`disabled` | Define the SSL policy for the discovery service<br />(previously named `sentinel_ssl_policy`) |
