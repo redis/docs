@@ -14,12 +14,12 @@
           {{ end }}
           {{ .Title }}</h1>
         {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
-       {{ if .Params.categories }}
+      {{ if .Params.categories }}
 <div class="post-categories" style="display: table;">
-  <table style="border-collapse: collapse; background-color: #ffffff;">
+  <table style="border-collapse: separate; border-spacing: 0; background-color: #ffffff;">
     <thead>
       <tr>
-        <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; white-space: nowrap;">Applies to</th>
+        <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; white-space: nowrap; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">Applies to:</th> <!-- Added rounded corners for the first cell -->
         {{ range .Params.categories }}
         {{ if not (in (slice "docs" "operate" "integrate" "develop") .) }} <!-- Exclude specific categories -->
           {{ $displayName := . }} <!-- Set default display name -->
@@ -43,8 +43,9 @@
             {{ $displayName = "Redis Insight" }}
             {{ $color = "#FD4439" }} <!-- Red bullet point for Redis Insight -->
           {{ end }}
-          <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal;">
-            <span style="color: {{ $color }};">&#8226;</span> <!-- Colored bullet point -->
+          {{ $last := eq (add 1 (index $.Params.categories)) (len $.Params.categories) }} <!-- Check if it is the last category -->
+          <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; {{ if $last }}border-top-right-radius: 10px; border-bottom-right-radius: 10px;{{ end }}">
+            <span style="color: {{ $color }}; font-size: 20px;">&#8226;</span> <!-- Larger colored bullet point -->
             {{ $displayName }}
           </th>
         {{ end }}
