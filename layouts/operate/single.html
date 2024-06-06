@@ -16,10 +16,10 @@
         {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
        {{ if .Params.categories }}
 <div class="post-categories">
-  <table style="width: 100%; border-collapse: collapse; background-color: #f2f2f2;">
+  <table style="width: 100%; border-collapse: collapse; background-color: #ffffff;">
     <thead>
       <tr>
-        <th style="border: 1px solid #ccc; padding: 8px;">This content is applicable to the following product(s):</th>
+        <th style="border: 1px solid #ccc; padding: 8px;">This page applies to:</th>
         {{ range .Params.categories }}
         {{ if not (in (slice "docs" "operate" "integrate" "develop") .) }} <!-- Exclude specific categories -->
           {{ $displayName := . }} <!-- Set default display name -->
