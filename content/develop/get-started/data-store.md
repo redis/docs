@@ -84,9 +84,9 @@ You can get a complete overview of available data types in this documentation si
 
 Each item within Redis has a unique key. All items live within the Redis [keyspace]({{< relref "/develop/use/keyspace" >}}). You can scan the Redis keyspace via the [SCAN command]({{< relref "/commands/scan" >}}). Here is an example that scans for the first 100 keys that have the prefix `bike:`:
 
-{{< clients-example scan_example >}}
+```
 SCAN 0 MATCH "bike:*" COUNT 100
-{{< /clients-example >}}
+```
 
 [SCAN]({{< relref "/commands/scan" >}}) returns a cursor position, allowing you to scan iteratively for the next batch of keys until you reach the cursor value 0.
 

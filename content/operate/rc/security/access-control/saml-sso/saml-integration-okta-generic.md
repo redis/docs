@@ -17,6 +17,8 @@ Learn how to use the generic application template. You can also refer to the [Or
 
 To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 
+Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+
 ## Step 1: Set up your demo identity provider (IdP)
 
 To create the Okta SAML integration application:
@@ -43,10 +45,7 @@ To create the Okta SAML integration application:
 
     * **Single sign-on URL**: `http://www.fake.com`. This is a temporary mock URL that you will modify later.
     * **Audience URI (SP Entity ID)**: `http://www.fake.com`. This is a temporary mock URL that you will modify later.
-  
-    > Complete the **Default RelayState** field only if you need your SAML flow to be IdP initiated.
-    
-    * **Default RelayState**: `https://app.redislabs.com/#/login/?idpId=XXXXXX`. You will need to complete this URL with the `idpId` later. 
+    * **Default RelayState**: `https://app.redislabs.com/#/login/?idpId=XXXXXX`. You will need to complete this URL with the `idpId` later. _Complete this field only if you need your SAML flow to be IdP initiated._
     * **Name ID forma**: `Unspecified`
     * **Application username**: `Okta username`
     * **Update application username on**: `Create and update`
@@ -214,13 +213,11 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
 1. Fill in the information you saved in step 6 in the **setup** form, including:
 
-    * **Identity Provider Single Sign-On URL:**
-    * **Identity Provider Issuer**
-    * **X.509 Certificate**
+    * **IdP Server URL**: Identity Provider Single Sign-On URL
+    * **Issuer**: Identity Provider Issuer
+    * **Assertion signing certificate**: X.509 Certificate
 
     {{<image filename="images/rc/saml/sm_saml_1.png" >}}
-
-    {{<image filename="images/rc/saml/sm_saml_2.png" >}}
 
 1. Select **Enable** and wait a few seconds for the status to change. You are then able to download the service provider (SP) metadata. Save the file to your local hard disk.
 
@@ -256,7 +253,7 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
     {{<image filename="images/rc/saml/sm_saml_8.png" >}}
 
-  A popup appears, stating that to test the SAML connection, you need to log in with Okta credentials of the user defined in the Redis Cloud group. This user is part of the group to which you assigned the Redis Cloud application.
+    A popup appears, stating that to test the SAML connection, you need to log in with Okta credentials of the user defined in the Redis Cloud group. This user is part of the group to which you assigned the Redis Cloud application.
 
     {{<image filename="images/rc/saml/sm_saml_9.png" >}}
 
@@ -272,14 +269,8 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
     {{<image filename="images/rc/saml/okta_saml_app_int_15.png" >}}
 
-1. If only one user is defined in Redis Cloud console, you get a popup window where you select **Confirm** to convert the local user to a SAML user. 
-
-    > Consider setting up one more local user other than a SAML user.
+1. If only one user is defined in Redis Cloud console, you get a popup window where you select **Confirm** to convert the local user to a SAML user. Consider setting up one more local user other than a SAML user.
 
     {{<image filename="images/rc/saml/okta_saml_app_int_16.png" >}}
 
 1. You have successfully configured SAML as an identity provider.
-
-    {{<image filename="images/rc/saml/okta_saml_app_int_17.png" >}}
-
-    {{<image filename="images/rc/saml/okta_saml_app_int_18.png" >}}

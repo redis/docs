@@ -107,6 +107,7 @@
               if (record.hierarchy[0] === category) {
                 obj[record.title] = {
                   path: constructSectionTitle(record),
+                  product: record.hierarchy[2],
                   url: record.url,
                 }
               }
@@ -151,7 +152,7 @@
                   <a href="${result[key].url}">
                     <span class="search-item-icon"></span>
                     <span class="search-item-content">
-                      ${result[key].path ? `<span class="search-item-path">${result[key].path}</span>` : ''}
+                      ${result[key].path && result[key].product ? `<div class="search-item-container"><span class="search-item-path">${result[key].path}</span><span class="px-2">→</span><span class="search-item-path">${result[key].product}</span></div>` : ''}
                       <span class="search-item-title">${key.replace(new RegExp(`(^|)(${searchTerm})(|$)`, 'ig'), '$1<b class="search-term-match">$2</b>$3')}</span>
                     </span>
                     <span class="search-item-action"></span>

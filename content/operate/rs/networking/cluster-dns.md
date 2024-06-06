@@ -10,7 +10,7 @@ linkTitle: Configure cluster DNS
 weight: $weight
 ---
 
-By default, Redis Enterprise Software deployments use DNS to communicate between nodes.  You can also use the [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}), which uses IP addresses to connect and complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) supported by open source Redis.
+By default, Redis Enterprise Software deployments use DNS to communicate between nodes.  You can also use the [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}), which uses IP addresses to connect and complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) supported by source available Redis.
 
 Each node in a Redis Enterprise cluster includes a small DNS server to manage internal functions, such as high availability, automatic failover, automatic migration, and so on.
 Nodes should only run the DNS server included with the software.  Running additional DNS servers can lead to unexpected behavior.
@@ -102,7 +102,7 @@ Using the IP-based connection option does not require any DNS configuration eith
 To administer the cluster you do need to know the IP address of at least one of the nodes in the cluster.
 Once you have the IP address, you can simply connect to port number 8443 (for example: <https://10.0.0.12:8443>).
 However, as the topology of the cluster changes and node with the given IP address is removed,
-you need to remember the IP address of another node participating in this cluster to connect to the admin console and manage the cluster.
+you need to remember the IP address of another node participating in this cluster to connect to the Cluster Manager UI and manage the cluster.
 
 Applications connecting to Redis Software databases have the same constraints.
 When using the IP-based connection method, you can use the [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}})

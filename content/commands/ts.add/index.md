@@ -46,6 +46,10 @@ arguments:
     type: pure-token
   name: policy
   optional: true
+  token: DUPLICATE_POLICY
+  type: oneof
+- name: policy_ovr
+  optional: true
   token: ON_DUPLICATE
   type: oneof
 - arguments:
@@ -77,14 +81,15 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Append a sample to a time series
-syntax: 'TS.ADD key timestamp value [RETENTION retentionPeriod] [ENCODING [COMPRESSED|UNCOMPRESSED]]
-  [CHUNK_SIZE size] [ON_DUPLICATE policy]   [LABELS {label value}...] '
-syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED\
-  \ | COMPRESSED>] [CHUNK_SIZE\_size] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
-  \ MAX | SUM>] [LABELS\_label value [label value ...]]"
-syntax_str: "timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED\
-  \ | COMPRESSED>] [CHUNK_SIZE\_size] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
-  \ MAX | SUM>] [LABELS\_label value [label value ...]]"
+syntax: "TS.ADD key timestamp value \n  [RETENTION retentionPeriod] \n  [ENCODING\
+  \ <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [ON_DUPLICATE policy_ovr] \n\
+  \  [LABELS [label value ...]]\n"
+syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod]\n  [ENCODING\_\
+  <COMPRESSED | UNCOMPRESSED>] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_policy] \n  [ON_DUPLICATE\_<BLOCK | FIRST\
+  \ | LAST | MIN | MAX | SUM>]\n  [LABELS\ [label value ...]]"
+syntax_str: "timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED\
+  \ | UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
+  \ MAX | SUM>] [LABELS\ [label value ...]]"
 title: TS.ADD
 ---
 
@@ -130,29 +135,38 @@ The following arguments are optional because they can be set by [`TS.CREATE`]({{
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary> 
  
- is maximum retention period, compared to the maximum existing timestamp, in milliseconds.
+is maximum retention period, compared to the maximum existing timestamp, in milliseconds.
 
 Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
     
 <details open><summary><code>ENCODING enc</code></summary> 
 
-specifies the series sample's encoding format.
+specifies the series sample encoding format.
 
 Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
-<details open><summary><code>CHUNK_SIZE size</code></summary> is memory size, in bytes, allocated for each data chunk.
+<details open><summary><code>CHUNK_SIZE size</code></summary>
+  
+is memory size, in bytes, allocated for each data chunk.
 
 Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
-<details open><summary><code>ON_DUPLICATE policy</code></summary> 
+<details open><summary><code>DUPLICATE_POLICY policy</code></summary>
+
+is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) and [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/)) of multiple samples with identical timestamps.
+
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
+</details>
+
+<details open><summary><code>ON_DUPLICATE policy_ovr</code></summary> 
 
 is overwrite key and database configuration for [DUPLICATE_POLICY]({{< baseurl >}}/develop/data-types/timeseries/configuration#duplicate_policy), the policy for handling samples with identical timestamps.
 This override is effective only for this single command and does not set the time series duplication policy (which can be set with [`TS.ALTER`]({{< baseurl >}}/commands/ts.alter/)).
 
-`policy` can be one of the following values:
+`policy_ovr` can be one of the following values:
   - `BLOCK`: ignore any newly reported value and reply with an error
   - `FIRST`: ignore any newly reported value
   - `LAST`: override with the newly reported value
@@ -172,7 +186,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 <note><b>Notes:</b>
 - You can use this command to create a new time series and add data to it in a single command.
-  `RETENTION`, `ENCODING`, `CHUNK_SIZE`, and `LABELS` are used only when creating a new time series, and ignored when adding samples to an existing time series.
+  `RETENTION`, `ENCODING`, `CHUNK_SIZE`, `DUPLICATE_POLICY`, and `LABELS` are used only when creating a new time series, and ignored when adding samples to an existing time series.
 - Setting `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
 

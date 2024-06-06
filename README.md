@@ -2,6 +2,12 @@
 
 OPEN SOURCE LICENSE VS. TRADEMARKS. The three-clause BSD license gives you the right to redistribute and use the software in source and binary forms, with or without modification, under certain conditions. However, open source licenses like the three-clause BSD license do not address trademarks. For further details please read the [Redis Trademark Policy](https://redis.io/legal/trademark-policy/)."
 
+## A note for Issue and PR submitters
+
+PRs are merged first to the `main` branch of this repo.
+Periodically, the docs team will merge `main` into `latest`, which will make the changes visible on the docs site.
+Please be patient, as there may be a lag of several days before `main` is merged into `latest`. If you want to see your changes before they're merged to `latest`, you can see them on https://redis.io/docs/staging/dev/. 
+If your PR is urgent, let the docs team know in the PR comments, and we will do our best to accommodate.
 
 ## Site template files and folders
 
@@ -140,6 +146,56 @@ The redis.io template does add a list of links to child pages by default to the 
 ```
 hideListLinks: true
 ```
+
+
+## Tailwind specifics
+
+### Fonts
+
+The fonts are located in the folder `static/fonts`. This folder contains typically file of the formats `ttf`, `woff`, or `woff2`. You can perform the following steps to add a font:
+
+* Copy your font files to the fonts folder `static/fonts`.
+* Ensure that the font is loaded by adding it to the partial `layouts/partials/fonts.html`. This partial defines the font via a style sheet and ensures that the font resources are pre-loaded.
+
+
+Here is an example that shows how to define the font face 'Geist Mono' with a regular font weight:
+
+```
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('{{ $basePath }}/fonts/GeistMono-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+```
+
+* Make your font available via Tailwind by adding it to the `tailwind.config.js` file.
+
+```
+module.exports = {
+  content: ["content/**/*.md", "layouts/**/*.html", "./tailwindcss.whitelist.txt"],
+  theme: {
+    extend: {
+      fontFamily: {
+                                sans: [ 'Space Grotesk', ...defaultTheme.fontFamily.sans ],
+                                mono: [ 'Space Mono', 'SF Mono', ...defaultTheme.fontFamily.mono ],
+                                monogeist: ['Geist Mono', ...defaultTheme.fontFamily.mono ],
+      },
+	  ...
+```
+
+* Use a `font-*` CSS class within HTML or your style sheets, whereby the `*`  needs to be substituted with one of the Tailwind fonts that you defined in the Tailwind configuration file (`tailwind.config.js`).
+
+Here is an example how to use `font-monogeist` in the global CSS file `assets/css/index.css` to change the font of code blocks:
+
+```
+.prose pre > code {
+  @apply bg-none font-monogeist;
+}
+```
+
+
 ## Troubleshooting
 
 ### NIL pointer error when rendering a section

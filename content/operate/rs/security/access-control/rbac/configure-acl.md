@@ -172,7 +172,7 @@ To make default pub/sub permissions restrictive:
 
 1. Set the default to restrictive (`resetchannels`) using one of the following methods:
 
-    - New admin console (only available for Redis Enterprise versions 7.2 and later):
+    - New Cluster Manager UI (only available for Redis Enterprise versions 7.2 and later):
     
         1. Navigate to **Access Control > Settings > Pub/Sub ACLs** and select **Edit**.
         
@@ -193,7 +193,7 @@ To make default pub/sub permissions restrictive:
 
 ## ACL command support
 
-Redis Enterprise Software does not support certain open source Redis ACL commands. Instead, you can manage access controls from the admin console.
+Redis Enterprise Software does not support certain Redis ACL commands. Instead, you can manage access controls from the Cluster Manager UI.
 
 {{<embed-md "acl-command-compatibility.md">}}
 

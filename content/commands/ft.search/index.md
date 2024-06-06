@@ -255,6 +255,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(N)
 description: Searches the index with a textual query, returning either documents or
   just ids
@@ -269,27 +271,29 @@ since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Searches the index with a textual query, returning either documents or just
   ids
-syntax: 'FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS] [WITHSCORES]  [WITHPAYLOADS]
-  [WITHSORTKEYS] [FILTER numeric_field min max [ FILTER numeric_field min max ...]]
-  [GEOFILTER geo_field lon lat radius m | km | mi | ft [ GEOFILTER geo_field lon lat
-  radius m | km | mi | ft ...]] [INKEYS count key [key ...]] [ INFIELDS count field
-  [field ...]] [RETURN count identifier [AS property] [ identifier [AS property] ...]]
-  [SUMMARIZE [ FIELDS count field [field ...]] [FRAGS num] [LEN fragsize] [SEPARATOR
-  separator]] [HIGHLIGHT [ FIELDS count field [field ...]] [ TAGS open close]] [SLOP
-  slop] [TIMEOUT timeout] [INORDER] [LANGUAGE language] [EXPANDER expander] [SCORER
-  scorer] [EXPLAINSCORE] [PAYLOAD payload] [SORTBY sortby [ ASC | DESC] [WITHCOUNT]]
-  [LIMIT offset num] [PARAMS nargs name value [ name value ...]] [DIALECT dialect] '
-syntax_fmt: "FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS] [WITHSCORES]\
-  \ [WITHPAYLOADS] [WITHSORTKEYS] [FILTER\_numeric_field min max [FILTER\_numeric_field\
-  \ min max ...]] [GEOFILTER\_geo_field lon lat radius <m | km | mi | ft> [GEOFILTER\_\
-  geo_field lon lat radius <m | km | mi | ft> ...]] [INKEYS\_count key [key ...]]\
-  \   [INFIELDS\_count field [field ...]] [RETURN\_count identifier [AS\_property]\
-  \ [identifier [AS\_property] ...]] [SUMMARIZE [FIELDS\_count field [field ...]]\
-  \ [FRAGS\_num] [LEN\_fragsize] [SEPARATOR\_separator]] [HIGHLIGHT [FIELDS\_count\
-  \ field [field ...]] [TAGS open close]] [SLOP\_slop] [TIMEOUT\_timeout] [INORDER]\
-  \   [LANGUAGE\_language] [EXPANDER\_expander] [SCORER\_scorer] [EXPLAINSCORE] [PAYLOAD\_\
-  payload] [SORTBY\_sortby [ASC | DESC]] [LIMIT offset num] [PARAMS nargs name value\
-  \ [name value ...]] [DIALECT\_dialect]"
+syntax: "FT.SEARCH index query \n  [NOCONTENT] \n  [VERBATIM] [NOSTOPWORDS] \n  [WITHSCORES]\
+  \ \n  [WITHPAYLOADS] \n  [WITHSORTKEYS] \n  [FILTER numeric_field min max [ FILTER\
+  \ numeric_field min max ...]] \n  [GEOFILTER geo_field lon lat radius m | km | mi\
+  \ | ft [ GEOFILTER geo_field lon lat radius m | km | mi | ft ...]] \n  [INKEYS count\
+  \ key [key ...]] [ INFIELDS count field [field ...]] \n  [RETURN count identifier\
+  \ [AS property] [ identifier [AS property] ...]] \n  [SUMMARIZE [ FIELDS count field\
+  \ [field ...]] [FRAGS num] [LEN fragsize] [SEPARATOR separator]] \n  [HIGHLIGHT\
+  \ [ FIELDS count field [field ...]] [ TAGS open close]] \n  [SLOP slop] \n  [TIMEOUT\
+  \ timeout] \n  [INORDER] \n  [LANGUAGE language] \n  [EXPANDER expander] \n  [SCORER\
+  \ scorer] \n  [EXPLAINSCORE] \n  [PAYLOAD payload] \n  [SORTBY sortby [ ASC | DESC]\
+  \ [WITHCOUNT]] \n  [LIMIT offset num] \n  [PARAMS nargs name value [ name value\
+  \ ...]] \n  [DIALECT dialect]\n"
+syntax_fmt: "FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS]\n  [WITHSCORES]\
+  \ [WITHPAYLOADS] [WITHSORTKEYS] [FILTER\_numeric_field\n  min max [FILTER\_numeric_field\
+  \ min max ...]] [GEOFILTER\_geo_field\n  lon lat radius <m | km | mi | ft> [GEOFILTER\_\
+  geo_field lon lat\n  radius <m | km | mi | ft> ...]] [INKEYS\_count key [key ...]]\n\
+  \  [INFIELDS\_count field [field ...]] [RETURN\_count identifier\n  [AS\_property]\
+  \ [identifier [AS\_property] ...]] [SUMMARIZE\n  [FIELDS\_count field [field ...]]\
+  \ [FRAGS\_num] [LEN\_fragsize]\n  [SEPARATOR\_separator]] [HIGHLIGHT [FIELDS\_count\
+  \ field [field ...]]\n  [TAGS open close]] [SLOP\_slop] [TIMEOUT\_timeout] [INORDER]\n\
+  \  [LANGUAGE\_language] [EXPANDER\_expander] [SCORER\_scorer]\n  [EXPLAINSCORE]\
+  \ [PAYLOAD\_payload] [SORTBY\_sortby [ASC | DESC]]\n  [LIMIT offset num] [PARAMS\
+  \ nargs name value [name value ...]]\n  [DIALECT\_dialect]"
 syntax_str: "query [NOCONTENT] [VERBATIM] [NOSTOPWORDS] [WITHSCORES] [WITHPAYLOADS]\
   \ [WITHSORTKEYS] [FILTER\_numeric_field min max [FILTER\_numeric_field min max ...]]\
   \ [GEOFILTER\_geo_field lon lat radius <m | km | mi | ft> [GEOFILTER\_geo_field\
@@ -496,7 +500,7 @@ FT.SEARCH returns an array reply, where the first element is an integer reply of
 {{% alert title="Notes" color="warning" %}}
  
 - If `NOCONTENT` is given, an array is returned where the first element is the total number of results, and the rest of the members are document ids.
-- If a hash expires after the query process starts, the hash is counted in the total number of results, but the key name and content return as null.
+- If a relevant key expires while a query is running, an attempt to load the key's value will return a null array. However, the key is still counted in the total number of results.
 
 {{% /alert %}}
 

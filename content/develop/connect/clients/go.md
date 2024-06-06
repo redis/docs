@@ -12,7 +12,7 @@ categories:
 description: Connect your Go application to a Redis database
 linkTitle: Go
 title: Go guide
-weight: 2
+weight: 5
 ---
 
 Install Redis and the Redis client, then connect your Go application to a Redis database. 

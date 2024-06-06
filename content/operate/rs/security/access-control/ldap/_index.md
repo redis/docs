@@ -15,7 +15,7 @@ weight: 50
 
 Redis Enterprise Software supports [Lightweight Directory Access Protocol](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) (LDAP) authentication and authorization through its [role-based access controls]({{< relref "/operate/rs/security/access-control" >}}) (RBAC).  You can use LDAP to authorize access to the Cluster Manager UI and to control database access.
 
-You can configure LDAP roles using the Redis Enterprise admin console or [REST API]({{< relref "/operate/rs/references/rest-api/requests/ldap_mappings/" >}}).
+You can configure LDAP roles using the Redis Enterprise Cluster Manager UI or [REST API]({{< relref "/operate/rs/references/rest-api/requests/ldap_mappings/" >}}).
 
 ## How it works
 

@@ -146,7 +146,7 @@ Before you choose to import data from an [Amazon Web Services](https://aws.amazo
 - The path to the file in your bucket in the format: `s3://[bucketname]/[path]/[filename].rdb`
 - [Access key ID and Secret access key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) for an [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console) with permission to read files from the bucket. 
 
-In the Redis Enterprise Software admin console, when you enter the export location details:
+In the Redis Enterprise Software Cluster Manager UI, when you enter the export location details:
 
 - Select **AWS S3**.
 
@@ -166,7 +166,7 @@ Before you import data from a [Google Cloud](https://developers.google.com/conso
 - A [JSON service account key](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating) for your account
 - A [principal](https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add) for your bucket with the `client_email` from the service account key and a [role](https://cloud.google.com/storage/docs/access-control/iam-roles) with permissions to get files from the bucket (such as the **Storage Legacy Object Reader** role, which grants `storage.objects.get` permissions)
 
-In the Redis Enterprise Software admin console, when you enter the import location details:
+In the Redis Enterprise Software Cluster Manager UI, when you enter the import location details:
 
 - Select **Google Cloud Storage**.
 
@@ -193,7 +193,7 @@ Before you choose to import from Azure Blob Storage, make sure that you have:
 
     Azure SAS support requires Redis Software version 6.0.20.  To learn more about Azure SAS, see [Grant limited access to Azure Storage resources using shared access signatures](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview).
 
-In the Redis Enterprise Software admin console, when you enter the import location details:
+In the Redis Enterprise Software Cluster Manager UI, when you enter the import location details:
 
 - Select **Azure Blob Storage**.
 
@@ -212,7 +212,7 @@ When importing data into an Active-Active database, there are two options:
 
 Because Active-Active databases have a numeric counter data type,
 when you merge the imported data into the existing data RS increments counters by the value that is in the imported data.
-The import through the Redis Enterprise admin console handles these data types for you.
+The import through the Redis Enterprise Cluster Manager UI handles these data types for you.
 
-You can import data into an Active-Active database [from the admin console](#import-data-into-a-database).
+You can import data into an Active-Active database [from the Cluster Manager UI](#import-data-into-a-database).
 When you import data into an Active-Active database, there is a special prompt warning that the imported data will be merged into the existing database.

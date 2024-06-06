@@ -84,8 +84,8 @@ linkTitle: XREADGROUP
 since: 5.0.0
 summary: Returns new or historical messages from a stream for a consumer in a group.
   Blocks until a message is available otherwise.
-syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [BLOCK\_milliseconds]\
-  \   [NOACK] STREAMS\_key [key ...] id [id ...]"
+syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [BLOCK\_milliseconds]\n\
+  \  [NOACK] STREAMS\_key [key ...] id [id ...]"
 syntax_str: "[COUNT\_count] [BLOCK\_milliseconds] [NOACK] STREAMS\_key [key ...] id\
   \ [id ...]"
 title: XREADGROUP

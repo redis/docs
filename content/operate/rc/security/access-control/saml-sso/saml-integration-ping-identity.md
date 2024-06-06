@@ -15,6 +15,8 @@ This guide shows how to configure [PingIdentity](https://docs.pingidentity.com/p
 
 To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 
+Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+
 ## Step 1: Set up your identity provider (IdP)
 
 ### Add the `redisAccountMapping` attribute
@@ -118,13 +120,13 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
     * **Email domain binding**: The domain used in your company's email addresses
 
-    {{<image filename="images/rc/saml/ping_identity_saml_12.png" >}}
+    {{<image filename="images/rc/saml/sm_saml_1.png" >}}
 
     Select **Enable** and wait a few seconds for the status to change.
 
 1. You will then be able to **Download** the service provider (SP) metadata. Save the file to your local hard disk.
 
-    {{<image filename="images/rc/saml/ping_identity_saml_18.png" >}}
+    {{<image filename="images/rc/saml/sm_saml_3.png" >}}
 
 1. Open the file in any text editor. Save the following text from the metadata:
 
@@ -164,7 +166,7 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
 1. A popup appears, explaining that to test the SAML connection, you need to log in with credentials of a user defined in Ping Federate.
 
-    {{<image filename="images/rc/saml/sm_saml_13.png" >}}
+    {{<image filename="images/rc/saml/sm_saml_9.png" >}}
 
 1. The Ping Federate login screen will appear. Enter the credentials and select **Sign In**.
 
@@ -179,8 +181,6 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
     {{<image filename="images/rc/saml/ad_saml_21.png" >}}
 
    You have successfully configured SAML as an identity provider.
-
-    {{<image filename="images/rc/saml/ping_identity_saml_15.png" >}}
 
 ## IdP-initiated SSO
 

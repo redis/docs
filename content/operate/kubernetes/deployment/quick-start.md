@@ -114,7 +114,8 @@ that contains cluster specifications.
 
 The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_cluster_api.md) for more information on the various options available.
 
-1. Create a file (`my-rec.yaml`) that defines a Redis Enterprise cluster with three nodes:
+1. Create a file that defines a Redis Enterprise cluster with three nodes.
+  {{<note>}} The REC name (`my-rec` in this example) cannot be changed after cluster creation.{{</note>}}
 
     ```sh
     cat <<EOF > my-rec.yaml
@@ -141,8 +142,9 @@ The following example creates a minimal Redis Enterprise cluster. See the [Redis
         cpu: 2000m
         memory: 16Gi
     ```
+
     {{<note>}}
-Each cluster must have at least 3 nodes. Single-node RECs are not supported.
+    Each cluster must have at least 3 nodes. Single-node RECs are not supported.
     {{</note>}}
 
     See the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}) for more

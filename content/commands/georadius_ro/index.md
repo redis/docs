@@ -117,11 +117,12 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEORADIUS_RO
-replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) with the `BYRADIUS` argument'
+replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) with the `BYRADIUS`
+  argument'
 since: 3.2.10
 summary: Returns members from a geospatial index that are within a distance from a
   coordinate.
-syntax_fmt: "GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI> [WITHCOORD]\
+syntax_fmt: "GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI>\n  [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]"
 syntax_str: "longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH]\
   \ [COUNT\_count [ANY]] [ASC | DESC]"

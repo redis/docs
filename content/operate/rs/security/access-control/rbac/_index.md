@@ -11,13 +11,13 @@ linkTitle: Role-based access control
 weight: 40
 ---
 
-Role-based access control (RBAC) allows you to configure the level of access each user has to a Redis Enterprise cluster's [admin console]({{< relref "/operate/rs/security/access-control/admin-console-access" >}}), [REST API]({{< relref "/operate/rs/references/rest-api" >}}), and [databases]({{< relref "/operate/rs/security/access-control/database-access" >}}). To grant permissions, assign [predefined]({{< relref "/operate/rs/security/access-control/rbac/create-roles#default-management-roles" >}}) or custom roles to a user. You can create a role once and then deploy it across multiple databases in the cluster.
+Role-based access control (RBAC) allows you to configure the level of access each user has to a Redis Enterprise [Cluster Manager UI]({{< relref "/operate/rs/security/access-control/admin-console-access" >}}), [REST API]({{< relref "/operate/rs/references/rest-api" >}}), and [databases]({{< relref "/operate/rs/security/access-control/database-access" >}}). To grant permissions, assign [predefined]({{< relref "/operate/rs/security/access-control/rbac/create-roles#default-management-roles" >}}) or custom roles to a user. You can create a role once and then deploy it across multiple databases in the cluster.
 
 ## Role types
 
 You can create custom user roles that determine cluster management permissions, data access permissions, or a combination of both.
 
-- [Management roles]({{< relref "/operate/rs/security/access-control/admin-console-access" >}}) determine user access to the cluster’s admin console and [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
+- [Management roles]({{< relref "/operate/rs/security/access-control/admin-console-access" >}}) determine user access to the Cluster Manager UI and [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
 
 - [Data access controls]({{< relref "/operate/rs/security/access-control/database-access" >}}) determine the permissions each role grants for each database in the cluster.
 
@@ -27,7 +27,7 @@ Multiple users can share the same role.
 
 The **Access Control** screen has the following tabs:
 
-- **Users** - [Create users]({{< relref "/operate/rs/security/access-control/manage-users/add-users" >}}) and [assign a role to each user]({{< relref "/operate/rs/security/access-control/rbac/assign-user-role" >}}) to grant access to the admin console, REST API, or databases.
+- **Users** - [Create users]({{< relref "/operate/rs/security/access-control/manage-users/add-users" >}}) and [assign a role to each user]({{< relref "/operate/rs/security/access-control/rbac/assign-user-role" >}}) to grant access to the Cluster Manager UI, REST API, or databases.
 
 - **Roles** - [Create roles]({{< relref "/operate/rs/security/access-control/rbac/create-roles" >}}). Each role consists of a set of permissions (Redis ACLs) for one or more Redis databases. You can reuse these roles for multiple users.
 
@@ -49,7 +49,7 @@ Users, roles, and Redis ACLs are cluster-level entities, which means:
 
 ## More info
 
-- [Grant admin console and REST API access for cluster management]({{< relref "/operate/rs/security/access-control/admin-console-access" >}})
+- [Grant Cluster Manager UI and REST API access for cluster management]({{< relref "/operate/rs/security/access-control/admin-console-access" >}})
 
 - [Control database access using RBAC]({{< relref "/operate/rs/security/access-control/database-access" >}})
 

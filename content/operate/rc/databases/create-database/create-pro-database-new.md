@@ -55,7 +55,6 @@ The following settings are defined in the **General settings** of the **Setup** 
 |:---------|:-----------|
 | **Cloud vendor** | The public cloud vendor to deploy your databases. (_required_) |
 | **Region** | The vendor region where you wish to deploy your databases.  (_required_)|
-| **Subscription&nbsp;Name** | A custom name for your subscription (_required_) |
 | **Active-Active Redis** | Hosts your datasets in multiple read-write locations to support distributed applications and disaster recovery. See [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active. |
 | **Auto Tiering**| Determines if your databases are stored only in memory (RAM) or are split between memory and Flash storage (RAM+Flash).  See [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})|
 
@@ -105,7 +104,7 @@ By default, you're shown basic settings, which include:
 | **Name** | A custom name for your database (_required_) |
 | **Advanced Capabilities** | Advanced data types used by the database. Choose from [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}), [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}), or [Graph (EOL)]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}). |
 | **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/clustering#throughput" >}}) for more information. |
-| **Memory Limit (GB)** | The size limit for the database. Specify small sizes as decimals of 1.0&nbsp;GB; example: `0.1` GB (minimum).|
+| **Dataset size (GB)** | The amount of data for your dataset. Specify small sizes as decimals of 1.0&nbsp;GB; example: `0.1` GB (minimum). We calculate the total memory limit for you based on the other settings you choose for your database. |
 | **High Availability** | Indicates whether a replica copy of the database is maintained in case the primary database becomes unavailable.  (Warning: Doubles memory consumption). See [High Availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).  |
 | **Data Persistence** | Defines the data persistence policy, if any. See [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}). |
 
@@ -115,14 +114,14 @@ Select **More options** to specify values for the following settings.
 
 | Database&nbsp;option | Description                                                                                                                                                     |
 |:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **OSS Cluster API** | Enable to use the [Redis OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}).                                                                                                                |
+| **OSS Cluster API** | Enable to use the [Redis Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}).                                                                                                                |
 | **Type** | Set to **Redis**, otherwise **Memcached** database for legacy database support.                                                                                     |
 | **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 | **Quantity** | Number of databases to create with these settings.                                                                                                              |
 
-When finished, select **Save database** to create your database.
+When finished, select **Save configuration** to save your database configuration.
 
-{{<image filename="images/rc/button-database-save.png" width="140px" alt="Select the Save Database button to define your new database." >}}
+{{<image filename="images/rc/button-configuration-save.png" width="140px" alt="Select the Save configuration button to define your new database." >}}
 
 Use the **Add database** button to define additional databases or select the **Continue button** to display the **Review and create** tab.
 

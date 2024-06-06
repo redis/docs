@@ -12,25 +12,24 @@ categories:
 description: Connect your Node.js application to a Redis database
 linkTitle: Node.js
 title: Node.js guide
-weight: 4
+weight: 3
 ---
 
-Install Redis and the Redis client, then connect your Node.js application to a Redis database. 
+[node-redis](https://github.com/redis/node-redis) is the Redis client for Node.js.
+The sections below explain how to install `node-redis` and connect your application
+to a Redis database.
 
-## node-redis
-
-[node-redis](https://github.com/redis/node-redis) is a modern, high-performance Redis client for Node.js.
 `node-redis` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
-### Install
+## Install
 
 To install node-redis, run:
 
-```
+```bash
 npm install redis
 ```
 
-### Connect
+## Connect
 
 Connect to localhost on port 6379. 
 
@@ -82,7 +81,7 @@ createClient({
 ```
 To check if the client is connected and ready to send commands, use `client.isReady`, which returns a Boolean. `client.isOpen` is also available. This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example, when the client is still connecting or reconnecting after a network error).
 
-#### Connect to a Redis cluster
+### Connect to a Redis cluster
 
 To connect to a Redis cluster, use `createCluster`.
 
@@ -112,7 +111,7 @@ console.log(value); // returns 'bar'
 await cluster.quit();
 ```
 
-#### Connect to your production Redis with TLS
+### Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
 
@@ -143,15 +142,18 @@ await client.disconnect();
 
 You can also use discrete parameters and UNIX sockets. Details can be found in the [client configuration guide](https://github.com/redis/node-redis/blob/master/docs/client-configuration.md).
 
-### Production usage
+## Production usage
 
-#### Handling errors
+The following sections explain how to handle situations that may occur
+in your production environment.
+
+### Handling errors
+
 Node-Redis provides [multiple events to handle various scenarios](https://github.com/redis/node-redis?tab=readme-ov-file#events), among which the most critical is the `error` event.
 
 This event is triggered whenever an error occurs within the client.
 
 It is crucial to listen for error events.
-
 
 If a client does not register at least one error listener and an error occurs, the system will throw that error, potentially causing the Node.js process to exit unexpectedly.
 See [the EventEmitter docs](https://nodejs.org/api/events.html#events_error_events) for more details.
@@ -166,8 +168,7 @@ client.on('error', error => {
 });
 ```
 
-
-#### Handling reconnections
+### Handling reconnections
 
 If network issues or other problems unexpectedly close the socket, the client will reject all commands already sent, since the server might have already executed them.
 The rest of the pending commands will remain queued in memory until a new socket is established.
@@ -200,7 +201,7 @@ After approximately two minutes, the client logs an error message and terminates
 2. Use a numerical value to set a fixed delay in milliseconds.
 3. Use `false` to disable reconnection attempts. This option should only be used for testing purposes.
 
-#### Timeout
+### Timeouts
 
 To set a timeout for a connection, use the `connectTimeout` option:
 ```typescript
@@ -211,7 +212,7 @@ const client = createClient({
 client.on('error', error => console.error('Redis client error:', error));
 ```
 
-### Learn more
+## Learn more
 
 * [Node-Redis Configuration Options](https://github.com/redis/node-redis/blob/master/docs/client-configuration.md)
 * [Redis commands](https://redis.js.org/#node-redis-usage-redis-commands)

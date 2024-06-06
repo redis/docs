@@ -123,6 +123,10 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS122570: REST API `POST /crdbs` responds with a confusing error message if the cluster does not have the requested CRDB-compatible module that complies with the requested featureset.
 
+- RS123142: In an Active-Active setup with at least three participating clusters, removing and re-adding a cluster after removing older clusters without re-adding them can cause missing keys and potentially lead to data loss or data inconsistency.
+
+    This issue will be fixed in a future maintenance release. To prevent this issue, avoid adding clusters until you upgrade to the upcoming maintenance release when available.
+
 ## Known limitations
 
 #### New Cluster Manager UI limitations

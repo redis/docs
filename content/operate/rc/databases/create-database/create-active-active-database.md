@@ -21,6 +21,7 @@ Overall, the process is similar to [creating a Pro database with a new subscript
 - Enable Active-Active Redis
 - [Define the regions](#define-regions) for each database instance
 - Define unique [CIDR addresses](#define-cidr-addresses) for each instance
+- [Define memory limit](#define-memory-limit) for the database
 - [Define throughput](#define-throughput) (read and write operations) for each region
 
 Active-Active databases consist of multiple copies (also called _instances_) deployed to different regions throughout the world.
@@ -68,11 +69,19 @@ Red exclamation marks indicate error conditions; the tooltip provides additional
 
 ## Select capabilities
 
-Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type. 
+Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}) data type and [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) capabilities.
 
-{{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON advanced capability." >}}
+{{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON and Search and query advanced capabilities." >}}
 
-We select JSON for you when you create an Active-Active database. Select it again to remove it.
+If you chose the **Vector search** or **Database** use case, we select both capabilities for you automatically. You can remove a capability by selecting it.
+
+You can't add or remove capabilities after you create your database. 
+
+Selected capabilities will be available in all regions, including those added in the future.
+
+For Search and query databases, use the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) to estimate your index size and throughput requirements. When you're entering the dataset size for your database, add the estimated index size from the Sizing calculator to your expected dataset size.
+
+See [Search and query Active-Active databases]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active" >}}) to learn how to use Search and query on Active-Active databases.
 
 ## Define throughput
 
@@ -98,10 +107,12 @@ The total operations per second:
 
 Throughput requirements grow dramatically as regions increase.  As a result, consider your requirements carefully.
 
+For Search and query databases, the estimated throughput from the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) is the total amount of throughput you need. When setting throughput for your Active-Active database, use the total amount for each region and divide it depending on your read (query) and write (update) needs for each region. For example, if the total amount of throughput needed is 50000 ops/sec, you could set each region to have 20000 ops/sec for reads (queries) and 30000 ops/sec for writes (updates).
+
 ## More info
 
 - [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
 - [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
-- Database [memory limit]({{< relref "/operate/rc/databases/create-database#memory-limit" >}})
+- Database [memory limit]({{< relref "/operate/rc/databases/configuration/clustering#dataset-size" >}})
 - Redis Cloud [subscription plans]({{< relref "/operate/rc/subscriptions/" >}})
 - [Redis Cloud pricing](https://redis.com/redis-enterprise-cloud/pricing/)

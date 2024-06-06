@@ -19,6 +19,10 @@
   @apply content-[''] absolute inset-0 opacity-50 border border-current rounded-[inherit] transition-opacity;
 }
 
+section.prose {
+  @apply font-geist
+}
+
 .prose h1,
 .prose h3,
 .prose h4,
@@ -40,7 +44,7 @@
 }
 
 .prose pre > code {
-  @apply bg-none;
+  @apply bg-none font-monogeist;
 }
 
 .prose h1 {
@@ -955,7 +959,11 @@ input[type="radio"] {
 }
 
 .expand-content > div > pre > code {
-  @apply h-full overflow-y-auto;
+  @apply h-full overflow-y-auto font-monogeist;
+}
+
+code {
+  @apply font-monogeist;
 }
 
 /* no-click turns off border and click event on small icons */

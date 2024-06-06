@@ -63,7 +63,7 @@ For more info about the shard placement policy, see [Shard placement policy]({{<
 
 ## Metrics
 
-From the Redis Enterprise Software admin console, you can monitor the performance of your clusters, nodes, databases, and shards with real-time metrics. You can also enable alerts for node, cluster, or database events such as high memory usage or throughput.
+From the Redis Enterprise Software Cluster Manager UI, you can monitor the performance of your clusters, nodes, databases, and shards with real-time metrics. You can also enable alerts for node, cluster, or database events such as high memory usage or throughput.
 
 With the Redis Enterprise Software API, you can also integrate Redis Enterprise metrics into other monitoring environments, such as Prometheus.
 
@@ -86,10 +86,9 @@ latencies. Resharding is performed without downtime.
 
 {{< image filename="/images/rs/sharding.png" >}}
 
-*Figure 2*
-*Redis Enterprise places master node (M) and replicas (R) in separate
-nodes, racks and zones and use in-memory replication to protect data
-against failures.*
+Redis Enterprise places master shards and replicas in separate
+nodes, racks, and zones, and uses in-memory replication to protect data
+against failures.
 
 In Redis Enterprise, each database has a quota of RAM. The quota cannot
 exceed the limits of the RAM available on the node. However, with Redis

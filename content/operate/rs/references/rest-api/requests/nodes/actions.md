@@ -215,7 +215,18 @@ POST /nodes/1/actions/remove
 
 Currently supported actions are:
 
-- `remove`: Removes the node from the cluster after migrating all bound resources to other nodes. As soon as a successful remove request is received, the cluster will no longer automatically migrate resources (shards/endpoints) to the node, even if the remove task fails at some point.
+- `remove`: Removes the node from the cluster after migrating all bound resources to other nodes. As soon as a successful remove request is received, the cluster will no longer automatically migrate resources, such as shards and endpoints, to the node even if the remove task fails at some point.
+
+    - By default, the remove node action completes after all resources migrate off the removed node. Node removal does not wait for migrated shards' persistence files to be created on the new nodes.
+    
+        To change node removal to wait for the creation of new persistence files for all migrated shards, set `wait_for_persistence` to `true` in the request body or [update the cluster policy]({{<relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) `persistent_node_removal` to `true` to change the cluster's default behavior.
+
+        ```sh
+        POST /v1/nodes/<node_id>/actions/remove
+        {
+            "wait_for_persistence": true
+        }
+        ```
 
 - `maintenance_on`: Creates a snapshot of the node, migrates shards to other nodes, and prepares the node for maintenance. See [maintenance mode]({{< relref "/operate/rs/clusters/maintenance-mode" >}}) for more information.
 

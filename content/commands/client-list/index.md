@@ -73,7 +73,7 @@ history:
 linkTitle: CLIENT LIST
 since: 2.4.0
 summary: Lists open connections.
-syntax_fmt: "CLIENT LIST [TYPE\_<NORMAL | MASTER | REPLICA | PUBSUB>] [ID\_client-id\
+syntax_fmt: "CLIENT LIST [TYPE\_<NORMAL | MASTER | REPLICA | PUBSUB>]\n  [ID\_client-id\
   \ [client-id ...]]"
 syntax_str: "[ID\_client-id [client-id ...]]"
 title: CLIENT LIST
@@ -100,7 +100,7 @@ Here is the meaning of the fields:
 * `psub`: number of pattern matching subscriptions
 * `ssub`: number of shard channel subscriptions. Added in Redis 7.0.3
 * `multi`: number of commands in a MULTI/EXEC context
-* `watch`: number of keys this client is currently watching. Added in Redis 8.0
+* `watch`: number of keys this client is currently watching. Added in Redis 7.4 RC1
 * `qbuf`: query buffer length (0 means no query pending)
 * `qbuf-free`: free space of the query buffer (0 means the buffer is full)
 * `argv-mem`: incomplete arguments for the next command (already extracted from query buffer)

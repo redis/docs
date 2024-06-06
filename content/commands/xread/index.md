@@ -65,8 +65,8 @@ linkTitle: XREAD
 since: 5.0.0
 summary: Returns messages from multiple streams with IDs greater than the ones requested.
   Blocks until a message is available otherwise.
-syntax_fmt: "XREAD [COUNT\_count] [BLOCK\_milliseconds] STREAMS\_key [key ...] id\
-  \   [id ...]"
+syntax_fmt: "XREAD [COUNT\_count] [BLOCK\_milliseconds] STREAMS\_key [key ...] id\n\
+  \  [id ...]"
 syntax_str: "[BLOCK\_milliseconds] STREAMS\_key [key ...] id [id ...]"
 title: XREAD
 ---
@@ -254,6 +254,24 @@ Once we get some replies, the next call will be something like:
 ```
 
 And so forth.
+
+## The special `+` ID
+
+You can read the last entry in a single stream easily using the `XREVRANGE` command, like so:
+
+```
+> XREVRANGE stream + - COUNT 1
+```
+But this approach becomes slow as you add more streams because you must issue a separate command for each stream.
+Instead, starting from Redis 7.4 RC1, you can use the `+` sign as a special ID.
+This requests the last available entry in a stream. For example:
+
+```
+> XREAD STREAM streamA streamB streamC streamD + + + +
+```
+
+Note that when using this special ID for a stream, the **COUNT** option will
+be ignored (for the specific stream) since only the last entry can be returned.
 
 ## How multiple clients blocked on a single stream are served
 

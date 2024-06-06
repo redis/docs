@@ -94,6 +94,8 @@ ACL rules are either words like "on", "off", "reset", "allkeys", or are
 special rules that start with a special character, and are followed by
 another string (without any space in between), like "+SET".
 
+For information on persisting ACLs, see the [ACL tutorial]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#use-an-external-acl-file).
+
 The following documentation is a reference manual about the capabilities of this command, however our [ACL tutorial]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) may be a more gentle introduction to how the ACL system works in general.
 
 ## ACL rules

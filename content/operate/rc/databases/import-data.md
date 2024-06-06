@@ -20,7 +20,7 @@ As a result, the number of keys in the source and destination databases can be d
 
 In preparation, make certain the Redis version of the source database is compatible with the database where the data will be imported.
 
-## Import from a Redis OSS server
+## Import from a Redis server {#redis-server}
 
 To import a dataset from any publicly available Redis server:
 
@@ -56,6 +56,10 @@ To import an RDB file stored on an FTP or HTTP server:
     - `port` - Port number of the server, if not `6379`
     - `path` - Path to the file, if necessary
     - `filename` - Filename of the RDB file, including the `.gz` suffix if the file is compressed
+
+    {{< note >}}
+If your FTP username or password contains special characters such as `@`, `\`, or `:`, you must URL encode (also known as Percent encode) these special characters. If you don't, your database may become stuck.
+    {{< /note >}}
 
 1. For sharded databases with multiple RDB files, select **Add source** to add another RDB file.
 

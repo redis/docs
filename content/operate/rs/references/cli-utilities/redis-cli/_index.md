@@ -18,11 +18,11 @@ If you want to run Redis commands without `redis-cli`, you can [connect to a dat
 
 ## Install `redis-cli`
 
-When you install Redis Enterprise Software or open source Redis, it also installs the `redis-cli` command-line utility.
+When you install Redis Enterprise Software or source available Redis, it also installs the `redis-cli` command-line utility.
 
 To learn how to install Redis and `redis-cli`, see the following installation guides:
 
-- [Open source Redis]({{< relref "/operate/oss_and_stack/install/install-redis/" >}})
+- [Source available Redis]({{< relref "/operate/oss_and_stack/install/install-redis/" >}})
 
 - [Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 
@@ -55,9 +55,9 @@ To connect to a Redis Enterprise Software or Redis Cloud database over TLS:
 
 1. Download or copy the Redis Enterprise server (or proxy) certificates.
 
-    - For Redis Cloud, see [Download certificates]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [admin console](https://app.redislabs.com/).
+    - For Redis Cloud, see [Download certificates]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [Redis Cloud console](https://app.redislabs.com/).
 
-    - For Redis Enterprise Software, copy the proxy certificate from the admin console (**Cluster > Security > Certificates > Server authentication**) or from a cluster node (`/etc/opt/redislabs/proxy_cert.pem`).
+    - For Redis Enterprise Software, copy the proxy certificate from the Cluster Manager UI (**Cluster > Security > Certificates > Server authentication**) or from a cluster node (`/etc/opt/redislabs/proxy_cert.pem`).
 
 1. Copy the certificate to each client machine.
 

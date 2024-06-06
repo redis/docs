@@ -14,7 +14,7 @@ weight: 20
 
 You can manage your Redis Enterprise Software databases with several tools:
 
-- [Admin console](#edit-database-settings) (the web-based user interface)
+- [Cluster Manager UI](#edit-database-settings) (the web-based user interface)
 
 - Command-line tools:
 
@@ -22,7 +22,7 @@ You can manage your Redis Enterprise Software databases with several tools:
 
     - [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) for Active-Active database configuration
 
-    - [`redis-cli`]({{< relref "/develop/connect/cli" >}}) for open source Redis configuration
+    - [`redis-cli`]({{< relref "/develop/connect/cli" >}}) for source available Redis configuration
 
 - [REST API]({{< relref "/operate/rs/references/rest-api/_index.md" >}})
 
@@ -30,7 +30,7 @@ You can manage your Redis Enterprise Software databases with several tools:
 
 You can change the configuration of a Redis Enterprise Software database at any time.<!--more-->
 
-To edit the configuration of a database using the admin console:
+To edit the configuration of a database using the Cluster Manager UI:
 
 1. On the **Databases** screen, select the database you want to edit.
 
@@ -109,7 +109,7 @@ You cannot enable them after database creation.
         
         You can increase the number of shards in the database at any time.
 
-        You can accept the [standard hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy" >}}), which is compatible with open source Redis, or define a [custom hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#custom-hashing-policy" >}}) to define where keys are located in the clustered database.
+        You can accept the [standard hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy" >}}), which is compatible with source available Redis, or define a [custom hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#custom-hashing-policy" >}}) to define where keys are located in the clustered database.
 
     - Clear the **Database clustering** option to use only one shard so that you can use [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) without the limitations.
 

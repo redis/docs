@@ -1,7 +1,7 @@
 ---
 description: The RedisVL API guide
 linkTitle: API Guide
-title: API GuideGuide
+title: API Guide
 type: integration
 weight: 3
 ---

@@ -33,7 +33,7 @@ module: Triggers and functions
 since: 2.0.0
 stack_path: docs/interact/programmability/triggers-and-functions
 summary: Delete a JavaScript library from Redis by name
-syntax: 'TFUNCTION DELETE "<library name>" '
+syntax: "TFUNCTION DELETE \"<library name>\" \n"
 syntax_fmt: TFUNCTION DELETE library name
 syntax_str: ''
 title: TFUNCTION DELETE

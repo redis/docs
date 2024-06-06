@@ -7,10 +7,20 @@ categories:
 - rc
 description: New features, enhancements, and other changes added to Redis Cloud during
   April 2024.
-highlights: Search and query throughput in ops/sec
+highlights: Nano billing unit, Essentials subscriptions through AWS Marketplace
 linktitle: April 2024
 weight: 55
 ---
+
+## New features
+
+### Nano billing unit
+
+We added a Nano billing unit for Pro databases with a maximum size of 500 MB and a maximum throughput of 500 ops/sec. Use it to create smaller databases for a lower cost.
+
+### Essentials subscriptions through AWS Marketplace
+
+You can now use your [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) account to pay for your Essentials subscriptions as well as your Pro subscriptions.
 
 ## Enhancements
 
