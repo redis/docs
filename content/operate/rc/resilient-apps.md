@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rc
-description: 
+description: Set up your Redis Cloud databases to enable stable and highly available apps.
 hideListLinks: true
 linkTitle: Develop highly available apps
 weight: 50
@@ -19,11 +19,11 @@ These settings can be turned on when you create or edit your database.
 
 ### Enable data persistence
 
-[Data persistence]({{< relref "/operate/rc/databases/configuration/high-availability" >}})
+Enabling [Data persistence]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) allows Redis to save your data to a durable storage medium, such as a disk, to ensure data availability in case of memory loss or system failure.
 
 Redis Cloud supports the following data persistence options:
 
-- An **Append-Only File** maintains a record of write operations. This allows the data to be restored by using the record to reconstruct the database up to the point of failure. The Append-only file updates on every write or on
+- An **Append-Only File** maintains a record of write operations. This lets you restore data by using the record to reconstruct the database up to the point of failure. The Append-only file updates on every write or every second.
 
 - A **Snapshot** is a copy of the in-memory database, taken at periodic intervals (one, six, or twelve hours). You can restore data to the snapshot's point in time. 
 
