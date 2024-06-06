@@ -19,31 +19,34 @@
   <table style="border-collapse: collapse; background-color: #ffffff;">
     <thead>
       <tr>
-        <th style="border: 1px solid #ccc; padding: 8px; text-align: left; white-space: nowrap;">Applies to:</th>
+        <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; white-space: nowrap;">Applies to</th>
         {{ range .Params.categories }}
         {{ if not (in (slice "docs" "operate" "integrate" "develop") .) }} <!-- Exclude specific categories -->
           {{ $displayName := . }} <!-- Set default display name -->
-          {{ $color := "#ffffff" }} <!-- Default background color (white) -->
+          {{ $color := "#000000" }} <!-- Default color (black) -->
           {{ if eq . "rs" }}
-            {{ $displayName = "Redis Enterprise Software" }} <!-- Custom name for 'rs' -->
-            {{ $color = "#DCFF1E" }} <!-- Yellow background for Redis Enterprise Software -->
+            {{ $displayName = "Redis Enterprise Software" }}
+            {{ $color = "#DCFF1E" }} <!-- Yellow bullet point for Redis Enterprise Software -->
           {{ else if eq . "rc" }}
-            {{ $displayName = "Redis Cloud" }} <!-- Custom name for 'rc' -->
-            {{ $color = "#80DBFF" }} <!-- Blue background for Redis Cloud -->
+            {{ $displayName = "Redis Cloud" }}
+            {{ $color = "#80DBFF" }} <!-- Blue bullet point for Redis Cloud -->
           {{ else if eq . "kubernetes" }}
-            {{ $displayName = "Redis Enterprise for Kubernetes" }} <!-- Custom name for 'kubernetes' -->
-            {{ $color = "#8A99A0" }} <!-- Light grey background for Kubernetes -->
+            {{ $displayName = "Redis Enterprise for Kubernetes" }}
+            {{ $color = "#8A99A0" }} <!-- Light grey bullet point for Kubernetes -->
           {{ else if eq . "oss" }}
-            {{ $displayName = "Redis Source Available" }} <!-- Custom name for 'oss' -->
-            {{ $color = "#C795E3" }} <!-- Purple background for Redis Source Available -->
+            {{ $displayName = "Redis Source Available" }}
+            {{ $color = "#C795E3" }} <!-- Purple bullet point for Redis Source Available -->
           {{ else if eq . "stack" }}
-            {{ $displayName = "Redis Stack" }} <!-- Custom name for 'stack' -->
-            {{ $color = "#49859C" }} <!-- Medium blue background for Redis Stack -->
+            {{ $displayName = "Redis Stack" }}
+            {{ $color = "#49859C" }} <!-- Medium blue bullet point for Redis Stack -->
           {{ else if eq . "redisinsight" }}
-            {{ $displayName = "Redis Insight" }} <!-- Custom name for 'redisinsight' -->
-            {{ $color = "#FD4439" }} <!-- Red background for Redis Insight -->
+            {{ $displayName = "Redis Insight" }}
+            {{ $color = "#FD4439" }} <!-- Red bullet point for Redis Insight -->
           {{ end }}
-          <th style="border: 1px solid #ccc; padding: 8px; text-align: left; background-color: {{ $color }}; white-space: nowrap;">{{ $displayName }}</th>
+          <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal;">
+            <span style="color: {{ $color }};">&#8226;</span> <!-- Colored bullet point -->
+            {{ $displayName }}
+          </th>
         {{ end }}
         {{ end }}
       </tr>
@@ -54,6 +57,7 @@
   </table>
 </div>
 {{ end }}
+
 
 
 
