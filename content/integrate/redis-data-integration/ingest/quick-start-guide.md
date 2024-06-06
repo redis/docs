@@ -41,69 +41,12 @@ and is already set up for the RDI collector to use.
 
 ### Install RDI
 
-Follow the steps below to install RDI:
+Install RDI using the instructions in the
+[installation guide]({{< relref "/integrate/redis-data-integration/ingest/installation" >}})
 
-1. Open a shell terminal.
-1. Set the `RDI_VERSION` environment variable using the following command:
-  
-    ```bash
-    export RDI_VERSION=<RDI version>
-    ```
-3. Download the RDI CLI tool for your OS. The example command lines below show to how to
-    do this with the [`curl`](https://curl.se/) tool:
-    - Ubuntu 20.04
-
-      ``` bash
-      sudo curl https://qa-onprem.s3.amazonaws.com/redis-di/$RDI_VERSION/bin/ubuntu-20.04/redis-di -o /usr/local/bin/redis-di
-      ```
-
-    - Ubuntu 18.04
-
-      ``` bash
-      sudo curl https://qa-onprem.s3.amazonaws.com/redis-di/$RDI_VERSION/bin/ubuntu-18.04/redis-di -o /usr/local/bin/redis-di
-      ```
-
-    - RHEL 8
-
-      ``` bash
-      sudo curl https://qa-onprem.s3.amazonaws.com/redis-di/$RDI_VERSION/bin/rhel-8.9/redis-di -o /usr/local/bin/redis-di
-      ```
-
-    - RHEL 7
-
-      ``` bash
-      sudo curl https://qa-onprem.s3.amazonaws.com/redis-di/$RDI_VERSION/bin/rhel-7.9/redis-di -o /usr/local/bin/redis-di
-      ```
-
-      {{<note>}}If you are not a root user, you should download RDI to a folder
-      where you have write permissions and run
-      [`redis-di`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di" >}})
-      directly from that folder in
-      the following steps.
-      {{</note>}}
-
-1. Download and expand the compressed RDI installation file using the following
-    commands. This will create a subfolder named `rdi/<version number>`.
-  
-    ``` bash 
-    curl https://qa-onprem.s3.amazonaws.com/redis-di/$RDI_VERSION/rdi-installation-$RDI_VERSION.tar.gz -O
-    tar -xvf rdi-installation-$RDI_VERSION.tar.gz
-    ```
-
-1. Install RDI with the
-   [`redis-di`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-install" >}})
-   tool, using the commands below:
-
-    ``` bash
-    sudo chmod +x /usr/local/bin/redis-di
-    cd rdi_install/$RDI_VERSION
-    sudo redis-di install
-    ```
-
-During the installation, RDI asks you for the pathname of the folder where you
-want to store the pipeline templates. You will need this pathname later when you
-prepare the pipeline for deployment (see [Prepare the pipeline](#prepare-the-pipeline)
-below).
+RDI will create the pipeline template for your chosen source database type at
+`/opt/rdi/config`. You will need this pathname later when you prepare the pipeline for deployment
+(see [Prepare the pipeline](#prepare-the-pipeline) below).
 
 At the end of the installation, RDI CLI will prompt you to set the access secrets
 for both the source PostgreSQL database and the Redis RDI database. RDI needs these to
@@ -115,7 +58,7 @@ replica if you want (this will double the RAM requirements to 250MB).
 
 ### Prepare the pipeline
 
-During the installation, RDI asked you for a folder path to place the pipeline templates.
+During the installation, RDI placed the pipeline templates at `/opt/rdi/config`.
 If you go to that folder and run the `ll` command, you will see the pipeline
 configuration file, `config.yaml`, and the `jobs` folder (see the page about
 [Pipelines]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines" >}}) for more information). Use Redis Insight to open
