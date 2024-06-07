@@ -63,13 +63,13 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Update the retention, chunk size, duplicate policy, and labels of an existing
-  time serie
+  time series
 syntax: "TS.ALTER key \n  [RETENTION retentionPeriod] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY\
-  \ policy] \n  [LABELS [label value ...]]\n"
+  \ policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] [LABELS [label value ...]]\n"
 syntax_fmt: "TS.ALTER key [RETENTION\_retentionPeriod] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_\
-  <BLOCK | FIRST | LAST | MIN | MAX | SUM>]\n  [LABELS\ [label value ...]]"
+  <BLOCK | FIRST | LAST | MIN | MAX | SUM>]\n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] [LABELS\ [label value ...]]"
 syntax_str: "[RETENTION\_retentionPeriod] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK\
-  \ | FIRST | LAST | MIN | MAX | SUM>] [LABELS\ [label value ...]]"
+  \ | FIRST | LAST | MIN | MAX | SUM>] [IGNORE ignoreMaxTimediff ignoreMaxValDiff] [LABELS\ [label value ...]]"
 title: TS.ALTER
 ---
 
@@ -101,6 +101,19 @@ is the initial allocation size, in bytes, for the data part of each new chunk. A
 <details open><summary><code>DUPLICATE_POLICY policy</code></summary> 
 
 is policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
+</details>
+
+<details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 
+
+is the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:
+
+  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `ignoreMaxTimeDiff`;
+  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `ignoreMaxValDiff`;
+  - The sample is added in-order (`timestamp ≥ max_timestamp`).
+
+When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
+
+See [`TS.ADD`]({{< baseurl >}}/commands/ts.add/) for more details.
 </details>
 
 <details open><summary><code>LABELS [{label value}...]</code></summary> 

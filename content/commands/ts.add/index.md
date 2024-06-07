@@ -83,10 +83,11 @@ stack_path: docs/data-types/timeseries
 summary: Append a sample to a time series
 syntax: "TS.ADD key timestamp value \n  [RETENTION retentionPeriod] \n  [ENCODING\
   \ <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [ON_DUPLICATE policy_ovr] \n\
+  \  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n\
   \  [LABELS [label value ...]]\n"
 syntax_fmt: "TS.ADD key timestamp value [RETENTION\_retentionPeriod]\n  [ENCODING\_\
   <COMPRESSED | UNCOMPRESSED>] [CHUNK_SIZE\_size]\n  [DUPLICATE_POLICY\_policy] \n  [ON_DUPLICATE\_<BLOCK | FIRST\
-  \ | LAST | MIN | MAX | SUM>]\n  [LABELS\ [label value ...]]"
+  \ | LAST | MIN | MAX | SUM>]\n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\n  [LABELS\ [label value ...]]"
 syntax_str: "timestamp value [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED\
   \ | UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_policy] [ON_DUPLICATE\_<BLOCK | FIRST | LAST | MIN |\
   \ MAX | SUM>] [LABELS\ [label value ...]]"
@@ -177,6 +178,34 @@ This override is effective only for this single command and does not set the tim
 This argument has no effect when a new time series is created by this command.
 </details>
 
+<details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 
+
+is the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:
+
+  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `ignoreMaxTimeDiff`;
+  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `ignoreMaxValDiff`;
+  - The sample is added in-order (`timestamp ≥ max_timestamp`).
+
+This can be expressed algorithmically as follows:
+
+```
+if ((series is not a compaction) &&
+    (series' DUPLICATE_POLICY == LAST) &&
+    (timestamp ≥ max_timestamp) &&
+    (timestamp - max_timestamp ≤ ignoreMaxTimeDiff) &&
+    abs(value - value_at_max_timestamp) ≤ ignoreMaxValDiff))
+    
+    ignore sample
+```
+
+where `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.
+
+When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
+
+These parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters is used).
+
+</details>
+
 <details open><summary><code>LABELS {label value}...</code></summary> 
 
 is set of label-value pairs that represent metadata labels of the time series.
@@ -194,7 +223,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 Returns one of these replies:
 
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample. For an element that is ignored (see the `IGNORE` parameter above), the value will be `max_timestamp`.
 - [] on error (invalid arguments, wrong key type, etc.), when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp
 
 ## Complexity

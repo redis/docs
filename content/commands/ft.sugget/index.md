@@ -30,6 +30,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(1)
 description: Gets completion suggestions for a prefix
 group: suggestion
@@ -50,14 +52,6 @@ title: FT.SUGGET
 ---
 
 Get completion suggestions for a prefix
-
-## Syntax
-
-{{< highlight bash >}}
-
-{{< / highlight >}}
-
-[Examples](#examples)
 
 ## Required arguments
 
@@ -103,7 +97,7 @@ returns optional payloads saved along with the suggestions. If no payload is pre
 
 FT.SUGGET returns an array reply, which is a list of the top suggestions matching the prefix, optionally with score after each entry.
 
-## Examples
+## Example
 
 <details open>
 <summary><b>Get completion suggestions for a prefix</b></summary>

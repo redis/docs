@@ -21,6 +21,14 @@ To use OpenShift container platform CLI to upgrade your Redis Enterprise, see [U
 
 For all other Kubernetes distributions, see [Upgrade Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster.md" >}}).
 
+## Upgrade compatibility
+
+When upgrading, both your Kubernetes version and Redis operator version need to be supported at all times. When upgrading your Kubernetes version, you need to make sure both the current and target K8s version are supported by your Redis operator version. When upgrading your Redis operator version, you need make sure both the current and target operator versions are supported by your K8s version. This means if you are planning a large jump in versions, the upgrade might need to be done in multiple steps.
+
+The flow chart below can help you decide if your upgrade requires multiple steps.
+
+{{< image filename="/images/k8s/upgrade-flowchart.jpg" alt="Upgrade flowchart" >}}
+
 ## How does the REC upgrade work?
 
 The Redis Enterprise cluster (REC) uses a rolling upgrade, meaning it upgrades pods one by one. Each pod is updated after the last one completes successfully. This helps keep your cluster available for use.

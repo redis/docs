@@ -22,7 +22,7 @@ You can opt in to Redis 7.2 on [Flexible subscriptions]({{< relref "/operate/rc/
 
 ### Triggers and functions preview
 
-A preview of [triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/triggers-functions" >}}) (previously known as RedisGears) is now available in the following regions:
+A preview of [triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions" >}}) (previously known as RedisGears) is now available in the following regions:
 
 - AWS Asia Pacific - Singapore (`ap-southeast-1`)
 - GCP Asia Pacific - Tokyo (`asia-northeast1`)
@@ -31,7 +31,11 @@ To use it, [create a fixed subscription]({{< relref "/operate/rc/databases/creat
 
 If you'd like to use triggers and functions with a [Flexible subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}), contact [support](https://redis.com/company/support/).
 
-For more information about triggers and functions, see the [triggers and functions documentation]({{< relref "/develop/interact/programmability/triggers-and-functions/" >}}).
+For more information about triggers and functions, see the [triggers and functions documentation]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/" >}}).
+
+{{< note >}}
+Triggers and functions is discontinued as of [May 2024]({{< relref "/operate/rc/changelog/may-2024" >}}).
+{{< /note >}}
 
 ### Maintenance windows
 

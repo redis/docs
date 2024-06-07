@@ -14,6 +14,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(N)
 description: Returns the distinct tags indexed in a Tag field
 group: search

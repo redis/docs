@@ -255,6 +255,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(N)
 description: Searches the index with a textual query, returning either documents or
   just ids

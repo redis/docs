@@ -70,13 +70,26 @@ encoded in special way in memory that make them very memory efficient.
 
 ## Basic commands
 
-* [`HSET`]({{< relref "/commands/hset" >}}) sets the value of one or more fields on a hash.
-* [`HGET`]({{< relref "/commands/hget" >}}) returns the value at a given field.
-* [`HMGET`]({{< relref "/commands/hmget" >}}) returns the values at one or more given fields.
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) increments the value at a given field by the integer provided.
+* [`HSET`]({{< relref "/commands/hset" >}}): sets the value of one or more fields on a hash.
+* [`HGET`]({{< relref "/commands/hget" >}}): returns the value at a given field.
+* [`HMGET`]({{< relref "/commands/hmget" >}}): returns the values at one or more given fields.
+* [`HINCRBY`]({{< relref "/commands/hincrby" >}}): increments the value at a given field by the integer provided.
 
 See the [complete list of hash commands]({{< relref "/commands/" >}}?group=hash).
 
+## Field expiration
+
+The following commands can be used to add, delete, and report on a key's individual field TTL or expiration time:
+
+* [`HEXPIRE`]({{< relref "/commands/hexpire " >}}): set the remaining time to live in seconds for a key's fields.
+* [`HPEXPIRE`]({{< relref "/commands/hpexpire " >}}): set the remaining time to live in milliseconds for key's fields.
+* [`HEXPIREAT`]({{< relref "/commands/hexpireat " >}}): set the expiration time to a UNIX timestamp specified in seconds since the Unix epoch.
+* [`HPEXPIREAT`]({{< relref "/commands/hpexpireat " >}}): set the expiration time to a UNIX timestamp specified in milliseconds since the Unix epoch.
+* [`HEXPIRETIME`]({{< relref "/commands/hexpiretime " >}}): get the expiration time as a Unix timestamp in seconds since the Unix epoch.
+* [`HPEXPIRETIME`]({{< relref "/commands/hpexpiretime " >}}): get the expiration time as a Unix timestamp in milliseconds since the Unix epoch.
+* [`HPERSIST`]({{< relref "/commands/hpersist " >}}): remove the expiration time from a key's fields.
+* [`HTTL`]({{< relref "/commands/httl " >}}): get the remaining time to live in seconds for a key's fields.
+* [`HPTTL`]({{< relref "/commands/hpttl " >}}): get the remaining time to live in milliseconds for a key's fields.
 
 ## Examples
 
@@ -104,7 +117,7 @@ See the [complete list of hash commands]({{< relref "/commands/" >}}?group=hash)
 
 Most Redis hash commands are O(1).
 
-A few commands - such as [`HKEYS`]({{< relref "/commands/hkeys" >}}), [`HVALS`]({{< relref "/commands/hvals" >}}), and [`HGETALL`]({{< relref "/commands/hgetall" >}}) - are O(n), where _n_ is the number of field-value pairs.
+A few commands - such as [`HKEYS`]({{< relref "/commands/hkeys" >}}), [`HVALS`]({{< relref "/commands/hvals" >}}), [`HGETALL`]({{< relref "/commands/hgetall" >}}), and most of the expiration-related commands - are O(n), where _n_ is the number of field-value pairs.
 
 ## Limits
 
