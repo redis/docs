@@ -104,7 +104,7 @@ Different commands generate different kind of events according to the following 
 * [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) and all its variants ([`HEXPIREAT`]({{< relref "/commands/hpexpireat" >}}), [`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}), [`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}})) generate `hexpire` events.
 * [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) generates an `hincrbyfloat` event.
 * [`HINCRBY`]({{< relref "/commands/hincrby" >}}) generates an `hincrby` event.
-* [`HPERSIST`]({{ < relref "/commands/hpersist" >}}) generates a `hpersist` event.
+* [`HPERSIST`]({{< relref "/commands/hpersist" >}}) generates an `hpersist` event.
 * [`HSET`]({{< relref "/commands/hset" >}}), [`HSETNX`]({{< relref "/commands/hsetnx" >}}) and [`HMSET`]({{< relref "/commands/hmset" >}}) all generate a single `hset` event.
 * [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) generates an `incrbyfloat` events.
 * [`INCR`]({{< relref "/commands/incr" >}}), [`DECR`]({{< relref "/commands/decr" >}}), [`INCRBY`]({{< relref "/commands/incrby" >}}), [`DECRBY`]({{< relref "/commands/decrby" >}}) commands all generate `incrby` events.
