@@ -1,19 +1,19 @@
 ---
-Title: redis-di start
-linkTitle: redis-di start
-description: Starts the pipeline
+Title: redis-di upgrade
+linkTitle: redis-di upgrade
+description: Upgrades RDI Engine without losing data or downtime
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Starts the pipeline
+Upgrades RDI Engine without losing data or downtime
 
 ## Usage
 
 ```
-Usage: redis-di start [OPTIONS]
+Usage: redis-di upgrade [OPTIONS]
 ```
 
 ## Options
@@ -24,6 +24,38 @@ Usage: redis-di start [OPTIONS]
   - Default: `info`
   - Usage: `--log-level
 -l`
+
+- `cluster_host` (REQUIRED):
+
+  - Type: STRING
+  - Default: `none`
+  - Usage: `--cluster-host`
+
+  Host/IP of Redis Enterprise Cluster (service name in case of k8s)
+
+- `cluster_api_port` (REQUIRED):
+
+  - Type: <IntRange 1<=x<=65535>
+  - Default: `9443`
+  - Usage: `--cluster-api-port`
+
+  API Port of Redis Enterprise Cluster
+
+- `cluster_user` (REQUIRED):
+
+  - Type: STRING
+  - Default: `none`
+  - Usage: `--cluster-user`
+
+  Redis Enterprise Cluster username with either DB Member, Cluster Member or Cluster Admin roles
+
+- `cluster_password`:
+
+  - Type: STRING
+  - Default: `none`
+  - Usage: `--cluster-password`
+
+  Redis Enterprise Cluster Password
 
 - `rdi_host` (REQUIRED):
 
@@ -89,6 +121,15 @@ Usage: redis-di start [OPTIONS]
 
   Password for unlocking an encrypted private key
 
+- `force`:
+
+  - Type: BOOL
+  - Default: `false`
+  - Usage: `--force
+-f`
+
+  Force upgrade/downgrade. skips verification prompts
+
 - `help`:
 
   - Type: BOOL
@@ -100,13 +141,22 @@ Usage: redis-di start [OPTIONS]
 ## CLI help
 
 ```
-Usage: redis-di start [OPTIONS]
+Usage: redis-di upgrade [OPTIONS]
 
-  Starts the pipeline
+  Upgrades RDI Engine without losing data or downtime
 
 Options:
   -l, --log-level [DEBUG|INFO|WARN|ERROR|CRITICAL]
                                   [default: INFO]
+  --cluster-host TEXT             Host/IP of Redis Enterprise Cluster (service
+                                  name in case of k8s)  [required]
+  --cluster-api-port INTEGER RANGE
+                                  API Port of Redis Enterprise Cluster
+                                  [default: 9443; 1<=x<=65535; required]
+  --cluster-user TEXT             Redis Enterprise Cluster username with
+                                  either DB Member, Cluster Member or Cluster
+                                  Admin roles  [required]
+  --cluster-password TEXT         Redis Enterprise Cluster Password
   --rdi-host TEXT                 Host/IP of RDI Database  [required]
   --rdi-port INTEGER RANGE        Port of RDI Database  [1<=x<=65535;
                                   required]
@@ -117,5 +167,7 @@ Options:
   --rdi-cacert TEXT               CA certificate file to verify with
   --rdi-key-password TEXT         Password for unlocking an encrypted private
                                   key
+  -f, --force                     Force upgrade/downgrade. skips verification
+                                  prompts
   --help                          Show this message and exit.
 ```

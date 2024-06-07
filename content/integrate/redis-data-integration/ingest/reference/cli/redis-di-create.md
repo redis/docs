@@ -1,19 +1,19 @@
 ---
-Title: redis-di delete
-linkTitle: redis-di delete
-description: Deletes RDI database permanently
+Title: redis-di create
+linkTitle: redis-di create
+description: Creates the RDI Database instance
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Deletes RDI database permanently
+Creates the RDI Database instance
 
 ## Usage
 
 ```
-Usage: redis-di delete [OPTIONS]
+Usage: redis-di create [OPTIONS]
 ```
 
 ## Options
@@ -24,6 +24,14 @@ Usage: redis-di delete [OPTIONS]
   - Default: `info`
   - Usage: `--log-level
 -l`
+
+- `silent`:
+
+  - Type: BOOL
+  - Default: `false`
+  - Usage: `--silent`
+
+  Silent install. Do not prompt to enter missing parameters
 
 - `cluster_host` (REQUIRED):
 
@@ -57,78 +65,61 @@ Usage: redis-di delete [OPTIONS]
 
   Redis Enterprise Cluster Password
 
-- `rdi_host` (REQUIRED):
-
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-host`
-
-  Host/IP of RDI Database
-
-- `rdi_port` (REQUIRED):
+- `rdi_port`:
 
   - Type: <IntRange 1<=x<=65535>
   - Default: `none`
   - Usage: `--rdi-port`
 
-  Port of RDI Database
-
-- `rdi_user`:
-
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-user`
-
-  RDI Database Username
+  Port for the new RDI Database
 
 - `rdi_password`:
 
   - Type: STRING
-  - Default: `none`
+  - Default: ``
   - Usage: `--rdi-password`
 
-  RDI Database Password
+  Password for the new RDI Database (alphanumeric characters with zero or more of the following: ! & # $ ^ < > -)
 
-- `rdi_key`:
+- `rdi_memory`:
 
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-key`
+  - Type: <IntRange x>=30>
+  - Default: `100`
+  - Usage: `--rdi-memory`
 
-  Private key file to authenticate with
+  Memory for RDI Database (in MB)
 
-- `rdi_cert`:
+- `rdi_shards`:
 
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-cert`
+  - Type: <IntRange x>=1>
+  - Default: `1`
+  - Usage: `--rdi-shards`
 
-  Client certificate file to authenticate with
+  Number of database server-side shards
 
-- `rdi_cacert`:
-
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-cacert`
-
-  CA certificate file to verify with
-
-- `rdi_key_password`:
-
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-key-password`
-
-  Password for unlocking an encrypted private key
-
-- `force`:
+- `replication`:
 
   - Type: BOOL
   - Default: `false`
-  - Usage: `--force
--f`
+  - Usage: `--replication`
 
-  Force operation. skips verification prompts
+  In-memory database replication
+
+- `with_redisgears`:
+
+  - Type: BOOL
+  - Default: `false`
+  - Usage: `--with-redisgears`
+
+  Include RedisGears module in the RDI database
+
+- `with_rejson`:
+
+  - Type: BOOL
+  - Default: `false`
+  - Usage: `--with-rejson`
+
+  Include ReJSON in the RDI Database
 
 - `help`:
 
@@ -141,13 +132,15 @@ Usage: redis-di delete [OPTIONS]
 ## CLI help
 
 ```
-Usage: redis-di delete [OPTIONS]
+Usage: redis-di create [OPTIONS]
 
-  Deletes RDI database permanently
+  Creates the RDI Database instance
 
 Options:
   -l, --log-level [DEBUG|INFO|WARN|ERROR|CRITICAL]
                                   [default: INFO]
+  --silent                        Silent install. Do not prompt to enter
+                                  missing parameters
   --cluster-host TEXT             Host/IP of Redis Enterprise Cluster (service
                                   name in case of k8s)  [required]
   --cluster-api-port INTEGER RANGE
@@ -157,16 +150,13 @@ Options:
                                   either DB Member, Cluster Member or Cluster
                                   Admin roles  [required]
   --cluster-password TEXT         Redis Enterprise Cluster Password
-  --rdi-host TEXT                 Host/IP of RDI Database  [required]
-  --rdi-port INTEGER RANGE        Port of RDI Database  [1<=x<=65535;
-                                  required]
-  --rdi-user TEXT                 RDI Database Username
-  --rdi-password TEXT             RDI Database Password
-  --rdi-key TEXT                  Private key file to authenticate with
-  --rdi-cert TEXT                 Client certificate file to authenticate with
-  --rdi-cacert TEXT               CA certificate file to verify with
-  --rdi-key-password TEXT         Password for unlocking an encrypted private
-                                  key
-  -f, --force                     Force operation. skips verification prompts
+  --rdi-port INTEGER RANGE        Port for the new RDI Database  [1<=x<=65535]
+  --rdi-password TEXT             Password for the new RDI Database
+                                  (alphanumeric characters with zero or more
+                                  of the following: ! & # $ ^ < > -)
+  --rdi-memory INTEGER RANGE      Memory for RDI Database (in MB)  [x>=30]
+  --rdi-shards INTEGER RANGE      Number of database server-side shards
+                                  [x>=1]
+  --replication                   In-memory database replication
   --help                          Show this message and exit.
 ```

@@ -1,19 +1,19 @@
 ---
-Title: redis-di start
-linkTitle: redis-di start
-description: Starts the pipeline
+Title: redis-di install-collector
+linkTitle: redis-di install-collector
+description: Installs RDI Redis Collector on Redis BDB with RedisGears
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Starts the pipeline
+Installs RDI Redis Collector on Redis BDB with RedisGears
 
 ## Usage
 
 ```
-Usage: redis-di start [OPTIONS]
+Usage: redis-di install-collector [OPTIONS]
 ```
 
 ## Options
@@ -100,9 +100,9 @@ Usage: redis-di start [OPTIONS]
 ## CLI help
 
 ```
-Usage: redis-di start [OPTIONS]
+Usage: redis-di install-collector [OPTIONS]
 
-  Starts the pipeline
+  Installs RDI Redis Collector on Redis BDB with RedisGears
 
 Options:
   -l, --log-level [DEBUG|INFO|WARN|ERROR|CRITICAL]

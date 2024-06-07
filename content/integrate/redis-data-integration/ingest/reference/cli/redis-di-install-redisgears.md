@@ -1,28 +1,22 @@
 ---
-Title: redis-di add-context
-linkTitle: redis-di add-context
-description: Adds a new context
+Title: redis-di install-redisgears
+linkTitle: redis-di install-redisgears
+description: Installs RedisGears module on Redis cluster
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Adds a new context
+Installs RedisGears module on Redis cluster
 
 ## Usage
 
 ```
-Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
+Usage: redis-di install-redisgears [OPTIONS]
 ```
 
 ## Options
-
-- `context_name` (REQUIRED):
-
-  - Type: STRING
-  - Default: `none`
-  - Usage: `context-name`
 
 - `log_level`:
 
@@ -55,53 +49,21 @@ Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
 
   Redis Enterprise Cluster username with either DB Member, Cluster Member or Cluster Admin roles
 
-- `rdi_host` (REQUIRED):
+- `cluster_password`:
 
   - Type: STRING
   - Default: `none`
-  - Usage: `--rdi-host`
+  - Usage: `--cluster-password`
 
-  Host/IP of RDI Database
+  Redis Enterprise Cluster Password
 
-- `rdi_port` (REQUIRED):
-
-  - Type: <IntRange 1<=x<=65535>
-  - Default: `none`
-  - Usage: `--rdi-port`
-
-  Port of RDI Database
-
-- `rdi_user`:
+- `redisgears_module` (REQUIRED):
 
   - Type: STRING
   - Default: `none`
-  - Usage: `--rdi-user`
+  - Usage: `--redisgears-module`
 
-  RDI Database Username
-
-- `rdi_key`:
-
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-key`
-
-  Private key file to authenticate with
-
-- `rdi_cert`:
-
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-cert`
-
-  Client certificate file to authenticate with
-
-- `rdi_cacert`:
-
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-cacert`
-
-  CA certificate file to verify with
+  RedisGears module file
 
 - `help`:
 
@@ -114,9 +76,9 @@ Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
 ## CLI help
 
 ```
-Usage: redis-di add-context [OPTIONS] CONTEXT_NAME
+Usage: redis-di install-redisgears [OPTIONS]
 
-  Adds a new context
+  Installs RedisGears module on Redis cluster
 
 Options:
   -l, --log-level [DEBUG|INFO|WARN|ERROR|CRITICAL]
@@ -129,12 +91,7 @@ Options:
   --cluster-user TEXT             Redis Enterprise Cluster username with
                                   either DB Member, Cluster Member or Cluster
                                   Admin roles  [required]
-  --rdi-host TEXT                 Host/IP of RDI Database  [required]
-  --rdi-port INTEGER RANGE        Port of RDI Database  [1<=x<=65535;
-                                  required]
-  --rdi-user TEXT                 RDI Database Username
-  --rdi-key TEXT                  Private key file to authenticate with
-  --rdi-cert TEXT                 Client certificate file to authenticate with
-  --rdi-cacert TEXT               CA certificate file to verify with
+  --cluster-password TEXT         Redis Enterprise Cluster Password
+  --redisgears-module TEXT        RedisGears module file  [required]
   --help                          Show this message and exit.
 ```

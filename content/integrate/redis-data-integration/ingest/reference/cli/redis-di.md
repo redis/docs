@@ -1,12 +1,14 @@
 ---
 Title: redis-di
 linkTitle: redis-di
-description: A command line tool to manage & configure Redis Data Integration 
+description: A command line tool to manage & configure Redis Data Integration
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
+
+A command line tool to manage & configure Redis Data Integration
 
 ## Usage
 
@@ -15,22 +17,22 @@ Usage: redis-di [OPTIONS] COMMAND [ARGS]...
 ```
 
 ## Options
-* `version`: 
-  * Type: BOOL 
-  * Default: `false`
-  * Usage: `--version`
+
+- `version`:
+
+  - Type: BOOL
+  - Default: `false`
+  - Usage: `--version`
 
   Show the version and exit.
 
+- `help`:
 
-* `help`: 
-  * Type: BOOL 
-  * Default: `false`
-  * Usage: `--help`
+  - Type: BOOL
+  - Default: `false`
+  - Usage: `--help`
 
   Show this message and exit.
-
-
 
 ## CLI help
 

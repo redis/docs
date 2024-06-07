@@ -1,19 +1,19 @@
 ---
-Title: redis-di start
-linkTitle: redis-di start
-description: Starts the pipeline
+Title: redis-di monitor
+linkTitle: redis-di monitor
+description: Monitors RDI by collecting metrics and exporting to Prometheus
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Starts the pipeline
+Monitors RDI by collecting metrics and exporting to Prometheus
 
 ## Usage
 
 ```
-Usage: redis-di start [OPTIONS]
+Usage: redis-di monitor [OPTIONS]
 ```
 
 ## Options
@@ -89,6 +89,22 @@ Usage: redis-di start [OPTIONS]
 
   Password for unlocking an encrypted private key
 
+- `exporter_port`:
+
+  - Type: <IntRange 1<=x<=65535>
+  - Default: `9121`
+  - Usage: `--exporter-port`
+
+  HTTP port to start the exporter on
+
+- `collect_interval`:
+
+  - Type: <IntRange 1<=x<=60>
+  - Default: `5`
+  - Usage: `--collect-interval`
+
+  Metrics collection interval (seconds)
+
 - `help`:
 
   - Type: BOOL
@@ -100,9 +116,9 @@ Usage: redis-di start [OPTIONS]
 ## CLI help
 
 ```
-Usage: redis-di start [OPTIONS]
+Usage: redis-di monitor [OPTIONS]
 
-  Starts the pipeline
+  Monitors RDI by collecting metrics and exporting to Prometheus
 
 Options:
   -l, --log-level [DEBUG|INFO|WARN|ERROR|CRITICAL]
@@ -117,5 +133,10 @@ Options:
   --rdi-cacert TEXT               CA certificate file to verify with
   --rdi-key-password TEXT         Password for unlocking an encrypted private
                                   key
+  --exporter-port INTEGER RANGE   HTTP port to start the exporter on
+                                  [1<=x<=65535]
+  --collect-interval INTEGER RANGE
+                                  Metrics collection interval (seconds)
+                                  [1<=x<=60]
   --help                          Show this message and exit.
 ```

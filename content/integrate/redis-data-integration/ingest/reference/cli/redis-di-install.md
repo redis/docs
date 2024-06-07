@@ -1,12 +1,14 @@
 ---
 Title: redis-di install
 linkTitle: redis-di install
-description: Installs RDI 
+description: Installs RDI
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
+
+Installs RDI
 
 ## Usage
 
@@ -15,40 +17,38 @@ Usage: redis-di install [OPTIONS]
 ```
 
 ## Options
-* `log_level`: 
-  * Type: Choice(['DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL']) 
-  * Default: `warn`
-  * Usage: `--log-level
+
+- `log_level`:
+
+  - Type: Choice(['DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL'])
+  - Default: `warn`
+  - Usage: `--log-level
 -l`
 
-  
+- `file`:
 
-
-* `file`: 
-  * Type: <click.types.Path object at 0x7f99b7e778e0> 
-  * Default: `none`
-  * Usage: `-f
+  - Type: <click.types.Path object at 0x7f07b9f86280>
+  - Default: `none`
+  - Usage: `-f
 --file`
 
   Path to a YAML configuration file for silent installation
 
+- `online`:
 
-* `online`: 
-  * Type: BOOL 
-  * Default: `false`
-  * Usage: `--online`
+  - Type: BOOL
+  - Default: `false`
+  - Usage: `--online`
 
   Run installer in online mode
 
+- `help`:
 
-* `help`: 
-  * Type: BOOL 
-  * Default: `false`
-  * Usage: `--help`
+  - Type: BOOL
+  - Default: `false`
+  - Usage: `--help`
 
   Show this message and exit.
-
-
 
 ## CLI help
 
