@@ -60,7 +60,7 @@ To set up OCSP stapling with the Redis Enterprise Cluster Manager UI:
 
 To set up OCSP stapling with the [REST API]({{< relref "/operate/rs/references/rest-api" >}}):
 
-1. Use the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster/update-cert" >}}) to [replace the proxy certificate]({{< relref "/operate/rs/security/certificates/updating-certificates#use-the-rest-api" >}}) with a certificate signed by your third-party CA.
+1. Use the REST API to [replace the proxy certificate]({{< relref "/operate/rs/security/certificates/updating-certificates#use-the-rest-api" >}}) with a certificate signed by your third-party CA.
 
 1. To configure and enable OCSP, send a [`PUT` request to the `/v1/ocsp`]({{< relref "/operate/rs/references/rest-api/requests/ocsp#put-ocsp" >}}) endpoint and include an [OCSP JSON object]({{< relref "/operate/rs/references/rest-api/objects/ocsp" >}}) in the request body:
 

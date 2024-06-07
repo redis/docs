@@ -22,7 +22,7 @@ You can opt in to Redis 7.2 on [Flexible subscriptions]({{< relref "/operate/rc/
 
 ### Triggers and functions preview
 
-A preview of [triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/triggers-functions" >}}) (previously known as RedisGears) is now available in the following regions:
+A preview of [triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions" >}}) (previously known as RedisGears) is now available in the following regions:
 
 - AWS Asia Pacific - Singapore (`ap-southeast-1`)
 - GCP Asia Pacific - Tokyo (`asia-northeast1`)

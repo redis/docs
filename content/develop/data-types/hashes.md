@@ -88,8 +88,6 @@ The following commands can be used to add, delete, and report on a key's individ
 * [`HEXPIRETIME`]({{< relref "/commands/hexpiretime " >}}): get the expiration time as a Unix timestamp in seconds since the Unix epoch.
 * [`HPEXPIRETIME`]({{< relref "/commands/hpexpiretime " >}}): get the expiration time as a Unix timestamp in milliseconds since the Unix epoch.
 * [`HPERSIST`]({{< relref "/commands/hpersist " >}}): remove the expiration time from a key's fields.
-* [`HGETF`]({{< relref "/commands/hgetf " >}}): get a key field's value and optionally set the remaining time to live or UNIX expiration timestamp in seconds or milliseconds.
-* [`HSETF`]({{< relref "/commands/hsetf " >}}): set a key's fields to the specified values and optionally set the field's remaining time to live or UNIX expiration timestamp in seconds or milliseconds.
 * [`HTTL`]({{< relref "/commands/httl " >}}): get the remaining time to live in seconds for a key's fields.
 * [`HPTTL`]({{< relref "/commands/hpttl " >}}): get the remaining time to live in milliseconds for a key's fields.
 
