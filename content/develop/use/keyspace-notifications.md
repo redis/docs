@@ -104,7 +104,7 @@ Different commands generate different kind of events according to the following 
 * [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) and all its variants ([`HEXPIREAT`]({{< relref "/commands/hpexpireat" >}}), [`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}), [`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}})) generate `hexpire` events.
 * [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) generates an `hincrbyfloat` event.
 * [`HINCRBY`]({{< relref "/commands/hincrby" >}}) generates an `hincrby` event.
-* [`HPERSIST`]({{ < relref "/commands/hpersist" >}}) generates a `hpersist` event.
+* [`HPERSIST`]({{< relref "/commands/hpersist" >}}) generates an `hpersist` event.
 * [`HSET`]({{< relref "/commands/hset" >}}), [`HSETNX`]({{< relref "/commands/hsetnx" >}}) and [`HMSET`]({{< relref "/commands/hmset" >}}) all generate a single `hset` event.
 * [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) generates an `incrbyfloat` events.
 * [`INCR`]({{< relref "/commands/incr" >}}), [`DECR`]({{< relref "/commands/decr" >}}), [`INCRBY`]({{< relref "/commands/incrby" >}}), [`DECRBY`]({{< relref "/commands/decrby" >}}) commands all generate `incrby` events.
@@ -143,9 +143,9 @@ Different commands generate different kind of events according to the following 
 * [`XTRIM`]({{< relref "/commands/xtrim" >}}) generates an `xtrim` event.
 * [`ZADD`]({{< relref "/commands/zadd" >}}) generates a single `zadd` event even when multiple elements are added.
 * [`ZDIFFSTORE`]({{< relref "/commands/zdiffstore" >}}), [`ZINTERSTORE`]({{< relref "/commands/zinterstore" >}}) and [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}) respectively generate `zdiffstore`, `zinterstore` and `zunionstore` events. In the special case the resulting sorted set is empty, and the key where the result is stored already exists, a `del` event is generated since the key is removed.
-* [`ZINCR`]({{< relref "/commands/zincr" >}}) generates a `zincr` event.
-* [`ZREMBYRANK`]({{< relref "/commands/zrembyrank" >}}) generates a single `zrembyrank` event. When the resulting sorted set is empty and the key is generated, an additional `del` event is generated.
-* [`ZREMBYSCORE`]({{< relref "/commands/zrembyscore" >}}) generates a single `zrembyscore` event. When the resulting sorted set is empty and the key is generated, an additional `del` event is generated.
+* [`ZINCRBY`]({{< relref "/commands/zincrby" >}}) generates a `zincr` event.
+* [`ZREMRANGEBYRANK`]({{< relref "/commands/zremrangebyrank" >}}) generates a single `zrembyrank` event. When the resulting sorted set is empty and the key is generated, an additional `del` event is generated.
+* [`ZREMRANGEBYSCORE`]({{< relref "/commands/zremrangebyscore" >}}) generates a single `zrembyscore` event. When the resulting sorted set is empty and the key is generated, an additional `del` event is generated.
 * [`ZREM`]({{< relref "/commands/zrem" >}}) generates a single `zrem` event even when multiple elements are deleted. When the resulting sorted set is empty and the key is generated, an additional `del` event is generated.
 * Every time a key with a time to live associated is removed from the data set because it expired, an `expired` event is generated.
 * Every time a key is evicted from the data set in order to free memory as a result of the `maxmemory` policy, an `evicted` event is generated.
