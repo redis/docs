@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Configure access control lists (ACLs).
+description: Create roles with database access only.
 linkTitle: Create roles with database access only 
 weight: 50
 aliases:
