@@ -48,5 +48,5 @@ redis-cli
 PONG
 {{< / highlight >}}
 
-You can also test that your Redis server is running using the Redis Insight tool for easier access.
+You can also test that your Redis server is running using [Redis Insight]({{< relref "/develop/connect/insight" >}}) for easier access.
 
