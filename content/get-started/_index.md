@@ -1,5 +1,5 @@
 ---
-description: Get started with Redis Community Edition
+description: Get started with source available Redis
 hideListLinks: true
 linkTitle: Source available
 title: Source available
