@@ -65,7 +65,7 @@ Here is an example of a DEL-wins case:
 | t8   | Exists h --> 0  | Exists h --> 0  | \|  | t8   | Exists s --> 1      | Exists s --> 1      |
 |      |                 |                 | \|  | t9   | SMEMBERS s --> {e2} | SMEMBERS s --> {e2} |
 
-## HLL in Active-Active databases versus HLL in Open Source Redis
+## HLL in Active-Active databases versus HLL in Redis Community Edition
 
 In Active-Active databases, we implemented HLL within the CRDT on the basis of the Redis implementation with a few exceptions:
 

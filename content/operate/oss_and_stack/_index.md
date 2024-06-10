@@ -1,5 +1,5 @@
 ---
-title: Redis OSS and Stack
-description: Operate Redis OSS and Redis Stack
-linkTitle: Redis OSS and Stack
+title: Redis Community Edition and Stack
+description: Operate Redis Community Edition and Redis Stack
+linkTitle: Redis Community Edition and Stack
 ---

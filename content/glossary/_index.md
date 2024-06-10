@@ -309,7 +309,7 @@ The on-premises version of Redis Enterprise.
 {{%/definition%}}
 
 {{%definition "Redis instance"%}}
-Single-threaded Redis OSS database.
+Single-threaded Redis Community Edition database.
 {{%/definition%}}
 
 {{%definition "Auto Tiering "%}}

@@ -1,6 +1,6 @@
 ### Redis 7.0 breaking changes
 
-When new major versions of open source Redis change existing commands, upgrading your database to a new version can potentially break some functionality. Before you upgrade, make sure to read the provided list of breaking changes that affect Redis Enterprise and update any applications that connect to your database to handle these changes.
+When new major versions of Redis Community Edition change existing commands, upgrading your database to a new version can potentially break some functionality. Before you upgrade, make sure to read the provided list of breaking changes that affect Redis Enterprise and update any applications that connect to your database to handle these changes.
 
 To check your Redis database version (`redis_version`), you can use the admin console or run the [`INFO`]({{< relref "/commands" >}}/info/) command with [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}):
 
@@ -11,7 +11,7 @@ redis_version:7.0.8
 ..."
 ```
 
-Open source Redis version 7.0 introduces the following potentially breaking changes to Redis Enterprise:
+Redis Community Edition version 7.0 introduces the following potentially breaking changes to Redis Enterprise:
 
 #### Programmability
 

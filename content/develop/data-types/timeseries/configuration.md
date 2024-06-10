@@ -237,7 +237,7 @@ $ redis-server --loadmodule ./redistimeseries.so COMPACTION_POLICY max:1m:1h; CH
 
 ### OSS_GLOBAL_PASSWORD
 
-Global OSS cluster password used for connecting to other shards.
+Global Redis Community Edition cluster password used for connecting to other shards.
 
 #### Default
 
