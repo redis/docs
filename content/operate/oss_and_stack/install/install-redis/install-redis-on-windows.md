@@ -47,3 +47,6 @@ redis-cli
 127.0.0.1:6379> ping
 PONG
 {{< / highlight >}}
+
+You can also test that your Redis server is running using the Redis Insight tool for easier access.
+
