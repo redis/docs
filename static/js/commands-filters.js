@@ -17,7 +17,7 @@ const FILTERS = {
     element: document.querySelector('#group-filter'),
     oninput: () => {
       const { value } = FILTERS.group.element;
-      if (setDisabledVersions(value)) return;
+      if (FILTERS.version.element === null || setDisabledVersions(value)) return;
       FILTERS.version.element.value = '';
       const isCore = FILTERS.group.element.value && FILTERS.group.element.selectedOptions[0].dataset.kind === 'core';
       for (const option of FILTERS.version.element.options) {
@@ -82,7 +82,7 @@ function filter() {
 
   for (const element of document.querySelectorAll('#commands-grid > [data-group]')) {
     for (const [key, filter] of Object.entries(FILTERS)) {
-      if (!filter.element.value) continue;
+      if (!filter.element || !filter.element.value) continue;
 
       const elementValue = key == 'alpha' ? element.dataset['name'] : element.dataset[key];
       if (!match(filter, elementValue)) {
@@ -108,6 +108,8 @@ if (url.hash) {
 }
 
 for (const [key, { element, oninput }] of Object.entries(FILTERS)) {
+  if (!element) continue;
+
   if (url.searchParams.has(key)) {
     element.value = url.searchParams.get(key);
   }
