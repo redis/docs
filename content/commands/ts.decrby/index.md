@@ -142,9 +142,11 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 is the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:
 
-  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `ignoreMaxTimeDiff`;
-  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `ignoreMaxValDiff`;
-  - The sample is added in-order (`timestamp ≥ max_timestamp`).
+  - The time series is not a compaction;
+  - The time series' `DUPLICATE_POLICY` IS `LAST`;
+  - The sample is added in-order (`timestamp ≥ max_timestamp`);
+  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `IGNORE_MAX_TIME_DIFF`;
+  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`.
 
 When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
 
@@ -159,9 +161,9 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 </details>
 
 <note><b>Notes</b>
-
- - You can use this command to add data to a nonexisting time series in a single command. This is why `RETENTION`, `ENCODING`,  `CHUNK_SIZE`, `DUPLICATE_POLICY`, and `LABELS` are optional arguments.
- - When specified and the key doesn't exist, a new time series is created. Setting the `RETENTION` and `LABELS` introduces additional time complexity.
+- You can use this command to create a new time series and add a sample to it in a single command.
+  `RETENTION`, `ENCODING`, `CHUNK_SIZE`, `DUPLICATE_POLICY`, `IGNORE`, and `LABELS` are used only when creating a new time series, and ignored when adding or modifying samples in an existing time series.
+- Setting `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
 
 ## Return value
