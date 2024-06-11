@@ -27,7 +27,7 @@ To add a user to the cluster:
 
 1. Assign a **Role** to the user to grant permissions for cluster management and data access.
 
-    {{<image filename="images/rs/access-control-user-role-select.png" width="300px" alt="Add role with name" >}}
+    {{<image filename="images/rs/access-control-user-role-select.png" width="300px" alt="Add role to user." >}}
 
 1. Select the **Alerts** the user should receive by email:
 
@@ -48,6 +48,8 @@ Assign a role, associated with specific databases and access control lists (ACLs
     - Select **+ Add user** to [create a new user]({{< relref "/operate/rs/security/access-control/create-users" >}}).
 
 1. Select a role to assign to the user.
+
+    {{<image filename="images/rs/access-control-user-role-select.png" width="300px" alt="Add role to user." >}}
 
 1. Select **Save**.
 

@@ -69,6 +69,4 @@ To create a role that grants access to the Redis Enterprise Cluster Manager UI a
 
 1. Select **Save**.
 
-## Next steps
-
-- [Assign the role to a user]({{< relref "/operate/rs/security/access-control/create-users" >}}).
+You can [assign the new role to users]({{<relref "/operate/rs/security/access-control/create-users#assign-roles-to-users">}}) to grant access to the Cluster Manager UI and REST API.

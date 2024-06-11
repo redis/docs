@@ -13,95 +13,19 @@ aliases:
     - /operate/rs/security/access-control/rbac/configure-acl/
 ---
 
-Redis access control lists (Redis ACLs) allow you to define named permissions for specific Redis commands, keys, and pub/sub channels. You can use defined Redis ACLs for multiple databases and roles.
-
-## Predefined Redis ACLs
-
-Redis Enterprise Software provides one predefined Redis ACL named **Full Access**. This ACL allows all commands on all keys and cannot be edited.
-
-## Redis ACL syntax
-
-Redis ACLs are defined by a [Redis syntax]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) where you specify the commands or command categories that are allowed for specific keys.
-
-### Commands and categories
-
-Redis ACL rules can allow or block specific [Redis commands]({{< relref "/commands" >}}/) or [command categories]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#command-categories).
-
-- `+` includes commands
-
-- `-` excludes commands
-
-- `+@` includes command categories
-
-- `-@` excludes command categories
-
-The following example allows all `read` commands and the `SET` command:
-
-```sh
-+@read +SET
-```
-
-Module commands have several ACL limitations:
-
-- [Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) do not have command categories.
-
-- Other [command category]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#command-categories) ACLs, such as `+@read` and `+@write`, do not include Redis module commands. `+@all` is the only exception because it allows all Redis commands.
-
-- You have to include individual module commands in a Redis ACL rule to allow them.
-
-    For example, the following Redis ACL rule allows read-only commands and the RediSearch commands `FT.INFO` and `FT.SEARCH`:
-
-    ```sh
-    +@read +FT.INFO +FT.SEARCH
-    ```
-
-### Key patterns
-
-To define access to specific keys or key patterns, use the following prefixes:
-
-- `~` or `%RW~` allows read and write access to keys.
-
-- `%R~` allows read access to keys.
-
-- `%W~` allows write access to keys.
-
-`%RW~`, `%R~`, and `%W~` are only supported for databases with Redis version 7.2 or later.
-
-The following example allows read and write access to all keys that start with "app1" and read-only access to all keys that start with "app2":
-
-```sh
-~app1* %R~app2*
-```
-
-### Pub/sub channels
-
-The `&` prefix allows access to [pub/sub channels]({{< relref "/develop/interact/pubsub" >}}) (only supported for databases with Redis version 6.2 or later).
-
-To limit access to specific channels, include `resetchannels` before the allowed channels:
-
-```sh
-resetchannels &channel1 &channel2
-```
-
-### Selectors
-
-[Selectors]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#selectors) let you define multiple sets of rules in a single Redis ACL (only supported for databases with Redis version 7.2 or later). A command is allowed if it matches the base rule or any selector in the Redis ACL.
-
-- `(<rule set>)` creates a new selector.
-
-- `clearselectors` deletes all existing selectors for a user. This action does not delete the base ACL rule.
-
-In the following example, the base rule allows `GET key1` and the selector allows `SET key2`:
-
-```sh
-+GET ~key1 (+SET ~key2)
-```
+Roles with database access grant the ability to access and interact with a database's data. Database access privileges are determined by defining Redis ACLs and adding them to roles.
 
 ## Create roles for database access {#create-db-role}
 
+To create a role that grants database access without granting access to the Redis Enterprise Cluster Manager UI and REST API:
+
+1. [Define Redis ACLs](#define-redis-acls) that determine database access privileges.
+
+1. [Create a role with ACLs](#create-roles-with-acls) added and leave the **Cluster management role** as **None**.
+
 ### Define Redis ACLs
 
-To configure a Redis ACL rule that you can assign to a user role:
+To define a Redis ACL rule that you can assign to a role:
 
 1. From **Access Control > Redis ACLs**, you can either:
 
@@ -111,7 +35,7 @@ To configure a Redis ACL rule that you can assign to a user role:
 
 1. Enter a descriptive name for the Redis ACL. This will be used to reference the ACL rule to the role.
 
-1. Define the ACL rule.
+1. Define the ACL rule. For more information about Redis ACL rules and syntax, see the [Redis ACL overview](#redis-acl-overview).
 
     {{<note>}}
 The **ACL builder** does not support selectors and key permissions. Use **Free text command** to manually define them instead.
@@ -123,7 +47,7 @@ The **ACL builder** does not support selectors and key permissions. Use **Free t
 For multi-key commands on multi-slot keys, the return value is `failure`, but the command runs on the keys that are allowed.
 {{</note>}}
 
-### Create role with ACLs {#create-db-role-add-ACLs}
+### Create roles with ACLs
 
 To create a role that grants database access to users but blocks access to the Redis Enterprise Cluster Manager UI and REST API, set the **Cluster management role** to **None**.
 
@@ -156,6 +80,94 @@ To define a role for database access:
 1. Select **Save**.
 
     {{<image filename="images/rs/access-control-role-save.png" alt="Add databases to access" >}}
+
+You can [assign the new role to users]({{<relref "/operate/rs/security/access-control/create-users#assign-roles-to-users">}}) to grant database access.
+
+## Redis ACL overview
+
+Redis access control lists (Redis ACLs) allow you to define named permissions for specific Redis commands, keys, and pub/sub channels. You can use defined Redis ACLs for multiple databases and roles.
+
+### Predefined Redis ACLs
+
+Redis Enterprise Software provides one predefined Redis ACL named **Full Access**. This ACL allows all commands on all keys and cannot be edited.
+
+### Redis ACL syntax
+
+Redis ACLs are defined by a [Redis syntax]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) where you specify the commands or command categories that are allowed for specific keys.
+
+#### Commands and categories
+
+Redis ACL rules can allow or block specific [Redis commands]({{< relref "/commands" >}}/) or [command categories]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#command-categories).
+
+- `+` includes commands
+
+- `-` excludes commands
+
+- `+@` includes command categories
+
+- `-@` excludes command categories
+
+The following example allows all `read` commands and the `SET` command:
+
+```sh
++@read +SET
+```
+
+Module commands have several ACL limitations:
+
+- [Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) do not have command categories.
+
+- Other [command category]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#command-categories) ACLs, such as `+@read` and `+@write`, do not include Redis module commands. `+@all` is the only exception because it allows all Redis commands.
+
+- You have to include individual module commands in a Redis ACL rule to allow them.
+
+    For example, the following Redis ACL rule allows read-only commands and the RediSearch commands `FT.INFO` and `FT.SEARCH`:
+
+    ```sh
+    +@read +FT.INFO +FT.SEARCH
+    ```
+
+#### Key patterns
+
+To define access to specific keys or key patterns, use the following prefixes:
+
+- `~` or `%RW~` allows read and write access to keys.
+
+- `%R~` allows read access to keys.
+
+- `%W~` allows write access to keys.
+
+`%RW~`, `%R~`, and `%W~` are only supported for databases with Redis version 7.2 or later.
+
+The following example allows read and write access to all keys that start with "app1" and read-only access to all keys that start with "app2":
+
+```sh
+~app1* %R~app2*
+```
+
+#### Pub/sub channels
+
+The `&` prefix allows access to [pub/sub channels]({{< relref "/develop/interact/pubsub" >}}) (only supported for databases with Redis version 6.2 or later).
+
+To limit access to specific channels, include `resetchannels` before the allowed channels:
+
+```sh
+resetchannels &channel1 &channel2
+```
+
+#### Selectors
+
+[Selectors]({{< relref "/operate/oss_and_stack/management/security/acl" >}}#selectors) let you define multiple sets of rules in a single Redis ACL (only supported for databases with Redis version 7.2 or later). A command is allowed if it matches the base rule or any selector in the Redis ACL.
+
+- `(<rule set>)` creates a new selector.
+
+- `clearselectors` deletes all existing selectors for a user. This action does not delete the base ACL rule.
+
+In the following example, the base rule allows `GET key1` and the selector allows `SET key2`:
+
+```sh
++GET ~key1 (+SET ~key2)
+```
 
 ## Default pub/sub permissions
 
@@ -258,6 +270,3 @@ Redis ACLs also have the following differences in Redis Enterprise Software:
 
     - REST API [`PUT /v1/users`]({{< relref "/operate/rs/references/rest-api/requests/users#put-user" >}}) request and provide `password`
 
-## Next steps
-
-- [Create or edit a role]({{< relref "/operate/rs/security/access-control/create-roles" >}}) and add Redis ACLs to it.
