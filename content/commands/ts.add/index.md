@@ -213,7 +213,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 Returns one of these replies:
 
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample. For an element that is ignored (see the `IGNORE` parameter above), the value will be `max_timestamp`.
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/)), the reply will be the largest timestamp in the time series.
 - [] on error (invalid arguments, wrong key type, etc.), when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp
 
 ## Complexity
