@@ -97,7 +97,9 @@ In the following example, the base rule allows `GET key1` and the selector allow
 +GET ~key1 (+SET ~key2)
 ```
 
-## Configure Redis ACLs
+## Create roles for database access {#create-db-role}
+
+### Define Redis ACLs
 
 To configure a Redis ACL rule that you can assign to a user role:
 
@@ -120,6 +122,40 @@ The **ACL builder** does not support selectors and key permissions. Use **Free t
 {{<note>}}
 For multi-key commands on multi-slot keys, the return value is `failure`, but the command runs on the keys that are allowed.
 {{</note>}}
+
+### Create role with ACLs {#create-db-role-add-ACLs}
+
+To create a role that grants database access to users but blocks access to the Redis Enterprise Cluster Manager UI and REST API, set the **Cluster management role** to **None**.
+
+To define a role for database access:
+
+1. From **Access Control** > **Roles**, you can:
+
+    - Point to a role and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit an existing role.
+
+    - Select **+ Add role** to create a new role.
+
+    {{<image filename="images/rs/access-control-role-panel.png" alt="Add role with name" >}}
+
+1. Enter a descriptive name for the role. This will be used to reference the role when configuring users.
+
+1. Leave **Cluster management role** as the default **None**.
+
+    {{<image filename="images/rs/access-control-role-name.png" alt="Add role with name" >}}
+    
+1. Select **+ Add ACL**.
+
+    {{<image filename="images/rs/access-control-role-acl.png" alt="Add role database acl" >}}
+
+1.  Choose a Redis ACL and databases to associate with the role.
+
+    {{<image filename="images/rs/access-control-role-databases.png" alt="Add databases to access" >}}
+
+1. Select the check mark {{< image filename="/images/rs/buttons/checkmark-button.png#no-click" alt="The Check button" width="25px" class="inline" >}} to confirm.
+
+1. Select **Save**.
+
+    {{<image filename="images/rs/access-control-role-save.png" alt="Add databases to access" >}}
 
 ## Default pub/sub permissions
 

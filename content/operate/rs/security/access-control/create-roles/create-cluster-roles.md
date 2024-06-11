@@ -61,9 +61,9 @@ To create a role that grants access to the Redis Enterprise Cluster Manager UI a
 
 1. Enter a descriptive name for the role.
 
-    {{<image filename="images/rs/access-control-role-name.png" alt="Add role with name" >}}
-
 1. Choose a **Cluster management role** to determine cluster management permissions.
+
+    {{<image filename="images/rs/screenshots/access-control/rbac-create-role-cluster-only.png" alt="Select a cluster management role to set the level of cluster management permissions for the new role." >}}
     
 1. To prevent database access when using this role, do not add any ACLs.
 
