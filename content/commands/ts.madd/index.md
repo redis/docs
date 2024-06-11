@@ -74,7 +74,7 @@ is numeric data value of the sample (double). The double number should follow <a
 
 Returns one of these replies:
 
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the timestamp of a upserted sample or an [] (when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp). For each element that is ignored (see the `IGNORE` option to `TS.ADD` for definitions), the element will have the value `max_timestamp`.
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the timestamp of a upserted sample or an [] (when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp). For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/)), the reply element value will be the largest timestamp in the time series.
 - [] (invalid arguments, wrong key type, etc.)
 
 ## Complexity
