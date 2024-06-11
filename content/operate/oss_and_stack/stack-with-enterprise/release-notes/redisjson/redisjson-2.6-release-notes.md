@@ -14,10 +14,23 @@ weight: 96
 ---
 ## Requirements
 
-RedisJSON v2.6.9 requires:
+RedisJSON v2.6.10 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.6.10 (April 2024)
+
+This is a maintenance release for RedisJSON 2.6.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+
+  - [#1192](https://github.com/RedisJSON/RedisJSON/pull/1192) Crashes with numeric values greater than i64::MAX (MOD-6501, MOD-4551, MOD-4856, MOD-5714)
+  - HDT#228 (Redis Enterprise A-A only) Incorrect error when processing escaped characters (MOD-6645)
 
 ## v2.6.9 (January 2024)
 
