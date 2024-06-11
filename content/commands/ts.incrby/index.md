@@ -93,6 +93,7 @@ is numeric value of the addend (double).
 <note><b>Notes</b>
 - When specified key does not exist, a new time series is created.  
 - You can use this command as a counter or gauge that automatically gets history as a time series.
+- If a policy for handling duplicate samples (`IGNORE`) is defined for this time series - `TS.INCRBY` operations are affected as well (sample additions/modifications can be filtered).
 - Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< baseurl >}}/commands/ts.add/), [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/), `TS.INCRBY`, or [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby/)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.  
 </note>
 
@@ -104,7 +105,7 @@ is Unix time (integer, in milliseconds) specifying the sample timestamp or `*` t
 
 Unix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 1 January 1970, the Unix epoch, without adjustments made due to leap seconds.
 
-`timestamp` must be equal to or higher than the maximum existing timestamp. When equal, the value of the sample with the maximum existing timestamp is increased. If it is higher, a new sample with a timestamp set to `timestamp` is created, and its value is set to the value of the sample with the maximum existing timestamp plus `addend`. 
+`timestamp` must be equal to or higher than the maximum existing timestamp. When equal, the value of the sample with the maximum existing timestamp is increased. If it is higher, a new sample with a timestamp set to `timestamp` is created, and its value is set to the value of the sample with the maximum existing timestamp plus `addend`.
 
 If the time series is empty, the value is set to `addend`. 
   
@@ -153,7 +154,7 @@ where `max_timestamp` is the timestamp of the sample with the largest timestamp 
 
 When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
 
-These parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters is used).
+These parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters are used).
 </details>
 
 <details open><summary><code>LABELS [{label value}...]</code></summary> 
@@ -173,7 +174,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 Returns one of these replies:
 
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/)), the reply will be the largest timestamp in the time series.
 - [] on error (invalid arguments, wrong key type, etc.), or when `timestamp` is not equal to or higher than the maximum existing timestamp
 
 ## Examples
