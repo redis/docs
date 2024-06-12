@@ -13,13 +13,12 @@ weight: $weight
 
 An API object that represents a managed database in the cluster.
 
-{{<table-scrollable>}}
 | Name | Type/Value & Description |
 |------|-------------------------|
 | uid | integer; Cluster unique ID of database. Can be set during creation but cannot be updated. |
 | account_id | integer; SM account ID |
 | action_uid | string; Currently running action's UID (read-only) |
-| aof_policy | **'appendfsync-every-sec'** <br />'appendfsync-always' Policy for Append-Only File data persistence |
+| aof_policy | **'appendfsync-every-sec'** <br />'appendfsync-always'<br />Policy for Append-Only File data persistence |
 | authentication_admin_pass | string; Password for administrative access to the BDB (used for SYNC from the BDB) |
 | authentication_redis_pass | string; Redis AUTH password authentication.  <br/>Use for Redis databases only.  Ignored for memcached databases. (deprecated as of Redis Enterprise v7.2, replaced with multiple passwords feature in version 6.0.X) |
 | authentication_sasl_pass | string; Binary memcache SASL password |
@@ -42,7 +41,7 @@ An API object that represents a managed database in the cluster.
 | bigstore | boolean (default:&nbsp;false);  Database bigstore option |
 | bigstore_ram_size | integer (default:&nbsp;0);  Memory size of bigstore RAM part. |
 | bigstore_ram_weights | {{<code>}}[{<br />  "shard_uid": integer,<br />  "weight": number<br />}, ...]{{</code>}} List of shard UIDs and their bigstore RAM weights;<br /> **shard_uid**: Shard UID;<br /> **weight**: Relative weight of RAM distribution |
-| client_cert_subject_validation_type | **disabled**<br />san_cn<br />full_subject;  Enables additional certificate validations that further limit connections to clients with valid certificates during TLS client authentication.<br />**disabled**: Authenticates clients with valid certificates. No additional validations are enforced.<br />**san_cn**: A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other Subject attributes.<br />**full_subject**: A client certificate is valid only if its Subject attributes match an entry in the list of valid subjects. |
+| client_cert_subject_validation_type | Enables additional certificate validations that further limit connections to clients with valid certificates during TLS client authentication.<br />**disabled**: Authenticates clients with valid certificates. No additional validations are enforced.<br />**san_cn**: A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other Subject attributes.<br />**full_subject**: A client certificate is valid only if its Subject attributes match an entry in the list of valid subjects. |
 | conns | integer (default&nbsp;5);  Number of internal proxy connections |
 | conns_type | **‘per-thread’**<br />‘per-shard’;  Connections limit type |
 | crdt | boolean (default:&nbsp;false);  Use CRDT-based data types for multi-master replication |
@@ -84,7 +83,7 @@ An API object that represents a managed database in the cluster.
 | gradual_src_mode | 'enabled'<br />'disabled'; Indicates if gradual sync (of sync sources) should be activated |
 | gradual_sync_max_shards_per_source | integer (default:&nbsp;1); Sync a maximum of N shards per source in parallel (gradual_sync_mode should be enabled for this to take effect) |
 | gradual_sync_mode | 'enabled'<br />'disabled'<br />'auto'; Indicates if gradual sync (of source shards) should be activated ('auto' for automatic decision) |
-| hash_slots_policy | 'legacy'<br /> **'16k'**; The policy used for hash slots handling<br /> **'legacy'**: slots range is '1-4096'<br /> **'16k'**: slots range is '0-16383' |
+| hash_slots_policy | The policy used for hash slots handling<br /> **'legacy'**: slots range is '1-4096'<br /> **'16k'**: slots range is '0-16383' |
 | implicit_shard_key | boolean (default:&nbsp;false); Controls the behavior of what happens in case a key does not match any of the regex rules. <br /> **true**: if a key does not match any of the rules, the entire key will be used for the hashing function <br /> **false**: if a key does not match any of the rules, an error will be returned. |
 | import_failure_reason | 'download-error'<br />'file-corrupted'<br />'general-error'<br />'file-larger-than-mem-limit:\<n bytes of expected dataset>:\<n bytes configured bdb limit>'<br />'key-too-long'<br />'invalid-bulk-length'<br />'out-of-memory'; Import failure reason (read-only) |
 | import_progress | number, <nobr>(range: 0-100)</nobr>; Database import progress (percentage) (read-only) |
@@ -122,14 +121,14 @@ An API object that represents a managed database in the cluster.
 | replication | boolean (default:&nbsp;false); In-memory database replication mode |
 | resp3 | boolean (default:&nbsp;true); Enables or deactivates RESP3 support |
 | roles_permissions | {{<code>}}[{<br />  "role_uid": integer,<br />  "redis_acl_uid": integer<br />}, ...]{{</code>}} |
-| sched_policy | **‘cmp’**<br />‘mru’<br />‘spread’<br />‘mnp’; Controls how server-side connections are used when forwarding traffic to shards.<br />**cmp**: Closest to max_pipelined policy. Pick the connection with the most pipelined commands that has not reached the max_pipelined limit.<br />**mru**: Try to use most recently used connections.<br />**spread**: Try to use all connections.<br />**mnp**: Minimal pipeline policy. Pick the connection with the least pipelined commands. |
+| sched_policy | Controls how server-side connections are used when forwarding traffic to shards.<br />Values:<br />**cmp**: Closest to max_pipelined policy. Pick the connection with the most pipelined commands that has not reached the max_pipelined limit.<br />**mru**: Try to use most recently used connections.<br />**spread**: Try to use all connections.<br />**mnp**: Minimal pipeline policy. Pick the connection with the least pipelined commands. |
 | shard_block_crossslot_keys | boolean (default:&nbsp;false); In Lua scripts, prevent use of keys from different hash slots within the range owned by the current shard |
 | shard_block_foreign_keys | boolean (default:&nbsp;true); In Lua scripts, `foreign_keys` prevent use of keys which could reside in a different shard (foreign keys) |
 | shard_key_regex | {{<code>}}[{<br />  "regex": string<br />}, ...]{{</code>}} <br /><br />To use the default rules you should set the value to: {{<code>}}[<br />  { “regex”: “.\*{(?\<tag\>.\*)}.\*” }, <br />  { “regex”: “(?\<tag\>.\*)” }<br />] {{</code>}}; Custom keyname-based sharding rules.  |
 | shard_list | array of integers; Cluster unique IDs of all database shards. |
 | sharding | boolean (default:&nbsp;false); Cluster mode (server-side sharding). When true, shard hashing rules must be provided by either `oss_sharding` or `shard_key_regex` |
 | shards_count | integer, <nobr>(range: 1-512)</nobr> (default:&nbsp;1); Number of database server-side shards |
-| shards_placement | **'dense'** <br />'sparse'; Control the density of shards <br /> **'dense'**: Shards reside on as few nodes as possible <br /> **'sparse'**: Shards reside on as many nodes as possible |
+| shards_placement | Control the density of shards <br />Values:<br />**'dense'**: Shards reside on as few nodes as possible <br /> **'sparse'**: Shards reside on as many nodes as possible |
 | skip_import_analyze | 'enabled'<br />'disabled'; Enable/disable skipping the analysis stage when importing an RDB file |
 | slave_buffer | 'auto'<br />value in MB<br />hard:soft:time; Redis replica output buffer limits |
 | slave_ha | boolean; Enable replica high availability mechanism for this database (default takes the cluster setting) |
@@ -149,4 +148,3 @@ An API object that represents a managed database in the cluster.
 | use_nodes | array of strings; Cluster node UIDs to use for database shards and bound endpoints |
 | version | string; Database compatibility version: full Redis/memcached version number, such as 6.0.6. This value can only change during database creation and database upgrades.|
 | wait_command | boolean (default:&nbsp;true); Supports Redis wait command (read-only) |
-{{</table-scrollable>}}
