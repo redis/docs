@@ -25,7 +25,7 @@ Redis Enterprise Software includes five predefined roles that determine a user's
 1. **Admin** - Full cluster access
 1. **None** - For data access only - cannot access the Cluster Manager UI or use the REST API
 
-For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions](#cluster-manager-ui-permissions) or [REST API permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}}).
+For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions](#cluster-manager-ui-permissions) or [REST API permissions]({{<relref "/operate/rs/references/rest-api/permissions">}}).
 
 ## Cluster Manager UI permissions
 

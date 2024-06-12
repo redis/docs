@@ -73,7 +73,7 @@ To define a role for database access:
 
 1.  Choose a Redis ACL and databases to associate with the role.
 
-    {{<image filename="images/rs/access-control-role-databases.png" alt="Add databases to access" >}}
+    {{<image filename="images/rs/screenshots/access-control/access-control-role-databases.png" alt="Add databases to access" >}}
 
 1. Select the check mark {{< image filename="/images/rs/buttons/checkmark-button.png#no-click" alt="The Check button" width="25px" class="inline" >}} to confirm.
 
