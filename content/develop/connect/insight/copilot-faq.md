@@ -3,9 +3,9 @@ categories:
 - docs
 - operate
 - redisinsight
-linkTitle: Redis Insight Copilot FAQ
-title: Redis Insight Copilot FAQ
-weight: 9
+linkTitle: Redis Copilot FAQ
+title: Redis Copilot FAQ
+weight: 1
 ---
 
 ## General questions

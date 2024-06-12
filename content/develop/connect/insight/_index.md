@@ -49,7 +49,7 @@ Currently, Redis Copilot provides two primary features: a general chatbot and a 
 
 Here's an example of using Redis Copilot to search data using a simple, natural language prompt.
 
-EXAMPLE TO BE PROVIDED
+<img src="images/copilot-example.png">
 
 See the [Redis Insight Copilot FAQ]({{< relref "/operate/redisinsight/copilot-faq" >}}) for more information.
 
