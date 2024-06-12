@@ -6,7 +6,7 @@ categories:
 - operate
 - rc
 description: Redis Cloud compatibility with Redis Community Edition.
-linkTitle: Source available compatibility
+linkTitle: Redis Community Edition compatibility
 weight: 90
 tocEmbedHeaders: true
 ---
