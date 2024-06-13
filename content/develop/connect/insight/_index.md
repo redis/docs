@@ -43,9 +43,9 @@ Redis Copilot is an AI-powered developer assistant that helps you learn about Re
 
 Currently, Redis Copilot provides two primary features: a general chatbot and a context-aware data chatbot.
 
-**General chatbot**: the knowledge-based chatbot serves as an interactive and dynamic documentation interface where developers can ask specific questions about the Redis commands, concepts, and products, and get responses on the fly, simplifying the learning process. The general chatbot is also available in our public docs.
+**General chatbot**: the knowledge-based chatbot serves as an interactive and dynamic documentation interface to simplify the learning process. You can ask specific questions about Redis commands, concepts, and products, and get responses on the fly. The general chatbot is also available in our public docs.
 
-**My data chatbot**: the context-aware chatbot available in Redis Insight enables users to construct search queries using everyday language rather than requiring specific programming syntax. This feature allows for intuitive query building and data exploring making it easier for developers to interact with their data without extensive technical knowledge.
+**My data chatbot**: the context-aware chatbot available in Redis Insight lets you construct search queries using everyday language rather than requiring specific programming syntax. This feature lets you query and explore data easily and interactively without extensive technical knowledge.
 
 Here's an example of using Redis Copilot to search data using a simple, natural language prompt.
 

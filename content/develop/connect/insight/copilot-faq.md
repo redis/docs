@@ -20,15 +20,15 @@ Redis Copilot is powered by the [OpenAI API](https://platform.openai.com/docs/ov
 
 Currently, Redis Copilot provides two primary features: a general chatbot and a context-aware data chatbot.
 
-**General chatbot**: the knowledge-based chatbot serves as an interactive and dynamic documentation interface where developers can ask specific questions about the Redis commands, concepts, and products, and get responses on the fly, simplifying the learning process. The general chatbot is also available in our public docs.
+**General chatbot**: the knowledge-based chatbot serves as an interactive and dynamic documentation interface to simplify the learning process. You can ask specific questions about Redis commands, concepts, and products, and get responses on the fly. The general chatbot is also available in our public docs.
 
-**My data chatbot**: the context-aware chatbot enables users to construct search queries using everyday language rather than requiring specific programming syntax. This feature allows for intuitive query building and data exploring making it easier for developers to interact with their data without extensive technical knowledge.
+**My data chatbot**: the context-aware chatbot available in Redis Insight lets you construct search queries using everyday language rather than requiring specific programming syntax. This feature lets you query and explore data easily and interactively without extensive technical knowledge.
 
 ### How do I get started with Redis Copilot in Redis Insight?
 
 The Redis Copilot instance within our public documentation is free for anyone to use and is available now to answer general questions about Redis.
 
-The Redis Copilot instance that is embedded in Redis Insight is gradually being rolled out to its entire user base. Once you are granted access to Redis Copilot in the app, you need to sign in with your Redis Cloud account before you can start using it. If you don’t have an account with Redis Cloud yet, it will be automatically created upon sign in at no initial cost to you. 
+The Redis Copilot instance that is embedded in Redis Insight is gradually being rolled out to the user base. Once you are granted access to Redis Copilot in the app, you need to sign in with your Redis Cloud account before you can start using it. If you don’t have an account with Redis Cloud yet, it will be automatically created when you sign in at no extra cost to you. 
 
 ## Data and Privacy
 
@@ -43,7 +43,7 @@ OpenAI states that the data provided via OpenAI API is not used for training. Pl
 
 ### What are the Redis Copilot terms? 
 
-Redis Copilot terms apply to your use or access to Redis Copilot. They set out what users can expect from Redis Copilot concerning its capabilities and limitations and how Redis Copilot handles users' data.
+Redis Copilot terms apply to your use of or access to Redis Copilot. They set out what you can expect from Redis Copilot concerning its capabilities and limitations and how Redis Copilot handles your data.
 
 ## Feedback
 
