@@ -106,7 +106,7 @@ An API object that represents a managed database in the cluster.
 | mtls_allow_weak_hashing | boolean; An optional mTLS relaxation flag for certs verification |
 | name | string; Database name. Only letters, numbers, or hyphens are valid characters. The name must start and end with a letter or number. |
 | oss_cluster | boolean (default:&nbsp;false); OSS Cluster mode option. Cannot be enabled with `'hash_slots_policy': 'legacy'` |
-| <span class="break-all">oss_cluster_api_preferred_endpoint_type</span> | **‘ip’**<br />‘hostname’; Endpoint type in the OSS cluster API |
+| <span class="break-all">oss_cluster_api_preferred_endpoint_type</span> | Endpoint type in the OSS cluster API<br />Values:<br />**‘ip’**<br />‘hostname’ |
 | <span class="break-all">oss_cluster_api_preferred_ip_type</span> | Internal/external IP type in OSS cluster API. Default value for new endpoints<br />Values:<br />**'internal'** <br />'external' |
 | oss_sharding | boolean (default:&nbsp;false); An alternative to `shard_key_regex` for using the common case of the OSS shard hashing policy |
 | port | integer; TCP port on which the database is available. Generated automatically if omitted and returned as 0 |
@@ -135,7 +135,7 @@ An API object that represents a managed database in the cluster.
 | slave_ha_priority | integer; Priority of the BDB in replica high availability mechanism |
 | snapshot_policy | array of [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) objects; Policy for snapshot-based data persistence. A dataset snapshot will be taken every N secs if there are at least M writes changes in the dataset |
 | ssl | boolean (default:&nbsp;false); Require SSL authenticated and encrypted connections to the database (deprecated as of Redis Enterprise v5.0.1) |
-| [status]({{< relref "/operate/rs/references/rest-api/objects/bdb/status" >}}) | Database lifecycle status (read-only)<br / >Values:<br />'pending'<br />'active'<br />'active-change-pending'<br />'delete-pending'<br />'import-pending'<br />'creation-failed'<br />'recovery' |
+| [status]({{< relref "/operate/rs/references/rest-api/objects/bdb/status" >}}) | Database lifecycle status (read-only)<br />Values:<br />'pending'<br />'active'<br />'active-change-pending'<br />'delete-pending'<br />'import-pending'<br />'creation-failed'<br />'recovery' |
 | support_syncer_reconf | boolean; Determines whether the syncer handles its own configuration changes. If false, the DMC restarts the syncer upon a configuration change. |
 | sync | (deprecated as of Redis Enterprise v5.0.1, use [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) or crdt_sync instead) Enable, disable, or pause syncing from specified sync_sources<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
 | sync_dedicated_threads | integer (range:&nbsp;0-10) (default:&nbsp;5); Number of dedicated Replica Of threads |
