@@ -65,7 +65,7 @@ summary: Decrease the value of the sample with the maximum existing timestamp, o
   create a new sample with a value equal to the value of the sample with the maximum
   existing timestamp with a given decrement
 syntax: "TS.DECRBY key subtrahend \n  [TIMESTAMP timestamp] \n  [RETENTION retentionPeriod]\
-  \ \n  [ENCODING <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [LABELS [label value ...]]\n"
+  \ \n  [ENCODING <COMPRESSED|UNCOMPRESSED>] \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff]\ \ \n\ \ [LABELS [label value ...]]\n"
 syntax_fmt: "TS.DECRBY key value [TIMESTAMP\_timestamp]\n  [RETENTION\_retentionPeriod]\
   \ [ENCODING\_<COMPRESSED|UNCOMPRESSED>] [CHUNK_SIZE\_size]\n [DUPLICATE_POLICY\_policy] [LABELS\_[label value ...]]"
 syntax_str: "value [TIMESTAMP\_timestamp] [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED|UNCOMPRESSED>]\
@@ -92,6 +92,7 @@ is numeric value of the subtrahend (double).
 <note><b>Notes</b>
 - When specified key does not exist, a new time series is created.
 - You can use this command as a counter or gauge that automatically gets history as a time series.
+- If a policy for handling duplicate samples (`IGNORE`) is defined for this time series - `TS.DECRBY` operations are affected as well (sample additions/modifications can be filtered).
 - Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< baseurl >}}/commands/ts.add/), [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby/), or `TS.DECRBY`) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
 </note>
 
@@ -138,6 +139,23 @@ is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) a
 Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/).
 </details>
 
+<details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 
+
+is the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:
+
+  - The time series is not a compaction;
+  - The time series' `DUPLICATE_POLICY` IS `LAST`;
+  - The sample is added in-order (`timestamp ≥ max_timestamp`);
+  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `IGNORE_MAX_TIME_DIFF`;
+  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`.
+
+where `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.
+
+When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
+
+These parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters are used).
+</details>
+
 <details open><summary><code>LABELS [{label value}...]</code></summary> 
 
 is set of label-value pairs that represent metadata labels of the key and serve as a secondary index.
@@ -146,16 +164,16 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 </details>
 
 <note><b>Notes</b>
-
- - You can use this command to add data to a nonexisting time series in a single command. This is why `RETENTION`, `ENCODING`,  `CHUNK_SIZE`, `DUPLICATE_POLICY`, and `LABELS` are optional arguments.
- - When specified and the key doesn't exist, a new time series is created. Setting the `RETENTION` and `LABELS` introduces additional time complexity.
+- You can use this command to create a new time series and add a sample to it in a single command.
+  `RETENTION`, `ENCODING`, `CHUNK_SIZE`, `DUPLICATE_POLICY`, `IGNORE`, and `LABELS` are used only when creating a new time series, and ignored when adding or modifying samples in an existing time series.
+- Setting `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
 
 ## Return value
 
 Returns one of these replies:
 
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/)), the reply will be the largest timestamp in the time series.
 - [] on error (invalid arguments, wrong key type, etc.), or when `timestamp` is not equal to or higher than the maximum existing timestamp
 
 ## See also

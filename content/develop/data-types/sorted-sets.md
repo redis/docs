@@ -192,10 +192,7 @@ set with the same score (for example 0) but with a 16 byte prefix
 consisting of **the 128 bit number in big endian**. Since numbers in big
 endian, when ordered lexicographically (in raw bytes order) are actually
 ordered numerically as well, you can ask for ranges in the 128 bit space,
-and get the element's value discarding the prefix.
-
-If you want to see the feature in the context of a more serious demo,
-check the [Redis autocomplete demo](http://autocomplete.redis.io).
+and get the element's value discarding the prefix
 
 Updating the score: leaderboards
 ---

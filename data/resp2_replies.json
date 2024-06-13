@@ -198,8 +198,8 @@
   ],
   "CLIENT UNBLOCK": [
     "One of the following:",
-    "* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the client was unblocked successfully.",
-    "* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the client wasn't unblocked."
+    "* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the client was unblocked successfully.",
+    "* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the client wasn't unblocked."
   ],
   "CLIENT UNPAUSE": [
     "[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
@@ -539,6 +539,12 @@
     "* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the hash does not contain the field, or the key does not exist.",
     "* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the hash contains the field."
   ],
+  "HEXPIRE": [
+  ],
+  "HEXPIREAT": [
+  ],
+  "HEXPIRETIME": [
+  ],
   "HGET": [
     "One of the following:",
     "* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The value associated with the field.",
@@ -546,6 +552,8 @@
   ],
   "HGETALL": [
     "[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields and their values stored in the hash, or an empty list when key does not exist."
+  ],
+  "HGETF": [
   ],
   "HINCRBY": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation."
@@ -565,6 +573,17 @@
   "HMSET": [
     "[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
   ],
+  "HPERSIST": [
+  ],
+  "HPEXPIRE": [
+    "Placeholder"
+  ],
+  "HPEXPIREAT": [
+  ],
+  "HPEXPIRETIME": [
+  ],
+  "HPTTL": [
+  ],
   "HRANDFIELD": [
     "Any of the following:",
     "* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key doesn't exist",
@@ -580,6 +599,8 @@
   "HSET": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the number of fields that were added."
   ],
+  "HSETF": [
+  ],
   "HSETNX": [
     "One of the following:",
     "* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the field already exists in the hash and no operation was performed.",
@@ -587,6 +608,8 @@
   ],
   "HSTRLEN": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the string length of the value associated with the _field_, or zero when the _field_ isn't present in the hash or the _key_ doesn't exist at all."
+  ],
+  "HTTL": [
   ],
   "HVALS": [
     "[Array reply](../../develop/reference/protocol-spec#arrays): a list of values in the hash, or an empty list when the key does not exist"

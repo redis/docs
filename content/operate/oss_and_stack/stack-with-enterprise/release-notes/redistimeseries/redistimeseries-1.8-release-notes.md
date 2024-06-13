@@ -16,10 +16,26 @@ weight: 96
 ---
 ## Requirements
 
-RedisTimeSeries v1.8.12 requires:
+RedisTimeSeries v1.8.13 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v1.8.13 (March 2024)
+
+This is a maintenance release for RedisTimeSeries 1.8.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+### Details
+
+- Bug fixes:
+
+  - [LibMR#51](https://github.com/RedisGears/LibMR/pull/51) Crash on SSL initialization failure (MOD-5647)
+
+- Improvements:
+
+  - [#1593](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1593) More detailed LibMR error messages
 
 ## v1.8.12 (December 2023)
 

@@ -10,12 +10,20 @@ description: null
 weight: 70
 ---
 
-Use the `rl_uninstall` script to uninstall Redis Enterprise Software and remove its files. `rl_uninstall` also deletes all Redis data and configuration.
+Use the script `rl_uninstall.sh` to uninstall Redis Enterprise Software and remove its files from a node. The script also deletes all Redis data and configuration from the node.
 
-The default location for the `rl_uninstall` script is `/opt/redislabs/bin`. 
+The uninstall script does not remove the node from the cluster, but the node's status changes to down. For node removal instructions, see [Remove a cluster node]({{<relref "/operate/rs/clusters/remove-node">}}).
 
-For each node in the cluster, navigate to the script's location and run:
+## Uninstall Redis Enterprise Software
 
-```sh
-sudo ./rl_uninstall.sh
-```
+To uninstall Redis Enterprise Software from a cluster node:
+
+1. Navigate to the script's location, which is in `/opt/redislabs/bin/` by default.
+
+1. Run the uninstall script as the root user:
+
+    ```sh
+    sudo ./rl_uninstall.sh
+    ```
+
+When you run the uninstall script on a node, it only uninstalls Redis Enterprise Software from that node. To uninstall Redis Enterprise Software for the entire cluster, run the uninstall script on each cluster node.

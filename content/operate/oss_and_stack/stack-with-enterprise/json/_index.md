@@ -39,7 +39,7 @@ See [JSONPath examples]({{< relref "/develop/data-types/json/path" >}}) for exam
 
 ### Legacy path syntax
 
-The [legacy path syntax]({{< relref "/develop/data-types/json/path" >}}) refers to the path implementation in RedisJSON v1. RedisJSON v2 still supports this legacy path syntax in addition to JSONPath syntax.
+The [legacy path syntax]({{< relref "/develop/data-types/json/path" >}}#legacy-path-syntax) refers to the path implementation in RedisJSON v1. RedisJSON v2 still supports this legacy path syntax in addition to JSONPath syntax.
 
 The legacy path syntax works as follows:
 
@@ -59,7 +59,7 @@ The following paths refer to `headphones`, which is a child of `inventory` under
 
 ### Key name rules
 
-You can only use the [legacy path syntax](#legacy-path-syntax) to access JSON keys if they follow these name syntax rules:
+You can only use the legacy path syntax to access JSON keys if they follow these name syntax rules:
 
 - Key names must begin with a letter, a dollar sign (`$`), or an underscore (`_`).
 - Key names can contain letters, digits, dollar signs, and underscores.

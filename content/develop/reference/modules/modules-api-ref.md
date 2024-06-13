@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Reference for the Redis Modules API
-
-  '
+description: Reference for the Redis Modules API
 linkTitle: API reference
 title: Modules API reference
 weight: 1
@@ -110,6 +108,17 @@ Redis INFO memory, used for keys eviction according to maxmemory settings
 and in general is taken into account as memory allocated by Redis.
 You should avoid using `calloc()` directly.
 
+<span id="RedisModule_TryCalloc"></span>
+
+### `RedisModule_TryCalloc`
+
+    void *RedisModule_TryCalloc(size_t nmemb, size_t size);
+
+**Available since:** unreleased
+
+Similar to [`RedisModule_Calloc`](#RedisModule_Calloc), but returns NULL in case of allocation failure, instead
+of panicking.
+
 <span id="RedisModule_Realloc"></span>
 
 ### `RedisModule_Realloc`
@@ -119,6 +128,17 @@ You should avoid using `calloc()` directly.
 **Available since:** 4.0.0
 
 Use like `realloc()` for memory obtained with [`RedisModule_Alloc()`](#RedisModule_Alloc).
+
+<span id="RedisModule_TryRealloc"></span>
+
+### `RedisModule_TryRealloc`
+
+    void *RedisModule_TryRealloc(void *ptr, size_t bytes);
+
+**Available since:** unreleased
+
+Similar to [`RedisModule_Realloc`](#RedisModule_Realloc), but returns NULL in case of allocation failure,
+instead of panicking.
 
 <span id="RedisModule_Free"></span>
 
@@ -440,6 +460,28 @@ Returns `REDISMODULE_OK` on success and `REDISMODULE_ERR` in case of the followi
 * `parent` is a command with an implementation (`RedisModuleCmdFunc`) (A parent command should be a pure container of subcommands)
 * `parent` already has a subcommand called `name`
 * Creating a subcommand is called outside of `RedisModule_OnLoad`.
+
+<span id="RedisModule_AddACLCategory"></span>
+
+### `RedisModule_AddACLCategory`
+
+    int RedisModule_AddACLCategory(RedisModuleCtx *ctx, const char *name);
+
+**Available since:** unreleased
+
+[`RedisModule_AddACLCategory`](#RedisModule_AddACLCategory) can be used to add new ACL command categories. Category names
+can only contain alphanumeric characters, underscores, or dashes. Categories can only be added
+during the `RedisModule_OnLoad` function. Once a category has been added, it can not be removed. 
+Any module can register a command to any added categories using [`RedisModule_SetCommandACLCategories`](#RedisModule_SetCommandACLCategories).
+
+Returns:
+- `REDISMODULE_OK` on successfully adding the new ACL category. 
+- `REDISMODULE_ERR` on failure.
+
+On error the errno is set to:
+- EINVAL if the name contains invalid characters.
+- EBUSY if the category name already exists.
+- ENOMEM if the number of categories reached the max limit of 64 categories.
 
 <span id="RedisModule_SetCommandACLCategories"></span>
 
@@ -848,6 +890,9 @@ Within the same command, you can call multiple times
 to accumulate independent time intervals to the background duration.
 This method always return `REDISMODULE_OK`.
 
+This function is not thread safe, If used in module thread and blocked callback (possibly main thread)
+simultaneously, it's recommended to protect them with lock owned by caller instead of GIL.
+
 <span id="RedisModule_BlockedClientMeasureTimeEnd"></span>
 
 ### `RedisModule_BlockedClientMeasureTimeEnd`
@@ -861,6 +906,9 @@ to calculate the elapsed execution time.
 On success `REDISMODULE_OK` is returned.
 This method only returns `REDISMODULE_ERR` if no start time was
 previously defined ( meaning [`RedisModule_BlockedClientMeasureTimeStart`](#RedisModule_BlockedClientMeasureTimeStart) was not called ).
+
+This function is not thread safe, If used in module thread and blocked callback (possibly main thread)
+simultaneously, it's recommended to protect them with lock owned by caller instead of GIL.
 
 <span id="RedisModule_Yield"></span>
 
@@ -1135,6 +1183,9 @@ create any issue). Strings created with a context should be freed also passing
 the context, so if you want to free a string out of context later, make sure
 to create it using a NULL context.
 
+This API is not thread safe, access to these retained strings (if they originated
+from a client command arguments) must be done with GIL locked.
+
 <span id="RedisModule_RetainString"></span>
 
 ### `RedisModule_RetainString`
@@ -1176,6 +1227,9 @@ Threaded modules that reference retained strings from other threads *must*
 explicitly trim the allocation as soon as the string is retained. Not doing
 so may result with automatic trimming which is not thread safe.
 
+This API is not thread safe, access to these retained strings (if they originated
+from a client command arguments) must be done with GIL locked.
+
 <span id="RedisModule_HoldString"></span>
 
 ### `RedisModule_HoldString`
@@ -1212,6 +1266,9 @@ optimize memory usage.
 Threaded modules that reference held strings from other threads *must*
 explicitly trim the allocation as soon as the string is held. Not doing
 so may result with automatic trimming which is not thread safe.
+
+This API is not thread safe, access to these retained strings (if they originated
+from a client command arguments) must be done with GIL locked.
 
 <span id="RedisModule_StringPtrLen"></span>
 
@@ -5205,6 +5262,29 @@ With the following effects:
                   Slots information will still be propagated across the
                   cluster, but without effect.
 
+<span id="RedisModule_ClusterKeySlot"></span>
+
+### `RedisModule_ClusterKeySlot`
+
+    unsigned int RedisModule_ClusterKeySlot(RedisModuleString *key);
+
+**Available since:** unreleased
+
+Returns the cluster slot of a key, similar to the `CLUSTER KEYSLOT` command.
+This function works even if cluster mode is not enabled.
+
+<span id="RedisModule_ClusterCanonicalKeyNameInSlot"></span>
+
+### `RedisModule_ClusterCanonicalKeyNameInSlot`
+
+    const char *RedisModule_ClusterCanonicalKeyNameInSlot(unsigned int slot);
+
+**Available since:** unreleased
+
+Returns a short string that can be used as a key or as a hash tag in a key,
+such that the key maps to the given cluster slot. Returns NULL if slot is not
+a valid slot.
+
 <span id="section-modules-timers-api"></span>
 
 ## Modules Timers API
@@ -7761,6 +7841,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ACLCheckCommandPermissions`](#RedisModule_ACLCheckCommandPermissions)
 * [`RedisModule_ACLCheckKeyPermissions`](#RedisModule_ACLCheckKeyPermissions)
 * [`RedisModule_AbortBlock`](#RedisModule_AbortBlock)
+* [`RedisModule_AddACLCategory`](#RedisModule_AddACLCategory)
 * [`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob)
 * [`RedisModule_Alloc`](#RedisModule_Alloc)
 * [`RedisModule_AuthenticateClientWithACLUser`](#RedisModule_AuthenticateClientWithACLUser)
@@ -7797,6 +7878,8 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_Calloc`](#RedisModule_Calloc)
 * [`RedisModule_ChannelAtPosWithFlags`](#RedisModule_ChannelAtPosWithFlags)
 * [`RedisModule_CloseKey`](#RedisModule_CloseKey)
+* [`RedisModule_ClusterCanonicalKeyNameInSlot`](#RedisModule_ClusterCanonicalKeyNameInSlot)
+* [`RedisModule_ClusterKeySlot`](#RedisModule_ClusterKeySlot)
 * [`RedisModule_CommandFilterArgDelete`](#RedisModule_CommandFilterArgDelete)
 * [`RedisModule_CommandFilterArgGet`](#RedisModule_CommandFilterArgGet)
 * [`RedisModule_CommandFilterArgInsert`](#RedisModule_CommandFilterArgInsert)
@@ -8085,6 +8168,8 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ThreadSafeContextUnlock`](#RedisModule_ThreadSafeContextUnlock)
 * [`RedisModule_TrimStringAllocation`](#RedisModule_TrimStringAllocation)
 * [`RedisModule_TryAlloc`](#RedisModule_TryAlloc)
+* [`RedisModule_TryCalloc`](#RedisModule_TryCalloc)
+* [`RedisModule_TryRealloc`](#RedisModule_TryRealloc)
 * [`RedisModule_UnblockClient`](#RedisModule_UnblockClient)
 * [`RedisModule_UnlinkKey`](#RedisModule_UnlinkKey)
 * [`RedisModule_UnregisterCommandFilter`](#RedisModule_UnregisterCommandFilter)
@@ -8105,4 +8190,3 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ZsetRem`](#RedisModule_ZsetRem)
 * [`RedisModule_ZsetScore`](#RedisModule_ZsetScore)
 * [`RedisModule__Assert`](#RedisModule__Assert)
-
