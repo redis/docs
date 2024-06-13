@@ -39,7 +39,7 @@ command from the CLI.{{< /note >}}
 
 ## Collector metrics
 
-The endpoint for the collector metrics is `https://<RDI_HOST>/metrics-collector-source`
+The endpoint for the collector metrics is `https://<RDI_HOST>/metrics/collector-source`
 
 These metrics are divided into three groups:
 
