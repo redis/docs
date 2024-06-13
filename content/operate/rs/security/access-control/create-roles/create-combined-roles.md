@@ -16,7 +16,7 @@ To create a role that grants database access privileges and allows access to the
 
 1. [Create a role with ACLs](#create-role) added and choose a **Cluster management role** other than **None**.
 
-### Define Redis ACLs
+## Define Redis ACLs
 
 To define a Redis ACL rule that you can assign to a role:
 
@@ -28,7 +28,7 @@ To define a Redis ACL rule that you can assign to a role:
 
 1. Enter a descriptive name for the Redis ACL. This will be used to reference the ACL rule to the role.
 
-1. Define the ACL rule. For more information about Redis ACL rules and syntax, see the [Redis ACL overview](#redis-acl-overview).
+1. Define the ACL rule. For more information about Redis ACL rules and syntax, see the [Redis ACL overview]({{<relref "/operate/rs/security/access-control/create-roles/redis-acl-overview">}}).
 
     {{<note>}}
 The **ACL builder** does not support selectors and key permissions. Use **Free text command** to manually define them instead.
@@ -40,7 +40,7 @@ The **ACL builder** does not support selectors and key permissions. Use **Free t
 For multi-key commands on multi-slot keys, the return value is `failure`, but the command runs on the keys that are allowed.
 {{</note>}}
 
-### Create roles with ACLs and cluster access {#create-role}
+## Create roles with ACLs and cluster access {#create-role}
 
 To create a role that grants database access privileges and allows access to the Cluster Management UI and REST API:
 
