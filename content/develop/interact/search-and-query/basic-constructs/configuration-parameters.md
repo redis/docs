@@ -502,7 +502,7 @@ $ redis-server --loadmodule ./redisearch.so UPGRADE_INDEX idx PREFIX 1 tt LANGUA
 
 ### OSS_GLOBAL_PASSWORD
 
-Global oss cluster password that will be used to connect to other shards.
+Global Redis Community Edition cluster password that will be used to connect to other shards.
 
 #### Default
 
