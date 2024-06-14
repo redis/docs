@@ -8,7 +8,7 @@ categories:
 description: Set up your Redis Cloud databases to enable stable and highly available apps.
 hideListLinks: true
 linkTitle: Develop highly available apps
-weight: 50
+weight: 85
 ---
 
 You can set up your Redis Cloud databases and Redis Client libraries that can help your app re-connect to your database after unexpected failover events or network outages and minimize data losses. 
@@ -54,24 +54,13 @@ Active-Active Redis allows you to [manually fail over to a different region]({{<
 
 To create Active-Active databases, you need to create a Redis Cloud Pro subscription, then enable Active-Active Redis and define the regions for each copy of your databases. See [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for instructions.
 
+If you decide to use Active-Active with [Jedis]({{< relref "/develop/connect/clients/java/jedis" >}}), you can use Jedis to fail over between regions if one regions becomes unavailable. See [Failover with Jedis](https://github.com/redis/jedis/blob/master/docs/failover.md) to learn how to failover to a different Active-Active region.
+
 ### Set manual maintenance windows
 
 Redis maintains your Redis Cloud subscriptions and databases as needed to ensure your databases are running the most stable and up-to-date version of Redis. By default, Redis will perform [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) automatically while limiting service disruption as much as possible.
 
 For stable apps, you may want to control when Redis can perform maintenance on your databases. For Redis Cloud Pro subscriptions, you can [set manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) to ensure non-urgent maintenance will occur at set times. Configuring or altering the maintenance window will not have any impact on your subscription or databases.
-
-### Enable TLS
-
-Transport Layer Security (TLS) uses encryption to secure network communications. 
-
-Because TLS has an impact on performance, you need to determine whether the security benefits of TLS are worth the performance impact. TLS recommendations depend on the subscription plan and whether clients connect to your database using public or private endpoints.
-
-This table shows TLS recommendations:
-
-| Subscription | Public&nbsp;endpoint | Private endpoint |
-|--------------|----------------------|------------|
-| Redis Cloud Essentials        | Enable TLS           | N/A |
-| Redis Cloud Pro     | Enable TLS           | Enable TLS if security outweighs performance impact |
 
 ## Set up Redis clients
 
@@ -83,8 +72,10 @@ See [Clients]({{< relref "/develop/connect/clients/" >}}) to learn how to connec
 
 Some clients allow you to re-try connecting to your database if the connection fails. For these clients, we recommend that you implement connection re-attempts to ensure high availability and connection stability. 
 
-For example, `redis-py` uses the [Retry](https://redis-py.readthedocs.io/en/stable/retry.html) class to implement connection retries.
+View your [client's docs]({{< relref "/develop/connect/clients/" >}}) to learn more.
 
 ### Refresh DNS
 
 Your application may disconnect from your database either during planned maintenance or for other, unplanned reasons. Most Redis clients are set to refresh their DNS address when they reconnect to the database, and you will not be required to perform any further action. If you encounter connectivity problems for more than a minute during maintenance then you should refresh your DNS entries. 
+
+Depending on the client, you may be recommended to turn off the DNS cache entirely. Refer to your [client's docs]({{< relref "/develop/connect/clients/" >}}) to learn more.
