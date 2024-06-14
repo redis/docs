@@ -1,5 +1,5 @@
 ---
-description: Get started with Community Edition
+description: Get started with Redis Community Edition
 hideListLinks: true
 linkTitle: Community Edition
 title: Community Edition
