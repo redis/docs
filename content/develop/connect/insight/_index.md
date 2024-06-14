@@ -33,7 +33,7 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis or
 
 * Automatically discover and add your local Redis or Redis Stack databases (that use standalone connection type and do not require authentication).
 * Discover your databases in Redis Enterprise Cluster and databases with Flexible plans in Redis Cloud.
-* Use a form to enter your connection details and add any Redis database running anywhere (including OSS Cluster, Sentinel).
+* Use a form to enter your connection details and add any Redis database running anywhere (including Redis Community Edition Cluster or Sentinel).
 
 <img src="images/Databases.png">
 
