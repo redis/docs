@@ -1079,10 +1079,10 @@
     "[Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set."
   ],
   "SINTERCARD": [
-    "[Integer reply](../../develop/reference/protocol-spec#integers): the number of the elements in the resulting intersection."
+    "[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting intersection."
   ],
   "SINTERSTORE": [
-    "[Integer reply](../../develop/reference/protocol-spec#integers): the number of the elements in the result set."
+    "[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the result set."
   ],
   "SISMEMBER": [
     "One of the following:",
