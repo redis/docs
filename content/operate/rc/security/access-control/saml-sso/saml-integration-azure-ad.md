@@ -163,7 +163,7 @@ Make sure the **Namespace** field is empty when modifying these claims.
 
     {{<image filename="images/rc/saml/sm_saml_8.png" >}}
 
-1. A popup appears, explaining that to test the SAML connection, you need to log in with the credentials of a user defined in Microsoft Entra.
+1. A popup appears, explaining that you must log in with the credentials of a Microsoft Entra user to test the SAML connection.
 
     {{<image filename="images/rc/saml/sm_saml_9.png" >}}
 
