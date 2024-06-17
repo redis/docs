@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Available field types and options.
-
-  '
+description: Available field types and options.
 linkTitle: Field and type options
 title: Field and type options
 weight: 2
@@ -43,14 +41,25 @@ FT.SEARCH products "@price:[200 300]"
 
 You can also use the following query syntax to perform more complex numeric queries:  
 
-| **Comparison operator** | **Query string**   | **Comment**           |
-|-------------------------|--------------------|-----------------------|
-| min &lt;= x &lt;= max   | @field:[min max]   | Fully inclusive range |
-| min &lt; x &lt; max     | @field:[(min (max] | Fully exclusive range |
-| x >= min                | @field:[min +inf]  | Upper open range      |
-| x &lt;= max             | @field:[-inf max]  | Lower open range      |
-| x == val                | @field:[val val]   | Equal                 |
-| x != val                | -@field:[val val]  | Not equal             |
+| **Comparison operator** | **Query string**              | **Comment**              |
+|-------------------------|-------------------------------|--------------------------|
+| min &lt;= x &lt;= max   | @field:[min max]              | Fully inclusive range    |
+|                         | "@field>=min @field<=max"     | Fully inclusive range \* |
+| min &lt; x &lt; max     | @field:[(min (max]            | Fully exclusive range    |
+|                         | "@field>min @field<max"       | Fully exclusive range \* |
+|                         |                               |   grouping with a space denotes AND relationship |
+| x >= min                | @field:[min +inf]             | Upper open range         |
+|                         | @field>=min                   | Upper open range \*      |
+| x &lt;= max             | @field:[-inf max]             | Lower open range         |
+|                         | @field<=max                   | Lower open range \*      |
+| x == val                | @field:[val val]              | Equal                    |
+|                         | @field:[val]                  | Equal \*                 |
+|                         | @field==val                   | Equal \*                 |
+| x != val                | -@field:[val val]             | Not equal                |
+|                         | @field!=val                   | Not equal \*             |
+| x == val1 or x == val2  | "@field==val1 \| @field==val2" | Grouping with a bar denotes OR relationship \* |
+
+\* New syntax as of RediSearch v2.10. Requires [`DIALECT 5`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-5). 
 
 
 ## Geo fields

@@ -49,9 +49,7 @@ requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployme
 To explicitly specify the persistent storage size, use the *volumeSize*
 property as described in the example above.
 
-{{< warning >}}
-Be aware the persistent volume size cannot be changed after deployment. Trying to change this value after deployment could result in unexpected and potentially damaging behavior. Please be sure your specified *volumeSize* is correct at the time of creation.
-{{< /warning >}}
+Persistent volume claims can be expanded, but not reduced after creation. See [Expand PersistentVolumeClaim (PVC)]({{<relref "/operate/kubernetes/re-clusters/expand-pvc">}}) for details.
 
 {{< note >}}
 We recommend that you omit the volumeSize definition from the REC declaration

@@ -45,7 +45,7 @@ This process involves deleting and recreating the REC StatefulSet with a larger 
       spec:
         persistentSpec:
           enablePersistentVolumeResize: true
-          volumeSize: <new-size>
+          volumeSize: <new-size>Gi
     ```
 
 1. Apply the changes to the REC, replacing `<your-rec.yaml>` with the name of your REC.
