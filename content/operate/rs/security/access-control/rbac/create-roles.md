@@ -12,26 +12,26 @@ weight: 20
 
 From **Access Control** > **Roles**, you can create custom user roles that determine cluster management permissions, data access permissions, or a combination of both.
 
-- [**Management roles**](#default-management-roles) - Management roles define user access to the cluster's admin console and API.
+- [**Management roles**](#default-management-roles) - Management roles define user access to the Cluster Manager UI and API.
 
 - **Data access controls** - Data access controls define the permissions each role has for each database in the cluster.
 
 ## Default management roles
 
-Redis Enterprise Software includes five predefined roles that determine a user's level of access to the admin console and [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
+Redis Enterprise Software includes five predefined roles that determine a user's level of access to the Cluster Manager UI and [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
 
 1. **DB Viewer** - Read database settings
 1. **DB Member** - Administer databases
 1. **Cluster Viewer** - Read cluster settings
 1. **Cluster Member** - Administer the cluster
 1. **Admin** - Full cluster access
-1. **None** - For data access only - cannot access the admin console or use the REST API
+1. **None** - For data access only - cannot access the Cluster Manager UI or use the REST API
 
-For more details about the privileges granted by each of these roles, see [admin console permissions]({{< relref "/operate/rs/security/access-control/admin-console-access#admin-console-permissions" >}}) or [REST API permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}}).
+For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions]({{< relref "/operate/rs/security/access-control/admin-console-access#cluster-manager-ui-permissions" >}}) or [REST API permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}}).
 
 ## Create roles for database access {#create-db-role}
 
-To create a role that grants database access to users but blocks access to the Redis Enterprise admin console and REST API, set the **Cluster management role** to **None**.
+To create a role that grants database access to users but blocks access to the Redis Enterprise Cluster Manager UI and REST API, set the **Cluster management role** to **None**.
 
 To define a role for database access:
 

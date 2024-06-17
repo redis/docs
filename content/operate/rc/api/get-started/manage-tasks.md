@@ -10,7 +10,6 @@ description: A task is an API operation that is performed asynchronously because
 linkTitle: Manage tasks
 weight: 50
 ---
-A task is an API operation that is performed asynchronously because it exceeds the time allowed for the synchronous request/response model.
 
 Examples of API operations that use tasks are:
 

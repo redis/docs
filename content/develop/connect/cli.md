@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Overview of redis-cli, the Redis command line interface
-
-  '
+description: 'Overview of redis-cli, the Redis command line interface'
 linkTitle: CLI
 title: Redis CLI
 weight: 1
@@ -133,6 +131,8 @@ option and the URI pattern `redis://user:password@host:port/dbnum`:
 User, password and dbnum are optional.
 For authentication without a username, use username `default`.
 For TLS, use the scheme `rediss`.
+
+You can use the `-4` or `-6` argument to set a preference for IPv4 or IPv6, respectively, for DNS lookups.
 
 ## SSL/TLS
 
@@ -344,6 +344,8 @@ connection is lost, such as within a MULTI/EXEC transaction:
 This is usually not an issue when using the `redis-cli` in interactive mode for
 testing, but this limitation should be known.
 
+Use the `-t <timeout>` option to specify server timeout in seconds.
+
 ## Editing, history, completion and hints
 
 Because `redis-cli` uses the
@@ -358,7 +360,7 @@ by the `HOME` environment variable. It is possible to use a different
 history filename by setting the `REDISCLI_HISTFILE` environment variable,
 and disable it by setting it to `/dev/null`.
 
-The `redis-cli` is also able to perform command-name completion by pressing the TAB
+The `redis-cli` client is also able to perform command-name completion by pressing the TAB
 key, as in the following example:
 
     127.0.0.1:6379> Z<TAB>
@@ -367,6 +369,8 @@ key, as in the following example:
 
 Once Redis command name has been entered at the prompt, the `redis-cli` will display
 syntax hints. Like command history, this behavior can be turned on and off via the `redis-cli` preferences.
+
+Reverse history searches, such as `CTRL-R` in terminals, is supported.
 
 ## Preferences
 
@@ -479,7 +483,9 @@ The `-i <interval>` option in this case works as a modifier in order to
 change the frequency at which new lines are emitted. The default is one
 second.
 
-## Scanning for big keys
+## Scan for big keys and memory usage
+
+### Big keys
 
 In this special mode, `redis-cli` works as a key space analyzer. It scans the
 dataset for big keys, but also provides information about the data types
@@ -527,6 +533,19 @@ to a negligible amount.
 Note that the summary also reports in a cleaner form the biggest keys found
 for each time. The initial output is just to provide some interesting info
 ASAP if running against a very large data set.
+
+The `--bigkeys` option now works on cluster replicas.
+
+### Memory usage
+
+Similar to the `--bigkeys` option, `--memkeys` allows you to scan the entire keyspace to find biggest keys as well as
+the average sizes per key type.
+
+The `--memkeys` option now works on cluster replicas.
+
+### Combine `--bigkeys` and `--memkeys`
+
+You can use the `--keystats` and `--keystats-samples` options to combine `--memkeys` and `--bigkeys` with additional distribution data.
 
 ## Getting a list of keys
 

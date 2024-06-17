@@ -5,14 +5,14 @@ categories:
 - docs
 - operate
 - rs
-description: Delete a database from the admin console.
+description: Delete a database from the Cluster Manager UI.
 linktitle: Delete
 weight: 36
 ---
 
 When you delete a database, both the database configuration and data are removed.
 
-To delete a database from the admin console:
+To delete a database from the Cluster Manager UI:
 
 1. From the **Databases** list, select the database, then select **Configuration**.
 

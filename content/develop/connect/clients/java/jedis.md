@@ -15,13 +15,15 @@ title: Jedis guide
 weight: 1
 ---
 
-Install Redis and the Redis client, then connect your Java application to a Redis database. 
+[Jedis](https://github.com/redis/jedis) is the *synchronous* Java client for Redis.
+Use [Lettuce]({{< relref "/develop/connect/clients/java/lettuce" >}}) if you need
+an *asynchronous* Java client.
+The sections below explain how to install `Jedis` and connect your application
+to a Redis database.
 
-## Jedis
+`Jedis` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
-[Jedis](https://github.com/redis/jedis) is a Java client for Redis designed for performance and ease of use.
-
-### Install
+## Install
 
 To include `Jedis` as a dependency in your application, edit the dependency file, as follows.
 
@@ -52,7 +54,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
 
 * Build from [source](https://github.com/redis/jedis)
 
-### Connect
+## Connect
 
 For many applications, it's best to use a connection pool. You can instantiate and use a `Jedis` connection pool like so:
 
@@ -96,7 +98,7 @@ jedis.set("foo", "bar");
 System.out.println(jedis.get("foo")); // prints "bar"
 ```
 
-#### Connect to a Redis cluster
+### Connect to a Redis cluster
 
 To connect to a Redis cluster, use `JedisCluster`. 
 
@@ -112,7 +114,7 @@ jedisClusterNodes.add(new HostAndPort("127.0.0.1", 7380));
 JedisCluster jedis = new JedisCluster(jedisClusterNodes);
 ```
 
-#### Connect to your production Redis with TLS
+### Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
 
@@ -194,9 +196,13 @@ public class Main {
 }
 ```
 
-### Production usage
+## Production usage
 
-### Configuring Connection pool
+The following sections explain how to handle situations that may occur
+in your production environment.
+
+### Configuring a connection pool
+
 As mentioned in the previous section, use `JedisPool` or `JedisPooled` to create a connection pool.
 `JedisPooled`, added in Jedis version 4.0.0, provides capabilities similar to `JedisPool` but with a more straightforward API.
 A connection pool holds a specified number of connections, creates more connections when necessary, and terminates them when they are no longer needed.
@@ -244,7 +250,7 @@ poolConfig.setTimeBetweenEvictionRuns(Duration.ofSeconds(1));
 JedisPooled jedis = new JedisPooled(poolConfig, "localhost", 6379);
 ```
 
-### Timeout
+### Timeouts
 
 To set a timeout for a connection, use the `JedisPooled` or `JedisPool` constructor with the `timeout` parameter, or use `JedisClientConfig` with the `socketTimeout` and `connectionTimeout` parameters:
 
@@ -261,6 +267,7 @@ JedisPooled jedisWithTimeout = new JedisPooled(hostAndPort,
 ```
 
 ### Exception handling
+
 The Jedis Exception Hierarchy is rooted on `JedisException`, which implements `RuntimeException`, and are therefore all unchecked exceptions.
 
 ```
@@ -279,7 +286,8 @@ JedisException
 └── InvalidURIException
 ```
 
-#### General Exceptions
+#### General exceptions
+
 In general, Jedis can throw the following exceptions while executing commands:
 
 - `JedisConnectionException` - when the connection to Redis is lost or closed unexpectedly. Configure failover to handle this exception automatically with Resilience4J and the built-in Jedis failover mechanism.  
@@ -300,7 +308,7 @@ Conditions when `JedisException` can be thrown:
 
 All the Jedis exceptions are runtime exceptions and in most cases irrecoverable, so in general bubble up to the API capturing the error message.
 
-## DNS cache and Redis
+### DNS cache and Redis
 
 When you connect to a Redis with multiple endpoints, such as [Redis Enterprise Active-Active](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/), it's recommended to disable the JVM's DNS cache to load-balance requests across multiple endpoints.
 
@@ -310,7 +318,7 @@ java.security.Security.setProperty("networkaddress.cache.ttl","0");
 java.security.Security.setProperty("networkaddress.cache.negative.ttl", "0");
 ```
 
-### Learn more
+## Learn more
 
 * [Jedis API reference](https://www.javadoc.io/doc/redis.clients/jedis/latest/index.html)
 * [Failover with Jedis](https://github.com/redis/jedis/blob/master/docs/failover.md)

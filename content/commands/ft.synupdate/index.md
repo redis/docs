@@ -21,6 +21,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(1)
 description: Creates or updates a synonym group with additional terms
 group: search

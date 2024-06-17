@@ -12,6 +12,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(1)
 description: Retrieves runtime configuration options
 group: search
@@ -128,6 +130,8 @@ FT.CONFIG GET returns an array reply of the configuration name and value.
     2) false
 35) 1) _NUMERIC_RANGES_PARENTS
     2) 0
+36) 1) MINSTEMLEN
+    2) 4
 {{< / highlight >}}
 </details>
 

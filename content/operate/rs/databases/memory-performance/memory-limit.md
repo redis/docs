@@ -68,7 +68,7 @@ You must maintain sufficient free memory to make sure that you have a healthy Re
 
 ## Memory metrics
 
-The admin console provides metrics that can help you evaluate your memory use.
+The Cluster Manager UI provides metrics that can help you evaluate your memory use.
 
 - Free RAM
 - RAM fragmentation

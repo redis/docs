@@ -1,16 +1,16 @@
 ---
-Title: Grant admin console and REST API access for cluster management
+Title: Grant Cluster Manager UI and REST API access for cluster management
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Grant admin console access to a user.
+description: Grant Cluster Manager UI access to a user.
 linkTitle: Cluster management access
 weight: 10
 ---
 
-To grant a user access to a Redis Enterprise cluster's admin console and [REST API]({{< relref "/operate/rs/references/rest-api" >}}), assign a predefined management role to the user.
+To grant a user access to a Redis Enterprise Cluster Manager UI and [REST API]({{< relref "/operate/rs/references/rest-api" >}}), assign a predefined management role to the user.
 
 ## Grant cluster management access
 
@@ -20,20 +20,20 @@ To grant a user access to a Redis Enterprise cluster's admin console and [REST A
 
 ## Default management roles
 
-Redis Enterprise Software includes five predefined roles that determine a user's level of access to the admin console and [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
+Redis Enterprise Software includes five predefined roles that determine a user's level of access to the Cluster Manager UI and [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
 
 1. **DB Viewer** - Read database settings
 2. **DB Member** - Administer databases
 3. **Cluster Viewer** - Read cluster settings
 4. **Cluster Member** - Administer the cluster
 5. **Admin** - Full cluster access
-6. **None** - For data access only - cannot access the admin console or use the REST API
+6. **None** - For data access only - cannot access the Cluster Manager UI or use the REST API
 
-For more details about the privileges granted by each of these roles, see [admin console permissions](#admin-console-permissions) or [REST API permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}}).
+For more details about the privileges granted by each of these roles, see [Cluster Manager UI permissions](#cluster-manager-ui-permissions) or [REST API permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}}).
 
-## Admin console permissions
+## Cluster Manager UI permissions
 
-Here's a summary of the admin console actions permitted by each default management role:
+Here's a summary of the Cluster Manager UI actions permitted by each default management role:
 
 | Action | DB Viewer | DB Member | Cluster Viewer | Cluster Member | Admin |
 |--------|:---------:|:---------:|:--------------:|:-----------:|:------:|

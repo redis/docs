@@ -83,7 +83,7 @@ For these tests, the load generation host uses a c4.8xlarge instance type.
 
 ### Create a Auto Tiering test database
 
-You can use the RS admin console to create a test database.
+You can use the Redis Enterprise Cluster Manager UI to create a test database.
 We recommend that you use a separate database for each test case with these requirements:
 
 |  **Parameter** | **With replication** | **Without replication** | **Description** |
@@ -130,7 +130,7 @@ $ memtier_benchmark  -s $DB_HOST -p $DB_PORT --hide-histogram
 --key-pattern=P:P --ratio=0:1
 ```
 
-To verify the database values, use **Values in RAM** metric, which is available from the **Metrics** tab of your database in the admin console.
+To verify the database values, use **Values in RAM** metric, which is available from the **Metrics** tab of your database in the Cluster Manager UI.
 
 ### Without replication {#centralize-wo-repl}
 
@@ -148,7 +148,7 @@ $ memtier_benchmark  -s $DB_HOST -p $DB_PORT --hide-histogram
 
 #### With replication {#generate-with-repl}
 
-We recommend that you do a dry run and double check the RAM Hit Ratio on the **metrics** screen in the RS admin console before you write down the test results.
+We recommend that you do a dry run and double check the RAM Hit Ratio on the **Metrics** screen in the Cluster Manager UI before you write down the test results.
 
 To test RoF with an 85% RAM Hit Ratio, run:
 
@@ -183,11 +183,11 @@ Where:
 
 ### Monitor the test results
 
-You can either monitor the results in the **metrics** tab of the admin console or with the `memtier_benchmark` output.  However, be aware that:
+You can either monitor the results in the **Metrics** tab of the Cluster Manager UI or with the `memtier_benchmark` output.  However, be aware that:
 
 - The memtier_benchmark results include the network latency between the load generator instance and the cluster instances.
 
-- The metrics shown in the admin console do _not_ include network latency.
+- The metrics shown in the Cluster Manager UI do _not_ include network latency.
 
 ### Expected results
 

@@ -15,10 +15,42 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.16 requires:
+RediSearch v2.6.18 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.18 (April 2024)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+- Bug fixes:
+
+  - [#4557](https://github.com/RediSearch/RediSearch/pull/4557) Additional "`}`" on wildcards replies for `FT.EXPLAIN` (MOD-6768)
+
+## v2.6.17 (April 2024)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Details:
+
+- Bug fixes:
+
+  - [#4524](https://github.com/RediSearch/RediSearch/pull/4524) `FT.CURSOR READ` in a numeric query causing a crash (MOD-6597)
+  - [#4543](https://github.com/RediSearch/RediSearch/pull/4543) `FT.SEARCH` accessing an inexistent memory address causes a crash if using deprecated `FT.ADD` command (MOD-6599)
+  - [#4535](https://github.com/RediSearch/RediSearch/pull/4535) `FT.PROFILE` with incorrect arguments could cause a crash on cluster setup (MOD-6791)
+  - [#4540](https://github.com/RediSearch/RediSearch/pull/4540) Unfree memory from an existing RDB while re-indexing loading a new RDB could cause a crash (MOD-6831, 6810)
+  - [#4485](https://github.com/RediSearch/RediSearch/pull/4485) Some parameter settings using just prefixes instead of full values were working (MOD-6709)
+
+- Improvements:
+
+  - [#4502](https://github.com/RediSearch/RediSearch/pull/4502) Handle error properly when trying to execute Search commands on cluster setup as part of `MULTI ... EXEC` or LUA script (MOD-6541)
 
 ## v2.6.16 (March 2024)
 

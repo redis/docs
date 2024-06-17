@@ -66,9 +66,10 @@ The **Scalability** section is primarily for Redis Cloud Pro plans. Redis Cloud 
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Plan Memory limit** | Maximum size (in GB) for your database.  |
+| **Dataset size** | Maximum size (in GB) for your dataset.  |
 | **Memory used**       | Memory currently used for your database.  |
-| **Throughput**        | Defines throughput in terms of maximum operations per second for the database | |
+| **Throughput**        | Defines throughput in terms of maximum operations per second for the database |
+| **High availability**    | Replicates your data across multiple nodes; [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) depend on your plan type  |
 | **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
 | **OSS Cluster API**       | Enables the [Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) for a database.<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
 
@@ -82,7 +83,6 @@ The Durability section helps protect your data when problems occur.  These setti
 
 | Setting name             | Description                                                                                                                                                     |
 |:-------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **High availability**    | Replicates your data across multiple nodes; [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) depend on your plan type  |
 | **Data persistence**     | Defines whether (and how) data is saved to disk; [available options]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) depend on your plan type |
 | **Data eviction policy** | Configures which [policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies" >}}) is applied when your database reaches its memory limit        |
 | **Remote backup**        | When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data" >}}). (_Paid plans only_)                |

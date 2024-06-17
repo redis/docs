@@ -29,6 +29,7 @@ Redis lists are frequently used to:
 * [`LPOP`]({{< relref "/commands/lpop" >}}) removes and returns an element from the head of a list; [`RPOP`]({{< relref "/commands/rpop" >}}) does the same but from the tails of a list. 
 * [`LLEN`]({{< relref "/commands/llen" >}}) returns the length of a list.
 * [`LMOVE`]({{< relref "/commands/lmove" >}}) atomically moves elements from one list to another.
+* [`LRANGE`]({{< relref "/commands/lrange" >}}) extracts a range of elements from a list.
 * [`LTRIM`]({{< relref "/commands/ltrim" >}}) reduces a list to the specified range of elements.
 
 ### Blocking commands

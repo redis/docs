@@ -59,7 +59,7 @@ This guide shows how to create an Essentials database.
 
     These settings may already be set based on the use case you selected. You can change them now if you like.
     
-1. Select the desired dataset size. To create a free database, select the 30 MB dataset size. You can only have one free database at a time.
+1. Select the desired memory limit. To create a free database, select the 30 MB memory limit. You can only have one free database at a time.
 
     {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Essentials plans." >}}
 

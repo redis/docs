@@ -10,11 +10,11 @@ hideListLinks: true
 linkTitle: Monitoring
 weight: 96
 ---
-You can use the metrics that measure the performance of your Redis Enterprise Software (RS) clusters, nodes, databases and shards
-to keep an eye on the performance of your databases.
-In the RS admin console, you can see the real-time metrics and you can configure alerts that send notifications based on alert parameters.
+You can use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards
+to monitor the performance of your databases.
+In the Redis Enterprise Cluster Manager UI, you can see real-time metrics and configure alerts that send notifications based on alert parameters. You can also access metrics and configure alerts through the REST API.
 
-You can also access the metrics and configure alerts through the REST API so that you can integrate the RS metrics into your monitoring environment, for example, using [Prometheus with Grafana]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) or [Uptrace]({{< relref "/integrate/uptrace-with-redis-enterprise/" >}}).
+To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) or [Uptrace]({{< relref "/integrate/uptrace-with-redis-enterprise/" >}}).
 
 Make sure you read the [definition of each metric]({{< relref "/operate/rs/references/metrics/" >}})
 so that you understand exactly what it represents.
@@ -44,7 +44,7 @@ Configured alerts are shown:
 
 - As a notification on the status icon ( {{< image filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" class="inline" >}} ) for the node and cluster
 - In the **log**
-- In email notifications, if you configure [email alerts](#sending-alerts-by-email)
+- In email notifications, if you configure [email alerts](#send-alerts-by-email)
 
 {{< note >}}
 If you enable alerts for "Node joined" or "Node removed" actions,
@@ -64,7 +64,7 @@ Configured alerts are shown:
 
 - As a notification on the status icon ( {{< image filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" class="inline" >}} ) for the database
 - In the **log**
-- In emails, if you configure [email alerts](#sending-alerts-by-email)
+- In emails, if you configure [email alerts](#send-alerts-by-email)
 
 To enable alerts for a database:
 

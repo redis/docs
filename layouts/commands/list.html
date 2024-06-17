@@ -14,7 +14,7 @@
 {{ define "main" }}
   {{ partial "path-scratch.html" }}
   {{ $basePath := .Scratch.Get "path" }}
-  <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row overflow-hidden">
+  <main class="docs w-full max-w-[1920px] mx-auto px-5 flex flex-col md:flex-row overflow-hidden">
     {{ partial "docs-nav-collapsed.html" . }}
     <div class="py-12 md:px-4 xl:px-16 overflow-hidden">
       {{ partial "breadcrumbs" . }}
@@ -63,7 +63,6 @@
             <option value="cms" data-kind="stack">Count-min sketch</option>
             <option value="json" data-kind="stack">JSON</option>
             <option value="search" data-kind="stack">Search and query</option>
-            <option value="triggers_and_functions" data-kind="stack">Triggers and functions</option>
             <option value="suggestion" data-kind="stack">Auto-suggest</option>
             <option value="tdigest" data-kind="stack">T-digest</option>
             <option value="timeseries" data-kind="stack">Time series</option>

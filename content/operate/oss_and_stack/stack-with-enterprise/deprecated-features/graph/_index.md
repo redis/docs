@@ -2,10 +2,9 @@
 Title: Graph
 alwaysopen: false
 bannerChildren: true
-bannerLink: https://redis.com/blog/redisgraph-eol/
 bannerText: Redis, Inc. has announced the end of life of RedisGraph. We will carry
   out the process gradually and in accordance with our commitment to our customers.
-  See [details].
+  See [details](https://redis.io/blog/redisgraph-eol/).
 categories:
 - docs
 - operate

@@ -73,23 +73,15 @@ Active-Active databases support the [JSON]({{< relref "/operate/oss_and_stack/st
 
 {{<image filename="images/rc/active-active-json-detail.png" width="75%" alt="When you create an Active-Active database, you can select the JSON and Search and query advanced capabilities." >}}
 
-If you chose the **Vector search** or **Database** use case, we select both capabilities for you automatically. Select each capability again to remove it.
+If you chose the **Vector search** or **Database** use case, we select both capabilities for you automatically. You can remove a capability by selecting it.
 
-For Search and query databases, use the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) to estimate your index size and throughput requirements.
+You can't add or remove capabilities after you create your database. 
+
+Selected capabilities will be available in all regions, including those added in the future.
+
+For Search and query databases, use the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) to estimate your index size and throughput requirements. When you're entering the dataset size for your database, add the estimated index size from the Sizing calculator to your expected dataset size.
 
 See [Search and query Active-Active databases]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active" >}}) to learn how to use Search and query on Active-Active databases.
-
-## Define memory limit
-
-Active-Active databases have specific memory requirements that differ from non-replicated Redis. 
-
-Select **Memory calculator** to calculate the memory limit for your Active-Active database.
-
-{{<image filename="images/rc/active-active-memory-calculator.png" width="75%" alt="The memory calculator. Enter your expected database size to see the memory limit." >}}
-
-In the Memory calculator, enter your expected dataset size. For Search and query databases, add the estimated index size from the [Sizing calculator](https://redis.io/redisearch-sizing-calculator/) to your expected dataset size.
-
-Select **Apply** to apply the calculated memory limit.  
 
 ## Define throughput
 
