@@ -424,7 +424,8 @@ requires the terms in the document to have the same order as the terms in the qu
 
 use a stemmer for the supplied language during search for query expansion. If querying documents in Chinese, set to `chinese` to
   properly tokenize the query terms. Defaults to English. If an unsupported language is sent, the command returns an error.
-  See [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) for the list of languages. 
+  See [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) for the list of languages. If `LANGUAGE` was specified as part of index
+  creation, it doesn't need to specified with `FT.SEARCH`.
 </details>
 
 <details open>
@@ -770,9 +771,14 @@ To sum up, the `INORDER` argument or `$inorder` query attribute require the quer
 </details>
 
 <details open>
-<summary><b>NEW!!! Polygon Search with WITHIN and CONTAINS operators</b></summary>
+<summary><b>Polygon Search with WITHIN, CONTAINS, INTERSECTS, and DISJOINT operators</b></summary>
 
-Query for polygons which contain a given geoshape or are within a given geoshape
+Query for polygons which:
+
+- contain a given geoshape
+- are within a given geoshape
+- intersect with a given geoshape
+- are disjoint (nothing in common) with a given shape
 
 First, create an index using `GEOSHAPE` type with a `FLAT` coordinate system:
 
