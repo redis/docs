@@ -978,7 +978,7 @@
     "[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the SHA1 digest of the script added into the script cache."
   ],
   "SDIFF": [
-    "[Array reply](../../develop/reference/protocol-spec#arrays): a list with the members of the resulting set."
+    "[Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set."
   ],
   "SDIFFSTORE": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting set."
@@ -1158,7 +1158,7 @@
     "[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the substring of the string value stored at key, determined by the offsets start and end (both are inclusive)."
   ],
   "SUNION": [
-    "[Array reply](../../develop/reference/protocol-spec#arrays): a list with the members of the resulting set."
+    "[Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set."
   ],
   "SUNIONSTORE": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): Number of the elements in the resulting set."
