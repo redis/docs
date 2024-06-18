@@ -62,6 +62,18 @@ sources:
               - lname
             keys:
               - empno
+  # Advanced collector properties (optional):
+  # advanced:
+  # Sink collector properties - see the full list at https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream
+  #   sink:
+  #     redis.memory.limit.mb: 100
+  #     redis.memory.threshold.percentage: 85
+  # Source specific properties - see the full list at https://debezium.io/documentation/reference/stable/connectors/
+  #   source:
+  #     snapshot.mode: initial
+  # Quarkus framework properties - see the full list at https://quarkus.io/guides/all-config
+  #   quarkus:
+  #     banner.enabled: "false"
 targets:
   my-redis:
     connection:
@@ -101,12 +113,17 @@ configuration contains the following data:
     [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.asp) or
     [`UNIQUE`](https://www.w3schools.com/sql/sql_unique.asp) constraint then you can
     supply a unique composite key.
- 
-There are also some advanced source configurations that are specific to each
-type of source database but you usually won't need these. Some of them are documented
-in our
-[RDI configuration file]({{< relref "/integrate/redis-data-integration/ingest/reference/config-yaml-reference" >}})
-reference.
+- `advanced`: These optional properties configure other Debezium-specific features.
+  The available sub-sections are:
+  - `sink`: all advanced properties for writing to RDI (TLS, memory threshold, etc).
+    See the Debezium [Redis stream properties](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream)
+    page for the full set of available properties.
+  - `source`: all advanced connector properties (for example, RAC nodes). See the
+    Debezium [Connectors](https://debezium.io/documentation/reference/stable/connectors/)
+    page for the full set of available properties.
+  - `quarkus`: all advanced properties for Debezium server, such as the log level. See the
+    Quarkus [Configuration options](https://quarkus.io/guides/all-config)
+    docs for the full set of available properties.
 
 ### Targets
 
