@@ -138,7 +138,6 @@ Use the following command to remove the expiration of specific fields:
 Support for hash field expiration in the official client libraries is coming soon, but you can test hash field expiration now with beta versions of the [Python (redis-py)](https://github.com/redis/redis-py) and [Java (Jedis)](https://github.com/redis/jedis) client libraries.
 
 Following are some Python examples that demonstrate how to use field expiration.
-Here is an example of how to use this new feature from Python. Let’s imagine we use the hash data structure to store information collected by sensors. 
 
 Consider a hash data set for storing sensor data that has the following structure:
 
