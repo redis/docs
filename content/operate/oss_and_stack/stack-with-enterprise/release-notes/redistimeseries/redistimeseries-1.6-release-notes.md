@@ -38,7 +38,7 @@ Details:
 
 - Bug fixes:
 
-    - [#1240](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1240) Compaction rules are not saved to [RoF](https://docs.redis.com/latest/rs/databases/redis-on-flash//) (Redis Enterprise)
+    - [#1240](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1240) Compaction rules are not saved to [RoF](https://docs.redis.com/latest/rs/databases/redis-on-flash) (Redis Enterprise)
 
 ## v1.6.16 (June 2022)
 
