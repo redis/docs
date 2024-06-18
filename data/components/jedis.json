@@ -8,7 +8,7 @@
   },
   "examples": {
       "git_uri": "https://github.com/redis/jedis",
-      "dev_branch": "emb-examples",
+      "dev_branch": "master",
       "path": "src/test/java/io/redis/examples",
       "pattern": "*.java"
   }
