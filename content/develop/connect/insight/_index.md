@@ -51,7 +51,7 @@ Here's an example of using Redis Copilot to search data using a simple, natural 
 
 <img src="images/copilot-example.png">
 
-See the [Redis Insight Copilot FAQ]({{< relref "/operate/redisinsight/copilot-faq" >}}) for more information.
+See the [Redis Insight Copilot FAQ]({{< relref "/develop/connect/insight/copilot-faq" >}}) for more information.
 
 ### Browser
 
