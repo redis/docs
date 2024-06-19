@@ -45,6 +45,10 @@
         <a class='px-6 py-4 rounded-t-md hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "Develop" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a>
         {{ if eq $navRoot.LinkTitle "Develop" }}
           <ul class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
+            {{ range .Site.Data.nav.children }}
+            <li class="my-2"><a href="{{ .relref }}">{{ .title }}</a></li>
+            {{ end }}
+            
             {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
           </ul>
         {{ end }}

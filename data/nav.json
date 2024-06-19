@@ -1,0 +1,13 @@
+{
+    "children": [
+        {
+            "title": "Quick starts", "relref": "/develop/get-started", "children": [
+                { "title": "Data structure store", "relref": "/develop/get-started/data-store" },
+                { "title": "Document database", "relref": "/develop/get-started/document-database" },
+                { "title": "Vector database", "relref": "/develop/get-started/vector-database" },
+                { "title": "Redis and RAG", "relref": "/develop/get-started/rag" },
+                { "title": "FAQ", "relref": "/develop/get-started/faq" }
+            ]
+        }
+    ]
+}
