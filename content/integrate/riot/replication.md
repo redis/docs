@@ -384,12 +384,12 @@ Do note that the source database is specified first and the target database is s
 riot -h <source EC host> -p <source EC port> --db <index> replicate -h <target RE host> -p <target RE port> --pass <RE password>
 ```
 
-#### EC Single Master -> RE with OSS Cluster
+#### EC Single Master -> RE with Redis Community Edition Cluster
 ```
 riot -h <source EC host> -p <source EC port> replicate -h <target RE host> -p <target RE port> --pass <RE password> --cluster
 ```
 
-#### Live EC Cluster -> RE with OSS Cluster
+#### Live EC Cluster -> RE with Redis Community Edition Cluster
 
 ```
 riot -h <source EC host> -p <source EC port> --cluster replicate --mode live -h <target RE host> -p <target RE port> --pass <RE password> --cluster

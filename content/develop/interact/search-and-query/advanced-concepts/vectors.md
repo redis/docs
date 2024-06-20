@@ -80,7 +80,7 @@ Here, three parameters are passed for the index ([`TYPE`]({{< relref "/commands/
 
 Mandatory parameters are:
 
-* [`TYPE`]({{< relref "/commands/type" >}}) - Vector type. Current supported types are `FLOAT32` and `FLOAT64`.
+* [`TYPE`]({{< relref "/commands/type" >}}) - Vector type. Current supported types are `FLOAT16`, `FLOAT32` and `FLOAT64`.
     
 * `DIM` - Vector dimension specified as a positive integer.
     
@@ -112,7 +112,7 @@ BLOCK_SIZE 1000
 
 Mandatory parameters are:
 
-* [`TYPE`]({{< relref "/commands/type" >}}) - Vector type. Current supported types are `FLOAT32` and `FLOAT64`.
+* [`TYPE`]({{< relref "/commands/type" >}}) - Vector type. Current supported types are `FLOAT16`, `FLOAT32` and `FLOAT64`.
     
 * `DIM` - Vector dimension, specified as a positive integer.
     
