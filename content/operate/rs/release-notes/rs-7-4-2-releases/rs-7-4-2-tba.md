@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.2.0
-description: TBA
+description: New `region_name` field for S3 backups. Bug fixes.
 linkTitle: 7.4.2-tba (June 2024)
 weight: 67
 ---
@@ -17,7 +17,7 @@ This is a maintenance release for ​[​Redis Enterprise Software version 7.4.2
 
 This version offers:
 
-- TBA
+- New `region_name` field for S3
 
 - Bug fixes
 
@@ -25,7 +25,7 @@ This version offers:
 
 ### Enhancements
 
-- TBA
+- Added `region_name` field to back up in new S3 regions.
 
 #### Redis module feature sets
 
@@ -57,27 +57,21 @@ Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
 ### Resolved issues
 
-- RS124753: New shards create persistence files after recovery. (https://redislabs.atlassian.net/browse/RED-124753)
+- RS124753: Fixed a bug with databases created using a recovery plan with replication enabled where shards did not write persistence files.
 
-- RS126290: Allow editing an existing Replica Of source's proxy certificate in the Cluster Manager UI. (https://redislabs.atlassian.net/browse/RED-126290)
+- RS126290: Allow editing an existing Replica Of source's proxy certificate in the Cluster Manager UI.
 
-- RS126476: Fixed unexpected connection errors in the DMC proxy log. (https://redislabs.atlassian.net/browse/RED-127421)
+- RS126476: Fixed unexpected connection errors in the DMC proxy log.
 
+- RS126382: Log info when a node fails to join the cluster.
 
-- RS126382: Log info when a node fails to join the cluster. (https://redislabs.atlassian.net/browse/RED-126382)
+- RS126655: Fixed database RAM limit display issue in the Cluster Manager UI.
 
-- RS126655: Fixed database RAM limit display issue in the Cluster Manager UI. (https://redislabs.atlassian.net/browse/RED-126655)
+- RS125930: Fixed a bug where the cluster rejected certificate chains with unknown extensions due to a cryptography bug.
 
-- RS125930: Upgraded Cryptography and PyOpenSSL packages. (https://redislabs.atlassian.net/browse/RED-127633)
+- RS118231: Fixed output of `rladmin tune db` when updating buffer limits fails due to unreachable shards.
 
-- RS124064: Added `region_name` field to back up in new S3 regions. (https://redislabs.atlassian.net/browse/RED-128061)
-
-    - Should I keep this as a resolved issue, or should I add this to the enhancements section?
-
-- RS118231: Fixed output of `rladmin tune db` when updating buffer limits fails due to unreachable shards. (https://redislabs.atlassian.net/browse/RED-128063)
-
-- RS128091: XREADGROUP on CRDB should properly update idle time. (https://redislabs.atlassian.net/browse/RED-128669)
-
+- RS128091: `XREADGROUP` on CRDB should properly update idle time.
 
 ## Version changes
 
