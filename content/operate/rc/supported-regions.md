@@ -10,7 +10,7 @@ linktitle: Supported regions
 weight: 90
 ---
 
-Choosing your cloud provider and region may affect latency between your application and your database, and may affect what connectivity options are available for your database.
+Your choice of cloud provider and region may affect latency between your application and your database, and may affect what connectivity options are available for your database.
 
 Redis Cloud supports databases on the following cloud providers:
 - [Amazon Web Services (AWS)](#amazon-web-services)
@@ -19,7 +19,7 @@ Redis Cloud supports databases on the following cloud providers:
 
 ## Amazon Web Services
 
-Redis Cloud supports databases on all of the following Amazon Web Services (AWS) regions. All regions support Redis Cloud Pro databases, but only certain regions support Redis Cloud Essentials databases. 
+Redis Cloud supports databases in the following Amazon Web Services (AWS) regions. 
 
 Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#aws-vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}).
 
@@ -73,9 +73,9 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 
 ## Google Cloud
 
-Redis Cloud supports databases on all of the following Google Cloud regions. All regions support Redis Cloud Pro databases, but only certain regions support Redis Cloud Essentials databases. 
+Redis Cloud supports databases in the following Google Cloud regions. 
 
-Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#gcp-vpc-peering" >}}) and [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})).
+Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#gcp-vpc-peering" >}}) and [Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}).
 
 ### Americas
 
