@@ -173,6 +173,33 @@ telnet: Unable to connect to remote host: Connection refused
 If you use Docker, Istio, or any other service mesh/sidecar, make sure the app starts after the container is fully available, for example, by configuring healthchecks with Docker and holdApplicationUntilProxyStarts with Istio. 
 For more information, see [Healthcheck](https://docs.docker.com/engine/reference/run/#healthcheck).
 
+### Observability
+
+To monitor go-redis performance and trace the execution of Redis commands, you can install OpenTelemetry instrumentation:
+
+```go
+import (
+    "github.com/redis/go-redis/v9"
+    "github.com/redis/go-redis/extra/redisotel/v9"
+)
+
+rdb := redis.NewClient(&redis.Options{...})
+
+// Enable tracing instrumentation.
+if err := redisotel.InstrumentTracing(rdb); err != nil {
+	panic(err)
+}
+
+// Enable metrics instrumentation.
+if err := redisotel.InstrumentMetrics(rdb); err != nil {
+	panic(err)
+}
+```
+
+OpenTelemetry is a vendor-agnostic observability framework that allows you to export data to Prometheus, Jaeger, Uptrace, and more. OpenTelemetry supports [distributed tracing](https://uptrace.dev/opentelemetry/distributed-tracing.html), metrics, and logs.
+
+You can also use OpenTelemetry for [monitoring Redis](https://uptrace.dev/blog/redis-monitoring.html) performance metrics, which works by periodically executing the Redis `INFO` command and turning results into [OpenTelemetry metrics](https://uptrace.dev/opentelemetry/metrics.html).
+
 ### Learn more
 
 * [Documentation](https://redis.uptrace.dev/guide/)
