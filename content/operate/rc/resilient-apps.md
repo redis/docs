@@ -11,7 +11,7 @@ linkTitle: Develop highly available apps
 weight: 85
 ---
 
-You can set up your Redis Cloud databases and Redis Client libraries that can help your app re-connect to your database after unexpected failover events or network outages and minimize data losses. 
+You can set up your Redis Cloud databases and Redis Client libraries to ensure your app re-connects to your database after unexpected failover events or network outages and minimize data losses. 
 
 ## Set up databases
 
@@ -30,21 +30,21 @@ Redis Cloud supports the following data persistence options:
 Append-only files provide greater protection than snapshots at the cost of resources and recovery time. 
 Although snapshot recovery is faster, the risk of data loss is higher, depending on the time between failure and the most recent snapshot.
 
-If you do not enable data persistence, your data will be lost when the database goes down. We recommend that you enable data persistence for all production databases. You can turn on data persistence when you create or edit your database. 
+If you do not enable data persistence, your data may be lost if the database goes down. It is best practice to  enable data persistence for all production databases. You can turn on data persistence when you create or edit your database. 
 
 ### Enable replication
 
-[Database replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) allows for automatic failover and greater fault tolerance. It can prevent data loss in the event of a hardware or zone failure. 
+[Database replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) allows for automatic failover and greater fault tolerance. Replication can prevent data loss in the event of a hardware or zone failure. 
 
 Redis Cloud supports these replication settings:
 
 - **No replication**: You will have a single copy of your database in one zone. If anything happens to your database, your app will not be able to connect to it. 
 - **Single-Zone**: Your database will have a primary dataset and a replica dataset located in the same cloud zone. If anything happens to the primary database, the replica takes over and becomes the new primary. Your app will connect to the new primary database automatically with the same endpoint.
-- **Multi-Zone** _(or Multi-AZ)_: The primary and its replicas are stored in different availability zones. This means that your database can remain online even if an entire availability zone becomes unavailable.
+- **Multi-Zone** _(or Multi-AZ)_: The primary and its replicas are stored in different availability zones. This means that your app will connect to the new primary database zone automatically if an entire availability zone becomes unavailable.
 
 You can enable replication when you create your database. You can switch between no replication and single-zone replication after your create your database. However, you can't switch from no replication or single-zone replication to multi-zone replication.
 
-We recommend that you enable replication for any databases that need to be highly available.
+It is best practice to enable replication for any databases that need to be highly available.
 
 ### Create Active-Active database
 
@@ -54,7 +54,7 @@ Active-Active Redis allows you to [manually fail over to a different region]({{<
 
 To create Active-Active databases, you need to create a Redis Cloud Pro subscription, then enable Active-Active Redis and define the regions for each copy of your databases. See [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for instructions.
 
-If you decide to use Active-Active with [Jedis]({{< relref "/develop/connect/clients/java/jedis" >}}), you can use Jedis to fail over between regions if one regions becomes unavailable. See [Failover with Jedis](https://github.com/redis/jedis/blob/master/docs/failover.md) to learn how to failover to a different Active-Active region.
+If you decide to use Active-Active with [Jedis]({{< relref "/develop/connect/clients/java/jedis" >}}), you can use Jedis to fail over between regions if one region becomes unavailable. See [Failover with Jedis](https://github.com/redis/jedis/blob/master/docs/failover.md) to learn how to failover to a different Active-Active region.
 
 ### Set manual maintenance windows
 
@@ -64,7 +64,7 @@ For stable apps, you may want to control when Redis can perform maintenance on y
 
 ## Set up Redis clients
 
-When you're developing your apps, we recommend that you use specific Redis Client features to connect to Redis Cloud if they are available for your preferred client.
+When you're developing your apps, it is best to use specific Redis Client features to connect to Redis Cloud if they are available for your preferred client.
 
 See [Clients]({{< relref "/develop/connect/clients/" >}}) to learn how to connect with the official Redis clients.
 

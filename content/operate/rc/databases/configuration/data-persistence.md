@@ -41,7 +41,7 @@ The availability of the setting depends on your plan:
 
 - Free Redis Cloud Essentials plans do not support data persistence; the setting is disabled entirely.
 
-- Paid Redis Cloud Essentials plans support AoF every second and all snapshot options.
+- Paid Redis Cloud Essentials plans support AOF every second and all snapshot options.
 
 - Redis Cloud Pro enables data persistence settings for every database.
 
