@@ -12,23 +12,24 @@ RDI implements
 [change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC)
 with *pipelines*. (See the
 [architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
-for an introduction to pipelines.) There are two basic types of pipeline:
-
-- *Ingest* pipelines capture data from an external source database
-  and add it to a Redis target database.
-- [*Write-behind*]({{< relref "/integrate/redis-data-integration/write-behind/architecture" >}})
-  pipelines capture data from a Redis source database and add it to an external target database.
+for an introduction to pipelines.)
 
 ## Overview
 
-Pipelines *transform* the data that RDI captures from the source into a Redis data
-type that is suitable for the target. RDI provides a default transformation
-for the data but you can also provide your own custom transformation [jobs](#job-files)
-for each source table. You specify these jobs declaratively with YAML configuration files
-that require no coding.
+An RDI pipeline captures change data records from the source database, and transforms them
+into Redis data structures. It writes each of these new structures to a Redis target
+database under its own key. 
+
+By default, RDI transforms the source data into
+[hashes]({{< relref "/develop/data-types/hashes" >}}) or
+[JSON objects]({{< relref "/develop/data-types/json" >}}) for the target with a
+standard data mapping and a standard format for the key.
+However, you can also provide your own custom transformation [jobs](#job-files)
+for each source table, using your own data mapping and key pattern. You specify these
+jobs declaratively with YAML configuration files that require no coding.
 
 The data tranformation involves two separate stages. First, the data ingested by
-[Debezium](https://debezium.io/) is automatically transformed to a Redis JSON format. Then,
+[Debezium](https://debezium.io/) is automatically transformed to a JSON format. Then,
 this JSON data gets passed on to your custom transformation for further processing.
 
 You can provide a job file for each source table you want to transform, but you
@@ -40,9 +41,10 @@ As part of the transformation, you can specify whether you want to store the
 data in Redis as
 [JSON objects]({{< relref "/develop/data-types/json" >}}),
 [hashes]({{< relref "/develop/data-types/hashes" >}}),
-[sets]({{< relref "/develop/data-types/sets" >}}), or
-[streams]({{< relref "/develop/data-types/streams" >}})
-.
+[sets]({{< relref "/develop/data-types/sets" >}}),
+[streams]({{< relref "/develop/data-types/streams" >}}),
+[sorted sets]({{< relref "/develop/data-types/sorted-sets" >}}), or
+[strings]({{< relref "/develop/data-types/strings" >}}).
 
 The diagram below shows the flow of data through the pipeline:
 
@@ -241,7 +243,7 @@ The main sections of these files are:
   - `with`:
     - `connection`: Connection name as defined in `config.yaml` (by default, the connection named `target` is used).
     - `data_type`: Target data structure when writing data to Redis. The supported types are `hash`, `json`, `set`,
-    and `stream`.
+   `sorted_set`, `stream` and `string`.
     - `key`: This lets you override the default key for the data structure with custom logic:
       - `expression`: Expression to generate the key.
       - `language`: Expression language, which must be `jmespath` or `sql`.
