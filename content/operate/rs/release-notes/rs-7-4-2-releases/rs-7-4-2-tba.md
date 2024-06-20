@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.2.0
-description: New `region_name` field for S3 backups. Bug fixes.
+description: region_name field for new AWS S3 regions. Bug fixes.
 linkTitle: 7.4.2-tba (June 2024)
 weight: 67
 ---
@@ -17,7 +17,7 @@ This is a maintenance release for ​[​Redis Enterprise Software version 7.4.2
 
 This version offers:
 
-- New `region_name` field for S3
+- `region_name` field for new AWS S3 regions
 
 - Bug fixes
 
@@ -25,7 +25,7 @@ This version offers:
 
 ### Enhancements
 
-- Added `region_name` field to back up in new S3 regions.
+- Added the `region_name` field in the REST API to import, export, and back up data in new AWS S3 regions.
 
 #### Redis module feature sets
 
