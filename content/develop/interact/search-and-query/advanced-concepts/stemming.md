@@ -56,11 +56,11 @@ redis> HSET wort:4 wort stucke
 
 **Searching for a common stem**
 
-Search for "stuck" (german for "piece"). It's necessary to specify in which language the terms on the query are using `LANGUAGE` argument.
+Search for "stuck" (german for "piece"). It's only necessary to specify the `LANGUAGE` argument when it wasn't specified to create the index being used to search.
 Note the results for words that contains "`ü`" are encoded in UTF-8.
 
 {{< highlight bash >}}
-redis> FT.SEARCH idx:german '@wort:(stuck)' LANGUAGE German
+redis> FT.SEARCH idx:german '@wort:(stuck)' German
 1) (integer) 4
 2) "wort:3"
 3) 1) "wort"

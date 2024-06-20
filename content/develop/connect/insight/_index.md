@@ -33,9 +33,25 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis or
 
 * Automatically discover and add your local Redis or Redis Stack databases (that use standalone connection type and do not require authentication).
 * Discover your databases in Redis Enterprise Cluster and databases with Flexible plans in Redis Cloud.
-* Use a form to enter your connection details and add any Redis database running anywhere (including OSS Cluster, Sentinel).
+* Use a form to enter your connection details and add any Redis database running anywhere (including Redis Community Edition Cluster or Sentinel).
 
 <img src="images/Databases.png">
+
+### Redis Copilot
+
+Redis Copilot is an AI-powered developer assistant that helps you learn about Redis, explore your Redis data, and build search queries in a conversational manner. It is available in Redis Insight as well as within the Redis public documentation.
+
+Currently, Redis Copilot provides two primary features: a general chatbot and a context-aware data chatbot.
+
+**General chatbot**: the knowledge-based chatbot serves as an interactive and dynamic documentation interface to simplify the learning process. You can ask specific questions about Redis commands, concepts, and products, and get responses on the fly. The general chatbot is also available in our public docs.
+
+**My data chatbot**: the context-aware chatbot available in Redis Insight lets you construct search queries using everyday language rather than requiring specific programming syntax. This feature lets you query and explore data easily and interactively without extensive technical knowledge.
+
+Here's an example of using Redis Copilot to search data using a simple, natural language prompt.
+
+<img src="images/copilot-example.png">
+
+See the [Redis Insight Copilot FAQ]({{< relref "/develop/connect/insight/copilot-faq" >}}) for more information.
 
 ### Browser
 

@@ -9,7 +9,7 @@ description: Lists search and query commands and provides links to the command r
   pages.
 linkTitle: Commands
 toc: 'false'
-weight: 25
+weight: 10
 ---
 
 The following table lists search and query commands. See the command links for more information about each command's syntax, arguments, and examples.

@@ -182,22 +182,12 @@ This argument has no effect when a new time series is created by this command.
 
 is the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:
 
-  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `ignoreMaxTimeDiff`;
-  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `ignoreMaxValDiff`;
-  - The sample is added in-order (`timestamp ≥ max_timestamp`).
-
-This can be expressed algorithmically as follows:
-
-```
-if ((series is not a compaction) &&
-    (series' DUPLICATE_POLICY == LAST) &&
-    (timestamp ≥ max_timestamp) &&
-    (timestamp - max_timestamp ≤ ignoreMaxTimeDiff) &&
-    abs(value - value_at_max_timestamp) ≤ ignoreMaxValDiff))
-    
-    ignore sample
-```
-
+  - The time series is not a compaction;
+  - The time series' `DUPLICATE_POLICY` IS `LAST`;
+  - The sample is added in-order (`timestamp ≥ max_timestamp`);
+  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `IGNORE_MAX_TIME_DIFF`;
+  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`.
+ 
 where `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.
 
 When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
@@ -215,7 +205,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 <note><b>Notes:</b>
 - You can use this command to create a new time series and add data to it in a single command.
-  `RETENTION`, `ENCODING`, `CHUNK_SIZE`, `DUPLICATE_POLICY`, and `LABELS` are used only when creating a new time series, and ignored when adding samples to an existing time series.
+  `RETENTION`, `ENCODING`, `CHUNK_SIZE`, `DUPLICATE_POLICY`, `IGNORE`, and `LABELS` are used only when creating a new time series, and ignored when adding samples to an existing time series.
 - Setting `RETENTION` and `LABELS` introduces additional time complexity.
 </note>
 
@@ -223,7 +213,7 @@ Use it only if you are creating a new time series. It is ignored if you are addi
 
 Returns one of these replies:
 
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample. For an element that is ignored (see the `IGNORE` parameter above), the value will be `max_timestamp`.
+- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the timestamp of the upserted sample. If the sample is ignored (See `IGNORE` in [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/)), the reply will be the largest timestamp in the time series.
 - [] on error (invalid arguments, wrong key type, etc.), when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp
 
 ## Complexity

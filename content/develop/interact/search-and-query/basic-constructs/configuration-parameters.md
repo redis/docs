@@ -72,6 +72,7 @@ The following table summarizes which configuration parameters can be set at modu
 | [CONCURRENT_WRITE_MODE](#concurrent_write_mode)     | :white_check_mark: | :white_check_mark:   |
 | [EXTLOAD](#extload)                                 | :white_check_mark: | :white_check_mark:   |
 | [MINPREFIX](#minprefix)                             | :white_check_mark: | :white_check_mark:   |
+| [MINSTEMLEN](#minstemlen)                           | :white_check_mark: | :white_check_mark:   |
 | [MAXPREFIXEXPANSIONS](#maxprefixexpansions)         | :white_check_mark: | :white_check_mark:   |
 | [MAXDOCTABLESIZE](#maxdoctablesize)                 | :white_check_mark: | :white_check_mark:   |
 | [MAXSEARCHRESULTS](#maxsearchresults)               | :white_check_mark: | :white_check_mark:   |
@@ -208,6 +209,22 @@ The minimum number of characters allowed for prefix queries (e.g., `hel*`). Sett
 
 ```
 $ redis-server --loadmodule ./redisearch.so MINPREFIX 3
+```
+
+---
+
+### MINSTEMLEN
+
+The minimum word length to stem. The default value is `4`. Setting it lower than `4` can reduce performance.
+
+#### Default
+
+4
+
+#### Example
+
+```
+$ redis-server --loadmodule ./redisearch.so MINSTEMLEN 3
 ```
 
 ---
@@ -502,7 +519,7 @@ $ redis-server --loadmodule ./redisearch.so UPGRADE_INDEX idx PREFIX 1 tt LANGUA
 
 ### OSS_GLOBAL_PASSWORD
 
-Global oss cluster password that will be used to connect to other shards.
+Global Redis Community Edition cluster password that will be used to connect to other shards.
 
 #### Default
 

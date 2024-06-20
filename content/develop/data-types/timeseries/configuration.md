@@ -44,17 +44,17 @@ $ redis-server --loadmodule ./redistimeseries.so [OPT VAL]...
 
 The following table summarizes which configuration parameters can be set at module load-time and run-time:
 
-| Configuration Parameter                                                     | Load-time          | Run-time             |
-| :-------                                                                    | :-----             | :-----------         |
-| [NUM_THREADS](#num_threads) (since RedisTimeSeries v1.6)                    | :white_check_mark: | :white_large_square: |
-| [COMPACTION_POLICY](#compaction_policy)                                     | :white_check_mark: | :white_large_square: |
-| [RETENTION_POLICY](#retention_policy)                                       | :white_check_mark: | :white_large_square: |
-| [DUPLICATE_POLICY](#duplicate_policy)                                       | :white_check_mark: | :white_large_square: |
-| [ENCODING](#encoding) (since RedisTimeSeries v1.6)                          | :white_check_mark: | :white_large_square: |
-| [CHUNK_SIZE_BYTES](#chunk_size_bytes)                                       | :white_check_mark: | :white_large_square: |
-| [OSS_GLOBAL_PASSWORD](#oss_global_password) (since RedisTimeSeries v1.8.4)  | :white_check_mark: | :white_large_square: |
+| Configuration Parameter                                                                             | Load-time          | Run-time             |
+| :-------                                                                                            | :-----             | :-----------         |
+| [NUM_THREADS](#num_threads) (since RedisTimeSeries v1.6)                                            | :white_check_mark: | :white_large_square: |
+| [COMPACTION_POLICY](#compaction_policy)                                                             | :white_check_mark: | :white_large_square: |
+| [RETENTION_POLICY](#retention_policy)                                                               | :white_check_mark: | :white_large_square: |
+| [DUPLICATE_POLICY](#duplicate_policy)                                                               | :white_check_mark: | :white_large_square: |
+| [ENCODING](#encoding) (since RedisTimeSeries v1.6)                                                  | :white_check_mark: | :white_large_square: |
+| [CHUNK_SIZE_BYTES](#chunk_size_bytes)                                                               | :white_check_mark: | :white_large_square: |
+| [OSS_GLOBAL_PASSWORD](#oss_global_password) (since RedisTimeSeries v1.8.4)                          | :white_check_mark: | :white_large_square: |
 | [IGNORE_MAX_TIME_DIFF](#ignore_max_time_diff-and-ignore_max_val_diff) (since RedisTimeSeries v1.12) | :white_check_mark: | :white_large_square: |
-| [IGNORE_MAX_VAL_DIFF](#ignore_max_time_diff-and-ignore_max_val_diff) (since RedisTimeSeries v1.12)   | :white_check_mark: | :white_large_square: |
+| [IGNORE_MAX_VAL_DIFF](#ignore_max_time_diff-and-ignore_max_val_diff) (since RedisTimeSeries v1.12)  | :white_check_mark: | :white_large_square: |
 
 ### NUM_THREADS
 
@@ -72,7 +72,7 @@ $ redis-server --loadmodule ./redistimeseries.so NUM_THREADS 3
 
 ### COMPACTION_POLICY
 
-Default compaction rules for newly created key with [`TS.ADD`]({{< baseurl >}}/commands/ts.add/).
+Default compaction rules for newly created key with [`TS.ADD`]({{< baseurl >}}/commands/ts.add/), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby/), and  [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby/).
 
 Note that `COMPACTION_POLICY` has no effect on keys created with [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/). To understand the motivation for this behavior, consider the following scenario: Suppose a `COMPACTION_POLICY` is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< baseurl >}}/commands/ts.createrule/)) which requires first creating an empty destination key (using [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/)). But now there is a problem: due to the `COMPACTION_POLICY`, automatic compactions would be undesirably created for that destination key.
 
@@ -237,7 +237,7 @@ $ redis-server --loadmodule ./redistimeseries.so COMPACTION_POLICY max:1m:1h; CH
 
 ### OSS_GLOBAL_PASSWORD
 
-Global OSS cluster password used for connecting to other shards.
+Global Redis Community Edition cluster password used for connecting to other shards.
 
 #### Default
 
@@ -251,11 +251,19 @@ $ redis-server --loadmodule ./redistimeseries.so OSS_GLOBAL_PASSWORD password
 
 ### IGNORE_MAX_TIME_DIFF and IGNORE_MAX_VAL_DIFF
 
+Default values for newly created keys.
+
+Many sensors report data periodically. Often, the difference between the measured value and the previous measured value is negligible and related to random noise or to measurement accuracy limitations. In such situations it may be preferable not to add the new measurement to the time series.
+
 A new sample is considered a duplicate and is ignored if the following conditions are met:
 
+1. The time series is not a compaction;
+1. The time series' `DUPLICATE_POLICY` IS `LAST`;
+1. The sample is added in-order (`timestamp ≥ max_timestamp`);
 1. The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `IGNORE_MAX_TIME_DIFF`;
-1. The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`;
-1. The sample is added in-order (`timestamp ≥ max_timestamp`).
+1. The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`.
+
+where `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.
 
 #### Defaults
 

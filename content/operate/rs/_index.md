@@ -54,7 +54,7 @@ Use command-line utilities and the REST API to manage the cluster and databases.
 
 ## Related info
 - [Redis Cloud]({{< relref "/operate/rc" >}})
-- [Source available Redis]({{< relref "/operate/oss_and_stack" >}})
+- [Redis Community Edition]({{< relref "/operate/oss_and_stack" >}})
 - [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}})
 - [Glossary]({{< relref "/glossary" >}})
 
