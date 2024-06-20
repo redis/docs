@@ -8,7 +8,7 @@ categories:
 description: Search and query configuration settings supported by Redis Enterprise.
 linkTitle: Configuration
 toc: 'false'
-weight: 30
+weight: 15
 ---
 
 You cannot use [`FT.CONFIG SET`]({{< relref "/commands" >}}/ft.config-set) to configure RediSearch in [Redis Enterprise Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}). Instead, use one of the following methods.
