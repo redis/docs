@@ -15,7 +15,7 @@
           {{ .Title }}
         </h1>
 
-        {{ with .Params.description }}<p class="text-lg -mt-5 mb-10">{{ . | markdownify }}</p>{{ end }}
+        {{ with .Params.description }}<p class="text-lg -mt-2 mb-2">{{ . | markdownify }}</p>{{ end }}
         {{ if .Params.categories }}
 <div class="post-categories" style="display: table;">
   <table style="border-collapse: separate; border-spacing: 0; background-color: #ffffff;">
@@ -40,7 +40,7 @@
             {{ $displayName = "Redis Enterprise for Kubernetes" }}
             {{ $color = "#8A99A0" }}
           {{ else if eq $element "oss" }}
-            {{ $displayName = "Redis Source Available" }}
+            {{ $displayName = "Redis Community Edition" }}
             {{ $color = "#C795E3" }}
           {{ else if eq $element "stack" }}
             {{ $displayName = "Redis Stack" }}
