@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- kubernetes
 description: Configure paths for persistent storage and ephemeral storage.
 linktitle: Persistent node storage
 toc: 'true'
