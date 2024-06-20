@@ -29,7 +29,7 @@
           {{ $displayName := $element }}
           {{ $color := "#ffffff" }} <!-- Default background color (white) -->
           {{ if eq $element "rs" }}
-            {{ $displayName = "Redis Enterprise Software" }}
+            <a href="{{ "categories/" | relLangURL }}{{ . | urlize }}">{{ $displayName = "Redis Enterprise Software" }}</a>
             {{ $color = "#DCFF1E" }}
           {{ else if eq $element "rc" }}
             {{ $displayName = "Redis Cloud" }}
