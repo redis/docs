@@ -77,7 +77,7 @@ Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
 ### Product lifecycle updates
 
-Redis Enterprise Software version 6.2 is approaching end-of-life, scheduled for August 31, 2024. After this date, version 6.2 will not be included in [supported upgrade paths]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}) for future major releases of Redis Enterprise Software.
+Redis Enterprise Software version 6.2 is approaching end-of-life, scheduled for August 31, 2024. After this date, version 6.2 will not be included in [supported upgrade paths]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}) for major releases of Redis Enterprise Software.
 
 See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
 
@@ -152,7 +152,7 @@ Redis 7.0.x:
 
 - (CVE-2023-28856) Authenticated users can use the `HINCRBYFLOAT` command to create an invalid hash field that will crash Redis on access. (Redis 7.0.11)
 
-- (CVE-2023-28425) Specially crafted `MSETNX` command can lead to assertion and denial-of-service. (Redis 7.0.10)
+- (CVE-2023-28425) A specially crafted `MSETNX` command can lead to assertion and denial-of-service. (Redis 7.0.10)
 
 - (CVE-2023-25155) Specially crafted `SRANDMEMBER`, `ZRANDMEMBER`, and `HRANDFIELD` commands can trigger an integer overflow, resulting in a runtime assertion and termination of the Redis server process. (Redis 7.0.9)
 
