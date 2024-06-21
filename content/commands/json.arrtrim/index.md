@@ -87,7 +87,7 @@ For more information about replies, see [Redis serialization protocol specificat
 Create two headphone products with maximum sound levels.
 
 {{< highlight bash >}}
-redis> JSON.GET key $
+redis> JSON.SET key $
 "[[{\"name\":\"Healthy headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"],\"max_level\":[60,70,80]},{\"name\":\"Noisy headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"],\"max_level\":[85,90,100,120]}]]"
 OK
 {{< / highlight >}}
