@@ -4,6 +4,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Overview of how developing applications differs for Active-Active databases
   from standalone Redis databases.
 linkTitle: Develop for Active-Active

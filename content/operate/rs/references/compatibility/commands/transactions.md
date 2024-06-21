@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Transaction commands compatibility.
 linkTitle: Transactions
 weight: 10

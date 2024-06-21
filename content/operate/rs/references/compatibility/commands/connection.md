@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Connection management commands compatibility.
 linkTitle: Connection management
 weight: 10
