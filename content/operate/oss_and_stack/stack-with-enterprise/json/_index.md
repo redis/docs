@@ -14,7 +14,7 @@ weight: 30
 
 Redis Stack adds support for the [JSON data structure](http://www.json.org/) to Redis databases.
 
-Applications developed with the [open source version of RedisJSON](https://github.com/RedisJSON/RedisJSON) are 100%
+Applications developed with the [source available version of RedisJSON](https://github.com/RedisJSON/RedisJSON) are 100%
 compatible with Redis Enterprise databases with JSON enabled.
 
 ## JSON paths

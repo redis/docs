@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- kubernetes
 description: Recover a database after the cluster fails or the database is corrupted.
 linktitle: Recover
 weight: 35

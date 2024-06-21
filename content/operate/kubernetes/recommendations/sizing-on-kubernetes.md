@@ -114,6 +114,8 @@ Then, apply the file by running:
     kubectl apply -f redis-enterprise-cluster.yaml
 
 {{< warning >}}
-Be aware that [persistent volume size]({{< relref "/operate/kubernetes/recommendations/persistent-volumes.md" >}}) cannot be changed after deployment. When adjusting compute resources, make sure the ratio of persistent volume size and the new memory size are in accordance to the [Hardware
-requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
+When adjusting compute resources, make sure the ratio of persistent volume size and the new memory size are in accordance to the [Hardware
+requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}). 
+
+Persistent volume claims can be expanded, but not reduced after creation. See [Expand PersistentVolumeClaim (PVC)]({{<relref "/operate/kubernetes/re-clusters/expand-pvc">}}) for details.
 {{< /warning >}}

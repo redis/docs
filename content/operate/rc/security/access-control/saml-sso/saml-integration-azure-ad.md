@@ -1,17 +1,16 @@
 ---
-Title: Azure Active Directory SAML integration guide
+Title: Microsoft Entra (formerly Azure Active Directory) SAML integration guide
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
-description: This integration guide shows how to set up Microsoft Azure Active Directory
-  (Azure AD) as a SAML single sign on provider for your Redis Cloud account.
-linkTitle: Azure AD integration
+description: This integration guide shows how to set up Microsoft Entra as a SAML single sign on provider for your Redis Cloud account.
+linkTitle: Microsoft Entra integration
 weight: 10
 ---
 
-This guide shows how to configure [Microsoft Azure Active Directory](https://learn.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-architecture) (Azure AD) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.
+This guide shows how to configure [Microsoft Entra](https://learn.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-architecture) (formerly Azure Active Directory) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.
 
 To learn more about Redis Cloud support for SAML, see [SAML single sign on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 
@@ -19,29 +18,29 @@ Before completing this guide, you must [verify ownership of any domains]({{< rel
 
 ## Step 1: Set up your identity provider (IdP)
 
-To create the Azure AD SAML Toolkit integration application:
+To create the Microsoft Entra SAML Toolkit integration application:
 
-1. Sign in to Microsoft Azure account.
+1. Sign in to your Microsoft Azure account.
 
-1. From the main menu, select **Azure Active Directory > Enterprise Applications**
+1. From the main menu, select **Microsoft Entra ID > Enterprise Applications**. Select **New application** to add a new application.
 
     {{<image filename="images/rc/saml/ad_saml_1.png" >}}
 
-1. Add a **New Application > Azure AD SAML Toolkit**.
+1. Select **Microsoft Entra SAML Toolkit** from the list of apps.
 
     {{<image filename="images/rc/saml/ad_saml_2.png" >}}
 
-1. Provide an application name and select **Create**.
+1. Name the application **Redis Cloud** and then select **Create**. 
 
     {{<image filename="images/rc/saml/ad_saml_3.png" >}}
 
-1. Select **Properties** and upload the Redis logo. Select **Save**.
+1. Select **Properties** and upload the Redis logo. 
 
     {{<image filename="images/rc/saml/ad_saml_17.png" >}}
 
-    {{<image filename="images/rc/saml/ad_saml_18.png" >}}
+    Select **Save**.
 
-1. Once the application is created, select **Set up single sign on**.
+1. Once you've created the application, go to the **Application Overview** and select **Set up single sign on**.
 
     {{<image filename="images/rc/saml/ad_saml_4.png" >}}
 
@@ -49,28 +48,30 @@ To create the Azure AD SAML Toolkit integration application:
 
     {{<image filename="images/rc/saml/ad_saml_5.png" >}}
 
-1. Scroll down to **Step 4** in the configuration screen, and note down or copy the following information:
+1. Go to **Step 1** in the configuration screen and select **Edit**.
 
-   * **Login URL** is used as the "IdP server URL" in the SAML configuration in admin console.
-   * **Azure AD Identifier** is used as the "Issuer (IdP Entity ID)" in the SAML configuration in admin console.
-  
-    {{<image filename="images/rc/saml/ad_saml_6.png" >}}
-
-1. Scroll up to **Step 3** in the configuration screen.
-
-   * Certificate (Base 64) is required to complete the SAML configuration in admin console.
-
-     {{<image filename="images/rc/saml/ad_saml_7.png" >}}
-
-1. Scroll up to **Step 1** in the configuration screen and enter some mock data in the required fields. Select **Save**.
+    Enter some mock data in the required fields.
 
     {{<image filename="images/rc/saml/ad_saml_8.png" >}}
 
-   The certificate is available for download. Select Download to save the certificate to your hard drive.
+    Select **Save** to save your changes.
+
+1. Go to **Step 3** in the configuration screen.
+
+   * Certificate (Base 64) is required to complete SAML configuration in the Redis Cloud console. Select **Download** to download it.
+
+     {{<image filename="images/rc/saml/ad_saml_7.png" >}}
+
+1. Go to **Step 4** in the configuration screen, and note down or copy the following information:
+
+   * **Login URL** is used as the "IdP server URL" in the SAML configuration in admin console.
+   * **Microsoft Entra Identifier** is used as the "Issuer (IdP Entity ID)" in the SAML configuration in admin console.
+  
+    {{<image filename="images/rc/saml/ad_saml_6.png" >}}
 
 ## Step 2: Configure SAML support in Redis Cloud
 
-Now that you have your AD IdP server ready, configure support for SAML in Redis Cloud.
+Now that you have your Entra IdP server ready, configure support for SAML in Redis Cloud.
 
 ### Sign in to Redis Cloud
 
@@ -82,7 +83,7 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
 1. Fill in the information you saved previously in the **setup** form. This includes :
 
-   * **Issuer (IdP Entity ID)**: Azure AD Identifier
+   * **Issuer (IdP Entity ID)**: Microsoft Entra Identifier
    * **IdP server URL**: Login URL
    * **Assertion signing certificate**: Drag-and-drop the certificate file you downloaded to disk in the form text area
 
@@ -104,9 +105,9 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
     {{<image filename="images/rc/saml/sm_saml_5.png" >}}
 
-## Step 3: Finish SAML configuration in Azure AD
+## Step 3: Finish SAML configuration in Microsoft Entra ID
 
-1. Go back to Azure setup and **Edit** the Basic SAML Configuration in **Step 1**. 
+1. Go back to Microsoft Entra ID setup and **Edit** the Basic SAML Configuration in **Step 1**. 
    
    This is where you entered mock data. Let's now enter the correct data for this step.
 
@@ -137,10 +138,16 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
         * **Email**: user.mail
         * **FirstName**: user.givenname
         * **LastName**: user.surname
-        * **redisAccountMapping**: "YOUR_SM_ACCOUNT_ID=owner"
-        * Redis Cloud account IDs and user roles pairs. The key-value pair consists of the lowercase role name (owner, member, manager, billing_admin, or viewer) and your **Redis Cloud Account ID** found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}).
+        * **redisAccountMapping**: "<sm_account_id>=owner"
+            * The `redisAccountMapping` contains Redis Cloud account IDs and user roles pairs. The key-value pair consists of the lowercase role name (owner, member, manager, billing_admin, or viewer) and your **Redis Cloud Account ID** found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}). 
 
           {{<image filename="images/rc/saml/ad_saml_14.png" >}}
+        
+        {{<note>}}
+Make sure the **Namespace** field is empty when modifying these claims.
+
+{{<image filename="images/rc/saml/ad_saml_namespace_field.png" >}}
+        {{</note>}}
 
 1. To add a user to the application, select **User and Groups > Add user/group**.
 
@@ -156,11 +163,11 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
     {{<image filename="images/rc/saml/sm_saml_8.png" >}}
 
-1. A popup appears, explaining that to test the SAML connection, you need to log in with the credentials of a user defined in Azure AD.
+1. A popup appears, explaining that you must log in with the credentials of a Microsoft Entra user to test the SAML connection.
 
     {{<image filename="images/rc/saml/sm_saml_9.png" >}}
 
-1. The Microsoft AD login screen will appear. Enter the credentials and click **Sign In**.
+1. The Microsoft login screen will appear. Enter the credentials and click **Sign In**.
 
     {{<image filename="images/rc/saml/ad_saml_19.png" >}}
 
