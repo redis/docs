@@ -148,12 +148,16 @@ configuration contains the following data:
   - `sink`: All advanced properties for writing to RDI (TLS, memory threshold, etc).
     See the Debezium [Redis stream properties](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream)
     page for the full set of available properties.
-  - `source`: All advanced connector properties (for example, RAC nodes). See the
+  - `source`: All advanced connector properties (for example, RAC nodes).
+    See [Database-specific connection properties](#db-connect-props) below and also
+    see the
     Debezium [Connectors](https://debezium.io/documentation/reference/stable/connectors/)
-    page for the full set of available properties.
+    pages for more information about the properties available for each database type.
   - `quarkus`: All advanced properties for Debezium server, such as the log level. See the
     Quarkus [Configuration options](https://quarkus.io/guides/all-config)
     docs for the full set of available properties.
+
+    
 
 ### Targets
 
@@ -164,6 +168,52 @@ with a unique name that you are free to choose (here, we have used
 `type` of target database, which will generally be `redis` along with the
 `host` and `port` of the server. You can also supply connection credentials
 and TLS/mTLS secrets here if you use them.
+
+### Database-specific connection properties {#db-connect-props}
+
+Use the following properties in the [`sources.advanced.source`](#sources) section
+of `config.yaml` for more control over RDI's connection to your database.
+
+#### MySQL/MariaDB
+
+See the
+[Debezium SSL mode properties](https://debezium.io/documentation/reference/stable/connectors/mysql.html#mysql-property-database-ssl-mode)
+for a full list of properties specific to MySQL/MariaDB.
+
+- [`database.ssl.keystore`](https://debezium.io/documentation/reference/stable/connectors/mysql.html#mysql-property-database-ssl-keystore):
+  (Optional) The location of the key store file. Use this for two-way authentication between
+  your client and the MySQL/MariaDB Server.
+- [`database.ssl.keystore.password`](https://debezium.io/documentation/reference/stable/connectors/mysql.html#mysql-property-database-ssl-keystore-password):
+  (Optional) The password for the key store file. You only need this if you have also configured
+  `database.ssl.keystore`.
+- [`database.ssl.truststore`](https://debezium.io/documentation/reference/stable/connectors/mysql.html#mysql-property-database-ssl-truststore):
+  The location of the trust store file to use for server certificate verification.
+- [`database.ssl.truststore.password`](https://debezium.io/documentation/reference/stable/connectors/mysql.html#mysql-property-database-ssl-truststore-password):
+  The password for the trust store file. This is required both to check the integrity of the truststore
+  and to unlock it.
+
+#### PostgreSQL
+
+See the
+[Debezium connector properties](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-connector-properties)
+for a full list of properties specific to PostgreSQL.
+
+- [`database.sslcert`](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-property-database-sslcert):
+  The file path for the client's SSL certificate for the client. See
+  [Database Connection Control Functions](https://www.postgresql.org/docs/current/libpq-connect.html)
+  in the PostgreSQL docs for more information.
+- [`database.sslkey`](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-property-database-sslkey):
+  The file path for the client's SSL private key. See
+  [Database Connection Control Functions](https://www.postgresql.org/docs/current/libpq-connect.html)
+  in the PostgreSQL docs for more information.
+- [`database.sslpassword`](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-property-database-sslpassword):
+  The password for the client's private key file as specified `database.sslkey`. See
+  [Database Connection Control Functions](https://www.postgresql.org/docs/current/libpq-connect.html)
+  in the PostgreSQL docs for more information.
+- [`database.sslrootcert`](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-property-database-sslrootcert):
+  The file path for the root certificate(s) used to validate the server. See
+  [Database Connection Control Functions](https://www.postgresql.org/docs/current/libpq-connect.html)
+  in the PostgreSQL docs for more information.
 
 ## Job files
 
