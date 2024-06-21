@@ -79,3 +79,9 @@ View your [client's docs]({{< relref "/develop/connect/clients/" >}}) to learn m
 Your application may disconnect from your database either during planned maintenance or for other, unplanned reasons. Most Redis clients are set to refresh their DNS address when they reconnect to the database, and you will not be required to perform any further action. If you encounter connectivity problems for more than a minute during maintenance then you should refresh your DNS entries. 
 
 Depending on the client, you may be recommended to turn off the DNS cache entirely. Refer to your [client's docs]({{< relref "/develop/connect/clients/" >}}) to learn more.
+
+### Use the WAIT and WAITAOF commands
+
+The [WAIT]({{< relref "/commands/wait/" >}}) and [WAITAOF]({{< relref "/commands/waitaof/" >}}) commands block the current client until all previous write commands are persisted between replicas. With these commands, your application guarantees that acknowledged writes are recorded between replicas. 
+
+For more info, see [Use the WAIT command for strong consistency]({{< relref "/operate/rs/clusters/optimize/wait/" >}}).
