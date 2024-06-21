@@ -8,6 +8,21 @@
                 { "title": "Redis and RAG", "relref": "/develop/get-started/rag" },
                 { "title": "FAQ", "relref": "/develop/get-started/faq" }
             ]
+        },
+        {
+            "title": "Connect", "relref": "/develop/connect", "children": [
+                { "title": "CLI", "relref": "/develop/connect/cli"},
+                { "title": "Redis Insight", "relref": "/develop/connect/insight"},
+                {
+                    "title": "Client libraries", "relref": "/develop/connect/clients", "children": [
+                        { "title": "Python", "relref": "/develop/connect/clients/python"},
+                        { "title": "C#", "relref": "/develop/connect/clients/dotnet"},
+                        { "title": "Node.js", "relref": "/develop/connect/clients/nodejs"},
+                        { "title": "Java", "relref": "/develop/connect/clients/java"},
+                        { "title": "Go", "relref": "/develop/connect/clients/go"}
+                    ]
+                }
+            ]
         }
     ]
 }
