@@ -215,6 +215,51 @@ for a full list of properties specific to PostgreSQL.
   [Database Connection Control Functions](https://www.postgresql.org/docs/current/libpq-connect.html)
   in the PostgreSQL docs for more information.
 
+#### Oracle
+
+See the Kafka
+[configuration docs](https://kafka.apache.org/documentation.html#configuration)
+for a full list of properties relevant to Oracle configuration.
+Where a property has a `<role>` element, you can set the role to be
+either `producer` or `consumer`, as appropriate.
+
+- [`schema.history.internal.<role>.security.protocol`](https://kafka.apache.org/documentation.html#consumerconfigs_security.protocol):
+  The protocol for communicating with brokers. This can take the values
+  `PLAINTEXT`, `SSL`, `SASL_PLAINTEXT`, and `SASL_SSL`.
+- [`schema.history.internal.<role>.ssl.keystore.location`](https://kafka.apache.org/documentation.html#producerconfigs_ssl.keystore.location):
+  The file path for the keystore.
+- [`schema.history.internal.<role>.ssl.keystore.password`](https://kafka.apache.org/documentation.html#producerconfigs_ssl.keystore.password):
+  The password for the keystore file. You only need this you have also set
+  `schema.history.internal.<role>.ssl.keystore.location`.
+- [`schema.history.internal.<role>.ssl.truststore.location`](https://kafka.apache.org/documentation.html#producerconfigs_ssl.truststore.location):
+  The file path for the truststore.
+- [`schema.history.internal.<role>.ssl.truststore.password`](https://kafka.apache.org/documentation.html#producerconfigs_ssl.truststore.password):
+  The password for the trust store file. If you don't set a password, RDI will still use the trust store
+  file specified in `schema.history.internal.<role>.ssl.truststore.location` but without integrity
+  checking.
+- [`schema.history.internal.<role>.ssl.key.password`](https://kafka.apache.org/documentation.html#producerconfigs_ssl.key.password):
+  The password for the private key in the keystore file specified in
+  `schema.history.internal.<role>.ssl.keystore.location`.
+- [`database.dbname`](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-property-database-dbname):
+  The name of the database you want to connect to. If you are using a container database environment,
+  then you should set this to the name of the root container database (CDB), rather than an included
+  pluggable database (PDB).
+- [`database.pdb.name`](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-property-database-pdb-name):
+  The name of the Oracle pluggable database you want to connect to. You can only use this with
+  container database (CDB) installations.
+- [`decimal.handling.mode`](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-property-decimal-handling-mode):
+  This specifies the data format for floating point values in `NUMBER`, `DECIMAL` and `NUMERIC`
+  columns. This can take the values `precise` (store values with any number of decimal places),
+  `double` (use double-precision floating point), or `string` (encode numbers as strings).
+  The default value is `precise`. See
+  [Oracle numeric types](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-numeric-types)
+  for more information about decimal handling.
+- `key.converter.schemas.enable` and `value.converter.schemas.enable`:
+  Boolean values specifying whether or not you want to add JSON schemas to
+  serialized data. See Kafka's [connect transforms](https://kafka.apache.org/documentation/#connect_transforms)
+  docs for an example.
+
+
 ## Job files
 
 You can optionally supply one or more job files that specify how you want to
