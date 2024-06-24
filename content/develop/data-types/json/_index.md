@@ -28,7 +28,7 @@ The JSON capability of Redis Stack provides JavaScript Object Notation (JSON) su
 * Documents stored as binary data in a tree structure, allowing fast access to sub-elements
 * Typed atomic operations for all JSON value types
 
-## Use Redis JSON
+## Use Redis with JSON
 
 The first JSON command to try is [`JSON.SET`]({{< baseurl >}}/commands/json.set/), which sets a Redis key with a JSON value. [`JSON.SET`]({{< baseurl >}}/commands/json.set/) accepts all JSON value types. This example creates a JSON string:
 
