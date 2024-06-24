@@ -15,7 +15,7 @@
   <header class="flex flex-row gap-4 p-2">
     <form id="search-form" class="grow flex flex-row gap-3 items-center" style="position: relative;">
       <label class="search-magnifier-label" for="search-input" id="search-label" style="position: absolute;  left:20px; pointer-events: none;">
-        {% include "icons/search.html" %}
+        {{ partial "icons/search.html" }}
       </label>
       <input id="search-input" style="height: calc(3rem - 2px);" class="w-full pl-12 border border-redis-pen-800 rounded-md search-input appearance-none focus:outline-none" aria-autocomplete="both" aria-labelledby="search-label" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search&hellip;" type="text" value="">
       <button type="reset" title="Clear the query" class="search-reset" aria-label="Clear the query" hidden="">
