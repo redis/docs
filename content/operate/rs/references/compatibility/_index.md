@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Redis Enterprise compatibility with Redis Community Edition.
 hideListLinks: true
 linkTitle: Redis Community Edition compatibility

@@ -88,7 +88,7 @@ are supported, with the following limitations:
 
 ## Manage the hashing policy
 
-Redis defaults to the [standard hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy" >}}). 
+Redis defaults to the [standard hashing policy](#standard-hashing-policy). 
 The clustering configuration of a Redis Cloud instance can be changed. 
 However, hashing policy changes delete existing data 
 (FLUSHDB) before they're applied. 
@@ -183,7 +183,7 @@ Here are some general guidelines:
 
 - [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) also consume memory. For search databases, consider index size when you size your database.
 
-Memory limits in Redis Cloud are subject to the same considerations as Redis Enterprise Software; to learn more, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit.md" >}}).
+Memory limits in Redis Cloud are subject to the same considerations as Redis Enterprise Software; to learn more, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit" >}}).
 
 ## Throughput
 

@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Cluster management commands compatible with Redis Enterprise.
 linkTitle: Cluster management
 weight: 10

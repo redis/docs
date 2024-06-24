@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Information about using list with an Active-Active database.
 linkTitle: Lists
 weight: $weight

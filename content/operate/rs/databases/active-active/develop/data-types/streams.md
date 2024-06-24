@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Information about using streams with an Active-Active database.
 linkTitle: Streams
 weight: $weight

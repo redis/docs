@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Server management commands compatibility.
 linkTitle: Server management
 toc: 'true'
