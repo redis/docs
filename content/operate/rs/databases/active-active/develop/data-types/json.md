@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Information about using JSON with an Active-Active database.
 linkTitle: JSON
 weight: $weight

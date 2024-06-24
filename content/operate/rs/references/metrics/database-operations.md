@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: null
 linkTitle: Database operations
 weight: $weight
