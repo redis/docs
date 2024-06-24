@@ -41,7 +41,7 @@ Bundled Redis modules compatible with Redis database version 7.2:
 
 - [RedisBloom 2.6.12]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.6-release-notes.md" >}})
 
-- [RedisGears 2.0.20](https://github.com/RedisGears/RedisGears/releases/tag/v2.0.20-m21)
+- [RedisGears 2.0.20 preview](https://github.com/RedisGears/RedisGears/releases/tag/v2.0.20-m21)
 
 Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
@@ -61,7 +61,7 @@ Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
 - RS126290: Allow editing an existing Replica Of source's proxy certificate in the Cluster Manager UI.
 
-- RS126476: Fixed unexpected connection errors in the DMC proxy log.
+- RS126476: Fixed unexpected database audit connection errors in the DMC proxy log.
 
 - RS126382: Log info when a node fails to join the cluster.
 
@@ -77,7 +77,9 @@ Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
 ### Product lifecycle updates
 
-Redis Enterprise Software version 6.2 is approaching end-of-life, scheduled for August 31, 2024. After this date, version 6.2 will not be included in [supported upgrade paths]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}) for major releases of Redis Enterprise Software.
+Redis Enterprise Software version 6.2 is approaching end-of-life, scheduled for August 31, 2024. After this date, Redis Enterprise Software version 6.2 will not be included in [supported upgrade paths]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}) for major releases of Redis Enterprise Software. For example, you will not be able to upgrade the cluster directly from Redis Enterprise Software version 6.2.x to 7.6.x.
+
+However, the next major Redis Enterprise Software release will still bundle Redis database version 6.2 and allow database upgrades from Redis database version 6.2 to 7.x.
 
 See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
 
