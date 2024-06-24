@@ -274,6 +274,8 @@ applies a 1-to-1 transformation on one or more properties and either stores the 
   
 `expr` is an expression that can be used to perform arithmetic operations on numeric properties, or functions that can be applied on properties depending on their types (see below), or any combination thereof. For example, `APPLY "sqrt(@foo)/log(@bar) + 5" AS baz` evaluates this expression dynamically for each record in the pipeline and store the result as a new property called `baz`, which can be referenced by further `APPLY`/`SORTBY`/`GROUPBY`/`REDUCE` operations down the
   pipeline.
+
+See [APPLY expressions]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations/#apply-expressions) for details.
 </details>
 
 <details open>
