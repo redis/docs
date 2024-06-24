@@ -135,7 +135,7 @@ Use the following command to remove the expiration of specific fields:
 
 ### Field expiration examples
 
-Support for hash field expiration in the official client libraries is coming soon, but you can test hash field expiration now with beta versions of the [Python (redis-py)](https://github.com/redis/redis-py) and [Java (Jedis)](https://github.com/redis/jedis) client libraries.
+Support for hash field expiration in the official client libraries is not yet available, but you can test hash field expiration now with beta versions of the [Python (redis-py)](https://github.com/redis/redis-py) and [Java (Jedis)](https://github.com/redis/jedis) client libraries.
 
 Following are some Python examples that demonstrate how to use field expiration.
 
