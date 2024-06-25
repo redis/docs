@@ -3840,7 +3840,7 @@ AOF rewrite, and so forth). In this section we define this API.
 
 Register a new data type exported by the module. The parameters are the
 following. Please for in depth documentation check the modules API
-documentation, especially [https://redis.io/topics/modules-native-types](https://redis.io/topics/modules-native-types).
+documentation, especially [https://redis.io/docs/latest/develop/reference/modules/modules-native-types/](https://redis.io/docs/latest/develop/reference/modules/modules-native-types/).
 
 * **name**: A 9 characters data type name that MUST be unique in the Redis
   Modules ecosystem. Be creative... and there will be no collisions. Use
@@ -4489,7 +4489,7 @@ latency-monitor-threshold.
 ## Blocking clients from modules
 
 For a guide about blocking commands in modules, see
-[https://redis.io/topics/modules-blocking-ops](https://redis.io/topics/modules-blocking-ops).
+[https://redis.io/docs/latest/develop/reference/modules/modules-blocking-ops/](https://redis.io/docs/latest/develop/reference/modules/modules-blocking-ops/).
 
 <span id="RedisModule_RegisterAuthCallback"></span>
 
