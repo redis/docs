@@ -11,7 +11,7 @@ weight: 8
 Most Redis migration tools available today are offline in nature.
 Migrating data from AWS ElastiCache to Redis Enterprise Cloud, for example, means backing up your Elasticache data to an AWS S3 bucket and importing it into Redis Enterprise Cloud using its UI.
 
-Redis has a replication command called [REPLICAOF]({{< relref "/commands" >}}/replicaof) but it is not always available (see [ElastiCache restrictions](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/RestrictedCommands.html)).
+Redis has a replication command called [REPLICAOF]({{< relref "/commands/replicaof" >}}) but it is not always available (see [ElastiCache restrictions](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/RestrictedCommands.html)).
 Instead, RIOT implements [client-side replication]({{< relref "/integrate/riot/architecture" >}}) using **dump & restore** or **type-based read & write**. Both snapshot and live replication modes are supported.
 
 {{< warning >}}
@@ -119,7 +119,7 @@ Replication strategy (default: `dump`).
 #### Source reader options
 
 * **`--scan-count`**\
-    How many keys to read at once on each call to [SCAN]({{< relref "/commands" >}}/scan#the-count-option)
+    How many keys to read at once on each call to [SCAN]({{< baseurl >}}/commands/scan#the-count-option)
 * **`--scan-match`**\
     Pattern of keys to scan for (default: `*` i.e. all keys)
 * **`--scan-type`**\

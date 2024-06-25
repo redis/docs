@@ -95,7 +95,7 @@ RedisJSON 2.6 introduces support for RESP3 and new commands.
 
 ### What's new in 2.6
 
-- Introduce [`JSON.MERGE`]({{< relref "/commands" >}}/json.merge) in compliance with [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396), supporting:
+- Introduce [`JSON.MERGE`]({{< baseurl >}}/commands/json.merge) in compliance with [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396), supporting:
 
   - Creating new attributes on an existing JSON document
 

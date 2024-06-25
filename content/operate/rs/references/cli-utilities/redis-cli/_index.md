@@ -12,7 +12,7 @@ toc: 'true'
 weight: $weight
 ---
 
-The `redis-cli` command-line utility lets you interact with a Redis database. With `redis-cli`, you can run [Redis commands]({{< relref "/commands" >}}/) directly from the command-line terminal or with [interactive mode](#interactive-mode).
+The `redis-cli` command-line utility lets you interact with a Redis database. With `redis-cli`, you can run [Redis commands]({{< relref "/commands" >}}) directly from the command-line terminal or with [interactive mode](#interactive-mode).
 
 If you want to run Redis commands without `redis-cli`, you can [connect to a database with Redis Insight]({{< relref "/develop/connect/insight/" >}}) and use the built-in [CLI]({{< relref "/develop/connect/insight/" >}}) prompt instead.
 
@@ -129,7 +129,7 @@ OK
 
 ### Check slowlog
 
-Run [`slowlog get`]({{< relref "/commands" >}}/slowlog-get/) for a list of recent slow commands:
+Run [`slowlog get`]({{< relref "/commands/slowlog-get" >}} for a list of recent slow commands:
 
 ```sh
 redis-cli -h <endpoint> -p <port> slowlog get <number of entries>
@@ -148,4 +148,4 @@ See [Scanning for big keys]({{< relref "/develop/connect/cli" >}}#scanning-for-b
 ## More info
 
 - [Redis CLI documentation]({{< relref "/develop/connect/cli" >}})
-- [Redis commands reference]({{< relref "/commands" >}}/)
+- [Redis commands reference]({{< relref "/commands/" >}}
