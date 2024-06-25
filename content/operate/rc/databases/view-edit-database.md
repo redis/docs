@@ -182,7 +182,7 @@ The **View Database** screen also has tabs that let you view:
 
 - **Metrics**: a series of graphs showing database performance over time.  See [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance.md" >}})
 
-- **Slowlog**: a log showing recent [slow queries]({{< relref "/commands/slowlog" >}} run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
+- **Slowlog**: a log showing recent [slow queries]({{< relref "/commands/slowlog" >}}) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
 
 
 ## Edit database details

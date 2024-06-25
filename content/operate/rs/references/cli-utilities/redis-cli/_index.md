@@ -129,7 +129,7 @@ OK
 
 ### Check slowlog
 
-Run [`slowlog get`]({{< relref "/commands/slowlog-get" >}} for a list of recent slow commands:
+Run [`slowlog get`]({{< relref "/commands/slowlog-get" >}}) for a list of recent slow commands:
 
 ```sh
 redis-cli -h <endpoint> -p <port> slowlog get <number of entries>

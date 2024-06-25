@@ -72,7 +72,7 @@ Update urgency: `MODERATE` : Program an upgrade of the server, but it's not urge
 
 Details:
 - Bug fixes:
-    - #[1931](https://github.com/RedisGraph/RedisGraph/issues/1931) Fix race condition on calling [`BGSAVE`]({{< relref "/commands/bgsave" >}} while flushing matrices
+    - #[1931](https://github.com/RedisGraph/RedisGraph/issues/1931) Fix race condition on calling [`BGSAVE`]({{< relref "/commands/bgsave" >}}) while flushing matrices
     - #[1898](https://github.com/RedisGraph/RedisGraph/issues/1898) Error when setting a property to an array containing an invalid type
     - #[1897](https://github.com/RedisGraph/RedisGraph/issues/1897) Aliases in `WITH...ORDER BY` must be valid references%
 

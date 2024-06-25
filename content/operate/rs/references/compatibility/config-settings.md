@@ -10,7 +10,7 @@ linkTitle: Configuration settings
 weight: 50
 ---
 
-Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) only support a subset of [Redis Community Edition configuration settings]({{<relref "/operate/oss_and_stack/management/config">}}). Using [`CONFIG GET`]({{< relref "/commands/config-get" >}} or [`CONFIG SET`]({{< relref "/commands/config-set" >}} with unsupported configuration settings returns an error.
+Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) only support a subset of [Redis Community Edition configuration settings]({{<relref "/operate/oss_and_stack/management/config">}}). Using [`CONFIG GET`]({{< relref "/commands/config-get" >}}) or [`CONFIG SET`]({{< relref "/commands/config-set" >}}) with unsupported configuration settings returns an error.
 
 | Setting | Redis<br />Enterprise | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|

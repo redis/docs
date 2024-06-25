@@ -9,7 +9,7 @@ description: null
 weight: 40
 ---
 
-The [FLUSHALL]({{< relref "/commands/flushall" >}} command provides a fast way to remove all data from a database.
+The [FLUSHALL]({{< relref "/commands/flushall" >}}) command provides a fast way to remove all data from a database.
 
 {{< note >}}
 When you _flush_ a database, you remove all data.<br/><br/>

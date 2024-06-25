@@ -56,7 +56,7 @@ Update urgency: `HIGH`: There is a critical bug that may affect a subset of user
 
 Bug fixes:
 
-- [#760](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/760) Avoid closing the same key twice, causing server crash on [`RENAME`]({{< relref "/commands/rename" >}} of other keys
+- [#760](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/760) Avoid closing the same key twice, causing server crash on [`RENAME`]({{< relref "/commands/rename" >}}) of other keys
 
 ## v1.4.9 (May 2021)
 

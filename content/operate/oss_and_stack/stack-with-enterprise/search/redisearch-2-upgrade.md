@@ -19,7 +19,7 @@ This change allows databases with RediSearch to support:
 - [Active-Active databases]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active" >}})
 - Database cluster re-sharding
 - Replica Of to a sharded destination database
-- [EXPIRE]({{< relref "/commands/ttl" >}} of documents reflected in the index
+- [EXPIRE]({{< relref "/commands/ttl" >}}) of documents reflected in the index
 
 In addition, RediSearch 2.x indexes data that already existed in the database at the time that the index was created.
 
