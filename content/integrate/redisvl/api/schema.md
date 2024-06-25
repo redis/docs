@@ -334,4 +334,4 @@ Each field type supports specific attributes that customize its behavior. Below 
 - epsilon: Range search boundary factor.
 
 Note:
-: See fully documented Redis-supported fields and options here: [{{< relref "/commands" >}}/ft.create/]({{< relref "/commands" >}}/ft.create/)
+: See fully documented Redis-supported fields and options here: [FT.CREATE]({{< baseurl >}}/commands/ft.create).

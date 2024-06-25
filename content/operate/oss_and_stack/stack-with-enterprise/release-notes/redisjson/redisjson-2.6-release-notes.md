@@ -105,7 +105,7 @@ RedisJSON 2.6 introduces support for RESP3 and new commands.
 
   - Array update - replacing an entire array with the new value
 
-- Introduce [`JSON.MSET`]({{< relref "/commands" >}}/json.mset/), supporting atomic multiple sets for keys in the same hash slot
+- Introduce [`JSON.MSET`]({{< baseurl >}}/commands/json.mset), supporting atomic multiple sets for keys in the same hash slot
 
 - New `FORMAT` argument in `JSON.ARRPOP` and `JSON.GET` to retrieve the results as JSON strings or RESP3 hierarchical structures (RESP3 only)
 

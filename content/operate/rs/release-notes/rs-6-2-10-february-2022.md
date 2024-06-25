@@ -125,7 +125,7 @@ For help upgrading a module, see [Add a module to a cluster]({{< relref "/operat
 
 ### Issues resolved in build 100
 
-- RS74171 - A new command was added as part of Redis 6.2: [XAUTOCLAIM]({{< relref "/commands" >}}/xautoclaim/). When used in an Active-Active configuration, this command may cause Redis shards to crash, potentially resulting in data loss. The issue is fixed in Redis Enterprise Software version 6.2.12. Additionally, we recommend enabling AOF persistence for all Active-Active configurations.
+- RS74171 - A new command was added as part of Redis 6.2: [XAUTOCLAIM]({{< relref "/commands/xautoclaim" >}}). When used in an Active-Active configuration, this command may cause Redis shards to crash, potentially resulting in data loss. The issue is fixed in Redis Enterprise Software version 6.2.12. Additionally, we recommend enabling AOF persistence for all Active-Active configurations.
 
 ### Issues resolved in build 121
 

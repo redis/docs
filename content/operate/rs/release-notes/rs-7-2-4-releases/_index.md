@@ -71,9 +71,9 @@ To prevent potential application issues due to RESP3 breaking changes, see [Clie
 
 - [`CLUSTER SLOTS`]({{< relref "/commands" >}}/cluster-slots) is deprecated as of Redis 7.0
 
-- [`JSON.RESP`]({{< relref "/commands" >}}/json.resp/) is deprecated as of Redis Stack 7.2.
+- [`JSON.RESP`]({{< baseurl >}}/commands/json.resp) is deprecated as of Redis Stack 7.2.
 
-- [`QUIT`]({{< relref "/commands" >}}/quit/) is deprecated as of Redis 7.2
+- [`QUIT`]({{< relref "/commands/quit" >}}) is deprecated as of Redis 7.2
 
 #### API deprecations
 
@@ -270,9 +270,9 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
     Before sending this command, clients should verify the database version is 7.2.0 or later and that using this command is allowed. 
 
-- You cannot use [`SUNSUBSCRIBE`]({{< relref "/commands" >}}/sunsubscribe/) to unsubscribe from a shard channel if the regex changed while subscribed.
+- You cannot use [`SUNSUBSCRIBE`]({{< relref "/commands/sunsubscribe" >}}) to unsubscribe from a shard channel if the regex changed while subscribed.
 
-- Using [`XREADGROUP BLOCK`]({{< relref "/commands" >}}/xreadgroup/) with `>` to return all new streams will cause the Redis database to freeze until the shard is restarted. ([#12031](https://github.com/redis/redis/pull/12301))
+- Using [`XREADGROUP BLOCK`]({{< relref "/commands/xreadgroup" >}}) with `>` to return all new streams will cause the Redis database to freeze until the shard is restarted. ([#12031](https://github.com/redis/redis/pull/12301))
 
 - Because a rejected command does not record the duration for command stats, an error will appear after it is reprocessed that will cause the Redis database to freeze until the shard is restarted. ([#12247](https://github.com/redis/redis/pull/12247))
 
