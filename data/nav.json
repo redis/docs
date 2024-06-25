@@ -9,6 +9,7 @@
                 { "title": "FAQ", "relref": "/develop/get-started/faq" }
             ]
         },
+        {"title": "Connect to Redis", "divider": "true"},
         {
             "title": "Connect", "relref": "/develop/connect", "children": [
                 { "title": "CLI", "relref": "/develop/connect/cli"},

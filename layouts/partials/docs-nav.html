@@ -36,13 +36,37 @@
   {{ .Scratch.Set "path" $path}}
 {{ end }}
 
-{{ define "navList" -}}
-{{ $item := .item }}
+{{ define "navChildList" -}}
+{{ $item := .item -}}
+{{ $root := .root -}}
 <ul class="child-list">
   {{ range $item.children }}
+  {{ $childPage := .Site.GetPage .relref -}}
+  {{- if .divider }}
+  <li class="my-2">{{ .title }}
+  {{- else }}
   <li class="my-2"><a href="{{ .relref }}">{{ .title }}</a>
+  {{- end -}}
+  {{- if .children -}}
+    {{- template "navChildList" ( dict "item" . )}}
+  {{ end -}}
+  </li>
+  {{ end }}  
+</ul>
+{{- end }}
+
+{{ define "navList" -}}
+{{ $item := .item -}}
+<ul class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
+  {{ range $item.children -}}
+  {{ $childPage := .Site.GetPage .relref -}}
+  {{- if .divider }}
+  <li class="my-2">{{ .title }}
+  {{- else }}
+  <li class="my-2"><a href="{{ .relref }}">{{ .title }}</a>
+  {{- end -}}
   {{- if .children }}
-    {{- template "navList" ( dict "item" . )}}
+    {{- template "navChildList" ( dict "root" $childPage "item" . )}}
   {{ end -}}
   </li>
   {{ end }}  
