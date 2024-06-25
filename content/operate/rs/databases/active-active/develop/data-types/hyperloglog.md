@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Information about using hyperloglog with an Active-Active database.
 linkTitle: HyperLogLog
 weight: $weight

@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Use the Redis Cluster API to improve performance and keep applications current with cluster topology changes.
 linktitle: "Redis Cluster API"
 weight: $weight

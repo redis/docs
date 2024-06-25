@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Scripting and function commands compatibility.
 linkTitle: Scripting
 weight: 10

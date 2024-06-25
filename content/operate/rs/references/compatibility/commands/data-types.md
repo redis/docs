@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Data type commands compatibility (bitmaps, geospatial indices, hashes,
   HyperLogLogs, lists, sets, sorted sets, streams, strings).
 linkTitle: Data types

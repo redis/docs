@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Run Redis commands.
 hideListLinks: true
 linkTitle: redis-cli (run Redis commands)

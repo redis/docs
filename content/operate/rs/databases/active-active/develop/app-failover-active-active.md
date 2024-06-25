@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: How to failover your application to connect to a remote replica.
 linkTitle: App failover
 weight: 99

@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Information about using sorted sets with an Active-Active database.
 linkTitle: Sorted sets
 weight: $weight

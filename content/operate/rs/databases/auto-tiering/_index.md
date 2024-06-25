@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Auto Tiering enables your data to span both RAM and dedicated flash memory.
 hideListLinks: true
 linktitle: Auto Tiering
