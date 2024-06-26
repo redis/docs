@@ -1,17 +1,14 @@
 {
     "children": [
-        {
-            "title": "Quick starts", "relref": "/develop/get-started", "children": [
+        {"title": "Quick starts", "divider": "true"},
                 { "title": "Data structure store", "relref": "/develop/get-started/data-store" },
                 { "title": "Document database", "relref": "/develop/get-started/document-database" },
                 { "title": "Vector database", "relref": "/develop/get-started/vector-database" },
                 { "title": "Redis and RAG", "relref": "/develop/get-started/rag" },
                 { "title": "FAQ", "relref": "/develop/get-started/faq" }
-            ]
-        },
+         ,
         {"title": "Connect to Redis", "divider": "true"},
-        {
-            "title": "Connect", "relref": "/develop/connect", "children": [
+  
                 { "title": "CLI", "relref": "/develop/connect/cli"},
                 { "title": "Redis Insight", "relref": "/develop/connect/insight"},
                 {
@@ -23,7 +20,5 @@
                         { "title": "Go", "relref": "/develop/connect/clients/go"}
                     ]
                 }
-            ]
-        }
     ]
 }
