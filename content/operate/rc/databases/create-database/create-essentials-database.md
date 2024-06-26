@@ -32,10 +32,6 @@ This guide shows how to create an Essentials database.
 
 1. Choose a **Cloud Provider** and a **Region**.
 
-    A preview of Redis 7.4 is available for databases in selected regions. Select the **Redis 7.4 preview** toggle to view the regions where you can try Redis 7.4.
-
-    {{<image filename="images/rc/essentials-74-preview.png" alt="Turn on the Redis 7.4 preview toggle.">}}
-
 1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis Stack** unless you have a legacy application that uses **Memcached**.
 
     A Redis Stack database gives access to a set of advanced capabilities. For more information, see [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#essentials" >}}).
