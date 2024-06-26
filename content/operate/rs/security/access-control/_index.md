@@ -48,3 +48,5 @@ If you set up [role-based access controls]({{< relref "/operate/rs/security/acce
 {{<warning>}}
 Before you [deactivate default user access]({{< relref "/operate/rs/security/access-control/manage-users/default-user#deactivate-default-user" >}}), make sure the role associated with the database is [assigned to a user]({{< relref "/operate/rs/security/access-control/rbac/assign-user-role" >}}). Otherwise, the database will be inaccessible.
 {{</warning>}}
+
+## More info
