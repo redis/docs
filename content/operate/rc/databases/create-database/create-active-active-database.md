@@ -20,7 +20,7 @@ Active-Active databases consist of multiple copies (also called _instances_) dep
 
 This reduces latency for local users and improves availability should a region fail.
 
-Consistency between each instance is maintained in the background; that is, each copy eventually includes updates from every region.  As a result, memory limit and throughput increase.
+Redis Cloud maintains consistency among instances in the background; that is, each copy eventually includes updates from every region.  As a result, memory limit and throughput increase.
 
 ## Create an Active-Active database
 
@@ -164,7 +164,7 @@ Hover over a database to see the **Edit** and **Delete** icons. You can use the 
 
 ### Review and Create tab
 
-The **Review & Create** tab provides a cost estimate for your Redis Cloud Pro plan:
+The **Review and Create** tab provides a cost estimate for your Redis Cloud Pro plan:
 
 {{<image filename="images/rc/create-pro-aa-review.png" width="75%" alt="The Review & Create tab of the New Flexible subscription screen." >}}
 
