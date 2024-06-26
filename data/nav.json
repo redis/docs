@@ -1,11 +1,11 @@
 {
     "children": [
         {"title": "Quick starts", "divider": "true"},
-                { "title": "Data structure store", "relref": "/develop/get-started/data-store" },
-                { "title": "Document database", "relref": "/develop/get-started/document-database" },
-                { "title": "Vector database", "relref": "/develop/get-started/vector-database" },
-                { "title": "Redis and RAG", "relref": "/develop/get-started/rag" },
-                { "title": "FAQ", "relref": "/develop/get-started/faq" }
+        { "title": "Data structure store", "relref": "/develop/get-started/data-store" },
+        { "title": "Document database", "relref": "/develop/get-started/document-database" },
+        { "title": "Vector database", "relref": "/develop/get-started/vector-database" },
+        { "title": "Redis and RAG", "relref": "/develop/get-started/rag" },
+        { "title": "FAQ", "relref": "/develop/get-started/faq" }
          ,
         {"title": "Connect to Redis", "divider": "true"},
   
@@ -16,7 +16,12 @@
                         { "title": "Python", "relref": "/develop/connect/clients/python"},
                         { "title": "C#", "relref": "/develop/connect/clients/dotnet"},
                         { "title": "Node.js", "relref": "/develop/connect/clients/nodejs"},
-                        { "title": "Java", "relref": "/develop/connect/clients/java"},
+                        {
+                            "title": "Java", "relref": "/develop/connect/clients/java", "children": [
+                                { "title": "Jedis", "relref": "/develop/connect/clients/java/jedis"},
+                                { "title": "Lettuce", "relref": "/develop/connect/clients/java/lettuce"} 
+                            ]
+                        },
                         { "title": "Go", "relref": "/develop/connect/clients/go"}
                     ]
                 }
