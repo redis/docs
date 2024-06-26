@@ -1,11 +1,11 @@
 ---
-Title: Recover database action requests
+Title: Recover database requests
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Recover database requests
+description: REST API requests for database recovery
 headerRange: '[1-2]'
 linkTitle: recover
 weight: $weight
@@ -22,7 +22,7 @@ weight: $weight
 GET /v1/bdbs/{int: uid}/actions/recover
 ```
 
-Fetch the recovery plan for a database. The recovery plan provides information about the recovery status, such as if it is possible, and specific detail on which available files to recovery from have been found.
+Fetches the recovery plan for a database. The recovery plan provides information about the recovery status, such as whether recovery is possible, and details on available files to use for recovery.
 
 #### Required permissions
 
@@ -42,24 +42,38 @@ GET /bdbs/1/actions/recover
 
 | Field | Type | Description |
 |-------|------|-------------|
-| uid | integer | The unique ID of the database for which recovery plan is required. |
+| uid | integer | The unique ID of the database. |
 
 ### Response {#get-response}
 
-TBA
+Returns a JSON object that represents the database's recovery plan, including recovery files and status.
 
-#### Example JSON body
+#### Example response body
 
 ```json
-
+{
+  "data_files": [
+    {
+      "filename": "appendonly-1.aof",
+      "node_uid": "1",
+      "shard_slots": "1-2048"
+    },
+    {
+      "filename": "appendonly-2.aof",
+      "node_uid": "2",
+      "shard_slots": "2049-4096"
+    }
+  ],
+  "status": "ready"
+}
 ```
 
 #### Status codes {#get-status-codes}
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Database UID does not exist |
+| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error. |
+| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Database UID does not exist. |
 
 ## Recover database {#post-bdbs-actions-recover}
 
@@ -67,7 +81,7 @@ TBA
 POST /v1/bdbs/{int: uid}/actions/recover
 ```
 
-Initiate recovery for a database in recovery state.
+Initiates recovery for a database in a recoverable state.
 
 #### Required permissions
 
@@ -77,15 +91,23 @@ Initiate recovery for a database in recovery state.
 
 ### Request {#post-request}
 
+The request body can either be empty or include a request body with a recovery plan.
+
+If the request body is empty, the database will be recovered automatically:
+
+- Databases with no persistence are recovered with no data.
+
+- Persistent files such as AOF or RDB will be loaded from their expected storage locations where replica or master shards were last active.
+
+- If persistent files are not found where expected but can be located on other cluster nodes, they will be used.
+
 #### Example HTTP request
 
 ```sh
 POST /bdbs/1/actions/recover
 ```
 
-#### Example JSON request body
-
-Example request, detailed recovery plan:
+#### Example request body
 
 ```json
 {
@@ -114,18 +136,12 @@ Example request, detailed recovery plan:
 
 ### Response {#post-response}
 
-TBA
-
-#### Example JSON body
-
-```json
-
-```
+Returns a status code. Also returns a JSON object with an `action_uid` in the request body if successful.
 
 #### Status codes {#post-status-codes}
 
 | Code | Description |
 |------|-------------|
-| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | the request is accepted and is being processed. When the database is recovered, its status will become `active`. |
-| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | attempting to perform an action on a nonexistent database. |
-| [409 Conflict](https://www.rfc-editor.org/rfc/rfc9110.html#name-409-conflict) | database is currently busy with another action, recovery is already in progress, or is not in recoverable state. |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | The request is accepted and is being processed. When the database is recovered, its status will become `active`. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Attempting to perform an action on a nonexistent database. |
+| [409 Conflict](https://www.rfc-editor.org/rfc/rfc9110.html#name-409-conflict) | Database is currently busy with another action, recovery is already in progress, or is not in a recoverable state. |
