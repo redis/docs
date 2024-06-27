@@ -99,7 +99,7 @@ Available management roles include:
 | <a name="view_all_roles_info" style="display: block; height: 80px; margin-top: -80px;"></a>view_all_roles_info | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 | <a name="view_all_shard_stats" style="display: block; height: 80px; margin-top: -80px;"></a>view_all_shard_stats | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 | <a name="view_all_users_info" style="display: block; height: 80px; margin-top: -80px;"></a>view_all_users_info | admin |
-| view_bdb_alerts | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| <a name="view_bdb_alerts" style="display: block; height: 80px; margin-top: -80px;"></a>view_bdb_alerts | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |<a
 | <a name="view_bdb_info" style="display: block; height: 80px; margin-top: -80px;"></a>view_bdb_info | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 | <a name="view_bdb_recovery_plan" style="display: block; height: 80px; margin-top: -80px;"></a>view_bdb_recovery_plan | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 | <a name="view_bdb_stats" style="display: block; height: 80px; margin-top: -80px;"></a>view_bdb_stats | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
