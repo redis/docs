@@ -23,7 +23,7 @@ An API object that represents a Redis shard in a database.
 | detailed_status | 'busy'<br />'down'<br />'importing'<br />'loading'<br />'ok'<br />'timeout'<br />'trimming'<br />'unknown' | A more detailed status of the shard |
 | loading | [loading]({{< relref "/operate/rs/references/rest-api/objects/shard/loading" >}}) object | Current status of dump file loading |
 | node_uid | string | The ID of the node this shard is located on |
-| redis_info | redis_info object | A sub-dictionary of the [Redis INFO command]({{< relref "/commands" >}}/info) |
+| redis_info | redis_info object | A sub-dictionary of the [Redis INFO command]({{< relref "/commands/info" >}}) |
 | report_timestamp | string | The time in which the shard's info was collected (read-only) |
 | role | 'master'<br />'slave' | Role of this shard |
 | status | 'active'<br />'inactive'<br />'trimming' | The current status of the shard |
