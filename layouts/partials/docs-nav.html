@@ -43,15 +43,17 @@
   {{ range $item.children }}
   {{ $childPage := .Site.GetPage .relref -}}
   {{- if .divider }}
-  <li class="my-2 bg-redis-pencil-200" inert="yes"><strong><span class="pr-5"></span>{{ .title }}</strong>
+  <li class="my-2 bg-redis-pencil-200" inert="yes"><strong><span class="pr-5"></span>{{ .linkTitle }}</strong>
   {{- else if .children }}
-  <li class="my-2"><a href="{{ .relref }}"><span class="pr-5"></span>{{ .title }}<span class="pr-2"></span>
-  <svg class="arrow-closed" style="display: inline;" width="18" height="18" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <polyline class="arrow-closed" points="3 10 9 16 15 10" fill="black" />
-  </svg></a>
+  <li class="my-2"><a href="{{ .relref }}"><span class="pr-5"></span>{{ .linkTitle }}<span class="pr-2"></span>
+    <svg class="arrow-closed" style="display: inline;" width="18" height="18" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <!--<polyline class="arrow-closed" points="3 6 9 12 15 6" fill="black" />-->
+      <polyline class="arrow-closed" points="3 11 15 11 9 6" fill="black" />
+      <polyline class="arrow-closed" points="3 13 9 18 15 13" fill="black" />
+    </svg>
   {{- template "navChildList" ( dict "item" . )}}
   {{- else }}
-  <li class="my-2"><a href="{{ .relref }}"><span class="pr-5"></span>{{ .title }}</a>
+  <li class="my-2"><a href="{{ .relref }}"><span class="pr-5"></span>{{ .linkTitle }}</a>
   {{- end -}}
   </li>
   {{ end }}  
@@ -60,20 +62,22 @@
 
 {{ define "navList" -}}
 {{ $item := .item -}}
-<ul class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
+<ul class="md:block overflow-y-auto grow pr-0  border-opacity-50 border-redis-ink-900">
   {{ range $item.children -}}
   {{ $childPage := .Site.GetPage .relref -}}
   {{- if .divider }}
-  <li class="my-2 bg-redis-pencil-200" inert="yes"><span class="pr-5"></span><strong>{{ .title }}</strong>
+  <li class="my-2 bg-redis-pencil-500 text-white text-center" inert="yes"><span class="pr-5"></span><strong>{{ .linkTitle }}</strong>
   {{- else if .children }}
-  <li class="my-2"><span class="pr-5"></span><a href="{{ .relref }}">{{ .title }}
+  <li class="my-2"><span class="pr-5"></span><a href="{{ .relref }}">{{ .linkTitle }}
     <svg class="arrow-closed" style="display: inline;" width="18" height="18" version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <polyline class="arrow-closed" points="3 6 9 12 15 6" fill="black" />
+      <!--<polyline class="arrow-closed" points="3 6 9 12 15 6" fill="black" />-->
+      <polyline class="arrow-closed" points="3 8 15 8 9 3" fill="black" />
+      <polyline class="arrow-closed" points="3 10 9 15 15 10" fill="black" />
     </svg>
   </a>
   {{- template "navChildList" ( dict "root" $childPage "item" . )}}
   {{- else }}
-  <li class="my-2"><span class="pr-5"></span><a href="{{ .relref }}">{{ .title }}</a>
+  <li class="my-2"><span class="pr-5"></span><a href="{{ .relref }}">{{ .linkTitle }}</a>
   {{- end -}}
   </li>
   {{ end }}  
