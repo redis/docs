@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: General information to keep in mind while developing applications for
   an Active-Active database.
 hideListLinks: true

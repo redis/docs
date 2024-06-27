@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Generic key commands compatible with Redis Enterprise.
 linkTitle: Keys (generic)
 weight: 10

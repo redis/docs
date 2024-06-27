@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Information about using strings and bitfields with an Active-Active database.
 linkTitle: Strings and bitfields
 weight: $weight

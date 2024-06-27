@@ -225,7 +225,7 @@ select {
 }
 
 .search-item-title {
-  @apply col-start-2 leading-6 truncate;
+  @apply col-start-2 leading-6 whitespace-normal;
 }
 
 .search-item-title + .search-item-path {

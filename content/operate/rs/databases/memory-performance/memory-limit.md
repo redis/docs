@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: When you set a database's memory limit, you define the maximum size the
   database can reach.
 linkTitle: Memory limits

@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Pub/sub commands compatibility.
 linkTitle: Pub/sub
 weight: 10

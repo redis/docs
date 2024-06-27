@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Redis Community Edition configuration settings supported by Redis Enterprise.
 linkTitle: Configuration settings
 weight: 50
