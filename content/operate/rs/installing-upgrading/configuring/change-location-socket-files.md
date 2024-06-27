@@ -22,23 +22,30 @@ The default location was changed in case you run any maintenance procedures that
     {{</note>}}
 
 When you upgrade Redis Enterprise Software from an earlier version to 5.2.2 or later, the socket files
-are not moved to the new location by default. You need to either specify a custom location
-for the socket files during [installation]({{< relref "/operate/rs/installing-upgrading" >}}) or use the [following procedure](#change-socket-file-locations) after installation.
+are not moved to the new location by default. You need to specify the socket file location [during installation](#during-install) or change the location [after cluster setup](#after-cluster-setup).
 
-## Change socket file locations
+## Specify socket file location during install {#during-install}
 
-To change the location of the socket files:
+To specify the socket file location during a new installation, follow the [Install Redis Enterprise Software on Linux]({{<relref "/operate/rs/installing-upgrading/install/install-on-linux">}}) instructions, but use the `-s` [installation script option]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}):
+
+```sh
+sudo ./install.sh -s </path/to/socket/files>
+```
+
+## Change socket file location after cluster setup {#after-cluster-setup}
+
+To change the socket file location on an existing cluster:
+
+1. On any node in the cluster, run [`rladmin status nodes`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes">}}) to view all nodes joined to the cluster and identify the node with the `master` role:
+
+    ```sh
+    rladmin status nodes
+    ```
 
 1. On each node in the cluster, run:
 
     ```sh
     sudo rlutil create_socket_path socket_path=/var/opt/redislabs/run
-    ```
-
-1. Identify the node with the `master` role by running the following command on any node in the cluster:
-
-    ```sh
-    rladmin status nodes
     ```
 
 1. On the master node, change the socket file location:
@@ -53,10 +60,10 @@ To change the location of the socket files:
     sudo service rlec_supervisor restart
     ```
 
-1. Restart each database in the cluster to update the socket file location:
+1. [Restart]({{<relref "/operate/rs/references/cli-utilities/rladmin/restart">}}) each database in the cluster to update the socket file location:
 
     ```sh
-    rladmin restart db <db name>
+    rladmin restart db <database-name>
     ```
 
     {{< warning >}}
