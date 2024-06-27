@@ -104,7 +104,7 @@ The following code allows you to look at the structure of one of our bike JSON d
 {{< clients-example search_vss dump_data />}}
 
 ### 2. Store the demo data in your database
-Then, you iterate over the `bikes`  array to store the data as [JSON]({{< relref "/develop/data-types/json/" >}}) documents in the database by using the [JSON.SET]({{< baseurl >}}/commands/json.set//) command. The below code uses a [pipeline]({{< relref "/develop/use/pipelining" >}}) to minimize the round-trip times:
+Then, you iterate over the `bikes`  array to store the data as [JSON]({{< relref "/develop/data-types/json/" >}}) documents in the database by using the [JSON.SET]({{< baseurl >}}/commands/json.set) command. The below code uses a [pipeline]({{< relref "/develop/use/pipelining" >}}) to minimize the round-trip times:
 
 {{< clients-example search_vss load_data />}}
 
@@ -127,15 +127,15 @@ In the next step, you must iterate over all the Redis keys with the prefix `bike
 
 {{< clients-example search_vss get_keys />}}
 
-Use the keys as a parameter to the [JSON.MGET]({{< baseurl >}}/commands/json.mget//) command, along with the JSONPath expression `$.description` to collect the descriptions in a list. Then, pass the list to the `encode` method to get a list of vectorized embeddings:
+Use the keys as a parameter to the [JSON.MGET]({{< baseurl >}}/commands/json.mget) command, along with the JSONPath expression `$.description` to collect the descriptions in a list. Then, pass the list to the `encode` method to get a list of vectorized embeddings:
 
 {{< clients-example search_vss generate_embeddings />}}
 
-You now need to add the vectorized descriptions to the JSON documents in Redis using the [JSON.SET]({{< baseurl >}}/commands/json.set//) command. The following command inserts a new field in each of the documents under the JSONPath `$.description_embeddings`. Once again, you'll do this using a pipeline:
+You now need to add the vectorized descriptions to the JSON documents in Redis using the [JSON.SET]({{< baseurl >}}/commands/json.set) command. The following command inserts a new field in each of the documents under the JSONPath `$.description_embeddings`. Once again, you'll do this using a pipeline:
 
 {{< clients-example search_vss load_embeddings />}}
 
-Inspect one of the vectorized bike documents using the [JSON.GET](({{< relref "/commands" >}}/json.get/)) command:
+Inspect one of the vectorized bike documents using the [JSON.GET]({{< baseurl >}}/commands/json.get) command:
 
 {{< clients-example search_vss dump_example />}}
 
@@ -150,7 +150,7 @@ In the example above, the array was shortened considerably for the sake of reada
 
 ### 1. Create an index with a vector field
 
-You must create an index to query based on vector metadata or perform vector searches. Use the [FT.CREATE]({{< baseurl >}}/commands/ft.create//) command:
+You must create an index to query based on vector metadata or perform vector searches. Use the [FT.CREATE]({{< baseurl >}}/commands/ft.create) command:
 
 {{< clients-example search_vss create_index >}}
 FT.CREATE idx:bikes_vss ON JSON 
@@ -176,7 +176,7 @@ You can find further details about all these options in the [vector reference do
 
 ### 2. Check the state of the index
 
-As soon as you execute the [FT.CREATE]({{< baseurl >}}/commands/ft.create//) command, the indexing process runs in the background. In a short time, all JSON documents should be indexed and ready to be queried. To validate that, you can use the [FT.INFO]({{< baseurl >}}/commands/ft.info//) command, which provides details and statistics about the index. Of particular interest are the number of documents successfully indexed and the number of failures:  
+As soon as you execute the [FT.CREATE]({{< baseurl >}}/commands/ft.create) command, the indexing process runs in the background. In a short time, all JSON documents should be indexed and ready to be queried. To validate that, you can use the [FT.INFO]({{< baseurl >}}/commands/ft.info) command, which provides details and statistics about the index. Of particular interest are the number of documents successfully indexed and the number of failures:  
 
 {{< clients-example search_vss validate_index >}}
 FT.INFO idx:bikes_vss

@@ -58,7 +58,7 @@ This is the General Availability release of RedisTimeSeries!  Read the [full sto
 
 ### Features
 
-In RedisTimeSeries, we are introducing a new data type that uses chunks of memory of fixed size for time series samples, indexed by the same [Radix Tree implementation](https://github.com/antirez/rax) as Redis Streams. With Streams, you can create a [capped stream]({{< relref "/commands" >}}/xadd), effectively limiting the number of messages by count. In RedisTimeSeries, you can apply a retention policy in milliseconds. This is better for time series use cases, because they are typically interested in the data during a given time window, rather than a fixed number of samples.
+In RedisTimeSeries, we are introducing a new data type that uses chunks of memory of fixed size for time series samples, indexed by the same [Radix Tree implementation](https://github.com/antirez/rax) as Redis Streams. With Streams, you can create a [capped stream]({{< relref "/commands/xadd" >}}, effectively limiting the number of messages by count. In RedisTimeSeries, you can apply a retention policy in milliseconds. This is better for time series use cases, because they are typically interested in the data during a given time window, rather than a fixed number of samples.
 
 #### Downsampling/compaction
 
