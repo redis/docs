@@ -345,7 +345,9 @@ The main sections of these files are:
     - `expire`: Positive integer value indicating a number of seconds for the key to expire.
     If you don't specify this property, the key will never expire.
 
-{{< note >}}You must specify a `transform` section, or a `key` section under `output`, or both.{{< /note >}}
+{{< note >}}In a job file, the `transform` section is optional, but if you don't specify
+a `transform`, you must specify custom key logic in `output.with.key`. You can include
+both of these sections if you want both a custom transform and a custom key.{{< /note >}}
 
 Another example below shows how you can rename the `fname` field to `first_name` in the table `emp`
 using the

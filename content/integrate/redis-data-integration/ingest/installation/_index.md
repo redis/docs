@@ -52,7 +52,8 @@ Each of the RDI VMs should have:
 
 Follow the steps below for each of your VMs:
 
-1.  Download the RDI installer from the [Redis download center](https://redis.io/downloads)
+1.  Download the RDI installer from the [Redis download center](https://app.redislabs.com/#/rlec-downloads)
+    (under the *Modules, Tools & Integration* dropdown)
     and extract it to your preferred installation folder.
 
 1. Go to the installation folder:
