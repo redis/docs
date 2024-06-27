@@ -21,11 +21,11 @@ Here's how to subscribe to Redis Cloud with AWS Marketplace:
 
     {{<image filename="images/rc/aws-marketplace-rc-flexible-plan.png" alt="The Redis Cloud listing on AWS Marketplace" >}}
 
+    Or, click on the URL provided by your Redis seller for a private offer for [Redis Cloud - Annual Commits](https://aws.amazon.com/marketplace/pp/prodview-e6y7ork67pjwg?sr=0-3&ref_=beagle&applicationId=AWSMPContessa) and accept the private offer.
+
 1.  Subscribe to the listing, locate the **Set Up Your Account button**, and then select it to begin mapping your Redis Cloud account with your AWS Marketplace account.
 
     {{<image filename="images/rc/aws-marketplace-account-setup-button.png" alt="Use the Set Up Your Account button after subscribing to Redis Cloud with your AWS Marketplace account." width="50%">}}
-
-    Or, click on the URL provided by your Redis seller for a private offer for [Redis Cloud - Annual Commits](https://aws.amazon.com/marketplace/pp/prodview-e6y7ork67pjwg?sr=0-3&ref_=beagle&applicationId=AWSMPContessa) and accept the private offer.
 
 1.  Sign in to the [Redis Cloud console](https://app.redislabs.com). If you do not yet have an account, you will need to create one. You must have the **Account Owner** role.
 
@@ -34,6 +34,10 @@ Here's how to subscribe to Redis Cloud with AWS Marketplace:
     {{<image filename="images/rc/aws-marketplace-map-account-dialog.png" alt="Use the AWS Marketplace dialog to map your Redis Cloud account to your AWS Marketplace account." width="80%">}}
 
 1.  Use the **Connect account** button to confirm your choice.
+
+    {{< note >}}
+You must complete this step to bill your Redis Cloud resources to your AWS Marketplace account.
+    {{< /note >}}
 
 1.  Once your Redis account is mapped to your AWS Marketplace account, a message appears in the upper, left corner of the account panel.
 
