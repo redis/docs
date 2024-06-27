@@ -91,7 +91,7 @@ Initiates recovery for a database in a recoverable state.
 
 ### Request {#post-request}
 
-The request body can either be empty or include a request body with a recovery plan.
+The request body can either be empty or include a recovery plan.
 
 If the request body is empty, the database will be recovered automatically:
 
