@@ -46,16 +46,6 @@ You can enable replication when you create your database. You can switch between
 
 It is best practice to enable replication for any databases that need to be highly available.
 
-### Create Active-Active database
-
-[Active-Active databases]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) store data across multiple regions and availability zones.
-
-Active-Active Redis allows you to [manually fail over to a different region]({{< relref "/operate/rs/databases/active-active/develop/app-failover-active-active" >}}) if a whole region fails. However, you need to specifically develop your app with Active-Active in mind. For more information on developing with Active-Active, see [Active-Active Redis applications]({{< relref "/operate/rs/databases/active-active/develop" >}}).
-
-To create Active-Active databases, you need to create a Redis Cloud Pro subscription, then enable Active-Active Redis and define the regions for each copy of your databases. See [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for instructions.
-
-If you decide to use Active-Active with [Jedis]({{< relref "/develop/connect/clients/java/jedis" >}}), you can use Jedis to fail over between regions if one region becomes unavailable. See [Failover with Jedis](https://github.com/redis/jedis/blob/master/docs/failover.md) to learn how to failover to a different Active-Active region.
-
 ### Set manual maintenance windows
 
 Redis maintains your Redis Cloud subscriptions and databases as needed to ensure your databases are running the most stable and up-to-date version of Redis. By default, Redis will perform [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) automatically while limiting service disruption as much as possible.
@@ -85,3 +75,9 @@ Depending on the client, you may be recommended to turn off the DNS cache entire
 The [WAIT]({{< relref "/commands/wait/" >}}) and [WAITAOF]({{< relref "/commands/waitaof/" >}}) commands block the current client until all previous write commands are persisted between replicas. With these commands, your application guarantees that acknowledged writes are recorded between replicas. 
 
 For more info, see [Use the WAIT command for strong consistency]({{< relref "/operate/rs/clusters/optimize/wait/" >}}).
+
+## More info
+
+- [Redis Clients]({{< relref "/develop/connect/clients/" >}})
+- [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
+- [Active-Active Redis applications]({{< relref "/operate/rs/databases/active-active/develop" >}})
