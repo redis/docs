@@ -30,7 +30,7 @@ To define a Redis ACL rule that you can assign to a role:
 
     - Select **+ Add Redis ACL** to create a new Redis ACL.
 
-1. Enter a descriptive name for the Redis ACL. This will be used to reference the ACL rule to the role.
+1. Enter a descriptive name for the Redis ACL. This will be used to associate the ACL rule with the role.
 
 1. Define the ACL rule. For more information about Redis ACL rules and syntax, see the [Redis ACL overview]({{<relref "/operate/rs/security/access-control/create-roles/redis-acl-overview">}}).
 
