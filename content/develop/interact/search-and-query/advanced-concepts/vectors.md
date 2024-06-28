@@ -23,7 +23,7 @@ Vector similarity provides these functionalities:
 
 * Realtime vector indexing supporting two indexing methods:
 
-    - FLAT - Brute-force index
+    - FLAT - a simple, lightweight index.
 
     - HNSW - Modified version of [nmslib/hnswlib](https://github.com/nmslib/hnswlib), which is an implementation of [Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
 
@@ -55,7 +55,7 @@ Where:
 
 * `{algorithm}` must be specified and be a supported vector similarity index algorithm. The supported algorithms are:
 
-    - FLAT - Brute force algorithm.
+    - FLAT - a simple, straightforward algorithm.
 
     - HNSW - Hierarchical Navigable Small World algorithm.
 
