@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- kubernetes
 description: Rack-zone awareness ensures high availability in the event of a rack
   or zone failure.
 linkTitle: Rack-zone awareness

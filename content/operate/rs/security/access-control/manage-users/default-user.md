@@ -19,7 +19,7 @@ Select **Password-only authentication**, then enter and confirm a default databa
 
 ## Authenticate as default user
 
-When you configure a password for your database, all connections to the database must authenticate using the [AUTH]({{< relref "/commands" >}}/auth) command. See Redis security's [authentication]({{<relref "/operate/oss_and_stack/management/security/#authentication">}}) section for more information.
+When you configure a password for your database, all connections to the database must authenticate using the [AUTH]({{< relref "/commands/auth" >}}) command. See Redis security's [authentication]({{<relref "/operate/oss_and_stack/management/security/#authentication">}}) section for more information.
 
 ```sh
 AUTH <default-database-password>

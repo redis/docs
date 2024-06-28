@@ -30,7 +30,7 @@ Create and manage [Redis databases]({{< relref "/operate/rc/databases" >}}) in t
 - [View and edit databases]({{< relref "/operate/rc/databases/view-edit-database" >}})
 - [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance" >}})
 - [Manage databases]({{< relref "/operate/rc/databases/configuration" >}})
-- [Redis commands]({{< relref "/commands" >}}/) & [compatibility]({{< relref "/operate/rc/compatibility" >}})
+- [Redis commands]({{< relref "/commands" >}}) & [compatibility]({{< relref "/operate/rc/compatibility" >}})
 
 ## Subscriptions
 Learn about the [types of subscriptions]({{< relref "/operate/rc/subscriptions" >}}).

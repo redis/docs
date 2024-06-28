@@ -113,7 +113,7 @@ The leaf certificates expire regularly; they're automatically rotated before exp
 
 [Redis 6.2](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) introduced new commands, feature improvements, and security fixes; it addresses many customer requests.
 
-Redis Enterprise Software supports all new commands, except [RESET]({{< relref "/commands" >}}/reset) and [FAILOVER]({{< relref "/commands" >}}/failover).  (Redis Enterprise takes a different approach to connectivity; it also separates control plane operations from data plane operations.)
+Redis Enterprise Software supports all new commands, except [RESET]({{< relref "/commands/reset" >}}) and [FAILOVER]({{< relref "/commands/failover" >}}.  (Redis Enterprise takes a different approach to connectivity; it also separates control plane operations from data plane operations.)
 
 To learn more, see Redis Enterprise Software [compatibility with open source]({{< relref "/operate/rs/references/compatibility" >}}).
 
@@ -170,7 +170,7 @@ As a workaround to install Redis Enterprise Software without using any root dire
 
 ## Known issues 
 
-- A new command was added as part of Redis 6.2: [`XAUTOCLAIM`]({{< relref "/commands" >}}/xautoclaim/). When used in an Active-Active configuration, this command may cause Redis shards to crash, potentially resulting in data loss. The issue is fixed in Redis Enterprise Software version 6.2.12. Additionally, we recommend enabling AOF persistence for all Active-Active configurations.
+- A new command was added as part of Redis 6.2: [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}). When used in an Active-Active configuration, this command may cause Redis shards to crash, potentially resulting in data loss. The issue is fixed in Redis Enterprise Software version 6.2.12. Additionally, we recommend enabling AOF persistence for all Active-Active configurations.
 
 - The `ZRANGESTORE` command, with a special `zset-max-ziplist-entries` configuration can crash Redis 6.2. See [Redis repository 10767](https://github.com/redis/redis/pull/10767) for more details.
 

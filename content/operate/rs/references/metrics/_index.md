@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Documents the metrics that are tracked with Redis Enterprise Software.
 hideListLinks: true
 linkTitle: Metrics

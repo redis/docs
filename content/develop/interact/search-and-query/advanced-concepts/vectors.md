@@ -23,7 +23,7 @@ Vector similarity provides these functionalities:
 
 * Realtime vector indexing supporting two indexing methods:
 
-    - FLAT - Brute-force index
+    - FLAT - a simple, lightweight index.
 
     - HNSW - Modified version of [nmslib/hnswlib](https://github.com/nmslib/hnswlib), which is an implementation of [Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
 
@@ -55,7 +55,7 @@ Where:
 
 * `{algorithm}` must be specified and be a supported vector similarity index algorithm. The supported algorithms are:
 
-    - FLAT - Brute force algorithm.
+    - FLAT - a simple, straightforward algorithm.
 
     - HNSW - Hierarchical Navigable Small World algorithm.
 
@@ -312,7 +312,7 @@ Now, sort the results by their distance from the query vector:
 ```
 FT.SEARCH idx "*=>[KNN 10 @vec $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vec_score DIALECT 2
 ```
-Return the top 10 similar documents, use *query params* (see "params" section in [FT.SEARCH command]({{< baseurl >}}/commands/ft.search//)) for specifying `K` and `EF_RUNTIME` parameter, and set `EF_RUNTIME` value to 150 (assuming `vec` is an HNSW index):
+Return the top 10 similar documents, use *query params* (see "params" section in [FT.SEARCH command]({{< baseurl >}}/commands/ft.search)) for specifying `K` and `EF_RUNTIME` parameter, and set `EF_RUNTIME` value to 150 (assuming `vec` is an HNSW index):
 ```
 FT.SEARCH idx "*=>[KNN $K @vec $BLOB EF_RUNTIME $EF]" PARAMS 6 BLOB "\x12\xa9\xf5\x6c" K 10 EF 150 DIALECT 2
 ```

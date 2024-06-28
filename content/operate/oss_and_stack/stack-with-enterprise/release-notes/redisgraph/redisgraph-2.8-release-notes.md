@@ -184,7 +184,7 @@ Details:
 - Features:
 
     - [#2403](https://github.com/RedisGraph/RedisGraph/pull/2403) Introduce `toFloat` function
-    - [#2365](https://github.com/RedisGraph/RedisGraph/issues/2365) Commands that don't execute on the main thread now also appear in [SLOWLOG]({{< relref "/commands" >}}/slowlog/)
+    - [#2365](https://github.com/RedisGraph/RedisGraph/issues/2365) Commands that don't execute on the main thread now also appear in [SLOWLOG]({{< relref "/commands/slowlog" >}})
 
 - Bug fixes:
 

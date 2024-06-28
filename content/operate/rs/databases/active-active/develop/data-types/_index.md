@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Introduction to differences in data types between standalone and Active-Active
   Redis databases.
 hideListLinks: true

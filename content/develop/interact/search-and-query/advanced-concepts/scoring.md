@@ -31,7 +31,7 @@ Basic [TF-IDF scoring](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) with a few 
 
 1. For each term in each result, the TF-IDF score of that term is calculated to that document. Frequencies are weighted based on field weights that are pre-determined, and each term's frequency is normalized by the highest term frequency in each document.
 
-2. The total TF-IDF for the query term is multiplied by the presumptive document score given on `FT.ADD`.
+2. The total TF-IDF for the query term is multiplied by the presumptive document score given on `FT.CREATE` via `SCORE_FIELD`.
 
 3. A penalty is assigned to each result based on "slop" or cumulative distance between the search terms. Exact matches will get no penalty, but matches where the search terms are distant will have their score reduced significantly. For each bigram of consecutive terms, the minimal distance between them is determined. The penalty is the square root of the sum of the distances squared; e.g., `1/sqrt(d(t2-t1)^2 + d(t3-t2)^2 + ...)`.
 
@@ -121,21 +121,23 @@ Payloads are binary-safe, and having payloads with a length that is a multiple o
 Example:
 
 ```
-127.0.0.1:6379> FT.CREATE idx SCHEMA foo TEXT
-OK
-127.0.0.1:6379> FT.ADD idx 1 1 PAYLOAD "aaaabbbb" FIELDS foo hello
-OK
-127.0.0.1:6379> FT.ADD idx 2 1 PAYLOAD "aaaacccc" FIELDS foo bar
-OK
+> HSET key:1 foo hello payload aaaabbbb
+(integer) 2
 
-127.0.0.1:6379> FT.SEARCH idx "*" PAYLOAD "aaaabbbc" SCORER HAMMING WITHSCORES
-1) (integer) 2
-2) "1"
-3) "0.5" // hamming distance of 1 --> 1/(1+1) == 0.5
+> HSET key:2 foo bar payload aaaacccc 
+(integer) 2
+
+> FT.CREATE idx ON HASH PREFIX 1 key: PAYLOAD_FIELD payload SCHEMA foo TEXT
+"OK"
+
+> FT.SEARCH idx "*" PAYLOAD "aaaabbbc" SCORER HAMMING WITHSCORES
+1) "2"
+2) "key:1"
+3) "0.5"
 4) 1) "foo"
    2) "hello"
-5) "2"
-6) "0.25" // hamming distance of 3 --> 1/(1+3) == 0.25
+5) "key:2"
+6) "0.25"
 7) 1) "foo"
    2) "bar"
 ```

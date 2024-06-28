@@ -58,7 +58,7 @@ This checklist covers the basic process:
 
 To test your LDAP integration, you can:
 
-- Connect with `redis-cli` and use the [`AUTH` command]({{< relref "/commands" >}}/auth/) to test LDAP username/password credentials.
+- Connect with `redis-cli` and use the [`AUTH` command]({{< relref "/commands/auth" >}}) to test LDAP username/password credentials.
 
 - Sign in to the Cluster Manager UI using LDAP credentials authorized for admin access.
 

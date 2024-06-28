@@ -27,7 +27,7 @@ To view the details of a database:
 The **Database** screen lets you review:
 - Configuration details of a database
 - Graphs showing performance metrics
-- Recent activity via a "[slowlog]({{< relref "/commands" >}}/slowlog)," which lists queries that exceed a certain execution time.
+- Recent activity via a "[slowlog]({{< relref "/commands/slowlog" >}}," which lists queries that exceed a certain execution time.
 
 For help changing database settings, see [Edit database details](#edit-database-details).
 
@@ -73,7 +73,7 @@ The **Scalability** section is primarily for Redis Cloud Pro plans. Redis Cloud 
 | **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
 | **OSS Cluster API**       | Enables the [Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) for a database.<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
 
-To learn more about these settings and when to use them, see [Database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}).
+To learn more about these settings and when to use them, see [Database clustering]({{< relref "/operate/rc/databases/configuration/clustering" >}}).
 
 ### Durability section
 
@@ -182,7 +182,7 @@ The **View Database** screen also has tabs that let you view:
 
 - **Metrics**: a series of graphs showing database performance over time.  See [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance.md" >}})
 
-- **Slowlog**: a log showing recent [slow queries]({{< relref "/commands" >}}/slowlog) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
+- **Slowlog**: a log showing recent [slow queries]({{< relref "/commands/slowlog" >}}) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
 
 
 ## Edit database details

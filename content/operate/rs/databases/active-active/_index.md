@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- kubernetes
 description: Overview of the Active-Active database in Redis Enterprise Software
 hideListLinks: true
 linktitle: Active-Active
