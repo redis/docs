@@ -31,10 +31,10 @@ Redis is ideal for RAG due to its speed, versatility, and familiarity.
 
 Redis provides a robust platform for managing real-time data. It supports the storage and retrieval of vectors, essential for handling large-scale, unstructured data and performing similarity searches. Key features and components of Redis that make it suitable for RAG include:
 
-1. **Vector Database**: Stores and indexes vector embeddings that semantically represent unstructured data.
-1. **Semantic Cache**: Caches frequently asked questions (FAQs) in a RAG pipeline. Using vector search, Redis retrieves similar previously answered questions, reducing LLM inference costs and latency.
-1. **LLM Session Manager**: Stores conversation history between an LLM and a user. Redis fetches recent and relevant portions of the chat history to provide context, improving the quality and accuracy of responses.
-1. **High Performance and Scalability**: Known for its [low latency and high throughput](https://redis.io/blog/benchmarking-results-for-vector-databases/), Redis is ideal for RAG systems and AI agents requiring rapid data retrieval and generation.
+1. **Vector database**: Stores and indexes vector embeddings that semantically represent unstructured data.
+1. **Semantic cache**: Caches frequently asked questions (FAQs) in a RAG pipeline. Using vector search, Redis retrieves similar previously answered questions, reducing LLM inference costs and latency.
+1. **LLM session manager**: Stores conversation history between an LLM and a user. Redis fetches recent and relevant portions of the chat history to provide context, improving the quality and accuracy of responses.
+1. **High performance and scalability**: Known for its [low latency and high throughput](https://redis.io/blog/benchmarking-results-for-vector-databases/), Redis is ideal for RAG systems and AI agents requiring rapid data retrieval and generation.
 
 ### Build a RAG Application with Redis
 
@@ -44,18 +44,18 @@ To build a RAG application with Redis, follow these general steps:
 
 2. **Use a Framework**:
     1. **Redis Vector Library (RedisVL)**: [RedisVL](https://redis.io/docs/latest/integrate/redisvl/) enhances the development of generative AI applications by efficiently managing vectors and metadata. It allows for storage of vector embeddings and facilitates fast similarity searches, crucial for retrieving relevant information in RAG.
-    2. **Popular AI Frameworks**: Redis integrates seamlessly with various AI frameworks and tools. For instance, combining Redis with [LangChain](https://python.langchain.com/v0.2/docs/integrations/vectorstores/redis/) or [LlamaIndex](https://docs.llamaindex.ai/en/latest/examples/vector_stores/RedisIndexDemo/), libraries for building language models, enables developers to create sophisticated RAG pipelines. These integrations support efficient data management and building real-time LLM chains.
+    2. **Popular AI frameworks**: Redis integrates seamlessly with various AI frameworks and tools. For instance, combining Redis with [LangChain](https://python.langchain.com/v0.2/docs/integrations/vectorstores/redis/) or [LlamaIndex](https://docs.llamaindex.ai/en/latest/examples/vector_stores/RedisIndexDemo/), libraries for building language models, enables developers to create sophisticated RAG pipelines. These integrations support efficient data management and building real-time LLM chains.
     3. **Spring AI and Redis**: Using [Spring AI with Redis](https://redis.io/blog/building-a-rag-application-with-redis-and-spring-ai/) simplifies building RAG applications. Spring AI provides a structured approach to integrating AI capabilities into applications, while Redis handles data management, ensuring the RAG pipeline is efficient and scalable.
 
-3. **Embed and Store Data**: Convert your data into vector embeddings using a suitable model (e.g., BERT, GPT). Store these embeddings in Redis, where they can be quickly retrieved based on vector searches.
+3. **Embed and store data**: Convert your data into vector embeddings using a suitable model (e.g., BERT, GPT). Store these embeddings in Redis, where they can be quickly retrieved based on vector searches.
 
-4. **Integrate with a Generative Model**: Use a generative AI model that can leverage the retrieved data. The model will use the vectors stored in Redis to augment its generation process, ensuring the output is informed by relevant, up-to-date information.
+4. **Integrate with a generative model**: Use a generative AI model that can leverage the retrieved data. The model will use the vectors stored in Redis to augment its generation process, ensuring the output is informed by relevant, up-to-date information.
 
-5. **Query and Generate**: Implement the query logic to retrieve relevant vectors from Redis based on the input prompt. Feed these vectors into the generative model to produce augmented outputs.
+5. **Query and generate**: Implement the query logic to retrieve relevant vectors from Redis based on the input prompt. Feed these vectors into the generative model to produce augmented outputs.
 
 ### Benefits of Using Redis for RAG
 
-- **Efficiency**: Redis's in-memory data store ensures that retrieval operations are performed with minimal latency.
+- **Efficiency**: The in-memory data store of Redis ensures that retrieval operations are performed with minimal latency.
 - **Scalability**: Redis scales horizontally, seamlessly handling growing volumes of data and queries.
 - **Flexibility**: Redis supports a variety of data structures and integrates with AI frameworks.
 
