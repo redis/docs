@@ -30,7 +30,7 @@ Usage: redis-di install [OPTIONS]
   * Usage: `-f
 --file`
 
-  Path to a YAML configuration file for silent installation
+  Path to a TOML configuration file for silent installation
 
 
 * `online`: 
@@ -60,7 +60,7 @@ Usage: redis-di install [OPTIONS]
 Options:
   -l, --log-level [DEBUG|INFO|WARN|ERROR|CRITICAL]
                                   [default: WARN]
-  -f, --file FILE                 Path to a YAML configuration file for silent
+  -f, --file FILE                 Path to a TOML configuration file for silent
                                   installation
   --help                          Show this message and exit.
 ```

@@ -88,6 +88,122 @@ Once the installation is finished, RDI is ready for use.
 
 {{<note>}}RDI gives you instructions to help you create secrets and create your pipeline.{{</note>}}
 
+## "Silent" installation
+
+You can use the
+[`redis-di install`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-install" >}})
+command with the `--file` option (or the shorter version `-f`) to supply answers
+to the installer's questions automatically using properties from a
+[TOML](https://toml.io/en/) file:
+
+```bash
+redis-di install --file silent.toml
+```
+
+### Silent install example
+
+The following example shows the properties for a typical
+silent install configuration:
+
+```toml
+title = "RDI Silent Installer Config"
+
+scaffold = true
+deploy_directory = "/opt/rdi/config"
+
+# If you are *not* using an existing RDI database and you want
+# the installer to create one then remove the properties in this
+# section, apart from :
+# - `password`
+# - `use_existing_rdi` -  set this to `false`
+# Also, uncomment the [rdi.cluster] section below.
+[rdi.database]
+host = "localhost"
+port = 12001
+username = "username"
+password = "password"
+use_existing_rdi = true
+ssl = true
+
+# Uncomment this section and remove properties from the
+# [rdi.database] section as described above if you
+# are *not* using an existing RDI database and you want
+# the installer to create one.
+# [rdi.cluster]
+# host = "localhost"
+# port = 9443
+# username = "username"
+# password = "password"
+
+
+# Uncomment the properties in this section only if the RDI
+# database uses TLS/mTLS.
+# [rdi.database.certificates]
+# ca = "/home/ubuntu/rdi/certs/ca.crt"
+# cert = "/home/ubuntu/rdi/certs/client.crt"
+# key = "/home/ubuntu/rdi/certs/client.key"
+# passphrase = "foobar"
+```
+
+The sections below describe the properties in more detail.
+
+### Silent install properties
+
+#### Root
+
+| Property | Description |
+|-- |-- |
+| `title` | Text to identify the file. RDI doesn't use use this, so you can use any text you like. |
+| `high_availability` | Do you want to enable replication on the RDI database (true/false)? You should only use this if you ask the installer to create the RDI database for you. |
+| `scaffold` | Do you want to enable [scaffolding]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-scaffold" >}}) during the install? (true/false) |
+| `db_index` | Integer to specify the source database type. The options are 4 (MySQL/MariaDB), 5 (Oracle), 6 (PostgreSQL), and 8 (SQL Server). You should only use this if you ask the installer to create the RDI database for you. |
+| `deploy_directory` | Path to the directory where you want to store the RDI configuration. |
+
+#### `rdi.database`
+
+Use the properties in this section if you want to use an existing RDI database.
+See [`rdi.cluster`](#rdicluster) below if you want the installer to create a new
+RDI database. However, you should still supply the `password` in this
+section and set `use_existing_rdi` to `false` if the installer creates the
+database.
+
+| Property | Description |
+|-- |-- |
+| `host` | Hostname for the Redis database to store RDI state. |
+| `port` | Port for the RDI database. |
+| `username` | Username for the RDI database. |
+| `password` | Password for the RDI database. |
+| `use_existing_rdi` | Do you want to use an existing RDI instance (true) or create a new one (false)? If you enable SSL (see the property below), this will be set to true, overriding the value you specify here. |
+| `ssl` | Is SSL enabled for the RDI database (true/false)? If this is false then RDI will ignore the settings in the [`rdi.database.certificates`](#rdidatabasecertificates) section. |
+
+#### `rdi.cluster`
+
+Use the properties in this section if you are *not* using an existing RDI database
+and you want the installer to create one.
+See [`rdi.database`](#rdidatabase) above if you want to use an existing RDI database.
+
+| Property | Description |
+|-- |-- |
+| `host` | Hostname of the Redis cluster to use for RDI. |
+| `port` | Port for the cluster. |
+| `username` | Username for the cluster. |
+| `password` | Password for the cluster. |
+
+#### `rdi.database.certificates`
+
+Use these properties only if the RDI database requires
+[TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) or
+[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS).
+You must also set `ssl` to `true` in the
+[`rdi.database`](#rdidatabase) section to enable these properties.
+
+| Property | Description |
+|-- |-- |
+| `ca` | Path to the CA certificate file. |
+| `cert` | Path to the client certificate file. |
+| `key` | Path to the key file. |
+| `passphrase` | Password for the private key (string). |
+
 ## Prepare your source database
 
 You must also configure your source database to use the Debezium connector for CDC. See the
