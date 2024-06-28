@@ -11,7 +11,7 @@ This is the General Availability (GA) release of Redis Insight 2.52.
 
 ### Highlights
 - Redis Insight now supports [setting expiration for individual hash fields](https://redis.io/docs/latest/develop/data-types/hashes/?utm_source=redisinsight&utm_medium=release_notes&utm_campaign=2.52#field-expiration), a highly requested feature available in the [first release candidate of Redis 7.4](https://github.com/redis-stack/redis-stack/releases/tag/v7.4.0-rc1)
-- Explore a new built-in tutorial about using Redis for Retrieval Augmented Generation (RAG) use cases in the "Insights" panel
+- Learn how to leverage Redis for Retrieval Augmented Generation (RAG) use cases via a new built-in Redis Insight tutorial
 
 ### Details
 
