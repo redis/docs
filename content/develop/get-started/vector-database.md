@@ -26,12 +26,12 @@ This quick start guide helps you to:
 
 ## Understand vector databases
 
-Data is often unstructured, which means that it isn't described by a well-defined schema. Examples of unstructured data include text passages, images, videos, or audio. An approach to storing and searching through unstructured data is through vector embeddings.
+Data is often unstructured, which means that it isn't described by a well-defined schema. Examples of unstructured data include text passages, images, videos, or audio. One approach to storing and searching through unstructured data is to use vector embeddings.
 
 **What are vectors?** In machine learning and AI, vectors are sequences of numbers that represent data. They are the inputs and outputs of models, encapsulating underlying information in a numerical form. Vectors transform unstructured data, such as text, images, videos, and audio, into a format that machine learning models can process.
 
-- **Why are They Important?** Vectors capture complex patterns and semantic meanings inherent in data, making them powerful tools for a variety of applications. They allow machine learning models to understand and manipulate unstructured data more effectively.
-- **Enhancing Traditional Search?** Traditional keyword or lexical search relies on exact matches of words or phrases, which can be limiting. In contrast, vector search, or semantic search, leverages the rich information captured in vector embeddings. By mapping data into a vector space, similar items are positioned near each other based on their meaning. This approach allows for more accurate and meaningful search results, as it considers the context and semantic content of the query rather than just the exact words used.
+- **Why are they important?** Vectors capture complex patterns and semantic meanings inherent in data, making them powerful tools for a variety of applications. They allow machine learning models to understand and manipulate unstructured data more effectively.
+- **Enhancing traditional search.** Traditional keyword or lexical search relies on exact matches of words or phrases, which can be limiting. In contrast, vector search, or semantic search, leverages the rich information captured in vector embeddings. By mapping data into a vector space, similar items are positioned near each other based on their meaning. This approach allows for more accurate and meaningful search results, as it considers the context and semantic content of the query rather than just the exact words used.
 
 
 ## Create a Redis vector database
@@ -98,7 +98,7 @@ This quick start guide also uses the **bikes** dataset. Here is an example docum
 }
 ```
 
-The `description` field contains a free-form text descriptions of bikes and will be used to create vector embeddings.
+The `description` field contains free-form text descriptions of bikes and will be used to create vector embeddings.
 
 
 ###  1. Fetch the demo data
@@ -121,7 +121,7 @@ Once loaded, you can retrieve a specific attributes from one of the JSON documen
 
 ### 3. Select a text embedding model
 
-[HuggingFace](https://huggingface.co) has a large catalog of text embedding models that are locally servable through the `SentenceTransformers` framework. Here we use the [MS MARCO](https://microsoft.github.io/msmarco/) model which is widely used in search engines, chatbots, and other AI applications.
+[HuggingFace](https://huggingface.co) has a large catalog of text embedding models that are locally servable through the `SentenceTransformers` framework. Here we use the [MS MARCO](https://microsoft.github.io/msmarco/) model that is widely used in search engines, chatbots, and other AI applications.
 
 ```python
 from sentence_transformers import SentenceTransformer
@@ -138,11 +138,11 @@ Use the keys as input to the [JSON.MGET]({{< baseurl >}}/commands/json.mget//) c
 
 {{< clients-example search_vss generate_embeddings />}}
 
-Insert the vectorized descriptions to the bike documents in Redis using the [JSON.SET]({{< baseurl >}}/commands/json.set//) command. The following command inserts a new field in each of the documents under the JSONPath `$.description_embeddings`. Once again, do this using a pipeline to avoid unnecessary network round-trips:
+Insert the vectorized descriptions to the bike documents in Redis using the [JSON.SET]({{< baseurl >}}/commands/json.set) command. The following command inserts a new field into each of the documents under the JSONPath `$.description_embeddings`. Once again, do this using a pipeline to avoid unnecessary network round-trips:
 
 {{< clients-example search_vss load_embeddings />}}
 
-Inspect one of the updated bike documents using the [JSON.GET](({{< relref "/commands" >}}/json.get/)) command:
+Inspect one of the updated bike documents using the [JSON.GET]({{< baseurl >}}/commands/json.get) command:
 
 {{< clients-example search_vss dump_example />}}
 
@@ -155,7 +155,7 @@ When storing a vector embedding within a JSON document, the embedding is stored 
 
 ### 1. Create an index with a vector field
 
-You must create an index to query based on document metadata or perform vector searches. Use the [FT.CREATE]({{< baseurl >}}/commands/ft.create//) command:
+You must create an index to query document metadata or to perform vector searches. Use the [FT.CREATE]({{< baseurl >}}/commands/ft.create) command:
 
 {{< clients-example search_vss create_index >}}
 FT.CREATE idx:bikes_vss ON JSON
@@ -181,7 +181,7 @@ You can find further details about all these options in the [vector reference do
 
 ### 2. Check the state of the index
 
-As soon as you execute the [FT.CREATE]({{< baseurl >}}/commands/ft.create//) command, the indexing process runs in the background. In a short time, all JSON documents should be indexed and ready to be queried. To validate that, you can use the [FT.INFO]({{< baseurl >}}/commands/ft.info//) command, which provides details and statistics about the index. Of particular interest are the number of documents successfully indexed and the number of failures:
+As soon as you execute the [FT.CREATE]({{< baseurl >}}/commands/ft.create) command, the indexing process runs in the background. In a short time, all JSON documents should be indexed and ready to be queried. To validate that, you can use the [FT.INFO]({{< baseurl >}}/commands/ft.info) command, which provides details and statistics about the index. Of particular interest are the number of documents successfully indexed and the number of failures:
 
 {{< clients-example search_vss validate_index >}}
 FT.INFO idx:bikes_vss
@@ -189,7 +189,7 @@ FT.INFO idx:bikes_vss
 
 ## Perform vector searches
 
-This quick start guide focuses on vector search. However, you can learn more about how to query based on vector metadata in the [document database quick start guide]({{< relref "/develop/get-started/document-database" >}}).
+This quick start guide focuses on vector search. However, you can learn more about how to query based on document metadata in the [document database quick start guide]({{< relref "/develop/get-started/document-database" >}}).
 
 ### 1. Embed your queries
 
@@ -221,7 +221,7 @@ query = (
 ```
 
 Let's break down the above query template:
-- The filter expression `(*)` means `all`. In other words, NO filtering was applied. You could replace it with an expression that filters by additional metadata.
+- The filter expression `(*)` means `all`. In other words, no filtering was applied. You could replace it with an expression that filters by additional metadata.
 - The `KNN` part of the query searches for the top 3 nearest neighbors.
 - The query vector must be passed in as the param `query_vector`.
 - The distance to the query vector is returned as `vector_score`.
@@ -271,4 +271,4 @@ From the description, this bike is an excellent match for younger children, and 
 1. You can learn more about the query options, such as filters and vector range queries, by reading the [vector reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
 2. The complete [search and query documentation]({{< relref "/develop/interact/search-and-query/" >}}) might be interesting for you.
 3. If you want to follow the code examples more interactively, then you can use the [Jupyter notebook](https://github.com/RedisVentures/redis-vss-getting-started/blob/main/vector_similarity_with_redis.ipynb) that inspired this quick start guide.
-4. If you want to jump to more advanced examples of Redis vector database in action, visit the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) page on GitHub.
+4. If you want to see more advanced examples of a Redis vector database in action, visit the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) page on GitHub.
