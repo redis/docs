@@ -112,8 +112,11 @@ scaffold = true
 deploy_directory = "/opt/rdi/config"
 
 # If you are *not* using an existing RDI database and you want
-# the installer to create one then remove this section
-# and uncomment the [rdi.cluster] section below.
+# the installer to create one then remove the properties in this
+# section, apart from :
+# - `password`
+# - `use_existing_rdi` -  set this to `false`
+# Also, uncomment the [rdi.cluster] section below.
 [rdi.database]
 host = "localhost"
 port = 12001
@@ -122,8 +125,9 @@ password = "password"
 use_existing_rdi = true
 ssl = true
 
-# Uncomment this section and remove the [rdi.database] section above
-# if you are *not* using an existing RDI database and you want
+# Uncomment this section and remove properties from the
+# [rdi.database] section as described above if you
+# are *not* using an existing RDI database and you want
 # the installer to create one.
 # [rdi.cluster]
 # host = "localhost"
@@ -131,11 +135,14 @@ ssl = true
 # username = "username"
 # password = "password"
 
-[rdi.database.certificates]
-ca = "/home/ubuntu/rdi/certs/ca.crt"
-cert = "/home/ubuntu/rdi/certs/client.crt"
-key = "/home/ubuntu/rdi/certs/client.key"
-passphrase = "foobar"
+
+# Uncomment the properties in this section only if the RDI
+# database uses TLS/mTLS.
+# [rdi.database.certificates]
+# ca = "/home/ubuntu/rdi/certs/ca.crt"
+# cert = "/home/ubuntu/rdi/certs/client.crt"
+# key = "/home/ubuntu/rdi/certs/client.key"
+# passphrase = "foobar"
 ```
 
 The sections below describe the properties in more detail.
@@ -156,7 +163,9 @@ The sections below describe the properties in more detail.
 
 Use the properties in this section if you want to use an existing RDI database.
 See [`rdi.cluster`](#rdicluster) below if you want the installer to create a new
-RDI database.
+RDI database. However, you should still supply the `password` in this
+section and set `use_existing_rdi` to `false` if the installer creates the
+database.
 
 | Property | Description |
 |-- |-- |
@@ -165,7 +174,7 @@ RDI database.
 | `username` | Username for the RDI database. |
 | `password` | Password for the RDI database. |
 | `use_existing_rdi` | Do you want to use an existing RDI instance (true) or create a new one (false)? If you enable SSL (see the property below), this will be set to true, overriding the value you specify here. |
-| `ssl` | Is SSL enabled for the RDI database (true/false)? If this is false then RDI will ignore the settings in the `rdi.database.certificates` section. |
+| `ssl` | Is SSL enabled for the RDI database (true/false)? If this is false then RDI will ignore the settings in the [`rdi.database.certificates`](#rdidatabasecertificates) section. |
 
 #### `rdi.cluster`
 
@@ -181,6 +190,12 @@ See [`rdi.database`](#rdidatabase) above if you want to use an existing RDI data
 | `password` | Password for the cluster. |
 
 #### `rdi.database.certificates`
+
+Use these properties only if the RDI database requires
+[TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security) or
+[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS).
+You must also set `ssl` to `true` in the
+[`rdi.database`](#rdidatabase) section to enable these properties.
 
 | Property | Description |
 |-- |-- |
