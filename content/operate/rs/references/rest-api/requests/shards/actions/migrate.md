@@ -40,8 +40,8 @@ Migrates the list of given shard UIDs to the node specified by `target_node_uid`
 {
   "shard_uids": ["2","4","6"],
   "target_node_uid": 9,
-  "override_rack_policy": False,
-  "preserve_roles": False,
+  "override_rack_policy": false,
+  "preserve_roles": false,
   "max_concurrent_bdb_migrations": 3
 }
 ```
@@ -112,8 +112,8 @@ Migrates the shard with the given `shard_uid` to the node specified by `target_n
 ```json
 {
     "target_node_uid": 9,
-    "override_rack_policy": False,
-    "preserve_roles": False
+    "override_rack_policy": false,
+    "preserve_roles": false
 }
 ```
 
