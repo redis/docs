@@ -47,7 +47,7 @@ Here's how to subscribe to Redis Cloud with Google Cloud Marketplace:
 1.  Select **Connect account** to confirm your choice.
 
     {{< note >}}
-You must complete this step to bill your Redis Cloud resources to your AWS Marketplace account.
+You must complete this step to bill your Redis Cloud resources to your Google Cloud Marketplace account.
     {{< /note >}}
 
 1.  After you connect your Redis account to your Google Cloud Marketplace account, a message appears in the upper left corner of the account panel.
