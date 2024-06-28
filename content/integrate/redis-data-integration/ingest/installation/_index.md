@@ -93,29 +93,27 @@ Once the installation is finished, RDI is ready for use.
 You can use the
 [`redis-di install`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-install" >}})
 command with the `--file` option (or the shorter version `-f`) to supply answers
-to the installer's questions automatically from a [TOML](https://toml.io/en/) file:
+to the installer's questions automatically using properties from a
+[TOML](https://toml.io/en/) file:
 
 ```bash
 redis-di install --file silent.toml
 ```
 
-The following example shows the properties you can use:
+### Silent install example
+
+The following example shows the properties for a typical
+silent install configuration:
 
 ```toml
 title = "RDI Silent Installer Config"
 
-high_availability = false
-scaffold = false
-deploy = true
-db_index = 4
+scaffold = true
 deploy_directory = "/opt/rdi/config"
 
-[rdi.cluster]
-host = "localhost"
-port = 9443
-username = "username"
-password = "password"
-
+# If you are *not* using an existing RDI database and you want
+# the installer to create one then remove this section
+# and uncomment the [rdi.cluster] section below.
 [rdi.database]
 host = "localhost"
 port = 12001
@@ -124,63 +122,41 @@ password = "password"
 use_existing_rdi = true
 ssl = true
 
+# Uncomment this section and remove the [rdi.database] section above
+# if you are *not* using an existing RDI database and you want
+# the installer to create one.
+# [rdi.cluster]
+# host = "localhost"
+# port = 9443
+# username = "username"
+# password = "password"
+
 [rdi.database.certificates]
 ca = "/home/ubuntu/rdi/certs/ca.crt"
 cert = "/home/ubuntu/rdi/certs/client.crt"
 key = "/home/ubuntu/rdi/certs/client.key"
 passphrase = "foobar"
-
-# WARNING! We provide the properties below for special
-# use cases. However, we *strongly* recommend that you don't
-# store the source and target secrets in the clear like
-# this for normal purposes!
-
-# [sources.default]
-# username = "username"
-# password = "password"
-# ssl = false
-
-# [sources.default.certificates]
-# ca = "/home/ubuntu/rdi/certs/ca.crt"
-# cert = "/home/ubuntu/rdi/certs/client.crt"
-# key = "/home/ubuntu/rdi/certs/client.key"
-# passphrase = "foobar"
-
-# [targets.default]
-# username = "username"
-# password = "password"
-# ssl = false
-
-# [targets.default.certificates]
-# ca = "/home/ubuntu/rdi/certs/ca.crt"
-# cert = "/home/ubuntu/rdi/certs/client.crt"
-# key = "/home/ubuntu/rdi/certs/client.key"
-# passphrase = "foobar"
 ```
 
-The tables below describe the properties for each section in more detail:
+The sections below describe the properties in more detail.
 
-**Root**
+### Silent install properties
+
+#### Root
 
 | Property | Description |
 |-- |-- |
 | `title` | Text to identify the file. RDI doesn't use use this, so you can use any text you like. |
-| `high_availability` | Do you want to enable replication on the RDI database? (true/false) |
+| `high_availability` | Do you want to enable replication on the RDI database (true/false)? You should only use this if you ask the installer to create the RDI database for you. |
 | `scaffold` | Do you want to enable [scaffolding]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-scaffold" >}}) during the install? (true/false) |
-| `deploy` | Do you want the installer to [deploy]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-deploy" >}}) the configuration? (true/false) |
-| `db_index` | Integer to specify the source database type. The options are 4 (MySQL/MariaDB), 5 (Oracle), 6 (PostgreSQL), and 8 (SQL Server). |
+| `db_index` | Integer to specify the source database type. The options are 4 (MySQL/MariaDB), 5 (Oracle), 6 (PostgreSQL), and 8 (SQL Server). You should only use this if you ask the installer to create the RDI database for you. |
 | `deploy_directory` | Path to the directory where you want to store the RDI configuration. |
 
-**rdi.cluster**
+#### `rdi.database`
 
-| Property | Description |
-|-- |-- |
-| `host` | Hostname of the Redis cluster to use for RDI. |
-| `port` | Port for the cluster. |
-| `username` | Username for the cluster. |
-| `password` | Password for the cluster. |
-
-**rdi.database**
+Use the properties in this section if you want to use an existing RDI database.
+See [`rdi.cluster`](#rdicluster) below if you want the installer to create a new
+RDI database.
 
 | Property | Description |
 |-- |-- |
@@ -191,7 +167,20 @@ The tables below describe the properties for each section in more detail:
 | `use_existing_rdi` | Do you want to use an existing RDI instance (true) or create a new one (false)? If you enable SSL (see the property below), this will be set to true, overriding the value you specify here. |
 | `ssl` | Is SSL enabled for the RDI database (true/false)? If this is false then RDI will ignore the settings in the `rdi.database.certificates` section. |
 
-**rdi.database.certificates**
+#### `rdi.cluster`
+
+Use the properties in this section if you are *not* using an existing RDI database
+and you want the installer to create one.
+See [`rdi.database`](#rdidatabase) above if you want to use an existing RDI database.
+
+| Property | Description |
+|-- |-- |
+| `host` | Hostname of the Redis cluster to use for RDI. |
+| `port` | Port for the cluster. |
+| `username` | Username for the cluster. |
+| `password` | Password for the cluster. |
+
+#### `rdi.database.certificates`
 
 | Property | Description |
 |-- |-- |
@@ -199,35 +188,6 @@ The tables below describe the properties for each section in more detail:
 | `cert` | Path to the client certificate file. |
 | `key` | Path to the key file. |
 | `passphrase` | Password for the private key (string). |
-
-In the commented-out section of the example TOML file, you will also
-notice the sections `source.default`, `target.default`,
-`source.default.certificates`, and `target.default.certificates`.
-For special purposes, you can use these to supply the authentication
-secrets for the source and target database. However, it is normally a
-major security risk to keep these secrets in the clear in
-a configuration file like this. Therefore, we
-*strongly recommend* that you never add these properties to
-the TOML file unless you are certain that they don't need
-to be kept secret.
-
-**source/target.default**
-
-| Property | Description |
-|-- |-- |
-| `username` | Source/target database username. |
-| `password` | Source/target database password. |
-| `ssl` | Do you want to enabled SSL for the connection? (true/false) |
-
-**source/target.default.certificates**
-
-| Property | Description |
-|-- |-- |
-| `ca` | Path to the CA certificate file. |
-| `cert` | Path to the client certificate file. |
-| `key` | Path to the key file. |
-| `passphrase` | Password for the private key (string). |
-
 
 ## Prepare your source database
 
