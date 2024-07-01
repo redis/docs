@@ -157,7 +157,7 @@ The sections below describe the properties in more detail.
 | `title` | Text to identify the file. RDI doesn't use use this, so you can use any text you like. |
 | `high_availability` | Do you want to enable replication on the RDI database (true/false)? You should only use this if you ask the installer to create the RDI database for you. |
 | `scaffold` | Do you want to enable [scaffolding]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-scaffold" >}}) during the install? (true/false) |
-| `db_index` | Integer to specify the source database type for scaffolding. The options are 4 (MySQL/MariaDB), 5 (Oracle), 6 (PostgreSQL), and 8 (SQL Server). |
+| `db_index` | Integer to specify the source database type for scaffolding. The options are 2 (MySQL/MariaDB), 3 (Oracle), 4 (PostgreSQL), and 5 (SQL Server). |
 | `deploy_directory` | Path to the directory where you want to store the RDI configuration. |
 
 #### `rdi.database`
