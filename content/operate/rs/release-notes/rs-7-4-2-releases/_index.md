@@ -48,11 +48,11 @@ For more detailed release notes, select a build version from the following table
 
 ### Product lifecycle updates
 
-Redis Enterprise Software version 6.2 is approaching end-of-life, scheduled for August 31, 2024. After this date, Redis Enterprise Software version 6.2 will not be included in [supported upgrade paths]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}) for major releases of Redis Enterprise Software. For example, you will not be able to upgrade the cluster directly from Redis Enterprise Software version 6.2.x to 7.6.x.
+After August 31, 2024, Redis Enterprise Software version 6.2 will not be included in [supported upgrade paths]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}) for major releases of Redis Enterprise Software. For example, you will not be able to upgrade the cluster directly from Redis Enterprise Software version 6.2.x to 7.6.x.
 
 However, the next major Redis Enterprise Software release will still bundle Redis database version 6.2 and allow database upgrades from Redis database version 6.2 to 7.x.
 
-See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
+See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers.
 
 ### Deprecations
 
