@@ -38,8 +38,10 @@
 
 {{ define "navChildList" -}}
 {{ $item := .item -}}
-{{ $hidden := .hidden -}}
-<ul class="child-list hidden"><!--{{ if $hidden }}hidden{{ end }}">-->
+{{ $itemPage := $.Site.GetPage $item.relref -}}
+{{ $currentPage := .currentPage -}}
+{{ $hidden := not ($itemPage.IsAncestor $currentPage )}}
+<ul class="child-list {{ if $hidden }}hidden{{ end }}">
   {{ range $item.children }}
   {{ $childPage := .Site.GetPage .relref -}}
   {{- if .divider }}
@@ -51,6 +53,8 @@
       <polyline class="arrow-closed" points="3 11 15 11 9 6" fill="black" />
       <polyline class="arrow-closed" points="3 13 9 18 15 13" fill="black" />
     </svg>
+  Item page: {{ $itemPage.LinkTitle }}
+  Viewed page: {{ $currentPage.LinkTitle }}
   {{- template "navChildList" ( dict "item" . )}}
   {{- else }}
   <li class="my-2"><a href="{{ .relref }}"><span class="pr-5"></span>{{ .linkTitle }}</a>
@@ -63,6 +67,7 @@
 {{ define "navList" -}}
 {{ $root := .root -}}
 {{ $rootPage := .Site.GetPage $root.relref }}
+{{ $currentPage := .currentPage }}
 <ul class="md:block overflow-y-auto grow pr-0  border-opacity-50 border-redis-ink-900">
   {{ range $root.children -}}
   {{- if .divider }}
@@ -76,8 +81,8 @@
     </svg>
   </a>
   {{ $childPage := .Site.GetPage .relref -}}
-  {{ $hidden := not ($childPage.IsAncestor $ ) }}
-  {{- template "navChildList" ( dict "item" . "hidden" $hidden )}}
+  {{ $hidden := not ($childPage.IsAncestor $currentPage ) }}
+  {{- template "navChildList" ( dict "item" . "currentPage" $currentPage )}}
   {{- else }}
   <li class="my-2"><span class="pr-5"></span><a href="{{ .relref }}">{{ .linkTitle }}</a>
   {{- end -}}
@@ -95,7 +100,7 @@
         <a class='px-6 py-4 rounded-t-md hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "Develop" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a>
         {{ if eq $navRoot.LinkTitle "Develop" }}
         <ul class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
-          {{- template "navList" ( dict "root" .Site.Data.nav )}}
+          {{- template "navList" ( dict "root" .Site.Data.nav "currentPage" . )}}
         </ul>
         {{ end }}
         <a class='px-6 py-4 hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50 {{ if eq $navRoot.LinkTitle "Integrate" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/integrate'>Libraries and tools</a>
