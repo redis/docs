@@ -85,7 +85,7 @@ Returns a JSON object with an `action_uid`. You can track the action's progress 
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error. |
 | [400 Bad Request](https://www.rfc-editor.org/rfc/rfc9110.html#name-400-bad-request) | Conflicting parameters. |
-| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | A list of shard uids is required and not given, a specified shard does not exist, or a node UID is required and not given. |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | A list of shard UIDs is required and not given, a specified shard does not exist, or a node UID is required and not given. |
 | [500 Internal Server Error](https://www.rfc-editor.org/rfc/rfc9110.html#name-500-internal-server-error) | Migration failed. |
 
 
