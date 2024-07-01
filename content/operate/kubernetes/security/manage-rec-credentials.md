@@ -110,7 +110,7 @@ The credentials can be used to access the Redis Enterprise admin console or the 
 
 1. [Connect to the admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-admin-console.md" >}})
 
-1. [Add another admin user]({{< relref "/operate/rs/security/access-control/manage-users/add-users" >}}) and choose a new password.
+1. [Add another admin user]({{< relref "/operate/rs/security/access-control/create-users" >}}) and choose a new password.
 
 1. Specify the new username in the `username` field of your REC custom resource spec.
 

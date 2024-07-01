@@ -16,7 +16,7 @@ Redis Enterprise Software lets you implement password rotation policies using th
 You can add a new password for a database user without immediately invalidating the old one (which might cause authentication errors in production).
 
 {{< note >}}
-Password rotation does not work for the default user. [Add additional users]({{< relref "/operate/rs/security/access-control/manage-users/add-users" >}}) to enable password rotation.
+Password rotation does not work for the default user. [Add additional users]({{< relref "/operate/rs/security/access-control/create-users" >}}) to enable password rotation.
 {{< /note >}}
 
 ## Password rotation policies

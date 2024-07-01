@@ -42,7 +42,7 @@ Create and manage a [Redis database]({{< relref "/operate/rs/databases" >}}) on 
 ## Security
 [Manage secure connections]({{< relref "/operate/rs/security" >}}) to the cluster and databases.
 - [Access control]({{< relref "/operate/rs/security/access-control" >}})
-- [Users]({{< relref "/operate/rs/security/access-control/manage-users" >}}) & [roles]({{< relref "/operate/rs/security/access-control/rbac/create-roles" >}})
+- [Users]({{< relref "/operate/rs/security/access-control/manage-users" >}}) & [roles]({{< relref "/operate/rs/security/access-control/create-roles" >}})
 - [Certificates]({{< relref "/operate/rs/security/certificates" >}})
 - [TLS]({{< relref "/operate/rs/security/encryption/tls" >}}) & [Encryption]({{< relref "/operate/rs/security/encryption" >}})
 
