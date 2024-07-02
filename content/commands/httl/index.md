@@ -62,7 +62,7 @@ See also the [`HPTTL`]({{< relref "/commands/hpttl" >}}) command that returns th
 ## Example
 
 ```
-redis> HTTL no-key 10 FIELDS 3 field1 field2 field3
+redis> HTTL no-key FIELDS 3 field1 field2 field3
 (nil)
 redis> HSET mykey field1 "hello" field2 "world"
 (integer) 2
