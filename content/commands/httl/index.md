@@ -49,8 +49,8 @@ key_specs:
 linkTitle: HTTL
 since: 7.4.0
 summary: Returns the TTL of each specified field in seconds
-syntax_fmt: HTTL key numfields field [field ...]
-syntax_str: numfields field [field ...]
+syntax_fmt: HTTL key FIELDS numfields field [field ...]
+syntax_str: FIELDS numfields field [field ...]
 title: HTTL
 ---
 Returns the remaining TTL (time to live) of a hash key's field(s) that have a set expiration.
@@ -62,14 +62,14 @@ See also the [`HPTTL`]({{< relref "/commands/hpttl" >}}) command that returns th
 ## Example
 
 ```
-redis> HTTL no-key 10 3 field1 field2 field3
+redis> HTTL no-key FIELDS 3 field1 field2 field3
 (nil)
 redis> HSET mykey field1 "hello" field2 "world"
 (integer) 2
-redis> HEXPIRE mykey 300 2 field1 field3
+redis> HEXPIRE mykey 300 FIELDS 2 field1 field3
 1) (integer) 1
 2) (integer) -2
-redis> HTTL mykey 3 field1 field2 field3
+redis> HTTL mykey FIELDS 3 field1 field2 field3
 1) (integer) 283
 2) (integer) -1
 3) (integer) -2

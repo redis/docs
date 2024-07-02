@@ -59,7 +59,7 @@ expiration set, but in milliseconds instead of seconds.
 ## Example
 
 ```
-redis> HPTTL no-key 10 FIELDS 3 field1 field2 field3
+redis> HPTTL no-key FIELDS 3 field1 field2 field3
 (nil)
 redis> HSET mykey field1 "hello" field2 "world"
 (integer) 2
