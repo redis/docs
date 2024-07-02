@@ -10,6 +10,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
 highlights: Redis 7.2 Opt-in for Flexible subscriptions, Triggers and functions preview
 linktitle: August 2023
 weight: 80
+aliases:
+  - /operate/rc/changelog/august-2023
 ---
 
 This changelog lists new features, enhancements, and other changes added to Redis Cloud during August 2023.

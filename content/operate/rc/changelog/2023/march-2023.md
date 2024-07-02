@@ -10,6 +10,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
 highlights: Redis 7.0 preview
 linktitle: March 2023
 weight: 88
+aliases:
+  - /operate/rc/changelog/march-2023
 ---
 
 This changelog lists new features, enhancements, and other changes added to Redis Cloud during March 2023.
