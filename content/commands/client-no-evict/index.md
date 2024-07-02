@@ -43,7 +43,7 @@ syntax_fmt: CLIENT NO-EVICT <ON | OFF>
 syntax_str: ''
 title: CLIENT NO-EVICT
 ---
-The `CLIENT NO-EVICT` command sets the [client eviction]({{< relref "/develop/connect/clients/#client-eviction" >}}) mode for the current connection.
+The `CLIENT NO-EVICT` command sets the [client eviction]({{< relref "/develop/reference/clients/#client-eviction" >}}) mode for the current connection.
 
 When turned on and client eviction is configured, the current connection will be excluded from the client eviction process even if we're above the configured client eviction threshold.
 
