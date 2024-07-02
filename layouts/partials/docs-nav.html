@@ -39,9 +39,9 @@
 {{ define "navChildList" -}}
 {{ $item := .item -}}
 {{ $itemPage := $.Site.GetPage $item.relref -}}
-{{ $currentPage := .currentPage -}}
-{{ $hidden := not ($itemPage.IsAncestor $currentPage )}}
-<ul class="child-list {{ if $hidden }}hidden{{ end }}">
+{{ $currentPageRelRef := .currentPageRelRef -}}
+{{ $hidden := not ( hasPrefix $currentPageRelRef $item.relref )}}
+<ul class="child-list{{ if $hidden }} hidden{{ end }}">
   {{ range $item.children }}
   {{ $childPage := .Site.GetPage .relref -}}
   {{- if .divider }}
@@ -53,9 +53,7 @@
       <polyline class="arrow-closed" points="3 11 15 11 9 6" fill="black" />
       <polyline class="arrow-closed" points="3 13 9 18 15 13" fill="black" />
     </svg>
-  Item page: {{ $itemPage.LinkTitle }}
-  Viewed page: {{ $currentPage.LinkTitle }}
-  {{- template "navChildList" ( dict "item" . )}}
+  {{- template "navChildList" ( dict "item" . "currentPageRelRef" $currentPageRelRef )}}
   {{- else }}
   <li class="my-2"><a href="{{ .relref }}"><span class="pr-5"></span>{{ .linkTitle }}</a>
   {{- end -}}
@@ -67,7 +65,7 @@
 {{ define "navList" -}}
 {{ $root := .root -}}
 {{ $rootPage := .Site.GetPage $root.relref }}
-{{ $currentPage := .currentPage }}
+{{ $currentPage := $.currentPage }}
 <ul class="md:block overflow-y-auto grow pr-0  border-opacity-50 border-redis-ink-900">
   {{ range $root.children -}}
   {{- if .divider }}
@@ -80,9 +78,9 @@
       <polyline class="arrow-closed" points="3 10 9 15 15 10" fill="black" />
     </svg>
   </a>
-  {{ $childPage := .Site.GetPage .relref -}}
+  {{ $childPage := $.Site.GetPage .relref -}}
   {{ $hidden := not ($childPage.IsAncestor $currentPage ) }}
-  {{- template "navChildList" ( dict "item" . "currentPage" $currentPage )}}
+  {{- template "navChildList" ( dict "item" . "currentPageRelRef" $currentPage.RelPermalink )}}
   {{- else }}
   <li class="my-2"><span class="pr-5"></span><a href="{{ .relref }}">{{ .linkTitle }}</a>
   {{- end -}}
