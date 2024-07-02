@@ -35,6 +35,8 @@ This guide shows how to create an Essentials database.
     A preview of Redis 7.4 is available for databases in selected regions. Select the **Redis 7.4 preview** toggle to view the regions where you can try Redis 7.4.
 
     {{<image filename="images/rc/essentials-74-preview.png" alt="Turn on the Redis 7.4 preview toggle.">}}
+    
+    Redis 7.4 offers client-side caching and other feature set improvements. For more information on the changes in Redis 7.4, see the [Redis 7.4 release notes](https://github.com/redis-stack/redis-stack/releases/tag/v7.4.0-rc1).
 
 1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis Stack** unless you have a legacy application that uses **Memcached**.
 
