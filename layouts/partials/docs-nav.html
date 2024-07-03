@@ -44,10 +44,10 @@
   {{ range $item.children }}
   {{ $isActive := hasPrefix $currentPageRelRef .relref }}
   {{- if .divider }}
-  <li class="my-2 bg-redis-pencil-200"><strong><span class="pr-5"></span><a href="{{ .relref }}"> {{ .linkTitle }}</a></strong>
+  <li class="my-2 bg-redis-pencil-200"><strong><span class="pr-5"></span><a href='{{ page.RelRef (dict "path" .relref) }}'> {{ .linkTitle }}</a></strong>
   {{- else if .children }}
   <li class="my-2">
-    <a href="{{ .relref }}" class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}<span class="pr-2"></span>
+    <a href='{{ page.RelRef (dict "path" .relref) }}' class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}<span class="pr-2"></span>
       <span class="arrowBox">
         <svg style="display: inline;" width="18" height="18" version="1.1" xmlns="http://www.w3.org/2000/svg">
           <polyline points="3 8 15 8 9 3" fill="black" />
@@ -57,7 +57,7 @@
     </a>
   {{- template "navChildList" ( dict "item" . "currentPageRelRef" $currentPageRelRef )}}
   {{- else }}
-  <li class="my-2"><a href="{{ .relref }}" class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}</a>
+  <li class="my-2"><a href='{{ page.RelRef (dict "path" .relref) }}' class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}</a>
   {{- end -}}
   </li>
   {{ end }}  
@@ -71,10 +71,10 @@
   {{ range $root.children -}}
   {{ $isActive := hasPrefix $currentPage.RelPermalink .relref }}
   {{- if .divider }}
-  <li class="my-2 bg-redis-pencil-500 text-white text-center"><span class="pr-5"></span><strong><a href="{{ .relref }}">{{ .linkTitle }}</a></strong>
+  <li class="my-2 bg-redis-pencil-500 text-white text-center"><span class="pr-5"></span><strong><a href='{{ page.RelRef (dict "path" .relref) }}'>{{ .linkTitle }}</a></strong>
   {{- else if .children }}
   <li class="my-2"><span class="pr-5"></span>
-    <a href="{{ .relref }}" class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}
+    <a href='{{ page.RelRef (dict "path" .relref) }}' class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}
       <span class="arrowBox">
         <svg style="display: inline;" width="18" height="18" version="1.1" xmlns="http://www.w3.org/2000/svg">
           <polyline points="3 8 15 8 9 3" fill="black" />
@@ -84,7 +84,7 @@
     </a>
   {{- template "navChildList" ( dict "item" . "currentPageRelRef" $currentPage.RelPermalink )}}
   {{- else }}
-  <li class="my-2"><span class="pr-5"></span><a href="{{ .relref }}"  class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}</a>
+  <li class="my-2"><span class="pr-5"></span><a href='{{ page.RelRef (dict "path" .relref) }}'  class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}</a>
   {{- end -}}
   </li>
   {{ end }}  
