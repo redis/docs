@@ -178,8 +178,59 @@ RedisClient client = RedisClient.create(redisUri);
 Lettuce uses `ClientResources` for efficient management of shared resources like event loop groups and thread pools.
 For connection pooling, Lettuce leverages `RedisClient` or `RedisClusterClient`, which can handle multiple concurrent connections efficiently.
 
+### Timouts
+There is a multitude of timeouts to different operations in Lettuce, such as command execution, SSL handshake, Sentinel discovery, etc.
+Unless configured otherwise, Lettuce uses a global timeout of 60 seconds. You can set the timeout for each operation individually.
+
+{{% alert title="Tip" color="warning" %}}
+Choosing the right timeout is crucial for your application's performance and stability and is specific to each environment.
+It is not necessary to configure timeouts unless you are having issues with the default values. 
+In some cases the defaults are based on environment specific settings (such as the operating system settings), in other cases they are built-in the Lettuce driver. 
+For more details on setting specific timeouts, see the [Lettuce reference guide](https://lettuce.io/core/release/reference/index.html).
+{{% /alert  %}}
+
+Below is a example of setting a typical socket-level timeouts. The `TCP_USER_TIMEOUT` is useful for scenarios where the server stops responding without acknowledging the last request, while the `KEEPALIVE` settings are good for detecting dead connections while there is no traffic between the client and the server.
+
+```java
+RedisURI redisURI = RedisURI.Builder
+        .redis("localhost")
+        // set the global default from the default 60 seconds to 30 seconds
+        .withTimeout(Duration.ofSeconds(30)) 
+        .build();
+
+try (RedisClient client = RedisClient.create(redisURI)) {
+    // or set specific timeouts for things such as the TCP_USER_TIMEOUT and TCP_KEEPALIVE
+
+    // A good general rule of thumb is to follow the rule
+    // TCP_USER_TIMEOUT = TCP_KEEP_IDLE+TCP_KEEPINTVL * TCP_KEEPCNT
+    // in this case, 20 = 5 + 5 * 3
+
+    SocketOptions.TcpUserTimeoutOptions tcpUserTimeout = SocketOptions.TcpUserTimeoutOptions.builder()
+            .tcpUserTimeout(Duration.ofSeconds(20))
+            .enable().build();
+
+    SocketOptions.KeepAliveOptions keepAliveOptions = SocketOptions.KeepAliveOptions.builder()
+            .interval(Duration.ofSeconds(5))
+            .idle(Duration.ofSeconds(5))
+            .count(3).enable().build();
+
+    SocketOptions socketOptions = SocketOptions.builder()
+            .tcpUserTimeout(tcpUserTimeout)
+            .keepAlive(keepAliveOptions)
+            .build();
+
+    client.setOptions(ClientOptions.builder()
+            .socketOptions(socketOptions)
+            .build());
+
+    StatefulRedisConnection<String, String> connection = client.connect();
+    System.out.println(connection.sync().ping());
+}
+```
+
+### Connection pooling
 A typical approach with Lettuce is to create a single `RedisClient` instance and reuse it to establish connections to your Redis server(s).
-These connections are multiplexed; that is, multiple commands can be run concurrently over a single or a small set of connections, making explicit pooling less critical.
+These connections are multiplexed; that is, multiple commands can be run concurrently over a single or a small set of connections, making explicit pooling less practical.
 
 Lettuce provides pool config to be used with Lettuce asynchronous connection methods.
 
