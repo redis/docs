@@ -16,19 +16,113 @@ title: Vectors
 weight: 14
 ---
 
-*Vector fields* allow you to use vector similarity queries in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command.
-*Vector similarity* enables you to load, index, and query vectors stored as fields in Redis hashes or in JSON documents (via integration with the [JSON module]({{< relref "/develop/data-types/json/" >}}))
+Vector fields enable you to perform semantic search based on vector embeddings using the `FT.SEARCH` or `FT.AGGREGATE` commands. You can store, index, and query vectors & metadata in Redis hashes or JSON documents.
 
-Vector similarity provides these functionalities:
+## Key Features
 
-* Realtime vector indexing supporting two indexing methods:
+### Vector Storage Options
 
-    - FLAT - a simple, lightweight index.
+| Storage Option             | Description                          |
+|-------------------------|--------------------------------------|
+| **Hash** | ...    |
+| **JSON**       | ... |
 
-    - HNSW - Modified version of [nmslib/hnswlib](https://github.com/nmslib/hnswlib), which is an implementation of [Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
+### Vector CRUD Operations
 
-* Realtime vector update/delete, triggering an update of the index.
+| Operation       | Description                                |
+|-----------------|--------------------------------------------|
+| **Create**      | Add new objects to your index.                           |
+| **Read**        | Retrieve existing vectors and metadata.                 |
+| **Update**      | Update existing vectors and metadata in real-time.      |
+| **Delete**      | Delete vectors and metadata.               |
 
+
+### Realtime Vector Indexing
+
+Redis supports two main indexing methods for vector fields.
+
+| Indexing Method       | Description                                                                                                                                           |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **FLAT**              | Simple and straightforward indexing method.                                                                                                           |
+| **HNSW**              | Hierarchical Navigable Small Worlds (HNSW) - a modified version of [nmslib/hnswlib](https://github.com/nmslib/hnswlib), based on [HNSW Graphs](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf). |
+
+### Powerful Semantic Search
+
+Redis enables a number of powerful search capabilities over vector fields and metadata using one of three supported distance metrics: `COSINE`, `L2`, or `IP`.
+
+| Search Type             | Description                          |
+|-------------------------|--------------------------------------|
+| **K-Nearest Neighbors (KNN)** | Search for the top k most similar vectors.    |
+| **Vector Range Queries**       | TODO |
+| **Metadata Filtering**  | Filter results based on metadata.    |
+| **Full-text Search** | TODO |
+
+
+
+## Create a vector field
+
+Redis maintains a secondary index on top of your data that has a defined schema. Include one or more vector fields in your schema using the `FT.CREATE` command. 
+
+**Syntax**
+```
+FT.CREATE {index_name}
+  ON {data_type}
+  PREFIX 1 {key_prefix}
+  SCHEMA ... {field_name} VECTOR {index_attributes} ...
+```
+
+The above syntax is a simplified representation for only what is required to include a vector field. Please see the full `FT.CREATE` documentation for more options and examples.
+
+**Parameters**
+| Param            | Description                          |
+|-------------------------|--------------------------------------|
+| `index_name` | Name of the index.   |
+| `data_type`       | TODO |
+| `prefix` (optional) | Key prefix that tells the index which keys it should include in the index. If left off, defaults to all keys included in the index. |
+| `field_name`  | Name of the included vector field.    |
+| `index_attributes` | TODO |
+
+
+**Example**
+```
+FT.CREATE my_index
+  ON HASH
+  PREFIX 1 docs:
+  SCHEMA my_vector_field VECTOR FLAT 6 TYPE FLOAT32 DIM 128 DISTANCE_METRIC L2
+```
+Above, we create an index named `my_index` over hashes with the key prefix `docs:` including a `FLAT` vector field named `my_vector_field` with 3 additional params ([`TYPE`]({{< relref "/commands/type" >}}), `DIM`, and `DISTANCE_METRIC`)
+
+### Mandatory index attributes
+All vector fields require these three attributes at a minimum:
+
+* [`TYPE`]({{< relref "/commands/type" >}}) - Vector type. Current supported types are `FLOAT16`, `FLOAT32` and `FLOAT64`.
+    
+* `DIM` - Vector dimension specified as a positive integer.
+    
+* `DISTANCE_METRIC` - Supported distance metric, one of {`L2`, `IP`, `COSINE`}.
+
+NOTE FOR SELF -- we need to work on how to communicate this story and approach better....
+
+
+
+### FLAT index attributes
+
+### HNSW index attributes
+
+## Storage and indexing
+
+### Storing vectors in hashes
+
+### Storing vectors in JSON
+
+
+## Vector search examples
+
+
+
+
+
+## TO USE OR MOVE
 * K-nearest neighbors (KNN) search and range filter (from v2.6.1) supporting three distance metrics to measure the degree of similarity between two vectors $u$, $v$ $\in \mathbb{R}^n$ where $n$ is the length of the vectors:
 
     - L2 - Euclidean distance between two vectors
@@ -45,10 +139,10 @@ Vector similarity provides these functionalities:
 
 ## Create a vector field
 
-You can add vector fields to the schema in FT.CREATE using this syntax:
+You can add vector fields to the schema using the FT.CREATE using this syntax:
 
 ```
-FT.CREATE ... SCHEMA ... {field_name} VECTOR {algorithm} {count} [{attribute_name} {attribute_value} ...]
+FT.CREATE {index_name} SCHEMA ... {field_name} VECTOR {algorithm} {count} [{attribute_name} {attribute_value} ...]
 ```
 
 Where:
