@@ -44,7 +44,7 @@
   {{ range $item.children }}
   {{ $isActive := hasPrefix $currentPageRelRef .relref }}
   {{- if .divider }}
-  <li class="my-2 bg-redis-pencil-200" inert="yes"><strong><span class="pr-5"></span>{{ .linkTitle }}</strong>
+  <li class="my-2 bg-redis-pencil-200"><strong><span class="pr-5"></span><a href="{{ .relref }}"> {{ .linkTitle }}</a></strong>
   {{- else if .children }}
   <li class="my-2">
     <a href="{{ .relref }}" class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}<span class="pr-2"></span>
@@ -71,7 +71,7 @@
   {{ range $root.children -}}
   {{ $isActive := hasPrefix $currentPage.RelPermalink .relref }}
   {{- if .divider }}
-  <li class="my-2 bg-redis-pencil-500 text-white text-center" inert="yes"><span class="pr-5"></span><strong>{{ .linkTitle }}</strong>
+  <li class="my-2 bg-redis-pencil-500 text-white text-center"><span class="pr-5"></span><strong><a href="{{ .relref }}">{{ .linkTitle }}</a></strong>
   {{- else if .children }}
   <li class="my-2"><span class="pr-5"></span>
     <a href="{{ .relref }}" class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}

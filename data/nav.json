@@ -3,7 +3,7 @@
   "title": "Connect to Redis",
   "linkTitle": "Connect",
   "children": [
-    {"linkTitle": "Connect to Redis", "divider": "true"},
+    {"linkTitle": "Connect to Redis", "divider": "true", "relref": "/develop/connect" },
     {
       "relref": "/develop/connect/cli",
       "title": "Redis CLI",
@@ -225,18 +225,6 @@
               "linkTitle": "v1.0 (Nov 2019)"
             }
           ]
-        },
-        {
-          "relref": "/develop/connect/insight/tutorials",
-          "title": "<tutorials>",
-          "linkTitle": "<tutorials>",
-          "children": [
-            {
-              "relref": "/develop/connect/insight/tutorials/insight-stream-consumer",
-              "title": "Manage streams and consumer groups in Redis Insight",
-              "linkTitle": "Streams"
-            }
-          ]
         }
       ]
     },
@@ -295,7 +283,7 @@
       ]
     },
     {
-        "relref": "/develop/data-types/strings",
+        "relref": "/develop/data-types",
         "title": "Redis Strings",
         "linkTitle": "Understand data types",
         "divider": "true"
@@ -462,14 +450,7 @@
           {
             "relref": "/develop/data-types/timeseries/reference",
             "title": "Reference",
-            "linkTitle": "Reference",
-            "children": [
-              {
-                "relref": "/develop/data-types/timeseries/reference/out-of-order_performance_considerations",
-                "title": "Out-of-order / backfilled ingestion performance considerations",
-                "linkTitle": "Out-of-order / backfilled ingestion performance considerations"
-              }
-            ]
+            "linkTitle": "Reference"
           }
         ]
       }
