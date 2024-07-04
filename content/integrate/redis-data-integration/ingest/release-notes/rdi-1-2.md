@@ -8,7 +8,7 @@ categories:
 description: API server with a set of APIs to support Redis Insight with creating, testing, deploying & monitoring RDI pipelines. RDI Installer verifies all components are running at the end of installation.
 linkTitle: 1.2 (June 2024)
 toc: 'true'
-weight: 1
+weight: 999
 ---
 
 > This minor release replaces the 1.0 release.
