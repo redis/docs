@@ -18,7 +18,7 @@ weight: 5
 ---
 
 Redis Stack currently supports four query dialects for use with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), and other search and query commands.
-Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.```
+Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.
 
 ## `DIALECT 1`
 
@@ -211,9 +211,9 @@ Dialect version 1 remains the default dialect. To use dialect version 5, append 
 
 `FT.SEARCH ... DIALECT 5`
 
-## Use [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/) to compare dialects
+## Use `FT.EXPLAINCLI` to compare dialects
 	
-The [[`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/)](/commands/ft.explaincli/) is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.
+The [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/) command is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.
 
 When you run [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), it returns an array representing the execution plan of a complex query. This plan is a step-by-step guide of how Redis interprets your query and how it plans to fetch results. It's a behind-the-scenes look at the process, giving you insights into how the search engine works.
 

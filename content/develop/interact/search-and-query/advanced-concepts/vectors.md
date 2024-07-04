@@ -45,6 +45,11 @@ Vector similarity provides these functionalities:
 
 ## Create a vector field
 
+{{< note >}}
+Vector fields are only supported in [query dialect 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}) and above (introduced in [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3))
+To use a vector field, you must specify the option `DIALECT 2` or greater in the command itself, or set the `DEFAULT_DIALECT` option to `2` or greater, by either using the command [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) or when loading the `redisearch` module and passing it the argument `DEFAULT_DIALECT 2`.
+{{< /note >}}
+
 You can add vector fields to the schema in FT.CREATE using this syntax:
 
 ```
@@ -190,8 +195,7 @@ JSON.SET 1 $ '{"foo":{"vec":[1,2,3,4]}, "bar":{"vec":[5,6,7,8]}}'
 
 ## Querying vector fields
 
-You can use vector similarity queries in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) query command. To use a vector similarity query, you must specify the option `DIALECT 2` or greater in the command itself, or set the `DEFAULT_DIALECT` option to `2` or greater, by either using the command [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) or when loading the `redisearch` module and passing it the argument `DEFAULT_DIALECT 2`.
-
+You can use vector similarity queries in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) query command.
 There are two types of vector queries: *KNN* and *range*:
 
 ### KNN search
