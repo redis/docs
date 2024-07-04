@@ -38,11 +38,12 @@
 
 {{ define "navChildList" -}}
 {{ $item := .item -}}
-{{ $currentPageRelRef := .currentPageRelRef -}}
-{{ $hidden := not ( hasPrefix $currentPageRelRef $item.relref )}}
+{{ $currentPage := .currentPage -}}
+{{ $hidden := not ( $currentPage.IsDescendant (site.GetPage $item.relref) )}}
 <ul class="child-list{{ if $hidden }} hidden{{ end }}">
   {{ range $item.children }}
-  {{ $isActive := hasPrefix $currentPageRelRef .relref }}
+  {{ $childPage := site.GetPage .relref }}
+  {{ $isActive := or ($currentPage.IsDescendant $childPage) (eq $currentPage $childPage) }}
   {{- if .divider }}
   <li class="my-2 bg-redis-pencil-200"><strong><span class="pr-5"></span><a href='{{ page.RelRef (dict "path" .relref) }}'> {{ .linkTitle }}</a></strong>
   {{- else if .children }}
@@ -55,12 +56,13 @@
         </svg>
       </span>
     </a>
-  {{- template "navChildList" ( dict "item" . "currentPageRelRef" $currentPageRelRef )}}
+  {{- template "navChildList" ( dict "item" . "currentPage" $currentPage )}}
   {{- else }}
+  Page relref: {{  .relref }}
   <li class="my-2"><a href='{{ page.RelRef (dict "path" .relref) }}' class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}</a>
   {{- end -}}
   </li>
-  {{ end }}  
+  {{ end }}
 </ul>
 {{- end }}
 
@@ -69,7 +71,8 @@
 {{ $currentPage := $.currentPage }}
 <ul class="md:block overflow-y-auto grow pr-0  border-opacity-50 border-redis-ink-900">
   {{ range $root.children -}}
-  {{ $isActive := hasPrefix $currentPage.RelPermalink .relref }}
+  {{ $childPage := site.GetPage .relref }}
+  {{ $isActive := or ($currentPage.IsDescendant $childPage) (eq $currentPage $childPage) }}
   {{- if .divider }}
   <li class="my-2 bg-redis-pencil-500 text-white text-center"><span class="pr-5"></span><strong><a href='{{ page.RelRef (dict "path" .relref) }}'>{{ .linkTitle }}</a></strong>
   {{- else if .children }}
@@ -82,7 +85,7 @@
         </svg>
       </span>
     </a>
-  {{- template "navChildList" ( dict "item" . "currentPageRelRef" $currentPage.RelPermalink )}}
+  {{- template "navChildList" ( dict "item" . "currentPage" $currentPage )}}
   {{- else }}
   <li class="my-2"><span class="pr-5"></span><a href='{{ page.RelRef (dict "path" .relref) }}'  class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}</a>
   {{- end -}}
