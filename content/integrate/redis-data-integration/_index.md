@@ -85,11 +85,6 @@ RDI supports the following database sources using [Debezium Server](https://debe
 
 RDI is an enterprise-grade product with an extensive set of features.
 
-### Performance and scalability
-
-- Up to two seconds from source to target
-- Multi-shard support (each shard supports 28K ops/sec)
-
 ### Resiliency, high availability, and data delivery guarantees
 
 - At least once guarantee, end to end
