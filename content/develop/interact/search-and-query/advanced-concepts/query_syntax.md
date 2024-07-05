@@ -112,7 +112,10 @@ If a field in the schema is defined as NUMERIC, it is possible to use the FILTER
 
 ## Tag filters
 
-As of v0.91, you can use a special field type called _tag field_, with simpler tokenization and encoding in the index. You can't access the values in these fields using a general fieldless search. Instead, you use special syntax:
+As of v0.91, you can use a special field type called a
+[_tag field_]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}}), with simpler
+[tokenization]({{< relref "/develop/interact/search-and-query/advanced-concepts/escaping#tokenization-rules-for-tag-fields" >}})
+and encoding in the index. You can't access the values in these fields using a general fieldless search. Instead, you use special syntax:
 
 ```
 @field:{ tag | tag | ...}
@@ -127,7 +130,7 @@ Example:
 Tags can have multiple words or include other punctuation marks other than the field's separator (`,` by default). The following characters in tags should be escaped with a backslash (`\`): `$`, `{`, `}`, `\`, and `|`.
 
 {{% alert title="Note" color="warning" %}}
-Before RediSearch 2.6, it was also recommended to escape spaces. The reason was that, if a multiword tag included stopwords, a syntax error was returned. So tags, like "to be or not to be" needed be escaped as "to\ be\ or\ not\ to\ be". For good measure, you also could escape all spaces within tags. Starting with RediSearch 2.6, using `DIALECT 2` or greater you can use spaces in a `tag` query, even with stopwords.
+Before RediSearch 2.4, it was also recommended to escape spaces. The reason was that, if a multiword tag included stopwords, a syntax error was returned. So tags, like "to be or not to be" needed be escaped as "to\ be\ or\ not\ to\ be". For good measure, you also could escape all spaces within tags. Starting with RediSearch 2.4, using [`DIALECT 2`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}) or greater you can use spaces in a `tag` query, even with stopwords.
 {{% /alert %}}
 
 Notice that multiple tags in the same clause create a union of documents containing either tags. To create an intersection of documents containing all tags, you should repeat the tag filter several times. For example:
