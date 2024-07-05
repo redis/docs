@@ -78,6 +78,54 @@ With `DIALECT 2` you can use un-escaped spaces in tag queries, even with stopwor
 `DIALECT 2` is required with vector searches.
 {{% /alert %}}
 
+`DIALECT 2` functionality was enhanced in the 2.10 release.
+It introduces support for new comparison operators for `NUMERIC` fields:
+
+* `==` (equal).
+  
+  `FT.SEARCH idx "@numeric==3456" DIALECT 2`
+
+  and
+
+  `FT.SEARCH idx "@numeric:[3456]" DIALECT 2`
+* `!=` (not equal).
+  
+  `FT.SEARCH idx "@numeric!=3456" DIALECT 2`
+* `>` (greater than)
+  
+  `FT.SEARCH idx "@numeric>3456" DIALECT 2`
+* `>=` (greater than or equal).
+  
+  `FT.SEARCH idx "@numeric>=3456" DIALECT 2`
+* `<` (less than)
+  
+  `FT.SEARCH idx "@numeric<3456" DIALECT 2`
+* `<=` (less than or equal).
+  
+  `FT.SEARCH idx "@numeric<=3456" DIALECT 2`
+
+The Dialect version 2 enhancements also introduce simplified syntax for logical operations:
+
+* `|` (or).
+
+  `FT.SEARCH idx "@tag:{3d3586fe-0416-4572-8ce1 | 3d3586fe-0416-6758-4ri8}" DIALECT 2`
+
+  which is equivalent to
+
+  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} | @tag{3d3586fe-0416-6758-4ri8})" DIALECT 2`
+
+* `<space>` (and).
+
+  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} @tag{3d3586fe-0416-6758-4ri8})" DIALECT 2`
+
+* `-` (negation).
+
+  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} -@tag{3d3586fe-0416-6758-4ri8})" DIALECT 2`
+
+* `~` (optional/proximity).
+
+  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} ~@tag{3d3586fe-0416-6758-4ri8})" DIALECT 2`
+
 ## `DIALECT 3`
 
 Dialect version 3 was introduced in the [2.6](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.3) release. This version introduced support for multi-value indexing and querying of attributes for any attribute type ( [TEXT]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-text), [TAG]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-tag), [NUMERIC]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-numeric), [GEO]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-geo) and [VECTOR]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-vector)) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or multiple scalar values. Support for [GEOSHAPE]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}}) queries was also introduced in this dialect.
@@ -156,60 +204,6 @@ Dialect version 4 will improve performance in four different scenarios:
 1. **Partial range** - applied when there is a `SORTBY` on a numeric field, either with no filter or with a filter by the same numeric field. Such queries will iterate on a range large enough to satisfy the `LIMIT` of requested results.
 1. **Hybrid** - applied when there is a `SORTBY` on a numeric field in addition to another non-numeric filter. It could be the case that some results will get filtered, leaving too small a range to satisfy any specified `LIMIT`. In such cases, the iterator then is re-wound and additional iterations occur to collect result up to the requested `LIMIT`.
 1. **No optimization** - If there is a sort by score or by a non-numeric field, there is no other option but to retrieve all results and compare their values to the search parameters.
-
-## `DIALECT 5`
-
-Dialect version 5 was introduced in the 2.10 release.
-It introduces support for new comparison operators for `NUMERIC` fields:
-
-* `==` (equal).
-  
-  `FT.SEARCH idx "@numeric==3456" DIALECT 5`
-
-  and
-
-  `FT.SEARCH idx "@numeric:[3456]" DIALECT 5`
-* `!=` (not equal).
-  
-  `FT.SEARCH idx "@numeric!=3456" DIALECT 5`
-* `>` (greater than)
-  
-  `FT.SEARCH idx "@numeric>3456" DIALECT 5`
-* `>=` (greater than or equal).
-  
-  `FT.SEARCH idx "@numeric>=3456" DIALECT 5`
-* `<` (less than)
-  
-  `FT.SEARCH idx "@numeric<3456" DIALECT 5`
-* `<=` (less than or equal).
-  
-  `FT.SEARCH idx "@numeric<=3456" DIALECT 5`
-
-Dialect version 5 also introduces simplified syntax for logical operations:
-
-* `|` (or).
-
-  `FT.SEARCH idx "@tag:{3d3586fe-0416-4572-8ce1 | 3d3586fe-0416-6758-4ri8}" DIALECT 5`
-
-  which is equivalent to
-
-  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} | @tag{3d3586fe-0416-6758-4ri8})" DIALECT 5`
-
-* `<space>` (and).
-
-  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} @tag{3d3586fe-0416-6758-4ri8})" DIALECT 5`
-
-* `-` (negation).
-
-  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} -@tag{3d3586fe-0416-6758-4ri8})" DIALECT 5`
-
-* `~` (optional/proximity).
-
-  `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} ~@tag{3d3586fe-0416-6758-4ri8})" DIALECT 5`
-
-Dialect version 1 remains the default dialect. To use dialect version 5, append `DIALECT 5` to your query command.
-
-`FT.SEARCH ... DIALECT 5`
 
 ## Use [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/) to compare dialects
 	
