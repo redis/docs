@@ -29,7 +29,9 @@ for each document. Finding a match like this is much more efficient than pattern
 the whole text and also lets you use
 [stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}}) and
 [stop words]({{< relref "/develop/interact/search-and-query/advanced-concepts/stopwords" >}})
-to improve the search even further.
+to improve the search even further. See this article about
+[Tokenization](https://queryunderstanding.com/tokenization-c8cdd6aef7ff)
+for a general introduction to the concepts.
 
 Redis Stack uses a very simple tokenizer for documents and a slightly more sophisticated tokenizer for queries. Both allow a degree of control over string escaping and tokenization. 
 
