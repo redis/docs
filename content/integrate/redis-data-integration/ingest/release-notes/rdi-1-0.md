@@ -33,7 +33,7 @@ transformations using a configuration system, so no coding is required.
 - Pipeline orchestration: The preview versions of RDI required you to manually install and configure the Debezium server. In this version, we add support for source database configuration to the pipeline configuration and orchestration of all pipeline components including the Debezium server (RDI Collector).
 - Logging: All RDI component logs are now shipped to a central folder and get rotated by RDI's logging mechanism.
 - Monitoring: RDI comes with two Prometheus exporters, one For Debezium Server and one for RDI's pipeline data processing.
-- High availability mechanism: The preview versions of RDI used an external clustering dependency to provide active-passive deployment of Debezium server. The GA version has a Redis-based built-in fail-over mechanism between an active VM and a passive VM. Kubernetes deployments rely on K8s probes that are included in RDI components.
+- High availability mechanism: The preview versions of RDI used an external clustering dependency to provide active-passive deployment of the Debezium server. The GA version has a Redis-based built-in fail-over mechanism between an active VM and a passive VM. Kubernetes deployments rely on K8s probes that are included in RDI components.
 
 ## Limitations
 
