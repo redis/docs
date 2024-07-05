@@ -1,226 +1,226 @@
 {
-  "relref": "/develop/connect/",
+  "relref": "develop/connect/",
   "title": "Connect to Redis",
   "linkTitle": "Connect",
   "children": [
-    {"linkTitle": "Connect to Redis", "divider": "true", "relref": "/develop/connect" },
+    {"linkTitle": "Connect to Redis", "divider": "true", "relref": "develop/connect" },
     {
-      "relref": "/develop/connect/cli",
+      "relref": "develop/connect/cli",
       "title": "Redis CLI",
       "linkTitle": "CLI"
     },
     {
-      "relref": "/develop/connect/insight",
+      "relref": "develop/connect/insight",
       "title": "Redis Insight",
       "linkTitle": "Redis Insight",
       "children": [
         {
-          "relref": "/develop/connect/insight/release-notes",
+          "relref": "develop/connect/insight/release-notes",
           "title": "Redis Insight release notes",
           "linkTitle": "Release notes",
           "children": [
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.40.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.40.0/",
               "title": "RedisInsight v2.40.0, December 2023",
               "linkTitle": "v2.40.0 (December 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.20.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.20.0/",
               "title": "RedisInsight v2.20.0, February 2023",
               "linkTitle": "v2.20.0 (Feb 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.36.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.36.0/",
               "title": "RedisInsight v2.36.0, October 2023",
               "linkTitle": "v2.36.0 (October 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.50.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.50.0/",
               "title": "Redis Insight v2.50.0, May 2024",
               "linkTitle": "v2.50.0 (May 2024)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.46.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.46.0/",
               "title": "RedisInsight v2.46.0, March 2024",
               "linkTitle": "v2.46.0 (March 2024)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.26.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.26.0/",
               "title": "RedisInsight v2.26.0, May 2023",
               "linkTitle": "v2.26.0 (May 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.30.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.30.0/",
               "title": "RedisInsight v2.30.0, July 2023",
               "linkTitle": "v2.30.0 (July 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.44.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.44.0/",
               "title": "RedisInsight v2.44.0, February 2024",
               "linkTitle": "v2.44.0 (February 2024)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.48.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.48.0/",
               "title": "Redis Insight v2.48.0, April 2024",
               "linkTitle": "v2.48.0 (April 2024)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.32.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.32.0/",
               "title": "RedisInsight v2.32.0, August 2023",
               "linkTitle": "v2.32.0 (August 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.24.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.24.0/",
               "title": "RedisInsight v2.24.0, April 2023",
               "linkTitle": "v2.24.0 (Apr 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v2.28.0",
+              "relref": "develop/connect/insight/release-notes/v2.28.0",
               "title": "RedisInsight v2.28.0, June 2023",
               "linkTitle": "v2.28.0 (June 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.22.1/",
+              "relref": "develop/connect/insight/release-notes/v.2.22.1/",
               "title": "RedisInsight v2.22.1, March 2023",
               "linkTitle": "v2.22.1 (Mar 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.42.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.42.0/",
               "title": "RedisInsight v2.42.0, January 2024",
               "linkTitle": "v2.42.0 (January 2024)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.38.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.38.0/",
               "title": "RedisInsight v2.38.0, November 2023",
               "linkTitle": "v2.38.0 (November 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.18.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.18.0/",
               "title": "RedisInsight v2.18.0, January 2023",
               "linkTitle": "v2.18.0 (Jan 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.34.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.34.0/",
               "title": "RedisInsight v2.34.0, September 2023",
               "linkTitle": "v2.34.0 (September 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.16.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.16.0/",
               "title": "RedisInsight v2.16.0, December 2022",
               "linkTitle": "v2.16.0 (Dec 2022)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.14.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.14.0/",
               "title": "RedisInsight v2.14.0, November 2022",
               "linkTitle": "v2.14.0 (Nov 2022)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v2.12.0",
+              "relref": "develop/connect/insight/release-notes/v2.12.0",
               "title": "RedisInsight v2.12.0, October 2022",
               "linkTitle": "v2.12.0 (Oct 2022)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v2.10.0",
+              "relref": "develop/connect/insight/release-notes/v2.10.0",
               "title": "RedisInsight v2.10.0, September 2022",
               "linkTitle": "v2.10.0 (Sept 2022)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.14.0",
+              "relref": "develop/connect/insight/release-notes/v1.14.0",
               "title": "RedisInsight v1.14, may 2023",
               "linkTitle": "v1.14 (May 2023)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v2.8.0",
+              "relref": "develop/connect/insight/release-notes/v2.8.0",
               "title": "RedisInsight v2.8.0, August 2022",
               "linkTitle": "v2.8.0 (Aug 2022)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.13.0",
+              "relref": "develop/connect/insight/release-notes/v1.13.0",
               "title": "RedisInsight v1.13, Aug 2022",
               "linkTitle": "v1.13 (Aug 2022)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.6.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.6.0/",
               "title": "RedisInsight v2.6.0, July 2022",
               "linkTitle": "v2.6.0 (July 2022)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v.2.4.0/",
+              "relref": "develop/connect/insight/release-notes/v.2.4.0/",
               "title": "RedisInsight v2.4.0, June 2022",
               "linkTitle": "v2.4.0 (June 2022)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v2.2.0",
+              "relref": "develop/connect/insight/release-notes/v2.2.0",
               "title": "RedisInsight v2.2.0, May 2022",
               "linkTitle": "v2.2.0 (May 2022)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.12.0",
+              "relref": "develop/connect/insight/release-notes/v1.12.0",
               "title": "RedisInsight v1.12, May 2022",
               "linkTitle": "v1.12 (May 2022)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v2.0",
+              "relref": "develop/connect/insight/release-notes/v2.0",
               "title": "RedisInsight v2.0, Nov 2021",
               "linkTitle": "v2.0 (Nov 2021)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.11.0",
+              "relref": "develop/connect/insight/release-notes/v1.11.0",
               "title": "RedisInsight v1.11, Oct 2021",
               "linkTitle": "v1.11 (Oct 2021)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.10.0",
+              "relref": "develop/connect/insight/release-notes/v1.10.0",
               "title": "RedisInsight v1.10, March 2021",
               "linkTitle": "v1.10 (Mar 2021)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.9.0",
+              "relref": "develop/connect/insight/release-notes/v1.9.0",
               "title": "RedisInsight v1.9, January 2021",
               "linkTitle": "v1.9 (Jan 2021)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.8.0",
+              "relref": "develop/connect/insight/release-notes/v1.8.0",
               "title": "RedisInsight v1.8, November 2020",
               "linkTitle": "v1.8 (Nov 2020)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.7.0",
+              "relref": "develop/connect/insight/release-notes/v1.7.0",
               "title": "RedisInsight v1.7, September 2020",
               "linkTitle": "v1.7 (Sep 2020)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.6.0",
+              "relref": "develop/connect/insight/release-notes/v1.6.0",
               "title": "RedisInsight v1.6, June 2020",
               "linkTitle": "v1.6 (June 2020)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.5.0",
+              "relref": "develop/connect/insight/release-notes/v1.5.0",
               "title": "RedisInsight v1.5, May 2020",
               "linkTitle": "v1.5 (May 2020)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.4.0",
+              "relref": "develop/connect/insight/release-notes/v1.4.0",
               "title": "RedisInsight v1.4, April 2020",
               "linkTitle": "v1.4 (Apr 2020)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.3.0",
+              "relref": "develop/connect/insight/release-notes/v1.3.0",
               "title": "RedisInsight v1.3, March 2020",
               "linkTitle": "v1.3 (Mar 2020)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.2.0",
+              "relref": "develop/connect/insight/release-notes/v1.2.0",
               "title": "RedisInsight v1.2, January 2020",
               "linkTitle": "v1.2 (Jan 2020)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.1.0",
+              "relref": "develop/connect/insight/release-notes/v1.1.0",
               "title": "RedisInsight v1.1, December 2019",
               "linkTitle": "v1.1 (Dec 2019)"
             },
             {
-              "relref": "/develop/connect/insight/release-notes/v1.0.0",
+              "relref": "develop/connect/insight/release-notes/v1.0.0",
               "title": "RedisInsight v1.0, November 2019",
               "linkTitle": "v1.0 (Nov 2019)"
             }
@@ -229,226 +229,226 @@
       ]
     },
     {
-      "relref": "/develop/connect/clients",
+      "relref": "develop/connect/clients",
       "title": "Connect with Redis clients",
       "linkTitle": "Clients",
       "children": [
         {
-          "relref": "/develop/connect/clients/python",
+          "relref": "develop/connect/clients/python",
           "title": "Python guide",
           "linkTitle": "Python"
         },
         {
-          "relref": "/develop/connect/clients/dotnet",
+          "relref": "develop/connect/clients/dotnet",
           "title": "C#/.NET guide",
           "linkTitle": "C#/.NET"
         },
         {
-          "relref": "/develop/connect/clients/nodejs",
+          "relref": "develop/connect/clients/nodejs",
           "title": "Node.js guide",
           "linkTitle": "Node.js"
         },
         {
-          "relref": "/develop/connect/clients/java",
+          "relref": "develop/connect/clients/java",
           "title": "Connect with Redis Java clients",
           "linkTitle": "Java",
           "children": [
             {
-              "relref": "/develop/connect/clients/java/jedis",
+              "relref": "develop/connect/clients/java/jedis",
               "title": "Jedis guide",
               "linkTitle": "Jedis"
             },
             {
-              "relref": "/develop/connect/clients/java/lettuce",
+              "relref": "develop/connect/clients/java/lettuce",
               "title": "Lettuce guide",
               "linkTitle": "Lettuce"
             }
           ]
         },
         {
-          "relref": "/develop/connect/clients/go",
+          "relref": "develop/connect/clients/go",
           "title": "Go guide",
           "linkTitle": "Go"
         },
         {
-          "relref": "/develop/connect/clients/om-clients",
+          "relref": "develop/connect/clients/om-clients",
           "title": "Object-Mapper libraries",
           "linkTitle": "Object mapping"
         },
         {
-          "relref": "/develop/connect/clients/comm-supp-clients",
+          "relref": "develop/connect/clients/comm-supp-clients",
           "title": "Community-supported clients",
           "linkTitle": "Community-supported clients"
         }
       ]
     },
     {
-        "relref": "/develop/data-types",
+        "relref": "develop/data-types",
         "title": "Redis Strings",
         "linkTitle": "Understand data types",
         "divider": "true"
       },
     {
-        "relref": "/develop/data-types/strings",
+        "relref": "develop/data-types/strings",
         "title": "Redis Strings",
         "linkTitle": "Strings"
       },
       {
-        "relref": "/develop/data-types/json",
+        "relref": "develop/data-types/json",
         "title": "JSON",
         "linkTitle": "JSON",
         "children": [
           {
-            "relref": "/develop/data-types/json/indexing_JSON",
+            "relref": "develop/data-types/json/indexing_JSON",
             "title": "Index/Search JSON documents",
             "linkTitle": "Index/Search"
           },
           {
-            "relref": "/develop/data-types/json/path",
+            "relref": "develop/data-types/json/path",
             "title": "Path",
             "linkTitle": "Path"
           },
           {
-            "relref": "/develop/data-types/json/use_cases",
+            "relref": "develop/data-types/json/use_cases",
             "title": "Use cases",
             "linkTitle": "Use cases"
           },
           {
-            "relref": "/develop/data-types/json/performance",
+            "relref": "develop/data-types/json/performance",
             "title": "Performance",
             "linkTitle": "Performance"
           },
           {
-            "relref": "/develop/data-types/json/ram",
+            "relref": "develop/data-types/json/ram",
             "title": "Redis JSON RAM Usage",
             "linkTitle": "Memory Usage"
           },
           {
-            "relref": "/develop/data-types/json/resp3",
+            "relref": "develop/data-types/json/resp3",
             "title": "Guide for migrating from RESP2 to RESP3 replies",
             "linkTitle": "RESP3 migration guide"
           },
           {
-            "relref": "/develop/data-types/json/developer",
+            "relref": "develop/data-types/json/developer",
             "title": "Developer notes",
             "linkTitle": "Developer notes"
           }
         ]
       },
       {
-        "relref": "/develop/data-types/lists",
+        "relref": "develop/data-types/lists",
         "title": "Redis lists",
         "linkTitle": "Lists"
       },
       {
-        "relref": "/develop/data-types/sets",
+        "relref": "develop/data-types/sets",
         "title": "Redis sets",
         "linkTitle": "Sets"
       },
       {
-        "relref": "/develop/data-types/hashes",
+        "relref": "develop/data-types/hashes",
         "title": "Redis hashes",
         "linkTitle": "Hashes"
       },
       {
-        "relref": "/develop/data-types/sorted-sets",
+        "relref": "develop/data-types/sorted-sets",
         "title": "Redis sorted sets",
         "linkTitle": "Sorted sets"
       },
       {
-        "relref": "/develop/data-types/streams",
+        "relref": "develop/data-types/streams",
         "title": "Redis Streams",
         "linkTitle": "Streams"
       },
       {
-        "relref": "/develop/data-types/geospatial",
+        "relref": "develop/data-types/geospatial",
         "title": "Redis geospatial",
         "linkTitle": "Geospatial"
       },
       {
-        "relref": "/develop/data-types/bitmaps",
+        "relref": "develop/data-types/bitmaps",
         "title": "Redis bitmaps",
         "linkTitle": "Bitmaps"
       },
       {
-        "relref": "/develop/data-types/bitfields",
+        "relref": "develop/data-types/bitfields",
         "title": "Redis bitfields",
         "linkTitle": "Bitfields"
       },
       {
-        "relref": "/develop/data-types/probabilistic",
+        "relref": "develop/data-types/probabilistic",
         "title": "Probabilistic",
         "linkTitle": "Probabilistic",
         "children": [
           {
-            "relref": "/develop/data-types/probabilistic/hyperloglogs",
+            "relref": "develop/data-types/probabilistic/hyperloglogs",
             "title": "HyperLogLog",
             "linkTitle": "HyperLogLog"
           },
           {
-            "relref": "/develop/data-types/probabilistic/bloom-filter",
+            "relref": "develop/data-types/probabilistic/bloom-filter",
             "title": "Bloom filter",
             "linkTitle": "Bloom filter"
           },
           {
-            "relref": "/develop/data-types/probabilistic/cuckoo-filter",
+            "relref": "develop/data-types/probabilistic/cuckoo-filter",
             "title": "Cuckoo filter",
             "linkTitle": "Cuckoo filter"
           },
           {
-            "relref": "/develop/data-types/probabilistic/t-digest",
+            "relref": "develop/data-types/probabilistic/t-digest",
             "title": "t-digest",
             "linkTitle": "t-digest"
           },
           {
-            "relref": "/develop/data-types/probabilistic/top-k",
+            "relref": "develop/data-types/probabilistic/top-k",
             "title": "Top-K",
             "linkTitle": "Top-K"
           },
           {
-            "relref": "/develop/data-types/probabilistic/count-min-sketch",
+            "relref": "develop/data-types/probabilistic/count-min-sketch",
             "title": "Count-min sketch",
             "linkTitle": "Count-min sketch"
           },
           {
-            "relref": "/develop/data-types/probabilistic/Configuration",
+            "relref": "develop/data-types/probabilistic/Configuration",
             "title": "Configuration Parameters",
             "linkTitle": "Configuration"
           }
         ]
       },
       {
-        "relref": "/develop/data-types/timeseries",
+        "relref": "develop/data-types/timeseries",
         "title": "Time series",
         "linkTitle": "Time series",
         "children": [
           {
-            "relref": "/develop/data-types/timeseries/quickstart",
+            "relref": "develop/data-types/timeseries/quickstart",
             "title": "Quickstart",
             "linkTitle": "Quickstart"
           },
           {
-            "relref": "/develop/data-types/timeseries/configuration",
+            "relref": "develop/data-types/timeseries/configuration",
             "title": "Configuration Parameters",
             "linkTitle": "Configuration"
           },
           {
-            "relref": "/develop/data-types/timeseries/development",
+            "relref": "develop/data-types/timeseries/development",
             "title": "Development",
             "linkTitle": "Development"
           },
           {
-            "relref": "/develop/data-types/timeseries/clients",
+            "relref": "develop/data-types/timeseries/clients",
             "title": "Clients",
             "linkTitle": "Clients"
           },
           {
-            "relref": "/develop/data-types/timeseries/use_cases",
+            "relref": "develop/data-types/timeseries/use_cases",
             "title": "Use cases",
             "linkTitle": "Use cases"
           },
           {
-            "relref": "/develop/data-types/timeseries/reference",
+            "relref": "develop/data-types/timeseries/reference",
             "title": "Reference",
             "linkTitle": "Reference"
           }
