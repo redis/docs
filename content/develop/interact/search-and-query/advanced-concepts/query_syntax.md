@@ -17,6 +17,19 @@ title: Query syntax
 weight: 5
 ---
 
+{{< note >}}The query syntax that RediSearch uses has improved over time,
+adding new features and making queries simpler to write. However,
+changing the syntax like this could potentially break existing queries that rely on
+an older version of the syntax. To avoid this problem, RediSearch supports
+different query syntax *dialects* to ensure backward compatibility.
+Any breaking changes to the syntax are introduced in a new dialect, while
+RediSearch continues to support older dialects. This means you can always choose
+the correct dialect to support the query you are using.
+See
+[Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+for full details of the dialects and the RediSearch versions that introduced them.
+{{< /note >}}
+
 ## Basic syntax
 
 You can use simple syntax for complex queries using these rules:
