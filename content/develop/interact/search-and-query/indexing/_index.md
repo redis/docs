@@ -175,7 +175,7 @@ For more information about search queries, see [Search query syntax]({{< relref 
 
 ## Index JSON arrays as TAG
 
-If you want to index string or boolean values as TAG within a JSON array, use the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) wildcard operator.
+The preferred method for indexing a JSON field with multivalued terms is through use of JSON arrays.  Each value of the array is indexed.  Those values should be scalars.  If you want to index string or boolean values as TAG within a JSON array, use the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) wildcard operator.
 
 To index an item's list of available colors, specify the JSONPath `$.colors.*` in the `SCHEMA` definition during index creation:
 
