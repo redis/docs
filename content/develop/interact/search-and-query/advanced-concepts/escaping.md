@@ -17,7 +17,7 @@ weight: 4
 
 Full-text search works by comparing words, URLs, numbers, and other elements of the query
 against the text in the searchable fields of each document. However,
-It would be very inefficient to compare the entire text of the query against the
+it would be very inefficient to compare the entire text of the query against the
 entire text of each field over and over again, so the search system doesn't do this.
 Instead, it splits the document text into short, significant sections
 called *tokens* during the indexing process and stores the tokens as part of the document's
