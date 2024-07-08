@@ -50,8 +50,6 @@ FT.CREATE ... SCHEMA ... {field_name} TAG [SEPARATOR {sep}] [CASESENSITIVE]
 
 For hashes, SEPARATOR can be any printable ASCII character; the default is a comma (`,`). For JSON, there is no default separator; you must declare one explicitly if needed.
 
-CASESENSITIVE can be specified to keep the original case.
-
 For example:
 
 ```
@@ -64,6 +62,8 @@ FT.CREATE idx on JSON PREFIX 1 key: SCHEMA $.colors AS colors TAG SEPARATOR ","
 3) 1) "$"
    2) "{\"colors\":\"red, orange, yellow\"}"
 ```
+
+CASESENSITIVE can be specified to keep the original case.
 
 ## Querying tag fields
 
