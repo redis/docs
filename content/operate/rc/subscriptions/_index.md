@@ -27,7 +27,7 @@ Here's a quick comparison of each plan:
 |:-----|:-------:|:----:|:-----:|
 | Memory size | 30 MB | 250 MB-12 GB | 50 TB |
 | Concurrent connections | 30 | 256-10000 | Unlimited |
-| Security | role-based auth<br/>password protection<br/>encryption in transit | role-based auth<br/>password protection<br/>TLS auth<br/>encryption in transit | role-based auth<br/>password protection<br/>TLS auth<br/>encryption in transit<br/>encryption at rest |
+| Security | Role-based auth<br/>Password protection<br/>Encryption in transit | Role-based auth<br/>Password protection<br/>TLS auth<br/>Encryption in transit | Role-based auth<br/>Password protection<br/>TLS auth<br/>Encryption in transit<br/>Encryption at rest |
 | REST API | No | Yes | Yes | 
 | Selected additional features<br/> <br/> <br/>|| Replication<br/>Auto-failover<br /> | Dedicated accounts<br>Auto Tiering<br/>Active/Active<br/> |   
 
