@@ -71,7 +71,7 @@ The sections below describe the two types of configuration file in more detail.
 Here is an example of a `config.yaml` file. Note that the values of the
 form "`${name}`" refer to environment variables that are set elsewhere. In particular,
 you should normally use environment variables as shown to set the source
-username and password rather than storing them in the clear in this
+username and password rather than storing them in plain text in this
 file (see [Set secrets](#set-secrets) below for more information).
 
 ```yaml
