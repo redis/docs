@@ -634,7 +634,7 @@ This example uses aggregation to calculate a 10% price discount for each item an
 {{% /alert %}}
 
 ## Index missing or empty values
-You can search for properties that do not exist in a given document (missing) with the INDEXMISSING option for FT.CREATE in conjunction with the ISMISSING function.  You can search for properities that exist but have no value (empty) by using INDEXEMPTY option with FT.CREATE.  Both query types require dialect 2.  Examples below:
+You can search for missing properties, that is, properties that do not exist in a given document, using the `INDEXMISSING` option to `FT.CREATE` in conjunction with the `ISMISSING` query function with `FT.SEARCH`. You can search for existing properties with no value (i.e., empty) using the `INDEXEMPTY` option with `FT.CREATE`. Both query types require DIALECT 2. Examples below:
 
 ```
 JSON.SET key:1 $ '{"propA": "foo"}'
