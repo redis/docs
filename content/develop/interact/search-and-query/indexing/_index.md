@@ -633,6 +633,33 @@ This example uses aggregation to calculate a 10% price discount for each item an
 [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) queries require `attribute` modifiers. Don't use JSONPath expressions in queries, except with the `LOAD` option, because the query parser doesn't fully support them.
 {{% /alert %}}
 
+## Index missing or empty values
+You can search for missing properties, that is, properties that do not exist in a given document, using the `INDEXMISSING` option to `FT.CREATE` in conjunction with the `ISMISSING` query function with `FT.SEARCH`. You can search for existing properties with no value (i.e., empty) using the `INDEXEMPTY` option with `FT.CREATE`. Both query types require DIALECT 2. Examples below:
+
+```
+JSON.SET key:1 $ '{"propA": "foo"}'
+JSON.SET key:2 $ '{"propA": "bar", "propB":"abc"}'
+FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.propA AS propA TAG $.propB AS propB TAG INDEXMISSING
+
+> FT.SEARCH idx 'ISMISSING(@propB)' DIALECT 2
+1) "1"
+2) "key:1"
+3) 1) "$"
+   2) "{\"propA\":\"foo\"}"
+```
+
+```
+JSON.SET key:1 $ '{"propA": "foo", "propB":""}'
+JSON.SET key:2 $ '{"propA": "bar", "propB":"abc"}'
+FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.propA AS propA TAG $.propB AS propB TAG INDEXEMPTY
+
+> FT.SEARCH idx '@propB:{""}' DIALECT 2
+1) "1"
+2) "key:1"
+3) 1) "$"
+   2) "{\"propA\":\"foo\",\"propB\":\"\"}"
+```
+
 ## Index limitations
 
 ### Schema mapping
