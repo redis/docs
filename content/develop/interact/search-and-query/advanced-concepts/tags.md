@@ -48,7 +48,7 @@ Tag fields can be added to the schema with the following syntax:
 FT.CREATE ... SCHEMA ... {field_name} TAG [SEPARATOR {sep}] [CASESENSITIVE]
 ```
 
-SEPARATOR defaults to a comma (`,`) for HASH only, and can be any printable ASCII character. For JSON, there is no default separator and you must declare one explicitly if needed.  
+For hashes, SEPARATOR can be any printable ASCII character; the default is a comma (`,`). For JSON, there is no default separator; you must declare one explicitly if needed.
 
 CASESENSITIVE can be specified to keep the original case.
 
