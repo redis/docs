@@ -94,7 +94,7 @@ This short example shows you how to query for new bicycles:
 FT.SEARCH idx:bicycle "@condition:{new}"
 ```
 
-Use double quotes and [DIALECT 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-2) for exact match queries involving tags that contain special characters. The only character that needs escaping in TAG double quote contained queries is the double quote character itself.  Here's an example of usage of double quoting and special characters:
+Use double quotes and [DIALECT 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-2) for exact match queries involving tags that contain special characters. The only character that needs escaping in queries involving double-quoted tags is the double-quote character. Here's an example of using double-quoted tags that contain special characters:
 ```
 JSON.SET key:1 $ '{"email": "test@redis.com"}'
 FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.email AS email TAG
