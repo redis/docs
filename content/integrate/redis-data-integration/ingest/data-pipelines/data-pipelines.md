@@ -68,7 +68,11 @@ The sections below describe the two types of configuration file in more detail.
 
 ## The `config.yaml` file
 
-Here is an example of a `config.yaml` file:
+Here is an example of a `config.yaml` file. Note that the values of the
+form "${name}" refer to environment variables that are set elsewhere. In particular,
+you should normally use environment variables as shown to set the source
+username and password rather than storing them in the clear in this
+file (see [Set secrets](#set-secrets) below for more information).
 
 ```yaml
 sources:
@@ -393,6 +397,38 @@ Each database type has a different set of preparation steps. You can
 find the preparation guides for the databases that RDI supports in the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs" >}})
 section.
+
+## Set secrets
+
+Before you deploy your pipeline, you must set the authentication secrets for the
+source and target databases. Each secret has a corresponding property name that
+you can pass to the
+[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-set-secret" >}})
+command to set the property's value. For example, you would use the
+following command line to set the source database username to `myUserName`:
+
+```bash
+redis-di set-secret SOURCE_DB_USERNAME myUserName
+```
+
+The table below shows the property name for each secret. Note that the
+username and password are required for the source and target, but the other
+secrets are only relevant to TLS/mTLS connections.
+
+| Property name | Description |
+| :-- | :-- |
+| `SOURCE_DB_USERNAME` | Username for the source database |
+| `SOURCE_DB_PASSWORD` | Password for the source database |
+| `SOURCE_DB_CACERT` | (For TLS only) Source database trust certificate |
+| `SOURCE_DB_KEY` | (For mTLS only) Source database private key |
+| `SOURCE_DB_CERT` | (For mTLS only) Source database public key |
+| `SOURCE_DB_KEY_PASSWORD` | (For mTLS only) Source database private key password |
+| `TARGET_DB_USERNAME` | Username for the target database |
+| `TARGET_DB_PASSWORD` | Password for the target database |
+| `TARGET_DB_CACERT` | (For TLS only) Target database trust certificate |
+| `TARGET_DB_KEY` | (For mTLS only) Target database private key |
+| `TARGET_DB_CERT` | (For mTLS only) Target database public key |
+| `TARGET_DB_KEY_PASSWORD` | (For mTLS only) Target database private key password |
 
 ## Deploy a pipeline
 
