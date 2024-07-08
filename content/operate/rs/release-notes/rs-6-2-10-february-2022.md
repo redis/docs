@@ -100,7 +100,7 @@ For help upgrading a module, see [Add a module to a cluster]({{< relref "/operat
 
 - RS58219 - Fixes a UI error message that showed a path instead of a relevant error message.
 - RS44958 - Fixes incorrect description for the graph "incoming traffic" in Active-Active (geo-distributed) database UI Metrics.
-- RS66280 - Fixes the lexicographic [SORT]({{< relref "/commands" >}}/sort) command on Active-Active databases (e.g. `SORT mylist ALPHA`). The SORT command should only run on keys mapped to the same slot.
+- RS66280 - Fixes the lexicographic [SORT]({{< relref "/commands/sort" >}}) command on Active-Active databases (e.g. `SORT mylist ALPHA`). The SORT command should only run on keys mapped to the same slot.
 - RS64575 - Fixes a bug in the replication between primary and replica shards of a destination Active-active database in the scenario of using Replica-Of from a single to an Active-Active database, where the syncer process went down during the full sync.
 - RS65370 - Adds logic to remove old syncer entries in the cluster configuration during upgrades.
 - RS67434 - Version 6.2.10 fixes the mTLS handshake between the [syncer process]({{< relref "/operate/rs/databases/active-active" >}}#syncer-process) and the [proxy (DMC)](https://docs.redis.com/latest//rs/references/terminology/#proxy), where the proxy presented a leaf certificate without its full chain to the syncer. After upgrading to 6.2.10, syncer connections using invalid certificates will break the synchronization between Active-Active instances or deployments using Replica Of when TLS is enabled. To ensure certificates are valid before upgrading do the following: 
@@ -125,7 +125,7 @@ For help upgrading a module, see [Add a module to a cluster]({{< relref "/operat
 
 ### Issues resolved in build 100
 
-- RS74171 - A new command was added as part of Redis 6.2: [XAUTOCLAIM]({{< relref "/commands" >}}/xautoclaim/). When used in an Active-Active configuration, this command may cause Redis shards to crash, potentially resulting in data loss. The issue is fixed in Redis Enterprise Software version 6.2.12. Additionally, we recommend enabling AOF persistence for all Active-Active configurations.
+- RS74171 - A new command was added as part of Redis 6.2: [XAUTOCLAIM]({{< relref "/commands/xautoclaim" >}}). When used in an Active-Active configuration, this command may cause Redis shards to crash, potentially resulting in data loss. The issue is fixed in Redis Enterprise Software version 6.2.12. Additionally, we recommend enabling AOF persistence for all Active-Active configurations.
 
 ### Issues resolved in build 121
 

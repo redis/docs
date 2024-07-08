@@ -11,7 +11,7 @@ linkTitle: Sorted sets
 weight: $weight
 ---
 {{< note >}}
-[Redis Geospatial (Geo)]({{< relref "/commands" >}}/GEOADD) is based on Sorted Sets, so the same Active-Active database development instructions apply to Geo.
+[Redis Geospatial (Geo)]({{< relref "/commands/GEOADD" >}}) is based on Sorted Sets, so the same Active-Active database development instructions apply to Geo.
 {{< /note >}}
 
 Similar to Redis Sets, Redis Sorted Sets are non-repeating collections

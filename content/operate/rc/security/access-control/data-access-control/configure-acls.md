@@ -62,7 +62,7 @@ The Redis Cloud console will validate your ACL syntax while you are typing.
 
 ### Command ACL rules
 
-A **command** can be any [Redis command]({{< relref "/commands" >}}/).
+A **command** can be any [Redis command]({{< relref "/commands" >}}).
 
 For example, this Redis ACL rule indicates that the `SET` command is permitted:
 

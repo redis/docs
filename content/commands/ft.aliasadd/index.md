@@ -46,7 +46,7 @@ is alias to be added to an index.
 Indexes can have more than one alias, but an alias cannot refer to another
 alias.
 
-FT.ALISSADD allows administrators to transparently redirect application queries to alternative indexes.
+FT.ALIASADD allows administrators to transparently redirect application queries to alternative indexes.
 
 ## Return
 

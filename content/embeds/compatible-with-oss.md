@@ -31,13 +31,13 @@ That said, the following Redis features are not applicable in the context of our
     - [LATENCY RESET](http://redis.io/commands/LATENCY-RESET)
     - [LATENCY GRAPH](http://redis.io/commands/LATENCY-GRAPH)
     - [LATENCY DOCTOR](http://redis.io/commands/LATENCY-DOCTOR)
-    - [MEMORY STATS]({{< relref "/commands" >}}/memory-stats)
-    - [MEMORY DOCTOR]({{< relref "/commands" >}}/memory-doctor)
-    - [MEMORY MALLOC-STATS]({{< relref "/commands" >}}/memory-malloc-stats)
-    - [MEMORY PURGE]({{< relref "/commands" >}}/memory-purge)
-    - [MODULE LOAD]({{< relref "/commands" >}}/module-load)
-    - [MODULE UNLOAD]({{< relref "/commands" >}}/module-unload)
-    - [MODULE LIST]({{< relref "/commands" >}}/module-list)
+    - [MEMORY STATS]({{< relref "/commands/memory-stats" >}}
+    - [MEMORY DOCTOR]({{< relref "/commands/memory-doctor" >}}
+    - [MEMORY MALLOC-STATS]({{< relref "/commands/memory-malloc-stats" >}}
+    - [MEMORY PURGE]({{< relref "/commands/memory-purge" >}}
+    - [MODULE LOAD]({{< relref "/commands/module-load" >}}
+    - [MODULE UNLOAD]({{< relref "/commands/module-unload" >}}
+    - [MODULE LIST]({{< relref "/commands/module-list" >}}
 - Additionally, only a subset of Redis’ configuration settings (via CONFIG GET/SET) is applicable to Redis Cloud. Attempts to get or set a configuration parameter that isn’t included in the following list show an error when used:
     - hash-max-ziplist-entries
     - hash-max-ziplist-value

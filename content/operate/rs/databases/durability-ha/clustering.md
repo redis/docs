@@ -161,8 +161,8 @@ the command is distributed across multiple shards
 and the responses from all shards are combined into a single response.
     {{< /note >}}
 
-- **Geo commands**: For the [GEORADIUS]({{< relref "/commands" >}}/georadius) and
-    [GEORADIUSBYMEMBER]({{< relref "/commands" >}}/georadiusbymember) commands, the
+- **Geo commands**: For the [GEORADIUS]({{< relref "/commands/georadius" >}}) and
+    [GEORADIUSBYMEMBER]({{< relref "/commands/georadiusbymember" >}}) commands, the
     STORE and STOREDIST options can only be used when all affected keys
     reside in the same slot.
 - **Transactions**: All operations within a WATCH / MULTI / EXEC block

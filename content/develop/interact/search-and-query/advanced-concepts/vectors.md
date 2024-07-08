@@ -23,7 +23,7 @@ Vector similarity provides these functionalities:
 
 * Realtime vector indexing supporting two indexing methods:
 
-    - FLAT - Brute-force index
+    - FLAT - a simple, lightweight index.
 
     - HNSW - Modified version of [nmslib/hnswlib](https://github.com/nmslib/hnswlib), which is an implementation of [Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
 
@@ -45,6 +45,11 @@ Vector similarity provides these functionalities:
 
 ## Create a vector field
 
+{{< note >}}
+Vector fields are only supported in [query dialect 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}) and above (introduced in [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3))
+To use a vector field, you must specify the option `DIALECT 2` or greater in the command itself, or set the `DEFAULT_DIALECT` option to `2` or greater, by either using the command [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) or when loading the `redisearch` module and passing it the argument `DEFAULT_DIALECT 2`.
+{{< /note >}}
+
 You can add vector fields to the schema in FT.CREATE using this syntax:
 
 ```
@@ -55,7 +60,7 @@ Where:
 
 * `{algorithm}` must be specified and be a supported vector similarity index algorithm. The supported algorithms are:
 
-    - FLAT - Brute force algorithm.
+    - FLAT - a simple, straightforward algorithm.
 
     - HNSW - Hierarchical Navigable Small World algorithm.
 
@@ -190,8 +195,7 @@ JSON.SET 1 $ '{"foo":{"vec":[1,2,3,4]}, "bar":{"vec":[5,6,7,8]}}'
 
 ## Querying vector fields
 
-You can use vector similarity queries in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) query command. To use a vector similarity query, you must specify the option `DIALECT 2` or greater in the command itself, or set the `DEFAULT_DIALECT` option to `2` or greater, by either using the command [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) or when loading the `redisearch` module and passing it the argument `DEFAULT_DIALECT 2`.
-
+You can use vector similarity queries in the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) query command.
 There are two types of vector queries: *KNN* and *range*:
 
 ### KNN search
@@ -312,7 +316,7 @@ Now, sort the results by their distance from the query vector:
 ```
 FT.SEARCH idx "*=>[KNN 10 @vec $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vec_score DIALECT 2
 ```
-Return the top 10 similar documents, use *query params* (see "params" section in [FT.SEARCH command]({{< baseurl >}}/commands/ft.search//)) for specifying `K` and `EF_RUNTIME` parameter, and set `EF_RUNTIME` value to 150 (assuming `vec` is an HNSW index):
+Return the top 10 similar documents, use *query params* (see "params" section in [FT.SEARCH command]({{< baseurl >}}/commands/ft.search)) for specifying `K` and `EF_RUNTIME` parameter, and set `EF_RUNTIME` value to 150 (assuming `vec` is an HNSW index):
 ```
 FT.SEARCH idx "*=>[KNN $K @vec $BLOB EF_RUNTIME $EF]" PARAMS 6 BLOB "\x12\xa9\xf5\x6c" K 10 EF 150 DIALECT 2
 ```

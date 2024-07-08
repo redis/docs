@@ -68,11 +68,3 @@ redis> HPEXPIRETIME mykey FIELDS 2 field1 field2
 2) (integer) 1715705913659
 ```
 
-## RESP2/RESP3 replies
-
-One of the following:
-* Empty [Array reply]({{< relref "/develop/reference/protocol-spec" >}}#arrays) if the provided key does not exist.
-* [Array reply]({{< relref "/develop/reference/protocol-spec" >}}#arrays). For each field:
-    - [Integer reply]({{< relref "/develop/reference/protocol-spec" >}}#integers): `-2` if no such field exists in the provided hash key.
-    - [Integer reply]({{< relref "/develop/reference/protocol-spec" >}}#integers): `-1` if the field exists but has no associated expiration set.
-    - [Integer reply]({{< relref "/develop/reference/protocol-spec" >}}#integers): the expiration (Unix timestamp) in milliseconds.

@@ -21,7 +21,7 @@ An aggregation query allows you to perform the following actions:
 - Group data based on field values.
 - Apply aggregation functions on the grouped data.
 
-This article explains the basic usage of the [FT.AGGREGATE]({{< baseurl >}}/commands/ft.aggregate//) command. For further details, see the [command specification]({{< baseurl >}}/commands/ft.aggregate//) and the [aggregations reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}}).
+This article explains the basic usage of the [FT.AGGREGATE]({{< baseurl >}}/commands/ft.aggregate) command. For further details, see the [command specification]({{< baseurl >}}/commands/ft.aggregate) and the [aggregations reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}}).
 
 The examples in this article use a schema with the following fields:
 
@@ -113,7 +113,7 @@ FT.AGGREGATE idx:bicycle "*" LOAD 1 price APPLY "@price<1000" AS price_category 
 ```
 
 {{% alert title="Note" color="warning" %}}
-You can also create more complex aggregation pipelines with [FT.AGGREGATE]({{< baseurl >}}/commands/ft.aggregate//). Applying multiple reduction functions under one `GROUPBY` clause is possible. In addition, you can also chain groupings and mix in additional mapping steps (e.g., `GROUPBY ... REDUCE ... APPLY ... GROUPBY ... REDUCE`)
+You can also create more complex aggregation pipelines with [FT.AGGREGATE]({{< baseurl >}}/commands/ft.aggregate). Applying multiple reduction functions under one `GROUPBY` clause is possible. In addition, you can also chain groupings and mix in additional mapping steps (e.g., `GROUPBY ... REDUCE ... APPLY ... GROUPBY ... REDUCE`)
 {{% /alert  %}}
 
 

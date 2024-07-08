@@ -194,13 +194,13 @@ Review system logs including the syslog or journal for any error messages, warni
 
 1. To identify possible client application issues, test connectivity from the client machine to the database using [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}):
 
-    [`INFO`]({{< relref "/commands" >}}/info/):
+    [`INFO`]({{< relref "/commands/info" >}}):
 
     ```sh
     redis-cli -h <endpoint> -p <port> -a <password> INFO
     ```
 
-    [`PING`]({{< relref "/commands" >}}/ping/):
+    [`PING`]({{< relref "/commands/ping" >}}):
 
     ```sh
     redis-cli -h <endpoint> -p <port> -a <password> PING
@@ -260,15 +260,15 @@ Review system logs including the syslog or journal for any error messages, warni
 
     - Expired keys 
 
-- Run [`SLOWLOG GET`]({{< relref "/commands" >}}/slowlog-get/) using [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) to identify slow commands such as [`KEYS`]({{< relref "/commands" >}}/keys/) or [`HGETALL`]({{< relref "/commands" >}}/hgetall/):
+- Run [`SLOWLOG GET`]({{< relref "/commands/slowlog-get" >}}) using [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) to identify slow commands such as [`KEYS`]({{< relref "/commands/keys" >}}) or [`HGETALL`]({{< relref "/commands/hgetall" >}}:
 
     ```sh
     redis-cli -h <endpoint> -p <port> -a <password> SLOWLOG GET <number of entries>
     ```
 
-    Consider using alternative commands such as [`SCAN`]({{< relref "/commands" >}}/scan/), [`SSCAN`]({{< relref "/commands" >}}/sscan/), [`HSCAN`]({{< relref "/commands" >}}/hscan/), and [`ZSCAN`]({{< relref "/commands" >}}/zscan/).
+    Consider using alternative commands such as [`SCAN`]({{< relref "/commands/scan" >}}), [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}})
 
-- Keys with large memory footprints can cause latency. To identify such keys, compare the keys returned by [`SLOWLOG GET`]({{< relref "/commands" >}}/slowlog-get/) with the output of the following commands:
+- Keys with large memory footprints can cause latency. To identify such keys, compare the keys returned by [`SLOWLOG GET`]({{< relref "/commands/slowlog-get" >}}) with the output of the following commands:
 
     ```sh
     redis-cli -h <endpoint> -p <port> -a <password> --memkeys

@@ -43,8 +43,8 @@ Here are the metrics available to Prometheus:
 | bdb_ingress_bytes | Rate of incoming network traffic to DB (bytes/sec) |
 | bdb_ingress_bytes_max | Highest value of rate of incoming network traffic to DB (bytes/sec) |
 | bdb_instantaneous_ops_per_sec | Request rate handled by all shards of DB (ops/sec) |
-| bdb_main_thread_cpu_system | % cores utilization in system mode for all redis shard main threas of this database |
-| bdb_main_thread_cpu_system_max | Highest value of % cores utilization in system mode for all redis shard main threas of this database |
+| bdb_main_thread_cpu_system | % cores utilization in system mode for all redis shard main threads of this database |
+| bdb_main_thread_cpu_system_max | Highest value of % cores utilization in system mode for all redis shard main threads of this database |
 | bdb_main_thread_cpu_user | % cores utilization in user mode for all redis shard main threads of this database |
 | bdb_main_thread_cpu_user_max | Highest value of % cores utilization in user mode for all redis shard main threads of this database |
 | bdb_mem_frag_ratio | RAM fragmentation ratio (RSS / allocated RAM) |

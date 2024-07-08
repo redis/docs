@@ -41,7 +41,7 @@ If you use Gradle, include this line in your `build.gradle` file:
 
 ```
 dependencies {
-    compile 'io.lettuce:lettuce-core:6.3.2.RELEASE
+    compileOnly 'io.lettuce:lettuce-core:6.3.2.RELEASE'
 }
 ```
 

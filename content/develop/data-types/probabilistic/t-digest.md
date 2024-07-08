@@ -84,7 +84,7 @@ OK
 {{< /clients-example >}}
 
 
-You can repeat calling [TDIGEST.ADD]({{< baseurl >}}/commands/tdigest.add//) whenever new observations are available
+You can repeat calling [TDIGEST.ADD]({{< baseurl >}}/commands/tdigest.add) whenever new observations are available
 
 #### Estimating fractions or ranks by values
 
@@ -109,7 +109,7 @@ OK
 {{< /clients-example >}}
 
 
-And lastly, `TDIGEST.REVRANK key value...` is similar to [TDIGEST.RANK]({{< baseurl >}}/commands/tdigest.rank//), but returns, for each input value, an estimation of the number of (observations larger than a given value + half the observations equal to the given value).
+And lastly, `TDIGEST.REVRANK key value...` is similar to [TDIGEST.RANK]({{< baseurl >}}/commands/tdigest.rank), but returns, for each input value, an estimation of the number of (observations larger than a given value + half the observations equal to the given value).
 
 
 #### Estimating values by fractions or ranks

@@ -68,7 +68,11 @@ The sections below describe the two types of configuration file in more detail.
 
 ## The `config.yaml` file
 
-Here is an example of a `config.yaml` file:
+Here is an example of a `config.yaml` file. Note that the values of the
+form "`${name}`" refer to environment variables that are set elsewhere. In particular,
+you should normally use environment variables as shown to set the source
+username and password rather than storing them in plain text in this
+file (see [Set secrets](#set-secrets) below for more information).
 
 ```yaml
 sources:
@@ -148,12 +152,16 @@ configuration contains the following data:
   - `sink`: All advanced properties for writing to RDI (TLS, memory threshold, etc).
     See the Debezium [Redis stream properties](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream)
     page for the full set of available properties.
-  - `source`: All advanced connector properties (for example, RAC nodes). See the
+  - `source`: All advanced connector properties (for example, RAC nodes).
+    See [Database-specific connection properties](#db-connect-props) below and also
+    see the
     Debezium [Connectors](https://debezium.io/documentation/reference/stable/connectors/)
-    page for the full set of available properties.
+    pages for more information about the properties available for each database type.
   - `quarkus`: All advanced properties for Debezium server, such as the log level. See the
     Quarkus [Configuration options](https://quarkus.io/guides/all-config)
     docs for the full set of available properties.
+
+    
 
 ### Targets
 
@@ -164,6 +172,97 @@ with a unique name that you are free to choose (here, we have used
 `type` of target database, which will generally be `redis` along with the
 `host` and `port` of the server. You can also supply connection credentials
 and TLS/mTLS secrets here if you use them.
+
+### Database-specific connection properties {#db-connect-props}
+
+Use the following properties in the [`sources.advanced.source`](#sources) section
+of `config.yaml` for more control over RDI's connection to your database.
+
+#### MySQL/MariaDB
+
+See the
+[Debezium SSL mode properties](https://debezium.io/documentation/reference/stable/connectors/mysql.html#mysql-property-database-ssl-mode)
+for a full list of properties specific to MySQL/MariaDB.
+
+- [`database.ssl.keystore`](https://debezium.io/documentation/reference/stable/connectors/mysql.html#mysql-property-database-ssl-keystore):
+  (Optional) The location of the key store file. Use this for two-way authentication between
+  your client and the MySQL/MariaDB Server.
+- [`database.ssl.keystore.password`](https://debezium.io/documentation/reference/stable/connectors/mysql.html#mysql-property-database-ssl-keystore-password):
+  (Optional) The password for the key store file. You only need this if you have also configured
+  `database.ssl.keystore`.
+- [`database.ssl.truststore`](https://debezium.io/documentation/reference/stable/connectors/mysql.html#mysql-property-database-ssl-truststore):
+  The location of the trust store file to use for server certificate verification.
+- [`database.ssl.truststore.password`](https://debezium.io/documentation/reference/stable/connectors/mysql.html#mysql-property-database-ssl-truststore-password):
+  The password for the trust store file. This is required both to check the integrity of the truststore
+  and to unlock it.
+
+#### PostgreSQL
+
+See the
+[Debezium connector properties](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-connector-properties)
+for a full list of properties specific to PostgreSQL.
+
+- [`database.sslcert`](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-property-database-sslcert):
+  The file path for the client's SSL certificate for the client. See
+  [Database Connection Control Functions](https://www.postgresql.org/docs/current/libpq-connect.html)
+  in the PostgreSQL docs for more information.
+- [`database.sslkey`](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-property-database-sslkey):
+  The file path for the client's SSL private key. See
+  [Database Connection Control Functions](https://www.postgresql.org/docs/current/libpq-connect.html)
+  in the PostgreSQL docs for more information.
+- [`database.sslpassword`](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-property-database-sslpassword):
+  The password for the client's private key file as specified `database.sslkey`. See
+  [Database Connection Control Functions](https://www.postgresql.org/docs/current/libpq-connect.html)
+  in the PostgreSQL docs for more information.
+- [`database.sslrootcert`](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-property-database-sslrootcert):
+  The file path for the root certificate(s) used to validate the server. See
+  [Database Connection Control Functions](https://www.postgresql.org/docs/current/libpq-connect.html)
+  in the PostgreSQL docs for more information.
+
+#### Oracle
+
+See the Kafka
+[configuration docs](https://kafka.apache.org/documentation.html#configuration)
+for a full list of properties relevant to Oracle configuration.
+Where a property has a `<role>` element, you can set the role to be
+either `producer` or `consumer`, as appropriate.
+
+- [`schema.history.internal.<role>.security.protocol`](https://kafka.apache.org/documentation.html#consumerconfigs_security.protocol):
+  The protocol for communicating with brokers. This can take the values
+  `PLAINTEXT`, `SSL`, `SASL_PLAINTEXT`, and `SASL_SSL`.
+- [`schema.history.internal.<role>.ssl.keystore.location`](https://kafka.apache.org/documentation.html#producerconfigs_ssl.keystore.location):
+  The file path for the keystore.
+- [`schema.history.internal.<role>.ssl.keystore.password`](https://kafka.apache.org/documentation.html#producerconfigs_ssl.keystore.password):
+  The password for the keystore file. You only need this you have also set
+  `schema.history.internal.<role>.ssl.keystore.location`.
+- [`schema.history.internal.<role>.ssl.truststore.location`](https://kafka.apache.org/documentation.html#producerconfigs_ssl.truststore.location):
+  The file path for the truststore.
+- [`schema.history.internal.<role>.ssl.truststore.password`](https://kafka.apache.org/documentation.html#producerconfigs_ssl.truststore.password):
+  The password for the trust store file. If you don't set a password, RDI will still use the trust store
+  file specified in `schema.history.internal.<role>.ssl.truststore.location` but without integrity
+  checking.
+- [`schema.history.internal.<role>.ssl.key.password`](https://kafka.apache.org/documentation.html#producerconfigs_ssl.key.password):
+  The password for the private key in the keystore file specified in
+  `schema.history.internal.<role>.ssl.keystore.location`.
+- [`database.dbname`](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-property-database-dbname):
+  The name of the database you want to connect to. If you are using a container database environment,
+  then you should set this to the name of the root container database (CDB), rather than an included
+  pluggable database (PDB).
+- [`database.pdb.name`](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-property-database-pdb-name):
+  The name of the Oracle pluggable database you want to connect to. You can only use this with
+  container database (CDB) installations.
+- [`decimal.handling.mode`](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-property-decimal-handling-mode):
+  This specifies the data format for floating point values in `NUMBER`, `DECIMAL` and `NUMERIC`
+  columns. This can take the values `precise` (store values with any number of decimal places),
+  `double` (use double-precision floating point), or `string` (encode numbers as strings).
+  The default value is `precise`. See
+  [Oracle numeric types](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-numeric-types)
+  for more information about decimal handling.
+- `key.converter.schemas.enable` and `value.converter.schemas.enable`:
+  Boolean values specifying whether or not you want to add JSON schemas to
+  serialized data. See Kafka's [connect transforms](https://kafka.apache.org/documentation/#connect_transforms)
+  docs for an example.
+
 
 ## Job files
 
@@ -250,7 +349,9 @@ The main sections of these files are:
     - `expire`: Positive integer value indicating a number of seconds for the key to expire.
     If you don't specify this property, the key will never expire.
 
-{{< note >}}You must specify a `transform` section, or a `key` section under `output`, or both.{{< /note >}}
+{{< note >}}In a job file, the `transform` section is optional, but if you don't specify
+a `transform`, you must specify custom key logic in `output.with.key`. You can include
+both of these sections if you want both a custom transform and a custom key.{{< /note >}}
 
 Another example below shows how you can rename the `fname` field to `first_name` in the table `emp`
 using the
@@ -296,6 +397,38 @@ Each database type has a different set of preparation steps. You can
 find the preparation guides for the databases that RDI supports in the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs" >}})
 section.
+
+## Set secrets
+
+Before you deploy your pipeline, you must set the authentication secrets for the
+source and target databases. Each secret has a corresponding property name that
+you can pass to the
+[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-set-secret" >}})
+command to set the property's value. For example, you would use the
+following command line to set the source database username to `myUserName`:
+
+```bash
+redis-di set-secret SOURCE_DB_USERNAME myUserName
+```
+
+The table below shows the property name for each secret. Note that the
+username and password are required for the source and target, but the other
+secrets are only relevant to TLS/mTLS connections.
+
+| Property name | Description |
+| :-- | :-- |
+| `SOURCE_DB_USERNAME` | Username for the source database |
+| `SOURCE_DB_PASSWORD` | Password for the source database |
+| `SOURCE_DB_CACERT` | (For TLS only) Source database trust certificate |
+| `SOURCE_DB_KEY` | (For mTLS only) Source database private key |
+| `SOURCE_DB_CERT` | (For mTLS only) Source database public key |
+| `SOURCE_DB_KEY_PASSWORD` | (For mTLS only) Source database private key password |
+| `TARGET_DB_USERNAME` | Username for the target database |
+| `TARGET_DB_PASSWORD` | Password for the target database |
+| `TARGET_DB_CACERT` | (For TLS only) Target database trust certificate |
+| `TARGET_DB_KEY` | (For mTLS only) Target database private key |
+| `TARGET_DB_CERT` | (For mTLS only) Target database public key |
+| `TARGET_DB_KEY_PASSWORD` | (For mTLS only) Target database private key password |
 
 ## Deploy a pipeline
 
