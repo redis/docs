@@ -633,7 +633,7 @@ This example uses aggregation to calculate a 10% price discount for each item an
 [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) queries require `attribute` modifiers. Don't use JSONPath expressions in queries, except with the `LOAD` option, because the query parser doesn't fully support them.
 {{% /alert %}}
 
-## Index Missing or Empty Values
+## Index missing or empty values
 You can search for properties that do not exist in a given document (missing) with the INDEXMISSING option for FT.CREATE in conjunction with the ISMISSING function.  You can search for properities that exist but have no value (empty) by using INDEXEMPTY option with FT.CREATE.  Both query types require dialect 2.  Examples below:
 
 ```
