@@ -73,7 +73,7 @@
   {{ $childPage := site.GetPage .relref }}
   {{ $isActive := or ($currentPage.IsDescendant $childPage) (eq $currentPage $childPage) }}
   {{- if .divider }}
-  <li class="my-2 bg-redis-pencil-500 text-white text-center rounded-r-md rounded-l-md"><span class="pr-5"></span><strong><a href='{{ absURL .relref }}'>{{ .linkTitle }}</a></strong>
+  <li class="my-2 bg-redis-pencil-500 text-white text-center rounded-r-md"><span class="pr-5"></span><strong><a href='{{ absURL .relref }}'>{{ .linkTitle }}</a></strong>
   {{- else if .children }}
   <li class="my-2"><span class="pr-5"></span>
     <a href='{{ absURL .relref }}' class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}
