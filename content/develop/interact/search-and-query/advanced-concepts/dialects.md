@@ -91,13 +91,13 @@ It introduces support for new comparison operators for `NUMERIC` fields:
 * `!=` (not equal).
   
   `FT.SEARCH idx "@numeric!=3456" DIALECT 2`
-* `>` (greater than)
+* `>` (greater than).
   
   `FT.SEARCH idx "@numeric>3456" DIALECT 2`
 * `>=` (greater than or equal).
   
   `FT.SEARCH idx "@numeric>=3456" DIALECT 2`
-* `<` (less than)
+* `<` (less than).
   
   `FT.SEARCH idx "@numeric<3456" DIALECT 2`
 * `<=` (less than or equal).
