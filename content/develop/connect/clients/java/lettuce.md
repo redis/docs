@@ -179,8 +179,7 @@ Lettuce uses `ClientResources` for efficient management of shared resources like
 For connection pooling, Lettuce leverages `RedisClient` or `RedisClusterClient`, which can handle multiple concurrent connections efficiently.
 
 ### Timouts
-There is a multitude of timeouts to different operations in Lettuce, such as command execution, SSL handshake, Sentinel discovery, etc.
-Unless configured otherwise, Lettuce uses a global timeout of 60 seconds. You can set the timeout for each operation individually.
+Lettuce provides timeouts for many operations, such as command execution, SSL handshake, and Sentinel discovery. By default, Lettuce uses a global timeout value of 60 seconds for these operations, but you can override the global timeout value with individual timeout values for each operation.
 
 {{% alert title="Tip" color="warning" %}}
 Choosing the right timeout is crucial for your application's performance and stability and is specific to each environment.
