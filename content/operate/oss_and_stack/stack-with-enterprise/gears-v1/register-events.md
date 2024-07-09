@@ -12,7 +12,7 @@ toc: 'true'
 weight: 80
 ---
 
-You can register RedisGears functions to [run when certain events occur](https://oss.redis.com/redisgears/intro.html#event-processing) in a Redis database.
+You can register RedisGears functions to run when certain events occur in a Redis database.
 
 ## Register on events
 
@@ -29,12 +29,6 @@ To register RedisGears functions to run on an event, your code needs to:
     - The `KeysReader` object for Java.
 
 For more information and examples of event registration, see:
-
-- Python references:
-
-    - [`KeysReader`](https://oss.redis.com/redisgears/readers.html#keysreader)
-
-    - [`GearsBuilder.register()`](https://oss.redis.com/redisgears/functions.html#register)
 
 - Java references:
 
