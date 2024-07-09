@@ -182,9 +182,9 @@ For connection pooling, Lettuce leverages `RedisClient` or `RedisClusterClient`,
 Lettuce provides timeouts for many operations, such as command execution, SSL handshake, and Sentinel discovery. By default, Lettuce uses a global timeout value of 60 seconds for these operations, but you can override the global timeout value with individual timeout values for each operation.
 
 {{% alert title="Tip" color="warning" %}}
-Choosing the right timeout is crucial for your application's performance and stability and is specific to each environment.
-It is not necessary to configure timeouts unless you are having issues with the default values. 
-In some cases the defaults are based on environment specific settings (such as the operating system settings), in other cases they are built-in the Lettuce driver. 
+Choosing suitable timeout values is crucial for your application's performance and stability and is specific to each environment.
+Configuring timeouts is only necessary if you have issues with the default values. 
+In some cases, the defaults are based on environment-specific settings (e.g., operating system settings), while in other cases, they are built into the Lettuce driver. 
 For more details on setting specific timeouts, see the [Lettuce reference guide](https://lettuce.io/core/release/reference/index.html).
 {{% /alert  %}}
 
