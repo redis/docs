@@ -188,7 +188,7 @@ In some cases, the defaults are based on environment-specific settings (e.g., op
 For more details on setting specific timeouts, see the [Lettuce reference guide](https://lettuce.io/core/release/reference/index.html).
 {{% /alert  %}}
 
-Below is a example of setting a typical socket-level timeouts. The `TCP_USER_TIMEOUT` is useful for scenarios where the server stops responding without acknowledging the last request, while the `KEEPALIVE` settings are good for detecting dead connections while there is no traffic between the client and the server.
+Below is an example of setting socket-level timeouts. The `TCP_USER_TIMEOUT` setting is useful for scenarios where the server stops responding without acknowledging the last request, while the `KEEPALIVE` setting is good for detecting dead connections where there is no traffic between the client and the server.
 
 ```java
 RedisURI redisURI = RedisURI.Builder
