@@ -47,8 +47,8 @@ Details:
 - Bug fixes:
 
     - [#792](https://github.com/RedisGears/RedisGears/issues/792), [#798](https://github.com/RedisGears/RedisGears/pull/798) Execution was triggered infinitely when trimming is turned off.
-    - [#791](https://github.com/RedisGears/RedisGears/issues/791), [#796](https://github.com/RedisGears/RedisGears/pull/796) Stop triggering executions during [pause](https://oss.redis.com/redisgears/commands.html#rgpauseregistrations) even on failure.
-    - [#794](https://github.com/RedisGears/RedisGears/pull/794), [#797](https://github.com/RedisGears/RedisGears/pull/797) Use [`PythonInstallationDir`](https://oss.redis.com/redisgears/configuration.html#pythoninstallationdir) configuration to find the virtual environment location on Redis Enterprise. (MOD-1734)
+    - [#791](https://github.com/RedisGears/RedisGears/issues/791), [#796](https://github.com/RedisGears/RedisGears/pull/796) Stop triggering executions during pause even on failure.
+    - [#794](https://github.com/RedisGears/RedisGears/pull/794), [#797](https://github.com/RedisGears/RedisGears/pull/797) Use `PythonInstallationDir` configuration to find the virtual environment location on Redis Enterprise. (MOD-1734)
 
 ## v1.2.4 (May 2022)
 
@@ -61,11 +61,11 @@ Details:
 - Improvements:
 
     - [#772](https://github.com/RedisGears/RedisGears/pull/772) Added the ability to upgrade a dependency at runtime with `FORCE_REQUIREMENTS_REINSTALLATION` on `RG.PYEXECUTE`.
-    - [#765](https://github.com/RedisGears/RedisGears/pull/765) Allow deactivating [override Python allocators](https://oss.redis.com/redisgears/configuration.html#overridepythonallocators) for performance improvements.
+    - [#765](https://github.com/RedisGears/RedisGears/pull/765) Allow deactivating override Python allocators for performance improvements.
 
 - Bug fixes:
 
-    - [#761](https://github.com/RedisGears/RedisGears/issues/761), [#760](https://github.com/RedisGears/RedisGears/issues/760), [#778](https://github.com/RedisGears/RedisGears/pull/778) [`StreamReader`](https://oss.redis.com/redisgears/readers.html#streamreader) fixes to pause and unregister stream processing.
+    - [#761](https://github.com/RedisGears/RedisGears/issues/761), [#760](https://github.com/RedisGears/RedisGears/issues/760), [#778](https://github.com/RedisGears/RedisGears/pull/778) `StreamReader` fixes to pause and unregister stream processing.
 
 ## v1.2.3 (April 2022)
 
@@ -101,23 +101,23 @@ Full documentation for JVM support can be found on the [Redis documentation webs
 
 RedisGears provides support for Python coroutines. Each step of your gears function can now be a Python coroutine that will take the execution to the background or will wait for some event to happen. Refer to the following links for more information:
 
-- [Async Await Support](https://oss.redis.com/redisgears/1.2/intro.html#async-await-support)
-- [Async Await Advanced Topics](https://oss.redis.com/redisgears/1.2/async_await_advance_topics.html)
+- Async Await Support
+- Async Await Advanced Topics
 
 #### Override commands API
 
-You can override Redis vanilla commands with a function. For more information, refer to the RedisGears [command hooks](https://oss.redis.com/redisgears/1.2/commands_hook.html) documentation.
+You can override Redis vanilla commands with a function. For more information, refer to the RedisGears command hooks documentation.
 
 #### Key miss event for read-through pattern
 
 Requested by many users, RedisGears 1.2 allows you to register functions on key miss event. One use case for this is to implement a read-through caching pattern. For more information about this topic, refer to the following links:
 
-- [Key Miss Event](https://oss.redis.com/redisgears/1.2/miss_event.html) in the RedisGears documentation.
+- Key Miss Event in the RedisGears documentation.
 - [rghibernate](https://github.com/RedisGears/rghibernate) recipe that leverages the key miss event to implement read-through from external databases.
 
 #### Better visibility and analyzing tools
 
-We improved the experience during the development phase by enabling better debugging and troubleshooting. There is still room for improvement but RedisGears 1.2 makes the first steps toward a simpler API that is easier to use. This new version allows you to name your code and upgrade it with a single Redis command. For more information, refer to the [upgrade section](https://oss.redis.com/redisgears/1.2/intro.html#code-upgrades) of the RedisGears introduction documentation.
+We improved the experience during the development phase by enabling better debugging and troubleshooting. There is still room for improvement but RedisGears 1.2 makes the first steps toward a simpler API that is easier to use. This new version allows you to name your code and upgrade it with a single Redis command. For more information, refer to the upgrade section of the RedisGears introduction documentation.
 
 RedisGears now tracks the following new statistics to better analyze your registrations:
 
@@ -130,16 +130,16 @@ For streams, RedisGears also tracks the following data:
 - `lastEstimatedLagMS` - gives the last batch lag (the time difference between the first batch entry in the stream and the time the entire batch finished processing)
 - `avgEstimatedLagMS` - average of the `lastEstimatedLagMS` field.
 
-The [`RG.DUMPREGISTRATIONS`](https://oss.redis.com/redisgears/1.2/commands.html#rgdumpregistrations) command exposes these new statistics.
+The `RG.DUMPREGISTRATIONS` command exposes these new statistics.
 
 RedisGears 1.2 also adds support for a Python profiler, specifically [`cProfile`](https://docs.python.org/3.7/library/profile.html#module-cProfile). For more information, refer to the documentation for the following commands:
 
-- [`RG.PYPROFILE STATS`](https://oss.redis.com/redisgears/1.2/commands.html#rgpyprofile-stats)
-- [`RG.PYPROFILE RESET`](https://oss.redis.com/redisgears/1.2/commands.html#rgpyprofile-reset)
+- `RG.PYPROFILE STATS`
+- `RG.PYPROFILE RESET`
 
 #### RedisAI integration
 
-Although RedisAI integration was already supported in v1.0, RedisGears 1.2 adds official support for all capabilities in [RedisAI v1.2](https://oss.redis.com/redisgears/1.2/redisai.html). The API was extended to support [RedisAI DAG](https://oss.redis.com/redisai/commands/#aidagexecute) and was combined with the new async await API to achieve the best performance possible.
+Although RedisAI integration was already supported in v1.0, RedisGears 1.2 adds official support for all capabilities in RedisAI v1.2. The API was extended to support RedisAI DAG and was combined with the new async await API to achieve the best performance possible.
 
 ### Details
 
