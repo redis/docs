@@ -38,11 +38,11 @@ FT.SEARCH index "@field:[value value]"
 
 or
 
-FT.SEARCH index "@field:[value]" DIALECT 5
+FT.SEARCH index "@field:[value]" DIALECT 2
 
 or
 
-FT.SEARCH index "@field==value" DIALECT 5
+FT.SEARCH index "@field==value" DIALECT 2
 ```
 
 As described in the [article about range queries]({{< relref "/develop/interact/search-and-query/query/range" >}}), you can also use the `FILTER` argument:
