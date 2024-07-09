@@ -18,7 +18,7 @@ weight: 5
 ---
 
 Redis Stack currently supports four query dialects for use with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), and other search and query commands.
-Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.```
+Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.
 
 ## `DIALECT 1`
 
@@ -205,9 +205,9 @@ Dialect version 4 will improve performance in four different scenarios:
 1. **Hybrid** - applied when there is a `SORTBY` on a numeric field in addition to another non-numeric filter. It could be the case that some results will get filtered, leaving too small a range to satisfy any specified `LIMIT`. In such cases, the iterator then is re-wound and additional iterations occur to collect result up to the requested `LIMIT`.
 1. **No optimization** - If there is a sort by score or by a non-numeric field, there is no other option but to retrieve all results and compare their values to the search parameters.
 
-## Use [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/) to compare dialects
+## Use `FT.EXPLAINCLI` to compare dialects
 	
-The [[`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/)](/commands/ft.explaincli/) is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.
+The [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/) command is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.
 
 When you run [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), it returns an array representing the execution plan of a complex query. This plan is a step-by-step guide of how Redis interprets your query and how it plans to fetch results. It's a behind-the-scenes look at the process, giving you insights into how the search engine works.
 

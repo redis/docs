@@ -175,7 +175,7 @@ For more information about search queries, see [Search query syntax]({{< relref 
 
 ## Index JSON arrays as TAG
 
-If you want to index string or boolean values as TAG within a JSON array, use the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) wildcard operator.
+The preferred method for indexing a JSON field with multivalued terms is using JSON arrays. Each value of the array is indexed, and those values must be scalars. If you want to index string or boolean values as TAGs within a JSON array, use the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) wildcard operator.
 
 To index an item's list of available colors, specify the JSONPath `$.colors.*` in the `SCHEMA` definition during index creation:
 
@@ -632,6 +632,33 @@ This example uses aggregation to calculate a 10% price discount for each item an
 {{% alert title="Note" color="info" %}}
 [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) queries require `attribute` modifiers. Don't use JSONPath expressions in queries, except with the `LOAD` option, because the query parser doesn't fully support them.
 {{% /alert %}}
+
+## Index missing or empty values
+You can search for missing properties, that is, properties that do not exist in a given document, using the `INDEXMISSING` option to `FT.CREATE` in conjunction with the `ISMISSING` query function with `FT.SEARCH`. You can search for existing properties with no value (i.e., empty) using the `INDEXEMPTY` option with `FT.CREATE`. Both query types require DIALECT 2. Examples below:
+
+```
+JSON.SET key:1 $ '{"propA": "foo"}'
+JSON.SET key:2 $ '{"propA": "bar", "propB":"abc"}'
+FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.propA AS propA TAG $.propB AS propB TAG INDEXMISSING
+
+> FT.SEARCH idx 'ISMISSING(@propB)' DIALECT 2
+1) "1"
+2) "key:1"
+3) 1) "$"
+   2) "{\"propA\":\"foo\"}"
+```
+
+```
+JSON.SET key:1 $ '{"propA": "foo", "propB":""}'
+JSON.SET key:2 $ '{"propA": "bar", "propB":"abc"}'
+FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.propA AS propA TAG $.propB AS propB TAG INDEXEMPTY
+
+> FT.SEARCH idx '@propB:{""}' DIALECT 2
+1) "1"
+2) "key:1"
+3) 1) "$"
+   2) "{\"propA\":\"foo\",\"propB\":\"\"}"
+```
 
 ## Index limitations
 
