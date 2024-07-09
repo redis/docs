@@ -133,7 +133,7 @@ aggregates results into time buckets.
 - Deleting `destKey` will cause the compaction rule to be deleted as well.
 
 {{% warning %}}
-On a clustered environment, [hash tags]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags) should be used to force `sourceKey` and `destKey` to be stored in the same hash slot.
+On a clustered environment, you must use [hash tags]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags) to force `sourceKey` and `destKey` to be stored in the same hash slot.
 {{% /warning %}}
   
 </note>
