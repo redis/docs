@@ -81,7 +81,7 @@ Returns a JSON object that represents the database's recovery plan, including re
 POST /v1/bdbs/{int: uid}/actions/recover
 ```
 
-Initiates recovery for a database in a recoverable state.
+Initiates [recovery for a database]({{<relref "operate/rs/databases/recover">}}) in a recoverable state where all the database's files are available after [cluster recovery]({{<relref "/operate/rs/clusters/cluster-recovery">}}).
 
 #### Required permissions
 
