@@ -1,16 +1,16 @@
 ---
-Title: Redis in AI
+Title: Redis in AI agents, chatbots, and applications
 alwaysopen: false
 categories:
 - docs
-description: Integrate Redis into your AI projects.
+description: Integrate Redis into your AI agents, chatbots, and applications.
 linktitle: Redis in AI
 weight: 20
 ---
 
 Integrate Redis into your projects to deliver fast, reliable, scalable AI-powered interactions for high-quality user experiences.
 
-## Benefits of integrating Redis in your AI projects
+## Benefits of integrating Redis in your AI agents and applications
 
 - Performance: Redis provides low-latency data access, crucial for real-time AI interactions.
 - Scalability: Redis can handle a large number of concurrent connections, making it suitable for high-traffic AI applications.
@@ -20,7 +20,7 @@ Integrate Redis into your projects to deliver fast, reliable, scalable AI-powere
 
 [RedisVL](https://redis.io/docs/latest/integrate/redisvl/) is a versatile Python library with an integrated CLI, designed to enhance AI applications implemented using Redis. 
 
-## Use cases for Redis in AI
+## Use cases for Redis in AI agents, chatbots and applications
 
 Refer to the following specific use cases for examples of Redis technology use cases in AI with tutorials and demo application code repositories. 
 
