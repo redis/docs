@@ -24,6 +24,7 @@ The following quick start guides will show you how to use Redis for the followin
 - [Document database]({{< relref "/develop/get-started/document-database" >}})
 - [Vector database]({{< relref "/develop/get-started/vector-database" >}})
 - [AI agents and chatbots]({{< relref "/get-started/redis-in-ai" >}})
+- [Retrieval Augmented Generation (RAG) with Redis]({{< relref "/develop/get-started/rag" >}})
 
 ## Data integration tools, libraries, and frameworks
 - [Client API libraries]({{< relref "/develop/connect/clients" >}})
