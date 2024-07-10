@@ -1,0 +1,772 @@
+{
+  "relref": "develop/",
+  "linkTitle": "Develop",
+  "children": [
+    {
+      "relref": "develop/get-started",
+      "linkTitle": "Quick start tutorials",
+      "children": [
+        {
+          "relref": "develop/get-started/data-store",
+          "linkTitle": "Data structure store"
+        },
+        {
+          "relref": "develop/get-started/document-database",
+          "linkTitle": "Document database"
+        },
+        {
+          "relref": "develop/get-started/vector-database",
+          "linkTitle": "Vector database"
+        },
+        {
+          "relref": "develop/get-started/rag",
+          "linkTitle": "RAG with Redis"
+        },
+        {
+          "relref": "develop/get-started/img",
+          "linkTitle": "<img>"
+        }
+      ]
+    },
+    {
+      "relref": "develop/data-types",
+      "linkTitle": "Understand data types",
+      "children": [
+        {
+          "relref": "develop/data-types/strings",
+          "linkTitle": "Strings"
+        },
+        {
+          "relref": "develop/data-types/json",
+          "linkTitle": "JSON",
+          "children": [
+            {
+              "relref": "develop/data-types/json/indexing_JSON",
+              "linkTitle": "Index/Search"
+            },
+            {
+              "relref": "develop/data-types/json/path",
+              "linkTitle": "Path"
+            },
+            {
+              "relref": "develop/data-types/json/use_cases",
+              "linkTitle": "Use cases"
+            },
+            {
+              "relref": "develop/data-types/json/performance",
+              "linkTitle": "Performance"
+            },
+            {
+              "relref": "develop/data-types/json/ram",
+              "linkTitle": "Memory Usage"
+            },
+            {
+              "relref": "develop/data-types/json/resp3",
+              "linkTitle": "RESP3 migration guide"
+            },
+            {
+              "relref": "develop/data-types/json/developer",
+              "linkTitle": "Developer notes"
+            }
+          ]
+        },
+        {
+          "relref": "develop/data-types/lists",
+          "linkTitle": "Lists"
+        },
+        {
+          "relref": "develop/data-types/sets",
+          "linkTitle": "Sets"
+        },
+        {
+          "relref": "develop/data-types/hashes",
+          "linkTitle": "Hashes"
+        },
+        {
+          "relref": "develop/data-types/sorted-sets",
+          "linkTitle": "Sorted sets"
+        },
+        {
+          "relref": "develop/data-types/streams",
+          "linkTitle": "Streams"
+        },
+        {
+          "relref": "develop/data-types/geospatial",
+          "linkTitle": "Geospatial"
+        },
+        {
+          "relref": "develop/data-types/bitmaps",
+          "linkTitle": "Bitmaps"
+        },
+        {
+          "relref": "develop/data-types/bitfields",
+          "linkTitle": "Bitfields"
+        },
+        {
+          "relref": "develop/data-types/probabilistic",
+          "linkTitle": "Probabilistic",
+          "children": [
+            {
+              "relref": "develop/data-types/probabilistic/hyperloglogs",
+              "linkTitle": "HyperLogLog"
+            },
+            {
+              "relref": "develop/data-types/probabilistic/bloom-filter",
+              "linkTitle": "Bloom filter"
+            },
+            {
+              "relref": "develop/data-types/probabilistic/cuckoo-filter",
+              "linkTitle": "Cuckoo filter"
+            },
+            {
+              "relref": "develop/data-types/probabilistic/t-digest",
+              "linkTitle": "t-digest"
+            },
+            {
+              "relref": "develop/data-types/probabilistic/top-k",
+              "linkTitle": "Top-K"
+            },
+            {
+              "relref": "develop/data-types/probabilistic/count-min-sketch",
+              "linkTitle": "Count-min sketch"
+            },
+            {
+              "relref": "develop/data-types/probabilistic/Configuration",
+              "linkTitle": "Configuration"
+            }
+          ]
+        },
+        {
+          "relref": "develop/data-types/timeseries",
+          "linkTitle": "Time series",
+          "children": [
+            {
+              "relref": "develop/data-types/timeseries/quickstart",
+              "linkTitle": "Quickstart"
+            },
+            {
+              "relref": "develop/data-types/timeseries/configuration",
+              "linkTitle": "Configuration"
+            },
+            {
+              "relref": "develop/data-types/timeseries/development",
+              "linkTitle": "Development"
+            },
+            {
+              "relref": "develop/data-types/timeseries/clients",
+              "linkTitle": "Clients"
+            },
+            {
+              "relref": "develop/data-types/timeseries/use_cases",
+              "linkTitle": "Use cases"
+            },
+            {
+              "relref": "develop/data-types/timeseries/reference",
+              "linkTitle": "Reference",
+              "children": [
+                {
+                  "relref": "develop/data-types/timeseries/reference/out-of-order_performance_considerations",
+                  "linkTitle": "Out-of-order / backfilled ingestion performance considerations"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "relref": "develop/quickstart",
+      "linkTitle": "Get started",
+      "children": [
+        {
+          "relref": "develop/quickstart/faq",
+          "linkTitle": "FAQ"
+        }
+      ]
+    },
+    {
+      "relref": "develop/concepts",
+      "linkTitle": "Understand Redis concepts",
+      "children": [
+        {
+          "relref": "develop/concepts/keys-values",
+          "linkTitle": "Keyspace"
+        }
+      ]
+    },
+    {
+      "relref": "develop/connect",
+      "linkTitle": "Connect",
+      "children": [
+        {
+          "relref": "develop/connect/cli",
+          "linkTitle": "CLI"
+        },
+        {
+          "relref": "develop/connect/insight",
+          "linkTitle": "Redis Insight",
+          "children": [
+            {
+              "relref": "develop/connect/insight/copilot-faq",
+              "linkTitle": "Redis Copilot FAQ"
+            },
+            {
+              "relref": "develop/connect/insight/release-notes",
+              "linkTitle": "Release notes",
+              "children": [
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.40.0",
+                  "linkTitle": "v2.40.0 (December 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.20.0",
+                  "linkTitle": "v2.20.0 (Feb 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.36.0",
+                  "linkTitle": "v2.36.0 (October 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.50.0",
+                  "linkTitle": "v2.50.0 (May 2024)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.46.0",
+                  "linkTitle": "v2.46.0 (March 2024)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.26.0",
+                  "linkTitle": "v2.26.0 (May 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.30.0",
+                  "linkTitle": "v2.30.0 (July 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.44.0",
+                  "linkTitle": "v2.44.0 (February 2024)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.52.0",
+                  "linkTitle": "v2.52.0 (June 2024)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.48.0",
+                  "linkTitle": "v2.48.0 (April 2024)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.32.0",
+                  "linkTitle": "v2.32.0 (August 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.24.0",
+                  "linkTitle": "v2.24.0 (Apr 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v2.28.0",
+                  "linkTitle": "v2.28.0 (June 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.22.1",
+                  "linkTitle": "v2.22.1 (Mar 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.42.0",
+                  "linkTitle": "v2.42.0 (January 2024)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.38.0",
+                  "linkTitle": "v2.38.0 (November 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.18.0",
+                  "linkTitle": "v2.18.0 (Jan 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.34.0",
+                  "linkTitle": "v2.34.0 (September 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.16.0",
+                  "linkTitle": "v2.16.0 (Dec 2022)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.14.0",
+                  "linkTitle": "v2.14.0 (Nov 2022)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v2.12.0",
+                  "linkTitle": "v2.12.0 (Oct 2022)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v2.10.0",
+                  "linkTitle": "v2.10.0 (Sept 2022)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.14.0",
+                  "linkTitle": "v1.14 (May 2023)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v2.8.0",
+                  "linkTitle": "v2.8.0 (Aug 2022)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.13.0",
+                  "linkTitle": "v1.13 (Aug 2022)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.6.0",
+                  "linkTitle": "v2.6.0 (July 2022)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v.2.4.0",
+                  "linkTitle": "v2.4.0 (June 2022)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v2.2.0",
+                  "linkTitle": "v2.2.0 (May 2022)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.12.0",
+                  "linkTitle": "v1.12 (May 2022)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v2.0",
+                  "linkTitle": "v2.0 (Nov 2021)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.11.0",
+                  "linkTitle": "v1.11 (Oct 2021)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.10.0",
+                  "linkTitle": "v1.10 (Mar 2021)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.9.0",
+                  "linkTitle": "v1.9 (Jan 2021)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.8.0",
+                  "linkTitle": "v1.8 (Nov 2020)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.7.0",
+                  "linkTitle": "v1.7 (Sep 2020)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.6.0",
+                  "linkTitle": "v1.6 (June 2020)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.5.0",
+                  "linkTitle": "v1.5 (May 2020)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.4.0",
+                  "linkTitle": "v1.4 (Apr 2020)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.3.0",
+                  "linkTitle": "v1.3 (Mar 2020)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.2.0",
+                  "linkTitle": "v1.2 (Jan 2020)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.1.0",
+                  "linkTitle": "v1.1 (Dec 2019)"
+                },
+                {
+                  "relref": "develop/connect/insight/release-notes/v1.0.0",
+                  "linkTitle": "v1.0 (Nov 2019)"
+                }
+              ]
+            },
+            {
+              "relref": "develop/connect/insight/tutorials",
+              "linkTitle": "<tutorials>",
+              "children": [
+                {
+                  "relref": "develop/connect/insight/tutorials/insight-stream-consumer",
+                  "linkTitle": "Streams"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "relref": "develop/connect/clients",
+          "linkTitle": "Clients",
+          "children": [
+            {
+              "relref": "develop/connect/clients/python",
+              "linkTitle": "Python"
+            },
+            {
+              "relref": "develop/connect/clients/dotnet",
+              "linkTitle": "C#/.NET"
+            },
+            {
+              "relref": "develop/connect/clients/nodejs",
+              "linkTitle": "Node.js"
+            },
+            {
+              "relref": "develop/connect/clients/java",
+              "linkTitle": "Java",
+              "children": [
+                {
+                  "relref": "develop/connect/clients/java/jedis",
+                  "linkTitle": "Jedis"
+                },
+                {
+                  "relref": "develop/connect/clients/java/lettuce",
+                  "linkTitle": "Lettuce"
+                }
+              ]
+            },
+            {
+              "relref": "develop/connect/clients/go",
+              "linkTitle": "Go"
+            },
+            {
+              "relref": "develop/connect/clients/om-clients",
+              "linkTitle": "Object mapping"
+            },
+            {
+              "relref": "develop/connect/clients/comm-supp-clients",
+              "linkTitle": "Community-supported clients"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "relref": "develop/interact",
+      "linkTitle": "Interact with data",
+      "children": [
+        {
+          "relref": "develop/interact/search-and-query",
+          "linkTitle": "Search and query",
+          "children": [
+            {
+              "relref": "develop/interact/search-and-query/basic-constructs",
+              "linkTitle": "Basic constructs",
+              "children": [
+                {
+                  "relref": "develop/interact/search-and-query/basic-constructs/schema-definition",
+                  "linkTitle": "Schema definition"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/basic-constructs/field-and-type-options",
+                  "linkTitle": "Field and type options"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/basic-constructs/configuration-parameters",
+                  "linkTitle": "Configuration parameters"
+                }
+              ]
+            },
+            {
+              "relref": "develop/interact/search-and-query/indexing",
+              "linkTitle": "Indexing"
+            },
+            {
+              "relref": "develop/interact/search-and-query/query-use-cases",
+              "linkTitle": "Use cases"
+            },
+            {
+              "relref": "develop/interact/search-and-query/query",
+              "linkTitle": "Query",
+              "children": [
+                {
+                  "relref": "develop/interact/search-and-query/query/exact-match",
+                  "linkTitle": "Exact match"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/query/range",
+                  "linkTitle": "Range"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/query/full-text",
+                  "linkTitle": "Full-text"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/query/geo-spatial",
+                  "linkTitle": "Geospatial"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/query/vector-search",
+                  "linkTitle": "Vector"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/query/combined",
+                  "linkTitle": "Combined"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/query/aggregation",
+                  "linkTitle": "Aggregation"
+                }
+              ]
+            },
+            {
+              "relref": "develop/interact/search-and-query/advanced-concepts",
+              "linkTitle": "Advanced concepts",
+              "children": [
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/aggregations",
+                  "linkTitle": "Aggregations"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/stopwords",
+                  "linkTitle": "Stop words"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/escaping",
+                  "linkTitle": "Tokenization"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/dialects",
+                  "linkTitle": "Query dialects"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/query_syntax",
+                  "linkTitle": "Query syntax"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/sorting",
+                  "linkTitle": "Sorting"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/tags",
+                  "linkTitle": "Tags"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/highlight",
+                  "linkTitle": "Highlighting"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/scoring",
+                  "linkTitle": "Scoring"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/stemming",
+                  "linkTitle": "Stemming"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/synonyms",
+                  "linkTitle": "Synonym"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/spellcheck",
+                  "linkTitle": "Spellchecking"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/phonetic_matching",
+                  "linkTitle": "Phonetic"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/vectors",
+                  "linkTitle": "Vectors"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/advanced-concepts/chinese",
+                  "linkTitle": "Chinese"
+                }
+              ]
+            },
+            {
+              "relref": "develop/interact/search-and-query/administration",
+              "linkTitle": "Administration",
+              "children": [
+                {
+                  "relref": "develop/interact/search-and-query/administration/overview",
+                  "linkTitle": "Technical overview"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/administration/design",
+                  "linkTitle": "Internal design"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/administration/gc",
+                  "linkTitle": "Garbage collection"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/administration/extensions",
+                  "linkTitle": "Extensions"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/administration/indexing",
+                  "linkTitle": "Indexing"
+                }
+              ]
+            },
+            {
+              "relref": "develop/interact/search-and-query/deprecated",
+              "linkTitle": "Deprecated",
+              "children": [
+                {
+                  "relref": "develop/interact/search-and-query/deprecated/development",
+                  "linkTitle": "Developer notes"
+                },
+                {
+                  "relref": "develop/interact/search-and-query/deprecated/payloads",
+                  "linkTitle": "Payload"
+                }
+              ]
+            },
+            {
+              "relref": "develop/interact/search-and-query/img",
+              "linkTitle": "<img>"
+            }
+          ]
+        },
+        {
+          "relref": "develop/interact/programmability",
+          "linkTitle": "Programmability",
+          "children": [
+            {
+              "relref": "develop/interact/programmability/functions-intro",
+              "linkTitle": "Functions"
+            },
+            {
+              "relref": "develop/interact/programmability/eval-intro",
+              "linkTitle": "Lua scripting"
+            },
+            {
+              "relref": "develop/interact/programmability/lua-api",
+              "linkTitle": "Lua API"
+            },
+            {
+              "relref": "develop/interact/programmability/lua-debugging",
+              "linkTitle": "Debugging Lua"
+            }
+          ]
+        },
+        {
+          "relref": "develop/interact/transactions",
+          "linkTitle": "Transactions"
+        },
+        {
+          "relref": "develop/interact/pubsub",
+          "linkTitle": "Pub/sub"
+        }
+      ]
+    },
+    {
+      "relref": "develop/use",
+      "linkTitle": "Use Redis",
+      "children": [
+        {
+          "relref": "develop/use/client-side-caching",
+          "linkTitle": "Client-side caching"
+        },
+        {
+          "relref": "develop/use/keyspace-notifications",
+          "linkTitle": "Keyspace notifications"
+        },
+        {
+          "relref": "develop/use/patterns",
+          "linkTitle": "Patterns",
+          "children": [
+            {
+              "relref": "develop/use/patterns/distributed-locks",
+              "linkTitle": "Distributed locks"
+            },
+            {
+              "relref": "develop/use/patterns/bulk-loading",
+              "linkTitle": "Bulk loading"
+            },
+            {
+              "relref": "develop/use/patterns/twitter-clone",
+              "linkTitle": "Patterns example"
+            },
+            {
+              "relref": "develop/use/patterns/indexes",
+              "linkTitle": "<indexes>",
+              "children": [
+                {
+                  "relref": "develop/use/patterns/indexes/index",
+                  "linkTitle": "Secondary indexing"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "relref": "develop/use/pipelining",
+          "linkTitle": "<pipelining>",
+          "children": [
+            {
+              "relref": "develop/use/pipelining/index",
+              "linkTitle": "Pipelining"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "relref": "develop/reference",
+      "linkTitle": "Reference",
+      "children": [
+        {
+          "relref": "develop/reference/command-tips",
+          "linkTitle": "Command tips"
+        },
+        {
+          "relref": "develop/reference/sentinel-clients",
+          "linkTitle": "Sentinel clients"
+        },
+        {
+          "relref": "develop/reference/modules",
+          "linkTitle": "Modules API",
+          "children": [
+            {
+              "relref": "develop/reference/modules/modules-api-ref",
+              "linkTitle": "API reference"
+            },
+            {
+              "relref": "develop/reference/modules/modules-native-types",
+              "linkTitle": "Native types API"
+            },
+            {
+              "relref": "develop/reference/modules/modules-blocking-ops",
+              "linkTitle": "Blocking commands"
+            }
+          ]
+        },
+        {
+          "relref": "develop/reference/key-specs",
+          "linkTitle": "Command key specifications"
+        },
+        {
+          "relref": "develop/reference/protocol-spec",
+          "linkTitle": "Protocol spec"
+        },
+        {
+          "relref": "develop/reference/clients",
+          "linkTitle": "Client handling"
+        },
+        {
+          "relref": "develop/reference/command-arguments",
+          "linkTitle": "Command arguments"
+        },
+        {
+          "relref": "develop/reference/gopher",
+          "linkTitle": "Gopher protocol"
+        },
+        {
+          "relref": "develop/reference/eviction",
+          "linkTitle": "<eviction>",
+          "children": [
+            {
+              "relref": "develop/reference/eviction/index",
+              "linkTitle": "Eviction"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

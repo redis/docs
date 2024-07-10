@@ -76,12 +76,12 @@ only the `person` hashtag section in the braces is used for the hash calculation
 A common use of hashtags is to allow
 [multi-key operations]({{< relref "/operate/rs/databases/durability-ha/clustering" >}})
 with a *clustered* database (see
-[Database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering/#multikey-operations" >}})
+[Database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering#multikey-operations" >}})
 for more information). Redis doesn't allow most multi-key operations in a clustered database
 unless all the keys produce the same hash index. For example, the
 [SINTER]({{< relref "/commands/sinter" >}})
 command finds the [intersection](https://en.wikipedia.org/wiki/Intersection_(set_theory))
-of two different [set]({{< relref "content/develop/data-types/sets" >}}) values.
+of two different [set]({{< relref "/develop/data-types/sets" >}}) values.
 This means that the command
 
 ```bash
@@ -202,7 +202,7 @@ This command is intended for debugging and special operations, such as changing
 your keyspace layout.
 Don't use [`KEYS`]({{< relref "/commands/keys" >}}) in your regular application code.
 If you're looking for a way to find keys in a subset of your keyspace, consider
-using [`SCAN`]({{< relref "/commands/scan" >}}) or [sets][tdts].
+using [`SCAN`]({{< relref "/commands/scan" >}}) or [sets][{{< relref "/develop/data-types/sets" >}}].
 
 [tdts]: /develop/data-types#sets
 
