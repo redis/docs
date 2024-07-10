@@ -20,7 +20,7 @@ Integrate Redis into your projects to deliver fast, reliable, scalable AI-powere
 
 [RedisVL](https://redis.io/docs/latest/integrate/redisvl/) is a versatile Python library with an integrated CLI, designed to enhance AI applications implemented using Redis. 
 
-## Use cases for Redis in AI agents, chatbots and applications
+## Use cases for Redis in AI agents, chatbots, and applications
 
 Refer to the following specific use cases for examples of Redis technology use cases in AI with tutorials and demo application code repositories. 
 
