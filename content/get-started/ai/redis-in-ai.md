@@ -18,7 +18,7 @@ Integrate Redis into your projects to deliver fast, reliable, scalable AI-powere
 - Session Management: Redis in-memory data structures make it ideal for storing and managing session states in conversational AI applications.
 - Flexibility: Redis support for various data structures (strings, hashes, lists, sets) allows you to customize their AI solutions according to specific needs.
 
-[RedisVL](https://redis.io/docs/latest/integrate/redisvl/) is a versatile Python library with an integrated CLI, designed to enhance AI applications implemented using Redis. 
+[RedisVL]({{< relref "/integrate/redisvl" >}}) is a versatile Python library with an integrated CLI, designed to enhance AI applications implemented using Redis. 
 
 ## Use cases for Redis in AI agents, chatbots, and applications
 
