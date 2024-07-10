@@ -13,8 +13,8 @@ description: 'Redis quick start guides
 
   '
 hideListLinks: true
-linkTitle: Quick starts
-title: Quick starts
+linkTitle: Quick start tutorials
+title: Quick start tutorials
 weight: 20
 ---
 
@@ -26,4 +26,4 @@ Redis can be used as a database, cache, streaming engine, message broker, and mo
 
 Please select the guide that aligns best with your specific usage scenario.
 
-You can find answers to frequently asked questions in the [FAQ]({{< relref "/develop/get-started/faq" >}}).
+You can find answers to frequently asked questions in the [FAQ]({{< relref "/develop/quickstart/faq" >}}).
