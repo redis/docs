@@ -26,9 +26,24 @@ for five main languages:
 
 We also provide several higher-level
 [object mapping (OM)]({{< relref "/develop/connect/clients/om-clients" >}})
-libraries and there are several
-[community-supported clients]({{< relref "/develop/connect/clients/comm-supp-clients" >}})
-for other languages.
+libraries for [Python]({{< relref "/integrate/redisom-for-python" >}}),
+[C#/.NET]({{< relref "/integrate/redisom-for-net" >}}),
+[Node.js]({{< relref "/integrate/redisom-for-node-js" >}}), and
+[Java/Spring]({{< relref "/integrate/redisom-for-java" >}}).
+
+## Community-supported clients
+
+The table below shows the recommended third-party client libraries for languages that
+Redis does not support directly:
+
+| Language | Client name | Github | Docs |
+| :-- | :-- | :-- | :-- |
+| C | hiredis | https://github.com/redis/hiredis | https://github.com/redis/hiredis |
+| [PHP](https://www.php.net/) | predis | https://github.com/predis/predis | https://github.com/predis/predis/wiki |
+| [Ruby](https://www.ruby-lang.org/en/) | redis-rb | https://github.com/redis/redis-rb | https://rubydoc.info/gems/redis |
+| [Rust](https://www.rust-lang.org/) | redis-rs | https://github.com/redis-rs/redis-rs | https://docs.rs/redis/latest/redis/ | 
+
+## Requirements
 
 You will need access to a Redis server to use these libraries.
 You can experiment with a local installation of Redis Stack

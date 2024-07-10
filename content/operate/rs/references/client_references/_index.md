@@ -28,4 +28,4 @@ Select a client name to see its quick start.
 
 ## Other clients
 
-For a list of community-driven Redis clients, which are available for more programming languages, see [Other Clients]({{< relref "/develop/connect/clients/" >}}).
+For a list of community-driven Redis clients, which are available for more programming languages, see [Other Clients]({{< relref "/develop/connect/clients/comm-supp-clients" >}}).
