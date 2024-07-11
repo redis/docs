@@ -13,7 +13,7 @@ description: 'Managing keys in Redis: Key expiration, scanning, altering and que
   the key space
 
   '
-linkTitle: Keyspace
+linkTitle: Keys and values
 title: Keys and values
 weight: 1
 aliases: /develop/use/keyspace

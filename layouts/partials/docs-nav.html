@@ -36,6 +36,63 @@
   {{ .Scratch.Set "path" $path}}
 {{ end }}
 
+{{ define "navChildList" -}}
+{{ $item := .item -}}
+{{ $currentPage := .currentPage -}}
+{{ $hidden := not ( $currentPage.IsDescendant (site.GetPage $item.relref) )}}
+<ul class="child-list{{ if $hidden }} hidden{{ end }}">
+  {{ range $item.children }}
+  {{ $childPage := site.GetPage .relref }}
+  {{ $isActive := or ($currentPage.IsDescendant $childPage) (eq $currentPage $childPage) }}
+  {{- if .divider }}
+  <li class="my-2 bg-redis-pencil-200"><strong><span class="pr-5"></span><a href='{{ absURL .relref }}'> {{ .linkTitle }}</a></strong>
+  {{- else if .children }}
+  <li class="my-2">
+    <a href='{{ absURL .relref }}' class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}<span class="pr-2"></span>
+      <span class="arrowBox">
+        <svg style="display: inline;" width="18" height="18" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="3 8 15 8 9 3" fill="darkgrey" />
+          <polyline points="3 10 9 15 15 10" fill="darkgrey" />
+        </svg>
+      </span>
+    </a>
+  {{- template "navChildList" ( dict "item" . "currentPage" $currentPage )}}
+  {{- else }}
+  <li class="my-2"><a href='{{ absURL .relref }}' class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}</a>
+  {{- end -}}
+  </li>
+  {{ end }}
+</ul>
+{{- end }}
+
+{{ define "navList" -}}
+{{ $root := .root -}}
+{{ $currentPage := $.currentPage }}
+<ul class="md:block overflow-y-auto grow pr-0  border-opacity-50 border-redis-ink-900">
+  {{ range $root.children -}}
+  {{ $childPage := site.GetPage .relref }}
+  {{ $isActive := or ($currentPage.IsDescendant $childPage) (eq $currentPage $childPage) }}
+  {{- if .divider }}
+  <li class="my-2 bg-redis-pencil-500 text-white text-center rounded-r-md"><span class="pr-5"></span><strong><a href='{{ absURL .relref }}'>{{ .linkTitle }}</a></strong>
+  {{- else if .children }}
+  <li class="my-2"><span class="pr-5"></span>
+    <a href='{{ absURL .relref }}' class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}
+      <span class="arrowBox">
+        <svg style="display: inline;" width="18" height="18" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="3 8 15 8 9 3" fill="darkgrey" />
+          <polyline points="3 10 9 15 15 10" fill="darkgrey" />
+        </svg>
+      </span>
+    </a>
+  {{- template "navChildList" ( dict "item" . "currentPage" $currentPage )}}
+  {{- else }}
+  <li class="my-2"><span class="pr-5"></span><a href='{{ absURL .relref }}'  class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}</a>
+  {{- end -}}
+  </li>
+  {{ end }}  
+</ul>
+{{- end }}
+
 <div class="md:block w-full md:w-96 h-fit md:h-full shrink-0 text-base font-mono font-normal py-6">
   <nav id="sidebar" class="max-h-[calc(100vh-7rem)] min-h-96 flex flex-col gap-4 w-full md:w-96 z-40 bg-white md:fixed md:pt-6 h-fit md:h-full leading-7">
     {{ $navRoot := cond (eq .Site.Home.Type "docs") .Site.Home .FirstSection -}}
@@ -44,9 +101,9 @@
       <div class='min-h-0  border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col {{ if not (in (slice "Develop" "Integrate" "Operate") $navRoot.LinkTitle) }} shrink-0 {{ end }}'>
         <a class='px-6 py-4 rounded-t-md hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "Develop" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a>
         {{ if eq $navRoot.LinkTitle "Develop" }}
-          <ul class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
-            {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
-          </ul>
+        <ul class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
+          {{- template "navList" ( dict "root" .Site.Data.nav "currentPage" . )}}
+        </ul>
         {{ end }}
         <a class='px-6 py-4 hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50 {{ if eq $navRoot.LinkTitle "Integrate" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/integrate'>Libraries and tools</a>
         {{ if eq $navRoot.LinkTitle "Integrate" }}
@@ -74,6 +131,17 @@
 </div>
 
 <script>
+  function getParentListItem(element) {
+    var parentLi = element.parentElement;
+
+    while ((parentLi !== null) && (parentLi.nodeName !== "LI")) {
+      parentLi = parentLi.parentElement;
+    }
+
+    return parentLi;
+  }
+
+
   document.addEventListener("DOMContentLoaded", function() {
     const sidebar = document.getElementById('sidebar');
     const footer = document.querySelector('footer');
@@ -86,5 +154,24 @@
         sidebar.style.maxHeight = 'calc(100vh - 7rem)';
       }
     });
-  })
+
+
+  window.addEventListener('click', function(event) {
+      if (event.target.closest(".arrowBox")) {
+        const parentLi = getParentListItem(event.target);
+        const subLists = parentLi.getElementsByTagName("ul");
+
+        if (subLists.length > 0) {
+          if (subLists[0].classList.contains("hidden")) {
+            subLists[0].classList.remove('hidden');
+          } else {
+            subLists[0].classList.add('hidden');
+          }
+          event.preventDefault();
+        }
+        
+      }
+  });
+})
+
 </script>
