@@ -97,7 +97,7 @@ If the request body is empty, the database will be recovered automatically:
 
 - Databases with no persistence are recovered with no data.
 
-- Persistent files such as AOF or RDB will be loaded from their expected storage locations where replica or master shards were last active.
+- Persistent files such as AOF or RDB will be loaded from their expected storage locations where replica or primary shards were last active.
 
 - If persistent files are not found where expected but can be located on other cluster nodes, they will be used.
 
