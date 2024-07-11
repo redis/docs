@@ -281,7 +281,7 @@
     },
     {
       "relref": "develop/data-types",
-      "linkTitle": "Understand data types",
+      "linkTitle": "Data types",
       "children": [
         {
           "relref": "develop/data-types/strings",
@@ -382,7 +382,7 @@
               "linkTitle": "Count-min sketch"
             },
             {
-              "relref": "develop/data-types/probabilistic/Configuration",
+              "relref": "develop/data-types/probabilistic/configuration",
               "linkTitle": "Configuration"
             }
           ]
@@ -457,10 +457,6 @@
           "linkTitle": "Indexing"
         },
         {
-          "relref": "develop/interact/search-and-query/query-use-cases",
-          "linkTitle": "Use cases"
-        },
-        {
           "relref": "develop/interact/search-and-query/query",
           "linkTitle": "Query",
           "children": [
@@ -493,6 +489,10 @@
               "linkTitle": "Aggregation"
             }
           ]
+        },
+        {
+          "relref": "develop/interact/search-and-query/query-use-cases",
+          "linkTitle": "Use cases"
         },
         {
           "relref": "develop/interact/search-and-query/advanced-concepts",
@@ -565,12 +565,12 @@
           "linkTitle": "Administration",
           "children": [
             {
-              "relref": "develop/interact/search-and-query/administration/overview",
-              "linkTitle": "Technical overview"
-            },
-            {
               "relref": "develop/interact/search-and-query/administration/design",
               "linkTitle": "Internal design"
+            },
+            {
+              "relref": "develop/interact/search-and-query/administration/overview",
+              "linkTitle": "Technical overview"
             },
             {
               "relref": "develop/interact/search-and-query/administration/gc",
@@ -663,13 +663,7 @@
         },
         {
           "relref": "develop/use/patterns/indexes",
-          "linkTitle": "<indexes>",
-          "children": [
-            {
-              "relref": "develop/use/patterns/indexes/index",
-              "linkTitle": "Secondary indexing"
-            }
-          ]
+          "linkTitle": "Secondary indexing"
         }
       ]
     },

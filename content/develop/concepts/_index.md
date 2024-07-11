@@ -18,5 +18,5 @@ weight: 35
 
 This section introduces concepts that are fundamental to using Redis:
 
-- Keys and values
-- Data types
+- [Keys and values]({{< relref "/develop/concepts/keys-values" >}})
+- [Data types]({{< relref "/develop/data-types" >}})
