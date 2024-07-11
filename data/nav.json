@@ -79,56 +79,56 @@
               "linkTitle": "v2.44.0 (February 2024)"
             },
             {
-              "relref": "develop/connect/insight/release-notes/v.2.40.0",
-              "linkTitle": "v2.40.0 (December 2023)"
-            },
-            {
-              "relref": "develop/connect/insight/release-notes/v.2.36.0",
-              "linkTitle": "v2.36.0 (October 2023)"
-            },
-            {
-              "relref": "develop/connect/insight/release-notes/v.2.30.0",
-              "linkTitle": "v2.30.0 (July 2023)"
-            },
-            {
-              "relref": "develop/connect/insight/release-notes/v.2.26.0",
-              "linkTitle": "v2.26.0 (May 2023)"
-            },
-            {
-              "relref": "develop/connect/insight/release-notes/v.2.20.0",
-              "linkTitle": "v2.20.0 (Feb 2023)"
-            },
-            {
-              "relref": "develop/connect/insight/release-notes/v.2.32.0",
-              "linkTitle": "v2.32.0 (August 2023)"
-            },
-            {
-              "relref": "develop/connect/insight/release-notes/v.2.24.0",
-              "linkTitle": "v2.24.0 (Apr 2023)"
-            },
-            {
-              "relref": "develop/connect/insight/release-notes/v2.28.0",
-              "linkTitle": "v2.28.0 (June 2023)"
-            },
-            {
-              "relref": "develop/connect/insight/release-notes/v.2.22.1",
-              "linkTitle": "v2.22.1 (Mar 2023)"
-            },
-            {
               "relref": "develop/connect/insight/release-notes/v.2.42.0",
               "linkTitle": "v2.42.0 (January 2024)"
+            },
+            {
+              "relref": "develop/connect/insight/release-notes/v.2.40.0",
+              "linkTitle": "v2.40.0 (December 2023)"
             },
             {
               "relref": "develop/connect/insight/release-notes/v.2.38.0",
               "linkTitle": "v2.38.0 (November 2023)"
             },
             {
-              "relref": "develop/connect/insight/release-notes/v.2.18.0",
-              "linkTitle": "v2.18.0 (Jan 2023)"
+              "relref": "develop/connect/insight/release-notes/v.2.36.0",
+              "linkTitle": "v2.36.0 (October 2023)"
             },
             {
               "relref": "develop/connect/insight/release-notes/v.2.34.0",
               "linkTitle": "v2.34.0 (September 2023)"
+            },
+            {
+              "relref": "develop/connect/insight/release-notes/v.2.32.0",
+              "linkTitle": "v2.32.0 (August 2023)"
+            },
+            {
+              "relref": "develop/connect/insight/release-notes/v.2.30.0",
+              "linkTitle": "v2.30.0 (July 2023)"
+            },
+            {
+              "relref": "develop/connect/insight/release-notes/v2.28.0",
+              "linkTitle": "v2.28.0 (June 2023)"
+            },
+            {
+              "relref": "develop/connect/insight/release-notes/v.2.26.0",
+              "linkTitle": "v2.26.0 (May 2023)"
+            },
+            {
+              "relref": "develop/connect/insight/release-notes/v.2.24.0",
+              "linkTitle": "v2.24.0 (Apr 2023)"
+            },
+            {
+              "relref": "develop/connect/insight/release-notes/v.2.22.1",
+              "linkTitle": "v2.22.1 (Mar 2023)"
+            },
+            {
+              "relref": "develop/connect/insight/release-notes/v.2.20.0",
+              "linkTitle": "v2.20.0 (Feb 2023)"
+            },
+            {
+              "relref": "develop/connect/insight/release-notes/v.2.18.0",
+              "linkTitle": "v2.18.0 (Jan 2023)"
             },
             {
               "relref": "develop/connect/insight/release-notes/v.2.16.0",
@@ -143,12 +143,12 @@
               "linkTitle": "v2.12.0 (Oct 2022)"
             },
             {
-              "relref": "develop/connect/insight/release-notes/v2.10.0",
-              "linkTitle": "v2.10.0 (Sept 2022)"
-            },
-            {
               "relref": "develop/connect/insight/release-notes/v1.14.0",
               "linkTitle": "v1.14 (May 2023)"
+            },
+            {
+              "relref": "develop/connect/insight/release-notes/v2.10.0",
+              "linkTitle": "v2.10.0 (Sept 2022)"
             },
             {
               "relref": "develop/connect/insight/release-notes/v2.8.0",
