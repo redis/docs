@@ -1,0 +1,23 @@
+--- a/content/develop/reference/modules/modules-api-ref.md
++++ b/content/develop/reference/modules/modules-api-ref.md
+@@ -1,3 +1,20 @@
++---
++categories:
++- docs
++- develop
++- stack
++- oss
++- rs
++- rc
++- oss
++- kubernetes
++- clients
++description: Reference for the Redis Modules API
++linkTitle: API reference
++title: Modules API reference
++weight: 1
++---
++
+ <!-- This file is generated from module.c using
+      redis/redis:utils/generate-module-api-doc.rb -->
+ 
