@@ -17,6 +17,8 @@ Active-Active databases are distributed across multiple regions (geo-distributio
 
 Active-Active databases allow read and write operations in each copy.  Each copy eventually reflects changes made in other copies ([eventual consistency]({{< relref "/glossary#eventual-consistency" >}})).  Conflict-free data types (CRDTs) synchronize read and write operations between copies.  CRDTs ensure consistency and resolve conflicts.
 
+When developing for Active-Active databases, you need to consider some important differences. See [Develop applications with Active-Active databases]({{< relref "/operate/rs/databases/active-active/develop/_index.md" >}}) for related information.
+
 ## Active-Active geo-distributed replication highlights
 
 ### Multi-zone

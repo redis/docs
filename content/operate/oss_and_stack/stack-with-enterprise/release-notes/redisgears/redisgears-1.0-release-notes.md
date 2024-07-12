@@ -71,7 +71,7 @@ Details:
 
     - [#594](https://github.com/RedisGears/RedisGears/pull/594) Added RedisGears info section to Redis info command
 
-    - [#587](https://github.com/RedisGears/RedisGears/pull/587) `inorder` option for the [command reader](https://oss.redis.com/redisgears/1.0/readers.html#commandreader)
+    - [#587](https://github.com/RedisGears/RedisGears/pull/587) `inorder` option for the command reader
     
     - [#592](https://github.com/RedisGears/RedisGears/pull/592), [#586](https://github.com/RedisGears/RedisGears/pull/586) Background executions will now appear on Redis slowlog, available in Redis 6.2 and above.
 

@@ -227,7 +227,9 @@ server assumes that what we get we also cache, we are making a tradeoff:
 
 So there is an alternative described in the next section.
 
-## Opt-in caching
+## Opt-in and Opt-out caching
+
+### Opt-in
 
 Clients implementations may want to cache only selected keys, and communicate
 explicitly to the server what they'll cache and what they will not. This will
@@ -237,7 +239,7 @@ invalidation messages received by the client.
 
 In order to do this, tracking must be enabled using the OPTIN option:
 
-    CLIENT TRACKING on REDIRECT 1234 OPTIN
+    CLIENT TRACKING ON REDIRECT 1234 OPTIN
 
 In this mode, by default, keys mentioned in read queries *are not supposed to be cached*, instead when a client wants to cache something, it must send a special command immediately before the actual command to retrieve the data:
 
@@ -246,10 +248,24 @@ In this mode, by default, keys mentioned in read queries *are not supposed to be
     GET foo
     "bar"
 
-The `CACHING` command affects the command executed immediately after it,
-however in case the next command is [`MULTI`]({{< relref "/commands/multi" >}}), all the commands in the
-transaction will be tracked. Similarly in case of Lua scripts, all the
+The `CACHING` command affects the command executed immediately after it.
+However, in case the next command is [`MULTI`]({{< relref "/commands/multi" >}}), all the commands in the
+transaction will be tracked. Similarly, in case of Lua scripts, all the
 commands executed by the script will be tracked.
+
+### Opt-out
+
+Opt-out caching allows clients to automatically cache keys locally without explicitly opting in for each key.
+This approach ensures that all keys are cached by default unless specified otherwise.
+Opt-out caching can simplify the implementation of client-side caching by reducing the need for explicit commands to enable caching for individual keys.
+
+Tracking must be enabled using the OPTOUT option to enable opt-out caching:
+
+    CLIENT TRACKING ON OPTOUT
+
+If you want to exclude a specific key from being tracked and cached, use the CLIENT UNTRACKING command:
+
+    CLIENT UNTRACKING key
 
 ## Broadcasting mode
 

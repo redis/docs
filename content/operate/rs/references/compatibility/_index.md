@@ -20,6 +20,6 @@ Both Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) a
 
 Redis Enterprise Software and Redis Cloud support RESP2 and RESP3. See [RESP compatibility with Redis Enterprise]({{< relref "/operate/rs/references/compatibility/resp" >}}) for more information.
 
-## Compatibility with Redis Cluster API
+## Compatibility with open source Redis Cluster API
 
-Redis Enterprise supports [Redis Cluster API]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) if it is enabled for a database. For more information, see [Enable Redis Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}).
+Redis Enterprise supports [Redis OSS Cluster API]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) if it is enabled for a database. For more information, see [Enable OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}).

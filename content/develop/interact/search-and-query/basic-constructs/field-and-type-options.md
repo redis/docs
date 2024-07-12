@@ -59,7 +59,7 @@ You can also use the following query syntax to perform more complex numeric quer
 |                         | @field!=val                   | Not equal \*             |
 | x == val1 or x == val2  | "@field==val1 \| @field==val2" | Grouping with a bar denotes OR relationship \* |
 
-\* New syntax as of RediSearch v2.10. Requires [`DIALECT 5`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-5). 
+\* New syntax as of RediSearch v2.10. Requires [`DIALECT 2`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-2). 
 
 
 ## Geo fields
