@@ -10,6 +10,7 @@ categories:
 - kubernetes
 - clients
 description: Visualize and optimize Redis data
+hideListLinks: true
 linkTitle: Redis Insight
 stack: true
 title: Redis Insight
