@@ -674,57 +674,59 @@
     {
       "relref": "develop/reference",
       "linkTitle": "Reference",
-      "divider":"true"
-    },
-    {
-      "relref": "develop/reference/command-tips",
-      "linkTitle": "Command tips"
-    },
-    {
-      "relref": "develop/reference/sentinel-clients",
-      "linkTitle": "Sentinel clients"
-    },
-    {
-      "relref": "develop/reference/modules",
-      "linkTitle": "Modules API",
-      "children": [
+      "children":[
         {
-          "relref": "develop/reference/modules/modules-api-ref",
-          "linkTitle": "API reference"
+          "relref": "develop/reference/command-tips",
+          "linkTitle": "Command tips"
         },
         {
-          "relref": "develop/reference/modules/modules-native-types",
-          "linkTitle": "Native types API"
+          "relref": "develop/reference/sentinel-clients",
+          "linkTitle": "Sentinel clients"
         },
         {
-          "relref": "develop/reference/modules/modules-blocking-ops",
-          "linkTitle": "Blocking commands"
+          "relref": "develop/reference/modules",
+          "linkTitle": "Modules API",
+          "children": [
+            {
+              "relref": "develop/reference/modules/modules-api-ref",
+              "linkTitle": "API reference"
+            },
+            {
+              "relref": "develop/reference/modules/modules-native-types",
+              "linkTitle": "Native types API"
+            },
+            {
+              "relref": "develop/reference/modules/modules-blocking-ops",
+              "linkTitle": "Blocking commands"
+            }
+          ]
+        },
+        {
+          "relref": "develop/reference/key-specs",
+          "linkTitle": "Command key specifications"
+        },
+        {
+          "relref": "develop/reference/protocol-spec",
+          "linkTitle": "Protocol spec"
+        },
+        {
+          "relref": "develop/reference/clients",
+          "linkTitle": "Client handling"
+        },
+        {
+          "relref": "develop/reference/command-arguments",
+          "linkTitle": "Command arguments"
+        },
+        {
+          "relref": "develop/reference/gopher",
+          "linkTitle": "Gopher protocol"
+        },
+        {
+          "relref": "develop/reference/eviction",
+          "linkTitle": "Eviction"
         }
       ]
-    },
-    {
-      "relref": "develop/reference/key-specs",
-      "linkTitle": "Command key specifications"
-    },
-    {
-      "relref": "develop/reference/protocol-spec",
-      "linkTitle": "Protocol spec"
-    },
-    {
-      "relref": "develop/reference/clients",
-      "linkTitle": "Client handling"
-    },
-    {
-      "relref": "develop/reference/command-arguments",
-      "linkTitle": "Command arguments"
-    },
-    {
-      "relref": "develop/reference/gopher",
-      "linkTitle": "Gopher protocol"
-    },
-    {
-      "relref": "develop/reference/eviction",
-      "linkTitle": "Eviction"
     }
+    
   ]
 }
