@@ -45,7 +45,23 @@
   {{ $childPage := site.GetPage .relref }}
   {{ $isActive := or ($currentPage.IsDescendant $childPage) (eq $currentPage $childPage) }}
   {{- if .divider }}
-  <li class="my-2 bg-redis-pencil-200"><strong><span class="pr-5"></span><a href='{{ absURL .relref }}'> {{ .linkTitle }}</a></strong>
+  <li class="my-2 bg-redis-pencil-200"><strong><span class="pr-5"></span><a href='{{ absURL .relref }}'> {{ .linkTitle }}</a></strong></li>
+  {{- else if .plainFolder }}
+  <li class="my-2">
+    <a href='{{ absURL .relref }}' class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}<span class="pr-2"></span>
+      <span class="arrowBox">
+        <svg style="display: inline;" width="18" height="18" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="3 8 15 8 9 3" fill="darkgrey" />
+          <polyline points="3 10 9 15 15 10" fill="darkgrey" />
+        </svg>
+      </span>
+    </a>
+    <ul class="child-list{{ if $hidden }} hidden{{ end }}">
+    {{- range $childPage.Pages }}
+      <li class="my-2"><a href='{{ .RelPermalink }}' class="pl-6 flex{{ if or ($currentPage.IsDescendant .) (eq $currentPage .) }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .LinkTitle }}</a>
+    {{- end }}
+    </ul>
+  </li>
   {{- else if .children }}
   <li class="my-2">
     <a href='{{ absURL .relref }}' class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}<span class="pr-2"></span>
@@ -57,10 +73,10 @@
       </span>
     </a>
   {{- template "navChildList" ( dict "item" . "currentPage" $currentPage )}}
-  {{- else }}
-  <li class="my-2"><a href='{{ absURL .relref }}' class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}</a>
-  {{- end -}}
   </li>
+  {{- else }}
+  <li class="my-2"><a href='{{ absURL .relref }}' class="pl-6 flex{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .linkTitle }}</a></li>
+  {{- end -}}
   {{ end }}
 </ul>
 {{- end }}
@@ -73,7 +89,7 @@
   {{ $childPage := site.GetPage .relref }}
   {{ $isActive := or ($currentPage.IsDescendant $childPage) (eq $currentPage $childPage) }}
   {{- if .divider }}
-  <li class="my-2 bg-redis-pencil-500 text-white text-center rounded-r-md"><span class="pr-5"></span><strong><a href='{{ absURL .relref }}'>{{ .linkTitle }}</a></strong>
+  <li class="my-2 bg-redis-pencil-500 text-white text-center rounded-r-md"><span class="pr-5"></span><strong><a href='{{ absURL .relref }}'>{{ .linkTitle }}</a></strong></li>
   {{- else if .children }}
   <li class="my-2"><span class="pr-5"></span>
     <a href='{{ absURL .relref }}' class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}
@@ -85,10 +101,10 @@
       </span>
     </a>
   {{- template "navChildList" ( dict "item" . "currentPage" $currentPage )}}
-  {{- else }}
-  <li class="my-2"><span class="pr-5"></span><a href='{{ absURL .relref }}'  class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}</a>
-  {{- end -}}
   </li>
+  {{- else }}
+  <li class="my-2"><span class="pr-5"></span><a href='{{ absURL .relref }}'  class="{{ if $isActive }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;">{{ .linkTitle }}</a></li>
+  {{- end -}}
   {{ end }}  
 </ul>
 {{- end }}
