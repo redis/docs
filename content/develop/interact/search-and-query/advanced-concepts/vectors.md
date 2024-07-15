@@ -142,7 +142,7 @@ HNSW is an approximate nearest neighbors algorithm (ANN) that uses a multi-layer
 
 **Optional attributes**
 
-HNSW supports a number of additional params to tune
+HNSW supports a number of additional parameters to tune
 the accuracy of the queries, while trading off performance. Read more about
 them [here](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
 
@@ -152,7 +152,7 @@ them [here](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
 | `M`                | Max number of outgoing edges (connections) for each node in the graph per layer. On layer zero the max number of connections will be 2M. Higher values increase accuracy, but also increase memory usage and index build time. Defaults to 16.            |
 | `EF_CONSTRUCTION`  | Max number of connected neighbors to consider during graph building. Higher values increase accuracy, but also increase index build time. Defaults to 200.                                      |
 | `EF_RUNTIME`       | Max top candidates during KNN search. Higher values increase accuracy, but also increase search latency. Defaults to 10. |
-| `EPSILON`          | Relative factor that sets the boundaries in which a range query may search for candidates. That is, vector candidates whose distance from the query vector is radius*(1 + EPSILON) are potentially scanned, allowing more extensive search and more accurate results (on the expense of runtime). Defaults to 0.01.                                             |
+| `EPSILON`          | Relative factor that sets the boundaries in which a range query may search for candidates. That is, vector candidates whose distance from the query vector is radius*(1 + EPSILON) are potentially scanned, allowing more extensive search and more accurate results (at the expense of runtime). Defaults to 0.01.                                             |
 
 **Example**
 
@@ -346,7 +346,7 @@ Sure, here’s the revised and improved version of the section on filtering and 
 
 ### Filters
 
-Redis supports vector search along with various filters to narrow the search space based on defined criteria. If your index contains searchable fields (i.e., `TEXT`, `TAG`, `NUMERIC`, `GEO`, `GEOSHAPE`, and `VECTOR`), you can perform vector searches with filters.
+Redis supports vector search along with various filters to narrow the search space based on defined criteria. If your index contains searchable fields (for example, `TEXT`, `TAG`, `NUMERIC`, `GEO`, `GEOSHAPE`, and `VECTOR`), you can perform vector searches with filters.
 
 **Supported filter types**
 
@@ -465,19 +465,19 @@ Among documents that have `'Dune'` in their `title` field and their `num` value 
 FT.SEARCH idx "(@title:Dune @num:[2020 2022])=>[KNN $K @vector $BLOB AS my_scores]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" K 10 SORTBY my_scores DIALECT 2
 ```
 
-Use a different filter for the hybrid approach: this time, return the top 10 results from the documents that contain a `'shirt'` tag  in the `type` field and optionally a `'blue'` tag in their `color` field. Here, the results are sorted by the full-text scorer.
+Use a different filter for the hybrid approach: this example returns the top 10 results from the documents that contain a `'shirt'` tag  in the `type` field and optionally a `'blue'` tag in their `color` field. The results are sorted by the full-text scorer.
 
 ```
 FT.SEARCH idx "(@type:{shirt} ~@color:{blue})=>[KNN $K @vector $BLOB]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" K 10 DIALECT 2
 ```
 
-And, here's a pre-filter with KNN query in which the hybrid policy is set explicitly to "ad-hoc brute force" (rather than auto-selected):
+This example shows a pre-filter with KNN query in which the hybrid policy is set explicitly to "ad-hoc brute force" (rather than auto-selected):
 
 ```
 FT.SEARCH idx "(@type:{shirt})=>[KNN $K @vector $BLOB HYBRID_POLICY ADHOC_BF]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" K 10 SORTBY __vec_scores DIALECT 2
 ```
 
-And, now, here's a pre-filter with KNN query in which the hybrid policy is set explicitly to "batches", and the batch size is set explicitly to be 50 using a query parameter:
+This example shows a pre-filter with KNN query in which the hybrid policy is set explicitly to "batches", and the batch size is set explicitly to be 50 using a query parameter:
 
 ```
 FT.SEARCH idx "(@type:{shirt})=>[KNN $K @vector $BLOB HYBRID_POLICY BATCHES BATCH_SIZE $B_SIZE]" PARAMS 6 BLOB "\x12\xa9\xf5\x6c" K 10 B_SIZE 50 DIALECT 2
