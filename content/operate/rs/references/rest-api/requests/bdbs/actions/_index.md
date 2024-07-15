@@ -37,3 +37,10 @@ weight: $weight
 | Method | Path | Description |
 |--------|------|-------------|
 | [GET]({{< relref "./optimize_shards_placement#get-bdbs-actions-optimize-shards-placement" >}}) | `/v1/bdbs/{uid}/actions/optimize_shards_placement` | Get optimized shards placement for a database  |
+
+## Recover
+
+| Method | Path | Description |
+|--------|------|-------------|
+| [GET]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/recover#get-bdbs-actions-recover">}}) | `/v1/bdbs/{uid}/actions/recover` | Get database recovery plan  |
+| [POST]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/recover#post-bdbs-actions-recover">}}) | `/v1/bdbs/{uid}/actions/recover` | Recover database  |
