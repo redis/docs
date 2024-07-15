@@ -36,6 +36,20 @@
   {{ .Scratch.Set "path" $path}}
 {{ end }}
 
+
+{{ define "plainFolder" -}}
+{{ $childPage := .childPage -}}
+{{ $currentPage := .currentPage -}}
+{{ $hidden := not ($currentPage.IsDescendant $childPage) -}}
+<ul class="child-list{{ if $hidden }} hidden{{ end }}">
+  {{- range $childPage.Pages }}
+    <li class="my-2"><a href='{{ .RelPermalink }}' class="pl-6 flex{{ if or ($currentPage.IsDescendant .) (eq $currentPage .) }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .LinkTitle }}</a>
+    </li>   
+  {{- end }}
+</ul>
+{{- end }}
+
+
 {{ define "navChildList" -}}
 {{ $item := .item -}}
 {{ $currentPage := .currentPage -}}
@@ -56,11 +70,12 @@
         </svg>
       </span>
     </a>
-    <ul class="child-list{{ if $hidden }} hidden{{ end }}">
+    {{- template "plainFolder" (dict "childPage" $childPage "currentPage" $currentPage ) }}
+    <!--<ul class="child-list{{ if $hidden }} hidden{{ end }}">
     {{- range $childPage.Pages }}
       <li class="my-2"><a href='{{ .RelPermalink }}' class="pl-6 flex{{ if or ($currentPage.IsDescendant .) (eq $currentPage .) }} active text-redis-ink-900 {{ else }} text-redis-pen-700 hover:text-redis-pen-600 {{ end }}" style="pointer-events: all;"><span class="pr-5"></span>{{ .LinkTitle }}</a>
     {{- end }}
-    </ul>
+    </ul>-->
   </li>
   {{- else if .children }}
   <li class="my-2">
