@@ -28,7 +28,7 @@ When using Redis as a vector database, you have the choice between storing vecto
 
 | Storage option             | Description                          |
 |-------------------------|--------------------------------------|
-| **Hash** | Lightweight, single-level dictionary of fields. Most efficient choise for memory optimization and query speed.    |
+| **Hash** | Lightweight, single-level dictionary of fields. Most efficient choice for memory optimization and query speed.    |
 | **JSON**       | Full-JSON path support. Best for cases when app data is already in JSON. Supports indexing for nested objects including arrays of multiple vectors. |
 
 ### Vector CRUD operations
