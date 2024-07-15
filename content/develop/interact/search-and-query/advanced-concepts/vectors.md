@@ -251,13 +251,6 @@ TODO ^^ Need to validate this query generalization
 FT.SEARCH my_index "(@title:Matrix @year:[2020 2022])=>[KNN 10 @my_vector_field $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 2
 ```
 
-**Invalid example**
-
-Misplaced filter statement, missing `BLOB` param, and missing dialect.
-```
-FT.SEARCH my_index "(@title:Matrix)=>[KNN 10 @my_vector_field $BLOB] @year:[2020 2022]"
-```
-
 **Use query attributes**
 
 Alternatively, as of v2.6, `<vector_query_params> and `<distance_field>` name can be specified in runtime
