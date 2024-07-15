@@ -23,44 +23,11 @@ Redis is commonly used as a [highly-performant vector database](https://redis.io
 
 ## Overview
 
-### Storage options
-When using Redis as a vector database, you have the choice between storing vectors and metadata in a Hash or JSON object.
-
-| Storage option          | Description                          |
-|:------------------------|:-------------------------------------|
-| **Hash** | Lightweight, single-level dictionary of fields. Most efficient choice for memory optimization and query speed.    |
-| **JSON**       | Full-JSON path support. Best for cases when app data is already in JSON. Supports indexing for nested objects including arrays of multiple vectors. |
-
-### Vector CRUD operations
-Redis manages the secondary indices on your behalf, enabling a simple experience in operating on vectors metadata in production settings.
-
-| Operation       | Description                                |
-|:----------------|:-------------------------------------------|
-| **Write**      | Add new vectors and metadata to your index.                           |
-| **Read**        | Retrieve existing vectors and metadata.                 |
-| **Update**      | Update existing vectors and metadata in real-time.      |
-| **Delete**      | Delete vectors and metadata.               |
-
-
-### Realtime indexing
-
-Redis supports two indexing methods for vector fields:
-
-| Indexing Method       | Description |    
-|:----------------------|:------------|
-| **FLAT**              | Exhaustive scan over all vectors that will always yield the most accurate matches, but at the cost of limited scalability.|
-| **HNSW**              | Hierarchical Navigable Small Worlds (HNSW) - an optimized version of [nmslib/hnswlib](https://github.com/nmslib/hnswlib), based on [HNSW Graphs](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf), for scalable vector search over large datasets or for workloads that require extreme scalability. |
-
-### Search capabilities
-
-Redis enables a number of powerful search techniques over vector fields and metadata:
-
-| Search Type             | Description                          |
-|-------------------------|--------------------------------------|
-| **K-nearest neighbors (KNN)** | Search for the top k most similar vectors.  |
-| **Vector range queries**  | Search for vectors within a specified semantic radius.  |
-| **Metadata filtering**  | Filter results based on metadata.  |
-
+1. [**Create a vector index**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#create-a-vector-index): Redis maintains a secondary index on top of your data with a defined schema (including vector fields and metadata). Redis supports [`FLAT`]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#flat-index) and [`HNSW`]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#hnsw-index) vector index types.
+1. [**Store and update vectors**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#store-and-update-vectors): Redis stores vectors in objects as either Hash or JSON.
+1. [**Search with vectors**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#search-with-vectors): Redis supports several advanced querying strategies with vector fields including [KNN]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#standard-vector-search) (standard k-nearest neighbor), [vector range queries]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#vector-range-queries), and [metadata filters]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#filters).
+1. [**Configure vector queries at runtime**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#runtime-query-params).
+1. [**Vector search examples**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#vector-search-examples): Explore several vector search examples that cover different use cases and techniques.
 
 ## Create a vector index
 
@@ -268,7 +235,7 @@ TODO ^^ Need to validate this query generalization
 | Parameter         | Description                                                                                       |
 |:------------------|:--------------------------------------------------------------------------------------------------|
 | `index_name`  | Name of the index.  |
-| `primary_filter_query`  | Optional [filter]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#filters) criteria.  |
+| `primary_filter_query`  | Optional [filter]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#filters) criteria. Defaults to `*`.  |
 | `top_k` | Number of nearest neighbors. Also commonly provided to the `LIMIT` param to truncate the number of results through pagination.  |
 | `vector_field`  | Name of the vector field in the index.  |
 | `vector_blob_param`  | The query vector as bytes and must be passed through the `PARAMS` section. The blob's byte size should match the vector field dimension and type.  |
