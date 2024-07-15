@@ -65,7 +65,7 @@ Choose the FLAT index when you have small datasets (< 1M vectors) or when search
 **Required attributes**
 
 | Attribute          | Description                              |
-|--------------------|------------------------------------------|
+|:-------------------|:-----------------------------------------|
 | `TYPE`             | Vector type (`FLOAT16`, `FLOAT32`, `FLOAT64`).  |
 | `DIM`              | Vector dimension. Must be a positive integer; identical for both document and query vectors.  |
 | `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`).  |
@@ -73,7 +73,7 @@ Choose the FLAT index when you have small datasets (< 1M vectors) or when search
 **Optional attributes**
 
 | Attribute          | Description                                      |
-|--------------------|--------------------------------------------------|
+|:-------------------|:-------------------------------------------------|
 | `INITIAL_CAP`      | Initial vector capacity in the index.            |
 | `BLOCK_SIZE`       | Block size for memory allocation. Defaults to 1024.  |
 
@@ -83,12 +83,12 @@ Choose the FLAT index when you have small datasets (< 1M vectors) or when search
 FT.CREATE my_index
   ON HASH
   PREFIX 1 docs:
-  SCHEMA my_vector_field VECTOR FLAT 6
+  SCHEMA vector VECTOR FLAT 6
     TYPE FLOAT32
     DIM 1536
     DISTANCE_METRIC COSINE
 ```
-In the example above, an index named `my_index` is created over hashes with the key prefix `docs:`, a `FLAT` vector field named `my_vector_field` with three index attributes (`TYPE`, `DIM`, and `DISTANCE_METRIC`).
+In the example above, an index named `my_index` is created over hashes with the key prefix `docs:`, a `FLAT` vector field named `vector` with three index attributes (`TYPE`, `DIM`, and `DISTANCE_METRIC`).
 
 ### HNSW index
 
@@ -112,7 +112,7 @@ HNSW supports a number of additional parameters to tune
 the accuracy of the queries, while trading off performance. Read more about
 them [here](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
 
-| Attribute          | Description                                                                
+| Attribute          | Description                                                                                 |
 |:-------------------|:--------------------------------------------------------------------------------------------|
 | `INITIAL_CAP`      | Initial vector capacity in the index.                                                           |
 | `M`                | Max number of outgoing edges (connections) for each node in the graph per layer. On layer zero the max number of connections will be 2M. Higher values increase accuracy, but also increase memory usage and index build time. Defaults to 16.            |
@@ -126,7 +126,7 @@ them [here](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
 FT.CREATE my_index
   ON HASH
   PREFIX 1 docs:
-  SCHEMA my_vector_field VECTOR HNSW 16
+  SCHEMA vector VECTOR HNSW 16
     TYPE FLOAT64
     DIM 1536
     DISTANCE_METRIC COSINE
@@ -248,7 +248,7 @@ TODO ^^ Need to validate this query generalization
 **Example**
 
 ```
-FT.SEARCH my_index "(@title:Matrix @year:[2020 2022])=>[KNN 10 @my_vector_field $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 2
+FT.SEARCH my_index "(@title:Matrix @year:[2020 2022])=>[KNN 10 @vector $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 2
 ```
 
 **Use query attributes**
