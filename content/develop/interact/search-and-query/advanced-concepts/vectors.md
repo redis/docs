@@ -127,7 +127,7 @@ In the example above, we create an index named `my_index` over hashes with the k
 
 HNSW is an approximate nearest neighbors algorithm (ANN) that uses a multi-layered graph to make vector search more scalable.
 - The lowest layer contains all data points, and each higher layer contains a subset, forming a hierarchy.
-- At runtime, the search greedily traverses the graph on each layer from top to bottom, finding the "local minima" before dropping to the subsequent layer.
+- At runtime, the search traverses the graph on each layer from top to bottom, finding the "local minima" before dropping to the subsequent layer.
 
 **Choose the HNSW index when** you have larger datasets or when search performance and scalability are most important *even at the expense of lower search accuracy*.
 
