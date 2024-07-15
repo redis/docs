@@ -9,14 +9,14 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use vector fields and perform vector search in Redis
+description: Learn how to use vector fields and perform vector searches in Redis
 linkTitle: Vectors
 math: true
 title: Vectors
 weight: 14
 ---
 
-Redis is commonly used as a [highly-performant vector database](https://redis.io/blog/benchmarking-results-for-vector-databases/). Vector fields enable you to perform semantic search based on vector embeddings in combination with metadata like text, numerics, geo, or tags.
+Redis is commonly used as a [highly-performant vector database](https://redis.io/blog/benchmarking-results-for-vector-databases/). Vector fields enable you to perform semantic search based on vector embeddings in combination with text, numerical, geospatial, or tag metadata.
 
 **Just looking to get started?** Checkout the vector [quickstart guide]({{< baseurl >}}/develop/get-started/vector-database) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) repo for more assistance.
 
@@ -26,8 +26,8 @@ Redis is commonly used as a [highly-performant vector database](https://redis.io
 ### Storage options
 When using Redis as a vector database, you have the choice between storing vectors and metadata in a Hash or JSON object.
 
-| Storage option             | Description                          |
-|-------------------------|--------------------------------------|
+| Storage option          | Description                          |
+|:------------------------|:-------------------------------------|
 | **Hash** | Lightweight, single-level dictionary of fields. Most efficient choice for memory optimization and query speed.    |
 | **JSON**       | Full-JSON path support. Best for cases when app data is already in JSON. Supports indexing for nested objects including arrays of multiple vectors. |
 
@@ -35,7 +35,7 @@ When using Redis as a vector database, you have the choice between storing vecto
 Redis manages the secondary indices on your behalf, enabling a simple experience in operating on vectors metadata in production settings.
 
 | Operation       | Description                                |
-|-----------------|--------------------------------------------|
+|:----------------|:-------------------------------------------|
 | **Write**      | Add new vectors and metadata to your index.                           |
 | **Read**        | Retrieve existing vectors and metadata.                 |
 | **Update**      | Update existing vectors and metadata in real-time.      |
@@ -46,9 +46,9 @@ Redis manages the secondary indices on your behalf, enabling a simple experience
 
 Redis supports two indexing methods for vector fields:
 
-| Indexing Method       | Description                                                                                                                                           |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **FLAT**              | Brute force scan over all vectors that will always yield the most accurate matches, but at the cost of limited scalability.                                                                                                            |
+| Indexing Method       | Description |    
+|:----------------------|:------------|
+| **FLAT**              | Exhaustive scan over all vectors that will always yield the most accurate matches, but at the cost of limited scalability.|
 | **HNSW**              | Hierarchical Navigable Small Worlds (HNSW) - an optimized version of [nmslib/hnswlib](https://github.com/nmslib/hnswlib), based on [HNSW Graphs](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf), for scalable vector search over large datasets or for workloads that require extreme scalability. |
 
 ### Search capabilities
@@ -76,12 +76,12 @@ FT.CREATE <index_name>
     [<index_attribute_name> <index_attribute_value> ...]
 ```
 
-Refer to the full [indexing]({{< baseurl >}}/develop/interact/search-and-query/indexing/) documentation for additional fields, option, and noted limitations.
+Refer to the full [indexing]({{< baseurl >}}/develop/interact/search-and-query/indexing/) documentation for additional fields, options, and noted limitations.
 
 **Parameters**
 
-| Parameter         | Description                                                                                       |
-|-------------------|---------------------------------------------------------------------------------------------------|
+| Parameter | Description |
+|:----------|:------------|
 | `index_name`      | Name of the index.  |
 | `storage_type`    | Storage option (`HASH` or `JSON`).  |
 | `prefix` (optional) | Key prefix that signals to the index which keys should be included. Defaults to all keys if omitted. |
@@ -93,14 +93,14 @@ Refer to the full [indexing]({{< baseurl >}}/develop/interact/search-and-query/i
 
 
 ### FLAT index
-**Choose the FLAT index when** you have small datasets (*<1M vectors*) or when search accuracy is most important *even at the expense of additional latency*.
+Choose the FLAT index when you have small datasets (< 1M vectors) or when search accuracy is most important, even at the expense of additional latency.
 
 **Required attributes**
 
 | Attribute          | Description                              |
 |--------------------|------------------------------------------|
 | `TYPE`             | Vector type (`FLOAT16`, `FLOAT32`, `FLOAT64`).  |
-| `DIM`              | Vector dimension. *Must be a positive integer; identical for both document and query vectors.*  |
+| `DIM`              | Vector dimension. Must be a positive integer; identical for both document and query vectors.  |
 | `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`).  |
 
 **Optional attributes**
@@ -121,21 +121,20 @@ FT.CREATE my_index
     DIM 1536
     DISTANCE_METRIC COSINE
 ```
-In the example above, we create an index named `my_index` over hashes with the key prefix `docs:`, including a `FLAT` vector field named `my_vector_field` with 3 index attributes (`TYPE`, `DIM`, and `DISTANCE_METRIC`).
+In the example above, an index named `my_index` is created over hashes with the key prefix `docs:`, a `FLAT` vector field named `my_vector_field` with three index attributes (`TYPE`, `DIM`, and `DISTANCE_METRIC`).
 
 ### HNSW index
 
 HNSW is an approximate nearest neighbors algorithm (ANN) that uses a multi-layered graph to make vector search more scalable.
 - The lowest layer contains all data points, and each higher layer contains a subset, forming a hierarchy.
-- At runtime, the search traverses the graph on each layer from top to bottom, finding the "local minima" before dropping to the subsequent layer.
+- At runtime, the search traverses the graph on each layer from top to bottom, finding the local minima before dropping to the subsequent layer.
 
-**Choose the HNSW index when** you have larger datasets or when search performance and scalability are most important *even at the expense of lower search accuracy*.
-
+Choose the HNSW index when you have larger datasets or when search performance and scalability are most important, even at the expense of lower search accuracy.
 
 **Required attributes**
 
 | Attribute          | Description                              |
-|--------------------|------------------------------------------|
+|:-------------------|:-----------------------------------------|
 | `TYPE`             | Vector type (`FLOAT16`, `FLOAT32`, `FLOAT64`). |
 | `DIM`              | Vector dimension. *Must be a positive integer.* |
 | `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`).  |
@@ -146,8 +145,8 @@ HNSW supports a number of additional parameters to tune
 the accuracy of the queries, while trading off performance. Read more about
 them [here](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
 
-| Attribute          | Description                                                                                     |
-|--------------------|-------------------------------------------------------------------------------------------------|
+| Attribute          | Description                                                                
+|:-------------------|:--------------------------------------------------------------------------------------------|
 | `INITIAL_CAP`      | Initial vector capacity in the index.                                                           |
 | `M`                | Max number of outgoing edges (connections) for each node in the graph per layer. On layer zero the max number of connections will be 2M. Higher values increase accuracy, but also increase memory usage and index build time. Defaults to 16.            |
 | `EF_CONSTRUCTION`  | Max number of connected neighbors to consider during graph building. Higher values increase accuracy, but also increase index build time. Defaults to 200.                                      |
@@ -175,12 +174,12 @@ FT.CREATE my_index
 Redis supports three popular distance metrics to measure the degree of similarity between two vectors $u$, $v$ $\in \mathbb{R}^n$ where $n$ is the length of the vectors:
 
 | Distance metric | Description | Mathematical representation |
-| --------------- | ----------- | --------------------------- |
+|:--------------- |:----------- |:--------------------------- |
 | `L2` | Euclidean distance between two vectors. | $d(u, v) = \sqrt{ \displaystyle\sum_{i=1}^n{(u_i - v_i)^2}}$ |
 | `IP` | Inner product of two vectors. | $d(u, v) = 1 -u\cdot v$ |
 | `COSINE` | Cosine distance of two vectors. | $d(u, v) = 1 -\frac{u \cdot v}{\lVert u \rVert \lVert v  \rVert}$ |
 
-*The above metrics calculate distance between two vectors, where the smaller the value is, the closer the two vectors are in vector space.*
+The above metrics calculate distance between two vectors, where the smaller the value is, the closer the two vectors are in vector space.
 
 ## Store and update vectors
 
@@ -194,15 +193,13 @@ Store or update vectors and any metadata in [hashes]({{< baseurl >}}/develop/dat
 HSET docs:01 vector <vector_bytes> foo bar
 ```
 
-<br/>
 
 {{% alert title="Tip" color="warning" %}}
 Hashes expect all data to be represented as strings. Thus, `<vector_bytes>` represents a bytes version of the vector.
 {{% /alert  %}}
 
-<br/>
-
 A common way of converting vectors to bytes is through the Python [numpy](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.tobytes.html) library and [redis-py](https://redis-py.readthedocs.io/en/stable/examples/search_vector_similarity_examples.html) client:
+
 ```py
 import numpy as np
 from redis import Redis
@@ -218,11 +215,10 @@ vector_bytes = vector.tobytes()
 # Use redis client to store the vector bytes and metadata under a specified key
 redis_client.hset('docs:01', mapping = {"vector": vector_bytes, "foo": "bar"})
 ```
-<br/>
+
 {{% alert title="Tip" color="warning" %}}
 Note that the vector blob size must match the vector field dimension and float type specified in the schema, otherwise the indexing will fail in the background.
 {{% /alert  %}}
-<br/>
 
 ### JSON
 Store or update vectors and any metadata in [JSON]({{< baseurl >}}/develop/data-types/json/) with the [`JSON.SET`]({{< baseurl >}}/commands/json.set/) command.
@@ -234,10 +230,10 @@ Unlike in hashes, vectors are stored in JSON documents as arrays (not as bytes).
 JSON.SET docs:01 $ '{"vector":[0.34,0.63,-0.54,-0.69,0.98,0.61], "foo": "bar"}'
 ```
 
-**One of the additional benefits of JSON is schema flexibility.** As of v2.6.1, JSON supports multi-value indexing.
+One of the additional benefits of JSON is schema flexibility. As of v2.6.1, JSON supports multi-value indexing.
 Thus, it is possible to index multiple vectors under the same JSONPath.
 
-Here are a some examples of multi-value indexing with vectors:
+Here are some examples of multi-value indexing with vectors:
 
 **Example**
 ```
@@ -250,10 +246,7 @@ Additional information and examples are available in the [Indexing JSON document
 ## Search with vectors
 You can run vector search queries with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) or [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) commands.
 
-To use a vector similarity query with `FT.SEARCH`, you must always:
-- Specify the option `DIALECT 2` or greater in the search command at runtime.
-- Or, set the `DEFAULT_DIALECT` option to `2` or greater by modifying the search configuration with [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/).
-- Or, provide the `DEFAULT_DIALECT 2` argument when loading the search module.
+To use a vector similarity query with `FT.SEARCH`, you must always specify the `DIALECT 2` option. See the [dialects page]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}) for more information.
 
 ### Standard vector search
 
@@ -273,7 +266,7 @@ TODO ^^ Need to validate this query generalization
 **Parameters**
 
 | Parameter         | Description                                                                                       |
-|-------------------|---------------------------------------------------------------------------------------------------|
+|:------------------|:--------------------------------------------------------------------------------------------------|
 | `index_name`  | Name of the index.  |
 | `primary_filter_query`  | Optional [filter]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#filters) criteria.  |
 | `top_k` | Number of nearest neighbors. Also commonly provided to the `LIMIT` param to truncate the number of results through pagination.  |
@@ -298,9 +291,10 @@ Misplaced filter statement, missing `BLOB` param, and missing dialect.
 FT.SEARCH my_index "(@title:Matrix)=>[KNN 10 @my_vector_field $BLOB] @year:[2020 2022]"
 ```
 
-**Using query attributes**
+**Use query attributes**
 
-Alternatively, as of v2.6, `<vector_query_params> and `<distance_field>` name can be specified in runtime [query attributes]({<< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax#query-attributes) as well. Thus, the following format is also supported:
+Alternatively, as of v2.6, `<vector_query_params> and `<distance_field>` name can be specified in runtime
+[query attributes]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}#query-attributes) as well. Thus, the following format is also supported:
 
 ```
 [KNN <top_k> @<vector_field> $<vector_blob_param>]=>{$yield_distance_as: <distance_field>}
@@ -323,7 +317,7 @@ FT.SEARCH <index_name>
   DIALECT 2
 ```
 | Parameter         | Description                                                                                       |
-|-------------------|---------------------------------------------------------------------------------------------------|
+|:------------------|:--------------------------------------------------------------------------------------------------|
 | `index_name`  | Name of the index.  |
 | `vector_field`  | Name of the vector field in the index. |
 | `radius` or `radius_param` | The maximum semantic distance allowed between the query vector and indexed vectors. You can provide the value directly in the query, passed to the `PARAMS` section, or as a query attribute.
@@ -334,13 +328,11 @@ FT.SEARCH <index_name>
 | `vector_query_param_value` | The value of the vector query param.  |
 
 
-**Using query attributes**
+**Use query attributes**
 
-Vector range queries clause can be followed by a query attributes section as follows: `@<vector_field>: [VECTOR_RANGE (<radius> | $<radius_param>) $<vector_blob_param>]=>{$<param>: (<value> | $<value_attribute>); ... }`, where the relevant params in that case are `$yield_distance_as` and `$epsilon`. Note that there is **no default distance field name** in range queries.
+Vector range queries clause can be followed by a query attributes section as follows: `@<vector_field>: [VECTOR_RANGE (<radius> | $<radius_param>) $<vector_blob_param>]=>{$<param>: (<value> | $<value_attribute>); ... }`, where the relevant params in that case are `$yield_distance_as` and `$epsilon`. Note that there is no default distance field name in range queries.
 
 TODO ^^ need to clean this up a bit more and tighten the language.
-
-Sure, here’s the revised and improved version of the section on filtering and supported modes:
 
 ---
 
@@ -394,7 +386,7 @@ The execution mode may switch from *batches* to *ad-hoc brute-force* during the 
 By default, Redis selects the best filter mode to optimize query execution. You can override the auto-selected policy using these optional params:
 
 | Parameter        | Description                                                                                                  | Options                     |
-|------------------|--------------------------------------------------------------------------------------------------------------|-----------------------------|
+|:-----------------|:-------------------------------------------------------------------------------------------------------------|:----------------------------|
 | `HYBRID_POLICY`  | Specifies the filter mode to use during vector search with filters (hybrid).                                 | `BATCHES`, `ADHOC_BF`       |
 | `BATCH_SIZE`     | A fixed batch size to use in every iteration when the `BATCHES` policy is auto-selected or requested.        | Positive integer.            |
 
@@ -410,7 +402,7 @@ Currently, there are no runtime params available for FLAT indexes.
 Optional runtime params for HNSW indexes are:
 
 | Parameter       | Description                                                                                               | Default value       |
-|-----------------|-----------------------------------------------------------------------------------------------------------|---------------------|
+|:----------------|:----------------------------------------------------------------------------------------------------------|:--------------------|
 | `EF_RUNTIME`    | The maximum number of top candidates to hold during the KNN search. Higher values lead to more accurate results at the expense of a longer query runtime. | Value passed during index creation (default is 10). |
 | `EPSILON`       | Relative factor that sets the boundaries for a vector range query. Vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing a more extensive search and more accurate results at the expense of runtime. | Value passed during index creation (default is 0.01). |
 
