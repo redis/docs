@@ -385,7 +385,7 @@ Optional runtime params for HNSW indexes are:
 
 Below are a number of examples to help you get started. If you want a more comprehensive walkthrough, visit the vector [quickstart guide]({{< baseurl >}}/develop/get-started/vector-database) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) repo for more assistance.
 
-### "Pure" KNN queries
+### Standard vector search examples
 Return the 10 nearest neighbor documents for which the vector stored under its `vector` field is the closest to the vector represented by the following 4-bytes blob:
 ```
 FT.SEARCH idx "*=>[KNN 10 @vector $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 2
@@ -409,7 +409,7 @@ FT.SEARCH idx "*=>[KNN 10 @vector $BLOB]=>{$EF_RUNTIME: $EF; $YIELD_DISTANCE_AS:
 
 Find additional Python examples for [`redis-py`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) and [`redisvl`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
 
-### Pre-filter KNN queries (hybrid approach)
+### Filter examples
 
 Among documents that have `'Dune'` in their `title` field and their `num` value is in the range `[2020, 2022]`, return the top 10 for which the vector stored in the `vector` field is the closest to the vector represented by the following 4-bytes blob:
 
@@ -444,7 +444,7 @@ FT.SEARCH idx "(@type:{shirt})=>[KNN 10 @vector $BLOB]=>{$HYBRID_POLICY: BATCHES
 Find additional Python examples for [`redis-py`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) and [`redisvl`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
 
 
-### Range queries
+### Range query examples
 
 Return 100 documents for which the distance between its vector stored under the `vec` field to the specified query vector blob is at most 5 (in terms of `vec` field `DISTANCE_METRIC`):
 ```
