@@ -101,7 +101,7 @@ redis> JSON.GET doc $
 </details>
 
 <details open>
-<summary><b>Delete on existing value</b></summary>
+<summary><b>Delete an existing value</b></summary>
 
 {{< highlight bash >}}
 redis> JSON.SET doc $ '{"a":2}'
