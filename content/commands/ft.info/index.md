@@ -31,8 +31,6 @@ title: FT.INFO
 
 Returns information and statistics about a given index.
 
-[Examples](#examples)
-
 ## Required arguments
 
 `index`
