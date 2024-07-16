@@ -5,11 +5,11 @@ categories:
 - docs
 - operate
 - rc
-description: null
+description: The fastest way to set up Redis - a fully managed Redis database on major public cloud services.
 hideListLinks: true
 weight: 10
 ---
-[Redis Cloud](https://redis.com/redis-enterprise-cloud/overview/) delivers a fully managed Redis database offering hosted on major public cloud services.
+[Redis Cloud](https://redis.com/redis-enterprise-cloud/overview/) is a fully managed Redis database offering hosted on major public cloud services.
 
 With Redis Cloud, you get all of the features of Redis Enterprise, including:
 - [Redis]({{< relref "/develop/" >}}) and [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) support
@@ -18,8 +18,10 @@ With Redis Cloud, you get all of the features of Redis Enterprise, including:
 - Predictable performance
 - 24/7 monitoring and support
 
+[Try Redis Cloud](https://redis.io/try-free/) to set up your free 30MB database.
+
 ## Get started
-Use the [Quick start]({{< relref "/operate/rc/rc-quickstart" >}}) to create a free subscription and create your first database.
+Use the [Quick start]({{< relref "/operate/rc/rc-quickstart" >}}) to learn how to create your free database.
 - [Connect with redis-cli]({{< relref "/operate/rc/rc-quickstart#using-rediscli" >}})
 - [Connect with Redis client]({{< relref "/operate/rc/rc-quickstart#using-redis-client" >}})
 - [Connect with Redis Insight]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}})
