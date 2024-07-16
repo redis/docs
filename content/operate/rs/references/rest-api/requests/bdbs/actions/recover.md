@@ -55,13 +55,21 @@ Returns a JSON object that represents the database's recovery plan, including re
   "data_files": [
     {
       "filename": "appendonly-1.aof",
+      "last_modified": 1721164863.8883622,
       "node_uid": "1",
-      "shard_slots": "1-2048"
+      "shard_role": "master",
+      "shard_slots": "1-2048",
+      "shard_uid": "1",
+      "size": 88
     },
     {
       "filename": "appendonly-2.aof",
+      "last_modified": 1721164863.8883622,
       "node_uid": "2",
-      "shard_slots": "2049-4096"
+      "shard_role": "slave",
+      "shard_slots": "2049-4096",
+      "shard_uid": "2",
+      "size": 88
     }
   ],
   "status": "ready"
