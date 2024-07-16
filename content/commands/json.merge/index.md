@@ -70,7 +70,7 @@ For more information about replies, see [Redis serialization protocol specificat
 
 ## Examples
 
-JSON.MERGE provides four different behaviors to merge changes on a given key: create a non-existent path, update an existing path with a new value, delete a existing path or replace an array with a new array
+JSON.MERGE provides four different behaviors to merge changes on a given key: create a non-existent path, update an existing path with a new value, delete an existing path, or replace an array with a new array
 
 <details open>
 <summary><b>Create a non-existent path-value</b></summary>
