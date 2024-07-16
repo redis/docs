@@ -325,7 +325,7 @@ the generated log file on a remote filesystem.
 instance using INFO at regular interval to gather statistics is probably fine,
 but MONITOR will impact the measured performance significantly.
 
-## Benchmark results on bare-metal servers across different Redis versions.
+## Benchmark results on bare-metal servers across different Redis versions
 
 It is critically important that Redis performance is retained or improved seamlessly on every released version. 
 

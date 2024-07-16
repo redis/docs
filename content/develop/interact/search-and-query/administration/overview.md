@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Technical overview of the search and query features of Redis Stack.'
+description: 'Technical overview of the search and query features of Redis Stack'
 linkTitle: Technical overview
 title: Technical overview
 weight: 1
