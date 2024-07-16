@@ -9,13 +9,11 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Chinese support
+description: Chinese support for searching and querying in Redis Stack
 linkTitle: Chinese
-title: Chinese
+title: Chinese support
 weight: 15
 ---
-
-# Chinese support for searching and querying in Redis Stack
 
 Support for adding documents in Chinese is available starting at version 0.99.0.
 

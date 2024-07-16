@@ -205,7 +205,7 @@ This allows the module to check if a function exists before using it:
 In recent versions of `redismodule.h`, a convenience macro `RMAPI_FUNC_SUPPORTED(funcname)` is defined.
 Using the macro or just comparing with NULL is a matter of personal preference.
 
-# Passing configuration parameters to Redis modules
+## Passing configuration parameters to Redis modules
 
 When the module is loaded with the [`MODULE LOAD`]({{< relref "/commands/module-load" >}}) command, or using the
 `loadmodule` directive in the `redis.conf` file, the user is able to pass

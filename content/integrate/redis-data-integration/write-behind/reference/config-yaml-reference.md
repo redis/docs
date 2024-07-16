@@ -17,7 +17,7 @@ type: integration
 weight: 10
 ---
 
-# Redis Data Integration Configuration File
+## Redis Data Integration Configuration File
 
 **Properties**
 
@@ -28,7 +28,7 @@ weight: 10
 
 <a name="applier"></a>
 
-## applier: Configuration details of Redis Data Integration Applier Gear
+### applier: Configuration details of Redis Data Integration Applier Gear
 
 **Properties**
 
@@ -53,7 +53,7 @@ weight: 10
 **Additional Properties:** not allowed  
 <a name="connections"></a>
 
-## connections: Connections
+### connections: Connections
 
 **Properties (Pattern)**
 

@@ -9,13 +9,11 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Notes on debugging, testing and documentation
+description: Notes on search and query debugging, testing, and documentation
 linkTitle: Developer notes
 title: Developer notes
 weight: 3
 ---
-
-# Developing RediSearch
 
 Developing RediSearch features involves setting up a development environment (which can be either Linux-based or macOS-based), building the module, running tests and benchmarks, and debugging both the module and its tests.
 

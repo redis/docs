@@ -9,15 +9,11 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Synonym support
+description: Details on synonym support with Redis Stack
 linkTitle: Synonym
-title: Synonym
+title: Synonym support
 weight: 11
 ---
-
-# Synonyms support
-
-## Overview
 
 Redis Stack supports synonyms. That is, searching for synonym words defined by the synonym data structure.
 
