@@ -22,7 +22,7 @@ If you are experiencing errors or other issues when using Redis Insight, follow 
 
 If you experience connection issues, try these steps.
 
-### I. Launch Redis Insight in debug mode
+### 1. Launch Redis Insight in debug mode
 
 Run the following command to launch Redis Insight in debug mode to investigate connection issues:
 
@@ -38,7 +38,7 @@ Run the following command to launch Redis Insight in debug mode to investigate c
 
     `DEBUG=ioredis* "redis insight"`
 
-### II. Investigate logs
+### 2. Investigate logs
 
 You can review the Redis Insight log files (files with a `.log` extension) to get detailed information about system issues.
 These are the locations on supported platforms:
@@ -49,7 +49,7 @@ These are the locations on supported platforms:
 - **Linux**: In the `/home/<your-username>/.redis-insight` directory.
 
 ## Other issues
-### To debug issues other than connectivity:
+### To debug issues other than connectivity
 
 * **Windows**:
 
