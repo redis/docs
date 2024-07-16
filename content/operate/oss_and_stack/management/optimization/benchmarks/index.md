@@ -325,7 +325,7 @@ the generated log file on a remote filesystem.
 instance using INFO at regular interval to gather statistics is probably fine,
 but MONITOR will impact the measured performance significantly.
 
-# Benchmark results on bare-metal servers across different Redis versions.
+## Benchmark results on bare-metal servers across different Redis versions.
 
 It is critically important that Redis performance is retained or improved seamlessly on every released version. 
 
@@ -357,7 +357,7 @@ Below we present the obtained results, broken by data type.
 ![Sets performance over versions](./performance-sets.png)
 
 ![Sorted sets performance over versions](./performance-sorted-sets.png)
-# Other Redis benchmarking tools
+## Other Redis benchmarking tools
 
 There are several third-party tools that can be used for benchmarking Redis. Refer to each tool's
 documentation for more information about its goals and capabilities.

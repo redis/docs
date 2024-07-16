@@ -9,13 +9,11 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Phonetic matching
+description: Details about phonetic matching capabilities
 linkTitle: Phonetic
-title: Phonetic
+title: Phonetic matching
 weight: 14
 ---
-
-# Phonetic matching
 
 Phonetic matching, for example "Jon" vs. "John", allows searching for terms based on their pronunciation. This capability can be a useful tool when searching for names of people.
 

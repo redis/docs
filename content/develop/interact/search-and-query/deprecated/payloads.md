@@ -11,12 +11,9 @@ categories:
 - clients
 description: Payload support(deprecated)
 linkTitle: Payload
-title: Payload
+title: Document payloads
 weight: 12
 ---
-
-# Document payloads
-
 
 {{% alert title="Warning" color="warning" %}}
 The payload feature is deprecated in 2.0

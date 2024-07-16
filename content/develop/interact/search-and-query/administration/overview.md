@@ -9,15 +9,11 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Technical details of the internal design of RediSearch
-
-  '
+description: 'Technical overview of the search and query features of Redis Stack.'
 linkTitle: Technical overview
 title: Technical overview
 weight: 1
 ---
-
-# Technical overview of the search and query features of Redis Stack
 
 ## Abstract
 
@@ -59,7 +55,7 @@ All of this is done while taking advantage of Redis's robust architecture and in
 
 ---
 
-# Indexing documents
+## Indexing documents
 
 Redis Stack needs to know how to index documents in order to search effectively. A document may have several fields, each with its own weight. For example, a title is usually more important than the text itself. The engine can also use numeric or geographical fields for filtering. Hence, the first step is to create the index definition, which tells Redis Stack how to treat the documents that will be added. For example, to define an index of products, indexing their title, description, brand, and price fields, the index creation would look like:
 
@@ -385,7 +381,7 @@ Extensions are compiled into dynamic libraries and loaded into RediSearch on ini
 
 ---
 
-# Scalable distributed search
+## Scalable distributed search
 
 While RediSearch is very fast and memory efficient, if an index is big enough, at some point it will be too slow or consume too much memory. It must then be scaled out and partitioned over several machines, each of which will hold a small part of the complete search index.
 

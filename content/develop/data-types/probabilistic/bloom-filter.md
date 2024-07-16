@@ -10,15 +10,12 @@ categories:
 - kubernetes
 - clients
 description: Bloom filters are a probabilistic data structure that checks for presence
-  of an element in a set
+  of an element in a set.
 linkTitle: Bloom filter
 stack: true
 title: Bloom filter
 weight: 10
 ---
-
-
-# Bloom Filter
 
 A Bloom filter is a probabilistic data structure in Redis Stack that enables you to check if an element is present in a set using a very small memory space of a fixed size.
 
