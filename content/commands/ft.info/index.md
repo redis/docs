@@ -82,7 +82,7 @@ is the name of the given index. You must first create the index using [`FT.CREAT
 | `indexing` | Indicates whether the index is currently being generated. |
 | `percent_indexed` | The percentage of the index that has been successfully generated. |
 | `number_of_uses` | The number of times the index has been used. |
-| `cleaning` | DWD need def'n |
+| `cleaning` | The index deletion flag. A value of `1` is an indication that index deletion is in progress. |
 
 ### Garbage collection statistics
 
