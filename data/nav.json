@@ -3,11 +3,6 @@
   "linkTitle": "Develop",
   "children": [
     {
-      "relref": "develop/quickstart",
-      "linkTitle": "Get started",
-      "divider": "true"
-    },
-    {
       "relref": "develop/get-started",
       "linkTitle": "Quick start tutorials",
       "children": [
@@ -32,11 +27,6 @@
     {
       "relref": "develop/quickstart/faq",
       "linkTitle": "FAQ"
-    },
-    {
-      "relref": "develop/connect",
-      "linkTitle": "Connect to Redis",
-      "divider":"true"
     },
     {
       "relref": "develop/connect/cli",
@@ -100,11 +90,6 @@
           "linkTitle": "Object mapping"
         }
       ]
-    },
-    {
-      "relref": "develop/concepts",
-      "linkTitle": "Understand Redis concepts",
-      "divider": "true"
     },
     {
       "relref": "develop/concepts/keys-values",
@@ -255,11 +240,6 @@
           ]
         }
       ]
-    },
-    {
-      "relref": "develop/interact",
-      "linkTitle": "Interact with data",
-      "divider":"true"
     },
     {
       "relref": "develop/interact/search-and-query",
@@ -462,11 +442,6 @@
     {
       "relref": "develop/interact/pubsub",
       "linkTitle": "Pub/sub"
-    },
-    {
-      "relref": "develop/use",
-      "linkTitle": "Use Redis",
-      "divider":"true"
     },
     {
       "relref": "develop/use/client-side-caching",
