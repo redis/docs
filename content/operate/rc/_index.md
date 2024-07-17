@@ -9,7 +9,7 @@ description: The fastest way to set up Redis - a fully managed Redis database on
 hideListLinks: true
 weight: 10
 ---
-[Redis Cloud](https://redis.com/redis-enterprise-cloud/overview/) is a fully managed Redis database offering hosted on major public cloud services.
+[Redis Cloud](https://redis.io/cloud/) is a fully managed Redis database offering hosted on major public cloud services.
 
 With Redis Cloud, you get all of the features of Redis Enterprise, including:
 - [Redis]({{< relref "/develop/" >}}) and [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) support
