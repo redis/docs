@@ -110,7 +110,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 | 1,000,000 kb                  | 13.5 Gb                              | 27 Gb                          |
 | 10,000,000 kb                 | 135 Gb                             | 270 Gb                         |
 
-    For more information on sizing, see the [Bedrock integration blog post](https://redis.com/blog/amazon-bedrock-integration-with-redis-enterprise#right-size-your-database-for-amazon-bedrock).
+    For more information on sizing, see the [Bedrock integration blog post](https://redis.io/blog/amazon-bedrock-integration-with-redis-enterprise/#right-size-your-database-for-amazon-bedrock).
 
 1. When finished, select **Save database** to create your database.
 
@@ -200,7 +200,7 @@ After your Redis Cloud database is set up, create a search index with a vector f
 
 To create your vector index in Redis Insight:
 
-1. [Download and install Redis Insight](https://redis.com/redis-enterprise/redis-insight/) if you don't have it already.
+1. [Download and install Redis Insight](https://redis.io/insight/) if you don't have it already.
 
 1. In the Redis Cloud [admin console](https://app.redislabs.com/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
 

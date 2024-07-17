@@ -26,7 +26,7 @@ If you already have a database, see [Manage databases]({{< relref "/operate/rc/d
 
 To create a new account with a free database:
 
-1. Go to the [Sign up](https://redis.com/try-free/) page.
+1. Go to the [Sign up](https://redis.io/try-free/) page.
 
 1. There are two options available to get started with Redis Cloud:
    * Enter your information in the form and select **Get Started**.

@@ -185,5 +185,5 @@ Use the **Database list** to check the status of your databases.
 - [Develop applications with Active-Active databases]({{< relref "/operate/rs/databases/active-active/develop/_index.md" >}})
 - Database [memory limit]({{< relref "/operate/rc/databases/configuration/clustering#dataset-size" >}})
 - Redis Cloud [subscription plans]({{< relref "/operate/rc/subscriptions/" >}})
-- [Redis Cloud pricing](https://redis.com/redis-enterprise-cloud/pricing/)
+- [Redis Cloud pricing](https://redis.io/pricing/#monthly)
 
