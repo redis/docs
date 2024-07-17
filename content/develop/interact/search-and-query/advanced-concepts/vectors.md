@@ -60,7 +60,7 @@ Refer to the full [indexing]({{< baseurl >}}/develop/interact/search-and-query/i
 
 
 ### FLAT index
-Choose the FLAT index when you have small datasets (< 1M vectors) or when search accuracy is most important, even at the expense of additional latency.
+Choose the FLAT index when you have small datasets (< 1M vectors) or when search accuracy of 100% is most important, even at the expense of additional latency.
 
 **Required attributes**
 
