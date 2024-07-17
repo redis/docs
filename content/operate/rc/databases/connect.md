@@ -68,7 +68,7 @@ See [Clients]({{< relref "/develop/connect/clients/" >}}) to learn how to connec
 
 ### redis-cli {#using-rediscli}
 
-The [`redis-cli`]({{< relref "/develop/connect/cli" >}}) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands]({{< relref "/commands" >}}/).
+The [`redis-cli`]({{< relref "/develop/connect/cli" >}}) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands]({{< relref "/commands" >}}).
 
 To run `redis-cli`, [install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) on your machine. After it's installed, copy the `redis-cli` command under **Redis CLI** in the connection wizard and enter it into your terminal. If the username and password are not already filled in, replace `<username>` and `<password>` with your username and password.
 

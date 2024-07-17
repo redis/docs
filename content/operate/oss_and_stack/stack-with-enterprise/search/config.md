@@ -11,7 +11,7 @@ toc: 'false'
 weight: 15
 ---
 
-You cannot use [`FT.CONFIG SET`]({{< relref "/commands" >}}/ft.config-set) to configure RediSearch in [Redis Enterprise Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}). Instead, use one of the following methods.
+You cannot use [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) to configure RediSearch in [Redis Enterprise Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}). Instead, use one of the following methods.
 
 For Redis Cloud:
 

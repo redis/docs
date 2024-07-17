@@ -16,7 +16,7 @@ weight: 1
 ---
 
 <!-- This file is generated from module.c using
-     utils/generate-module-api-doc.rb -->
+     redis/redis:utils/generate-module-api-doc.rb -->
 
 ## Sections
 
@@ -189,7 +189,7 @@ The function returns NULL if `bytes` is 0.
 
 These functions are used to implement custom Redis commands.
 
-For examples, see [/develop/reference/modules/]({{< relref "/develop/reference/modules/" >}}).
+For examples, see [https://redis.io/topics/modules-intro](https://redis.io/topics/modules-intro).
 
 <span id="RedisModule_IsKeysPositionRequest"></span>
 
@@ -348,7 +348,7 @@ example "write deny-oom". The set of flags are:
                    from the same input arguments and key values.
                    Starting from Redis 7.0 this flag has been deprecated.
                    Declaring a command as "random" can be done using
-                   command tips, see /develop/reference/command-tips.md.
+                   command tips, see https://redis.io/topics/command-tips.
 * **"allow-stale"**: The command is allowed to run on slaves that don't
                      serve stale data. Don't use if you don't know what
                      this means.
@@ -382,7 +382,7 @@ example "write deny-oom". The set of flags are:
                          the arguments that are channels.
 
 The last three parameters specify which arguments of the new command are
-Redis keys. See [{{< relref "/commands" >}}/command]({{< relref "/commands/command" >}}) for more information.
+Redis keys. See [https://redis.io/commands/command](https://redis.io/commands/command) for more information.
 
 * `firstkey`: One-based index of the first argument that's a key.
               Position 0 is always the command name itself.
@@ -394,7 +394,7 @@ Redis keys. See [{{< relref "/commands" >}}/command]({{< relref "/commands/comma
 * `keystep`:  Step between first and last key indexes.
               0 for commands with no keys.
 
-This information is used by ACL, Cluster and the [`COMMAND`]({{< relref "/commands/command" >}}) command.
+This information is used by ACL, Cluster and the `COMMAND` command.
 
 NOTE: The scheme described above serves a limited purpose and can
 only be used to find keys that exist at constant indices.
@@ -515,7 +515,7 @@ outside of this function, an error is returned.
 
 Set additional command information.
 
-Affects the output of [`COMMAND`]({{< relref "/commands/command" >}}), [`COMMAND INFO`]({{< relref "/commands/command-info" >}}) and [`COMMAND DOCS`]({{< relref "/commands/command-docs" >}}), Cluster,
+Affects the output of `COMMAND`, `COMMAND INFO` and `COMMAND DOCS`, Cluster,
 ACL and is used to filter commands with the wrong number of arguments before
 the call reaches the module code.
 
@@ -558,7 +558,7 @@ All fields except `version` are optional. Explanation of the fields:
     both strings set to NULL.
 
 - `tips`: A string of space-separated tips regarding this command, meant for
-  clients and proxies. See [/develop/reference/command-tips.md]({{< baseurl >}}/develop/reference/command-tips).
+  clients and proxies. See [https://redis.io/topics/command-tips](https://redis.io/topics/command-tips).
 
 - `arity`: Number of arguments, including the command name itself. A positive
   number specifies an exact number of arguments and a negative number
@@ -768,8 +768,8 @@ All fields except `version` are optional. Explanation of the fields:
       `key_specs` above. If the argument is not a key, you may specify -1.
 
     * `token`: The token preceding the argument (optional). Example: the
-      argument `seconds` in [`SET`]({{< relref "/commands/set" >}}) has a token `EX`. If the argument consists
-      of only a token (for example `NX` in [`SET`]({{< relref "/commands/set" >}})) the type should be
+      argument `seconds` in `SET` has a token `EX`. If the argument consists
+      of only a token (for example `NX` in `SET`) the type should be
       `REDISMODULE_ARG_TYPE_PURE_TOKEN` and `value` should be NULL.
 
     * `summary`: A short description of the argument (optional).
@@ -780,7 +780,7 @@ All fields except `version` are optional. Explanation of the fields:
 
     * `value`: The display-value of the argument. This string is what should
       be displayed when creating the command syntax from the output of
-      [`COMMAND`]({{< relref "/commands/command" >}}). If `token` is not NULL, it should also be displayed.
+      `COMMAND`. If `token` is not NULL, it should also be displayed.
 
     Explanation of `RedisModuleCommandArgType`:
 
@@ -792,14 +792,14 @@ All fields except `version` are optional. Explanation of the fields:
     * `REDISMODULE_ARG_TYPE_UNIX_TIME`: Integer, but Unix timestamp.
     * `REDISMODULE_ARG_TYPE_PURE_TOKEN`: Argument doesn't have a placeholder.
       It's just a token without a value. Example: the `KEEPTTL` option of the
-      [`SET`]({{< relref "/commands/set" >}}) command.
+      `SET` command.
     * `REDISMODULE_ARG_TYPE_ONEOF`: Used when the user can choose only one of
       a few sub-arguments. Requires `subargs`. Example: the `NX` and `XX`
-      options of [`SET`]({{< relref "/commands/set" >}}).
+      options of `SET`.
     * `REDISMODULE_ARG_TYPE_BLOCK`: Used when one wants to group together
       several sub-arguments, usually to apply something on all of them, like
       making the entire group "optional". Requires `subargs`. Example: the
-      `LIMIT offset count` parameters in [`ZRANGE`]({{< relref "/commands/zrange" >}}).
+      `LIMIT offset count` parameters in `ZRANGE`.
 
     Explanation of the command argument flags:
 
@@ -1910,9 +1910,7 @@ of execution of the calling command implementation.
 
 The replicated commands are always wrapped into the MULTI/EXEC that
 contains all the commands replicated in a given module command
-execution. However the commands replicated with [`RedisModule_Call()`](#RedisModule_Call)
-are the first items, the ones replicated with [`RedisModule_Replicate()`](#RedisModule_Replicate)
-will all follow before the EXEC.
+execution, in the order they were executed.
 
 Modules should try to use one interface or the other.
 
@@ -1934,9 +1932,8 @@ Redis will accumulate all the calls to this function in the context of
 the callback, and will propagate all the commands wrapped in a MULTI/EXEC
 transaction. However when calling this function from a threaded safe context
 that can live an undefined amount of time, and can be locked/unlocked in
-at will, the behavior is different: MULTI/EXEC wrapper is not emitted
-and the command specified is inserted in the AOF and replication stream
-immediately.
+at will, it is important to note that this API is not thread-safe and
+must be executed while holding the GIL.
 
 #### Return value
 
@@ -1952,14 +1949,17 @@ or the command name does not belong to a known command.
 **Available since:** 4.0.0
 
 This function will replicate the command exactly as it was invoked
-by the client. Note that this function will not wrap the command into
-a MULTI/EXEC stanza, so it should not be mixed with other replication
-commands.
+by the client. Note that the replicated commands are always wrapped
+into the MULTI/EXEC that contains all the commands replicated in a
+given module command execution, in the order they were executed.
 
 Basically this form of replication is useful when you want to propagate
 the command to the slaves and AOF file exactly as it was called, since
 the command can just be re-executed to deterministically re-create the
 new state starting from the old one.
+
+It is important to note that this API is not thread-safe and
+must be executed while holding the GIL.
 
 The function always returns `REDISMODULE_OK`.
 
@@ -3147,7 +3147,7 @@ The returned `RedisModuleString` objects should be released with
 
 ## Key API for Stream type
 
-For an introduction to streams, see [/develop/data-types/streams]({{< relref "/develop/data-types/streams" >}}).
+For an introduction to streams, see [https://redis.io/topics/streams-intro](https://redis.io/topics/streams-intro).
 
 The type `RedisModuleStreamID`, which is used in stream functions, is a struct
 with two 64-bit fields and is defined as
@@ -3803,7 +3803,7 @@ Example code fragment:
        // Do something with myval.
      }
 
-This API is documented here: [/develop/reference/modules/]({{< relref "/develop/reference/modules/" >}})
+This API is documented here: [https://redis.io/topics/modules-intro](https://redis.io/topics/modules-intro)
 
 <span id="RedisModule_CallReplyProto"></span>
 
@@ -3840,7 +3840,7 @@ AOF rewrite, and so forth). In this section we define this API.
 
 Register a new data type exported by the module. The parameters are the
 following. Please for in depth documentation check the modules API
-documentation, especially [/develop/reference/modules/modules-native-types]({{< relref "/develop/reference/modules/modules-native-types" >}}).
+documentation, especially [https://redis.io/docs/latest/develop/reference/modules/modules-native-types/](https://redis.io/docs/latest/develop/reference/modules/modules-native-types/).
 
 * **name**: A 9 characters data type name that MUST be unique in the Redis
   Modules ecosystem. Be creative... and there will be no collisions. Use
@@ -4489,7 +4489,7 @@ latency-monitor-threshold.
 ## Blocking clients from modules
 
 For a guide about blocking commands in modules, see
-[/develop/reference/modules/modules-blocking-ops]({{< relref "/develop/reference/modules/modules-blocking-ops" >}}).
+[https://redis.io/docs/latest/develop/reference/modules/modules-blocking-ops/](https://redis.io/docs/latest/develop/reference/modules/modules-blocking-ops/).
 
 <span id="RedisModule_RegisterAuthCallback"></span>
 
@@ -4573,7 +4573,7 @@ The callbacks are called in the following contexts:
     reply_callback:   called after a successful RedisModule_UnblockClient()
                       call in order to reply to the client and unblock it.
 
-    timeout_callback: called when the timeout is reached or if [`CLIENT UNBLOCK`]({{< relref "/commands/client-unblock" >}})
+    timeout_callback: called when the timeout is reached or if `CLIENT UNBLOCK`
                       is invoked, in order to send an error to the client.
 
     free_privdata:    called in order to free the private data that is passed
@@ -4592,9 +4592,9 @@ In these cases, a call to [`RedisModule_BlockClient()`](#RedisModule_BlockClient
 client, but instead produce a specific error reply.
 
 A module that registers a `timeout_callback` function can also be unblocked
-using the [`CLIENT UNBLOCK`]({{< relref "/commands/client-unblock" >}}) command, which will trigger the timeout callback.
+using the `CLIENT UNBLOCK` command, which will trigger the timeout callback.
 If a callback function is not registered, then the blocked client will be
-treated as if it is not in a blocked state and [`CLIENT UNBLOCK`]({{< relref "/commands/client-unblock" >}}) will return
+treated as if it is not in a blocked state and `CLIENT UNBLOCK` will return
 a zero value.
 
 Measuring background time: By default the time spent in the blocked command
@@ -5043,7 +5043,7 @@ that the notification code will be executed in the middle on Redis logic
 runs is dangerous and discouraged. In order to react to key space events with
 write actions, please refer to [`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob).
 
-See [/develop/use/keyspace-notifications]({{< relref "/develop/use/keyspace-notifications" >}}) for more information.
+See [https://redis.io/topics/notifications](https://redis.io/topics/notifications) for more information.
 
 <span id="RedisModule_AddPostNotificationJob"></span>
 
@@ -5640,7 +5640,7 @@ If the user is able to access the pubsub channel then `REDISMODULE_OK` is return
 Adds a new entry in the ACL log.
 Returns `REDISMODULE_OK` on success and `REDISMODULE_ERR` on error.
 
-For more information about ACL log, please refer to [{{< relref "/commands" >}}/acl-log]({{< relref "/commands/acl-log" >}})
+For more information about ACL log, please refer to [https://redis.io/commands/acl-log](https://redis.io/commands/acl-log)
 
 <span id="RedisModule_ACLAddLogEntryByUserName"></span>
 
@@ -5656,7 +5656,7 @@ For more information about ACL log, please refer to [{{< relref "/commands" >}}/
 Adds a new entry in the ACL log with the `username` `RedisModuleString` provided.
 Returns `REDISMODULE_OK` on success and `REDISMODULE_ERR` on error.
 
-For more information about ACL log, please refer to [{{< relref "/commands" >}}/acl-log]({{< relref "/commands/acl-log" >}})
+For more information about ACL log, please refer to [https://redis.io/commands/acl-log](https://redis.io/commands/acl-log)
 
 <span id="RedisModule_AuthenticateClientWithUser"></span>
 
@@ -6473,10 +6473,10 @@ begins processing the command, any change will affect the way the command is
 processed.  For example, a module can override Redis commands this way:
 
 1. Register a `MODULE.SET` command which implements an extended version of
-   the Redis [`SET`]({{< relref "/commands/set" >}}) command.
-2. Register a command filter which detects invocation of [`SET`]({{< relref "/commands/set" >}}) on a specific
+   the Redis `SET` command.
+2. Register a command filter which detects invocation of `SET` on a specific
    pattern of keys.  Once detected, the filter will replace the first
-   argument from [`SET`]({{< relref "/commands/set" >}}) to `MODULE.SET`.
+   argument from `SET` to `MODULE.SET`.
 3. When filter execution is complete, Redis considers the new command name
    and therefore executes the module's own command.
 
@@ -7204,16 +7204,16 @@ subevent is not supported and non-zero otherwise.
 **Available since:** 7.0.0
 
 Create a string config that Redis users can interact with via the Redis config file,
-[`CONFIG SET`]({{< relref "/commands/config-set" >}}), [`CONFIG GET`]({{< relref "/commands/config-get" >}}), and [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite" >}}) commands.
+`CONFIG SET`, `CONFIG GET`, and `CONFIG REWRITE` commands.
 
 The actual config value is owned by the module, and the `getfn`, `setfn` and optional
 `applyfn` callbacks that are provided to Redis in order to access or manipulate the
 value. The `getfn` callback retrieves the value from the module, while the `setfn`
 callback provides a value to be stored into the module config.
-The optional `applyfn` callback is called after a [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command modified one or
+The optional `applyfn` callback is called after a `CONFIG SET` command modified one or
 more configs using the `setfn` callback and can be used to atomically apply a config
 after several configs were changed together.
-If there are multiple configs with `applyfn` callbacks set by a single [`CONFIG SET`]({{< relref "/commands/config-set" >}})
+If there are multiple configs with `applyfn` callbacks set by a single `CONFIG SET`
 command, they will be deduplicated if their `applyfn` function and `privdata` pointers
 are identical, and the callback will only be run once.
 Both the `setfn` and `applyfn` can return an error if the provided value is invalid or
@@ -7238,7 +7238,7 @@ The name must only contain alphanumeric characters or dashes. The supported flag
 * `REDISMODULE_CONFIG_DEFAULT`: The default flags for a config. This creates a config that can be modified after startup.
 * `REDISMODULE_CONFIG_IMMUTABLE`: This config can only be provided loading time.
 * `REDISMODULE_CONFIG_SENSITIVE`: The value stored in this config is redacted from all logging.
-* `REDISMODULE_CONFIG_HIDDEN`: The name is hidden from [`CONFIG GET`]({{< relref "/commands/config-get" >}}) with pattern matching.
+* `REDISMODULE_CONFIG_HIDDEN`: The name is hidden from `CONFIG GET` with pattern matching.
 * `REDISMODULE_CONFIG_PROTECTED`: This config will be only be modifiable based off the value of enable-protected-configs.
 * `REDISMODULE_CONFIG_DENY_LOADING`: This config is not modifiable while the server is loading data.
 * `REDISMODULE_CONFIG_MEMORY`: For numeric configs, this config will convert data unit notations into their byte equivalent.
@@ -7295,7 +7295,7 @@ errno is set:
 **Available since:** 7.0.0
 
 Create a bool config that server clients can interact with via the 
-[`CONFIG SET`]({{< relref "/commands/config-set" >}}), [`CONFIG GET`]({{< relref "/commands/config-get" >}}), and [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite" >}}) commands. See 
+`CONFIG SET`, `CONFIG GET`, and `CONFIG REWRITE` commands. See 
 [`RedisModule_RegisterStringConfig`](#RedisModule_RegisterStringConfig) for detailed information about configs.
 
 <span id="RedisModule_RegisterEnumConfig"></span>
@@ -7318,7 +7318,7 @@ Create a bool config that server clients can interact with via the
 
 
 Create an enum config that server clients can interact with via the 
-[`CONFIG SET`]({{< relref "/commands/config-set" >}}), [`CONFIG GET`]({{< relref "/commands/config-get" >}}), and [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite" >}}) commands. 
+`CONFIG SET`, `CONFIG GET`, and `CONFIG REWRITE` commands. 
 Enum configs are a set of string tokens to corresponding integer values, where 
 the string value is exposed to Redis clients but the value passed Redis and the
 module is the integer value. These values are defined in `enum_values`, an array
@@ -7365,7 +7365,7 @@ See [`RedisModule_RegisterStringConfig`](#RedisModule_RegisterStringConfig) for 
 
 
 Create an integer config that server clients can interact with via the 
-[`CONFIG SET`]({{< relref "/commands/config-set" >}}), [`CONFIG GET`]({{< relref "/commands/config-get" >}}), and [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite" >}}) commands. See 
+`CONFIG SET`, `CONFIG GET`, and `CONFIG REWRITE` commands. See 
 [`RedisModule_RegisterStringConfig`](#RedisModule_RegisterStringConfig) for detailed information about configs.
 
 <span id="RedisModule_LoadConfigs"></span>
@@ -7379,7 +7379,7 @@ Create an integer config that server clients can interact with via the
 Applies all pending configurations on the module load. This should be called
 after all of the configurations have been registered for the module inside of `RedisModule_OnLoad`.
 This will return `REDISMODULE_ERR` if it is called outside `RedisModule_OnLoad`.
-This API needs to be called when configurations are provided in either [`MODULE LOADEX`]({{< relref "/commands/module-loadex" >}})
+This API needs to be called when configurations are provided in either `MODULE LOADEX`
 or provided as startup arguments.
 
 <span id="section-rdb-load-save-api"></span>
@@ -7646,7 +7646,7 @@ If `old_value` is non-NULL, the old value is returned by reference.
 
 For a specified command, parse its arguments and return an array that
 contains the indexes of all key name arguments. This function is
-essentially a more efficient way to do [`COMMAND GETKEYS`]({{< relref "/commands/command-getkeys" >}}).
+essentially a more efficient way to do `COMMAND GETKEYS`.
 
 The `out_flags` argument is optional, and can be set to NULL.
 When provided it is filled with `REDISMODULE_CMD_KEY_` flags in matching

@@ -5,12 +5,12 @@ categories:
 - docs
 - operate
 - rs
-description: null
+description: The self-managed, enterprise-grade version of Redis.
 hideListLinks: true
 weight: 10
 ---
 
-[Redis Enterprise](https://redis.com/redis-enterprise/advantages/) is a self-managed, enterprise-grade version of Redis.
+[Redis Enterprise](https://redis.io/enterprise/) is a self-managed, enterprise-grade version of Redis.
 
 With Redis Enterprise, you get many enterprise-grade capabilities, including:
 - Linear scalability
@@ -50,7 +50,7 @@ Create and manage a [Redis database]({{< relref "/operate/rs/databases" >}}) on 
 Use command-line utilities and the REST API to manage the cluster and databases.
 - [rladmin]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}), [crdb-cli]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}), & [other utilities]({{< relref "/operate/rs/references/cli-utilities" >}})
 - [REST API reference]({{< relref "/operate/rs/references/rest-api" >}}) & [examples]({{< relref "/operate/rs/references/rest-api/quick-start" >}})
-- [Redis commands]({{< relref "/commands" >}}/)
+- [Redis commands]({{< relref "/commands" >}})
 
 ## Related info
 - [Redis Cloud]({{< relref "/operate/rc" >}})

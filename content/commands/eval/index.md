@@ -80,7 +80,7 @@ Scripts **should never** access keys with programmatically-generated names or ba
 **Note:**
 in some cases, users will abuse Lua EVAL by embedding values in the script instead of providing them as argument, and thus generating a different script on each call to EVAL.
 These are added to the Lua interpreter and cached to redis-server, consuming a large amount of memory over time.
-Starting from Redis 7.4 RC1, scripts loaded with `EVAL` or [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}) will be deleted from redis after a certain number (least recently used order).
+Starting from Redis 7.4, scripts loaded with `EVAL` or [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}) will be deleted from redis after a certain number (least recently used order).
 The number of evicted scripts can be viewed through [`INFO`]({{< relref "/commands/info" >}})'s `evicted_scripts`.
 
 Please refer to the [Redis Programmability]({{< relref "/develop/interact/programmability/" >}}) and [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}) for more information about Lua scripts.

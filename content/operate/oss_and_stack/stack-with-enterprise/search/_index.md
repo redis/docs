@@ -35,7 +35,7 @@ You can store documents as Redis [hashes]({{< relref "/develop/data-types/hashes
 
 With Redis [hashes]({{< relref "/develop/data-types/hashes" >}}), each document is assigned to a single key and uses field-value pairs to represent the document's contents.
 
-You can run [`HGETALL`]({{< relref "/commands" >}}/hgetall/) to retrieve the entire hash document.
+You can run [`HGETALL`]({{< relref "/commands/hgetall" >}}) to retrieve the entire hash document.
 
 ### JSON documents
 
@@ -49,7 +49,7 @@ For full-text searches, you can customize the field queries and ranking of the s
 When querying, you can use multiple predicates that query text, numeric, and geospatial fields in one query.
 You can also sort by a specific field and limit the results with an offset to produce customized results pages.
 
-Redis Stack supports [over 15 natural languages]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}}) for stemming and includes auto-complete engines with specific commands that can provide real-time [interactive search suggestions]({{< relref "/commands" >}}/ft.sugadd/).
+Redis Stack supports [over 15 natural languages]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}}) for stemming and includes auto-complete engines with specific commands that can provide real-time [interactive search suggestions]({{< baseurl >}}/commands/ft.sugadd).
 
 ## Search and query Active-Active databases
 

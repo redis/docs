@@ -156,7 +156,13 @@ In the Redis Enterprise Software Cluster Manager UI, when you enter the export l
 
 - In the **Secret access key** field, enter the secret access key.
 
-You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run: `rladmin cluster config s3_url [url]`
+You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+
+```sh
+rladmin cluster config s3_url <URL>
+```
+
+Replace `<URL>` with the hostname or IP address of the S3-compatible storage location.
 
 ### Google Cloud Storage
 

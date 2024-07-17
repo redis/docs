@@ -221,7 +221,7 @@ riot file-export --help
 ### Redis reader options
 
 * **`--scan-count`**\
-    How many keys to read at once on each call to [SCAN]({{< relref "/commands" >}}/scan#the-count-option)
+    How many keys to read at once on each call to [SCAN]({{< baseurl >}}/commands/scan#the-count-option)
 * **`--scan-match`**\
     Pattern of keys to scan for (default: `*` i.e. all keys)
 * **`--scan-type`**\

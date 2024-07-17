@@ -17,10 +17,10 @@ To connect to Redis instances from within your application, use a Redis client l
 ## Official clients
 
 | Language | Client name |
-|----------|-------------|
+| :---------- | :------------- |
 | .Net | [NRedisStack]({{< relref "/develop/connect/clients/dotnet" >}}) |
 | Go | [go-redis]({{< relref "/develop/connect/clients/go" >}}) |
-| Java | [Jedis]({{< relref "/develop/connect/clients/java/" >}}) |
+| Java | [Jedis]({{< relref "/develop/connect/clients/java/jedis" >}}) (Synchronous) and [Lettuce]({{< relref "/develop/connect/clients/java/lettuce" >}}) (Asynchronous) |
 | Node.js | [node-redis]({{< relref "/develop/connect/clients/nodejs" >}}) |
 | Python | [redis-py]({{< relref "/develop/connect/clients/python" >}}) |
 
@@ -28,4 +28,5 @@ Select a client name to see its quick start.
 
 ## Other clients
 
-For a list of community-driven Redis clients, which are available for more programming languages, see [Other Clients]({{< relref "/develop/connect/clients/" >}}).
+For a list of community-driven Redis clients, which are available for more programming languages, see
+[Community-supported clients]({{< relref "/develop/connect/clients#community-supported-clients" >}}).

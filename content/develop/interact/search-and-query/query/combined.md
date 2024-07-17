@@ -121,7 +121,7 @@ FT.SEARCH idx:bicycle "@price:[500 1000] -@condition:{new}"
 
 ## Numeric filter
 
-The [FT.SEARCH]({{< baseurl >}}/commands/ft.search//) command allows you to combine any query expression with a numeric filter.
+The [FT.SEARCH]({{< baseurl >}}/commands/ft.search) command allows you to combine any query expression with a numeric filter.
 
 ```
 FT.SEARCH index "expr" FILTER numeric_field start end
