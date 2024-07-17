@@ -78,9 +78,9 @@ is the name of the given index. You must first create the index using [`FT.CREAT
 | Statistic | Definition |
 |:---       |:---        |
 | `hash_indexing_failures` | The number of failures encountered during indexing. |
-| `total_indexing_time` | The total time is taken for indexing in seconds. |
-| `indexing` | Indicates whether the index is currently being indexed. |
-| `percent_indexed` | The percentage of the index that has been successfully indexed. |
+| `total_indexing_time` | The total time taken for indexing in seconds. |
+| `indexing` | Indicates whether the index is currently being generated. |
+| `percent_indexed` | The percentage of the index that has been successfully generated. |
 | `number_of_uses` | The number of times the index has been used. |
 | `cleaning` | DWD need def'n |
 
@@ -94,7 +94,7 @@ is the name of the given index. You must first create the index using [`FT.CREAT
 | `average_cycle_time_ms` | The average time in milliseconds for each garbage collection cycle. The value `nan` indicates that the average cycle time is not available. |
 | `last_run_time_ms` | The time in milliseconds taken by the last garbage collection run. |
 
-The next two GC-related fields are relevant in scenarios where simultaneous changes occurred in the same memory area by both the parent process and the child process, resulting in the parent discarding these changes.
+The next two GC-related fields are relevant in scenarios where simultaneous changes occurred in the same memory area for both the parent process and the child process, resulting in the parent discarding these changes.
 
 | Statistic | Definition |
 |:---       |:---        |
