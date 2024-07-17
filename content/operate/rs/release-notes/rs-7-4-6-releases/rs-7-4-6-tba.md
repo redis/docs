@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.2.4
-description: TBA
+description: Support for SHA-384 certificates in client authentication. rlcheck output in support packages. New parameters for optimize_shard_placement and recover database REST API requests.
 linkTitle: 7.4.6-tba (July 2024)
 weight: 72
 ---
@@ -17,17 +17,23 @@ weight: 72
 
 This version offers:
 
-- REST API changes
+- Support for SHA-384 certificates in client authentication
+
+- `rlcheck` output in support packages
+
+- New parameters for `optimize_shard_placement` and `recover` database REST API requests
 
 ## New in this release
 
-### New features
-
-- TBA
-
 ### Enhancements
 
-- TBA
+- Added support for SHA-384 certificates when using mutual TLS for client authentication.
+
+- Added [`rlcheck`]({{<relref "/operate/rs/references/cli-utilities/rlcheck">}}) output to the debug information collected in support packages.
+
+- Added a `replication` query parameter to [`GET /v1/bdbs/<uid>/actions/optimize_shards_placement`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement">}}) REST API requests.
+
+- Added `shard_uid` and `shard_role` for each persistence file in the response body of [`GET /v1/bdbs/<uid>/actions/recover`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/recover">}}) REST API requests.
 
 #### Redis module feature sets
 
@@ -59,9 +65,25 @@ Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
 ### Resolved issues
 
-- TBA
+- RS118231: Fixed an issue where configuration changes to `slave_buffer` failed due to shard connection issues but incorrectly reported success.
 
-## Version changes 
+- RS117757: Increased the number of connections reserved for admin clients to 64 to prevent connection limit issues.
+
+- RS129900: Fixed an issue that prevented creating a database with modules that were uploaded during a cluster upgrade.
+
+- RS128254: Fixed a TLS protocol version compatibility issue with cluster upgrades by setting new nodes to TLS protocol version 1.2 if the cluster's current TLS protocol version is no longer supported.
+
+- RS125593: Added validation to verify the LDAP server URI contains a host and port when updating LDAP configuration.
+
+## Version changes
+
+### Product lifecycle updates
+
+After August 31, 2024, Redis Enterprise Software version 6.2 will not be included in [supported upgrade paths]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}) for major releases of Redis Enterprise Software. For example, you will not be able to upgrade the cluster directly from Redis Enterprise Software version 6.2.x to 7.6.x.
+
+However, the next major Redis Enterprise Software release will still bundle Redis database version 6.2 and allow database upgrades from Redis database version 6.2 to 7.x.
+
+See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers.
 
 ### Deprecations
 
@@ -144,6 +166,14 @@ The following table shows the SHA256 checksums for the available packages:
 | Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 9 | <span class="break-all"></span> |
 | Amazon Linux 2 | <span class="break-all"></span> |
+
+## Known issues
+
+- RS61676: Full chain certificate update fails if any certificate in the chain does not have a Common Name (CN).
+
+- RS119958: The `debuginfo` script fails with the error `/bin/tar: Argument list too long` if there are too many RocksDB log files.
+
+- RS122570: REST API `POST /crdbs` responds with a confusing error message if the cluster does not have the requested CRDB-compatible module that complies with the requested featureset.
 
 ## Known limitations
 

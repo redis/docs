@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.2.4
-description: TBA
+description: Support for SHA-384 certificates in client authentication. rlcheck output in support packages. New parameters for optimize_shard_placement and recover database REST API requests.
 hideListLinks: true
 linkTitle: 7.4.6 releases
 toc: 'true'
@@ -19,7 +19,11 @@ weight: 69
 
 This version offers:
  
-- REST API changes
+- Support for SHA-384 certificates in client authentication
+
+- `rlcheck` output in support packages
+
+- New parameters for `optimize_shard_placement` and `recover` database REST API requests
 
 ## Detailed release notes
 
