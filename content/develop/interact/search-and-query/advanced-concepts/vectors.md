@@ -70,13 +70,6 @@ Choose the FLAT index when you have small datasets (< 1M vectors) or when search
 | `DIM`              | Vector dimension. Must be a positive integer; identical for both document and query vectors.  |
 | `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`).  |
 
-**Optional attributes**
-
-| Attribute          | Description                                      |
-|:-------------------|:-------------------------------------------------|
-| `INITIAL_CAP`      | Initial vector capacity in the index.            |
-| `BLOCK_SIZE`       | Block size for memory allocation. Defaults to 1024.  |
-
 **Example**
 
 ```
@@ -114,7 +107,6 @@ them [here](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
 
 | Attribute          | Description                                                                                 |
 |:-------------------|:--------------------------------------------------------------------------------------------|
-| `INITIAL_CAP`      | Initial vector capacity in the index.                                                           |
 | `M`                | Max number of outgoing edges (connections) for each node in the graph per layer. On layer zero the max number of connections will be 2M. Higher values increase accuracy, but also increase memory usage and index build time. Defaults to 16.            |
 | `EF_CONSTRUCTION`  | Max number of connected neighbors to consider during graph building. Higher values increase accuracy, but also increase index build time. Defaults to 200.                                      |
 | `EF_RUNTIME`       | Max top candidates during KNN search. Higher values increase accuracy, but also increase search latency. Defaults to 10. |
@@ -162,7 +154,7 @@ HSET docs:01 vector <vector_bytes> foo bar
 
 
 {{% alert title="Tip" color="warning" %}}
-Hashes expect all data to be represented as strings. Thus, `<vector_bytes>` represents a bytes version of the vector.
+Hash values are stored as binary safe strings. Thus, `<vector_bytes>` represents represents the underlying memory buffer of the vector.
 {{% /alert  %}}
 
 A common way of converting vectors to bytes is through the Python [numpy](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.tobytes.html) library and [redis-py](https://redis-py.readthedocs.io/en/stable/examples/search_vector_similarity_examples.html) client:
@@ -184,7 +176,7 @@ redis_client.hset('docs:01', mapping = {"vector": vector_bytes, "foo": "bar"})
 ```
 
 {{% alert title="Tip" color="warning" %}}
-Note that the vector blob size must match the vector field dimension and float type specified in the schema, otherwise the indexing will fail in the background.
+Note that the vector blob size must match the vector field dimension and float type specified in the schema, otherwise the indexing will fail.
 {{% /alert  %}}
 
 ### JSON
@@ -213,7 +205,7 @@ Additional information and examples are available in the [Indexing JSON document
 ## Search with vectors
 You can run vector search queries with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) or [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) commands.
 
-To use a vector similarity query with `FT.SEARCH`, you must always specify the `DIALECT 2` option. See the [dialects page]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}) for more information.
+To use a vector similarity query with `FT.SEARCH`, you must always specify the `DIALECT` option to >= `2`. See the [dialects page]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}) for more information.
 
 ### Standard vector search
 
@@ -224,19 +216,17 @@ Standard vector search has the following common syntax:
 ```
 FT.SEARCH <index_name>
   <primary_filter_query>=>[KNN <top_k> @<vector_field> $<vector_blob_param> $<vector_query_params> AS <distance_field>]
-  PARAMS <vector_query_params_count> [<vector_query_param_name> <vector_query_param_value> ...]
+  PARAMS <query_params_count> [$<vector_blob_param> <vector_blob> <query_param_name> <query_param_value> ...]
   SORTBY <distance_field>
   DIALECT 2
 ```
-TODO ^^ Need to validate this query generalization
-
 **Parameters**
 
 | Parameter         | Description                                                                                       |
 |:------------------|:--------------------------------------------------------------------------------------------------|
 | `index_name`  | Name of the index.  |
-| `primary_filter_query`  | Optional [filter]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#filters) criteria. Defaults to `*`.  |
-| `top_k` | Number of nearest neighbors. Also commonly provided to the `LIMIT` param to truncate the number of results through pagination.  |
+| `primary_filter_query`  | [Filter]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#filters) criteria. Use `*` when no filters are required.  |
+| `top_k` | Number of nearest neighbors to fetch from the index.  |
 | `vector_field`  | Name of the vector field in the index.  |
 | `vector_blob_param`  | The query vector as bytes and must be passed through the `PARAMS` section. The blob's byte size should match the vector field dimension and type.  |
 | `vector_query_params` (optional) | An optional section for marking one or more vector query parameters passed through the `PARAMS` section. Valid parameters should be provided as key-value pairs. See which [runtime query params]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#runtime-query-params) are supported for each vector index type.  |
@@ -253,7 +243,7 @@ FT.SEARCH my_index "(@title:Matrix @year:[2020 2022])=>[KNN 10 @vector $BLOB]" P
 
 **Use query attributes**
 
-Alternatively, as of v2.6, `<vector_query_params> and `<distance_field>` name can be specified in runtime
+Alternatively, as of v2.6, `<vector_query_params>` and `<distance_field>` name can be specified in runtime
 [query attributes]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}#query-attributes) as well. Thus, the following format is also supported:
 
 ```
@@ -292,9 +282,6 @@ FT.SEARCH <index_name>
 
 Vector range queries clause can be followed by a query attributes section as follows: `@<vector_field>: [VECTOR_RANGE (<radius> | $<radius_param>) $<vector_blob_param>]=>{$<param>: (<value> | $<value_attribute>); ... }`, where the relevant params in that case are `$yield_distance_as` and `$epsilon`. Note that there is no default distance field name in range queries.
 
-TODO ^^ need to clean this up a bit more and tighten the language.
-
----
 
 ### Filters
 
@@ -325,6 +312,7 @@ Redis uses internal algorithms to optimize the filtering computation for vector 
 
 **Batches mode**
 
+Batches mode works by paginating through small batches of nearest neighbors from the index:
 - A batch of high-scoring documents from the vector index is retrieved. These documents are yielded ONLY if the `<primary_filter_query>` is satisfied. In other words, the document must contain a similar vector and meet the filter criteria.
 - The iterative procedure terminates when `<top_k>` documents that pass the filter criteria are yielded, or after every vector in the index has been processed.
 - The batch size is determined automatically by heuristics based on `<top_k>`, and the ratio between the expected number of documents in the index that pass the `<primary_filter_query>` and the vector index size.
