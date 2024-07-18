@@ -19,7 +19,7 @@ weight: 150
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/KExRgMb)
 [![Github](https://img.shields.io/static/v1?label=&message=repository&color=5961FF&logo=github)](https://github.com/RedisTimeSeries/RedisTimeSeries/)
 
-The *Redis time series* structure lets you store and query timestamped data points.
+The Redis time series structure lets you store and query timestamped data points.
 
 Redis time series is not available by default in the basic Redis server, so you
 should install Redis Stack or Redis Enterprise,
