@@ -16,7 +16,9 @@ By default, Redis will maintain your Redis Cloud subscriptions and databases as 
 
 For Redis Cloud Pro plans, Redis will perform maintenance automatically while limiting service disruption as much as possible. If you want to control when Redis performs maintenance for a Redis Cloud Pro subscription, you can [set manual maintenance windows](#set-manual-maintenance-windows) to ensure non-urgent maintenance will occur at set times. Configuring or altering the maintenance window will not have any impact on your subscription or databases.
 
-A Redis Cloud Essentials database has a set maintenance window based on the region where it is located. See [Essentials maintenance]({{< relref "/operate/rc/subscriptions/maintenance#redis-cloud-essentials" >}}) for more information.
+{{<note>}}
+You can only set manual maintenance windows for Redis Cloud Pro plans. A Redis Cloud Essentials database has a set maintenance window based on the region where it is located. See [Essentials maintenance]({{< relref "/operate/rc/subscriptions/maintenance#redis-cloud-essentials" >}}) for more information.
+{{</note>}}
 
 ## Set manual maintenance windows
 

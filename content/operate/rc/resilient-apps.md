@@ -52,7 +52,7 @@ Redis maintains your Redis Cloud subscriptions and databases as needed to ensure
 
 For stable apps, you may want to control when Redis can perform maintenance on your databases. For Redis Cloud Pro subscriptions, you can [set manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) to ensure non-urgent maintenance will occur at set times. Configuring or altering the maintenance window will not have any impact on your subscription or databases.
 
-A Redis Cloud Essentials database has a set maintenance window based on the region where it is located. The maintenance window for Redis Cloud Essentials databases is **daily from 12 AM to 6 AM** in the region's local time zone. See [Essentials maintenance]({{< relref "/operate/rc/subscriptions/maintenance#redis-cloud-essentials" >}}) for more information.
+A Redis Cloud Essentials database has a set maintenance window based on the region where it is located. See [Essentials maintenance]({{< relref "/operate/rc/subscriptions/maintenance#redis-cloud-essentials" >}}) for more information.
 
 ## Set up Redis clients
 
