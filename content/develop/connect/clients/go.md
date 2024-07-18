@@ -196,9 +196,11 @@ if err := redisotel.InstrumentMetrics(rdb); err != nil {
 }
 ```
 
+The code above instruments Redis commands to collect traces, logs, and metrics. You can find the full example on [GitHub](https://github.com/redis/go-redis/blob/master/example/otel/README.md).
+
 OpenTelemetry is a vendor-agnostic observability framework that allows you to export data to Prometheus, Jaeger, Uptrace, and more. OpenTelemetry supports [distributed tracing](https://uptrace.dev/opentelemetry/distributed-tracing.html), metrics, and logs.
 
-You can also use OpenTelemetry for [monitoring Redis](https://uptrace.dev/blog/redis-monitoring.html) performance metrics, which works by periodically executing the Redis `INFO` command and turning results into [OpenTelemetry metrics](https://uptrace.dev/opentelemetry/metrics.html).
+You can also use OpenTelemetry for [monitoring Redis Server](https://uptrace.dev/blog/redis-monitoring.html) performance metrics, which works by periodically executing the Redis `INFO` command and turning results into [OpenTelemetry metrics](https://uptrace.dev/opentelemetry/metrics.html).
 
 ### Learn more
 
