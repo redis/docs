@@ -21,6 +21,10 @@ to a Redis database.
 
 `NRedisStack` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
+You can also access Redis with an object-mapping client interface. See
+[Redis OM for .NET]({{< relref "/integrate/redisom-for-net" >}})
+for more information.
+
 ## Install
 
 Using the `dotnet` CLI, run:
