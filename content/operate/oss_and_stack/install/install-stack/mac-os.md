@@ -78,15 +78,6 @@ You can now start Redis Stack Server as follows:
 redis-stack-server
 {{< / highlight >}}
 
-## Launch Redis Insight
-
-To start up the Redis UI, Redis Insight, type:
-
-{{< highlight bash >}}
-redisinsight
-{{< / highlight >}}
-
-
 ## Installing Redis after installing Redis Stack
 
 If you've already installed Redis Stack with Homebrew and then try to install Redis with `brew install redis`, you may encounter errors like the following:
@@ -122,3 +113,30 @@ To uninstall Redis Stack, run:
 brew uninstall redis-stack-redisinsight redis-stack-server redis-stack
 brew untap redis-stack/redis-stack
 {{< / highlight >}}
+
+## Connect to Redis
+
+Once Redis is running, you can test it by running `redis-cli`:
+
+{{< highlight bash  >}}
+redis-cli
+{{< / highlight >}}
+
+Test the connection with the `ping` command:
+
+{{< highlight bash  >}}
+127.0.0.1:6379> ping
+PONG
+{{< / highlight >}}
+
+You can also test that your Redis server is running using
+[Redis Insight]({{< relref "/develop/connect/insight" >}}).
+
+## Next steps
+
+Once you have a running Redis instance, you may want to:
+
+* Try the [Redis CLI tutorial]({{< relref "/develop/connect/cli" >}})
+* Connect using one of the [Redis clients]({{< relref "/develop/connect/clients" >}})
+* [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/install-redis#install-redis-properly" >}})
+  for production use.

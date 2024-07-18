@@ -40,13 +40,27 @@ sudo service redis-server start
 
 ## Connect to Redis
 
-You can test that your Redis server is running by connecting with the Redis CLI:
+Once Redis is running, you can test it by running `redis-cli`:
 
 {{< highlight bash  >}}
-redis-cli 
+redis-cli
+{{< / highlight >}}
+
+Test the connection with the `ping` command:
+
+{{< highlight bash  >}}
 127.0.0.1:6379> ping
 PONG
 {{< / highlight >}}
 
-You can also test that your Redis server is running using [Redis Insight]({{< relref "/develop/connect/insight" >}}) for easier access.
+You can also test that your Redis server is running using
+[Redis Insight]({{< relref "/develop/connect/insight" >}}).
 
+## Next steps
+
+Once you have a running Redis instance, you may want to:
+
+* Try the [Redis CLI tutorial]({{< relref "/develop/connect/cli" >}})
+* Connect using one of the [Redis clients]({{< relref "/develop/connect/clients" >}})
+* [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/install-redis#install-redis-properly" >}})
+  for production use.
