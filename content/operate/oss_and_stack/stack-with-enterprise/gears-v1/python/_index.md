@@ -23,5 +23,4 @@ Once you have written your code, upload it to a node on your Redis Enterprise cl
 ## More info
 
 - [RedisGears Python quick start]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/quickstart" >}})
-- [RedisGears Python operations](http://oss.redis.com/redisgears/operations.html)
 - [RedisGears recipes]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/recipes" >}})

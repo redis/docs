@@ -52,7 +52,7 @@ The following JSONPath syntax table was adapted from Goessner's [path syntax com
 | * | Wildcard, returns all elements. |
 | [] | Subscript operator, accesses an array element. |
 | [,] | Union, selects multiple elements. |
-| [start\:end\:step] | Array slice where start, end, and step are indexes. |
+| [start\:end\:step] | Array slice where *start*, *end*, and *step* are index values. You can omit values from the slice (for example, `[3:]`, `[:8:2]`) to use the default values: *start* defaults to the first index, *end* defaults to the last index, and *step* defaults to `1`. Use `[*]` or `[:]` to select all elements. |
 | ?() | Filters a JSON object or array. Supports comparison operators <nobr>(`==`, `!=`, `<`, `<=`, `>`, `>=`, `=~`)</nobr>, logical operators <nobr>(`&&`, `\|\|`)</nobr>, and parenthesis <nobr>(`(`, `)`)</nobr>. |
 | () | Script expression. |
 | @ | The current element, used in filter or script expressions. |

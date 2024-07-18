@@ -79,5 +79,5 @@ Use the **Save changes** button to save changes or **Discard changes** to revert
 
 {{<image filename="images/rc/account-settings-buttons-save-discard.png" alt="Use the Discard Changes and the Save Changes buttons to manage changes to account settings." width="300px">}}
 
-For help changing other settings, [contact Support](https://redis.com/company/support/).
+For help changing other settings, [contact Support](https://redis.io/support/).
 

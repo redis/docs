@@ -11,11 +11,9 @@ categories:
 - clients
 description: Full-text scoring functions
 linkTitle: Scoring
-title: Scoring
+title: Scoring documents
 weight: 8
 ---
-
-# Scoring documents
 
 When searching, documents are scored based on their relevance to the query. The score is a floating point number between 0.0 and 1.0, where 1.0 is the highest score. The score is returned as part of the search results and can be used to sort the results.
 

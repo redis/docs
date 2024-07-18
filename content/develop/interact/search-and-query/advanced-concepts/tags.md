@@ -48,13 +48,22 @@ Tag fields can be added to the schema with the following syntax:
 FT.CREATE ... SCHEMA ... {field_name} TAG [SEPARATOR {sep}] [CASESENSITIVE]
 ```
 
-SEPARATOR defaults to a comma (`,`), and can be any printable ASCII character. For example:
+For hashes, SEPARATOR can be any printable ASCII character; the default is a comma (`,`). For JSON, there is no default separator; you must declare one explicitly if needed.
+
+For example:
+
+```
+JSON.SET key:1 $ '{"colors": "red, orange, yellow"}' 
+FT.CREATE idx on JSON PREFIX 1 key: SCHEMA $.colors AS colors TAG SEPARATOR ","
+
+> FT.SEARCH idx '@colors:{orange}'
+1) "1"
+2) "key:1"
+3) 1) "$"
+   2) "{\"colors\":\"red, orange, yellow\"}"
+```
 
 CASESENSITIVE can be specified to keep the original case.
-
-```
-FT.CREATE idx ON HASH PREFIX 1 test: SCHEMA tags TAG SEPARATOR ";"
-```
 
 ## Querying tag fields
 

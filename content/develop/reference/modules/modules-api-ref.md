@@ -16,7 +16,7 @@ weight: 1
 ---
 
 <!-- This file is generated from module.c using
-     utils/generate-module-api-doc.rb -->
+     redis/redis:utils/generate-module-api-doc.rb -->
 
 ## Sections
 
