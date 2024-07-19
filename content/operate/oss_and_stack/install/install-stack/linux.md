@@ -112,7 +112,7 @@ chmod a+x <AppImageFile> # replace AppImageFile with the name of your downloaded
 
 This will start Redis in the foreground. To stop Redis, enter `Ctrl-C`.
 
-To integrate Redis Stack with `systemd`, follow these steps:
+Follow these steps to integrate Redis Stack with `systemd` so you can start/stop in/from the background:
 
 1. Edit the `/etc/systemd/system/redis-appimage.service` file and enter the following information:
 
