@@ -30,6 +30,8 @@ Before upgrading a cluster:
 
 - Verify that you meet the upgrade path requirements for your desired cluster version and review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
 
+- Avoid changing the database configuration or performing other cluster management operations during the upgrade process, as this might cause unexpected results.
+
 - Upgrade the cluster's primary (master) node first. To identify the primary node, use one of the following methods:
 
     - **Nodes** screen in the new Cluster Manager UI (only available for Redis Enterprise versions 7.2 and later)
