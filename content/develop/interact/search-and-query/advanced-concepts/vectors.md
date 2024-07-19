@@ -18,7 +18,7 @@ weight: 14
 
 Redis includes a [high performance vector database](https://redis.io/blog/benchmarking-results-for-vector-databases/) that lets you perform semantic search over vector embeddings. You can augment these searches with filtering over text, numerical, geospatial, and tag metadata.
 
-To quickly get started, check out out the [Redis vector quickstart guide]({{< baseurl >}}/develop/get-started/vector-database) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
+To quickly get started, check out the [Redis vector quickstart guide]({{< baseurl >}}/develop/get-started/vector-database) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
 
 
 ## Overview
