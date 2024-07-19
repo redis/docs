@@ -12,12 +12,12 @@ weight: 50
 
 The following user events can appear in `syslog`.
 
-## Non-UI events
+## UI events
 
-Logged events that do not appear in the UI
+Logged events that appear in the UI:
 
-| Event code name | Severity | Notes |
-|-----------------|----------|-------|
-| user_created | info |  |
-| user_deleted | info |  |
-| user_updated | info | Indicates that a user configuration has been updated |
+| Event code name | Event as shown in the UI | Severity | Notes |
+|-----------------|--------------------------|----------|-------|
+| user_created | | info |  |
+| user_deleted | | info |  |
+| user_updated | | info | Indicates that a user configuration has been updated |

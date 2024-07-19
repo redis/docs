@@ -14,7 +14,7 @@ The following cluster alerts and events can appear in `syslog`.
 
 ## UI alerts
 
-Logged alerts that appear in the UI
+Logged alerts that appear in the UI:
 
 | Alert code name | Alert as shown in the UI | Severity | Notes |
 |-----------------|--------------------------|----------|-------|
@@ -28,10 +28,14 @@ too_few_nodes_for_replication | Database replication requires at least two nodes
 
 ## UI events
 
-Logged events that appear in the UI
+Logged events that appear in the UI:
 
 | Event code name | Event as shown in the UI | Severity | Notes |
 |-----------------|--------------------------|----------|-------|
+| cluster_updated | | info | Indicates that cluster settings have been updated | |
+| license_added | | info |  |
+| license_deleted | | info |  |
+| license_updated | | info |  |
 | node_joined | Node joined | info |  |
 | node_remove_abort_completed | Node removed | info | The remove node is a process that can fail and can also be cancelled. If cancelled, the cancellation process can succeed or fail. |
 | node_remove_abort_failed | Node removed | error | The remove node is a process that can fail and can also be cancelled. If cancelled, the cancellation process can succeed or fail. |
@@ -41,14 +45,3 @@ Logged events that appear in the UI
 | rebalance_abort_failed | Nodes&nbsp;rebalanced | error | The nodes rebalance is a process that can fail and can also be cancelled. If cancelled, the cancellation process can succeed or fail. |
 | rebalance_completed | Nodes&nbsp;rebalanced | info | The nodes rebalance is a process that can fail and can also be cancelled. If cancelled, the cancellation process can succeed or fail. |
 | rebalance_failed | Nodes&nbsp;rebalanced | error | The nodes rebalance is a process that can fail and can also be cancelled. If cancelled, the cancellation process can succeed or fail. |
-
-## Non-UI events
-
-Logged events that do not appear in the UI
-
-| Event code name | Severity | Notes |
-|-----------------|----------|-------|
-| cluster_updated | info | Indicates that cluster settings have been updated |
-| license_added | info |  |
-| license_deleted | info |  |
-| license_updated | info |  |
