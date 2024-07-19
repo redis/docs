@@ -66,7 +66,7 @@ Choose the FLAT index when you have small datasets (< 1M vectors) or when perfec
 
 | Attribute          | Description                              |
 |:-------------------|:-----------------------------------------|
-| `TYPE`             | Vector type (`FLOAT16`, `FLOAT32`, `FLOAT64`).  |
+| `TYPE`             | Vector type (`BFLOAT16`, `FLOAT16`, `FLOAT32`, `FLOAT64`).  |
 | `DIM`              | The width, or number of dimensions, of the vector embeddings stored in this field. In other words, the number of floating point elements comprising the vector. Must be a positive integer. The vector used to query this field must have the same number of dimensions as the field itself.  |
 | `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`).  |
 
@@ -95,7 +95,7 @@ Choose the HNSW index type when you have larger datasets (> 1M documents) or whe
 
 | Attribute          | Description                              |
 |:-------------------|:-----------------------------------------|
-| `TYPE`             | Vector type (`FLOAT16`, `FLOAT32`, `FLOAT64`). |
+| `TYPE`             | Vector type (`BFLOAT16`, `FLOAT16`, `FLOAT32`, `FLOAT64`). |
 | `DIM`              | Vector dimension. *Must be a positive integer.* |
 | `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`).  |
 
@@ -192,7 +192,7 @@ This allows you to index multiple vectors under the same JSONPath.
 
 Here are some examples of multi-value indexing with vectors:
 
-**Example**
+**Multi-value indexing example**
 ```
 JSON.SET docs:01 $ '{"doc_embedding":[[1,2,3,4], [5,6,7,8]]}'
 JSON.SET docs:01 $ '{"chunk1":{"doc_embedding":[1,2,3,4]}, "chunk2":{"doc_embedding":[5,6,7,8]}}'
@@ -216,7 +216,7 @@ FT.SEARCH <index_name>
   <primary_filter_query>=>[KNN <top_k> @<vector_field> $<vector_blob_param> $<vector_query_params> AS <distance_field>]
   PARAMS <query_params_count> [$<vector_blob_param> <vector_blob> <query_param_name> <query_param_value> ...]
   SORTBY <distance_field>
-  DIALECT 2
+  DIALECT 4
 ```
 **Parameters**
 
@@ -236,7 +236,7 @@ FT.SEARCH <index_name>
 **Example**
 
 ```
-FT.SEARCH documents "(@title:Sports @year:[2020 2022])=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 2
+FT.SEARCH documents "(@title:Sports @year:[2020 2022])=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 4
 ```
 
 **Use query attributes**
@@ -264,7 +264,7 @@ FT.SEARCH <index_name>
   @<vector_field>:[VECTOR_RANGE (<radius> | $<radius_param>) $<vector_blob_param> $<vector_query_params>]
   PARAMS <vector_query_params_count> [<vector_query_param_name> <vector_query_param_value> ...]
   SORTBY <distance_field>
-  DIALECT 2
+  DIALECT 4
 ```
 | Parameter         | Description                                                                                       |
 |:------------------|:--------------------------------------------------------------------------------------------------|
@@ -375,20 +375,20 @@ Below are a number of examples to help you get started. If you want a more compr
 ### KNN vector search examples
 Return the 10 nearest neighbor documents for which the `doc_embedding` vector field is the closest to the query vector represented by the following 4-bytes blob:
 ```
-FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vector_score DIALECT 2
+FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vector_score DIALECT 4
 ```
 
 Return the top 10 nearest neighbors and customize the `K` and `EF_RUNTIME` params **using query params** (see "params" section in [FT.SEARCH command]({{< baseurl >}}/commands/ft.search)). Set `EF_RUNTIME` value to 150 (assuming `doc_embedding` is an HNSW index):
 ```
-FT.SEARCH documents "*=>[KNN $K @doc_embedding $BLOB EF_RUNTIME $EF]" PARAMS 6 BLOB "\x12\xa9\xf5\x6c" K 10 EF 150 DIALECT 2
+FT.SEARCH documents "*=>[KNN $K @doc_embedding $BLOB EF_RUNTIME $EF]" PARAMS 6 BLOB "\x12\xa9\xf5\x6c" K 10 EF 150 DIALECT 4
 ```
 Assign a custom name to the distance field (`vector_distance`) and sort results by it:
 ```
-FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB AS vector_distance]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 2
+FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB AS vector_distance]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 4
 ```
 Use [query attributes]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax#query-attributes) syntax to specify optional parameters and the distance field name:
 ```
-FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]=>{$EF_RUNTIME: $EF; $YIELD_DISTANCE_AS: vector_distance}" PARAMS 4 EF 150 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 2
+FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]=>{$EF_RUNTIME: $EF; $YIELD_DISTANCE_AS: vector_distance}" PARAMS 4 EF 150 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 4
 ```
 
 To explore additional Python vector search examples, review recipes for the [`Redis Python`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) client and the [`Redis Vector Library`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
@@ -399,27 +399,27 @@ For these examples, assume we have an index named `movies` with records of diffe
 
 Among movies that have `'Dune'` in the `title` field and `year` between `[2020, 2022]`, return the top 10 nearest neighbors and sort results by the `movie_distance`:
 ```
-FT.SEARCH movies "(@title:Dune @year:[2020 2022])=>[KNN 10 @movie_embedding $BLOB AS movie_distance]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY movie_distance DIALECT 2
+FT.SEARCH movies "(@title:Dune @year:[2020 2022])=>[KNN 10 @movie_embedding $BLOB AS movie_distance]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY movie_distance DIALECT 4
 ```
 
 Among the movies that have `action` as a category tag, but NOT `drama`, return the top 10 nearest neighbors and sort results by the `movie_distance`:
 ```
-FT.SEARCH movies "(@category:{action} ~@category:{drama})=>[KNN 10 @doc_embedding $BLOB AS movie_distance]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY movie_distance DIALECT 2
+FT.SEARCH movies "(@category:{action} ~@category:{drama})=>[KNN 10 @doc_embedding $BLOB AS movie_distance]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY movie_distance DIALECT 4
 ```
 
 Among the movies that have `drama` OR `action` as a category tag, return the top 10 nearest neighbors and explicitly set the filter mode (hybrid policy) to "ad-hoc brute force" (rather than auto-selected):
 ```
-FT.SEARCH movies "(@category:{drama | action})=>[KNN 10 @doc_embedding $BLOB HYBRID_POLICY ADHOC_BF]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vec_scores DIALECT 2
+FT.SEARCH movies "(@category:{drama | action})=>[KNN 10 @doc_embedding $BLOB HYBRID_POLICY ADHOC_BF]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vec_scores DIALECT 4
 ```
 
 Among the movies that have `action` as a category tag, return the top 10 nearest neighbors and explicitly set the filter mode (hybrid policy) to "batches" and batch size 50 using a query parameter:
 ```
-FT.SEARCH movies "(@category:{action})=>[KNN 10 @doc_embedding $BLOB HYBRID_POLICY BATCHES BATCH_SIZE $BATCH_SIZE]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" BATCH_SIZE 50 DIALECT 2
+FT.SEARCH movies "(@category:{action})=>[KNN 10 @doc_embedding $BLOB HYBRID_POLICY BATCHES BATCH_SIZE $BATCH_SIZE]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" BATCH_SIZE 50 DIALECT 4
 ```
 
 Run the same query as above and use the query attributes syntax to specify optional parameters:
 ```
-FT.SEARCH movies "(@category:{action})=>[KNN 10 @doc_embedding $BLOB]=>{$HYBRID_POLICY: BATCHES; $BATCH_SIZE: 50}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 2
+FT.SEARCH movies "(@category:{action})=>[KNN 10 @doc_embedding $BLOB]=>{$HYBRID_POLICY: BATCHES; $BATCH_SIZE: 50}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 4
 ```
 
 To explore additional Python vector search examples, review recipes for the [`Redis Python`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) client and the [`Redis Vector Library`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
@@ -431,15 +431,15 @@ For these examples, assume we have an index named `products` with records of dif
 
 Return 100 products for which the distance between the `description_vector` field and the specified query vector blob is at most 5:
 ```
-FT.SEARCH products "@description_vector:[VECTOR_RANGE 5 $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" LIMIT 0 100 DIALECT 2
+FT.SEARCH products "@description_vector:[VECTOR_RANGE 5 $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" LIMIT 0 100 DIALECT 4
 ```
 Run the same query as above and set `EPSILON` parameter to `0.5` (assuming `description_vector` is HNSW index), yield the vector distance between `description_vector` and the query result in a field named `vector_distance`, and sort the results by that distance.
 ```
-FT.SEARCH products "@description_vector:[VECTOR_RANGE 5 $BLOB]=>{$EPSILON:0.5; $YIELD_DISTANCE_AS: vector_distance}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance LIMIT 0 100 DIALECT 2
+FT.SEARCH products "@description_vector:[VECTOR_RANGE 5 $BLOB]=>{$EPSILON:0.5; $YIELD_DISTANCE_AS: vector_distance}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance LIMIT 0 100 DIALECT 4
 ```
 Use the vector range query as a filter: return all the documents that contain either `'shirt'` in their `type` tag with their `year` value in the range `[2020, 2022]` OR a vector stored in `description_vector` whose distance from the query vector is no more than `0.8`, then sort results by their vector distance, if it is in the range:
 ```
-FT.SEARCH products "(@type:{shirt} @year:[2020 2022]) | @description_vector:[VECTOR_RANGE 0.8 $BLOB]=>{$YIELD_DISTANCE_AS: vector_distance}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 2
+FT.SEARCH products "(@type:{shirt} @year:[2020 2022]) | @description_vector:[VECTOR_RANGE 0.8 $BLOB]=>{$YIELD_DISTANCE_AS: vector_distance}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 4
 ```
 
 To explore additional Python vector search examples, review recipes for the [`Redis Python`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) client and the [`Redis Vector Library`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
@@ -450,7 +450,7 @@ To explore additional Python vector search examples, review recipes for the [`Re
 vectors to represent products in ecommerce catalogs or content in advertising pipelines for well over a decade.
 
 With the emergence of Large Language Models (LLMs) and the proliferation of apps that require advanced information
-retrieval techniques, Redis is will positioned to serve as your high performance query engine for semantic search and more.
+retrieval techniques, Redis is well positioned to serve as your high performance query engine for semantic search and more.
 
 Put theory into practice by reviewing these resources that apply vector search for different use cases:
 
