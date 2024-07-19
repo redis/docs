@@ -46,6 +46,10 @@ echo $PATH
 
 Then, confirm that the output contains `/opt/homebrew/bin` (Apple silicon Macs) or `/usr/local/bin` (Intel Mac). If these directories are not in the output, see the "Existing Redis installation" instructions below.
 
+{{< note >}}
+Because Redis Stack is installed using a brew cask via the `brew tap` command, it will not be integrated with the `brew services` command.
+{{< /note >}}
+
 ### Existing Redis installation
 
 If you have an existing Redis installation on your system, then might want to modify your `$PATH` to ensure that you're using the latest Redis Stack binaries.
