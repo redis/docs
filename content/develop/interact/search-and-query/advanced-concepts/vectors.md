@@ -249,7 +249,9 @@ Alternatively, as of v2.6, `<vector_query_params>` and `<distance_field>` name c
 ```
 
 ### Vector range queries
-Vector range queries allow you to filter the index using a `radius` parameter representing the semantic distance between an input query vector and indexed vector fields. This is useful in scenarios when you don't know the right value to use for `top_k`, but when you do know what distance threshold should be applied.
+Vector range queries allow you to filter the index using a `radius` parameter representing the semantic distance between an input query vector and indexed vector fields. This is useful in scenarios when you don't know exactly how many nearest neighbors to fetch (`top_k`), but you do know "how similar" the results should be.
+
+For example, imagine a fraud (or anomaly) detection scenario where you aren't sure if there are any matches in the vector index. You can issue a vector range query to quickly check if there are *any* records of interest in the index within the specified radius.
 
 Vector range queries operate slightly different than KNN vector queries:
 - Vector range queries can appear *multiple times* in a query as filter criteria.
@@ -353,7 +355,6 @@ Optional runtime params for HNSW indexes are:
 | `EPSILON`       | Relative factor that sets the boundaries for a vector range query. Vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing a more extensive search and more accurate results at the expense of runtime. | Value passed during index creation (default is 0.01). |
 
 
-
 ### Important notes
 
 {{% alert title="Important notes" color="info" %}}
@@ -426,17 +427,19 @@ To explore additional Python vector search examples, review recipes for the [`Re
 
 ### Range query examples
 
-Return 100 documents for which the distance between its vector stored under the `vec` field to the specified query vector blob is at most 5 (in terms of `vec` field `DISTANCE_METRIC`):
+For these examples, assume we have an index named `products` with records of different products and metadata from an ecommerce site.
+
+Return 100 products for which the distance between the `description_vector` field and the specified query vector blob is at most 5:
 ```
-FT.SEARCH documents "@doc_embedding:[VECTOR_RANGE $r $BLOB]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" r 5 LIMIT 0 100 DIALECT 2
+FT.SEARCH products "@description_vector:[VECTOR_RANGE 5 $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" LIMIT 0 100 DIALECT 2
 ```
-Run the same query as above and set `EPSILON` parameter to `0.5` (assuming `vec` is HNSW index), yield the vector distance between `vec` and the query result in a field named `my_scores`, and sort the results by that distance.
+Run the same query as above and set `EPSILON` parameter to `0.5` (assuming `description_vector` is HNSW index), yield the vector distance between `description_vector` and the query result in a field named `vector_distance`, and sort the results by that distance.
 ```
-FT.SEARCH documents "@doc_embedding:[VECTOR_RANGE 5 $BLOB]=>{$EPSILON:0.5; $YIELD_DISTANCE_AS: my_scores}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY my_scores LIMIT 0 100 DIALECT 2
+FT.SEARCH products "@description_vector:[VECTOR_RANGE 5 $BLOB]=>{$EPSILON:0.5; $YIELD_DISTANCE_AS: vector_distance}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance LIMIT 0 100 DIALECT 2
 ```
-Use the vector range query in a complex query: return all the documents that contain either `'shirt'` in their `type` tag with their `num` value in the range `[2020, 2022]` OR a vector stored in `vec` whose distance from the query vector is no more than `0.8`, then sort results by their vector distance, if it is in the range:
+Use the vector range query as a filter: return all the documents that contain either `'shirt'` in their `type` tag with their `year` value in the range `[2020, 2022]` OR a vector stored in `description_vector` whose distance from the query vector is no more than `0.8`, then sort results by their vector distance, if it is in the range:
 ```
-FT.SEARCH documents "(@type:{shirt} @num:[2020 2022]) | @doc_embedding:[VECTOR_RANGE 0.8 $BLOB]=>{$YIELD_DISTANCE_AS: my_scores}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY my_scores DIALECT 2
+FT.SEARCH products "(@type:{shirt} @year:[2020 2022]) | @description_vector:[VECTOR_RANGE 0.8 $BLOB]=>{$YIELD_DISTANCE_AS: vector_distance}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 2
 ```
 
 To explore additional Python vector search examples, review recipes for the [`Redis Python`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) client and the [`Redis Vector Library`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
