@@ -18,17 +18,17 @@ Logged alerts that appear in the UI
 
 | Alert code name | Alert as shown in the UI | Severity | Notes |
 |-----------------|--------------------------|----------|-------|
-backup_delayed | Periodic backup has been delayed for longer than <threshold> minutes | true:&nbsp;warning<br />false: info | Has threshold parameter in the data section of the log entry.
-high_latency | Latency is higher than <threshold> msec | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
-high_syncer_lag | Replica of - sync lag is higher than <threshold> seconds | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
-high_throughput | Throughput is higher than <threshold> RPS (requests per second) | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
-low_throughput | Throughput is lower than <threshold> RPS (requests per second) | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
-ram_dataset_overhead | RAM Dataset overhead in a shard has reached <threshold>% of its RAM limit | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
-ram_values | Percent of values in a shard’s RAM is lower than <threshold>% of its key count | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
-shard_num_ram_values | Number of values in a shard’s RAM is lower than <threshold> values | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
-size | Dataset size has reached <threshold>% of the memory limit | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
-syncer_connection_error | Replica of - database unable to sync with source | error |  
-syncer_general_error | Replica of - database unable to sync with source | error |  
+| backup_delayed | Periodic backup has been delayed for longer than `<threshold>` minutes | true:&nbsp;warning<br />false: info | Has threshold parameter in the data section of the log entry.
+| high_latency | Latency is higher than `<threshold>` milliseconds | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
+| high_syncer_lag | Replica of - sync lag is higher than `<threshold>` seconds | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
+| high_throughput | Throughput is higher than `<threshold>` RPS (requests per second) | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
+| low_throughput | Throughput is lower than `<threshold>` RPS (requests per second) | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
+| ram_dataset_overhead | RAM Dataset overhead in a shard has reached `<threshold>`% of its RAM limit | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
+| ram_values | Percent of values in a shard’s RAM is lower than `<threshold>`% of its key count | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
+| shard_num_ram_values | Number of values in a shard’s RAM is lower than `<threshold>` values | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
+| size | Dataset size has reached `<threshold>`% of the memory limit | true:&nbsp;warning<br />false: info | Has threshold parameter in the key/value section of the log entry.
+| syncer_connection_error | Replica of - database unable to sync with source | error |  
+| syncer_general_error | Replica of - database unable to sync with source | error |  
 
 ## Non-UI events
 
