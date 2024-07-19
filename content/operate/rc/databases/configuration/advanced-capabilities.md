@@ -48,3 +48,13 @@ You can select more than one advanced capability for a database, though there ar
 You don't have to combine capabilities. To remove a selected capability, clear its checkbox.
 
 To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
+
+### Search and query sizing
+
+When you create a Pro database with [Search and Query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), you must consider the sizing and throughput requirements for search and query when you define the dataset size and throughput for your database. 
+
+Use the [Search and query sizing calculator](https://redis.io/redisearch-sizing-calculator/) to estimate your index size and throughput requirements.
+
+- **Dataset Size**: Add the estimated index size from the Sizing calculator to your expected dataset size.
+- **Throughput**: Enter the total estimated throughput from the Sizing calculator when you enter your throughput.
+- **Query performance factor**: The query performance factor adds extra power specifically for search and query. Select a factor to increase your queries per second by that amount.
