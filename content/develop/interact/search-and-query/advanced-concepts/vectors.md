@@ -150,7 +150,6 @@ Store or update vectors and any metadata in [hashes]({{< baseurl >}}/develop/dat
 HSET docs:01 doc_embedding <vector_bytes> category sports
 ```
 
-
 {{% alert title="Tip" color="warning" %}}
 Hash values are stored as binary-safe strings. Thus, `<vector_bytes>` represents the vector's underlying memory buffer.
 {{% /alert  %}}
@@ -206,7 +205,6 @@ You can run vector search queries with the [`FT.SEARCH`]({{< baseurl >}}/command
 To issue a vector similarity query with `FT.SEARCH`, you must always set the `DIALECT` option to >= `2`. See the [dialects documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}) for more information.
 
 ### KNN vector search
-
 KNN vector search finds the `<top_k>` nearest neighbors to a query vector. It has the following syntax:
 
 **Syntax**
@@ -236,7 +234,7 @@ FT.SEARCH <index_name>
 **Example**
 
 ```
-FT.SEARCH documents "(@title:Sports @year:[2020 2022])=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 4
+FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 4
 ```
 
 **Use query attributes**
@@ -305,6 +303,11 @@ FT.SEARCH <index_name> <primary_filter_query>=>[...]
 ```
 
 where `<primary_filter_query>` defines document selection and filtering.
+
+**Example**
+```
+FT.SEARCH documents "(@title:Sports @year:[2020 2022])=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 4
+```
 
 ### How Filtering Works
 
