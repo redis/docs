@@ -18,14 +18,14 @@ weight: 14
 
 Redis includes a [high performance vector database](https://redis.io/blog/benchmarking-results-for-vector-databases/) that lets you perform semantic search over vector embeddings. You can augment these searches with filtering over text, numerical, geospatial, and tag metadata.
 
-**Just looking to get started?** Checkout the vector [quickstart guide]({{< baseurl >}}/develop/get-started/vector-database) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) repo for more assistance.
+To quickly get started, check out out the [Redis vector quickstart guide]({{< baseurl >}}/develop/get-started/vector-database) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
 
 
 ## Overview
 
 1. [**Create a vector index**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#create-a-vector-index): Redis maintains a secondary index over your data with a defined schema (including vector fields and metadata). Redis supports [`FLAT`]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#flat-index) and [`HNSW`]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#hnsw-index) vector index types.
 1. [**Store and update vectors**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#store-and-update-vectors): Redis stores vectors and metadata in hashes or JSON objects.
-1. [**Search with vectors**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#search-with-vectors): Redis supports several advanced querying strategies with vector fields including [KNN]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#standard-vector-search) (standard k-nearest neighbor), [vector range queries]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#vector-range-queries), and [metadata filters]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#filters).
+1. [**Search with vectors**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#search-with-vectors): Redis supports several advanced querying strategies with vector fields including [KNN]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#knn-vector-search) (k-nearest neighbor), [vector range queries]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#vector-range-queries), and [metadata filters]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#filters).
 1. [**Configure vector queries at runtime**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#runtime-query-params).
 1. [**Vector search examples**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#vector-search-examples): Explore several vector search examples that cover different use cases and techniques.
 
@@ -73,15 +73,15 @@ Choose the FLAT index when you have small datasets (< 1M vectors) or when perfec
 **Example**
 
 ```
-FT.CREATE my_index
+FT.CREATE documents
   ON HASH
   PREFIX 1 docs:
-  SCHEMA vector VECTOR FLAT 6
+  SCHEMA doc_embedding VECTOR FLAT 6
     TYPE FLOAT32
     DIM 1536
     DISTANCE_METRIC COSINE
 ```
-In the example above, an index named `my_index` is created over hashes with the key prefix `docs:`, a `FLAT` vector field named `vector` with three index attributes (`TYPE`, `DIM`, and `DISTANCE_METRIC`).
+In the example above, an index named `documents` is created over hashes with the key prefix `docs:`, a `FLAT` vector field named `doc_embedding` with three index attributes (`TYPE`, `DIM`, and `DISTANCE_METRIC`).
 
 ### HNSW index
 
@@ -101,9 +101,8 @@ Choose the HNSW index type when you have larger datasets (> 1M documents) or whe
 
 **Optional attributes**
 
-HNSW supports a number of additional parameters to tune
-the accuracy of the queries, while trading off performance. Read more about
-them [here](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
+[HNSW](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf) supports a number of additional parameters to tune
+the accuracy of the queries, while trading off performance.
 
 | Attribute          | Description                                                                                 |
 |:-------------------|:--------------------------------------------------------------------------------------------|
@@ -115,18 +114,17 @@ them [here](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf).
 **Example**
 
 ```
-FT.CREATE my_index
+FT.CREATE documents
   ON HASH
   PREFIX 1 docs:
-  SCHEMA vector VECTOR HNSW 16
+  SCHEMA doc_embedding VECTOR HNSW 10
     TYPE FLOAT64
     DIM 1536
     DISTANCE_METRIC COSINE
     M 40
     EF_CONSTRUCTION 250
-    EF_RUNTIME 20
-    EPSILON 0.8
 ```
+In the example above, an index named `documents` is created over hashes with the key prefix `docs:`, an `HNSW` vector field named `doc_embedding` with five index attributes (`TYPE`, `DIM`, `DISTANCE_METRIC`, `M`, and `EF_CONSTRUCTION`).
 
 ### Distance metrics
 
@@ -149,7 +147,7 @@ Store or update vectors and any metadata in [hashes]({{< baseurl >}}/develop/dat
 
 **Example**
 ```
-HSET docs:01 vector <vector_bytes> foo bar
+HSET docs:01 doc_embedding <vector_bytes> category sports
 ```
 
 
@@ -172,7 +170,7 @@ vector = np.array([0.34, 0.63, -0.54, -0.69, 0.98, 0.61], dtype=np.float32)
 vector_bytes = vector.tobytes()
 
 # Use redis client to store the vector bytes and metadata at a specified key
-redis_client.hset('docs:01', mapping = {"vector": vector_bytes, "foo": "bar"})
+redis_client.hset('docs:01', mapping = {"vector": vector_bytes, "category": "sports"})
 ```
 
 {{% alert title="Tip" color="warning" %}}
@@ -186,7 +184,7 @@ To store vectors in Redis as JSON, you store the vector as a JSON array of float
 
 **Example**
 ```
-JSON.SET docs:01 $ '{"vector":[0.34,0.63,-0.54,-0.69,0.98,0.61], "foo": "bar"}'
+JSON.SET docs:01 $ '{"doc_embedding":[0.34,0.63,-0.54,-0.69,0.98,0.61], "category": "sports"}'
 ```
 
 One of the additional benefits of JSON is schema flexibility. As of v2.6.1, JSON supports multi-value indexing.
@@ -196,8 +194,8 @@ Here are some examples of multi-value indexing with vectors:
 
 **Example**
 ```
-JSON.SET key $ '{"vector":[[1,2,3,4], [5,6,7,8]]}'
-JSON.SET key $ '{"item1":{"vector":[1,2,3,4]}, "item2":{"vector":[5,6,7,8]}}'
+JSON.SET docs:01 $ '{"doc_embedding":[[1,2,3,4], [5,6,7,8]]}'
+JSON.SET docs:01 $ '{"chunk1":{"doc_embedding":[1,2,3,4]}, "chunk2":{"doc_embedding":[5,6,7,8]}}'
 ```
 
 Additional information and examples are available in the [Indexing JSON documents]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-vector) section.
@@ -207,9 +205,9 @@ You can run vector search queries with the [`FT.SEARCH`]({{< baseurl >}}/command
 
 To issue a vector similarity query with `FT.SEARCH`, you must always set the `DIALECT` option to >= `2`. See the [dialects documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}) for more information.
 
-### Standard vector search
+### KNN vector search
 
-Standard vector search has the following common syntax:
+KNN vector search finds the `<top_k>` nearest neighbors to a query vector. It has the following syntax:
 
 **Syntax**
 
@@ -238,7 +236,7 @@ FT.SEARCH <index_name>
 **Example**
 
 ```
-FT.SEARCH my_index "(@title:Matrix @year:[2020 2022])=>[KNN 10 @vector $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 2
+FT.SEARCH documents "(@title:Sports @year:[2020 2022])=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 2
 ```
 
 **Use query attributes**
@@ -253,7 +251,7 @@ Alternatively, as of v2.6, `<vector_query_params>` and `<distance_field>` name c
 ### Vector range queries
 Vector range queries allow you to filter the index using a `radius` parameter representing the semantic distance between an input query vector and indexed vector fields. This is useful in scenarios when you don't know the right value to use for `top_k`, but when you do know what distance threshold should be applied.
 
-Vector range queries operate slightly different than standard vector queries:
+Vector range queries operate slightly different than KNN vector queries:
 - Vector range queries can appear *multiple times* in a query as filter criteria.
 - Vector range queries can be a part of the `<primary_filter_query>` in KNN vector search.
 
@@ -364,7 +362,7 @@ Optional runtime params for HNSW indexes are:
 
 2. By default, the results are sorted by their document's score. To sort by some vector similarity score, use `SORTBY <distance_field>`. See examples below.
 
-3. It is recommended to adjust the `<radius>` parameter in range queries to the corresponding vector field distance metric and to the data itself. In particular, recall that the distance between the vectors in an index whose distance metric is Cosine is bounded by `2`, while L2 distance between the vectors is not bounded. Hence, it is better to consider the distance between the vectors that are considered similar and choose `<radius>` accordingly.
+3. Depending on your chosen distance metric, the calculated distance between vectors in an index have different bounds. For example, Cosine distance is bounded by `2`, while L2 distance is not bounded. When performing a vector range query, the best practice is to adjust the `<radius>` parameter based on your use case and required recall or precision metrics.
 
 {{% /alert %}}
 
@@ -373,79 +371,85 @@ Optional runtime params for HNSW indexes are:
 
 Below are a number of examples to help you get started. If you want a more comprehensive walkthrough, see the [Redis vector quickstart guide]({{< baseurl >}}/develop/get-started/vector-database) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
 
-### Standard vector search examples
-Return the 10 nearest neighbor documents for which the vector stored under its `vector` field is the closest to the vector represented by the following 4-bytes blob:
+### KNN vector search examples
+Return the 10 nearest neighbor documents for which the `doc_embedding` vector field is the closest to the query vector represented by the following 4-bytes blob:
 ```
-FT.SEARCH idx "*=>[KNN 10 @vector $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 2
+FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vector_score DIALECT 2
 ```
-Now, sort the results by their distance from the query vector:
+
+Return the top 10 nearest neighbors and customize the `K` and `EF_RUNTIME` params **using query params** (see "params" section in [FT.SEARCH command]({{< baseurl >}}/commands/ft.search)). Set `EF_RUNTIME` value to 150 (assuming `doc_embedding` is an HNSW index):
 ```
-FT.SEARCH idx "*=>[KNN 10 @vector $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vector_score DIALECT 2
+FT.SEARCH documents "*=>[KNN $K @doc_embedding $BLOB EF_RUNTIME $EF]" PARAMS 6 BLOB "\x12\xa9\xf5\x6c" K 10 EF 150 DIALECT 2
 ```
-Return the top 10 similar documents, use *query params* (see "params" section in [FT.SEARCH command]({{< baseurl >}}/commands/ft.search)) for specifying `K` and `EF_RUNTIME` parameter, and set `EF_RUNTIME` value to 150 (assuming `vector` is an HNSW index):
+Assign a custom name to the distance field (`vector_distance`) and sort results by it:
 ```
-FT.SEARCH idx "*=>[KNN $K @vector $BLOB EF_RUNTIME $EF]" PARAMS 6 BLOB "\x12\xa9\xf5\x6c" K 10 EF 150 DIALECT 2
-```
-Now use use a custom distance field name to sort by it:
-```
-FT.SEARCH idx "*=>[KNN $K @vector $BLOB AS my_scores]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" K 10 SORTBY my_scores DIALECT 2
+FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB AS vector_distance]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 2
 ```
 Use [query attributes]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax#query-attributes) syntax to specify optional parameters and the distance field name:
 ```
-FT.SEARCH idx "*=>[KNN 10 @vector $BLOB]=>{$EF_RUNTIME: $EF; $YIELD_DISTANCE_AS: my_scores}" PARAMS 4 EF 150 BLOB "\x12\xa9\xf5\x6c" SORTBY my_scores DIALECT 2
+FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]=>{$EF_RUNTIME: $EF; $YIELD_DISTANCE_AS: vector_distance}" PARAMS 4 EF 150 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 2
 ```
 
-To see additional vector search examples, review the [`Redis Python client vector recipes`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) and [`Redis Vector Library recipes`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb) notebooks.
+To explore additional Python vector search examples, review recipes for the [`Redis Python`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) client and the [`Redis Vector Library`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
 
 ### Filter examples
 
-Among documents that have `'Dune'` in their `title` field and their `num` value is in the range `[2020, 2022]`, return the top 10 for which the vector stored in the `vector` field is the closest to the vector represented by the following 4-bytes blob:
+For these examples, assume we have an index named `movies` with records of different films and metadata.
 
+Among movies that have `'Dune'` in the `title` field and `year` between `[2020, 2022]`, return the top 10 nearest neighbors and sort results by the `movie_distance`:
 ```
-FT.SEARCH idx "(@title:Dune @num:[2020 2022])=>[KNN $K @vector $BLOB AS my_scores]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" K 10 SORTBY my_scores DIALECT 2
-```
-
-Use a different filter for the hybrid approach: this example returns the top 10 results from the documents that contain a `'shirt'` tag  in the `type` field and optionally a `'blue'` tag in their `color` field. The results are sorted by the full-text scorer.
-
-```
-FT.SEARCH idx "(@type:{shirt} ~@color:{blue})=>[KNN $K @vector $BLOB]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" K 10 DIALECT 2
+FT.SEARCH movies "(@title:Dune @year:[2020 2022])=>[KNN 10 @movie_embedding $BLOB AS movie_distance]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY movie_distance DIALECT 2
 ```
 
-This example shows a pre-filter with KNN query in which the hybrid policy is set explicitly to "ad-hoc brute force" (rather than auto-selected):
-
+Among the movies that have `action` as a category tag, but NOT `drama`, return the top 10 nearest neighbors and sort results by the `movie_distance`:
 ```
-FT.SEARCH idx "(@type:{shirt})=>[KNN $K @vector $BLOB HYBRID_POLICY ADHOC_BF]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" K 10 SORTBY __vec_scores DIALECT 2
+FT.SEARCH movies "(@category:{action} ~@category:{drama})=>[KNN 10 @doc_embedding $BLOB AS movie_distance]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY movie_distance DIALECT 2
 ```
 
-This example shows a pre-filter with KNN query in which the hybrid policy is set explicitly to "batches", and the batch size is set explicitly to be 50 using a query parameter:
-
+Among the movies that have `drama` OR `action` as a category tag, return the top 10 nearest neighbors and explicitly set the filter mode (hybrid policy) to "ad-hoc brute force" (rather than auto-selected):
 ```
-FT.SEARCH idx "(@type:{shirt})=>[KNN $K @vector $BLOB HYBRID_POLICY BATCHES BATCH_SIZE $B_SIZE]" PARAMS 6 BLOB "\x12\xa9\xf5\x6c" K 10 B_SIZE 50 DIALECT 2
+FT.SEARCH movies "(@category:{drama | action})=>[KNN 10 @doc_embedding $BLOB HYBRID_POLICY ADHOC_BF]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vec_scores DIALECT 2
+```
+
+Among the movies that have `action` as a category tag, return the top 10 nearest neighbors and explicitly set the filter mode (hybrid policy) to "batches" and batch size 50 using a query parameter:
+```
+FT.SEARCH movies "(@category:{action})=>[KNN 10 @doc_embedding $BLOB HYBRID_POLICY BATCHES BATCH_SIZE $BATCH_SIZE]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" BATCH_SIZE 50 DIALECT 2
 ```
 
 Run the same query as above and use the query attributes syntax to specify optional parameters:
-
 ```
-FT.SEARCH idx "(@type:{shirt})=>[KNN 10 @vector $BLOB]=>{$HYBRID_POLICY: BATCHES; $BATCH_SIZE: 50}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 2
+FT.SEARCH movies "(@category:{action})=>[KNN 10 @doc_embedding $BLOB]=>{$HYBRID_POLICY: BATCHES; $BATCH_SIZE: 50}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" DIALECT 2
 ```
 
-Find additional Python examples for [`redis-py`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) and [`redisvl`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
+To explore additional Python vector search examples, review recipes for the [`Redis Python`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) client and the [`Redis Vector Library`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
 
 
 ### Range query examples
 
 Return 100 documents for which the distance between its vector stored under the `vec` field to the specified query vector blob is at most 5 (in terms of `vec` field `DISTANCE_METRIC`):
 ```
-FT.SEARCH idx "@vector:[VECTOR_RANGE $r $BLOB]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" r 5 LIMIT 0 100 DIALECT 2
+FT.SEARCH documents "@doc_embedding:[VECTOR_RANGE $r $BLOB]" PARAMS 4 BLOB "\x12\xa9\xf5\x6c" r 5 LIMIT 0 100 DIALECT 2
 ```
 Run the same query as above and set `EPSILON` parameter to `0.5` (assuming `vec` is HNSW index), yield the vector distance between `vec` and the query result in a field named `my_scores`, and sort the results by that distance.
 ```
-FT.SEARCH idx "@vector:[VECTOR_RANGE 5 $BLOB]=>{$EPSILON:0.5; $YIELD_DISTANCE_AS: my_scores}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY my_scores LIMIT 0 100 DIALECT 2
+FT.SEARCH documents "@doc_embedding:[VECTOR_RANGE 5 $BLOB]=>{$EPSILON:0.5; $YIELD_DISTANCE_AS: my_scores}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY my_scores LIMIT 0 100 DIALECT 2
 ```
 Use the vector range query in a complex query: return all the documents that contain either `'shirt'` in their `type` tag with their `num` value in the range `[2020, 2022]` OR a vector stored in `vec` whose distance from the query vector is no more than `0.8`, then sort results by their vector distance, if it is in the range:
 ```
-FT.SEARCH idx "(@type:{shirt} @num:[2020 2022]) | @vector:[VECTOR_RANGE 0.8 $BLOB]=>{$YIELD_DISTANCE_AS: my_scores}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY my_scores DIALECT 2
+FT.SEARCH documents "(@type:{shirt} @num:[2020 2022]) | @doc_embedding:[VECTOR_RANGE 0.8 $BLOB]=>{$YIELD_DISTANCE_AS: my_scores}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY my_scores DIALECT 2
 ```
 
-Find additional Python examples for [`redis-py`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) and [`redisvl`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
+To explore additional Python vector search examples, review recipes for the [`Redis Python`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) client and the [`Redis Vector Library`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
 
+
+## Next steps
+**Vector embeddings and vector search are not new concepts.** In fact, many of the largest companies on earth have used
+vectors to represent products in ecommerce catalogs or content in advertising pipelines for well over a decade.
+
+With the emergence of Large Language Models (LLMs) and the proliferation of apps that require advanced information
+retrieval techniques, Redis is will positioned to serve as your high performance query engine for semantic search and more.
+
+Put theory into practice by reviewing these resources that apply vector search for different use cases:
+
+- [Retrieval augmented generation from scratch](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/RAG/01_redisvl.ipynb)
+- [Semantic caching](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/semantic-cache/semantic_caching_gemini.ipynb)
