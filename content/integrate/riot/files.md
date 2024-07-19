@@ -50,19 +50,19 @@ riot file-import my.json hset -h myredis.com -p 6380
 **Import into hashes with keyspace `blah:<id>`**
 
 ```
-riot file-import my.json hset --keyspace blah --keys id
+riot file-import my.json hset --keyspace blah --key id
 ```
 
 **Import into hashes and set TTL on the key**
 
 ```
-riot file-import my.json hset --keyspace blah --keys id expire --keyspace blah --keys id
+riot file-import my.json hset --keyspace blah --key id expire --keyspace blah --key id
 ```
 
 **Import into hashes in keyspace `blah:<id>` and set TTL and add each `id` to a set named `myset`**
 
 ```
-riot file-import my.json hset --keyspace blah --keys id expire --keyspace blah --keys id sadd --keyspace myset --members id
+riot file-import my.json hset --keyspace blah --key id expire --keyspace blah --key id sadd --keyspace myset --members id
 ```
 
 ### Paths
@@ -120,7 +120,7 @@ The following command imports that CSV file into Redis as hashes using `beer` as
 This creates hashes with keys `beer:1436`, `beer:2265`, etc.
 
 ```
-riot file-import https://storage.googleapis.com/jrx/beers.csv --header hset --keyspace beer --keys id
+riot file-import https://storage.googleapis.com/jrx/beers.csv --header hset --keyspace beer --key id
 ```
 
 This command imports a CSV file into a geospatial set named `airportgeo` with airport IDs as members:
@@ -134,7 +134,7 @@ riot file-import https://storage.googleapis.com/jrx/airports.csv --header --skip
 Fixed-length files can be imported by specifying the width of each field using the `--ranges` option.
 
 ```
-riot file-import https://storage.googleapis.com/jrx/accounts.fw --ranges 1 9 25 41 53 67 83 --header hset --keyspace account --keys Account
+riot file-import https://storage.googleapis.com/jrx/accounts.fw --ranges 1 9 25 41 53 67 83 --header hset --keyspace account --key Account
 ```
 
 ### JSON
@@ -155,7 +155,7 @@ The expected format for JSON files is:
 **JSON import example**
 
 ```
-riot file-import https://storage.googleapis.com/jrx/beers.json hset --keyspace beer --keys id
+riot file-import https://storage.googleapis.com/jrx/beers.json hset --keyspace beer --key id
 ```
 
 JSON records are trees with potentially nested values that need to be flattened when the target is, for example, a Redis hash.
@@ -199,7 +199,7 @@ Here is a sample XML file that can be imported by RIOT:
 **XML import example**
 
 ```
-riot file-import https://storage.googleapis.com/jrx/trades.xml hset --keyspace trade --keys id
+riot file-import https://storage.googleapis.com/jrx/trades.xml hset --keyspace trade --key id
 ```
 
 ## File export
