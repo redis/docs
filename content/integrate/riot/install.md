@@ -11,20 +11,20 @@ RIOT can be installed in different ways depending on your environment and prefer
 ## macOS via Homebrew
 
 ```
-brew install redis-developer/tap/riot
+brew install redis/homebrew-tap/riot
 ```
 
 ## Windows via Scoop
 
 ```
-scoop bucket add redis-developer https://github.com/redis-developer/scoop.git
+scoop bucket add redis-developer https://github.com/redis/scoop.git
 scoop install riot
 ```
 
 ## Linux via Homebrew
 
 ```
-brew install redis-developer/tap/riot
+brew install redis/homebrew-tap/riot
 ```
 
 ## Docker
