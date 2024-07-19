@@ -143,13 +143,13 @@ Follow these steps to integrate Redis Stack with `systemd` so you can start/stop
 You can start the Redis server as a background process using the `systemctl` command. This only applies to Ubuntu/Debian when installed using `apt`, Red Hat/Rocky when installed using `yum`.
 
 {{< highlight bash  >}}
-sudo service redis-stack-server start
+sudo systemctl start redis-stack-server
 {{< / highlight  >}}
 
 To stop the service, use:
 
 {{< highlight bash  >}}
-sudo service redis-stack-server stop
+sudo systemctl stop redis-stack-server
 {{< / highlight  >}}
 
 ## Connect to Redis
