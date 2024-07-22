@@ -53,7 +53,7 @@ Redis can perform urgent maintenance at any time, even if you have set a manual 
 
 ### Major upgrades
 
-We won't schedule major upgrades or upgrades that might include breaking changes until you opt-in to those changes. You can opt-in to specific major changes on the [subscription page]({{< relref "/operate/rc/subscriptions/view-pro-subscription" >}}).
+We won't schedule major upgrades or upgrades that might include breaking changes until you opt-in to those changes. You can control your Redis major version on the [subscription page]({{< relref "/operate/rc/subscriptions/view-pro-subscription" >}}).
 
 ## Notifications
 
