@@ -44,18 +44,18 @@ This command complies with [RFC7396](https://datatracker.ietf.org/doc/html/rfc73
 
 <details open><summary><code>key</code></summary>
 
-is key to merge into.
+is the key to merge into.
 </details>
 
 <details open><summary><code>path</code></summary>
 
-is JSONPath to specify. For non-existing keys the `path` must be `$`. For existing keys, for each matched `path`, the value that matches the `path` is being merged with the JSON `value`. For existing keys, when the path exists, except for the last element, a new child is added with the JSON `value`.
+specifies the JSONPath. For non-existing keys the `path` must be `$`. For existing keys, for each matched `path`, the value that matches the `path` is merged with the JSON `value`. For existing keys, when the path exists, except for the last element, a new child is added with the JSON `value`.
 
 </details>
 
 <details open><summary><code>value</code></summary>
 
-is JSON value to merge with at the specified path. Merging is done according to the following rules per JSON value in the `value` argument while considering the corresponding original value if it exists:
+is the JSON value to merge with at the specified path. Merging is done according to the following rules per JSON value in the `value` argument while considering the corresponding original value if it exists:
 *   merging an existing object key with a `null` value deletes the key
 *   merging an existing object key with non-null value updates the value
 *   merging a non-existing object key adds the key and value
@@ -64,16 +64,16 @@ is JSON value to merge with at the specified path. Merging is done according to 
 
 ## Return value
 
-JSET.MERGE returns a simple string reply: `OK` if executed correctly or `error` if fails to set the new values
+JSON.MERGE returns a simple string reply: `OK` if executed correctly or `error` if fails to set the new values
 
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
-The JSON.MERGE provide four different behaviours to merge changes on a given key: create unexistent path, update an existing path with a new value, delete a existing path or replace an array with a new array
+JSON.MERGE provides four different behaviors to merge changes on a given key: create a non-existent path, update an existing path with a new value, delete an existing path, or replace an array with a new array
 
 <details open>
-<summary><b>Create a unexistent path-value</b></summary>
+<summary><b>Create a non-existent path-value</b></summary>
 
 {{< highlight bash >}}
 redis> JSON.SET doc $ '{"a":2}'
@@ -101,7 +101,7 @@ redis> JSON.GET doc $
 </details>
 
 <details open>
-<summary><b>Delete on existing value</b></summary>
+<summary><b>Delete an existing value</b></summary>
 
 {{< highlight bash >}}
 redis> JSON.SET doc $ '{"a":2}'

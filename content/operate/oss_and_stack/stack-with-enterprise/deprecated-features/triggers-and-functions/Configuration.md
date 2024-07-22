@@ -37,9 +37,9 @@ Example:
 OK
 ```
 
-# Configurations
+## Configurations
 
-## execution-threads
+### execution-threads
 
 The `execution-threads` configuration option controls the number of background threads that run JS code. **Note that libraries are considered single threaded**. This configuration allows Redis to parallelize the invocation of multiple libraries.
 
@@ -63,7 +63,7 @@ _Runtime Configurability_
 
 No
 
-## library-fatal-failure-policy
+### library-fatal-failure-policy
 
 The `library-fatal-failure-policy` configuration option controls how to handle a fatal error. A fatal error is consider one of the following:
 
@@ -88,7 +88,7 @@ _Runtime Configurability_
 
 Yes
 
-## v8-maxmemory
+### v8-maxmemory
 
 The `v8-maxmemory` configuration option controls the maximum amount of memory used by all V8 libraries. Exceeding this limit is considered a fatal error and will be handled base on the [library-fatal-failure-policy](#library-fatal-failure-policy) configuration value.
 
@@ -112,7 +112,7 @@ _Runtime Configurability_
 
 No
 
-## v8-library-initial-memory-usage
+### v8-library-initial-memory-usage
 
 The `v8-library-initial-memory-usage` configuration option controls the initial memory given to a single V8 library. This value can not be greater then [`v8-library-initial-memory-limit`](#v8-library-initial-memory-limit) or [v8-maxmemory](#v8-maxmemory).
 
@@ -136,7 +136,7 @@ _Runtime Configurability_
 
 No
 
-## v8-library-initial-memory-limit
+### v8-library-initial-memory-limit
 
 The `v8-library-initial-memory-limit` configuration option controls the initial memory limit on a single V8 library. This value can not be greater then [v8-maxmemory](#v8-maxmemory).
 
@@ -160,7 +160,7 @@ _Runtime Configurability_
 
 No
 
-## v8-library-memory-usage-delta
+### v8-library-memory-usage-delta
 
 The `v8-library-memory-usage-delta` configuration option controls the delta by which we will increase the V8 library memory limit once the limit reached. This value can not be greater then [v8-maxmemory](#v8-maxmemory).
 
@@ -184,7 +184,7 @@ _Runtime Configurability_
 
 No
 
-## lock-redis-timeout
+### lock-redis-timeout
 
 The `lock-redis-timeout` configuration option controls the maximum amount of time (in MS) a library can lock Redis. Exceeding this limit is considered a fatal error and will be handled based on the [library-fatal-failure-policy](#library-fatal-failure-policy) configuration value. This
 configuration only affects library loading at runtime with `TFUNCTION LOAD`.
@@ -212,14 +212,14 @@ _Runtime Configurability_
 
 Yes
 
-### Side effects
+#### Side effects
 
 When setting `lock-redis-timeout`, if the new value is higher than the
 `db-loading-lock-redis-timeout`, the `db-loading-lock-redis-timeout` is also updated to
 this value.
 
 
-## db-loading-lock-redis-timeout
+### db-loading-lock-redis-timeout
 
 This timeout configuration is used for setting the upper time limit
 (in milliseconds) for the library loading from RDB.
@@ -245,12 +245,12 @@ _Runtime Configurability_
 
 Yes
 
-### Notes
+#### Notes
 
 The value cannot be lower than the value of `lock-redis-timeout`.
 
 
-## remote-task-default-timeout
+### remote-task-default-timeout
 
 The `remote-task-default-timeout` configuration option controls the timeout when waiting for a remote task to finish. If the timeout is reached an error will result.
 
@@ -274,7 +274,7 @@ _Runtime Configurability_
 
 Yes
 
-## error-verbosity
+### error-verbosity
 
 The `error-verbosity` configuration option controls the verbosity of error messages that will be provided by triggers and functions. The higher the value the more verbose the error messages will be (for example, including stack traces and extra information for better analysis and debugging).
 

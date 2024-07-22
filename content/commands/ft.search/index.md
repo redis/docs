@@ -485,13 +485,15 @@ overrides the timeout parameter of the module.
 
 defines one or more value parameters. Each parameter has a name and a value. 
 
-You can reference parameters in the `query` by a `$`, followed by the parameter name, for example, `$user`. Each such reference in the search query to a parameter name is substituted by the corresponding parameter value. For example, with parameter definition `PARAMS 4 lon 29.69465 lat 34.95126`, the expression `@loc:[$lon $lat 10 km]` is evaluated to `@loc:[29.69465 34.95126 10 km]`. You cannot reference parameters in the query string where concrete values are not allowed, such as in field names, for example, `@loc`. To use `PARAMS`, set `DIALECT` to `2` or greater than `2`.
+You can reference parameters in the `query` by a `$`, followed by the parameter name, for example, `$user`. Each such reference in the search query to a parameter name is substituted by the corresponding parameter value. For example, with parameter definition `PARAMS 4 lon 29.69465 lat 34.95126`, the expression `@loc:[$lon $lat 10 km]` is evaluated to `@loc:[29.69465 34.95126 10 km]`. You cannot reference parameters in the query string where concrete values are not allowed, such as in field names, for example, `@loc`. To use `PARAMS`, set
+[`DIALECT`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}})
+to `2` or greater than `2` (this requires [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) or above).
 </details>
 
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary>
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) command.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) command. See [Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}) for more information.
 </details>
 
 ## Return

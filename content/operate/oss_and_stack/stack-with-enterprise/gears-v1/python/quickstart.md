@@ -139,4 +139,4 @@ redis.cloud:6379> GET age:maximum
 
 ## Next steps
 
-You should now have a basic idea of how to run RedisGears functions for batch and event processing. But there's a lot more to RedisGears than this. To better understand it, see the [RedisGears tutorial](https://oss.redis.com/redisgears/intro.html). If you're interested in write-behind caching, see our [write-behind caching]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/recipes/write-behind" >}}) overview.
+You should now have a basic idea of how to run RedisGears functions for batch and event processing. If you're interested in write-behind caching, see our [write-behind caching]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/recipes/write-behind" >}}) overview.
