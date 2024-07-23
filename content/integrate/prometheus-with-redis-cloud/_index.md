@@ -176,11 +176,12 @@ Once the Prometheus and Grafana Docker containers are running, and Prometheus is
 
 ### Grafana dashboards for Redis Cloud
 
-Redis publishes two preconfigured dashboards for Redis Cloud and Grafana:
+Redis publishes preconfigured dashboards for Redis Cloud and Grafana:
 
 * The [subscription status dashboard](https://grafana.com/grafana/dashboards/18406-subscription-status-dashboard/) provides an overview of your Redis Cloud subscriptions.
 * The [database status dashboard](https://grafana.com/grafana/dashboards/18407-database-status-dashboard/) displays specific database metrics, including latency, memory usage, ops/second, and key count.
+* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/cloud/basic/redis-cloud-active-active-dashboard.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}).
 
-These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Enterprise Grafana Dashboards Github repository](https://github.com/redis-field-engineering/redis-enterprise-grafana-dashboards).
+These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Enterprise observability Github repository](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana).
 
 For more information about configuring Grafana dashboards, see the [Grafana documentation](https://grafana.com/docs/).

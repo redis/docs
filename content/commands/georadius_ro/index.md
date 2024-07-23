@@ -122,9 +122,9 @@ replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) with the `BYRA
 since: 3.2.10
 summary: Returns members from a geospatial index that are within a distance from a
   coordinate.
-syntax_fmt: "GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI>\n  [WITHCOORD]\
+syntax_fmt: "GEORADIUS_RO key longitude latitude radius <m | km | ft | mi>\n  [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]"
-syntax_str: "longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH]\
+syntax_str: "longitude latitude radius <m | km | ft | mi> [WITHCOORD] [WITHDIST] [WITHHASH]\
   \ [COUNT\_count [ANY]] [ASC | DESC]"
 title: GEORADIUS_RO
 ---

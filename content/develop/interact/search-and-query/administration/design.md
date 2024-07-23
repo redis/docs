@@ -17,8 +17,6 @@ title: Internal design
 weight: 1
 ---
 
-# Internal design
-
 Redis Stack implements inverted indexes on top of Redis, but unlike previous implementations of Redis inverted indexes, it uses a custom data encoding that allows more memory and CPU efficient searches, and more advanced search features.
 
 This document details some of the design choices and how these features are implemented.

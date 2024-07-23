@@ -54,7 +54,7 @@ To migrate data using Active-Passive syncing, specify the target database as an 
 {{< note >}}
 Before you use Active-Passive, be aware of the following limitations:
 
-- An error will appear when syncing the two databases if the source and target databases are hosted on different Redis Cloud accounts. [Contact support](https://redis.com/company/support/) if you want to migrate a database between accounts using Active-Passive.
+- An error will appear when syncing the two databases if the source and target databases are hosted on different Redis Cloud accounts. [Contact support](https://redis.io/support/) if you want to migrate a database between accounts using Active-Passive.
 
 - As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}). We recommend that you turn off Active-Passive after the databases are synced. 
 

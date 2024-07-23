@@ -49,4 +49,4 @@ At this point, you can create a new database using the [standard workflow]({{< r
 
 To confirm this, review the payment method associated with your subscription.
 
-If your AWS Marketplace account is deactivated or otherwise unavailable, you won't be able to use your databases until the billing method is updated.  For help, [contact support](https://redis.com/company/support/).
+If your AWS Marketplace account is deactivated or otherwise unavailable, you won't be able to use your databases until the billing method is updated.  For help, [contact support](https://redis.io/support/).

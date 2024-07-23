@@ -5,12 +5,12 @@ categories:
 - docs
 - operate
 - rs
-description: null
+description: The self-managed, enterprise-grade version of Redis.
 hideListLinks: true
 weight: 10
 ---
 
-[Redis Enterprise](https://redis.com/redis-enterprise/advantages/) is a self-managed, enterprise-grade version of Redis.
+[Redis Enterprise](https://redis.io/enterprise/) is a self-managed, enterprise-grade version of Redis.
 
 With Redis Enterprise, you get many enterprise-grade capabilities, including:
 - Linear scalability

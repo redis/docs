@@ -177,9 +177,9 @@ recorded.
 This pattern is easily modified to use counters using [`INCR`]({{< relref "/commands/incr" >}}) instead of lists
 using [`RPUSH`]({{< relref "/commands/rpush" >}}).
 
-# Appendix: Redis expires
+## Appendix: Redis expires
 
-## Keys with an expire
+### Keys with an expire
 
 Normally Redis keys are created without an associated time to live.
 The key will simply live forever, unless it is removed by the user in an
@@ -193,14 +193,14 @@ specified amount of time elapsed.
 The key time to live can be updated or entirely removed using the `EXPIRE` and
 [`PERSIST`]({{< relref "/commands/persist" >}}) command (or other strictly related commands).
 
-## Expire accuracy
+### Expire accuracy
 
 In Redis 2.4 the expire might not be pin-point accurate, and it could be between
 zero to one seconds out.
 
 Since Redis 2.6 the expire error is from 0 to 1 milliseconds.
 
-## Expires and persistence
+### Expires and persistence
 
 Keys expiring information is stored as absolute Unix timestamps (in milliseconds
 in case of Redis version 2.6 or greater).
@@ -216,7 +216,7 @@ you set a key with a time to live of 1000 seconds, and then set your computer
 time 2000 seconds in the future, the key will be expired immediately, instead of
 lasting for 1000 seconds.
 
-## How Redis expires keys
+### How Redis expires keys
 
 Redis keys are expired in two ways: a passive way and an active way.
 
@@ -229,7 +229,7 @@ These keys should be expired anyway, so periodically, Redis tests a few keys at
 random amongst the set of keys with an expiration.
 All the keys that are already expired are deleted from the keyspace.
 
-## How expires are handled in the replication link and AOF file
+### How expires are handled in the replication link and AOF file
 
 In order to obtain a correct behavior without sacrificing consistency, when a
 key expires, a [`DEL`]({{< relref "/commands/del" >}}) operation is synthesized in both the AOF file and gains all

@@ -21,6 +21,10 @@ to a Redis database.
 
 `node-redis` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
+You can also access Redis with an object-mapping client interface. See
+[RedisOM for Node.js]({{< relref "/integrate/redisom-for-node-js" >}})
+for more information.
+
 ## Install
 
 To install node-redis, run:

@@ -4,10 +4,9 @@ categories:
 - operate
 - redisinsight
 linkTitle: Proxy settings
-title: Redis Insight proxy
+title: Subpath proxy
 weight: 7
 ---
-# Subpath proxy
 
 {{<note>}}
 Subpath proxy is available only on the Docker version.

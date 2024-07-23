@@ -17,9 +17,6 @@ title: Bloom filter
 weight: 10
 ---
 
-
-# Bloom Filter
-
 A Bloom filter is a probabilistic data structure in Redis Stack that enables you to check if an element is present in a set using a very small memory space of a fixed size.
 
 Instead of storing all of the elements in the set, Bloom Filters store only the elements' hashed representation, thus sacrificing some precision. The trade-off is that Bloom Filters are very space-efficient and fast.
