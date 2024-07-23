@@ -58,3 +58,9 @@ Use the [Search and query sizing calculator](https://redis.io/redisearch-sizing-
 - **Dataset Size**: Add the estimated index size from the Sizing calculator to your expected dataset size.
 - **Throughput**: Enter the total estimated throughput from the Sizing calculator when you enter your throughput.
 - **Query performance factor**: The query performance factor adds extra power specifically for search and query. Select a factor to increase your queries per second by that amount.
+
+#### Query performance factor
+
+The query performance factor adds extra compute power specifically for search and query. When you create a database with search and query, you can select a factor to increase your queries per second by that amount.
+
+We recommend testing your application with a test database to see your baseline queries per second and determine how much you want to boost your query performance. After you have determined your queries per second and your desired performance factor, create a new database with the desired performance factor and [migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) from the test database to your new database.
