@@ -46,6 +46,10 @@ echo $PATH
 
 Then, confirm that the output contains `/opt/homebrew/bin` (Apple silicon Macs) or `/usr/local/bin` (Intel Mac). If these directories are not in the output, see the "Existing Redis installation" instructions below.
 
+{{< note >}}
+Because Redis Stack is installed using a brew cask via the `brew tap` command, it will not be integrated with the `brew services` command.
+{{< /note >}}
+
 ### Existing Redis installation
 
 If you have an existing Redis installation on your system, then might want to modify your `$PATH` to ensure that you're using the latest Redis Stack binaries.
@@ -77,15 +81,6 @@ You can now start Redis Stack Server as follows:
 {{< highlight bash >}}
 redis-stack-server
 {{< / highlight >}}
-
-## Launch Redis Insight
-
-To start up the Redis UI, Redis Insight, type:
-
-{{< highlight bash >}}
-redisinsight
-{{< / highlight >}}
-
 
 ## Installing Redis after installing Redis Stack
 
@@ -122,3 +117,30 @@ To uninstall Redis Stack, run:
 brew uninstall redis-stack-redisinsight redis-stack-server redis-stack
 brew untap redis-stack/redis-stack
 {{< / highlight >}}
+
+## Connect to Redis
+
+Once Redis is running, you can test it by running `redis-cli`:
+
+{{< highlight bash  >}}
+redis-cli
+{{< / highlight >}}
+
+Test the connection with the `ping` command:
+
+{{< highlight bash  >}}
+127.0.0.1:6379> ping
+PONG
+{{< / highlight >}}
+
+You can also test that your Redis server is running using
+[Redis Insight]({{< relref "/develop/connect/insight" >}}).
+
+## Next steps
+
+Once you have a running Redis instance, you may want to:
+
+* Try the [Redis CLI tutorial]({{< relref "/develop/connect/cli" >}})
+* Connect using one of the [Redis clients]({{< relref "/develop/connect/clients" >}})
+* [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/install-redis#install-redis-properly" >}})
+  for production use.
