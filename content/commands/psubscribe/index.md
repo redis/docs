@@ -36,7 +36,7 @@ title: PSUBSCRIBE
 ---
 Subscribes the client to the given patterns.
 
-Supported glob-style patterns:
+Supported glob-style patterns:--
 
 * `h?llo` subscribes to `hello`, `hallo` and `hxllo`
 * `h*llo` subscribes to `hllo` and `heeeello`
