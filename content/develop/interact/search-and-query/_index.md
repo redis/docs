@@ -17,7 +17,7 @@ title: Search and query
 weight: 10
 ---
 
-Redis Stack offers an enhanced Redis experience via the following search and query features:
+Redis Search offers an enhanced Redis experience via the following search and query features:
 
 - A rich query language
 - Incremental indexing on JSON and hash documents
@@ -28,7 +28,7 @@ Redis Stack offers an enhanced Redis experience via the following search and que
 
 You can find a complete list of features in the [reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/" >}}).
 
-The search and query features of Redis Stack allow you to use Redis as a:
+The search and query features allow you to use Redis as a:
 
 - Document database
 - Vector database
@@ -40,6 +40,16 @@ Here are the next steps to get you started:
 1. Follow our [quick start guide]({{< relref "/develop/get-started/document-database" >}}) to get some initial hands-on experience.
 2. Learn how to [create an index]({{< relref "/develop/interact/search-and-query/indexing/" >}}).
 3. Learn how to [query your data]({{< relref "/develop/interact/search-and-query/query/" >}}).
+
+## Enable Redis Search
+
+Redis Search is not available by default in the basic Redis server, so you
+should install Redis Stack or Redis Enterprise,
+both of which include Redis Search and other useful modules.
+See
+[Install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
+[Install Redis Enterprise]({{< relref "/operate/rs/installing-upgrading/install" >}})
+for full installation instructions.
 
 ## License and source code
 

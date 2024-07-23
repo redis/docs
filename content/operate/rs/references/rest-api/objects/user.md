@@ -23,7 +23,7 @@ An API object that represents a Redis Enterprise user.
 | email | string | User's email (pattern matching only ASCII characters) |
 | email_alerts | boolean (default:&nbsp;true) | Activate email alerts for a user |
 | name | string | User's name (pattern does not allow non-ASCII and special characters &,\<,>,") |
-| password | string | User's password. Note that it could also be an already hashed value, in which case the `password_hash_method` parameter is also provided. |
+| password | string | User's password. If `password_hash_method` is set to `1`, the password should be hashed using SHA-256. The format before hashing is `username:clustername:password`. | 
 | password_hash_method | '1' | Used when password is passed pre-hashed to specify the hashing method |
 | password_issue_date | string | The date in which the password was set (read-only) |
 | role | 'admin'<br />'cluster_member'<br />'cluster_viewer'<br />'db_member'<br /> **'db_viewer'** <br />'none' | User's [role]({{< relref "/operate/rs/references/rest-api/permissions#roles" >}}) |
