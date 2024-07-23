@@ -1,0 +1,15 @@
+{
+    "id": "redis_vl",
+    "type": "client",
+    "name": "redisvl",
+    "language": "RedisVL",
+    "repository": {
+        "git_uri": "/Users/david.dougherty/src/test/redis-vl-python"
+    },
+    "examples": {
+        "git_uri": "/Users/david.dougherty/src/test/redis-vl-python",
+        "dev_branch": "main",
+        "path": "doctests",
+        "pattern": "*.py"
+    }
+}
