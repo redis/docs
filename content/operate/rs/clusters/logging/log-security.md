@@ -1,12 +1,12 @@
 ---
-Title: Log security
+Title: Manage logs
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 description: null
-linktitle: Log security
+linktitle: Manage logs
 weight: 50
 ---
 Redis Enterprise comes with [a set of logs]({{< relref "/operate/rs/clusters/logging" >}}) on the server and available through the user interface to assist users in investigating actions taken on the server and to troubleshoot issues.
