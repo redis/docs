@@ -10,7 +10,13 @@
 {{ end }}
 
 {{ $editURL := printf "%s/edit/%s/content/%s" $gh_repo $gh_branch $gh_file }}
-{{ $issuesURL := printf "%s/issues/new?title=Feedback: %s&body=Page https://redis.io/docs/latest/%s" $gh_repo (safeURL $.Title ) (path.Dir $.Path | safeURL )}}
+{{ $path := "" }}
+{{ with .File }}
+{{ $path = .Path }}
+{{ else }}
+{{ $path = .Path }}
+{{ end }}
+{{ $issuesURL := printf "%s/issues/new?title=Feedback: %s&body=Page https://redis.io/docs/latest/%s" $gh_repo (safeURL $.Title ) (path.Dir $path | safeURL )}}
 
 <nav class="flex flex-col gap-3 pb-3 w-52 text-redis-pencil-600 border-b border-b-redis-pen-700 border-opacity-50">
   <a {{ printf "href=%q" $editURL | safeHTMLAttr }} target="_blank" class="group inline-flex items-center gap-1  hover:text-redis-pen-400 mt-auto self-start">
