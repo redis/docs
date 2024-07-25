@@ -130,7 +130,7 @@ option and the URI pattern `redis://user:password@host:port/dbnum`:
 **NOTE:**
 User, password and dbnum are optional.
 For authentication without a username, use username `default`.
-For TLS, use the scheme `rediss`.
+For TLS, use the scheme `redis`.
 
 You can use the `-4` or `-6` argument to set a preference for IPv4 or IPv6, respectively, for DNS lookups.
 
