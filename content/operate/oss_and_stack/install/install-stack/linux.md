@@ -78,8 +78,7 @@ sudo snap install --dangerous --classic <snapname.snap>
 Redis will not start automatically, nor will it start at boot time. To do this, run the following commands.
 
 {{< highlight bash >}}
-sudo snap set redis service.start=true
-sudo snap start redis
+sudo snap run redis-stack-server
 {{< /highlight >}}
 
 You an use these additional snap-related commands to stop, restart, and check the status of Redis:
