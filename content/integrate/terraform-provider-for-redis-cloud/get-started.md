@@ -85,6 +85,7 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
     resource "rediscloud_subscription" "subscription-resource" {
             name = "subscription-name"
             payment_method_id = data.rediscloud_payment_method.card.id
+            # If the payment method is 'marketplace', drop 'payment_method_id' and define the 'payment_method' as 'marketplace'
             memory_storage = "ram"
 
             # Specify the cloud provider information here
@@ -96,7 +97,7 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
                     }
             }
 
-            #Define the average database specification for databases in the subscription
+            # Define the average database specification for databases in the subscription
             creation_plan {
                     memory_limit_in_gb = 2
                     quantity = 1
