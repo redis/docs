@@ -39,7 +39,7 @@ This guide shows how to create an Essentials database.
 
     {{<image filename="images/rc/essentials-74-preview.png" alt="Turn on the Redis 7.4 preview toggle.">}}
     
-    Redis 7.4 offers hash field expiration and other feature set improvements. For more information on the changes in Redis 7.4, see the [Redis 7.4 release notes](REPLACE LINK).
+    Redis 7.4 offers hash field expiration and other feature set improvements. For more information on the changes in Redis 7.4, see the [Redis 7.4 release notes](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74).
 
 1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis Stack** unless you have a legacy application that uses **Memcached**.
 
