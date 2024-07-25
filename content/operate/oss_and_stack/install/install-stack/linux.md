@@ -75,17 +75,40 @@ sudo apt install redis-tools
 sudo snap install --dangerous --classic <snapname.snap>
 {{< / highlight >}}
 
-Redis will not start automatically, nor will it start at boot time. To do this, run the following commands.
+Redis will not start automatically, nor will it start at boot time. To start `redis-stack-server` in the foreground, run the command:
 
 {{< highlight bash >}}
 sudo snap run redis-stack-server
 {{< /highlight >}}
 
-You an use these additional snap-related commands to stop, restart, and check the status of Redis:
+To stop Redis, enter `Ctrl-C`.
 
-* `sudo snap stop redis`
-* `sudo snap restart redis`
-* `sudo snap services redis`
+Follow these steps to integrate Redis Stack with `systemd` so you can start/stop in/from the background:
+
+1. Edit the `/etc/systemd/system/redis-stack-server.service` file and enter the following information:
+
+    {{< highlight text >}}
+    [Unit]
+    Description=Redis Stack Server
+    After=network.target
+
+    [Service]
+    ExecStart=/usr/bin/snap run redis-stack-server
+    Restart=always
+    User=root
+    Group=root
+
+    [Install]
+    WantedBy=multi-user.target
+    {{< /highlight >}}
+
+1. Run the following commands.
+
+    {{< highlight bash >}}
+    sudo systemctl daemon-reload
+    sudo systemctl start redis-stack-server
+    sudo systemctl enable redis-stack-server
+    {{< /highlight >}}
 
 If your Linux distribution does not currently have Snap installed, you can install it using the instructions described  [here](https://snapcraft.io/docs/installing-snapd). Then, download the appropriate from the [downloads page](https://redis.io/downloads/).
 
@@ -139,7 +162,7 @@ Follow these steps to integrate Redis Stack with `systemd` so you can start/stop
 
 ## Starting and stopping Redis Stack in the background
 
-You can start the Redis server as a background process using the `systemctl` command. This only applies to Ubuntu/Debian when installed using `apt`, Red Hat/Rocky when installed using `yum`.
+You can start the Redis server as a background process using the `systemctl` command. This only applies to Ubuntu/Debian when installed using `apt`, and Red Hat/Rocky when installed using `yum`.
 
 {{< highlight bash  >}}
 sudo systemctl start redis-stack-server
