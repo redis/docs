@@ -15,7 +15,7 @@ weight: 94
 
 ## Requirements
 
-RedisBloom v2.6.13 requires:
+RedisBloom v2.8.2 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)

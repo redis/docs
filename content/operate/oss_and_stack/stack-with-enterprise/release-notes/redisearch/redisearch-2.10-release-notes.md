@@ -18,7 +18,7 @@ RediSearch v2.10.5 requires:
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
 
-## v2.10 GA (v2.10.5)
+## v2.10 GA (v2.10.5) (July 2024)
 
 This is the General Availability release of RediSearch 2.10
 

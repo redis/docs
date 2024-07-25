@@ -13,7 +13,7 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.19 requires:
+RediSearch v2.8.14 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
