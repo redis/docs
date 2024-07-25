@@ -84,7 +84,7 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
     # Create a subscription
     resource "rediscloud_subscription" "subscription-resource" {
             name = "subscription-name"
-            payment_method_id = data.rediscloud_payment_method.card.id # If the payment method is 'marketplace', drop 'payment_method_id' and define the 'payment_method' as 'marketplace'
+            payment_method_id = data.rediscloud_payment_method.card.id # If you want to pay with a marketplace account, replace this line with 'payment_method = marketplace'.
             memory_storage = "ram"
 
             # Specify the cloud provider information here
