@@ -49,7 +49,7 @@ Bundled Redis modules compatible with Redis database version 7.2:
 
 - [RedisBloom 2.6.12]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.6-release-notes.md" >}})
 
-- [RedisGears 2.0.20 preview](https://github.com/RedisGears/RedisGears/releases/tag/v2.0.20-m21)
+- [RedisGears 2.0.20 preview](https://github.com/RedisGears/RedisGears/releases/tag/v2.0.20-m21): The RedisGears preview will not be promoted to GA and will be removed in a future release.
 
 Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
@@ -61,7 +61,7 @@ Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
 - [RedisBloom 2.4.9]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.4-release-notes.md" >}})
 
-- [RedisGraph v2.10.15]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.10-release-notes.md" >}})
+- [RedisGraph v2.10.15]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.10-release-notes.md" >}}): RedisGraph end-of-life has been announced and will be removed in a future release. See the [RedisGraph end-of-life announcement](https://redis.io/blog/redisgraph-eol/) for more details.
 
 ### Resolved issues
 
