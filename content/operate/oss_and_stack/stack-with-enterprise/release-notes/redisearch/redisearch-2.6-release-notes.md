@@ -15,10 +15,27 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.18 requires:
+RediSearch v2.6.19 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.19 (June 2024)
+
+This is a maintenance release for RediSearch 2.6
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+- Bug fixes:
+
+  - [#4616](https://github.com/RediSearch/RediSearch/pull/4616) Shards become unresponsive when using FT.AGGREGATE with APPLY 'split(...)' (MOD-6759)
+  - [#4557](https://github.com/RediSearch/RediSearch/pull/4557) FT.EXPLAIN returns additional } when querying using wildcards (MOD-6768)
+  - [#4647](https://github.com/RediSearch/RediSearch/pull/4647) FT.DROPINDEX with DD flag deleted keys in one AA cluster but not the others (MOD-1855)
+
+- Improvements:
+
+  - [#4599](https://github.com/RediSearch/RediSearch/pull/4599) Report additional memory consumed by the TAG and TEXT tries (MOD-5902)
+  - [#4688](https://github.com/RediSearch/RediSearch/pull/4688) Add missing FT.INFO fields when used within a cluster (MOD-6920)
 
 ## v2.6.18 (April 2024)
 

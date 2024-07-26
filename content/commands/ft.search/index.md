@@ -265,6 +265,10 @@ hidden: false
 history:
 - - 2.0.0
   - Deprecated `WITHPAYLOADS` and `PAYLOAD` arguments
+- - 2.6
+  - Deprecated `GEOFILTER` argument
+- - "2.10"
+  - Deprecated `FILTER` argument
 linkTitle: FT.SEARCH
 module: Search
 since: 1.0.0
@@ -363,12 +367,14 @@ returns the value of the sorting key, right after the id and score and/or payloa
 
 limits results to those having numeric values ranging between `min` and `max`, if numeric_attribute is defined as a numeric attribute in [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/). 
   `min` and `max` follow [`ZRANGE`]({{< relref "/commands/zrange" >}}) syntax, and can be `-inf`, `+inf`, and use `(` for exclusive ranges. Multiple numeric filters for different attributes are supported in one query.
+**Deprecated since v2.10**: [Query dialect 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}) explains the query syntax for numeric fields that replaces this argument.
 </details>
 
 <details open>
 <summary><code>GEOFILTER {geo_attribute} {lon} {lat} {radius} m|km|mi|ft</code></summary>
 
 filter the results to a given `radius` from `lon` and `lat`. Radius is given as a number and units. See [`GEORADIUS`]({{< relref "/commands/georadius" >}}) for more details.
+**Deprecated since v2.6**: [Query dialect 3]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-3" >}}) explains the query syntax for geospatial fields that replaces this argument.
 </details>
 
 <details open>

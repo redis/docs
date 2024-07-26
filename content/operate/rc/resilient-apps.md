@@ -52,6 +52,8 @@ Redis maintains your Redis Cloud subscriptions and databases as needed to ensure
 
 For stable apps, you may want to control when Redis can perform maintenance on your databases. For Redis Cloud Pro subscriptions, you can [set manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) to ensure non-urgent maintenance will occur at set times. Configuring or altering the maintenance window will not have any impact on your subscription or databases.
 
+A Redis Cloud Essentials database has a set maintenance window based on the region where it is located. See [Essentials maintenance]({{< relref "/operate/rc/subscriptions/maintenance#redis-cloud-essentials" >}}) for more information.
+
 ## Set up Redis clients
 
 When you're developing your apps, it is best to use specific Redis Client features to connect to Redis Cloud if they are available for your preferred client.
@@ -72,9 +74,9 @@ Depending on the client, you may be recommended to turn off the DNS cache entire
 
 ### Use the WAIT and WAITAOF commands
 
-The [WAIT]({{< relref "/commands/wait/" >}}) and [WAITAOF]({{< relref "/commands/waitaof/" >}}) commands block the current client until all previous write commands are persisted between replicas. With these commands, your application guarantees that acknowledged writes are recorded between replicas. 
+The [WAIT]({{< relref "/commands/wait" >}}) and [WAITAOF]({{< relref "/commands/waitaof" >}}) commands block the current client until all previous write commands are persisted between replicas. With these commands, your application guarantees that acknowledged writes are recorded between replicas. 
 
-For more info, see [Use the WAIT command for strong consistency]({{< relref "/operate/rs/clusters/optimize/wait/" >}}).
+For more info, see [Use the WAIT command for strong consistency]({{< relref "/operate/rs/clusters/optimize/wait" >}}).
 
 ## More info
 
