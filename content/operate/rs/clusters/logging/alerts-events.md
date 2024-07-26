@@ -8,6 +8,11 @@ categories:
 description: Logged alerts and events
 linkTitle: Alerts and events
 weight: 50
+aliases: 
+    - /operate/rs/clusters/logging/rsyslog-logging/cluster-events/
+    - /operate/rs/clusters/logging/rsyslog-logging/bdb-events/
+    - /operate/rs/clusters/logging/rsyslog-logging/node-events/
+    - /operate/rs/clusters/logging/rsyslog-logging/user-events/
 ---
 
 The following alerts and events can appear in `syslog` and the Cluster Manager UI logs.
@@ -62,6 +67,7 @@ The following alerts and events can appear in `syslog` and the Cluster Manager U
 | node_remove_request               |                                                                | info                    | node event                                                                                                                                                     |
 | ocsp_query_failed                 | Failed querying OCSP server                                    | True: error, False: info | cluster alert                                                                                                                                                  |
 | ocsp_status_revoked               | OCSP status revoked                                            | True: error, False: info | cluster alert                                                                                                                                                  |
+| oom_err                           |                                                                | error                   | bdb event; Replica of - Replication source/target out of memory                                                                                               |
 | persistent_storage                | Persistent storage has reached <threshold>% of its capacity    | True: warning, False: info | node alert; Has global_threshold parameter in the key/value section of the log entry.                                                                           |
 | ram_dataset_overhead              | RAM Dataset overhead in a shard has reached <threshold>% of its RAM limit | True: warning, False: info | bdb alert; Has threshold parameter in the key/value section of the log entry.                                                                                 |
 | ram_overcommit                    | Cluster capacity is less than total memory allocated to its databases | True: error, False: info | cluster alert                                                                                                                                                  |
