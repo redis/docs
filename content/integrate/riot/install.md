@@ -36,3 +36,5 @@ docker run riotx/riot [OPTIONS] [COMMAND]
 ## Manual installation
 
 Download the pre-compiled binary from the [releases page](https://github.com/redis/riot/releases), uncompress, and copy to the desired location.
+
+Full documentation is available at [redis.github.io/riot](https://redis.github.io/riot/).
