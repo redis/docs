@@ -17,18 +17,13 @@ and wait for failovers.
 
 ## Proxy policies
 
-A database can have one of these proxy policies:
+A database can have one of the following proxy policies:
 
-| Proxy policy | Description |
-|--------------|-------------|
-| Single | There is only a single proxy that is bound to the database. This is the default database configuration and preferable for most use cases. |
-| All primary shards | There are multiple proxies that are bound to the database, one on each node that hosts a database master shard. This mode fits most use cases that require multiple proxies. |
-| All nodes | There are multiple proxies that are bound to the database, one on each node in the cluster, regardless of whether or not there is a shard from this database on the node. This mode should be used only in special cases, such as [using a load balancer]({{< relref "/operate/rs/networking/cluster-lba-setup.md" >}}). |
-
-{{< note >}}
-Manual intervention is also available via the rladmin bind add and
-remove commands.
-{{< /note >}}
+| Proxy policy | Description | Recommended use cases | Advantages | Disadvantages |
+|--------------|-------------|-----------------------|-----------|-----------------|
+| Single | Only a single proxy is bound to the database. This is the default database configuration. | Most use cases without high traffic or load | Lower resource usage, fewer application-to-cluster connections | Higher latency, more network hops |
+| All primary shards | Multiple proxies are bound to the database, one on each node that hosts a database primary shard. | Most use cases that require multiple endpoints, such as when using the [OSS Cluster API]({{<relref "/operate/rs/clusters/optimize/oss-cluster-api">}}) | Lower latency, fewer network hops, higher throughput | Higher resource usage, more application-to-proxy connections |
+| All nodes | Multiple proxies are bound to the database, one on each node in the cluster, regardless of whether or not there is a shard from this database on the node. | When using [load balancers]({{<relref "/operate/rs/networking/cluster-lba-setup">}}) for environments without DNS | Higher throughput | Highest resource usage |
 
 ## Database configuration
 
