@@ -36,7 +36,13 @@ RedisTimeSeries 1.12 adds a highly requested feature: insertion-filter for close
   - `TS.ADD`, `TS.INCRBY`, and `TS.DECRBY` now have a new optional argument: `[IGNORE ignoreMaxTimeDiff ignoreMaxValDiff]`.
     When creating a new time series, these two values are used to set the per-key parameters and override the two module configuration parameters. These values are ignored when specified with an existing time series.
   - `[IGNORE ignoreMaxTimeDiff ignoreMaxValDiff]` is also supported by `TS.ALTER`.
-  - For each call to `TS.ADD`, if the following condition is met: (series is not a compaction), (the series' `DUPLICATE_POLICY` is `LAST`), (`timestamp` ≥ `max_timestamp`), (`timestamp` - `max_timestamp` ≤ `ignoreMaxTimeDiff`), and abs(`value` - `value_at_max_timestamp`) ≤ `ignoreMaxValDiff`)) then this sample is ignored (not added) to the time series. `max_timestamp` is the maximal timestamp in the time series.
+  - For each call to `TS.ADD`, if the following conditions are met:
+      - series is not a compaction
+      - the series' `DUPLICATE_POLICY` is `LAST`
+      - `timestamp` ≥ `max_timestamp`
+      - `timestamp` - `max_timestamp` ≤ `ignoreMaxTimeDiff`
+      - abs(`value` - `value_at_max_timestamp`) ≤ `ignoreMaxValDiff`))
+    then this sample is ignored (not added) to the time series. `max_timestamp` is the maximal timestamp in the time series.
   - The same logic also applies for each call to `TS.MADD` based on the values of the per-key parameters.
   - When a sample is ignored, the returned value for `TS.ADD` and for the applicable array element in `TS.MADD` is `max_timestamp`.
 
