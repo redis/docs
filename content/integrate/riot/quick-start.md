@@ -26,3 +26,5 @@ You can use `--help` on any command and sub-command:
 riot command --help
 riot command sub-command --help
 ```
+
+Full documentation is available at [redis.github.io/riot](https://redis.github.io/riot/)
