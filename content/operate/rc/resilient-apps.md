@@ -74,9 +74,9 @@ Depending on the client, you may be recommended to turn off the DNS cache entire
 
 ### Use the WAIT and WAITAOF commands
 
-The [WAIT]({{< relref "/commands/wait/" >}}) and [WAITAOF]({{< relref "/commands/waitaof/" >}}) commands block the current client until all previous write commands are persisted between replicas. With these commands, your application guarantees that acknowledged writes are recorded between replicas. 
+The [WAIT]({{< relref "/commands/wait" >}}) and [WAITAOF]({{< relref "/commands/waitaof" >}}) commands block the current client until all previous write commands are persisted between replicas. With these commands, your application guarantees that acknowledged writes are recorded between replicas. 
 
-For more info, see [Use the WAIT command for strong consistency]({{< relref "/operate/rs/clusters/optimize/wait/" >}}).
+For more info, see [Use the WAIT command for strong consistency]({{< relref "/operate/rs/clusters/optimize/wait" >}}).
 
 ## More info
 
