@@ -27,4 +27,4 @@ riot command --help
 riot command sub-command --help
 ```
 
-Full documentation is available at [redis.github.io/riot](https://redis.github.io/riot/)
+Full documentation is available at [redis.github.io/riot](https://redis.github.io/riot/).
