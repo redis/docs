@@ -16,11 +16,6 @@ title: Redis as a vector database quick start guide
 weight: 3
 ---
 
-{{< clients-example test test1 >}}
-redis-cli> PING
-PONG
-{{< /clients-example >}}
-
 This quick start guide helps you to:
 
 1. Understand what a vector database is

@@ -15,10 +15,14 @@
     {{ $tabs = $tabs | append (dict "title" "redis-cli" "content" $redisCliContent "limit" $redisCommandsLineLimit) }}
 {{ end }}
 
-{{ $languages := index $.Site.Data.examples $id }}
-{{ range $language := $.Site.Params.clientsexamples }}
-    {{ $example := index $languages $language }}
-    {{ if and ($example) (or (eq $lang "") (eq $lang $language)) }}
+{{ $clientExamples := index $.Site.Data.examples $id }}
+{{ range $client := $.Site.Params.clientsexamples }}
+    {{ $example := index $clientExamples $client }}
+    {{ $clientConfig := index $.Site.Params.clientsconfig $client }}
+    {{ $language := index $clientConfig "lang" }}
+    {{ $quickstartSlug := index $clientConfig "quickstartSlug" }}
+
+    {{ if and ($example) (or (eq $lang "") (eq $lang $client)) }}
         {{ $examplePath := index $example "target" }}
         {{ $options := printf "linenos=false" }}
 
@@ -31,7 +35,7 @@
         {{ end }}
         {{ $params := dict "language" $language "contentPath" $examplePath "options" $options }}
         {{ $content := partial "tabs/source.html" $params }}
-        {{ $tabs = $tabs | append (dict "title" $language "content" $content "sourceUrl" (index $example "sourceUrl")) }}
+        {{ $tabs = $tabs | append (dict "title" $client "language" $language "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl")) }}
     {{ end }}
 {{ end }}
 

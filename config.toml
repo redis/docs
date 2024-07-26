@@ -56,6 +56,14 @@ rdi_debezium_server_version = "2.3.0.Final"
 rdi_db_types = "cassandra|mysql|oracle|postgresql|sqlserver"
 rdi_cli_latest = "latest"
 
+[params.clientsConfig]
+"Python"={lang="python", quickstartSlug="python/redis-py"}
+"Node.js"={lang="javascript", quickstartSlug="nodejs"}
+"Java"={lang="java", quickstartSlug="java/jedis"}
+"Go"={lang="go", quickstartSlug="go"}
+"C#"={lang="C#", quickstartSlug="dotnet"}
+"RedisVL"={lang="python", quickstartSlug="python/redis-vl"}
+
 # Markup
 [markup]
   [markup.goldmark]

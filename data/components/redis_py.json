@@ -7,7 +7,7 @@
         "git_uri": "https://github.com/redis/redis-py"
     },
     "examples": {
-        "git_uri": "/Users/david.dougherty/src/test/redis-py",
+        "git_uri": "https://github.com/redis/redis-py",
         "dev_branch": "master",
         "path": "doctests",
         "pattern": "*.py"
