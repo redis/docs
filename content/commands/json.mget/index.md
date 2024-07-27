@@ -33,7 +33,7 @@ title: JSON.MGET
 Return the values at `path` from multiple `key` arguments
 
 {{% warning %}}
-On a clustered environment, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).
+All specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).
 {{% /warning %}}
 
 [Examples](#examples)
