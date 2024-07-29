@@ -114,7 +114,7 @@ You should avoid using `calloc()` directly.
 
     void *RedisModule_TryCalloc(size_t nmemb, size_t size);
 
-**Available since:** unreleased
+**Available since:** 7.4.0
 
 Similar to [`RedisModule_Calloc`](#RedisModule_Calloc), but returns NULL in case of allocation failure, instead
 of panicking.
@@ -135,7 +135,7 @@ Use like `realloc()` for memory obtained with [`RedisModule_Alloc()`](#RedisModu
 
     void *RedisModule_TryRealloc(void *ptr, size_t bytes);
 
-**Available since:** unreleased
+**Available since:** 7.4.0
 
 Similar to [`RedisModule_Realloc`](#RedisModule_Realloc), but returns NULL in case of allocation failure,
 instead of panicking.
@@ -467,7 +467,7 @@ Returns `REDISMODULE_OK` on success and `REDISMODULE_ERR` in case of the followi
 
     int RedisModule_AddACLCategory(RedisModuleCtx *ctx, const char *name);
 
-**Available since:** unreleased
+**Available since:** 7.4.0
 
 [`RedisModule_AddACLCategory`](#RedisModule_AddACLCategory) can be used to add new ACL command categories. Category names
 can only contain alphanumeric characters, underscores, or dashes. Categories can only be added
@@ -3840,7 +3840,7 @@ AOF rewrite, and so forth). In this section we define this API.
 
 Register a new data type exported by the module. The parameters are the
 following. Please for in depth documentation check the modules API
-documentation, especially [https://redis.io/docs/latest/develop/reference/modules/modules-native-types/](https://redis.io/docs/latest/develop/reference/modules/modules-native-types/).
+documentation, especially [https://redis.io/topics/modules-native-types](https://redis.io/topics/modules-native-types).
 
 * **name**: A 9 characters data type name that MUST be unique in the Redis
   Modules ecosystem. Be creative... and there will be no collisions. Use
@@ -4489,7 +4489,7 @@ latency-monitor-threshold.
 ## Blocking clients from modules
 
 For a guide about blocking commands in modules, see
-[https://redis.io/docs/latest/develop/reference/modules/modules-blocking-ops/](https://redis.io/docs/latest/develop/reference/modules/modules-blocking-ops/).
+[https://redis.io/topics/modules-blocking-ops](https://redis.io/topics/modules-blocking-ops).
 
 <span id="RedisModule_RegisterAuthCallback"></span>
 
@@ -5268,7 +5268,7 @@ With the following effects:
 
     unsigned int RedisModule_ClusterKeySlot(RedisModuleString *key);
 
-**Available since:** unreleased
+**Available since:** 7.4.0
 
 Returns the cluster slot of a key, similar to the `CLUSTER KEYSLOT` command.
 This function works even if cluster mode is not enabled.
@@ -5279,7 +5279,7 @@ This function works even if cluster mode is not enabled.
 
     const char *RedisModule_ClusterCanonicalKeyNameInSlot(unsigned int slot);
 
-**Available since:** unreleased
+**Available since:** 7.4.0
 
 Returns a short string that can be used as a key or as a hash tag in a key,
 such that the key maps to the given cluster slot. Returns NULL if slot is not
