@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise Software release notes 7.4.2
+Title: Redis Enterprise Software release notes 7.4.x
 alwaysopen: false
 categories:
 - docs
@@ -11,7 +11,7 @@ description: New Cluster Manager UI enhancements, including Active-Active databa
   including for internal traffic. Maintenance mode enhancements. Module management
   enhancements. RHEL 9 support.
 hideListLinks: true
-linkTitle: 7.4.2 releases
+linkTitle: 7.4.x releases
 toc: 'true'
 weight: 70
 ---
@@ -47,6 +47,12 @@ For more detailed release notes, select a build version from the following table
 ## Version changes
 
 ### Product lifecycle updates
+
+#### End-of-life policy extension
+
+The end-of-life policy for Redis Enterprise Software versions 6.2 and later has been extended to 24 months after the formal release of the subsequent major version. For the updated end-of-life schedule, see the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}).
+
+#### Supported upgrade paths
 
 After August 31, 2024, Redis Enterprise Software versions 6.2.4 and 6.2.8 will not be included in [supported upgrade paths]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}) for Redis Enterprise Software versions beyond 7.4.x. Redis Enterprise Software versions 6.2.10, 6.2.12, and 6.2.18 will continue to be part of the upgrade path.
 
@@ -89,6 +95,16 @@ To prepare for the future removal of Redis 6.0:
 - The 3DES encryption cipher, which was previously deprecated in favor of stronger ciphers like AES, is no longer supported. Verify that all clients, applications, and connections support the AES cipher.
 
 - TLS 1.0 and TLS 1.1 connections, which were previously deprecated in favor of TLS 1.2 or later, are no longer supported. Verify that all clients, applications, and connections support TLS 1.2 or later.
+
+### Upcoming changes
+
+#### Default image change for Redis Enterprise Software containers
+
+Starting with version 7.6, Redis Enterprise Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
+
+This change will only affect you if you use containers outside the official [Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes">}}) product and use Ubuntu-specific commands.
+
+To use Ubuntu-based images after this change, you can specify the operating system suffix in the image tag. For example, use the image tag `7.4.2-216.focal` instead of `7.4.2-216`.
 
 ### Supported platforms
 

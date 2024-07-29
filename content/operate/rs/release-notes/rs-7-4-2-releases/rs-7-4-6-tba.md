@@ -8,7 +8,8 @@ categories:
 compatibleOSSVersion: Redis 7.2.4
 description: Support for SHA-384 certificates in client authentication. rlcheck output in support packages. New parameters for optimize_shard_placement and recover database REST API requests.
 linkTitle: 7.4.6-tba (July 2024)
-weight: 72
+weight: 66
+aliases: /operate/rs/release-notes/rs-7-4-6-releases/rs-7-4-6-tba/
 ---
 
 ​[​Redis Enterprise Software version 7.4.6](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
