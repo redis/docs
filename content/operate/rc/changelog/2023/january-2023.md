@@ -11,6 +11,8 @@ highlights: Pub/sub ACLs, multiple availability zones, add users with first and 
   names
 linktitle: January 2023
 weight: 90
+aliases:
+  - /operate/rc/changelog/january-2023
 ---
 
 This changelog lists new features, enhancements, and other changes added to Redis Cloud during January 2023.

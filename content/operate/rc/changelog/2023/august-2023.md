@@ -10,6 +10,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
 highlights: Redis 7.2 Opt-in for Flexible subscriptions, Triggers and functions preview
 linktitle: August 2023
 weight: 80
+aliases:
+  - /operate/rc/changelog/august-2023
 ---
 
 This changelog lists new features, enhancements, and other changes added to Redis Cloud during August 2023.
@@ -18,7 +20,7 @@ This changelog lists new features, enhancements, and other changes added to Redi
 
 ### Redis 7.2 flexible opt-in
 
-You can opt in to Redis 7.2 on [Flexible subscriptions]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}). Redis 7.2 introduces several changes to existing Redis commands; see the [list of breaking changes]({{< relref "/operate/rc/changelog/june-2023#redis-72-breaking-changes" >}}) published in June's changelog for more details.
+You can opt in to Redis 7.2 on [Flexible subscriptions]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}). Redis 7.2 introduces several changes to existing Redis commands; see the [list of breaking changes]({{< relref "/operate/rc/changelog/2023/june-2023#redis-72-breaking-changes" >}}) published in June's changelog for more details.
 
 ### Triggers and functions preview
 
