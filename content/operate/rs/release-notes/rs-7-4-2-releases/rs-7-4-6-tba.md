@@ -12,7 +12,7 @@ weight: 66
 aliases: /operate/rs/release-notes/rs-7-4-6-releases/rs-7-4-6-tba/
 ---
 
-​[​Redis Enterprise Software version 7.4.6](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Enterprise Software version 7.4.6](https://redis.com/redis-enterprise-software/download-center/software/) is now available! This release includes API enhancements that warranted a new minor version instead of a maintenance release for version 7.4.2. However, you can upgrade from 7.4.2 to 7.4.6 without issue.
 
 ## Highlights
 
