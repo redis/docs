@@ -38,14 +38,12 @@ FT.SEARCH index "@field:[value value]"
 
 or
 
-FT.SEARCH index "@field:[value]" DIALECT 5
+FT.SEARCH index "@field:[value]" DIALECT 2
 
 or
 
-FT.SEARCH index "@field==value" DIALECT 5
+FT.SEARCH index "@field==value" DIALECT 2
 ```
-
-See [DIALECT 5]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-5) for more information.
 
 As described in the [article about range queries]({{< relref "/develop/interact/search-and-query/query/range" >}}), you can also use the `FILTER` argument:
 
@@ -96,15 +94,13 @@ This short example shows you how to query for new bicycles:
 FT.SEARCH idx:bicycle "@condition:{new}"
 ```
 
-The following characters must be escaped to be used in an exact match query involving tags:
+Use double quotes and [DIALECT 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-2) for exact match queries involving tags that contain special characters. The only character that needs escaping in queries involving double-quoted tags is the double-quote character. Here's an example of using double-quoted tags that contain special characters:
+```
+JSON.SET key:1 $ '{"email": "test@redis.com"}'
+FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.email AS email TAG
 
-`$` - used to define a variable such as `$params`.
-
-`{}` - used to define `TAG` query attributes.
-
-`\` - used to indicate that the succeeding character should be handled as literal.
-
-`|` - used for the logical OR operator.
+FT.SEARCH idx '@email:{"test@redis.com"}' DIALECT 2
+```
 
 ## Full-text field
 

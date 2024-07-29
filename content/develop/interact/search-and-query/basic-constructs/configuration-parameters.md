@@ -542,7 +542,11 @@ $ redis-server --loadmodule ./redisearch.so OSS_GLOBAL_PASSWORD password
 
 ### DEFAULT_DIALECT
 
-The default DIALECT to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain/), [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), and [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck/).
+The default
+[DIALECT]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain/), [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), and [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck/).
+See [Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+for more information.
 
 #### Default
 
@@ -553,13 +557,6 @@ The default DIALECT to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.crea
 ```
 $ redis-server --loadmodule ./redisearch.so DEFAULT_DIALECT 2
 ```
-
-{{% alert title="Notes" color="info" %}}
-
-* Vector search, added in v2.4.3, requires `DIALECT 2` or greater.
-* Returning multiple values from [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) requires `DIALECT 3` or greater.
-
-{{% /alert %}}
 
 ---
 

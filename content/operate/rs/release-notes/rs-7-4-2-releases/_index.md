@@ -46,6 +46,14 @@ For more detailed release notes, select a build version from the following table
 
 ## Version changes
 
+### Product lifecycle updates
+
+After August 31, 2024, Redis Enterprise Software versions 6.2.4 and 6.2.8 will not be included in [supported upgrade paths]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}) for Redis Enterprise Software versions beyond 7.4.x. Redis Enterprise Software versions 6.2.10, 6.2.12, and 6.2.18 will continue to be part of the upgrade path.
+
+The next major Redis Enterprise Software release will still bundle Redis database version 6.2 and allow database upgrades from Redis database version 6.2 to 7.x.
+
+See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers.
+
 ### Deprecations
 
 #### API deprecations
@@ -125,7 +133,9 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS123142: In an Active-Active setup with at least three participating clusters, removing and re-adding a cluster after removing older clusters without re-adding them can cause missing keys and potentially lead to data loss or data inconsistency.
 
-    This issue will be fixed in a future maintenance release. To prevent this issue, avoid adding clusters until you upgrade to the upcoming maintenance release when available.
+    To prevent this issue, avoid adding clusters until you upgrade to the upcoming maintenance release when available.
+
+    This issue was fixed in [Redis Enterprise Software version 7.4.2-169]({{<relref "/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-169">}}).
 
 ## Known limitations
 

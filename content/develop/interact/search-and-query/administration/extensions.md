@@ -11,11 +11,9 @@ categories:
 - clients
 description: Details about extensions for query expanders and scoring functions
 linkTitle: Extensions
-title: Extensions
+title: Extend existing search and query features
 weight: 9
 ---
-
-# Extending the existing search and query features
 
 RediSearch supports an extension mechanism, much like Redis supports modules. The API is very minimal at the moment, and it does not yet support dynamic loading of extensions on a running server. Instead, extensions must be written in C (or a language that has an interface with C) and compiled into dynamic libraries that can be loaded at start up.
 

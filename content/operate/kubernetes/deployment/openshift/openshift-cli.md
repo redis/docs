@@ -94,7 +94,7 @@ The Redis Enterprise pods must run in OpenShift with privileges set in a [Securi
 
   {{<note>}} If you are using version 6.2.18-41 or earlier, add additional permissions for your cluster.
 
-    oc adm policy add-scc-to-user redis-enterprise-scc-v2 \
+    oc adm policy add-scc-to-user redis-enterprise-scc \
     system:serviceaccount:<my-project>:redis-enterprise-operator
 
   {{</note>}}

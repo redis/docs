@@ -15,8 +15,6 @@ title: Spellchecking
 weight: 13
 ---
 
-# Query spelling correction
-
 Query spelling correction provides suggestions for misspelled search terms. For example, the term 'reids' may be a misspelled version of 'redis'.
 
 In such cases, and as of v1.4, RediSearch can be used for generating alternatives to misspelled query terms. A misspelled term is a full text term (i.e., a word) that is:

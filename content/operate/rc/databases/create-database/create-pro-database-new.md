@@ -12,6 +12,8 @@ weight: 10
 
 {{< embed-md "rc-create-db-first-steps.md" >}}
 
+{{< note >}}See [Use case settings](#use-case-settings) to view the default settings for each use case.{{< /note >}}
+
 4. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Pro**. 
 
     {{<image filename="images/rc/create-database-subscription-pro-new.png" alt="The Subscription selection panel with Pro selected.">}}
@@ -102,7 +104,8 @@ By default, you're shown basic settings, which include:
 | Database&nbsp;setting | Description |
 |:---------|:-----------|
 | **Name** | A custom name for your database (_required_) |
-| **Advanced Capabilities** | Advanced data types used by the database. Choose from [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}), [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}), or [Graph (EOL)]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}). |
+| **Advanced Capabilities** | Advanced data types used by the database. Choose from [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}), [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}), or [Graph (EOL)]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}). <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
+| **Query performance factor** | *(Search and query databases only)* Adds additional compute power to process your Search and Query workloads and boost your queries per second. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/clustering#throughput" >}}) for more information. |
 | **Dataset size (GB)** | The amount of data for your dataset. Specify small sizes as decimals of 1.0&nbsp;GB; example: `0.1` GB (minimum). We calculate the total memory limit for you based on the other settings you choose for your database. |
 | **High Availability** | Indicates whether a replica copy of the database is maintained in case the primary database becomes unavailable.  (Warning: Doubles memory consumption). See [High Availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).  |

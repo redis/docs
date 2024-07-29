@@ -38,7 +38,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 #### Europe
 
 | Region ID      | Location            | Redis Cloud Pro | Redis Cloud Essentials |
-|:---------------|:-------------------------|:----------------|:-----------------------|
+|:---------------|:--------------------|:----------------|:-----------------------|
 | `eu-central-1` | Frankfurt, Germany  | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `eu-central-2` | Zurich, Switzerland | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `eu-north-1`   | Stockholm, Sweden   | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
@@ -51,7 +51,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 #### Asia Pacific
 
 | Region ID        | Location             | Redis Cloud Pro | Redis Cloud Essentials |
-|:---------------|:-------------------------|:----------------|:-----------------------|
+|:-----------------|:---------------------|:----------------|:-----------------------|
 | `ap-east-1`      | Hong Kong, China     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-northeast-1` | Tokyo, Japan         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-northeast-2` | Seoul, South Korea   | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
@@ -65,7 +65,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 #### Middle East and Africa
 
 | Region ID      | Location                | Redis Cloud Pro | Redis Cloud Essentials |
-|:---------------|:-------------------------|:----------------|:-----------------------|
+|:---------------|:------------------------|:----------------|:-----------------------|
 | `af-south-1`   | Cape Town, South Africa | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `il-central-1` | Tel Aviv, Israel        | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `me-central-1` | UAE                     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
@@ -80,13 +80,16 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 #### Americas
 
 | Region ID                 | Location            | Redis Cloud Pro | Redis Cloud Essentials |
-|:---------------|:-------------------------|:----------------|:-----------------------|
+|:--------------------------|:--------------------|:----------------|:-----------------------|
 | `northamerica-northeast1` | Montreal, Canada    | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `northamerica-northeast2` | Toronto, Canada     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `southamerica-east1`      | Sao Paulo, Brazil   | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `southamerica-west1`      | Santiago, Chile     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `us-central1`             | Iowa, USA           | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-east1`                | South Carolina, USA | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-east4`                | Virginia, USA       | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| `us-east5`                | Columbus, USA       | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `us-south1`               | Dallas, USA         | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `us-west1`                | Oregon, USA         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `us-west2`                | Los Angeles, USA    | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `us-west3`                | Salt Lake City, USA | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
@@ -95,7 +98,8 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 #### Europe
 
 | Region ID           | Location            | Redis Cloud Pro | Redis Cloud Essentials |
-|:---------------|:-------------------------|:----------------|:-----------------------|
+|:--------------------|:--------------------|:----------------|:-----------------------|
+| `europe-central2`   | Warsaw, Poland      | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `europe-north1`     | Finland             | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `europe-southwest1` | Madrid, Spain       | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `europe-west1`      | Belgium             | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
@@ -103,11 +107,15 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 | `europe-west3`      | Frankfurt, Germany  | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `europe-west4`      | Netherlands         | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `europe-west6`      | Zurich, Switzerland | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `europe-west8`      | Milan, Italy        | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `europe-west9`      | Paris, France       | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `europe-west10`     | Berlin, Germany     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `europe-west12`     | Turin, Italy        | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 
 #### Asia Pacific
 
 | Region ID              | Location             | Redis Cloud Pro | Redis Cloud Essentials |
-|:---------------|:-------------------------|:----------------|:-----------------------|
+|:-----------------------|:---------------------|:----------------|:-----------------------|
 | `asia-east1`           | Taiwan               | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `asia-east2`           | Hong Kong, China     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `asia-northeast1`      | Tokyo, Japan         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
@@ -120,11 +128,14 @@ Redis Cloud Pro databases on Google Cloud support [VPC Peering]({{< relref "/ope
 | `australia-southeast1` | Sydney, Australia    | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `australia-southeast2` | Melbourne, Australia | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 
-#### Middle East
+#### Middle East and Africa
 
-| Region ID  | Location         | Redis Cloud Pro | Redis Cloud Essentials |
-|:---------------|:-------------------------|:----------------|:-----------------------|
-| `me-west1` | Tel Aviv, Israel | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| Region ID       | Location                   | Redis Cloud Pro | Redis Cloud Essentials |
+|:----------------|:---------------------------|:----------------|:-----------------------|
+| `africa-south1` | Johannesburg, South Africa | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `me-central1`   | Doha, Qatar                | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `me-central2`   | Dammam, Saudi Arabia       | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `me-west1`      | Tel Aviv, Israel           | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 
 ## Microsoft Azure
 

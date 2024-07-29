@@ -10,6 +10,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
 highlights: Exposed advanced capabilities when creating a new database
 linktitle: April 2023
 weight: 87
+aliases:
+  - /operate/rc/changelog/april-2023
 ---
 
 This changelog lists new features, enhancements, and other changes added to Redis Cloud during April 2023.

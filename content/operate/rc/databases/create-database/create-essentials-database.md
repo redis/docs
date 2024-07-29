@@ -12,7 +12,10 @@ aliases:
     - /operate/rc/subscriptions/create-fixed-subscription
 ---
 
-{{< embed-md "rc-create-db-first-steps.md" >}}
+{{< embed-md "rc-create-db-first-steps.md" >}} 
+    {{< note >}}
+See [Use case settings](#use-case-settings) to view the default settings for each use case.
+    {{< /note >}}
 
 4. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Essentials**.
 
@@ -31,6 +34,13 @@ This guide shows how to create an Essentials database.
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
 
 1. Choose a **Cloud Provider** and a **Region**.
+
+    A preview of Redis 7.4 is available for databases in selected regions. Select the **Redis 7.4 preview** toggle to view the regions where you can try Redis 7.4.
+
+    {{<image filename="images/rc/essentials-74-preview.png" alt="Turn on the Redis 7.4 preview toggle.">}}
+    
+    Redis 7.4 offers hash field expiration and other feature set improvements. For more information on the changes in Redis 7.4, see the [Redis 7.4 release notes](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74).
+
 
 1. The **Type** of database controls the protocol and advanced capabilities. Leave this as **Redis Stack** unless you have a legacy application that uses **Memcached**.
 

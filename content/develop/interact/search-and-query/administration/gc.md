@@ -15,9 +15,7 @@ title: Garbage collection
 weight: 2
 ---
 
-# Garbage collection (GC) in RediSearch
-
-## The need for GC
+## The need for garbage collection
 
 * When documents are deleted by the user, Redis only marks them as deleted in the global document table rather than deleting them outright. This is done for efficiency. Depending on the length of a document, deletion can be a long operation.
 * This means that it is no longer the case that an internal numeric id is assigned to a deleted document. When the index is traversed, a check is made for deletion.

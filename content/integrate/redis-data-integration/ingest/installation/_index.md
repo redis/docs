@@ -45,8 +45,6 @@ Each of the RDI VMs should have:
 - RAM: 2GB 
 - Disk: 25GB of disk (this includes the OS footprint)
 - 10GB or more network interface
-  
-
 
 ### Installation steps
 
@@ -67,8 +65,10 @@ Follow the steps below for each of your VMs:
     ```bash
     sudo ./install.sh
     ```
+RDI uses a database on your Redis Enterprise cluster to store its state
+information. *This requires Redis Enterprise v6.4 or greater*.
 
-The installer will ask you for Redis Enterprise cluster admin credentials. You should supply
+The installer will ask you for cluster admin credentials. You should supply
 these if you want the installer to create the RDI database for you.
  
 {{<note>}}The installer does not create the RDI Redis database with
@@ -91,13 +91,14 @@ Once the installation is finished, RDI is ready for use.
 ## "Silent" installation
 
 You can use the
+[installer script](#installation-steps) or the
 [`redis-di install`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-install" >}})
 command with the `--file` option (or the shorter version `-f`) to supply answers
 to the installer's questions automatically using properties from a
 [TOML](https://toml.io/en/) file:
 
 ```bash
-redis-di install --file silent.toml
+./install.sh --file silent.toml
 ```
 
 ### Silent install example
@@ -156,7 +157,7 @@ The sections below describe the properties in more detail.
 | `title` | Text to identify the file. RDI doesn't use use this, so you can use any text you like. |
 | `high_availability` | Do you want to enable replication on the RDI database (true/false)? You should only use this if you ask the installer to create the RDI database for you. |
 | `scaffold` | Do you want to enable [scaffolding]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-scaffold" >}}) during the install? (true/false) |
-| `db_index` | Integer to specify the source database type. The options are 4 (MySQL/MariaDB), 5 (Oracle), 6 (PostgreSQL), and 8 (SQL Server). You should only use this if you ask the installer to create the RDI database for you. |
+| `db_index` | Integer to specify the source database type for scaffolding. The options are 2 (MySQL/MariaDB), 3 (Oracle), 4 (PostgreSQL), and 5 (SQL Server). |
 | `deploy_directory` | Path to the directory where you want to store the RDI configuration. |
 
 #### `rdi.database`

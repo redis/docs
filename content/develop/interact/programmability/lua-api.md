@@ -689,7 +689,7 @@ In addition, the following external libraries are loaded and accessible to scrip
 
 ### <a name="os-library"></a> _os_ library
 
-* Since version: 7.4 RC1
+* Since version: 7.4
 * Available in scripts: yes
 * Available in functions: yes
 

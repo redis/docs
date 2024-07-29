@@ -540,10 +540,32 @@
     "* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the hash contains the field."
   ],
   "HEXPIRE": [
+    "One of the following:",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX | XX | GT | LT condition has not been met.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past Unix time in seconds/milliseconds.",
+    "* [Simple error reply](../../develop/reference/protocol-spec#simple-errors):",
+    "    - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.",
+    "    - if the provided key exists but is not a hash."  
   ],
   "HEXPIREAT": [
+    "One of the following:",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX, XX, GT, or LT condition has not been met.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE` or `HPEXPIRE` is called with 0 seconds or milliseconds, or when `HEXPIREAT` or `HPEXPIREAT` is called with a past Unix time in seconds or milliseconds.",
+    "* [Simple error reply](../../develop/reference/protocol-spec#simple-errors):",
+    "    - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.",
+    "    - if the provided key exists but is not a hash."
   ],
   "HEXPIRETIME": [
+    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration (Unix timestamp) in seconds."
   ],
   "HGET": [
     "One of the following:",
@@ -552,8 +574,6 @@
   ],
   "HGETALL": [
     "[Map reply](../../develop/reference/protocol-spec#maps): a map of fields and their values stored in the hash, or an empty list when key does not exist."
-  ],
-  "HGETF": [
   ],
   "HINCRBY": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation."
@@ -574,14 +594,44 @@
     "[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
   ],
   "HPERSIST": [
+    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:", 
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.", 
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.", 
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` the expiration was removed."  
   ],
   "HPEXPIRE": [
+    "One of the following:",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX, XX, GT, or LT condition has not been met.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE` or `HPEXPIRE` is called with 0 seconds or milliseconds, or when `HEXPIREAT` or `HPEXPIREAT` is called with a past Unix time in seconds or milliseconds.",
+    "* [Simple error reply](../../develop/reference/protocol-spec#simple-errors):",
+    "    - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.",
+    "    - if the provided key exists but is not a hash."  
   ],
   "HPEXPIREAT": [
+    "One of the following:",
+    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX, XX, GT, or LT condition has not been met.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE` or `HPEXPIRE` is called with 0 seconds or milliseconds, or when `HEXPIREAT` or `HPEXPIREAT` is called with a past Unix time in seconds or milliseconds.",
+    "* [Simple error reply](../../develop/reference/protocol-spec#simple-errors):",
+    "    - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.",
+    "    - if the provided key exists but is not a hash."  
   ],
   "HPEXPIRETIME": [
+    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration (Unix timestamp) in milliseconds."  
   ],
   "HPTTL": [
+    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): the TTL in milliseconds."  
   ],
   "HRANDFIELD": [
     "Any of the following:",
@@ -593,12 +643,10 @@
   "HSCAN": [
     "[Array reply](../../develop/reference/protocol-spec#arrays): a two-element array.",
     "* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.",
-    "* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) of field/value pairs that were scanned."
+    "* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) of field/value pairs that were scanned. When the `NOVALUES` flag (since Redis 7.4) is used, only the field names are returned."
   ],
   "HSET": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the number of fields that were added."
-  ],
-  "HSETF": [
   ],
   "HSETNX": [
     "One of the following:",
@@ -606,6 +654,10 @@
     "* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the field is a new field in the hash and the value was set."
   ],
   "HTTL": [
+    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): the TTL in seconds."  
   ],
   "HSTRLEN": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the string length of the value associated with the _field_, or zero when the _field_ isn't present in the hash or the _key_ doesn't exist at all."
@@ -863,7 +915,7 @@
     "* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist."
   ],
   "PUBLISH": [
-    "[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that received the message. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count."
+    "[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count."
   ],
   "PUBSUB": [],
   "PUBSUB CHANNELS": [
@@ -1130,7 +1182,7 @@
     "* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members."
   ],
   "SPUBLISH": [
-    "[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that received the message. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count"
+    "[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count"
   ],
   "SRANDMEMBER": [
     "One of the following:",
