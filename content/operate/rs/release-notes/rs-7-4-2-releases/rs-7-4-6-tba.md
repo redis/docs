@@ -188,7 +188,7 @@ The following table shows the SHA256 checksums for the available packages:
 
 - RS61676: Full chain certificate update fails if any certificate in the chain does not have a Common Name (CN).
 
-- RS119958: The `debuginfo` script fails with the error `/bin/tar: Argument list too long` if there are too many RocksDB log files.
+- RS119958: The `debuginfo` script fails with the error `/bin/tar: Argument list too long` if there are too many RocksDB log files. This issue only affects clusters with Auto Tiering.
 
 ## Known limitations
 

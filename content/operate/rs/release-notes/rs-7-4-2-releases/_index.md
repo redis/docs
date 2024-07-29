@@ -143,7 +143,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS61676: Full chain certificate update fails if any certificate in the chain does not have a Common Name (CN).
 
-- RS119958: The `debuginfo` script fails with the error `/bin/tar: Argument list too long` if there are too many RocksDB log files.
+- RS119958: The `debuginfo` script fails with the error `/bin/tar: Argument list too long` if there are too many RocksDB log files. This issue only affects clusters with Auto Tiering.
 
 - RS122570: REST API `POST /crdbs` responds with a confusing error message if the cluster does not have the requested CRDB-compatible module that complies with the requested featureset.
 
