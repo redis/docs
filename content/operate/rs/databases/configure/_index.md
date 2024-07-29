@@ -155,7 +155,7 @@ You can require [**TLS**]({{< relref "/operate/rs/security/encryption/tls/" >}})
 
     Creating a database without ACLs enables a *default* user with full access to the database. You can secure default user access by requiring a password.
 
-- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/security/access-control/create-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/security/access-control/create-roles/create-db-roles" >}}) that apply to those connections.
+- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/security/access-control/create-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) that apply to those connections.
 
     To define an access control list for a database:
 
@@ -163,7 +163,7 @@ You can require [**TLS**]({{< relref "/operate/rs/security/encryption/tls/" >}})
 
     1. Select a [role]({{< relref "/operate/rs/security/access-control/create-roles" >}}) to grant database access.
 
-    1. Associate a [Redis ACL]({{< relref "/operate/rs/security/access-control/create-roles/create-db-roles" >}}) with the role and database.
+    1. Associate a [Redis ACL]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) with the role and database.
 
     1. Select the check mark to add the ACL.
 

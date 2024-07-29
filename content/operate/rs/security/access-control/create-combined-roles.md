@@ -7,7 +7,7 @@ categories:
 - rs
 description: Create roles with both cluster and database access.
 linkTitle: Create roles with combined access
-weight: 70
+weight: 16
 ---
 
 To create a role that grants database access privileges and allows access to the Cluster Management UI and REST API:
@@ -28,7 +28,7 @@ To define a Redis ACL rule that you can assign to a role:
 
 1. Enter a descriptive name for the Redis ACL. This will be used to associate the ACL rule with the role.
 
-1. Define the ACL rule. For more information about Redis ACL rules and syntax, see the [Redis ACL overview]({{<relref "/operate/rs/security/access-control/create-roles/redis-acl-overview">}}).
+1. Define the ACL rule. For more information about Redis ACL rules and syntax, see the [Redis ACL overview]({{<relref "/operate/rs/security/access-control/redis-acl-overview">}}).
 
     {{<note>}}
 The **ACL builder** does not support selectors and key permissions. Use **Free text command** to manually define them instead.
@@ -54,7 +54,7 @@ To create a role that grants database access privileges and allows access to the
 
 1. Enter a descriptive name for the role. This will be used to reference the role when configuring users.
 
-1. Choose a **Cluster management role** other than **None**. For details about permissions granted by each role, see [Cluster Manager UI permissions]({{<relref "/operate/rs/security/access-control/create-roles/create-cluster-roles#cluster-manager-ui-permissions">}}) and [REST API permissions]({{<relref "/operate/rs/references/rest-api/permissions">}}).
+1. Choose a **Cluster management role** other than **None**. For details about permissions granted by each role, see [Cluster Manager UI permissions]({{<relref "/operate/rs/security/access-control/create-cluster-roles#cluster-manager-ui-permissions">}}) and [REST API permissions]({{<relref "/operate/rs/references/rest-api/permissions">}}).
 
     {{<image filename="images/rs/screenshots/access-control/rbac-create-combined-role-select-cm-role.png" alt="Add role with name">}}
     

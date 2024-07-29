@@ -39,7 +39,7 @@ To change the default user's password:
 
 ## Deactivate default user
 
-If you set up [role-based access control]({{< relref "/operate/rs/security/access-control" >}}) with [access control lists]({{< relref "/operate/rs/security/access-control/create-roles/create-db-roles" >}}) (ACLs) for your database and don't require backwards compatibility with versions earlier than Redis 6, you can [deactivate the default user]({{< relref "/operate/rs/security/access-control/manage-users/default-user" >}}).
+If you set up [role-based access control]({{< relref "/operate/rs/security/access-control" >}}) with [access control lists]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) (ACLs) for your database and don't require backwards compatibility with versions earlier than Redis 6, you can [deactivate the default user]({{< relref "/operate/rs/security/access-control/manage-users/default-user" >}}).
 
 {{<warning>}}
 Before you deactivate default user access, make sure the role associated with the database is [assigned to a user]({{< relref "/operate/rs/security/access-control/create-users" >}}). Otherwise, the database will be inaccessible.

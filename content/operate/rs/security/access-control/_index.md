@@ -11,6 +11,7 @@ linkTitle: Access control
 weight: 10
 aliases:
     - /operate/rs/security/access-control/rbac/
+    - /operate/rs/security/access-control/rbac/create-roles/
 ---
 
 Redis Enterprise Software lets you use role-based access control (RBAC) to manage users' access privileges. RBAC requires you to do the following:
@@ -39,7 +40,7 @@ The following diagram shows three different options for roles and users:
 
 - Role C was created with cluster access and database access permissions. Because user C was assigned role C, they can access the cluster and databases.
 
-## Default user
+## Default database access
 
 When you create a database, [default user access]({{< relref "/operate/rs/security/access-control/manage-users/default-user" >}}) is enabled automatically.
 

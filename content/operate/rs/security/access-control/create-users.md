@@ -5,13 +5,21 @@ categories:
 - docs
 - operate
 - rs
-description: Assign access control roles to users.
+description: Create users and assign access control roles.
 linkTitle: Create users
 weight: 10
 aliases:
     - /operate/rs/security/access-control/manage-users/add-users/
     - /operate/rs/security/access-control/rbac/assign-user-role/
 ---
+
+## Prerequisites
+
+Before you create other users:
+
+1. Review the [access control overview]({{<relref "/operate/rs/security/access-control">}}) to learn how to use role-based access control (RBAC) to manage users' cluster access and database access.
+
+1. Create roles you can assign to users. See [Create roles with cluster access only]({{<relref "/operate/rs/security/access-control/create-cluster-roles">}}), [Create roles with database access only]({{<relref "/operate/rs/security/access-control/create-db-roles">}}), or [Create roles with combined access]({{<relref "/operate/rs/security/access-control/create-combined-roles">}}) for instructions.
 
 ## Add users
 

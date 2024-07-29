@@ -7,7 +7,7 @@ categories:
 - rs
 description: Create roles with cluster access only.
 linkTitle: Create roles with cluster access only
-weight: 20
+weight: 14
 aliases:
     - /operate/rs/security/access-control/admin-console-access/
 ---
@@ -49,7 +49,7 @@ Here's a summary of the Cluster Manager UI actions permitted by each default man
 
 ## Create roles for cluster access {#create-cluster-role}
 
-To create a role that grants access to the Redis Enterprise Cluster Manager UI and REST API but does not grant access to any databases:
+To create a role that grants cluster access but does not grant access to any databases:
 
 1. From **Access Control** > **Roles**, you can:
 
@@ -69,4 +69,4 @@ To create a role that grants access to the Redis Enterprise Cluster Manager UI a
 
 1. Select **Save**.
 
-You can [assign the new role to users]({{<relref "/operate/rs/security/access-control/create-users#assign-roles-to-users">}}) to grant access to the Cluster Manager UI and REST API.
+You can [assign the new role to users]({{<relref "/operate/rs/security/access-control/create-users#assign-roles-to-users">}}) to grant cluster access.

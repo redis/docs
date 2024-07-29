@@ -7,7 +7,7 @@ categories:
 - rs
 description: An overview of Redis ACLs, syntax, and ACL command support in Redis Enterprise Software.
 linkTitle: Redis ACL overview
-weight: 90
+weight: 17
 aliases:
     - /operate/rs/security/access-control/rbac/configure-acl/
 ---
