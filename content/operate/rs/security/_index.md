@@ -14,14 +14,13 @@ aliases:
 
 Redis Enterprise Software provides various features to secure your Redis Enterprise Software deployment:
 
-| Authentication | Authorization | Encryption | TLS |
-|----------------|---------------|------------|-----|
-| [User login lockout and session timeout]({{<relref "/operate/rs/security/access-control/manage-users/login-lockout">}}) | [Role-based access control]({{<relref "/operate/rs/security/access-control">}}) | [Encrypt data in transit]({{<relref "/operate/rs/security/encryption#encrypt-data-in-transit">}}) | [Enable TLS]({{<relref "/operate/rs/security/encryption/tls/enable-tls">}}) |
-| [Default user]({{<relref "/operate/rs/security/access-control/manage-users/default-user">}}) | [Create roles]({{<relref "/operate/rs/security/access-control/create-roles">}}) | [Encrypt data at rest]({{<relref "/operate/rs/security/encryption#encrypt-data-at-rest">}}) | [Configure TLS protocol]({{<relref "/operate/rs/security/encryption/tls/tls-protocols">}}) |
-| [Password complexity rules]({{<relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules">}}) | [Create users and assign roles]({{<relref "/operate/rs/security/access-control/create-users">}}) | [Encrypt data in use]({{<relref "/operate/rs/security/encryption#encrypt-data-in-use">}}) | [Configure cipher suites]({{<relref "/operate/rs/security/encryption/tls/ciphers">}}) |
-| [Password expiration]({{<relref "/operate/rs/security/access-control/manage-passwords/password-expiration">}}) | [Role-based LDAP authentication]({{<relref "/operate/rs/security/access-control/ldap">}}) | | |
-| [Password rotation]({{<relref "/operate/rs/security/access-control/manage-passwords/rotate-passwords">}}) | | | |
-| [Certificates]({{<relref "/operate/rs/security/certificates">}}) | | | |
+| Login and passwords | Users and roles | Encryption and TLS | Certificates and audit |
+|---------------------|-----------------|--------------------|-----------------------|
+| [Password attempts and session timeout]({{<relref "/operate/rs/security/access-control/manage-users/login-lockout">}}) | [Cluster and database access explained]({{<relref "/operate/rs/security/access-control">}}) | [Enable TLS]({{<relref "/operate/rs/security/encryption/tls/enable-tls">}}) | [Create certificates]({{<relref "/operate/rs/security/certificates/create-certificates">}}) |
+| [Password complexity]({{<relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules">}}) | [Create users]({{<relref "/operate/rs/security/access-control/create-users">}}) | [Configure TLS protocols]({{<relref "/operate/rs/security/encryption/tls/tls-protocols">}}) | [Monitor certificates]({{<relref "/operate/rs/security/certificates/monitor-certificates">}}) |
+| [Password expiration]({{<relref "/operate/rs/security/access-control/manage-passwords/password-expiration">}}) | [Create roles]({{<relref "/operate/rs/security/access-control/create-roles">}}) | [Configure cipher suites]({{<relref "/operate/rs/security/encryption/tls/ciphers">}}) | [Update certificates]({{<relref "/operate/rs/security/certificates/updating-certificates">}}) |
+| [Default database access]({{<relref "/operate/rs/security/access-control/manage-users/default-user">}}) | [Redis ACLs]({{<relref "/operate/rs/security/access-control/create-roles/redis-acl-overview">}}) | [Encrypt private keys on disk]({{<relref "/operate/rs/security/encryption/pem-encryption">}}) | [Enable OCSP stapling]({{<relref "/operate/rs/security/certificates/ocsp-stapling">}}) |
+| [Rotate user passwords]({{<relref "/operate/rs/security/access-control/manage-passwords/rotate-passwords">}}) | [Integrate with LDAP]({{<relref "/operate/rs/security/access-control/ldap">}}) | [Internode encryption]({{<relref "/operate/rs/security/encryption/internode-encryption">}}) | [Audit database connections]({{<relref "/operate/rs/security/audit-events">}}) |
 
 ## Recommended security practices
 
