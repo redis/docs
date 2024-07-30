@@ -17,10 +17,12 @@ The following upgrade paths are supported:
 
 | Current<br/>cluster version | Upgrade to<br/>cluster version |
 |:-----:|:-----:|
-| 7.2.x | 7.4.2 |
-| 6.4.x | 7.4.2<br />7.2.x |
-| 6.2.x | 7.4.2<br />7.2.x<br />6.4.x |
+| 7.2.x | 7.4.x |
+| 6.4.x | 7.4.x<br />7.2.x |
+| 6.2.x | 7.4.x<br />7.2.x<br />6.4.x |
 | 6.0.x | 7.2.x<br />6.4.x<br />6.2.x |
+
+See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
 
 ## Upgrade prerequisites
 
