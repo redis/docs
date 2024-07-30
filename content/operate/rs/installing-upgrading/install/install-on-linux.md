@@ -134,4 +134,4 @@ As a workaround to install Redis Enterprise Software without using any root dire
 
     For geo-distributed Active-Active replication, create an [Active-Active]({{< relref "/operate/rs/databases/active-active/create.md" >}}) database.
 
-1. [Add users]({{< relref "/operate/rs/security/access-control/manage-users/add-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).
+1. [Add users]({{< relref "/operate/rs/security/access-control/create-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).

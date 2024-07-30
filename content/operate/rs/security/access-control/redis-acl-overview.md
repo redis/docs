@@ -1,13 +1,15 @@
 ---
-Title: Configure ACLs to define database permissions
+Title: Overview of Redis ACLs in Redis Enterprise Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Configure access control lists (ACLs).
-linkTitle: Configure ACLs
-weight: 20
+description: An overview of Redis ACLs, syntax, and ACL command support in Redis Enterprise Software.
+linkTitle: Redis ACL overview
+weight: 17
+aliases:
+    - /operate/rs/security/access-control/rbac/configure-acl/
 ---
 
 Redis access control lists (Redis ACLs) allow you to define named permissions for specific Redis commands, keys, and pub/sub channels. You can use defined Redis ACLs for multiple databases and roles.
@@ -93,30 +95,6 @@ In the following example, the base rule allows `GET key1` and the selector allow
 ```sh
 +GET ~key1 (+SET ~key2)
 ```
-
-## Configure Redis ACLs
-
-To configure a Redis ACL rule that you can assign to a user role:
-
-1. From **Access Control > Redis ACLs**, you can either:
-
-    - Point to a Redis ACL and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit an existing Redis ACL.
-
-    - Select **+ Add Redis ACL** to create a new Redis ACL.
-
-1. Enter a descriptive name for the Redis ACL. This will be used to reference the ACL rule to the role.
-
-1. Define the ACL rule.
-
-    {{<note>}}
-The **ACL builder** does not support selectors and key permissions. Use **Free text command** to manually define them instead.
-    {{</note>}}
-
-1. Select **Save**.
-
-{{<note>}}
-For multi-key commands on multi-slot keys, the return value is `failure`, but the command runs on the keys that are allowed.
-{{</note>}}
 
 ## Default pub/sub permissions
 
@@ -219,6 +197,3 @@ Redis ACLs also have the following differences in Redis Enterprise Software:
 
     - REST API [`PUT /v1/users`]({{< relref "/operate/rs/references/rest-api/requests/users#put-user" >}}) request and provide `password`
 
-## Next steps
-
-- [Create or edit a role]({{< relref "/operate/rs/security/access-control/rbac/create-roles" >}}) and add Redis ACLs to it.
