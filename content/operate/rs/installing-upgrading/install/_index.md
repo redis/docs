@@ -55,6 +55,6 @@ To learn more about customization and find answers to related questions, see:
 
 After your cluster is set up with nodes, you can:
 
-- [Add users]({{< relref "/operate/rs/security/access-control/manage-users/add-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).
+- [Add users]({{< relref "/operate/rs/security/access-control/create-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).
 - [Create databases]({{< relref "/operate/rs/databases/create" >}}) to use with your applications.
 

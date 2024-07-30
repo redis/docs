@@ -17,10 +17,12 @@ The following upgrade paths are supported:
 
 | Current<br/>cluster version | Upgrade to<br/>cluster version |
 |:-----:|:-----:|
-| 7.2.x | 7.4.2 |
-| 6.4.x | 7.4.2<br />7.2.x |
-| 6.2.x | 7.4.2<br />7.2.x<br />6.4.x |
+| 7.2.x | 7.4.x |
+| 6.4.x | 7.4.x<br />7.2.x |
+| 6.2.x | 7.4.x<br />7.2.x<br />6.4.x |
 | 6.0.x | 7.2.x<br />6.4.x<br />6.2.x |
+
+See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
 
 ## Upgrade prerequisites
 
@@ -29,6 +31,8 @@ Before upgrading a cluster:
 - Verify access to [rlcheck]({{< relref "/operate/rs/references/cli-utilities/rlcheck/" >}}) and [rladmin]({{< relref "/operate/rs/references/cli-utilities/rladmin/#use-the-rladmin-shell" >}}) commands
 
 - Verify that you meet the upgrade path requirements for your desired cluster version and review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
+
+- Avoid changing the database configuration or performing other cluster management operations during the upgrade process, as this might cause unexpected results.
 
 - Upgrade the cluster's primary (master) node first. To identify the primary node, use one of the following methods:
 

@@ -1,13 +1,13 @@
 ---
-Title: Manage users
+Title: Manage user security
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Manage users and user security.
+description: Manage user account security settings.
 hideListLinks: false
-linkTitle: Manage users
+linkTitle: Manage user security
 weight: 20
 ---
 
