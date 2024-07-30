@@ -197,7 +197,7 @@ You cannot enable or turn off database clustering after the Active-Active databa
 
     Creating a database without ACLs enables a *default* user with full access to the database. You can secure default user access by requiring a password.
 
-- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/security/access-control/create-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) that apply to those connections.
+- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}) that apply to those connections.
 
     You can only configure access control after the Active-Active database is created. In each participating cluster, add ACLs after database creation.
 
@@ -205,7 +205,7 @@ You cannot enable or turn off database clustering after the Active-Active databa
 
     1. In **Security > Access Control > Access Control List**, select **+ Add ACL**.
 
-    1. Select a [role]({{< relref "/operate/rs/security/access-control/create-roles" >}}) to grant database access.
+    1. Select a [role]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) to grant database access.
 
     1. Associate a [Redis ACL]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) with the role and database.
 
