@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.2.4
-description: Support for SHA-384 certificates in client authentication. rlcheck output in support packages. New parameters for optimize_shard_placement and recover database REST API requests.
+description: Support for SHA-384 certificates in client authentication. New parameters for optimize_shard_placement and recover database REST API requests.
 linkTitle: 7.4.6-tba (July 2024)
 weight: 66
 aliases: /operate/rs/release-notes/rs-7-4-6-releases/rs-7-4-6-tba/
@@ -20,8 +20,6 @@ This version offers:
 
 - Support for SHA-384 certificates in client authentication
 
-- `rlcheck` output in support packages
-
 - New parameters for `optimize_shard_placement` and `recover` database REST API requests
 
 ## New in this release
@@ -29,8 +27,6 @@ This version offers:
 ### Enhancements
 
 - Added support for SHA-384 certificates when using mutual TLS for client authentication.
-
-- Added [`rlcheck`]({{<relref "/operate/rs/references/cli-utilities/rlcheck">}}) output to the debug information collected in support packages.
 
 - Added a `replication` query parameter to [`GET /v1/bdbs/<uid>/actions/optimize_shards_placement`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement">}}) REST API requests.
 
