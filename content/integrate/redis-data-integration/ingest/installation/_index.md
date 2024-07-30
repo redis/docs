@@ -45,8 +45,6 @@ Each of the RDI VMs should have:
 - RAM: 2GB 
 - Disk: 25GB of disk (this includes the OS footprint)
 - 10GB or more network interface
-  
-
 
 ### Installation steps
 
@@ -67,8 +65,10 @@ Follow the steps below for each of your VMs:
     ```bash
     sudo ./install.sh
     ```
+RDI uses a database on your Redis Enterprise cluster to store its state
+information. *This requires Redis Enterprise v6.4 or greater*.
 
-The installer will ask you for Redis Enterprise cluster admin credentials. You should supply
+The installer will ask you for cluster admin credentials. You should supply
 these if you want the installer to create the RDI database for you.
  
 {{<note>}}The installer does not create the RDI Redis database with
