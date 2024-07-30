@@ -14,7 +14,7 @@ hideListLinks: true
 linkTitle: Redis Insight
 stack: true
 title: Redis Insight
-weight: 3
+weight: 1
 ---
 
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/QUkjSsk)
