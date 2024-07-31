@@ -45,7 +45,7 @@ tagManagerId = "GTM-TKZ6J9R"
 gitHubRepo = "https://github.com/redis/docs"
 
 # Display and sort order for client examples
-clientsExamples = ["Python", "Node.js", "Java", "Go", "C#"]
+clientsExamples = ["Python", "Node.js", "Java", "Go", "C#", "RedisVL"]
 searchService = "/convai/api/search-service"
 ratingsService = "/docusight/api/rate"
 
@@ -55,6 +55,14 @@ rdi_redis_gears_version = "1.2.6"
 rdi_debezium_server_version = "2.3.0.Final"
 rdi_db_types = "cassandra|mysql|oracle|postgresql|sqlserver"
 rdi_cli_latest = "latest"
+
+[params.clientsConfig]
+"Python"={lang="python", quickstartSlug="python/redis-py"}
+"Node.js"={lang="javascript", quickstartSlug="nodejs"}
+"Java"={lang="java", quickstartSlug="java/jedis"}
+"Go"={lang="go", quickstartSlug="go"}
+"C#"={lang="C#", quickstartSlug="dotnet"}
+"RedisVL"={lang="python", quickstartSlug="python/redis-vl"}
 
 # Markup
 [markup]
