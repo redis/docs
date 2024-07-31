@@ -11,7 +11,7 @@ linkTitle: Transactions
 weight: 10
 ---
 
-The following table shows which Redis Community Edition [transaction commands]({{< relref "/commands" >}}/?group=transactions) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following table shows which Redis Community Edition [transaction commands]({{< relref "/commands" >}}?group=transactions) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 | Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|

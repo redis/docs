@@ -32,6 +32,10 @@ title: JSON.MGET
 ---
 Return the values at `path` from multiple `key` arguments
 
+{{% warning %}}
+All specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).
+{{% /warning %}}
+
 [Examples](#examples)
 
 ## Required arguments

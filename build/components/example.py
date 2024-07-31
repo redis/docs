@@ -19,6 +19,7 @@ PREFIXES = {
     'java': '//',
     'go': '//',
     'c#': '//',
+    'redisvl': '#'
 }
 
 class Example(object):

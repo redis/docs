@@ -11,7 +11,7 @@ linkTitle: Scripting
 weight: 10
 ---
 
-The following table shows which Redis Community Edition [scripting and function commands]({{< relref "/commands" >}}/?group=scripting) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following table shows which Redis Community Edition [scripting and function commands]({{< relref "/commands" >}}?group=scripting) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 ## Function commands
 
