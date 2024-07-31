@@ -54,7 +54,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 |:-----------------|:---------------------|:----------------|:-----------------------|
 | `ap-east-1`      | Hong Kong, China     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-northeast-1` | Tokyo, Japan         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| `ap-northeast-2` | Seoul, South Korea   | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `ap-northeast-2` | Seoul, South Korea   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-south-1`     | Mumbai, India        | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `ap-south-2`     | Hyderabad, India     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `ap-southeast-1` | Singapore            | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
@@ -66,7 +66,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 
 | Region ID      | Location                | Redis Cloud Pro | Redis Cloud Essentials |
 |:---------------|:------------------------|:----------------|:-----------------------|
-| `af-south-1`   | Cape Town, South Africa | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `af-south-1`   | Cape Town, South Africa | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `il-central-1` | Tel Aviv, Israel        | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `me-central-1` | UAE                     | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `me-south-1`   | Bahrain                 | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
