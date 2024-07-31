@@ -54,6 +54,10 @@ Here's an example of using Redis Copilot to search data using a simple, natural 
 
 See the [Redis Insight Copilot FAQ]({{< relref "/develop/connect/insight/copilot-faq" >}}) for more information.
 
+### RDI in Redis Insight
+
+Redis Insight includes Redis Data Integration (RDI) connectivity, which allows you to connect to an RDI management plane, and create, test, and deploy RDI pipelines. Read more about this feature [here]({{< relref "/develop/connect/insight/rdi-connector" >}}).
+
 ### Browser
 
 Browse, filter and visualize your key-value Redis data structures.

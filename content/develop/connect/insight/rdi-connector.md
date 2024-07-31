@@ -16,7 +16,10 @@ title: RDI in Redis Insight
 weight: 4
 ---
 
-As of version `2.54.0`, Redis Insight includes Redis Data Integration (RDI) connectivity, which allows you to connect to an [RDI management plane]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}}#how-rdi-is-deployed), and create, test, and deploy [RDI pipelines]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines" >}}). Read more about RDI [on this page]({{< relref "/integrate/redis-data-integration" >}}).
+Redis Data Integration (RDI) and its [ingest pipeline capability]({{< relref "/integrate/redis-data-integration/ingest" >}}) is an end-to-end solution for mirroring your application's primary database in Redis using a capture data change mechanism, and it includes a stream processor to map and transform source data such as relational tables into fast Redis data structures that match your use cases.
+You can read more about RDI's ingest architecture [on these pages]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}}).
+
+As of version `2.54.0`, Redis Insight includes RDI connectivity, which allows you to connect to an [RDI management plane]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}}#how-rdi-is-deployed), and create, test, and deploy [RDI pipelines]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines" >}}).
 
 ## Connect
 
@@ -44,7 +47,7 @@ Choose from the following options:
 - **Upload from file** - Upload YAML pipeline files from your local computer.
 - **Create new pipeline** - Use Redis Insight's built-in editors to create new pipelines either from scratch or using one of the built-in templates.
 
-Each of these will be described in more detail in subsequent sections.
+Each of these menu options will be described in more detail in subsequent sections.
 
 There are also equivalent buttons at the top of the editor pane for the first two of these functions.
 
@@ -103,7 +106,7 @@ This will take you to the transformation job editor with the template selection 
 Any changes you make in the editors will be lost if you exit Redis Insight without saving your work. To save any changes you made to your pipeline files, deploy them to your RDI server (see below) or download the modified files as a zip file to your local disk using the **Download** button in the top right of the RDI window.
 {{< /warning >}}
 
-## The built-in editors
+## Use the built-in editors
 
 The Redis Insight pipeline editors are context-aware. They provide auto-completion and syntax highlighting for:
 
