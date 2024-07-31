@@ -13,7 +13,7 @@ weight: 10
 
 [Clustering in Redis Enterprise Software]({{< relref "/operate/rs/databases/durability-ha/clustering" >}}) and [Redis Cloud]({{< relref "/operate/rc/databases/configuration/clustering" >}}) differs from the [Redis Community Edition cluster]({{<relref "/operate/oss_and_stack/management/scaling">}}) and works with all standard Redis clients.
 
-Redis Enterprise blocks most [cluster commands]({{< relref "/commands" >}}/?group=cluster). If you try to use a blocked cluster command, it returns an error.
+Redis Enterprise blocks most [cluster commands]({{< relref "/commands" >}}?group=cluster). If you try to use a blocked cluster command, it returns an error.
 
 | Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|

@@ -24,7 +24,7 @@ A preview of Redis 7.0 is available for [Fixed subscriptions]({{< relref "/opera
 
 The following tables show which new open source Redis 7.0 commands are supported in Redis 7.0 subscriptions.
 
-#### [Cluster management commands]({{< relref "/commands" >}}/?group=cluster)
+#### [Cluster management commands]({{< relref "/commands" >}}?group=cluster)
 
 | <span style="min-width: 10em; display: table-cell">Command</span> | Supported |
 |:--------|:----------|
@@ -33,7 +33,7 @@ The following tables show which new open source Redis 7.0 commands are supported
 | [CLUSTER LINKS]({{< relref "/commands/cluster-links" >}}) | <span title="Not supported">&#x274c; Not supported</span> |
 | [CLUSTER SHARDS]({{< relref "/commands/cluster-shards" >}}) | <span title="Not supported">&#x274c; Not supported</span> |
 
-#### [Connection management commands]({{< relref "/commands" >}}/?group=connection)
+#### [Connection management commands]({{< relref "/commands" >}}?group=connection)
 
 | <span style="min-width: 10em; display: table-cell">Command</span> | Supported |
 |:--------|:----------|
@@ -43,14 +43,14 @@ The following tables show which new open source Redis 7.0 commands are supported
 
 | Data type | Command | Supported |
 |:----------|:--------|:----------|
-| [List]({{< relref "/commands" >}}/?group=list) | [BLMPOP]({{< relref "/commands/blmpop" >}}) | <span title="Supported">&#x2705; Supported</span>|
-| [List]({{< relref "/commands" >}}/?group=list) | [LMPOP]({{< relref "/commands/lmpop" >}}) | <span title="Supported">&#x2705; Supported</span>|
-| [Set]({{< relref "/commands" >}}/?group=set) | [SINTERCARD]({{< relref "/commands/sintercard" >}}) | <span title="Supported">&#x2705; Supported</span>|
-| [Sorted set]({{< relref "/commands" >}}/?group=sorted-set) | [BZMPOP]({{< relref "/commands/bzmpop" >}}) | <span title="Supported">&#x2705; Supported</span>|
-| [Sorted set]({{< relref "/commands" >}}/?group=sorted-set) | [ZINTERCARD]({{< relref "/commands/zintercard" >}}) | <span title="Supported">&#x2705; Supported</span>|
-| [Sorted set]({{< relref "/commands" >}}/?group=sorted-set) | [BZMPOP]({{< relref "/commands/bzmpop" >}}) | <span title="Supported">&#x2705; Supported</span>|
+| [List]({{< relref "/commands" >}}?group=list) | [BLMPOP]({{< relref "/commands/blmpop" >}}) | <span title="Supported">&#x2705; Supported</span>|
+| [List]({{< relref "/commands" >}}?group=list) | [LMPOP]({{< relref "/commands/lmpop" >}}) | <span title="Supported">&#x2705; Supported</span>|
+| [Set]({{< relref "/commands" >}}?group=set) | [SINTERCARD]({{< relref "/commands/sintercard" >}}) | <span title="Supported">&#x2705; Supported</span>|
+| [Sorted set]({{< relref "/commands" >}}?group=sorted-set) | [BZMPOP]({{< relref "/commands/bzmpop" >}}) | <span title="Supported">&#x2705; Supported</span>|
+| [Sorted set]({{< relref "/commands" >}}?group=sorted-set) | [ZINTERCARD]({{< relref "/commands/zintercard" >}}) | <span title="Supported">&#x2705; Supported</span>|
+| [Sorted set]({{< relref "/commands" >}}?group=sorted-set) | [BZMPOP]({{< relref "/commands/bzmpop" >}}) | <span title="Supported">&#x2705; Supported</span>|
 
-#### [Keys (generic) commands]({{< relref "/commands" >}}/?group=generic)
+#### [Keys (generic) commands]({{< relref "/commands" >}}?group=generic)
 
 | <span style="min-width: 10em; display: table-cell">Command</span> | Supported |
 |:--------|:----------|
@@ -58,7 +58,7 @@ The following tables show which new open source Redis 7.0 commands are supported
 | [PEXPIRETIME]({{< relref "/commands/pexpiretime" >}}) | <span title="Supported">&#x2705; Supported</span>|
 | [SORT_RO]({{< relref "/commands/sort_ro" >}}) | <span title="Supported">&#x2705; Supported</span>|
 
-#### [Pub/sub commands]({{< relref "/commands" >}}/?group=pubsub)
+#### [Pub/sub commands]({{< relref "/commands" >}}?group=pubsub)
 
 | <span style="min-width: 10em; display: table-cell">Command</span> | Supported |
 |:--------|:----------|
@@ -68,7 +68,7 @@ The following tables show which new open source Redis 7.0 commands are supported
 | [SSUBSCRIBE]({{< relref "/commands/ssubscribe" >}}) | <span title="Not supported">&#x274c; Not supported</span> |
 | [SUNSUBSCRIBE]({{< relref "/commands/sunsubscribe" >}}) | <span title="Not supported">&#x274c; Not supported</span> |
 
-#### [Scripting and function commands]({{< relref "/commands" >}}/?group=scripting)
+#### [Scripting and function commands]({{< relref "/commands" >}}?group=scripting)
 
 | <span style="min-width: 10em; display: table-cell">Command</span> | Supported |
 |:--------|:----------|
@@ -84,7 +84,7 @@ The following tables show which new open source Redis 7.0 commands are supported
 | [FUNCTION RESTORE]({{< relref "/commands/function-restore" >}}) | <span title="Supported">&#x2705; Supported</span>|
 | [FUNCTION STATS]({{< relref "/commands/function-stats" >}}) | <span title="Not supported">&#x274c; Not supported</span> |
 
-#### [Server management commands]({{< relref "/commands" >}}/?group=server)
+#### [Server management commands]({{< relref "/commands" >}}?group=server)
 
 | <span style="min-width: 10em; display: table-cell">Command</span> | Supported |
 |:--------|:----------|

@@ -233,4 +233,4 @@ For details on this platform, see the [TKGI documentation](https://docs.vmware.c
 
 ## Supported upgrade paths
 
-   If you are using a version earlier than 6.2.10-45, [you must upgrade]({{<relref "content/operate/kubernetes/upgrade/">}}) to 6.2.10-45 before you can upgrade to versions 6.2.18 or later.
+   If you are using a version earlier than 6.2.10-45, [you must upgrade]({{< relref "/operate/kubernetes/upgrade" >}}) to 6.2.10-45 before you can upgrade to versions 6.2.18 or later.

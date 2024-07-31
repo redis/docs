@@ -134,7 +134,7 @@ Iterate over all the Redis keys with the prefix `bikes:`:
 
 {{< clients-example search_vss get_keys />}}
 
-Use the keys as input to the [JSON.MGET]({{< baseurl >}}/commands/json.mget//) command, along with the `$.description` field, to collect the descriptions in a list. Then, pass the list of descriptions to the `.encode()` method:
+Use the keys as input to the [JSON.MGET]({{< baseurl >}}/commands/json.mget/) command, along with the `$.description` field, to collect the descriptions in a list. Then, pass the list of descriptions to the `.encode()` method:
 
 {{< clients-example search_vss generate_embeddings />}}
 
