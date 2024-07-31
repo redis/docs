@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Connect to RDI from Redis Insight, and configure pipelines, and more.
+description: Connect to RDI from Redis Insight, configure pipelines, and more.
 linkTitle: RDI in Redis Insight
 stack: true
 title: RDI in Redis Insight
