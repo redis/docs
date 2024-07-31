@@ -19,7 +19,7 @@ weight: 4
 Redis Data Integration (RDI) and its [ingest pipeline capability]({{< relref "/integrate/redis-data-integration/ingest" >}}) is an end-to-end solution for mirroring your application's primary database in Redis using a capture data change mechanism, and it includes a stream processor to map and transform source data such as relational tables into fast Redis data structures that match your use cases.
 You can read more about RDI's ingest architecture [on these pages]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}}).
 
-As of version `2.54.0`, Redis Insight includes RDI connectivity, which allows you to connect to an [RDI management plane]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}}#how-rdi-is-deployed), and create, test, and deploy [RDI pipelines]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines" >}}).
+As of version `2.54.0`, Redis Insight includes RDI connectivity, which allows you to connect to an [RDI management plane]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}}#how-rdi-is-deployed), create, test, and deploy [RDI pipelines]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines" >}}), and view RDI statistics.
 
 ## Connect
 

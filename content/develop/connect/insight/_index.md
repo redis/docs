@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Visualize and optimize Redis data
+description: Visualize and optimize Redis data, connect to RDI, and more.
 hideListLinks: true
 linkTitle: Redis Insight
 stack: true
@@ -35,6 +35,7 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis or
 * Automatically discover and add your local Redis or Redis Stack databases (that use standalone connection type and do not require authentication).
 * Discover your databases in Redis Enterprise Cluster and databases with Flexible plans in Redis Cloud.
 * Use a form to enter your connection details and add any Redis database running anywhere (including Redis Community Edition Cluster or Sentinel).
+* Connect to a Redis Data Integration (RDI) management plane, create, test, and deploy RDI pipelines, and view RDI statistics.
 
 <img src="images/Databases.png">
 
