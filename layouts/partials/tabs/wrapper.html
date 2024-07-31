@@ -12,8 +12,7 @@
     {{ range $i, $tab := $tabs }}
         {{ $tid := printf "%s_%s" (replace (replace (index $tab "title") "#" "sharp") "." "") $id }}
         {{ $pid := printf "panel_%s" $tid }}
-        {{ $quickStartSlug := (replace (replace (index $tab "title") "." "") "C#" "dotnet" | lower) }}
-        <input tabindex="1" type="radio" name="{{ $id }}" id="{{ $tid }}" data-lang="{{ $quickStartSlug }}" class="radiotab w-0 h-0"
+        <input tabindex="1" type="radio" name="{{ $id }}" id="{{ $tid }}" data-lang="{{ index $tab "language" }}" class="radiotab w-0 h-0"
                {{ if eq $i 0 }}checked{{ end }}
         />
         <label class="justify-left label ml-4 pt-3.5 px-3 pb-1 cursor-pointer text-sm text-center bg-redis-ink-900
@@ -72,7 +71,8 @@ group-hover:opacity-100 group-hover:visible">
                     </a>
                 </div>
             {{ else }}
-              <a href='/docs/develop/connect/clients/{{ $quickStartSlug }}/' tabindex="1" class="rounded rounded-mx px-3 py-1 text-white text-xs
+              <!--<a href='/docs/latest/develop/connect/clients/{{ index $tab "quickstartSlug" }}/' tabindex="1" class="rounded rounded-mx px-3 py-1 text-white text-xs-->
+              <a href='/develop/connect/clients/{{ index $tab "quickstartSlug" }}/' tabindex="1" class="rounded rounded-mx px-3 py-1 text-white text-xs
                                 hover:text-white hover:bg-slate-600 hover:border-transparent focus:outline-none
                                 focus:ring-2 focus:white focus:border-slate-500" title="{{$btnQuickStartText}}">
                 {{ index $tab "title" }} {{ $btnQuickStartText }}
