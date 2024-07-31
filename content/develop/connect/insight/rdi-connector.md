@@ -50,11 +50,11 @@ There are also equivalent buttons at the top of the editor pane for the first tw
 
 <img src="../images/ri-rdi-pl-editor-minibuttons.png">
 
-If you'd rather work from a blank slate, exit the dialog, which will leave you in the **Configuration file** editor where you can begin editing your configuration pipeline.
+If you'd rather start with an empty configuration, exit the dialog, which will leave you in the **Configuration file** editor where you can begin editing your configuration pipeline.
 
 ### Download pipelines from your RDI configuration
 
-Click the **Download from server** button in the **Start with your pipeline** dialog to download previously defined configuration and transformation job pipelines from your RDI server. The downloaded pipelines will be displayed in the **Pipeline management** pane. The configuration pipeline file will be displayed in center panel.
+Click the **Download from server** button in the **Start with your pipeline** dialog to download previously defined configuration and transformation job pipelines from your RDI server. The downloaded pipelines will be displayed in the **Pipeline management** pane. The configuration pipeline file will be displayed in the center panel.
 
 <img src="../images/ri-rdi-pl-dl.png">
 
@@ -72,7 +72,7 @@ The `config.yaml` file, your configuration pipeline YAML file, is required. The 
 
 ### Create a new configuration pipeline using the built-in editor
 
-Click the **Create new pipeline** button in the **Start with your pipeline** dialog to create new pipeline data using Redis Insight's built-in editor. After doing so, you'll enter the **Configuration file** editor and you'll see a **Select a template** dialog in the upper right-hand corner of the editor.
+Click the **Create new pipeline** button in the **Start with your pipeline** dialog to create new pipeline data using the editor in Redis Insight. After doing so, you'll enter the **Configuration file** editor and you'll see a **Select a template** dialog in the upper right-hand corner of the editor.
 
 <img src="../images/ri-rdi-pl-editor-dlg.png">
 
@@ -94,8 +94,8 @@ After you make your selections and click **Apply**, Redis Insight will populate 
 ### Create a new transformation job pipeline using the built-in editor
 
 In the **Pipeline Management** pane, click the `+` next to the **Jobs** folder and enter a name for the new job.
-Next, click on the job name you just created.
-This will place you in the transformation job editor with the template selection menu open. There's only one template available: **Ingest**. Click **Apply** and Redis Insight will populate the editor windows with an appropriate template. To start from scratch, click **Cancel**.
+Next, click the job name you just created.
+This will take you to the transformation job editor with the template selection menu open. There's only one template available: **Ingest**. Click **Apply** and Redis Insight will populate the editor windows with an appropriate template. To start from scratch, click **Cancel**.
 
 <img src="../images/ri-rdi-job-editor-template.png">
 
@@ -114,7 +114,7 @@ For example, if you decided to write your own configuration pipeline without usi
 
 <img src="../images/ri-rdi-pl-editor-autoc.png">
 
-While this isn't a replacement for the RDI documentation, it can help speed you along once you have basic familiarity with the building blocks of RDI pipeline files.
+While this isn't a replacement for the RDI documentation, it can help speed you along after you have basic familiarity with the building blocks of RDI pipeline files.
 
 Here's an example showing the SQL and JMESPath editor pane. Note the toggle in the bottom left corner of this editor pane. Clicking it allows you to select from:
 
@@ -132,7 +132,7 @@ After you've created a transformation job pipeline, you can execute a dry run on
 There are two tabs in the **Results** section:
 
 1. **Transformations** - this is where you'll see JSON output from your dry run.
-1. **Output** - (not shown) this is where you'll see the Redis commands would have been run in a real scenario.
+1. **Output** - (not shown) this is where you'll see the Redis commands that would have been run in a real scenario.
 
 Here's an example.
 
@@ -140,9 +140,9 @@ Here's an example.
 
 ## Deploy pipelines and view statistics
 
-If you're satisfied with your configuration and transformation job pipelines, you can deploy them to the RDI management plane. Click on the **Deploy Pipeline** button to proceed.
+If you're satisfied with your configuration and transformation job pipelines, you can deploy them to the RDI management plane. Click the **Deploy Pipeline** button to proceed.
 
-After your pipelines have been deployed, you can view various statistics for your RDI deployment. To do so, click on the **Pipeline Status** menu button in the left side menu panel.
+After your pipelines have been deployed, you can view various statistics for your RDI deployment. To do so, click  the **Pipeline Status** menu button in the left side menu panel.
 
 <img src="../images/ri-rdi-stats-view.png">
 
