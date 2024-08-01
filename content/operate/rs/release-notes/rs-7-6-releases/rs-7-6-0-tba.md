@@ -79,6 +79,10 @@ See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/ins
 
 ### Deprecations
 
+#### API deprecations
+
+- Deprecated `background_op` field from BDB REST API object. Use [`GET /v1/actions/bdb/<bdb_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions/bdb">}}) instead.
+
 #### Legacy UI deprecation
 
 The legacy UI is deprecated in favor of the new Cluster Manager UI and will be removed in a future release.

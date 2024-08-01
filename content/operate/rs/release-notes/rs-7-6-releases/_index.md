@@ -47,7 +47,7 @@ See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/ins
 
 #### API deprecations
 
-- TBA
+- Deprecated `background_op` field from BDB REST API object. Use [`GET /v1/actions/bdb/<bdb_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions/bdb">}}) instead.
 
 #### Legacy UI deprecation
 
