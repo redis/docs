@@ -76,7 +76,7 @@ reversed order, which is often useful when data is indexed in a given
 direction (ascending or descending) but we want to retrieve information
 the other way around.
 
-### Using objects IDs as associated values
+### Use object IDs as associated values
 
 In the above example we associated names to ages. However in general we
 may want to index some field of an object which is stored elsewhere.
@@ -107,7 +107,7 @@ In the next examples we'll almost always use IDs as values associated with
 the index, since this is usually the more sounding design, with a few
 exceptions.
 
-### Updating simple sorted set indexes
+### Update simple sorted set indexes
 
 Often we index things which change over time. In the above
 example, the age of the user changes every year. In such a case it would
@@ -128,7 +128,7 @@ to execute the following two commands:
 The operation may be wrapped in a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) transaction in order to
 make sure both fields are updated or none.
 
-### Turning multi dimensional data into linear data
+### Turn multi-dimensional data into linear data
 
 Indexes created with sorted sets are able to index only a single numerical
 value. Because of this you may think it is impossible to index something
@@ -247,7 +247,7 @@ as start, and the same string plus a trailing byte set to 255, which is `\xff` i
 
 Note that we don't want too many items returned, so we may use the **LIMIT** option in order to reduce the number of results.
 
-### Adding frequency into the mix
+### Add frequency into the mix
 
 The above approach is a bit naive, because all the user searches are the same
 in this way. In a real system we want to complete strings according to their
@@ -310,7 +310,7 @@ A refinement to this algorithm is to pick entries in the list according to
 their weight: the higher the score, the less likely entries are picked
 in order to decrement its score, or evict them.
 
-### Normalizing strings for case and accents
+### Normalize strings for case and accents
 
 In the completion examples we always used lowercase strings. However
 reality is much more complex than that: languages have capitalized names,
@@ -332,7 +332,7 @@ Basically we add another field that we'll extract and use only for
 visualization. Ranges will always be computed using the normalized strings
 instead. This is a common trick which has multiple applications.
 
-### Adding auxiliary information in the index
+### Add auxiliary information in the index
 
 When using a sorted set in a direct way, we have two different attributes
 for each object: the score, which we use as an index, and an associated
@@ -397,7 +397,7 @@ decimal part with trailing zeroes like in the following list of numbers:
         00000002121241.34893482930000
         00999999999999.00000000000000
 
-### Using numbers in binary form
+### Use numbers in binary form
 
 Storing numbers in decimal may use too much memory. An alternative approach
 is just to store numbers, for example 128 bit integers, directly in their
@@ -409,7 +409,7 @@ the least significant bytes. This way when Redis compares the strings with
 Keep in mind that data stored in binary format is less observable for
 debugging, harder to parse and export. So it is definitely a trade off.
 
-## Composite indexes
+### Composite indexes
 
 So far we explored ways to index single fields. However we all know that
 SQL stores are able to create indexes using multiple fields. For example
@@ -444,8 +444,7 @@ in order to optimize complex queries. In Redis they could be useful both
 to implement a very fast in-memory Redis index of something stored into
 a traditional data store, or in order to directly index Redis data.
 
-Updating lexicographical indexes
-===
+### Update lexicographical indexes
 
 The value of the index in a lexicographical index can get pretty fancy
 and hard or slow to rebuild from what we store about the object. So one
@@ -466,7 +465,7 @@ ID 90, regardless of the *current* fields values of the object, we just
 have to retrieve the hash value by object ID and [`ZREM`]({{< relref "/commands/zrem" >}}) it in the sorted
 set view.
 
-## Representing and querying graphs using a hexastore
+### Representing and querying graphs using a hexastore
 
 One cool thing about composite indexes is that they are handy in order
 to represent graphs, using a data structure which is called
@@ -522,7 +521,7 @@ matteocollina.
 
 Make sure to check [Matteo Collina's slides about Levelgraph](http://nodejsconfit.levelgraph.io/) in order to better understand these ideas.
 
-## Multi dimensional indexes
+### Multi-dimensional indexes
 
 A more complex type of index is an index that allows you to perform queries
 where two or more variables are queried at the same time for specific
@@ -686,7 +685,7 @@ For now, the good thing is that the complexity may be easily encapsulated
 inside a library that can be used in order to perform indexing and queries.
 One example of such library is [Redimension](https://github.com/antirez/redimension), a proof of concept Ruby library which indexes N-dimensional data inside Redis using the technique described here.
 
-## Multi dimensional indexes with negative or floating point numbers
+### Multi-dimensional indexes with negative or floating point numbers
 
 The simplest way to represent negative values is just to work with unsigned
 integers and represent them using an offset, so that when you index, before
