@@ -16,7 +16,7 @@ toc: 'true'
 weight: 70
 ---
 
-​[​Redis Enterprise Software version 7.4.2](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Enterprise Software version 7.4](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
 
 ## Highlights
 
