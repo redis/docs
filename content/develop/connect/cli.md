@@ -261,8 +261,7 @@ So `location:hastings:temp` will populate the [`KEYS`]({{< relref "/commands/key
 The `--eval` option is useful when writing simple scripts. For more
 complex work, the Lua debugger is recommended. It is possible to mix the two approaches, since the debugger can also execute scripts from an external file.
 
-Interactive mode
-===
+## Interactive mode
 
 We have explored how to use the Redis CLI as a command line program.
 This is useful for scripts and certain types of testing, however most
@@ -437,8 +436,7 @@ Note that `HELP` supports TAB completion as well.
 
 Using the `CLEAR` command in interactive mode clears the terminal's screen.
 
-Special modes of operation
-===
+## Special modes of operation
 
 So far we saw two main modes of `redis-cli`.
 
