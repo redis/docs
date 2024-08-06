@@ -7,6 +7,10 @@ on:
         type: string
         required: true
         description: ''
+      bucket_folder:
+        type: string
+        required: true
+        description: ''
 
 jobs:
   k8s_apis_sync:
@@ -24,9 +28,10 @@ jobs:
       - name: 'Fetch release'
         run: |-
           RELEASE="${{ github.event.inputs.release }}"
-          aws s3 cp s3://redislabs-k8s/${RELEASE}/ --no-sign-request . --recursive --region us-east-1
+          BUCKET_FOLDER="${{ github.event.inputs.bucket_folder }}"
+          aws s3 cp "s3://redislabs-k8s/${BUCKET_FOLDER}/redis-enterprise-operator-${RELEASE}.tar.gz" --no-sign-request . --region us-east-1
 
-          tar xf redis-enterprise-operator-*.tar.gz
+          tar xf "redis-enterprise-operator-${RELEASE}.tar.gz"
 
       - name: 'Generate READMEs'
         run: |-
