@@ -13,7 +13,7 @@ description: Redis Insight debugging information
 linkTitle: Debugging information
 stack: true
 title: Redis Insight debugging information
-weight: 2
+weight: 6
 ---
 
 If you are experiencing errors or other issues when using Redis Insight, follow the steps below to learn more about the errors and to identify root cause.
