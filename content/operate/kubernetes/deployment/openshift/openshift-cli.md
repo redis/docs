@@ -105,7 +105,7 @@ The Redis Enterprise pods must run in OpenShift with privileges set in a [Securi
 
 1. Apply the `RedisEnterpriseCluster` resource file ([rec_rhel.yaml](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/openshift/rec_rhel.yaml)).
 
-    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/reference/cluster-options.md" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_cluster_api.md) for a full list of options.
+    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/reference/cluster-options.md" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for a full list of options.
 
     The REC name cannot be changed after cluster creation.
 
@@ -234,7 +234,7 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 ## More info
 
 - [Options for Redis Enterprise clusters (REC)]({{< relref "/operate/kubernetes/reference/cluster-options.md" >}})
-- [Redis Enterprise cluster API](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_cluster_api.md)
+- [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}})
 - [Options for Redis Enterprise databases (REDB)]({{< relref "/operate/kubernetes/reference/db-options.md" >}})
 - [Redis Enterprise database API](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md)
 
