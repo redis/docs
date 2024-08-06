@@ -20,8 +20,17 @@ jobs:
       pull-requests: write
       actions: write
     steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.DOCS_APP_ID }}
+          private-key: ${{ secrets.DOCS_APP_PRIVATE_KEY }}
+
       - name: 'Checkout'
         uses: actions/checkout@v3
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
 
       - name: 'Install crdoc'
         run: |-
@@ -62,13 +71,6 @@ jobs:
           sed -E -i 's/^### RedisEnterpriseRemoteCluster\./### /g' artifacts/redis_enterprise_remote_cluster.md
           sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterpriseremotecluster/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_remote_cluster.md
           sed -E -i 's/<td><b><a href="#redisenterpriseremotecluster/<td><b><a href="#/' artifacts/redis_enterprise_remote_cluster.md
-
-      - name: Generate a token
-        id: generate-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.DOCS_APP_ID }}
-          private-key: ${{ secrets.DOCS_APP_PRIVATE_KEY }}
 
       - name: 'Send pull request'
         env:
