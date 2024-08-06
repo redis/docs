@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise Software release notes 7.6.0-tba (September 2024)
+Title: Redis Enterprise Software release notes 7.6.0-tba (August 2024)
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 compatibleOSSVersion: Redis 7.2.4
 description: TBA
-linkTitle: 7.6.0-tba (September 2024)
+linkTitle: 7.6.0-tba (August 2024)
 weight: 90
 ---
 
@@ -117,7 +117,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 | Redis Software<br />major versions | 7.6 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|
-| **Release date** | Sept 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
+| **Release date** | Aug 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
 | [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | TBA | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
@@ -144,7 +144,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (7.6.0-tba Sept release) |
+| Package | SHA256 checksum (7.6.0-tba Aug release) |
 |---------|---------------------------------------|
 | Ubuntu 18 | <span class="break-all"></span> |
 | Ubuntu 20 | <span class="break-all"></span> |
