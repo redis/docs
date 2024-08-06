@@ -81,7 +81,7 @@ For a full list of fields and options, see the [REAADB API reference]({{<relref 
 
 Redis Enterprise remote cluster (RERC) custom resource contains configuration details for all the participating clusters.
 
-For a full list of fields and options, see the [RERC API reference](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_remote_cluster_api.md).
+For a full list of fields and options, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
 
 ### Limitations
 
