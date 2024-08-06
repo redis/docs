@@ -59,42 +59,17 @@ jobs:
           sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterpriseremotecluster/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_remote_cluster.md
           sed -E -i 's/<td><b><a href="#redisenterpriseremotecluster/<td><b><a href="#/' artifacts/redis_enterprise_remote_cluster.md
 
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.DOCS_APP_ID }}
+          private-key: ${{ secrets.DOCS_APP_PRIVATE_KEY }}
+
       - name: 'Send pull request'
         env:
-          APP_ID: ${{ secrets.DOCS_APP_ID }}
-          PEM: ${{ secrets.DOCS_APP_PRIVATE_KEY }}
-          REGISTRATION_ID: ${{ secrets.DOCS_APP_REGISTRATION_ID }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |-
-          set -o pipefail
-          now=$(date +%s)
-          iat=$((${now} - 60)) # Issues 60 seconds in the past
-          exp=$((${now} + 600)) # Expires 10 minutes in the future
-          b64enc() { openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n'; }
-          header_json='{
-              "typ":"JWT",
-              "alg":"RS256"
-          }'
-          # Header encode
-          header=$( echo -n "${header_json}" | b64enc )
-          payload_json='{
-              "iat":'"${iat}"',
-              "exp":'"${exp}"',
-              "iss":'"${APP_ID}"'
-          }'
-          # Payload encode
-          payload=$( echo -n "${payload_json}" | b64enc )
-          # Signature
-          header_payload="${header}"."${payload}"
-          signature=$(
-              openssl dgst -sha256 -sign <(echo -n "${PEM}") \
-              <(echo -n "${header_payload}") | b64enc
-          )
-          # Create JWT
-          JWT="${header_payload}"."${signature}"
-          GH_TOKEN=$(curl -s --request POST --url "https://api.github.com/app/installations/${REGISTRATION_ID}/access_tokens" \
-            --header "Accept: application/vnd.github+json" --header "Authorization: Bearer $JWT" \
-            --header "X-GitHub-Api-Version: 2022-11-28" | jq -r '.token')
-
           RELEASE="${{ github.event.inputs.release }}"
           BRANCH="k8s_apis_docs_${RELEASE}"
 
