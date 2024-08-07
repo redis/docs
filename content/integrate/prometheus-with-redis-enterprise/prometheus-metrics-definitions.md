@@ -1,5 +1,5 @@
 ---
-Title: Metrics in Prometheus
+Title: Metrics in Prometheus (tables)
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 description: The metrics available to Prometheus.
 group: observability
-linkTitle: Prometheus metrics
+linkTitle: Prometheus metrics (tables)
 summary: You can use Prometheus and Grafana to collect and visualize your Redis Enterprise
   Software metrics.
 type: integration
@@ -20,76 +20,76 @@ Here are the metrics available to Prometheus:
 
 ## Database metrics
 
-| Metric | Description |
-| ------ | :------ |
-| bdb_avg_latency | Average latency of operations on the DB (seconds); returned only when there is traffic |
-| bdb_avg_latency_max | Highest value of average latency of operations on the DB (seconds); returned only when there is traffic |
-| bdb_avg_read_latency | Average latency of read operations (seconds); returned only when there is traffic |
-| bdb_avg_read_latency_max | Highest value of average latency of read operations (seconds); returned only when there is traffic |
-| bdb_avg_write_latency | Average latency of write operations (seconds); returned only when there is traffic |
-| bdb_avg_write_latency_max | Highest value of average latency of write operations (seconds); returned only when there is traffic |
-| bdb_bigstore_shard_count | Shard count by database and by storage engine (driver - rocksdb / speedb); Only for databases with Auto Tiering enabled |
-| bdb_conns | Number of client connections to DB |
-| bdb_egress_bytes | Rate of outgoing network traffic from the DB (bytes/sec) |
-| bdb_egress_bytes_max | Highest value of rate of outgoing network traffic from the DB (bytes/sec) |
-| bdb_evicted_objects | Rate of key evictions from DB (evictions/sec) |
-| bdb_evicted_objects_max | Highest value of rate of key evictions from DB (evictions/sec) |
-| bdb_expired_objects | Rate keys expired in DB (expirations/sec) |
-| bdb_expired_objects_max | Highest value of rate keys expired in DB (expirations/sec) |
-| bdb_fork_cpu_system | % cores utilization in system mode for all redis shard fork child processes of this database |
-| bdb_fork_cpu_system_max | Highest value of % cores utilization in system mode for all redis shard fork child processes of this database |
-| bdb_fork_cpu_user | % cores utilization in user mode for all redis shard fork child processes of this database |
-| bdb_fork_cpu_user_max | Highest value of % cores utilization in user mode for all redis shard fork child processes of this database |
-| bdb_ingress_bytes | Rate of incoming network traffic to DB (bytes/sec) |
-| bdb_ingress_bytes_max | Highest value of rate of incoming network traffic to DB (bytes/sec) |
-| bdb_instantaneous_ops_per_sec | Request rate handled by all shards of DB (ops/sec) |
-| bdb_main_thread_cpu_system | % cores utilization in system mode for all redis shard main threads of this database |
-| bdb_main_thread_cpu_system_max | Highest value of % cores utilization in system mode for all redis shard main threads of this database |
-| bdb_main_thread_cpu_user | % cores utilization in user mode for all redis shard main threads of this database |
-| bdb_main_thread_cpu_user_max | Highest value of % cores utilization in user mode for all redis shard main threads of this database |
-| bdb_mem_frag_ratio | RAM fragmentation ratio (RSS / allocated RAM) |
-| bdb_mem_size_lua | Redis lua scripting heap size (bytes) |
-| bdb_memory_limit | Configured RAM limit for the database |
-| bdb_monitor_sessions_count | Number of client connected in monitor mode to the DB |
-| bdb_no_of_keys | Number of keys in DB |
-| bdb_other_req | Rate of other (non read/write) requests on DB (ops/sec) |
-| bdb_other_req_max | Highest value of rate of other (non read/write) requests on DB (ops/sec) |
-| bdb_other_res | Rate of other (non read/write) responses on DB (ops/sec) |
-| bdb_other_res_max | Highest value of rate of other (non read/write) responses on DB (ops/sec) |
-| bdb_pubsub_channels | Count the pub/sub channels with subscribed clients |
-| bdb_pubsub_channels_max | Highest value of count the pub/sub channels with subscribed clients |
-| bdb_pubsub_patterns | Count the pub/sub patterns with subscribed clients |
-| bdb_pubsub_patterns_max | Highest value of count the pub/sub patterns with subscribed clients |
-| bdb_read_hits | Rate of read operations accessing an existing key (ops/sec) |
-| bdb_read_hits_max | Highest value of rate of read operations accessing an existing key (ops/sec) |
-| bdb_read_misses | Rate of read operations accessing a non-existing key (ops/sec) |
-| bdb_read_misses_max | Highest value of rate of read operations accessing a non-existing key (ops/sec) |
-| bdb_read_req | Rate of read requests on DB (ops/sec) |
-| bdb_read_req_max | Highest value of rate of read requests on DB (ops/sec) |
-| bdb_read_res | Rate of read responses on DB (ops/sec) |
-| bdb_read_res_max | Highest value of rate of read responses on DB (ops/sec) |
-| bdb_shard_cpu_system | % cores utilization in system mode for all redis shard processes of this database |
-| bdb_shard_cpu_system_max | Highest value of % cores utilization in system mode for all redis shard processes of this database |
-| bdb_shard_cpu_user | % cores utilization in user mode for the redis shard process |
-| bdb_shard_cpu_user_max | Highest value of % cores utilization in user mode for the redis shard process |
-| bdb_shards_used | Used shard count by database and by shard type (ram / flash) |
-| bdb_total_connections_received | Rate of new client connections to DB (connections/sec) |
-| bdb_total_connections_received_max | Highest value of rate of new client connections to DB (connections/sec) |
-| bdb_total_req | Rate of all requests on DB (ops/sec) |
-| bdb_total_req_max | Highest value of rate of all requests on DB (ops/sec) |
-| bdb_total_res | Rate of all responses on DB (ops/sec) |
-| bdb_total_res_max | Highest value of rate of all responses on DB (ops/sec) |
-| bdb_up | Database is up and running |
-| bdb_used_memory | Memory used by db (in bigredis this includes flash) (bytes) |
-| bdb_write_hits | Rate of write operations accessing an existing key (ops/sec) |
-| bdb_write_hits_max | Highest value of rate of write operations accessing an existing key (ops/sec) |
-| bdb_write_misses | Rate of write operations accessing a non-existing key (ops/sec) |
-| bdb_write_misses_max | Highest value of rate of write operations accessing a non-existing key (ops/sec) |
-| bdb_write_req | Rate of write requests on DB (ops/sec) |
-| bdb_write_req_max | Highest value of rate of write requests on DB (ops/sec) |
-| bdb_write_res | Rate of write responses on DB (ops/sec) |
-| bdb_write_res_max | Highest value of rate of write responses on DB (ops/sec) |
-| no_of_expires | Current number of volatile keys in the database |
+| V1&nbsp;metric | Equivalent V2 PromQL | Description |
+| --------- | :------------------- | :---------- |
+| <span class="break-all">bdb_avg_latency</span> | <span class="break-all">`sum by (bdb) (irate(endpoint_acc_latency[1m])) / sum by (bdb) (irate(endpoint_total_started_res[1m])) / 1000000`</span> | Average latency of operations on the DB (seconds); returned only when there is traffic |
+| <span class="break-all">bdb_avg_latency_max</span> | <span class="break-all">`sum by (bdb) (irate(endpoint_acc_latency[1m])) / sum by (bdb) (irate(endpoint_total_started_res[1m])) / 1000000`</span> | Highest value of average latency of operations on the DB (seconds); returned only when there is traffic |
+| <span class="break-all">bdb_avg_read_latency</span> | <span class="break-all">`sum by (bdb) (irate(endpoint_acc_read_latency[1m])) / sum by (bdb) (irate(endpoint_total_started_res[1m])) / 1000000`</span> | Average latency of read operations (seconds); returned only when there is traffic |
+| <span class="break-all">bdb_avg_read_latency_max</span></span> | <span class="break-all">`sum by (bdb) (irate(endpoint_acc_read_latency[1m])) / sum by (bdb) (irate(endpoint_total_started_res[1m])) / 1000000`</span> | Highest value of average latency of read operations (seconds); returned only when there is traffic |
+| <span class="break-all">bdb_avg_write_latency</span> | <span class="break-all">`sum by (bdb) (irate(endpoint_acc_write_latency[1m])) / sum by (bdb) (irate(endpoint_total_started_res[1m])) / 1000000`</span> | Average latency of write operations (seconds); returned only when there is traffic |
+| <span class="break-all">bdb_avg_write_latency_max</span> | <span class="break-all">`sum by (bdb) (irate(endpoint_acc_write_latency[1m])) / sum by (bdb) (irate(endpoint_total_started_res[1m])) / 1000000`</span> | Highest value of average latency of write operations (seconds); returned only when there is traffic |
+| <span class="break-all">bdb_bigstore_shard_count</span> | <span class="break-all">`sum((sum(label_replace(label_replace(namedprocess_namegroup_thread_count{groupname=~"redis-\d+", threadname=~"(speedb\|rocksdb).*"}, "redis", "$1", "groupname", "redis-(\d+)"), "driver", "$1", "threadname", "(speedb\|rocksdb).*")) by (redis, driver) > bool 0) * on (redis) group_left(bdb) redis_server_up) by (bdb, driver)`</span> | Shard count by database and by storage engine (driver - rocksdb / speedb); Only for databases with Auto Tiering enabled |
+| <span class="break-all">bdb_conns</span> | <span class="break-all">`sum by(bdb) (endpoint_conns)`</span> | Number of client connections to DB |
+| <span class="break-all">bdb_egress_bytes</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_egress_bytes[1m]))`</span> | Rate of outgoing network traffic from the DB (bytes/sec) |
+| <span class="break-all">bdb_egress_bytes_max</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_egress_bytes[1m]))`</span> | Highest value of rate of outgoing network traffic from the DB (bytes/sec) |
+| <span class="break-all">bdb_evicted_objects</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_evicted_keys{role="master"}[1m]))`</span> | Rate of key evictions from DB (evictions/sec) |
+| <span class="break-all">bdb_evicted_objects_max</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_evicted_keys{role="master"}[1m]))`</span> | Highest value of rate of key evictions from DB (evictions/sec) |
+| <span class="break-all">bdb_expired_objects</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_expired_keys{role="master"}[1m]))`</span> | Rate keys expired in DB (expirations/sec) |
+| <span class="break-all">bdb_expired_objects_max</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_expired_keys{role="master"}[1m]))`</span> | Highest value of rate keys expired in DB (expirations/sec) |
+| <span class="break-all">bdb_fork_cpu_system</span> | <span class="break-all">`sum by (bdb) (irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="system"}[1m]))`</span> | % cores utilization in system mode for all redis shard fork child processes of this database |
+| <span class="break-all">bdb_fork_cpu_system_max</span> | <span class="break-all">`sum by (bdb) (irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="system"}[1m]))`</span> | Highest value of % cores utilization in system mode for all redis shard fork child processes of this database |
+| <span class="break-all">bdb_fork_cpu_user</span> | <span class="break-all">`sum by (bdb) (irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="user"}[1m]))`</span> | % cores utilization in user mode for all redis shard fork child processes of this database |
+| <span class="break-all">bdb_fork_cpu_user_max</span> | <span class="break-all">`sum by (bdb) (irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="user"}[1m]))`</span> | Highest value of % cores utilization in user mode for all redis shard fork child processes of this database |
+| <span class="break-all">bdb_ingress_bytes</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_ingress_bytes[1m]))`</span> | Rate of incoming network traffic to DB (bytes/sec) |
+| <span class="break-all">bdb_ingress_bytes_max</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_ingress_bytes[1m]))`</span> | Highest value of rate of incoming network traffic to DB (bytes/sec) |
+| <span class="break-all">bdb_instantaneous_ops_per_sec</span></span> | <span class="break-all">`sum by(bdb) (redis_server_instantaneous_ops_per_sec)`</span> | Request rate handled by all shards of DB (ops/sec) |
+| <span class="break-all">bdb_main_thread_cpu_system</span> | <span class="break-all">`sum by(bdb) (irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="system", threadname=~"redis-server.*"}[1m]))`</span> | % cores utilization in system mode for all redis shard main threads of this database |
+| <span class="break-all">bdb_main_thread_cpu_system_max</span></span> | <span class="break-all">`sum by(bdb) (irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="system", threadname=~"redis-server.*"}[1m]))`</span> | Highest value of % cores utilization in system mode for all redis shard main threads of this database |
+| <span class="break-all">bdb_main_thread_cpu_user</span> | <span class="break-all">`sum by(irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="user", threadname=~"redis-server.*"}[1m]))`</span> | % cores utilization in user mode for all redis shard main threads of this database |
+| <span class="break-all">bdb_main_thread_cpu_user_max</span></span> | <span class="break-all">`sum by(irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="user", threadname=~"redis-server.*"}[1m]))`</span> | Highest value of % cores utilization in user mode for all redis shard main threads of this database |
+| <span class="break-all">bdb_mem_frag_ratio</span> | <span class="break-all">`avg(redis_server_mem_fragmentation_ratio)`</span> | RAM fragmentation ratio (RSS / allocated RAM) |
+| <span class="break-all">bdb_mem_size_lua</span> | <span class="break-all">`sum by(bdb) (redis_server_used_memory_lua)`</span> | Redis lua scripting heap size (bytes) |
+| <span class="break-all">bdb_memory_limit</span> | <span class="break-all">`sum by(bdb) (redis_server_maxmemory)`</span> | Configured RAM limit for the database |
+| <span class="break-all">bdb_monitor_sessions_count</span> | <span class="break-all">`sum by(bdb) (endpoint_monitor_sessions_count)`</span> | Number of client connected in monitor mode to the DB |
+| <span class="break-all">bdb_no_of_keys</span> | <span class="break-all">`sum by (bdb) (redis_server_db_keys{role="master"})`</span> | Number of keys in DB |
+| <span class="break-all">bdb_other_req</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_other_req[1m]))`</span> | Rate of other (non read/write) requests on DB (ops/sec) |
+| <span class="break-all">bdb_other_req_max</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_other_req[1m]))`</span> | Highest value of rate of other (non read/write) requests on DB (ops/sec) |
+| <span class="break-all">bdb_other_res</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_other_res[1m]))`</span> | Rate of other (non read/write) responses on DB (ops/sec) |
+| <span class="break-all">bdb_other_res_max</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_other_res[1m]))`</span> | Highest value of rate of other (non read/write) responses on DB (ops/sec) |
+| <span class="break-all">bdb_pubsub_channels</span> | <span class="break-all">`sum by(bdb) (redis_server_pubsub_channels)`</span> | Count the pub/sub channels with subscribed clients |
+| <span class="break-all">bdb_pubsub_channels_max</span> | <span class="break-all">`sum by(bdb) (redis_server_pubsub_channels)`</span> | Highest value of count the pub/sub channels with subscribed clients |
+| <span class="break-all">bdb_pubsub_patterns</span> | <span class="break-all">`sum by(bdb) (redis_server_pubsub_patterns)`</span> | Count the pub/sub patterns with subscribed clients |
+| <span class="break-all">bdb_pubsub_patterns_max</span></span> | <span class="break-all">`sum by(bdb) (redis_server_pubsub_patterns)`</span> | Highest value of count the pub/sub patterns with subscribed clients |
+| <span class="break-all">bdb_read_hits</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_keyspace_read_hits{role="master"}[1m]))`</span> | Rate of read operations accessing an existing key (ops/sec) |
+| <span class="break-all">bdb_read_hits_max</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_keyspace_read_hits{role="master"}[1m]))`</span> | Highest value of rate of read operations accessing an existing key (ops/sec) |
+| <span class="break-all">bdb_read_misses</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_keyspace_read_misses{role="master"}[1m]))`</span> | Rate of read operations accessing a non-existing key (ops/sec) |
+| <span class="break-all">bdb_read_misses_max</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_keyspace_read_misses{role="master"}[1m]))`</span> | Highest value of rate of read operations accessing a non-existing key (ops/sec) |
+| <span class="break-all">bdb_read_req</span> | <span class="break-all">`sum by (bdb) (irate(endpoint_read_req[1m]))`</span> | Rate of read requests on DB (ops/sec) |
+| <span class="break-all">bdb_read_req_max</span> | <span class="break-all">`sum by (bdb) (irate(endpoint_read_req[1m]))`</span> | Highest value of rate of read requests on DB (ops/sec) |
+| <span class="break-all">bdb_read_res</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_read_res[1m]))`</span> | Rate of read responses on DB (ops/sec) |
+| <span class="break-all">bdb_read_res_max</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_read_res[1m]))`</span> | Highest value of rate of read responses on DB (ops/sec) |
+| <span class="break-all">bdb_shard_cpu_system</span> | <span class="break-all">`sum by(bdb) (irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="system", role="master"}[1m]))`</span> | % cores utilization in system mode for all redis shard processes of this database |
+| <span class="break-all">bdb_shard_cpu_system_max<span></span> | <span class="break-all">`sum by(bdb) (irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="system", role="master"}[1m]))`</span> | Highest value of % cores utilization in system mode for all redis shard processes of this database |
+| <span class="break-all">bdb_shard_cpu_user</span> | <span class="break-all">`sum by(bdb) (irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="user", role="master"}[1m]))`</span> | % cores utilization in user mode for the redis shard process |
+| <span class="break-all">bdb_shard_cpu_user_max</span> | <span class="break-all">`sum by(bdb) (irate(namedprocess_namegroup_thread_cpu_seconds_total{mode="user", role="master"}[1m]))`</span> | Highest value of % cores utilization in user mode for the redis shard process |
+| <span class="break-all">bdb_shards_used</span> | <span class="break-all">`sum((sum(label_replace(label_replace(label_replace(namedprocess_namegroup_thread_count{groupname=~"redis-\d+"}, "redis", "$1", "groupname", "redis-(\d+)"), "shard_type", "flash", "threadname", "(bigstore).*"), "shard_type", "ram", "shard_type", "")) by (redis, shard_type) > bool 0) * on (redis) group_left(bdb) redis_server_up) by (bdb, shard_type)`</span> | Used shard count by database and by shard type (ram / flash) |
+| <span class="break-all">bdb_total_connections_received</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_total_connections_received[1m]))`</span> | Rate of new client connections to DB (connections/sec) |
+| <span class="break-all">bdb_total_connections_received_max<span></span> | <span class="break-all">`sum by(bdb) (irate(endpoint_total_connections_received[1m]))`</span> | Highest value of rate of new client connections to DB (connections/sec) |
+| <span class="break-all">bdb_total_req</span> | <span class="break-all">`sum by (bdb) (irate(endpoint_total_req[1m]))`</span> | Rate of all requests on DB (ops/sec) |
+| <span class="break-all">bdb_total_req_max</span> | <span class="break-all">`sum by (bdb) (irate(endpoint_total_req[1m]))`</span> | Highest value of rate of all requests on DB (ops/sec) |
+| <span class="break-all">bdb_total_res</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_total_res[1m]))`</span> | Rate of all responses on DB (ops/sec) |
+| <span class="break-all">bdb_total_res_max</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_total_res[1m]))`</span> | Highest value of rate of all responses on DB (ops/sec) |
+| <span class="break-all">bdb_up</span> | <span class="break-all">`min by(bdb) (redis_up)`</span> | Database is up and running |
+| <span class="break-all">bdb_used_memory</span> | <span class="break-all">`sum by (bdb) (redis_server_used_memory)`</span> | Memory used by db (in bigredis this includes flash) (bytes) |
+| <span class="break-all">bdb_write_hits</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_keyspace_write_hits{role="master"}[1m]))`</span> | Rate of write operations accessing an existing key (ops/sec) |
+| <span class="break-all">bdb_write_hits_max</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_keyspace_write_hits{role="master"}[1m]))`</span> | Highest value of rate of write operations accessing an existing key (ops/sec) |
+| <span class="break-all">bdb_write_misses</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_keyspace_write_misses{role="master"}[1m]))`</span> | Rate of write operations accessing a non-existing key (ops/sec) |
+| <span class="break-all">bdb_write_misses_max</span> | <span class="break-all">`sum by (bdb) (irate(redis_server_keyspace_write_misses{role="master"}[1m]))`</span> | Highest value of rate of write operations accessing a non-existing key (ops/sec) |
+| <span class="break-all">bdb_write_req</span> | <span class="break-all">`sum by (bdb) (irate(endpoint_write_req[1m]))`</span> | Rate of write requests on DB (ops/sec) |
+| <span class="break-all">bdb_write_req_max</span> | <span class="break-all">`sum by (bdb) (irate(endpoint_write_req[1m]))`</span> | Highest value of rate of write requests on DB (ops/sec) |
+| <span class="break-all">bdb_write_res</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_write_responses[1m]))`</span> | Rate of write responses on DB (ops/sec) |
+| <span class="break-all">bdb_write_res_max</span> | <span class="break-all">`sum by(bdb) (irate(endpoint_write_responses[1m]))`</span> | Highest value of rate of write responses on DB (ops/sec) |
+| no_of_expires</span> | <span class="break-all">`sum by(bdb) (redis_server_db_expires{role="master"})`</span> | Current number of volatile keys in the database |
 
 ## Node metrics
 
