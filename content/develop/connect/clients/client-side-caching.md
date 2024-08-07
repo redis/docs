@@ -60,6 +60,11 @@ will evict the stale data in response. Next time a client reads from
 the same key, it will access the database directly and refresh its cache
 with the updated data.
 
+The sequence diagram below shows how two clients might interact as they
+access and update the same key:
+
+{{< image filename="images/CSCSeqDiagram.drawio.svg" >}}
+
 ## Which commands can cache data?
 
 All read-only commands (with the `@read`
@@ -70,13 +75,13 @@ will use cached data, except for the following:
     [probabilistic data types]({{< relref "/develop/data-types/probabilistic" >}}).
     These types are designed to be updated frequently, which means that caching
     them gives little or no benefit.
--   Non-deterministic commands (such as [`HSCAN`({{< relref "/commands/hscan" >}}))
+-   Non-deterministic commands (such as [`HSCAN`]({{< relref "/commands/hscan" >}}))
     and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
     give different results each time they are called.
 -   Search and query commands (with the `FT.*` prefix), such as
     [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
 
-You should also note that multi-key read commands such as
+Also note that multi-key read commands such as
 [`MGET`]({{< relref "/commands/mget" >}}) *do* cache data correctly but the
 ordering of the keys is significant. For example `MGET name:1 name:2` is
 cached separately from `MGET name:2 name:1` because the server retrieves the
