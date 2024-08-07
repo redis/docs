@@ -10,7 +10,7 @@ weight: 30
 aliases: [ /operate/kubernetes/reference/cluster-options, ]
 ---
 
-API groups:
+apiVersion:
 
 
 - [app.redislabs.com/v1](#appredislabscomv1)

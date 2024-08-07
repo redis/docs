@@ -10,7 +10,7 @@ weight: 30
 aliases: [ /operate/kubernetes/reference/db-options, ]
 ---
 
-API groups:
+apiVersion:
 
 
 - [app.redislabs.com/v1alpha1](#appredislabscomv1alpha1)
