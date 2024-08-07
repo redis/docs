@@ -13,7 +13,7 @@ linkTitle: {{ $title }}
 weight: 30
 ---
 
-Packages:
+API groups:
 {{ $group:= index .Groups 0 }}
 
 - [{{$group.Group}}/{{$group.Version}}](#{{ anchorize (printf "%s/%s" $group.Group $group.Version) }})
