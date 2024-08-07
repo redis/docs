@@ -15,7 +15,7 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(1)
+complexity: O(N) where N is the number of quantiles specified.
 description: Returns, for each input fraction, an estimation of the value (floating
   point) that is smaller than the given fraction of observations
 group: tdigest
@@ -32,7 +32,7 @@ title: TDIGEST.QUANTILE
 ---
 Returns, for each input fraction, an estimation of the value (floating point) that is smaller than the given fraction of observations.
 
-Multiple quantiles can be retrieved in a signle call.
+Multiple quantiles can be retrieved in a single call.
 
 ## Required arguments
 
