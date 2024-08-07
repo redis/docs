@@ -212,7 +212,7 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
 1. Create a `RedisEnterpriseDatabase` custom resource.
 
-   This example creates a test database. For production databases, see [creating a database]({{< relref "/operate/kubernetes/re-databases/db-controller.md#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}).
+   This example creates a test database. For production databases, see [create a database]({{< relref "/operate/kubernetes/re-databases/db-controller.md#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}).
 
       ```bash
       cat << EOF > /tmp/redis-enterprise-database.yml
