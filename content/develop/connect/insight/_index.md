@@ -39,7 +39,7 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis or
 <img src="images/Databases.png">
 
 {{< note >}}
-When adding a Redis database using a username and password, the user must have authorized access to the `INFO` command.
+When you add a Redis database for a particular user using the `username` and `password` fields, that user must be able to run the `INFO` command. See the [access control list (ACL) documentation]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) for more information.
 {{< /note >}}
 
 ### Redis Copilot
