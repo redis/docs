@@ -9,7 +9,7 @@ linkTitle: REAADB API
 weight: 30
 ---
 
-Packages:
+API groups:
 
 
 - [app.redislabs.com/v1alpha1](#appredislabscomv1alpha1)
