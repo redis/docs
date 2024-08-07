@@ -12,7 +12,7 @@ linkTitle: Reference
 weight: 89
 ---
 
-This section contains API reference for the Redis custom resources and supported distributions.
+This section contains the API reference for Redis custom resources and supported distributions.
 
 
 
