@@ -398,7 +398,7 @@ name by a number:
     (integer) 4
     (integer) 5
 
-### Get help about Redis commands
+### Show online help for Redis commands
 
 `redis-cli` provides online help for most Redis [commands]({{< relref "/commands" >}}), using the `HELP` command. The command can be used
 in two forms:
