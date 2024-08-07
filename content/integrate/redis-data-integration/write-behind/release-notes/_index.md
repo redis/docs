@@ -17,6 +17,6 @@ type: integration
 weight: 100
 ---
 
-Here's what changed recently in RDI Ingest:
+Here's what changed recently in RDI Write-behind:
 
 {{< table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes" columnSources="LinkTitle,Description" enableLinks="LinkTitle" >}}
