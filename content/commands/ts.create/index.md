@@ -150,7 +150,7 @@ is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) a
 
   When not specified: set to the global [DUPLICATE_POLICY]({{< baseurl >}}/develop/data-types/timeseries/configuration#duplicate_policy) configuration of the database (which, by default, is `BLOCK`).
 
-  `BLOCK` is often used to avoid accidental changes. `FIRST` may be used as an optimization when duplicate reports are possible. `LAST` may be used when updates may be reported. `SUM` - for counters (e.g., number of cars entering a parking lot per minute when there are multiple reporting counting-devices). `MIN` and `MAX` may be used, for example, to store the minimal/maximal stock price per minute (instead of storing all the samples and defining a compaction rule).
+`BLOCK` is often used to avoid accidental changes. `FIRST` can be used as an optimization when duplicate reports are possible. `LAST` can be used when updates are being reported. `SUM` is used for counters (e.g., the number of cars entering a parking lot per minute when there are multiple reporting counting devices). `MIN` and `MAX` can be used, for example, to store the minimal/maximal stock price per minute (instead of storing all the samples and defining a compaction rule).
 
 </details>
 
