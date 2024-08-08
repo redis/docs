@@ -180,7 +180,7 @@ Redis publishes preconfigured dashboards for Redis Cloud and Grafana:
 
 * The [subscription status dashboard](https://grafana.com/grafana/dashboards/18406-subscription-status-dashboard/) provides an overview of your Redis Cloud subscriptions.
 * The [database status dashboard](https://grafana.com/grafana/dashboards/18407-database-status-dashboard/) displays specific database metrics, including latency, memory usage, ops/second, and key count.
-* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/cloud/basic/redis-cloud-active-active-dashboard.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}).
+* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/cloud/basic/redis-cloud-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}).
 
 These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Enterprise observability Github repository](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana).
 
