@@ -34,31 +34,31 @@ RedisEnterpriseActiveActiveDatabase is the Schema for the redisenterpriseactivea
         </tr>
     </thead>
     <tbody><tr>
-      <td><b>apiVersion</b></td>
+      <td>apiVersion</td>
       <td>string</td>
       <td>app.redislabs.com/v1alpha1</td>
       <td>true</td>
       </tr>
       <tr>
-      <td><b>kind</b></td>
+      <td>kind</td>
       <td>string</td>
       <td>RedisEnterpriseActiveActiveDatabase</td>
       <td>true</td>
       </tr>
       <tr>
-      <td><b><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#objectmeta-v1-meta">metadata</a></b></td>
+      <td><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#objectmeta-v1-meta">metadata</a></td>
       <td>object</td>
       <td>Refer to the Kubernetes API documentation for the fields of the `metadata` field.</td>
       <td>true</td>
       </tr><tr>
-        <td><b><a href="#spec">spec</a></b></td>
+        <td><a href="#spec">spec</a></td>
         <td>object</td>
         <td>
           RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterpriseActiveActiveDatabase<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#status">status</a></b></td>
+        <td><a href="#status">status</a></td>
         <td>object</td>
         <td>
           RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnterpriseActiveActiveDatabase<br/>
@@ -83,21 +83,21 @@ RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterp
         </tr>
     </thead>
     <tbody><tr>
-        <td><b><a href="#specparticipatingclustersindex">participatingClusters</a></b></td>
+        <td><a href="#specparticipatingclustersindex">participatingClusters</a></td>
         <td>[]object</td>
         <td>
           The list of instances/ clusters specifications and configurations.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurations">globalConfigurations</a></b></td>
+        <td><a href="#specglobalconfigurations">globalConfigurations</a></td>
         <td>object</td>
         <td>
           The Active-Active database global configurations, contains the global properties for each of the participating clusters/ instances databases within the Active-Active database.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specredisenterprisecluster">redisEnterpriseCluster</a></b></td>
+        <td><a href="#specredisenterprisecluster">redisEnterpriseCluster</a></td>
         <td>object</td>
         <td>
           Connection to Redis Enterprise Cluster<br/>
@@ -122,7 +122,7 @@ RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterp
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>name</b></td>
+        <td>name</td>
         <td>string</td>
         <td>
           The name of the remote cluster CR to link.<br/>
@@ -147,105 +147,105 @@ The Active-Active database global configurations, contains the global properties
         </tr>
     </thead>
     <tbody><tr>
-        <td><b><a href="#specglobalconfigurationsactiveactive">activeActive</a></b></td>
+        <td><a href="#specglobalconfigurationsactiveactive">activeActive</a></td>
         <td>object</td>
         <td>
           Connection/ association to the Active-Active database.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettings">alertSettings</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettings">alertSettings</a></td>
         <td>object</td>
         <td>
           Settings for database alerts<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsbackup">backup</a></b></td>
+        <td><a href="#specglobalconfigurationsbackup">backup</a></td>
         <td>object</td>
         <td>
           Target for automatic database backups.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>clientAuthenticationCertificates</b></td>
+        <td>clientAuthenticationCertificates</td>
         <td>[]string</td>
         <td>
           The Secrets containing TLS Client Certificate to use for Authentication<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>dataInternodeEncryption</b></td>
+        <td>dataInternodeEncryption</td>
         <td>boolean</td>
         <td>
           Internode encryption (INE) setting. An optional boolean setting, overriding a similar cluster-wide policy. If set to False, INE is guaranteed to be turned off for this DB (regardless of cluster-wide policy). If set to True, INE will be turned on, unless the capability is not supported by the DB ( in such a case we will get an error and database creation will fail). If left unspecified, will be disabled if internode encryption is not supported by the DB (regardless of cluster default). Deleting this property after explicitly setting its value shall have no effect.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>databasePort</b></td>
+        <td>databasePort</td>
         <td>integer</td>
         <td>
           Database port number. TCP port on which the database is available. Will be generated automatically if omitted. can not be changed after creation<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>databaseSecretName</b></td>
+        <td>databaseSecretName</td>
         <td>string</td>
         <td>
           The name of the secret that holds the password to the database (redis databases only). If secret does not exist, it will be created. To define the password, create an opaque secret and set the name in the spec. The password will be taken from the value of the 'password' key. Use an empty string as value within the secret to disable authentication for the database. Notes - For Active-Active databases this secret will not be automatically created, and also, memcached databases must not be set with a value, and a secret/password will not be automatically created for them. Use the memcachedSaslSecretName field to set authentication parameters for memcached databases.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>defaultUser</b></td>
+        <td>defaultUser</td>
         <td>boolean</td>
         <td>
           Is connecting with a default user allowed?  If disabled, the DatabaseSecret will not be created or updated<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>evictionPolicy</b></td>
+        <td>evictionPolicy</td>
         <td>string</td>
         <td>
           Database eviction policy. see more https://docs.redislabs.com/latest/rs/administering/database-operations/eviction-policy/<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>isRof</b></td>
+        <td>isRof</td>
         <td>boolean</td>
         <td>
           Whether it is an RoF database or not. Applicable only for databases of type "REDIS". Assumed to be false if left blank.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>memcachedSaslSecretName</b></td>
+        <td>memcachedSaslSecretName</td>
         <td>string</td>
         <td>
           Credentials used for binary authentication in memcached databases. The credentials should be saved as an opaque secret and the name of that secret should be configured using this field. For username, use 'username' as the key and the actual username as the value. For password, use 'password' as the key and the actual password as the value. Note that connections are not encrypted.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>memorySize</b></td>
+        <td>memorySize</td>
         <td>string</td>
         <td>
           memory size of database. use formats like 100MB, 0.1GB. minimum value in 100MB. When redis on flash (RoF) is enabled, this value refers to RAM+Flash memory, and it must not be below 1GB.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsmoduleslistindex">modulesList</a></b></td>
+        <td><a href="#specglobalconfigurationsmoduleslistindex">modulesList</a></td>
         <td>[]object</td>
         <td>
           List of modules associated with database. Note - For Active-Active databases this feature is currently in preview. For this feature to take effect for Active-Active databases, set a boolean environment variable with the name "ENABLE_ALPHA_FEATURES" to True. This variable can be set via the redis-enterprise-operator pod spec, or through the operator-environment-config Config Map.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>ossCluster</b></td>
+        <td>ossCluster</td>
         <td>boolean</td>
         <td>
           OSS Cluster mode option. Note that not all client libraries support OSS cluster mode.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>persistence</b></td>
+        <td>persistence</td>
         <td>enum</td>
         <td>
           Database on-disk persistence policy<br/>
@@ -254,91 +254,91 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>proxyPolicy</b></td>
+        <td>proxyPolicy</td>
         <td>string</td>
         <td>
           The policy used for proxy binding to the endpoint. Supported proxy policies are: single/all-master-shards/all-nodes When left blank, the default value will be chosen according to the value of ossCluster - single if disabled, all-master-shards when enabled<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>rackAware</b></td>
+        <td>rackAware</td>
         <td>boolean</td>
         <td>
           Whether database should be rack aware. This improves availability - more information: https://docs.redislabs.com/latest/rs/concepts/high-availability/rack-zone-awareness/<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsredisenterprisecluster">redisEnterpriseCluster</a></b></td>
+        <td><a href="#specglobalconfigurationsredisenterprisecluster">redisEnterpriseCluster</a></td>
         <td>object</td>
         <td>
           Connection to Redis Enterprise Cluster<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>redisVersion</b></td>
+        <td>redisVersion</td>
         <td>string</td>
         <td>
           Redis OSS version. Version can be specified via <major.minor> prefix, or via channels - for existing databases - Upgrade Redis OSS version. For new databases - the version which the database will be created with. If set to 'major' - will always upgrade to the most recent major Redis version. If set to 'latest' - will always upgrade to the most recent Redis version. Depends on 'redisUpgradePolicy' - if you want to set the value to 'latest' for some databases, you must set redisUpgradePolicy on the cluster before. Possible values are 'major' or 'latest' When using upgrade - make sure to backup the database before. This value is used only for database type 'redis'<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsreplicasourcesindex">replicaSources</a></b></td>
+        <td><a href="#specglobalconfigurationsreplicasourcesindex">replicaSources</a></td>
         <td>[]object</td>
         <td>
           What databases to replicate from<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>replication</b></td>
+        <td>replication</td>
         <td>boolean</td>
         <td>
           In-memory database replication. When enabled, database will have replica shard for every master - leading to higher availability. Defaults to false.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>resp3</b></td>
+        <td>resp3</td>
         <td>boolean</td>
         <td>
           Whether this database supports RESP3 protocol. Note - Deleting this property after explicitly setting its value shall have no effect. Please view the corresponding field in RS doc for more info.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>rofRamSize</b></td>
+        <td>rofRamSize</td>
         <td>string</td>
         <td>
           The size of the RAM portion of an RoF database. Similarly to "memorySize" use formats like 100MB, 0.1GB It must be at least 10% of combined memory size (RAM+Flash), as specified by "memorySize".<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsrolespermissionsindex">rolesPermissions</a></b></td>
+        <td><a href="#specglobalconfigurationsrolespermissionsindex">rolesPermissions</a></td>
         <td>[]object</td>
         <td>
           List of Redis Enteprise ACL and Role bindings to apply<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>shardCount</b></td>
+        <td>shardCount</td>
         <td>integer</td>
         <td>
           Number of database server-side shards<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>shardingEnabled</b></td>
+        <td>shardingEnabled</td>
         <td>boolean</td>
         <td>
           Toggles database sharding for REAADBs (Active Active databases) and enabled by default. This field is blocked for REDB (non-Active Active databases) and sharding is toggled via the shardCount field - when shardCount is 1 this is disabled otherwise enabled.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>shardsPlacement</b></td>
+        <td>shardsPlacement</td>
         <td>string</td>
         <td>
           Control the density of shards - should they reside on as few or as many nodes as possible. Available options are "dense" or "sparse". If left unset, defaults to "dense".<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>tlsMode</b></td>
+        <td>tlsMode</td>
         <td>enum</td>
         <td>
           Require SSL authenticated and encrypted connections to the database. enabled - all incoming connections to the Database must use SSL. disabled - no incoming connection to the Database should use SSL. replica_ssl - databases that replicate from this one need to use SSL.<br/>
@@ -347,7 +347,7 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>type</b></td>
+        <td>type</td>
         <td>enum</td>
         <td>
           The type of the database.<br/>
@@ -356,7 +356,7 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsupgradespec">upgradeSpec</a></b></td>
+        <td><a href="#specglobalconfigurationsupgradespec">upgradeSpec</a></td>
         <td>object</td>
         <td>
           Specifications for DB upgrade.<br/>
@@ -381,14 +381,14 @@ Connection/ association to the Active-Active database.
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>name</b></td>
+        <td>name</td>
         <td>string</td>
         <td>
           The the corresponding Active-Active database name, Redis Enterprise Active Active Database custom resource name, this Resource is associated with. In case this resource is created manually at the active active database creation this field must be filled via the user, otherwise, the operator will assign this field automatically. Note: this feature is currently unsupported.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>participatingClusterName</b></td>
+        <td>participatingClusterName</td>
         <td>string</td>
         <td>
           The corresponding participating cluster name, Redis Enterprise Remote Cluster custom resource name, in the Active-Active database, In case this resource is created manually at the active active database creation this field must be filled via the user, otherwise, the operator will assign this field automatically. Note: this feature is currently unsupported.<br/>
@@ -413,98 +413,98 @@ Settings for database alerts
         </tr>
     </thead>
     <tbody><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_backup_delayed">bdb_backup_delayed</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_backup_delayed">bdb_backup_delayed</a></td>
         <td>object</td>
         <td>
           Periodic backup has been delayed for longer than specified threshold value [minutes]<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_crdt_src_high_syncer_lag">bdb_crdt_src_high_syncer_lag</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_crdt_src_high_syncer_lag">bdb_crdt_src_high_syncer_lag</a></td>
         <td>object</td>
         <td>
           Active-active source - sync lag is higher than specified threshold value [seconds]<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_crdt_src_syncer_connection_error">bdb_crdt_src_syncer_connection_error</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_crdt_src_syncer_connection_error">bdb_crdt_src_syncer_connection_error</a></td>
         <td>object</td>
         <td>
           Active-active source - sync has connection error while trying to connect replica source<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_crdt_src_syncer_general_error">bdb_crdt_src_syncer_general_error</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_crdt_src_syncer_general_error">bdb_crdt_src_syncer_general_error</a></td>
         <td>object</td>
         <td>
           Active-active source - sync encountered in general error<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_high_latency">bdb_high_latency</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_high_latency">bdb_high_latency</a></td>
         <td>object</td>
         <td>
           Latency is higher than specified threshold value [micro-sec]<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_high_throughput">bdb_high_throughput</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_high_throughput">bdb_high_throughput</a></td>
         <td>object</td>
         <td>
           Throughput is higher than specified threshold value [requests / sec.]<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_long_running_action">bdb_long_running_action</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_long_running_action">bdb_long_running_action</a></td>
         <td>object</td>
         <td>
           An alert for state-machines that are running for too long<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_low_throughput">bdb_low_throughput</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_low_throughput">bdb_low_throughput</a></td>
         <td>object</td>
         <td>
           Throughput is lower than specified threshold value [requests / sec.]<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_ram_dataset_overhead">bdb_ram_dataset_overhead</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_ram_dataset_overhead">bdb_ram_dataset_overhead</a></td>
         <td>object</td>
         <td>
           Dataset RAM overhead of a shard has reached the threshold value [% of its RAM limit]<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_ram_values">bdb_ram_values</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_ram_values">bdb_ram_values</a></td>
         <td>object</td>
         <td>
           Percent of values kept in a shard's RAM is lower than [% of its key count]<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_replica_src_high_syncer_lag">bdb_replica_src_high_syncer_lag</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_replica_src_high_syncer_lag">bdb_replica_src_high_syncer_lag</a></td>
         <td>object</td>
         <td>
           Replica-of source - sync lag is higher than specified threshold value [seconds]<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_replica_src_syncer_connection_error">bdb_replica_src_syncer_connection_error</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_replica_src_syncer_connection_error">bdb_replica_src_syncer_connection_error</a></td>
         <td>object</td>
         <td>
           Replica-of source - sync has connection error while trying to connect replica source<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_shard_num_ram_values">bdb_shard_num_ram_values</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_shard_num_ram_values">bdb_shard_num_ram_values</a></td>
         <td>object</td>
         <td>
           Number of values kept in a shard's RAM is lower than [values]<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsalertsettingsbdb_size">bdb_size</a></b></td>
+        <td><a href="#specglobalconfigurationsalertsettingsbdb_size">bdb_size</a></td>
         <td>object</td>
         <td>
           Dataset size has reached the threshold value [% of the memory limit]<br/>
@@ -529,14 +529,14 @@ Periodic backup has been delayed for longer than specified threshold value [minu
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -561,14 +561,14 @@ Active-active source - sync lag is higher than specified threshold value [second
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -593,14 +593,14 @@ Active-active source - sync has connection error while trying to connect replica
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -625,14 +625,14 @@ Active-active source - sync encountered in general error
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -657,14 +657,14 @@ Latency is higher than specified threshold value [micro-sec]
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -689,14 +689,14 @@ Throughput is higher than specified threshold value [requests / sec.]
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -721,14 +721,14 @@ An alert for state-machines that are running for too long
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -753,14 +753,14 @@ Throughput is lower than specified threshold value [requests / sec.]
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -785,14 +785,14 @@ Dataset RAM overhead of a shard has reached the threshold value [% of its RAM li
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -817,14 +817,14 @@ Percent of values kept in a shard's RAM is lower than [% of its key count]
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -849,14 +849,14 @@ Replica-of source - sync lag is higher than specified threshold value [seconds]
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -881,14 +881,14 @@ Replica-of source - sync has connection error while trying to connect replica so
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -913,14 +913,14 @@ Number of values kept in a shard's RAM is lower than [values]
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -945,14 +945,14 @@ Dataset size has reached the threshold value [% of the memory limit]
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>enabled</b></td>
+        <td>enabled</td>
         <td>boolean</td>
         <td>
           Alert enabled or disabled<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>threshold</b></td>
+        <td>threshold</td>
         <td>string</td>
         <td>
           Threshold for alert going on/off<br/>
@@ -977,56 +977,56 @@ Target for automatic database backups.
         </tr>
     </thead>
     <tbody><tr>
-        <td><b><a href="#specglobalconfigurationsbackupabs">abs</a></b></td>
+        <td><a href="#specglobalconfigurationsbackupabs">abs</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsbackupftp">ftp</a></b></td>
+        <td><a href="#specglobalconfigurationsbackupftp">ftp</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsbackupgcs">gcs</a></b></td>
+        <td><a href="#specglobalconfigurationsbackupgcs">gcs</a></td>
         <td>object</td>
         <td>
           GoogleStorage<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>interval</b></td>
+        <td>interval</td>
         <td>integer</td>
         <td>
           Backup Interval in seconds<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsbackupmount">mount</a></b></td>
+        <td><a href="#specglobalconfigurationsbackupmount">mount</a></td>
         <td>object</td>
         <td>
           MountPointStorage<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsbackups3">s3</a></b></td>
+        <td><a href="#specglobalconfigurationsbackups3">s3</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsbackupsftp">sftp</a></b></td>
+        <td><a href="#specglobalconfigurationsbackupsftp">sftp</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#specglobalconfigurationsbackupswift">swift</a></b></td>
+        <td><a href="#specglobalconfigurationsbackupswift">swift</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -1051,21 +1051,21 @@ Target for automatic database backups.
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>absSecretName</b></td>
+        <td>absSecretName</td>
         <td>string</td>
         <td>
           The name of the secret that holds ABS credentials. The secret must contain the keys "AccountName" and "AccountKey", and these must hold the corresponding credentials<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>container</b></td>
+        <td>container</td>
         <td>string</td>
         <td>
           Azure Blob Storage container name.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>subdir</b></td>
+        <td>subdir</td>
         <td>string</td>
         <td>
           Optional. Azure Blob Storage subdir under container.<br/>
@@ -1090,7 +1090,7 @@ Target for automatic database backups.
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>url</b></td>
+        <td>url</td>
         <td>string</td>
         <td>
           a URI of the "ftps://[USER[:PASSWORD]@]HOST[:PORT]/PATH[/]" format<br/>
@@ -1115,21 +1115,21 @@ GoogleStorage
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>bucketName</b></td>
+        <td>bucketName</td>
         <td>string</td>
         <td>
           Google Storage bucket name.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>gcsSecretName</b></td>
+        <td>gcsSecretName</td>
         <td>string</td>
         <td>
           The name of the secret that holds the Google Cloud Storage credentials. The secret must contain the keys "CLIENT_ID", "PRIVATE_KEY", "PRIVATE_KEY_ID", "CLIENT_EMAIL" and these must hold the corresponding credentials. The keys should correspond to the values in the key JSON.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>subdir</b></td>
+        <td>subdir</td>
         <td>string</td>
         <td>
           Optional. Google Storage subdir under bucket.<br/>
@@ -1154,7 +1154,7 @@ MountPointStorage
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>path</b></td>
+        <td>path</td>
         <td>string</td>
         <td>
           Path to the local mount point. You must create the mount point on all nodes, and the redislabs:redislabs user must have read and write permissions on the local mount point.<br/>
@@ -1179,21 +1179,21 @@ MountPointStorage
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>awsSecretName</b></td>
+        <td>awsSecretName</td>
         <td>string</td>
         <td>
           The name of the secret that holds the AWS credentials. The secret must contain the keys "AWS_ACCESS_KEY_ID" and "AWS_SECRET_ACCESS_KEY", and these must hold the corresponding credentials.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>bucketName</b></td>
+        <td>bucketName</td>
         <td>string</td>
         <td>
           Amazon S3 bucket name.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>subdir</b></td>
+        <td>subdir</td>
         <td>string</td>
         <td>
           Optional. Amazon S3 subdir under bucket.<br/>
@@ -1218,14 +1218,14 @@ MountPointStorage
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>sftpSecretName</b></td>
+        <td>sftpSecretName</td>
         <td>string</td>
         <td>
           The name of the secret that holds SFTP credentials. The secret must contain the "Key" key, which is the SSH private key for connecting to the sftp server.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>sftp_url</b></td>
+        <td>sftp_url</td>
         <td>string</td>
         <td>
           SFTP url<br/>
@@ -1250,28 +1250,28 @@ MountPointStorage
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>auth_url</b></td>
+        <td>auth_url</td>
         <td>string</td>
         <td>
           Swift service authentication URL.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>container</b></td>
+        <td>container</td>
         <td>string</td>
         <td>
           Swift object store container for storing the backup files.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>swiftSecretName</b></td>
+        <td>swiftSecretName</td>
         <td>string</td>
         <td>
           The name of the secret that holds Swift credentials. The secret must contain the keys "Key" and "User", and these must hold the corresponding credentials: service access key and service user name (pattern for the latter does not allow special characters &,<,>,")<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>prefix</b></td>
+        <td>prefix</td>
         <td>string</td>
         <td>
           Optional. Prefix (path) of backup files in the swift container.<br/>
@@ -1296,28 +1296,28 @@ Redis Enterprise Module: https://redislabs.com/redis-enterprise/modules/
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>name</b></td>
+        <td>name</td>
         <td>string</td>
         <td>
           The module's name e.g "ft" for redissearch<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>config</b></td>
+        <td>config</td>
         <td>string</td>
         <td>
           Module command line arguments e.g. VKEY_MAX_ENTITY_COUNT 30<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>uid</b></td>
+        <td>uid</td>
         <td>string</td>
         <td>
           Module's uid - do not set, for system use only nolint:staticcheck // custom json tag unknown to the linter<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>version</b></td>
+        <td>version</td>
         <td>string</td>
         <td>
           Module's semantic version e.g "1.6.12" - optional only in REDB, must be set in REAADB<br/>
@@ -1342,7 +1342,7 @@ Connection to Redis Enterprise Cluster
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>name</b></td>
+        <td>name</td>
         <td>string</td>
         <td>
           The name of the Redis Enterprise Cluster where the database should be stored.<br/>
@@ -1367,42 +1367,42 @@ Connection to Redis Enterprise Cluster
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>replicaSourceName</b></td>
+        <td>replicaSourceName</td>
         <td>string</td>
         <td>
           The name of the resource from which the source database URI is derived. The type of resource must match the type specified in the ReplicaSourceType field.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>replicaSourceType</b></td>
+        <td>replicaSourceType</td>
         <td>string</td>
         <td>
           The type of resource from which the source database URI is derived. If set to 'SECRET', the source database URI is derived from the secret named in the ReplicaSourceName field. The secret must have a key named 'uri' that defines the URI of the source database in the form of 'redis://...'. The type of secret (kubernetes, vault, ...) is determined by the secret mechanism used by the underlying REC object. If set to 'REDB', the source database URI is derived from the RedisEnterpriseDatabase resource named in the ReplicaSourceName field.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>clientKeySecret</b></td>
+        <td>clientKeySecret</td>
         <td>string</td>
         <td>
           Secret that defines the client certificate and key used by the syncer in the target database cluster. The secret must have 2 keys in its map: "cert" which is the PEM encoded certificate, and "key" which is the PEM encoded private key.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>compression</b></td>
+        <td>compression</td>
         <td>integer</td>
         <td>
           GZIP compression level (0-6) to use for replication.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>serverCertSecret</b></td>
+        <td>serverCertSecret</td>
         <td>string</td>
         <td>
           Secret that defines the server certificate used by the proxy in the source database cluster. The secret must have 1 key in its map: "cert" which is the PEM encoded certificate.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>tlsSniName</b></td>
+        <td>tlsSniName</td>
         <td>string</td>
         <td>
           TLS SNI name to use for the replication link.<br/>
@@ -1427,21 +1427,21 @@ Redis Enterprise Role and ACL Binding
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>acl</b></td>
+        <td>acl</td>
         <td>string</td>
         <td>
           Acl Name of RolePermissionType (note: use exact name of the ACL from the Redis Enterprise ACL list, case sensitive)<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>role</b></td>
+        <td>role</td>
         <td>string</td>
         <td>
           Role Name of RolePermissionType (note: use exact name of the role from the Redis Enterprise role list, case sensitive)<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>type</b></td>
+        <td>type</td>
         <td>string</td>
         <td>
           Type of Redis Enterprise Database Role Permission<br/>
@@ -1466,7 +1466,7 @@ Specifications for DB upgrade.
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>upgradeModulesToLatest</b></td>
+        <td>upgradeModulesToLatest</td>
         <td>boolean</td>
         <td>
           Upgrades the modules to the latest version that supportes the DB version during a DB upgrade action, to upgrade the DB version view the 'redisVersion' field. Note - This field is currently not supported for Active-Active databases.<br/>
@@ -1491,7 +1491,7 @@ Connection to Redis Enterprise Cluster
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>name</b></td>
+        <td>name</td>
         <td>string</td>
         <td>
           The name of the Redis Enterprise Cluster where the database should be stored.<br/>
@@ -1516,42 +1516,42 @@ RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnt
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>guid</b></td>
+        <td>guid</td>
         <td>string</td>
         <td>
           The active-active database corresponding GUID.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>lastTaskUid</b></td>
+        <td>lastTaskUid</td>
         <td>string</td>
         <td>
           The last active-active database task UID.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>linkedRedbs</b></td>
+        <td>linkedRedbs</td>
         <td>[]string</td>
         <td>
           The linked REDBs.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#statusparticipatingclustersindex">participatingClusters</a></b></td>
+        <td><a href="#statusparticipatingclustersindex">participatingClusters</a></td>
         <td>[]object</td>
         <td>
           The list of instances/ clusters statuses.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>redisEnterpriseCluster</b></td>
+        <td>redisEnterpriseCluster</td>
         <td>string</td>
         <td>
           The Redis Enterprise Cluster Object this Resource is associated with<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>replicationStatus</b></td>
+        <td>replicationStatus</td>
         <td>enum</td>
         <td>
           The overall replication status<br/>
@@ -1560,21 +1560,21 @@ RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnt
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b><a href="#statussecretsstatusindex">secretsStatus</a></b></td>
+        <td><a href="#statussecretsstatusindex">secretsStatus</a></td>
         <td>[]object</td>
         <td>
           The status of the secrets<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>specStatus</b></td>
+        <td>specStatus</td>
         <td>string</td>
         <td>
           Whether the desired specification is valid<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>status</b></td>
+        <td>status</td>
         <td>string</td>
         <td>
           The status of the active active database.<br/>
@@ -1599,14 +1599,14 @@ Status of participating cluster.
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>name</b></td>
+        <td>name</td>
         <td>string</td>
         <td>
           The name of the remote cluster CR that is linked.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>id</b></td>
+        <td>id</td>
         <td>integer</td>
         <td>
           The corresponding ID of the instance in the active-active database.<br/>
@@ -1615,7 +1615,7 @@ Status of participating cluster.
         </td>
         <td>false</td>
       </tr><tr>
-        <td><b>replicationStatus</b></td>
+        <td>replicationStatus</td>
         <td>enum</td>
         <td>
           The replication status of the participating cluster<br/>
@@ -1642,14 +1642,14 @@ Status of secrets.
         </tr>
     </thead>
     <tbody><tr>
-        <td><b>name</b></td>
+        <td>name</td>
         <td>string</td>
         <td>
           The name of the secret.<br/>
         </td>
         <td>true</td>
       </tr><tr>
-        <td><b>status</b></td>
+        <td>status</td>
         <td>enum</td>
         <td>
           The status of the secret.<br/>
