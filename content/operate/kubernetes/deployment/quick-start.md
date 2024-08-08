@@ -112,7 +112,7 @@ redis-enterprise-operator   1/1     1            1           0m36s
 A Redis Enterprise cluster (REC) is created from a `RedisEnterpriseCluster` custom resource
 that contains cluster specifications.
 
-The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_cluster_api.md) for more information on the various options available.
+The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for more information on the various options available.
 
 1. Create a file that defines a Redis Enterprise cluster with three nodes.
   {{<note>}} The REC name (`my-rec` in this example) cannot be changed after cluster creation.{{</note>}}

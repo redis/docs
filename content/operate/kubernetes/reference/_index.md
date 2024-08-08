@@ -12,8 +12,7 @@ linkTitle: Reference
 weight: 89
 ---
 
-This section contains the references to the operator, cluster, database deployment
-options for Kubernetes.
+This section contains the API reference for Redis custom resources and supported distributions.
 
 
 
