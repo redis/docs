@@ -119,6 +119,68 @@ r.get('foo')
 ```
 For more information, see [redis-py TLS examples](https://redis-py.readthedocs.io/en/stable/examples/ssl_connection_examples.html).
 
+## Connect using client-side caching (CSC)
+
+*Client-side caching* is a technique to reduce network traffic between
+the client and server, resulting in better performance. See
+[Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
+for more information about how CSC works and how to use it effectively.
+
+To enable CSC, you simply need to add a few extra parameters when you connect
+to the server:
+
+-   `protocol`: (Required) You must pass a value of `3` here because
+    CSC requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+    protocol.
+-   `cache_enabled`: (Required) Pass a `True` value here to enable CSC
+-   `cache_ttl`: (Recommended) Time-to-live (TTL) between reads for items in the cache,
+    measured in seconds. This defaults to zero (indicating that items in the cache never expire)
+    but it is strongly recommended that you choose a realistic TTL for
+    your needs. See
+    [Usage recommendations]({{< relref "/develop/connect/clients/client-side-caching#usage-recommendations" >}})
+    for more information.
+
+The example below shows the simplest CSC connection to the default host and port,
+`localhost:6379`.
+All of the connection variants described above accept these parameters, so you can
+use CSC with a connection pool or a cluster connection in exactly the same way.
+
+```python
+r = redis.Redis(
+    protocol=3,
+    cache_enabled=True,
+    cache_ttl=180,
+    decode_responses=True
+)
+
+r.set("city", "New York")
+cityNameAttempt1 = r.get("city")    # Retrieved from Redis server and cached
+cityNameAttempt2 = r.get("city")    # Retrieved from cache
+```
+
+You can see the cache working if you connect to the same Redis database
+with [`redis-cli`]({{< relref "/develop/connect/cli" >}}) and run the
+[`MONITOR`]({{< relref "/commands/monitor" >}}) command. If you run the
+code above with the `cache_enabled` line commented out, you should see
+the following in the CLI among the output from `MONITOR`:
+
+```
+1723109720.268903 [...] "SET" "city" "New York"
+1723109720.269681 [...] "GET" "city"
+1723109720.270205 [...] "GET" "city"
+```
+
+This shows that the server responds to both `get("city")` calls.
+If you the code again with `cache_enabled` uncommented, you will see
+
+```
+1723110248.712663 [...] "SET" "city" "New York"
+1723110248.713607 [...] "GET" "city"
+```
+
+This shows that the first `get("city")` call contacted the server but the second
+call was satisfied by the cache.
+
 ## Example: Indexing and querying JSON documents
 
 Make sure that you have Redis Stack and `redis-py` installed. Import dependencies:
