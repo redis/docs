@@ -94,16 +94,16 @@ Headlines:
 Details:
 
 - Features:
-    - #[1172](https://github.com/redisearch/redisearch/issues/1172) Added [`exists`](https://oss.redislabs.com/redisearch/Aggregations.html#list_of_string_apply_functions) function that can be used on conditional updates ([REPLACE PARTIAL](https://oss.redislabs.com/redisearch/Commands.html#ftadd)) to check if a field exists in the document.
+    - #[1172](https://github.com/redisearch/redisearch/issues/1172) Added `exists` function that can be used on conditional updates (`REPLACE PARTIAL`) to check if a field exists in the document.
 - Minor Enhancements:
-    - #[1172](https://github.com/redisearch/redisearch/issues/1172) Lazy evaluation of the right side of 'or'/'and' clauses in [IF condition](https://oss.redislabs.com/redisearch/Commands.html#parameters_1).
+    - #[1172](https://github.com/redisearch/redisearch/issues/1172) Lazy evaluation of the right side of 'or'/'and' clauses in IF condition.
     - #[1134](https://github.com/redisearch/redisearch/issues/1134) Remove hard limit on LIMIT when using FT.SEARCH.
 - Bugfixes:
     - #[1124](https://github.com/redisearch/redisearch/issues/1124) NOINDEX tag fields could not be updated on UPDATE PARTIAL with no indexed fields.
     - #[1120](https://github.com/redisearch/redisearch/issues/1120) Release loop in II_GetCriteriaTester which released the same criteria tester multiple times.
-    - #[1161](https://github.com/redisearch/redisearch/issues/1161) Case where setting [MAXDOCTABLESIZE](https://oss.redislabs.com/redisearch/Configuring.html#maxdoctablesize) had no effect.
-    - #[1169](https://github.com/redisearch/redisearch/issues/1169) [FIRST_VALUE](https://oss.redislabs.com/redisearch/Aggregations.html#first_value) reducer crashed when value did not exist.
-    - #[1159](https://github.com/redisearch/redisearch/issues/1159) Infinite loop on [`NOT`](https://oss.redislabs.com/redisearch/Query_Syntax.html#search_query_syntax) criteria tester.%
+    - #[1161](https://github.com/redisearch/redisearch/issues/1161) Case where setting `MAXDOCTABLESIZE` had no effect.
+    - #[1169](https://github.com/redisearch/redisearch/issues/1169) `FIRST_VALUE` reducer crashed when value did not exist.
+    - #[1159](https://github.com/redisearch/redisearch/issues/1159) Infinite loop on `NOT` criteria tester.%
 
 ## v1.6.11 (March 2020)
 
@@ -126,7 +126,7 @@ Headlines:
 Details:
 
 - Minor Enhancements:
-    - #[1062](https://github.com/redisearch/redisearch/issues/1062) Added Custom stopwords list in [`FT.INFO`](https://oss.redislabs.com/redisearch/Commands.html#ftinfo)
+    - #[1062](https://github.com/redisearch/redisearch/issues/1062) Added Custom stopwords list in `FT.INFO`
 - Fixed backwards incompatible issues:
     - #[1075](https://github.com/redisearch/redisearch/issues/1075) Fields should always be returned to the user as a string.
     - #[1074](https://github.com/redisearch/redisearch/issues/1074) Don't truncate possible integral values when printing.
@@ -175,7 +175,7 @@ Full details:
 
 - Added functionality
     - #[658](https://github.com/RediSearch/RediSearch/issues/658) `FT.ADD … REPLACE … NOCREATE` will not add the document if the document does not exist.
-    - #[575](https://github.com/RediSearch/RediSearch/issues/575) Add index aliasing. This allows users to provide (or remove) ‘links’ to indexes. The commands are `FT.ALIASADD`, `FT.ALIASDEL`, and `FT.ALIASUPDATE`. [See documentation for full details](https://oss.redislabs.com/redisearch/Commands.html#ftaliasadd)
+    - #[575](https://github.com/RediSearch/RediSearch/issues/575) Add index aliasing. This allows users to provide (or remove) ‘links’ to indexes. The commands are `FT.ALIASADD`, `FT.ALIASDEL`, and `FT.ALIASUPDATE`.
     - New C API to make RediSearch embeddable in other Redis modules. This API allows other Redis modules to use functionality of RedisSearch without actually having the “module” functionality active. Note that this must still be used on Redis proper. Modules that are already incorporating this API
     - [RedisGraph](https://github.com/RedisGraph/RedisGraph/releases/tag/2.0.0) GA
     - [RedisTimeSeries](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/186) (WIP)

@@ -37,7 +37,7 @@ Details:
 
 - #[1338](https://github.com/RedisGraph/RedisGraph/pull/1338) Update parser to support negative values.
 - #[1319](https://github.com/RedisGraph/RedisGraph/pull/1319) Replace assertion with runtime error - execution plan building process is unable locate an operation suitable for a filter.
-- #[1184](https://github.com/RedisGraph/RedisGraph/pull/1184) EXPLAIN and PROFILE are invalid clauses. They have counterpart commands [GRAPH.EXPLAIN](https://oss.redislabs.com/redisgraph/commands/#graphexplain) and [GRAPH.PROFILE](https://oss.redislabs.com/redisgraph/commands/#graphprofile)
+- #[1184](https://github.com/RedisGraph/RedisGraph/pull/1184) EXPLAIN and PROFILE are invalid clauses. They have counterpart commands `GRAPH.EXPLAIN` and `GRAPH.PROFILE`
 - #[1212](https://github.com/RedisGraph/RedisGraph/pull/1212) Emit error on the creation of undirected edges.
 
 ## v2.0.20 (September 2020)
@@ -67,14 +67,14 @@ Headlines:
 Details:
 
 - Minor updates:
-    - #[1229](https://github.com/RedisGraph/RedisGraph/pull/1229) Upgrade [RediSearch](https://oss.redislabs.com/redisearch/) dependency to 1.8.2
+    - #[1229](https://github.com/RedisGraph/RedisGraph/pull/1229) Upgrade RediSearch dependency to 1.8.2
 - Performance enhancements:
     - #[1218](https://github.com/RedisGraph/RedisGraph/pull/1218) Enable parameters support for ID-based entity retrieval
     - #[1242](https://github.com/RedisGraph/RedisGraph/pull/1242) Improve update logic, update RediSearch indices only once per update
     - #[1226](https://github.com/RedisGraph/RedisGraph/pull/1226) Let RediSearch perform document deletion when replacing a document
 - Bug Fixes:
     - #[1223](https://github.com/RedisGraph/RedisGraph/pull/1223) Resolve race condition in accessing/updating attribute maps.
-    - #[1196](https://github.com/RedisGraph/RedisGraph/pull/1196) Enable RediSearch [Garbage Collection](https://oss.redislabs.com/redisearch/Overview/#index_garbage_collection)
+    - #[1196](https://github.com/RedisGraph/RedisGraph/pull/1196) Enable RediSearch [Garbage Collection]({{<relref "/develop/interact/search-and-query/administration/gc">}})
 
 ## v2.0.15 (25 June 2020)
 
@@ -113,7 +113,7 @@ Headlines:
 Details:
 
 - Enhancements:
-    - #[1118](https://github.com/RedisGraph/RedisGraph/pull/1118) Added module [configuration](https://oss.redislabs.com/redisgraph/2.0/configuration/) parameters for the number of threads in OpenMP and concurrent queries.
+    - #[1118](https://github.com/RedisGraph/RedisGraph/pull/1118) Added module configuration parameters for the number of threads in OpenMP and concurrent queries.
     - #[1121](https://github.com/RedisGraph/RedisGraph/pull/1121) [RediSearch](https://github.com/RedisGraph/RedisGraph/blob/v2.0.13/redisearch.io) v1.8.1
 
 ## v2.0.12 (May 2020)
@@ -249,7 +249,7 @@ Headlines:
 Full details:
 
 - Major features
-    - #[339](https://github.com/RedisGraph/RedisGraph/issues/339) [Full Graph Response](https://oss.redislabs.com/redisgraph/result_structure/#top-level-members).  RedisGraph now allows to return Graph entities such as Nodes and Relationships.  This feature also enables graph visualisation.
+    - #[339](https://github.com/RedisGraph/RedisGraph/issues/339) Full Graph Response.  RedisGraph now allows to return Graph entities such as Nodes and Relationships.  This feature also enables graph visualisation.
     - #[558](https://github.com/RedisGraph/RedisGraph/issues/558) Indexing functionality replaced by [RediSearch](redisearch.io). This results in support for
         - compound indices
         - full text search
