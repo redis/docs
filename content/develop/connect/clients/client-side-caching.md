@@ -24,14 +24,14 @@ Redis database server through the client library for every read request.
 The diagram below shows the flow of communication from the user app,
 through the application server to the database and back again:
 
-{{< image filename="images/CSCNoCache.drawio.svg" >}}
+{{< image filename="images/csc/CSCNoCache.drawio.svg" >}}
 
 When you use CSC, the client library
 maintains its own local cache of data items as it retrieves them
 from the database. When the same items are needed again, the client
 can satisfy the read requests from the cache instead of the database:
 
-{{< image filename="images/CSCWithCache.drawio.svg" >}}
+{{< image filename="images/csc/CSCWithCache.drawio.svg" >}}
 
 Accessing the cache is much faster than communicating with the database over the
 network. Also, this technique reduces the load on the database server, so you may
@@ -63,7 +63,7 @@ with the updated data.
 The sequence diagram below shows how two clients might interact as they
 access and update the same key:
 
-{{< image filename="images/CSCSeqDiagram.drawio.svg" >}}
+{{< image filename="images/csc/CSCSeqDiagram.drawio.svg" >}}
 
 ## Which commands can cache data?
 
