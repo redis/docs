@@ -206,7 +206,7 @@ Details:
 , #[1277](https://github.com/RedisGraph/RedisGraph/pull/1277)
  Add support for `any()` and `all()` functions in list comprehension.
     - #[877](https://github.com/RedisGraph/RedisGraph/pull/877)
- Transpose matrices: maintain transpose relationship matrices such that we won't have to compute the transpose of a matrix at run-time. This feature is on by default but can configured to reduce memory consumption.
+ Transpose matrices: maintain transpose relationship matrices such that we won't have to compute the transpose of a matrix at run-time. This feature is on by default but can be configured to reduce memory consumption.
 
 - Small updates compared to RC7
     - Minor enhancements:
