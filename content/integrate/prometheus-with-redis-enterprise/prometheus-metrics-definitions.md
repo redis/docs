@@ -1,5 +1,5 @@
 ---
-Title: Metrics in Prometheus (tables)
+Title: Metrics in Prometheus
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 description: The metrics available to Prometheus.
 group: observability
-linkTitle: Prometheus metrics (tables)
+linkTitle: Prometheus metrics
 summary: You can use Prometheus and Grafana to collect and visualize your Redis Enterprise
   Software metrics.
 type: integration
