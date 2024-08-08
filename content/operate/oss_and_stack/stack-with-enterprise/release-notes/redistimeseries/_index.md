@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - stack
-description: RedisTimeSeries release notes for version 1.10 and earlier
+description: RedisTimeSeries release notes for version 1.12 and earlier
 hideListLinks: true
 linkTitle: RedisTimeSeries
 tags:
