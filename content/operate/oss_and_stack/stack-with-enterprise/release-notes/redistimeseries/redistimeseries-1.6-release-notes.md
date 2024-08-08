@@ -131,15 +131,15 @@ RedisTimeSeries 1.6 adds support for aggregating across multiple time series (mu
 
 ### What's new in 1.6
 
-- Introduction of `GROUPBY` and `REDUCE` in [TS.MRANGE and TS.MREVRANGE](https://oss.redis.com/redistimeseries/commands/#tsmrangetsmrevrange) to add support for "multi-key aggregation" and support for such aggregations spanning multiple shards, leveraging [LibMR](https://github.com/RedisGears/LibMR). Currently, we support `min`, `max`, and `sum` as reducers and grouping by a label.
+- Introduction of `GROUPBY` and `REDUCE` in `TS.MRANGE` and `TS.MREVRANGE` to add support for "multi-key aggregation" and support for such aggregations spanning multiple shards, leveraging [LibMR](https://github.com/RedisGears/LibMR). Currently, we support `min`, `max`, and `sum` as reducers and grouping by a label.
 
-- [#722](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/722), [#275](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/275) Filter results using `FILTER_BY_TS` by providing a list of timestamps and `FILTER_BY_VALUE` by providing a `min` and a `max` value ([TS.RANGE, TS.REVRANGE](https://oss.redis.com/redistimeseries/commands/#tsrangetsrevrange), [TS.MRANGE, and TS.MREVRANGE](https://oss.redis.com/redistimeseries/commands/#tsmrangetsmrevrange)).
+- [#722](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/722), [#275](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/275) Filter results using `FILTER_BY_TS` by providing a list of timestamps and `FILTER_BY_VALUE` by providing a `min` and a `max` value (`TS.RANGE`, `TS.REVRANGE`, `TS.MRANGE`, and `TS.MREVRANGE`).
 
-- [#603](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/603), [#611](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/611), [#841](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/841) Introduction of [TS.DEL](https://oss.redis.com/redistimeseries/commands/#tsdel) which allows deleting samples in a time series within two timestamps (inclusive).
+- [#603](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/603), [#611](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/611), [#841](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/841) Introduction of TS.DEL which allows deleting samples in a time series within two timestamps (inclusive).
 
-- [#762](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/762) Limit the number of returned labels in the response of read commands ([TS.MRANGE, TS.MREVRANGE](https://oss.redis.com/redistimeseries/commands/#tsmrangetsmrevrange), and [TS.MGET](https://oss.redis.com/redistimeseries/commands/#tsmget)) using `SELECTED_LABELS`. This can be a significant performance improvement when returning a large number of series.
+- [#762](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/762) Limit the number of returned labels in the response of read commands (`TS.MRANGE`, `TS.MREVRANGE`, and `TS.MGET`) using `SELECTED_LABELS`. This can be a significant performance improvement when returning a large number of series.
 
-- [#655](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/655), [#801](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/801) Ability to align the aggregation buckets with the requested start, end, or specific timestamp on aggregation queries using `ALIGN` ([TS.RANGE, TS.REVRANGE](https://oss.redis.com/redistimeseries/commands/#tsrangetsrevrange), [TS.MRANGE, and TS.MREVRANGE](https://oss.redis.com/redistimeseries/commands/#tsmrangetsmrevrange)).
+- [#655](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/655), [#801](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/801) Ability to align the aggregation buckets with the requested start, end, or specific timestamp on aggregation queries using `ALIGN` (`TS.RANGE`, `TS.REVRANGE`, `TS.MRANGE`, and `TS.MREVRANGE`).
 
 - [#675](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/675) Add keyspace notifications for all CRUD commands. Check out [this test](https://github.com/RedisTimeSeries/RedisTimeSeries/blob/master/tests/flow/test_ts_keyspace.py) for the details.
 

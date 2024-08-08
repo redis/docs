@@ -70,7 +70,7 @@ Details:
 
 - Bug fixes:
 
-    - [#419](https://github.com/RedisBloom/RedisBloom/pull/419) [`CMS.INCRBY`](https://oss.redis.com/redisbloom/CountMinSketch_Commands/#cmsincrby) now returns an error on overflow
+    - [#419](https://github.com/RedisBloom/RedisBloom/pull/419) `CMS.INCRBY` now returns an error on overflow
     - [#412](https://github.com/RedisBloom/RedisBloom/pull/412) Fixed macOS build
 
 ## v2.2.12 (February 2022)
@@ -84,7 +84,7 @@ Details:
 - Bug fixes:
 
     - [#392](https://github.com/RedisBloom/RedisBloom/pull/392) Fixed a potential crash on Bloom filter expansion when loading from [AOF]({{< relref "/operate/oss_and_stack/management/persistence" >}})
-    - [#404](https://github.com/RedisBloom/RedisBloom/pull/404) Fixed a potential crash on Cuckoo filter when calling [`CF.LOADCHUNK`](https://oss.redis.com/redisbloom/Cuckoo_Commands/#cfloadchunk) on a filter with `EXPANSION` greater than 1
+    - [#404](https://github.com/RedisBloom/RedisBloom/pull/404) Fixed a potential crash on Cuckoo filter when calling `CF.LOADCHUNK` on a filter with `EXPANSION` greater than 1
 
 ## v2.2.9 (November 2021)
 
@@ -174,23 +174,23 @@ Details:
 
 - Added functionality
     - Bloom
-        - #[149](https://github.com/RedisBloom/RedisBloom/issues/149) `BF.INFO` returns [details](https://oss.redislabs.com/redisbloom/Bloom_Commands/#bfinfo) about a specific bloom filter
+        - #[149](https://github.com/RedisBloom/RedisBloom/issues/149) `BF.INFO` returns details about a specific bloom filter
         - Scalable
-            - #[153](https://github.com/RedisBloom/RedisBloom/issues/153) [Ability to change](https://oss.redislabs.com/redisbloom/Bloom_Commands/#bfreserve) the `EXPANSION` rate. This means each subsequent sub-filter will be `expansion` times larger as the previous one.
+            - #[153](https://github.com/RedisBloom/RedisBloom/issues/153) Ability to change the `EXPANSION` rate. This means each subsequent sub-filter will be `expansion` times larger as the previous one.
             - #[160](https://github.com/RedisBloom/RedisBloom/issues/160) Optimise the scaling up of filter according to the [Scalable Bloom Filter](https://core.ac.uk/download/pdf/55607643.pdf) paper
-            - #[161](https://github.com/RedisBloom/RedisBloom/issues/161) [Optional](https://oss.redislabs.com/redisbloom/Bloom_Commands/#bfreserve) `NONSCALING` argument to disable scaling.  (This saves space since less hash functions are used)
+            - #[161](https://github.com/RedisBloom/RedisBloom/issues/161) Optional `NONSCALING` argument to disable scaling.  (This saves space since less hash functions are used)
         - #[155](https://github.com/RedisBloom/RedisBloom/issues/155) Disabling rounding up functionality
     - Cuckoo
-        - #[149](https://github.com/RedisBloom/RedisBloom/issues/149) `CF.INFO` returns [details](https://oss.redislabs.com/redisbloom/Cuckoo_Commands/#cfinfo) about a specific cuckoo filter
+        - #[149](https://github.com/RedisBloom/RedisBloom/issues/149) `CF.INFO` returns details about a specific cuckoo filter
         - Scalable
-            - #[138](https://github.com/RedisBloom/RedisBloom/issues/138) [Configurable](https://oss.redislabs.com/redisbloom/Cuckoo_Commands/#cfreserve) `EXPANSION`. When an additional filter is created, its size will be the size of the current filter multiplied by the `expansion`.  Higher expansion rates will result in lower error rates.
+            - #[138](https://github.com/RedisBloom/RedisBloom/issues/138) Configurable `EXPANSION`. When an additional filter is created, its size will be the size of the current filter multiplied by the `expansion`.  Higher expansion rates will result in lower error rates.
             - #[142](https://github.com/RedisBloom/RedisBloom/issues/142) The maximum number of expansions limited to 32.
-            - #[131](https://github.com/RedisBloom/RedisBloom/issues/131) [Configurable](https://oss.redislabs.com/redisbloom/Cuckoo_Commands/#cfreserve) `MAXITERATIONS`. Number of attempts to swap buckets before declaring filter as full and creating an additional filter.
-        - #[135](https://github.com/RedisBloom/RedisBloom/issues/135)  [Configurable](https://oss.redislabs.com/redisbloom/Cuckoo_Commands/#cfreserve)  `BUCKETSIZE`. Number of items in each bucket. Higher bucket size value improves the fill rate but result in a higher error rate and slightly slower operation speed.
+            - #[131](https://github.com/RedisBloom/RedisBloom/issues/131) Configurable `MAXITERATIONS`. Number of attempts to swap buckets before declaring filter as full and creating an additional filter.
+        - #[135](https://github.com/RedisBloom/RedisBloom/issues/135) Configurable  `BUCKETSIZE`. Number of items in each bucket. Higher bucket size value improves the fill rate but result in a higher error rate and slightly slower operation speed.
         - #[142](https://github.com/RedisBloom/RedisBloom/issues/142) use of 64bit hash function
         - #[136](https://github.com/RedisBloom/RedisBloom/issues/136) expose compaction of filters in the API
     - CMS
-        - #[97](https://github.com/RedisBloom/RedisBloom/issues/97) `CMS.INCRBY` [returns count](https://oss.redislabs.com/redisbloom/CountMinSketch_Commands/#cmsincrby) instead of ‘OK’
+        - #[97](https://github.com/RedisBloom/RedisBloom/issues/97) `CMS.INCRBY` returns count instead of ‘OK’
 
 - Minor bug fixes
     - Bloom
