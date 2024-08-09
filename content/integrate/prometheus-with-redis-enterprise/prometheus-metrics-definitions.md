@@ -147,64 +147,66 @@ Here are the metrics available to Prometheus:
 
 ## Proxy metrics
 
-| Metric | Description |
-| ------ | :------ |
-| listener_acc_latency | Accumulative latency (sum of the latencies) of all types of commands on DB. For the average latency, divide this value by listener_total_res |
-| listener_acc_latency_max | Highest value of accumulative latency of all types of commands on DB |
-| listener_acc_other_latency | Accumulative latency (sum of the latencies) of commands that are type "other" on DB. For the average latency, divide this value by listener_other_res |
-| listener_acc_other_latency_max | Highest value of accumulative latency of commands that are type "other" on DB |
-| listener_acc_read_latency | Accumulative latency (sum of the latencies) of commands that are type "read" on DB. For the average latency, divide this value by listener_read_res |
-| listener_acc_read_latency_max | Highest value of accumulative latency of commands that are type "read" on DB |
-| listener_acc_write_latency | Accumulative latency (sum of the latencies) of commands that are type "write" on DB. For the average latency, divide this value by listener_write_res |
-| listener_acc_write_latency_max | Highest value of accumulative latency of commands that are type "write" on DB |
-| listener_auth_cmds | Number of memcached AUTH commands sent to the DB |
-| listener_auth_cmds_max | Highest value of number of memcached AUTH commands sent to the DB |
-| listener_auth_errors | Number of error responses to memcached AUTH commands  |
-| listener_auth_errors_max | Highest value of number of error responses to memcached AUTH commands  |
-| listener_cmd_flush | Number of memcached FLUSH_ALL commands sent to the DB |
-| listener_cmd_flush_max | Highest value of number of memcached FLUSH_ALL commands sent to the DB |
-| listener_cmd_get | Number of memcached GET commands sent to the DB |
-| listener_cmd_get_max | Highest value of number of memcached GET commands sent to the DB |
-| listener_cmd_set | Number of memcached SET commands sent to the DB |
-| listener_cmd_set_max | Highest value of number of memcached SET commands sent to the DB |
-| listener_cmd_touch | Number of memcached TOUCH commands sent to the DB |
-| listener_cmd_touch_max | Highest value of number of memcached TOUCH commands sent to the DB |
-| listener_conns | Number of clients connected to the endpoint |
-| listener_egress_bytes | Rate of outgoing network traffic to the endpoint (bytes/sec) |
-| listener_egress_bytes_max | Highest value of rate of outgoing network traffic to the endpoint (bytes/sec) |
-| listener_ingress_bytes | Rate of incoming network traffic to the endpoint (bytes/sec) |
-| listener_ingress_bytes_max | Highest value of rate of incoming network traffic to the endpoint (bytes/sec) |
-| listener_last_req_time | Time of last command sent to the DB |
-| listener_last_res_time | Time of last response sent from the DB |
-| listener_max_connections_exceeded | Number of times the Number of clients connected to the db at the same time has exeeded the max limit |
-| listener_max_connections_exceeded_max | Highest value of number of times the Number of clients connected to the db at the same time has exeeded the max limit |
-| listener_monitor_sessions_count | Number of client connected in monitor mode to the endpoint |
-| listener_other_req | Rate of other (non read/write) requests on the endpoint (ops/sec) |
-| listener_other_req_max | Highest value of rate of other (non read/write) requests on the endpoint (ops/sec) |
-| listener_other_res | Rate of other (non read/write) responses on the endpoint (ops/sec) |
-| listener_other_res_max | Highest value of rate of other (non read/write) responses on the endpoint (ops/sec) |
-| listener_other_started_res | Number of responses sent from the DB of type "other" |
-| listener_other_started_res_max | Highest value of number of responses sent from the DB of type "other" |
-| listener_read_req | Rate of read requests on the endpoint (ops/sec) |
-| listener_read_req_max | Highest value of rate of read requests on the endpoint (ops/sec) |
-| listener_read_res | Rate of read responses on the endpoint (ops/sec) |
-| listener_read_res_max | Highest value of rate of read responses on the endpoint (ops/sec) |
-| listener_read_started_res | Number of responses sent from the DB of type "read" |
-| listener_read_started_res_max | Highest value of number of responses sent from the DB of type "read" |
-| listener_total_connections_received | Rate of new client connections to the endpoint (connections/sec) |
-| listener_total_connections_received_max | Highest value of rate of new client connections to the endpoint (connections/sec) |
-| listener_total_req | Request rate handled by the endpoint (ops/sec) |
-| listener_total_req_max | Highest value of rate of all requests on the endpoint (ops/sec) |
-| listener_total_res | Rate of all responses on the endpoint (ops/sec) |
-| listener_total_res_max | Highest value of rate of all responses on the endpoint (ops/sec) |
-| listener_total_started_res | Number of responses sent from the DB of all types |
-| listener_total_started_res_max | Highest value of number of responses sent from the DB of all types |
-| listener_write_req | Rate of write requests on the endpoint (ops/sec) |
-| listener_write_req_max | Highest value of rate of write requests on the endpoint (ops/sec) |
-| listener_write_res | Rate of write responses on the endpoint (ops/sec) |
-| listener_write_res_max | Highest value of rate of write responses on the endpoint (ops/sec) |
-| listener_write_started_res | Number of responses sent from the DB of type "write" |
-| listener_write_started_res_max | Highest value of number of responses sent from the DB of type "write" |
+| V1&nbsp;metric | Equivalent V2 PromQL | Description |
+| --------- | :------------------- | :---------- |
+| <span class="break-all">listener_acc_latency</span> | <span class="break-all">N/A</span> | Accumulative latency (sum of the latencies) of all types of commands on DB. For the average latency, divide this value by listener_total_res |
+| <span class="break-all">listener_acc_latency_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of accumulative latency of all types of commands on DB |
+| <span class="break-all">listener_acc_other_latency</span> | <span class="break-all">N/A</span> | Accumulative latency (sum of the latencies) of commands that are type "other" on DB. For the average latency, divide this value by listener_other_res |
+| <span class="break-all">listener_acc_other_latency_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of accumulative latency of commands that are type "other" on DB |
+| <span class="break-all">listener_acc_read_latency</span> | <span class="break-all">N/A</span> | Accumulative latency (sum of the latencies) of commands that are type "read" on DB. For the average latency, divide this value by listener_read_res |
+| <span class="break-all">listener_acc_read_latency_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of accumulative latency of commands that are type "read" on DB |
+| <span class="break-all">listener_acc_write_latency</span> | <span class="break-all">N/A</span> | Accumulative latency (sum of the latencies) of commands that are type "write" on DB. For the average latency, divide this value by listener_write_res |
+| <span class="break-all">listener_acc_write_latency_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of accumulative latency of commands that are type "write" on DB |
+| <span class="break-all">listener_auth_cmds</span> | <span class="break-all">N/A</span> | Number of memcached AUTH commands sent to the DB |
+| <span class="break-all">listener_auth_cmds_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of number of memcached AUTH commands sent to the DB |
+| <span class="break-all">listener_auth_errors</span> | <span class="break-all">N/A</span> | Number of error responses to memcached AUTH commands |
+| <span class="break-all">listener_auth_errors_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of number of error responses to memcached AUTH commands |
+| <span class="break-all">listener_cmd_flush</span> | <span class="break-all">N/A</span> | Number of memcached FLUSH_ALL commands sent to the DB |
+| <span class="break-all">listener_cmd_flush_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of number of memcached FLUSH_ALL commands sent to the DB |
+| <span class="break-all">listener_cmd_get</span> | <span class="break-all">N/A</span> | Number of memcached GET commands sent to the DB |
+| <span class="break-all">listener_cmd_get_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of number of memcached GET commands sent to the DB |
+| <span class="break-all">listener_cmd_set</span> | <span class="break-all">N/A</span> | Number of memcached SET commands sent to the DB |
+| <span class="break-all">listener_cmd_set_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of number of memcached SET commands sent to the DB |
+| <span class="break-all">listener_cmd_touch</span> | <span class="break-all">N/A</span> | Number of memcached TOUCH commands sent to the DB |
+| <span class="break-all">listener_cmd_touch_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of number of memcached TOUCH commands sent to the DB |
+| <span class="break-all">listener_conns</span> | <span class="break-all">N/A</span> | Number of clients connected to the endpoint |
+| <span class="break-all">listener_egress_bytes</span> | <span class="break-all">N/A</span> | Rate of outgoing network traffic to the endpoint (bytes/sec) |
+| <span class="break-all">listener_egress_bytes_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of rate of outgoing network traffic to the endpoint (bytes/sec) |
+| <span class="break-all">listener_ingress_bytes</span> | <span class="break-all">N/A</span> | Rate of incoming network traffic to the endpoint (bytes/sec) |
+| <span class="break-all">listener_ingress_bytes_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of rate of incoming network traffic to the endpoint (bytes/sec) |
+| <span class="break-all">listener_last_req_time</span> | <span class="break-all">N/A</span> | Time of last command sent to the DB |
+| <span class="break-all">listener_last_res_time</span> | <span class="break-all">N/A</span> | Time of last response sent from the DB |
+| <span class="break-all">listener_max_connections_exceeded</span> | <span class="break-all">`irate(endpoint_maximal_connections_exceeded[1m])`</span> | Number of times the number of clients connected to the DB at the same time has exceeded the max limit |
+| <span class="break-all">listener_max_connections_exceeded_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of number of times the number of clients connected to the DB at the same time has exceeded the max limit |
+| <span class="break-all">listener_monitor_sessions_count</span> | <span class="break-all">N/A</span> | Number of client connected in monitor mode to the endpoint |
+| <span class="break-all">listener_other_req</span> | <span class="break-all">N/A</span> | Rate of other (non-read/write) requests on the endpoint (ops/sec) |
+| <span class="break-all">listener_other_req_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of rate of other (non-read/write) requests on the endpoint (ops/sec) |
+| <span class="break-all">listener_other_res</span> | <span class="break-all">N/A</span> | Rate of other (non-read/write) responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_other_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of rate of other (non-read/write) responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_other_started_res</span> | <span class="break-all">N/A</span> | Number of responses sent from the DB of type "other" |
+| <span class="break-all">listener_other_started_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of number of responses sent from the DB of type "other" |
+| <span class="break-all">listener_read_req</span> | <span class="break-all">`irate(endpoint_read_requests[1m])`</span> | Rate of read requests on the endpoint (ops/sec) |
+| <span class="break-all">listener_read_req_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of rate of read requests on the endpoint (ops/sec) |
+| <span class="break-all">listener_read_res</span> | <span class="break-all">`irate(endpoint_read_responses[1m])`</span> | Rate of read responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_read_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of rate of read responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_read_started_res</span> | <span class="break-all">N/A</span> | Number of responses sent from the DB of type "read" |
+| <span class="break-all">listener_read_started_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of number of responses sent from the DB of type "read" |
+| <span class="break-all">listener_total_connections_received</span> | <span class="break-all">`irate(endpoint_total_connections_received[1m])`</span> | Rate of new client connections to the endpoint (connections/sec) |
+| <span class="break-all">listener_total_connections_received_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of rate of new client connections to the endpoint (connections/sec) |
+| <span class="break-all">listener_total_req</span> | <span class="break-all">N/A</span> | Request rate handled by the endpoint (ops/sec) |
+| <span class="break-all">listener_total_req_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of rate of all requests on the endpoint (ops/sec) |
+| <span class="break-all">listener_total_res</span> | <span class="break-all">N/A</span> | Rate of all responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_total_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of rate of all responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_total_started_res</span> | <span class="break-all">N/A</span> | Number of responses sent from the DB of all types |
+| <span class="break-all">listener_total_started_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of number of responses sent from the DB of all types |
+| <span class="break-all">listener_write_req</span> | <span class="break-all">`irate(endpoint_write_requests[1m])`</span> | Rate of write requests on the endpoint (ops/sec) |
+| <span class="break-all">listener_write_req_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of rate of write requests on the endpoint (ops/sec) |
+| <span class="break-all">listener_write_res</span> | <span class="break-all">`irate(endpoint_write_responses[1m])`</span> | Rate of write responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_write_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of rate of write responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_write_started_res</span> | <span class="break-all">N/A</span> | Number of responses sent from the DB of type "write" |
+| <span class="break-all">listener_write_started_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of number of responses sent from the DB of type "write" |
+
+1. <a name="proxy-table-note-1"></a> The `max`, `min`, and `median` v1 metrics provide the aggregated value of the corresponding metric over a 30-second period. This was intended to alleviate a limitation in the v1 system that limited the resolution of reported metrics  regardless of the configured scrape interval. This limitation does not apply to v2. You should avoid the extra aggregations unless required for specific use cases.
 
 ## Replication metrics
 
