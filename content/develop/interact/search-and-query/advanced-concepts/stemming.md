@@ -54,7 +54,7 @@ redis> HSET wort:4 wort stucke
 
 **Searching for a common stem**
 
-Search for "stuck" (german for "piece"). It's only necessary to specify the `LANGUAGE` argument when it wasn't specified to create the index being used to search.
+Search for "stuck" (german for "piece"). As of v2.10, it's only necessary to specify the `LANGUAGE` argument when it wasn't specified to create the index being used to search.
 Note the results for words that contains "`ü`" are encoded in UTF-8.
 
 {{< highlight bash >}}

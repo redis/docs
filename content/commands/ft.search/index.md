@@ -788,6 +788,8 @@ Query for polygons which:
 - intersect with a given geoshape
 - are disjoint (nothing in common) with a given shape
 
+`INTERSECTS` and `DISJOINT` were introduced in v2.10.
+
 First, create an index using `GEOSHAPE` type with a `FLAT` coordinate system:
 
 
