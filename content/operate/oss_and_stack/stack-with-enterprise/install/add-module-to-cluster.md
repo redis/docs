@@ -10,7 +10,7 @@ linkTitle: Install on a cluster
 weight: 10
 ---
 
-[Redis Enterprise]({{< relref "/operate/rs" >}}) comes packaged with several modules. As of version 7.4.2, Redis Enterprise includes two feature sets, compatible with different Redis database versions. You can view the installed modules, their versions, and their minimum compatible Redis database versions from **Cluster > Modules** in the Redis Enterprise Cluster Manager UI.
+[Redis Enterprise]({{< relref "/operate/rs" >}}) comes packaged with several modules. As of version 7.6.0, Redis Enterprise includes three feature sets, compatible with different Redis database versions. You can view the installed modules, their versions, and their minimum compatible Redis database versions from **Cluster > Modules** in the Redis Enterprise Cluster Manager UI.
 
 To use other modules or upgrade an existing module to a more recent version, you need to install the new module package on your cluster.
 
