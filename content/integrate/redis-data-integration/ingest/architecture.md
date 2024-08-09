@@ -68,6 +68,23 @@ RDI automatically enters a second phase called *change streaming*, where
 changes in the data are captured as they happen. Changes are usually
 added to the target within a few seconds after capture.
 
+## Backpressure mechanism
+
+Sometimes, data records can get added to the streams faster than RDI can
+process them. This can happen if the target is slowed or disconnected
+or simply if the source quickly generates a lot of change data.
+If this continues, then the streams will eventually occupy all the
+available memory. When RDI detects this situation, it applies a
+*backpressure* mechanism to slow or stop the flow of incoming data.
+Change data is held at the source until RDI clears the backlog and has
+enough free memory to resume streaming.
+
+{{<note>}}The Debezium log sometimes reports that RDI has run out
+of memory (usually while creating the initial snapshot). This is not
+an error, just an informative message to note that RDI has applied
+the backpressure mechanism.
+{{</note>}}
+
 ### Supported sources
 
 RDI supports the following database sources using [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) connectors:
