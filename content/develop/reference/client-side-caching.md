@@ -13,9 +13,16 @@ description: 'Server-assisted, client-side caching in Redis
 
   '
 linkTitle: Client-side caching
-title: Client-side caching in Redis
+title: Client-side caching reference
+aliases: /develop/use/client-side-caching/
 weight: 2
 ---
+
+{{<note>}}This document is intended as an in-depth reference for
+client-side caching. See
+[Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
+for general usage guidelines.
+{{</note>}}
 
 Client-side caching is a technique used to create high performance services.
 It exploits the memory available on application servers, servers that are
