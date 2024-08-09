@@ -210,16 +210,16 @@ Here are the metrics available to Prometheus:
 
 ## Replication metrics
 
-| Metric | Description |
-| ------ | :------ |
-| bdb_replicaof_syncer_ingress_bytes | Rate of compressed incoming network traffic to Replica Of DB (bytes/sec) |
-| bdb_replicaof_syncer_ingress_bytes_decompressed | Rate of decompressed incoming network traffic to Replica Of DB (bytes/sec) |
-| bdb_replicaof_syncer_local_ingress_lag_time | Lag time between the source and the destination for Replica Of traffic (ms) |
-| bdb_replicaof_syncer_status | Syncer status for Replica Of traffic; 0 = in-sync, 1 = syncing, 2 = out of sync |
-| bdb_crdt_syncer_ingress_bytes | Rate of compressed incoming network traffic to CRDB (bytes/sec) |
-| bdb_crdt_syncer_ingress_bytes_decompressed | Rate of decompressed incoming network traffic to CRDB (bytes/sec) |
-| bdb_crdt_syncer_local_ingress_lag_time | Lag time between the source and the destination (ms) for CRDB traffic |
-| bdb_crdt_syncer_status | Syncer status for CRDB traffic; 0 = in-sync, 1 = syncing, 2 = out of sync |
+| V1&nbsp;metric | Equivalent V2 PromQL | Description |
+| --------- | :------------------- | :---------- |
+| <span class="break-all">bdb_replicaof_syncer_ingress_bytes</span> | <span class="break-all">`rate(replica_src_ingress_bytes[1m])`</span> | Rate of compressed incoming network traffic to Replica Of DB (bytes/sec) |
+| <span class="break-all">bdb_replicaof_syncer_ingress_bytes_decompressed</span> | <span class="break-all">`rate(replica_src_ingress_bytes_decompressed[1m])`</span> | Rate of decompressed incoming network traffic to Replica Of DB (bytes/sec) |
+| <span class="break-all">bdb_replicaof_syncer_local_ingress_lag_time</span> | <span class="break-all">`database_syncer_lag_ms{syncer_type="replicaof"}`</span> | Lag time between the source and the destination for Replica Of traffic (ms) |
+| <span class="break-all">bdb_replicaof_syncer_status</span> | <span class="break-all">`database_syncer_current_status{syncer_type="replicaof"}`</span> | Syncer status for Replica Of traffic; 0 = in-sync, 1 = syncing, 2 = out of sync |
+| <span class="break-all">bdb_crdt_syncer_ingress_bytes</span> | <span class="break-all">`rate(crdt_src_ingress_bytes[1m])`</span> | Rate of compressed incoming network traffic to CRDB (bytes/sec) |
+| <span class="break-all">bdb_crdt_syncer_ingress_bytes_decompressed</span> | <span class="break-all">`rate(crdt_src_ingress_bytes_decompressed[1m])`</span> | Rate of decompressed incoming network traffic to CRDB (bytes/sec) |
+| <span class="break-all">bdb_crdt_syncer_local_ingress_lag_time</span> | <span class="break-all">`database_syncer_lag_ms{syncer_type="crdt"}`</span> | Lag time between the source and the destination (ms) for CRDB traffic |
+| <span class="break-all">bdb_crdt_syncer_status</span> | <span class="break-all">`database_syncer_current_status{syncer_type="crdt"}`</span> | Syncer status for CRDB traffic; 0 = in-sync, 1 = syncing, 2 = out of sync |
 
 ## Shard metrics
 
