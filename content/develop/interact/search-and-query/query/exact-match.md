@@ -38,11 +38,11 @@ FT.SEARCH index "@field:[value value]"
 
 or
 
-FT.SEARCH index "@field:[value]" DIALECT 2
+FT.SEARCH index "@field:[value]" DIALECT 2 # requires v2.10
 
 or
 
-FT.SEARCH index "@field==value" DIALECT 2
+FT.SEARCH index "@field==value" DIALECT 2 # requires v2.10
 ```
 
 As described in the [article about range queries]({{< relref "/develop/interact/search-and-query/query/range" >}}), you can also use the `FILTER` argument:
@@ -58,11 +58,11 @@ FT.SEARCH idx:bicycle "@price:[270 270]"
 ```
 
 ```
-FT.SEARCH idx:bicycle "@price:[270]"
+FT.SEARCH idx:bicycle "@price:[270]" # requires v2.10
 ```
 
 ```
-FT.SEARCH idx:bicycle "@price==270"
+FT.SEARCH idx:bicycle "@price==270" # requires v2.10
 ```
 
 ```
@@ -94,7 +94,7 @@ This short example shows you how to query for new bicycles:
 FT.SEARCH idx:bicycle "@condition:{new}"
 ```
 
-Use double quotes and [DIALECT 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-2) for exact match queries involving tags that contain special characters. The only character that needs escaping in queries involving double-quoted tags is the double-quote character. Here's an example of using double-quoted tags that contain special characters:
+Use double quotes and [DIALECT 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}#dialect-2) for exact match queries involving tags that contain special characters. As of v2.10, the only character that needs escaping in queries involving double-quoted tags is the double-quote character. Here's an example of using double-quoted tags that contain special characters:
 ```
 JSON.SET key:1 $ '{"email": "test@redis.com"}'
 FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.email AS email TAG
