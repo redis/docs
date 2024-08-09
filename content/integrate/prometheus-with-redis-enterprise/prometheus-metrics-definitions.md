@@ -107,29 +107,29 @@ Here are the metrics available to Prometheus:
 | <span class="break-all">node_cert_expiration_seconds</span> | <span class="break-all">`x509_cert_expires_in_seconds`</span> | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
 | <span class="break-all">node_conns</span> | <span class="break-all">`sum by (node) (endpoint_conns)`</span> | Number of clients connected to endpoints on node |
 | <span class="break-all">node_cpu_idle</span> | <span class="break-all">`avg by (node) (irate(node_cpu_seconds_total{mode="idle"}[1m]))`</span> | CPU idle time portion (0-1, multiply by 100 to get percent) |
-| <span class="break-all">node_cpu_idle_max</span> | <span class="break-all">`not supported - see footnote2`</span> | Highest value of CPU idle time portion (0-1, multiply by 100 to get percent) |
-| <span class="break-all">node_cpu_idle_median</span> | <span class="break-all">`not supported - see footnote2`</span> | Average value of CPU idle time portion (0-1, multiply by 100 to get percent) |
-| <span class="break-all">node_cpu_idle_min</span> | <span class="break-all">`not supported - see footnote2`</span> | Lowest value of CPU idle time portion (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_idle_max</span> | <span class="break-all">N/A</span> | Highest value of CPU idle time portion (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_idle_median</span> | <span class="break-all">N/A</span> | Average value of CPU idle time portion (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_idle_min</span> | <span class="break-all">N/A</span> | Lowest value of CPU idle time portion (0-1, multiply by 100 to get percent) |
 | <span class="break-all">node_cpu_system</span> | <span class="break-all">`avg by (node) (irate(node_cpu_seconds_total{mode="system"}[1m]))`</span> | CPU time portion spent in the kernel (0-1, multiply by 100 to get percent) |
-| <span class="break-all">node_cpu_system_max</span> | <span class="break-all">`not supported - see footnote2`</span> | Highest value of CPU time portion spent in the kernel (0-1, multiply by 100 to get percent) |
-| <span class="break-all">node_cpu_system_median</span> | <span class="break-all">`not supported - see footnote2`</span> | Average value of CPU time portion spent in the kernel (0-1, multiply by 100 to get percent) |
-| <span class="break-all">node_cpu_system_min</span> | <span class="break-all">`not supported - see footnote2`</span> | Lowest value of CPU time portion spent in the kernel (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_system_max</span> | <span class="break-all">N/A</span> | Highest value of CPU time portion spent in the kernel (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_system_median</span> | <span class="break-all">N/A</span> | Average value of CPU time portion spent in the kernel (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_system_min</span> | <span class="break-all">N/A</span> | Lowest value of CPU time portion spent in the kernel (0-1, multiply by 100 to get percent) |
 | <span class="break-all">node_cpu_user</span> | <span class="break-all">`avg by (node) (irate(node_cpu_seconds_total{mode="user"}[1m]))`</span> | CPU time portion spent by user-space processes (0-1, multiply by 100 to get percent) |
-| <span class="break-all">node_cpu_user_max</span> | <span class="break-all">`not supported - see footnote2`</span> | Highest value of CPU time portion spent by user-space processes (0-1, multiply by 100 to get percent) |
-| <span class="break-all">node_cpu_user_median</span> | <span class="break-all">`not supported - see footnote2`</span> | Average value of CPU time portion spent by user-space processes (0-1, multiply by 100 to get percent) |
-| <span class="break-all">node_cpu_user_min</span> | <span class="break-all">`not supported - see footnote2`</span> | Lowest value of CPU time portion spent by user-space processes (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_user_max</span> | <span class="break-all">N/A</span> | Highest value of CPU time portion spent by user-space processes (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_user_median</span> | <span class="break-all">N/A</span> | Average value of CPU time portion spent by user-space processes (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_user_min</span> | <span class="break-all">N/A</span> | Lowest value of CPU time portion spent by user-space processes (0-1, multiply by 100 to get percent) |
 | <span class="break-all">node_cur_aof_rewrites</span> | <span class="break-all">`sum by (cluster, node) (redis_server_aof_rewrite_in_progress)`</span> | Number of AOF rewrites that are currently performed by shards on this node |
 | <span class="break-all">node_egress_bytes</span> | <span class="break-all">`irate(node_network_transmit_bytes_total{device="<interface>"}[1m])`</span> | Rate of outgoing network traffic to node (bytes/sec) |
-| <span class="break-all">node_egress_bytes_max</span> | <span class="break-all">`not supported - see footnote2`</span> | Highest value of the rate of outgoing network traffic to node (bytes/sec) |
-| <span class="break-all">node_egress_bytes_median</span> | <span class="break-all">`not supported - see footnote2`</span> | Average value of the rate of outgoing network traffic to node (bytes/sec) |
-| <span class="break-all">node_egress_bytes_min</span> | <span class="break-all">`not supported - see footnote2`</span> | Lowest value of the rate of outgoing network traffic to node (bytes/sec) |
+| <span class="break-all">node_egress_bytes_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of outgoing network traffic to node (bytes/sec) |
+| <span class="break-all">node_egress_bytes_median</span> | <span class="break-all">N/A</span> | Average value of the rate of outgoing network traffic to node (bytes/sec) |
+| <span class="break-all">node_egress_bytes_min</span> | <span class="break-all">N/A</span> | Lowest value of the rate of outgoing network traffic to node (bytes/sec) |
 | <span class="break-all">node_ephemeral_storage_avail</span> | <span class="break-all">`node_ephemeral_storage_avail_bytes`</span> | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
 | <span class="break-all">node_ephemeral_storage_free</span> | <span class="break-all">`node_ephemeral_storage_free_bytes`</span> | Free disk space on configured ephemeral disk (bytes) |
 | <span class="break-all">node_free_memory</span> | <span class="break-all">`node_memory_MemFree_bytes`</span> | Free memory in the node (bytes) |
 | <span class="break-all">node_ingress_bytes</span> | <span class="break-all">`irate(node_network_receive_bytes_total{device="<interface>"}[1m])`</span> | Rate of incoming network traffic to node (bytes/sec) |
-| <span class="break-all">node_ingress_bytes_max</span> | <span class="break-all">`not supported - see footnote2`</span> | Highest value of the rate of incoming network traffic to node (bytes/sec) |
-| <span class="break-all">node_ingress_bytes_median</span> | <span class="break-all">`not supported - see footnote2`</span> | Average value of the rate of incoming network traffic to node (bytes/sec) |
-| <span class="break-all">node_ingress_bytes_min</span> | <span class="break-all">`not supported - see footnote2`</span> | Lowest value of the rate of incoming network traffic to node (bytes/sec) |
+| <span class="break-all">node_ingress_bytes_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of incoming network traffic to node (bytes/sec) |
+| <span class="break-all">node_ingress_bytes_median</span> | <span class="break-all">N/A</span> | Average value of the rate of incoming network traffic to node (bytes/sec) |
+| <span class="break-all">node_ingress_bytes_min</span> | <span class="break-all">N/A</span> | Lowest value of the rate of incoming network traffic to node (bytes/sec) |
 | <span class="break-all">node_persistent_storage_avail</span> | <span class="break-all">`node_persistent_storage_avail_bytes`</span> | Disk space available to RLEC processes on configured persistent disk (bytes) |
 | <span class="break-all">node_persistent_storage_free</span> | <span class="break-all">`node_persistent_storage_free_bytes`</span> | Free disk space on configured persistent disk (bytes) |
 | <span class="break-all">node_provisional_flash</span> | <span class="break-all">`node_provisional_flash_bytes`</span> | Amount of flash available for new shards on this node, taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
@@ -150,63 +150,61 @@ Here are the metrics available to Prometheus:
 | V1&nbsp;metric | Equivalent V2 PromQL | Description |
 | --------- | :------------------- | :---------- |
 | <span class="break-all">listener_acc_latency</span> | <span class="break-all">N/A</span> | Accumulative latency (sum of the latencies) of all types of commands on the database. For the average latency, divide this value by listener_total_res |
-| <span class="break-all">listener_acc_latency_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of accumulative latency of all types of commands on the database |
+| <span class="break-all">listener_acc_latency_max</span> | <span class="break-all">N/A</span> | Highest value of accumulative latency of all types of commands on the database |
 | <span class="break-all">listener_acc_other_latency</span> | <span class="break-all">N/A</span> | Accumulative latency (sum of the latencies) of commands that are a type "other" on the database. For the average latency, divide this value by listener_other_res |
-| <span class="break-all">listener_acc_other_latency_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of accumulative latency of commands that are a type "other" on the database |
+| <span class="break-all">listener_acc_other_latency_max</span> | <span class="break-all">N/A</span> | Highest value of accumulative latency of commands that are a type "other" on the database |
 | <span class="break-all">listener_acc_read_latency</span> | <span class="break-all">N/A</span> | Accumulative latency (sum of the latencies) of commands that are a type "read" on the database. For the average latency, divide this value by listener_read_res |
-| <span class="break-all">listener_acc_read_latency_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of accumulative latency of commands that are a type "read" on the database |
+| <span class="break-all">listener_acc_read_latency_max</span> | <span class="break-all">N/A</span> | Highest value of accumulative latency of commands that are a type "read" on the database |
 | <span class="break-all">listener_acc_write_latency</span> | <span class="break-all">N/A</span> | Accumulative latency (sum of the latencies) of commands that are a type "write" on the database. For the average latency, divide this value by listener_write_res |
-| <span class="break-all">listener_acc_write_latency_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of accumulative latency of commands that are a type "write" on the database |
+| <span class="break-all">listener_acc_write_latency_max</span> | <span class="break-all">N/A</span> | Highest value of accumulative latency of commands that are a type "write" on the database |
 | <span class="break-all">listener_auth_cmds</span> | <span class="break-all">N/A</span> | Number of memcached AUTH commands sent to the database |
-| <span class="break-all">listener_auth_cmds_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the number of memcached AUTH commands sent to the database |
+| <span class="break-all">listener_auth_cmds_max</span> | <span class="break-all">N/A</span> | Highest value of the number of memcached AUTH commands sent to the database |
 | <span class="break-all">listener_auth_errors</span> | <span class="break-all">N/A</span> | Number of error responses to memcached AUTH commands |
-| <span class="break-all">listener_auth_errors_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the number of error responses to memcached AUTH commands |
+| <span class="break-all">listener_auth_errors_max</span> | <span class="break-all">N/A</span> | Highest value of the number of error responses to memcached AUTH commands |
 | <span class="break-all">listener_cmd_flush</span> | <span class="break-all">N/A</span> | Number of memcached FLUSH_ALL commands sent to the database |
-| <span class="break-all">listener_cmd_flush_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the number of memcached FLUSH_ALL commands sent to the database |
+| <span class="break-all">listener_cmd_flush_max</span> | <span class="break-all">N/A</span> | Highest value of the number of memcached FLUSH_ALL commands sent to the database |
 | <span class="break-all">listener_cmd_get</span> | <span class="break-all">N/A</span> | Number of memcached GET commands sent to the database |
-| <span class="break-all">listener_cmd_get_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the number of memcached GET commands sent to the database |
+| <span class="break-all">listener_cmd_get_max</span> | <span class="break-all">N/A</span> | Highest value of the number of memcached GET commands sent to the database |
 | <span class="break-all">listener_cmd_set</span> | <span class="break-all">N/A</span> | Number of memcached SET commands sent to the database |
-| <span class="break-all">listener_cmd_set_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the number of memcached SET commands sent to the database |
+| <span class="break-all">listener_cmd_set_max</span> | <span class="break-all">N/A</span> | Highest value of the number of memcached SET commands sent to the database |
 | <span class="break-all">listener_cmd_touch</span> | <span class="break-all">N/A</span> | Number of memcached TOUCH commands sent to the database |
-| <span class="break-all">listener_cmd_touch_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the number of memcached TOUCH commands sent to the database |
+| <span class="break-all">listener_cmd_touch_max</span> | <span class="break-all">N/A</span> | Highest value of the number of memcached TOUCH commands sent to the database |
 | <span class="break-all">listener_conns</span> | <span class="break-all">N/A</span> | Number of clients connected to the endpoint |
 | <span class="break-all">listener_egress_bytes</span> | <span class="break-all">N/A</span> | Rate of outgoing network traffic to the endpoint (bytes/sec) |
-| <span class="break-all">listener_egress_bytes_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the rate of outgoing network traffic to the endpoint (bytes/sec) |
+| <span class="break-all">listener_egress_bytes_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of outgoing network traffic to the endpoint (bytes/sec) |
 | <span class="break-all">listener_ingress_bytes</span> | <span class="break-all">N/A</span> | Rate of incoming network traffic to the endpoint (bytes/sec) |
-| <span class="break-all">listener_ingress_bytes_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the rate of incoming network traffic to the endpoint (bytes/sec) |
+| <span class="break-all">listener_ingress_bytes_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of incoming network traffic to the endpoint (bytes/sec) |
 | <span class="break-all">listener_last_req_time</span> | <span class="break-all">N/A</span> | Time of last command sent to the database |
 | <span class="break-all">listener_last_res_time</span> | <span class="break-all">N/A</span> | Time of last response sent from the database |
 | <span class="break-all">listener_max_connections_exceeded</span> | <span class="break-all">`irate(endpoint_maximal_connections_exceeded[1m])`</span> | Number of times the number of clients connected to the database at the same time has exceeded the max limit |
-| <span class="break-all">listener_max_connections_exceeded_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the number of times the number of clients connected to the database at the same time has exceeded the max limit |
+| <span class="break-all">listener_max_connections_exceeded_max</span> | <span class="break-all">N/A</span> | Highest value of the number of times the number of clients connected to the database at the same time has exceeded the max limit |
 | <span class="break-all">listener_monitor_sessions_count</span> | <span class="break-all">N/A</span> | Number of clients connected in monitor mode to the endpoint |
 | <span class="break-all">listener_other_req</span> | <span class="break-all">N/A</span> | Rate of other (non-read/write) requests on the endpoint (ops/sec) |
-| <span class="break-all">listener_other_req_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the rate of other (non-read/write) requests on the endpoint (ops/sec) |
+| <span class="break-all">listener_other_req_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of other (non-read/write) requests on the endpoint (ops/sec) |
 | <span class="break-all">listener_other_res</span> | <span class="break-all">N/A</span> | Rate of other (non-read/write) responses on the endpoint (ops/sec) |
-| <span class="break-all">listener_other_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the rate of other (non-read/write) responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_other_res_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of other (non-read/write) responses on the endpoint (ops/sec) |
 | <span class="break-all">listener_other_started_res</span> | <span class="break-all">N/A</span> | Number of responses sent from the database of type "other" |
-| <span class="break-all">listener_other_started_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the number of responses sent from the database of type "other" |
+| <span class="break-all">listener_other_started_res_max</span> | <span class="break-all">N/A</span> | Highest value of the number of responses sent from the database of type "other" |
 | <span class="break-all">listener_read_req</span> | <span class="break-all">`irate(endpoint_read_requests[1m])`</span> | Rate of read requests on the endpoint (ops/sec) |
-| <span class="break-all">listener_read_req_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the rate of read requests on the endpoint (ops/sec) |
+| <span class="break-all">listener_read_req_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of read requests on the endpoint (ops/sec) |
 | <span class="break-all">listener_read_res</span> | <span class="break-all">`irate(endpoint_read_responses[1m])`</span> | Rate of read responses on the endpoint (ops/sec) |
-| <span class="break-all">listener_read_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the rate of read responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_read_res_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of read responses on the endpoint (ops/sec) |
 | <span class="break-all">listener_read_started_res</span> | <span class="break-all">N/A</span> | Number of responses sent from the database of type "read" |
-| <span class="break-all">listener_read_started_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the number of responses sent from the database of type "read" |
+| <span class="break-all">listener_read_started_res_max</span> | <span class="break-all">N/A</span> | Highest value of the number of responses sent from the database of type "read" |
 | <span class="break-all">listener_total_connections_received</span> | <span class="break-all">`irate(endpoint_total_connections_received[1m])`</span> | Rate of new client connections to the endpoint (connections/sec) |
-| <span class="break-all">listener_total_connections_received_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the rate of new client connections to the endpoint (connections/sec) |
+| <span class="break-all">listener_total_connections_received_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of new client connections to the endpoint (connections/sec) |
 | <span class="break-all">listener_total_req</span> | <span class="break-all">N/A</span> | Request rate handled by the endpoint (ops/sec) |
-| <span class="break-all">listener_total_req_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the rate of all requests on the endpoint (ops/sec) |
+| <span class="break-all">listener_total_req_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of all requests on the endpoint (ops/sec) |
 | <span class="break-all">listener_total_res</span> | <span class="break-all">N/A</span> | Rate of all responses on the endpoint (ops/sec) |
-| <span class="break-all">listener_total_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the rate of all responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_total_res_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of all responses on the endpoint (ops/sec) |
 | <span class="break-all">listener_total_started_res</span> | <span class="break-all">N/A</span> | Number of responses sent from the database of all types |
-| <span class="break-all">listener_total_started_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the number of responses sent from the database of all types |
+| <span class="break-all">listener_total_started_res_max</span> | <span class="break-all">N/A</span> | Highest value of the number of responses sent from the database of all types |
 | <span class="break-all">listener_write_req</span> | <span class="break-all">`irate(endpoint_write_requests[1m])`</span> | Rate of write requests on the endpoint (ops/sec) |
-| <span class="break-all">listener_write_req_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the rate of write requests on the endpoint (ops/sec) |
+| <span class="break-all">listener_write_req_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of write requests on the endpoint (ops/sec) |
 | <span class="break-all">listener_write_res</span> | <span class="break-all">`irate(endpoint_write_responses[1m])`</span> | Rate of write responses on the endpoint (ops/sec) |
-| <span class="break-all">listener_write_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the rate of write responses on the endpoint (ops/sec) |
+| <span class="break-all">listener_write_res_max</span> | <span class="break-all">N/A</span> | Highest value of the rate of write responses on the endpoint (ops/sec) |
 | <span class="break-all">listener_write_started_res</span> | <span class="break-all">N/A</span> | Number of responses sent from the database of type "write" |
-| <span class="break-all">listener_write_started_res_max</span> | <span class="break-all">N/A<sup>[1](#proxy-table-note-1)</sup></span> | Highest value of the number of responses sent from the database of type "write" |
-
-1. <a name="proxy-table-note-1"></a> The `max`, `min`, and `median` v1 metrics provide the aggregated value of the corresponding metric over a 30-second period. This was intended to alleviate a limitation in the v1 system that limited the resolution of reported metrics  regardless of the configured scrape interval. This limitation does not apply to v2. You should avoid the extra aggregations unless required for specific use cases.
+| <span class="break-all">listener_write_started_res_max</span> | <span class="break-all">N/A</span> | Highest value of the number of responses sent from the database of type "write" |
 
 ## Replication metrics
 
