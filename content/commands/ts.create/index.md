@@ -149,6 +149,9 @@ is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) a
   - `SUM`: If a previous sample exists, add the new sample to it so that the updated value is equal to (previous + new). If no previous sample exists, set the updated value equal to the new value.
 
   When not specified: set to the global [DUPLICATE_POLICY]({{< baseurl >}}/develop/data-types/timeseries/configuration#duplicate_policy) configuration of the database (which, by default, is `BLOCK`).
+
+`BLOCK` is often used to avoid accidental changes. `FIRST` can be used as an optimization when duplicate reports are possible. `LAST` can be used when updates are being reported. `SUM` is used for counters (e.g., the number of cars entering a parking lot per minute when there are multiple reporting counting devices). `MIN` and `MAX` can be used, for example, to store the minimal/maximal stock price per minute (instead of storing all the samples and defining a compaction rule).
+
 </details>
 
 <details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 

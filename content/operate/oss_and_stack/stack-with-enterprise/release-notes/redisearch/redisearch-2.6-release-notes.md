@@ -15,10 +15,26 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.19 requires:
+RediSearch v2.6.20 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.20 (July 2024)
+
+This is a maintenance release for RediSearch 2.6
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+- Bug fixes:
+  - [#4755](https://github.com/RediSearch/RediSearch/pull/4755) - Correct return the maximum value for negative values when using `MAX` reducer (MOD-7252)
+  - [#4733](https://github.com/RediSearch/RediSearch/pull/4733) - Separators ignored when escaping backslash `\` after the escaped character such as in `hello\\,world` ignoring `,` (MOD-7240)
+  - [#4717](https://github.com/RediSearch/RediSearch/pull/4717) - Sorting by multiple fields as in `SORTBY 2 @field1 @field2` was ignoring the subsequent field (MOD-7206)
+
+- Improvements:
+  - [#4793](https://github.com/RediSearch/RediSearch/pull/4793) - Add character validations to simple string replies and escape it when required(MOD-7258)
+  - [#4769](https://github.com/RediSearch/RediSearch/pull/4769) - Indicate which value is missing on the error message at the aggregation pipeline (MOD-7201)
+  - [#4746](https://github.com/RediSearch/RediSearch/pull/4746) - `GROUPBY` recursion cleanup (MOD-7245)
 
 ## v2.6.19 (June 2024)
 

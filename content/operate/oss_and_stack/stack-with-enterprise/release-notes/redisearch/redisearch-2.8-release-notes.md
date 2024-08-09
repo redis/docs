@@ -13,10 +13,27 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.14 requires:
+RediSearch v2.8.15 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.15 (July 2024)
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+- Bug fixes:
+  - [#4754](https://github.com/RediSearch/RediSearch/pull/4754) - Correct return the maximum value for negative values when using `MAX` reducer (MOD-7252)
+  - [#4737](https://github.com/RediSearch/RediSearch/pull/4737) - Separators ignored when escaping backslash `\` after the escaped character such as in `hello\\,world` ignoring `,` (MOD-7240)
+  - [#4717](https://github.com/RediSearch/RediSearch/pull/4717) - Sorting by multiple fields `SORTBY 2 @field1 @field2` was ignoring the subsequent field(MOD-7206)
+  - [#4803](https://github.com/RediSearch/RediSearch/pull/4803) - Keys expiring during query returning empty array (MOD-7010)
+  - [#4794](https://github.com/RediSearch/RediSearch/pull/4794) - Index sanitiser (GC) trying to clean deleted numeric index could cause a crash (MOD-7303)
+
+- Improvements:
+  - [#4792](https://github.com/RediSearch/RediSearch/pull/4792) - Add character validations to simple string replies and escape it when required(MOD-7258)
+  - [#4768](https://github.com/RediSearch/RediSearch/pull/4768) - Indicate which value is missing on the error message at the aggregation pipeline (MOD-7201)
+  - [#4745](https://github.com/RediSearch/RediSearch/pull/4745) - `GROUPBY` recursion cleanup (MOD-7245)
+  - [#4823](https://github.com/RediSearch/RediSearch/pull/4823) - Mechanism of keys expiration during the query execution clearing intermediate results
 
 ## v2.8.14 (June 2024)
 
@@ -30,7 +47,7 @@ Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgen
   - [#4556](https://github.com/RediSearch/RediSearch/pull/4556) `FT.EXPLAIN` returns additional `}` when querying using wildcards (MOD-6768)
   - [#4646](https://github.com/RediSearch/RediSearch/pull/4646) `FT.DROPINDEX` with `DD` flag deleted keys in one AA cluster but not the others (MOD-1855)
 
-**Improvements:**
+- Improvements:
   - [#4595](https://github.com/RediSearch/RediSearch/pull/4595) Report memory of the `TAG` and `TEXT` tries (MOD-5902)
   - [#4669](https://github.com/RediSearch/RediSearch/pull/4669) Inverted index memory counting (MOD-5977,MOD-5866)
   - [#4687](https://github.com/RediSearch/RediSearch/pull/4687) Add missing `FT.INFO` fields when used within a cluster (MOD-6920)

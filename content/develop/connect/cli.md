@@ -144,7 +144,7 @@ If the target server requires authentication using a client side certificate,
 you can specify a certificate and a corresponding private key using `--cert` and
 `--key`.
 
-## Getting input from other programs
+## Get input from other programs
 
 There are two ways you can use `redis-cli` in order to receive input from other
 commands via the standard input. One is to use the target payload as the last argument
@@ -235,7 +235,7 @@ A CSV (Comma Separated Values) output feature exists within `redis-cli` to expor
 
 Note that the `--csv` flag will only work on a single command, not the entirety of a DB as an export.
 
-## Running Lua scripts
+## Run Lua scripts
 
 The `redis-cli` has extensive support for using the debugging facility
 of Lua scripting, available with Redis 3.2 onwards. For this feature, refer to the [Redis Lua debugger documentation]({{< relref "/develop/interact/programmability/lua-debugging" >}}).
@@ -261,8 +261,7 @@ So `location:hastings:temp` will populate the [`KEYS`]({{< relref "/commands/key
 The `--eval` option is useful when writing simple scripts. For more
 complex work, the Lua debugger is recommended. It is possible to mix the two approaches, since the debugger can also execute scripts from an external file.
 
-Interactive mode
-===
+## Interactive mode
 
 We have explored how to use the Redis CLI as a command line program.
 This is useful for scripts and certain types of testing, however most
@@ -293,7 +292,7 @@ The prompt updates as the connected server changes or when operating on a databa
     127.0.0.1:6379> DBSIZE
     (integer) 503
 
-## Handling connections and reconnections
+### Handle connections and reconnections
 
 Using the `CONNECT` command in interactive mode makes it possible to connect
 to a different instance, by specifying the *hostname* and *port* we want
@@ -346,7 +345,7 @@ testing, but this limitation should be known.
 
 Use the `-t <timeout>` option to specify server timeout in seconds.
 
-## Editing, history, completion and hints
+### Editing, history, completion and hints
 
 Because `redis-cli` uses the
 [linenoise line editing library](http://github.com/antirez/linenoise), it
@@ -372,7 +371,7 @@ syntax hints. Like command history, this behavior can be turned on and off via t
 
 Reverse history searches, such as `CTRL-R` in terminals, is supported.
 
-## Preferences
+### Preferences
 
 There are two ways to customize `redis-cli` behavior. The file `.redisclirc`
 in the home directory is loaded by the CLI on startup. You can override the
@@ -387,7 +386,7 @@ can be set, either by typing the command in the CLI or adding it to the
 * `:set hints` - enables syntax hints
 * `:set nohints` - disables syntax hints
 
-## Running the same command N times
+### Run the same command N times
 
 It is possible to run the same command multiple times in interactive mode by prefixing the command
 name by a number:
@@ -399,7 +398,7 @@ name by a number:
     (integer) 4
     (integer) 5
 
-## Showing help about Redis commands
+### Show online help for Redis commands
 
 `redis-cli` provides online help for most Redis [commands]({{< relref "/commands" >}}), using the `HELP` command. The command can be used
 in two forms:
@@ -433,12 +432,11 @@ For example in order to show help for the [`PFADD`]({{< relref "/commands/pfadd"
 
 Note that `HELP` supports TAB completion as well.
 
-## Clearing the terminal screen
+### Clear the terminal screen
 
 Using the `CLEAR` command in interactive mode clears the terminal's screen.
 
-Special modes of operation
-===
+## Special modes of operation
 
 So far we saw two main modes of `redis-cli`.
 
@@ -460,7 +458,7 @@ are explained in the next sections:
 * Simulating [LRU]({{< relref "/develop/reference/eviction" >}}) workloads for showing stats about keys hits.
 * A client for the Lua debugger.
 
-## Continuous stats mode
+### Continuous stats mode
 
 Continuous stats mode is probably one of the lesser known yet very useful features of `redis-cli` to monitor Redis instances in real time. To enable this mode, the `--stat` option is used.
 The output is very clear about the behavior of the CLI in this mode:
@@ -547,7 +545,7 @@ The `--memkeys` option now works on cluster replicas.
 
 You can use the `--keystats` and `--keystats-samples` options to combine `--memkeys` and `--bigkeys` with additional distribution data.
 
-## Getting a list of keys
+## Get a list of keys
 
 It is also possible to scan the key space, again in a way that does not
 block the Redis server (which does happen when you use a command
@@ -624,7 +622,7 @@ When another client publishes some message in some channel, such as with the com
 This is very useful for debugging Pub/Sub issues.
 To exit the Pub/Sub mode just process `CTRL-C`.
 
-## Monitoring commands executed in Redis
+## Monitor commands executed in Redis
 
 Similarly to the Pub/Sub mode, the monitoring mode is entered automatically
 once you use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command. All commands received by the active Redis instance will be printed to the standard output:
@@ -637,7 +635,7 @@ once you use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command. All co
 Note that it is possible to pipe the output, so you can monitor
 for specific patterns using tools such as `grep`.
 
-## Monitoring the latency of Redis instances
+## Monitor the latency of Redis instances
 
 Redis is often used in contexts where latency is very critical. Latency
 involves multiple moving parts within the application, from the client library
@@ -765,7 +763,7 @@ If you think some of the commands are not replicated correctly in your replicas
 this is a good way to check what's happening, and also useful information
 in order to improve the bug report.
 
-## Performing an LRU simulation
+## Perform an LRU simulation
 
 Redis is often used as a cache with [LRU eviction]({{< relref "/develop/reference/eviction" >}}).
 Depending on the number of keys and the amount of memory allocated for the

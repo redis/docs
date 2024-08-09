@@ -1,0 +1,56 @@
+diff --git a/content/operate/kubernetes/reference/redis_enterprise_active_active_database_api.md b/content/operate/kubernetes/reference/redis_enterprise_active_active_database_api.md
+index 01e82b1b..cacaa46c 100644
+--- a/content/operate/kubernetes/reference/redis_enterprise_active_active_database_api.md
++++ b/content/operate/kubernetes/reference/redis_enterprise_active_active_database_api.md
+@@ -5,7 +5,7 @@ categories:
+ - docs
+ - operate
+ - kubernetes
+-linkTitle: RedisEnterpriseActiveActiveDatabase API Reference
++linkTitle: REAADB API
+ weight: 30
+ ---
+ 
+diff --git a/content/operate/kubernetes/reference/redis_enterprise_cluster_api.md b/content/operate/kubernetes/reference/redis_enterprise_cluster_api.md
+index 970ba528..6afe4c50 100644
+--- a/content/operate/kubernetes/reference/redis_enterprise_cluster_api.md
++++ b/content/operate/kubernetes/reference/redis_enterprise_cluster_api.md
+@@ -5,8 +5,9 @@ categories:
+ - docs
+ - operate
+ - kubernetes
+-linkTitle: RedisEnterpriseCluster API Reference
++linkTitle: REC API
+ weight: 30
++aliases: [ /operate/kubernetes/reference/cluster-options, ]
+ ---
+ 
+ Packages:
+diff --git a/content/operate/kubernetes/reference/redis_enterprise_database_api.md b/content/operate/kubernetes/reference/redis_enterprise_database_api.md
+index f925ce44..ea21766e 100644
+--- a/content/operate/kubernetes/reference/redis_enterprise_database_api.md
++++ b/content/operate/kubernetes/reference/redis_enterprise_database_api.md
+@@ -5,8 +5,9 @@ categories:
+ - docs
+ - operate
+ - kubernetes
+-linkTitle: RedisEnterpriseDatabase API Reference
++linkTitle: REDB API
+ weight: 30
++aliases: [ /operate/kubernetes/reference/db-options, ]
+ ---
+ 
+ Packages:
+diff --git a/content/operate/kubernetes/reference/redis_enterprise_remote_cluster.md b/content/operate/kubernetes/reference/redis_enterprise_remote_cluster.md
+index 7d37a6dc..a9a313cf 100644
+--- a/content/operate/kubernetes/reference/redis_enterprise_remote_cluster.md
++++ b/content/operate/kubernetes/reference/redis_enterprise_remote_cluster.md
+@@ -5,7 +5,7 @@ categories:
+ - docs
+ - operate
+ - kubernetes
+-linkTitle: RedisEnterpriseRemoteCluster API Reference
++linkTitle: RERC API
+ weight: 30
+ ---
+ 

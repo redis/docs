@@ -33,6 +33,7 @@ RedisBloom 2.8 introduces improvements and bug fixes.
 - Bug fixes
 
   - [#773](https://github.com/RedisBloom/RedisBloom/pull/773) `CMS.MERGE`: reply with an error on overflow and underflow (MOD-6962)
+  - [#720](https://github.com/RedisBloom/RedisBloom/pull/720) `BF` crashes on high error rate (MOD-6268)
 
 {{< note >}}
 - The version inside Redis will be 2.8.2 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.

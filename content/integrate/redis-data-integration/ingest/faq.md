@@ -59,9 +59,17 @@ replica of an Active-Active replication setup or an Auto tiering database.
 
 If you don't configure RDI to capture a specific set of tables in the schema then it will
 detect any new tables when they are added. Similarly, RDI will capture new table columns
-and changes to column names unless you configure it for a specfic set of columns.
+and changes to column names unless you configure it for a specific set of columns.
 Bear in mind that the Redis keys in the target database will change to reflect the
 new or renamed tables and columns.
+
+## Should I be concerned when the log says RDI is out of memory? {#rdi-oom}
+
+Sometimes the Debezium log will contain a message saying that RDI is out of
+memory. This is not an error but an informative message to say that RDI
+is applying *backpressure* to Debezium. See
+[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/ingest/architecture#backpressure-mechanism" >}})
+in the Architecture guide for more information.
 
 ## What happens when RDI can't write to the target Redis database?
 
@@ -79,7 +87,7 @@ more space available.
 ## What does RDI do if the data is corrupted or invalid?
 
 The collector reports the data to RDI in a structured JSON format. If
-the structure of the JSON data is invalid or if there is a fatal bug in the tranformation
+the structure of the JSON data is invalid or if there is a fatal bug in the transformation
 job then RDI can't transform the data. When this happens, RDI will store the original data
 in a "dead letter queue" along with a message to say why it was rejected. The dead letter
 queue is stored as a capped stream in the RDI staging database. You can see its contents

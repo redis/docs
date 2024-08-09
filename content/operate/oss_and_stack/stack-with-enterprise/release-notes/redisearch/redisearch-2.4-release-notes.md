@@ -202,11 +202,11 @@ RediSearch 2.4 introduces a new capability, Vector Similarity Search (VSS), whic
 
 It also introduces a new query syntax to address query parser inconsistencies found in previous versions of RediSearch. Users can now choose between Dialect version 1 (to keep existing query parser behavior) or Dialect version 2 (to switch to the updated behavior).
 
-All VSS queries or any query using the [`PARAMS`](https://oss.redis.com/redisearch/Commands/#ftsearch) option must use Dialect version 2.
+All VSS queries or any query using the `PARAMS` option must use Dialect version 2.
 
 ### What's new in 2.4
 
-- [`FT.CREATE`](https://oss.redis.com/redisearch/master/Commands/#ftcreate) is extended to support the creation of 2 popular types of vector indexes:
+- `FT.CREATE` is extended to support the creation of 2 popular types of vector indexes:
 
   - **FLAT Index**
 
@@ -218,7 +218,7 @@ All VSS queries or any query using the [`PARAMS`](https://oss.redis.com/redisear
 
     You can try out different HNSW index parameters (`M`, `EFCONSTRUCTION`, `EFRUNTIME`) to improve the “recall versus speed” balance.
 
-- Use [`FT.SEARCH`](https://oss.redis.com/redisearch/master/Commands/#ftsearch) to retrieve the top K hashes with the most similar vectors to a given query vector.
+- Use `FT.SEARCH` to retrieve the top K hashes with the most similar vectors to a given query vector.
 
 - Hybrid queries in `FT.SEARCH`:
 
@@ -233,7 +233,7 @@ All VSS queries or any query using the [`PARAMS`](https://oss.redis.com/redisear
 
   It is possible to override the module-level dialect for a specific command at runtime. You can specify the dialect when executing any of the following commands:
 
-    - [`FT.SEARCH`](https://oss.redis.com/redisearch/master/Commands/#ftsearch)
+    - `FT.SEARCH`
 
     - [`FT.AGGREGATE`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftaggregate)
 

@@ -12,7 +12,7 @@ toc: 'true'
 weight: 10
 ---
 
-The following tables show which Redis Community Edition [server management commands]({{< relref "/commands" >}}/?group=server) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following tables show which Redis Community Edition [server management commands]({{< relref "/commands" >}}?group=server) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 ## Access control commands
 
