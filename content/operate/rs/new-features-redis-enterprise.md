@@ -43,7 +43,7 @@ Redis developed and certified these modules for use with Redis Enterprise Softwa
 - [RedisBloom]({{< relref "/operate/modules/redisbloom" >}})
     - Enables Redis to have a scalable bloom filter as a data type. Bloom
       filters are probabilistic data structures that quickly determine if something is contained within a set.
-- [RedisGraph](https://oss.redislabs.com/redisgraph/#quickstart)
+- RedisGraph
     - RedisGraph is the first queryable Property Graph database to use sparse
       matrices to represent the adjacency matrix in graphs and linear algebra to query the graph.
       RedisGraph uses [Cypher](https://www.opencypher.org/) as its query language.

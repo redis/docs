@@ -38,6 +38,10 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis or
 
 <img src="images/Databases.png">
 
+{{< note >}}
+When you add a Redis database for a particular user using the `username` and `password` fields, that user must be able to run the `INFO` command. See the [access control list (ACL) documentation]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) for more information.
+{{< /note >}}
+
 ### Redis Copilot
 
 Redis Copilot is an AI-powered developer assistant that helps you learn about Redis, explore your Redis data, and build search queries in a conversational manner. It is available in Redis Insight as well as within the Redis public documentation.

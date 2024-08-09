@@ -84,7 +84,7 @@ Update urgency: `HIGH`: There is a critical bug that may affect a subset of user
 
 Details:
 - Critical bug fixes:
-    - #[1911](https://github.com/RedisGraph/RedisGraph/issues/1911) When a [query timeout](https://oss.redis.com/redisgraph/configuration/#timeout) is set and the graph contained indexes, a crash could occur while releasing indexes
+    - #[1911](https://github.com/RedisGraph/RedisGraph/issues/1911) When a query timeout is set and the graph contained indexes, a crash could occur while releasing indexes
 
 - Bug fixes:
     - #[1913](https://github.com/RedisGraph/RedisGraph/issues/1913) Update thread-local AST for every cloned operation
@@ -179,16 +179,16 @@ Details:
 
 Headlines:
 
-- This release introduces the [Map](https://oss.redislabs.com/redisgraph/master/datatypes/#maps) and [Geospatial Point](https://oss.redislabs.com/redisgraph/master/datatypes/#geospatial-points) data types.
+- This release introduces the Map and Geospatial Point data types.
 
 Details:
 
 - Features:
-  - #[1514](https://github.com/redisgraph/redisgraph/issues/1514) Add support for [Map](https://oss.redislabs.com/redisgraph/master/datatypes/#maps) data type.
-  - #[1516](https://github.com/redisgraph/redisgraph/issues/1516) Add support for [Geospatial Point](https://oss.redislabs.com/redisgraph/master/datatypes/#geospatial-points) data type.
-  - #[1562](https://github.com/redisgraph/redisgraph/issues/1562) Add [`toJSON`](https://oss.redislabs.com/redisgraph/master/commands/#json-format) function.
-  - #[1607](https://github.com/redisgraph/redisgraph/issues/1607) [Querying full-text indexes](https://oss.redislabs.com/redisgraph/commands/#full-text-indexes) can yield the `score` of each result.
-  - #[1610](https://github.com/redisgraph/redisgraph/issues/1610) Expose runtime configuration for [read query timeouts](https://oss.redislabs.com/redisgraph/configuration/#query-timeout).
+  - #[1514](https://github.com/redisgraph/redisgraph/issues/1514) Add support for Map data type.
+  - #[1516](https://github.com/redisgraph/redisgraph/issues/1516) Add support for Geospatial Point data type.
+  - #[1562](https://github.com/redisgraph/redisgraph/issues/1562) Add `toJSON` function.
+  - #[1607](https://github.com/redisgraph/redisgraph/issues/1607) Querying full-text indexes can yield the `score` of each result.
+  - #[1610](https://github.com/redisgraph/redisgraph/issues/1610) Expose runtime configuration for read query timeouts.
 
 - Performance improvements:
   - #[1596](https://github.com/redisgraph/redisgraph/issues/1596) [Redisgraph-bulk-loader](https://github.com/RedisGraph/redisgraph-bulk-loader) no longer blocks the server.

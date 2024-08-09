@@ -51,7 +51,7 @@ Compared to 1.0:
     - #[452](https://github.com/RedisGraph/RedisGraph/issues/452) Support multiple relationships of the same type R connecting two nodes
     - #[392](https://github.com/RedisGraph/RedisGraph/issues/392) Lexer elides escape characters in string creation: support for property values with ' or "
     - Enhanced cypher
-        - [Initial support](https://oss.redislabs.com/redisgraph/known_limitations/#with-clause-limitations) for WITH clause: Allows query parts to be chained together, piping the results from one to be used as starting points or criteria of the next. [ref p.78](https://s3.amazonaws.com/artifacts.opencypher.org/openCypher9.pdf)
+        - Initial support for WITH clause: Allows query parts to be chained together, piping the results from one to be used as starting points or criteria of the next. [ref p.78](https://s3.amazonaws.com/artifacts.opencypher.org/openCypher9.pdf)
         - #[247](https://github.com/RedisGraph/RedisGraph/issues/247) Initial support for UNWIND
         - #[244](https://github.com/RedisGraph/RedisGraph/issues/244) RETURN * (give me everything bro)
         - #[236](https://github.com/RedisGraph/RedisGraph/issues/236) TYPE function (returns the type of a relationship)
