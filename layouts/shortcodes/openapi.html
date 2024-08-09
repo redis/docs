@@ -1,0 +1,26 @@
+{{- $apiName := .Get 0 -}}
+{{- $apiData := index .Site.Data $apiName -}}
+{{- range $url, $info := $apiData.paths -}}
+<div style="margin: 5px;">
+    {{- if $info.get -}}
+    <code 
+        style="background-color:cornflowerblue;
+        color: white;
+        padding: 5px;
+        margin-right: 1em;
+        font-weight: bold;
+        border-radius: 5px
+    ">GET</code>
+    {{- else if $info.post -}}
+    <code 
+        style="background-color:darkseagreen;
+        color: white;
+        padding: 5px;
+        margin-right: 1em;
+        font-weight: bold;
+        border-radius: 5px
+    ">POST</code>
+    {{- end -}}
+    <code>{{ $url }}</code><br/>
+</div>
+{{- end -}}
