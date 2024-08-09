@@ -223,60 +223,60 @@ Here are the metrics available to Prometheus:
 
 ## Shard metrics
 
-| Metric | Description |
-| ------ | :------ |
-| redis_active_defrag_running | Automatic memory defragmentation current aggressiveness (% cpu) |
-| redis_allocator_active | Total used memory including external fragmentation |
-| redis_allocator_allocated | Total allocated memory |
-| redis_allocator_resident | Total resident memory (RSS) |
-| redis_aof_last_cow_size | Last AOFR, CopyOnWrite memory |
-| redis_aof_rewrite_in_progress | The number of simultaneous AOF rewrites that are in progress |
-| redis_aof_rewrites | Number of AOF rewrites this process executed |
-| redis_aof_delayed_fsync | Number of times an AOF fsync caused delays in the redis main thread (inducing latency); This can indicate that the disk is slow or overloaded |
-| redis_blocked_clients | Count the clients waiting on a blocking call |
-| redis_connected_clients | Number of client connections to the specific shard |
-| redis_connected_slaves | Number of connected slaves |
-| redis_db0_avg_ttl | Average TTL of all volatile keys |
-| redis_db0_expires | Total count of volatile keys |
-| redis_db0_keys | Total key count |
-| redis_evicted_keys | Keys evicted so far (since restart) |
-| redis_expire_cycle_cpu_milliseconds | The cumulative amount of time spent on active expiry cycles |
-| redis_expired_keys | Keys expired so far (since restart) |
-| redis_forwarding_state | Shard forwarding state (on or off) |
-| redis_keys_trimmed | The number of keys that were trimmed in the current or last resharding process |
-| redis_keyspace_read_hits | Number of read operations accessing an existing keyspace |
-| redis_keyspace_read_misses | Number of read operations accessing an non-existing keyspace |
-| redis_keyspace_write_hits | Number of write operations accessing an existing keyspace |
-| redis_keyspace_write_misses | Number of write operations accessing an non-existing keyspace |
-| redis_master_link_status | Indicates if the replica is connected to its master |
-| redis_master_repl_offset | Number of bytes sent to replicas by the shard; Calculate the throughput for a time period by comparing the value at different times |
-| redis_master_sync_in_progress | The master shard is synchronizing (1 true | 0 false) |
-| redis_max_process_mem | Current memory limit configured by redis_mgr according to node free memory |
-| redis_maxmemory | Current memory limit configured by redis_mgr according to db memory limits |
-| redis_mem_aof_buffer | Current size of AOF buffer |
-| redis_mem_clients_normal | Current memory used for input and output buffers of non-replica clients |
-| redis_mem_clients_slaves | Current memory used for input and output buffers of replica clients |
-| redis_mem_fragmentation_ratio | Memory fragmentation ratio (1.3 means 30% overhead) |
-| redis_mem_not_counted_for_evict | Portion of used_memory (in bytes) that's not counted for eviction and OOM error |
-| redis_mem_replication_backlog | Size of replication backlog |
-| redis_module_fork_in_progress | A binary value that indicates if there is an active fork spawned by a module (1) or not (0) |
-| redis_process_cpu_system_seconds_total | Shard Process system CPU time spent in seconds |
-| redis_process_cpu_usage_percent | Shard Process cpu usage precentage |
-| redis_process_cpu_user_seconds_total | Shard user CPU time spent in seconds |
-| redis_process_main_thread_cpu_system_seconds_total | Shard main thread system CPU time spent in seconds |
-| redis_process_main_thread_cpu_user_seconds_total | Shard main thread user CPU time spent in seconds |
-| redis_process_max_fds | Shard Maximum number of open file descriptors |
-| redis_process_open_fds | Shard Number of open file descriptors |
-| redis_process_resident_memory_bytes | Shard Resident memory size in bytes |
-| redis_process_start_time_seconds | Shard Start time of the process since unix epoch in seconds |
-| redis_process_virtual_memory_bytes | Shard virtual memory in bytes |
-| redis_rdb_bgsave_in_progress | Indication if bgsave is currently in progress |
-| redis_rdb_last_cow_size | Last bgsave (or SYNC fork) used CopyOnWrite memory |
-| redis_rdb_saves | Total count of bgsaves since process was restarted (including replica fullsync and persistence) |
-| redis_repl_touch_bytes | Number of bytes sent to replicas as TOUCH commands by the shard as a result of a READ command that was processed; Calculate the throughput for a time period by comparing the value at different times |
-| redis_total_commands_processed | Number of commands processed by the shard; Calculate the number of commands for a time period by comparing the value at different times |
-| redis_total_connections_received | Number of connections received by the shard; Calculate the number of connections for a time period by comparing the value at different times |
-| redis_total_net_input_bytes | Number of bytes received by the shard; Calculate the throughput for a time period by comparing the value at different times |
-| redis_total_net_output_bytes | Number of bytes sent by the shard; Calculate the throughput for a time period by comparing the value at different times |
-| redis_up | Shard is up and running |
-| redis_used_memory | Memory used by shard (in bigredis this includes flash) (bytes) |
+| V1&nbsp;metric | Equivalent V2 PromQL | Description |
+| --------- | :------------------- | :---------- |
+| <span class="break-all">redis_active_defrag_running</span> | <span class="break-all">`redis_server_active_defrag_running`</span> | Automatic memory defragmentation current aggressiveness (% cpu) |
+| <span class="break-all">redis_allocator_active</span> | <span class="break-all">`redis_server_allocator_active`</span> | Total used memory including external fragmentation |
+| <span class="break-all">redis_allocator_allocated</span> | <span class="break-all">`redis_server_allocator_allocated`</span> | Total allocated memory |
+| <span class="break-all">redis_allocator_resident</span> | <span class="break-all">`redis_server_allocator_resident`</span> | Total resident memory (RSS) |
+| <span class="break-all">redis_aof_last_cow_size</span> | <span class="break-all">`redis_server_aof_last_cow_size`</span> | Last AOFR, CopyOnWrite memory |
+| <span class="break-all">redis_aof_rewrite_in_progress</span> | <span class="break-all">`redis_server_aof_rewrite_in_progress`</span> | The number of simultaneous AOF rewrites that are in progress |
+| <span class="break-all">redis_aof_rewrites</span> | <span class="break-all">`redis_server_aof_rewrites`</span> | Number of AOF rewrites this process executed |
+| <span class="break-all">redis_aof_delayed_fsync</span> | <span class="break-all">`redis_server_aof_delayed_fsync`</span> | Number of times an AOF fsync caused delays in the Redis main thread (inducing latency); This can indicate that the disk is slow or overloaded |
+| <span class="break-all">redis_blocked_clients</span> | <span class="break-all">`redis_server_blocked_clients`</span> | Count the clients waiting on a blocking call |
+| <span class="break-all">redis_connected_clients</span> | <span class="break-all">`redis_server_connected_clients`</span> | Number of client connections to the specific shard |
+| <span class="break-all">redis_connected_slaves</span> | <span class="break-all">`redis_server_connected_slaves`</span> | Number of connected slaves |
+| <span class="break-all">redis_db0_avg_ttl</span> | <span class="break-all">`redis_server_db0_avg_ttl`</span> | Average TTL of all volatile keys |
+| <span class="break-all">redis_db0_expires</span> | <span class="break-all">`redis_server_expired_keys`</span> | Total count of volatile keys |
+| <span class="break-all">redis_db0_keys</span> | <span class="break-all">`redis_server_db0_keys`</span> | Total key count |
+| <span class="break-all">redis_evicted_keys</span> | <span class="break-all">`redis_server_evicted_keys`</span> | Keys evicted so far (since restart) |
+| <span class="break-all">redis_expire_cycle_cpu_milliseconds</span> | <span class="break-all">`redis_server_expire_cycle_cpu_milliseconds`</span> | The cumulative amount of time spent on active expiry cycles |
+| <span class="break-all">redis_expired_keys</span> | <span class="break-all">`redis_server_expired_keys`</span> | Keys expired so far (since restart) |
+| <span class="break-all">redis_forwarding_state</span> | <span class="break-all">`redis_server_forwarding_state`</span> | Shard forwarding state (on or off) |
+| <span class="break-all">redis_keys_trimmed</span> | <span class="break-all">`redis_server_keys_trimmed`</span> | The number of keys that were trimmed in the current or last resharding process |
+| <span class="break-all">redis_keyspace_read_hits</span> | <span class="break-all">`redis_server_keyspace_read_hits`</span> | Number of read operations accessing an existing keyspace |
+| <span class="break-all">redis_keyspace_read_misses</span> | <span class="break-all">`redis_server_keyspace_read_misses`</span> | Number of read operations accessing a non-existing keyspace |
+| <span class="break-all">redis_keyspace_write_hits</span> | <span class="break-all">`redis_server_keyspace_write_hits`</span> | Number of write operations accessing an existing keyspace |
+| <span class="break-all">redis_keyspace_write_misses</span> | <span class="break-all">`redis_server_keyspace_write_misses`</span> | Number of write operations accessing a non-existing keyspace |
+| <span class="break-all">redis_master_link_status</span> | <span class="break-all">`redis_server_master_link_status`</span> | Indicates if the replica is connected to its master |
+| <span class="break-all">redis_master_repl_offset</span> | <span class="break-all">`redis_server_master_repl_offset`</span> | Number of bytes sent to replicas by the shard; Calculate the throughput for a time period by comparing the value at different times |
+| <span class="break-all">redis_master_sync_in_progress</span> | <span class="break-all">`redis_server_master_sync_in_progress`</span> | The master shard is synchronizing (1 true | 0 false) |
+| <span class="break-all">redis_max_process_mem</span> | <span class="break-all">`redis_server_max_process_mem`</span> | Current memory limit configured by redis_mgr according to node free memory |
+| <span class="break-all">redis_maxmemory</span> | <span class="break-all">`redis_server_maxmemory`</span> | Current memory limit configured by redis_mgr according to DB memory limits |
+| <span class="break-all">redis_mem_aof_buffer</span> | <span class="break-all">`redis_server_mem_aof_buffer`</span> | Current size of AOF buffer |
+| <span class="break-all">redis_mem_clients_normal</span> | <span class="break-all">`redis_server_mem_clients_normal`</span> | Current memory used for input and output buffers of non-replica clients |
+| <span class="break-all">redis_mem_clients_slaves</span> | <span class="break-all">`redis_server_mem_clients_slaves`</span> | Current memory used for input and output buffers of replica clients |
+| <span class="break-all">redis_mem_fragmentation_ratio</span> | <span class="break-all">`redis_server_mem_fragmentation_ratio`</span> | Memory fragmentation ratio (1.3 means 30% overhead) |
+| <span class="break-all">redis_mem_not_counted_for_evict</span> | <span class="break-all">`redis_server_mem_not_counted_for_evict`</span> | Portion of used_memory (in bytes) that's not counted for eviction and OOM error |
+| <span class="break-all">redis_mem_replication_backlog</span> | <span class="break-all">`redis_server_mem_replication_backlog`</span> | Size of replication backlog |
+| <span class="break-all">redis_module_fork_in_progress</span> | <span class="break-all">`redis_server_module_fork_in_progress`</span> | A binary value that indicates if there is an active fork spawned by a module (1) or not (0) |
+| <span class="break-all">redis_process_cpu_system_seconds_total</span> | <span class="break-all">`namedprocess_namegroup_cpu_seconds_total{mode="system"}`</span> | Shard Process system CPU time spent in seconds |
+| <span class="break-all">redis_process_cpu_usage_percent</span> | <span class="break-all">`namedprocess_namegroup_cpu_seconds_total{mode=~"system|user"}`</span> | Shard Process CPU usage percentage |
+| <span class="break-all">redis_process_cpu_user_seconds_total</span> | <span class="break-all">`namedprocess_namegroup_cpu_seconds_total{mode="user"}`</span> | Shard user CPU time spent in seconds |
+| <span class="break-all">redis_process_main_thread_cpu_system_seconds_total</span> | <span class="break-all">`namedprocess_namegroup_thread_cpu_seconds_total{mode="system",threadname="redis-server"}`</span> | Shard main thread system CPU time spent in seconds |
+| <span class="break-all">redis_process_main_thread_cpu_user_seconds_total</span> | <span class="break-all">`namedprocess_namegroup_thread_cpu_seconds_total{mode="user",threadname="redis-server"}`</span> | Shard main thread user CPU time spent in seconds |
+| <span class="break-all">redis_process_max_fds</span> | <span class="break-all">`max(namedprocess_namegroup_open_filedesc)`</span> | Shard Maximum number of open file descriptors |
+| <span class="break-all">redis_process_open_fds</span> | <span class="break-all">`namedprocess_namegroup_open_filedesc`</span> | Shard Number of open file descriptors |
+| <span class="break-all">redis_process_resident_memory_bytes</span> | <span class="break-all">`namedprocess_namegroup_memory_bytes{memtype="resident"}`</span> | Shard Resident memory size in bytes |
+| <span class="break-all">redis_process_start_time_seconds</span> | <span class="break-all">`namedprocess_namegroup_oldest_start_time_seconds`</span> | Shard Start time of the process since unix epoch in seconds |
+| <span class="break-all">redis_process_virtual_memory_bytes</span> | <span class="break-all">`namedprocess_namegroup_memory_bytes{memtype="virtual"}`</span> | Shard virtual memory in bytes |
+| <span class="break-all">redis_rdb_bgsave_in_progress</span> | <span class="break-all">`redis_server_rdb_bgsave_in_progress`</span> | Indication if bgsave is currently in progress |
+| <span class="break-all">redis_rdb_last_cow_size</span> | <span class="break-all">`redis_server_rdb_last_cow_size`</span> | Last bgsave (or SYNC fork) used CopyOnWrite memory |
+| <span class="break-all">redis_rdb_saves</span> | <span class="break-all">`redis_server_rdb_saves`</span> | Total count of bgsaves since process was restarted (including replica fullsync and persistence) |
+| <span class="break-all">redis_repl_touch_bytes</span> | <span class="break-all">`redis_server_repl_touch_bytes`</span> | Number of bytes sent to replicas as TOUCH commands by the shard as a result of a READ command that was processed; Calculate the throughput for a time period by comparing the value at different times |
+| <span class="break-all">redis_total_commands_processed</span> | <span class="break-all">`redis_server_total_commands_processed`</span> | Number of commands processed by the shard; Calculate the number of commands for a time period by comparing the value at different times |
+| <span class="break-all">redis_total_connections_received</span> | <span class="break-all">`redis_server_total_connections_received`</span> | Number of connections received by the shard; Calculate the number of connections for a time period by comparing the value at different times |
+| <span class="break-all">redis_total_net_input_bytes</span> | <span class="break-all">`redis_server_total_net_input_bytes`</span> | Number of bytes received by the shard; Calculate the throughput for a time period by comparing the value at different times |
+| <span class="break-all">redis_total_net_output_bytes</span> | <span class="break-all">`redis_server_total_net_output_bytes`</span> | Number of bytes sent by the shard; Calculate the throughput for a time period by comparing the value at different times |
+| <span class="break-all">redis_up</span> | <span class="break-all">`redis_server_up`</span> | Shard is up and running |
+| <span class="break-all">redis_used_memory</span> | <span class="break-all">`redis_server_used_memory`</span> | Memory used by shard (in BigRedis this includes flash) (bytes) |
