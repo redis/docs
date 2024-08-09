@@ -93,51 +93,51 @@ Here are the metrics available to Prometheus:
 
 ## Node metrics
 
-| Metric | Description |
-| ------ | :------ |
-| node_available_flash | Available flash in node (bytes) |
-| node_available_flash_no_overbooking | Available flash in node (bytes), without taking into account overbooking |
-| node_available_memory | Amount of free memory in node (bytes) that is available for database provisioning |
-| node_available_memory_no_overbooking | Available ram in node (bytes) without taking into account overbooking |
-| node_avg_latency | Average latency of requests handled by endpoints on the node in milliseconds; returned only when there is traffic |
-| node_bigstore_free | Sum of free space of back-end flash (used by flash DB's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
-| node_bigstore_iops | Rate of i/o operations against back-end flash for all shards which are part of a flash based DB (BigRedis) in cluster (ops/sec); returned only when BigRedis is enabled |
-| node_bigstore_kv_ops | Rate of value read/write operations against back-end flash for all shards which are part of a flash based DB (BigRedis) in cluster (ops/sec); returned only when BigRedis is enabled |
-| node_bigstore_throughput | Throughput i/o operations against back-end flash for all shards which are part of a flash based DB (BigRedis) in cluster (bytes/sec); returned only when BigRedis is enabled |
-| node_cert_expiration_seconds | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates expiration]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
-| node_conns | Number of clients connected to endpoints on node |
-| node_cpu_idle | CPU idle time portion (0-1, multiply by 100 to get percent) |
-| node_cpu_idle_max | Highest value of CPU idle time portion (0-1, multiply by 100 to get percent) |
-| node_cpu_idle_median | Average value of CPU idle time portion (0-1, multiply by 100 to get percent) |
-| node_cpu_idle_min | Lowest value of CPU idle time portion (0-1, multiply by 100 to get percent) |
-| node_cpu_system | CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
-| node_cpu_system_max | Highest value of CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
-| node_cpu_system_median | Average value of CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
-| node_cpu_system_min | Lowest value of CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
-| node_cpu_user | CPU time portion spent by users-pace processes (0-1, multiply by 100 to get percent) |
-| node_cpu_user_max | Highest value of CPU time portion spent by users-pace processes (0-1, multiply by 100 to get percent) |
-| node_cpu_user_median | Average value of CPU time portion spent by users-pace processes (0-1, multiply by 100 to get percent) |
-| node_cpu_user_min | Lowest value of CPU time portion spent by users-pace processes (0-1, multiply by 100 to get percent) |
-| node_cur_aof_rewrites | Number of aof rewrites that are currently performed by shards on this node |
-| node_egress_bytes | Rate of outgoing network traffic to node (bytes/sec) |
-| node_egress_bytes_max | Highest value of rate of outgoing network traffic to node (bytes/sec) |
-| node_egress_bytes_median | Average value of rate of outgoing network traffic to node (bytes/sec) |
-| node_egress_bytes_min | Lowest value of rate of outgoing network traffic to node (bytes/sec) |
-| node_ephemeral_storage_avail | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
-| node_ephemeral_storage_free | Free disk space on configured ephemeral disk (bytes) |
-| node_free_memory | Free memory in node (bytes) |
-| node_ingress_bytes | Rate of incoming network traffic to node (bytes/sec) |
-| node_ingress_bytes_max | Highest value of rate of incoming network traffic to node (bytes/sec) |
-| node_ingress_bytes_median | Average value of rate of incoming network traffic to node (bytes/sec) |
-| node_ingress_bytes_min | Lowest value of rate of incoming network traffic to node (bytes/sec) |
-| node_persistent_storage_avail | Disk space available to RLEC processes on configured persistent disk (bytes) |
-| node_persistent_storage_free | Free disk space on configured persistent disk (bytes) |
-| node_provisional_flash | Amount of flash available for new shards on this node, taking into account overbooking, max redis servers, reserved flash and provision and migration thresholds (bytes) |
-| node_provisional_flash_no_overbooking | Amount of flash available for new shards on this node, without taking into account overbooking, max redis servers, reserved flash and provision and migration thresholds (bytes) |
-| node_provisional_memory | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
-| node_provisional_memory_no_overbooking | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
-| node_total_req | Request rate handled by endpoints on node (ops/sec) |
-| node_up | Node is part of the cluster and is connected |
+| V1&nbsp;metric | Equivalent V2 PromQL | Description |
+| --------- | :------------------- | :---------- |
+| <span class="break-all">node_available_flash</span> | <span class="break-all">`node_available_flash_bytes`</span> | Available flash in node (bytes) |
+| <span class="break-all">node_available_flash_no_overbooking</span> | <span class="break-all">`node_available_flash_no_overbooking_bytes`</span> | Available flash in node (bytes), without taking into account overbooking |
+| <span class="break-all">node_available_memory</span> | <span class="break-all">`node_available_memory_bytes`</span> | Amount of free memory in node (bytes) that is available for database provisioning |
+| <span class="break-all">node_available_memory_no_overbooking</span> | <span class="break-all">`node_available_memory_no_overbooking_bytes`</span> | Available RAM in node (bytes) without taking into account overbooking |
+| <span class="break-all">node_avg_latency</span> | <span class="break-all">`sum by (proxy) (irate(endpoint_acc_latency[1m])) / sum by (proxy) (irate(endpoint_total_started_res[1m]))`</span> | Average latency of requests handled by endpoints on the node in milliseconds; returned only when there is traffic |
+| <span class="break-all">node_bigstore_free</span> | <span class="break-all">`node_bigstore_free_bytes`</span> | Sum of free space of back-end flash (used by flash DB's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
+| <span class="break-all">node_bigstore_iops</span> | <span class="break-all">`node_flash_reads_total + node_flash_writes_total`</span> | Rate of I/O operations against back-end flash for all shards which are part of a flash-based DB (BigRedis) in cluster (ops/sec); returned only when BigRedis is enabled |
+| <span class="break-all">node_bigstore_kv_ops</span> | <span class="break-all">`sum by (node) (irate(redis_server_big_io_dels[1m]) + irate(redis_server_big_io_reads[1m]) + irate(redis_server_big_io_writes[1m]))`</span> | Rate of value read/write operations against back-end flash for all shards which are part of a flash-based DB (BigRedis) in cluster (ops/sec); returned only when BigRedis is enabled |
+| <span class="break-all">node_bigstore_throughput</span> | <span class="break-all">`sum by (node) (irate(redis_server_big_io_read_bytes[1m]) + irate(redis_server_big_io_write_bytes[1m]))`</span> | Throughput I/O operations against back-end flash for all shards which are part of a flash-based DB (BigRedis) in cluster (bytes/sec); returned only when BigRedis is enabled |
+| <span class="break-all">node_cert_expiration_seconds</span> | <span class="break-all">`x509_cert_expires_in_seconds`</span> | Certificate expiration (in seconds) per given node |
+| <span class="break-all">node_conns</span> | <span class="break-all">`sum by (node) (endpoint_conns)`</span> | Number of clients connected to endpoints on node |
+| <span class="break-all">node_cpu_idle</span> | <span class="break-all">`avg by (node) (irate(node_cpu_seconds_total{mode="idle"}[1m]))`</span> | CPU idle time portion (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_idle_max</span> | <span class="break-all">`not supported - see footnote2`</span> | Highest value of CPU idle time portion (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_idle_median</span> | <span class="break-all">`not supported - see footnote2`</span> | Average value of CPU idle time portion (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_idle_min</span> | <span class="break-all">`not supported - see footnote2`</span> | Lowest value of CPU idle time portion (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_system</span> | <span class="break-all">`avg by (node) (irate(node_cpu_seconds_total{mode="system"}[1m]))`</span> | CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_system_max</span> | <span class="break-all">`not supported - see footnote2`</span> | Highest value of CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_system_median</span> | <span class="break-all">`not supported - see footnote2`</span> | Average value of CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_system_min</span> | <span class="break-all">`not supported - see footnote2`</span> | Lowest value of CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_user</span> | <span class="break-all">`avg by (node) (irate(node_cpu_seconds_total{mode="user"}[1m]))`</span> | CPU time portion spent by user-space processes (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_user_max</span> | <span class="break-all">`not supported - see footnote2`</span> | Highest value of CPU time portion spent by user-space processes (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_user_median</span> | <span class="break-all">`not supported - see footnote2`</span> | Average value of CPU time portion spent by user-space processes (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cpu_user_min</span> | <span class="break-all">`not supported - see footnote2`</span> | Lowest value of CPU time portion spent by user-space processes (0-1, multiply by 100 to get percent) |
+| <span class="break-all">node_cur_aof_rewrites</span> | <span class="break-all">`sum by (cluster, node) (redis_server_aof_rewrite_in_progress)`</span> | Number of AOF rewrites that are currently performed by shards on this node |
+| <span class="break-all">node_egress_bytes</span> | <span class="break-all">`irate(node_network_transmit_bytes_total{device="<interface>"}[1m])`</span> | Rate of outgoing network traffic to node (bytes/sec) |
+| <span class="break-all">node_egress_bytes_max</span> | <span class="break-all">`not supported - see footnote2`</span> | Highest value of rate of outgoing network traffic to node (bytes/sec) |
+| <span class="break-all">node_egress_bytes_median</span> | <span class="break-all">`not supported - see footnote2`</span> | Average value of rate of outgoing network traffic to node (bytes/sec) |
+| <span class="break-all">node_egress_bytes_min</span> | <span class="break-all">`not supported - see footnote2`</span> | Lowest value of rate of outgoing network traffic to node (bytes/sec) |
+| <span class="break-all">node_ephemeral_storage_avail</span> | <span class="break-all">`node_ephemeral_storage_avail_bytes`</span> | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
+| <span class="break-all">node_ephemeral_storage_free</span> | <span class="break-all">`node_ephemeral_storage_free_bytes`</span> | Free disk space on configured ephemeral disk (bytes) |
+| <span class="break-all">node_free_memory</span> | <span class="break-all">`node_memory_MemFree_bytes`</span> | Free memory in node (bytes) |
+| <span class="break-all">node_ingress_bytes</span> | <span class="break-all">`irate(node_network_receive_bytes_total{device="<interface>"}[1m])`</span> | Rate of incoming network traffic to node (bytes/sec) |
+| <span class="break-all">node_ingress_bytes_max</span> | <span class="break-all">`not supported - see footnote2`</span> | Highest value of rate of incoming network traffic to node (bytes/sec) |
+| <span class="break-all">node_ingress_bytes_median</span> | <span class="break-all">`not supported - see footnote2`</span> | Average value of rate of incoming network traffic to node (bytes/sec) |
+| <span class="break-all">node_ingress_bytes_min</span> | <span class="break-all">`not supported - see footnote2`</span> | Lowest value of rate of incoming network traffic to node (bytes/sec) |
+| <span class="break-all">node_persistent_storage_avail</span> | <span class="break-all">`node_persistent_storage_avail_bytes`</span> | Disk space available to RLEC processes on configured persistent disk (bytes) |
+| <span class="break-all">node_persistent_storage_free</span> | <span class="break-all">`node_persistent_storage_free_bytes`</span> | Free disk space on configured persistent disk (bytes) |
+| <span class="break-all">node_provisional_flash</span> | <span class="break-all">`node_provisional_flash_bytes`</span> | Amount of flash available for new shards on this node, taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
+| <span class="break-all">node_provisional_flash_no_overbooking</span> | <span class="break-all">`node_provisional_flash_no_overbooking_bytes`</span> | Amount of flash available for new shards on this node, without taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
+| <span class="break-all">node_provisional_memory</span> | <span class="break-all">`node_provisional_memory_bytes`</span> | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
+| <span class="break-all">node_provisional_memory_no_overbooking</span> | <span class="break-all">`node_provisional_memory_no_overbooking_bytes`</span> | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
+| <span class="break-all">node_total_req</span> | <span class="break-all">`sum by (cluster, node) (irate(endpoint_total_req[1m]))`</span> | Request rate handled by endpoints on node (ops/sec) |
+| <span class="break-all">node_up</span> | <span class="break-all">`node_metrics_up`</span> | Node is part of the cluster and is connected |
 
 ## Cluster metrics
 
