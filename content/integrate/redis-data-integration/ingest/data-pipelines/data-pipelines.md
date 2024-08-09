@@ -495,3 +495,10 @@ completely. For example, you might want to apply a new transformation to all the
 data or refresh the dataset if RDI is disconnected from the
 source for a long time. In situations like these, you can *reset* the pipeline back
 to the snapshot phase. When this is complete, the pipeline continues with CDC as usual. 
+
+{{<note>}}During the snapshot phase and occasionally during CDC, Debezium
+will sometimes log a message saying that RDI is out of memory. This is just
+an information message, not an error condition, and is typically harmless. See the
+[Ingest FAQ]({{< relref "/integrate/redis-data-integration/ingest/faq#rdi-oom" >}})
+for more information.
+{{</note>}}
