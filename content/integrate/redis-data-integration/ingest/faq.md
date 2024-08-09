@@ -66,13 +66,10 @@ new or renamed tables and columns.
 ## Should I be concerned when the log says RDI is out of memory? {#rdi-oom}
 
 Sometimes the Debezium log will contain a message saying that RDI is out of
-memory. This is actually an information message, not an error. It means that
-RDI has used all available memory for its data streams and must now concentrate
-on processing the streams to make space for new data from the collector.
-The message is typically logged during the
-snapshot phase of the
-[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines#ingest-pipeline-lifecycle" >}})
-but you may also sometimes see it during the CDC phase.
+memory. This is not an error but an informative message to say that RDI
+is applying *backpressure* to Debezium. See
+[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/ingest/architecture#backpressure-mechanism" >}})
+in the Architecture guide for more information.
 
 ## What happens when RDI can't write to the target Redis database?
 
