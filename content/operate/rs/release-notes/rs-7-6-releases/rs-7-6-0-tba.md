@@ -27,7 +27,7 @@ This version offers:
 
 ### Enhancements
 
-- TBA
+- Added support for [log rotation]({{<relref "/operate/rs/clusters/logging/log-security#log-rotation">}}) based on both size and time.
 
 #### Redis module feature sets
 
