@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.2.4
-description: TBA
+description: Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time.
 linkTitle: 7.6.0-tba (August 2024)
 weight: 90
 ---
@@ -17,7 +17,9 @@ weight: 90
 
 This version offers:
 
-- TBA
+- Cluster Manager UI enhancements for node actions, database tags, and database configuration
+
+- Log rotation based on both size and time
 
 ## New in this release
 
@@ -26,6 +28,18 @@ This version offers:
 - TBA
 
 ### Enhancements
+
+- New Cluster Manager UI enhancements:
+
+    - Perform node actions from the **Nodes** screen to verify nodes, set a node as primary or secondary, remove nodes, and manage node alert settings.
+
+    - Categorize databases with custom tags. When you add new tags to a database, the keys and values already used by existing tags will appear as suggestions.
+
+    - Moved several settings on the database configuration screen:
+    
+        - The eviction setting now appears in the **Capacity** section.
+
+        - **High availability** and **Durability** have separate sections.
 
 - Added support for [log rotation]({{<relref "/operate/rs/clusters/logging/log-security#log-rotation">}}) based on both size and time.
 
@@ -161,10 +175,6 @@ The following table shows the SHA256 checksums for the available packages:
 #### New Cluster Manager UI limitations
 
 The following legacy UI features are not yet available in the new Cluster Manager UI:
-
-- Remove a node.
-
-    Use the REST API or legacy UI instead. See [Remove a cluster node]({{< relref "/operate/rs/clusters/remove-node" >}}) for instructions.
 
 - Purge an Active-Active instance.
 

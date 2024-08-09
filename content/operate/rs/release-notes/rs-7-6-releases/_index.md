@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.2.0
-description: TBA
+description: Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time.
 hideListLinks: true
 linkTitle: 7.6.0 releases
 toc: 'true'
@@ -19,7 +19,9 @@ weight: 69
 
 This version offers:
  
-- TBA
+- Cluster Manager UI enhancements for node actions, database tags, and database configuration
+
+- Log rotation based on both size and time
 
 ## Detailed release notes
 
@@ -115,10 +117,6 @@ The following table provides a snapshot of supported platforms as of this Redis 
 #### New Cluster Manager UI limitations
 
 The following legacy UI features are not yet available in the new Cluster Manager UI:
-
-- Remove a node.
-
-    Use the REST API or legacy UI instead. See [Remove a cluster node]({{< relref "/operate/rs/clusters/remove-node" >}}) for instructions.
 
 - Purge an Active-Active instance.
 
