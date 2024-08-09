@@ -141,10 +141,9 @@ Here are the metrics available to Prometheus:
 
 ## Cluster metrics
 
-| Metric | Description |
-| ------ | :------ |
-| cluster_shards_limit | Total shard limit by the license by shard type (ram / flash) |
-
+| V1&nbsp;metric | Equivalent V2 PromQL | Description |
+| --------- | :------------------- | :---------- |
+| cluster_shards_limit | `license_shards_limit` | Total shard limit by the license by shard type (ram / flash) |
 
 ## Proxy metrics
 
