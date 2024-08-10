@@ -5,8 +5,8 @@ categories:
 - docs
 - operate
 - rs
-compatibleOSSVersion: Redis 7.2.0
-description: Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time.
+compatibleOSSVersion: Redis 7.4.0
+description: Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements.
 hideListLinks: true
 linkTitle: 7.6.0 releases
 toc: 'true'
@@ -23,11 +23,13 @@ This version offers:
 
 - Log rotation based on both size and time
 
+- Module management enhancements
+
 ## Detailed release notes
 
 For more detailed release notes, select a build version from the following table:
 
-{{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes,OSS&nbsp;Redis compatibility" columnSources="LinkTitle,Description,compatibleOSSVersion" enableLinks="LinkTitle">}}
+{{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes,Redis CE compatibility" columnSources="LinkTitle,Description,compatibleOSSVersion" enableLinks="LinkTitle">}}
 
 ## Version changes
 
