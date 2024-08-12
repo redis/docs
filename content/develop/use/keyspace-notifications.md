@@ -26,7 +26,7 @@ Examples of events that can be received are:
 * All the keys receiving an LPUSH operation.
 * All the keys expiring in the database 0.
 
-Note: Redis Pub/Sub is *fire and forget* that is, if your Pub/Sub client disconnects,
+Note: Redis Pub/Sub is *fire and forget*; that is, if your Pub/Sub client disconnects,
 and reconnects later, all the events delivered during the time the client was
 disconnected are lost.
 

@@ -7,13 +7,30 @@ on:
         type: string
         required: true
         description: ''
+      bucket_folder:
+        type: string
+        required: true
+        description: ''
 
 jobs:
   k8s_apis_sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
     steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.DOCS_APP_ID }}
+          private-key: ${{ secrets.DOCS_APP_PRIVATE_KEY }}
+
       - name: 'Checkout'
         uses: actions/checkout@v3
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
 
       - name: 'Install crdoc'
         run: |-
@@ -24,9 +41,10 @@ jobs:
       - name: 'Fetch release'
         run: |-
           RELEASE="${{ github.event.inputs.release }}"
-          aws s3 cp s3://redislabs-k8s/${RELEASE}/ --no-sign-request . --recursive --region us-east-1
+          BUCKET_FOLDER="${{ github.event.inputs.bucket_folder }}"
+          aws s3 cp "s3://redislabs-k8s/${BUCKET_FOLDER}/redis-enterprise-operator-${RELEASE}.tar.gz" --no-sign-request . --region us-east-1
 
-          tar xf redis-enterprise-operator-*.tar.gz
+          tar xf "redis-enterprise-operator-${RELEASE}.tar.gz"
 
       - name: 'Generate READMEs'
         run: |-
@@ -56,7 +74,7 @@ jobs:
 
       - name: 'Send pull request'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |-
           RELEASE="${{ github.event.inputs.release }}"
           BRANCH="k8s_apis_docs_${RELEASE}"
@@ -64,7 +82,6 @@ jobs:
           # Setup git email and username
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
-          git config --global "url.https://${GH_TOKEN}@github.com/.insteadOf" https://github.com/
 
           git checkout -b "${BRANCH}"
 
