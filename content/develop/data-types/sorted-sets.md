@@ -63,7 +63,7 @@ birth year because actually *they are already sorted*.
 Implementation note: Sorted sets are implemented via a
 dual-ported data structure containing both a skip list and a hash table, so
 every time we add an element Redis performs an O(log(N)) operation. That's
-good, but when we ask for sorted elements Redis does not have to do any work at
+good, so when we ask for sorted elements Redis does not have to do any work at
 all, it's already sorted. Note that the [`ZRANGE`]({{< relref "/commands/zrange" >}}) order is low to high, while the [`ZREVRANGE`]({{< relref "/commands/zrevrange" >}}) order is high to low:
 
 {{< clients-example ss_tutorial zrange >}}
