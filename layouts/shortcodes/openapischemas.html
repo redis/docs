@@ -1,42 +1,16 @@
 {{- $apiName := .Get 0 -}}
 {{- $apiData := index .Site.Data $apiName -}}
-{{- range $url, $info := $apiData.paths -}}
 
-<div class="expand my-4">
+{{- range $name, $info := $apiData.components.schemas -}}
+<div class="expand mb-10">
     <div 
         class="expand-label cursor-pointer"
         onclick="toggleExpand(event)"
     >
         <div class="flex flex-row gap-3 items-center hover:text-redis-red-500 transition-colors ease-in-out duration-150">
-          
-{{- $method := "splarp" -}}
-{{- if $info.get -}}
-    {{- $method = "get" -}}
-{{- else if $info.post -}}
-    {{- $method = "post" -}}
-{{- else if $info.put -}}
-    {{- $method = "put" -}}
-{{- end -}}
 
-<div style="font-size: smaller;">
-    <code 
-        style='
-{{- if eq $method "get" -}}
-        background-color:cornflowerblue;
-{{- else if eq $method "post" -}}
-        background-color:darkseagreen;
-{{- else if eq $method "put" -}}
-        background-color:darkorange;
-{{- else }}
-        background-color:black;
-{{ end }}
-        color: white;
-        padding: 5px;
-        margin-right: 1em;
-        font-weight: bold;
-        border-radius: 5px
-    '>{{ upper $method }}</code>    
-    <code style="margin-right: 1em;font-weight: bold;">{{ $url }}</code>{{ (index $info $method).summary }}<br/>
+<div style="font-size: smaller;">   
+    <code style="margin-right: 1em;font-weight: bold;">{{ $name }}</code>{{ $info.type }}<br/>
 </div>
 
           <div class="expand-chevron transition-transform duration-500 ease-in-out">
@@ -45,7 +19,8 @@
         </div>
     </div>
     <div class="expand-content h-0 overflow-hidden transition-all duration-500 ease-in-out">
-        
+    
+    Info about schema
     </div>
   </div>
 {{- end -}}

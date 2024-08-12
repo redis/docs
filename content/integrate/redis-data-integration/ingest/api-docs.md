@@ -19,4 +19,10 @@ weight: 10
 
 The REST API for RDI is documented below: 
 
-{{< openapi "rdiapi" >}}
+## Paths
+
+{{< openapipaths "rdiapi" >}}
+
+## Schemas
+
+{{< openapischemas "rdiapi" >}}

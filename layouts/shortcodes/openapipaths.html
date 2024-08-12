@@ -1,0 +1,78 @@
+{{- $apiName := .Get 0 -}}
+{{- $apiData := index .Site.Data $apiName -}}
+
+{{- range $url, $info := $apiData.paths -}}
+<div class="expand mb-10">
+    <div 
+        class="expand-label cursor-pointer"
+        onclick="toggleExpand(event)"
+    >
+        <div class="flex flex-row gap-3 items-center hover:text-redis-red-500 transition-colors ease-in-out duration-150">
+          
+    {{- $method := "splarp" -}}
+    {{- if $info.get -}}
+        {{- $method = "get" -}}
+    {{- else if $info.post -}}
+        {{- $method = "post" -}}
+    {{- else if $info.put -}}
+        {{- $method = "put" -}}
+    {{- end -}}
+
+<div style="font-size: smaller;">
+    <code 
+        style='
+{{- if eq $method "get" -}}
+        background-color:cornflowerblue;
+{{- else if eq $method "post" -}}
+        background-color:darkseagreen;
+{{- else if eq $method "put" -}}
+        background-color:darkorange;
+{{- else }}
+        background-color:black;
+{{ end }}
+        color: white;
+        padding: 5px;
+        margin-right: 1em;
+        font-weight: bold;
+        border-radius: 5px
+    '>{{ upper $method }}</code>    
+    <code style="margin-right: 1em;font-weight: bold;">{{ $url }}</code>{{ (index $info $method).summary }}<br/>
+</div>
+
+          <div class="expand-chevron transition-transform duration-500 ease-in-out">
+            {{- partial "icons/chevron.html" -}}
+          </div>
+        </div>
+    </div>
+    <div class="expand-content h-0 overflow-hidden transition-all duration-500 ease-in-out">
+    {{- with index $info $method -}}
+    <h4 style="font-weight: bold;">Description</h4>
+    {{- range split .description "\n" -}}
+    {{ . }}<br/>
+    {{- end -}}
+
+    <h4 style="font-weight: bold;">Responses</h4>
+    <table>
+        <thead><tr><th>Code</th><th>Description</th></tr></thead>
+        {{- range $respCode, $respInfo := .responses -}}
+            <tr><td>{{ $respCode }}</td><td>{{ $respInfo.description }}</td></tr>
+        {{- end -}}
+    </table>
+    {{- end -}}
+    </div>
+  </div>
+{{- end -}}
+
+
+
+<script>
+    function toggleExpand(event) {
+        var parent = event.currentTarget.parentElement;
+        var content = parent.getElementsByClassName('expand-content')[0];
+        content.classList.toggle('h-0');
+        content.classList.toggle('h-[600px]');
+  
+        var chevron = parent.getElementsByClassName('expand-chevron')[0];
+        chevron.classList.toggle('rotate-180');
+    }
+  </script>
