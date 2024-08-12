@@ -2,7 +2,7 @@
 {{- $apiData := index .Site.Data $apiName -}}
 
 {{- range $name, $info := $apiData.components.schemas -}}
-<div class="expand mb-10">
+<div class="expand mb-5" style="background-color:rgb(240,240,240);padding:8px;border-radius: 5px;">
     <div 
         class="expand-label cursor-pointer"
         onclick="toggleExpand(event)"
@@ -20,7 +20,28 @@
     </div>
     <div class="expand-content h-0 overflow-hidden transition-all duration-500 ease-in-out">
     
-    Info about schema
+    {{- if $info.properties -}}
+        <h4>Properties</h4>
+        {{- range $propKey, $propInfo := $info.properties -}}
+        <code>{{ $propKey }}
+            {{- if in $propInfo.required $propKey -}}<span style="color:red">*</span>{{- end }}
+            {{- if $propInfo.type -}}
+            <span style="color: blue">{{ $propInfo.type }}</span>
+            {{- else if $propInfo.anyOf -}}
+            (
+                {{- range $propInfo.anyOf -}}
+                    {{- if in . "$ref" -}}
+                    {{ findRE `/([a-zA-Z0-9_]+)$` (index . "$ref") }}
+                    {{- end -}}
+                    {{- if in . "type" -}}
+                    {{ index . "type" }}
+                    {{- end -}}
+                {{- end -}}
+            )
+            {{- end -}}
+        </code><br/>
+        {{- end -}}
+    {{- end -}}
     </div>
   </div>
 {{- end -}}
