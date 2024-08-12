@@ -3,6 +3,7 @@
 
 {{- range $name, $info := $apiData.components.schemas -}}
 <div class="expand mb-5" style="background-color:rgb(240,240,240);padding:8px;border-radius: 5px;">
+    <a id="{{ $name }}"></a>
     <div 
         class="expand-label cursor-pointer"
         onclick="toggleExpand(event)"
@@ -24,17 +25,32 @@
         <h4>Properties</h4>
         {{- range $propKey, $propInfo := $info.properties -}}
         <code>{{ $propKey }}
-            {{- if in $propInfo.required $propKey -}}<span style="color:red">*</span>{{- end }}
-            {{- if $propInfo.type -}}
+            {{- if in $info.required $propKey -}}<span style="color:red">*</span>{{- end }}
+            {{- if $propInfo.type }}
             <span style="color: blue">{{ $propInfo.type }}</span>
             {{- else if $propInfo.anyOf -}}
+            {{- $aoObjTypeName := "" -}}
             (
                 {{- range $propInfo.anyOf -}}
-                    {{- if in . "$ref" -}}
-                    {{ findRE `/([a-zA-Z0-9_]+)$` (index . "$ref") }}
+                    {{- if (index . "$ref") -}}
+                    {{- $aoObjTypeName = index (last 1 (split (index . "$ref") "/")) 0 -}}
+                    <a href="#{{ $aoObjTypeName }}">{{ $aoObjTypeName }}</a>,
                     {{- end -}}
-                    {{- if in . "type" -}}
-                    {{ index . "type" }}
+                    {{- if (index . "type") -}}
+                    {{ index . "type" }},
+                    {{- end -}}
+                {{- end -}}
+            )
+            {{- else if $propInfo.allOf -}}
+            {{- $aoObjTypeName := "" -}}
+            (
+                {{- range $propInfo.allOf -}}
+                    {{- if (index . "$ref") -}}
+                    {{- $aoObjTypeName = index (last 1 (split (index . "$ref") "/")) 0 -}}
+                    <a href="#{{ $aoObjTypeName }}">{{ $aoObjTypeName }}</a>,
+                    {{- end -}}
+                    {{- if (index . "type") -}}
+                    {{ index . "type" }},
                     {{- end -}}
                 {{- end -}}
             )

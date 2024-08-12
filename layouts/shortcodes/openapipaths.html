@@ -53,9 +53,17 @@
 
     <h4 style="font-weight: bold;">Responses</h4>
     <table>
-        <thead><tr><th>Code</th><th>Description</th></tr></thead>
+        <thead><tr><th>Code</th><th>Description</th><th>Content</th></tr></thead>
+        {{- $respObjType := "" -}}
+        {{- $respObjTypeName := "" -}}
         {{- range $respCode, $respInfo := .responses -}}
-            <tr><td>{{ $respCode }}</td><td>{{ $respInfo.description }}</td></tr>
+            <tr>
+                <td>{{ $respCode }}</td>
+                <td>{{ $respInfo.description }}</td>
+                {{- $respObjType = index (index $respInfo.content "application/json").schema "$ref" -}}
+                {{- $respObjTypeName = index (last 1 (split $respObjType "/")) 0 -}}
+                <td><a href="#{{ $respObjTypeName }}">{{ $respObjTypeName }}</a></td>
+            </tr>
         {{- end -}}
     </table>
     {{- end -}}
