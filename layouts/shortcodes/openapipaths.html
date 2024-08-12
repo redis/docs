@@ -47,9 +47,16 @@
     <div class="expand-content h-0 overflow-hidden transition-all duration-500 ease-in-out">
     {{- with index $info $method -}}
     <h4 style="font-weight: bold;">Description</h4>
-    {{- range split .description "\n" -}}
-    {{ . }}<br/>
-    {{- end -}}
+    {{- $firstDescSplit := split .description "Args:" -}}
+    {{- $mainDesc := chomp (index $firstDescSplit 0) -}}
+    {{ $mainDesc }}
+    
+    <h4 style="font-weight: bold;">Parameters</h4>
+    {{- $secondDescSplit := split (index $firstDescSplit 1) "Returns:" -}}
+    {{- $argPart := chomp (index $secondDescSplit 0) -}}
+    {{ $argPart }}
+    <h4 style="font-weight: bold;">Returns</h4>
+    {{ chomp (index $secondDescSplit 1) }}
 
     <h4 style="font-weight: bold;">Responses</h4>
     <table>
