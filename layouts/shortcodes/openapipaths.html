@@ -95,6 +95,13 @@
     None
     {{- end -}}
 
+    {{- if .requestBody -}}
+    <h4 style="font-weight: bold;margin-top:1em;">Request body</h4>
+    {{- $reqBodyType := index (index .requestBody.content "application/json").schema "$ref" -}}
+    {{- $reqBodyTypeName := index (last 1 (split $reqBodyType "/")) 0 -}}
+    <code><a href="#{{ $reqBodyTypeName }}">{{ $reqBodyTypeName }}</a></code>
+    {{- end -}}
+
     <h4 style="font-weight: bold;margin-top:1em;">Responses</h4>
     <table>
         <thead><tr><th>Code</th><th>Description</th><th>Content</th></tr></thead>
