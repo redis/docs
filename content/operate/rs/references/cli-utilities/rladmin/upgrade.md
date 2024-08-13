@@ -35,6 +35,8 @@ rladmin upgrade db { db:<id> | <name> }
 
 As of v6.2.4, the default behavior for `upgrade db` has changed.  It is now controlled by a new parameter that sets the default upgrade policy used to create new databases and to upgrade ones already in the cluster.  To learn more, see [`tune cluster default_redis_version`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}).
 
+As of Redis Enterprise Software version 7.6.0, `upgrade db` will always upgrade modules.
+
 ### Parameters
 
 | Parameters                 | Type/Value               | Description                                                                                                            |
@@ -46,7 +48,7 @@ As of v6.2.4, the default behavior for `upgrade db` has changed.  It is now cont
 | force_discard              |                          | Forces `discard_data` if replication or persistence is enabled                                                   |
 | keep_crdt_protocol_version |                          | Keeps the current CRDT protocol version                                                                                |
 | keep_redis_version       |                          | Upgrades to a new patch release, not to the latest major.minor version                                                 |
-| latest_with_modules        |                          | Upgrades the Redis Enterprise Software version and all modules in the database                                                             |
+| latest_with_modules        |                          | Upgrades the Redis Enterprise Software version and all modules in the database. As of Redis Enterprise Software version 7.6.0, `upgrade db` will always upgrade modules. |
 | parallel_shards_upgrade    | integer <br />'all'        | Maximum number of shards to upgrade all at once                                                                        |
 | preserve_roles             |                          | Performs an additional failover to guarantee the shards' roles are preserved                                             |
 | redis_version              | Redis version            | Upgrades the database to the specified version instead of the latest version                                               |
