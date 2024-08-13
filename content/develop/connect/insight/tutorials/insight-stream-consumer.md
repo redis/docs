@@ -12,7 +12,7 @@ categories:
 description: Learn how to manage streams and consumer groups in Redis Insight
 linkTitle: Streams
 title: Manage streams and consumer groups in Redis Insight
-weight: 1
+weight: 5
 ---
 
 A _stream_ is an append-only log file. 
