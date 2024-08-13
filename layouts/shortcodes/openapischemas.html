@@ -34,10 +34,10 @@
                 {{- range $propInfo.anyOf -}}
                     {{- if (index . "$ref") -}}
                     {{- $aoObjTypeName = index (last 1 (split (index . "$ref") "/")) 0 -}}
-                    <a href="#{{ $aoObjTypeName }}">{{ $aoObjTypeName }}</a>,
+                    <a href="#{{ $aoObjTypeName }}">{{ $aoObjTypeName }}</a>;
                     {{- end -}}
                     {{- if (index . "type") -}}
-                    {{ index . "type" }},
+                    {{ index . "type" }};
                     {{- end -}}
                 {{- end -}}
             )
@@ -47,10 +47,10 @@
                 {{- range $propInfo.allOf -}}
                     {{- if (index . "$ref") -}}
                     {{- $aoObjTypeName = index (last 1 (split (index . "$ref") "/")) 0 -}}
-                    <a href="#{{ $aoObjTypeName }}">{{ $aoObjTypeName }}</a>,
+                    <a href="#{{ $aoObjTypeName }}">{{ $aoObjTypeName }}</a>;
                     {{- end -}}
                     {{- if (index . "type") -}}
-                    {{ index . "type" }},
+                    {{ index . "type" }};
                     {{- end -}}
                 {{- end -}}
             )

@@ -2,7 +2,7 @@
 {{- $apiData := index .Site.Data $apiName -}}
 
 {{- range $url, $info := $apiData.paths -}}
-<div class="expand mb-10">
+<div class="expand mb-5" style="background-color:rgb(240,240,240);padding:8px;border-radius: 5px;">
     <div 
         class="expand-label cursor-pointer"
         onclick="toggleExpand(event)"
@@ -51,14 +51,51 @@
     {{- $mainDesc := chomp (index $firstDescSplit 0) -}}
     {{ $mainDesc }}
     
-    <h4 style="font-weight: bold;">Parameters</h4>
     {{- $secondDescSplit := split (index $firstDescSplit 1) "Returns:" -}}
     {{- $argPart := chomp (index $secondDescSplit 0) -}}
+    {{- if ne $argPart "" -}}
+    <h4 style="font-weight: bold;margin-top:1em;">Args</h4>
     {{ $argPart }}
-    <h4 style="font-weight: bold;">Returns</h4>
-    {{ chomp (index $secondDescSplit 1) }}
+    {{- end -}}
+    
+    {{- $returnsPart := chomp (index $secondDescSplit 1) -}}
+    {{- if ne $returnsPart "" -}}
+    <h4 style="font-weight: bold;margin-top:1em;">Returns</h4>
+    {{ $returnsPart }}
+    {{- end -}}
+    
+    <h4 style="font-weight: bold;margin-top:1em;">Parameters</h4>
+    {{- if .parameters -}}
+    {{- $paramObjTypeName := "" -}}
+    <table>
+        <thead><tr><th>Name</th><th>In</th><th>Content</th></tr></thead>
+        {{- range .parameters -}}
+        <tr>
+            <td>
+                <code>{{ .name }}</code>
+                {{- if .required -}}<span style="color:red">*</span>{{- end }}
+            </td>
+            <td>
+                {{ title .in }}
+            </td>
+            <td>
+                {{- if .schema.type -}}
+                <code>{{ .schema.type }}</code>
+                {{- else if index .schema "$ref" -}}
+                <code>
+                {{- $paramObjTypeName = index (last 1 (split (index .schema "$ref") "/")) 0 -}}
+                <a href="#{{ $paramObjTypeName }}">{{ $paramObjTypeName }}</a>
+                </code>
+                {{- end -}}
+            </td>
+        </tr>
+        {{- end -}}
+    </table>
+    {{- else -}}
+    None
+    {{- end -}}
 
-    <h4 style="font-weight: bold;">Responses</h4>
+    <h4 style="font-weight: bold;margin-top:1em;">Responses</h4>
     <table>
         <thead><tr><th>Code</th><th>Description</th><th>Content</th></tr></thead>
         {{- $respObjType := "" -}}
