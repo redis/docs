@@ -65,6 +65,16 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ## Version changes
 
+### Breaking changes
+
+Redis Enterprise Software version 7.6.0 introduces the following breaking changes:
+
+- The default value of `latest_with_modules` has changed to `true`.
+
+    - [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}) will always upgrade the database's modules.
+
+    - When you [upgrade a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) using the REST API, you can set `"latest_with_modules": false` in the request body to prevent module upgrades.
+
 ### Product lifecycle updates
 
 #### End-of-life policy extension
@@ -84,6 +94,36 @@ See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/ins
 #### API deprecations
 
 - Deprecated `background_op` field from BDB REST API object. Use [`GET /v1/actions/bdb/<bdb_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions/bdb">}}) instead.
+
+- Deprecated module fields:
+
+    - `latest_with_modules`:
+
+        - The default value of `latest_with_modules` has changed to `true`.
+
+        - [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}) will always upgrade the database's modules.
+
+        - When you [upgrade a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) using the REST API, you can set `"latest_with_modules": false` in the request body to prevent module upgrades.
+
+    - `keep_redis_version`; use `redis_version` instead
+
+    - `current_module`; use `new_module_args` instead
+
+    - `new_module`; use `new_module_args` instead
+
+    - `module_id`; use `module_name` instead
+
+    - `semantic_version`; use module_args instead
+
+    - `min_redis_version` is only relevant to Redis database versions earlier than 7.4; replaced with `compatible_redis_version`
+
+- Deprecated the [`rladmin upgrade modules`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-module">}}) command. Use [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}) instead.
+
+- Deprecated [`POST /v1/modules/upgrade/bdb/<uid>`]({{<relref "/operate/rs/references/rest-api/requests/modules/upgrade#post-modules-upgrade-bdb">}}) REST API request. Use [`POST /v1/bdbs/<uid>/upgrade`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) to upgrade modules instead.
+
+#### Download center modules deprecation
+
+New Redis modules will not be available for download from the Redis download center.
 
 #### Legacy UI deprecation
 
