@@ -31,17 +31,37 @@
             {{- if $propInfo.type }}
             <span style="color: blue">{{ $propInfo.type }}</span>
             {{- else if $propInfo.anyOf -}}
+            {{- $aoPropStrings := slice -}}
             {{- $aoObjTypeName := "" -}}
             (
                 {{- range $propInfo.anyOf -}}
                     {{- if (index . "$ref") -}}
-                    {{- $aoObjTypeName = index (last 1 (split (index . "$ref") "/")) 0 -}}
-                    <a href="#{{ $aoObjTypeName }}">{{ $aoObjTypeName }}</a>;
-                    {{- end -}}
-                    {{- if (index . "type") -}}
-                    {{ index . "type" }};
+                        {{- $aoObjTypeName = index (last 1 (split (index . "$ref") "/")) 0 -}}
+                        {{- $aoPropStrings =  $aoPropStrings | append (print "<a href='#" $aoObjTypeName "'>" $aoObjTypeName "</a>") -}}
+                    {{- else if (index . "type") -}}
+                        {{- $aoSubObjRef := "" -}}
+                        {{- $aoSubObjType := "" -}}
+                        {{- $aoSubObjTypeName := "" -}}
+                        {{- $aoSubObjField := "" -}}
+                        {{- $aoArrayMarker := "" -}}
+                        {{- if gt (len .) 1 -}}
+                            {{- range $key, $val := . -}}
+                                {{- if eq $key "type" -}}
+                                    {{- $aoSubObjType = $val -}}
+                                {{- else -}}
+                                    {{- $aoSubObjField = $key -}}
+                                    {{- /*$aoSubObjRef = index $val "$ref"*/ -}}
+                                {{- end -}}
+                            {{- end -}}
+                            {{- if eq $aoSubObjType "array" -}}{{ $aoArrayMarker = "[]"}}{{- end -}}
+                            {{- $aoSubObjTypeName = index (last 1 (split $aoSubObjRef "/")) 0 -}}
+                            {{- $aoPropStrings = $aoPropStrings | append (print $aoSubObjField ": <a href='#" $aoSubObjTypeName "'>" $aoSubObjTypeName $aoArrayMarker "</a>") -}}                        
+                        {{- else -}}
+                            {{- $aoPropStrings =  $aoPropStrings | append (index . "type") -}}
+                        {{- end -}}
                     {{- end -}}
                 {{- end -}}
+                {{ delimit $aoPropStrings " | "}}
             )
             {{- else if $propInfo.allOf -}}
             {{- $aoObjTypeName := "" -}}
