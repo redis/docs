@@ -37,6 +37,8 @@ After installing the extension, your VS Code menu will look similar to the follo
 
 <img src="../images/ri-vscode-menu.png">
 
+The Redis for VS Code extension will automatically update just like any other VS Code extension.
+
 ## Connect to Redis databases
 
 Click on the Redis mark (the cursive **R**) in the VS Code menu to begin connecting a Redis database to VS Code.
