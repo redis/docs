@@ -47,6 +47,8 @@ rladmin tune cluster
         [ acl_pubsub_default { resetchannels | allchannels } ]
         [ resp3_default { enabled | disabled } ]
         [ automatic_node_offload { enabled | disabled } ]
+        [ default_oss_sharding { enabled | disabled } ]
+ ]
 ```
 
 ### Parameters
@@ -59,6 +61,7 @@ rladmin tune cluster
 | db_conns_auditing                      | `enabled`<br /> `disabled`      | Activates or deactivates [connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) by default for new databases of a cluster                                                                  |
 | default_concurrent_restore_actions     | integer<br />`all`              | Default number of concurrent actions when restoring a node from a snapshot (positive integer or "all")                         |
 | default_non_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created non-sharded databases' endpoints |
+| default_oss_sharding | `enabled`<br />`disabled` | Default hashing policy to use for new databases. Set to `disabled` by default. This field is for future use only and should not be changed. |
 | default_redis_version                  | version number                    | The default Redis database compatibility version used to create new databases.<br/><br/>  The value parameter should be a version number in the form of "x.y" where _x_ represents the major version number and _y_ represents the minor version number.  The final value corresponds to the desired version of Redis.<br/><br/>You cannot set _default_redis_version_ to a value higher than that supported by the current _redis_upgrade_policy_ value. |
 | default_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created sharded databases' endpoints |
 | default_shards_placement | `dense`<br />`sparse` | New databases place shards according to the default [shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) |
