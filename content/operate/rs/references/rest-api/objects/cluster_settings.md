@@ -29,6 +29,7 @@ Cluster resources management policy
 | default_provisioned_redis_version | string | Default Redis version |
 | default_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default proxy_policy for newly created sharded databases' endpoints |
 | default_shards_placement | `dense`<br />`sparse` | Default shards_placement for a newly created databases |
+| default_tracking_table_max_keys_policy | integer (default: 1000000) | Defines the default value of the client-side caching invalidation table size for new databases. 0 makes the cache unlimited. |
 | endpoint_rebind_propagation_grace_time | integer | Time to wait between the addition and removal of a proxy |
 | failure_detection_sensitivity | `high`<br />`low` | Predefined thresholds and timeouts for failure detection (previously known as <span class="break-all">`watchdog_profile`</span>)<br />• `high` (previously `local-network`) – high failure detection sensitivity, lower thresholds, faster failure detection and failover<br />• `low` (previously `cloud`) – low failure detection sensitivity, higher tolerance for latency variance (also called network jitter) |
 | login_lockout_counter_reset_after | integer | Number of seconds that must elapse between failed sign in attempts before the lockout counter is reset to 0. |
