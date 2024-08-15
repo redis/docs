@@ -83,6 +83,6 @@ We recommend that you verify the node is functioning properly using one of the f
 
 - On the Cluster Manager UI's **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to verify, then select **Verify node** from the list.
 
-    {{<image filename="images/rs/screenshots/nodes/nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
+    {{<image filename="images/rs/screenshots/nodes/secondary-nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
 
 - Run the [`rlcheck`]({{< relref "/operate/rs/references/cli-utilities/rlcheck" >}}) utility from the node's command line.

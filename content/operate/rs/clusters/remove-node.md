@@ -75,7 +75,7 @@ To remove a node using the Cluster Manager UI:
 
 1. On the **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to remove.
 
-    {{<image filename="images/rs/screenshots/nodes/nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
+    {{<image filename="images/rs/screenshots/nodes/secondary-nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
 
 1. Select **Remove node** from the list.
 
