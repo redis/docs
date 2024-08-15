@@ -20,12 +20,12 @@ Redis for VS Code is an extension that allows you to connect to your Redis datab
 After connecting to a database, you can view, add, modify, and delete keys, and interact with your Redis databases using a built-in CLI interface.
 The following data types are supported:
 
-- Hash
-- List
-- Set
-- Sorted Set
-- String
-- JSON
+- [Hash]({{< relref "/develop/data-types/hashes" >}})
+- [List]({{< relref "/develop/data-types/lists" >}})
+- [Set]({{< relref "/develop/data-types/sets" >}})
+- [Sorted Set]({{< relref "/develop/data-types/sorted-sets" >}})
+- [String]({{< relref "/develop/data-types/strings" >}})
+- [JSON]({{< relref "/develop/data-types/json" >}})
 
 ## Install the Redis for VS Code extension
 
@@ -39,34 +39,34 @@ After installing the extension, your VS Code menu will look similar to the follo
 
 The Redis for VS Code extension will automatically update just like any other VS Code extension.
 
-## Connect to Redis databases
+## Connect to Redis databases {#connect-db}
 
 Click on the Redis mark (the cursive **R**) in the VS Code menu to begin connecting a Redis database to VS Code.
 
 <img src="../images/ri-vscode-initial.png">
 
-Click on the **+ Connect database** button. A dialog will display in the main pane. In the image shown below, all the options have been checked to show the available details for each connection. These connection details are similar to those accessible from the Redis CLI (`redis-cli`).
+Click on the **+ Connect database** button. A dialog will display in the main pane. In the image shown below, all the options have been checked to show the available details for each connection. These connection details are similar to those accessible from [`redis-cli`]({{< relref "/develop/connect/cli" >}}).
 
 {{< note >}}
-When you select a logical database, you won't be able to change it later; there's no mechanism to do so. If you need to connect to a different logical database, you need to add a separate database connection.
+There is no way to change the logical database once you have selected it. If you need to connect to a different logical database, you need to add a separate database connection.
 {{< /note >}}
 
 <img src="../images/ri-vscode-add-menu.png">
 
-After filling out the necessary fields, click on the **Add Redis database** button. The left side pane, where you would normally see folders and files in normal operation, shows your database connections.
+After filling out the necessary fields, click on the **Add Redis database** button. The pane on the left side, where you would normally see the Explorer view, shows your database connections.
 
 ### Connection tools
 
-There are several connection-related tools that are displayed for each opened connection.
+Several tools are displayed for each open connection.
 
 <img src="../images/ri-vscode-cnx-tools.png">
 
 Left to right, they are:
 
 - Refresh connection, which retrieves fresh data from the connected Redis database.
-- Edit connection. A dialog similar to the one shown in the previous section is displayed.
+- Edit connection, which shows a dialog similar to the one described in [Connect to Redis Databases](#connect-db) above.
 - Delete connection.
-- Open CLI. [More on this later](#cli).
+- Open CLI. See [CLI tool](#cli) below for more information.
 - Sort keys, either ascending or descending.
 - Filter keys by key name or pattern, and by key type.
 - Add new key by type: Hash, List, Set, Sorted Set, String, or JSON.
@@ -83,7 +83,7 @@ Here's what you'll see when there are no keys in your database (the image on the
 |:---               |:---                     |
 | <img src="../images/ri-vscode-no-keys.png"> | <img src="../images/ri-vscode-w-keys.png" > |
 
-Redis for VS Code will automatically group the keys based on the one available setting **Delimiter to separate namespaces**, which you can view by clicking on the gear icon in the top-right of the left side pane. Click on the current value to change it. The default setting is the colon (`:`) character.
+Redis for VS Code will automatically group the keys based on the one available setting, **Delimiter to separate namespaces**, which you can view by clicking on the gear icon in the top-right of the left side pane. Click on the current value to change it. The default setting is the colon (`:`) character.
 
 <img src="../images/ri-vscode-settings.png">
 
@@ -93,9 +93,7 @@ Click on a key to display its contents.
 
 ### Key editing tools
 
-There are several editing tools that you can use to edit key data. Each data type will have their own editing capabilities. JSON data is shown in the following examples.
-
-Changes to keys are immediately written to the server.
+There are several editing tools that you can use to edit key data. Each data type has its own editing capabilities. The following examples show edits to JSON data. Note that changes to keys are immediately written to the server.
 
 - **Rename**. Hover over the key name to change it.
 
@@ -109,7 +107,7 @@ Changes to keys are immediately written to the server.
 
 <img src="../images/ri-vscode-edit-del.png">
 
-- **Add to key**. Click on the `+` button next to the closing bracket (shown highlighted in green above) add a new component to a key. 
+- **Add to key**. Click on the `+` button next to the closing bracket (shown highlighted in green above) to add a new component to a key. 
 
 <img src="../images/ri-vscode-edit-add.png">
 
@@ -119,10 +117,10 @@ Changes to keys are immediately written to the server.
 |:---               |:---                     |
 | <img src="../images/ri-vscode-recycle-before.png"> | <img src="../images/ri-vscode-recycle-after.png" > |
 
-## The CLI tool {#cli}
+## CLI tool {#cli}
 
 The connection tool with the boxed `>_` icon opens a Redis CLI window in the **REDIS CLI** tab at the bottom of the primary pane.
 
 <img src="../images/ri-vscode-cli.png">
 
-The CLI interface works just like the `redis-cli` command.
+The CLI interface works just like the [`redis-cli`]({{< relref "/develop/connect/cli" >}}) command.
