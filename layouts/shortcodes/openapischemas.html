@@ -1,6 +1,118 @@
 {{- $apiName := .Get 0 -}}
 {{- $apiData := index .Site.Data $apiName -}}
 
+
+{{- define "enumList" -}}
+{{- $enum := .enum -}}
+<span style="font-size: smaller;">
+    <strong>Allowed values</strong>
+    <code>{{ delimit $enum ", "}}</code>
+</span>
+{{- end -}}
+
+
+{{- define "anyOf" -}}
+{{- $anyOf := .anyOf -}}
+
+    {{- $aoObjTypeName := "" -}}
+    <ul style="margin-top: 0;">
+        {{- range $anyOf -}}
+            {{- if (index . "$ref") -}}
+                {{- $aoObjTypeName = index (last 1 (split (index . "$ref") "/")) 0 -}}
+                <li><a href="#{{ $aoObjTypeName }}">{{$aoObjTypeName }}</a></li>
+            {{- else if (index . "type") -}}
+                <li>{{ index . "type" -}}</li>
+            {{- end -}}
+        {{- end -}}
+    </ul>
+{{- end -}}
+
+
+{{- define "allOf" -}}
+{{- $allOf := .allOf -}}
+
+    {{- $aoObjTypeName := "" -}}
+    (
+    {{- range $allOf -}}
+        {{- if (index . "$ref") -}}
+        {{- $aoObjTypeName = index (last 1 (split (index . "$ref") "/")) 0 -}}
+        <a href="#{{ $aoObjTypeName }}">{{ $aoObjTypeName }}</a>
+        {{- end -}}
+        {{- if (index . "type") -}}
+        {{ index . "type" }}
+        {{- end -}}
+    {{- end -}}
+    )
+{{- end -}}
+
+
+
+{{- define "object" -}}
+{{- $info := .info -}}
+
+    {{- if $info.properties -}}
+        <h4 style="font-weight: bold;margin-top:1em;">Properties</h4>
+        {{- range $propKey, $propInfo := $info.properties -}}
+        <code>{{ $propKey }}
+            {{- if in $info.required $propKey -}}<span style="color:red">*</span>{{- end }}
+        </code>
+        {{- if $propInfo.type }}
+        <span style="color: blue">{{ $propInfo.type }}</span>
+        {{- else if $propInfo.anyOf -}}
+            Any of:
+                {{ template "anyOf" (dict "anyOf" $propInfo.anyOf) }}
+        {{- else if $propInfo.allOf -}}
+        All of:
+            {{ template "anyOf" (dict "anyOf" $propInfo.allOf) }}
+        {{- end -}}
+        <br/>
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+
+{{- define "intLimits" -}}
+{{- $intInfo := .intInfo -}}
+{{- $limitStrings := slice -}}
+        {{- if $intInfo.minimum -}}
+            {{- $limitStrings = $limitStrings | append (print "Min:" $intInfo.minimum) -}}
+        {{- end -}}
+        {{- if $intInfo.maximum -}}
+            {{- $limitStrings = $limitStrings | append (print "Max:" $intInfo.maximum) -}}
+        {{- end -}}
+        {{ delimit $limitStrings ", " }}
+{{- end -}}
+
+
+
+{{- define "schemaEntry" -}}
+{{- $info := .info -}}
+
+    {{- if $info.description -}}
+    {{ $info.description }}<br/>
+    {{- end -}}
+
+    {{- if eq $info.type "string" -}}
+        {{- if $info.enum -}}
+            {{ template "enumList" (dict "enum" $info.enum) }}
+        {{- end -}}
+    {{- else if eq $info.type "object" -}}
+        {{ template "object" (dict "info" $info)}}
+    {{- else if eq $info.type "integer" -}}
+        {{ template "intLimits" (dict "intInfo" $info) }}
+    {{- else if eq $info.type "null"}}
+        null
+    {{- end -}}
+
+    {{- if $info.default -}}
+    <h4 style="font-weight: bold;margin-top:1em;">Default value</h4>
+    <code>{{ $info.default }}</code>
+    {{- end -}}
+{{- end -}}
+
+
+
+
 {{- range $name, $info := $apiData.components.schemas -}}
 <div class="expand mb-5" style="background-color:rgb(240,240,240);padding:8px;border-radius: 5px;">
     <a id="{{ $name }}"></a>
@@ -9,83 +121,22 @@
         onclick="toggleExpand(event)"
     >
         <div class="flex flex-row gap-3 items-center hover:text-redis-red-500 transition-colors ease-in-out duration-150">
+            <div style="font-size: smaller;">   
+                <code style="margin-right: 1em;font-weight: bold;">{{ $name }}</code>{{ $info.type }}<br/>
+            </div>
 
-<div style="font-size: smaller;">   
-    <code style="margin-right: 1em;font-weight: bold;">{{ $name }}</code>{{ $info.type }}<br/>
-</div>
-
-          <div class="expand-chevron transition-transform duration-500 ease-in-out">
-            {{- partial "icons/chevron.html" -}}
-          </div>
+            <div class="expand-chevron transition-transform duration-500 ease-in-out">
+                {{- partial "icons/chevron.html" -}}
+            </div>
         </div>
     </div>
     <div class="expand-content h-0 overflow-hidden transition-all duration-500 ease-in-out">
-    {{- if $info.description -}}
-    {{ $info.description }}
-    {{- end -}}
-    {{- if $info.properties -}}
-        <h4 style="font-weight: bold;margin-top:1em;">Properties</h4>
-        {{- range $propKey, $propInfo := $info.properties -}}
-        <code>{{ $propKey }}
-            {{- if in $info.required $propKey -}}<span style="color:red">*</span>{{- end }}
-            {{- if $propInfo.type }}
-            <span style="color: blue">{{ $propInfo.type }}</span>
-            {{- else if $propInfo.anyOf -}}
-            {{- $aoPropStrings := slice -}}
-            {{- $aoObjTypeName := "" -}}
-            (
-                {{- range $propInfo.anyOf -}}
-                    {{- if (index . "$ref") -}}
-                        {{- $aoObjTypeName = index (last 1 (split (index . "$ref") "/")) 0 -}}
-                        {{- $aoPropStrings =  $aoPropStrings | append (print "<a href='#" $aoObjTypeName "'>" $aoObjTypeName "</a>") -}}
-                    {{- else if (index . "type") -}}
-                        {{- $aoSubObjRef := "" -}}
-                        {{- $aoSubObjType := "" -}}
-                        {{- $aoSubObjTypeName := "" -}}
-                        {{- $aoSubObjField := "" -}}
-                        {{- $aoArrayMarker := "" -}}
-                        {{- if gt (len .) 1 -}}
-                            {{- range $key, $val := . -}}
-                                {{- if eq $key "type" -}}
-                                    {{- $aoSubObjType = $val -}}
-                                {{- else -}}
-                                    {{- $aoSubObjField = $key -}}
-                                    {{- /*$aoSubObjRef = index $val "$ref"*/ -}}
-                                {{- end -}}
-                            {{- end -}}
-                            {{- if eq $aoSubObjType "array" -}}{{ $aoArrayMarker = "[]"}}{{- end -}}
-                            {{- $aoSubObjTypeName = index (last 1 (split $aoSubObjRef "/")) 0 -}}
-                            {{- $aoPropStrings = $aoPropStrings | append (print $aoSubObjField ": <a href='#" $aoSubObjTypeName "'>" $aoSubObjTypeName $aoArrayMarker "</a>") -}}                        
-                        {{- else -}}
-                            {{- $aoPropStrings =  $aoPropStrings | append (index . "type") -}}
-                        {{- end -}}
-                    {{- end -}}
-                {{- end -}}
-                {{ delimit $aoPropStrings " | "}}
-            )
-            {{- else if $propInfo.allOf -}}
-            {{- $aoObjTypeName := "" -}}
-            (
-                {{- range $propInfo.allOf -}}
-                    {{- if (index . "$ref") -}}
-                    {{- $aoObjTypeName = index (last 1 (split (index . "$ref") "/")) 0 -}}
-                    <a href="#{{ $aoObjTypeName }}">{{ $aoObjTypeName }}</a>;
-                    {{- end -}}
-                    {{- if (index . "type") -}}
-                    {{ index . "type" }};
-                    {{- end -}}
-                {{- end -}}
-            )
-            {{- end -}}
-        </code><br/>
-        {{- end -}}
-    {{- else if $info.enum -}}
-    <h4 style="font-weight: bold;margin-top:1em;">Allowed values</h4>
-    <code>{{ delimit $info.enum ", "}}</code>
-    {{- end -}}
+        {{ template "schemaEntry" (dict "info" $info) }}
     </div>
   </div>
 {{- end -}}
+
+
 
 <script>
     function toggleExpand(event) {
