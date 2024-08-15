@@ -34,7 +34,78 @@ You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
 need any special privileges to run RDI processes for normal operation.
 
-### Hardware sizing
+The [K3s](https://k3s.io/) Kubernetes distribution used by RDI has a few
+requirements for cloud VMs that you must implement before running the
+RDI installer, or else installation will fail. The following sections
+give full pre-installation instructions for [RHEL](#k3s-rhel) and
+[Ubuntu](#k3s-ubuntu).
+
+### RHEL {#k3s-rhel}
+
+K3s recommends that you turn off 
+[`firewalld`](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/using-and-configuring-firewalld_configuring-and-managing-networking)
+before installation using the command:
+
+```bash
+systemctl disable firewalld --now
+```
+
+However, if you do need to use `firewalld`, you must add the following rules:
+
+```bash
+firewall-cmd --permanent --add-port=6443/tcp #apiserver
+firewall-cmd --permanent --zone=trusted --add-source=10.42.0.0/16 #pods
+firewall-cmd --permanent --zone=trusted --add-source=10.43.0.0/16 #services
+firewall-cmd --reload
+```
+
+You may also need to open other ports if your setup requires them. See the K3s
+[Inbound rules](https://docs.k3s.io/installation/requirements?_highlight=red&_highlight=hat&os=rhel#inbound-rules-for-k3s-nodes)
+docs for more information. If you change the default CIDR for pods or services,
+you must update the firewall rules accordingly.
+
+If you have `nm-cloud-setup.service` enabled, you must disable it and reboot the
+node with the following commands:
+
+```bash
+systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
+reboot
+```
+
+See
+[Rancher support and maintenance terms](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/)
+for more information about the OS versions that have been tested with Rancher
+managed K3s clusters.
+
+### Ubuntu {#k3s-ubuntu}
+
+K3s recommends that you turn off
+[Uncomplicated Firewall](https://wiki.ubuntu.com/UncomplicatedFirewall) (`ufw`)
+before installation with the command:
+
+```bash
+ufw disable
+```
+
+However, if you do need to use `ufw`, you must add the following rules:
+
+```bash
+ufw allow 6443/tcp #apiserver
+ufw allow from 10.42.0.0/16 to any #pods
+ufw allow from 10.43.0.0/16 to any #services
+```
+
+You may also need to open other ports if your setup requires them. See the K3s
+[Inbound rules](https://docs.k3s.io/installation/requirements?_highlight=red&_highlight=hat&os=debian#inbound-rules-for-k3s-nodes)
+docs for more information. If you change the default CIDR for pods or services,
+you must update the firewall rules accordingly.
+
+See
+[Rancher support and maintenance terms](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/)
+for more information about the OS versions that have been tested with Rancher
+managed K3s clusters.
+
+## Hardware sizing
 
 RDI is mainly CPU and network bound. 
 Each of the RDI VMs should have:
@@ -46,12 +117,7 @@ Each of the RDI VMs should have:
 - Disk: 25GB of disk (this includes the OS footprint)
 - 10GB or more network interface
 
-### Installation steps
-
-{{<note>}}Installing RDI on a cloud VM will fail if `nm-cloud-setup.service` is
-running. Use `systemctl disable nm-cloud-setup.service` to disable the service
-before running the installer.
-{{</note>}}
+## Installation steps
 
 Follow the steps below for each of your VMs:
 
