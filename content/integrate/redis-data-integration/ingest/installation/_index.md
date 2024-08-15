@@ -74,8 +74,8 @@ reboot
 
 See
 [Rancher support and maintenance terms](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/)
-for more information about the OS versions that have been tested with Rancher
-managed K3s clusters.
+for more information about the OS versions that have been tested with
+Rancher-managed K3s clusters.
 
 ### Ubuntu {#k3s-ubuntu}
 
@@ -102,8 +102,8 @@ you must update the firewall rules accordingly.
 
 See
 [Rancher support and maintenance terms](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/)
-for more information about the OS versions that have been tested with Rancher
-managed K3s clusters.
+for more information about the OS versions that have been tested with
+Rancher-managed K3s clusters.
 
 ## Hardware sizing
 
