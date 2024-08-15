@@ -34,7 +34,7 @@ You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
 need any special privileges to run RDI processes for normal operation.
 
-The [K3s](https://k3s.io/) Kubernetes distribution used by RDI has a few
+The [K3s](https://k3s.io/) Kubernetes distribution used internally by RDI has a few
 requirements for cloud VMs that you must implement before running the
 RDI installer, or else installation will fail. The following sections
 give full pre-installation instructions for [RHEL](#k3s-rhel) and
