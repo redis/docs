@@ -133,12 +133,6 @@ to the server:
     CSC requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
     protocol.
 -   `cache_enabled`: (Required) Pass a `True` value here to enable CSC
--   `cache_ttl`: (Recommended) Time-to-live (TTL) between reads for items in the cache,
-    measured in seconds. This defaults to zero (indicating that items in the cache never expire)
-    but it is strongly recommended that you choose a realistic TTL for
-    your needs. See
-    [Usage recommendations]({{< relref "/develop/connect/clients/client-side-caching#usage-recommendations" >}})
-    for more information.
 
 The example below shows the simplest CSC connection to the default host and port,
 `localhost:6379`.
@@ -149,7 +143,6 @@ use CSC with a connection pool or a cluster connection in exactly the same way.
 r = redis.Redis(
     protocol=3,
     cache_enabled=True,
-    cache_ttl=180,
     decode_responses=True
 )
 
@@ -171,7 +164,7 @@ the following in the CLI among the output from `MONITOR`:
 ```
 
 This shows that the server responds to both `get("city")` calls.
-If you the code again with `cache_enabled` uncommented, you will see
+If you run the code again with `cache_enabled` uncommented, you will see
 
 ```
 1723110248.712663 [...] "SET" "city" "New York"
@@ -180,6 +173,51 @@ If you the code again with `cache_enabled` uncommented, you will see
 
 This shows that the first `get("city")` call contacted the server but the second
 call was satisfied by the cache.
+
+### Removing items from the cache
+
+You can remove individual keys from the cache with the
+`invalidate_key_from_cache()` method. This removes all cached items associated
+with the key, so all results from multi-key commands (such as
+[`MGET`]({{< relref "/commands/mget" >}})) and composite data structures
+(such as [hashes]({{< relref "/develop/data-types/hashes" >}})) will be
+cleared at once. The example below shows the effect of removing a single
+key from the cache:
+
+```python
+r.hget("person:1", "name") # Read from the server
+r.hget("person:1", "name") # Read from the cache
+
+r.hget("person:2", "name") # Read from the server
+r.hget("person:2", "name") # Read from the cache
+
+r.invalidate_key_from_cache("person:1")
+
+r.hget("person:1", "name") # Read from the server
+r.hget("person:1", "name") # Read from the cache
+
+r.hget("person:2", "name") # Still read from the cache
+```
+
+You can also clear all cached items using the `flush_cache()`
+method:
+
+```python
+r.hget("person:1", "name") # Read from the server
+r.hget("person:1", "name") # Read from the cache
+
+r.hget("person:2", "name") # Read from the cache
+r.hget("person:2", "name") # Read from the cache
+
+r.flush_cache()
+
+r.hget("person:1", "name") # Read from the server
+r.hget("person:1", "name") # Read from the cache
+
+r.hget("person:2", "name") # Read from the server
+r.hget("person:2", "name") # Read from the cache
+```
+
 
 ## Example: Indexing and querying JSON documents
 

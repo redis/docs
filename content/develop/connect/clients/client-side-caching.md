@@ -17,6 +17,8 @@ weight: 20
 
 *Client-side caching* is a technique to reduce network traffic between
 a Redis client and the server. This generally gives better performance.
+See [Client-side caching compatibility with Redis Software and Redis Cloud]({{< relref "operate/rs/references/compatibility/client-side-caching" >}})
+for details of the Redis versions that support CSC.
 
 By default, an [application server](https://en.wikipedia.org/wiki/Application_server)
 (which sits between the user app and the database) contacts the
@@ -34,8 +36,9 @@ can satisfy the read requests from the cache instead of the database:
 {{< image filename="images/csc/CSCWithCache.drawio.svg" >}}
 
 Accessing the cache is much faster than communicating with the database over the
-network. Also, this technique reduces the load on the database server, so you may
-be able to run it using fewer nodes.
+network and it reduces network traffic. Also, this technique reduces
+the load on the database server, so you may be able to run it using fewer hardware
+resources.
 
 As with other forms of [caching](https://en.wikipedia.org/wiki/Cache_(computing)),
 CSC works well in the very common use case where a small subset of the data
@@ -75,7 +78,8 @@ will use cached data, except for the following:
     [probabilistic data types]({{< relref "/develop/data-types/probabilistic" >}}).
     These types are designed to be updated frequently, which means that caching
     them gives little or no benefit.
--   Non-deterministic commands such as [`HSCAN`]({{< relref "/commands/hscan" >}})
+-   Non-deterministic commands such as [`HGETALL`]({{< relref "/commands/hgetall" >}}),
+    [`HSCAN`]({{< relref "/commands/hscan" >}}),
     and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
     give different results each time they are called.
 -   Search and query commands (with the `FT.*` prefix), such as
@@ -109,7 +113,7 @@ then cached separately. For example:
     [set]({{< relref "/develop/data-types/sets" >}}), and
     [sorted set]({{< relref "/develop/data-types/sorted-sets" >}})),
     the whole object is cached separately from the individual fields.
-    So the results of `HGETALL mykey` and `HGET mykey myfield` create
+    So the results of `JSON.GET mykey $` and `JSON.GET mykey $.myfield` create
     separate entries in the cache.
 -   Ranges from [lists]({{< relref "/develop/data-types/lists" >}}),
     [streams]({{< relref "/develop/data-types/streams" >}}),
@@ -126,14 +130,6 @@ then cached separately. For example:
     [`LLEN`]({{< relref "/commands/llen" >}}) are cached separately from the
     object they refer to.
 
-
-## Enabling CSC
-
-Use the [`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}})
-command to enable CSC from [`redis-cli`]({{< relref "/develop/connect/cli" >}}).
-You can also enable CSC when you connect to a server from one of the Redis
-[client libraries]({{< relref "/develop/connect/clients" >}}).
-
 ## Usage recommendations
 
 Like any caching system, CSC has some limitations:
@@ -144,7 +140,7 @@ Like any caching system, CSC has some limitations:
 -   Cache misses, tracking, and invalidation messages always add a slight
     performance penalty.
 
-Below are a few guidelines to help you use CSC efficiently, within these
+Below are some guidelines to help you use CSC efficiently, within these
 limitations:
 
 -   **Use a separate connection for data that is not cache-friendly**:
@@ -155,16 +151,6 @@ limitations:
     messages can be greater than the savings made by caching. Avoid this problem
     by using a separate connection *without* CSC for any data that is
     not cache-friendly.
--   **Set a maximum time-to-live (TTL) for cached items**: The client libraries
-    let you set a *time-to-live (TTL)* value for items in the cache. This is
-    the maximum time between cache reads for any particular key. If a key
-    isn't accessed during its TTL period, it will be deleted from the cache
-    automatically and the memory that it uses will be freed. Re-using cache
-    memory like this is more efficient than evicting items when the cache
-    gets full. The exact TTL value depends on your specific requirements, but
-    bear in mind that the whole purpose of the cache is to optimize reads for
-    data that you access frequently. By definition, data that needs a long
-    TTL isn't accessed frequently.
 -   **Estimate how many items you can cache**: The client libraries let you
     specify the maximum number of items you want to hold in the cache. You
     can calculate an estimate for this number by dividing the 
