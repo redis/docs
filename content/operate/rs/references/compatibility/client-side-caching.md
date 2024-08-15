@@ -27,7 +27,7 @@ The following table shows the differences in client-side caching support by prod
 
 ## Supported RESP versions
 
-Client-side caching in Redis Software and Redis Cloud requires RESP3.
+Client-side caching in Redis Software and Redis Cloud requires [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}}).
 
 The following table shows the differences in client-side caching support for RESP by product:
 

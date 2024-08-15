@@ -21,7 +21,7 @@ Redis Enterprise Software and Redis Cloud support RESP2 and RESP3. In Redis Clou
 
 ## Client-side caching compatibility
 
-Redis Software and Redis Cloud support client-side caching for databases with Redis versions 7.4 or later. See [Client-side caching compatibility with Redis Software and Redis Cloud]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}) for more information about compatibility.
+Redis Software and Redis Cloud support [client-side caching]({{<relref "/develop/connect/clients/client-side-caching">}}) for databases with Redis versions 7.4 or later. See [Client-side caching compatibility with Redis Software and Redis Cloud]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}) for more information about compatibility.
 
 ## Compatibility with Redis Cluster API
 
