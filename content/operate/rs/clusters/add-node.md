@@ -12,7 +12,8 @@ weight: 20
 When you install Redis Enterprise Software on the first node of a cluster, you create the new cluster.
 After you install the first node, you can add more nodes to the cluster.
 
-{{< note >}}
+## Prerequisites
+
 Before you add a node to the cluster:
 
 - The clocks on all nodes must always be [synchronized]({{< relref "/operate/rs/clusters/configure/sync-clocks.md" >}}).
@@ -25,7 +26,8 @@ Before you add a node to the cluster:
 
 - We recommend that you add nodes one after the other rather than in parallel
     to avoid errors that occur because the connection to the other nodes in the cluster cannot be verified.
-{{< /note >}}
+
+## Add node
 
 To add a node to an existing cluster:
 
@@ -75,7 +77,12 @@ You can see it in the list of nodes in the cluster.
 
 If you see an error when you add the node, try adding the node again.
 
-{{< tip >}}
-We recommend that you run the [rlcheck utility]({{< relref "/operate/rs/references/cli-utilities/rlcheck" >}}) to verify that the node is functioning properly.
-{{< /tip >}}
+## Verify node
 
+We recommend that you verify the node is functioning properly using one of the following methods:
+
+- On the Cluster Manager UI's **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to verify, then select **Verify node** from the list.
+
+    {{<image filename="images/rs/screenshots/nodes/nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
+
+- Run the [`rlcheck`]({{< relref "/operate/rs/references/cli-utilities/rlcheck" >}}) utility from the node's command line.
