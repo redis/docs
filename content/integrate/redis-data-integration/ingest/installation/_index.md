@@ -48,6 +48,11 @@ Each of the RDI VMs should have:
 
 ### Installation steps
 
+{{<note>}}Installing RDI on a cloud VM will fail if `nm-cloud-setup.service` is
+running. Use `systemctl disable nm-cloud-setup.service` to disable the service
+before running the installer.
+{{</note>}}
+
 Follow the steps below for each of your VMs:
 
 1.  Download the RDI installer from the [Redis download center](https://app.redislabs.com/#/rlec-downloads)
