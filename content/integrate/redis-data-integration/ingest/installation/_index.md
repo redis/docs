@@ -43,7 +43,7 @@ give full pre-installation instructions for [RHEL](#k3s-rhel) and
 ### RHEL {#k3s-rhel}
 
 K3s recommends that you turn off 
-[`firewalld`](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/using-and-configuring-firewalld_configuring-and-managing-networking)
+[`firewalld`](https://firewalld.org/documentation/)
 before installation using the command:
 
 ```bash
@@ -57,6 +57,17 @@ firewall-cmd --permanent --add-port=6443/tcp #apiserver
 firewall-cmd --permanent --zone=trusted --add-source=10.42.0.0/16 #pods
 firewall-cmd --permanent --zone=trusted --add-source=10.43.0.0/16 #services
 firewall-cmd --reload
+```
+
+You should also add [port rules](https://firewalld.org/documentation/howto/open-a-port-or-service.html)
+for all the [RDI services]({{< relref "/integrate/redis-data-integration/ingest/reference/ports" >}})
+you intend to use:
+
+```bash
+firewall-cmd --permanent --add-port=8080/tcp  # (Required) rdi-operator/rdi-api
+firewall-cmd --permanent --add-port=9090/tcp  # vm-dis-reloader
+firewall-cmd --permanent --add-port=9092/tcp  # prometheus-service
+firewall-cmd --permanent --add-port=9121/tcp  # rdi-metric-exporter
 ```
 
 You may also need to open other ports if your setup requires them. See the K3s
@@ -93,6 +104,17 @@ However, if you do need to use `ufw`, you must add the following rules:
 ufw allow 6443/tcp #apiserver
 ufw allow from 10.42.0.0/16 to any #pods
 ufw allow from 10.43.0.0/16 to any #services
+```
+
+You should also add [port rules](https://ubuntu.com/server/docs/firewalls)
+for all the [RDI services]({{< relref "/integrate/redis-data-integration/ingest/reference/ports" >}})
+you intend to use:
+
+```bash
+ufw allow 8080/tcp  # (Required) rdi-operator/rdi-api
+ufw allow 9090/tcp  # vm-dis-reloader
+ufw allow 9092/tcp  # prometheus-service
+ufw allow 9121/tcp  # rdi-metric-exporter
 ```
 
 You may also need to open other ports if your setup requires them. See the K3s
