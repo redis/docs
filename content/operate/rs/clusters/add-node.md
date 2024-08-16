@@ -81,7 +81,7 @@ If you see an error when you add the node, try adding the node again.
 
 We recommend that you verify the node is functioning properly using one of the following methods:
 
-- On the Cluster Manager UI's **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to verify, then select **Verify node** from the list.
+- On the **Nodes** screen of the Cluster Manager UI, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to verify, then select **Verify node** from the list.
 
     {{<image filename="images/rs/screenshots/nodes/secondary-nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
 
