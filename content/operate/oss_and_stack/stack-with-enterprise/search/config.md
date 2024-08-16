@@ -19,7 +19,19 @@ For Redis Cloud:
     
 - _Free or Fixed subscriptions_: you cannot change RediSearch configuration.
 
-For Redis Enterprise Software, use either:
+For Redis Enterprise Software, use one of the following methods:
+
+- Cluster Manager UI:
+
+  1. From the **Databases** list, select the database, then click **Configuration**.
+
+  1. Select the **Edit** button.
+
+  1. In the **Capabilities** section, click **Edit Parameters**.
+
+  1. After you finish editing the module's configuration parameters, click **Done** to close the parameter editor.
+
+  1. Click **Save**.
 
 - [`rladmin tune db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db" >}}):
 
