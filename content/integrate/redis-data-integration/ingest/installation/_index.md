@@ -34,15 +34,15 @@ You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
 need any special privileges to run RDI processes for normal operation.
 
-The [K3s](https://k3s.io/) Kubernetes distribution used internally by RDI has a few
+RDI has a few
 requirements for cloud VMs that you must implement before running the
 RDI installer, or else installation will fail. The following sections
-give full pre-installation instructions for [RHEL](#k3s-rhel) and
-[Ubuntu](#k3s-ubuntu).
+give full pre-installation instructions for [RHEL](#firewall-rhel) and
+[Ubuntu](#firewall-ubuntu).
 
-### RHEL {#k3s-rhel}
+### RHEL {#firewall-rhel}
 
-K3s recommends that you turn off 
+It is recommended that you turn off 
 [`firewalld`](https://firewalld.org/documentation/)
 before installation using the command:
 
@@ -70,10 +70,7 @@ firewall-cmd --permanent --add-port=9092/tcp  # prometheus-service
 firewall-cmd --permanent --add-port=9121/tcp  # rdi-metric-exporter
 ```
 
-You may also need to open other ports if your setup requires them. See the K3s
-[Inbound rules](https://docs.k3s.io/installation/requirements?_highlight=red&_highlight=hat&os=rhel#inbound-rules-for-k3s-nodes)
-docs for more information. If you change the default CIDR for pods or services,
-you must update the firewall rules accordingly.
+You may also need to add similar rules to open other ports if your setup requires them.
 
 If you have `nm-cloud-setup.service` enabled, you must disable it and reboot the
 node with the following commands:
@@ -83,14 +80,9 @@ systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
 reboot
 ```
 
-See
-[Rancher support and maintenance terms](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/)
-for more information about the OS versions that have been tested with
-Rancher-managed K3s clusters.
+### Ubuntu {#firewall-ubuntu}
 
-### Ubuntu {#k3s-ubuntu}
-
-K3s recommends that you turn off
+It is recommended that you turn off
 [Uncomplicated Firewall](https://wiki.ubuntu.com/UncomplicatedFirewall) (`ufw`)
 before installation with the command:
 
@@ -117,15 +109,7 @@ ufw allow 9092/tcp  # prometheus-service
 ufw allow 9121/tcp  # rdi-metric-exporter
 ```
 
-You may also need to open other ports if your setup requires them. See the K3s
-[Inbound rules](https://docs.k3s.io/installation/requirements?_highlight=red&_highlight=hat&os=debian#inbound-rules-for-k3s-nodes)
-docs for more information. If you change the default CIDR for pods or services,
-you must update the firewall rules accordingly.
-
-See
-[Rancher support and maintenance terms](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/)
-for more information about the OS versions that have been tested with
-Rancher-managed K3s clusters.
+You may also need to add similar rules to open other ports if your setup requires them.
 
 ## Hardware sizing
 
