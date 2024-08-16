@@ -25,7 +25,7 @@ You can configure persistence when you [create a database]({{< relref "/operate/
 
 1. Select **Edit**.
 
-1. Expand the **High Availability** section.
+1. Expand the **Durability** section.
 
 1. For **Persistence**, select an [option](#data-persistence-options) from the list.
 
