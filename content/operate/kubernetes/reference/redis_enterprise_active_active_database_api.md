@@ -83,7 +83,7 @@ RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterp
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specparticipatingclustersindex">participatingClusters</a></td>
+        <td><a href="#specparticipatingclusters">participatingClusters</a></td>
         <td>[]object</td>
         <td>
           The list of instances/ clusters specifications and configurations.<br/>
@@ -107,7 +107,7 @@ RedisEnterpriseActiveActiveDatabaseSpec defines the desired state of RedisEnterp
 </table>
 
 
-### spec.participatingClusters[index]
+### spec.participatingClusters[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
 
@@ -231,7 +231,7 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specglobalconfigurationsmoduleslistindex">modulesList</a></td>
+        <td><a href="#specglobalconfigurationsmoduleslist">modulesList</a></td>
         <td>[]object</td>
         <td>
           List of modules associated with database. Note - For Active-Active databases this feature is currently in preview. For this feature to take effect for Active-Active databases, set a boolean environment variable with the name "ENABLE_ALPHA_FEATURES" to True. This variable can be set via the redis-enterprise-operator pod spec, or through the operator-environment-config Config Map.<br/>
@@ -282,7 +282,7 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specglobalconfigurationsreplicasourcesindex">replicaSources</a></td>
+        <td><a href="#specglobalconfigurationsreplicasources">replicaSources</a></td>
         <td>[]object</td>
         <td>
           What databases to replicate from<br/>
@@ -310,7 +310,7 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specglobalconfigurationsrolespermissionsindex">rolesPermissions</a></td>
+        <td><a href="#specglobalconfigurationsrolespermissions">rolesPermissions</a></td>
         <td>[]object</td>
         <td>
           List of Redis Enteprise ACL and Role bindings to apply<br/>
@@ -1281,7 +1281,7 @@ MountPointStorage
 </table>
 
 
-### spec.globalConfigurations.modulesList[index]
+### spec.globalConfigurations.modulesList[]
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
 
 Redis Enterprise Module: https://redislabs.com/redis-enterprise/modules/
@@ -1352,7 +1352,7 @@ Connection to Redis Enterprise Cluster
 </table>
 
 
-### spec.globalConfigurations.replicaSources[index]
+### spec.globalConfigurations.replicaSources[]
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
 
 
@@ -1412,7 +1412,7 @@ Connection to Redis Enterprise Cluster
 </table>
 
 
-### spec.globalConfigurations.rolesPermissions[index]
+### spec.globalConfigurations.rolesPermissions[]
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
 
 Redis Enterprise Role and ACL Binding
@@ -1537,7 +1537,7 @@ RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnt
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#statusparticipatingclustersindex">participatingClusters</a></td>
+        <td><a href="#statusparticipatingclusters">participatingClusters</a></td>
         <td>[]object</td>
         <td>
           The list of instances/ clusters statuses.<br/>
@@ -1560,7 +1560,7 @@ RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnt
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#statussecretsstatusindex">secretsStatus</a></td>
+        <td><a href="#statussecretsstatus">secretsStatus</a></td>
         <td>[]object</td>
         <td>
           The status of the secrets<br/>
@@ -1584,7 +1584,7 @@ RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnt
 </table>
 
 
-### status.participatingClusters[index]
+### status.participatingClusters[]
 <sup><sup>[↩ Parent](#status)</sup></sup>
 
 Status of participating cluster.
@@ -1627,7 +1627,7 @@ Status of participating cluster.
 </table>
 
 
-### status.secretsStatus[index]
+### status.secretsStatus[]
 <sup><sup>[↩ Parent](#status)</sup></sup>
 
 Status of secrets.

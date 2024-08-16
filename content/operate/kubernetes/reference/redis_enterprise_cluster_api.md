@@ -191,7 +191,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specextraenvvarsindex">extraEnvVars</a></td>
+        <td><a href="#specextraenvvars">extraEnvVars</a></td>
         <td>[]object</td>
         <td>
           ADVANCED USAGE: use carefully. Add environment variables to RS StatefulSet's containers.<br/>
@@ -205,7 +205,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#spechostaliasesindex">hostAliases</a></td>
+        <td><a href="#spechostaliases">hostAliases</a></td>
         <td>[]object</td>
         <td>
           Adds hostAliases entries to the Redis Enterprise pods<br/>
@@ -299,7 +299,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specpodtolerationsindex">podTolerations</a></td>
+        <td><a href="#specpodtolerations">podTolerations</a></td>
         <td>[]object</td>
         <td>
           Tolerations that are added to all managed pods. More information: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/<br/>
@@ -313,7 +313,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specpullsecretsindex">pullSecrets</a></td>
+        <td><a href="#specpullsecrets">pullSecrets</a></td>
         <td>[]object</td>
         <td>
           PullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images. If specified, these secrets will be passed to individual puller implementations for them to use. More info: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/<br/>
@@ -394,7 +394,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterprisevolumemountsindex">redisEnterpriseVolumeMounts</a></td>
+        <td><a href="#specredisenterprisevolumemounts">redisEnterpriseVolumeMounts</a></td>
         <td>[]object</td>
         <td>
           additional volume mounts within the redis enterprise containers. More info: https://kubernetes.io/docs/concepts/storage/volumes/<br/>
@@ -445,7 +445,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindex">sideContainersSpec</a></td>
+        <td><a href="#specsidecontainersspec">sideContainersSpec</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -496,7 +496,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindex">volumes</a></td>
+        <td><a href="#specvolumes">volumes</a></td>
         <td>[]object</td>
         <td>
           additional volumes<br/>
@@ -672,7 +672,7 @@ Compute resource requirements for bootstrapper containers
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specbootstrapperresourcesclaimsindex">claims</a></td>
+        <td><a href="#specbootstrapperresourcesclaims">claims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -696,7 +696,7 @@ Compute resource requirements for bootstrapper containers
 </table>
 
 
-### spec.bootstrapperResources.claims[index]
+### spec.bootstrapperResources.claims[]
 <sup><sup>[↩ Parent](#specbootstrapperresources)</sup></sup>
 
 
@@ -813,7 +813,7 @@ Container timezone configuration. While the default timezone on all containers i
 </table>
 
 
-### spec.extraEnvVars[index]
+### spec.extraEnvVars[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
 
@@ -842,7 +842,7 @@ Container timezone configuration. While the default timezone on all containers i
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specextraenvvarsindexvaluefrom">valueFrom</a></td>
+        <td><a href="#specextraenvvarsvaluefrom">valueFrom</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -852,8 +852,8 @@ Container timezone configuration. While the default timezone on all containers i
 </table>
 
 
-### spec.extraEnvVars[index].valueFrom
-<sup><sup>[↩ Parent](#specextraenvvarsindex)</sup></sup>
+### spec.extraEnvVars[].valueFrom
+<sup><sup>[↩ Parent](#specextraenvvars)</sup></sup>
 
 
 
@@ -867,28 +867,28 @@ Container timezone configuration. While the default timezone on all containers i
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specextraenvvarsindexvaluefromconfigmapkeyref">configMapKeyRef</a></td>
+        <td><a href="#specextraenvvarsvaluefromconfigmapkeyref">configMapKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specextraenvvarsindexvaluefromfieldref">fieldRef</a></td>
+        <td><a href="#specextraenvvarsvaluefromfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specextraenvvarsindexvaluefromresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specextraenvvarsvaluefromresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specextraenvvarsindexvaluefromsecretkeyref">secretKeyRef</a></td>
+        <td><a href="#specextraenvvarsvaluefromsecretkeyref">secretKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -898,8 +898,8 @@ Container timezone configuration. While the default timezone on all containers i
 </table>
 
 
-### spec.extraEnvVars[index].valueFrom.configMapKeyRef
-<sup><sup>[↩ Parent](#specextraenvvarsindexvaluefrom)</sup></sup>
+### spec.extraEnvVars[].valueFrom.configMapKeyRef
+<sup><sup>[↩ Parent](#specextraenvvarsvaluefrom)</sup></sup>
 
 
 
@@ -937,8 +937,8 @@ Container timezone configuration. While the default timezone on all containers i
 </table>
 
 
-### spec.extraEnvVars[index].valueFrom.fieldRef
-<sup><sup>[↩ Parent](#specextraenvvarsindexvaluefrom)</sup></sup>
+### spec.extraEnvVars[].valueFrom.fieldRef
+<sup><sup>[↩ Parent](#specextraenvvarsvaluefrom)</sup></sup>
 
 
 
@@ -969,8 +969,8 @@ Container timezone configuration. While the default timezone on all containers i
 </table>
 
 
-### spec.extraEnvVars[index].valueFrom.resourceFieldRef
-<sup><sup>[↩ Parent](#specextraenvvarsindexvaluefrom)</sup></sup>
+### spec.extraEnvVars[].valueFrom.resourceFieldRef
+<sup><sup>[↩ Parent](#specextraenvvarsvaluefrom)</sup></sup>
 
 
 
@@ -1008,8 +1008,8 @@ Container timezone configuration. While the default timezone on all containers i
 </table>
 
 
-### spec.extraEnvVars[index].valueFrom.secretKeyRef
-<sup><sup>[↩ Parent](#specextraenvvarsindexvaluefrom)</sup></sup>
+### spec.extraEnvVars[].valueFrom.secretKeyRef
+<sup><sup>[↩ Parent](#specextraenvvarsvaluefrom)</sup></sup>
 
 
 
@@ -1047,7 +1047,7 @@ Container timezone configuration. While the default timezone on all containers i
 </table>
 
 
-### spec.hostAliases[index]
+### spec.hostAliases[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
 HostAlias holds the mapping between IP and hostnames that will be injected as an entry in the pod's hosts file.
@@ -1165,7 +1165,7 @@ Cluster-level LDAP configuration, such as server addresses, protocol, authentica
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specldapserversindex">servers</a></td>
+        <td><a href="#specldapservers">servers</a></td>
         <td>[]object</td>
         <td>
           One or more LDAP servers. If multiple servers are specified, they must all share an identical organization tree structure.<br/>
@@ -1356,7 +1356,7 @@ Configuration for a search query. Mutually exclusive with the 'attribute' field.
 </table>
 
 
-### spec.ldap.servers[index]
+### spec.ldap.servers[]
 <sup><sup>[↩ Parent](#specldap)</sup></sup>
 
 Address of an LDAP server.
@@ -1504,14 +1504,14 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecutionindex">preferredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecution">preferredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specpodantiaffinityrequiredduringschedulingignoredduringexecutionindex">requiredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specpodantiaffinityrequiredduringschedulingignoredduringexecution">requiredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -1521,7 +1521,7 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
 </table>
 
 
-### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index]
+### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specpodantiaffinity)</sup></sup>
 
 
@@ -1536,7 +1536,7 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm">podAffinityTerm</a></td>
+        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm">podAffinityTerm</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -1555,8 +1555,8 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
 </table>
 
 
-### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm
-<sup><sup>[↩ Parent](#specpodantiaffinitypreferredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm
+<sup><sup>[↩ Parent](#specpodantiaffinitypreferredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -1577,14 +1577,14 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselector">labelSelector</a></td>
+        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselector">namespaceSelector</a></td>
+        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselector">namespaceSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -1601,8 +1601,8 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
 </table>
 
 
-### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.labelSelector
-<sup><sup>[↩ Parent](#specpodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm)</sup></sup>
+### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector
+<sup><sup>[↩ Parent](#specpodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm)</sup></sup>
 
 
 
@@ -1616,7 +1616,7 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -1633,8 +1633,8 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
 </table>
 
 
-### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specpodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselector)</sup></sup>
+### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specpodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselector)</sup></sup>
 
 
 
@@ -1672,8 +1672,8 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
 </table>
 
 
-### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.namespaceSelector
-<sup><sup>[↩ Parent](#specpodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm)</sup></sup>
+### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector
+<sup><sup>[↩ Parent](#specpodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm)</sup></sup>
 
 
 
@@ -1687,7 +1687,7 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specpodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -1704,8 +1704,8 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
 </table>
 
 
-### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.namespaceSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specpodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselector)</sup></sup>
+### spec.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specpodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselector)</sup></sup>
 
 
 
@@ -1743,7 +1743,7 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
 </table>
 
 
-### spec.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index]
+### spec.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specpodantiaffinity)</sup></sup>
 
 
@@ -1765,14 +1765,14 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specpodantiaffinityrequiredduringschedulingignoredduringexecutionindexlabelselector">labelSelector</a></td>
+        <td><a href="#specpodantiaffinityrequiredduringschedulingignoredduringexecutionlabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specpodantiaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselector">namespaceSelector</a></td>
+        <td><a href="#specpodantiaffinityrequiredduringschedulingignoredduringexecutionnamespaceselector">namespaceSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -1789,8 +1789,8 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
 </table>
 
 
-### spec.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].labelSelector
-<sup><sup>[↩ Parent](#specpodantiaffinityrequiredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector
+<sup><sup>[↩ Parent](#specpodantiaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -1804,7 +1804,7 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specpodantiaffinityrequiredduringschedulingignoredduringexecutionindexlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specpodantiaffinityrequiredduringschedulingignoredduringexecutionlabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -1821,8 +1821,8 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
 </table>
 
 
-### spec.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specpodantiaffinityrequiredduringschedulingignoredduringexecutionindexlabelselector)</sup></sup>
+### spec.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specpodantiaffinityrequiredduringschedulingignoredduringexecutionlabelselector)</sup></sup>
 
 
 
@@ -1860,8 +1860,8 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
 </table>
 
 
-### spec.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].namespaceSelector
-<sup><sup>[↩ Parent](#specpodantiaffinityrequiredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector
+<sup><sup>[↩ Parent](#specpodantiaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -1875,7 +1875,7 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specpodantiaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specpodantiaffinityrequiredduringschedulingignoredduringexecutionnamespaceselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -1892,8 +1892,8 @@ Override for the default anti-affinity rules of the Redis Enterprise pods. More 
 </table>
 
 
-### spec.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].namespaceSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specpodantiaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselector)</sup></sup>
+### spec.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specpodantiaffinityrequiredduringschedulingignoredduringexecutionnamespaceselector)</sup></sup>
 
 
 
@@ -1965,7 +1965,7 @@ Mitigation setting for STS pods stuck in "ContainerCreating"
 </table>
 
 
-### spec.podTolerations[index]
+### spec.podTolerations[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
 
@@ -2020,7 +2020,7 @@ Mitigation setting for STS pods stuck in "ContainerCreating"
 </table>
 
 
-### spec.pullSecrets[index]
+### spec.pullSecrets[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
 
@@ -2104,14 +2104,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex">ephemeralContainers</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainers">ephemeralContainers</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributeshostaliasesindex">hostAliases</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributeshostaliases">hostAliases</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2153,14 +2153,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesimagepullsecretsindex">imagePullSecrets</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesimagepullsecrets">imagePullSecrets</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindex">initContainers</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainers">initContainers</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2218,14 +2218,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesreadinessgatesindex">readinessGates</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesreadinessgates">readinessGates</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesresourceclaimsindex">resourceClaims</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesresourceclaims">resourceClaims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2253,7 +2253,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesschedulinggatesindex">schedulingGates</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesschedulinggates">schedulingGates</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2311,21 +2311,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributestolerationsindex">tolerations</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributestolerations">tolerations</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributestopologyspreadconstraintsindex">topologySpreadConstraints</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributestopologyspreadconstraints">topologySpreadConstraints</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindex">volumes</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumes">volumes</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2389,7 +2389,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindex">preferredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecution">preferredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2406,7 +2406,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinity)</sup></sup>
 
 
@@ -2421,7 +2421,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindexpreference">preference</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionpreference">preference</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -2440,8 +2440,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].preference
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -2455,14 +2455,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindexpreferencematchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionpreferencematchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindexpreferencematchfieldsindex">matchFields</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionpreferencematchfields">matchFields</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2472,8 +2472,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].preference.matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindexpreference)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionpreference)</sup></sup>
 
 
 
@@ -2511,8 +2511,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].preference.matchFields[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindexpreference)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchFields[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionpreference)</sup></sup>
 
 
 
@@ -2565,7 +2565,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsindex">nodeSelectorTerms</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectorterms">nodeSelectorTerms</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2575,7 +2575,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
@@ -2590,14 +2590,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsindexmatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsmatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsindexmatchfieldsindex">matchFields</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsmatchfields">matchFields</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2607,8 +2607,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[index].matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectorterms)</sup></sup>
 
 
 
@@ -2646,8 +2646,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[index].matchFields[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchFields[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectorterms)</sup></sup>
 
 
 
@@ -2700,14 +2700,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindex">preferredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecution">preferredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindex">requiredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecution">requiredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2717,7 +2717,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinity)</sup></sup>
 
 
@@ -2732,7 +2732,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm">podAffinityTerm</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm">podAffinityTerm</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -2751,8 +2751,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -2773,14 +2773,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselector">labelSelector</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselector">namespaceSelector</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselector">namespaceSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -2797,8 +2797,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.labelSelector
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm)</sup></sup>
 
 
 
@@ -2812,7 +2812,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2829,8 +2829,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselector)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselector)</sup></sup>
 
 
 
@@ -2868,8 +2868,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.namespaceSelector
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm)</sup></sup>
 
 
 
@@ -2883,7 +2883,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -2900,8 +2900,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.namespaceSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselector)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselector)</sup></sup>
 
 
 
@@ -2939,7 +2939,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinity)</sup></sup>
 
 
@@ -2961,14 +2961,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexlabelselector">labelSelector</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionlabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselector">namespaceSelector</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionnamespaceselector">namespaceSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -2985,8 +2985,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].labelSelector
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -3000,7 +3000,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionlabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -3017,8 +3017,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexlabelselector)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionlabelselector)</sup></sup>
 
 
 
@@ -3056,8 +3056,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].namespaceSelector
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -3071,7 +3071,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionnamespaceselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -3088,8 +3088,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].namespaceSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselector)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionnamespaceselector)</sup></sup>
 
 
 
@@ -3142,14 +3142,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindex">preferredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecution">preferredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindex">requiredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecution">requiredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -3159,7 +3159,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinity)</sup></sup>
 
 
@@ -3174,7 +3174,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm">podAffinityTerm</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm">podAffinityTerm</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -3193,8 +3193,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -3215,14 +3215,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselector">labelSelector</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselector">namespaceSelector</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselector">namespaceSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -3239,8 +3239,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.labelSelector
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm)</sup></sup>
 
 
 
@@ -3254,7 +3254,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -3271,8 +3271,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselector)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselector)</sup></sup>
 
 
 
@@ -3310,8 +3310,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.namespaceSelector
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm)</sup></sup>
 
 
 
@@ -3325,7 +3325,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -3342,8 +3342,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.namespaceSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselector)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselector)</sup></sup>
 
 
 
@@ -3381,7 +3381,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinity)</sup></sup>
 
 
@@ -3403,14 +3403,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexlabelselector">labelSelector</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionlabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselector">namespaceSelector</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionnamespaceselector">namespaceSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -3427,8 +3427,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].labelSelector
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -3442,7 +3442,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionlabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -3459,8 +3459,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexlabelselector)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionlabelselector)</sup></sup>
 
 
 
@@ -3498,8 +3498,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].namespaceSelector
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -3513,7 +3513,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionnamespaceselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -3530,8 +3530,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].namespaceSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselector)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionnamespaceselector)</sup></sup>
 
 
 
@@ -3591,7 +3591,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesdnsconfigoptionsindex">options</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesdnsconfigoptions">options</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -3608,7 +3608,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.dnsConfig.options[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.dnsConfig.options[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesdnsconfig)</sup></sup>
 
 
@@ -3640,7 +3640,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributes)</sup></sup>
 
 
@@ -3676,14 +3676,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvindex">env</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersenv">env</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvfromindex">envFrom</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvfrom">envFrom</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -3704,49 +3704,49 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycle">lifecycle</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycle">lifecycle</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlivenessprobe">livenessProbe</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslivenessprobe">livenessProbe</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexportsindex">ports</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersports">ports</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexreadinessprobe">readinessProbe</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersreadinessprobe">readinessProbe</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexresources">resources</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersresources">resources</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexsecuritycontext">securityContext</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerssecuritycontext">securityContext</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexstartupprobe">startupProbe</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersstartupprobe">startupProbe</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -3795,14 +3795,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexvolumedevicesindex">volumeDevices</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersvolumedevices">volumeDevices</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexvolumemountsindex">volumeMounts</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersvolumemounts">volumeMounts</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -3819,8 +3819,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].env[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].env[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -3848,7 +3848,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvindexvaluefrom">valueFrom</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvvaluefrom">valueFrom</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -3858,8 +3858,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].env[index].valueFrom
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].env[].valueFrom
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersenv)</sup></sup>
 
 
 
@@ -3873,28 +3873,28 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvindexvaluefromconfigmapkeyref">configMapKeyRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvvaluefromconfigmapkeyref">configMapKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvindexvaluefromfieldref">fieldRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvvaluefromfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvindexvaluefromresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvvaluefromresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvindexvaluefromsecretkeyref">secretKeyRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvvaluefromsecretkeyref">secretKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -3904,8 +3904,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].env[index].valueFrom.configMapKeyRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].env[].valueFrom.configMapKeyRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -3943,8 +3943,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].env[index].valueFrom.fieldRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].env[].valueFrom.fieldRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -3975,8 +3975,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].env[index].valueFrom.resourceFieldRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].env[].valueFrom.resourceFieldRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -4014,8 +4014,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].env[index].valueFrom.secretKeyRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].env[].valueFrom.secretKeyRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -4053,8 +4053,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].envFrom[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].envFrom[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -4068,7 +4068,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvfromindexconfigmapref">configMapRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvfromconfigmapref">configMapRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -4082,7 +4082,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvfromindexsecretref">secretRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvfromsecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -4092,8 +4092,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].envFrom[index].configMapRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvfromindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].envFrom[].configMapRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvfrom)</sup></sup>
 
 
 
@@ -4124,8 +4124,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].envFrom[index].secretRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexenvfromindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].envFrom[].secretRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersenvfrom)</sup></sup>
 
 
 
@@ -4156,8 +4156,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -4171,14 +4171,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecyclepoststart">postStart</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecyclepoststart">postStart</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycleprestop">preStop</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycleprestop">preStop</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -4188,8 +4188,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.postStart
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycle)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.postStart
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycle)</sup></sup>
 
 
 
@@ -4203,21 +4203,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecyclepoststartexec">exec</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecyclepoststartexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecyclepoststarthttpget">httpGet</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecyclepoststarthttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecyclepoststarttcpsocket">tcpSocket</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecyclepoststarttcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -4227,8 +4227,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.postStart.exec
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecyclepoststart)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.postStart.exec
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -4252,8 +4252,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.postStart.httpGet
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecyclepoststart)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.postStart.httpGet
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -4281,7 +4281,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecyclepoststarthttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecyclepoststarthttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -4305,8 +4305,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.postStart.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecyclepoststarthttpget)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.postStart.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecyclepoststarthttpget)</sup></sup>
 
 
 
@@ -4337,8 +4337,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.postStart.tcpSocket
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecyclepoststart)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.postStart.tcpSocket
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -4369,8 +4369,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.preStop
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycle)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.preStop
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycle)</sup></sup>
 
 
 
@@ -4384,21 +4384,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycleprestopexec">exec</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycleprestopexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycleprestophttpget">httpGet</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycleprestophttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycleprestoptcpsocket">tcpSocket</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycleprestoptcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -4408,8 +4408,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.preStop.exec
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycleprestop)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.preStop.exec
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -4433,8 +4433,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.preStop.httpGet
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycleprestop)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.preStop.httpGet
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -4462,7 +4462,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycleprestophttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycleprestophttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -4486,8 +4486,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.preStop.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycleprestophttpget)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.preStop.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycleprestophttpget)</sup></sup>
 
 
 
@@ -4518,8 +4518,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.preStop.tcpSocket
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlifecycleprestop)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.preStop.tcpSocket
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -4550,8 +4550,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -4565,7 +4565,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlivenessprobeexec">exec</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslivenessprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -4581,14 +4581,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlivenessprobegrpc">grpc</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslivenessprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlivenessprobehttpget">httpGet</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslivenessprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -4622,7 +4622,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlivenessprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslivenessprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -4650,8 +4650,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe.exec
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlivenessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe.exec
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -4675,8 +4675,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe.grpc
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlivenessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe.grpc
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -4709,8 +4709,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe.httpGet
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlivenessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe.httpGet
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -4738,7 +4738,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlivenessprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerslivenessprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -4762,8 +4762,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlivenessprobehttpget)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslivenessprobehttpget)</sup></sup>
 
 
 
@@ -4794,8 +4794,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe.tcpSocket
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexlivenessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe.tcpSocket
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -4826,8 +4826,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].ports[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].ports[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -4885,8 +4885,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -4900,7 +4900,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexreadinessprobeexec">exec</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersreadinessprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -4916,14 +4916,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexreadinessprobegrpc">grpc</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersreadinessprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexreadinessprobehttpget">httpGet</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersreadinessprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -4957,7 +4957,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexreadinessprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersreadinessprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -4985,8 +4985,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe.exec
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexreadinessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe.exec
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -5010,8 +5010,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe.grpc
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexreadinessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe.grpc
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -5044,8 +5044,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe.httpGet
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexreadinessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe.httpGet
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -5073,7 +5073,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexreadinessprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersreadinessprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -5097,8 +5097,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexreadinessprobehttpget)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersreadinessprobehttpget)</sup></sup>
 
 
 
@@ -5129,8 +5129,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe.tcpSocket
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexreadinessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe.tcpSocket
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -5161,8 +5161,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].resources
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].resources
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -5176,7 +5176,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexresourcesclaimsindex">claims</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersresourcesclaims">claims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -5200,8 +5200,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].resources.claims[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexresources)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].resources.claims[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersresources)</sup></sup>
 
 
 
@@ -5225,8 +5225,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].securityContext
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].securityContext
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -5247,7 +5247,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexsecuritycontextcapabilities">capabilities</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerssecuritycontextcapabilities">capabilities</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -5300,21 +5300,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexsecuritycontextselinuxoptions">seLinuxOptions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerssecuritycontextselinuxoptions">seLinuxOptions</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexsecuritycontextseccompprofile">seccompProfile</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerssecuritycontextseccompprofile">seccompProfile</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexsecuritycontextwindowsoptions">windowsOptions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainerssecuritycontextwindowsoptions">windowsOptions</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -5324,8 +5324,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].securityContext.capabilities
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexsecuritycontext)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].securityContext.capabilities
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -5356,8 +5356,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].securityContext.seLinuxOptions
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexsecuritycontext)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].securityContext.seLinuxOptions
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -5402,8 +5402,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].securityContext.seccompProfile
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexsecuritycontext)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].securityContext.seccompProfile
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -5434,8 +5434,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].securityContext.windowsOptions
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexsecuritycontext)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].securityContext.windowsOptions
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -5480,8 +5480,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -5495,7 +5495,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexstartupprobeexec">exec</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersstartupprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -5511,14 +5511,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexstartupprobegrpc">grpc</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersstartupprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexstartupprobehttpget">httpGet</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersstartupprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -5552,7 +5552,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexstartupprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersstartupprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -5580,8 +5580,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe.exec
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexstartupprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe.exec
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersstartupprobe)</sup></sup>
 
 
 
@@ -5605,8 +5605,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe.grpc
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexstartupprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe.grpc
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersstartupprobe)</sup></sup>
 
 
 
@@ -5639,8 +5639,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe.httpGet
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexstartupprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe.httpGet
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersstartupprobe)</sup></sup>
 
 
 
@@ -5668,7 +5668,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexstartupprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesephemeralcontainersstartupprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -5692,8 +5692,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexstartupprobehttpget)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersstartupprobehttpget)</sup></sup>
 
 
 
@@ -5724,8 +5724,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe.tcpSocket
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindexstartupprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe.tcpSocket
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersstartupprobe)</sup></sup>
 
 
 
@@ -5756,8 +5756,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].volumeDevices[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].volumeDevices[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -5788,8 +5788,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[index].volumeMounts[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.ephemeralContainers[].volumeMounts[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -5848,7 +5848,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.hostAliases[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.hostAliases[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributes)</sup></sup>
 
 
@@ -5880,7 +5880,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.imagePullSecrets[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.imagePullSecrets[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributes)</sup></sup>
 
 
@@ -5905,7 +5905,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributes)</sup></sup>
 
 
@@ -5941,14 +5941,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvindex">env</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersenv">env</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvfromindex">envFrom</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersenvfrom">envFrom</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -5969,49 +5969,49 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycle">lifecycle</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycle">lifecycle</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlivenessprobe">livenessProbe</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslivenessprobe">livenessProbe</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexportsindex">ports</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersports">ports</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexreadinessprobe">readinessProbe</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersreadinessprobe">readinessProbe</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexresources">resources</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersresources">resources</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexsecuritycontext">securityContext</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerssecuritycontext">securityContext</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexstartupprobe">startupProbe</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersstartupprobe">startupProbe</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -6053,14 +6053,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexvolumedevicesindex">volumeDevices</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersvolumedevices">volumeDevices</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexvolumemountsindex">volumeMounts</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersvolumemounts">volumeMounts</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -6077,8 +6077,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].env[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].env[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -6106,7 +6106,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvindexvaluefrom">valueFrom</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersenvvaluefrom">valueFrom</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -6116,8 +6116,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].env[index].valueFrom
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].env[].valueFrom
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersenv)</sup></sup>
 
 
 
@@ -6131,28 +6131,28 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvindexvaluefromconfigmapkeyref">configMapKeyRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersenvvaluefromconfigmapkeyref">configMapKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvindexvaluefromfieldref">fieldRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersenvvaluefromfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvindexvaluefromresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersenvvaluefromresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvindexvaluefromsecretkeyref">secretKeyRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersenvvaluefromsecretkeyref">secretKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -6162,8 +6162,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].env[index].valueFrom.configMapKeyRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].env[].valueFrom.configMapKeyRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -6201,8 +6201,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].env[index].valueFrom.fieldRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].env[].valueFrom.fieldRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -6233,8 +6233,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].env[index].valueFrom.resourceFieldRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].env[].valueFrom.resourceFieldRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -6272,8 +6272,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].env[index].valueFrom.secretKeyRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].env[].valueFrom.secretKeyRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -6311,8 +6311,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].envFrom[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].envFrom[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -6326,7 +6326,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvfromindexconfigmapref">configMapRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersenvfromconfigmapref">configMapRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -6340,7 +6340,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvfromindexsecretref">secretRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersenvfromsecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -6350,8 +6350,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].envFrom[index].configMapRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvfromindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].envFrom[].configMapRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersenvfrom)</sup></sup>
 
 
 
@@ -6382,8 +6382,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].envFrom[index].secretRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexenvfromindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].envFrom[].secretRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersenvfrom)</sup></sup>
 
 
 
@@ -6414,8 +6414,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].lifecycle
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].lifecycle
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -6429,14 +6429,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecyclepoststart">postStart</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslifecyclepoststart">postStart</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycleprestop">preStop</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycleprestop">preStop</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -6446,8 +6446,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].lifecycle.postStart
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycle)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].lifecycle.postStart
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycle)</sup></sup>
 
 
 
@@ -6461,21 +6461,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecyclepoststartexec">exec</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslifecyclepoststartexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecyclepoststarthttpget">httpGet</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslifecyclepoststarthttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecyclepoststarttcpsocket">tcpSocket</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslifecyclepoststarttcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -6485,8 +6485,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].lifecycle.postStart.exec
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecyclepoststart)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].lifecycle.postStart.exec
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -6510,8 +6510,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].lifecycle.postStart.httpGet
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecyclepoststart)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].lifecycle.postStart.httpGet
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -6539,7 +6539,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecyclepoststarthttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslifecyclepoststarthttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -6563,8 +6563,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].lifecycle.postStart.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecyclepoststarthttpget)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].lifecycle.postStart.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslifecyclepoststarthttpget)</sup></sup>
 
 
 
@@ -6595,8 +6595,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].lifecycle.postStart.tcpSocket
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecyclepoststart)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].lifecycle.postStart.tcpSocket
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -6627,8 +6627,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].lifecycle.preStop
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycle)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].lifecycle.preStop
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycle)</sup></sup>
 
 
 
@@ -6642,21 +6642,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycleprestopexec">exec</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycleprestopexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycleprestophttpget">httpGet</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycleprestophttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycleprestoptcpsocket">tcpSocket</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycleprestoptcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -6666,8 +6666,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].lifecycle.preStop.exec
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycleprestop)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].lifecycle.preStop.exec
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -6691,8 +6691,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].lifecycle.preStop.httpGet
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycleprestop)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].lifecycle.preStop.httpGet
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -6720,7 +6720,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycleprestophttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycleprestophttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -6744,8 +6744,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].lifecycle.preStop.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycleprestophttpget)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].lifecycle.preStop.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycleprestophttpget)</sup></sup>
 
 
 
@@ -6776,8 +6776,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].lifecycle.preStop.tcpSocket
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlifecycleprestop)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].lifecycle.preStop.tcpSocket
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -6808,8 +6808,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].livenessProbe
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].livenessProbe
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -6823,7 +6823,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlivenessprobeexec">exec</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslivenessprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -6839,14 +6839,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlivenessprobegrpc">grpc</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslivenessprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlivenessprobehttpget">httpGet</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslivenessprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -6880,7 +6880,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlivenessprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslivenessprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -6908,8 +6908,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].livenessProbe.exec
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlivenessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].livenessProbe.exec
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -6933,8 +6933,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].livenessProbe.grpc
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlivenessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].livenessProbe.grpc
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -6967,8 +6967,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].livenessProbe.httpGet
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlivenessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].livenessProbe.httpGet
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -6996,7 +6996,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexlivenessprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerslivenessprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -7020,8 +7020,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].livenessProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlivenessprobehttpget)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].livenessProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslivenessprobehttpget)</sup></sup>
 
 
 
@@ -7052,8 +7052,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].livenessProbe.tcpSocket
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexlivenessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].livenessProbe.tcpSocket
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -7084,8 +7084,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].ports[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].ports[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -7143,8 +7143,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].readinessProbe
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].readinessProbe
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -7158,7 +7158,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexreadinessprobeexec">exec</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersreadinessprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -7174,14 +7174,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexreadinessprobegrpc">grpc</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersreadinessprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexreadinessprobehttpget">httpGet</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersreadinessprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -7215,7 +7215,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexreadinessprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersreadinessprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -7243,8 +7243,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].readinessProbe.exec
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexreadinessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].readinessProbe.exec
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -7268,8 +7268,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].readinessProbe.grpc
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexreadinessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].readinessProbe.grpc
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -7302,8 +7302,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].readinessProbe.httpGet
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexreadinessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].readinessProbe.httpGet
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -7331,7 +7331,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexreadinessprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersreadinessprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -7355,8 +7355,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].readinessProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexreadinessprobehttpget)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].readinessProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersreadinessprobehttpget)</sup></sup>
 
 
 
@@ -7387,8 +7387,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].readinessProbe.tcpSocket
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexreadinessprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].readinessProbe.tcpSocket
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -7419,8 +7419,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].resources
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].resources
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -7434,7 +7434,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexresourcesclaimsindex">claims</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersresourcesclaims">claims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -7458,8 +7458,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].resources.claims[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexresources)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].resources.claims[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersresources)</sup></sup>
 
 
 
@@ -7483,8 +7483,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].securityContext
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].securityContext
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -7505,7 +7505,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexsecuritycontextcapabilities">capabilities</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerssecuritycontextcapabilities">capabilities</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -7558,21 +7558,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexsecuritycontextselinuxoptions">seLinuxOptions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerssecuritycontextselinuxoptions">seLinuxOptions</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexsecuritycontextseccompprofile">seccompProfile</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerssecuritycontextseccompprofile">seccompProfile</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexsecuritycontextwindowsoptions">windowsOptions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainerssecuritycontextwindowsoptions">windowsOptions</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -7582,8 +7582,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].securityContext.capabilities
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexsecuritycontext)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].securityContext.capabilities
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -7614,8 +7614,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].securityContext.seLinuxOptions
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexsecuritycontext)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].securityContext.seLinuxOptions
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -7660,8 +7660,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].securityContext.seccompProfile
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexsecuritycontext)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].securityContext.seccompProfile
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -7692,8 +7692,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].securityContext.windowsOptions
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexsecuritycontext)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].securityContext.windowsOptions
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -7738,8 +7738,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].startupProbe
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].startupProbe
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -7753,7 +7753,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexstartupprobeexec">exec</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersstartupprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -7769,14 +7769,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexstartupprobegrpc">grpc</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersstartupprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexstartupprobehttpget">httpGet</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersstartupprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -7810,7 +7810,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexstartupprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersstartupprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -7838,8 +7838,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].startupProbe.exec
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexstartupprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].startupProbe.exec
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersstartupprobe)</sup></sup>
 
 
 
@@ -7863,8 +7863,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].startupProbe.grpc
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexstartupprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].startupProbe.grpc
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersstartupprobe)</sup></sup>
 
 
 
@@ -7897,8 +7897,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].startupProbe.httpGet
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexstartupprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].startupProbe.httpGet
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersstartupprobe)</sup></sup>
 
 
 
@@ -7926,7 +7926,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersindexstartupprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesinitcontainersstartupprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -7950,8 +7950,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].startupProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexstartupprobehttpget)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].startupProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersstartupprobehttpget)</sup></sup>
 
 
 
@@ -7982,8 +7982,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].startupProbe.tcpSocket
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindexstartupprobe)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].startupProbe.tcpSocket
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersstartupprobe)</sup></sup>
 
 
 
@@ -8014,8 +8014,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].volumeDevices[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].volumeDevices[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -8046,8 +8046,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[index].volumeMounts[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.initContainers[].volumeMounts[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -8131,7 +8131,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.readinessGates[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.readinessGates[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributes)</sup></sup>
 
 
@@ -8156,7 +8156,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.resourceClaims[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.resourceClaims[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributes)</sup></sup>
 
 
@@ -8178,7 +8178,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesresourceclaimsindexsource">source</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesresourceclaimssource">source</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -8188,8 +8188,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.resourceClaims[index].source
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesresourceclaimsindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.resourceClaims[].source
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesresourceclaims)</sup></sup>
 
 
 
@@ -8220,7 +8220,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.schedulingGates[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.schedulingGates[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributes)</sup></sup>
 
 
@@ -8322,7 +8322,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributessecuritycontextsysctlsindex">sysctls</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributessecuritycontextsysctls">sysctls</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -8417,7 +8417,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.securityContext.sysctls[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.securityContext.sysctls[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributessecuritycontext)</sup></sup>
 
 
@@ -8495,7 +8495,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.tolerations[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.tolerations[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributes)</sup></sup>
 
 
@@ -8550,7 +8550,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.topologySpreadConstraints[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.topologySpreadConstraints[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributes)</sup></sup>
 
 
@@ -8588,7 +8588,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributestopologyspreadconstraintsindexlabelselector">labelSelector</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributestopologyspreadconstraintslabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -8628,8 +8628,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.topologySpreadConstraints[index].labelSelector
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributestopologyspreadconstraintsindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.topologySpreadConstraints[].labelSelector
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributestopologyspreadconstraints)</sup></sup>
 
 
 
@@ -8643,7 +8643,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributestopologyspreadconstraintsindexlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributestopologyspreadconstraintslabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -8660,8 +8660,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.topologySpreadConstraints[index].labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributestopologyspreadconstraintsindexlabelselector)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.topologySpreadConstraints[].labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributestopologyspreadconstraintslabelselector)</sup></sup>
 
 
 
@@ -8699,7 +8699,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index]
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[]
 <sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributes)</sup></sup>
 
 
@@ -8721,203 +8721,203 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexawselasticblockstore">awsElasticBlockStore</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesawselasticblockstore">awsElasticBlockStore</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexazuredisk">azureDisk</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesazuredisk">azureDisk</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexazurefile">azureFile</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesazurefile">azureFile</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexcephfs">cephfs</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumescephfs">cephfs</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexcinder">cinder</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumescinder">cinder</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexconfigmap">configMap</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesconfigmap">configMap</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexcsi">csi</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumescsi">csi</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexdownwardapi">downwardAPI</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesdownwardapi">downwardAPI</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexemptydir">emptyDir</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesemptydir">emptyDir</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexephemeral">ephemeral</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesephemeral">ephemeral</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexfc">fc</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesfc">fc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexflexvolume">flexVolume</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesflexvolume">flexVolume</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexflocker">flocker</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesflocker">flocker</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexgcepersistentdisk">gcePersistentDisk</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesgcepersistentdisk">gcePersistentDisk</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexgitrepo">gitRepo</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesgitrepo">gitRepo</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexglusterfs">glusterfs</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesglusterfs">glusterfs</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexhostpath">hostPath</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumeshostpath">hostPath</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexiscsi">iscsi</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesiscsi">iscsi</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexnfs">nfs</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesnfs">nfs</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexpersistentvolumeclaim">persistentVolumeClaim</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumespersistentvolumeclaim">persistentVolumeClaim</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexphotonpersistentdisk">photonPersistentDisk</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesphotonpersistentdisk">photonPersistentDisk</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexportworxvolume">portworxVolume</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesportworxvolume">portworxVolume</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexprojected">projected</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesprojected">projected</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexquobyte">quobyte</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesquobyte">quobyte</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexrbd">rbd</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesrbd">rbd</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexscaleio">scaleIO</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesscaleio">scaleIO</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexsecret">secret</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumessecret">secret</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexstorageos">storageos</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesstorageos">storageos</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexvspherevolume">vsphereVolume</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesvspherevolume">vsphereVolume</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -8927,8 +8927,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].awsElasticBlockStore
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].awsElasticBlockStore
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -8975,8 +8975,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].azureDisk
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].azureDisk
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -9035,8 +9035,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].azureFile
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].azureFile
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -9074,8 +9074,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].cephfs
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].cephfs
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -9117,7 +9117,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexcephfssecretref">secretRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumescephfssecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -9134,8 +9134,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].cephfs.secretRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexcephfs)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].cephfs.secretRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumescephfs)</sup></sup>
 
 
 
@@ -9159,8 +9159,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].cinder
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].cinder
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -9195,7 +9195,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexcindersecretref">secretRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumescindersecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -9205,8 +9205,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].cinder.secretRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexcinder)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].cinder.secretRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumescinder)</sup></sup>
 
 
 
@@ -9230,8 +9230,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].configMap
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].configMap
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -9254,7 +9254,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexconfigmapitemsindex">items</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesconfigmapitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -9278,8 +9278,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].configMap.items[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexconfigmap)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].configMap.items[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesconfigmap)</sup></sup>
 
 
 
@@ -9319,8 +9319,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].csi
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].csi
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -9348,7 +9348,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexcsinodepublishsecretref">nodePublishSecretRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumescsinodepublishsecretref">nodePublishSecretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -9372,8 +9372,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].csi.nodePublishSecretRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexcsi)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].csi.nodePublishSecretRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumescsi)</sup></sup>
 
 
 
@@ -9397,8 +9397,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].downwardAPI
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].downwardAPI
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -9421,7 +9421,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexdownwardapiitemsindex">items</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesdownwardapiitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -9431,8 +9431,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].downwardAPI.items[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexdownwardapi)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].downwardAPI.items[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesdownwardapi)</sup></sup>
 
 
 
@@ -9453,7 +9453,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexdownwardapiitemsindexfieldref">fieldRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesdownwardapiitemsfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -9469,7 +9469,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexdownwardapiitemsindexresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesdownwardapiitemsresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -9479,8 +9479,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].downwardAPI.items[index].fieldRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexdownwardapiitemsindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].downwardAPI.items[].fieldRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesdownwardapiitems)</sup></sup>
 
 
 
@@ -9511,8 +9511,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].downwardAPI.items[index].resourceFieldRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexdownwardapiitemsindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].downwardAPI.items[].resourceFieldRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesdownwardapiitems)</sup></sup>
 
 
 
@@ -9550,8 +9550,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].emptyDir
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].emptyDir
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -9582,8 +9582,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].ephemeral
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].ephemeral
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -9597,7 +9597,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplate">volumeClaimTemplate</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplate">volumeClaimTemplate</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -9607,8 +9607,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexephemeral)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesephemeral)</sup></sup>
 
 
 
@@ -9622,7 +9622,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespec">spec</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespec">spec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -9639,8 +9639,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplate)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplate)</sup></sup>
 
 
 
@@ -9661,28 +9661,28 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecdatasource">dataSource</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecdatasource">dataSource</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecdatasourceref">dataSourceRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecdatasourceref">dataSourceRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecresources">resources</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecresources">resources</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecselector">selector</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecselector">selector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -9713,8 +9713,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.dataSource
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespec)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.dataSource
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespec)</sup></sup>
 
 
 
@@ -9752,8 +9752,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.dataSourceRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespec)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.dataSourceRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespec)</sup></sup>
 
 
 
@@ -9798,8 +9798,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.resources
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespec)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.resources
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespec)</sup></sup>
 
 
 
@@ -9813,7 +9813,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecresourcesclaimsindex">claims</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecresourcesclaims">claims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -9837,8 +9837,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.resources.claims[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecresources)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.resources.claims[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecresources)</sup></sup>
 
 
 
@@ -9862,8 +9862,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.selector
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespec)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.selector
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespec)</sup></sup>
 
 
 
@@ -9877,7 +9877,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -9894,8 +9894,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.selector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecselector)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.selector.matchExpressions[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecselector)</sup></sup>
 
 
 
@@ -9933,8 +9933,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].fc
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].fc
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -9988,8 +9988,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].flexVolume
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].flexVolume
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10031,7 +10031,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexflexvolumesecretref">secretRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesflexvolumesecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -10041,8 +10041,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].flexVolume.secretRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexflexvolume)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].flexVolume.secretRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesflexvolume)</sup></sup>
 
 
 
@@ -10066,8 +10066,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].flocker
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].flocker
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10098,8 +10098,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].gcePersistentDisk
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].gcePersistentDisk
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10146,8 +10146,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].gitRepo
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].gitRepo
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10185,8 +10185,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].glusterfs
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].glusterfs
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10224,8 +10224,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].hostPath
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].hostPath
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10256,8 +10256,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].iscsi
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].iscsi
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10343,7 +10343,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexiscsisecretref">secretRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesiscsisecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -10353,8 +10353,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].iscsi.secretRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexiscsi)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].iscsi.secretRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesiscsi)</sup></sup>
 
 
 
@@ -10378,8 +10378,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].nfs
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].nfs
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10417,8 +10417,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].persistentVolumeClaim
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].persistentVolumeClaim
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10449,8 +10449,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].photonPersistentDisk
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].photonPersistentDisk
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10481,8 +10481,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].portworxVolume
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].portworxVolume
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10520,8 +10520,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].projected
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].projected
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -10544,7 +10544,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindex">sources</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesprojectedsources">sources</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -10554,8 +10554,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].projected.sources[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexprojected)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].projected.sources[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesprojected)</sup></sup>
 
 
 
@@ -10569,28 +10569,28 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexconfigmap">configMap</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcesconfigmap">configMap</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapi">downwardAPI</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcesdownwardapi">downwardAPI</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexsecret">secret</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcessecret">secret</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexserviceaccounttoken">serviceAccountToken</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcesserviceaccounttoken">serviceAccountToken</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -10600,8 +10600,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].projected.sources[index].configMap
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].projected.sources[].configMap
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesprojectedsources)</sup></sup>
 
 
 
@@ -10615,7 +10615,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexconfigmapitemsindex">items</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcesconfigmapitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -10639,8 +10639,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].projected.sources[index].configMap.items[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexconfigmap)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].projected.sources[].configMap.items[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcesconfigmap)</sup></sup>
 
 
 
@@ -10680,8 +10680,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].projected.sources[index].downwardAPI
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].projected.sources[].downwardAPI
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesprojectedsources)</sup></sup>
 
 
 
@@ -10695,7 +10695,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapiitemsindex">items</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcesdownwardapiitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -10705,8 +10705,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].projected.sources[index].downwardAPI.items[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapi)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].projected.sources[].downwardAPI.items[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcesdownwardapi)</sup></sup>
 
 
 
@@ -10727,7 +10727,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapiitemsindexfieldref">fieldRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcesdownwardapiitemsfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -10743,7 +10743,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapiitemsindexresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcesdownwardapiitemsresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -10753,8 +10753,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].projected.sources[index].downwardAPI.items[index].fieldRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapiitemsindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].projected.sources[].downwardAPI.items[].fieldRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcesdownwardapiitems)</sup></sup>
 
 
 
@@ -10785,8 +10785,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].projected.sources[index].downwardAPI.items[index].resourceFieldRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapiitemsindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].projected.sources[].downwardAPI.items[].resourceFieldRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcesdownwardapiitems)</sup></sup>
 
 
 
@@ -10824,8 +10824,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].projected.sources[index].secret
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].projected.sources[].secret
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesprojectedsources)</sup></sup>
 
 
 
@@ -10839,7 +10839,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexsecretitemsindex">items</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcessecretitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -10863,8 +10863,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].projected.sources[index].secret.items[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindexsecret)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].projected.sources[].secret.items[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesprojectedsourcessecret)</sup></sup>
 
 
 
@@ -10904,8 +10904,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].projected.sources[index].serviceAccountToken
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].projected.sources[].serviceAccountToken
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesprojectedsources)</sup></sup>
 
 
 
@@ -10945,8 +10945,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].quobyte
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].quobyte
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -11005,8 +11005,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].rbd
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].rbd
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -11062,7 +11062,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexrbdsecretref">secretRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesrbdsecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -11079,8 +11079,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].rbd.secretRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexrbd)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].rbd.secretRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesrbd)</sup></sup>
 
 
 
@@ -11104,8 +11104,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].scaleIO
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].scaleIO
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -11126,7 +11126,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexscaleiosecretref">secretRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesscaleiosecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -11192,8 +11192,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].scaleIO.secretRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexscaleio)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].scaleIO.secretRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesscaleio)</sup></sup>
 
 
 
@@ -11217,8 +11217,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].secret
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].secret
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -11241,7 +11241,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexsecretitemsindex">items</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumessecretitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -11265,8 +11265,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].secret.items[index]
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexsecret)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].secret.items[]
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumessecret)</sup></sup>
 
 
 
@@ -11306,8 +11306,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].storageos
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].storageos
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -11335,7 +11335,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesindexstorageossecretref">secretRef</a></td>
+        <td><a href="#specredisenterpriseadditionalpodspecattributesvolumesstorageossecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -11359,8 +11359,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].storageos.secretRef
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindexstorageos)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].storageos.secretRef
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesstorageos)</sup></sup>
 
 
 
@@ -11384,8 +11384,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[index].vsphereVolume
-<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.redisEnterpriseAdditionalPodSpecAttributes.volumes[].vsphereVolume
+<sup><sup>[↩ Parent](#specredisenterpriseadditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -11491,7 +11491,7 @@ Compute resource requirements for Redis Enterprise containers
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterprisenoderesourcesclaimsindex">claims</a></td>
+        <td><a href="#specredisenterprisenoderesourcesclaims">claims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -11515,7 +11515,7 @@ Compute resource requirements for Redis Enterprise containers
 </table>
 
 
-### spec.redisEnterpriseNodeResources.claims[index]
+### spec.redisEnterpriseNodeResources.claims[]
 <sup><sup>[↩ Parent](#specredisenterprisenoderesources)</sup></sup>
 
 
@@ -11857,7 +11857,7 @@ Compute resource requirements for Services Rigger pod
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specredisenterpriseservicesriggerresourcesclaimsindex">claims</a></td>
+        <td><a href="#specredisenterpriseservicesriggerresourcesclaims">claims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -11881,7 +11881,7 @@ Compute resource requirements for Services Rigger pod
 </table>
 
 
-### spec.redisEnterpriseServicesRiggerResources.claims[index]
+### spec.redisEnterpriseServicesRiggerResources.claims[]
 <sup><sup>[↩ Parent](#specredisenterpriseservicesriggerresources)</sup></sup>
 
 
@@ -11906,7 +11906,7 @@ Compute resource requirements for Services Rigger pod
 </table>
 
 
-### spec.redisEnterpriseVolumeMounts[index]
+### spec.redisEnterpriseVolumeMounts[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
 
@@ -12104,7 +12104,7 @@ Specification for service rigger
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecextraenvvarsindex">extraEnvVars</a></td>
+        <td><a href="#specservicesriggerspecextraenvvars">extraEnvVars</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -12137,7 +12137,7 @@ Specification for service rigger
 </table>
 
 
-### spec.servicesRiggerSpec.extraEnvVars[index]
+### spec.servicesRiggerSpec.extraEnvVars[]
 <sup><sup>[↩ Parent](#specservicesriggerspec)</sup></sup>
 
 EnvVar represents an environment variable present in a Container. More info: https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/
@@ -12166,7 +12166,7 @@ EnvVar represents an environment variable present in a Container. More info: htt
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecextraenvvarsindexvaluefrom">valueFrom</a></td>
+        <td><a href="#specservicesriggerspecextraenvvarsvaluefrom">valueFrom</a></td>
         <td>object</td>
         <td>
           Source for the environment variable's value. Cannot be used if value is not empty.<br/>
@@ -12176,8 +12176,8 @@ EnvVar represents an environment variable present in a Container. More info: htt
 </table>
 
 
-### spec.servicesRiggerSpec.extraEnvVars[index].valueFrom
-<sup><sup>[↩ Parent](#specservicesriggerspecextraenvvarsindex)</sup></sup>
+### spec.servicesRiggerSpec.extraEnvVars[].valueFrom
+<sup><sup>[↩ Parent](#specservicesriggerspecextraenvvars)</sup></sup>
 
 Source for the environment variable's value. Cannot be used if value is not empty.
 
@@ -12191,28 +12191,28 @@ Source for the environment variable's value. Cannot be used if value is not empt
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecextraenvvarsindexvaluefromconfigmapkeyref">configMapKeyRef</a></td>
+        <td><a href="#specservicesriggerspecextraenvvarsvaluefromconfigmapkeyref">configMapKeyRef</a></td>
         <td>object</td>
         <td>
           Selects a key of a ConfigMap.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecextraenvvarsindexvaluefromfieldref">fieldRef</a></td>
+        <td><a href="#specservicesriggerspecextraenvvarsvaluefromfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           Selects a field of the pod<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecextraenvvarsindexvaluefromresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specservicesriggerspecextraenvvarsvaluefromresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           Selects a resource of the container: only resources limits and requests are currently supported.<br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecextraenvvarsindexvaluefromsecretkeyref">secretKeyRef</a></td>
+        <td><a href="#specservicesriggerspecextraenvvarsvaluefromsecretkeyref">secretKeyRef</a></td>
         <td>object</td>
         <td>
           Selects a key of a secret in the pod's namespace<br/>
@@ -12222,8 +12222,8 @@ Source for the environment variable's value. Cannot be used if value is not empt
 </table>
 
 
-### spec.servicesRiggerSpec.extraEnvVars[index].valueFrom.configMapKeyRef
-<sup><sup>[↩ Parent](#specservicesriggerspecextraenvvarsindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.extraEnvVars[].valueFrom.configMapKeyRef
+<sup><sup>[↩ Parent](#specservicesriggerspecextraenvvarsvaluefrom)</sup></sup>
 
 Selects a key of a ConfigMap.
 
@@ -12261,8 +12261,8 @@ Selects a key of a ConfigMap.
 </table>
 
 
-### spec.servicesRiggerSpec.extraEnvVars[index].valueFrom.fieldRef
-<sup><sup>[↩ Parent](#specservicesriggerspecextraenvvarsindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.extraEnvVars[].valueFrom.fieldRef
+<sup><sup>[↩ Parent](#specservicesriggerspecextraenvvarsvaluefrom)</sup></sup>
 
 Selects a field of the pod
 
@@ -12293,8 +12293,8 @@ Selects a field of the pod
 </table>
 
 
-### spec.servicesRiggerSpec.extraEnvVars[index].valueFrom.resourceFieldRef
-<sup><sup>[↩ Parent](#specservicesriggerspecextraenvvarsindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.extraEnvVars[].valueFrom.resourceFieldRef
+<sup><sup>[↩ Parent](#specservicesriggerspecextraenvvarsvaluefrom)</sup></sup>
 
 Selects a resource of the container: only resources limits and requests are currently supported.
 
@@ -12332,8 +12332,8 @@ Selects a resource of the container: only resources limits and requests are curr
 </table>
 
 
-### spec.servicesRiggerSpec.extraEnvVars[index].valueFrom.secretKeyRef
-<sup><sup>[↩ Parent](#specservicesriggerspecextraenvvarsindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.extraEnvVars[].valueFrom.secretKeyRef
+<sup><sup>[↩ Parent](#specservicesriggerspecextraenvvarsvaluefrom)</sup></sup>
 
 Selects a key of a secret in the pod's namespace
 
@@ -12430,14 +12430,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex">ephemeralContainers</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers">ephemeralContainers</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributeshostaliasesindex">hostAliases</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributeshostaliases">hostAliases</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -12479,14 +12479,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesimagepullsecretsindex">imagePullSecrets</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesimagepullsecrets">imagePullSecrets</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex">initContainers</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers">initContainers</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -12544,14 +12544,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesreadinessgatesindex">readinessGates</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesreadinessgates">readinessGates</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesresourceclaimsindex">resourceClaims</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesresourceclaims">resourceClaims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -12579,7 +12579,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesschedulinggatesindex">schedulingGates</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesschedulinggates">schedulingGates</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -12637,21 +12637,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributestolerationsindex">tolerations</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributestolerations">tolerations</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributestopologyspreadconstraintsindex">topologySpreadConstraints</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributestopologyspreadconstraints">topologySpreadConstraints</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex">volumes</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes">volumes</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -12715,7 +12715,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindex">preferredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecution">preferredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -12732,7 +12732,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinity)</sup></sup>
 
 
@@ -12747,7 +12747,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindexpreference">preference</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionpreference">preference</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -12766,8 +12766,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].preference
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -12781,14 +12781,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindexpreferencematchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionpreferencematchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindexpreferencematchfieldsindex">matchFields</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionpreferencematchfields">matchFields</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -12798,8 +12798,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].preference.matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindexpreference)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionpreference)</sup></sup>
 
 
 
@@ -12837,8 +12837,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].preference.matchFields[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionindexpreference)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchFields[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinitypreferredduringschedulingignoredduringexecutionpreference)</sup></sup>
 
 
 
@@ -12891,7 +12891,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsindex">nodeSelectorTerms</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectorterms">nodeSelectorTerms</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -12901,7 +12901,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
@@ -12916,14 +12916,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsindexmatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsmatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsindexmatchfieldsindex">matchFields</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsmatchfields">matchFields</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -12933,8 +12933,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[index].matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectorterms)</sup></sup>
 
 
 
@@ -12972,8 +12972,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[index].matchFields[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectortermsindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchFields[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitynodeaffinityrequiredduringschedulingignoredduringexecutionnodeselectorterms)</sup></sup>
 
 
 
@@ -13026,14 +13026,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindex">preferredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecution">preferredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindex">requiredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecution">requiredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -13043,7 +13043,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinity)</sup></sup>
 
 
@@ -13058,7 +13058,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm">podAffinityTerm</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm">podAffinityTerm</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -13077,8 +13077,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -13099,14 +13099,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselector">labelSelector</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselector">namespaceSelector</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselector">namespaceSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -13123,8 +13123,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.labelSelector
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm)</sup></sup>
 
 
 
@@ -13138,7 +13138,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -13155,8 +13155,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselector)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselector)</sup></sup>
 
 
 
@@ -13194,8 +13194,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.namespaceSelector
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm)</sup></sup>
 
 
 
@@ -13209,7 +13209,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -13226,8 +13226,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.namespaceSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselector)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselector)</sup></sup>
 
 
 
@@ -13265,7 +13265,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinity)</sup></sup>
 
 
@@ -13287,14 +13287,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexlabelselector">labelSelector</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionlabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselector">namespaceSelector</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionnamespaceselector">namespaceSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -13311,8 +13311,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].labelSelector
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -13326,7 +13326,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionlabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -13343,8 +13343,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexlabelselector)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionlabelselector)</sup></sup>
 
 
 
@@ -13382,8 +13382,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].namespaceSelector
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -13397,7 +13397,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionnamespaceselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -13414,8 +13414,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].namespaceSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselector)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodaffinityrequiredduringschedulingignoredduringexecutionnamespaceselector)</sup></sup>
 
 
 
@@ -13468,14 +13468,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindex">preferredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecution">preferredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindex">requiredDuringSchedulingIgnoredDuringExecution</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecution">requiredDuringSchedulingIgnoredDuringExecution</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -13485,7 +13485,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinity)</sup></sup>
 
 
@@ -13500,7 +13500,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm">podAffinityTerm</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm">podAffinityTerm</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -13519,8 +13519,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -13541,14 +13541,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselector">labelSelector</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselector">namespaceSelector</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselector">namespaceSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -13565,8 +13565,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.labelSelector
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm)</sup></sup>
 
 
 
@@ -13580,7 +13580,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -13597,8 +13597,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermlabelselector)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermlabelselector)</sup></sup>
 
 
 
@@ -13636,8 +13636,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.namespaceSelector
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinityterm)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinityterm)</sup></sup>
 
 
 
@@ -13651,7 +13651,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -13668,8 +13668,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[index].podAffinityTerm.namespaceSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionindexpodaffinitytermnamespaceselector)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinitypreferredduringschedulingignoredduringexecutionpodaffinitytermnamespaceselector)</sup></sup>
 
 
 
@@ -13707,7 +13707,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinity)</sup></sup>
 
 
@@ -13729,14 +13729,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexlabelselector">labelSelector</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionlabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselector">namespaceSelector</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionnamespaceselector">namespaceSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -13753,8 +13753,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].labelSelector
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -13768,7 +13768,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionlabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -13785,8 +13785,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexlabelselector)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionlabelselector)</sup></sup>
 
 
 
@@ -13824,8 +13824,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].namespaceSelector
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecution)</sup></sup>
 
 
 
@@ -13839,7 +13839,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionnamespaceselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -13856,8 +13856,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[index].namespaceSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionindexnamespaceselector)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesaffinitypodantiaffinityrequiredduringschedulingignoredduringexecutionnamespaceselector)</sup></sup>
 
 
 
@@ -13917,7 +13917,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesdnsconfigoptionsindex">options</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesdnsconfigoptions">options</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -13934,7 +13934,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.dnsConfig.options[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.dnsConfig.options[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesdnsconfig)</sup></sup>
 
 
@@ -13966,7 +13966,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributes)</sup></sup>
 
 
@@ -14002,14 +14002,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvindex">env</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenv">env</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvfromindex">envFrom</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvfrom">envFrom</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -14030,49 +14030,49 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycle">lifecycle</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycle">lifecycle</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlivenessprobe">livenessProbe</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslivenessprobe">livenessProbe</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexportsindex">ports</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersports">ports</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexreadinessprobe">readinessProbe</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersreadinessprobe">readinessProbe</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexresources">resources</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersresources">resources</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexsecuritycontext">securityContext</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerssecuritycontext">securityContext</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexstartupprobe">startupProbe</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersstartupprobe">startupProbe</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -14121,14 +14121,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexvolumedevicesindex">volumeDevices</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersvolumedevices">volumeDevices</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexvolumemountsindex">volumeMounts</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersvolumemounts">volumeMounts</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -14145,8 +14145,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].env[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].env[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -14174,7 +14174,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvindexvaluefrom">valueFrom</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvvaluefrom">valueFrom</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -14184,8 +14184,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].env[index].valueFrom
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].env[].valueFrom
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenv)</sup></sup>
 
 
 
@@ -14199,28 +14199,28 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvindexvaluefromconfigmapkeyref">configMapKeyRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvvaluefromconfigmapkeyref">configMapKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvindexvaluefromfieldref">fieldRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvvaluefromfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvindexvaluefromresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvvaluefromresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvindexvaluefromsecretkeyref">secretKeyRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvvaluefromsecretkeyref">secretKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -14230,8 +14230,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].env[index].valueFrom.configMapKeyRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].env[].valueFrom.configMapKeyRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -14269,8 +14269,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].env[index].valueFrom.fieldRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].env[].valueFrom.fieldRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -14301,8 +14301,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].env[index].valueFrom.resourceFieldRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].env[].valueFrom.resourceFieldRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -14340,8 +14340,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].env[index].valueFrom.secretKeyRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].env[].valueFrom.secretKeyRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -14379,8 +14379,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].envFrom[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].envFrom[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -14394,7 +14394,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvfromindexconfigmapref">configMapRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvfromconfigmapref">configMapRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -14408,7 +14408,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvfromindexsecretref">secretRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvfromsecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -14418,8 +14418,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].envFrom[index].configMapRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvfromindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].envFrom[].configMapRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvfrom)</sup></sup>
 
 
 
@@ -14450,8 +14450,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].envFrom[index].secretRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexenvfromindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].envFrom[].secretRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersenvfrom)</sup></sup>
 
 
 
@@ -14482,8 +14482,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -14497,14 +14497,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecyclepoststart">postStart</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecyclepoststart">postStart</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycleprestop">preStop</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycleprestop">preStop</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -14514,8 +14514,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.postStart
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycle)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.postStart
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycle)</sup></sup>
 
 
 
@@ -14529,21 +14529,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecyclepoststartexec">exec</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecyclepoststartexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecyclepoststarthttpget">httpGet</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecyclepoststarthttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecyclepoststarttcpsocket">tcpSocket</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecyclepoststarttcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -14553,8 +14553,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.postStart.exec
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecyclepoststart)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.postStart.exec
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -14578,8 +14578,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.postStart.httpGet
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecyclepoststart)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.postStart.httpGet
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -14607,7 +14607,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecyclepoststarthttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecyclepoststarthttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -14631,8 +14631,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.postStart.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecyclepoststarthttpget)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.postStart.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecyclepoststarthttpget)</sup></sup>
 
 
 
@@ -14663,8 +14663,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.postStart.tcpSocket
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecyclepoststart)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.postStart.tcpSocket
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -14695,8 +14695,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.preStop
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycle)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.preStop
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycle)</sup></sup>
 
 
 
@@ -14710,21 +14710,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycleprestopexec">exec</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycleprestopexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycleprestophttpget">httpGet</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycleprestophttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycleprestoptcpsocket">tcpSocket</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycleprestoptcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -14734,8 +14734,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.preStop.exec
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycleprestop)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.preStop.exec
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -14759,8 +14759,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.preStop.httpGet
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycleprestop)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.preStop.httpGet
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -14788,7 +14788,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycleprestophttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycleprestophttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -14812,8 +14812,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.preStop.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycleprestophttpget)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.preStop.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycleprestophttpget)</sup></sup>
 
 
 
@@ -14844,8 +14844,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].lifecycle.preStop.tcpSocket
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlifecycleprestop)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].lifecycle.preStop.tcpSocket
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -14876,8 +14876,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -14891,7 +14891,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlivenessprobeexec">exec</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslivenessprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -14907,14 +14907,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlivenessprobegrpc">grpc</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslivenessprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlivenessprobehttpget">httpGet</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslivenessprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -14948,7 +14948,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlivenessprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslivenessprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -14976,8 +14976,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe.exec
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlivenessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe.exec
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -15001,8 +15001,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe.grpc
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlivenessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe.grpc
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -15035,8 +15035,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe.httpGet
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlivenessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe.httpGet
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -15064,7 +15064,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlivenessprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslivenessprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -15088,8 +15088,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlivenessprobehttpget)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslivenessprobehttpget)</sup></sup>
 
 
 
@@ -15120,8 +15120,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].livenessProbe.tcpSocket
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexlivenessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].livenessProbe.tcpSocket
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -15152,8 +15152,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].ports[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].ports[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -15211,8 +15211,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -15226,7 +15226,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexreadinessprobeexec">exec</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersreadinessprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -15242,14 +15242,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexreadinessprobegrpc">grpc</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersreadinessprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexreadinessprobehttpget">httpGet</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersreadinessprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -15283,7 +15283,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexreadinessprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersreadinessprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -15311,8 +15311,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe.exec
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexreadinessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe.exec
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -15336,8 +15336,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe.grpc
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexreadinessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe.grpc
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -15370,8 +15370,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe.httpGet
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexreadinessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe.httpGet
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -15399,7 +15399,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexreadinessprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersreadinessprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -15423,8 +15423,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexreadinessprobehttpget)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersreadinessprobehttpget)</sup></sup>
 
 
 
@@ -15455,8 +15455,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].readinessProbe.tcpSocket
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexreadinessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].readinessProbe.tcpSocket
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -15487,8 +15487,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].resources
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].resources
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -15502,7 +15502,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexresourcesclaimsindex">claims</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersresourcesclaims">claims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -15526,8 +15526,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].resources.claims[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexresources)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].resources.claims[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersresources)</sup></sup>
 
 
 
@@ -15551,8 +15551,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].securityContext
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].securityContext
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -15573,7 +15573,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexsecuritycontextcapabilities">capabilities</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerssecuritycontextcapabilities">capabilities</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -15626,21 +15626,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexsecuritycontextselinuxoptions">seLinuxOptions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerssecuritycontextselinuxoptions">seLinuxOptions</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexsecuritycontextseccompprofile">seccompProfile</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerssecuritycontextseccompprofile">seccompProfile</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexsecuritycontextwindowsoptions">windowsOptions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerssecuritycontextwindowsoptions">windowsOptions</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -15650,8 +15650,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].securityContext.capabilities
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexsecuritycontext)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].securityContext.capabilities
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -15682,8 +15682,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].securityContext.seLinuxOptions
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexsecuritycontext)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].securityContext.seLinuxOptions
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -15728,8 +15728,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].securityContext.seccompProfile
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexsecuritycontext)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].securityContext.seccompProfile
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -15760,8 +15760,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].securityContext.windowsOptions
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexsecuritycontext)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].securityContext.windowsOptions
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -15806,8 +15806,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -15821,7 +15821,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexstartupprobeexec">exec</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersstartupprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -15837,14 +15837,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexstartupprobegrpc">grpc</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersstartupprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexstartupprobehttpget">httpGet</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersstartupprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -15878,7 +15878,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexstartupprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersstartupprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -15906,8 +15906,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe.exec
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexstartupprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe.exec
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersstartupprobe)</sup></sup>
 
 
 
@@ -15931,8 +15931,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe.grpc
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexstartupprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe.grpc
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersstartupprobe)</sup></sup>
 
 
 
@@ -15965,8 +15965,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe.httpGet
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexstartupprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe.httpGet
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersstartupprobe)</sup></sup>
 
 
 
@@ -15994,7 +15994,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexstartupprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersstartupprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -16018,8 +16018,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexstartupprobehttpget)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersstartupprobehttpget)</sup></sup>
 
 
 
@@ -16050,8 +16050,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].startupProbe.tcpSocket
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindexstartupprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].startupProbe.tcpSocket
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersstartupprobe)</sup></sup>
 
 
 
@@ -16082,8 +16082,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].volumeDevices[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].volumeDevices[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -16114,8 +16114,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[index].volumeMounts[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.ephemeralContainers[].volumeMounts[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesephemeralcontainers)</sup></sup>
 
 
 
@@ -16174,7 +16174,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.hostAliases[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.hostAliases[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributes)</sup></sup>
 
 
@@ -16206,7 +16206,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.imagePullSecrets[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.imagePullSecrets[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributes)</sup></sup>
 
 
@@ -16231,7 +16231,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributes)</sup></sup>
 
 
@@ -16267,14 +16267,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvindex">env</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenv">env</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvfromindex">envFrom</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvfrom">envFrom</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -16295,49 +16295,49 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycle">lifecycle</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycle">lifecycle</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlivenessprobe">livenessProbe</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslivenessprobe">livenessProbe</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexportsindex">ports</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersports">ports</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexreadinessprobe">readinessProbe</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersreadinessprobe">readinessProbe</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexresources">resources</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersresources">resources</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexsecuritycontext">securityContext</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerssecuritycontext">securityContext</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexstartupprobe">startupProbe</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersstartupprobe">startupProbe</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -16379,14 +16379,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexvolumedevicesindex">volumeDevices</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersvolumedevices">volumeDevices</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexvolumemountsindex">volumeMounts</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersvolumemounts">volumeMounts</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -16403,8 +16403,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].env[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].env[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -16432,7 +16432,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvindexvaluefrom">valueFrom</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvvaluefrom">valueFrom</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -16442,8 +16442,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].env[index].valueFrom
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].env[].valueFrom
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenv)</sup></sup>
 
 
 
@@ -16457,28 +16457,28 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvindexvaluefromconfigmapkeyref">configMapKeyRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvvaluefromconfigmapkeyref">configMapKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvindexvaluefromfieldref">fieldRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvvaluefromfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvindexvaluefromresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvvaluefromresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvindexvaluefromsecretkeyref">secretKeyRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvvaluefromsecretkeyref">secretKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -16488,8 +16488,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].env[index].valueFrom.configMapKeyRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].env[].valueFrom.configMapKeyRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -16527,8 +16527,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].env[index].valueFrom.fieldRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].env[].valueFrom.fieldRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -16559,8 +16559,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].env[index].valueFrom.resourceFieldRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].env[].valueFrom.resourceFieldRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -16598,8 +16598,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].env[index].valueFrom.secretKeyRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvindexvaluefrom)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].env[].valueFrom.secretKeyRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvvaluefrom)</sup></sup>
 
 
 
@@ -16637,8 +16637,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].envFrom[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].envFrom[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -16652,7 +16652,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvfromindexconfigmapref">configMapRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvfromconfigmapref">configMapRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -16666,7 +16666,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvfromindexsecretref">secretRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvfromsecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -16676,8 +16676,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].envFrom[index].configMapRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvfromindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].envFrom[].configMapRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvfrom)</sup></sup>
 
 
 
@@ -16708,8 +16708,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].envFrom[index].secretRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexenvfromindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].envFrom[].secretRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersenvfrom)</sup></sup>
 
 
 
@@ -16740,8 +16740,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].lifecycle
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].lifecycle
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -16755,14 +16755,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecyclepoststart">postStart</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecyclepoststart">postStart</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycleprestop">preStop</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycleprestop">preStop</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -16772,8 +16772,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].lifecycle.postStart
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycle)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].lifecycle.postStart
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycle)</sup></sup>
 
 
 
@@ -16787,21 +16787,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecyclepoststartexec">exec</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecyclepoststartexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecyclepoststarthttpget">httpGet</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecyclepoststarthttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecyclepoststarttcpsocket">tcpSocket</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecyclepoststarttcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -16811,8 +16811,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].lifecycle.postStart.exec
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecyclepoststart)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].lifecycle.postStart.exec
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -16836,8 +16836,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].lifecycle.postStart.httpGet
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecyclepoststart)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].lifecycle.postStart.httpGet
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -16865,7 +16865,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecyclepoststarthttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecyclepoststarthttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -16889,8 +16889,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].lifecycle.postStart.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecyclepoststarthttpget)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].lifecycle.postStart.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecyclepoststarthttpget)</sup></sup>
 
 
 
@@ -16921,8 +16921,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].lifecycle.postStart.tcpSocket
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecyclepoststart)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].lifecycle.postStart.tcpSocket
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecyclepoststart)</sup></sup>
 
 
 
@@ -16953,8 +16953,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].lifecycle.preStop
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycle)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].lifecycle.preStop
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycle)</sup></sup>
 
 
 
@@ -16968,21 +16968,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycleprestopexec">exec</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycleprestopexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycleprestophttpget">httpGet</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycleprestophttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycleprestoptcpsocket">tcpSocket</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycleprestoptcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -16992,8 +16992,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].lifecycle.preStop.exec
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycleprestop)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].lifecycle.preStop.exec
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -17017,8 +17017,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].lifecycle.preStop.httpGet
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycleprestop)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].lifecycle.preStop.httpGet
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -17046,7 +17046,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycleprestophttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycleprestophttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -17070,8 +17070,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].lifecycle.preStop.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycleprestophttpget)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].lifecycle.preStop.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycleprestophttpget)</sup></sup>
 
 
 
@@ -17102,8 +17102,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].lifecycle.preStop.tcpSocket
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlifecycleprestop)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].lifecycle.preStop.tcpSocket
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslifecycleprestop)</sup></sup>
 
 
 
@@ -17134,8 +17134,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].livenessProbe
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].livenessProbe
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -17149,7 +17149,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlivenessprobeexec">exec</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslivenessprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -17165,14 +17165,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlivenessprobegrpc">grpc</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslivenessprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlivenessprobehttpget">httpGet</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslivenessprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -17206,7 +17206,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlivenessprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslivenessprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -17234,8 +17234,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].livenessProbe.exec
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlivenessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].livenessProbe.exec
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -17259,8 +17259,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].livenessProbe.grpc
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlivenessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].livenessProbe.grpc
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -17293,8 +17293,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].livenessProbe.httpGet
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlivenessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].livenessProbe.httpGet
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -17322,7 +17322,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlivenessprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslivenessprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -17346,8 +17346,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].livenessProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlivenessprobehttpget)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].livenessProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslivenessprobehttpget)</sup></sup>
 
 
 
@@ -17378,8 +17378,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].livenessProbe.tcpSocket
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexlivenessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].livenessProbe.tcpSocket
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerslivenessprobe)</sup></sup>
 
 
 
@@ -17410,8 +17410,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].ports[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].ports[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -17469,8 +17469,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].readinessProbe
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].readinessProbe
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -17484,7 +17484,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexreadinessprobeexec">exec</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersreadinessprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -17500,14 +17500,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexreadinessprobegrpc">grpc</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersreadinessprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexreadinessprobehttpget">httpGet</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersreadinessprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -17541,7 +17541,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexreadinessprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersreadinessprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -17569,8 +17569,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].readinessProbe.exec
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexreadinessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].readinessProbe.exec
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -17594,8 +17594,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].readinessProbe.grpc
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexreadinessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].readinessProbe.grpc
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -17628,8 +17628,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].readinessProbe.httpGet
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexreadinessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].readinessProbe.httpGet
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -17657,7 +17657,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexreadinessprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersreadinessprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -17681,8 +17681,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].readinessProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexreadinessprobehttpget)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].readinessProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersreadinessprobehttpget)</sup></sup>
 
 
 
@@ -17713,8 +17713,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].readinessProbe.tcpSocket
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexreadinessprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].readinessProbe.tcpSocket
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersreadinessprobe)</sup></sup>
 
 
 
@@ -17745,8 +17745,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].resources
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].resources
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -17760,7 +17760,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexresourcesclaimsindex">claims</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersresourcesclaims">claims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -17784,8 +17784,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].resources.claims[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexresources)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].resources.claims[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersresources)</sup></sup>
 
 
 
@@ -17809,8 +17809,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].securityContext
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].securityContext
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -17831,7 +17831,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexsecuritycontextcapabilities">capabilities</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerssecuritycontextcapabilities">capabilities</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -17884,21 +17884,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexsecuritycontextselinuxoptions">seLinuxOptions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerssecuritycontextselinuxoptions">seLinuxOptions</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexsecuritycontextseccompprofile">seccompProfile</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerssecuritycontextseccompprofile">seccompProfile</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexsecuritycontextwindowsoptions">windowsOptions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerssecuritycontextwindowsoptions">windowsOptions</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -17908,8 +17908,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].securityContext.capabilities
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexsecuritycontext)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].securityContext.capabilities
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -17940,8 +17940,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].securityContext.seLinuxOptions
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexsecuritycontext)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].securityContext.seLinuxOptions
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -17986,8 +17986,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].securityContext.seccompProfile
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexsecuritycontext)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].securityContext.seccompProfile
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -18018,8 +18018,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].securityContext.windowsOptions
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexsecuritycontext)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].securityContext.windowsOptions
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainerssecuritycontext)</sup></sup>
 
 
 
@@ -18064,8 +18064,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].startupProbe
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].startupProbe
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -18079,7 +18079,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexstartupprobeexec">exec</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersstartupprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -18095,14 +18095,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexstartupprobegrpc">grpc</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersstartupprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexstartupprobehttpget">httpGet</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersstartupprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -18136,7 +18136,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexstartupprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersstartupprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -18164,8 +18164,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].startupProbe.exec
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexstartupprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].startupProbe.exec
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersstartupprobe)</sup></sup>
 
 
 
@@ -18189,8 +18189,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].startupProbe.grpc
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexstartupprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].startupProbe.grpc
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersstartupprobe)</sup></sup>
 
 
 
@@ -18223,8 +18223,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].startupProbe.httpGet
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexstartupprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].startupProbe.httpGet
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersstartupprobe)</sup></sup>
 
 
 
@@ -18252,7 +18252,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexstartupprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersstartupprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -18276,8 +18276,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].startupProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexstartupprobehttpget)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].startupProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersstartupprobehttpget)</sup></sup>
 
 
 
@@ -18308,8 +18308,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].startupProbe.tcpSocket
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindexstartupprobe)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].startupProbe.tcpSocket
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersstartupprobe)</sup></sup>
 
 
 
@@ -18340,8 +18340,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].volumeDevices[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].volumeDevices[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -18372,8 +18372,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[index].volumeMounts[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainersindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.initContainers[].volumeMounts[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesinitcontainers)</sup></sup>
 
 
 
@@ -18457,7 +18457,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.readinessGates[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.readinessGates[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributes)</sup></sup>
 
 
@@ -18482,7 +18482,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.resourceClaims[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.resourceClaims[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributes)</sup></sup>
 
 
@@ -18504,7 +18504,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesresourceclaimsindexsource">source</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesresourceclaimssource">source</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -18514,8 +18514,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.resourceClaims[index].source
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesresourceclaimsindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.resourceClaims[].source
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesresourceclaims)</sup></sup>
 
 
 
@@ -18546,7 +18546,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.schedulingGates[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.schedulingGates[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributes)</sup></sup>
 
 
@@ -18648,7 +18648,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributessecuritycontextsysctlsindex">sysctls</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributessecuritycontextsysctls">sysctls</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -18743,7 +18743,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.securityContext.sysctls[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.securityContext.sysctls[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributessecuritycontext)</sup></sup>
 
 
@@ -18821,7 +18821,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.tolerations[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.tolerations[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributes)</sup></sup>
 
 
@@ -18876,7 +18876,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.topologySpreadConstraints[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.topologySpreadConstraints[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributes)</sup></sup>
 
 
@@ -18914,7 +18914,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributestopologyspreadconstraintsindexlabelselector">labelSelector</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributestopologyspreadconstraintslabelselector">labelSelector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -18954,8 +18954,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.topologySpreadConstraints[index].labelSelector
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributestopologyspreadconstraintsindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.topologySpreadConstraints[].labelSelector
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributestopologyspreadconstraints)</sup></sup>
 
 
 
@@ -18969,7 +18969,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributestopologyspreadconstraintsindexlabelselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributestopologyspreadconstraintslabelselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -18986,8 +18986,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.topologySpreadConstraints[index].labelSelector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributestopologyspreadconstraintsindexlabelselector)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.topologySpreadConstraints[].labelSelector.matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributestopologyspreadconstraintslabelselector)</sup></sup>
 
 
 
@@ -19025,7 +19025,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index]
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[]
 <sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributes)</sup></sup>
 
 
@@ -19047,203 +19047,203 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexawselasticblockstore">awsElasticBlockStore</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesawselasticblockstore">awsElasticBlockStore</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexazuredisk">azureDisk</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesazuredisk">azureDisk</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexazurefile">azureFile</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesazurefile">azureFile</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexcephfs">cephfs</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumescephfs">cephfs</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexcinder">cinder</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumescinder">cinder</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexconfigmap">configMap</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesconfigmap">configMap</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexcsi">csi</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumescsi">csi</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexdownwardapi">downwardAPI</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesdownwardapi">downwardAPI</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexemptydir">emptyDir</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesemptydir">emptyDir</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeral">ephemeral</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeral">ephemeral</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexfc">fc</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesfc">fc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexflexvolume">flexVolume</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesflexvolume">flexVolume</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexflocker">flocker</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesflocker">flocker</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexgcepersistentdisk">gcePersistentDisk</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesgcepersistentdisk">gcePersistentDisk</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexgitrepo">gitRepo</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesgitrepo">gitRepo</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexglusterfs">glusterfs</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesglusterfs">glusterfs</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexhostpath">hostPath</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumeshostpath">hostPath</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexiscsi">iscsi</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesiscsi">iscsi</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexnfs">nfs</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesnfs">nfs</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexpersistentvolumeclaim">persistentVolumeClaim</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumespersistentvolumeclaim">persistentVolumeClaim</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexphotonpersistentdisk">photonPersistentDisk</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesphotonpersistentdisk">photonPersistentDisk</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexportworxvolume">portworxVolume</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesportworxvolume">portworxVolume</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojected">projected</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojected">projected</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexquobyte">quobyte</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesquobyte">quobyte</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexrbd">rbd</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesrbd">rbd</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexscaleio">scaleIO</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesscaleio">scaleIO</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexsecret">secret</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumessecret">secret</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexstorageos">storageos</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesstorageos">storageos</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexvspherevolume">vsphereVolume</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesvspherevolume">vsphereVolume</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -19253,8 +19253,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].awsElasticBlockStore
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].awsElasticBlockStore
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -19301,8 +19301,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].azureDisk
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].azureDisk
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -19361,8 +19361,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].azureFile
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].azureFile
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -19400,8 +19400,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].cephfs
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].cephfs
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -19443,7 +19443,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexcephfssecretref">secretRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumescephfssecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -19460,8 +19460,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].cephfs.secretRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexcephfs)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].cephfs.secretRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumescephfs)</sup></sup>
 
 
 
@@ -19485,8 +19485,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].cinder
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].cinder
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -19521,7 +19521,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexcindersecretref">secretRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumescindersecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -19531,8 +19531,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].cinder.secretRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexcinder)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].cinder.secretRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumescinder)</sup></sup>
 
 
 
@@ -19556,8 +19556,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].configMap
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].configMap
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -19580,7 +19580,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexconfigmapitemsindex">items</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesconfigmapitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -19604,8 +19604,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].configMap.items[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexconfigmap)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].configMap.items[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesconfigmap)</sup></sup>
 
 
 
@@ -19645,8 +19645,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].csi
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].csi
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -19674,7 +19674,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexcsinodepublishsecretref">nodePublishSecretRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumescsinodepublishsecretref">nodePublishSecretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -19698,8 +19698,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].csi.nodePublishSecretRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexcsi)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].csi.nodePublishSecretRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumescsi)</sup></sup>
 
 
 
@@ -19723,8 +19723,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].downwardAPI
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].downwardAPI
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -19747,7 +19747,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexdownwardapiitemsindex">items</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesdownwardapiitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -19757,8 +19757,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].downwardAPI.items[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexdownwardapi)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].downwardAPI.items[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesdownwardapi)</sup></sup>
 
 
 
@@ -19779,7 +19779,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexdownwardapiitemsindexfieldref">fieldRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesdownwardapiitemsfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -19795,7 +19795,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexdownwardapiitemsindexresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesdownwardapiitemsresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -19805,8 +19805,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].downwardAPI.items[index].fieldRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexdownwardapiitemsindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].downwardAPI.items[].fieldRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesdownwardapiitems)</sup></sup>
 
 
 
@@ -19837,8 +19837,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].downwardAPI.items[index].resourceFieldRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexdownwardapiitemsindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].downwardAPI.items[].resourceFieldRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesdownwardapiitems)</sup></sup>
 
 
 
@@ -19876,8 +19876,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].emptyDir
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].emptyDir
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -19908,8 +19908,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].ephemeral
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].ephemeral
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -19923,7 +19923,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplate">volumeClaimTemplate</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplate">volumeClaimTemplate</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -19933,8 +19933,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeral)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeral)</sup></sup>
 
 
 
@@ -19948,7 +19948,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespec">spec</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespec">spec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -19965,8 +19965,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplate)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplate)</sup></sup>
 
 
 
@@ -19987,28 +19987,28 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecdatasource">dataSource</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecdatasource">dataSource</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecdatasourceref">dataSourceRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecdatasourceref">dataSourceRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecresources">resources</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecresources">resources</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecselector">selector</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecselector">selector</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -20039,8 +20039,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.dataSource
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespec)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.dataSource
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespec)</sup></sup>
 
 
 
@@ -20078,8 +20078,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.dataSourceRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespec)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.dataSourceRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespec)</sup></sup>
 
 
 
@@ -20124,8 +20124,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.resources
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespec)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.resources
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespec)</sup></sup>
 
 
 
@@ -20139,7 +20139,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecresourcesclaimsindex">claims</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecresourcesclaims">claims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -20163,8 +20163,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.resources.claims[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecresources)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.resources.claims[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecresources)</sup></sup>
 
 
 
@@ -20188,8 +20188,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.selector
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespec)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.selector
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespec)</sup></sup>
 
 
 
@@ -20203,7 +20203,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecselectormatchexpressionsindex">matchExpressions</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecselectormatchexpressions">matchExpressions</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -20220,8 +20220,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].ephemeral.volumeClaimTemplate.spec.selector.matchExpressions[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexephemeralvolumeclaimtemplatespecselector)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].ephemeral.volumeClaimTemplate.spec.selector.matchExpressions[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesephemeralvolumeclaimtemplatespecselector)</sup></sup>
 
 
 
@@ -20259,8 +20259,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].fc
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].fc
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20314,8 +20314,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].flexVolume
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].flexVolume
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20357,7 +20357,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexflexvolumesecretref">secretRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesflexvolumesecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -20367,8 +20367,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].flexVolume.secretRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexflexvolume)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].flexVolume.secretRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesflexvolume)</sup></sup>
 
 
 
@@ -20392,8 +20392,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].flocker
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].flocker
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20424,8 +20424,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].gcePersistentDisk
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].gcePersistentDisk
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20472,8 +20472,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].gitRepo
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].gitRepo
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20511,8 +20511,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].glusterfs
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].glusterfs
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20550,8 +20550,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].hostPath
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].hostPath
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20582,8 +20582,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].iscsi
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].iscsi
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20669,7 +20669,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexiscsisecretref">secretRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesiscsisecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -20679,8 +20679,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].iscsi.secretRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexiscsi)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].iscsi.secretRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesiscsi)</sup></sup>
 
 
 
@@ -20704,8 +20704,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].nfs
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].nfs
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20743,8 +20743,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].persistentVolumeClaim
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].persistentVolumeClaim
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20775,8 +20775,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].photonPersistentDisk
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].photonPersistentDisk
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20807,8 +20807,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].portworxVolume
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].portworxVolume
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20846,8 +20846,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].projected
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].projected
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -20870,7 +20870,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindex">sources</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsources">sources</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -20880,8 +20880,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].projected.sources[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojected)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].projected.sources[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojected)</sup></sup>
 
 
 
@@ -20895,28 +20895,28 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexconfigmap">configMap</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcesconfigmap">configMap</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapi">downwardAPI</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcesdownwardapi">downwardAPI</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexsecret">secret</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcessecret">secret</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexserviceaccounttoken">serviceAccountToken</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcesserviceaccounttoken">serviceAccountToken</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -20926,8 +20926,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].projected.sources[index].configMap
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].projected.sources[].configMap
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsources)</sup></sup>
 
 
 
@@ -20941,7 +20941,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexconfigmapitemsindex">items</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcesconfigmapitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -20965,8 +20965,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].projected.sources[index].configMap.items[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexconfigmap)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].projected.sources[].configMap.items[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcesconfigmap)</sup></sup>
 
 
 
@@ -21006,8 +21006,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].projected.sources[index].downwardAPI
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].projected.sources[].downwardAPI
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsources)</sup></sup>
 
 
 
@@ -21021,7 +21021,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapiitemsindex">items</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcesdownwardapiitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -21031,8 +21031,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].projected.sources[index].downwardAPI.items[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapi)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].projected.sources[].downwardAPI.items[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcesdownwardapi)</sup></sup>
 
 
 
@@ -21053,7 +21053,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapiitemsindexfieldref">fieldRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcesdownwardapiitemsfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -21069,7 +21069,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapiitemsindexresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcesdownwardapiitemsresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -21079,8 +21079,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].projected.sources[index].downwardAPI.items[index].fieldRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapiitemsindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].projected.sources[].downwardAPI.items[].fieldRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcesdownwardapiitems)</sup></sup>
 
 
 
@@ -21111,8 +21111,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].projected.sources[index].downwardAPI.items[index].resourceFieldRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexdownwardapiitemsindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].projected.sources[].downwardAPI.items[].resourceFieldRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcesdownwardapiitems)</sup></sup>
 
 
 
@@ -21150,8 +21150,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].projected.sources[index].secret
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].projected.sources[].secret
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsources)</sup></sup>
 
 
 
@@ -21165,7 +21165,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexsecretitemsindex">items</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcessecretitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -21189,8 +21189,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].projected.sources[index].secret.items[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindexsecret)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].projected.sources[].secret.items[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsourcessecret)</sup></sup>
 
 
 
@@ -21230,8 +21230,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].projected.sources[index].serviceAccountToken
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].projected.sources[].serviceAccountToken
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesprojectedsources)</sup></sup>
 
 
 
@@ -21271,8 +21271,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].quobyte
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].quobyte
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -21331,8 +21331,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].rbd
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].rbd
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -21388,7 +21388,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexrbdsecretref">secretRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesrbdsecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -21405,8 +21405,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].rbd.secretRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexrbd)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].rbd.secretRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesrbd)</sup></sup>
 
 
 
@@ -21430,8 +21430,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].scaleIO
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].scaleIO
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -21452,7 +21452,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexscaleiosecretref">secretRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesscaleiosecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -21518,8 +21518,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].scaleIO.secretRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexscaleio)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].scaleIO.secretRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesscaleio)</sup></sup>
 
 
 
@@ -21543,8 +21543,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].secret
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].secret
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -21567,7 +21567,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexsecretitemsindex">items</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumessecretitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -21591,8 +21591,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].secret.items[index]
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexsecret)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].secret.items[]
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumessecret)</sup></sup>
 
 
 
@@ -21632,8 +21632,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].storageos
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].storageos
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -21661,7 +21661,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexstorageossecretref">secretRef</a></td>
+        <td><a href="#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesstorageossecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -21685,8 +21685,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].storageos.secretRef
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindexstorageos)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].storageos.secretRef
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesstorageos)</sup></sup>
 
 
 
@@ -21710,8 +21710,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[index].vsphereVolume
-<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumesindex)</sup></sup>
+### spec.servicesRiggerSpec.servicesRiggerAdditionalPodSpecAttributes.volumes[].vsphereVolume
+<sup><sup>[↩ Parent](#specservicesriggerspecservicesriggeradditionalpodspecattributesvolumes)</sup></sup>
 
 
 
@@ -21756,7 +21756,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index]
+### spec.sideContainersSpec[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
 
@@ -21792,14 +21792,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexenvindex">env</a></td>
+        <td><a href="#specsidecontainersspecenv">env</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexenvfromindex">envFrom</a></td>
+        <td><a href="#specsidecontainersspecenvfrom">envFrom</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -21820,49 +21820,49 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlifecycle">lifecycle</a></td>
+        <td><a href="#specsidecontainersspeclifecycle">lifecycle</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlivenessprobe">livenessProbe</a></td>
+        <td><a href="#specsidecontainersspeclivenessprobe">livenessProbe</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexportsindex">ports</a></td>
+        <td><a href="#specsidecontainersspecports">ports</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexreadinessprobe">readinessProbe</a></td>
+        <td><a href="#specsidecontainersspecreadinessprobe">readinessProbe</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexresources">resources</a></td>
+        <td><a href="#specsidecontainersspecresources">resources</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexsecuritycontext">securityContext</a></td>
+        <td><a href="#specsidecontainersspecsecuritycontext">securityContext</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexstartupprobe">startupProbe</a></td>
+        <td><a href="#specsidecontainersspecstartupprobe">startupProbe</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -21904,14 +21904,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexvolumedevicesindex">volumeDevices</a></td>
+        <td><a href="#specsidecontainersspecvolumedevices">volumeDevices</a></td>
         <td>[]object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexvolumemountsindex">volumeMounts</a></td>
+        <td><a href="#specsidecontainersspecvolumemounts">volumeMounts</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -21928,8 +21928,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].env[index]
-<sup><sup>[↩ Parent](#specsidecontainersspecindex)</sup></sup>
+### spec.sideContainersSpec[].env[]
+<sup><sup>[↩ Parent](#specsidecontainersspec)</sup></sup>
 
 
 
@@ -21957,7 +21957,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexenvindexvaluefrom">valueFrom</a></td>
+        <td><a href="#specsidecontainersspecenvvaluefrom">valueFrom</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -21967,8 +21967,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].env[index].valueFrom
-<sup><sup>[↩ Parent](#specsidecontainersspecindexenvindex)</sup></sup>
+### spec.sideContainersSpec[].env[].valueFrom
+<sup><sup>[↩ Parent](#specsidecontainersspecenv)</sup></sup>
 
 
 
@@ -21982,28 +21982,28 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specsidecontainersspecindexenvindexvaluefromconfigmapkeyref">configMapKeyRef</a></td>
+        <td><a href="#specsidecontainersspecenvvaluefromconfigmapkeyref">configMapKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexenvindexvaluefromfieldref">fieldRef</a></td>
+        <td><a href="#specsidecontainersspecenvvaluefromfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexenvindexvaluefromresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specsidecontainersspecenvvaluefromresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexenvindexvaluefromsecretkeyref">secretKeyRef</a></td>
+        <td><a href="#specsidecontainersspecenvvaluefromsecretkeyref">secretKeyRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -22013,8 +22013,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].env[index].valueFrom.configMapKeyRef
-<sup><sup>[↩ Parent](#specsidecontainersspecindexenvindexvaluefrom)</sup></sup>
+### spec.sideContainersSpec[].env[].valueFrom.configMapKeyRef
+<sup><sup>[↩ Parent](#specsidecontainersspecenvvaluefrom)</sup></sup>
 
 
 
@@ -22052,8 +22052,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].env[index].valueFrom.fieldRef
-<sup><sup>[↩ Parent](#specsidecontainersspecindexenvindexvaluefrom)</sup></sup>
+### spec.sideContainersSpec[].env[].valueFrom.fieldRef
+<sup><sup>[↩ Parent](#specsidecontainersspecenvvaluefrom)</sup></sup>
 
 
 
@@ -22084,8 +22084,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].env[index].valueFrom.resourceFieldRef
-<sup><sup>[↩ Parent](#specsidecontainersspecindexenvindexvaluefrom)</sup></sup>
+### spec.sideContainersSpec[].env[].valueFrom.resourceFieldRef
+<sup><sup>[↩ Parent](#specsidecontainersspecenvvaluefrom)</sup></sup>
 
 
 
@@ -22123,8 +22123,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].env[index].valueFrom.secretKeyRef
-<sup><sup>[↩ Parent](#specsidecontainersspecindexenvindexvaluefrom)</sup></sup>
+### spec.sideContainersSpec[].env[].valueFrom.secretKeyRef
+<sup><sup>[↩ Parent](#specsidecontainersspecenvvaluefrom)</sup></sup>
 
 
 
@@ -22162,8 +22162,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].envFrom[index]
-<sup><sup>[↩ Parent](#specsidecontainersspecindex)</sup></sup>
+### spec.sideContainersSpec[].envFrom[]
+<sup><sup>[↩ Parent](#specsidecontainersspec)</sup></sup>
 
 
 
@@ -22177,7 +22177,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specsidecontainersspecindexenvfromindexconfigmapref">configMapRef</a></td>
+        <td><a href="#specsidecontainersspecenvfromconfigmapref">configMapRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -22191,7 +22191,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexenvfromindexsecretref">secretRef</a></td>
+        <td><a href="#specsidecontainersspecenvfromsecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -22201,8 +22201,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].envFrom[index].configMapRef
-<sup><sup>[↩ Parent](#specsidecontainersspecindexenvfromindex)</sup></sup>
+### spec.sideContainersSpec[].envFrom[].configMapRef
+<sup><sup>[↩ Parent](#specsidecontainersspecenvfrom)</sup></sup>
 
 
 
@@ -22233,8 +22233,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].envFrom[index].secretRef
-<sup><sup>[↩ Parent](#specsidecontainersspecindexenvfromindex)</sup></sup>
+### spec.sideContainersSpec[].envFrom[].secretRef
+<sup><sup>[↩ Parent](#specsidecontainersspecenvfrom)</sup></sup>
 
 
 
@@ -22265,8 +22265,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].lifecycle
-<sup><sup>[↩ Parent](#specsidecontainersspecindex)</sup></sup>
+### spec.sideContainersSpec[].lifecycle
+<sup><sup>[↩ Parent](#specsidecontainersspec)</sup></sup>
 
 
 
@@ -22280,14 +22280,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specsidecontainersspecindexlifecyclepoststart">postStart</a></td>
+        <td><a href="#specsidecontainersspeclifecyclepoststart">postStart</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlifecycleprestop">preStop</a></td>
+        <td><a href="#specsidecontainersspeclifecycleprestop">preStop</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -22297,8 +22297,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].lifecycle.postStart
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlifecycle)</sup></sup>
+### spec.sideContainersSpec[].lifecycle.postStart
+<sup><sup>[↩ Parent](#specsidecontainersspeclifecycle)</sup></sup>
 
 
 
@@ -22312,21 +22312,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specsidecontainersspecindexlifecyclepoststartexec">exec</a></td>
+        <td><a href="#specsidecontainersspeclifecyclepoststartexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlifecyclepoststarthttpget">httpGet</a></td>
+        <td><a href="#specsidecontainersspeclifecyclepoststarthttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlifecyclepoststarttcpsocket">tcpSocket</a></td>
+        <td><a href="#specsidecontainersspeclifecyclepoststarttcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -22336,8 +22336,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].lifecycle.postStart.exec
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlifecyclepoststart)</sup></sup>
+### spec.sideContainersSpec[].lifecycle.postStart.exec
+<sup><sup>[↩ Parent](#specsidecontainersspeclifecyclepoststart)</sup></sup>
 
 
 
@@ -22361,8 +22361,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].lifecycle.postStart.httpGet
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlifecyclepoststart)</sup></sup>
+### spec.sideContainersSpec[].lifecycle.postStart.httpGet
+<sup><sup>[↩ Parent](#specsidecontainersspeclifecyclepoststart)</sup></sup>
 
 
 
@@ -22390,7 +22390,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlifecyclepoststarthttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specsidecontainersspeclifecyclepoststarthttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -22414,8 +22414,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].lifecycle.postStart.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlifecyclepoststarthttpget)</sup></sup>
+### spec.sideContainersSpec[].lifecycle.postStart.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specsidecontainersspeclifecyclepoststarthttpget)</sup></sup>
 
 
 
@@ -22446,8 +22446,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].lifecycle.postStart.tcpSocket
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlifecyclepoststart)</sup></sup>
+### spec.sideContainersSpec[].lifecycle.postStart.tcpSocket
+<sup><sup>[↩ Parent](#specsidecontainersspeclifecyclepoststart)</sup></sup>
 
 
 
@@ -22478,8 +22478,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].lifecycle.preStop
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlifecycle)</sup></sup>
+### spec.sideContainersSpec[].lifecycle.preStop
+<sup><sup>[↩ Parent](#specsidecontainersspeclifecycle)</sup></sup>
 
 
 
@@ -22493,21 +22493,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specsidecontainersspecindexlifecycleprestopexec">exec</a></td>
+        <td><a href="#specsidecontainersspeclifecycleprestopexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlifecycleprestophttpget">httpGet</a></td>
+        <td><a href="#specsidecontainersspeclifecycleprestophttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlifecycleprestoptcpsocket">tcpSocket</a></td>
+        <td><a href="#specsidecontainersspeclifecycleprestoptcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -22517,8 +22517,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].lifecycle.preStop.exec
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlifecycleprestop)</sup></sup>
+### spec.sideContainersSpec[].lifecycle.preStop.exec
+<sup><sup>[↩ Parent](#specsidecontainersspeclifecycleprestop)</sup></sup>
 
 
 
@@ -22542,8 +22542,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].lifecycle.preStop.httpGet
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlifecycleprestop)</sup></sup>
+### spec.sideContainersSpec[].lifecycle.preStop.httpGet
+<sup><sup>[↩ Parent](#specsidecontainersspeclifecycleprestop)</sup></sup>
 
 
 
@@ -22571,7 +22571,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlifecycleprestophttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specsidecontainersspeclifecycleprestophttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -22595,8 +22595,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].lifecycle.preStop.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlifecycleprestophttpget)</sup></sup>
+### spec.sideContainersSpec[].lifecycle.preStop.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specsidecontainersspeclifecycleprestophttpget)</sup></sup>
 
 
 
@@ -22627,8 +22627,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].lifecycle.preStop.tcpSocket
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlifecycleprestop)</sup></sup>
+### spec.sideContainersSpec[].lifecycle.preStop.tcpSocket
+<sup><sup>[↩ Parent](#specsidecontainersspeclifecycleprestop)</sup></sup>
 
 
 
@@ -22659,8 +22659,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].livenessProbe
-<sup><sup>[↩ Parent](#specsidecontainersspecindex)</sup></sup>
+### spec.sideContainersSpec[].livenessProbe
+<sup><sup>[↩ Parent](#specsidecontainersspec)</sup></sup>
 
 
 
@@ -22674,7 +22674,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specsidecontainersspecindexlivenessprobeexec">exec</a></td>
+        <td><a href="#specsidecontainersspeclivenessprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -22690,14 +22690,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlivenessprobegrpc">grpc</a></td>
+        <td><a href="#specsidecontainersspeclivenessprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlivenessprobehttpget">httpGet</a></td>
+        <td><a href="#specsidecontainersspeclivenessprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -22731,7 +22731,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlivenessprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specsidecontainersspeclivenessprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -22759,8 +22759,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].livenessProbe.exec
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlivenessprobe)</sup></sup>
+### spec.sideContainersSpec[].livenessProbe.exec
+<sup><sup>[↩ Parent](#specsidecontainersspeclivenessprobe)</sup></sup>
 
 
 
@@ -22784,8 +22784,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].livenessProbe.grpc
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlivenessprobe)</sup></sup>
+### spec.sideContainersSpec[].livenessProbe.grpc
+<sup><sup>[↩ Parent](#specsidecontainersspeclivenessprobe)</sup></sup>
 
 
 
@@ -22818,8 +22818,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].livenessProbe.httpGet
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlivenessprobe)</sup></sup>
+### spec.sideContainersSpec[].livenessProbe.httpGet
+<sup><sup>[↩ Parent](#specsidecontainersspeclivenessprobe)</sup></sup>
 
 
 
@@ -22847,7 +22847,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexlivenessprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specsidecontainersspeclivenessprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -22871,8 +22871,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].livenessProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlivenessprobehttpget)</sup></sup>
+### spec.sideContainersSpec[].livenessProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specsidecontainersspeclivenessprobehttpget)</sup></sup>
 
 
 
@@ -22903,8 +22903,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].livenessProbe.tcpSocket
-<sup><sup>[↩ Parent](#specsidecontainersspecindexlivenessprobe)</sup></sup>
+### spec.sideContainersSpec[].livenessProbe.tcpSocket
+<sup><sup>[↩ Parent](#specsidecontainersspeclivenessprobe)</sup></sup>
 
 
 
@@ -22935,8 +22935,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].ports[index]
-<sup><sup>[↩ Parent](#specsidecontainersspecindex)</sup></sup>
+### spec.sideContainersSpec[].ports[]
+<sup><sup>[↩ Parent](#specsidecontainersspec)</sup></sup>
 
 
 
@@ -22994,8 +22994,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].readinessProbe
-<sup><sup>[↩ Parent](#specsidecontainersspecindex)</sup></sup>
+### spec.sideContainersSpec[].readinessProbe
+<sup><sup>[↩ Parent](#specsidecontainersspec)</sup></sup>
 
 
 
@@ -23009,7 +23009,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specsidecontainersspecindexreadinessprobeexec">exec</a></td>
+        <td><a href="#specsidecontainersspecreadinessprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -23025,14 +23025,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexreadinessprobegrpc">grpc</a></td>
+        <td><a href="#specsidecontainersspecreadinessprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexreadinessprobehttpget">httpGet</a></td>
+        <td><a href="#specsidecontainersspecreadinessprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -23066,7 +23066,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexreadinessprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specsidecontainersspecreadinessprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -23094,8 +23094,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].readinessProbe.exec
-<sup><sup>[↩ Parent](#specsidecontainersspecindexreadinessprobe)</sup></sup>
+### spec.sideContainersSpec[].readinessProbe.exec
+<sup><sup>[↩ Parent](#specsidecontainersspecreadinessprobe)</sup></sup>
 
 
 
@@ -23119,8 +23119,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].readinessProbe.grpc
-<sup><sup>[↩ Parent](#specsidecontainersspecindexreadinessprobe)</sup></sup>
+### spec.sideContainersSpec[].readinessProbe.grpc
+<sup><sup>[↩ Parent](#specsidecontainersspecreadinessprobe)</sup></sup>
 
 
 
@@ -23153,8 +23153,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].readinessProbe.httpGet
-<sup><sup>[↩ Parent](#specsidecontainersspecindexreadinessprobe)</sup></sup>
+### spec.sideContainersSpec[].readinessProbe.httpGet
+<sup><sup>[↩ Parent](#specsidecontainersspecreadinessprobe)</sup></sup>
 
 
 
@@ -23182,7 +23182,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexreadinessprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specsidecontainersspecreadinessprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -23206,8 +23206,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].readinessProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specsidecontainersspecindexreadinessprobehttpget)</sup></sup>
+### spec.sideContainersSpec[].readinessProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specsidecontainersspecreadinessprobehttpget)</sup></sup>
 
 
 
@@ -23238,8 +23238,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].readinessProbe.tcpSocket
-<sup><sup>[↩ Parent](#specsidecontainersspecindexreadinessprobe)</sup></sup>
+### spec.sideContainersSpec[].readinessProbe.tcpSocket
+<sup><sup>[↩ Parent](#specsidecontainersspecreadinessprobe)</sup></sup>
 
 
 
@@ -23270,8 +23270,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].resources
-<sup><sup>[↩ Parent](#specsidecontainersspecindex)</sup></sup>
+### spec.sideContainersSpec[].resources
+<sup><sup>[↩ Parent](#specsidecontainersspec)</sup></sup>
 
 
 
@@ -23285,7 +23285,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specsidecontainersspecindexresourcesclaimsindex">claims</a></td>
+        <td><a href="#specsidecontainersspecresourcesclaims">claims</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -23309,8 +23309,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].resources.claims[index]
-<sup><sup>[↩ Parent](#specsidecontainersspecindexresources)</sup></sup>
+### spec.sideContainersSpec[].resources.claims[]
+<sup><sup>[↩ Parent](#specsidecontainersspecresources)</sup></sup>
 
 
 
@@ -23334,8 +23334,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].securityContext
-<sup><sup>[↩ Parent](#specsidecontainersspecindex)</sup></sup>
+### spec.sideContainersSpec[].securityContext
+<sup><sup>[↩ Parent](#specsidecontainersspec)</sup></sup>
 
 
 
@@ -23356,7 +23356,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexsecuritycontextcapabilities">capabilities</a></td>
+        <td><a href="#specsidecontainersspecsecuritycontextcapabilities">capabilities</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -23409,21 +23409,21 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexsecuritycontextselinuxoptions">seLinuxOptions</a></td>
+        <td><a href="#specsidecontainersspecsecuritycontextselinuxoptions">seLinuxOptions</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexsecuritycontextseccompprofile">seccompProfile</a></td>
+        <td><a href="#specsidecontainersspecsecuritycontextseccompprofile">seccompProfile</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexsecuritycontextwindowsoptions">windowsOptions</a></td>
+        <td><a href="#specsidecontainersspecsecuritycontextwindowsoptions">windowsOptions</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -23433,8 +23433,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].securityContext.capabilities
-<sup><sup>[↩ Parent](#specsidecontainersspecindexsecuritycontext)</sup></sup>
+### spec.sideContainersSpec[].securityContext.capabilities
+<sup><sup>[↩ Parent](#specsidecontainersspecsecuritycontext)</sup></sup>
 
 
 
@@ -23465,8 +23465,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].securityContext.seLinuxOptions
-<sup><sup>[↩ Parent](#specsidecontainersspecindexsecuritycontext)</sup></sup>
+### spec.sideContainersSpec[].securityContext.seLinuxOptions
+<sup><sup>[↩ Parent](#specsidecontainersspecsecuritycontext)</sup></sup>
 
 
 
@@ -23511,8 +23511,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].securityContext.seccompProfile
-<sup><sup>[↩ Parent](#specsidecontainersspecindexsecuritycontext)</sup></sup>
+### spec.sideContainersSpec[].securityContext.seccompProfile
+<sup><sup>[↩ Parent](#specsidecontainersspecsecuritycontext)</sup></sup>
 
 
 
@@ -23543,8 +23543,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].securityContext.windowsOptions
-<sup><sup>[↩ Parent](#specsidecontainersspecindexsecuritycontext)</sup></sup>
+### spec.sideContainersSpec[].securityContext.windowsOptions
+<sup><sup>[↩ Parent](#specsidecontainersspecsecuritycontext)</sup></sup>
 
 
 
@@ -23589,8 +23589,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].startupProbe
-<sup><sup>[↩ Parent](#specsidecontainersspecindex)</sup></sup>
+### spec.sideContainersSpec[].startupProbe
+<sup><sup>[↩ Parent](#specsidecontainersspec)</sup></sup>
 
 
 
@@ -23604,7 +23604,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specsidecontainersspecindexstartupprobeexec">exec</a></td>
+        <td><a href="#specsidecontainersspecstartupprobeexec">exec</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -23620,14 +23620,14 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexstartupprobegrpc">grpc</a></td>
+        <td><a href="#specsidecontainersspecstartupprobegrpc">grpc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexstartupprobehttpget">httpGet</a></td>
+        <td><a href="#specsidecontainersspecstartupprobehttpget">httpGet</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -23661,7 +23661,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexstartupprobetcpsocket">tcpSocket</a></td>
+        <td><a href="#specsidecontainersspecstartupprobetcpsocket">tcpSocket</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -23689,8 +23689,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].startupProbe.exec
-<sup><sup>[↩ Parent](#specsidecontainersspecindexstartupprobe)</sup></sup>
+### spec.sideContainersSpec[].startupProbe.exec
+<sup><sup>[↩ Parent](#specsidecontainersspecstartupprobe)</sup></sup>
 
 
 
@@ -23714,8 +23714,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].startupProbe.grpc
-<sup><sup>[↩ Parent](#specsidecontainersspecindexstartupprobe)</sup></sup>
+### spec.sideContainersSpec[].startupProbe.grpc
+<sup><sup>[↩ Parent](#specsidecontainersspecstartupprobe)</sup></sup>
 
 
 
@@ -23748,8 +23748,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].startupProbe.httpGet
-<sup><sup>[↩ Parent](#specsidecontainersspecindexstartupprobe)</sup></sup>
+### spec.sideContainersSpec[].startupProbe.httpGet
+<sup><sup>[↩ Parent](#specsidecontainersspecstartupprobe)</sup></sup>
 
 
 
@@ -23777,7 +23777,7 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specsidecontainersspecindexstartupprobehttpgethttpheadersindex">httpHeaders</a></td>
+        <td><a href="#specsidecontainersspecstartupprobehttpgethttpheaders">httpHeaders</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -23801,8 +23801,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].startupProbe.httpGet.httpHeaders[index]
-<sup><sup>[↩ Parent](#specsidecontainersspecindexstartupprobehttpget)</sup></sup>
+### spec.sideContainersSpec[].startupProbe.httpGet.httpHeaders[]
+<sup><sup>[↩ Parent](#specsidecontainersspecstartupprobehttpget)</sup></sup>
 
 
 
@@ -23833,8 +23833,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].startupProbe.tcpSocket
-<sup><sup>[↩ Parent](#specsidecontainersspecindexstartupprobe)</sup></sup>
+### spec.sideContainersSpec[].startupProbe.tcpSocket
+<sup><sup>[↩ Parent](#specsidecontainersspecstartupprobe)</sup></sup>
 
 
 
@@ -23865,8 +23865,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].volumeDevices[index]
-<sup><sup>[↩ Parent](#specsidecontainersspecindex)</sup></sup>
+### spec.sideContainersSpec[].volumeDevices[]
+<sup><sup>[↩ Parent](#specsidecontainersspec)</sup></sup>
 
 
 
@@ -23897,8 +23897,8 @@ ADVANCED USAGE USE AT YOUR OWN RISK - specify pod attributes that are required f
 </table>
 
 
-### spec.sideContainersSpec[index].volumeMounts[index]
-<sup><sup>[↩ Parent](#specsidecontainersspecindex)</sup></sup>
+### spec.sideContainersSpec[].volumeMounts[]
+<sup><sup>[↩ Parent](#specsidecontainersspec)</sup></sup>
 
 
 
@@ -24009,7 +24009,7 @@ Specification for upgrades of Redis Enterprise
 </table>
 
 
-### spec.volumes[index]
+### spec.volumes[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
 Volume represents a named volume in a pod that may be accessed by any container in the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes
@@ -24031,196 +24031,196 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specvolumesindexawselasticblockstore">awsElasticBlockStore</a></td>
+        <td><a href="#specvolumesawselasticblockstore">awsElasticBlockStore</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexazuredisk">azureDisk</a></td>
+        <td><a href="#specvolumesazuredisk">azureDisk</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexazurefile">azureFile</a></td>
+        <td><a href="#specvolumesazurefile">azureFile</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexcephfs">cephfs</a></td>
+        <td><a href="#specvolumescephfs">cephfs</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexcinder">cinder</a></td>
+        <td><a href="#specvolumescinder">cinder</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexconfigmap">configMap</a></td>
+        <td><a href="#specvolumesconfigmap">configMap</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexcsi">csi</a></td>
+        <td><a href="#specvolumescsi">csi</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexdownwardapi">downwardAPI</a></td>
+        <td><a href="#specvolumesdownwardapi">downwardAPI</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexemptydir">emptyDir</a></td>
+        <td><a href="#specvolumesemptydir">emptyDir</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexfc">fc</a></td>
+        <td><a href="#specvolumesfc">fc</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexflexvolume">flexVolume</a></td>
+        <td><a href="#specvolumesflexvolume">flexVolume</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexflocker">flocker</a></td>
+        <td><a href="#specvolumesflocker">flocker</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexgcepersistentdisk">gcePersistentDisk</a></td>
+        <td><a href="#specvolumesgcepersistentdisk">gcePersistentDisk</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexgitrepo">gitRepo</a></td>
+        <td><a href="#specvolumesgitrepo">gitRepo</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexglusterfs">glusterfs</a></td>
+        <td><a href="#specvolumesglusterfs">glusterfs</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexhostpath">hostPath</a></td>
+        <td><a href="#specvolumeshostpath">hostPath</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexiscsi">iscsi</a></td>
+        <td><a href="#specvolumesiscsi">iscsi</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexnfs">nfs</a></td>
+        <td><a href="#specvolumesnfs">nfs</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexpersistentvolumeclaim">persistentVolumeClaim</a></td>
+        <td><a href="#specvolumespersistentvolumeclaim">persistentVolumeClaim</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexphotonpersistentdisk">photonPersistentDisk</a></td>
+        <td><a href="#specvolumesphotonpersistentdisk">photonPersistentDisk</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexportworxvolume">portworxVolume</a></td>
+        <td><a href="#specvolumesportworxvolume">portworxVolume</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexprojected">projected</a></td>
+        <td><a href="#specvolumesprojected">projected</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexquobyte">quobyte</a></td>
+        <td><a href="#specvolumesquobyte">quobyte</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexrbd">rbd</a></td>
+        <td><a href="#specvolumesrbd">rbd</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexscaleio">scaleIO</a></td>
+        <td><a href="#specvolumesscaleio">scaleIO</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexsecret">secret</a></td>
+        <td><a href="#specvolumessecret">secret</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexstorageos">storageos</a></td>
+        <td><a href="#specvolumesstorageos">storageos</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexvspherevolume">vsphereVolume</a></td>
+        <td><a href="#specvolumesvspherevolume">vsphereVolume</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -24230,8 +24230,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].awsElasticBlockStore
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].awsElasticBlockStore
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -24278,8 +24278,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].azureDisk
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].azureDisk
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -24338,8 +24338,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].azureFile
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].azureFile
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -24377,8 +24377,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].cephfs
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].cephfs
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -24420,7 +24420,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexcephfssecretref">secretRef</a></td>
+        <td><a href="#specvolumescephfssecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -24437,8 +24437,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].cephfs.secretRef
-<sup><sup>[↩ Parent](#specvolumesindexcephfs)</sup></sup>
+### spec.volumes[].cephfs.secretRef
+<sup><sup>[↩ Parent](#specvolumescephfs)</sup></sup>
 
 
 
@@ -24462,8 +24462,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].cinder
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].cinder
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -24498,7 +24498,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexcindersecretref">secretRef</a></td>
+        <td><a href="#specvolumescindersecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -24508,8 +24508,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].cinder.secretRef
-<sup><sup>[↩ Parent](#specvolumesindexcinder)</sup></sup>
+### spec.volumes[].cinder.secretRef
+<sup><sup>[↩ Parent](#specvolumescinder)</sup></sup>
 
 
 
@@ -24533,8 +24533,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].configMap
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].configMap
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -24557,7 +24557,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexconfigmapitemsindex">items</a></td>
+        <td><a href="#specvolumesconfigmapitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -24581,8 +24581,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].configMap.items[index]
-<sup><sup>[↩ Parent](#specvolumesindexconfigmap)</sup></sup>
+### spec.volumes[].configMap.items[]
+<sup><sup>[↩ Parent](#specvolumesconfigmap)</sup></sup>
 
 
 
@@ -24622,8 +24622,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].csi
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].csi
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -24651,7 +24651,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexcsinodepublishsecretref">nodePublishSecretRef</a></td>
+        <td><a href="#specvolumescsinodepublishsecretref">nodePublishSecretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -24675,8 +24675,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].csi.nodePublishSecretRef
-<sup><sup>[↩ Parent](#specvolumesindexcsi)</sup></sup>
+### spec.volumes[].csi.nodePublishSecretRef
+<sup><sup>[↩ Parent](#specvolumescsi)</sup></sup>
 
 
 
@@ -24700,8 +24700,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].downwardAPI
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].downwardAPI
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -24724,7 +24724,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexdownwardapiitemsindex">items</a></td>
+        <td><a href="#specvolumesdownwardapiitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -24734,8 +24734,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].downwardAPI.items[index]
-<sup><sup>[↩ Parent](#specvolumesindexdownwardapi)</sup></sup>
+### spec.volumes[].downwardAPI.items[]
+<sup><sup>[↩ Parent](#specvolumesdownwardapi)</sup></sup>
 
 
 
@@ -24756,7 +24756,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specvolumesindexdownwardapiitemsindexfieldref">fieldRef</a></td>
+        <td><a href="#specvolumesdownwardapiitemsfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -24772,7 +24772,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexdownwardapiitemsindexresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specvolumesdownwardapiitemsresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -24782,8 +24782,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].downwardAPI.items[index].fieldRef
-<sup><sup>[↩ Parent](#specvolumesindexdownwardapiitemsindex)</sup></sup>
+### spec.volumes[].downwardAPI.items[].fieldRef
+<sup><sup>[↩ Parent](#specvolumesdownwardapiitems)</sup></sup>
 
 
 
@@ -24814,8 +24814,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].downwardAPI.items[index].resourceFieldRef
-<sup><sup>[↩ Parent](#specvolumesindexdownwardapiitemsindex)</sup></sup>
+### spec.volumes[].downwardAPI.items[].resourceFieldRef
+<sup><sup>[↩ Parent](#specvolumesdownwardapiitems)</sup></sup>
 
 
 
@@ -24853,8 +24853,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].emptyDir
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].emptyDir
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -24885,8 +24885,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].fc
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].fc
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -24940,8 +24940,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].flexVolume
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].flexVolume
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -24983,7 +24983,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexflexvolumesecretref">secretRef</a></td>
+        <td><a href="#specvolumesflexvolumesecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -24993,8 +24993,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].flexVolume.secretRef
-<sup><sup>[↩ Parent](#specvolumesindexflexvolume)</sup></sup>
+### spec.volumes[].flexVolume.secretRef
+<sup><sup>[↩ Parent](#specvolumesflexvolume)</sup></sup>
 
 
 
@@ -25018,8 +25018,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].flocker
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].flocker
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25050,8 +25050,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].gcePersistentDisk
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].gcePersistentDisk
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25098,8 +25098,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].gitRepo
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].gitRepo
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25137,8 +25137,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].glusterfs
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].glusterfs
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25176,8 +25176,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].hostPath
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].hostPath
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25208,8 +25208,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].iscsi
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].iscsi
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25295,7 +25295,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexiscsisecretref">secretRef</a></td>
+        <td><a href="#specvolumesiscsisecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -25305,8 +25305,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].iscsi.secretRef
-<sup><sup>[↩ Parent](#specvolumesindexiscsi)</sup></sup>
+### spec.volumes[].iscsi.secretRef
+<sup><sup>[↩ Parent](#specvolumesiscsi)</sup></sup>
 
 
 
@@ -25330,8 +25330,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].nfs
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].nfs
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25369,8 +25369,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].persistentVolumeClaim
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].persistentVolumeClaim
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25401,8 +25401,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].photonPersistentDisk
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].photonPersistentDisk
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25433,8 +25433,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].portworxVolume
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].portworxVolume
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25472,8 +25472,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].projected
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].projected
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25487,7 +25487,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specvolumesindexprojectedsourcesindex">sources</a></td>
+        <td><a href="#specvolumesprojectedsources">sources</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -25506,8 +25506,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].projected.sources[index]
-<sup><sup>[↩ Parent](#specvolumesindexprojected)</sup></sup>
+### spec.volumes[].projected.sources[]
+<sup><sup>[↩ Parent](#specvolumesprojected)</sup></sup>
 
 
 
@@ -25521,28 +25521,28 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specvolumesindexprojectedsourcesindexconfigmap">configMap</a></td>
+        <td><a href="#specvolumesprojectedsourcesconfigmap">configMap</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexprojectedsourcesindexdownwardapi">downwardAPI</a></td>
+        <td><a href="#specvolumesprojectedsourcesdownwardapi">downwardAPI</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexprojectedsourcesindexsecret">secret</a></td>
+        <td><a href="#specvolumesprojectedsourcessecret">secret</a></td>
         <td>object</td>
         <td>
           <br/>
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexprojectedsourcesindexserviceaccounttoken">serviceAccountToken</a></td>
+        <td><a href="#specvolumesprojectedsourcesserviceaccounttoken">serviceAccountToken</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -25552,8 +25552,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].projected.sources[index].configMap
-<sup><sup>[↩ Parent](#specvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.volumes[].projected.sources[].configMap
+<sup><sup>[↩ Parent](#specvolumesprojectedsources)</sup></sup>
 
 
 
@@ -25567,7 +25567,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specvolumesindexprojectedsourcesindexconfigmapitemsindex">items</a></td>
+        <td><a href="#specvolumesprojectedsourcesconfigmapitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -25591,8 +25591,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].projected.sources[index].configMap.items[index]
-<sup><sup>[↩ Parent](#specvolumesindexprojectedsourcesindexconfigmap)</sup></sup>
+### spec.volumes[].projected.sources[].configMap.items[]
+<sup><sup>[↩ Parent](#specvolumesprojectedsourcesconfigmap)</sup></sup>
 
 
 
@@ -25632,8 +25632,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].projected.sources[index].downwardAPI
-<sup><sup>[↩ Parent](#specvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.volumes[].projected.sources[].downwardAPI
+<sup><sup>[↩ Parent](#specvolumesprojectedsources)</sup></sup>
 
 
 
@@ -25647,7 +25647,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specvolumesindexprojectedsourcesindexdownwardapiitemsindex">items</a></td>
+        <td><a href="#specvolumesprojectedsourcesdownwardapiitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -25657,8 +25657,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].projected.sources[index].downwardAPI.items[index]
-<sup><sup>[↩ Parent](#specvolumesindexprojectedsourcesindexdownwardapi)</sup></sup>
+### spec.volumes[].projected.sources[].downwardAPI.items[]
+<sup><sup>[↩ Parent](#specvolumesprojectedsourcesdownwardapi)</sup></sup>
 
 
 
@@ -25679,7 +25679,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specvolumesindexprojectedsourcesindexdownwardapiitemsindexfieldref">fieldRef</a></td>
+        <td><a href="#specvolumesprojectedsourcesdownwardapiitemsfieldref">fieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -25695,7 +25695,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexprojectedsourcesindexdownwardapiitemsindexresourcefieldref">resourceFieldRef</a></td>
+        <td><a href="#specvolumesprojectedsourcesdownwardapiitemsresourcefieldref">resourceFieldRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -25705,8 +25705,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].projected.sources[index].downwardAPI.items[index].fieldRef
-<sup><sup>[↩ Parent](#specvolumesindexprojectedsourcesindexdownwardapiitemsindex)</sup></sup>
+### spec.volumes[].projected.sources[].downwardAPI.items[].fieldRef
+<sup><sup>[↩ Parent](#specvolumesprojectedsourcesdownwardapiitems)</sup></sup>
 
 
 
@@ -25737,8 +25737,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].projected.sources[index].downwardAPI.items[index].resourceFieldRef
-<sup><sup>[↩ Parent](#specvolumesindexprojectedsourcesindexdownwardapiitemsindex)</sup></sup>
+### spec.volumes[].projected.sources[].downwardAPI.items[].resourceFieldRef
+<sup><sup>[↩ Parent](#specvolumesprojectedsourcesdownwardapiitems)</sup></sup>
 
 
 
@@ -25776,8 +25776,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].projected.sources[index].secret
-<sup><sup>[↩ Parent](#specvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.volumes[].projected.sources[].secret
+<sup><sup>[↩ Parent](#specvolumesprojectedsources)</sup></sup>
 
 
 
@@ -25791,7 +25791,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#specvolumesindexprojectedsourcesindexsecretitemsindex">items</a></td>
+        <td><a href="#specvolumesprojectedsourcessecretitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -25815,8 +25815,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].projected.sources[index].secret.items[index]
-<sup><sup>[↩ Parent](#specvolumesindexprojectedsourcesindexsecret)</sup></sup>
+### spec.volumes[].projected.sources[].secret.items[]
+<sup><sup>[↩ Parent](#specvolumesprojectedsourcessecret)</sup></sup>
 
 
 
@@ -25856,8 +25856,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].projected.sources[index].serviceAccountToken
-<sup><sup>[↩ Parent](#specvolumesindexprojectedsourcesindex)</sup></sup>
+### spec.volumes[].projected.sources[].serviceAccountToken
+<sup><sup>[↩ Parent](#specvolumesprojectedsources)</sup></sup>
 
 
 
@@ -25897,8 +25897,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].quobyte
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].quobyte
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -25957,8 +25957,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].rbd
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].rbd
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -26014,7 +26014,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexrbdsecretref">secretRef</a></td>
+        <td><a href="#specvolumesrbdsecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -26031,8 +26031,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].rbd.secretRef
-<sup><sup>[↩ Parent](#specvolumesindexrbd)</sup></sup>
+### spec.volumes[].rbd.secretRef
+<sup><sup>[↩ Parent](#specvolumesrbd)</sup></sup>
 
 
 
@@ -26056,8 +26056,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].scaleIO
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].scaleIO
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -26078,7 +26078,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>true</td>
       </tr><tr>
-        <td><a href="#specvolumesindexscaleiosecretref">secretRef</a></td>
+        <td><a href="#specvolumesscaleiosecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -26144,8 +26144,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].scaleIO.secretRef
-<sup><sup>[↩ Parent](#specvolumesindexscaleio)</sup></sup>
+### spec.volumes[].scaleIO.secretRef
+<sup><sup>[↩ Parent](#specvolumesscaleio)</sup></sup>
 
 
 
@@ -26169,8 +26169,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].secret
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].secret
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -26193,7 +26193,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexsecretitemsindex">items</a></td>
+        <td><a href="#specvolumessecretitems">items</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -26217,8 +26217,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].secret.items[index]
-<sup><sup>[↩ Parent](#specvolumesindexsecret)</sup></sup>
+### spec.volumes[].secret.items[]
+<sup><sup>[↩ Parent](#specvolumessecret)</sup></sup>
 
 
 
@@ -26258,8 +26258,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].storageos
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].storageos
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -26287,7 +26287,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specvolumesindexstorageossecretref">secretRef</a></td>
+        <td><a href="#specvolumesstorageossecretref">secretRef</a></td>
         <td>object</td>
         <td>
           <br/>
@@ -26311,8 +26311,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].storageos.secretRef
-<sup><sup>[↩ Parent](#specvolumesindexstorageos)</sup></sup>
+### spec.volumes[].storageos.secretRef
+<sup><sup>[↩ Parent](#specvolumesstorageos)</sup></sup>
 
 
 
@@ -26336,8 +26336,8 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### spec.volumes[index].vsphereVolume
-<sup><sup>[↩ Parent](#specvolumesindex)</sup></sup>
+### spec.volumes[].vsphereVolume
+<sup><sup>[↩ Parent](#specvolumes)</sup></sup>
 
 
 
@@ -26397,7 +26397,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </tr>
     </thead>
     <tbody><tr>
-        <td><a href="#statusbundleddatabaseversionsindex">bundledDatabaseVersions</a></td>
+        <td><a href="#statusbundleddatabaseversions">bundledDatabaseVersions</a></td>
         <td>[]object</td>
         <td>
           Versions of open source databases bundled by Redis Enterprise Software - please note that in order to use a specific version it should be supported by the ‘upgradePolicy’ - ‘major’ or ‘latest’ according to the desired version (major/minor)<br/>
@@ -26425,7 +26425,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#statusmodulesindex">modules</a></td>
+        <td><a href="#statusmodules">modules</a></td>
         <td>[]object</td>
         <td>
           <br/>
@@ -26470,7 +26470,7 @@ Volume represents a named volume in a pod that may be accessed by any container 
 </table>
 
 
-### status.bundledDatabaseVersions[index]
+### status.bundledDatabaseVersions[]
 <sup><sup>[↩ Parent](#status)</sup></sup>
 
 
@@ -26580,7 +26580,7 @@ Indicates cluster APIs that are being managed by the operator. This only applies
 </table>
 
 
-### status.modules[index]
+### status.modules[]
 <sup><sup>[↩ Parent](#status)</sup></sup>
 
 

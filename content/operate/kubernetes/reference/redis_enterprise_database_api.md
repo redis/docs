@@ -168,7 +168,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specmoduleslistindex">modulesList</a></td>
+        <td><a href="#specmoduleslist">modulesList</a></td>
         <td>[]object</td>
         <td>
           List of modules associated with database. Note - For Active-Active databases this feature is currently in preview. For this feature to take effect for Active-Active databases, set a boolean environment variable with the name "ENABLE_ALPHA_FEATURES" to True. This variable can be set via the redis-enterprise-operator pod spec, or through the operator-environment-config Config Map.<br/>
@@ -219,7 +219,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specreplicasourcesindex">replicaSources</a></td>
+        <td><a href="#specreplicasources">replicaSources</a></td>
         <td>[]object</td>
         <td>
           What databases to replicate from<br/>
@@ -247,7 +247,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specrolespermissionsindex">rolesPermissions</a></td>
+        <td><a href="#specrolespermissions">rolesPermissions</a></td>
         <td>[]object</td>
         <td>
           List of Redis Enteprise ACL and Role bindings to apply<br/>
@@ -1122,7 +1122,7 @@ MountPointStorage
 </table>
 
 
-### spec.modulesList[index]
+### spec.modulesList[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
 Redis Enterprise Module: https://redislabs.com/redis-enterprise/modules/
@@ -1186,7 +1186,7 @@ Connection to Redis Enterprise Cluster
 </table>
 
 
-### spec.replicaSources[index]
+### spec.replicaSources[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
 
@@ -1246,7 +1246,7 @@ Connection to Redis Enterprise Cluster
 </table>
 
 
-### spec.rolesPermissions[index]
+### spec.rolesPermissions[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
 Redis Enterprise Role and ACL Binding
@@ -1353,7 +1353,7 @@ RedisEnterpriseDatabaseStatus defines the observed state of RedisEnterpriseDatab
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#statusinternalendpointsindex">internalEndpoints</a></td>
+        <td><a href="#statusinternalendpoints">internalEndpoints</a></td>
         <td>[]object</td>
         <td>
           Endpoints listed internally by the Redis Enterprise Cluster. Can be used to correlate a ReplicaSourceStatus entry.<br/>
@@ -1397,7 +1397,7 @@ RedisEnterpriseDatabaseStatus defines the observed state of RedisEnterpriseDatab
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#statusreplicasourcestatusesindex">replicaSourceStatuses</a></td>
+        <td><a href="#statusreplicasourcestatuses">replicaSourceStatuses</a></td>
         <td>[]object</td>
         <td>
           ReplicaSource statuses<br/>
@@ -1534,7 +1534,7 @@ Information on the database's periodic backup
 </table>
 
 
-### status.internalEndpoints[index]
+### status.internalEndpoints[]
 <sup><sup>[↩ Parent](#status)</sup></sup>
 
 
@@ -1566,7 +1566,7 @@ Information on the database's periodic backup
 </table>
 
 
-### status.replicaSourceStatuses[index]
+### status.replicaSourceStatuses[]
 <sup><sup>[↩ Parent](#status)</sup></sup>
 
 
