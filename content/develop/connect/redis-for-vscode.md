@@ -17,7 +17,7 @@ weight: 5
 ---
 
 Redis for VS Code is an extension that allows you to connect to your Redis databases from within Microsoft Visual Studio Code.
-After connecting to a database, you can view, add, modify, and delete keys, and interact with your Redis databases using a built-in CLI interface.
+After connecting to a database, you can view, add, modify, and delete keys, and interact with your Redis databases using a Redis Insight like UI and also a built-in CLI interface.
 The following data types are supported:
 
 - [Hash]({{< relref "/develop/data-types/hashes" >}})
@@ -41,7 +41,7 @@ The Redis for VS Code extension will automatically update just like any other VS
 
 ## Connect to Redis databases {#connect-db}
 
-Click on the Redis mark (the cursive **R**) in the VS Code menu to begin connecting a Redis database to VS Code.
+Click on the Redis mark (the cursive **R**) in the VS Code menu to begin connecting a Redis database to VS Code. If you do not currently have access to a Redis database, consider giving Redis Cloud a try. [It's free](https://redis.io/try-free/).
 
 {{< image filename="images/dev/connect/vscode/vscode-initial.png" >}}
 
@@ -56,6 +56,10 @@ There is no way to change the logical database once you have selected it. If you
 After filling out the necessary fields, click on the **Add Redis database** button. The pane on the left side, where you would normally see the Explorer view, shows your database connections.
 
 {{< image filename="images/dev/connect/vscode/vscode-cnx-view.png" >}}
+
+{{< note >}}
+Local databases, excluding OSS cluster databases, with default usernames and no passwords will automatically be added to your list of database connections.
+{{< /note >}}
 
 ### Connection tools
 
@@ -114,6 +118,25 @@ There are several editing tools that you can use to edit key data. Each data typ
 | Before refresh | After refresh |
 |:---               |:---                     |
 | {{< image filename="images/dev/connect/vscode/vscode-recycle-before.png" >}} | {{< image filename="images/dev/connect/vscode/vscode-recycle-after.png" >}} |
+
+For Hash and String keys, the extension supports numerous value formatters (highlighted in red in the image below). They are:
+
+- Unicode
+- ASCII
+- Binary (blob)
+- HEX
+- JSON
+- Msgpack
+- Pickle
+- Protobuf
+- PHP serialized
+- Java serialized
+- 32-bit vector
+- 64-bit vector
+
+{{< image filename="images/dev/connect/vscode/vscode-edit-value-formatters.png" >}}
+
+Also for Hash keys, you can set per-field TTLs (highlighted in yellow in the image above), a new feature added to Redis Community Edition 7.4.
 
 ## CLI tool {#cli}
 
