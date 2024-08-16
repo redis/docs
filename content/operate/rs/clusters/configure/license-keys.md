@@ -88,7 +88,29 @@ When the license is expired:
     - Fail over when a node fails and explicitly migrate shards between nodes.
 
     - Upgrade a node to a new version of Redis Enterprise Software.
- 
+
+## Configure license expiration alert
+
+By default, a cluster license alert is scheduled to occur 7 days before the cluster license expiration date.
+
+To change the cluster license alert settings, use an [update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request.
+
+The following example changes the cluster license alert to occur 30 days before the cluster license expiration date:
+
+```sh
+PUT /v1/cluster
+{
+    "alert_settings": {
+        "cluster_license_about_to_expire": {
+            "enabled": true,
+            "threshold": "30"
+        }
+    }
+}
+```
+
+Adjust the `threshold` value of the `cluster_license_about_to_expire` alert based on how far in advance you want to be notified of the license expiration. The value should be within a reasonable range that allows your organization enough time to take action, such as renewing the license, before it expires.
+
 ## Monitor cluster license
 
 As of version 7.2, Redis Enterprise exposes the license quotas and the shards consumption metrics in the Cluster Manager UI or via the [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
