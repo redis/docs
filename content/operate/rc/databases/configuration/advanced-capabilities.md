@@ -61,6 +61,6 @@ Use the [Search and query sizing calculator](https://redis.io/redisearch-sizing-
 
 #### Query performance factor
 
-The query performance factor adds extra compute power specifically for search and query. When you create a database with search and query, you can select a factor to increase your queries per second by that amount.
+The query performance factor adds extra compute power specifically for search and query. When you create a database with search and query, you can increase your search queries per second by the selected factor.
 
 We recommend testing your application with a test database to see your baseline queries per second and determine how much you want to boost your query performance. After you have determined your queries per second and your desired performance factor, [create a new database]({{< relref "/operate/rc/databases/create-database" >}}) with the desired performance factor and [migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) from the test database to your new database.
