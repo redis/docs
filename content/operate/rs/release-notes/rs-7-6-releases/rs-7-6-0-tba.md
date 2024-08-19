@@ -89,6 +89,34 @@ The next major Redis Enterprise Software release will still bundle Redis databas
 
 See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers.
 
+#### End of triggers and functions preview
+
+The [triggers and functions]({{<relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions">}}) (RedisGears) preview has been discontinued.
+
+- Commands such as `TFCALL`, `TFCALLASYNC`, and `TFUNCTION` will be deprecated and will return error messages.
+
+- Any JavaScript functions stored in Redis will be removed. 
+
+- JavaScript-based triggers will be blocked.
+
+- Lua functions and scripts will not be affected.
+
+If your database currently uses triggers and functions, you need to: 
+
+1. Adjust your applications to accommodate these changes.
+
+1. Delete all triggers and functions libraries from your existing database:
+
+    1. Run `TFUNCTION LIST`.
+
+    1. Copy all library names.
+
+    1. Run `TFUNCTION DELETE` for each library in the list.
+
+    If any triggers and functions libraries remain in the database, the RDB snapshot won't load on a cluster without RedisGears.
+
+1. Migrate your database to a new database without the RedisGears module.
+
 ### Deprecations
 
 #### API deprecations
