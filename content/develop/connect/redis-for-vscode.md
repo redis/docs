@@ -48,7 +48,7 @@ Click on the Redis mark (the cursive **R**) in the VS Code menu to begin connect
 Click on the **+ Connect database** button. A dialog will display in the main pane. In the image shown below, all the options have been checked to show the available details for each connection. These connection details are similar to those accessible from [`redis-cli`]({{< relref "/develop/connect/cli" >}}).
 
 {{< note >}}
-There is no way to change the logical database once you have selected it. If you need to connect to a different logical database, you need to add a separate database connection.
+In the first release of Redis for VS Code, there is no way to change the logical database after you have selected it. If you need to connect to a different logical database, you need to add a separate database connection.
 {{< /note >}}
 
 {{< image filename="images/dev/connect/vscode/vscode-add-menu.png" >}}
@@ -119,7 +119,7 @@ There are several editing tools that you can use to edit key data. Each data typ
 |:---               |:---                     |
 | {{< image filename="images/dev/connect/vscode/vscode-recycle-before.png" >}} | {{< image filename="images/dev/connect/vscode/vscode-recycle-after.png" >}} |
 
-For Hash and String keys, the extension supports numerous value formatters (highlighted in red in the image below). They are:
+For strings, hashes, lists, sets, and sorted sets, the extension supports numerous value formatters (highlighted in red in the image below). They are:
 
 - Unicode
 - ASCII
