@@ -42,7 +42,7 @@ give full pre-installation instructions for [RHEL](#firewall-rhel) and
 
 ### RHEL {#firewall-rhel}
 
-It is recommended that you turn off 
+We recommend you turn off
 [`firewalld`](https://firewalld.org/documentation/)
 before installation using the command:
 
