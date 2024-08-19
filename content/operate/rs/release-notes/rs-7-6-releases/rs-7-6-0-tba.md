@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements.
+description: Client-side caching support. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements.
 linkTitle: 7.6.0-tba (September 2024)
 weight: 90
 ---
@@ -16,6 +16,8 @@ weight: 90
 ## Highlights
 
 This version offers:
+
+- Client-side caching support
 
 - Cluster Manager UI enhancements for node actions, database tags, and database configuration
 
@@ -27,7 +29,15 @@ This version offers:
 
 ### New features
 
-- TBA
+- Client-side caching support:
+
+    - Client-side caching allows Redis clients to store a subset of data in a local cache and avoid sending repeated requests to the Redis database.
+    
+    - When used to cache frequently accessed data, this technique can improve performance by decreasing network traffic, latency, and load on the database.
+
+    - Supported for Redis databases with Redis versions 7.4 and later.
+    
+    - For more information, see the [client-side caching introduction]({{<relref "/develop/connect/clients/client-side-caching">}}) and [client-side caching compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}).
 
 ### Enhancements
 

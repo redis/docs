@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements.
+description: Client-side caching support. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements.
 hideListLinks: true
 linkTitle: 7.6.0 releases
 toc: 'true'
@@ -18,6 +18,8 @@ weight: 69
 ## Highlights
 
 This version offers:
+
+- Client-side caching support
  
 - Cluster Manager UI enhancements for node actions, database tags, and database configuration
 
