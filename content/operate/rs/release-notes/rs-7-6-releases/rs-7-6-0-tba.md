@@ -196,7 +196,7 @@ The following table shows the SHA256 checksums for the available packages:
 
 ## Known issues
 
-- TBA
+- RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
 ## Known limitations
 
