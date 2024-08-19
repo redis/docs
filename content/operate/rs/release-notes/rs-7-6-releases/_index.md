@@ -152,7 +152,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 ## Known issues
 
-- TBA
+- RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
 ## Known limitations
 
