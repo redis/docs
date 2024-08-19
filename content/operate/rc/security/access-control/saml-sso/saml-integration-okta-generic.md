@@ -45,7 +45,7 @@ To create the Okta SAML integration application:
 
     * **Single sign-on URL**: `http://www.fake.com`. This is a temporary mock URL that you will modify later.
     * **Audience URI (SP Entity ID)**: `http://www.fake.com`. This is a temporary mock URL that you will modify later.
-    * **Default RelayState**: `https://app.redislabs.com/#/login/?idpId=XXXXXX`. You will need to complete this URL with the `idpId` later. _Complete this field only if you need your SAML flow to be IdP initiated._
+    * **Default RelayState**: `https://cloud.redis.io/#/login/?idpId=XXXXXX`. You will need to complete this URL with the `idpId` later. _Complete this field only if you need your SAML flow to be IdP initiated._
     * **Name ID forma**: `Unspecified`
     * **Application username**: `Okta username`
     * **Update application username on**: `Create and update`
@@ -205,7 +205,7 @@ Now that you have a test IdP server ready as well as your user group, configure 
 
 ### Sign in to Redis Cloud
 
-Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#/login).
+Sign in to your account on the [Redis Cloud console](https://cloud.redis.io/#/login).
 
 ### Activate SAML in Access Management
 
@@ -241,7 +241,7 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
    * **Single sign-on URL**: Use the information that you copied for **Location**.
    * **Audience URI (SP Entity ID)**: Use the information that you copied for **EntityID**.
-   * **Default RelayState**: Only needed if you want to have an IdP initiated flow. Take the ID from the location URL in step 3 (the content after the last forward slash "/") and append to the url (for example, `https://app.redislabs.com/#/login/?idpId=YOUR_LOCATION_ID`).
+   * **Default RelayState**: Only needed if you want to have an IdP initiated flow. Take the ID from the location URL in step 3 (the content after the last forward slash "/") and append to the url (for example, `https://cloud.redis.io/#/login/?idpId=YOUR_LOCATION_ID`).
 
     {{<image filename="images/rc/saml/okta_saml_app_int_13.png" >}}
 
