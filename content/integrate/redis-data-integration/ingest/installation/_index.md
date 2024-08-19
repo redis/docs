@@ -82,7 +82,7 @@ reboot
 
 ### Ubuntu {#firewall-ubuntu}
 
-It is recommended that you turn off
+We recommend you turn off
 [Uncomplicated Firewall](https://wiki.ubuntu.com/UncomplicatedFirewall) (`ufw`)
 before installation with the command:
 
