@@ -70,7 +70,8 @@ firewall-cmd --permanent --add-port=9092/tcp  # prometheus-service
 firewall-cmd --permanent --add-port=9121/tcp  # rdi-metric-exporter
 ```
 
-You may also need to add similar rules to open other ports if your setup requires them.
+{{<note>}}You may also need to add similar rules to open other ports if your setup requires them.
+{{</note>}}
 
 If you have `nm-cloud-setup.service` enabled, you must disable it and reboot the
 node with the following commands:
@@ -109,7 +110,8 @@ ufw allow 9092/tcp  # prometheus-service
 ufw allow 9121/tcp  # rdi-metric-exporter
 ```
 
-You may also need to add similar rules to open other ports if your setup requires them.
+{{<note>}}You may also need to add similar rules to open other ports if your setup requires them.
+{{</note>}}
 
 ## Hardware sizing
 
