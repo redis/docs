@@ -134,7 +134,8 @@ To enable the scalable Redis Query Engine for an existing database, use the foll
 - [Upgrade module]({{<relref "/operate/rs/references/rest-api/requests/bdbs/modules/upgrade#post-bdb-modules-upgrade">}}) to set the search module’s scaling factor.
 
 {{<note>}}
-Because this procedure also restarts the database shards, you should perform it during a maintenance period.
+- Because this procedure also restarts the database shards, you should perform it during a maintenance period.
+- This procedure overwrites any existing module configuration parameters.
 {{</note>}}
 
 The following example script uses both endpoints to configure a 4x scale factor:
