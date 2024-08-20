@@ -76,7 +76,7 @@ representation of the integer.
 "11"
 {{< /clients-example >}}
 
-Give this command a try in the interactive consol:
+Give this command a try in the interactive console:
 
 {{% redis-cli %}}
 SET mykey "10"
