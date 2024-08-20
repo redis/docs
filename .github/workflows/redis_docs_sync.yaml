@@ -32,7 +32,8 @@ jobs:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |-
           RELEASE="${{ github.event.inputs.release }}"
-          
+          BRANCH="redis_docs_sync_${RELEASE}"
+
           # Generate modules-api-ref.md
           gh repo clone redis/redis
           pushd redis
@@ -40,6 +41,8 @@ jobs:
           git checkout "tags/${RELEASE}"
           utils/generate-module-api-doc.rb > generated-modules-api-ref.md
           popd
+
+          git checkout -b "${BRANCH}"
 
           mv redis/generated-modules-api-ref.md content/develop/reference/modules/modules-api-ref.md
 
@@ -55,5 +58,11 @@ jobs:
             git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
             git config user.name "redisdocsapp[bot]"
             git commit -m "Update modules-api-ref.md for release ${RELEASE}"
-            git push origin main
+            git push origin "${BRANCH}"
+
+            gh pr create \
+              --body "redis docs sync ${RELEASE}" \
+              --title "redis docs sync ${RELEASE}" \
+              --head "$BRANCH" \
+              --base "main"
           fi
