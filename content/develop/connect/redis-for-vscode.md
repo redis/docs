@@ -81,9 +81,7 @@ Left to right, they are:
 
 Here's what you'll see when there are no keys in your database (the image on the left) and when keys are present (the image on the right).
 
-| View with no keys | View with JSON keys |
-|:---               |:---                     |
-| {{< image filename="images/dev/connect/vscode/vscode-no-keys.png" >}} | {{< image filename="images/dev/connect/vscode/vscode-w-keys.png" >}} |
+{{< image filename="images/dev/connect/vscode/vscode-key-view-w-wo-keys.png" >}}
 
 Redis for VS Code will automatically group the keys based on the one available setting, **Delimiter to separate namespaces**, which you can view by clicking on the gear icon in the top-right of the left side pane. Click on the current value to change it. The default setting is the colon (`:`) character.
 
@@ -113,11 +111,9 @@ There are several editing tools that you can use to edit key data. Each data typ
 
 {{< image filename="images/dev/connect/vscode/vscode-edit-add.png" >}}
 
-- **Refresh**. Click on the refresh icon (the circular arrow) to retrieve fresh data from the server. In the examples below, refresh was clicked and the key now has a new field called "test" that was added by another Redis client.
+- **Refresh**. Click on the refresh icon (the circular arrow) to retrieve fresh data from the server. In the examples below, refresh was clicked (the image on the left) and the key now has a new field called "test" that was added by another Redis client (the image on the right).
 
-| Before refresh | After refresh |
-|:---               |:---                     |
-| {{< image filename="images/dev/connect/vscode/vscode-recycle-before.png" >}} | {{< image filename="images/dev/connect/vscode/vscode-recycle-after.png" >}} |
+{{< image filename="images/dev/connect/vscode/vscode-recycle-before-after.png" >}}
 
 For strings, hashes, lists, sets, and sorted sets, the extension supports numerous value formatters (highlighted in red in the image below). They are:
 
