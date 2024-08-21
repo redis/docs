@@ -13,10 +13,25 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.15 requires:
+RediSearch v2.8.16 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.16 (August 2024)
+
+This is a maintenance release for RediSearch 2.8
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+- Bug fixes:
+
+  - [#4896](https://github.com/redisearch/redisearch/pull/4896) - `FT.AGGREGATE` with `VERBATIM` option is not handled by the shards in cluster mode (MOD-7463)
+  - [#4917](https://github.com/redisearch/redisearch/pull/4917) - Union query, similar to `"is|the"`, starting with 2 [stopwords](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
+  - [#4921](https://github.com/redisearch/redisearch/pull/4921) - Counting twice the field statistics at the `#search` section of an `INFO` response (MOD-7339)
+  - [#4939](https://github.com/redisearch/redisearch/pull/4939) - Query warning when using RESP3 response for reaching `MAXPREFIXEXPANSION` (MOD-7588)
+  - [#4930](https://github.com/redisearch/redisearch/pull/4930) - Loop when using the wildcard `w'term'` and prefix/infix/suffix pattern `'ter*'` leading shard to restart (MOD-7453)
+  - [#4912](https://github.com/redisearch/redisearch/pull/4912) - Avoid stemming expansion when querying for numeric values (MOD-7025)
 
 ## v2.8.15 (July 2024)
 
