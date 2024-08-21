@@ -46,7 +46,7 @@ During maintenance, your database will be operational, but you may notice some l
 Your application may also disconnect from your database for a few seconds. Most Redis clients are set to refresh their DNS address when they reconnect to the database, and you will not be required to perform any further action. If you encounter connectivity problems for more than a minute during maintenance, please refresh your DNS entries.
 
 {{<tip>}}
-To make sure your applications reconnect to your database quickly after maintenance, see [Develop highly available and resilient apps with Redis Cloud]({{< relref "/operate/rc/resilient-apps" >}}).
+To make sure your applications are set to reconnect after maintenance activity, see [Develop highly available and resilient apps with Redis Cloud]({{< relref "/operate/rc/resilient-apps" >}}).
 {{</tip>}}
 
 ### Urgent maintenance
