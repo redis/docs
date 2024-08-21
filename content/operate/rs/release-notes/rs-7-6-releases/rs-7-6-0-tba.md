@@ -71,7 +71,39 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- TBA
+- RS130444: Fixed an issue that prevented creating or editing users without an email address in the Cluster Manager UI.
+
+- RS121796: The "multiple endpoint" configuration database default setting should also enable sharding when selected.
+
+- RS128768: Fixed a bug that prevented metric graph timestamp details from displaying in the Cluster Manager UI.
+
+- RS127120: 
+
+- RS127054: Fixed an issue where the install script incorrectly reported "Port 53 is occupied" instead of the correct value of the occupied port.
+
+- RS125934:
+
+- RS125412: 
+
+- RS131360: 
+
+- RS123645: Fixed inconsistent behavior for shard creation when you enable sharding.
+
+- RS122012: Fixed an issue that sent a cutoff email message for long-running alerts.
+
+- RS121726: Block the `remove_shards` option for `rlutil`. You can use Replica Of to decrease the shard count instead.
+
+- RS121076: Added a 5-minute connection timeout when promoting a replica shard to a primary role.
+
+- RS118144:
+
+- RS118103: Removed the inaccurate shard `BACKUP_PROGRESS` column from the `rladmin status` command's output.
+
+- RS116990: 
+
+- RS114923:
+
+- RS114258: 
 
 ## Version changes
 
