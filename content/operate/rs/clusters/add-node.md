@@ -1,5 +1,5 @@
 ---
-Title: Add a cluster node
+Title: Add a node
 alwaysopen: false
 categories:
 - docs
@@ -34,9 +34,9 @@ To add a node to an existing cluster:
 1. [Install the Redis Enterprise Software installation package]({{< relref "/operate/rs/installing-upgrading" >}}) on a clean installation
     of a [supported operating system]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/supported-platforms.md" >}}).
 
-1. To connect to the management UI of the new Redis Enterprise Software installation, go to: <https://URL or IP address:8443/new>
+1. To connect to the management UI of the new Redis Enterprise Software installation, go to: <https://URL or IP address:8443>
 
-    For example, if you installed Redis Enterprise Software on a machine with IP address 10.0.1.34, go to `https://10.0.1.34:8443/new`.
+    For example, if you installed Redis Enterprise Software on a machine with IP address 10.0.1.34, go to `https://10.0.1.34:8443`.
 
     {{< tip >}}
 The management UI uses TLS encryption with a default certificate.
@@ -81,8 +81,14 @@ If you see an error when you add the node, try adding the node again.
 
 We recommend that you verify the node is functioning properly using one of the following methods:
 
-- On the **Nodes** screen of the Cluster Manager UI, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to verify, then select **Verify node** from the list.
+- Cluster Manager UI method:
+
+    1. On the **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to verify.
+    
+    1. Select **Verify node** from the list.
 
     {{<image filename="images/rs/screenshots/nodes/secondary-nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
 
-- Run the [`rlcheck`]({{< relref "/operate/rs/references/cli-utilities/rlcheck" >}}) utility from the node's command line.
+- Command-line method:
+
+    Run the [`rlcheck`]({{< relref "/operate/rs/references/cli-utilities/rlcheck" >}}) utility from the node's command line.
