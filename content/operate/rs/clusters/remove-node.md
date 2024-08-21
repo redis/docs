@@ -1,5 +1,5 @@
 ---
-Title: Remove a cluster node
+Title: Remove a node
 alwaysopen: false
 categories:
 - docs
