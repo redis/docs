@@ -89,7 +89,7 @@ jobs:
           fi
 
           # If a pr is not already open, create one
-          gh search prs -R redis-learn/docs --state open --match title "redis docs ${RELEASE}" | grep -q "redis docs ${RELEASE}"
+          gh search prs -R redis/docs --state open --match title "redis docs ${RELEASE}" | grep -q "redis docs ${RELEASE}"
           if [ "$?" -eq 1 ]; then
             gh pr create \
               --body "redis docs sync ${RELEASE}" \
