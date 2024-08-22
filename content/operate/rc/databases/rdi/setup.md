@@ -28,7 +28,13 @@ See [Prepare source databases]({{<relref "/integrate/redis-data-integration/inge
 
 See the [RDI architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}}) for more information about CDC.
 
-## Set up AWS secret
+## Source database credentials
 
-## Connect to Private Link
+## Setup connectivity
 
+To expose your source database to Redis, you need to [edit your Private Link VPC permissions](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#add-remove-permissions).
+
+1. Open your [Amazon VPC console]() and navigate to **Endpoint services**.
+1. Copy the Amazon Resource Name (ARN) provided in **Setup connectivity** box.
+1. Navigate to **Allow principals** tab.
+1. Add the Redis Cloud ARN and choose **Allow principals**.
