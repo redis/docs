@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rc
-description: Use Redis Data Integration in Redis Cloud.
+description: Use Redis Data Integration with Redis Cloud.
 hideListLinks: true
 weight: 99
 ---
