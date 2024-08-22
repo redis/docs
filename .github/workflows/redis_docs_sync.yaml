@@ -46,6 +46,7 @@ jobs:
           popd
 
           # check if remote branch already exists
+          git fetch --all
           git ls-remote --exit-code --heads origin "refs/heads/${BRANCH}"
           if [ "$?" -eq 0 ]; then
             # if it does, create local branch off existing remote branch
