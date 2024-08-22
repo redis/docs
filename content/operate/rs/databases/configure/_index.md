@@ -39,7 +39,7 @@ To edit the configuration of a database using the Cluster Manager UI:
 1. Change any [configurable database settings](#config-settings).
 
     {{< note >}}
-For [Active-Active database instances]({{< relref "/operate/rs/databases/active-active" >}}), most database settings only apply to the instance that you are editing. To manage Active-Active databases, use the legacy UI.
+For [Active-Active database instances]({{< relref "/operate/rs/databases/active-active" >}}), most database settings only apply to the instance that you are editing.
     {{< /note >}}
 
 1. Select **Save**.
