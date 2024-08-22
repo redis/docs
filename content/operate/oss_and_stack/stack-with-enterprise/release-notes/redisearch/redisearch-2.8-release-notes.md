@@ -27,7 +27,7 @@ Update urgency: `HIGH` : There is a critical bug that may affect a subset of use
 - Bug fixes:
 
   - [#4941](https://github.com/redisearch/redisearch/pull/4941) Adjusting the module configuration to avoid routing overload on the first shard in a clustered database (MOD-7505)
-  - [#4950](https://github.com/redisearch/redisearch/pull/4950) `FT.PROFILE` on `AGGREGATE` numeric queries could cause a crash due reusing internal `CURSOR` in large range of numeric values (MOD-7454)
+  - [#4950](https://github.com/redisearch/redisearch/pull/4950) `FT.PROFILE` on `AGGREGATE` numeric queries could cause a crash due to reusing internal `CURSOR` in large range of numeric values (MOD-7454)
 
 ## v2.8.16 (August 2024)
 
