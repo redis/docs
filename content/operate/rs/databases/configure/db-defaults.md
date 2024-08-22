@@ -124,7 +124,7 @@ To configure default shard placement, use one of the following methods:
 
 ### Database version
 
-When you create a new database, it uses the default Redis version (**Database version**) unless you specify the database version explicitly with `redis_version` in the [REST API]({{< relref "/operate/rs/references/rest-api/requests/bdbs" >}}).
+New databases use the default Redis database version unless you select a different **Database version** when you [create a database]({{<relref "/operate/rs/databases/create">}}) in the Cluster Manager UI or specify the `redis_version` in a [create database REST API request]({{< relref "/operate/rs/references/rest-api/requests/bdbs" >}}).
 
 To configure the Redis database version, use one of the following methods:
 
