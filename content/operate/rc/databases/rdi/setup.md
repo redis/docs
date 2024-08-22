@@ -35,7 +35,7 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 To expose your source database to Redis, you need to [edit your AWS PrivateLink VPC permissions](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#add-remove-permissions).
 
 1. Open your [Amazon VPC console]() and navigate to **Endpoint services**.
-1. Copy the Amazon Resource Name (ARN) provided in **Setup connectivity** box.
+1. Copy the Amazon Resource Name (ARN) provided in **Setup connectivity** pane.
 1. Navigate to **Allow principals** tab.
 1. Add the Redis Cloud ARN and choose **Allow principals**.
 
