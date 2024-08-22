@@ -20,3 +20,7 @@ RDI's helps Redis customers sync Redis Cloud with live data from their primary d
     - Reduce the total cost of ownership by saving money on expensive database read replicas.
 
 Using RDI with Redis Cloud simplifies managing your data integration pipeline. No need to worry about hardware or underlying infrastructure, as Redis Cloud manages that for you. Creating the data flow from source to target is much easier, and there are validations in place to reduce errors.
+
+## Get started
+
+To start creating your new data pipeline, see [Prepare source database]({{<relref "content/operate/rc/databases/rdi/setup.md">}}).
