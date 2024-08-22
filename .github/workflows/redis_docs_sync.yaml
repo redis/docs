@@ -93,7 +93,7 @@ jobs:
 
           # If a pr is not already open, create one
           set +e
-          gh search prs -R redis/docs --state open --match title "redis docs ${RELEASE}" | grep -q "redis docs ${RELEASE}"
+          gh search prs -R redis/docs --state open --match title "redis docs sync ${RELEASE}" | grep -q "redis docs sync ${RELEASE}"
           if [ "$?" -eq 1 ]; then
             set -e
             gh pr create \
