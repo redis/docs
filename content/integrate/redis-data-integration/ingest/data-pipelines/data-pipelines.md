@@ -69,9 +69,10 @@ The sections below describe the two types of configuration file in more detail.
 ## The `config.yaml` file
 
 Here is an example of a `config.yaml` file. Note that the values of the
-form "`${name}`" refer to environment variables that are set elsewhere. In particular,
-you should normally use environment variables as shown to set the source
-username and password rather than storing them in plain text in this
+form "`${name}`" refer to environment variables that you should set with the
+[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-set-secret" >}})
+command. In particular, you should normally use environment variables as shown to set the source
+and target username and password rather than storing them in plain text in this
 file (see [Set secrets](#set-secrets) below for more information).
 
 ```yaml
@@ -87,6 +88,13 @@ sources:
       database: redislabscdc
       user: ${SOURCE_DB_USERNAME}
       password: ${SOURCE_DB_PASSWORD}
+# The names of the following properties should match the ones you used
+# when setting the TLS/mTLS secrets. Set only `cacert` if you are using
+# TLS, but set all of them if you are using mTLS:
+#     key: ${SOURCE_DB_KEY}
+#     cert: ${SOURCE_DB_CERT}
+#     cacert: ${SOURCE_DB_CACERT}
+#     key_password: ${SOURCE_DB_KEY_PASSWORD}
     tables:
           emp:
             snapshot_sql: "SELECT * from redislabscdc.emp WHERE empno < 1000"
@@ -114,12 +122,15 @@ targets:
       type: redis
       host: localhost
       port: 12000
-# The names of the following files should match the ones you used
+      user: ${TARGET_DB_USERNAME}
+      password: ${TARGET_DB_PASSWORD}
+# The names of the following properties should match the ones you used
 # when setting the TLS/mTLS secrets. Set only `cacert` if you are using
-# TLS, but set all three if you are using mTLS:
-#     key: /etc/certificates/target_db/redis.key
-#     cert: /etc/certificates/target_db/redis.crt
-#     cacert: /etc/certificates/target_db/ca.crt
+# TLS, but set all of them if you are using mTLS:
+#     key: ${TARGET_DB_KEY}
+#     cert: ${TARGET_DB_CERT}
+#     cacert: ${TARGET_DB_CACERT}
+#     key_password: ${TARGET_DB_KEY_PASSWORD}
 ```
 
 The main sections of the file configure [`sources`](#sources) and [`targets`](#targets).
@@ -404,7 +415,10 @@ Before you deploy your pipeline, you must set the authentication secrets for the
 source and target databases. Each secret has a corresponding property name that
 you can pass to the
 [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-set-secret" >}})
-command to set the property's value. For example, you would use the
+command to set the property's value. You can then refer to these properties
+in `config.yaml` using the syntax "`${PROPERTY_NAME}`"
+(the sample [config.yaml file](#the-configyaml-file) shows these properties in use).
+For example, you would use the
 following command line to set the source database username to `myUserName`:
 
 ```bash
