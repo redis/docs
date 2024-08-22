@@ -22,9 +22,11 @@ weight: 1
 ## Prepare source database
 
 Before using the pipeline you must first prepare your source database to use
-the Debezium connector for change data capture (CDC). See the [RDI architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}}) for more information about CDC.
+the Debezium connector for change data capture (CDC).
 
-https://redis.io/docs/latest/integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/oracle/
+See [Prepare source databases]({{<relref "/integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/">}}) to find steps for your database type.
+
+See the [RDI architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}}) for more information about CDC.
 
 ## Set up AWS secret
 
