@@ -48,6 +48,8 @@ For [Active-Active database instances]({{< relref "/operate/rs/databases/active-
 
 ### General
 
+- **Database version** - Select the Redis version when you create a database.
+
 - **Database name** - The database name requirements are:
 
     - Maximum of 63 characters
