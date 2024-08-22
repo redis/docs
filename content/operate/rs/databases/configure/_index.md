@@ -102,8 +102,8 @@ You cannot enable them after database creation.
 
 ### Clustering
 
-- **Database clustering** - You can either:
-    - Enable [database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) and select the number of database shards.
+- **Sharding** - You can either:
+    - Turn on **Sharding** to enable [database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) and select the number of database shards.
 
         When database clustering is enabled, databases are subject to limitations on [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}).
         
@@ -111,21 +111,25 @@ You cannot enable them after database creation.
 
         You can accept the [standard hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy" >}}), which is compatible with Redis Community Edition, or define a [custom hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#custom-hashing-policy" >}}) to define where keys are located in the clustered database.
 
-    - Clear the **Database clustering** option to use only one shard so that you can use [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) without the limitations.
+    - Turn off **Sharding** to use only one shard so that you can use [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) without the limitations.
 
-- Sharding
+- [**OSS Cluster API**]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) - The OSS Cluster API configuration allows access to multiple endpoints for increased throughput.
 
-- [**OSS Cluster API**]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) - {{< embed-md "oss-cluster-api-intro.md"  >}}
+    This configuration requires clients to connect to the primary node to retrieve the cluster topology before they can connect directly to proxies on each node.
+    
+    When you enable the OSS Cluster API, shard placement changes to _Sparse_, and the database proxy policy changes to _All primary shards_ automatically.
 
-    If you enable the OSS Cluster API, the shards placement policy and database proxy policy automatically change to _Sparse_ and _All master shards_.
+    {{<note>}}
+You must use a client that supports the cluster API to connect to a database that has the cluster API enabled.
+    {{</note>}}
 
-- [**Shards placement policy**]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) - Determines how to distribute database shards across nodes in the cluster.
+- [**Shards placement**]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) - Determines how to distribute database shards across nodes in the cluster.
 
     - _Dense_ places shards on the smallest number of nodes.
     
     - _Sparse_ spreads shards across many nodes.
 
-- [**Database proxy policy**]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) - Determines the number and location of active proxies, which manage incoming database operation requests.
+- [**Database proxy**]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) - Determines the number and location of active proxies, which manage incoming database operation requests.
 
 ### Replica Of
 
