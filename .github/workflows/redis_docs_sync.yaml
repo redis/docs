@@ -47,13 +47,16 @@ jobs:
 
           # check if remote branch already exists
           git fetch --all
+          set +e
           git ls-remote --exit-code --heads origin "refs/heads/${BRANCH}"
           if [ "$?" -eq 0 ]; then
+            set -e
             # if it does, create local branch off existing remote branch
             git checkout -b "${BRANCH}" "origin/${BRANCH}"
             git branch --set-upstream-to="origin/${BRANCH}" "${BRANCH}"
             git pull
           else
+            set -e
             # otherwise, create local branch from main
             git checkout -b "${BRANCH}"
           fi
@@ -89,8 +92,10 @@ jobs:
           fi
 
           # If a pr is not already open, create one
+          set +e
           gh search prs -R redis/docs --state open --match title "redis docs ${RELEASE}" | grep -q "redis docs ${RELEASE}"
           if [ "$?" -eq 1 ]; then
+            set -e
             gh pr create \
               --body "redis docs sync ${RELEASE}" \
               --title "redis docs sync ${RELEASE}" \
