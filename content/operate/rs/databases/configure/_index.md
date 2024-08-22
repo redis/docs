@@ -115,15 +115,29 @@ To add capabilities to the database:
         
         You can increase the number of shards in the database at any time.
 
-    - Clear the **Database clustering** option to use only one shard so that you can use [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) without the limitations.
+        You can accept the [standard hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy" >}}), which is compatible with Redis Community Edition, or define a [custom hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#custom-hashing-policy" >}}) to define where keys are located in the clustered database.
 
-- [**Shards placement**]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) - Determines how to distribute database shards across nodes in the cluster.
+    - Turn off **Sharding** to use only one shard so that you can use [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) without the limitations.
+
+- [**OSS Cluster API**]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) - The OSS Cluster API configuration allows access to multiple endpoints for increased throughput.
+
+    This configuration requires clients to connect to the primary node to retrieve the cluster topology before they can connect directly to proxies on each node.
+    
+    When you enable the OSS Cluster API, shard placement changes to _Sparse_, and the database proxy policy changes to _All primary shards_ automatically.
+
+    {{<note>}}
+You must use a client that supports the cluster API to connect to a database that has the cluster API enabled.
+    {{</note>}}
+
+- [**Shards placement**]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) - Determines how to distribute database shards across nodes in the cluster.
 
     - _Dense_ places shards on the smallest number of nodes.
     
     - _Sparse_ spreads shards across many nodes.
 
-- [**OSS Cluster API**]({{<relref "/operate/rs/databases/configure/oss-cluster-api">}}) - {{< embed-md "oss-cluster-api-intro.md"  >}}
+- [**Database proxy**]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) - Determines the number and location of active proxies, which manage incoming database operation requests.
+
+### Replica Of
 
     If you enable the OSS Cluster API, the shards placement policy and database proxy policy automatically change to _Sparse_ and _All master shards_.
 
