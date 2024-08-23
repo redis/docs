@@ -61,8 +61,9 @@ Returns a JSON array of [shard objects]({{<relref "/operate/rs/references/rest-a
     },
     "node_uid": "1",
     "redis_info": {
-      "used_memory_rss": 12783616
-    },
+			"connected_clients": 14,
+			"used_memory_rss": 12263424
+		},
     "report_timestamp": "2024-06-28T18:44:01Z",
     "status": "active"
   },
@@ -127,8 +128,9 @@ Returns a [shard object]({{<relref "/operate/rs/references/rest-api/objects/shar
   },
   "node_uid": "1",
   "redis_info": {
-    "used_memory_rss": 12783616
-  },
+		"connected_clients": 14,
+		"used_memory_rss": 12263424
+	},
   "role": "master",
   "report_timestamp": "2024-06-28T18:44:01Z",
   "status": "active",
