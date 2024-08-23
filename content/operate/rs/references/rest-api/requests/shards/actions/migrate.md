@@ -16,19 +16,31 @@ weight: $weight
 | [POST](#post-multi-shards) | `/v1/shards/actions/migrate` | Migrate multiple shards |
 | [POST](#post-shard) | `/v1/shards/{uid}/actions/migrate` | Migrate a specific shard |
 
-## Migrate multiple shards {#post-multi-shards}
-
-    POST /v1/shards/actions/migrate
-
-Migrates the list of given shard UIDs to the node specified by `target_node_uid`. The shards can be from multiple databases. This request is asynchronous.
-
-Migrate shards in the following scenarios:
+Migrate shards to a different node in the following scenarios:
 
 - Before node removal.
 
 - To balance the database manually in case of latency issues or uneven load distribution across nodes.
 
 - To manage node resources, such as memory usage.
+
+For databases with replication:
+
+- Migrating a shard will not cause disruptions since a primary shard will still be available.
+
+- If you try to migrate a primary shard, it will be demoted to a replica shard and a replica shard will be promoted to primary before the migration. If you set `"preserve_roles": true` in the request, a second failover will occur after the migration finishes to change the migrated shard's role back to primary.
+
+For databases without replication, the migrated shard will not be available until the migration is done.
+
+Connected clients shouldn't be disconnected in either case.
+
+If too many primary shards are placed on the same node, it can impact database performance.
+
+## Migrate multiple shards {#post-multi-shards}
+
+    POST /v1/shards/actions/migrate
+
+Migrates the list of given shard UIDs to the node specified by `target_node_uid`. The shards can be from multiple databases. This request is asynchronous.
 
 #### Required permissions
 
@@ -102,14 +114,6 @@ Returns a JSON object with an `action_uid`. You can track the action's progress 
     POST /v1/shards/{int: uid}/actions/migrate
 
 Migrates the shard with the given `shard_uid` to the node specified by `target_node_uid`. If the shard is already on the target node, nothing happens. This request is asynchronous.
-
-Migrate shards in the following scenarios:
-
-- Before node removal.
-
-- To balance the database manually in case of latency issues or uneven load distribution across nodes.
-
-- To manage node resources, such as memory usage.
 
 #### Required permissions
 
