@@ -22,6 +22,14 @@ weight: $weight
 
 Migrates the list of given shard UIDs to the node specified by `target_node_uid`. The shards can be from multiple databases. This request is asynchronous.
 
+Migrate shards in the following scenarios:
+
+- Before node removal.
+
+- To balance the database manually in case of latency issues or uneven load distribution across nodes.
+
+- To manage node resources, such as memory usage.
+
 #### Required permissions
 
 | Permission name | Roles |
@@ -62,7 +70,7 @@ The request body is a JSON object that can contain the following fields:
 | shard_uids | array of strings | List of shard UIDs to migrate. |
 | target_node_uid | integer | UID of the node to where the shards should migrate. |
 | override_rack_policy | boolean | If true, overrides and ignores rack-aware policy violations. |
-| dry_run | boolean | Determines whether the migration is actually done. If true, will just do a dry-run. |
+| dry_run | boolean | Determines whether the migration is actually done. If true, will just do a dry run. If the dry run succeeds, the request returns a `200 OK` status code.  Otherwise, it returns a JSON object with an error code and description. |
 | preserve_roles | boolean | If true, preserves the migrated shards' roles after migration. |
 | max_concurrent_bdb_migrations | integer | The number of concurrent databases that can migrate shards. |
 
@@ -94,6 +102,14 @@ Returns a JSON object with an `action_uid`. You can track the action's progress 
     POST /v1/shards/{int: uid}/actions/migrate
 
 Migrates the shard with the given `shard_uid` to the node specified by `target_node_uid`. If the shard is already on the target node, nothing happens. This request is asynchronous.
+
+Migrate shards in the following scenarios:
+
+- Before node removal.
+
+- To balance the database manually in case of latency issues or uneven load distribution across nodes.
+
+- To manage node resources, such as memory usage.
 
 #### Required permissions
 
@@ -140,7 +156,7 @@ The request body is a JSON object that can contain the following fields:
 |-------|------|-------------|
 | target_node_uid | integer | UID of the node to where the shard should migrate. |
 | override_rack_policy | boolean | If true, overrides and ignores rack-aware policy violations. |
-| dry_run | boolean | Determines whether the migration is actually done. If true, will just do a dry-run. |
+| dry_run | boolean | Determines whether the migration is actually done. If true, will just do a dry run. If the dry run succeeds, the request returns a `200 OK` status code.  Otherwise, it returns a JSON object with an error code and description. |
 | preserve_roles | boolean | If true, preserves the migrated shards' roles after migration. |
 
 ### Response {#post-response} 
