@@ -34,7 +34,86 @@ You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
 need any special privileges to run RDI processes for normal operation.
 
-### Hardware sizing
+RDI has a few
+requirements for cloud VMs that you must implement before running the
+RDI installer, or else installation will fail. The following sections
+give full pre-installation instructions for [RHEL](#firewall-rhel) and
+[Ubuntu](#firewall-ubuntu).
+
+### RHEL {#firewall-rhel}
+
+We recommend you turn off
+[`firewalld`](https://firewalld.org/documentation/)
+before installation using the command:
+
+```bash
+systemctl disable firewalld --now
+```
+
+However, if you do need to use `firewalld`, you must add the following rules:
+
+```bash
+firewall-cmd --permanent --add-port=6443/tcp #apiserver
+firewall-cmd --permanent --zone=trusted --add-source=10.42.0.0/16 #pods
+firewall-cmd --permanent --zone=trusted --add-source=10.43.0.0/16 #services
+firewall-cmd --reload
+```
+
+You should also add [port rules](https://firewalld.org/documentation/howto/open-a-port-or-service.html)
+for all the [RDI services]({{< relref "/integrate/redis-data-integration/ingest/reference/ports" >}})
+you intend to use:
+
+```bash
+firewall-cmd --permanent --add-port=8080/tcp  # (Required) rdi-operator/rdi-api
+firewall-cmd --permanent --add-port=9090/tcp  # vm-dis-reloader
+firewall-cmd --permanent --add-port=9092/tcp  # prometheus-service
+firewall-cmd --permanent --add-port=9121/tcp  # rdi-metric-exporter
+```
+
+{{<note>}}You may also need to add similar rules to open other ports if your setup requires them.
+{{</note>}}
+
+If you have `nm-cloud-setup.service` enabled, you must disable it and reboot the
+node with the following commands:
+
+```bash
+systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
+reboot
+```
+
+### Ubuntu {#firewall-ubuntu}
+
+We recommend you turn off
+[Uncomplicated Firewall](https://wiki.ubuntu.com/UncomplicatedFirewall) (`ufw`)
+before installation with the command:
+
+```bash
+ufw disable
+```
+
+However, if you do need to use `ufw`, you must add the following rules:
+
+```bash
+ufw allow 6443/tcp #apiserver
+ufw allow from 10.42.0.0/16 to any #pods
+ufw allow from 10.43.0.0/16 to any #services
+```
+
+You should also add [port rules](https://ubuntu.com/server/docs/firewalls)
+for all the [RDI services]({{< relref "/integrate/redis-data-integration/ingest/reference/ports" >}})
+you intend to use:
+
+```bash
+ufw allow 8080/tcp  # (Required) rdi-operator/rdi-api
+ufw allow 9090/tcp  # vm-dis-reloader
+ufw allow 9092/tcp  # prometheus-service
+ufw allow 9121/tcp  # rdi-metric-exporter
+```
+
+{{<note>}}You may also need to add similar rules to open other ports if your setup requires them.
+{{</note>}}
+
+## Hardware sizing
 
 RDI is mainly CPU and network bound. 
 Each of the RDI VMs should have:
@@ -46,7 +125,7 @@ Each of the RDI VMs should have:
 - Disk: 25GB of disk (this includes the OS footprint)
 - 10GB or more network interface
 
-### Installation steps
+## Installation steps
 
 Follow the steps below for each of your VMs:
 

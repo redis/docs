@@ -15,9 +15,9 @@ title: Jedis guide
 weight: 1
 ---
 
-[Jedis](https://github.com/redis/jedis) is the *synchronous* Java client for Redis.
+[Jedis](https://github.com/redis/jedis) is a synchronous Java client for Redis.
 Use [Lettuce]({{< relref "/develop/connect/clients/java/lettuce" >}}) if you need
-an *asynchronous* Java client.
+a more advanced Java client that also supports asynchronous and reactive connections.
 The sections below explain how to install `Jedis` and connect your application
 to a Redis database.
 
