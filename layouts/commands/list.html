@@ -120,6 +120,7 @@
       {{ $pages = (where $pages ".Parent" "!=" nil) }}
       {{ $pages = (where $pages "Parent.File.UniqueID" "==" $parent.File.UniqueID) }}
       {{ $pages = (where $pages ".Params.hidden" "!=" true) }}
+      {{ $pages = (where $pages "Kind" "!=" "section") }}
       <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-redis-ink-900 mx-auto">
         {{ range $index, $page := $pages }}
           <article 
