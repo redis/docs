@@ -24,3 +24,11 @@ Using RDI with Redis Cloud simplifies managing your data integration pipeline. N
 ## Get started
 
 To start creating your new data pipeline, see [Prepare source database]({{<relref "content/operate/rc/databases/rdi/setup.md">}}).
+
+## Limitations
+
+Only the following are supported at this time:
+
+- One source database connected to one target database
+- AWS source databases
+- Ingest use case
