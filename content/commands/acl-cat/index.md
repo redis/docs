@@ -32,6 +32,9 @@ syntax_fmt: ACL CAT [category]
 syntax_str: ''
 title: ACL CAT
 ---
+
+{{< embed-md "dwd-test.md" >}}
+
 The command shows the available ACL categories if called without arguments.
 If a category name is given, the command shows all the Redis commands in
 the specified category.
