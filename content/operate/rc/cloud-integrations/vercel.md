@@ -18,10 +18,10 @@ The [Redis Cloud Vercel integration](https://vercel.com/redis-cloud/~/integratio
 1. Log in to your Vercel account (or create a new one).
 
 1. Navigate to the **Storage** tab and select **Create database**.
-    {{<image filename="/images/rc/vercel-storage-tab-create-db.png" alt="Vercel storage tab">}}
+    {{<image filename="/images/rc/vercel-storage-create-database-button.png" alt="Storage - Create Database">}}
 
 1. Under **Storage partners**, select **View all partners**
-    {{<image filename="/images/rc/vercel-browse-storage.png" alt="Browse Storage partners">}}
+    {{<image filename="/images/rc/vercel-storage-partners-view-all.png" alt="View all Storage Partners">}}
 
 1. Find **Redis Cloud** and select **Continue**
 
@@ -39,7 +39,7 @@ The [Redis Cloud Vercel integration](https://vercel.com/redis-cloud/~/integratio
 
 After creation, you will see your database details. After provisioning is complete, the status will change from `Initializing` to `Available` (you may need to refresh your browser).
 
-{{<image filename="/images/rc/vercel-db-detail.png" alt="Vercel database details">}}
+{{<image filename="/images/rc/vercel-status-available.png" alt="Vercel database details">}}
 
 You can use the connection string shown under **Quickstart** to [connect to your database]({{<relref "operate/rc/databases/connect">}}).
 
@@ -64,7 +64,7 @@ You can also edit some configuration options in Redis Cloud.
 
 From the database detail page, select **Open in Redis Cloud**.
 
-{{<image filename="/images/rc/vercel-db-detail.png" alt="Vercel database details">}}
+{{<image filename="/images/rc/vercel-open-in-redis-cloud.png" alt="Open in Redis">}}
 
 Your Redis Cloud account is linked to your Vercel account. All your team's Redis databases will be listed under **Databases** in Redis Cloud.
 
