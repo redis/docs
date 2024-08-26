@@ -20,8 +20,8 @@ The [Redis Cloud Vercel integration](https://vercel.com/redis-cloud/~/integratio
 1. Navigate to the **Storage** tab and select **Create database**.
     {{<image filename="/images/rc/vercel-storage-create-database-button.png" alt="Storage - Create Database">}}
 
-1. Under **Storage partners**, select **View all partners**
-    {{<image filename="/images/rc/vercel-storage-partners-view-all.png" alt="View all Storage Partners">}}
+1. Under **Storage partners**, select **View all partners**.
+    {{<image filename="/images/rc/vercel-redis-cloud-partners.png" alt="Browse storage">}}
 
 1. Find **Redis Cloud** and select **Continue**
 
