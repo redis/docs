@@ -48,7 +48,7 @@ You can use the connection string shown under **Quickstart** to [connect to your
 1. Navigate to the **Storage** tab.
 1. Find your new database in the list of your team's databases.
 1. Select **Connect Project**.
-    {{<image filename="/images/rc/vercel-list-connect-project.png" alt="List databases to connect project">}}
+    {{<image filename="/images/rc/vercel-connect-project-button.png" alt="Connect Project button">}}
 1. Choose your project and environments and select **Connect**.
     {{<image filename="/images/rc/vercel-connect-project.png" alt="Connect project">}}
 
