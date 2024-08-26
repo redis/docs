@@ -31,7 +31,7 @@ The [Redis Cloud Vercel integration](https://vercel.com/redis-cloud/~/integratio
 
     More configuration options are coming soon, such as region selection and multi-zone high availability.
 
-1. Enter your database name or use the leave the automatically generated name.
+1. Enter your database name or use the automatically generated name.
 
 1. Select **Create**.
 
