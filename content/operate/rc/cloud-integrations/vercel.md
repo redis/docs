@@ -16,44 +16,58 @@ weight: 66
 ## Create database
 
 1. Log in to your Vercel account (or create a new one).
+
 1. Navigate to the **Storage** tab and select **Create database**.
+    {{<image filename="/images/rc/vercel-storage-tab-create-db.png" alt="Vercel storage tab">}}
+
 1. Under **Storage partners**, select **View all partners**
-    --add screenshot--
+    {{<image filename="/images/rc/vercel-browse-storage.png" alt="Browse Storage partners">}}
+
 1. Find **Redis Cloud** and select **Continue**
+
 1. In the **Create Database** dialog, select your plan and **Continue**.
+
+    {{<image filename="/images/rc/vercel-create-db-select-plan.png" alt="Create database">}}
+
     More configuration options are coming soon, such as region selection and multi-zone high availability.
-    --add screenshot--
+
 1. Enter your database name or use the leave the automatically generated name.
+
 1. Select **Create**.
+
+## Connect to your database
+
+After creation, you will see your database details. After provisioning is complete, the status will change from `Initializing` to `Available` (you may need to refresh your browser).
+
+{{<image filename="/images/rc/vercel-db-detail.png" alt="Vercel database details">}}
+
+You can use the connection string shown under **Quickstart** to [connect to your database]({{<relref "operate/rc/rc-quickstart/#connect-to-a-database">}}).
 
 ## Link database to your project
 
 1. Navigate to the **Storage** tab.
 1. Find your new database in the list of your team's databases.
 1. Select **Connect Project**.
---add screenshot--
+    {{<image filename="/images/rc/vercel-list-connect-project.png" alt="List databases to connect project">}}
 1. Choose your project and environments and select **Connect**.
-
-## Connect to your database
-
-After creation, you will see your database details. After provisioning is complete, the status will change from `Initializing` to `Available` (you may need to refresh your browser).
-
-You can use the connection string shown under **Quickstart** to [connect to your database]({{<relref "">}}).
+    {{<image filename="/images/rc/vercel-connect-project.png" alt="Connect project">}}
 
 ## Manage your database
 
 From the database details page, you can make edits to your database under **Settings**.
 
-----add screenshot---
-
 More configuration options are coming soon, the plan changes, multi-zone high availability, and region selection.
 
 ### Configure from Redis Cloud
 
-Options that don't affect the price are configurable from Redis Cloud. From your database detail page, select **Open in Redis Cloud**.
+You can also edit your some configuration options in Redis Cloud.
 
----add screenshot---
+From the database detail page, select **Open in Redis Cloud**.
 
-Your Redis Cloud account is linked to your Vercel account. All your team's Redis databases will be listed under **Databases** in Redis Cloud. Select your new database to make configuration changes such as passwords or the eviction policy.
+{{<image filename="/images/rc/vercel-db-detail.png" alt="Vercel database details">}}
+
+Your Redis Cloud account is linked to your Vercel account. All your team's Redis databases will be listed under **Databases** in Redis Cloud.
+
+Select your new database to make configuration changes such as passwords or the eviction policy.
 
 {{<note>}} The [eviction policy]({{<relref "/operate/rc/databases/configuration/data-eviction-policies/">}}) defaults to `no eviction` for new databases.  You can change this by [editing the database details]({{<relref "/operate/rc/databases/view-edit-database/">}}).{{</note>}}
