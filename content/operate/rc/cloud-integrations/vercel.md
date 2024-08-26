@@ -11,7 +11,7 @@ hideListLinks: true
 weight: 66
 ---
 
-[Redis Cloud is now integrated with Vercel](https://vercel.com/redis-cloud/~/integrations/products/redis-cloud), allowing you to create a new Redis database from your Vercel account and connect it to your Vercel project(s).
+The [Redis Cloud Vercel integration](https://vercel.com/redis-cloud/~/integrations/products/redis-cloud) lets you create a new Redis database from your Vercel account and connect it to your Vercel project(s).
 
 ## Create database
 
@@ -41,7 +41,7 @@ After creation, you will see your database details. After provisioning is comple
 
 {{<image filename="/images/rc/vercel-db-detail.png" alt="Vercel database details">}}
 
-You can use the connection string shown under **Quickstart** to [connect to your database]({{<relref "operate/rc/rc-quickstart/#connect-to-a-database">}}).
+You can use the connection string shown under **Quickstart** to [connect to your database]({{<relref "operate/rc/databases/connect">}}).
 
 ## Link database to your project
 
@@ -56,11 +56,11 @@ You can use the connection string shown under **Quickstart** to [connect to your
 
 From the database details page, you can make edits to your database under **Settings**.
 
-More configuration options are coming soon, the plan changes, multi-zone high availability, and region selection.
+More configuration options are coming soon, including plan changes, multi-zone high availability, and region selection.
 
 ### Configure from Redis Cloud
 
-You can also edit your some configuration options in Redis Cloud.
+You can also edit some configuration options in Redis Cloud.
 
 From the database detail page, select **Open in Redis Cloud**.
 
@@ -70,4 +70,4 @@ Your Redis Cloud account is linked to your Vercel account. All your team's Redis
 
 Select your new database to make configuration changes such as passwords or the eviction policy.
 
-{{<note>}} The [eviction policy]({{<relref "/operate/rc/databases/configuration/data-eviction-policies/">}}) defaults to `no eviction` for new databases.  You can change this by [editing the database details]({{<relref "/operate/rc/databases/view-edit-database/">}}).{{</note>}}
+{{<note>}} The [eviction policy]({{<relref "/operate/rc/databases/configuration/data-eviction-policies">}}) defaults to `no eviction` for new databases.  You can change this by [editing the database details]({{<relref "/operate/rc/databases/view-edit-database">}}).{{</note>}}
