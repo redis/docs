@@ -32,13 +32,13 @@ If you do not have a cluster that supports Redis Query Engine, [install Redis En
 
     1. Calculate the RAM requirements using the [Index Size Calculator](https://redis.io/redisearch-sizing-calculator/). The total RAM required is the sum of the dataset and index sizes.
 
-1. [Determine the Query performanc factor](#calculate-performance-factor) you want and the required number of CPUs. Unused CPUs, above the 20% necessary for Redis, can be used for the scalable Redis Query Engine.
+1. [Determine the query performance factor](#calculate-performance-factor) you want and the required number of CPUs. Unused CPUs, above the 20% necessary for Redis, can be used for the scalable Redis Query Engine.
 
 1. Create a new Redis database with the number of CPUs configured for the Query performance factor.
 
 ## Calculate performance factor
 
-### CPUs for Query performance factor
+### CPUs for query performance factor
 
 Vertical scaling of the Redis Query Engine is achieved by provisioning additional CPUs for the search module. At least 20% of the available CPUs must be reserved for Redis internal processing. Use the following formula to define the maximum number of CPUs that can be allocated to search.
 
@@ -73,13 +73,13 @@ The following table shows the number of CPUs required for each performance facto
 | Scale factor | 4x |
 | Minimum CPUs required for scale factor | 6 |
 
-## Enable Query performance factor
+## Configure query performance factor
 
-To enable the performance factor in Redis Enterprise, use the [REST API]({{<relref "/operate/rs/references/rest-api">}}) to create a new database or update an existing database.
+To configure the query performance factor in Redis Enterprise, use the [REST API]({{<relref "/operate/rs/references/rest-api">}}) to create a new database or update an existing database.
 
 ### Create new database
 
-To create a database with the Query performance factor enabled, use the [create database REST API endpoint]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) with a [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}) that includes the following parameters:
+To create a database and configure the query performance factor, use the [create database REST API endpoint]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) with a [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}) that includes the following parameters:
 
 ```json
 {
@@ -96,7 +96,7 @@ See [Calculate performance factor](#calculate-performance-factor) to determine t
 
 #### Example REST API request for a new database
 
-The following JSON is an example request body used to create a new database with a 4x Query performance factor enabled:
+The following JSON is an example request body used to create a new database with a 4x query performance factor configured:
 
 ```json
 {
@@ -128,7 +128,7 @@ curl -k -u "<user>:<password>" https://<host>:9443/v1/bdbs -H "Content-Type:appl
 
 ### Update existing database 
 
-To enable the Query performance factor for an existing database, use the following REST API requests:
+To configure the query performance factor for an existing database, use the following REST API requests:
 
 - [Update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) to modify the DMC proxy.
 
