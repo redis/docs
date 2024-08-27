@@ -161,8 +161,6 @@ configuration contains the following data:
     Quarkus [Configuration options](https://quarkus.io/guides/all-config)
     docs for the full set of available properties.
 
-    
-
 ### Targets
 
 Use this section to provide the connection details for the target Redis
@@ -172,6 +170,18 @@ with a unique name that you are free to choose (here, we have used
 `type` of target database, which will generally be `redis` along with the
 `host` and `port` of the server. You can also supply connection credentials
 and TLS/mTLS secrets here if you use them.
+
+{{< note >}}If you specify `localhost` as the address of either the source or target server during
+installation then the connection will fail if the actual IP address changes for the local
+VM. For this reason, we recommend that you don't use `localhost` for the address. However,
+if you do encounter this problem, you can fix it using the following commands on the VM
+that is running RDI itself:
+
+```bash
+sudo k3s kubectl delete nodes --all
+sudo service k3s restart
+```
+{{< /note >}}
 
 ### Database-specific connection properties {#db-connect-props}
 
