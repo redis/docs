@@ -24,7 +24,7 @@ ACLs that are not marked with the Redis logo are user-defined ACL rules.
 
 To configure a Redis ACL that you can assign to a data access role:
 
-1. Go to **Data Access Control** from the [Redis Cloud console](https://app.redislabs.com/#/) menu.
+1. Go to **Data Access Control** from the [Redis Cloud console](https://cloud.redis.io/#/) menu.
 
     {{<image filename="images/rc/data-access-control-menu.png" width="200px" alt="Menu for database access control." >}}
 
