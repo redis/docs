@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.2.4
-description: Updated versions of RediSearch and RedisBloom. Bug fixes.
+description: Cluster policy to avoid logging user data. Updated versions of RediSearch and RedisBloom. Bug fixes.
 linkTitle: 7.4.6-tba (September 2024)
 weight: 65
 aliases: 
@@ -18,6 +18,8 @@ This is a maintenance release for ​[​Redis Enterprise Software version 7.4.6
 
 This version offers:
 
+- A cluster policy to avoid logging user data
+
 - Updated versions of RediSearch and RedisBloom
 
 - Bug fixes
@@ -26,13 +28,11 @@ This version offers:
 
 ### Enhancements
 
-- TBA
+- Added an option to the [cluster policy]({{<relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) REST API to enable the Redis configuration setting `hide-user-data-from-log`, which avoids logging user data.
 
 #### Redis module feature sets
 
 Redis Enterprise comes packaged with several modules. As of version 7.4.2, Redis Enterprise includes two feature sets, compatible with different Redis database versions.
-
-<!-- TODO: Check/update the module versions -->
 
 Bundled Redis modules compatible with Redis database version 7.2:
 
