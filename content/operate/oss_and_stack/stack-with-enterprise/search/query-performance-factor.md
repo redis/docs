@@ -178,7 +178,7 @@ To monitor a database with a Query performance factor enabled:
 
     - 1st 100% spike: [`memtier_benchmark`](https://github.com/RedisLabs/memtier_benchmark) search test at the default (no additional CPUs for search).
 
-    - 2nd 100% spike: reconfiguration and shard restart for a 4x Query performance factor.
+    - 2nd 100% spike: reconfiguration and shard restart for a 4x query performance factor.
 
     - 3rd 600% spike: `memtier_benchmark` search test with threading at a 4x Query performance factor (6 CPUs per shard).
 
