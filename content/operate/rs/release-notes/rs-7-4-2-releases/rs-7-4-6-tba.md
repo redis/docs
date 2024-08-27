@@ -149,11 +149,11 @@ The following table shows the SHA256 checksums for the available packages:
 
 | Package | SHA256 checksum (7.4.6-tba September release) |
 |---------|---------------------------------------|
-| Ubuntu 18 | <span class="break-all">3bf13415cf013869b6417165c6bc2966cade201a08ac7c2a4a7286990fca03df</span> |
-| Ubuntu 20 | <span class="break-all">c0951fc688e8b02aeec06b0e98baf77988edef7fd2dc828b6af4126ecb9753ae</span> |
-| Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all">4667c579c52f899a4992cfe5d97e7b4f70ae9f34f5ae9bf75f10cfe2869a80d4</span> |
-| Red Hat Enterprise Linux (RHEL) 9 | <span class="break-all">6c37b1483b5fb6110c8055c1526aa58eec1d29d3519e92310859101419248831</span> |
-| Amazon Linux 2 | <span class="break-all">5782ac40b18b813f1fd6244f45c7107bfe00baccf3e0f3439149bdd0cbbfd806</span> |
+| Ubuntu 18 | <span class="break-all"></span> |
+| Ubuntu 20 | <span class="break-all"></span> |
+| Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |
+| Red Hat Enterprise Linux (RHEL) 9 | <span class="break-all"></span> |
+| Amazon Linux 2 | <span class="break-all"></span> |
 
 ## Known issues
 
