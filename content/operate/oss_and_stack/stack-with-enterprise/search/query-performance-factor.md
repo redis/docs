@@ -132,7 +132,7 @@ To enable the Query performance factor for an existing database, use the followi
 
 - [Update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) to modify the DMC proxy.
 
-- [Upgrade module]({{<relref "/operate/rs/references/rest-api/requests/bdbs/modules/upgrade#post-bdb-modules-upgrade">}}) to set the search module’s Query performance factor.
+- [Upgrade module]({{<relref "/operate/rs/references/rest-api/requests/bdbs/modules/upgrade#post-bdb-modules-upgrade">}}) to set the search module’s query performance factor.
 
 {{<note>}}
 - Because this procedure also restarts the database shards, you should perform it during a maintenance period.
