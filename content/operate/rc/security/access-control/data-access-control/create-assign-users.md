@@ -18,7 +18,7 @@ Before you create a database user, you must [create a data access role]({{< relr
 
 To create a user:
 
-1. Go to **Data Access Control** from the [Redis Cloud console](https://app.redislabs.com/#/) menu.
+1. Go to **Data Access Control** from the [Redis Cloud console](https://cloud.redis.io/#/) menu.
 
     {{<image filename="images/rc/data-access-control-menu.png" width="200px" alt="Menu for database access control." >}}
 
@@ -51,7 +51,7 @@ An error occurs if a user tries to connect to a memcached database with the user
 
 To assign a data access role to an existing user:
 
-1. Go to **Data Access Control** from the [Redis Cloud console](https://app.redislabs.com/#/) menu.
+1. Go to **Data Access Control** from the [Redis Cloud console](https://cloud.redis.io/#/) menu.
 
     {{<image filename="images/rc/data-access-control-menu.png" width="200px" alt="Menu for database access control." >}}
 
