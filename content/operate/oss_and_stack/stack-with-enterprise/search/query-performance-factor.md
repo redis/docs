@@ -180,6 +180,6 @@ To monitor a database with a query performance factor configured:
 
     - 2nd 100% spike: reconfiguration and shard restart for a 4x query performance factor.
 
-    - 3rd 600% spike: `memtier_benchmark` search test with threading at a 4x Query performance factor (6 CPUs per shard).
+    - 3rd 600% spike: `memtier_benchmark` search test with threading at a 4x query performance factor (6 CPUs per shard).
 
     {{<image filename="images/rs/screenshots/monitor-rs-scalable-search-cpu-usage.png" alt="The Prometheus graph shows three spikes for redis_process_cpu_usage_percent: 100%, another 100%, then 600%.">}}
