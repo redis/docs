@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.2.4
-description: TBA
+description: Updated versions of RediSearch and RedisBloom. Bug fixes.
 linkTitle: 7.4.6-tba (September 2024)
 weight: 65
 aliases: 
@@ -18,7 +18,9 @@ This is a maintenance release for ​[​Redis Enterprise Software version 7.4.6
 
 This version offers:
 
-- TBA
+- Updated versions of RediSearch and RedisBloom
+
+- Bug fixes
 
 ## New in this release
 
@@ -34,25 +36,25 @@ Redis Enterprise comes packaged with several modules. As of version 7.4.2, Redis
 
 Bundled Redis modules compatible with Redis database version 7.2:
 
-- [RediSearch 2.8.13]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.8-release-notes.md" >}})
+- [RediSearch 2.8.14]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.8-release-notes.md" >}})
 
 - [RedisJSON 2.6.10]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.6-release-notes.md" >}})
 
 - [RedisTimeSeries 1.10.12]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.10-release-notes.md" >}})
 
-- [RedisBloom 2.6.12]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.6-release-notes.md" >}})
+- [RedisBloom 2.6.13]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.6-release-notes.md" >}})
 
 - [RedisGears 2.0.20 preview](https://github.com/RedisGears/RedisGears/releases/tag/v2.0.20-m21): The RedisGears preview will not be promoted to GA and will be removed in a future release.
 
 Bundled Redis modules compatible with Redis database versions 6.0 and 6.2:
 
-- [RediSearch 2.6.18]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.6-release-notes.md" >}})
+- [RediSearch 2.6.19]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.6-release-notes.md" >}})
 
 - [RedisJSON 2.4.9]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.4-release-notes.md" >}})
 
 - [RedisTimeSeries 1.8.13]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.8-release-notes.md" >}})
 
-- [RedisBloom 2.4.9]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.4-release-notes.md" >}})
+- [RedisBloom 2.4.10]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.4-release-notes.md" >}})
 
 - [RedisGraph v2.10.15]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.10-release-notes.md" >}}): RedisGraph end-of-life has been announced and will be removed in a future release. See the [RedisGraph end-of-life announcement](https://redis.io/blog/redisgraph-eol/) for more details.
 
