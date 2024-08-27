@@ -1,5 +1,5 @@
 ---
-Title: Enable Query Performance Factor For Redis Query Engine in Redis Enterprise
+Title: Configure the query performance factor for Redis Query Engine in Redis Enterprise
 alwaysopen: false
 categories:
 - docs
