@@ -168,7 +168,7 @@ curl -o /dev/null -s -k -u "<user>:<password>" https://<host>:9443/v1/bdbs/$DB_I
 
 ## Monitoring Redis Query Engine
 
-To monitor a database with a Query performance factor enabled:
+To monitor a database with a query performance factor configured:
 
 1. Integrate your Redis Enterprise deployment with Prometheus. See [Prometheus and Grafana with Redis Enterprise]({{<relref "/integrate/prometheus-with-redis-enterprise">}}) for instructions.
 
