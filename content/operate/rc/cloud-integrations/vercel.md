@@ -11,7 +11,7 @@ hideListLinks: true
 weight: 66
 ---
 
-The [Redis Cloud Vercel integration](https://vercel.com/redis-cloud/~/integrations/products/redis-cloud) lets you create a new Redis database from your Vercel account and connect it to your Vercel project(s).
+The [Redis Cloud Vercel integration](https://vercel.com/marketplace/redis-cloud) lets you create a new Redis database from your Vercel account and connect it to your Vercel project(s).
 
 ## Create database
 
