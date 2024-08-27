@@ -26,7 +26,7 @@ The subscription-level allow list is available for Redis Cloud deployments hoste
 
 To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managedservices/latest/userguide/about-security-groups.html) to a subscription's allow list:
 
-1. From the [Redis Cloud console](https://app.redislabs.com/) menu, select **Subscriptions** and then select your subscription from the list.
+1. From the [Redis Cloud console](https://cloud.redis.io/) menu, select **Subscriptions** and then select your subscription from the list.
 
 1. Select **Connectivity > Allow List**.
 

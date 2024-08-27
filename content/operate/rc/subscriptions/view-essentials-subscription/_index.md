@@ -12,7 +12,7 @@ weight: 30
 ---
 To view the details of a Redis Cloud Essentials subscription:
 
-1.  Sign in to the [Redis Cloud console](https://app.redislabs.com/) and select the **Subscriptions** list.
+1.  Sign in to the [Redis Cloud console](https://cloud.redis.io/) and select the **Subscriptions** list.
 
 1.  Select the target subscription from the subscription list.
 

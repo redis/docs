@@ -11,7 +11,7 @@ weight: 35
 ---
 The **Logs** page contains events, alerts, and logs from the activities, databases, and subscriptions associated with your account.
 
-{{<image filename="images/rc/system-logs.png" alt="Choose the Logs command from the Redis Cloud admin console menu to view your subscription system log." width="100%">}} 
+{{<image filename="images/rc/system-logs.png" alt="Choose the Logs command from the Redis Cloud console menu to view your subscription system log." width="100%">}} 
 
 You can:
 
