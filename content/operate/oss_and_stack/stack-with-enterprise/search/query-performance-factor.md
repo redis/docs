@@ -8,7 +8,8 @@ categories:
 description: Enable the Query performance factor for Redis Query Engine in Redis Enterprise to increase the performance of queries.
 linkTitle: Enable scalable Redis Query Engine
 weight: 20
-aliases: /operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor/
+aliases: /operate/oss_and_stack/stack-with-enterprise/search/scalable-search/
+         /operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor/
 ---
 
 Query performance factor is a capability intended to increase the performance of queries, including [vector search]({{<relref "/develop/interact/search-and-query/query/vector-search">}}). When enabled, it allows you to increase a database's compute capacity and throughput by allocating more virtual CPUs per shard in addition to horizontal scaling with more shards. This document describes how to configure the Query performance factor.
