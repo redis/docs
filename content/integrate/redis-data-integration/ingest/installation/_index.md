@@ -176,7 +176,7 @@ sudo service k3s restart
 ```
 {{< /note >}}
 
-Once the installation is finished, RDI is ready for use.
+After the installation is finished, RDI is ready for use.
 
 ## "Silent" installation
 
