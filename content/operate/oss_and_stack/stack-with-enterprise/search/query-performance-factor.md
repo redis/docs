@@ -6,7 +6,7 @@ categories:
 - operate
 - stack
 description: Enable the Query performance factor for Redis Query Engine in Redis Enterprise to increase the performance of queries.
-linkTitle: Enable scalable Redis Query Engine
+linkTitle: Configure query performance factor
 weight: 20
 aliases: /operate/oss_and_stack/stack-with-enterprise/search/scalable-search/
          /operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor/
