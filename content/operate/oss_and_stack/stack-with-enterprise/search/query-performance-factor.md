@@ -139,7 +139,7 @@ To enable the Query performance factor for an existing database, use the followi
 - This procedure overwrites any existing module configuration parameters.
 {{</note>}}
 
-The following example script uses both endpoints to configure a 4x Query performance factor:
+The following example script uses both endpoints to configure a 4x query performance factor:
 
 ```sh
 #!/bin/bash
