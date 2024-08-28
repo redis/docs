@@ -10,9 +10,9 @@ description: Describes the how to manage your user account profile and how to sw
   between Redis Cloud accounts.
 weight: $weight
 ---
-When you sign in to the [Redis Cloud console](https://app.redislabs.com/), you use a profile associated with one or more Redis Cloud accounts.  
+When you sign in to the [Redis Cloud console](https://cloud.redis.io/), you use a profile associated with one or more Redis Cloud accounts.  
 
-This account has a profile with settings that you can manage using the Profile control located near the top, right corner of the admin console:
+This account has a profile with settings that you can manage using the Profile control located near the top, right corner of the Redis Cloud console:
 
 {{<image filename="images/rc/account-selector-single-account.png" alt="Use the Profile control to manage your user account profile and to switch between Redis Cloud accounts." width="300px">}}
 
@@ -20,7 +20,7 @@ When you open the Profile control, you can:
 
 - Review and manage your user account profile.
 
-- Sign out from the admin console.
+- Sign out from the Redis Cloud console.
 
 - Switch between Redis Cloud subscriptions administered by your user account.
 
@@ -46,7 +46,7 @@ This screen contains up to three sections, including:
 
 ## Sign out 
 
-To sign out from the admin console, select **Logout** from the profile control.
+To sign out from the Redis Cloud console, select **Logout** from the profile control.
 
 ## Switch Redis cloud accounts
 
