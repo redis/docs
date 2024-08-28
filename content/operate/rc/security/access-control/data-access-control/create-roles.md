@@ -14,7 +14,7 @@ weight: 20
 
 To assign [Redis ACLs]({{< relref "/operate/rc/security/access-control/data-access-control/configure-acls" >}}) to a data access role:
 
-1. Go to **Data Access Control** from the [Redis Cloud console](https://app.redislabs.com/#/) menu.
+1. Go to **Data Access Control** from the [Redis Cloud console](https://cloud.redis.io/#/) menu.
 
     {{<image filename="images/rc/data-access-control-menu.png" width="200px" alt="Menu for database access control." >}}
 
