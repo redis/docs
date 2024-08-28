@@ -2,7 +2,7 @@ Before creating a Redis Cloud database, you need to [create an account]({{< relr
 
 To create a database in your Redis Cloud account:
 
-1. Sign in to the [Redis Cloud console](https://cloud.redis.io).
+1. Sign in to the [Redis Cloud console](https://app.redislabs.com).
 
 2. Select the **New database** button.
 

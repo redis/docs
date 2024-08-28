@@ -73,6 +73,6 @@ Alert settings are specific to a given database.  To receive alerts for multiple
 
 Any member of the account team can receive alert emails.
 
-To update alert settings for one or more team members, select **Access Management** from the Redis Cloud console menu and then select the **Team** tab. For details, see [Access management]({{< relref "/operate/rc/security/access-control/access-management" >}}).
+To update alert settings for one or more team members, select **Access Management** from the admin console menu and then select the **Team** tab. For details, see [Access management]({{< relref "/operate/rc/security/access-control/access-management" >}}).
 
 If you subscribe to Redis Cloud through a Platform-as-a-Service (PaaS) provider (such as Heroku), you will need to review your provider's documentation for help managing your team.

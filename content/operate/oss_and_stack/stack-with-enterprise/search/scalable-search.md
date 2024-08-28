@@ -1,18 +1,17 @@
 ---
-Title: Configure the query performance factor for Redis Query Engine in Redis Enterprise
+Title: Enable scalable Redis Query Engine in Redis Enterprise
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Configure the query performance factor for Redis Query Engine in Redis Enterprise to increase the performance of queries.
-linkTitle: Configure query performance factor
+description: Enable the scalable Redis Query Engine in Redis Enterprise to increase the performance of queries.
+linkTitle: Enable scalable Redis Query Engine
 weight: 20
 aliases: /operate/oss_and_stack/stack-with-enterprise/search/scalable-search/
-         /operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor/
 ---
 
-Query performance factors are intended to increase the performance of queries, including [vector search]({{<relref "/develop/interact/search-and-query/query/vector-search">}}). When enabled, it allows you to increase a database's compute capacity and throughput by allocating more virtual CPUs per shard in addition to horizontal scaling with more shards. This document describes how to configure the query performance factor.
+Redis Query Engine is a capability intended to increase the performance of queries, including [vector search]({{<relref "/develop/interact/search-and-query/query/vector-search">}}). When enabled, it allows you to increase a database's compute capacity and throughput by allocating more virtual CPUs per shard in addition to horizontal scaling with more shards. This document describes how to configure the Redis Query Engine.
 
 {{<note>}}
 Some use cases might not scale effectively. Redis experts can help determine if vertical scaling with the Redis Query Engine will boost performance for your use case and guide you on whether to use vertical scaling, horizontal scaling, or both.
@@ -32,13 +31,13 @@ If you do not have a cluster that supports Redis Query Engine, [install Redis En
 
     1. Calculate the RAM requirements using the [Index Size Calculator](https://redis.io/redisearch-sizing-calculator/). The total RAM required is the sum of the dataset and index sizes.
 
-1. [Determine the query performance factor](#calculate-performance-factor) you want and the required number of CPUs. Unused CPUs, above the 20% necessary for Redis, can be used for the scalable Redis Query Engine.
+1. [Determine the scaling factor](#calculate-scaling-factor) you want and the required number of CPUs. Unused CPUs, above the 20% necessary for Redis, can be used for the scalable Redis Query Engine.
 
-1. Create a new Redis database with the number of CPUs configured for the Query performance factor.
+1. Create a new Redis database with the number of CPUs configured for the scalable Redis Query Engine.
 
-## Calculate performance factor
+## Calculate scaling factor
 
-### CPUs for query performance factor
+### CPUs for Redis Query Engine
 
 Vertical scaling of the Redis Query Engine is achieved by provisioning additional CPUs for the search module. At least 20% of the available CPUs must be reserved for Redis internal processing. Use the following formula to define the maximum number of CPUs that can be allocated to search.
 
@@ -48,9 +47,9 @@ Vertical scaling of the Redis Query Engine is achieved by provisioning additiona
 | Redis internals | 20% |
 | Available CPUs for Redis Query Engine | floor(0.8 * x) |
 
-### Query performance factor versus CPUs
+### Scale factor versus CPUs
 
-The following table shows the number of CPUs required for each performance factor. This calculation is sensitive to how the search index and queries are defined. Certain scenarios might yield less throughput than the ratios in the following table.
+The following table shows the number of CPUs required for each scale factor. This calculation is sensitive to how the search index and queries are defined. Certain scenarios might yield less throughput than the ratios in the following table.
 
 | Scale factor | Minimum CPUs required for Redis Query Engine |
 |----------------|-----------------------------------------|
@@ -64,7 +63,7 @@ The following table shows the number of CPUs required for each performance facto
 | 14 | 21 |
 | 16 | 24 |
 
-### Example performance factor calculation
+### Example scale factor calculation
 
 | Variable | Value |
 |----------|-------|
@@ -73,13 +72,13 @@ The following table shows the number of CPUs required for each performance facto
 | Scale factor | 4x |
 | Minimum CPUs required for scale factor | 6 |
 
-## Configure query performance factor
+## Enable scalable Redis Query Engine
 
-To configure the query performance factor in Redis Enterprise, use the [REST API]({{<relref "/operate/rs/references/rest-api">}}) to create a new database or update an existing database.
+To enable the scalable Redis Query Engine in Redis Enterprise, use the [REST API]({{<relref "/operate/rs/references/rest-api">}}) to create a new database or update an existing database.
 
 ### Create new database
 
-To create a database and configure the query performance factor, use the [create database REST API endpoint]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) with a [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}) that includes the following parameters:
+To create a database with the scalable Redis Query Engine enabled, use the [create database REST API endpoint]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) with a [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}) that includes the following parameters:
 
 ```json
 {
@@ -92,11 +91,11 @@ To create a database and configure the query performance factor, use the [create
 }
 ```
 
-See [Calculate performance factor](#calculate-performance-factor) to determine the value to use for `<NUMBER_OF_CPUS>`.
+See [Calculate scaling factor](#calculate-scaling-factor) to determine the value to use for `<NUMBER_OF_CPUS>`.
 
 #### Example REST API request for a new database
 
-The following JSON is an example request body used to create a new database with a 4x query performance factor configured:
+The following JSON is an example request body used to create a new database with the scalable Redis Query Engine enabled:
 
 ```json
 {
@@ -128,18 +127,17 @@ curl -k -u "<user>:<password>" https://<host>:9443/v1/bdbs -H "Content-Type:appl
 
 ### Update existing database 
 
-To configure the query performance factor for an existing database, use the following REST API requests:
+To enable the scalable Redis Query Engine for an existing database, use the following REST API requests:
 
 - [Update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) to modify the DMC proxy.
 
-- [Upgrade module]({{<relref "/operate/rs/references/rest-api/requests/bdbs/modules/upgrade#post-bdb-modules-upgrade">}}) to set the search module’s query performance factor.
+- [Upgrade module]({{<relref "/operate/rs/references/rest-api/requests/bdbs/modules/upgrade#post-bdb-modules-upgrade">}}) to set the search module’s scaling factor.
 
 {{<note>}}
-- Because this procedure also restarts the database shards, you should perform it during a maintenance period.
-- This procedure overwrites any existing module configuration parameters.
+Because this procedure also restarts the database shards, you should perform it during a maintenance period.
 {{</note>}}
 
-The following example script uses both endpoints to configure a 4x query performance factor:
+The following example script uses both endpoints to configure a 4x scale factor:
 
 ```sh
 #!/bin/bash
@@ -168,7 +166,7 @@ curl -o /dev/null -s -k -u "<user>:<password>" https://<host>:9443/v1/bdbs/$DB_I
 
 ## Monitoring Redis Query Engine
 
-To monitor a database with a query performance factor configured:
+To monitor a database with the scalable Redis Query Engine enabled:
 
 1. Integrate your Redis Enterprise deployment with Prometheus. See [Prometheus and Grafana with Redis Enterprise]({{<relref "/integrate/prometheus-with-redis-enterprise">}}) for instructions.
 
@@ -176,10 +174,10 @@ To monitor a database with a query performance factor configured:
 
     The following Prometheus UI screenshot shows `redis_process_cpu_usage_percent` spikes for a database with two shards:
 
-    - 1st 100% spike: [`memtier_benchmark`](https://github.com/RedisLabs/memtier_benchmark) search test at the default (no additional CPUs for search).
+    - 1st 100% spike: [`memtier_benchmark`](https://github.com/RedisLabs/memtier_benchmark) search test at the default scale factor (1 CPU per shard for search).
 
-    - 2nd 100% spike: reconfiguration and shard restart for a 4x query performance factor.
+    - 2nd 100% spike: reconfiguration and shard restart for a 4x scale factor.
 
-    - 3rd 600% spike: `memtier_benchmark` search test with threading at a 4x query performance factor (6 CPUs per shard).
+    - 3rd 600% spike: `memtier_benchmark` search test with threading at a 4x scale factor (6 CPUs per shard).
 
     {{<image filename="images/rs/screenshots/monitor-rs-scalable-search-cpu-usage.png" alt="The Prometheus graph shows three spikes for redis_process_cpu_usage_percent: 100%, another 100%, then 600%.">}}

@@ -65,7 +65,7 @@ Before you use Active-Passive, be aware of the following limitations:
 
 Follow these detailed steps to migrate data using Active-Passive syncing:
 
-1.  Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and select the target database in the list.
+1.  Select **Databases** from the [Redis Cloud console](https://app.redislabs.com/) menu and select the target database in the list.
 
     {{<image filename="images/rc/migrate-database-select-source.png" alt="Select the target database from the database list." >}}
 

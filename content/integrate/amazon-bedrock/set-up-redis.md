@@ -43,7 +43,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/aws-marketplace-account-setup-button.png" alt="Use the Set Up Your Account button after subscribing to Redis Cloud with your AWS Marketplace account." width="50%">}}
 
-1.  Sign in to the [Redis Cloud console](https://cloud.redis.io).
+1.  Sign in to the Redis Cloud [admin console](https://app.redislabs.com).
 
 1.  Select the Redis account to be mapped to your AWS Marketplace account and confirm that your payment method will change and that the connection cannot be undone.
 
@@ -59,7 +59,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
 ### Create a database {#create-sub} 
 
-1. In the [Redis Cloud console](https://cloud.redis.io/), select **New database**. 
+1. In the [admin console](https://app.redislabs.com/), select **New database**. 
 
     {{<image filename="images/rc/button-database-new.png" alt="The New Database button creates a new database." width="120px">}}
 
@@ -132,7 +132,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
 For your database to be fully secure, you must enable [Transport Layer Security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl#enable-tls" >}}) for your database with client authentication.
 
-1. Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your database from the list.
+1. Select **Databases** from the [admin console](https://app.redislabs.com/) menu and then select your database from the list.
 
 1. From the database's **Configuration** screen, select the **Edit database** button:
 
@@ -202,7 +202,7 @@ To create your vector index in Redis Insight:
 
 1. [Download and install Redis Insight](https://redis.io/insight/) if you don't have it already.
 
-1. In the [Redis Cloud console](https://cloud.redis.io/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
+1. In the Redis Cloud [admin console](https://app.redislabs.com/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
 
     {{< image filename="/images/rc/connection-wizard-button.png#no-click" alt="Connect button." >}}
 

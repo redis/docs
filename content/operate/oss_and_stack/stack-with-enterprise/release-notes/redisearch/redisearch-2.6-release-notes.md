@@ -15,24 +15,10 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.21 requires:
+RediSearch v2.6.20 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
-
-## v2.6.21 (August 2024)
-
-This is a maintenance release for RediSearch 2.6
-
-Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
-
-- Bug fixes:
-  - [#4944](https://github.com/redisearch/redisearch/pull/4944) Adjusting the module configuration to avoid routing overload on the first shard in a clustered database (MOD-7505)
-  - [#4897](https://github.com/redisearch/redisearch/pull/4897) - `FT.AGGREGATE` with `VERBATIM` option is not handled by the shards in cluster mode (MOD-7463)
-  - [#4918](https://github.com/redisearch/redisearch/pull/4918) - Union query, similar to `"is|the"`, starting with 2 [stopwords](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
-  - [#4919](https://github.com/redisearch/redisearch/pull/4919) - Counting twice the field statistics at the `#search` section of an `INFO` response (MOD-7339)
-  - [#4923](https://github.com/redisearch/redisearch/pull/4923) - Loop when using the wildcard `w'term'` and prefix/infix/suffix pattern `'ter*'`, causing the shard to restart (MOD-7453)
-  - [#4954](https://github.com/redisearch/redisearch/pull/4954) `FT.PROFILE` on `AGGREGATE` numeric queries could cause a crash due to reusing the internal `CURSOR` in a large range of numeric values (MOD-7454)
 
 ## v2.6.20 (July 2024)
 

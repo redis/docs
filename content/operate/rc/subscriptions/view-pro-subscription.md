@@ -11,7 +11,7 @@ weight: 40
 ---
 To view the details of a Redis Cloud Pro subscription:
 
-1.  Sign in to the [Redis Cloud console](https://cloud.redis.io/#) and select **Subscriptions**.
+1.  Sign in to the [Redis Cloud console](https://app.redislabs.com/#) and select **Subscriptions**.
 
 1.  If you have more than one subscription, select the target subscription from the subscription list.
 

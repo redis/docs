@@ -52,7 +52,7 @@ To set up Private Service Connect, you need to:
 
 First, configure Private Service Connect in Redis Cloud:
 
-1. Select **Subscriptions** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your subscription from the list.
+1. Select **Subscriptions** from the [Redis Cloud console](https://app.redislabs.com/) menu and then select your subscription from the list.
 
 2. Select the **Connectivity** tab and then **Private Service Connect**.
 
@@ -144,7 +144,7 @@ Once your Private Service Connect endpoint is active, you must connect to the da
 
 To deactivate Private Service Connect for your subscription:
 
-1. Select **Subscriptions** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your subscription from the list.
+1. Select **Subscriptions** from the [Redis Cloud console](https://app.redislabs.com/) menu and then select your subscription from the list.
 
 1. Select the **Connectivity** tab and then **Private Service Connect**.
 

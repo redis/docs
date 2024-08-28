@@ -34,16 +34,16 @@ You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
 need any special privileges to run RDI processes for normal operation.
 
-RDI has a few
+The [K3s](https://k3s.io/) Kubernetes distribution used internally by RDI has a few
 requirements for cloud VMs that you must implement before running the
 RDI installer, or else installation will fail. The following sections
-give full pre-installation instructions for [RHEL](#firewall-rhel) and
-[Ubuntu](#firewall-ubuntu).
+give full pre-installation instructions for [RHEL](#k3s-rhel) and
+[Ubuntu](#k3s-ubuntu).
 
-### RHEL {#firewall-rhel}
+### RHEL {#k3s-rhel}
 
-We recommend you turn off
-[`firewalld`](https://firewalld.org/documentation/)
+K3s recommends that you turn off 
+[`firewalld`](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/using-and-configuring-firewalld_configuring-and-managing-networking)
 before installation using the command:
 
 ```bash
@@ -59,19 +59,10 @@ firewall-cmd --permanent --zone=trusted --add-source=10.43.0.0/16 #services
 firewall-cmd --reload
 ```
 
-You should also add [port rules](https://firewalld.org/documentation/howto/open-a-port-or-service.html)
-for all the [RDI services]({{< relref "/integrate/redis-data-integration/ingest/reference/ports" >}})
-you intend to use:
-
-```bash
-firewall-cmd --permanent --add-port=8080/tcp  # (Required) rdi-operator/rdi-api
-firewall-cmd --permanent --add-port=9090/tcp  # vm-dis-reloader
-firewall-cmd --permanent --add-port=9092/tcp  # prometheus-service
-firewall-cmd --permanent --add-port=9121/tcp  # rdi-metric-exporter
-```
-
-{{<note>}}You may also need to add similar rules to open other ports if your setup requires them.
-{{</note>}}
+You may also need to open other ports if your setup requires them. See the K3s
+[Inbound rules](https://docs.k3s.io/installation/requirements?_highlight=red&_highlight=hat&os=rhel#inbound-rules-for-k3s-nodes)
+docs for more information. If you change the default CIDR for pods or services,
+you must update the firewall rules accordingly.
 
 If you have `nm-cloud-setup.service` enabled, you must disable it and reboot the
 node with the following commands:
@@ -81,9 +72,14 @@ systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
 reboot
 ```
 
-### Ubuntu {#firewall-ubuntu}
+See
+[Rancher support and maintenance terms](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/)
+for more information about the OS versions that have been tested with
+Rancher-managed K3s clusters.
 
-We recommend you turn off
+### Ubuntu {#k3s-ubuntu}
+
+K3s recommends that you turn off
 [Uncomplicated Firewall](https://wiki.ubuntu.com/UncomplicatedFirewall) (`ufw`)
 before installation with the command:
 
@@ -99,19 +95,15 @@ ufw allow from 10.42.0.0/16 to any #pods
 ufw allow from 10.43.0.0/16 to any #services
 ```
 
-You should also add [port rules](https://ubuntu.com/server/docs/firewalls)
-for all the [RDI services]({{< relref "/integrate/redis-data-integration/ingest/reference/ports" >}})
-you intend to use:
+You may also need to open other ports if your setup requires them. See the K3s
+[Inbound rules](https://docs.k3s.io/installation/requirements?_highlight=red&_highlight=hat&os=debian#inbound-rules-for-k3s-nodes)
+docs for more information. If you change the default CIDR for pods or services,
+you must update the firewall rules accordingly.
 
-```bash
-ufw allow 8080/tcp  # (Required) rdi-operator/rdi-api
-ufw allow 9090/tcp  # vm-dis-reloader
-ufw allow 9092/tcp  # prometheus-service
-ufw allow 9121/tcp  # rdi-metric-exporter
-```
-
-{{<note>}}You may also need to add similar rules to open other ports if your setup requires them.
-{{</note>}}
+See
+[Rancher support and maintenance terms](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/)
+for more information about the OS versions that have been tested with
+Rancher-managed K3s clusters.
 
 ## Hardware sizing
 
@@ -129,7 +121,7 @@ Each of the RDI VMs should have:
 
 Follow the steps below for each of your VMs:
 
-1.  Download the RDI installer from the [Redis download center](https://cloud.redis.io/#/rlec-downloads)
+1.  Download the RDI installer from the [Redis download center](https://app.redislabs.com/#/rlec-downloads)
     (under the *Modules, Tools & Integration* dropdown)
     and extract it to your preferred installation folder.
 

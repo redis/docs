@@ -226,7 +226,7 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
    Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
    ```
 
-   View the [Redis Cloud console](https://cloud.redis.io/) to verify your subscription and database creation.
+   View the [Redis Cloud console](https://app.redislabs.com/) to verify your subscription and database creation.
 
 4. If you want to remove these sample resources, run `terraform destroy`.
 

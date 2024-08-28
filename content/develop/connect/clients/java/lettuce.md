@@ -15,11 +15,9 @@ title: Lettuce guide
 weight: 2
 ---
 
-[Lettuce](https://github.com/redis/lettuce/tree/main/src/main) is an advanced Java client for Redis
-that supports synchronous, asynchronous, and reactive connections.
-If you only need synchronous connections then you may find the other Java client
-[Jedis]({{< relref "/develop/connect/clients/java/jedis" >}}) easier to use.
-
+[Lettuce](https://github.com/redis/lettuce/tree/main/src/main) is the *asynchronous* Java client for Redis.
+Use [Jedis]({{< relref "/develop/connect/clients/java/jedis" >}}) if you need
+a *synchronous* Java client.
 The sections below explain how to install `Lettuce` and connect your application
 to a Redis database.
 
@@ -96,7 +94,7 @@ public class Async {
 }
 ```
 
-Learn more about asynchronous Lettuce API in [the reference guide](https://redis.github.io/lettuce/#asynchronous-api).
+Learn more about asynchronous Lettuce API in [the reference guide](https://lettuce.io/core/release/reference/index.html#asynchronous-api).
 
 ### Reactive connection
 
@@ -138,7 +136,7 @@ public class Main {
 }
 ```
 
-Learn more about reactive Lettuce API in [the reference guide](https://redis.github.io/lettuce/#reactive-api).
+Learn more about reactive Lettuce API in [the reference guide](https://lettuce.io/core/release/reference/index.html#reactive-api).
 
 ### Redis Cluster connection
 
@@ -180,15 +178,14 @@ RedisClient client = RedisClient.create(redisUri);
 Lettuce uses `ClientResources` for efficient management of shared resources like event loop groups and thread pools.
 For connection pooling, Lettuce leverages `RedisClient` or `RedisClusterClient`, which can handle multiple concurrent connections efficiently.
 
-### Timeouts
-
+### Timouts
 Lettuce provides timeouts for many operations, such as command execution, SSL handshake, and Sentinel discovery. By default, Lettuce uses a global timeout value of 60 seconds for these operations, but you can override the global timeout value with individual timeout values for each operation.
 
 {{% alert title="Tip" color="warning" %}}
 Choosing suitable timeout values is crucial for your application's performance and stability and is specific to each environment.
 Configuring timeouts is only necessary if you have issues with the default values. 
 In some cases, the defaults are based on environment-specific settings (e.g., operating system settings), while in other cases, they are built into the Lettuce driver. 
-For more details on setting specific timeouts, see the [Lettuce reference guide](https://redis.github.io/lettuce/).
+For more details on setting specific timeouts, see the [Lettuce reference guide](https://lettuce.io/core/release/reference/index.html).
 {{% /alert  %}}
 
 Below is an example of setting socket-level timeouts. The `TCP_USER_TIMEOUT` setting is useful for scenarios where the server stops responding without acknowledging the last request, while the `KEEPALIVE` setting is good for detecting dead connections where there is no traffic between the client and the server.
@@ -231,7 +228,6 @@ try (RedisClient client = RedisClient.create(redisURI)) {
 ```
 
 ### Connection pooling
-
 A typical approach with Lettuce is to create a single `RedisClient` instance and reuse it to establish connections to your Redis server(s).
 These connections are multiplexed; that is, multiple commands can be run concurrently over a single or a small set of connections, making explicit pooling less practical.
 
@@ -304,6 +300,6 @@ java.security.Security.setProperty("networkaddress.cache.negative.ttl", "0");
 
 ## Learn more
 
-- [Lettuce reference documentation](https://redis.github.io/lettuce/)
+- [Lettuce reference documentation](https://lettuce.io/docs/)
 - [Redis commands]({{< relref "/commands" >}})
 - [Project Reactor](https://projectreactor.io/)

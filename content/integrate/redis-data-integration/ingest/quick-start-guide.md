@@ -72,44 +72,6 @@ the `config.yaml` file and then edit the following settings:
 
 At this point, the pipeline is ready to deploy.
 
-### Create a context (optional) {#create-context}
-
-To manage and inspect RDI, you can use the
-[`redis-di`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli" >}})
-CLI command, which has several subcommands for different purposes. Most of these commands require you
-to pass at least two options, `--rdi-host` and `--rdi-port`, to specify the host and port of your
-RDI installation. You can avoid typing these options repeatedly by saving the
-information in a *context*.
-
-When you activate a context, the saved values of
-`--rdi-host`, `--rdi-port`, and a few other options are passed automatically whenever
-you use `redis-di`. If you have more than one RDI installation, you can create a context
-for each of them and select the one you want to be active using its unique name.
-
-To create a context, use the
-[`redis-di add-context`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-add-context" >}})
-command:
-
-```bash
-redis-di add-context --rdi-host <host> --rdi-port <port> --cluster-host <Redis DB host> --cluster-api-port <Redis DB API port> --cluster-user <Redis DB username> <unique-context-name>
-```
-
-These options are required but there are also a few others you can save, such as TLS credentials, if
-you are using them (see the
-[reference page]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-add-context" >}})
-for details). When you have created a context, use
-[`redis-di set-context`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-set-context" >}})
-to activate it:
-
-```bash
-redis-di set-context <context name>
-```
-
-There are also subcommands to
-[list]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-list-contexts" >}})
-and [delete]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-delete-context" >}})
-contexts.
-
 ### Deploy the pipeline
 
 You can use Redis Insight to deploy the pipeline by adding a connection to the RDI API
@@ -119,15 +81,13 @@ endpoint (which has the same IP address as your RDI VM and uses port 8083) and t
 redis-di deploy --dir <path to pipeline folder>
 ```
 
-where the path is the one you supplied earlier during the installation. (You may also need
-to supply `--rdi-host` and `--rdi-port` options if you are not using a
-[context](#create-context) as described above.) RDI first
+where the path is the one you supplied earlier during the installation. RDI first
 validates your pipeline and then deploys it if the configuration is correct.
 
 Once the pipeline is running, you can use Redis Insight to view the data flow using the
 pipeline metrics. You can also connect to your target database to see the keys that RDI has written there.
 
-### View RDI's response to data changes
+### View RDI's reponse to data changes
 
 Once the pipeline has loaded a *snapshot* of all the existing data from the source,
 it enters *change data capture (CDC)* mode (see the

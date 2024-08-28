@@ -144,33 +144,31 @@ Consider a hash data set for storing sensor data that has the following structur
 ```python
 event = {
     'air_quality': 256,
-    'battery_level':89
+    'Battery_level':89
 }
 
-r.hset('sensor:sensor1', mapping=event)
+client.hset('sensor:sensor1', mapping=event)
 ```
-
-In the examples below, you will likely need to refresh the `sensor:sensor1` key after its fields expire.
 
 Set and retrieve the TTL for multiple fields in a hash:
 
 ```python
 # set the TTL for two hash fields to 60 seconds
-r.hexpire('sensor:sensor1', 60, 'air_quality', 'battery_level')
-ttl = r.httl('sensor:sensor1', 'air_quality', 'battery_level')
+client.hexpire('sensor:sensor1', 60, 'air_quality', 'battery_level')
+ttl = client.httl('sensor:sensor1', 'air_quality', 'battery_level')
 print(ttl)
-# prints [60, 60]
+# prints [60]
 ```
 
 Set and retrieve a hash field's TTL in milliseconds:
 
 ```python
 # set the TTL of the 'air_quality' field in milliseconds
-r.hpexpire('sensor:sensor1', 60000, 'air_quality')
+client.hpexpire('sensor:sensor1', 60000, 'air_quality')
 # and retrieve it
-pttl = r.hpttl('sensor:sensor1', 'air_quality')
+pttl = client.hpttl('sensor:sensor1', 'air_quality')
 print(pttl)
-# prints [59994] # your actual value may vary
+# prints [60000]
 ```
 
 Set and retrieve a hash field’s expiration timestamp:
@@ -178,13 +176,13 @@ Set and retrieve a hash field’s expiration timestamp:
 ```python
 # set the expiration of 'air_quality' to now + 24 hours
 # (similar to setting the TTL to 24 hours)
-r.hexpireat('sensor:sensor1', 
+client.hexpireat('sensor:sensor1', 
     datetime.now() + timedelta(hours=24), 
     'air_quality')
 # and retrieve it
-expire_time = r.hexpiretime('sensor:sensor1', 'air_quality')
+expire_time = client.hexpiretime('sensor:sensor1', 'air_quality')
 print(expire_time)
-# prints [1717668041] # your actual value may vary
+# prints [1717668041]
 ```
 
 ## Performance

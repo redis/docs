@@ -24,7 +24,7 @@ You can only set manual maintenance windows for Redis Cloud Pro plans. A Redis C
 
 To set manual maintenance windows for a single Redis Cloud Pro subscription:
 
-1. From the [Redis Cloud console](https://cloud.redis.io/), select the **Subscriptions** menu and then select your subscription from the list.
+1. From the [Redis Cloud console](https://app.redislabs.com/), select the **Subscriptions** menu and then select your subscription from the list.
 
 1. Select the **Overview** tab.
 
@@ -49,7 +49,7 @@ To set manual maintenance windows for a single Redis Cloud Pro subscription:
 
 To skip maintenance temporarily for a subscription:
 
-1. From the [Redis Cloud console](https://cloud.redis.io/), select the **Subscriptions** menu and then select your subscription from the list.
+1. From the [admin console](https://app.redislabs.com/), select the **Subscriptions** menu and then select your subscription from the list.
 
 1. Select the **Overview** tab.
 

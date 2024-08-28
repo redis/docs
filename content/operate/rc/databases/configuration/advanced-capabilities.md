@@ -25,7 +25,7 @@ When the database **Type** is set to _Redis Stack_, the Advanced capabilities se
 
 {{<image filename="images/rc/database-details-modules-stack-free.png" alt="For Essentials, the Database details page lists the capabilities and versions added by Redis Stack." width="75%">}}
 
-Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the Redis Cloud console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). 
+Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the admin console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). 
 
 ## Redis Cloud Pro {#pro}
 
@@ -61,8 +61,6 @@ Use the [Search and query sizing calculator](https://redis.io/redisearch-sizing-
 
 #### Query performance factor
 
-The query performance factor adds extra compute power specifically for search and query. When you create a database with search and query, you can increase your search queries per second by the selected factor.  Below is a screenshot of the Cloud configuration for query perfomance factor.
-
-{{<image filename="images/rc/database-details-query-performance-factor-pro.png" alt="For Pro databases, you can select the query performance factor for your database." width="75%">}}
+The query performance factor adds extra compute power specifically for search and query. When you create a database with search and query, you can select a factor to increase your queries per second by that amount.
 
 We recommend testing your application with a test database to see your baseline queries per second and determine how much you want to boost your query performance. After you have determined your queries per second and your desired performance factor, [create a new database]({{< relref "/operate/rc/databases/create-database" >}}) with the desired performance factor and [migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) from the test database to your new database.

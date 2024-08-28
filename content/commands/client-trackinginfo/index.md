@@ -43,5 +43,5 @@ Here's the list of tracking information sections and their respective values:
   * `caching-no`: The next command won't cache keys (exists only together with `optout`).
   * `noloop`: The client isn't notified about keys modified by itself.
   * `broken_redirect`: The client ID used for redirection isn't valid anymore.
-* **redirect**: The client ID used for notifications redirection, 0 for self-redirection, or -1 when none.
+* **redirect**: The client ID used for notifications redirection, or -1 when none.
 * **prefixes**: A list of key prefixes for which notifications are sent to the client.

@@ -10,7 +10,7 @@ description: Describes the settings for a Redis Cloud account.
 weight: $weight
 ---
 
-To review or manage the settings associated with your Redis Cloud account, sign in to the [Redis Cloud console](https://cloud.redis.io/) and then select **Account Settings** from the menu.
+To review or manage the settings associated with your Redis Cloud account, sign in to the [Redis Cloud console](https://app.redislabs.com/) and then select **Account Settings** from the menu.
 
 This displays the **Account Settings** screen:
 
