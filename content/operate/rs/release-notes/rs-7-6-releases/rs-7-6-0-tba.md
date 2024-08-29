@@ -107,6 +107,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ## Version changes
 
+- Added validation to verify the LDAP server URI contains a host and port when updating LDAP configuration.
+
 ### Breaking changes
 
 Redis Enterprise Software version 7.6.0 introduces the following breaking changes:
