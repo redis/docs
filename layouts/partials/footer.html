@@ -5,47 +5,7 @@
         <a class="relative hover:text-redis-pen-400 w-[82px] mb-7" href="https://redis.io/">
           {{ partial "icons/logo-script.html" }}
         </a>
-        <div class="hidden lg:flex flex-row gap-8 bg-neutral-150 lg:bg-white text-[13px]">
-          <a class="hover:text-redis-pen-800" href="https://trust.redis.io/">
-            Trust
-          </a>
-          <a class="hover:text-redis-pen-800" href="https://redis.io/legal/redis-website-terms-of-use/">
-            Terms of use
-          </a>
-          <a class="hover:text-redis-pen-800" href="https://redis.io/legal/privacy-policy/">
-            Privacy policy
-          </a>
-        </div>
-      </div>
-      <div class="flex flex-col justify-between grow gap-4">
-        <a class="hover:text-redis-pen-800" href="https://redis.io/cloud/">
-          Cloud
-        </a>
-        <a class="hover:text-redis-pen-800" href="https://redis.io/enterprise/">
-          Software
-        </a>
-        <a class="hover:text-redis-pen-800" href="https://redis.io/pricing/">
-          Pricing
-        </a>
-        <a class="hover:text-redis-pen-800" href="https://redis.io/support/">
-          Support
-        </a>
-      </div>
-      <div class="flex flex-col justify-between grow gap-4">
-        <a class="hover:text-redis-pen-800" href="https://redis.io/company/">
-          About us
-        </a>
-        <a class="hover:text-redis-pen-800" href="https://redis.io/careers/">
-          Careers
-        </a>
-        <a class="hover:text-redis-pen-800" href="https://redis.io/contact/">
-          Contact us
-        </a>
-        <a class="hover:text-redis-pen-800" href="https://redis.io/legal/">
-          Legal notices
-        </a>
-      </div>
-      <div class="flex flex-col justify-between mt-8 lg:mt-0 lg:mr-8 gap-8">
+         <div class="flex flex-col justify-between mt-8 lg:mt-0 lg:mr-8 gap-8">
         {{/*  <div class="flex flex-row gap-2 items-center"><span>Language</span><span>{{ partial "icons/caret.html" }}</span></div>  */}}
         <div class="flex flex-row gap-10 justify-between lg:justify-normal lg:gap-5 lg:order-first">
           <a class="hover:text-redis-pen-400" href="https://www.facebook.com/Redisinc">
@@ -68,18 +28,113 @@
           </a>
         </div>
       </div>
+        <div class="hidden lg:flex flex-col gap-8 bg-neutral-150 lg:bg-white text-[13px]">
+          <a class="hover:text-redis-pen-800" href="https://redis.io/legal/privacy-policy/">
+            Privacy
+          </a>
+          <a class="hover:text-redis-pen-800" href="https://redis.io/legal/redis-website-terms-of-use/">
+            Terms of use
+          </a>
+        <a class="hover:text-redis-pen-800" href="https://redis.io/legal/">
+          Legal notices
+        </a>
+        </div>
+      </div>
+       <div class="flex flex-col gap-4">
+      <h3 class="uppercase font-mono mb-2">Use cases</h3>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/solutions/caching">
+        <span class="">Caching</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/solutions/deduplication">
+        <span class="">Deduplication</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/solutions/fast-data-ingest">
+        <span class="">Fast data ingest</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/solutions/feature-stores">
+        <span class="">Feature stores</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/solutions/session-management">
+        <span class="">Session management</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/solutions/vector-search/">
+        <span class="">Vector search</span>
+      </a>
     </div>
-    <div class="flex lg:hidden bg-neutral-150 justify-center">
-      <div class="flex lg:hidden flex-row justify-between gap-8 max-w-[600px] w-full p-4 text-[13px]">
-        <a class="hover:text-redis-pen-800" href="https://trust.redis.io/">
-          Trust
+      <div class="flex flex-col gap-4">
+      <h3 class="uppercase font-mono mb-2">Industries</h3>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/industries/financial-services">
+        <span class="">Financial services</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/industries/gaming">
+        <span class="">Gaming</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/industries/healthcare">
+        <span class="">Healthcare</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/industries/retail">
+        <span class="">Retail</span>
+      </a>
+      <h3 class="uppercase font-mono mb-2">Compare</h3>
+        <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/cloud/compare-us-with-aws-elasticache/">
+        <span class="">Redis vs Elasticache</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/comparisons/redis-vs-memcached/">
+        <span class="">Redis vs Memcached</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/">
+        <span class="">Redis vs Memory Store</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/comparisons/oss-vs-enterprise/">
+        <span class="">Redis vs Source Available</span>
+      </a>
+    </div>
+      <div class="flex flex-col justify-between grow gap-4">
+         <h3 class="uppercase font-mono mb-2">Company</h3>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/company">
+        <span class="">Mission & values</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/company/team">
+        <span class="">Leadership</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/company/careers">
+        <span class="">Careers</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/company/news">
+        <span class="">News</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/partners">
+        <span class="">Partners</span>
+      </a>
+        <h3 class="uppercase font-mono mb-2">Connect</h3>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/community">
+        <span class="">Community</span>
+      </a>
+      <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/events">
+        <span class="">Events, tech talks & webinars</span>
+      </a>
+        <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/company/news">
+        <span class="">News</span>
+      </a>
+      </div>
+      <div class="flex flex-col justify-between grow gap-4">
+        <h3 class="uppercase font-mono mb-2">Partners</h3>
+        <a class="hover:text-redis-pen-800" href="https://redis.io/">
+          Amazon Web Services
         </a>
-        <a class="hover:text-redis-pen-800" href="https://redis.io/legal/redis-website-terms-of-use/">
-          Terms of use
+        <a class="hover:text-redis-pen-800" href="https://redis.io/">
+          Google Cloud
         </a>
-        <a class="hover:text-redis-pen-800" href="https://redis.io/legal/privacy-policy/">
-          Privacy policy
+        <a class="hover:text-redis-pen-800" href="https://redis.io/">
+          Microsoft Azure
         </a>
+        <h3 class="uppercase font-mono mb-2">Support</h3>
+        <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/services/professional-services">
+        <span class="">Professional services</span>
+      </a>
+         <a class="flex flex-col hover:text-redis-red-500 tracking-tight" href="https://redis.io/support">
+        <span class="">Support</span>
+      </a>
       </div>
     </div>
   </div>
