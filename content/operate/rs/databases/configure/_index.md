@@ -109,15 +109,19 @@ To add capabilities to the database:
 
 - **Enable sharding** - You can either:
 
-    - Enable [database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) and select the number of database shards.
+    - Turn on sharding to enable [database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) and select the number of database shards.
 
         When database clustering is enabled, databases are subject to limitations on [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}).
         
         You can increase the number of shards in the database at any time.
 
-        You can accept the [standard hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy" >}}), which is compatible with Redis Community Edition, or define a [custom hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#custom-hashing-policy" >}}) to define where keys are located in the clustered database.
+    - Turn off sharding to use only one shard so that you can use [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) without the limitations.
 
-    - Turn off **Sharding** to use only one shard so that you can use [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) without the limitations.
+- [**Shards placement**]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) - Determines how to distribute database shards across nodes in the cluster.
+
+    - _Dense_ places shards on the smallest number of nodes.
+    
+    - _Sparse_ spreads shards across many nodes.
 
 - [**OSS Cluster API**]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) - The OSS Cluster API configuration allows access to multiple endpoints for increased throughput.
 
@@ -129,21 +133,9 @@ To add capabilities to the database:
 You must use a client that supports the cluster API to connect to a database that has the cluster API enabled.
     {{</note>}}
 
-- [**Shards placement**]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) - Determines how to distribute database shards across nodes in the cluster.
-
-    - _Dense_ places shards on the smallest number of nodes.
-    
-    - _Sparse_ spreads shards across many nodes.
-
-- [**Database proxy**]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) - Determines the number and location of active proxies, which manage incoming database operation requests.
-
-### Replica Of
-
-    If you enable the OSS Cluster API, the shards placement policy and database proxy policy automatically change to _Sparse_ and _All master shards_.
-
 - **Hashing policy** - You can accept the [standard hashing policy]({{<relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy">}}), which is compatible with Redis Community Edition, or define a [custom hashing policy]({{<relref "/operate/rs/databases/durability-ha/clustering#custom-hashing-policy">}}) to define where keys are located in the clustered database.
 
-- [**Database proxy policy**]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) - Determines the number and location of active proxies, which manage incoming database operation requests.
+- [**Database proxy**]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) - Determines the number and location of active proxies, which manage incoming database operation requests.
 
 ### Durability
 
