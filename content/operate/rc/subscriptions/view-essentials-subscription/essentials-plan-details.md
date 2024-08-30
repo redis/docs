@@ -17,6 +17,8 @@ The 30 MB Essentials plan is free; it's designed for learning and building test 
 
 Our paid plans start at 250 MB and offer extra features, like high availability and backups (both daily and instant). They are great for bigger projects or production environments that require increased storage, reliability, and other features to support your operational needs.
 
+Essentials plans have bandwidth and throughput limits described in the tables below. We will notify you before limiting your database usage if you exceed these limits.
+
 If you need additional resources, you can [upgrade your subscription]({{< relref "/operate/rc/subscriptions/view-essentials-subscription#upgrade-plan" >}}) at any time.
 
 ## Current plans
