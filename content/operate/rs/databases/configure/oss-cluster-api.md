@@ -21,7 +21,7 @@ The Redis OSS Cluster API is supported only when a database meets specific crite
 The database must:
 
 - Use the standard [hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#supported-hashing-policies" >}}).
-- Have the [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) set to either `all-master-shards` or `all-nodes`.
+- Have the [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) set to either _All primary shards_ or _All nodes_.
 
 In addition, the database must _not_:
 
