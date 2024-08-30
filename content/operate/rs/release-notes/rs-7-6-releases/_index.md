@@ -35,6 +35,8 @@ For more detailed release notes, select a build version from the following table
 
 ## Version changes
 
+- Added validation to verify the LDAP server URI contains a host and port when updating LDAP configuration.
+
 ### Breaking changes
 
 Redis Enterprise Software version 7.6.0 introduces the following breaking changes:
