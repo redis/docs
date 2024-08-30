@@ -25,12 +25,14 @@ If you need additional resources, you can [upgrade your subscription]({{< relref
 
 These plans are currently offered for all new and upgraded Essentials subscriptions (updated March 2024).
 
+{{<table-scrollable>}}
 | **DB&nbsp;size**<sup>[1](#table-note-1)</sup> | **30&nbsp;MB&nbsp;(Free)** | **250 MB** | **1 GB** | **2.5 GB** | **5 GB** | **12 GB** |
 |---|---|---|---|---|---|---|
 | **Concurrent<br/>connections<br/>per database** | 30 | 256 | 1024 | 2500 | 5000 | 10000 |
 | **CIDR<br/> allow rules** | 1 | 4 | 4-8 | 4-8 | 4-16 | 4-32 |
 | **Monthly<br/> total network<br/> bandwidth** | 5&nbsp;GB | 100&nbsp;GB | 200&nbsp;GB | 400&nbsp;GB | 800&nbsp;GB | 2000&nbsp;GB |
 | **Maximum<br/> throughput<sup>[2](#table-note-2)</sup>** | 100&nbsp;ops/sec | 1000&nbsp;ops/sec | 2000&nbsp;ops/sec | 4000&nbsp;ops/sec | 8000&nbsp;ops/sec | 16000&nbsp;ops/sec |
+{{</table-scrollable>}}
 
 1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication where applicable. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#dataset-size" >}}) for more information.
 
