@@ -178,7 +178,11 @@ After you create the Active-Active database, you can set the TLS mode to **Requi
 You cannot enable or turn off database clustering after the Active-Active database is created.
     {{</note>}}
 
-- [**OSS Cluster API**]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) - {{< embed-md "oss-cluster-api-intro.md"  >}}
+- [**OSS Cluster API**]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) - The OSS Cluster API configuration allows access to multiple endpoints for increased throughput. OSS Cluster API is a multi-cluster configuration that applies to all clusters hosting the Active-Active database.
+
+    This configuration requires clients to connect to the primary node to retrieve the cluster topology before they can connect directly to proxies on each node.
+    
+    When you enable the OSS Cluster API, shard placement changes to _Sparse_, and the database proxy policy changes to _All primary shards_ automatically.
 
 ### Durability
 
