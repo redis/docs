@@ -147,7 +147,8 @@ Follow the steps below for each of your VMs:
 RDI uses a database on your Redis Enterprise cluster to store its state
 information. *This requires Redis Enterprise v6.4 or greater*.
 
-The installer will ask you for cluster admin credentials. You should supply
+The installer gives you instructions to help you create secrets and create your pipeline.
+It will ask you for cluster admin credentials during installation. You should supply
 these if you want the installer to create the RDI database for you.
  
 {{<note>}}The installer does not create the RDI Redis database with
@@ -163,9 +164,19 @@ If you don’t want the installation to create the RDI database for you:
   and TLS.
 - Provide the installation with the required RDI database details.
 
-Once the installation is finished, RDI is ready for use.
+{{< note >}}If you specify `localhost` as the address of the RDI database server during
+installation then the connection will fail if the actual IP address changes for the local
+VM. For this reason, we recommend that you don't use `localhost` for the address. However,
+if you do encounter this problem, you can fix it using the following commands on the VM
+that is running RDI itself:
 
-{{<note>}}RDI gives you instructions to help you create secrets and create your pipeline.{{</note>}}
+```bash
+sudo k3s kubectl delete nodes --all
+sudo service k3s restart
+```
+{{< /note >}}
+
+After the installation is finished, RDI is ready for use.
 
 ## "Silent" installation
 
