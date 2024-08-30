@@ -36,7 +36,7 @@ Here's how to subscribe to Redis Cloud with Google Cloud Marketplace:
 
 1. Under **Purchase Details**, select the Google Cloud Billing account that will subscribe to Redis Cloud. Review the subscription details, accept the terms, and select **Subscribe**.
 
-1. When you subscribe for the first time, select **Sign Up with Redis**. This will redirect you to the [Redis Cloud console](https://app.redislabs.com).
+1. When you subscribe for the first time, select **Sign Up with Redis**. This will redirect you to the [Redis Cloud console](https://cloud.redis.io).
 
 1. Create a Redis Cloud account or sign in to an existing account. You must have the **Account Owner** role.
 
@@ -54,7 +54,7 @@ You must complete this step to bill your Redis Cloud resources to your Google Cl
 
     {{<image filename="images/rc/gcp-marketplace-billing-badge.png" alt="The Google Cloud Marketplace badge appears when your Redis Cloud account is mapped to a Google Cloud Marketplace account.">}}
 
-1. On the Google Cloud Marketplace listing, select **Manage on provider** to go to the Redis Cloud [admin console](https://app.redislabs.com).
+1. On the Google Cloud Marketplace listing, select **Manage on provider** to go to the [Redis Cloud console](https://cloud.redis.io).
 
     {{<image filename="images/rc/gcp-marketplace-manage-on-provider.png" alt="The Manage on Provider button" >}}
 

@@ -43,7 +43,7 @@ Client authentication is not required by Redis Cloud; however, it is strongly re
 
 To enable TLS for a Redis Cloud database:
 
-1. Select **Databases** from the [Redis Cloud console](https://app.redislabs.com/) menu and then select your database from the list.
+1. Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your database from the list.
 
 1. From the database's **Configuration** screen, select the **Edit database** button:
 

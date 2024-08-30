@@ -54,6 +54,7 @@ It also allows you to create and manage the following resources:
   - [Databases](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_subscription_database)
   - [VPC peering connections](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_subscription_peering)
   - [Cloud accounts](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_cloud_account)
+  - [Transit Gateway attachments](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_transit_gateway_attachment)
 - Redis Cloud Essentials:
   - [Subscriptions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_essentials_subscription)
   - [Databases](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_essentials_database)

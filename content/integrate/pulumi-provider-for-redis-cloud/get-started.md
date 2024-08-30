@@ -54,7 +54,7 @@ The Pulumi Python project includes three main files:
 
 - `__main__.py`: A Pulumi template file that creates a Redis Cloud Pro subscription. Use this template file as a starting point to create the subscription with a cloud provider and define specifications for the database (this includes memory, throughput, Redis advanced capabilities, and other information).
 
-To deploy the resources described in `__main__.py`, run `pulumi up`. This will take some time. You will be able to see your subscription being created through the [admin console](https://app.redislabs.com/).
+To deploy the resources described in `__main__.py`, run `pulumi up`. This will take some time. You will be able to see your subscription being created through the [Redis Cloud console](https://cloud.redis.io/).
 
 If you want to remove these resources, run `pulumi down`.
 
