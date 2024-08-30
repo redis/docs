@@ -48,6 +48,8 @@ For [Active-Active database instances]({{< relref "/operate/rs/databases/active-
 
 ### General
 
+- [**Tags**]({{<relref "/operate/rs/databases/configure/db-tags">}}) - Add custom tags to categorize the database.
+
 - **Database version** - Select the Redis version when you create a database.
 
 - **Database name** - The database name requirements are:
