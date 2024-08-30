@@ -34,7 +34,7 @@ Here, you'll learn how to store backups using different cloud providers.
 
 To turn on database backups:
 
-1. Sign in to the [Redis Cloud console](https://app.redislabs.com/). 
+1. Sign in to the [Redis Cloud console](https://cloud.redis.io/). 
 
 1.  Select the database to open the **Database** page and then select **Edit database**.
 

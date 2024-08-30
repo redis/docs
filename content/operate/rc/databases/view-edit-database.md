@@ -14,7 +14,7 @@ Use the **Databases** menu of the Redis Cloud console to manage your databases.
 
 To view the details of a database:
 
-1. Sign in to the [Redis Cloud console](https://app.redislabs.com/).  (Create an account if you don't already have one.)
+1. Sign in to the [Redis Cloud console](https://cloud.redis.io/).  (Create an account if you don't already have one.)
 
 2. Select the **Databases** menu to display a searchable list of all databases.
  
