@@ -1,7 +1,7 @@
 ---
 Title: Redis Insight v2.56.0, September 2024
 linkTitle: v2.56.0 (September 2024)
-date: 2024-09-02 00:00:00 +0000
+date: 2024-09-05 00:00:00 +0000
 description: Redis Insight v2.56
 weight: 1
 
