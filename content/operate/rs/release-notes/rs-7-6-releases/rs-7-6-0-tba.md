@@ -75,13 +75,13 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS121796: The "multiple endpoint" configuration database default setting should also enable sharding when selected.
 
-- RS128768: Fixed a bug that prevented metric graph timestamp details from displaying in the Cluster Manager UI.
+- RS128768: Fixed an issue that prevented metric graph timestamp details from displaying in the Cluster Manager UI.
 
 - RS127120: 
 
 - RS127054: Fixed an issue where the install script incorrectly reported "Port 53 is occupied" instead of the correct value of the occupied port.
 
-- RS125934:
+- RS125934: Fixed validation that prevented updating the Active-Active database configuration if existing TLS certificates expired.
 
 - RS125412: 
 
