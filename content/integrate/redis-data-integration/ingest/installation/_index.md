@@ -19,6 +19,12 @@ weight: 2
 
 This guide explains how to install RDI and integrate it with your source database.
 
+{{< note >}}RDI v1.2.7 had a CoreDNS issue where in some installations the host DNS could not
+resolve hostnames for the RDI components. This meant that it couldn't connect to the RDI database
+and resume the installation. This problem is fixed in v1.2.8, so we recommend you use this version
+instead of v1.2.7.
+{{< /note >}}
+
 ## Install RDI on VMs
 
 You would normally install RDI on two VMs for high availability (HA) but you can also install
