@@ -41,18 +41,19 @@ By default, RDI records the following logs in the host VM file system at
 
 | Filename | Phase |
 | :-- | :-- |
-| `rdi_collector-collector-initializer.log` | Initializing the Debezium collector. |
-| `rdi_collector-debezium-ssl-init.log` | Establishing the Debezium SSL connections to the source and RDI database (if you are using SSL). |
-| `rdi_collector-collector-source.log` | Debezium [change data capture (CDC)]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}}) operations. |
-| `rdi_rdi-rdi-operator.log` | RDI and Kubernetes deployment. |
+| `rdi_collector-collector-initializer.log` | Initializing the collector. |
+| `rdi_collector-debezium-ssl-init.log` | Establishing the connector SSL connections to the source and RDI database (if you are using SSL). |
+| `rdi_collector-collector-source.log` | Collector [change data capture (CDC)]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}}) operations. |
+| `rdi_rdi-rdi-operator.log` | Main [RDI control plane]({{< relref "/integrate/redis-data-integration/ingest/architecture#how-rdi-is-deployed" >}}) component. |
 | `rdi_processor-processor.log` | RDI stream processing. |
 
 Logs are recorded at the minimum `INFO` level in a simple format that
 log analysis tools can use.
 
-{{< note >}}Sometimes the Debezium collector source log will contain a message saying that RDI is out of
+{{< note >}}Often during the initial sync phase, the collector source log will contain a message
+saying that RDI is out of
 memory. This is not an error but an informative message to say that RDI
-is applying *backpressure* to Debezium. See
+is applying *backpressure* to the collector. See
 [Backpressure mechanism]({{< relref "/integrate/redis-data-integration/ingest/architecture#backpressure-mechanism" >}})
 in the Architecture guide for more information.
 {{< /note >}}
