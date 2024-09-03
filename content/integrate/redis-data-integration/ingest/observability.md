@@ -39,7 +39,7 @@ command from the CLI.{{< /note >}}
 
 ## Collector metrics
 
-The endpoint for the collector metrics is `https://<RDI_HOST>/metrics/collector-source`
+The endpoint for the collector metrics is `https://<RDI_HOST>:9121/metrics/collector-source`
 
 These metrics are divided into three groups:
 
@@ -49,7 +49,7 @@ These metrics are divided into three groups:
   
 ## Stream processor metrics
 
-The endpoint for the stream processor metrics is `https://<RDI_HOST>/metrics/rdi`
+The endpoint for the stream processor metrics is `https://<RDI_HOST>:9121/metrics/rdi`
 
 RDI reports metrics during the two main phases of the ingest pipeline, the *snapshot*
 phase and the *change data capture (CDC)* phase. (See the
