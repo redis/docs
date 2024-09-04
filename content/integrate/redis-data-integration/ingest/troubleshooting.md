@@ -19,7 +19,7 @@ weight: 50
 
 The following sections explain how you can get extra information from
 Redis Data Integration (RDI) to help you solve problems that you may encounter. Redis support may
-also ask you to provide this information if you need to contact them.
+also ask you to provide this information to help you resolve issues.
 
 ## Debug information during installation {#install-debug}
 
