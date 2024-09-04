@@ -23,7 +23,7 @@ also ask you to provide this information to help you resolve issues.
 
 ## Debug information during installation {#install-debug}
 
-If the installer fails with an error then try installing again with the
+If the installer fails with an error, then try installing again with the
 log level set to `DEBUG`:
 
 ```bash
