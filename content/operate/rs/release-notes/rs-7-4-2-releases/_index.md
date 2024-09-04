@@ -141,6 +141,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 ## Known issues
 
+- RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
+
 - RS61676: Full chain certificate update fails if any certificate in the chain does not have a Common Name (CN).
 
 - RS119958: The `debuginfo` script fails with the error `/bin/tar: Argument list too long` if there are too many RocksDB log files. This issue only affects clusters with Auto Tiering.
