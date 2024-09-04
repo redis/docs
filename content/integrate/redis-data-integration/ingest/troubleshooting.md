@@ -60,7 +60,7 @@ in the Architecture guide for more information.
 
 ## Dump support package
 
-If you ever need to send a comprehensive set of forensics data to Redis support then you should
+If you need to send a comprehensive set of forensics data to Redis support,
 run the
 [`redis-di dump-support-package`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-dump-support-package" >}})
 command from the CLI.
