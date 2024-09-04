@@ -72,7 +72,7 @@ sudo lsblk
 
 ## Set up a cluster and enable Auto Tiering
 
-1. Direct your browser to `https://localhost:8443/new` on the host machine to
+1. Direct your browser to `https://localhost:8443` on the host machine to
 see the Redis Enterprise Software Cluster Manager UI.
 
     {{<note>}}
