@@ -51,7 +51,7 @@ Logs are recorded at the minimum `INFO` level in a simple format that
 log analysis tools can use.
 
 {{< note >}}Often during the initial sync phase, the collector source log will contain a message
-saying that RDI is out of
+saying RDI is out of
 memory. This is not an error but an informative message to say that RDI
 is applying *backpressure* to the collector. See
 [Backpressure mechanism]({{< relref "/integrate/redis-data-integration/ingest/architecture#backpressure-mechanism" >}})
