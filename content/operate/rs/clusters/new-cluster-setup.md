@@ -23,8 +23,8 @@ After the cluster is created you can [add multiple nodes to the cluster]({{< rel
 
 To create a cluster:
 
-1. In a browser, navigate to `https://<name or IP address of the machine with Redis Enterprise Software installed>:8443/new`.
-    For example, if you installed Redis Enterprise Software on a machine with IP address 10.0.1.34, then navigate to <https://10.0.1.34:8443/new>.
+1. In a browser, go to `https://<name or IP address of the machine with Redis Enterprise Software installed>:8443`.
+    For example, if you installed Redis Enterprise Software on a machine with IP address 10.0.1.34, go to <https://10.0.1.34:8443>.
 
     {{< note >}}
 - The management UI uses a [self-signed certificate for TLS encryption]({{< relref "/operate/rs/security/certificates/updating-certificates" >}}).
