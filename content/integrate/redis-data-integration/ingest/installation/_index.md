@@ -17,7 +17,14 @@ type: integration
 weight: 2
 ---
 
-This guide explains how to install RDI and integrate it with your source database.
+This guide explains how to install Redis Data Integration (RDI) and integrate it with
+your source database.
+
+{{< note >}}We recommend you use RDI v1.2.8 version instead of v1.2.7.
+RDI v1.2.7 had a CoreDNS issue. In some installations, the host DNS could not
+resolve hostnames for the RDI components. This meant it couldn't connect to the RDI database
+and resume the installation. This problem is fixed in v1.2.8.
+{{< /note >}}
 
 ## Install RDI on VMs
 
