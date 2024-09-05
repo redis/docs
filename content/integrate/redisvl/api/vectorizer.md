@@ -100,7 +100,7 @@ This vectorizer is designed to interact with OpenAI’s embeddings API,
 requiring an API key for authentication. The key can be provided directly
 in the api_config dictionary or through the OPENAI_API_KEY environment
 variable. Users must obtain an API key from OpenAI’s website
-([https://api.openai.com/](https://api.openai.com/)). Additionally, the openai python client must be
+([https://api.openai.com/](https://platform.openai.com/docs/quickstart)). Additionally, the openai python client must be
 installed with pip install openai>=1.13.0.
 
 The vectorizer supports both synchronous and asynchronous operations,
