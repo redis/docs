@@ -10,6 +10,7 @@ categories:
 - kubernetes
 - clients
 description: Connect to Redis from Visual Studio Code.
+hideListLinks: true
 linkTitle: Redis for VS Code
 stack: true
 title: Redis for VS Code
