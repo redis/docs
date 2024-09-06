@@ -148,7 +148,7 @@ This is a maintenance release for version 1.0.
 - Details:
 
     - Minor Features:
-        - #[368](https://github.com/RedisGears/RedisGears/pull/368) Support for buffer input on `createTensorFromBlob` when integrating with [RedisAI](https://github.com/RedisGears/RedisGears/blob/v1.0.2/redisai.io) API.
+        - #[368](https://github.com/RedisGears/RedisGears/pull/368) Support for buffer input on `createTensorFromBlob` when integrating with [RedisAI](https://github.com/RedisAI/RedisAI) API.
 
         - #[373](https://github.com/RedisGears/RedisGears/pull/373) Registered execution plans will not re-send their metadata when they are triggered (this feature reduces network overhead and improve performance of distributed registrations).
 
