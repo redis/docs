@@ -14,7 +14,7 @@ weight: 30
 
 [Redis Enterprise Software]({{< relref "/operate/rs" >}}) lets you manually change any [RedisBloom configuration setting]({{< relref "/develop/data-types/probabilistic/" >}}configuration/#redisbloom-configuration-parameters).
 
-To change RedisBloom configuration using the Redis Software Cluster Manager UI:
+To change the RedisBloom configuration using the Redis Software Cluster Manager UI:
 
   1. From the **Databases** list, select the database, then click **Configuration**.
 
