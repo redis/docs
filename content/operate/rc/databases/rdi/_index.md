@@ -26,8 +26,11 @@ Using RDI with Redis Cloud simplifies managing your data integration pipeline. N
 Before you can create a data pipeline, you must have:
 
 - A [Redis Cloud Pro database]() hosted on Amazon Web Services (AWS)
-- One supported source database, also hosted on AWS:
-    - Insert supported source DBs here.
+- One supported source database, also hosted on AWS and connected to [AWS PrivateLink](https://aws.amazon.com/privatelink/):
+    - MySQL
+    - Oracle
+    - SQL Server
+    - PostgreSQL
 
 {{< note >}}
 Please be aware of the following limitations:
