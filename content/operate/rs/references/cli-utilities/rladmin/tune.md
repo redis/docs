@@ -163,7 +163,7 @@ rladmin tune db { db:<id> | <name> }
 | gradual_src_mode                     | `enabled`<br /> `disabled`       | Activates or deactivates gradual sync of sources                                                                                      |
 | gradual_sync_max_shards_per_source   | integer                          | Number of shards per sync source that can be replicated in parallel (positive integer)                                                |
 | gradual_sync_mode                    | `enabled`<br /> `disabled`<br /> `auto` | Activates, deactivates, or automatically determines gradual sync of source shards                                              |
-| master_persistence                   | `enabled`<br /> `disabled`       | Activates or deactivates persistence of the primary shard                                                                             |
+| master_persistence                   | `enabled`<br /> `disabled`       | If enabled, persists the primary shard in addition to replica shards in a replicated and persistent database. |
 | max_aof_file_size                    | size in MB                       | Maximum size (in MB, if not specified) of [AoF]({{< relref "/glossary/_index.md#letter-a" >}}) file (minimum value is 10 GB)              |
 | max_aof_load_time | time in seconds | Time limit in seconds to load a shard from an append-only file (AOF). If exceeded, an AOF rewrite is initiated to decrease future load time.<br />Minimum: 2700 seconds (45 minutes) <br />Default: 3600 seconds (1 hour) |
 | max_client_pipeline                  | integer                          | Maximum commands in the proxy's pipeline per client connection (max value is 2047, default value is 200)                              |
