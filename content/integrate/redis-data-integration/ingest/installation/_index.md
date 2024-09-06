@@ -17,13 +17,33 @@ type: integration
 weight: 2
 ---
 
-This guide explains how to install RDI and integrate it with your source database.
+This guide explains how to install Redis Data Integration (RDI) and integrate it with
+your source database.
+
+{{< note >}}We recommend you use RDI v1.2.8 version instead of v1.2.7.
+RDI v1.2.7 had a CoreDNS issue. In some installations, the host DNS could not
+resolve hostnames for the RDI components. This meant it couldn't connect to the RDI database
+and resume the installation. This problem is fixed in v1.2.8.
+{{< /note >}}
 
 ## Install RDI on VMs
 
 You would normally install RDI on two VMs for high availability (HA) but you can also install
 one just one VM if you don't need this. For example, you might not need HA during
 development and testing.
+
+{{< note >}}You can't install RDI on a host where a Redis Enterprise cluster
+is also installed, due to incompatible network rules. If you want to install RDI on a
+host that you have previously used for Redis Enterprise then you must
+use [`iptables`](https://www.netfilter.org/projects/iptables/index.html) to
+"clean" the host before installation with the following command line:
+
+```bash
+ sudo iptables-save | awk '/^[*]/ { print $1 } 
+                     /^:[A-Z]+ [^-]/ { print $1 " ACCEPT" ; }
+                     /COMMIT/ { print $0; }' | sudo iptables-restore
+```
+{{< /note >}}
 
 The supported OS versions for RDI are:
 

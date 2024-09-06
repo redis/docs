@@ -22,7 +22,7 @@ See [Active-Active Redis]({{< relref "/operate/rs/databases/active-active/" >}})
 You need at least [two participating clusters]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) for an Active-Active database. If your database requires more than ten participating clusters, contact Redis support. You can [add or remove participating clusters]({{< relref "/operate/rs/databases/active-active/manage#participating-clusters/" >}}) after database creation.
 
 {{<note>}}
-You cannot add RAM-only clusters and [flash-enabled clusters]({{< relref "/operate/rs/databases/auto-tiering" >}}) to the same Active-Active configuration.
+If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
 {{</note>}}
 
 Changes made from the Cluster Manager UI to an Active-Active database configuration only apply to the cluster you are editing. For global configuration changes across all clusters, use the `crdb-cli` command-line utility.
@@ -85,3 +85,4 @@ Active-Active databases have the following limitations:
 - The `FLUSH` command is not supported from the CLI. To flush your database, use the API or Cluster Manager UI.
 - Cross slot multi commands (such as `MSET`) are not supported with Active-Active databases.
 - The hashing policy can't be changed after database creation.
+- If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
