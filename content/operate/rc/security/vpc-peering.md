@@ -35,7 +35,7 @@ If you want to peer a Redis Cloud VPC with an AWS VPC, you need to:
 
 To set up VPC peering:
 
-1. From the [Redis Cloud console](https://app.redislabs.com/), select the **Subscriptions** menu and then select your subscription from the list.
+1. From the [Redis Cloud console](https://cloud.redis.io/), select the **Subscriptions** menu and then select your subscription from the list.
 
 1. Select **Connectivity > VPC Peering**.
 
@@ -106,7 +106,7 @@ If you want to peer a Redis Cloud VPC with a Google Cloud VPC, you need to:
 
 To set up VPC peering:
 
-1. Select **Subscriptions** from the [Redis Cloud console](https://app.redislabs.com/) menu and then select your subscription from the list.
+1. Select **Subscriptions** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your subscription from the list.
 
 1. Select **Connectivity > VPC Peering**.
 

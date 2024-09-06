@@ -50,8 +50,7 @@ To apply the new cluster configuration run:
 
     kubectl apply -f redis-enterprise-cluster.yaml
 
-**Note:** Decreasing the number of nodes is not supported.
-
+{{<warning>}} Decreasing the number of nodes is not supported.{{</warning>}}
 
 ### Sizing compute resources
 

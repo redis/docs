@@ -39,7 +39,7 @@ command from the CLI.{{< /note >}}
 
 ## Collector metrics
 
-The endpoint for the collector metrics is `https://<RDI_HOST>/metrics/collector-source`
+The endpoint for the collector metrics is `https://<RDI_HOST>:9121/metrics/collector-source`
 
 These metrics are divided into three groups:
 
@@ -49,7 +49,7 @@ These metrics are divided into three groups:
   
 ## Stream processor metrics
 
-The endpoint for the stream processor metrics is `https://<RDI_HOST>/metrics/rdi`
+The endpoint for the stream processor metrics is `https://<RDI_HOST>:9121/metrics/rdi`
 
 RDI reports metrics during the two main phases of the ingest pipeline, the *snapshot*
 phase and the *change data capture (CDC)* phase. (See the
@@ -94,27 +94,16 @@ the logs are available for you to inspect.
 By default, RDI stores logs in the host VM file system at `/opt/rdi/logs`.
 The logs are recorded at the minimum `INFO` level and get rotated when they reach a size of 100MB.
 RDI retains the last five log rotated files by default.
-Logs are in JSON format, which lets you analyze them with several different observability tools.
+Logs are in a straightforward text format, which lets you analyze them with several different observability tools.
 You can change the default log settings using the
 [`redis-di config-rdi`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-config-rdi" >}})
 command.
 
-## Support package
+## Dump support package
 
 If you ever need to send a comprehensive set of forensics data to Redis support then you should
 run the
 [`redis-di dump-support-package`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-dump-support-package" >}})
-command from the CLI.
-
-This command gathers the following data:
-
-- All the internal RDI components and their status
-- All internal RDI configuration
-- List of secret names used by RDI components (but not the secrets themselves)
-- RDI logs
-- RDI component versions
-- Output from the [`redis-di status`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-status" >}}) command
-- Text of the `config.yaml` file
-- Text of the Job configuration files
-- [optional] RDI DLQ streams content
-- Rejected records along with the reason for their rejection (should not exist in production)
+command from the CLI. See
+[Troubleshooting]({{< relref "/integrate/redis-data-integration/ingest/troubleshooting#dump-support-package" >}})
+for more information.

@@ -41,11 +41,13 @@ This includes, but is not limited to:
 
 Redis will notify users by email when maintenance starts and ends. For more details, see [Notifications](#notifications).
 
-During maintenance, your database will be operational, but you may notice some latency when connecting to your databases. 
+During maintenance, your database will be operational, but you may notice some latency when connecting to your databases.
 
-Your application may also disconnect from your database for a few seconds. Most Redis clients are set to refresh their DNS address when they reconnect to the database, and you will not be required to perform any further action. If you encounter connectivity problems for more than a minute during maintenance, please refresh your DNS entries. 
+Your application may also disconnect from your database for a few seconds. Most Redis clients are set to refresh their DNS address when they reconnect to the database, and you will not be required to perform any further action. If you encounter connectivity problems for more than a minute during maintenance, please refresh your DNS entries.
 
-See [Resilient applications with Redis Cloud]({{< relref "/operate/rc/resilient-apps" >}}) to learn how to develop highly resilient applications that can reconnect to your database quickly after maintenance.
+{{<tip>}}
+To make sure your applications are set to reconnect after maintenance activity, see [Develop highly available and resilient apps with Redis Cloud]({{< relref "/operate/rc/resilient-apps" >}}).
+{{</tip>}}
 
 ### Urgent maintenance
 

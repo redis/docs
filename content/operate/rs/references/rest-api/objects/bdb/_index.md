@@ -29,7 +29,7 @@ An API object that represents a managed database in the cluster.
 | authorized_subjects | {{<code>}}[{<br />  "CN": string,<br />  "O": string,<br />  "OU": [array of strings],<br />  "L": string,<br />  "ST": string,<br />  "C": string<br />}, ...]{{</code>}} A list of valid subjects used for additional certificate validations during TLS client authentication. All subject attributes are case-sensitive.<br />**Required subject fields**:<br />"CN" for Common Name<br />**Optional subject fields:**<br />"O" for Organization<br />"OU" for Organizational Unit (array of strings)<br />"L" for Locality (city)<br />"ST" for State/Province<br />"C" for 2-letter country code |
 | auto_upgrade | boolean (default:&nbsp;false); Upgrade the database automatically after a cluster upgrade |
 | avoid_nodes | array of strings; Cluster node UIDs to avoid when placing the database's shards and binding its endpoints |
-| background_op | {{<code>}}[{<br />  "status": string,<br />  "name": string,<br />  "error": object,<br />  "progress": number<br />}, ...]{{</code>}} (read-only); **progress**: Percent of completed steps in current operation |
+| background_op | Deprecated as of Redis Enterprise Software v7.6. Use [`GET /v1/actions/bdb/<bdb_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions/bdb">}}) instead.<br />{{<code>}}[{<br />  "status": string,<br />  "name": string,<br />  "error": object,<br />  "progress": number<br />}, ...]{{</code>}} (read-only); **progress**: Percent of completed steps in current operation |
 | backup | boolean (default:&nbsp;false); Policy for periodic database backup |
 | backup_failure_reason | Reason of last failed backup process (read-only)<br />Values:<br />'no-permission'<br />'wrong-file-path'<br />'general-error' |
 | backup_history | integer (default:&nbsp;0); Backup history retention policy (number of days, 0 is forever) |
@@ -97,7 +97,7 @@ An API object that represents a managed database in the cluster.
 | max_client_pipeline | integer (default:&nbsp;200); Maximum number of pipelined commands per connection. Maximum value is 2047. |
 | max_connections | integer (default:&nbsp;0); Maximum number of client connections allowed (0 unlimited) |
 | max_pipelined | integer (default:&nbsp;2000); Determines the maximum number of commands in the proxy’s pipeline per shard connection. |
-| master_persistence | boolean (default:&nbsp;false); Persist the master shard in addition to replica shards in a replicated and persistent database. |
+| master_persistence | boolean (default:&nbsp;false); If true, persists the primary shard in addition to replica shards in a replicated and persistent database. |
 | memory_size | integer (default:&nbsp;0); Database memory limit (0 is unlimited), expressed in bytes. |
 | metrics_export_all | boolean; Enable/disable exposing all shard metrics through the metrics exporter |
 | mkms | boolean (default:&nbsp;true); Are MKMS (Multi Key Multi Slots) commands supported? |

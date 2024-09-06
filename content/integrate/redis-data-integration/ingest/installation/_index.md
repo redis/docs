@@ -17,13 +17,33 @@ type: integration
 weight: 2
 ---
 
-This guide explains how to install RDI and integrate it with your source database.
+This guide explains how to install Redis Data Integration (RDI) and integrate it with
+your source database.
+
+{{< note >}}We recommend you use RDI v1.2.8 version instead of v1.2.7.
+RDI v1.2.7 had a CoreDNS issue. In some installations, the host DNS could not
+resolve hostnames for the RDI components. This meant it couldn't connect to the RDI database
+and resume the installation. This problem is fixed in v1.2.8.
+{{< /note >}}
 
 ## Install RDI on VMs
 
 You would normally install RDI on two VMs for high availability (HA) but you can also install
 one just one VM if you don't need this. For example, you might not need HA during
 development and testing.
+
+{{< note >}}You can't install RDI on a host where a Redis Enterprise cluster
+is also installed, due to incompatible network rules. If you want to install RDI on a
+host that you have previously used for Redis Enterprise then you must
+use [`iptables`](https://www.netfilter.org/projects/iptables/index.html) to
+"clean" the host before installation with the following command line:
+
+```bash
+ sudo iptables-save | awk '/^[*]/ { print $1 } 
+                     /^:[A-Z]+ [^-]/ { print $1 " ACCEPT" ; }
+                     /COMMIT/ { print $0; }' | sudo iptables-restore
+```
+{{< /note >}}
 
 The supported OS versions for RDI are:
 
@@ -34,16 +54,16 @@ You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
 need any special privileges to run RDI processes for normal operation.
 
-The [K3s](https://k3s.io/) Kubernetes distribution used internally by RDI has a few
+RDI has a few
 requirements for cloud VMs that you must implement before running the
 RDI installer, or else installation will fail. The following sections
-give full pre-installation instructions for [RHEL](#k3s-rhel) and
-[Ubuntu](#k3s-ubuntu).
+give full pre-installation instructions for [RHEL](#firewall-rhel) and
+[Ubuntu](#firewall-ubuntu).
 
-### RHEL {#k3s-rhel}
+### RHEL {#firewall-rhel}
 
-K3s recommends that you turn off 
-[`firewalld`](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/using-and-configuring-firewalld_configuring-and-managing-networking)
+We recommend you turn off
+[`firewalld`](https://firewalld.org/documentation/)
 before installation using the command:
 
 ```bash
@@ -59,10 +79,19 @@ firewall-cmd --permanent --zone=trusted --add-source=10.43.0.0/16 #services
 firewall-cmd --reload
 ```
 
-You may also need to open other ports if your setup requires them. See the K3s
-[Inbound rules](https://docs.k3s.io/installation/requirements?_highlight=red&_highlight=hat&os=rhel#inbound-rules-for-k3s-nodes)
-docs for more information. If you change the default CIDR for pods or services,
-you must update the firewall rules accordingly.
+You should also add [port rules](https://firewalld.org/documentation/howto/open-a-port-or-service.html)
+for all the [RDI services]({{< relref "/integrate/redis-data-integration/ingest/reference/ports" >}})
+you intend to use:
+
+```bash
+firewall-cmd --permanent --add-port=8080/tcp  # (Required) rdi-operator/rdi-api
+firewall-cmd --permanent --add-port=9090/tcp  # vm-dis-reloader
+firewall-cmd --permanent --add-port=9092/tcp  # prometheus-service
+firewall-cmd --permanent --add-port=9121/tcp  # rdi-metric-exporter
+```
+
+{{<note>}}You may also need to add similar rules to open other ports if your setup requires them.
+{{</note>}}
 
 If you have `nm-cloud-setup.service` enabled, you must disable it and reboot the
 node with the following commands:
@@ -72,14 +101,9 @@ systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
 reboot
 ```
 
-See
-[Rancher support and maintenance terms](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/)
-for more information about the OS versions that have been tested with
-Rancher-managed K3s clusters.
+### Ubuntu {#firewall-ubuntu}
 
-### Ubuntu {#k3s-ubuntu}
-
-K3s recommends that you turn off
+We recommend you turn off
 [Uncomplicated Firewall](https://wiki.ubuntu.com/UncomplicatedFirewall) (`ufw`)
 before installation with the command:
 
@@ -95,15 +119,19 @@ ufw allow from 10.42.0.0/16 to any #pods
 ufw allow from 10.43.0.0/16 to any #services
 ```
 
-You may also need to open other ports if your setup requires them. See the K3s
-[Inbound rules](https://docs.k3s.io/installation/requirements?_highlight=red&_highlight=hat&os=debian#inbound-rules-for-k3s-nodes)
-docs for more information. If you change the default CIDR for pods or services,
-you must update the firewall rules accordingly.
+You should also add [port rules](https://ubuntu.com/server/docs/firewalls)
+for all the [RDI services]({{< relref "/integrate/redis-data-integration/ingest/reference/ports" >}})
+you intend to use:
 
-See
-[Rancher support and maintenance terms](https://www.suse.com/suse-rancher/support-matrix/all-supported-versions/rancher-v2-8-6/)
-for more information about the OS versions that have been tested with
-Rancher-managed K3s clusters.
+```bash
+ufw allow 8080/tcp  # (Required) rdi-operator/rdi-api
+ufw allow 9090/tcp  # vm-dis-reloader
+ufw allow 9092/tcp  # prometheus-service
+ufw allow 9121/tcp  # rdi-metric-exporter
+```
+
+{{<note>}}You may also need to add similar rules to open other ports if your setup requires them.
+{{</note>}}
 
 ## Hardware sizing
 
@@ -121,7 +149,7 @@ Each of the RDI VMs should have:
 
 Follow the steps below for each of your VMs:
 
-1.  Download the RDI installer from the [Redis download center](https://app.redislabs.com/#/rlec-downloads)
+1.  Download the RDI installer from the [Redis download center](https://cloud.redis.io/#/rlec-downloads)
     (under the *Modules, Tools & Integration* dropdown)
     and extract it to your preferred installation folder.
 
@@ -139,7 +167,8 @@ Follow the steps below for each of your VMs:
 RDI uses a database on your Redis Enterprise cluster to store its state
 information. *This requires Redis Enterprise v6.4 or greater*.
 
-The installer will ask you for cluster admin credentials. You should supply
+The installer gives you instructions to help you create secrets and create your pipeline.
+It will ask you for cluster admin credentials during installation. You should supply
 these if you want the installer to create the RDI database for you.
  
 {{<note>}}The installer does not create the RDI Redis database with
@@ -155,9 +184,19 @@ If you don’t want the installation to create the RDI database for you:
   and TLS.
 - Provide the installation with the required RDI database details.
 
-Once the installation is finished, RDI is ready for use.
+{{< note >}}If you specify `localhost` as the address of the RDI database server during
+installation then the connection will fail if the actual IP address changes for the local
+VM. For this reason, we recommend that you don't use `localhost` for the address. However,
+if you do encounter this problem, you can fix it using the following commands on the VM
+that is running RDI itself:
 
-{{<note>}}RDI gives you instructions to help you create secrets and create your pipeline.{{</note>}}
+```bash
+sudo k3s kubectl delete nodes --all
+sudo service k3s restart
+```
+{{< /note >}}
+
+After the installation is finished, RDI is ready for use.
 
 ## "Silent" installation
 
