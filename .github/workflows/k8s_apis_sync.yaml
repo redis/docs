@@ -55,22 +55,30 @@ jobs:
           crdoc --resources crds/reaadb_crd.yaml --output artifacts/redis_enterprise_active_active_database_api.md --template templates/template.tmpl
           sed -E -i 's/^### RedisEnterpriseActiveActiveDatabase\./### /g' artifacts/redis_enterprise_active_active_database_api.md
           sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterpriseactiveactivedatabase/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_active_active_database_api.md
-          sed -E -i 's/<td><b><a href="#redisenterpriseactiveactivedatabase/<td><b><a href="#/' artifacts/redis_enterprise_active_active_database_api.md
+          sed -E -i 's/<td><a href="#redisenterpriseactiveactivedatabase/<td><a href="#/' artifacts/redis_enterprise_active_active_database_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_active_active_database_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_active_active_database_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_active_active_database_api.md
 
           crdoc --resources crds/rec_crd.yaml --output artifacts/redis_enterprise_cluster_api.md --template templates/template.tmpl
           sed -E -i 's/^### RedisEnterpriseCluster\./### /g' artifacts/redis_enterprise_cluster_api.md
           sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterprisecluster/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_cluster_api.md
-          sed -E -i 's/<td><b><a href="#redisenterprisecluster/<td><b><a href="#/' artifacts/redis_enterprise_cluster_api.md
+          sed -E -i 's/<td><a href="#redisenterprisecluster/<td><a href="#/' artifacts/redis_enterprise_cluster_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_cluster_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_cluster_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_cluster_api.md
 
           crdoc --resources crds/redb_crd.yaml --output artifacts/redis_enterprise_database_api.md --template templates/template.tmpl
           sed -E -i 's/^### RedisEnterpriseDatabase\./### /g' artifacts/redis_enterprise_database_api.md
           sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterprisedatabase/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_database_api.md
-          sed -E -i 's/<td><b><a href="#redisenterprisedatabase/<td><b><a href="#/' artifacts/redis_enterprise_database_api.md
+          sed -E -i 's/<td><a href="#redisenterprisedatabase/<td><a href="#/' artifacts/redis_enterprise_database_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_database_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_database_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_database_api.md
 
-          crdoc --resources crds/rerc_crd.yaml --output artifacts/redis_enterprise_remote_cluster.md --template templates/template.tmpl
-          sed -E -i 's/^### RedisEnterpriseRemoteCluster\./### /g' artifacts/redis_enterprise_remote_cluster.md
-          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterpriseremotecluster/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_remote_cluster.md
-          sed -E -i 's/<td><b><a href="#redisenterpriseremotecluster/<td><b><a href="#/' artifacts/redis_enterprise_remote_cluster.md
+          crdoc --resources crds/rerc_crd.yaml --output artifacts/redis_enterprise_remote_cluster_api.md --template templates/template.tmpl
+          sed -E -i 's/^### RedisEnterpriseRemoteCluster\./### /g' artifacts/redis_enterprise_remote_cluster_api.md
+          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterpriseremotecluster/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_remote_cluster_api.md
+          sed -E -i 's/<td><a href="#redisenterpriseremotecluster/<td><a href="#/' artifacts/redis_enterprise_remote_cluster_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_remote_cluster_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_remote_cluster_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_remote_cluster_api.md
 
       - name: 'Send pull request'
         env:
@@ -88,7 +96,7 @@ jobs:
           cp artifacts/redis_enterprise_active_active_database_api.md content/operate/kubernetes/reference/
           cp artifacts/redis_enterprise_cluster_api.md content/operate/kubernetes/reference/
           cp artifacts/redis_enterprise_database_api.md content/operate/kubernetes/reference/
-          cp artifacts/redis_enterprise_remote_cluster.md content/operate/kubernetes/reference/
+          cp artifacts/redis_enterprise_remote_cluster_api.md content/operate/kubernetes/reference/
 
           git apply content/operate/kubernetes/reference/kubernetes-api-reference-frontmatter.patch
 

@@ -10,12 +10,10 @@ description: How to configure database persistence with either an append-only fi
 linktitle: Persistence
 weight: 30
 ---
-All data is stored and managed exclusively in either RAM or RAM + flash Memory ([Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})) and therefore, is at risk of being lost upon a process or server
-failure. As Redis Enterprise Software is not just a caching solution, but also a full-fledged database, [persistence](https://redis.com/redis-enterprise/technology/durable-redis/) to disk
-is critical. Therefore, Redis Enterprise Software supports persisting data to disk on a per-database basis and in multiple ways.
 
-[Persistence](https://redis.com/redis-enterprise/technology/durable-redis/) can be configured either during database creation or by editing an existing
-database's configuration. While the persistence model can be changed dynamically, it can take time for your database to switch from one persistence model to the other. It depends on what you are switching from and to, but also on the size of your database.
+Data is stored in RAM or a combination of RAM and flash memory ([Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})), which risks data loss during process or server failures. Redis Enterprise Software supports multiple methods to persist data to disk on a per-database basis to ensure data durability.
+
+You can configure [persistence](https://redis.com/redis-enterprise/technology/durable-redis/) during database creation or by editing an existing database. Although the persistence model can be changed dynamically, the switch can take time depending on the database size and the models being switched.
 
 ## Configure database persistence
 
@@ -25,7 +23,7 @@ You can configure persistence when you [create a database]({{< relref "/operate/
 
 1. Select **Edit**.
 
-1. Expand the **High Availability** section.
+1. Expand the **Durability** section.
 
 1. For **Persistence**, select an [option](#data-persistence-options) from the list.
 

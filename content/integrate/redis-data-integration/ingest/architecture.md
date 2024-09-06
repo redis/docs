@@ -119,7 +119,7 @@ with the control plane. Use the CLI tool to install and administer RDI
 and to deploy and manage a pipeline. Use the pipeline editor
 (included in Redis Insight) to design or edit a pipeline. The
 diagram below shows the components of the control and management
-planes and the connections betweeen them:
+planes and the connections between them:
 
 {{< image filename="images/rdi/ingest/ingest-control-plane.png" >}}
 

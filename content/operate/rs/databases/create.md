@@ -15,11 +15,7 @@ Redis Enterprise Software lets you create databases and distribute them across a
 
 To create a new database:
 
-1. In your web browser, open the Cluster Manager UI of the cluster that you want to connect to in order to create the database.
-
-    - For the new Cluster Manager UI, go to `https://<hostname>:8443/new`
-
-    - For the legacy UI, go to `https://<hostname>:8443`
+1. Sign in to the Cluster Manager UI at `https://<hostname>:8443`
 
 1. Use one of the following methods to create a new database:
 

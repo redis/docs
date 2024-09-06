@@ -34,7 +34,7 @@ To add a node to an existing cluster:
 1. [Install the Redis Enterprise Software installation package]({{< relref "/operate/rs/installing-upgrading" >}}) on a clean installation
     of a [supported operating system]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/supported-platforms.md" >}}).
 
-1. To connect to the management UI of the new Redis Enterprise Software installation, go to: <https://URL or IP address:8443>
+1. To connect to the Cluster Manager UI of the new Redis Enterprise Software installation, go to: <https://URL or IP address:8443>
 
     For example, if you installed Redis Enterprise Software on a machine with IP address 10.0.1.34, go to `https://10.0.1.34:8443`.
 

@@ -97,7 +97,7 @@ An API object that represents a managed database in the cluster.
 | max_client_pipeline | integer (default:&nbsp;200); Maximum number of pipelined commands per connection. Maximum value is 2047. |
 | max_connections | integer (default:&nbsp;0); Maximum number of client connections allowed (0 unlimited) |
 | max_pipelined | integer (default:&nbsp;2000); Determines the maximum number of commands in the proxy’s pipeline per shard connection. |
-| master_persistence | boolean (default:&nbsp;false); Persist the master shard in addition to replica shards in a replicated and persistent database. |
+| master_persistence | boolean (default:&nbsp;false); If true, persists the primary shard in addition to replica shards in a replicated and persistent database. |
 | memory_size | integer (default:&nbsp;0); Database memory limit (0 is unlimited), expressed in bytes. |
 | metrics_export_all | boolean; Enable/disable exposing all shard metrics through the metrics exporter |
 | mkms | boolean (default:&nbsp;true); Are MKMS (Multi Key Multi Slots) commands supported? |

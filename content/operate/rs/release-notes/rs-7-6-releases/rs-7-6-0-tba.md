@@ -1,13 +1,13 @@
 ---
-Title: Redis Enterprise Software release notes 7.6.0-tba (August 2024)
+Title: Redis Enterprise Software release notes 7.6.0-tba (September 2024)
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements.
-linkTitle: 7.6.0-tba (August 2024)
+description: Client-side caching support. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements.
+linkTitle: 7.6.0-tba (September 2024)
 weight: 90
 ---
 
@@ -16,6 +16,8 @@ weight: 90
 ## Highlights
 
 This version offers:
+
+- Client-side caching support
 
 - Cluster Manager UI enhancements for node actions, database tags, and database configuration
 
@@ -27,7 +29,15 @@ This version offers:
 
 ### New features
 
-- TBA
+- Client-side caching support:
+
+    - Client-side caching allows Redis clients to store a subset of data in a local cache and avoid sending repeated requests to the Redis database.
+    
+    - When used to cache frequently accessed data, this technique can improve performance by decreasing network traffic, latency, and load on the database.
+
+    - Supported for Redis databases with Redis versions 7.4 and later.
+    
+    - For more information, see the [client-side caching introduction]({{<relref "/develop/connect/clients/client-side-caching">}}) and [client-side caching compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}).
 
 ### Enhancements
 
@@ -61,9 +71,43 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- TBA
+- RS130444: Fixed an issue that prevented creating or editing users without an email address in the Cluster Manager UI.
+
+- RS121796: The "multiple endpoint" configuration database default setting should also enable sharding when selected.
+
+- RS128768: Fixed an issue that prevented metric graph timestamp details from displaying in the Cluster Manager UI.
+
+- RS127120: 
+
+- RS127054: Fixed an issue where the install script incorrectly reported "Port 53 is occupied" instead of the correct value of the occupied port.
+
+- RS125934: Fixed validation that prevented updating the Active-Active database configuration if existing TLS certificates expired.
+
+- RS125412: 
+
+- RS131360: 
+
+- RS123645: Fixed inconsistent behavior for shard creation when you enable sharding.
+
+- RS122012: Fixed an issue that sent a cutoff email message for long-running alerts.
+
+- RS121726: Block the `remove_shards` option for `rlutil`. You can use Replica Of to decrease the shard count instead.
+
+- RS121076: Added a 5-minute connection timeout when promoting a replica shard to a primary role.
+
+- RS118144:
+
+- RS118103: Removed the inaccurate shard `BACKUP_PROGRESS` column from the `rladmin status` command's output.
+
+- RS116990: 
+
+- RS114923:
+
+- RS114258: 
 
 ## Version changes
+
+- Added validation to verify the LDAP server URI contains a host and port when updating LDAP configuration.
 
 ### Breaking changes
 
@@ -88,6 +132,34 @@ Redis Enterprise Software versions 6.2.4 and 6.2.8 do not support direct upgrade
 The next major Redis Enterprise Software release will still bundle Redis database version 6.2 and allow database upgrades from Redis database version 6.2 to 7.x.
 
 See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers.
+
+#### End of triggers and functions preview
+
+The [triggers and functions]({{<relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions">}}) (RedisGears) preview has been discontinued.
+
+- Commands such as `TFCALL`, `TFCALLASYNC`, and `TFUNCTION` will be deprecated and will return error messages.
+
+- Any JavaScript functions stored in Redis will be removed. 
+
+- JavaScript-based triggers will be blocked.
+
+- Lua functions and scripts will not be affected.
+
+If your database currently uses triggers and functions, you need to: 
+
+1. Adjust your applications to accommodate these changes.
+
+1. Delete all triggers and functions libraries from your existing database:
+
+    1. Run `TFUNCTION LIST`.
+
+    1. Copy all library names.
+
+    1. Run `TFUNCTION DELETE` for each library in the list.
+
+    If any triggers and functions libraries remain in the database, the RDB snapshot won't load on a cluster without RedisGears.
+
+1. Migrate your database to a new database without the RedisGears module.
 
 ### Deprecations
 
@@ -159,7 +231,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 | Redis Software<br />major versions | 7.6 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|
-| **Release date** | Aug 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
+| **Release date** | Sept 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
 | [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | TBA | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
@@ -196,7 +268,7 @@ The following table shows the SHA256 checksums for the available packages:
 
 ## Known issues
 
-- TBA
+- RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
 ## Known limitations
 
