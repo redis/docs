@@ -213,7 +213,7 @@ to the installer's questions automatically using properties from a
 
 ### Silent install example
 
-The following example shows the properties for a typical
+The following TOML file example shows the properties for a typical
 silent install configuration:
 
 ```toml
