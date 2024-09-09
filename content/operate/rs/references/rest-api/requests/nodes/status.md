@@ -48,7 +48,9 @@ Gets the status of all nodes. Includes each node's hostname and role in the clus
 
 ### Response {#get-all-response} 
 
-For each node in the cluster, returns a JSON object that contains each node's hostname, role, and other status details. If a maintenance snapshot exists, the response includes a `maintenance_snapshot` field.
+For each node in the cluster, returns a JSON object that contains each node's hostname, role, and other status details.
+
+If a maintenance snapshot exists due to an in-progress or improperly stopped [node maintenance]({{<relref "/operate/rs/clusters/maintenance-mode">}}) process, the response includes a `maintenance_snapshot` field.
 
 #### Example JSON body
 
@@ -134,7 +136,9 @@ Gets the status of a node. Includes the node's hostname and role in the cluster:
 
 ### Response {#get-response} 
 
-Returns a JSON object that contains the node's hostname, role, and other status details. If a maintenance snapshot exists, the response includes a `maintenance_snapshot` field.
+Returns a JSON object that contains the node's hostname, role, and other status details.
+
+If a maintenance snapshot exists due to an in-progress or improperly stopped [node maintenance]({{<relref "/operate/rs/clusters/maintenance-mode">}}) process, the response includes a `maintenance_snapshot` field.
 
 #### Example JSON body
 
