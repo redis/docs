@@ -30,15 +30,17 @@ The following data types are supported:
 
 ## Install the Redis for VS Code extension
 
-Open VS Code and click on the **Extensions** menu button. In the **Search Extensions in Marketplace** field, type "Redis for VS Code" and press the `enter` or `return` key. There may be more than one option shown, so be sure to click on the extension published by Redis.
+Open VS Code and click on the **Extensions** menu button. In the **Search Extensions in Marketplace** field, type "Redis for VS Code" and press the `enter` or `return` key. There may be more than one option shown, so be sure to click on the extension published by Redis. The correct extension is shown below. Click on the **Install** to install the extension.
 
-**[DWD] flesh out with more instructions once the extension is available in the marketplace. [DWD]**
+{{< image filename="images/dev/connect/vscode/vscode-install1.png" >}}
+
+Once installed, check the **Auto Update** button to allow VS Code to install future revisions of the extension automatically.
+
+{{< image filename="images/dev/connect/vscode/vscode-install2.png" >}}
 
 After installing the extension, your VS Code menu will look similar to the following.
 
 {{< image filename="images/dev/connect/vscode/vscode-menu.png" >}}
-
-The Redis for VS Code extension will automatically update just like any other VS Code extension.
 
 ## Connect to Redis databases {#connect-db}
 
