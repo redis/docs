@@ -1,5 +1,5 @@
 ---
-Title: RDI configuration for mysql
+Title: Write-behind configuration for mysql
 aliases: null
 alwaysopen: false
 categories:

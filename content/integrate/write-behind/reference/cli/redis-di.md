@@ -54,25 +54,25 @@ Options:
 
 Commands:
   add-context           Adds a new context
-  configure             Configures the RDI Database so it is ready to...
-  create                Creates the RDI Database instance
-  delete                Deletes RDI database permanently
+  configure             Configures the Write-behind Database so it is ready to...
+  create                Creates the Write-behind Database instance
+  delete                Deletes Write-behind database permanently
   delete-all-contexts   Deletes all contexts
   delete-context        Deletes a context
-  deploy                Deploys the RDI configurations including target
+  deploy                Deploys the Write-behind configurations including target
   describe-job          Describes a transformation engine's job
-  dump-support-package  Dumps RDI support package
+  dump-support-package  Dumps Write-behind support package
   get-rejected          Returns all the stored rejected entries
   list-contexts         Lists all saved contexts
   list-jobs             Lists transformation engine's jobs
-  monitor               Monitors RDI by collecting metrics and exporting...
+  monitor               Monitors Write-behind by collecting metrics and exporting...
   reset                 Resets the pipeline into initial full sync mode
-  scaffold              Generates configuration files for RDI and...
+  scaffold              Generates configuration files for Write-behind and...
   set-context           Sets a context to be the active one
   set-secret            Writes a secret to Redis secret store
   start                 Starts the pipeline
   status                Displays the status of the pipeline end to end
   stop                  Stops the pipeline
   trace                 Starts a trace session for troubleshooting data...
-  upgrade               Upgrades RDI Engine without losing data or downtime
+  upgrade               Upgrades Write-behind Engine without losing data or downtime
 ```

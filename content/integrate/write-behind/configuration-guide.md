@@ -21,9 +21,9 @@ weight: 10
 This guide shows you how to configure write-behind target connections.
 
 ## Overview
-Write-behind target connections are the connections established between an RDI instance and a target database in a
+Write-behind target connections are the connections established between an Write-behind instance and a target database in a
 [write-behind scenario]({{< relref "/integrate/write-behind/quickstart/write-behind-guide" >}}).
-Write-behind is used to replicate changes captured in an RDI-enabled Redis Enterprise database to a target database. 
+Write-behind is used to replicate changes captured in an Write-behind-enabled Redis Enterprise database to a target database. 
 The connections must be configured in the `config.yaml` before deploying any jobs and must follow one of the formats shown below. Multiple connections can be specified in the `connections` section.
 
 ### For relational datastores
@@ -38,7 +38,7 @@ connections:
         user: <db-user>         # database user
         password: <db-password> # database password
         # connect_args:     # optional connection parameters passed to the driver - these are driver specific
-        # query_args:       # optional parameters for SQL query execution - typically not required for RDI operation
+        # query_args:       # optional parameters for SQL query execution - typically not required for Write-behind operation
 ```
 
 ### For non-relational datastores
@@ -56,11 +56,11 @@ connections:
 
 ## Microsoft SQL Server
 
-Microsoft SQL Server supports different authentication mechanisms (SQL Server Authentication and Integrated Windows Authentication) and protocols (NTLM and Kerberos). RDI can use all of them. However, systems that use Kerberos may require some additional configuration.
+Microsoft SQL Server supports different authentication mechanisms (SQL Server Authentication and Integrated Windows Authentication) and protocols (NTLM and Kerberos). Write-behind can use all of them. However, systems that use Kerberos may require some additional configuration.
 
 ### Account permissions
 
-To enable RDI to work with a SQL Server database, check that the account you specify was assigned at least the `db_datawriter` role.
+To enable Write-behind to work with a SQL Server database, check that the account you specify was assigned at least the `db_datawriter` role.
 
 ### SQL Server authentication
 
@@ -79,7 +79,7 @@ connections:
 
 ### Windows authentication
 
-To use Windows authentication mode, you need to create a Windows or Active Directory account that has the necessary permissions to access the target database, and is able to log into SQL Server. The Linux machine hosting RDI can be configured to support the NTLM authentication protocol. 
+To use Windows authentication mode, you need to create a Windows or Active Directory account that has the necessary permissions to access the target database, and is able to log into SQL Server. The Linux machine hosting Write-behind can be configured to support the NTLM authentication protocol. 
 
 For NTLM:
 
@@ -96,7 +96,7 @@ connections:
 
 > Note: User must be specified with the domain name for Windows Authentication to work correctly.
 
-After you configure the RDI connection and deploy the write-behind job, run the following SQL query to have the operator check if RDI is using the expected authentication mechanism and protocol. Note: this operation may require the `sysadmin` role.
+After you configure the Write-behind connection and deploy the write-behind job, run the following SQL query to have the operator check if Write-behind is using the expected authentication mechanism and protocol. Note: this operation may require the `sysadmin` role.
 
 ```sql
 SELECT session_id, auth_scheme FROM sys.dm_exec_connections;

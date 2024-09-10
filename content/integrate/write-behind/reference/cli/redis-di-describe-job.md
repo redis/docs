@@ -44,7 +44,7 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
   - Default: `none`
   - Usage: `--rdi-host`
 
-  Host/IP of RDI Database
+  Host/IP of Write-behind Database
 
 - `rdi_port` (REQUIRED):
 
@@ -52,7 +52,7 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
   - Default: `none`
   - Usage: `--rdi-port`
 
-  Port of RDI Database
+  Port of Write-behind Database
 
 - `rdi_password`:
 
@@ -60,7 +60,7 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
   - Default: `none`
   - Usage: `--rdi-password`
 
-  RDI Database Password
+  Write-behind Database Password
 
 - `rdi_key`:
 
@@ -112,10 +112,10 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
 Options:
   -log-level, --loglevel [DEBUG|INFO|WARN|ERROR|CRITICAL]
                                   [default: INFO]
-  --rdi-host TEXT                 Host/IP of RDI Database  [required]
-  --rdi-port INTEGER RANGE        Port of RDI Database  [1000<=x<=65535;
+  --rdi-host TEXT                 Host/IP of Write-behind Database  [required]
+  --rdi-port INTEGER RANGE        Port of Write-behind Database  [1000<=x<=65535;
                                   required]
-  --rdi-password TEXT             RDI Database Password
+  --rdi-password TEXT             Write-behind Database Password
   --rdi-key TEXT                  Private key file to authenticate with
   --rdi-cert TEXT                 Client certificate file to authenticate with
   --rdi-cacert TEXT               CA certificate file to verify with

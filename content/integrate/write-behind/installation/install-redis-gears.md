@@ -16,11 +16,11 @@ type: integration
 weight: 70
 ---
 
-RDI requires that [RedisGears](https://redis.com/modules/redis-gears) module with the [Python plugin](https://docs.redis.com/latest/modules/redisgears/python/) is installed on the Redis Enterprise cluster.
+Write-behind requires that [RedisGears](https://redis.com/modules/redis-gears) module with the [Python plugin](https://docs.redis.com/latest/modules/redisgears/python/) is installed on the Redis Enterprise cluster.
 
 The Python plugin can be installed explicitly or alongside with the [JVM plugin](https://docs.redis.com/latest/modules/redisgears/jvm/) if the latter is needed on the cluster for other purposes.
 
-Use the [`redis-di create`]({{< relref "/integrate/write-behind/reference/cli/redis-di-create.md" >}}) command in RDI CLI to install RedisGears.
+Use the [`redis-di create`]({{< relref "/integrate/write-behind/reference/cli/redis-di-create.md" >}}) command in Write-behind CLI to install RedisGears.
 
 ## Download RedisGears
 

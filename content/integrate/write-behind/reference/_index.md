@@ -1,5 +1,5 @@
 ---
-Title: Redis Data Integration reference
+Title: Write-behind reference
 aliases: /integrate/redis-data-integration/write-behind/reference/
 alwaysopen: false
 categories:
@@ -7,7 +7,7 @@ categories:
   - integrate
   - rs
   - rdi
-description: Collects reference material for Redis Data integration
+description: Collects reference material for Write-behind
 group: di
 hideListLinks: false
 linkTitle: Reference

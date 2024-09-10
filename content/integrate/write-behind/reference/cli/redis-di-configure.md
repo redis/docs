@@ -7,7 +7,7 @@ categories:
   - integrate
   - rs
   - rdi
-description: Configures the RDI Database so it is ready to process data
+description: Configures the Write-behind Database so it is ready to process data
 group: di
 linkTitle: redis-di configure
 summary:
@@ -38,7 +38,7 @@ Usage: redis-di configure [OPTIONS]
   - Default: `none`
   - Usage: `--rdi-host`
 
-  Host/IP of RDI Database
+  Host/IP of Write-behind Database
 
 - `rdi_port` (REQUIRED):
 
@@ -46,7 +46,7 @@ Usage: redis-di configure [OPTIONS]
   - Default: `none`
   - Usage: `--rdi-port`
 
-  Port of RDI Database
+  Port of Write-behind Database
 
 - `rdi_password`:
 
@@ -54,7 +54,7 @@ Usage: redis-di configure [OPTIONS]
   - Default: `none`
   - Usage: `--rdi-password`
 
-  RDI Database Password
+  Write-behind Database Password
 
 - `rdi_key`:
 
@@ -101,15 +101,15 @@ Usage: redis-di configure [OPTIONS]
 ```
 Usage: redis-di configure [OPTIONS]
 
-  Configures the RDI Database so it is ready to process data
+  Configures the Write-behind Database so it is ready to process data
 
 Options:
   -log-level, --loglevel [DEBUG|INFO|WARN|ERROR|CRITICAL]
                                   [default: INFO]
-  --rdi-host TEXT                 Host/IP of RDI Database  [required]
-  --rdi-port INTEGER RANGE        Port of RDI Database  [1000<=x<=65535;
+  --rdi-host TEXT                 Host/IP of Write-behind Database  [required]
+  --rdi-port INTEGER RANGE        Port of Write-behind Database  [1000<=x<=65535;
                                   required]
-  --rdi-password TEXT             RDI Database Password
+  --rdi-password TEXT             Write-behind Database Password
   --rdi-key TEXT                  Private key file to authenticate with
   --rdi-cert TEXT                 Client certificate file to authenticate with
   --rdi-cacert TEXT               CA certificate file to verify with

@@ -1,5 +1,5 @@
 ---
-Title: Install RDI CLI
+Title: Install Write-behind CLI
 aliases: null
 alwaysopen: false
 categories:
@@ -9,18 +9,18 @@ categories:
 - rdi
 description: Install Redis Data Integration CLI
 group: di
-linkTitle: Install RDI CLI
+linkTitle: Install Write-behind CLI
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: 10
 ---
 
-The following installation instructions install the RDI CLI on a local workstation.
+The following installation instructions install the Write-behind CLI on a local workstation.
 
-RDI installation is done via the RDI CLI. The CLI should have network access to the Redis Enterprise cluster API (port 9443 by default).
+Write-behind installation is done via the Write-behind CLI. The CLI should have network access to the Redis Enterprise cluster API (port 9443 by default).
 
-### Download RDI CLI
+### Download Write-behind CLI
 
 #### Ubuntu 20.04
 
@@ -46,7 +46,7 @@ wget https://qa-onprem.s3.amazonaws.com/redis-di/{{<param rdi_cli_latest>}}/redi
 wget https://qa-onprem.s3.amazonaws.com/redis-di/{{<param rdi_cli_latest>}}/redis-di-rhel7-{{<param rdi_cli_latest>}}.tar.gz -O /tmp/redis-di.tar.gz
 ```
 
-## Install RDI CLI
+## Install Write-behind CLI
 
 Unpack the downloaded `redis-di.tar.gz` into the `/usr/local/bin/` directory:
 

@@ -7,7 +7,7 @@ categories:
   - integrate
   - rs
   - rdi
-description: Redis Data Integration CLI reference
+description: Write-behind CLI reference
 group: di
 hideListLinks: false
 linkTitle: CLI

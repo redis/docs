@@ -7,7 +7,7 @@ categories:
   - integrate
   - rs
   - rdi
-description: Deploys the RDI configurations including target
+description: Deploys the Write-behind configurations including target
 group: di
 linkTitle: redis-di deploy
 summary:
@@ -38,7 +38,7 @@ Usage: redis-di deploy [OPTIONS]
   - Default: `none`
   - Usage: `--rdi-host`
 
-  Host/IP of RDI Database
+  Host/IP of Write-behind Database
 
 - `rdi_port` (REQUIRED):
 
@@ -46,7 +46,7 @@ Usage: redis-di deploy [OPTIONS]
   - Default: `none`
   - Usage: `--rdi-port`
 
-  Port of RDI Database
+  Port of Write-behind Database
 
 - `rdi_password`:
 
@@ -54,7 +54,7 @@ Usage: redis-di deploy [OPTIONS]
   - Default: `none`
   - Usage: `--rdi-password`
 
-  RDI Database Password
+  Write-behind Database Password
 
 - `rdi_key`:
 
@@ -94,7 +94,7 @@ Usage: redis-di deploy [OPTIONS]
   - Default: `.`
   - Usage: `--dir`
 
-  Directory containing RDI configuration
+  Directory containing Write-behind configuration
 
 - `help`:
 
@@ -109,21 +109,21 @@ Usage: redis-di deploy [OPTIONS]
 ```
 Usage: redis-di deploy [OPTIONS]
 
-  Deploys the RDI configurations including target
+  Deploys the Write-behind configurations including target
 
 Options:
   -log-level, --loglevel [DEBUG|INFO|WARN|ERROR|CRITICAL]
                                   [default: INFO]
-  --rdi-host TEXT                 Host/IP of RDI Database  [required]
-  --rdi-port INTEGER RANGE        Port of RDI Database  [1000<=x<=65535;
+  --rdi-host TEXT                 Host/IP of Write-behind Database  [required]
+  --rdi-port INTEGER RANGE        Port of Write-behind Database  [1000<=x<=65535;
                                   required]
-  --rdi-password TEXT             RDI Database Password
+  --rdi-password TEXT             Write-behind Database Password
   --rdi-key TEXT                  Private key file to authenticate with
   --rdi-cert TEXT                 Client certificate file to authenticate with
   --rdi-cacert TEXT               CA certificate file to verify with
   --rdi-key-password TEXT         Password for unlocking an encrypted private
                                   key
-  --dir TEXT                      Directory containing RDI configuration
+  --dir TEXT                      Directory containing Write-behind configuration
                                   [default: .]
   --help                          Show this message and exit.
 ```

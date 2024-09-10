@@ -1,5 +1,5 @@
 ---
-Title: RDI configuration for sqlserver
+Title: Write-behind configuration for sqlserver
 aliases: null
 alwaysopen: false
 categories:

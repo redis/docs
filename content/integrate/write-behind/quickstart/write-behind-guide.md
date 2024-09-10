@@ -23,7 +23,7 @@ This guide takes you through the creation of a write-behind pipeline.
 
 ## Concepts
 
-**Write-behind** is a RDI pipeline used to synchronize data in a Redis database with a downstream data store.
+**Write-behind** is a Write-behind pipeline used to synchronize data in a Redis database with a downstream data store.
 You can think about it as a pipeline that starts with change data capture (CDC) events for a Redis database and then filters, transforms, and maps the data to the target data store data structures.
 
 The **target** data store to which the write-behind pipeline connects and writes data.
@@ -54,8 +54,8 @@ For more information, see
 
 ## Preparing the write-behind pipeline
 
-- Install [RDI CLI]({{< relref "/integrate/write-behind/installation/install-rdi-cli" >}}) on a Linux host that has connectivity to your Redis Enterprise Cluster.
-- Run the [`configure`]({{< relref "/integrate/write-behind/reference/cli/redis-di-configure" >}}) command to install the RDI Engine on your Redis database, if you have not used this Redis database with Write-behind before.
+- Install [Write-behind CLI]({{< relref "/integrate/write-behind/installation/install-rdi-cli" >}}) on a Linux host that has connectivity to your Redis Enterprise Cluster.
+- Run the [`configure`]({{< relref "/integrate/write-behind/reference/cli/redis-di-configure" >}}) command to install the Write-behind Engine on your Redis database, if you have not used this Redis database with Write-behind before.
 - Run the [`scaffold`]({{< relref "/integrate/write-behind/reference/cli/redis-di-scaffold" >}}) command with the type of data store you want to use, for example:
 
   ```bash
@@ -63,7 +63,7 @@ For more information, see
   ```
 
   This creates a template `config.yaml` file and a folder named `jobs` under the current directory.
-  You can specify any folder name with `--dir` or use the `--preview config.yaml` option, if your RDI CLI is deployed inside a Kubernetes (K8s) pod, to get the `config.yaml` template to the terminal.
+  You can specify any folder name with `--dir` or use the `--preview config.yaml` option, if your Write-behind CLI is deployed inside a Kubernetes (K8s) pod, to get the `config.yaml` template to the terminal.
 
 - Add the connections required for downstream targets in the `connections` section of `config.yaml`, for example:
 
@@ -100,14 +100,14 @@ For more information, see
 
   The name can be any arbitrary name as long as it is:
 
-  - Unique for this RDI engine
+  - Unique for this Write-behind engine
   - Referenced correctly by the jobs in the respective YAML files
 
 In order to prepare the pipeline, fill in the correct information for the target data store. Secrets can be provided using a reference to a secret ([see below](#how-to-provide-targets-secrets)) or by specifying a path.
 
 The `applier` section has information about the batch size and frequency used to write data to the target.
 
-Some of the `applier` attributes such as `target_data_type`, `wait_enabled`, and `retry_on_replica_failure` are specific for the RDI ingest pipeline and can be ignored.
+Some of the `applier` attributes such as `target_data_type`, `wait_enabled`, and `retry_on_replica_failure` are specific for the Write-behind ingest pipeline and can be ignored.
 
 ### Write-behind jobs
 
@@ -245,11 +245,11 @@ To use the metrics you can either:
   redis-di status
   ```
 
-- Scrape the metrics using RDI's Prometheus exporter
+- Scrape the metrics using Write-behind's Prometheus exporter
 
 ## Upgrading
 
-If you need to upgrade RDI, you should use the
+If you need to upgrade Write-behind, you should use the
 [`upgrade`]({{< relref "/integrate/write-behind/reference/cli/redis-di-upgrade" >}}) command that provides for a zero downtime upgrade:
 
 ```bash

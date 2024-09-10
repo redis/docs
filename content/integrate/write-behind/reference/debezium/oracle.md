@@ -1,5 +1,5 @@
 ---
-Title: RDI configuration for oracle
+Title: Write-behind configuration for oracle
 aliases: null
 alwaysopen: false
 categories:

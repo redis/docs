@@ -38,8 +38,8 @@ Write to a Redis Enterprise database
 
 - Job parameters always override system properties. In particular, `data_type` will override `target_data_type` and `on_update` will override `json_update_strategy` properties respectively.
 - Mapping for **JSON documents** supports nested paths (e.g. `path.to.field`) which results in creating a nested element in Redis key. When a dot is used in a field name, it must be escaped with a backslash (e.g. `path\.to\.field`). Nested paths are not supported for hashes and streams.
-- For **strings** RDI will automatically assume `on_update: replace` regardless of what was declared in the job file. Appends and increments are not currently supported.
-- For **streams** RDI will ignore `on_update` property since they are append only.
+- For **strings** Write-behind will automatically assume `on_update: replace` regardless of what was declared in the job file. Appends and increments are not currently supported.
+- For **streams** Write-behind will ignore `on_update` property since they are append only.
 
 > Notes:
 
@@ -156,7 +156,7 @@ Nest (embed) object within a different key
 
 > Notes:
 
-- When `nest` object is defined, RDI will automatically assume `data_type: json` and `on_update: merge` regardless of what was declared in the job file.
+- When `nest` object is defined, Write-behind will automatically assume `data_type: json` and `on_update: merge` regardless of what was declared in the job file.
 - Nesting job cannot be used together with any of the these properties: `key`, `args`. The key is automatically calculated based on the following template: `<parent_table>:<parent_key>:<parent_key.value | child_key.value>`.
 - When `expire` is specified, it will be applied to the **parent** key. Therefore all nested objects will expire together with the parent key.
 

@@ -16,7 +16,7 @@ type: integration
 weight: 20
 ---
 
-Redis Data Integration's (RDI) data transformation capabilities allow users to transform their data beyond the default translation of source types to Redis types. The transformation involves no coding. Instead, it is described in a set of human readable YAML files, one per source table.
+Write-behind's data transformation capabilities allow users to transform their data beyond the default translation of source types to Redis types. The transformation involves no coding. Instead, it is described in a set of human readable YAML files, one per source table.
 
 The ingested format and types are different from one source to another. Currently, the only supported source is [Debezium](https://debezium.io/). The first transformation from Debezium types to native JSON with Redis types is done automatically without any need for user instructions. Then, this JSON is passed on to the user defined transformation pipeline.
 
@@ -57,7 +57,7 @@ output:
 
 ## Jobs
 
-Each job is defined in a separate YAML file. All of these files will be uploaded to RDI using the `deploy` command.
+Each job is defined in a separate YAML file. All of these files will be uploaded to Write-behind using the `deploy` command.
 For more information, see [deploy configuration](#deploy-configuration)). If you are using the
 [scaffold]({{< relref "/integrate/write-behind/reference/cli/redis-di-scaffold" >}}) command,
 place the job files in the `jobs` folder.
@@ -78,9 +78,9 @@ place the job files in the `jobs` folder.
 
 > Note: Any reference to the properties `server_name`, `db`, `schema`, and `table` will be treated by default as case insensitive. This can be changed by setting `case_insensitive` to `false`.
 
-> Cassandra only: In Cassandra, a `keyspace` is roughly the equivalent to a `schema` in other databases. RDI uses the `schema` property declared in a job file to match the `keyspace` attribute of the incoming change record.
+> Cassandra only: In Cassandra, a `keyspace` is roughly the equivalent to a `schema` in other databases. Write-behind uses the `schema` property declared in a job file to match the `keyspace` attribute of the incoming change record.
 
-> MongoDB only: In MongoDB, a `replica set` is a cluster of shards with data and can be regarded as roughly equivalent to a `schema` in a relational database. A MongoDB `collection` is similar to a `table` in other databases. RDI uses the `schema` and `table` properties declared in a job file to match the `replica set` and `collection` attributes of the incoming change record, respectively.
+> MongoDB only: In MongoDB, a `replica set` is a cluster of shards with data and can be regarded as roughly equivalent to a `schema` in a relational database. A MongoDB `collection` is similar to a `table` in other databases. Write-behind uses the `schema` and `table` properties declared in a job file to match the `replica set` and `collection` attributes of the incoming change record, respectively.
 
 - `transform`:
 
@@ -168,7 +168,7 @@ output:
 
 ### Deploy configuration
 
-In order to deploy your jobs to the remote RDI database, run:
+In order to deploy your jobs to the remote Write-behind database, run:
 
 ```bash
 redis-di deploy
@@ -176,7 +176,7 @@ redis-di deploy
 
 ### Deploy configuration on Kubernetes
 
-If the RDI CLI is deployed as a pod in a Kubernetes cluster, perform these steps to deploy your jobs:
+If the Write-behind CLI is deployed as a pod in a Kubernetes cluster, perform these steps to deploy your jobs:
 
 - Create a ConfigMap from the YAML files in your `jobs` folder:
 

@@ -9,7 +9,7 @@ categories:
   - rdi
 description: Redis Data Integration configuration file reference
 group: di
-linkTitle: RDI configuration file
+linkTitle: Write-behind configuration file
 summary:
   Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
@@ -45,7 +45,7 @@ weight: 10
 | **dlq_max_messages**<br/>(Dead letter queue max messages per stream)                                                                 | `integer`, `string` | Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>                                                                                                                                                    |          |
 | **target_data_type**<br/>(Target data type: hash/json \- RedisJSON module must be in use in the target DB)                           | `string`            | Default: `"hash"`<br/>Pattern: ``^\${.\*}$                                                                                                                                                                       | hash     | json``<br/>  |     |
 | **json_update_strategy**<br/>(Target update strategy: replace/merge \- RedisJSON module must be in use in the target DB)             | `string`            | (DEPRECATED)<br/>Property 'json_update_strategy' will be deprecated in future releases. Use 'on_update' job-level property to define the json update strategy.<br/>Default: `"replace"`<br/>Pattern: ``^\${.\*}$ | replace  | merge``<br/> |     |
-| **initial_sync_processes**<br/>(Number of processes RDI Engine creates to process the initial sync with the source)                  | `integer`, `string` | Default: `4`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `32`<br/>                                                                                                                                     |          |
+| **initial_sync_processes**<br/>(Number of processes Write-behind Engine creates to process the initial sync with the source)                  | `integer`, `string` | Default: `4`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `32`<br/>                                                                                                                                     |          |
 | **wait_enabled**<br/>(Checks if the data has been written to the replica shard)                                                      | `boolean`           | Default: `false`<br/>                                                                                                                                                                                            |          |
 | **wait_timeout**<br/>(Timeout in milliseconds when checking write to the replica shard)                                              | `integer`, `string` | Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>                                                                                                                                                    |          |
 | **retry_on_replica_failure**<br/>(Ensures that the data has been written to the replica shard and keeps retrying if not)             | `boolean`           | Default: `true`<br/>                                                                                                                                                                                             |          |

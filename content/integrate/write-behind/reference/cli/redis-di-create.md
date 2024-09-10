@@ -7,7 +7,7 @@ categories:
   - integrate
   - rs
   - rdi
-description: Creates the RDI Database instance
+description: Creates the Write-behind Database instance
 group: di
 linkTitle: redis-di create
 summary:
@@ -46,7 +46,7 @@ Usage: redis-di create [OPTIONS]
   - Default: `false`
   - Usage: `--no-configure`
 
-  Do not install RDI Engine to the RDI Database
+  Do not install Write-behind Engine to the Write-behind Database
 
 - `cluster_host` (REQUIRED):
 
@@ -86,7 +86,7 @@ Usage: redis-di create [OPTIONS]
   - Default: `none`
   - Usage: `--rdi-port`
 
-  Port for the new RDI Database
+  Port for the new Write-behind Database
 
 - `rdi_password`:
 
@@ -94,7 +94,7 @@ Usage: redis-di create [OPTIONS]
   - Default: ``
   - Usage: `--rdi-password`
 
-  Password for the new RDI Database (alphanumeric characters with zero or more of the following: ! & # $ ^ < > -)
+  Password for the new Write-behind Database (alphanumeric characters with zero or more of the following: ! & # $ ^ < > -)
 
 - `rdi_memory`:
 
@@ -102,7 +102,7 @@ Usage: redis-di create [OPTIONS]
   - Default: `100`
   - Usage: `--rdi-memory`
 
-  Memory for RDI Database (in MB)
+  Memory for Write-behind Database (in MB)
 
 - `rdi_shards`:
 
@@ -134,7 +134,7 @@ Usage: redis-di create [OPTIONS]
   - Default: `false`
   - Usage: `--with-rejson`
 
-  Include ReJSON in the RDI Database
+  Include ReJSON in the Write-behind Database
 
 - `help`:
 
@@ -149,14 +149,14 @@ Usage: redis-di create [OPTIONS]
 ```
 Usage: redis-di create [OPTIONS]
 
-  Creates the RDI Database instance
+  Creates the Write-behind Database instance
 
 Options:
   -log-level, --loglevel [DEBUG|INFO|WARN|ERROR|CRITICAL]
                                   [default: INFO]
   --silent                        Silent install. Do not prompt to enter
                                   missing parameters
-  --no-configure                  Do not install RDI Engine to the RDI
+  --no-configure                  Do not install Write-behind Engine to the Write-behind
                                   Database
   --cluster-host TEXT             Host/IP of Redis Enterprise Cluster (service
                                   name in case of k8s)  [required]
@@ -167,12 +167,12 @@ Options:
                                   either DB Member, Cluster Member or Cluster
                                   Admin roles  [required]
   --cluster-password TEXT         Redis Enterprise Cluster Password
-  --rdi-port INTEGER RANGE        Port for the new RDI Database
+  --rdi-port INTEGER RANGE        Port for the new Write-behind Database
                                   [1000<=x<=65535]
-  --rdi-password TEXT             Password for the new RDI Database
+  --rdi-password TEXT             Password for the new Write-behind Database
                                   (alphanumeric characters with zero or more
                                   of the following: ! & # $ ^ < > -)
-  --rdi-memory INTEGER RANGE      Memory for RDI Database (in MB)  [x>=30]
+  --rdi-memory INTEGER RANGE      Memory for Write-behind Database (in MB)  [x>=30]
   --rdi-shards INTEGER RANGE      Number of database server-side shards
                                   [x>=1]
   --replication                   In-memory database replication

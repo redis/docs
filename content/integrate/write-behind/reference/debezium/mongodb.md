@@ -1,5 +1,5 @@
 ---
-Title: RDI configuration for mongodb
+Title: Write-behind configuration for mongodb
 aliases: null
 alwaysopen: false
 categories:

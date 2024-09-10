@@ -1,5 +1,5 @@
 ---
-Title: RDI configuration for cassandra
+Title: Write-behind configuration for cassandra
 aliases: null
 alwaysopen: false
 categories:

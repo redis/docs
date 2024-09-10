@@ -8,7 +8,7 @@ categories:
   - rs
   - rdi
 description:
-  Generates configuration files for RDI and Debezium (when ingesting data
+  Generates configuration files for Write-behind and Debezium (when ingesting data
   to Redis)
 group: di
 linkTitle: redis-di scaffold
@@ -58,7 +58,7 @@ Usage: redis-di scaffold [OPTIONS]
   - Default: `none`
   - Usage: `--dir`
 
-  Directory containing RDI configuration
+  Directory containing Write-behind configuration
 
 - `preview`:
 
@@ -81,7 +81,7 @@ Usage: redis-di scaffold [OPTIONS]
 ```
 Usage: redis-di scaffold [OPTIONS]
 
-  Generates configuration files for RDI and Debezium (when ingesting data to
+  Generates configuration files for Write-behind and Debezium (when ingesting data to
   Redis)
 
 Options:
@@ -93,7 +93,7 @@ Options:
                                   Strategy  [default: ingest]
   Output formats: [mutually_exclusive, required]
                                   Output to directory or stdout
-    --dir TEXT                    Directory containing RDI configuration
+    --dir TEXT                    Directory containing Write-behind configuration
     --preview [debezium/application.properties|config.yaml]
                                   Print the content of specified config file
                                   to CLI output

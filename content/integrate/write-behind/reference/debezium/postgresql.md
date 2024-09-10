@@ -1,5 +1,5 @@
 ---
-Title: RDI configuration for postgresql
+Title: Write-behind configuration for postgresql
 aliases: null
 alwaysopen: false
 categories:
