@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: Learn how to install RDI write-behind
+description: Learn how to install Write-behind
 group: di
 hideListLinks: false
 linkTitle: Installation

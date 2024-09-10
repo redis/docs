@@ -34,7 +34,7 @@ The write-behind pipeline is composed of one or more **jobs**. Each job is respo
 
 ## Supported data stores
 
-RDI write-behind currently supports these target data stores:
+Write-behind currently supports these target data stores:
 
 | Data Store |
 | ---------- |
@@ -48,14 +48,14 @@ RDI write-behind currently supports these target data stores:
 
 ## Prerequisites
 
-The only prerequisite for running RDI write-behind is [Redis Gears Python](https://redis.com/modules/redis-gears/) >= 1.2.6 installed on the Redis Enterprise Cluster and enabled for the database you want to mirror to the downstream data store.
+The only prerequisite for running Write-behind is [Redis Gears Python](https://redis.com/modules/redis-gears/) >= 1.2.6 installed on the Redis Enterprise Cluster and enabled for the database you want to mirror to the downstream data store.
 For more information, see
 [RedisGears installation]({{< relref "/integrate/write-behind/installation/install-redis-gears" >}}).
 
 ## Preparing the write-behind pipeline
 
 - Install [RDI CLI]({{< relref "/integrate/write-behind/installation/install-rdi-cli" >}}) on a Linux host that has connectivity to your Redis Enterprise Cluster.
-- Run the [`configure`]({{< relref "/integrate/write-behind/reference/cli/redis-di-configure" >}}) command to install the RDI Engine on your Redis database, if you have not used this Redis database with RDI write-behind before.
+- Run the [`configure`]({{< relref "/integrate/write-behind/reference/cli/redis-di-configure" >}}) command to install the RDI Engine on your Redis database, if you have not used this Redis database with Write-behind before.
 - Run the [`scaffold`]({{< relref "/integrate/write-behind/reference/cli/redis-di-scaffold" >}}) command with the type of data store you want to use, for example:
 
   ```bash
@@ -153,19 +153,19 @@ The `redis` section is common for every pipeline initiated by an event in Redis,
 
 - The `key_pattern` attribute specifies the pattern of Redis keys to listen on. The pattern must correspond to keys that are of Hash or JSON type.
 
-- The `exclude_commands` attribute specifies which commands to ignore. For example, if you listen on a key pattern with Hash values, you can exclude the `HDEL` command so no data deletions will propagate to the downstream database. If you don't specify this attribute, RDI write-behind acts on all relevant commands.
+- The `exclude_commands` attribute specifies which commands to ignore. For example, if you listen on a key pattern with Hash values, you can exclude the `HDEL` command so no data deletions will propagate to the downstream database. If you don't specify this attribute, Write-behind acts on all relevant commands.
 - The `trigger` attribute is mandatory and must be set to `write-behind`.
 
 - The `row_format` attribute can be used with the value `full` to receive both the `before` and `after` sections of the payload. Note that for write-behind events the `before` value of the key is never provided.
 
- > Note: RDI write-behind does not support the [`expired`]({{< relref "/develop/use/keyspace-notifications" >}}#events-generated-by-different-commands) event. Therefore, keys that are expired in Redis will not be deleted from the target database automatically.
+ > Note: Write-behind does not support the [`expired`]({{< relref "/develop/use/keyspace-notifications" >}}#events-generated-by-different-commands) event. Therefore, keys that are expired in Redis will not be deleted from the target database automatically.
 > Notes: The `redis` attribute is a breaking change replacing the `keyspace` attribute. The `key_pattern` attribute replaces the `pattern` attribute. The `exclude_commands` attributes replaces the `exclude-commands` attribute. If you upgrade to version 0.105 and beyond, you must edit your existing jobs and redeploy them.
 
 ### Output section
 
 The `output` section is critical. It specifies a reference to a connection from the `config.yaml` `connections` section:
 
-- The `uses` attribute specifies the type of **writer** RDI write-behind will use to prepare and write the data to the target.
+- The `uses` attribute specifies the type of **writer** Write-behind will use to prepare and write the data to the target.
   In this example, it is `relational.write`, a writer that translates the data into a SQL statement with the specific dialect of the downstream relational database.
   For a full list of supported writers, see
   [data transformation block types]({{< relref "/integrate/write-behind/reference/data-transformation-block-types" >}}).
@@ -182,7 +182,7 @@ The `output` section is critical. It specifies a reference to a connection from 
 
 ### Apply filters and transformations to write-behind
 
-The RDI write-behind jobs can apply filters and transformations to the data before it is written to the target. Specify the filters and transformations under the `transform` section.
+The Write-behind jobs can apply filters and transformations to the data before it is written to the target. Specify the filters and transformations under the `transform` section.
 
 #### Filters
 
@@ -224,7 +224,7 @@ redis-di status
 
 ## Monitor the write-behind pipeline
 
-The RDI write-behind pipeline collects the following metrics:
+The Write-behind pipeline collects the following metrics:
 
 | Metric Description                  | Metric in [Prometheus](https://prometheus.io/)                                                      |
 | ----------------------------------- | --------------------------------------------------------------------------------------------------- |
