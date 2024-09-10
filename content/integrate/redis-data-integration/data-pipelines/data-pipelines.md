@@ -200,7 +200,7 @@ You can optionally supply one or more job files that specify how you want to
 transform the captured data before writing it to the target.
 Each job file contains a YAML
 configuration that controls the transformation for a particular table from the source
-database. For ingest pipelines, you can also add a `default-job.yaml` file to provide
+database. You can also add a `default-job.yaml` file to provide
 a default transformation for tables that don't have a specific job file of their own.
 
 The job files have a structure like the following example. This configures a default
