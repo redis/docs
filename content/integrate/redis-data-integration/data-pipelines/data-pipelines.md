@@ -11,7 +11,7 @@ aliases:
 RDI implements
 [change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC)
 with *pipelines*. (See the
-[architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
+[architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
 for an introduction to pipelines.)
 
 ## Overview
@@ -70,7 +70,7 @@ The sections below describe the two types of configuration file in more detail.
 
 Here is an example of a `config.yaml` file. Note that the values of the
 form "`${name}`" refer to environment variables that you should set with the
-[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-set-secret" >}})
+[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
 command. In particular, you should normally use environment variables as shown to set the source
 and target username and password rather than storing them in plain text in this
 file (see [Set secrets](#set-secrets) below for more information).
@@ -250,9 +250,9 @@ The main sections of these files are:
 - `transform`: This is an optional section describing the transformation that the pipeline
   applies to the data before writing it to the target. The `uses` property specifies a
   *transformation block* that will use the parameters supplied in the `with` section. See the 
-  [data transformation reference]({{< relref "/integrate/redis-data-integration/ingest/reference/data-transformation" >}})
+  [data transformation reference]({{< relref "/integrate/redis-data-integration/reference/data-transformation" >}})
   for more details about the supported transformation blocks, and also the
-  [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/ingest/reference/jmespath-custom-functions" >}}) reference.
+  [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) reference.
 
   {{< note >}}If you set `row_format` to `full` under the `source` settings, you can access extra data from the
   change record in the transformation:
@@ -265,7 +265,7 @@ The main sections of these files are:
   the target along with the text pattern for the key(s) that will access it.
   Note that you can map one record to more than one key in Redis or nest
   a record as a field of a JSON structure (see
-  [Data denormalization]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-denormalization" >}})
+  [Data denormalization]({{< relref "/integrate/redis-data-integration/data-pipelines/data-denormalization" >}})
   for more information about nesting). You can add the following properties in the `output` section:
   - `uses`: This must have the value `redis.write` to specify writing to a Redis data
   structure. You can add more than one block of this type in the same job.
@@ -285,9 +285,9 @@ both of these sections if you want both a custom transform and a custom key.{{< 
 
 Another example below shows how you can rename the `fname` field to `first_name` in the table `emp`
 using the
-[`rename_field`]({{< relref "/integrate/redis-data-integration/ingest/reference/data-transformation/rename_field" >}}) block. It also demonstrates how you can set the key of this record instead of relying on
+[`rename_field`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/rename_field" >}}) block. It also demonstrates how you can set the key of this record instead of relying on
 the default logic. (See the
-[Transformation examples]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/transform-examples" >}})
+[Transformation examples]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}})
 section for more examples of job files.)
 
 ```yaml
@@ -310,22 +310,22 @@ output:
 ```
 
 See the
-[RDI configuration file]({{< relref "/integrate/redis-data-integration/ingest/reference/config-yaml-reference" >}})
+[RDI configuration file]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference" >}})
 reference for full details about the
 available source, transform, and target configuration options and see
 also the
-[data transformation reference]({{< relref "/integrate/redis-data-integration/ingest/reference/data-transformation" >}})
+[data transformation reference]({{< relref "/integrate/redis-data-integration/reference/data-transformation" >}})
 for details of all the available transformation blocks.
 
 ## Source preparation
 
 Before using the pipeline you must first prepare your source database to use
 the Debezium connector for *change data capture (CDC)*. See the
-[architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
+[architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
 for more information about CDC.
 Each database type has a different set of preparation steps. You can
 find the preparation guides for the databases that RDI supports in the
-[Prepare source databases]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs" >}})
+[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
 section.
 
 ## Set secrets
@@ -333,7 +333,7 @@ section.
 Before you deploy your pipeline, you must set the authentication secrets for the
 source and target databases. Each secret has a corresponding property name that
 you can pass to the
-[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-set-secret" >}})
+[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
 command to set the property's value. You can then refer to these properties
 in `config.yaml` using the syntax "`${PROPERTY_NAME}`"
 (the sample [config.yaml file](#the-configyaml-file) shows these properties in use).
@@ -366,7 +366,7 @@ secrets are only relevant to TLS/mTLS connections.
 ## Deploy a pipeline
 
 If you are hosting RDI on your own VMs, you can use the
-[`deploy`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-deploy" >}})
+[`deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}})
 command to deploy a configuration, including the jobs, once you have created them.
 
 If your RDI CLI is deployed as a pod in a Kubernetes cluster, you should perform the following
@@ -410,7 +410,7 @@ Once you have created the configuration for a pipeline, it goes through the
 following phases:
 
 1. *Deploy* - when you deploy the pipeline, RDI first validates it before use.
-Then, the [operator]({{< relref "/integrate/redis-data-integration/ingest/architecture#how-rdi-is-deployed">}}) creates and configures the collector and stream processor that will run the pipeline.
+Then, the [operator]({{< relref "/integrate/redis-data-integration/architecture#how-rdi-is-deployed">}}) creates and configures the collector and stream processor that will run the pipeline.
 1. *Snapshot* - The collector starts the pipeline by creating a snapshot of the full
 dataset. This involves reading all the relevant source data, transforming it and then
 writing it into the Redis target. You should expect this phase to take minutes or

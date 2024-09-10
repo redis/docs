@@ -24,13 +24,13 @@ RDI engine accumulates operating statistics that you can:
 ## Console metrics
 
 RDI can display its operating metrics in the console using the
-[`redis-di status`]({{< relref "/integrate/redis-data-integration/write-behind/reference/cli/redis-di-status" >}})
+[`redis-di status`]({{< relref "/integrate/write-behind/reference/cli/redis-di-status" >}})
 command. The command provides information about the current RDI engine status, target database configuration, and processing statistics broken down by stream. This tool is intended to be used by Operator to get the current snapshot of the system as well as monitoring ongoing data processing (when used in live mode).
 
 ## Prometheus integration
 
 RDI allows collecting and exporting its metrics to [Prometheus](https://prometheus.io/) and visualizing them in [Grafana](https://grafana.com/). Operator can start the built-in exporter using the
-[`redis-di monitor`]({{< relref "/integrate/redis-data-integration/write-behind/reference/cli/redis-di-monitor" >}})
+[`redis-di monitor`]({{< relref "/integrate/write-behind/reference/cli/redis-di-monitor" >}})
 command. The diagram describes this flow and the components involved:
 
 {{< image filename="/images/rdi/monitoring-diagram.png" >}}

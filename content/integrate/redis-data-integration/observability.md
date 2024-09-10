@@ -29,12 +29,12 @@ RDI exposes two endpoints, one for [CDC collector metrics](#collector-metrics) a
 another for [stream processor metrics](#stream-processor-metrics).
 The sections below explain these sets of metrics in more detail.
 See the
-[architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
+[architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
 for an introduction to these concepts.
 
 {{< note >}}If you don't use Prometheus or Grafana, you can still see
 RDI metrics with the RDI monitoring screen in Redis Insight or with the
-[`redis-di status`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-status" >}})
+[`redis-di status`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}})
 command from the CLI.{{< /note >}}
 
 ## Collector metrics
@@ -53,7 +53,7 @@ The endpoint for the stream processor metrics is `https://<RDI_HOST>:9121/metric
 
 RDI reports metrics during the two main phases of the ingest pipeline, the *snapshot*
 phase and the *change data capture (CDC)* phase. (See the
-[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines" >}})
+[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}})
 docs for more information). The table below shows the full set of metrics that
 RDI reports. 
 
@@ -96,14 +96,14 @@ The logs are recorded at the minimum `INFO` level and get rotated when they reac
 RDI retains the last five log rotated files by default.
 Logs are in a straightforward text format, which lets you analyze them with several different observability tools.
 You can change the default log settings using the
-[`redis-di config-rdi`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-config-rdi" >}})
+[`redis-di config-rdi`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-config-rdi" >}})
 command.
 
 ## Dump support package
 
 If you ever need to send a comprehensive set of forensics data to Redis support then you should
 run the
-[`redis-di dump-support-package`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-dump-support-package" >}})
+[`redis-di dump-support-package`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-dump-support-package" >}})
 command from the CLI. See
-[Troubleshooting]({{< relref "/integrate/redis-data-integration/ingest/troubleshooting#dump-support-package" >}})
+[Troubleshooting]({{< relref "/integrate/redis-data-integration/troubleshooting#dump-support-package" >}})
 for more information.

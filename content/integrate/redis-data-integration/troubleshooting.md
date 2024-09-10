@@ -43,8 +43,8 @@ By default, RDI records the following logs in the host VM file system at
 | :-- | :-- |
 | `rdi_collector-collector-initializer.log` | Initializing the collector. |
 | `rdi_collector-debezium-ssl-init.log` | Establishing the connector SSL connections to the source and RDI database (if you are using SSL). |
-| `rdi_collector-collector-source.log` | Collector [change data capture (CDC)]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}}) operations. |
-| `rdi_rdi-rdi-operator.log` | Main [RDI control plane]({{< relref "/integrate/redis-data-integration/ingest/architecture#how-rdi-is-deployed" >}}) component. |
+| `rdi_collector-collector-source.log` | Collector [change data capture (CDC)]({{< relref "/integrate/redis-data-integration/architecture" >}}) operations. |
+| `rdi_rdi-rdi-operator.log` | Main [RDI control plane]({{< relref "/integrate/redis-data-integration/architecture#how-rdi-is-deployed" >}}) component. |
 | `rdi_processor-processor.log` | RDI stream processing. |
 
 Logs are recorded at the minimum `INFO` level in a simple format that
@@ -54,7 +54,7 @@ log analysis tools can use.
 saying RDI is out of
 memory. This is not an error but an informative message to say that RDI
 is applying *backpressure* to the collector. See
-[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/ingest/architecture#backpressure-mechanism" >}})
+[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/architecture#backpressure-mechanism" >}})
 in the Architecture guide for more information.
 {{< /note >}}
 
@@ -62,7 +62,7 @@ in the Architecture guide for more information.
 
 If you need to send a comprehensive set of forensics data to Redis support,
 run the
-[`redis-di dump-support-package`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-dump-support-package" >}})
+[`redis-di dump-support-package`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-dump-support-package" >}})
 command from the CLI.
 
 This command gathers the following data:
@@ -72,7 +72,7 @@ This command gathers the following data:
 - List of secret names used by RDI components (but not the secrets themselves)
 - RDI logs
 - RDI component versions
-- Output from the [`redis-di status`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-status" >}}) command
+- Output from the [`redis-di status`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}}) command
 - Text of the `config.yaml` file
 - Text of the Job configuration files
 - [optional] RDI DLQ streams content

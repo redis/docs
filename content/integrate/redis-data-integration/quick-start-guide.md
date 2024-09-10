@@ -24,7 +24,7 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 ## Overview
 
 The following diagram shows the structure of the pipeline we will create (see
-the [architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}}) to learn how the pipeline works):
+the [architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}}) to learn how the pipeline works):
 
 {{< image filename="images/rdi/ingest/ingest-qsg.png" >}}
 
@@ -44,7 +44,7 @@ and is already set up for the RDI collector to use.
 ### Install RDI
 
 Install RDI using the instructions in the
-[installation guide]({{< relref "/integrate/redis-data-integration/ingest/installation" >}})
+[installation guide]({{< relref "/integrate/redis-data-integration/installation" >}})
 
 RDI will create the pipeline template for your chosen source database type at
 `/opt/rdi/config`. You will need this pathname later when you prepare the pipeline for deployment
@@ -63,7 +63,7 @@ replica if you want (this will double the RAM requirements to 250MB).
 During the installation, RDI placed the pipeline templates at `/opt/rdi/config`.
 If you go to that folder and run the `ll` command, you will see the pipeline
 configuration file, `config.yaml`, and the `jobs` folder (see the page about
-[Pipelines]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines" >}}) for more information). Use Redis Insight to open
+[Pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) for more information). Use Redis Insight to open
 the `config.yaml` file and then edit the following settings:
 
 - Set the `host` to `localhost` and the `port` to 5432.
@@ -75,7 +75,7 @@ At this point, the pipeline is ready to deploy.
 ### Create a context (optional) {#create-context}
 
 To manage and inspect RDI, you can use the
-[`redis-di`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli" >}})
+[`redis-di`]({{< relref "/integrate/redis-data-integration/reference/cli" >}})
 CLI command, which has several subcommands for different purposes. Most of these commands require you
 to pass at least two options, `--rdi-host` and `--rdi-port`, to specify the host and port of your
 RDI installation. You can avoid typing these options repeatedly by saving the
@@ -87,7 +87,7 @@ you use `redis-di`. If you have more than one RDI installation, you can create a
 for each of them and select the one you want to be active using its unique name.
 
 To create a context, use the
-[`redis-di add-context`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-add-context" >}})
+[`redis-di add-context`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-add-context" >}})
 command:
 
 ```bash
@@ -96,9 +96,9 @@ redis-di add-context --rdi-host <host> --rdi-port <port> --cluster-host <Redis D
 
 These options are required but there are also a few others you can save, such as TLS credentials, if
 you are using them (see the
-[reference page]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-add-context" >}})
+[reference page]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-add-context" >}})
 for details). When you have created a context, use
-[`redis-di set-context`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-set-context" >}})
+[`redis-di set-context`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-context" >}})
 to activate it:
 
 ```bash
@@ -106,8 +106,8 @@ redis-di set-context <context name>
 ```
 
 There are also subcommands to
-[list]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-list-contexts" >}})
-and [delete]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-delete-context" >}})
+[list]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-contexts" >}})
+and [delete]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete-context" >}})
 contexts.
 
 ### Deploy the pipeline
@@ -131,9 +131,9 @@ pipeline metrics. You can also connect to your target database to see the keys t
 
 Once the pipeline has loaded a *snapshot* of all the existing data from the source,
 it enters *change data capture (CDC)* mode (see the
-[architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
+[architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
 and the
-[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines#ingest-pipeline-lifecycle" >}})
+[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#ingest-pipeline-lifecycle" >}})
 for more information
 ).
 
@@ -143,6 +143,6 @@ To see the RDI pipeline working in CDC mode:
   (see [Generating load on the database](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres?tab=readme-ov-file#generating-load-on-the-database)
   to learn how to do this).
 - Run
-  [`redis-di status --live`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-status" >}})
+  [`redis-di status --live`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}})
   to see the flow of records.
 - User [Redis Insight]({{< relref "/develop/connect/insight" >}}) to look at the data in the target database.

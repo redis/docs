@@ -22,7 +22,7 @@ RDI captures any changes to a selected set of key patterns in a Redis keyspace a
 
 RDI write-behind can normalize a key in Redis to several records in one or more tables at the target.
 To learn more about write-behind declarative jobs and normalization, see the
-[write-behind quick start guide]({{< relref "/integrate/redis-data-integration/write-behind/quickstart/write-behind-guide" >}}).
+[write-behind quick start guide]({{< relref "/integrate/write-behind/quickstart/write-behind-guide" >}}).
 
 ## Write-behind topology
 
@@ -67,6 +67,6 @@ record and the reason in a *dead letter queue (DLQ)*.
 ### RDI configuration
 
 The RDI configuration is persisted at the cluster level. The configuration is written by the CLI
-[`deploy`]({{< relref "/integrate/redis-data-integration/write-behind/reference/cli/redis-di-deploy" >}})
+[`deploy`]({{< relref "/integrate/write-behind/reference/cli/redis-di-deploy" >}})
 command, which saves all changes to the configuration file. This mechanism allows for automatic configuration of new shards
 whenever you need them, and it can survive shard and node failure.

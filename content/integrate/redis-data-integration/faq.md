@@ -68,7 +68,7 @@ new or renamed tables and columns.
 Sometimes the Debezium log will contain a message saying that RDI is out of
 memory. This is not an error but an informative message to say that RDI
 is applying *backpressure* to Debezium. See
-[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/ingest/architecture#backpressure-mechanism" >}})
+[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/architecture#backpressure-mechanism" >}})
 in the Architecture guide for more information.
 
 ## What happens when RDI can't write to the target Redis database?
@@ -92,5 +92,5 @@ job then RDI can't transform the data. When this happens, RDI will store the ori
 in a "dead letter queue" along with a message to say why it was rejected. The dead letter
 queue is stored as a capped stream in the RDI staging database. You can see its contents
 with Redis Insight or with the 
-[`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-get-rejected" >}})
+[`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-rejected" >}})
 command from the CLI.

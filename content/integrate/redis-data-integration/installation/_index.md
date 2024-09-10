@@ -80,7 +80,7 @@ firewall-cmd --reload
 ```
 
 You should also add [port rules](https://firewalld.org/documentation/howto/open-a-port-or-service.html)
-for all the [RDI services]({{< relref "/integrate/redis-data-integration/ingest/reference/ports" >}})
+for all the [RDI services]({{< relref "/integrate/redis-data-integration/reference/ports" >}})
 you intend to use:
 
 ```bash
@@ -120,7 +120,7 @@ ufw allow from 10.43.0.0/16 to any #services
 ```
 
 You should also add [port rules](https://ubuntu.com/server/docs/firewalls)
-for all the [RDI services]({{< relref "/integrate/redis-data-integration/ingest/reference/ports" >}})
+for all the [RDI services]({{< relref "/integrate/redis-data-integration/reference/ports" >}})
 you intend to use:
 
 ```bash
@@ -202,7 +202,7 @@ After the installation is finished, RDI is ready for use.
 
 You can use the
 [installer script](#installation-steps) or the
-[`redis-di install`]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-install" >}})
+[`redis-di install`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-install" >}})
 command with the `--file` option (or the shorter version `-f`) to supply answers
 to the installer's questions automatically using properties from a
 [TOML](https://toml.io/en/) file:
@@ -266,7 +266,7 @@ The sections below describe the properties in more detail.
 |-- |-- |
 | `title` | Text to identify the file. RDI doesn't use use this, so you can use any text you like. |
 | `high_availability` | Do you want to enable replication on the RDI database (true/false)? You should only use this if you ask the installer to create the RDI database for you. |
-| `scaffold` | Do you want to enable [scaffolding]({{< relref "/integrate/redis-data-integration/ingest/reference/cli/redis-di-scaffold" >}}) during the install? (true/false) |
+| `scaffold` | Do you want to enable [scaffolding]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-scaffold" >}}) during the install? (true/false) |
 | `db_index` | Integer to specify the source database type for scaffolding. The options are 2 (MySQL/MariaDB), 3 (Oracle), 4 (PostgreSQL), and 5 (SQL Server). |
 | `deploy_directory` | Path to the directory where you want to store the RDI configuration. |
 
@@ -318,7 +318,7 @@ You must also set `ssl` to `true` in the
 ## Prepare your source database
 
 You must also configure your source database to use the Debezium connector for CDC. See the
-[Prepare source databases]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs" >}})
+[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
 section to learn how to do this.
 
 ## Uninstall RDI

@@ -69,7 +69,7 @@ RDI provides enterprise-grade streaming data pipelines with the following featur
 - **Backpressure mechanism** - RDI is designed to backoff writing data when the cache gets
   disconnected, which prevents cascading failure. Since the change data is persisted in the source
   database and Redis is very fast, RDI can easily catch up with missed changes after a short period of
-  disconnection. See [Backpressure mechanism]({{< relref "/integrate/redis-data-integration/ingest/architecture #backpressure-mechanism">}}) for more information.
+  disconnection. See [Backpressure mechanism]({{< relref "/integrate/redis-data-integration/architecture #backpressure-mechanism">}}) for more information.
 - **Recovering from full failure** - If the cache fails or gets disconnected for a long time,
   RDI can reconstruct the cache data in Redis using a full snapshot of the defined dataset.
 - **High throughput** - Because RDI uses Redis for staging and writes to Redis as a target,

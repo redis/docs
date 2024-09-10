@@ -127,7 +127,7 @@ to do this.
 
 RDI captures an initial *snapshot* of the source database when it begins
 the CDC process (see the
-[architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
+[architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
 for more information). If your database is large then the connection could time out
 while RDI is reading the data for the snapshot. You can prevent this using the
 `interactive_timeout` and `wait_timeout` settings in your MySQL configuration file:
