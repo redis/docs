@@ -1,6 +1,6 @@
 ---
 Title: Architecture
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/architecture/
 alwaysopen: false
 categories:
 - docs

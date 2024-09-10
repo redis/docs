@@ -1,6 +1,6 @@
 ---
 Title: Troubleshooting
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/troubleshooting/
 alwaysopen: false
 categories:
 - docs

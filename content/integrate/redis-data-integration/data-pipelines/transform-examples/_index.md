@@ -1,6 +1,6 @@
 ---
 Title: Transformation examples
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/
 alwaysopen: false
 categories:
 - docs

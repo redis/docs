@@ -1,6 +1,6 @@
 ---
 Title: Prepare PostgreSQL for RDI
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/postgresql/
 alwaysopen: false
 categories:
 - docs

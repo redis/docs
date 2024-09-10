@@ -1,6 +1,6 @@
 ---
 Title: rename_field
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/reference/data-transformation/rename_field/
 alwaysopen: false
 categories:
   - docs

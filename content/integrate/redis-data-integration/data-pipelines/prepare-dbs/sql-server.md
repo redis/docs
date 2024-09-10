@@ -1,6 +1,6 @@
 ---
 Title: Prepare SQL Server for RDI
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/sql-server/
 alwaysopen: false
 categories:
 - docs

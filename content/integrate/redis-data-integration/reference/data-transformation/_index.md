@@ -1,6 +1,6 @@
 ---
 Title: Data transformation reference
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/reference/data-transformation/
 alwaysopen: false
 categories:
 - docs

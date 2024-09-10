@@ -1,6 +1,6 @@
 ---
 Title: FAQ
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/faq/
 alwaysopen: false
 categories:
 - docs

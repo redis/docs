@@ -1,6 +1,7 @@
 ---
 Title: Redis Data Integration release notes 1.2 (June 2024)
 alwaysopen: false
+aliases: /integrate/redis-data-integration/ingest/release-notes/rdi-1-2/
 categories:
 - docs
 - operate

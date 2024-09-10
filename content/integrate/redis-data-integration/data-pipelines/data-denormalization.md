@@ -1,6 +1,6 @@
 ---
 Title: Data denormalization
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/data-pipelines/data-denormalization/
 alwaysopen: false
 categories:
 - docs

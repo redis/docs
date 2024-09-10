@@ -1,6 +1,6 @@
 ---
 Title: RDI ports and protocols
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/reference/ports/
 alwaysopen: false
 categories:
   - docs

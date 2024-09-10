@@ -1,6 +1,6 @@
 ---
 Title: remove_field
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/reference/data-transformation/remove_field/
 alwaysopen: false
 categories:
   - docs

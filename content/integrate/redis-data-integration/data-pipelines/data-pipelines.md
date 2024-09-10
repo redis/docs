@@ -5,7 +5,7 @@ description: Learn how to configure ingest pipelines for data transformation
 weight: 1
 alwaysopen: false
 categories: ["redis-di"]
-aliases:
+aliases: /integrate/redis-data-integration/ingest/data-pipelines/data-pipelines/
 ---
 
 RDI implements

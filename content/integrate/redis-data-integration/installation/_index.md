@@ -1,6 +1,6 @@
 ---
 Title: Installation
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/installation/
 alwaysopen: false
 categories:
 - docs

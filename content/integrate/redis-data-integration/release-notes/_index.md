@@ -1,6 +1,6 @@
 ---
 Title: Release notes
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/release-notes/
 alwaysopen: false
 categories:
 - docs

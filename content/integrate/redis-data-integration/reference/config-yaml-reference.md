@@ -5,7 +5,7 @@ description: Redis Data Integration configuration file reference
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
-aliases:
+aliases: /integrate/redis-data-integration/ingest/reference/config-yaml-reference/
 ---
 
 **Properties**

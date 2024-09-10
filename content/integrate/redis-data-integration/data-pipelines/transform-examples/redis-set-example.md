@@ -1,6 +1,6 @@
 ---
 Title: Write to a Redis set
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-set-example/
 alwaysopen: false
 categories:
 - docs

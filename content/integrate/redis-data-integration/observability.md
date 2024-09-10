@@ -1,6 +1,6 @@
 ---
 Title: Observability
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/observability/
 alwaysopen: false
 categories:
 - docs

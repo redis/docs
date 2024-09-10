@@ -1,6 +1,6 @@
 ---
 Title: Data type handling
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/data-pipelines/data-type-handling/
 alwaysopen: false
 categories:
 - docs

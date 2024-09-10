@@ -5,7 +5,7 @@ description: Get started with a simple pipeline example
 weight: 1
 alwaysopen: false
 categories: ["redis-di"]
-aliases:
+aliases: /integrate/redis-data-integration/ingest/quick-start-guide/
 ---
 
 In this tutorial you will learn how to install RDI and set up a pipeline to ingest live data from a [PostgreSQL](https://www.postgresql.org/) database into a Redis database.

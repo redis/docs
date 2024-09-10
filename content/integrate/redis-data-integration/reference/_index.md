@@ -1,6 +1,6 @@
 ---
 Title: Reference
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/reference/
 alwaysopen: false
 categories:
 - docs

@@ -1,6 +1,6 @@
 ---
 Title: Write to a Redis JSON document
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-json-example/
 alwaysopen: false
 categories:
 - docs

@@ -1,6 +1,6 @@
 ---
 Title: filter
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/reference/data-transformation/filter/
 alwaysopen: false
 categories:
   - docs

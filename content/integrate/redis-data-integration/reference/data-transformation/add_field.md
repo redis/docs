@@ -1,6 +1,6 @@
 ---
 Title: add_field
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/reference/data-transformation/add_field/
 alwaysopen: false
 categories:
   - docs

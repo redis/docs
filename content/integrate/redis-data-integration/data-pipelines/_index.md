@@ -1,6 +1,6 @@
 ---
 Title: Data pipelines
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/data-pipelines/
 alwaysopen: false
 categories:
 - docs

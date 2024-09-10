@@ -1,6 +1,6 @@
 ---
 Title: map
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/reference/data-transformation/map/
 alwaysopen: false
 categories:
   - docs
