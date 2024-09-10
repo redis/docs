@@ -1,5 +1,5 @@
 ---
-Title: Redis Data Integration configuration file
+Title: Write-behind configuration file
 aliases: /integrate/redis-data-integration/write-behind/reference/config-yaml-reference/
 alwaysopen: false
 categories:
@@ -7,7 +7,7 @@ categories:
   - integrate
   - rs
   - rdi
-description: Redis Data Integration configuration file reference
+description: Write-behind configuration file reference
 group: di
 linkTitle: Write-behind configuration file
 summary:
@@ -17,18 +17,18 @@ type: integration
 weight: 10
 ---
 
-## Redis Data Integration Configuration File
+## Write-behind Configuration File
 
 **Properties**
 
 | Name                                                                                       | Type             | Description | Required |
 | ------------------------------------------------------------------------------------------ | ---------------- | ----------- | -------- |
-| [**applier**](#applier)<br/>(Configuration details of Redis Data Integration Applier Gear) | `object`, `null` |             |          |
+| [**applier**](#applier)<br/>(Configuration details of Write-behind Applier Gear) | `object`, `null` |             |          |
 | [**connections**](#connections)                                                            | `object`         |             |          |
 
 <a name="applier"></a>
 
-### applier: Configuration details of Redis Data Integration Applier Gear
+### applier: Configuration details of Write-behind Applier Gear
 
 **Properties**
 

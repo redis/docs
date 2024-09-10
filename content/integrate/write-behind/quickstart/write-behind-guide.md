@@ -23,7 +23,7 @@ This guide takes you through the creation of a write-behind pipeline.
 
 ## Concepts
 
-**Write-behind** is a Write-behind pipeline used to synchronize data in a Redis database with a downstream data store.
+**Write-behind** is a processing pipeline used to synchronize data in a Redis database with a downstream data store.
 You can think about it as a pipeline that starts with change data capture (CDC) events for a Redis database and then filters, transforms, and maps the data to the target data store data structures.
 
 The **target** data store to which the write-behind pipeline connects and writes data.

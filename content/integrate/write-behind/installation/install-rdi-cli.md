@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: Install Redis Data Integration CLI
+description: Install Write-behind CLI
 group: di
 linkTitle: Install Write-behind CLI
 summary: Redis Data Integration keeps Redis in sync with the primary database in near

@@ -25,7 +25,7 @@ weight: null
 debezium.sink.type=redis
 debezium.sink.redis.message.format=extended
 debezium.sink.redis.address=<RDI_HOST>:<RDI_PORT>
-# Comment the following line if not using a password for Redis Data Integration.
+# Comment the following line if not using a password for Write-behind.
 debezium.sink.redis.password=<RDI_PASSWORD>
 debezium.sink.redis.memory.limit.mb=80
 # Redis SSL/TLS

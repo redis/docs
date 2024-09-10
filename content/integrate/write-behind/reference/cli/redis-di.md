@@ -7,7 +7,7 @@ categories:
   - integrate
   - rs
   - rdi
-description: A command line tool to manage & configure Redis Data Integration
+description: A command line tool to manage & configure Write-behind
 group: di
 linkTitle: redis-di
 summary:
@@ -46,7 +46,7 @@ Usage: redis-di [OPTIONS] COMMAND [ARGS]...
 ```
 Usage: redis-di [OPTIONS] COMMAND [ARGS]...
 
-  A command line tool to manage & configure Redis Data Integration
+  A command line tool to manage & configure Write-behind
 
 Options:
   --version  Show the version and exit.
