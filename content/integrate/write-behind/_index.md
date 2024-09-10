@@ -14,6 +14,6 @@ linkTitle: Write-behind
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 20
+weight: 2
 ---
 

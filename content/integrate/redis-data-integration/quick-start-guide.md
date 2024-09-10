@@ -1,7 +1,7 @@
 ---
 Title: Quickstart
 linkTitle: Quickstart
-description: Get started with a simple ingest pipeline example
+description: Get started with a simple pipeline example
 weight: 1
 alwaysopen: false
 categories: ["redis-di"]

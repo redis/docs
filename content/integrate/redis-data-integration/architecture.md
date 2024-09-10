@@ -1,5 +1,5 @@
 ---
-Title: Ingest architecture
+Title: Architecture
 aliases: null
 alwaysopen: false
 categories:
@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: Discover the main components of RDI ingest
+description: Discover the main components of RDI
 group: di
 headerRange: '[2]'
 linkTitle: Architecture

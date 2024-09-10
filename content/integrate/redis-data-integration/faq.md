@@ -1,5 +1,5 @@
 ---
-Title: Ingest FAQ
+Title: FAQ
 aliases: null
 alwaysopen: false
 categories:
@@ -7,10 +7,10 @@ categories:
 - integrate
 - rs
 - rdi
-description: Find answers to common questions about RDI ingest
+description: Find answers to common questions about RDI
 group: di
 hideListLinks: false
-linkTitle: Ingest FAQ
+linkTitle: FAQ
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration

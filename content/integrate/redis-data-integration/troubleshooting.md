@@ -1,5 +1,5 @@
 ---
-Title: Ingest troubleshooting
+Title: Troubleshooting
 aliases: null
 alwaysopen: false
 categories:
@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: Solve and report simple problems with RDI ingest
+description: Solve and report simple problems with RDI
 group: di
 hideListLinks: false
 linkTitle: Troubleshooting

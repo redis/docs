@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: Learn how to monitor RDI ingest
+description: Learn how to monitor RDI
 group: di
 hideListLinks: false
 linkTitle: Observability
