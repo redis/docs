@@ -1,6 +1,6 @@
 ---
 Title: CLI
-aliases: null
+aliases: /integrate/redis-data-integration/write-behind/reference/cli/
 alwaysopen: false
 categories:
   - docs

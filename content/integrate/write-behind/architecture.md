@@ -1,6 +1,6 @@
 ---
 Title: RDI write-behind architecture
-aliases: null
+aliases: /integrate/redis-data-integration/write-behind/architecture/
 alwaysopen: false
 categories:
 - docs

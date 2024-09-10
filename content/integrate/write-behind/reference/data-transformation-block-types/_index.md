@@ -1,6 +1,6 @@
 ---
 Title: Data transformation block types
-aliases: null
+aliases: /integrate/redis-data-integration/write-behind/reference/data-transformation-block-types/
 alwaysopen: false
 categories:
   - docs

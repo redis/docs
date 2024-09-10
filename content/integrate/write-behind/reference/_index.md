@@ -1,6 +1,6 @@
 ---
 Title: Redis Data Integration reference
-aliases: null
+aliases: /integrate/redis-data-integration/write-behind/reference/
 alwaysopen: false
 categories:
   - docs

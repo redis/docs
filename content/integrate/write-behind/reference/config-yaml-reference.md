@@ -1,6 +1,6 @@
 ---
 Title: Redis Data Integration configuration file
-aliases: null
+aliases: /integrate/redis-data-integration/write-behind/reference/config-yaml-reference/
 alwaysopen: false
 categories:
   - docs

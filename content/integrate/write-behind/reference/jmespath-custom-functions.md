@@ -1,6 +1,6 @@
 ---
 Title: JMESPath custom functions
-aliases: null
+aliases: /integrate/redis-data-integration/write-behind/reference/jmespath-custom-functions/
 alwaysopen: false
 categories:
   - docs

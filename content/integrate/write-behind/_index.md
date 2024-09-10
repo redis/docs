@@ -1,6 +1,6 @@
 ---
-Title: Write-behind
-aliases: null
+Title: Write-behind (preview)
+aliases: /integrate/redis-data-integration/write-behind/
 alwaysopen: false
 categories:
 - docs
@@ -10,7 +10,7 @@ categories:
 description: null
 group: di
 hideListLinks: false
-linkTitle: Write-behind
+linkTitle: Write-behind (preview)
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
