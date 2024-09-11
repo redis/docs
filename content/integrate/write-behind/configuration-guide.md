@@ -23,7 +23,7 @@ This guide shows you how to configure write-behind target connections.
 ## Overview
 Write-behind target connections are the connections established between an Write-behind instance and a target database in a
 [write-behind scenario]({{< relref "/integrate/write-behind/quickstart/write-behind-guide" >}}).
-Write-behind is used to replicate changes captured in an Write-behind-enabled Redis Enterprise database to a target database. 
+Write-behind is used to replicate changes captured in a Write-behind-enabled Redis Enterprise database to a target database. 
 The connections must be configured in the `config.yaml` before deploying any jobs and must follow one of the formats shown below. Multiple connections can be specified in the `connections` section.
 
 ### For relational datastores
