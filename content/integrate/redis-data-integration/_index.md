@@ -56,7 +56,7 @@ RDI provides enterprise-grade streaming data pipelines with the following featur
 - **Data integrity** - RDI keeps the data change order per source table or unique key.
 - **High availability** - All stateless components have hot failover or quick automatic recovery.
   RDI state is always highly available using Redis Enterprise replication.
-- **Easy to install and operate** - Use a self documenting command line interface (CLI)
+- **Easy to install and operate** - Use a self-documenting command line interface (CLI)
   for all installation and day-two operations.
 - **No coding needed** - Create and test your pipelines using Redis Insight.
 - **Data-in-transit encryption** - RDI never persists data to disk. All data in-flight is
