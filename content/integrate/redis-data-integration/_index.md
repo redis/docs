@@ -87,11 +87,11 @@ but it will soon struggle to handle the increasing demand without a cache.
 
 You should use RDI when:
 
-- You must use a slow database as the system of record for the app 
-- The app must always *write* its data to the slow database
-- You already intend to use Redis for the app cache
-- The data changes frequently in small increments
-- Your app can tolerate *eventual* consistency of data in the Redis cache
+- You must use a slow database as the system of record for the app .
+- The app must always *write* its data to the slow database.
+- You already intend to use Redis for the app cache.
+- The data changes frequently in small increments.
+- Your app can tolerate *eventual* consistency of data in the Redis cache.
 
 You should *not* use RDI when:
 
