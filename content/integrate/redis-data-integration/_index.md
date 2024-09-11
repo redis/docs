@@ -95,12 +95,12 @@ You should use RDI when:
 
 You should *not* use RDI when:
 
-- You are migrating an existing data set into Redis only once
-- The data is updated infrequently and in big batches
-- Your app needs *immediate* cache consistency rather than *eventual* consistency
-- The data is ingested from two replicas of Active-Active at the same time
-- The app must *write* data to the Redis cache, which then updates the source database
-- Your data set will only ever be small
+- You are migrating an existing data set into Redis only once.
+- The data is updated infrequently and in big batches.
+- Your app needs *immediate* cache consistency rather than *eventual* consistency.
+- The data is ingested from two replicas of Active-Active at the same time.
+- The app must *write* data to the Redis cache, which then updates the source database.
+- Your data set will only ever be small.
 
 ## Supported source databases
 
