@@ -107,7 +107,7 @@ You should *not* use RDI when:
 RDI can capture data from any of the following sources:
 
 | Database                    | Versions               |
-| --------------------------- | ---------------------- |
+| :-------------------------- | :--------------------- |
 | Oracle                      | 12c, 19c, 21c          |
 | MariaDB                     | >= 10.5                |
 | MySQL                       | 5.7, 8.0.x             |
