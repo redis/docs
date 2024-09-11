@@ -25,7 +25,7 @@ RDI's purpose is to help Redis customers sync Redis Enterprise with live data fr
 - Save resources and time when building pipelines and coding data transformations.
 - Reduce the total cost of ownership by saving money on expensive database read replicas.
 
-If you use a relational database as the *system of record* for your app,
+If you use a relational database as the system of record for your app,
 you may eventually find
 that its performance doesn't scale well as your userbase grows. It may be
 acceptable for a few thousand users but for a few million, it can become a
