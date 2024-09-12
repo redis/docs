@@ -99,6 +99,12 @@ To add capabilities to the database:
     
 1. Click **Done**.
 
+To change capabilities' parameters for an existing database using the Cluster Manager UI:
+
+  1. In the **Capabilities** section, click **Edit Parameters**.
+
+  1. After you finish editing the module's configuration parameters, click **Done** to close the parameter editor.
+
 ### High Availability
 
 - [**Replication**]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}) - We recommend you use intra-cluster replication to create replica shards for each database for high availability.
