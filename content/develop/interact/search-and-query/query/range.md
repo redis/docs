@@ -72,7 +72,7 @@ The following query finds bicycles within a price range greater than or equal to
 This is semantically equivalent to:
 
 {{< clients-example query_range range2 >}}
-FT.SEARCH idx:bicycle "*" FILTER price 500 1000
+> FT.SEARCH idx:bicycle "*" FILTER price 500 1000
 1) (integer) 3
 2) "bicycle:2"
 3) 1) "$"
