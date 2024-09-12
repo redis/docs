@@ -48,23 +48,43 @@ Gets the status of all nodes. Includes each node's hostname and role in the clus
 
 ### Response {#get-all-response} 
 
-For each node in the cluster, returns a JSON object that contains the node's hostname and role.
+For each node in the cluster, returns a JSON object that contains each node's hostname, role, and other status details.
+
+If a maintenance snapshot exists due to an in-progress or improperly stopped [node maintenance]({{<relref "/operate/rs/clusters/maintenance-mode">}}) process, the response includes a `maintenance_snapshot` field.
 
 #### Example JSON body
 
 ```json
 {
     "1": {
+        "cores": 8,
+        "free_provisional_ram": 0,
+        "free_ram": 3499368448,
         "hostname": "3d99db1fdf4b",
-        "role": "master"
+        "maintenance_snapshot": {
+            "created_time": "2024-09-06 20:47:23",
+            "name": "maintenance_mode_2024-09-06_20-47-23",
+            "node_uid": "1"
+        },
+        "master_shards": [],
+        "node_overbooking_depth": 0,
+        "node_status": "active",
+        "role": "master",
+        "slave_shards": [],
+        "software_version": "7.4.6-22",
+        "software_version_sha": "6c37b1483b5fb6110c8055c1526aa58eec1d29d3519e92310859101419248831",
+        "total_memory": 6219673600,
+        "total_provisional_ram": 0
     },
     "2": {
         "hostname": "fc7a3d332458",
-        "role": "slave"
+        "role": "slave",
+        // additional fields
     },
     "3": {
         "hostname": "b87cc06c830f",
-        "role": "slave"
+        "role": "slave",
+        // additional fields
     }
 }
 ```
@@ -116,14 +136,32 @@ Gets the status of a node. Includes the node's hostname and role in the cluster:
 
 ### Response {#get-response} 
 
-Returns a JSON object that contains the node's hostname and role.
+Returns a JSON object that contains the node's hostname, role, and other status details.
+
+If a maintenance snapshot exists due to an in-progress or improperly stopped [node maintenance]({{<relref "/operate/rs/clusters/maintenance-mode">}}) process, the response includes a `maintenance_snapshot` field.
 
 #### Example JSON body
 
 ```json
 {
+    "cores": 8,
+    "free_provisional_ram": 0,
+    "free_ram": 3504422912,
     "hostname": "3d99db1fdf4b",
-    "role": "master"
+    "maintenance_snapshot": {
+        "created_time": "2024-09-06 20:47:23",
+        "name": "maintenance_mode_2024-09-06_20-47-23",
+        "node_uid": "1"
+    },
+    "master_shards": [],
+    "node_overbooking_depth": 0,
+    "node_status": "active",
+    "role": "master",
+    "slave_shards": [],
+    "software_version": "7.4.6-22",
+    "software_version_sha": "6c37b1483b5fb6110c8055c1526aa58eec1d29d3519e92310859101419248831",
+    "total_memory": 6219673600,
+    "total_provisional_ram": 0
 }
 ```
 
