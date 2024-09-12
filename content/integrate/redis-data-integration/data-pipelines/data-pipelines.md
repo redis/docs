@@ -48,7 +48,7 @@ data in Redis as
 
 The diagram below shows the flow of data through the pipeline:
 
-{{< image filename="/images/rdi/data-transformation-pipeline.png" >}}
+{{< image filename="/images/rdi/RDIPipeDataflow.drawio.svg" >}}
 
 ## Pipeline configuration
 
