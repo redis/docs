@@ -42,7 +42,7 @@ An error occurs if a user tries to connect to a memcached database with the user
 
     {{<image filename="images/rc/data-access-control-users-add-role.png" width="300px" alt="User select role." >}}
 
-1. Enter and confirm the user's password. ACL user passwords must be between 8 and 28 characters long and contain a combination of uppercase and lowercase letters, numbers, and special characters. 
+1. Enter and confirm the user's password. ACL user passwords must be between 8 and 128 characters long.
 
     Then, select the check mark to save the user. 
 
