@@ -126,13 +126,13 @@ the client and server, resulting in better performance. See
 [Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
 for more information about how CSC works and how to use it effectively.
 
-To enable CSC, you simply need to add a few extra parameters when you connect
+To enable CSC, you simply need to add some extra parameters when you connect
 to the server:
 
 -   `protocol`: (Required) You must pass a value of `3` here because
     CSC requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
     protocol.
--   `cache_enabled`: (Required) Pass a `True` value here to enable CSC
+-   `cache_config`: (Required) Pass `cache_config=CacheConfig()` here to enable CSC.
 
 The example below shows the simplest CSC connection to the default host and port,
 `localhost:6379`.
@@ -140,9 +140,12 @@ All of the connection variants described above accept these parameters, so you c
 use CSC with a connection pool or a cluster connection in exactly the same way.
 
 ```python
+import redis
+from redis.cache import CacheConfig
+
 r = redis.Redis(
     protocol=3,
-    cache_enabled=True,
+    cache_config=CacheConfig(),
     decode_responses=True
 )
 
@@ -154,7 +157,7 @@ cityNameAttempt2 = r.get("city")    # Retrieved from cache
 You can see the cache working if you connect to the same Redis database
 with [`redis-cli`]({{< relref "/develop/connect/cli" >}}) and run the
 [`MONITOR`]({{< relref "/commands/monitor" >}}) command. If you run the
-code above with the `cache_enabled` line commented out, you should see
+code above with the `cache_config` line commented out, you should see
 the following in the CLI among the output from `MONITOR`:
 
 ```
@@ -164,7 +167,7 @@ the following in the CLI among the output from `MONITOR`:
 ```
 
 This shows that the server responds to both `get("city")` calls.
-If you run the code again with `cache_enabled` uncommented, you will see
+If you run the code again with `cache_config` uncommented, you will see
 
 ```
 1723110248.712663 [...] "SET" "city" "New York"
@@ -177,8 +180,8 @@ call was satisfied by the cache.
 ### Removing items from the cache
 
 You can remove individual keys from the cache with the
-`invalidate_key_from_cache()` method. This removes all cached items associated
-with the key, so all results from multi-key commands (such as
+`delete_by_redis_keys()` method. This removes all cached items associated
+with the keys, so all results from multi-key commands (such as
 [`MGET`]({{< relref "/commands/mget" >}})) and composite data structures
 (such as [hashes]({{< relref "/develop/data-types/hashes" >}})) will be
 cleared at once. The example below shows the effect of removing a single
@@ -191,7 +194,8 @@ r.hget("person:1", "name") # Read from the cache
 r.hget("person:2", "name") # Read from the server
 r.hget("person:2", "name") # Read from the cache
 
-r.invalidate_key_from_cache("person:1")
+cache = r.get_cache()
+cache.delete_by_redis_keys(["person:1"])
 
 r.hget("person:1", "name") # Read from the server
 r.hget("person:1", "name") # Read from the cache
@@ -199,7 +203,7 @@ r.hget("person:1", "name") # Read from the cache
 r.hget("person:2", "name") # Still read from the cache
 ```
 
-You can also clear all cached items using the `flush_cache()`
+You can also clear all cached items using the `flush()`
 method:
 
 ```python
@@ -209,7 +213,8 @@ r.hget("person:1", "name") # Read from the cache
 r.hget("person:2", "name") # Read from the cache
 r.hget("person:2", "name") # Read from the cache
 
-r.flush_cache()
+cache = r.get_cache()
+cache.flush()
 
 r.hget("person:1", "name") # Read from the server
 r.hget("person:1", "name") # Read from the cache

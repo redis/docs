@@ -205,40 +205,25 @@ for more information about how CSC works and how to use it effectively.
 
 To enable CSC, you simply need to specify the
 [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
-protocol and pass a suitable cache instance during the connection. Jedis supports
-the [Guava](https://mvnrepository.com/artifact/com.google.guava/guava)
-and [Caffeine](https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine)
-cache libraries for CSC.
+protocol and pass a cache configuration object during the connection.
 
 The example below shows the simplest CSC connection to the default host and port,
-`localhost:6379`, using a Guava cache.
+`localhost:6379`.
 All of the connection variants described above accept these parameters, so you can
 use CSC with a connection pool or a cluster connection in exactly the same way.
 
 ```java
-// Connection details.
-HostAndPort node = HostAndPort.from("localhost:6379");
-JedisClientConfig clientConfig = DefaultJedisClientConfig.builder()
-                                    .resp3() // RESP3 protocol
-                                    .build();
+HostAndPort endpoint = new HostAndPort("localhost", 6379);
 
-// Create a Guava cache instance (see below for Caffeine equivalent).
-GuavaClientSideCache clientSideCache = GuavaClientSideCache.builder()
-								.maximumSize(1000)
-								.build();
+DefaultJedisClientConfig config = DefaultJedisClientConfig
+    .builder()
+    .password("secretPassword")
+    .protocol(RedisProtocol.RESP3)
+    .build();
 
-UnifiedJedis client = new UnifiedJedis(node, 
-							clientConfig, 
-							clientSideCache);
-```
+CacheConfig cacheConfig = CacheConfig.builder().maxSize(1000).build();
 
-If you prefer to use a Caffeine cache then the code to create it is very
-similar:
-
-```java
-CaffeineClientSideCache clientSideCache = CaffeineClientSideCache.builder()
-							.maximumSize(1000)
-							.build();
+UnifiedJedis client = new UnifiedJedis(endpoint, config, cacheConfig);
 ```
 
 Once you have connected, the usual Redis commands will work transparently
@@ -253,7 +238,7 @@ client.get("city");     // Retrieved from cache
 You can see the cache working if you connect to the same Redis database
 with [`redis-cli`]({{< relref "/develop/connect/cli" >}}) and run the
 [`MONITOR`]({{< relref "/commands/monitor" >}}) command. If you run the
-code above but without passing `clientSideCache` during the connection,
+code above but without passing `cacheConfig` during the connection,
 you should see the following in the CLI among the output from `MONITOR`:
 
 ```
@@ -263,7 +248,7 @@ you should see the following in the CLI among the output from `MONITOR`:
 ```
 
 This shows that the server responds to both `get("city")` calls.
-If you run the code with `clientSideCache` added in again, you will see
+If you run the code with `cacheConfig` added in again, you will see
 
 ```
 1723110248.712663 [...] "SET" "city" "New York"
@@ -275,8 +260,8 @@ call was satisfied by the cache.
 
 ### Removing items from the cache
 
-You can remove one or more individual keys from the cache with the
-`invalidate()` method of the cache object. This removes all cached items associated
+You can remove individual keys from the cache with the
+`deleteByRedisKey()` method of the cache object. This removes all cached items associated
 with each specified key, so all results from multi-key commands (such as
 [`MGET`]({{< relref "/commands/mget" >}})) and composite data structures
 (such as [hashes]({{< relref "/develop/data-types/hashes" >}})) will be
@@ -290,9 +275,8 @@ client.hget("person:1", "name");    // Read from the cache
 client.hget("person:2", "name");    // Read from the server
 client.hget("person:2", "name");    // Read from the cache
 
-List<byte[]> keysList = new ArrayList<>();
-keysList.add("person:1".getBytes());
-clientSideCache.invalidate(keysList);
+Cache myCache = client.getCache();
+myCache.deleteByRedisKey("person:1");
 
 client.hget("person:1", "name");    // Read from the server
 client.hget("person:1", "name");    // Read from the cache
@@ -300,7 +284,7 @@ client.hget("person:1", "name");    // Read from the cache
 client.hget("person:2", "name");    // Still read from the cache
 ```
 
-You can also clear all cached items using the `clear()`
+You can also clear all cached items using the `flush()`
 method:
 
 ```java
@@ -310,7 +294,8 @@ client.hget("person:1", "name");    // Read from the cache
 client.hget("person:2", "name");    // Read from the server
 client.hget("person:2", "name");    // Read from the cache
 
-clientSideCache.clear();
+Cache myCache = client.getCache();
+myCache.flush();
 
 client.hget("person:1", "name");    // Read from the server
 client.hget("person:1", "name");    // Read from the cache
