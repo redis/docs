@@ -15,7 +15,7 @@ The [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) [allow 
 
 
 {{< note >}}
-To use the CDIR allow list, you must be on either paid Redis Cloud Essentials or on Redis Cloud Pro.  This feature is not supported on free Redis Cloud Essentials plans.
+To use the CIDR allow list, you must be on either paid Redis Cloud Essentials or on Redis Cloud Pro.  This feature is not supported on free Redis Cloud Essentials plans.
 {{< /note >}}
 
 ## Define CIDR allow list

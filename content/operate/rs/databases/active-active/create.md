@@ -87,7 +87,7 @@ Every instance of an Active-Active database can receive write operations, and al
         {{<image filename="images/rs/screenshots/databases/active-active-databases/create-db-add-participating-clusters.png" alt="Add cluster panel.">}}
 
         {{<note>}}
-You cannot add RAM-only clusters and [flash-enabled clusters]({{< relref "/operate/rs/databases/auto-tiering" >}}) to the same Active-Active configuration.
+If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
         {{</note>}}
 
     1. Click **Join cluster** to add the cluster to the list of participating clusters. 

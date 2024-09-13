@@ -57,6 +57,17 @@ A key is ignored if it does not exist.
 
 ## Examples
 
+{{< clients-example cmds_generic del >}}
+> SET key1 "Hello"
+"OK"
+> SET key2 "World"
+"OK"
+> DEL key1 key2 key3
+(integer) 2
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 SET key1 "Hello"
 SET key2 "World"

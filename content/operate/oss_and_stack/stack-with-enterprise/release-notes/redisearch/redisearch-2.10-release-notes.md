@@ -13,10 +13,20 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.6 requires:
+RediSearch v2.10.7 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+
+## v2.10.7 (Septermber 2024)
+
+This is a maintenance release for RediSearch 2.10
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug Fixes
+- https://github.com/RediSearch/RediSearch/pull/4941 Adjusting the module configuration to avoid routing overload on the first shard in a clustered database (MOD-7505)
+- https://github.com/RediSearch/RediSearch/pull/4950 `FT.PROFILE` on `AGGREGATE` numeric queries could cause a crash due to reuse of an internal CURSOR in a large range of numeric values (MOD-7454)
 
 ## v2.10.6 (August 2024):
 
