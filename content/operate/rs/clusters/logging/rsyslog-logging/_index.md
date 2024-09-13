@@ -11,11 +11,6 @@ hideListLinks: true
 linktitle: rsyslog
 weight: $weight
 ---
-This document explains the structure of Redis Enterprise Software log entries in `rsyslog` and how to use these log entries to identify events.
-
-{{<note>}}
-You can also [secure your logs]({{< relref "/operate/rs/clusters/logging/log-security.md" >}}) with a remote logging server and log rotation.
-{{</note>}}
 
 ## Log concepts
 
@@ -24,6 +19,8 @@ Redis Enterprise Software logs information from a variety of components in respo
 In some cases, a single action, such as removing a node from the cluster, may actually consist of several events. These actions may generate multiple log entries.
 
 All log entries displayed in the Cluster Manager UI are also written to `syslog`.  You can configure `rsyslog` to monitor `syslog`. Enabled alerts are logged to `syslog` and appear with other log entries.
+
+You can also [manage your logs]({{< relref "/operate/rs/clusters/logging/log-security" >}}) with a remote logging server and log rotation.
 
 ### Types of log entries
 
