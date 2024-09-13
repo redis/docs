@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'How to use native types in a Redis module
-
-  '
+description: How to use native types in a Redis module
 linkTitle: Native types API
 title: Modules API for native types
 weight: 1
@@ -34,8 +32,7 @@ the API exported by the Redis modules system in order to create new data
 structures and handle the serialization in RDB files, the rewriting process
 in AOF, the type reporting via the [`TYPE`]({{< relref "/commands/type" >}}) command, and so forth.
 
-Overview of native types
----
+## Overview of native types
 
 A module exporting a native type is composed of the following main parts:
 
@@ -51,8 +48,7 @@ is available inside the Redis distribution in the `/modules/hellotype.c` file.
 The reader is encouraged to read the documentation by looking at this example
 implementation to see how things are applied in the practice.
 
-Registering a new data type
-===
+## Register a new data type
 
 In order to register a new native type into the Redis core, the module needs
 to declare a global variable that will hold a reference to the data type.
@@ -134,11 +130,7 @@ registration function: `rdb_load`, `rdb_save`, `aof_rewrite`, `digest` and
 * `mem_usage` is called when the [`MEMORY`]({{< relref "/commands/memory" >}}) command asks for the total memory consumed by a specific key, and is used in order to get the amount of bytes used by the module value.
 * `free` is called when a key with the module native type is deleted via [`DEL`]({{< relref "/commands/del" >}}) or in any other mean, in order to let the module reclaim the memory associated with such a value.
 
-Ok, but *why* modules types require a 9 characters name?
----
-
-Oh, I understand you need to understand this, so here is a very specific
-explanation.
+### Why module types require nine character names
 
 When Redis persists to RDB files, modules specific data types require to
 be persisted as well. Now RDB files are sequences of key-value pairs
@@ -186,8 +178,7 @@ we can convert back the 64 bit value into a 9 characters name, and print
 an error to the user that includes the module type name! So that she or he
 immediately realizes what's wrong.
 
-Setting and getting keys
----
+### Set and get keys
 
 After registering our new data type in the `RedisModule_OnLoad()` function,
 we also need to be able to set Redis keys having as value our native type.
@@ -254,8 +245,7 @@ key if there is already one:
     }
     /* Do something with 'data'... */
 
-Free method
----
+### Free method
 
 As already mentioned, when Redis needs to free a key holding a native type
 value, it needs help from the module in order to release the memory. This
@@ -274,8 +264,7 @@ However a more real world one will call some function that performs a more
 complex memory reclaiming, by casting the void pointer to some structure
 and freeing all the resources composing the value.
 
-RDB load and save methods
----
+### RDB load and save methods
 
 The RDB saving and loading callbacks need to create (and load back) a
 representation of the data type on disk. Redis offers a high level API
@@ -352,18 +341,11 @@ Note that while there is no error handling on the API that writes and reads
 from disk, still the load callback can return NULL on errors in case what
 it reads does not look correct. Redis will just panic in that case.
 
-AOF rewriting
----
+### AOF rewriting
 
     void RedisModule_EmitAOF(RedisModuleIO *io, const char *cmdname, const char *fmt, ...);
 
-Handling multiple encodings
----
-
-    WORK IN PROGRESS
-
-Allocating memory
----
+### Allocate memory
 
 Modules data types should try to use `RedisModule_Alloc()` functions family
 in order to allocate, reallocate and release heap memory used to implement the native data structures (see the other Redis Modules documentation for detailed information).

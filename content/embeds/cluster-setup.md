@@ -1,4 +1,4 @@
-1. In the web browser on the host machine, go to [https://localhost:8443/new](https://localhost:8443/new) to see
+1. In the web browser on the host machine, go to [https://localhost:8443](https://localhost:8443) to see
 the new Redis Enterprise Software Cluster Manager UI. The cluster generates self-signed TLS certificates to secure the connection.  These self-signed certificates are unknown to the browser and must be accepted before you proceed.
 
     To use the legacy UI for this quickstart instead, see the [6.4 version of the quickstarts](https://docs.redis.com/6.4/rs/installing-upgrading/quickstarts/).

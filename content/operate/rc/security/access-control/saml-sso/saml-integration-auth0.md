@@ -107,7 +107,7 @@ Now that you have you Auth0 IdP server ready, configure support for SAML in Redi
 
 ### Sign in to Redis Cloud
 
-Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#/login).
+Sign in to your account on the [Redis Cloud console](https://cloud.redis.io/#/login).
 
 ### Activate SAML in Access Management
 
@@ -163,7 +163,7 @@ To activate SAML, you need to have a local user (or social sign-on user) with th
 
 To use IdP-initiated SSO with certain identity providers, you also need to set the `RelayState` parameter to this URL: 
 
-`https://app.redislabs.com/#/login/?idpId=<ID>`
+`https://cloud.redis.io/#/login/?idpId=<ID>`
 
 {{< note >}}
 Replace `ID` so it matches the `AssertionConsumerService` Location URL ID (the content after the last forward slash "/"). To learn more about how to configure service provider apps, see your identity provider’s documentation.

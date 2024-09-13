@@ -53,9 +53,19 @@ Returns the value associated with `field` in the hash stored at `key`.
 
 ## Examples
 
+{{< clients-example cmds_hash hget >}}
+> HSET myhash field1 "foo"
+(integer) 1
+> HGET myhash field1
+"foo"
+> HGET myhash field2
+(nil)
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 HSET myhash field1 "foo"
 HGET myhash field1
 HGET myhash field2
 {{% /redis-cli %}}
-

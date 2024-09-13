@@ -46,7 +46,7 @@ Consider using VPC peering and Transit Gateway in parallel for the following sit
 
 Before you can set up Transit Gateway:
 
-1. [Create a database with Redis Cloud Pro]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) from the Redis cloud [admin console](https://app.redislabs.com/#/).
+1. [Create a database with Redis Cloud Pro]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) from the [Redis Cloud console](https://cloud.redis.io/#/).
 
 1. [Create a transit gateway](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-transit-gateways.html#create-tgw) from the [AWS VPC console](https://console.aws.amazon.com/vpc/).
 
@@ -76,7 +76,7 @@ In this step, you will associate your resource share with your subscription's AW
 
 To use the AWS console to set up the resource share:
 
-1. From the [Redis Cloud admin console](https://app.redislabs.com/), select the **Subscriptions** menu and then select your subscription from the list.
+1. From the [Redis Cloud console](https://cloud.redis.io/), select the **Subscriptions** menu and then select your subscription from the list.
 
 1. Select **Connectivity > Transit Gateway** to view the transit gateway settings.
 
@@ -96,7 +96,7 @@ To use the AWS console to set up the resource share:
 
 To use the AWS CLI to set up the resource share:
 
-1. From the [Redis Cloud admin console](https://app.redislabs.com/), select the **Subscriptions** menu and then select your subscription from the list.
+1. From the [Redis Cloud console](https://cloud.redis.io/), select the **Subscriptions** menu and then select your subscription from the list.
 
 1. Select **Connectivity > Transit Gateway** to view the transit gateway settings.
 
@@ -108,13 +108,13 @@ To use the AWS CLI to set up the resource share:
 
 ### Accept resource share and create attachment {#accept-resource-share}
 
-After you've associated the Redis AWS account with your resource share, you must accept the resource share in the admin console.
+After you've associated the Redis AWS account with your resource share, you must accept the resource share in the Redis Cloud console.
 
 1. In your Redis Cloud subscription's Transit Gateway settings, you should now see that a **Resource Share** is available. Select **Resource Shares** to view the resource share you initiated.
 
     {{<image filename="images/rc/tgw-resource-shares-button.png" width="250px" alt="The Share Transit Gateway section." >}}
 
-1. Select **Accept** to associate the **Resource Share** with your admin console account.
+1. Select **Accept** to associate the **Resource Share** with your Redis Cloud console account.
 
     {{<image filename="images/rc/tgw-accept-resource-shares.png" width="80%" alt="The Accept resource shares section." >}}
 

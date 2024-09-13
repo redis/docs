@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Visualize and optimize Redis data
+description: Visualize and optimize Redis data, connect to RDI, and more.
 hideListLinks: true
 linkTitle: Redis Insight
 stack: true
 title: Redis Insight
-weight: 3
+weight: 1
 ---
 
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/QUkjSsk)
@@ -35,8 +35,13 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis or
 * Automatically discover and add your local Redis or Redis Stack databases (that use standalone connection type and do not require authentication).
 * Discover your databases in Redis Enterprise Cluster and databases with Flexible plans in Redis Cloud.
 * Use a form to enter your connection details and add any Redis database running anywhere (including Redis Community Edition Cluster or Sentinel).
+* Connect to a Redis Data Integration (RDI) management plane, create, test, and deploy RDI pipelines, and view RDI statistics.
 
 <img src="images/Databases.png">
+
+{{< note >}}
+When you add a Redis database for a particular user using the `username` and `password` fields, that user must be able to run the `INFO` command. See the [access control list (ACL) documentation]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) for more information.
+{{< /note >}}
 
 ### Redis Copilot
 
@@ -53,6 +58,10 @@ Here's an example of using Redis Copilot to search data using a simple, natural 
 <img src="images/copilot-example.png">
 
 See the [Redis Insight Copilot FAQ]({{< relref "/develop/connect/insight/copilot-faq" >}}) for more information.
+
+### RDI in Redis Insight
+
+Redis Insight includes Redis Data Integration (RDI) connectivity, which allows you to connect to an RDI management plane, and create, test, and deploy RDI pipelines. Read more about this feature [here]({{< relref "/develop/connect/insight/rdi-connector" >}}).
 
 ### Browser
 

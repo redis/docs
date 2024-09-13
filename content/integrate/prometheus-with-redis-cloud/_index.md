@@ -37,7 +37,7 @@ You can quickly set up Prometheus and Grafana for testing using the Prometheus a
 
 1. Set up [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}).
 
-1. Extract the Prometheus endpoint from the private endpoint to your database. The private endpoint is in the [Redis Cloud console](https://app.redislabs.com/) under the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-tab" >}}) of your database. The Prometheus endpoint is on port 8070 of the internal server.
+1. Extract the Prometheus endpoint from the private endpoint to your database. The private endpoint is in the [Redis Cloud console](https://cloud.redis.io/) under the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-tab" >}}) of your database. The Prometheus endpoint is on port 8070 of the internal server.
 
     For example, if your private endpoint is:
 
@@ -180,7 +180,7 @@ Redis publishes preconfigured dashboards for Redis Cloud and Grafana:
 
 * The [subscription status dashboard](https://grafana.com/grafana/dashboards/18406-subscription-status-dashboard/) provides an overview of your Redis Cloud subscriptions.
 * The [database status dashboard](https://grafana.com/grafana/dashboards/18407-database-status-dashboard/) displays specific database metrics, including latency, memory usage, ops/second, and key count.
-* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/cloud/basic/redis-cloud-active-active-dashboard.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}).
+* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/cloud/basic/redis-cloud-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}).
 
 These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Enterprise observability Github repository](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana).
 

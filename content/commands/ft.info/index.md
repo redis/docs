@@ -80,7 +80,7 @@ is the name of the given index. You must first create the index using [`FT.CREAT
 | `hash_indexing_failures` | The number of failures encountered during indexing. |
 | `total_indexing_time` | The total time taken for indexing in seconds. |
 | `indexing` | Indicates whether the index is currently being generated. |
-| `percent_indexed` | The percentage of the index that has been successfully generated. |
+| `percent_indexed` | The percentage of the index that has been successfully generated (1 means 100%). |
 | `number_of_uses` | The number of times the index has been used. |
 | `cleaning` | The index deletion flag. A value of `1` indicates index deletion is in progress. |
 

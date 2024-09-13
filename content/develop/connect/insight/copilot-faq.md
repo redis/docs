@@ -5,7 +5,7 @@ categories:
 - redisinsight
 linkTitle: Redis Copilot FAQ
 title: Redis Copilot FAQ
-weight: 1
+weight: 3
 ---
 
 ## General questions

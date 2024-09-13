@@ -31,7 +31,6 @@ specified number of acknowledged copies in the other Redis instances, it does no
 turn a set of Redis instances into a CP system with strong consistency: acknowledged
 writes can still be lost during a failover, depending on the exact configuration
 of the Redis persistence. However, [WAIT]({{< baseurl >}}/commands/wait) dramatically reduces the probability of losing a write after a failure event to specific hard-to-trigger failure modes.
-modes.
 
 You can check the Redis Sentinel or Redis Cluster documentation for more information
 about high availability and failover. The rest of this document mainly describes the basic characteristics of Redis basic replication.

@@ -22,13 +22,13 @@ If your Google and GitHub accounts share an email address (such as Gmail), you c
 
 To set up Google login:
 
-1. Select **Google** from the [sign-in](https://app.redislabs.com/new/) screen.
+1. Select **Google** from the [sign-in](https://cloud.redis.io/) screen.
 1. Sign in with the Google account you would like to use.
 1. Select **Confirm** on the **Sign in with Google** prompt.
 
 To set up GitHub login:
 
-1. Select **Github** from the [sign-in](https://app.redislabs.com/new/) screen.
+1. Select **Github** from the [sign-in](https://cloud.redis.io/) screen.
 2. Sign in with the Github account you would like to use.
 3. Select **Authorize** on the **Authorize Redis Okta Auth Github** prompt.
 
@@ -46,14 +46,14 @@ Once you migrate your account to use social login, you cannot revert to your old
 
 To migrate your account to Google social login:
 
-1. Select **Google** on the [sign-in](https://app.redislabs.com/new/) screen.
+1. Select **Google** on the [sign-in](https://cloud.redis.io/) screen.
 1. Choose your preferred account from the list.
 1. A confirmation prompt will display and warn that you cannot revert to your old sign in method if you proceed with the migration to social login.
 1. Select **Confirm** to continue migration.
 
 To migrate your account to GitHub social login:
 
-1. Select **Github** on the [sign-in](https://app.redislabs.com/new/) screen.
+1. Select **Github** on the [sign-in](https://cloud.redis.io/) screen.
 1. Select **Authorize** on the **Authorize Redis Okta Auth Github** prompt.
 1. Enter your GitHub password to **Confirm access**. A confirmation prompt warns that you cannot revert to your old sign-in method if you proceed with the migration to social login.
 1. Select **Confirm** to continue migration.
