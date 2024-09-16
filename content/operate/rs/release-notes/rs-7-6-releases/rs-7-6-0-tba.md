@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise Software release notes 7.6.0-tba (September 2024)
+Title: Redis Enterprise Software release notes 7.8.0-tba (October 2024)
 alwaysopen: false
 categories:
 - docs
@@ -7,11 +7,11 @@ categories:
 - rs
 compatibleOSSVersion: Redis 7.4.0
 description: Client-side caching support. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements.
-linkTitle: 7.6.0-tba (September 2024)
+linkTitle: 7.8.0-tba (October 2024)
 weight: 90
 ---
 
-​[​Redis Enterprise Software version 7.6.0](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Enterprise Software version 7.8.0](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
 
 ## Highlights
 
@@ -57,7 +57,7 @@ This version offers:
 
 #### Redis module feature sets
 
-Redis Enterprise comes packaged with several modules. As of version 7.6.0, Redis Enterprise includes three feature sets, compatible with different Redis database versions.
+Redis Enterprise comes packaged with several modules. As of version 7.8.0, Redis Enterprise includes three feature sets, compatible with different Redis database versions.
 
 The following table shows which Redis modules are compatible with each Redis database version included in this release.
 
@@ -111,7 +111,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Breaking changes
 
-Redis Enterprise Software version 7.6.0 introduces the following breaking changes:
+Redis Enterprise Software version 7.8.0 introduces the following breaking changes:
 
 - The default value of `latest_with_modules` has changed to `true`.
 
@@ -215,7 +215,7 @@ To prepare for the future removal of Redis 6.0:
 
 #### Default image change for Redis Enterprise Software containers
 
-Starting with version 7.6, Redis Enterprise Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
+Starting with version 7.8, Redis Enterprise Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
 
 This change will only affect you if you use containers outside the official [Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes">}}) product and use Ubuntu-specific commands.
 
@@ -229,9 +229,9 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 <span title="Warning icon" class="font-serif">:warning:</span> Deprecation warning – The platform is still supported for this version of Redis Enterprise Software, but support will be removed in a future release.
 
-| Redis Software<br />major versions | 7.6 | 7.4 | 7.2 | 6.4 | 6.2 |
+| Redis Software<br />major versions | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|
-| **Release date** | Sept 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
+| **Release date** | Oct 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
 | [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | TBA | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
@@ -258,7 +258,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (7.6.0-tba Aug release) |
+| Package | SHA256 checksum (7.8.0-tba Oct release) |
 |---------|---------------------------------------|
 | Ubuntu 18 | <span class="break-all"></span> |
 | Ubuntu 20 | <span class="break-all"></span> |
@@ -294,7 +294,7 @@ As part of Redis's commitment to security, Redis Enterprise Software implements 
 
 Some CVEs announced for open source Redis do not affect Redis Enterprise due to different or additional functionality available in Redis Enterprise that is not available in open source Redis.
 
-Redis Enterprise 7.6.0-tba supports open source Redis 7.2, 6.2, and 6.0. Below is the list of open source Redis CVEs fixed by version.
+Redis Enterprise 7.8.0-tba supports open source Redis 7.2, 6.2, and 6.0. Below is the list of open source Redis CVEs fixed by version.
 
 Redis 7.2.x:
 

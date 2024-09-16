@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise Software release notes 7.6.0
+Title: Redis Enterprise Software release notes 7.8.0
 alwaysopen: false
 categories:
 - docs
@@ -8,12 +8,12 @@ categories:
 compatibleOSSVersion: Redis 7.4.0
 description: Client-side caching support. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements.
 hideListLinks: true
-linkTitle: 7.6.0 releases
+linkTitle: 7.8.0 releases
 toc: 'true'
 weight: 69
 ---
 
-​[​Redis Enterprise Software version 7.6.0](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Enterprise Software version 7.8.0](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
 
 ## Highlights
 
@@ -39,7 +39,7 @@ For more detailed release notes, select a build version from the following table
 
 ### Breaking changes
 
-Redis Enterprise Software version 7.6.0 introduces the following breaking changes:
+Redis Enterprise Software version 7.8.0 introduces the following breaking changes:
 
 - The default value of `latest_with_modules` has changed to `true`.
 
@@ -143,7 +143,7 @@ To prepare for the future removal of Redis 6.0:
 
 #### Default image change for Redis Enterprise Software containers
 
-Starting with version 7.6, Redis Enterprise Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
+Starting with version 7.8, Redis Enterprise Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
 
 This change will only affect you if you use containers outside the official [Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes">}}) product and use Ubuntu-specific commands.
 
@@ -157,9 +157,9 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 <span title="Warning icon" class="font-serif">:warning:</span> Deprecation warning – The platform is still supported for this version of Redis Enterprise Software, but support will be removed in a future release.
 
-| Redis Software<br />major versions | 7.6 | 7.4 | 7.2 | 6.4 | 6.2 |
+| Redis Software<br />major versions | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|
-| **Release date** | Sept 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
+| **Release date** | Oct 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
 | [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | TBA | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
