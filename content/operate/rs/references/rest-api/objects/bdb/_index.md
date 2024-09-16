@@ -144,6 +144,7 @@ An API object that represents a managed database in the cluster.
 | syncer_mode | The syncer for replication between database instances is either on a single node (centralized) or on each node that has a proxy according to the proxy policy (distributed). (read-only)<br />Values:<br />'distributed'<br />'centralized' |
 | tags | {{<code>}}[{<br />  "key": string,<br />  "value": string<br />}, ...]{{</code>}} Optional list of tag objects attached to the database. Each tag requires a key-value pair.<br />**key**: Represents the tag's meaning and must be unique among tags (pattern does not allow special characters &,\<,>,")<br />**value**: The tag's value.|
 | tls_mode | Require TLS-authenticated and encrypted connections to the database<br />Values:<br />'enabled'<br /> **'disabled'** <br />'replica_ssl' |
+| tracking_table_max_keys | integer; The client-side caching invalidation table size. 0 makes the cache unlimited. |
 | type | Type of database<br />Values:<br />**'redis'** <br />'memcached' |
 | use_nodes | array of strings; Cluster node UIDs to use for database shards and bound endpoints |
 | version | string; Database compatibility version: full Redis/memcached version number, such as 6.0.6. This value can only change during database creation and database upgrades.|
