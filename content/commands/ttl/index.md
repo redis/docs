@@ -66,9 +66,19 @@ See also the [`PTTL`]({{< relref "/commands/pttl" >}}) command that returns the 
 
 ## Examples
 
+{{< clients-example cmds_generic ttl >}}
+> SET mykey "Hello"
+"OK"
+> EXPIRE mykey 10
+(integer) 1
+> TTL mykey
+(integer) 10
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 SET mykey "Hello"
 EXPIRE mykey 10
 TTL mykey
 {{% /redis-cli %}}
-
