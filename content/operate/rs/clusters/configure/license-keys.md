@@ -93,23 +93,38 @@ When the license is expired:
 
 By default, a cluster license alert is scheduled to occur 7 days before the cluster license expiration date.
 
-To change the cluster license alert settings, use an [update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request.
+You can adjust the threshold value of the cluster license expiration alert based on how far in advance you want to be notified of the license expiration. The value should be within a reasonable range that allows your organization enough time to take action, such as renewing the license, before it expires.
 
-The following example changes the cluster license alert to occur 30 days before the cluster license expiration date:
+To change the cluster license alert settings, use one of the following methods:
 
-```sh
-PUT /v1/cluster
-{
-    "alert_settings": {
-        "cluster_license_about_to_expire": {
-            "enabled": true,
-            "threshold": "30"
+- Cluster Manager UI:
+
+    1. On the **Cluster > Configuration** screen, select the **Alerts Settings** tab.
+
+    1. Click **Edit**.
+
+    1. In the **Cluster utilization** section, enable the alert setting "License expiry notifications will be sent \<value\> days before the license expires" and enter a new value in the box.
+
+        {{<image filename="images/rs/screenshots/cluster/cluster-config-alert-settings-utilization.png" alt="Cluster utilization alert settings." >}}
+
+    1. Click **Save**.
+
+
+- [Update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request:
+
+    The following example changes the cluster license alert to occur 30 days before the cluster license expiration date:
+
+    ```sh
+    PUT /v1/cluster
+    {
+        "alert_settings": {
+            "cluster_license_about_to_expire": {
+                "enabled": true,
+                "threshold": "30"
+            }
         }
     }
-}
-```
-
-Adjust the `threshold` value of the `cluster_license_about_to_expire` alert based on how far in advance you want to be notified of the license expiration. The value should be within a reasonable range that allows your organization enough time to take action, such as renewing the license, before it expires.
+    ```
 
 ## Monitor cluster license
 
