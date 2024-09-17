@@ -43,6 +43,19 @@ use [`iptables`](https://www.netfilter.org/projects/iptables/index.html) to
                      /^:[A-Z]+ [^-]/ { print $1 " ACCEPT" ; }
                      /COMMIT/ { print $0; }' | sudo iptables-restore
 ```
+
+You may encounter problems if you use `iptables` v1.6.1 and earlier in
+`nftables` mode. Use `iptables` versions later than v1.6.1 or enable the `iptables`
+legacy mode with the following commands:
+
+```bash
+update-alternatives --set iptables /usr/sbin/iptables-legacy
+update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+```
+
+Also, `iptables` versions 1.8.0-1.8.4 have known issues that can prevent RDI
+from working, especially on RHEL 8. Ideally, use `iptables` v1.8.8, which is
+known to work correctly with RDI.
 {{< /note >}}
 
 The supported OS versions for RDI are:
