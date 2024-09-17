@@ -33,14 +33,21 @@ jobs:
             echo "ERROR: Invalid branch name ${{ github.ref_name }}!"
             exit 1
           fi
-    - name: Configure Hugo
+
+    - name: Install dependencies
+      run: make deps
+
+    - name: Build out all versions
       run: |
+        set -x
+
+        function setBaseUrl() {
           if [[ "${{ github.ref_name }}" == "main" ]]
           then
             hugo_root_path=docs/staging/dev
           elif [[ "${{ github.ref_name }}" == "latest" ]]
           then
-            hugo_root_path="docs/latest" 
+            hugo_root_path="docs/latest"
           elif [[ "${{ endsWith(github.ref_name, '-build') }}" == "true" ]]
           then
             hugo_root_path=`echo docs/version/${{ github.ref_name }} | sed 's/-build$//'`
@@ -48,13 +55,9 @@ jobs:
             hugo_root_path=docs/staging/${{ github.ref_name }}
           fi \
           && sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/$hugo_root_path\"#g" config.toml
-    - name: Install dependencies
-      run: make deps
+        }
 
-    - name: Build out all versions
-      run: |
-        set -x
-        
+        setBaseUrl
         kubernetes_versions=($(find content/operate/kubernetes/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
         rs_versions=($(find content/operate/rs/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
 
@@ -71,6 +74,8 @@ jobs:
 
         # build all versions
         for version in "${kubernetes_versions[@]}"; do
+
+          setBaseUrl
 
           # for each version, remove all other versions before building
           versions_to_remove=($(echo "${kubernetes_versions[@]}" "${version}" | tr ' ' '\n' | sort | uniq -u))
@@ -92,6 +97,8 @@ jobs:
         done
 
         for version in "${rs_versions[@]}"; do
+
+          setBaseUrl
 
           # for each version, remove all other versions before building
           versions_to_remove=($(echo "${rs_versions[@]}" "${version}" | tr ' ' '\n' | sort | uniq -u))
