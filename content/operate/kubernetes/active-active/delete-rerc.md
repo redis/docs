@@ -16,7 +16,7 @@ When a RedisEnterpriseRemoteCluster (RERC) isn't communicating with other partic
 
 We strongly recommend backing up your cluster before proceeding with the following steps.
 
-{{<warning>}}Proceed with caution. Ensure you are running the following command from the correct instance. Verify the status of the RERCs and REAADB before and after each step.{{</warning>}}
+{{<warning>}}Proceed with caution. Ensure you are running the following commands from the correct instance. Verify the status of the RERCs and REAADB before and after each step.{{</warning>}}
 
 The followings steps use these example values. Remember to substitute these with your own values.
 
@@ -125,4 +125,4 @@ crdb-cli crdb purge-instance --crdb-guid  <REAADB_GUID> --instance-id <INSTANCE_
 
 ## Next steps
 
-After the communication issue on the cluster is resolved, you can add it back to the REAADB configuration by following the steps for [Add a participating cluster]({{<relref "operate/kubernetes/active-active/edit-clusters#add-a-participating-cluster">}}.
+After the communication issue on the cluster is resolved, you can add it back to the REAADB configuration by following the steps for [Add a participating cluster]({{<relref "operate/kubernetes/active-active/edit-clusters#add-a-participating-cluster">}}).
