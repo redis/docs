@@ -68,7 +68,7 @@ After the install, the OperatorHub automatically uses the constraint for Redis E
 {{< note >}}
 If you are using the recommended RedisEnterpriseCluster name of `rec`, the SCC is automatically bound to the RedisEnterpriseCluster after install.
 
-If you choose a different name for the RedisEnterpriseCluster, or override the default service account name, you must manually bind SCC to the RedisEnterpriseCluster’s service account:
+If you choose a different name for the RedisEnterpriseCluster, or override the default service account name, you must manually bind the SCC to the RedisEnterpriseCluster’s service account:
 
   ```sh
   oc adm policy add-scc-to-user redis-enterprise-scc-v2 \
