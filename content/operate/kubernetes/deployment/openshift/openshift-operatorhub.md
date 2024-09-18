@@ -72,7 +72,7 @@ If you choose a different name for the RedisEnterpriseCluster, or override the d
 
   ```sh
   oc adm policy add-scc-to-user redis-enterprise-scc-v2 \
-  system:serviceaccount:<my-project>:<rec-name>
+  system:serviceaccount:<my-project>:<rec-service-account-name>
   ```
 
 {{< /note >}}
