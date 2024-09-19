@@ -15,13 +15,13 @@
             <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/products-dropdown.html" . }}
+          <div class="group h-full px-2 xl:px-[14px]">
+            <div class="flex flex-row h-full ml-2 items-center cursor-pointer w-[10ch]">
+             <span class="inline-block group-hover:font-bold">Learn</span>
+             <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
+           </div>
+           {{ partial "header/learn-dropdown.html" . }}
         </div>
-          <div class="group px-2 xl:px-[14px] hidden lg:flex ">
-           <div class="flex flex-row h-full ml-2 items-center cursor-pointer w-[10ch]">
-            <span class="inline-block group-hover:font-bold">Learn</span>
-            <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
-          </div>
-          {{ partial "header/learn-dropdown.html" . }}
           </div>
         <a class="hidden lg:flex group flex-row items-center mr-2 pr-2" href="https://redis.io/docs/latest/"><span class="group-hover:font-bold">Docs</span></a>
       <a class="hidden lg:flex group flex-row items-center ml-2 pl-4 xl:pl-[14px]" href="https://redis.io/pricing"><span class="group-hover:font-bold">Pricing</span></a>
