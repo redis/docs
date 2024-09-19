@@ -73,7 +73,7 @@ To change the minimum password length, use one of the following methods:
 
     ```sh
     PUT https://[host][:port]/v1/cluster
-    { "password_min_length	": <integer between 8-256> }
+    { "password_min_length": <integer between 8-256> }
     ```
 
 ## Deactivate password complexity rules
