@@ -65,7 +65,7 @@ To change the minimum password length, use one of the following methods:
 
     1. Set the number of characters for **Minimum password length**.
 
-        {{<image filename="images/rs/screenshots/cluster/security-preferences-min-password-length.png" alt="" >}}
+        {{<image filename="images/rs/screenshots/cluster/security-preferences-min-password-length.png" alt="The minimum password length setting appears in the password section of the cluster security preferences screen when complexity rules are enabled." >}}
 
     1. Click **Save**.
 
