@@ -10,7 +10,7 @@ title: Redis Stack quick start
 weight: 1
 ---
 To quickly set up a database with Redis Stack features,
-you can sign up for a free [Redis Cloud](https://app.redislabs.com/#/sign-up) subscription and create a Redis Stack database.
+you can sign up for a free [Redis Cloud](https://cloud.redis.io/#/sign-up) subscription and create a Redis Stack database.
 
 Alternatively, you can use one of these methods:
 
@@ -34,7 +34,7 @@ For more details, see the Redis Cloud [quick start]({{< relref "/operate/rc/rc-q
 
 To create a new subscription:
 
-1. Sign in to the Redis Cloud [admin console](http://app.redislabs.com) or create a new account.
+1. Sign in to the Redis Cloud [admin console](http://cloud.redis.io) or create a new account.
 
 1. Select the **New subscription** button:
 

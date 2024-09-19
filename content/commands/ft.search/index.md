@@ -478,6 +478,8 @@ orders the results by the value of this attribute. This applies to both text and
 <summary><code>LIMIT first num</code></summary>
 
 limits the results to the offset and number of results given. Note that the offset is zero-indexed. The default is 0 10, which returns 10 items starting from the first result. You can use `LIMIT 0 0` to count the number of documents in the result set without actually returning them.
+
+**`LIMIT` behavior**:  If you use the `LIMIT` option without sorting, the results returned are non-deterministic, which means that subsequent queries may return duplicated or missing values. Add `SORTBY` with a unique field, or use `FT.AGGREGATE` with the `WITHCURSOR` option to ensure deterministic result set paging.
 </details>
 
 <details open>

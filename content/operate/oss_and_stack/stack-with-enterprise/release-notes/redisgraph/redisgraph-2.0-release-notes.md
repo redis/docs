@@ -114,7 +114,7 @@ Details:
 
 - Enhancements:
     - #[1118](https://github.com/RedisGraph/RedisGraph/pull/1118) Added module configuration parameters for the number of threads in OpenMP and concurrent queries.
-    - #[1121](https://github.com/RedisGraph/RedisGraph/pull/1121) [RediSearch](https://github.com/RedisGraph/RedisGraph/blob/v2.0.13/redisearch.io) v1.8.1
+    - #[1121](https://github.com/RedisGraph/RedisGraph/pull/1121) [RediSearch](https://github.com/RediSearch/RediSearch/) v1.8.1
 
 ## v2.0.12 (May 2020)
 

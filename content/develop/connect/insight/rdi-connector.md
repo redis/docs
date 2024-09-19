@@ -16,10 +16,10 @@ title: RDI in Redis Insight
 weight: 4
 ---
 
-Redis Data Integration (RDI) and its [ingest pipeline capability]({{< relref "/integrate/redis-data-integration/ingest" >}}) is an end-to-end solution for mirroring your application's primary database in Redis. RDI employs a capture data change mechanism and a stream processor to map and transform source data such as relational tables into fast Redis data structures that match your use cases.
-You can read more about RDI's ingest architecture [on these pages]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}}).
+Redis Data Integration (RDI) and its [ingest pipeline capability]({{< relref "/integrate/redis-data-integration" >}}) is an end-to-end solution for mirroring your application's primary database in Redis. RDI employs a capture data change mechanism and a stream processor to map and transform source data such as relational tables into fast Redis data structures that match your use cases.
+You can read more about RDI's ingest architecture [on these pages]({{< relref "/integrate/redis-data-integration/architecture" >}}).
 
-As of version `2.54.0`, Redis Insight includes RDI connectivity, which allows you to connect to [RDI management planes]({{< relref "/integrate/redis-data-integration/ingest/architecture" >}}#how-rdi-is-deployed), create, test, and deploy [RDI pipelines]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines" >}}), and view RDI statistics.
+As of version `2.54.0`, Redis Insight includes RDI connectivity, which allows you to connect to [RDI management planes]({{< relref "/integrate/redis-data-integration/architecture" >}}#how-rdi-is-deployed), create, test, and deploy [RDI pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}), and view RDI statistics.
 
 ## Connect
 
@@ -96,7 +96,7 @@ The options listed in the above menus depend on the capabilities of your RDI con
 
 After you make your selections and click **Apply**, Redis Insight will populate the editor window with an appropriate template. To start from scratch, click **Cancel**.
 
-See the [RDI documentation]({{< relref "/integrate/redis-data-integration/ingest/reference/config-yaml-reference" >}}) for information about required fields.
+See the [RDI documentation]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference" >}}) for information about required fields.
 
 <img src="../images/ri-rdi-pl-editor-template.png">
 
@@ -116,7 +116,7 @@ This will take you to the job editor with the template selection menu open. Make
 The options listed in the above menu depend on the capabilities of your RDI configuration.
 {{< /note >}}
 
-The [RDI documentation]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/transform-examples" >}}) has several examples of transformation jobs that can help get you started. Note: RDI uses a very specific YAML format for job files. See [here]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-pipelines" >}}#job-files) for more information.
+The [RDI documentation]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) has several examples of transformation jobs that can help get you started. Note: RDI uses a very specific YAML format for job files. See [here]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}#job-files) for more information.
 
 <img src="../images/ri-rdi-job-editor-template.png">
 
@@ -142,7 +142,7 @@ Here's an example showing the SQL and JMESPath editor pane. Note the toggle in t
 - SQLite functions
 - JMESPath
 
-After constructing your SQLite or JMESPath code, copy it to the main editor window. Here's a [reference]({{< relref "/integrate/redis-data-integration/ingest/reference/jmespath-custom-functions" >}}) to the supported JMESPath extension functions and expressions that you can use in your job files.
+After constructing your SQLite or JMESPath code, copy it to the main editor window. Here's a [reference]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) to the supported JMESPath extension functions and expressions that you can use in your job files.
 
 <img src="../images/ri-rdi-pl-editor-sql-minie.png">
 
