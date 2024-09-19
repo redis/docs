@@ -24,7 +24,7 @@ After you have prepared your source database and connection information, you can
 
 At this point, Redis Cloud will attempt to create your new pipeline. 
 
-Pipelines are created in the background. While they're creating, you aren't allowed to make changes. This process will take some time.
+Pipelines are created in the background. While they're being created, you aren't allowed to make changes. This process will take some time.
 
 See [Troubleshoot pipeline]() to view a list of errors that can occur at this point.
 

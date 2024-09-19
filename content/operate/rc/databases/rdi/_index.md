@@ -14,7 +14,7 @@ Redis Cloud now supports [Redis Data Integration (RDI)]({{<relref "integrate/red
 
 A relational database usually handles queries much more slowly than a Redis database. If your application uses a relational database and makes many more reads than writes (which is the typical case) then you can improve performance by using Redis as a cache to handle the read queries quickly. Redis Cloud uses [ingest]({{<relref "/integrate/redis-data-integration/">}}) to help you offload all read queries from the application database to Redis automatically.
 
-Having a data pipeline lets you have a cache that is always ready for queries. RDI Data pipelines ensure that any changes made to your primary database are captured in your Redis cache within a few seconds, preventing cache misses and stale data within the cache. 
+Using a data pipeline lets you have a cache that is always ready for queries. RDI Data pipelines ensure that any changes made to your primary database are captured in your Redis cache within a few seconds, preventing cache misses and stale data within the cache. 
 
 RDI helps Redis customers sync Redis Cloud with live data from their primary databases to:
 - Meet the required speed and scale of read queries and provide an excellent and predictable user experience.

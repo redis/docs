@@ -25,9 +25,9 @@ weight: 1
 
 Before using the pipeline, you must first prepare your source database to use the Debezium connector for change data capture (CDC).
 
-See [Prepare source databases]({{<relref "/integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/">}}) to find steps for your database type.
+See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/">}}) to find steps for your database type.
 
-See the [RDI architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}}) for more information about CDC.
+See the [RDI architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}}) for more information about CDC.
 
 ## Share source database credentials
 
