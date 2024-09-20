@@ -28,8 +28,8 @@ However, you can also provide your own custom transformation [jobs](#job-files)
 for each source table, using your own data mapping and key pattern. You specify these
 jobs declaratively with YAML configuration files that require no coding.
 
-The data tranformation involves two separate stages. First, the data ingested by
-[Debezium](https://debezium.io/) is automatically transformed to a JSON format. Then,
+The data tranformation involves two separate stages. First, the data ingested
+during CDC is automatically transformed to a JSON format. Then,
 this JSON data gets passed on to your custom transformation for further processing.
 
 You can provide a job file for each source table you want to transform, but you
@@ -48,7 +48,7 @@ data in Redis as
 
 The diagram below shows the flow of data through the pipeline:
 
-{{< image filename="/images/rdi/data-transformation-pipeline.png" >}}
+{{< image filename="/images/rdi/RDIPipeDataflow.drawio.svg" >}}
 
 ## Pipeline configuration
 
