@@ -63,4 +63,4 @@ For more details on AWS PrivateLink, see [Share your services through AWS Privat
 
 ## Next steps
 
-After you have set up your source database and prepared connectivity and credentials, select **Start pipeline setup** to [create your data pipeline.]({{<relref "/operate/rc/databases/rdi/create.md/">}})
+After you have set up your source database and prepared connectivity and credentials, select **Start pipeline setup** to [create your data pipeline]({{<relref "/operate/rc/databases/rdi/create">}}).

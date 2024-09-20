@@ -10,7 +10,7 @@ hideListLinks: true
 weight: 3
 ---
 
-After you have [created your data pipeline]({{<relref "content/operate/rc/databases/rdi/create">}}), you need to define it. You will select the database schemas and columns that you want to import and synchronize with your primary database.
+After you have [created your data pipeline]({{<relref "/operate/rc/databases/rdi/create">}}), you need to define it. You will select the database schemas and columns that you want to import and synchronize with your primary database.
 
 ## Configure a new pipeline
 

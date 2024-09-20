@@ -10,7 +10,7 @@ hideListLinks: true
 weight: 2
 ---
 
-After you have [prepared your source database]({{<relref "content/operate/rc/databases/rdi/setup">}}) and connection information, you can set up your new pipeline.
+After you have [prepared your source database]({{<relref "/operate/rc/databases/rdi/setup">}}) and connection information, you can set up your new pipeline.
 
 1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab.
 1. Select **Start pipeline setup**. 
@@ -31,7 +31,7 @@ Pipelines are created in the background. While they're being created, you aren't
 
 See [Pipeline creation errors](#pipeline-creation-errors) to view a list of errors that can occur at this point.
 
-When your pipeline is created, select **Complete setup**. You will then [define your data pipeline]({{<relref "content/operate/rc/databases/rdi/define">}}).
+When your pipeline is created, select **Complete setup**. You will then [define your data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}).
 
 ## Pipeline creation errors
 
