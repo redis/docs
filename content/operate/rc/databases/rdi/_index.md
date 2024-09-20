@@ -35,7 +35,7 @@ For more info on how RDI works, see [RDI Architecture]({{<relref "/integrate/red
 
 Before you can create a data pipeline, you must have:
 
-- A [Redis Cloud Pro database]() hosted on Amazon Web Services (AWS)
+- A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) hosted on Amazon Web Services (AWS)
 - One supported source database, also hosted on AWS and connected to [AWS PrivateLink](https://aws.amazon.com/privatelink/):
     - MySQL
     - Oracle
@@ -56,7 +56,7 @@ Please be aware of the following limitations:
 To create a new data pipeline, you need to:
 
 1. [Prepare your source database]({{<relref "content/operate/rc/databases/rdi/setup">}}) and any associated credentials.
-2. [Provision data pipeline]
-3. [Define data pipeline]
+2. [Create data pipeline]({{<relref "content/operate/rc/databases/rdi/create">}}) and troubleshoot errors.
+3. [Define the data pipeline]({{<relref "content/operate/rc/databases/rdi/define">}}) by selecting which tables to sync.
 
 Once your data pipeline is defined, you can [manage]() and [observe]() it.

@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rc
-description: null
+description: Prepare your source database and database credentials for Data integration.
 hideListLinks: true
 weight: 1
 ---
@@ -35,9 +35,6 @@ You need to share your source database credentials in an Amazon secret with Redi
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following key/value fields:
 
-- `port`: Database port
-- `schema_name`: Database name or schema name
-- `pdb_name`: Database name *(Oracle only)*
 - `username`: Database username
 - `password`: Database password
 - `server_certificate`: Server certificate in PEM format *(TLS only)*
@@ -66,4 +63,4 @@ For more details on AWS PrivateLink, see [Share your services through AWS Privat
 
 ## Next steps
 
-After you have prepared your source database and provide
+After you have set up your source database and prepared connectivity and credentials, select **Start pipeline setup** to [create your data pipeline.]({{<relref "/operate/rc/databases/rdi/create.md/">}})
