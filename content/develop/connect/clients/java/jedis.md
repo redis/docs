@@ -203,7 +203,7 @@ the client and server, resulting in better performance. See
 [Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
 for more information about how CSC works and how to use it effectively.
 
-To enable CSC, you simply need to specify the
+To enable CSC, specify the
 [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
 protocol and pass a cache configuration object during the connection.
 
