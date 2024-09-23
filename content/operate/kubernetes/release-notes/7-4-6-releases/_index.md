@@ -4,51 +4,34 @@ categories:
 - docs
 - operate
 - kubernetes
-description: This is a feature release with a new version of Redis Enterprise Software
-  7.4.6.
-linkTitle: 7.4.6-2 (July 2024)
-title: Redis Enterprise for Kubernetes 7.4.6-2 (July 2024) release notes
-weight: 4
+description: Releases with support for Redis Enterprise Software 7.4.2.
+hideListLinks: true
+linkTitle: 7.4.6-2
+title: Redis Enterprise for Kubernetes 7.4.6-2 release notes
+weight: 6
 ---
 
-## Highlights
+## Detailed release notes
 
-The primary purpose of this release is to support [Redis Enterprise Software version 7.4.6]({{<relref "/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-6-22">}}). It also includes updates to supported platform distributions.
+{{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
-## New in this release
-
-### Enhancements
-
-- Removal of multiple unneeded permissions from RBAC roles used by the operator (RED-123478 RED-125020)
-- Support for non-AWS S3 compatible backup targets in REC (RED-73642)
-- Support for Redis Enterprise 7.4.6-22 (RED-13110)
-
-### API changes
-
-| **CRD** | **Field** | **Change** | **Description** |
-|---|---|---|---|
-| REC | backup.s3.caCertificateSecretName | Add | Secret name that holds the S3 CA certificate, which contains the TLS certificate mapped to the key in the secret 'cert' |
-| REC | backup.s3.url | Add | Specifies the URL for S3 export and import (used for custom S3 compatible servers) |
-
-## Version changes
-
-### Breaking changes
+## Breaking changes
 
 The following changes included in this release affect the upgrade process. Please read carefully before upgrading.
 
-#### ValidatingWebhookConfiguration
+### ValidatingWebhookConfiguration
 
 Versions 6.4.2-4 and later include a new `ValidatingWebhookConfiguration` resource to replace the `redb-admission` webhook resource. To use releases 6.4.2-4 or later, delete the old webhook resource and apply the new file. See [upgrade Redis cluster]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster#reapply-webhook" >}}) for instructions.
 
-#### OpenShift SCC
+### OpenShift SCC
 
 Versions 6.4.2-6 and later include a new SCC (`redis-enterprise-scc-v2`) that you need to bind to your service account before upgrading. OpenShift clusters running version 6.2.12 or earlier upgrading to version 6.2.18 or later might get stuck if you skip this step. See [upgrade a Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster#before-upgrading" >}}) for instructions.
 
-#### Upcoming Changes
+### Upcoming Changes
 
 - Future Redis Enterprise images will be UBI9-based only, without support for Ubuntu-based images.
 
-### Supported distributions
+## Supported distributions
 
 The following table shows supported distributions at the time of this release. You can also find this list in [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
 
@@ -75,23 +58,6 @@ Any distribution not listed below is not supported for production workloads.
 | **VMware TKGI version** | **1.16** | **1.17** | **1.18** | **1.19** |  |  |
 |  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
 
-
-
-## Downloads
-
-- **Redis Enterprise**: `redislabs/redis:7.4.6-22`
-- **Operator**: `redislabs/operator:7.4.6-2`
-- **Services Rigger**: `redislabs/k8s-controller:7.4.6-2`
-
-### OpenShift images
-
-- **Redis Enterprise**: `registry.connect.redhat.com/redislabs/redis-enterprise:7.4.6-22.rhel8-openshift`
-- **Operator**: `registry.connect.redhat.com/redislabs/redis-enterprise-operator:7.4.6-2`
-- **Services Rigger**: `registry.connect.redhat.com/redislabs/services-manager:7.4.6-2`
-
-### OLM bundle
-
-**Redis Enterprise operator bundle** : `v7.4.6-2.0`
 
 ## Known limitations
 
@@ -144,3 +110,5 @@ Any distribution not listed below is not supported for production workloads.
 - **Long cluster names cause routes to be rejected  (RED-25871)** A cluster name longer than 20 characters will result in a rejected route configuration because the host part of the domain name exceeds 63 characters. The workaround is to limit the cluster name to 20 characters or fewer.
 
 - **Cluster CR (REC) errors are not reported after invalid updates (RED-25542)** A cluster CR specification error is not reported if two or more invalid CR resources are updated in sequence.
+
+
