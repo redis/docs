@@ -27,9 +27,18 @@ Using RDI with Redis Cloud simplifies managing your data integration pipeline. N
 
 A RDI data pipeline sits between your source database and your target Redis database. Initially, the pipeline reads all of the data and imports it into the target database during the *initial cache loading* phase. After this initial sync is complete, the data pipeline enters the *change streaming* phase, where changes are captured as they happen. Changes in the source database are added to the target within a few seconds of capture.
 
-RDI encrypts all network connections with TLS or mTLS and stores all state and configuration data inside the Redis cluster. 
-
 For more info on how RDI works, see [RDI Architecture]({{<relref "/integrate/redis-data-integration/architecture">}}).
+
+### Pipeline security
+
+Regarding pipeline security:
+Source credentials and TLS secrets are all coming from AWS secret manager to RDI using AWS Secret Manager CSI driver for secrets which is the best practice
+The connectivity to the source database is via AWS private link so that RDI is only exposed to the specific end point and not to the entire customer VPC
+The connectivity to source database is JDBC secured connection with TLS
+The data is written from the source to Redis streams over secured RESP + TLS
+The data is then processed in memory by RDI - reading it over TLS secured  RESP connection and writing it to the target Redis using TLS secured connection
+RDI resides within Redis Cloud VPC
+There is no Ingress connections to RDI except from Redis Cloud management services
 
 ## Prerequisites
 
