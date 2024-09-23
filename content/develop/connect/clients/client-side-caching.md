@@ -16,7 +16,7 @@ weight: 20
 ---
 
 *Client-side caching* reduces network traffic between
-a Redis client and the server. This generally gives better performance.
+a Redis client and the server, which generally improves performance.
 See [Client-side caching compatibility with Redis Software and Redis Cloud]({{< relref "operate/rs/references/compatibility/client-side-caching" >}})
 for details on Redis versions that support CSC.
 
