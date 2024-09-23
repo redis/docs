@@ -29,7 +29,7 @@ with a single node are:
 
 To install on bare metal, a virtual machine, or an instance:
 
-1. Download the binaries from the [Redis Enterprise download center](https://app.redislabs.com/#/sign-up/software?direct=true).
+1. Download the binaries from the [Redis Enterprise download center](https://cloud.redis.io/#/sign-up/software?direct=true).
 
 1. Upload the binaries to a Linux-based operating system.
 
