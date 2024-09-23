@@ -126,7 +126,7 @@ the client and server, resulting in better performance. See
 [Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
 for more information about how CSC works and how to use it effectively.
 
-To enable CSC, you simply need to add some extra parameters when you connect
+To enable CSC, add some extra parameters when you connect
 to the server:
 
 -   `protocol`: (Required) You must pass a value of `3` here because
