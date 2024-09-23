@@ -196,21 +196,21 @@ public class Main {
 }
 ```
 
-## Connect using client-side caching (CSC)
+## Connect using client-side caching
 
 *Client-side caching* is a technique to reduce network traffic between
 the client and server, resulting in better performance. See
 [Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
-for more information about how CSC works and how to use it effectively.
+for more information about how client-side caching works and how to use it effectively.
 
-To enable CSC, specify the
+To enable client-side caching, specify the
 [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
 protocol and pass a cache configuration object during the connection.
 
-The example below shows the simplest CSC connection to the default host and port,
+The example below shows the simplest client-side caching connection to the default host and port,
 `localhost:6379`.
 All of the connection variants described above accept these parameters, so you can
-use CSC with a connection pool or a cluster connection in exactly the same way.
+use client-side caching with a connection pool or a cluster connection in exactly the same way.
 
 ```java
 HostAndPort endpoint = new HostAndPort("localhost", 6379);

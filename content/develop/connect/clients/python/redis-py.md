@@ -119,25 +119,25 @@ r.get('foo')
 ```
 For more information, see [redis-py TLS examples](https://redis-py.readthedocs.io/en/stable/examples/ssl_connection_examples.html).
 
-## Connect using client-side caching (CSC)
+## Connect using client-side caching
 
 *Client-side caching* is a technique to reduce network traffic between
 the client and server, resulting in better performance. See
 [Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
-for more information about how CSC works and how to use it effectively.
+for more information about how client-side caching works and how to use it effectively.
 
-To enable CSC, add some extra parameters when you connect
+To enable client-side caching, add some extra parameters when you connect
 to the server:
 
 -   `protocol`: (Required) You must pass a value of `3` here because
-    CSC requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+    client-side caching requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
     protocol.
--   `cache_config`: (Required) Pass `cache_config=CacheConfig()` here to enable CSC.
+-   `cache_config`: (Required) Pass `cache_config=CacheConfig()` here to enable client-side caching.
 
-The example below shows the simplest CSC connection to the default host and port,
+The example below shows the simplest client-side caching connection to the default host and port,
 `localhost:6379`.
 All of the connection variants described above accept these parameters, so you can
-use CSC with a connection pool or a cluster connection in exactly the same way.
+use client-side caching with a connection pool or a cluster connection in exactly the same way.
 
 ```python
 import redis

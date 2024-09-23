@@ -18,7 +18,7 @@ weight: 20
 *Client-side caching* reduces network traffic between
 a Redis client and the server, which generally improves performance.
 See [Client-side caching compatibility with Redis Software and Redis Cloud]({{< relref "operate/rs/references/compatibility/client-side-caching" >}})
-for details on Redis versions that support CSC.
+for details on Redis versions that support client-side caching.
 
 By default, an [application server](https://en.wikipedia.org/wiki/Application_server)
 (which sits between the user app and the database) contacts the
@@ -28,7 +28,7 @@ through the application server to the database and back again:
 
 {{< image filename="images/csc/CSCNoCache.drawio.svg" >}}
 
-When you use CSC, the client library
+When you use client-side caching, the client library
 maintains a local cache of data items as it retrieves them
 from the database. When the same items are needed again, the client
 can satisfy the read requests from the cache instead of the database:
@@ -41,7 +41,7 @@ the load on the database server, so you may be able to run it using fewer hardwa
 resources.
 
 As with other forms of [caching](https://en.wikipedia.org/wiki/Cache_(computing)),
-CSC works well in the very common use case where a small subset of the data
+client-side caching works well in the very common use case where a small subset of the data
 gets accessed much more frequently than the rest of the data (according
 to the [Pareto principle](https://en.wikipedia.org/wiki/Pareto_principle)).
 
@@ -51,7 +51,7 @@ All caching systems must implement a scheme to update data in the cache
 when the corresponding data changes in the main database. Redis uses an
 approach called *tracking*.
 
-When CSC is enabled, the Redis server remembers or *tracks* the set of keys
+When client-side caching is enabled, the Redis server remembers or *tracks* the set of keys
 that each client connection has previously read. This includes cases where the client
 reads data directly, as with the [`GET`]({{< relref "/commands/get" >}})
 command, and also where the server calculates values from the stored data,
@@ -86,11 +86,11 @@ will use cached data, except for the following:
     [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search).
 
 You can use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command to
-check the server's behavior when you are using CSC. Because `MONITOR` only
+check the server's behavior when you are using client-side caching. Because `MONITOR` only
 reports activity from the server, you should find that the first cacheable
 access to a key causes a response from the server. However, subsequent
 accesses are satisfied by the cache, and so `MONITOR` should report no
-server activity if CSC is working correctly.
+server activity if client-side caching is working correctly.
 
 ## What data gets cached for a command?
 
@@ -132,7 +132,7 @@ then cached separately. For example:
 
 ## Usage recommendations
 
-Like any caching system, CSC has some limitations:
+Like any caching system, client-side caching has some limitations:
 
 -   The cache has only a limited amount of memory available. When the limit
     is reached, the client must *evict* potentially useful items from the
@@ -140,7 +140,7 @@ Like any caching system, CSC has some limitations:
 -   Cache misses, tracking, and invalidation messages always add a slight
     performance penalty.
 
-Below are some guidelines to help you use CSC efficiently, within these
+Below are some guidelines to help you use client-side caching efficiently, within these
 limitations:
 
 -   **Use a separate connection for data that is not cache-friendly**:
@@ -149,7 +149,7 @@ limitations:
     may also have data such as counters and scoreboards that receive frequent
     updates. In cases like this, the performance overhead of the invalidation
     messages can be greater than the savings made by caching. Avoid this problem
-    by using a separate connection *without* CSC for any data that is
+    by using a separate connection *without* client-side caching for any data that is
     not cache-friendly.
 -   **Estimate how many items you can cache**: The client libraries let you
     specify the maximum number of items you want to hold in the cache. You
@@ -166,8 +166,8 @@ limitations:
 
     ## Reference
 
-    The Redis server implements extra features for CSC that are not used by
+    The Redis server implements extra features for client-side caching that are not used by
     the main Redis clients, but may be useful for custom clients and other
     advanced applications. See
     [Client-side caching reference]({{< relref "/develop/reference/client-side-caching" >}})
-    for a full technical guide to all the options available for CSC.
+    for a full technical guide to all the options available for client-side caching.
