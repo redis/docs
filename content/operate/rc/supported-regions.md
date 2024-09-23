@@ -44,7 +44,7 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 | `eu-north-1` | Stockholm, Sweden | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `eu-south-1` | Milan, Italy | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
 | `eu-south-2` | Spain | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
-| `eu-west-1` | Ireland | <span title="Supported">&#x2705;</span> | <span title="Not supported">&#x274c;</span> |
+| `eu-west-1` | Ireland | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `eu-west-2` | London, UK | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | `eu-west-3` | Paris, France | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 
