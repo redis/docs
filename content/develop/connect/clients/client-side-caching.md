@@ -29,7 +29,7 @@ through the application server to the database and back again:
 {{< image filename="images/csc/CSCNoCache.drawio.svg" >}}
 
 When you use CSC, the client library
-maintains its own local cache of data items as it retrieves them
+maintains a local cache of data items as it retrieves them
 from the database. When the same items are needed again, the client
 can satisfy the read requests from the cache instead of the database:
 
