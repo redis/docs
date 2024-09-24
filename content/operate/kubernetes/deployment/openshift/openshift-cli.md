@@ -23,19 +23,19 @@ To see which version of Redis Enterprise for Kubernetes supports your OpenShift 
 
 1. Create a new project.
 
-    ```bash
+    ```sh
     oc new-project <your-project-name> 
     ```
 
 1. Verify the newly created project. 
 
-    ```bash
+    ```sh
     oc project <your-project-name>
     ```
 
 1. Get the deployment files.
 
-    ```bash
+    ```sh
     git clone https://github.com/RedisLabs/redis-enterprise-k8s-docs
     ```
 
@@ -52,13 +52,13 @@ To see which version of Redis Enterprise for Kubernetes supports your OpenShift 
 
 1. Verify that your `redis-enterprise-operator` deployment is running.
 
-    ```bash
+    ```sh
     oc get deployment
     ```
 
     A typical response looks like this:
 
-    ```bash
+    ```sh
     NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
     redis-enterprise-operator   1/1     1            1           0m36s
     ```
@@ -115,7 +115,7 @@ The Redis Enterprise pods must run in OpenShift with privileges set in a [Securi
 
 1. Apply the custom resource file to create your Redis Enterprise cluster.
 
-    ```bash
+    ```sh
     oc apply -f <rec_rhel>.yaml
     ```
 
@@ -149,38 +149,38 @@ If not limited, the webhook intercepts requests from all namespaces. If you have
 
 1. Verify your namespace is labeled and the label is unique to this namespace, as shown in the next example.
 
-    ```bash
-    apiVersion: v1
-    kind: Namespace
-    metadata:
-      labels:
-        namespace-name: staging
-    name: staging
-    ```
+  ```sh
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    labels:
+      namespace-name: staging
+  name: staging
+  ```
 
 1. Patch the webhook spec with the `namespaceSelector` field. 
-    ```bash
-    cat > modified-webhook.yaml <<EOF
-    webhooks:
-    - name: redisenterprise.admission.redislabs
-      namespaceSelector:
-        matchLabels:
-          namespace-name: staging
-    EOF
-    ```
+  ```sh
+  cat > modified-webhook.yaml <<EOF
+  webhooks:
+  - name: redisenterprise.admission.redislabs
+    namespaceSelector:
+      matchLabels:
+        namespace-name: staging
+  EOF
+  ```
 
 1. Apply the patch.
 
-    ```bash
-    oc patch ValidatingWebhookConfiguration \
-      redis-enterprise-admission --patch "$(cat modified-webhook.yaml)"
-    ```
+  ```sh
+  oc patch ValidatingWebhookConfiguration \
+    redis-enterprise-admission --patch "$(cat modified-webhook.yaml)"
+  ```
   {{<note>}}
   For releases before 6.4.2-4, use this command instead:
-    ```sh
-    oc patch ValidatingWebhookConfiguration \
-      redb-admission --patch "$(cat modified-webhook.yaml)"
-    ```
+  ```sh
+  oc patch ValidatingWebhookConfiguration \
+    redb-admission --patch "$(cat modified-webhook.yaml)"
+  ```
 
   The 6.4.2-4 release introduces a new `ValidatingWebhookConfiguration` to replace `redb-admission`. See the [6.4.2-4 release notes]({{< relref "/operate/kubernetes/release-notes/6-4-2-releases/" >}}).
   {{</note>}}
@@ -189,22 +189,22 @@ If not limited, the webhook intercepts requests from all namespaces. If you have
 
 Apply an invalid resource as shown below to force the admission controller to reject it. If it applies successfully, the admission controller is not installed correctly.
 
-```bash
-  oc apply -f - << EOF
-   apiVersion: app.redislabs.com/v1alpha1
-   kind: RedisEnterpriseDatabase
-   metadata:
-     name: redis-enterprise-database
-   spec:
-    evictionPolicy: illegal
-   EOF
+```sh
+oc apply -f - << EOF
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseDatabase
+metadata:
+  name: redis-enterprise-database
+spec:
+  evictionPolicy: illegal
+EOF
 ```
 
 You should see this error from the admission controller webhook `redisenterprise.admission.redislabs`.
   
-  ```bash
-  Error from server: error when creating "STDIN": admission webhook "redisenterprise.admission.redislabs" denied the request: eviction_policy: u'illegal' is not one of [u'volatile-lru', u'volatile-ttl', u'volatile-random', u'allkeys-lru', u'allkeys-random', u'noeviction', u'volatile-lfu', u'allkeys-lfu']
-  ```
+```sh
+Error from server: error when creating "STDIN": admission webhook "redisenterprise.admission.redislabs" denied the request: eviction_policy: u'illegal' is not one of [u'volatile-lru', u'volatile-ttl', u'volatile-random', u'allkeys-lru', u'allkeys-random', u'noeviction', u'volatile-lfu', u'allkeys-lfu']
+```
 
 ## Create a Redis Enterprise database custom resource
 
@@ -214,20 +214,20 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
    This example creates a test database. For production databases, see [create a database]({{< relref "/operate/kubernetes/re-databases/db-controller.md#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}).
 
-      ```bash
-      cat << EOF > /tmp/redis-enterprise-database.yml
-      apiVersion: app.redislabs.com/v1alpha1
-      kind: RedisEnterpriseDatabase
-      metadata:
-        name: redis-enterprise-database
-      spec:
-        memorySize: 100MB
-      EOF
-      ```
+    ```sh
+    cat << EOF > /tmp/redis-enterprise-database.yml
+    apiVersion: app.redislabs.com/v1alpha1
+    kind: RedisEnterpriseDatabase
+    metadata:
+      name: redis-enterprise-database
+    spec:
+      memorySize: 100MB
+    EOF
+    ```
 
 1. Apply the newly created REDB resource.
 
-    ```bash
+    ```sh
     oc apply -f /tmp/redis-enterprise-database.yml
     ```
 
