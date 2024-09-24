@@ -31,14 +31,11 @@ For more info on how RDI works, see [RDI Architecture]({{<relref "/integrate/red
 
 ### Pipeline security
 
-Regarding pipeline security:
-Source credentials and TLS secrets are all coming from AWS secret manager to RDI using AWS Secret Manager CSI driver for secrets which is the best practice
-The connectivity to the source database is via AWS private link so that RDI is only exposed to the specific end point and not to the entire customer VPC
-The connectivity to source database is JDBC secured connection with TLS
-The data is written from the source to Redis streams over secured RESP + TLS
-The data is then processed in memory by RDI - reading it over TLS secured  RESP connection and writing it to the target Redis using TLS secured connection
-RDI resides within Redis Cloud VPC
-There is no Ingress connections to RDI except from Redis Cloud management services
+Data pipelines are set up to ensure a high level of data security. Source database credentials and TLS secrets are stored in AWS secret manager and shared using the AWS Secret Manager CSI driver for secrets. See [Share source database credentials]({{<relref "/operate/rc/databases/rdi/setup#share-source-database-credentials">}}) to learn how to share your source database credentials with Redis Cloud.
+
+Connections to the source database are through [AWS PrivateLink](https://aws.amazon.com/privatelink/), ensuring that the data pipeline is only exposed to the specific database endpoint. See [Set up connectivity]({{<relref "/operate/rc/databases/rdi/setup#set-up-connectivity">}}) to learn how to connect your PrivateLink to the Redis Cloud VPC.
+
+RDI encrypts all network connections with TLS. The pipeline will process data from the source database in-memory and write it to the target database using a TLS connection. There are no external connections to your data pipeline except from Redis Cloud management services.
 
 ## Prerequisites
 
