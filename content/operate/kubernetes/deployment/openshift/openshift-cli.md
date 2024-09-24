@@ -158,7 +158,7 @@ If not limited, the webhook intercepts requests from all namespaces. If you have
   name: staging
   ```
 
-1. Patch the webhook spec with the `namespaceSelector` field. 
+2. Patch the webhook spec with the `namespaceSelector` field. 
   ```sh
   cat > modified-webhook.yaml <<EOF
   webhooks:
@@ -169,7 +169,7 @@ If not limited, the webhook intercepts requests from all namespaces. If you have
   EOF
   ```
 
-1. Apply the patch.
+3. Apply the patch.
 
   ```sh
   oc patch ValidatingWebhookConfiguration \

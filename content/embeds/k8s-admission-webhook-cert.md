@@ -27,15 +27,15 @@
 
 4. Create a patch file for the Kubernetes validating webhook.
 
-    ```sh
-    cat > modified-webhook.yaml <<EOF
-    webhooks:
-    - name: redisenterprise.admission.redislabs
-      clientConfig:
-        caBundle: $CERT
-      admissionReviewVersions: ["v1beta1"]
-    EOF
-    ```
+```sh
+cat > modified-webhook.yaml <<EOF
+webhooks:
+- name: redisenterprise.admission.redislabs
+  clientConfig:
+    caBundle: $CERT
+  admissionReviewVersions: ["v1beta1"]
+EOF
+```
 
 5. Patch the webhook with the certificate.
 
