@@ -68,6 +68,8 @@ Use the **Database list** to check the status of your databases.
 
 ## Create database with Custom settings {#custom-settings}
 
+{{<image filename="images/rc/create-pro-db-settings-custom.png" alt="The database settings section, with custom settings selected.">}}
+
 If you choose to create your database with custom settings, you need to:
 
 1. Set up the deployment options, including cloud vendor details, high availability settings, and advanced options.
