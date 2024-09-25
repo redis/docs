@@ -126,7 +126,7 @@ Each Redis Enterprise cluster requires at least 3 nodes. Single-node RECs are no
     oc apply -f <rec_rhel>.yaml
     ```
 
-  The operator typically creates the REC within a few minutes.
+    The operator typically creates the REC within a few minutes.
 
 1. Check the cluster status.
 
