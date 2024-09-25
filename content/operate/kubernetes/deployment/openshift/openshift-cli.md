@@ -42,7 +42,7 @@ To see which version of Redis Enterprise for Kubernetes supports your OpenShift 
 
 1. Deploy the OpenShift operator bundle.
 
-   {{<note>}} If you are using version 6.2.18-41 or earlier, you must [apply the security context constraint](#install-security-context-constraint) before the operator bundle. {{</note>}}
+   If you are using version 6.2.18-41 or earlier, you must [apply the security context constraint](#install-security-context-constraint) before the operator bundle.
     
     ```sh
     oc apply -f openshift.bundle.yaml
@@ -92,12 +92,12 @@ The Redis Enterprise pods must run in OpenShift with privileges set in a [Securi
       system:serviceaccount:<my-project>:<rec>
     ```
 
-  {{<note>}} If you are using version 6.2.18-41 or earlier, add additional permissions for your cluster.
+    {{<note>}} If you are using version 6.2.18-41 or earlier, add additional permissions for your cluster.
 
     oc adm policy add-scc-to-user redis-enterprise-scc \
     system:serviceaccount:<my-project>:redis-enterprise-operator
 
-  {{</note>}}
+    {{</note>}}
 
   You can check the name of your project using the `oc project` command. To replace the project name, use `oc edit project myproject`. Replace `rec` with the name of your Redis Enterprise cluster, if different.
 
@@ -109,9 +109,9 @@ The Redis Enterprise pods must run in OpenShift with privileges set in a [Securi
 
     The REC name cannot be changed after cluster creation.
 
-  {{<note>}}
-  Each Redis Enterprise cluster requires at least 3 nodes. Single-node RECs are not supported.
-  {{</note>}}
+    {{<note>}}
+    Each Redis Enterprise cluster requires at least 3 nodes. Single-node RECs are not supported.
+    {{</note>}}
 
 2. Apply the custom resource file to create your Redis Enterprise cluster.
 
@@ -119,7 +119,7 @@ The Redis Enterprise pods must run in OpenShift with privileges set in a [Securi
     oc apply -f <rec_rhel>.yaml
     ```
 
-    The operator typically creates the REC within a few minutes.
+  The operator typically creates the REC within a few minutes.
 
 3. Check the cluster status.
 
@@ -127,10 +127,10 @@ The Redis Enterprise pods must run in OpenShift with privileges set in a [Securi
     oc get pod
     ```
 
-    You should receive a response similar to the following:
-    
+  You should receive a response similar to the following:
+
     ```sh
-    | NAME                             | READY | STATUS  | RESTARTS | AGE |
+     NAME                             | READY | STATUS  | RESTARTS | AGE |
     | -------------------------------- | ----- | ------- | -------- | --- |
     | rec-name-0              | 2/2   | Running | 0        | 1m  |
     | rec-name-1              | 2/2   | Running | 0        | 1m  |
@@ -149,41 +149,43 @@ If not limited, the webhook intercepts requests from all namespaces. If you have
 
 1. Verify your namespace is labeled and the label is unique to this namespace, as shown in the next example.
 
-  ```sh
-  apiVersion: v1
-  kind: Namespace
-  metadata:
-    labels:
-      namespace-name: staging
-  name: staging
-  ```
-
-2. Patch the webhook spec with the `namespaceSelector` field. 
-  ```sh
-  cat > modified-webhook.yaml <<EOF
-  webhooks:
-  - name: redisenterprise.admission.redislabs
-    namespaceSelector:
-      matchLabels:
+```sh
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      labels:
         namespace-name: staging
-  EOF
-  ```
+    name: staging
+```
+
+1. Patch the webhook spec with the `namespaceSelector` field. 
+
+    ```sh
+    cat > modified-webhook.yaml <<EOF
+    webhooks:
+    - name: redisenterprise.admission.redislabs
+      namespaceSelector:
+       matchLabels:
+         namespace-name: staging
+    EOF
+    ```
 
 3. Apply the patch.
 
-  ```sh
-  oc patch ValidatingWebhookConfiguration \
-    redis-enterprise-admission --patch "$(cat modified-webhook.yaml)"
-  ```
-  {{<note>}}
-  For releases before 6.4.2-4, use this command instead:
-  ```sh
-  oc patch ValidatingWebhookConfiguration \
-    redb-admission --patch "$(cat modified-webhook.yaml)"
-  ```
+    ```sh
+    oc patch ValidatingWebhookConfiguration \
+      redis-enterprise-admission --patch "$(cat modified-webhook.yaml)"
+    ```
 
-  The 6.4.2-4 release introduces a new `ValidatingWebhookConfiguration` to replace `redb-admission`. See the [6.4.2-4 release notes]({{< relref "/operate/kubernetes/release-notes/6-4-2-releases/" >}}).
-  {{</note>}}
+    {{<note>}}
+    For releases before 6.4.2-4, use this command instead:
+    ```sh
+    oc patch ValidatingWebhookConfiguration \
+      redb-admission --patch "$(cat modified-webhook.yaml)"
+    ```
+
+    The 6.4.2-4 release introduces a new `ValidatingWebhookConfiguration` to replace `redb-admission`. See the [6.4.2-4 release notes]({{< relref "/operate/kubernetes/release-notes/6-4-2-releases/" >}}).
+    {{</note>}}
 
 ### Verify admission controller installation
 
@@ -212,14 +214,14 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
 1. Create a `RedisEnterpriseDatabase` custom resource.
 
-   This example creates a test database. For production databases, see [create a database]({{< relref "/operate/kubernetes/re-databases/db-controller.md#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}).
+    This example creates a test database. For production databases, see [create a database]({{< relref "/operate/kubernetes/re-databases/db-controller.md#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}).
 
     ```sh
     cat << EOF > /tmp/redis-enterprise-database.yml
     apiVersion: app.redislabs.com/v1alpha1
     kind: RedisEnterpriseDatabase
     metadata:
-      name: redis-enterprise-database
+    name: redis-enterprise-database
     spec:
       memorySize: 100MB
     EOF
@@ -235,4 +237,3 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
 - [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}})
 - [Redis Enterprise database API]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}})
-
