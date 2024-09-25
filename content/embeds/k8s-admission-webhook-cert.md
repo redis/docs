@@ -41,5 +41,5 @@
 
     ```sh
     kubectl patch ValidatingWebhookConfiguration \
-      redis-enterprise-admission --patch "$(cat modified-webhook.yaml)"
+        redis-enterprise-admission --patch "$(cat modified-webhook.yaml)"
     ```
