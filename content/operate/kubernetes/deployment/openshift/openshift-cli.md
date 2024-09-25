@@ -179,11 +179,12 @@ If not limited, the webhook intercepts requests from all namespaces. If you have
 
     {{<note>}}
     For releases before 6.4.2-4, use this command instead:
-    ```sh
-    oc patch ValidatingWebhookConfiguration \
-      redb-admission --patch "$(cat modified-webhook.yaml)"
-    ```
 
+      ```sh
+      oc patch ValidatingWebhookConfiguration \
+        redb-admission --patch "$(cat modified-webhook.yaml)"
+      ```
+      
     The 6.4.2-4 release introduces a new `ValidatingWebhookConfiguration` to replace `redb-admission`. See the [6.4.2-4 release notes]({{< relref "/operate/kubernetes/release-notes/6-4-2-releases/" >}}).
     {{</note>}}
 
