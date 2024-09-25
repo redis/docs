@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from cmath import exp
 from components.syntax import Command
 from components.markdown import Markdown
 import json
