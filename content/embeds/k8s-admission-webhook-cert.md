@@ -4,10 +4,10 @@
     kubectl get secret admission-tls
     ```
   
-The output should look similar to
+    The output should look similar to
   
     ```sh
-     NAME            TYPE     DATA   AGE
+    NAME            TYPE     DATA   AGE
     admission-tls   Opaque   2      2m43s
     ```
 
@@ -18,7 +18,7 @@ The output should look similar to
     ```
 
 1. Create a Kubernetes validating webhook, replacing `<namespace>` with the namespace where the REC was installed.
-   
+
     The `webhook.yaml` template can be found in [redis-enterprise-k8s-docs/admission](https://github.com/RedisLabs/redis-enterprise-k8s-docs/tree/master/admission)
 
     ```sh
