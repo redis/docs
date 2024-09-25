@@ -149,14 +149,14 @@ If not limited, the webhook intercepts requests from all namespaces. If you have
 
 1. Verify your namespace is labeled and the label is unique to this namespace, as shown in the next example.
 
-```sh
+    ```sh
     apiVersion: v1
     kind: Namespace
     metadata:
       labels:
-        namespace-name: staging
+       namespace-name: staging
     name: staging
-```
+    ```
 
 1. Patch the webhook spec with the `namespaceSelector` field. 
 
