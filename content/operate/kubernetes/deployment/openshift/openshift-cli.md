@@ -109,11 +109,11 @@ The Redis Enterprise pods must run in OpenShift with privileges set in a [Securi
 
     The REC name cannot be changed after cluster creation.
 
-    {{<note>}}
-    Each Redis Enterprise cluster requires at least 3 nodes. Single-node RECs are not supported.
-    {{</note>}}
+  {{<note>}}
+  Each Redis Enterprise cluster requires at least 3 nodes. Single-node RECs are not supported.
+  {{</note>}}
 
-1. Apply the custom resource file to create your Redis Enterprise cluster.
+2. Apply the custom resource file to create your Redis Enterprise cluster.
 
     ```sh
     oc apply -f <rec_rhel>.yaml
@@ -121,7 +121,7 @@ The Redis Enterprise pods must run in OpenShift with privileges set in a [Securi
 
     The operator typically creates the REC within a few minutes.
 
-1. Check the cluster status.
+3. Check the cluster status.
 
     ```sh
     oc get pod
