@@ -73,11 +73,126 @@ The following table shows the number of CPUs required for each performance facto
 | Scale factor | 4x |
 | Minimum CPUs required for scale factor | 6 |
 
-## Configure query performance factor
+## Configure query performance factor manually
 
-To configure the query performance factor in Redis Enterprise, use the [REST API]({{<relref "/operate/rs/references/rest-api">}}) to create a new database or update an existing database.
+To manually configure the query performance factor in Redis Enterprise Software:
 
-### Create new database
+1. [Configure query performance factor](#config-db-ui) when you create a new database or edit an existing database's configuration in the Cluster Manager UI.
+
+1. [Restart proxies](#restart-proxies).
+
+1. If you are configuring the query performance factor for an existing database, you also need to [restart shards](#restart-shards). Newly created databases can skip this step.
+
+#### Configure query performance factor in the Cluster Manager UI {#config-db-ui}
+
+Use the Redis Enterprise Cluster Manager UI to [create a new database]({{<relref "/operate/rs/databases/create">}}) or [edit an existing database]({{<relref "/operate/rs/databases/configure#edit-database-settings">}}).
+
+1. In the **Capabilities** section of the database configuration screen, **Search and query** must be selected during database creation.
+
+1. In the **Capabilities** section, click **Parameters**.
+
+1. Adjust the **RediSearch** parameters to include: 
+
+    `MT_MODE MT_MODE_FULL WORKER_THREADS <NUMBER_OF_THREADS>`
+
+    See [Define number of threads](#define-number-of-threads) to determine the value to use for `<NUMBER_OF_THREADS>`.
+    
+1. Expand the **Query Performance Factor** section, and enter the following values:
+
+    - `mnp` for **Connections routing**
+
+    - `32` for **Connections limit**
+
+    {{<image filename="images/rs/screenshots/databases/rs-config-query-performance-factor.png" alt="Configure search parameters and query performance factor.">}}
+    
+1. Click **Done** to close the parameter editor.
+
+1. Click **Create** or **Save**.
+
+After you configure the database, you need to restart a few Redis services, including [proxies](#restart-proxies) and database [shards](#restart-shards).
+
+#### Restart proxies {#restart-proxies}
+
+Restart the proxy process for any node that hosts an endpoint for the scalable search database.
+
+1. Use [`rladmin status endpoints db <db-name>`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status#status-endpoints">}}) to identify which nodes host the database's endpoints:
+
+    ```sh
+    rladmin status endpoints db scalable-search-db
+    ```
+
+    Example output:
+
+    ```sh
+    ENDPOINTS:
+    DB:ID   NAME                 ID             NODE      ROLE      SSL     
+    db:1    scalable-search-db   endpoint:1:1   node:1    single    No  
+    ```
+
+1. For node details, run [`rladmin status nodes`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes">}}):
+
+    ```sh
+    rladmin status nodes
+    ```
+
+1. On each node that hosts a database endpoint, restart the proxy process: 
+
+    ```sh
+    supervisorctl restart dmcproxy
+    ```
+
+#### Restart shards {#restart-shards}
+
+After you update the query performance factor for an existing database, restart all shards to apply the new settings. You can migrate shards to restart them.
+
+1. Use [`rladmin status shards db <db-name>`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status#status-shards">}}) to list all shards for your database:
+
+    ```sh
+    rladmin status shards db scalable-search-db
+    ```
+
+    Example output:
+
+    ```sh
+    SHARDS:
+    DB:ID   NAME                ID      NODE   ROLE   SLOTS   USED_MEMORY STATUS
+    db:2    scalable-search-db  redis:1 node:1 master 0-16383 1.95MB      OK    
+    db:2    scalable-search-db  redis:2 node:2 slave  0-16383 1.95MB      OK    
+    ```
+
+    Note the following fields for the next steps: 
+    - `ID`: the Redis shard's ID.
+    - `NODE`: the node on which the shard currently resides.
+    - `ROLE`: `master` is a primary shard; `slave` is a replica shard.
+
+1. For each replica shard, use [`rladmin migrate shard`]({{<relref "/operate/rs/references/cli-utilities/rladmin/migrate">}}) to move it to a different node and restart it:
+
+    ```sh
+    rladmin migrate shard <shard_id> target_node <node_id>
+    ```
+
+1. After migrating the replica shards, migrate the original master shards.
+
+1. Rerun `rladmin status shards db <db-name>` to verify the shards migrated to different nodes:
+
+    ```sh
+    rladmin status shards db scalable-search-db
+    ```
+
+    Example output:
+
+    ```sh
+    SHARDS:
+    DB:ID   NAME                ID      NODE   ROLE   SLOTS   USED_MEMORY STATUS
+    db:2    scalable-search-db  redis:1 node:2 master 0-16383 1.95MB      OK    
+    db:2    scalable-search-db  redis:2 node:1 slave  0-16383 1.95MB      OK    
+    ```
+
+## Configure query performance factor with the REST API
+
+You can configure the query performance factor when you [create a new database](#create-db-rest-api) or [update an existing database](#update-db-rest-api) using the Redis Enterprise Software [REST API]({{<relref "/operate/rs/references/rest-api">}}).
+
+### Create new database with the REST API {#create-db-rest-api}
 
 To create a database and configure the query performance factor, use the [create database REST API endpoint]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) with a [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}) that includes the following parameters:
 
@@ -126,7 +241,7 @@ The following [cURL](https://curl.se/docs/) request creates a new database from 
 curl -k -u "<user>:<password>" https://<host>:9443/v1/bdbs -H "Content-Type:application/json" -d @scalable-search-db.json
 ```
 
-### Update existing database 
+### Update existing database with the REST API {#update-db-rest-api}
 
 To configure the query performance factor for an existing database, use the following REST API requests:
 
