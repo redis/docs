@@ -57,6 +57,7 @@ An API object that represents a managed database in the cluster.
 | crdt_replicas | string;  Replica set configuration, for internal use only. |
 | crdt_sources | array of [syncer_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/syncer_sources" >}}) objects; Remote endpoints/peers of CRDB database to sync from. See the 'bdb -\> replica_sources' section |
 | crdt_sync | Enable, disable, or pause syncing from specified crdt_sources. Applicable only for Active-Active databases. See [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) for more details.<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
+| <span class="break-all">crdt_sync_connection_alarm_timeout_seconds</span> | integer (default: 0); If the syncer takes longer than the specified number of seconds to connect to an Active-Active database, raise a connection alarm |
 | crdt_sync_dist | boolean;  Enable/disable distributed syncer in master-master |
 | crdt_syncer_auto_oom_unlatch | boolean (default:&nbsp;true);  Syncer automatically attempts to recover synchronisation from peers after this database throws an Out-Of-Memory error. Otherwise, the syncer exits |
 | crdt_xadd_id_uniqueness_mode | XADD strict ID uniqueness mode. CRDT only.<br />Values:<br />‘liberal’<br />**‘strict’**<br />‘semi-strict’ |
@@ -117,6 +118,7 @@ An API object that represents a managed database in the cluster.
 | repl_backlog_size | string; Redis replication backlog size ('auto' or size in bytes) |
 | replica_sources | array of [syncer_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/syncer_sources" >}}) objects; Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section |
 | [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) | Enable, disable, or pause syncing from specified replica_sources<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
+| <span class="break-all">replica_sync_connection_alarm_timeout_seconds</span> | integer (default: 0); If the syncer takes longer than the specified number of seconds to connect to a replica, raise a connection alarm |
 | replica_sync_dist | boolean; Enable/disable distributed syncer in replica-of |
 | replication | boolean (default:&nbsp;false); In-memory database replication mode |
 | resp3 | boolean (default:&nbsp;true); Enables or deactivates RESP3 support |
