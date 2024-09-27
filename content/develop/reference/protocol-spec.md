@@ -689,7 +689,7 @@ int main(void) {
         p++;
     }
 
-    /* Now p points at '\r', and the len is in bulk_len. */
+    /* Now p points at '\r', and the length is in len. */
     printf("%d\n", len);
     return 0;
 }

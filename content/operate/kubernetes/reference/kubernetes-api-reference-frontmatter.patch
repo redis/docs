@@ -25,7 +25,7 @@ index 970ba528..6afe4c50 100644
 +aliases: [ /operate/kubernetes/reference/cluster-options, ]
  ---
  
- Packages:
+ apiVersion:
 diff --git a/content/operate/kubernetes/reference/redis_enterprise_database_api.md b/content/operate/kubernetes/reference/redis_enterprise_database_api.md
 index f925ce44..ea21766e 100644
 --- a/content/operate/kubernetes/reference/redis_enterprise_database_api.md
@@ -40,11 +40,11 @@ index f925ce44..ea21766e 100644
 +aliases: [ /operate/kubernetes/reference/db-options, ]
  ---
  
- Packages:
-diff --git a/content/operate/kubernetes/reference/redis_enterprise_remote_cluster.md b/content/operate/kubernetes/reference/redis_enterprise_remote_cluster.md
+ apiVersion:
+diff --git a/content/operate/kubernetes/reference/redis_enterprise_remote_cluster_api.md b/content/operate/kubernetes/reference/redis_enterprise_remote_cluster_api.md
 index 7d37a6dc..a9a313cf 100644
---- a/content/operate/kubernetes/reference/redis_enterprise_remote_cluster.md
-+++ b/content/operate/kubernetes/reference/redis_enterprise_remote_cluster.md
+--- a/content/operate/kubernetes/reference/redis_enterprise_remote_cluster_api.md
++++ b/content/operate/kubernetes/reference/redis_enterprise_remote_cluster_api.md
 @@ -5,7 +5,7 @@ categories:
  - docs
  - operate

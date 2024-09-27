@@ -1,0 +1,104 @@
+name: redis_docs_sync
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        type: string
+        required: true
+        description: ''
+
+jobs:
+  redis_docs_sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.DOCS_APP_ID }}
+          private-key: ${{ secrets.DOCS_APP_PRIVATE_KEY }}
+
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+
+      - name: 'Generate modules-api-ref.md and commands.json files and push if necessary'
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |-
+          RELEASE="${{ github.event.inputs.release }}"
+          BRANCH="redis_docs_sync_${RELEASE}"
+
+          # Generate modules-api-ref.md
+          gh repo clone redis/redis
+          pushd redis
+          git fetch origin --tags
+          git checkout "tags/${RELEASE}"
+          make 1>/dev/null
+          src/redis-server &
+          utils/generate-commands-json.py  > generated-commands.json
+          utils/generate-module-api-doc.rb > generated-modules-api-ref.md
+          popd
+
+          # check if remote branch already exists
+          git fetch --all
+          set +e
+          git ls-remote --exit-code --heads origin "refs/heads/${BRANCH}"
+          if [ "$?" -eq 0 ]; then
+            set -e
+            # if it does, create local branch off existing remote branch
+            git checkout -b "${BRANCH}" "origin/${BRANCH}"
+            git branch --set-upstream-to="origin/${BRANCH}" "${BRANCH}"
+            git pull
+          else
+            set -e
+            # otherwise, create local branch from main
+            git checkout -b "${BRANCH}"
+          fi
+
+          mv redis/generated-modules-api-ref.md content/develop/reference/modules/modules-api-ref.md
+          mv redis/generated-commands.json data/commands_core.json
+
+          # Apply frontmatter patch
+          git apply content/develop/reference/modules/modules-api-ref-frontmatter.patch
+
+          # Check if there are any changes
+          commands_core_is_different=$(git diff data/commands_core.json)
+          modules_api_is_different=$(git diff content/develop/reference/modules/modules-api-ref.md)
+
+          # If commands_core file has changed, commit it
+          if [[ ! -z $commands_core_is_different ]]; then
+            git add data/commands_core.json
+            git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
+            git config user.name "redisdocsapp[bot]"
+            git commit -m "Update commands_core.json for release ${RELEASE}"
+          fi
+
+          # If modules-api-ref file has changed, commit it
+          if [[ ! -z $modules_api_is_different ]]; then
+            git add content/develop/reference/modules/modules-api-ref.md
+            git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
+            git config user.name "redisdocsapp[bot]"
+            git commit -m "Update modules-api-ref.md for release ${RELEASE}"
+          fi
+
+          if [[ ! -z $commands_core_is_different || ! -z $modules_api_is_different ]]; then
+            git push origin "${BRANCH}"
+          fi
+
+          # If a pr is not already open, create one
+          set +e
+          gh search prs -R redis/docs --state open --match title "redis docs sync ${RELEASE}" | grep -q "redis docs sync ${RELEASE}"
+          if [ "$?" -eq 1 ]; then
+            set -e
+            gh pr create \
+              --body "redis docs sync ${RELEASE}" \
+              --title "redis docs sync ${RELEASE}" \
+              --head "$BRANCH" \
+              --base "main"
+          fi

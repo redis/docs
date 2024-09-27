@@ -15,6 +15,8 @@ weight: $weight
 
 Moves Redis Enterprise shards or endpoints to a new node in the same cluster.
 
+For more information about shard migration use cases and considerations, see [Migrate database shards]({{<relref "/operate/rs/databases/migrate-shards">}}).
+
 ## `migrate all_master_shards`
 
 Moves all primary shards of a specified database or node to a new node in the same cluster.

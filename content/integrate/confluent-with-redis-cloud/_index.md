@@ -48,7 +48,7 @@ If you decide to enable Transport Layer Security (TLS) for your database, you wi
 
 To add the Redis Sink connector to your Confluent Cloud environment from the Redis Cloud console: 
 
-1. From the [Redis Cloud console](https://app.redislabs.com/), select **Account Settings** and then select the **Integrations** tab.
+1. From the [Redis Cloud console](https://cloud.redis.io/), select **Account Settings** and then select the **Integrations** tab.
 
 1. Select the **Configure** button in the **Confluent** tile. 
 
@@ -62,7 +62,7 @@ To add the Redis Sink connector to your Confluent Cloud environment from the Red
 
     When you get to the **Authentication** step, fill in the fields with the following information:
 
-    - **Redis hostname**: The Public endpoint of your database, without the port number. This can be found in the Redis Cloud [admin console](https://app.redislabs.com/) from the database list or from the **General** section of the **Configuration** tab for the source database.
+    - **Redis hostname**: The Public endpoint of your database, without the port number. This can be found in the [Redis Cloud console](https://cloud.redis.io/) from the database list or from the **General** section of the **Configuration** tab for the source database.
     - **Redis port number**: The database's port. This is the number at the end of your database's Public endpoint.
     - **Redis database index**: Set this to 0 for a Redis Cloud database.
     - **Redis server password**: Enter the database password. If you have not set your own database user and password, use the [default user password]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}), which appears in the **Security** section of the **Configuration** tab of the database details screen.

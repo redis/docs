@@ -13,11 +13,14 @@ weight: $weight
 
 ## Statistics overview
 
-Clusters, databases, nodes, and shards collect various statistics at regular time intervals. You can view the statistics for these objects via `GET stats` requests to their respective endpoints:
+Clusters, databases, nodes, and shards collect various statistics at regular time intervals. View the statistics for these objects using `GET stats` requests to their respective endpoints:
 - [Cluster stats]({{< relref "/operate/rs/references/rest-api/requests/cluster/stats" >}})
 - [Database stats]({{< relref "/operate/rs/references/rest-api/requests/bdbs/stats" >}})
 - [Node stats]({{< relref "/operate/rs/references/rest-api/requests/nodes/stats" >}})
-- [Shard stats]({{< relref "/operate/rs/references/rest-api/requests/shards-stats" >}})
+- [Shard stats]({{< relref "/operate/rs/references/rest-api/requests/shards/stats" >}})
+
+View endpoint stats using `GET` requests, see:
+- [Endpoint stats]({{< relref "/operate/rs/references/rest-api/requests/endpoints-stats" >}})
 
 ### Response object
 
@@ -42,16 +45,12 @@ More details about the metrics relevant to each object:
 - [Shard metrics]({{< relref "/operate/rs/references/rest-api/objects/statistics/shard-metrics" >}})
 
 {{<note>}}
-Some statistics are for internal use only. They are not documented and should be ignored.
-{{</note>}}
-
-{{<note>}}
-Certain statistics will only appear in API responses when they are relevant.
+Certain statistics are not documented because they are for internal use only and should be ignored. Some statistics will only appear in API responses when they are relevant.
 {{</note>}}
 
 ### Optional URL parameters
 
-There are several optional URL parameters you can pass to the various `GET stats` requests in order to filter the returned statistics.
+There are several optional URL parameters you can pass to the various `GET stats` requests to filter the returned statistics.
 
 - `stime`: limit the start of the time range of the returned statistics
 - `etime`: limit the end of the time range of the returned statistics

@@ -119,6 +119,116 @@ r.get('foo')
 ```
 For more information, see [redis-py TLS examples](https://redis-py.readthedocs.io/en/stable/examples/ssl_connection_examples.html).
 
+## Connect using client-side caching
+
+Client-side caching is a technique to reduce network traffic between
+the client and server, resulting in better performance. See
+[Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
+for more information about how client-side caching works and how to use it effectively.
+
+To enable client-side caching, add some extra parameters when you connect
+to the server:
+
+-   `protocol`: (Required) You must pass a value of `3` here because
+    client-side caching requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+    protocol.
+-   `cache_config`: (Required) Pass `cache_config=CacheConfig()` here to enable client-side caching.
+
+The example below shows the simplest client-side caching connection to the default host and port,
+`localhost:6379`.
+All of the connection variants described above accept these parameters, so you can
+use client-side caching with a connection pool or a cluster connection in exactly the same way.
+
+{{< note >}}Client-side caching requires redis-py v5.1.0 or later.
+To maximize compatibility with all Redis products, client-side caching
+is supported by Redis v7.4 or later.
+{{< /note >}}
+
+```python
+import redis
+from redis.cache import CacheConfig
+
+r = redis.Redis(
+    protocol=3,
+    cache_config=CacheConfig(),
+    decode_responses=True
+)
+
+r.set("city", "New York")
+cityNameAttempt1 = r.get("city")    # Retrieved from Redis server and cached
+cityNameAttempt2 = r.get("city")    # Retrieved from cache
+```
+
+You can see the cache working if you connect to the same Redis database
+with [`redis-cli`]({{< relref "/develop/connect/cli" >}}) and run the
+[`MONITOR`]({{< relref "/commands/monitor" >}}) command. If you run the
+code above with the `cache_config` line commented out, you should see
+the following in the CLI among the output from `MONITOR`:
+
+```
+1723109720.268903 [...] "SET" "city" "New York"
+1723109720.269681 [...] "GET" "city"
+1723109720.270205 [...] "GET" "city"
+```
+
+The server responds to both `get("city")` calls.
+If you run the code again with `cache_config` uncommented, you will see
+
+```
+1723110248.712663 [...] "SET" "city" "New York"
+1723110248.713607 [...] "GET" "city"
+```
+
+The first `get("city")` call contacted the server but the second
+call was satisfied by the cache.
+
+### Removing items from the cache
+
+You can remove individual keys from the cache with the
+`delete_by_redis_keys()` method. This removes all cached items associated
+with the keys, so all results from multi-key commands (such as
+[`MGET`]({{< relref "/commands/mget" >}})) and composite data structures
+(such as [hashes]({{< relref "/develop/data-types/hashes" >}})) will be
+cleared at once. The example below shows the effect of removing a single
+key from the cache:
+
+```python
+r.hget("person:1", "name") # Read from the server
+r.hget("person:1", "name") # Read from the cache
+
+r.hget("person:2", "name") # Read from the server
+r.hget("person:2", "name") # Read from the cache
+
+cache = r.get_cache()
+cache.delete_by_redis_keys(["person:1"])
+
+r.hget("person:1", "name") # Read from the server
+r.hget("person:1", "name") # Read from the cache
+
+r.hget("person:2", "name") # Still read from the cache
+```
+
+You can also clear all cached items using the `flush()`
+method:
+
+```python
+r.hget("person:1", "name") # Read from the server
+r.hget("person:1", "name") # Read from the cache
+
+r.hget("person:2", "name") # Read from the cache
+r.hget("person:2", "name") # Read from the cache
+
+cache = r.get_cache()
+cache.flush()
+
+r.hget("person:1", "name") # Read from the server
+r.hget("person:1", "name") # Read from the cache
+
+r.hget("person:2", "name") # Read from the server
+r.hget("person:2", "name") # Read from the cache
+```
+
+
 ## Example: Indexing and querying JSON documents
 
 Make sure that you have Redis Stack and `redis-py` installed. Import dependencies:

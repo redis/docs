@@ -246,7 +246,7 @@ Now you can do full text search for light colored headphones:
   - Any other value type will cause an indexing failure
 
 - `SORTBY` only sorts by the first value
-- No `HIGHLIGHT` support
+- No `HIGHLIGHT` and `SUMMARIZE` support
 - `RETURN` of a Schema attribute, whose JSONPath leads to multiple values, returns only the first value (as a JSON String)
 - If a JSONPath is specified by the `RETURN`, instead of a Schema attribute, all values are returned (as a JSON String)
 
@@ -634,14 +634,14 @@ This example uses aggregation to calculate a 10% price discount for each item an
 {{% /alert %}}
 
 ## Index missing or empty values
-You can search for missing properties, that is, properties that do not exist in a given document, using the `INDEXMISSING` option to `FT.CREATE` in conjunction with the `ISMISSING` query function with `FT.SEARCH`. You can search for existing properties with no value (i.e., empty) using the `INDEXEMPTY` option with `FT.CREATE`. Both query types require DIALECT 2. Examples below:
+As of v2.10, you can search for missing properties, that is, properties that do not exist in a given document, using the `INDEXMISSING` option to `FT.CREATE` in conjunction with the `ismissing` query function with `FT.SEARCH`. You can also search for existing properties with no value (i.e., empty) using the `INDEXEMPTY` option with `FT.CREATE`. Both query types require DIALECT 2. Examples below:
 
 ```
 JSON.SET key:1 $ '{"propA": "foo"}'
 JSON.SET key:2 $ '{"propA": "bar", "propB":"abc"}'
 FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.propA AS propA TAG $.propB AS propB TAG INDEXMISSING
 
-> FT.SEARCH idx 'ISMISSING(@propB)' DIALECT 2
+> FT.SEARCH idx 'ismissing(@propB)' DIALECT 2
 1) "1"
 2) "key:1"
 3) 1) "$"

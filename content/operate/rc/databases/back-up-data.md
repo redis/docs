@@ -1,12 +1,12 @@
 ---
-Title: Back up a database
+Title: Back up and export a database
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
 description: null
-linktitle: Back up database
+linktitle: Back up database and export 
 weight: 25
 aliases:
     - /operate/rc/administration/configuration/backups
@@ -14,11 +14,11 @@ aliases:
 
 The backup options for Redis Cloud databases depend on your plan:
 
-- Redis Cloud Pro subscriptions can back up a database on-demand and schedule daily backups that occur during a set hour.
+- Redis Cloud Pro subscriptions can back up or export a database on-demand and schedule daily backups that occur during a set hour.
 
-- Paid Redis Cloud Essentials plans can back up a database on-demand and schedule backups that occur every 24 hours.  
+- Paid Redis Cloud Essentials plans can back up or export a database on-demand and schedule backups that occur every 24 hours.  
 
-- Free plans cannot back up a database through the Redis Cloud console.
+- Free plans cannot back up or export a database through the Redis Cloud console.
 
 {{<note>}}
 The number of database backups that can run simultaneously on a subscription is limited to 4 by default.
@@ -34,7 +34,7 @@ Here, you'll learn how to store backups using different cloud providers.
 
 To turn on database backups:
 
-1. Sign in to the [Redis Cloud console](https://app.redislabs.com/). 
+1. Sign in to the [Redis Cloud console](https://cloud.redis.io/). 
 
 1.  Select the database to open the **Database** page and then select **Edit database**.
 
@@ -56,7 +56,7 @@ When you enable **Remote backup**, additional options appear.  The options vary 
 | **Storage type** | Defines the provider of the storage location, which can be: `AWS S3`, `Google Cloud Storage`, `Azure Blob Storage`, or `FTP` (FTPS). |
 | **Backup destination** | Defines a URI representing the backup storage location. |
 
-## Back up data on demand
+## Back up and export data on demand
 
 After backups are turned on, you can back up your data at any time.  Use the **Backup now** button in the **Durability** section.
 
