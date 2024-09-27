@@ -166,7 +166,7 @@ the following in the CLI among the output from `MONITOR`:
 1723109720.270205 [...] "GET" "city"
 ```
 
-This shows that the server responds to both `get("city")` calls.
+The server responds to both `get("city")` calls.
 If you run the code again with `cache_config` uncommented, you will see
 
 ```

@@ -36,13 +36,13 @@ can satisfy the read requests from the cache instead of the database:
 {{< image filename="images/csc/CSCWithCache.drawio.svg" >}}
 
 Accessing the cache is much faster than communicating with the database over the
-network and it reduces network traffic. Also, this technique reduces
-the load on the database server, so you may be able to run it using fewer hardware
+network and it reduces network traffic. Client-side cacheing reduces
+the load on the database server, so you may be able to run it using less hardware
 resources.
 
 As with other forms of [caching](https://en.wikipedia.org/wiki/Cache_(computing)),
 client-side caching works well in the very common use case where a small subset of the data
-gets accessed much more frequently than the rest of the data (according
+is accessed much more frequently than the rest of the data (according
 to the [Pareto principle](https://en.wikipedia.org/wiki/Pareto_principle)).
 
 ## Updating the cache when the data changes
@@ -77,7 +77,7 @@ will use cached data, except for the following:
 -   Any commands for
     [probabilistic data types]({{< relref "/develop/data-types/probabilistic" >}}).
     These types are designed to be updated frequently, which means that caching
-    them gives little or no benefit.
+    has little or no benefit.
 -   Non-deterministic commands such as [`HGETALL`]({{< relref "/commands/hgetall" >}}),
     [`HSCAN`]({{< relref "/commands/hscan" >}}),
     and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
@@ -87,7 +87,7 @@ will use cached data, except for the following:
 
 You can use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command to
 check the server's behavior when you are using client-side caching. Because `MONITOR` only
-reports activity from the server, you should find that the first cacheable
+reports activity from the server, you should find the first cacheable
 access to a key causes a response from the server. However, subsequent
 accesses are satisfied by the cache, and so `MONITOR` should report no
 server activity if client-side caching is working correctly.
@@ -146,7 +146,7 @@ limitations:
 -   **Use a separate connection for data that is not cache-friendly**:
     Caching gives the most benefit
     for keys that are read frequently and updated infrequently. However, you
-    may also have data such as counters and scoreboards that receive frequent
+    may also have data, such as counters and scoreboards, that receives frequent
     updates. In cases like this, the performance overhead of the invalidation
     messages can be greater than the savings made by caching. Avoid this problem
     by using a separate connection *without* client-side caching for any data that is
@@ -157,7 +157,7 @@ limitations:
     maximum desired size of the
     cache in memory by the average size of the items you want to store
     (use the [`MEMORY USAGE`]({{< relref "/commands/memory-usage" >}})
-    command to get the memory footprint of a key). So, if you had
+    command to get the memory footprint of a key). For example, if you had
     10MB (or 10485760 bytes) available for the cache, and the average
     size of an item was 80 bytes, you could fit approximately
     10485760 / 80 = 131072 items in the cache. Monitor memory usage

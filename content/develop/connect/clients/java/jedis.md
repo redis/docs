@@ -247,7 +247,7 @@ you should see the following in the CLI among the output from `MONITOR`:
 1723109720.270205 [...] "GET" "city"
 ```
 
-This shows that the server responds to both `get("city")` calls.
+The server responds to both `get("city")` calls.
 If you run the code with `cacheConfig` added in again, you will see
 
 ```
@@ -255,7 +255,7 @@ If you run the code with `cacheConfig` added in again, you will see
 1723110248.713607 [...] "GET" "city"
 ```
 
-This shows that the first `get("city")` call contacted the server but the second
+The first `get("city")` call contacted the server, but the second
 call was satisfied by the cache.
 
 ### Removing items from the cache
