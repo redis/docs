@@ -129,6 +129,21 @@ The [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/l
 | :----- | :---------- |
 | `license_shards_limit` | Total shard limit by the license by shard type (ram / flash) |
 
+## Cluster watchdog metrics
+
+| PromQL | Type | Description |
+| :----- | :--- | :---------- |
+| <span class="break-all">`azure_token_ttl{cluster_wd=<node_uid>}`</span> | gauge| How many seconds left or the timestamp when the token is invalid.|
+| <span class="break-all">`generation{cluster_wd=<node_uid>}`</span> | gauge| Generation number of the specific cluster_wd|
+| <span class="break-all">`has_qourum{cluster_wd=<node_uid>, has_witness_disk=BOOL}`</span> | gauge| Has_qourum = 1<br />No quorum = 0 |
+| <span class="break-all">`is_primary{cluster_wd=<node_uid>}`</span> | gauge| primary = 1<br />secondary = 0 |
+| <span class="break-all">`total_live_nodes_count{cluster_wd=<node_uid>}`</span> | gauge| Number of live nodes|
+| <span class="break-all">`total_node_count{cluster_wd=<node_uid>}`</span> | gauge| Number of nodes |
+| <span class="break-all">`total_primary_selection_ended{cluster_wd=<node_uid>}`</span> | counter | Monotonic counter for each selection process that ended |
+| <span class="break-all">`total_primary_selections{cluster_wd=<node_uid>}`</span> | counter | Monotonic counter for each selection process that started|
+| <span class="break-all">`witness_disk_reads{status=” success/failure”, cluster_wd=<node_uid>}`</span> | counter | How many times read from the witness disk |
+| <span class="break-all">`witness_disk_writes{status=”success/failure”, cluster_wd=<node_uid>}`</span> | counter | How many times wrote to the witness disk |
+
 ## Proxy metrics
 
 | PromQL | Description |
