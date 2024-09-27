@@ -9,6 +9,7 @@ description: Most recent shard statistics requests
 headerRange: '[1-2]'
 linkTitle: last
 weight: $weight
+aliases: /operate/rs/references/rest-api/requests/shards-stats/last/
 ---
 
 | Method | Path | Description |
@@ -101,8 +102,8 @@ Returns most recent [statistics]({{< relref "/operate/rs/references/rest-api/obj
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | No shards exist |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | No shards exist |
 
 ## Get latest shard stats {#get-shard-stats-last}
 
@@ -186,10 +187,10 @@ Returns the most recent [statistics]({{< relref "/operate/rs/references/rest-api
 }
 ```
 
-### Status codes {#get-all-status-codes} 
+### Status codes {#get-status-codes} 
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error |
-| [404 Not Found](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5) | Shard does not exist |
-| [406 Not Acceptable](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.7) | Shard isn't currently active |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Shard does not exist |
+| [406 Not Acceptable](https://www.rfc-editor.org/rfc/rfc9110.html#name-406-not-acceptable) | Shard isn't currently active |

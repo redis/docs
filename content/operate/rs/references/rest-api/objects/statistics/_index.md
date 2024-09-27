@@ -17,7 +17,7 @@ Clusters, databases, nodes, and shards collect various statistics at regular tim
 - [Cluster stats]({{< relref "/operate/rs/references/rest-api/requests/cluster/stats" >}})
 - [Database stats]({{< relref "/operate/rs/references/rest-api/requests/bdbs/stats" >}})
 - [Node stats]({{< relref "/operate/rs/references/rest-api/requests/nodes/stats" >}})
-- [Shard stats]({{< relref "/operate/rs/references/rest-api/requests/shards-stats" >}})
+- [Shard stats]({{< relref "/operate/rs/references/rest-api/requests/shards/stats" >}})
 
 View endpoint stats using `GET` requests, see:
 - [Endpoint stats]({{< relref "/operate/rs/references/rest-api/requests/endpoints-stats" >}})
