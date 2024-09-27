@@ -38,7 +38,7 @@ To change the default user password for your database:
 
     {{<image filename="images/rc/button-database-edit.png" width="150px" alt="The Edit database button lets you change the database's default user password." >}}
 
-1. Under the **Security** section, enter the new password in the **Default user password** field.
+1. Under the **Security** section, enter the new password in the **Default user password** field. Database passwords must be less than 50 characters long.
 
 1. Select **Save database** to update the password.
 
