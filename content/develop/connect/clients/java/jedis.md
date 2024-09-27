@@ -33,7 +33,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-      <version>5.1.2</version>
+      <version>5.2.0</version>
   </dependency>
   ```
 
@@ -45,7 +45,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   }
   //...
   dependencies {
-      implementation 'redis.clients:jedis:5.1.2'
+      implementation 'redis.clients:jedis:5.2.0'
       //...
   }
   ```
