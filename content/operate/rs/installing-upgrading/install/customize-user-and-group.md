@@ -10,7 +10,7 @@ linkTitle: Customize user and group
 weight: 40
 ---
 
-By default, Redis Enterprise Software is installed with the user:group `redislabs:redislabs`.
+By default, Redis Enterprise Software is installed with the user:group `redislabs:redislabs`. See [Access control]({{< relref "/operate/rs/security/access-control" >}}) for user and group security information.
 
 During installation, you can specify the user and group that own all Redis Enterprise Software processes.
 
