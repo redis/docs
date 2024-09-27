@@ -121,7 +121,7 @@ For more information, see [redis-py TLS examples](https://redis-py.readthedocs.i
 
 ## Connect using client-side caching
 
-*Client-side caching* is a technique to reduce network traffic between
+Client-side caching is a technique to reduce network traffic between
 the client and server, resulting in better performance. See
 [Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
 for more information about how client-side caching works and how to use it effectively.
@@ -174,7 +174,7 @@ If you run the code again with `cache_config` uncommented, you will see
 1723110248.713607 [...] "GET" "city"
 ```
 
-This shows that the first `get("city")` call contacted the server but the second
+The first `get("city")` call contacted the server but the second
 call was satisfied by the cache.
 
 ### Removing items from the cache

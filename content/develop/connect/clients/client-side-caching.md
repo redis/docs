@@ -36,7 +36,7 @@ can satisfy the read requests from the cache instead of the database:
 {{< image filename="images/csc/CSCWithCache.drawio.svg" >}}
 
 Accessing the cache is much faster than communicating with the database over the
-network and it reduces network traffic. Client-side cacheing reduces
+network and it reduces network traffic. Client-side caching reduces
 the load on the database server, so you may be able to run it using less hardware
 resources.
 
@@ -94,7 +94,7 @@ server activity if client-side caching is working correctly.
 
 ## What data gets cached for a command?
 
-Broadly speaking, the data from the *specific response* to a command invocation
+Broadly speaking, the data from the specific response to a command invocation
 gets cached after it is used for the first time. Subsets of that data
 or values calculated from it are retrieved from the server as usual and
 then cached separately. For example:

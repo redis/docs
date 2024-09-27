@@ -198,7 +198,7 @@ public class Main {
 
 ## Connect using client-side caching
 
-*Client-side caching* is a technique to reduce network traffic between
+Client-side caching is a technique to reduce network traffic between
 the client and server, resulting in better performance. See
 [Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
 for more information about how client-side caching works and how to use it effectively.
