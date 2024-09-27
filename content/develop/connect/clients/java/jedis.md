@@ -213,6 +213,8 @@ All of the connection variants described above accept these parameters, so you c
 use client-side caching with a connection pool or a cluster connection in exactly the same way.
 
 {{< note >}}Client-side caching requires Jedis v5.2.0 or later.
+To maximize compatibility with all Redis products, client-side caching
+is supported by Redis v7.4 or later.
 {{< /note >}}
 
 ```java

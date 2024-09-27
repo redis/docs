@@ -139,6 +139,11 @@ The example below shows the simplest client-side caching connection to the defau
 All of the connection variants described above accept these parameters, so you can
 use client-side caching with a connection pool or a cluster connection in exactly the same way.
 
+{{< note >}}Client-side caching requires redis-py v5.1.0 or later.
+To maximize compatibility with all Redis products, client-side caching
+is supported by Redis v7.4 or later.
+{{< /note >}}
+
 ```python
 import redis
 from redis.cache import CacheConfig
