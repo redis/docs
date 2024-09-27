@@ -386,7 +386,7 @@ func main() {
 ```
 
 In this example, the user objects will be stored as hashes in the database. Use a `string`
-array in the form of name->value pairs to supply the data for the
+array in the form of name-value pairs to supply the data for the
 hash fields:
 
 ```go
@@ -412,7 +412,7 @@ user3 := []string{
 }
 ```
 
-It is slightly simpler to create the index for hash objects than
+It is easier to create the index for hash objects than
 for JSON objects. Use the `FTCreateOptions` parameter to enable
 indexing only for hash objects, but specify the same `user:` prefix
 as before. You don't need the `As:` field in the schema parameters
