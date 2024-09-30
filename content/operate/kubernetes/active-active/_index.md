@@ -86,9 +86,7 @@ For a full list of fields and options, see the [RERC API reference]({{<relref "/
 ### Limitations
 
 * Existing Redis databases cannot be migrated to a REAADB. (DOC-3594)
-
 * Admission is not blocking REAADB with `shardCount` which exceeds license quota. (RED-96301)
-
     Workaround: Fix the problems with the REAADB and reapply.
 * The `<rec-name>/<rec-namespace>` value must be unique for each RERC resource. (RED-96302)
 * Only global database options are supported, no support for specifying configuration per location.
