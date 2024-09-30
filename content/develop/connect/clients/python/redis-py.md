@@ -228,7 +228,7 @@ r.hget("person:2", "name") # Read from the server
 r.hget("person:2", "name") # Read from the cache
 ```
 
-Note that the client will also flush the cache automatically
+The client will also flush the cache automatically
 if any connection (including one from a connection pool)
 is disconnected.
 
