@@ -131,6 +131,7 @@ The following table summarizes the RESP data types that Redis supports:
 | [Bulk errors](#bulk-errors) | RESP3 | Aggregate | `!` |
 | [Verbatim strings](#verbatim-strings) | RESP3 | Aggregate | `=` |
 | [Maps](#maps) | RESP3 | Aggregate | `%` |
+| [Attributes](#attributes) | RESP3 | Aggregate | `|` |
 | [Sets](#sets) | RESP3 | Aggregate | `~` |
 | [Pushes](#pushes) | RESP3 | Aggregate | `>` |
 
@@ -529,6 +530,54 @@ A map in RESP2 is represented by a flat array containing the keys and the values
 The first element is a key, followed by the corresponding value, then the next key and so on, like this:
 `key1, value1, key2, value2, ...`.
 {{% /alert %}}
+
+<a name="attribute-reply"></a>
+
+### Attributes
+
+The attribute type is exactly like the Map type, but instead of a `%` character as the first byte, the `|` byte is used. Attributes describe a dictionary exactly like the Map type. However the client should not consider such a dictionary part of the reply, but as auxiliary data that is used in order to augment the reply.
+
+For instance newer versions of Redis may include the ability to report, for every executed command, the popularity of keys. The reply to the command `MGET a b` may be the following:
+
+    |1<CR><LF>
+        +key-popularity<CR><LF>
+        %2<CR><LF>
+            $1<CR><LF>
+            a<CR><LF>
+            ,0.1923<CR><LF>
+            $1<CR><LF>
+            b<CR><LF>
+            ,0.0012<CR><LF>
+    *2<CR><LF>
+        :2039123<CR><LF>
+        :9543892<CR><LF>
+
+The actual reply to `MGET` was just the two item array `[2039123, 9543892]`. The returned attributes specify the popularity, or frequency of requests, given as floating point numbers ranging from `0.0` to `1.0`, of the keys mentioned in the original command. Note: the actual implementation in Redis may differ.
+
+When a client reads a reply and encounters an attribute type, it should read the attribute, and continue reading the reply. The attribute reply should be accumulated separately, and the user should have a way to access such attributes. For instance, if we imagine a session in an higher level language, something like this could happen:
+
+```python
+> r = Redis.new
+#<Redis client>
+> r.mget("a","b")
+#<Redis reply>
+> r
+[2039123,9543892]
+> r.attribs
+{:key-popularity => {:a => 0.1923, :b => 0.0012}}
+```
+
+Attributes can appear anywhere before a valid part of the protocol identifying a given type, and will inform only the part of the reply that immediately follows. For example:
+
+    *3<CR><LF>
+        :1<CR><LF>
+        :2<CR><LF>
+        |1<CR><LF>
+            +ttl
+            :3600
+        :3<CR><LF>
+
+In the above example the third element of the array has associated auxiliary information of `{ttl:3600}`. Note that it's not up to the client library to interpret the attributes, it just needs to be passed to the caller in a sensible way.
 
 <a name="set-reply"></a>
 
