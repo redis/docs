@@ -309,6 +309,10 @@ client.hget("person:2", "name");    // Read from the server
 client.hget("person:2", "name");    // Read from the cache
 ```
 
+The client will also flush the cache automatically
+if any connection (including one from a connection pool)
+is disconnected.
+
 ## Production usage
 
 The following sections explain how to handle situations that may occur
