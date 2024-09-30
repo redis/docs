@@ -537,7 +537,7 @@ The first element is a key, followed by the corresponding value, then the next k
 
 The attribute type is exactly like the Map type, but instead of a `%` character as the first byte, the `|` byte is used. Attributes describe a dictionary exactly like the Map type. However the client should not consider such a dictionary part of the reply, but as auxiliary data that is used in order to augment the reply.
 
-For instance newer versions of Redis may include the ability to report, for every executed command, the popularity of keys. The reply to the command `MGET a b` may be the following:
+For exampl, newer versions of Redis may include the ability to report the popularity of keys for every executed command. The reply to the command `MGET a b` may be the following:
 
     |1<CR><LF>
         +key-popularity<CR><LF>
