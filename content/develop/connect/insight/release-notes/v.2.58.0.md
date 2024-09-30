@@ -10,9 +10,9 @@ weight: 1
 This is the General Availability (GA) release of Redis Insight 2.58.
 
 ### Highlights
-- Redis Insight now supports starting, stopping, and resetting [Redis Data Integration](https://redis.io/data-integration/?utm_source=redisinsight&utm_medium=repository&utm_campaign=release_notes) pipelines.
-- Support for a [highly requested feature](https://github.com/RedisInsight/RedisInsight/issues/1671) to subscribe to specific Pub/Sub channels.
-- Ability to delete previously added CA and Client certificates to keep them up-to-date.
+- Added functionality to start, stop, and reset [Redis Data Integration](https://redis.io/data-integration/?utm_source=redisinsight&utm_medium=repository&utm_campaign=release_notes) pipelines directly in the app, simplifying management and enhancing control
+- Introduced support for subscribing to specific Pub/Sub channel - a [highly requested feature](https://github.com/RedisInsight/RedisInsight/issues/1671)
+- Ability to delete previously added CA and Client certificates to keep them updated
 
 ### Details
 
