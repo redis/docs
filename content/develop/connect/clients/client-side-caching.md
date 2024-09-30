@@ -17,8 +17,6 @@ weight: 20
 
 *Client-side caching* reduces network traffic between
 a Redis client and the server, which generally improves performance.
-See [Client-side caching compatibility with Redis Software and Redis Cloud]({{< relref "operate/rs/references/compatibility/client-side-caching" >}})
-for details on Redis versions that support client-side caching.
 
 By default, an [application server](https://en.wikipedia.org/wiki/Application_server)
 (which sits between the user app and the database) contacts the
@@ -62,6 +60,12 @@ the clients that their cached copies of the data are no longer valid and the cli
 will evict the stale data in response. Next time a client reads from
 the same key, it will access the database directly and refresh its cache
 with the updated data.
+
+{{< note >}}If any connection from a client gets disconnected (including
+one from a connection pool) then the client will flush all keys from the
+client-side cache. Caching then resumes for subsequent reads from the
+connections that are still active.
+{{< /note >}}
 
 The sequence diagram below shows how two clients might interact as they
 access and update the same key:
