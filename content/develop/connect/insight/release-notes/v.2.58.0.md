@@ -1,12 +1,12 @@
 ---
-Title: Redis Insight v2.58.0, September 2024
-linkTitle: v2.58.0 (September 2024)
-date: 2024-09-30 00:00:00 +0000
+Title: Redis Insight v2.58.0, October 2024
+linkTitle: v2.58.0 (October 2024)
+date: 2024-10-01 00:00:00 +0000
 description: Redis Insight v2.58
 weight: 1
 
 ---
-## 2.58 (September 2024)
+## 2.58 (October 2024)
 This is the General Availability (GA) release of Redis Insight 2.58.
 
 ### Highlights
