@@ -62,7 +62,7 @@ the same key, it will access the database directly and refresh its cache
 with the updated data.
 
 {{< note >}}If any connection from a client gets disconnected (including
-one from a connection pool) then the client will flush all keys from the
+one from a connection pool), then the client will flush all keys from the
 client-side cache. Caching then resumes for subsequent reads from the
 connections that are still active.
 {{< /note >}}
