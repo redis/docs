@@ -41,7 +41,9 @@ For more detailed release notes, select a build version from the following table
 
 Redis Enterprise Software version 7.8.0 introduces the following breaking changes:
 
-- The default value of `latest_with_modules` has changed to `true`.
+- When you upgrade a database, the upgrade process also attempts to upgrade database modules by default.
+
+    - The default value of `latest_with_modules` has changed to `true`.
 
     - [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}) will always upgrade the database's modules.
 
@@ -95,15 +97,7 @@ If your database currently uses triggers and functions, you need to:
 
 - Deprecated `background_op` field from BDB REST API object. Use [`GET /v1/actions/bdb/<bdb_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions/bdb">}}) instead.
 
-- Deprecated module fields:
-
-    - `latest_with_modules`:
-
-        - The default value of `latest_with_modules` has changed to `true`.
-
-        - [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}) will always upgrade the database's modules.
-
-        - When you [upgrade a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) using the REST API, you can set `"latest_with_modules": false` in the request body to prevent module upgrades.
+- Deprecated the following fields for [upgrade database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade">}}) REST API requests:
 
     - `keep_redis_version`; use `redis_version` instead
 
@@ -111,11 +105,13 @@ If your database currently uses triggers and functions, you need to:
 
     - `new_module`; use `new_module_args` instead
 
+- Deprecated the following `module_list` fields for [create database]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) REST API requests:
+
     - `module_id`; use `module_name` instead
 
     - `semantic_version`; use module_args instead
 
-    - `min_redis_version` is only relevant to Redis database versions earlier than 7.4; replaced with `compatible_redis_version`
+- `min_redis_version` is only relevant to Redis database versions earlier than 7.4 and is replaced with `compatible_redis_version` in [module REST API]({{<relref "/operate/rs/references/rest-api/requests/modules">}}) responses.
 
 - Deprecated the [`rladmin upgrade modules`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-module">}}) command. Use [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}) instead.
 
