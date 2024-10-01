@@ -43,7 +43,7 @@ client-side caching works well in the very common use case where a small subset 
 is accessed much more frequently than the rest of the data (according
 to the [Pareto principle](https://en.wikipedia.org/wiki/Pareto_principle)).
 
-## Updating the cache when the data changes
+## Updating the cache when the data changes {#tracking}
 
 All caching systems must implement a scheme to update data in the cache
 when the corresponding data changes in the main database. Redis uses an
