@@ -83,15 +83,13 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS128768: Fixed an issue that prevented metric graph timestamp details from displaying in the Cluster Manager UI.
 
-- RS127120: 
+- RS127120: Fixed an issue where `crdt_replicas` were not properly updated when flushing an Active-Active database.
 
 - RS127054: Fixed an issue where the install script incorrectly reported "Port 53 is occupied" instead of the correct value of the occupied port.
 
 - RS125934: Fixed validation that prevented updating the Active-Active database configuration if existing TLS certificates expired.
 
-- RS125412: 
-
-- RS131360: 
+- RS125412: Fixed an issue where deleted external IP addresses were still listed as available during node configuration when joining a cluster.
 
 - RS123645: Fixed inconsistent behavior for shard creation when you enable sharding.
 
@@ -101,15 +99,13 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS121076: Added a 5-minute connection timeout when promoting a replica shard to a primary role.
 
-- RS118144:
-
 - RS118103: Removed the inaccurate shard `BACKUP_PROGRESS` column from the `rladmin status` command's output.
 
-- RS116990: 
+- RS116990: Fixed an issue with flash-enabled databases where `FLUSHDB` could cause shard crashes in versions 7.0 and 7.2, and cause clients to stop responding in earlier versions.
 
-- RS114923:
+- RS114923: Fixed an issue where the legacy RDB parser could generate an `XGROUP CREATE` command with an incorrect `ENTRIESREAD` value when syncing a source RDB to a database with Redis version 7.0 or later.
 
-- RS114258: 
+- RS114258: Fixed an issue where an Active-Active database instance could lose keys during partial syncing if the destination shard was stale.
 
 ## Version changes
 
