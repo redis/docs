@@ -86,7 +86,7 @@ will use cached data, except for the following:
     [`HSCAN`]({{< relref "/commands/hscan" >}}),
     and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
     give different results each time they are called.
--   Search and query commands (with the `FT.*` prefix), such as
+-   Redis Query Engine commands (with the `FT.*` prefix), such as
     [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search).
 
 You can use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command to

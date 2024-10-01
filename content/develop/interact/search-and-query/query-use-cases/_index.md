@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Search and query use cases
-
-  '
+description: Redis Query Engine use cases
 linkTitle: Use cases
 title: Use cases
 weight: 5
