@@ -535,9 +535,9 @@ The first element is a key, followed by the corresponding value, then the next k
 
 ### Attributes
 
-The attribute type is exactly like the Map type, but instead of a `%` character as the first byte, the `|` byte is used. Attributes describe a dictionary exactly like the Map type. However the client should not consider such a dictionary part of the reply, but as auxiliary data that is used in order to augment the reply.
+The attribute type is exactly like the Map type, but instead of a `%` character as the first byte, the `|` character is used. Attributes describe a dictionary exactly like the Map type. However the client should not consider such a dictionary part of the reply, but as auxiliary data that augments the reply.
 
-For exampl, newer versions of Redis may include the ability to report the popularity of keys for every executed command. The reply to the command `MGET a b` may be the following:
+For example, newer versions of Redis may include the ability to report the popularity of keys for every executed command. The reply to the command `MGET a b` may be the following:
 
     |1<CR><LF>
         +key-popularity<CR><LF>
@@ -552,7 +552,7 @@ For exampl, newer versions of Redis may include the ability to report the popula
         :2039123<CR><LF>
         :9543892<CR><LF>
 
-The actual reply to `MGET` was just the two item array `[2039123, 9543892]`. The returned attributes specify the popularity, or frequency of requests, given as floating point numbers ranging from `0.0` to `1.0`, of the keys mentioned in the original command. Note: the actual implementation in Redis may differ.
+The actual reply to `MGET` is just the two item array `[2039123, 9543892]`. The returned attributes specify the popularity, or frequency of requests, given as floating point numbers ranging from `0.0` to `1.0`, of the keys mentioned in the original command. Note: the actual implementation in Redis may differ.
 
 When a client reads a reply and encounters an attribute type, it should read the attribute, and continue reading the reply. The attribute reply should be accumulated separately, and the user should have a way to access such attributes. For instance, if we imagine a session in an higher level language, something like this could happen:
 
@@ -567,7 +567,7 @@ When a client reads a reply and encounters an attribute type, it should read the
 {:key-popularity => {:a => 0.1923, :b => 0.0012}}
 ```
 
-Attributes can appear anywhere before a valid part of the protocol identifying a given type, and will inform only the part of the reply that immediately follows. For example:
+Attributes can appear anywhere before a valid part of the protocol identifying a given type, and supply information only about the part of the reply that immediately follows. For example:
 
     *3<CR><LF>
         :1<CR><LF>
@@ -577,7 +577,7 @@ Attributes can appear anywhere before a valid part of the protocol identifying a
             :3600
         :3<CR><LF>
 
-In the above example the third element of the array has associated auxiliary information of `{ttl:3600}`. Note that it's not up to the client library to interpret the attributes, it just needs to be passed to the caller in a sensible way.
+In the above example the third element of the array has associated auxiliary information of `{ttl:3600}`. Note that it's not up to the client library to interpret the attributes, but it should pass them to the caller in a sensible way.
 
 <a name="set-reply"></a>
 
