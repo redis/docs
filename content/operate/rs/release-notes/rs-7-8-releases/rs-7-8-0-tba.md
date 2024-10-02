@@ -107,6 +107,14 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS114258: Fixed an issue where an Active-Active database instance could lose keys during partial syncing if the destination shard was stale.
 
+- RS133653: Fixed a validation issue where expired client certificates prevented updates to database configuration unrelated to TLS.
+
+- RS126235: Fixed an issue where database updates could time out and enter a change pending state due to outdated shard data.
+
+- RS125128: Improved real-time logging for installation and upgrade for better visibility.
+
+- RS119958: Removed the log file limit that caused the debuginfo script to fail with the error "/bin/tar: Argument list too long" in Auto Tiering clusters and improved RocksDB log file rotation.
+
 ## Version changes
 
 - Added validation to verify the LDAP server URI contains a host and port when updating LDAP configuration.
