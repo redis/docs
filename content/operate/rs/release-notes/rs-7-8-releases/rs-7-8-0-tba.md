@@ -39,6 +39,10 @@ This version offers:
     
     - For more information, see the [client-side caching introduction]({{<relref "/develop/connect/clients/client-side-caching">}}) and [client-side caching compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}).
 
+- New [rebalance shard placement REST API request](<!--TODO: Add REST API ref link-->), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
+
+- New REST API requests to [stop traffic](<!--TODO: Add REST API ref link-->) or [resume traffic](<!--TODO: Add REST API ref link-->) to a database.
+
 ### Enhancements
 
 - New Cluster Manager UI enhancements:
