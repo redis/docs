@@ -79,8 +79,6 @@ To manually configure the query performance factor in Redis Enterprise Software:
 
 1. [Configure query performance factor parameters](#config-db-ui) when you create a new database or edit an existing database's configuration in the Cluster Manager UI.
 
-1. [Restart proxies](#restart-proxies).
-
 1. If you configure the query performance factor for an existing database, you also need to [restart shards](#restart-shards). Newly created databases can skip this step.
 
 ### Configure query performance factor parameters in the Cluster Manager UI {#config-db-ui}
@@ -108,38 +106,6 @@ You can use the Cluster Manager UI to configure the query performance factor whe
 1. Click **Done** to close the parameter editor.
 
 1. Click **Create** or **Save**.
-
-After you configure the database, you need to restart a few Redis services, including [proxies](#restart-proxies) and database [shards](#restart-shards).
-
-### Restart proxies {#restart-proxies}
-
-After you configure the query performance factor, restart the proxy process for any node that hosts an endpoint for the database.
-
-1. Use [`rladmin status endpoints db <db-name>`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status#status-endpoints">}}) to identify which nodes host the database's endpoints:
-
-    ```sh
-    rladmin status endpoints db db-name
-    ```
-
-    Example output:
-
-    ```sh
-    ENDPOINTS:
-    DB:ID   NAME                 ID             NODE      ROLE      SSL     
-    db:1    db-name              endpoint:1:1   node:1    single    No  
-    ```
-
-1. For node details, run [`rladmin status nodes`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes">}}):
-
-    ```sh
-    rladmin status nodes
-    ```
-
-1. On each node that hosts a database endpoint, restart the proxy process: 
-
-    ```sh
-    supervisorctl restart dmcproxy
-    ```
 
 ### Restart shards {#restart-shards}
 
