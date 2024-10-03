@@ -221,6 +221,10 @@ To prepare for the future removal of Redis 6.0:
 
 - For Redis Enterprise 7.2.4 and 7.4.2 clusters, upgrade Redis 6.0 databases to Redis 7.2. Before you upgrade your databases, see the list of [Redis 7.2 breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#redis-72-breaking-changes" >}}) and update any applications that connect to your database to handle these changes.
 
+#### Ubuntu 18.04
+
+Ubuntu 18.04 was deprecated in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.0.
+
 ### Upcoming changes
 
 #### Default image change for Redis Enterprise Software containers
@@ -270,7 +274,6 @@ The following table shows the SHA256 checksums for the available packages:
 
 | Package | SHA256 checksum (7.8.0-tba Oct release) |
 |---------|---------------------------------------|
-| Ubuntu 18 | <span class="break-all"></span> |
 | Ubuntu 20 | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 9 | <span class="break-all"></span> |
