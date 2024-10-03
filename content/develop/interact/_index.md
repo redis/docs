@@ -20,12 +20,12 @@ weight: 40
 Redis is useful as a key-value store but also gives you other powerful ways
 to interact with your data:
 
-- [Search and query](#search-and-query)
+- [Redis Query Engine](#search-and-query)
 - [Programmability](#programmability)
 - [Transactions](#transactions)
 - [Publish/subscribe](#publishsubscribe)
 
-## Search and query
+## Search and query with the Redis Query Engine
 
 The [Redis query engine]({{< relref "/develop/interact/search-and-query" >}})
 lets you retrieve data by content rather than by key. You
