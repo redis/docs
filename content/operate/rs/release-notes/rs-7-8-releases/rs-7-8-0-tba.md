@@ -207,9 +207,9 @@ If your database currently uses triggers and functions, you need to:
 
 New Redis modules will not be available for download from the Redis download center.
 
-#### Legacy UI deprecation
+#### Legacy UI not supported
 
-The legacy UI is deprecated in favor of the new Cluster Manager UI and will be removed in a future release.
+The legacy UI was deprecated in favor of the new Cluster Manager UI in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.0.
 
 #### Redis 6.0 databases not supported
 
