@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Client-side caching support. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements.
+description: Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
 linkTitle: 7.8.0-tba (October 2024)
 weight: 90
 ---
@@ -19,11 +19,19 @@ This version offers:
 
 - Client-side caching support
 
+- New APIs to check database availability, rebalance shards, fail over shards, and control database traffic
+
 - Cluster Manager UI enhancements for node actions, database tags, and database configuration
 
 - Log rotation based on both size and time
 
 - Module management enhancements
+
+- V2 Prometheus metrics
+
+- Configurable minimum password length
+
+- Configurable license expiration alert threshold
 
 ## New in this release
 
@@ -39,23 +47,27 @@ This version offers:
     
     - For more information, see the [client-side caching introduction]({{<relref "/develop/connect/clients/client-side-caching">}}) and [client-side caching compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}).
 
-- New [rebalance shard placement REST API request](<!--TODO: Add REST API ref link-->), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
+- [Database availability API](<!--TODO: Add link-->), which verifies whether a Redis Software database is available to peform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.
 
-- New REST API requests to [stop traffic](<!--TODO: Add REST API ref link-->) or [resume traffic](<!--TODO: Add REST API ref link-->) to a database.
+- [Rebalance shard placement REST API request](<!--TODO: Add REST API ref link-->), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
+
+- [Shard failover REST API requests](<!--TODO: Add REST API ref link-->), which perform failover on specified primary shards and promotes their replicas to primary shards.
+
+- REST API requests to [stop traffic](<!--TODO: Add REST API ref link-->) or [resume traffic](<!--TODO: Add REST API ref link-->) to a database.
 
 ### Enhancements
 
 - New Cluster Manager UI enhancements:
 
-    - Perform node actions from the **Nodes** screen to verify nodes, set a node as primary or secondary, remove nodes, and manage node alert settings.
+    - Perform node actions from the **Nodes** screen to [verify nodes]({{<relref "/operate/rs/clusters/add-node#verify-node">}}), [set a node as primary or secondary]({{<relref "/operate/rs/clusters/change-node-role">}}), [remove nodes]({{<relref "/operate/rs/clusters/remove-node">}}), and manage node alert settings.
 
-    - Categorize databases with custom tags. When you add new tags to a database, the keys and values already used by existing tags will appear as suggestions.
+    - Categorize databases with [custom tags]({{<relref "/operate/rs/databases/configure/db-tags">}}). When you add new tags to a database, the keys and values already used by existing tags will appear as suggestions.
 
     - Moved several settings on the database configuration screen:
     
-        - The eviction setting now appears in the **Capacity** section.
+        - The eviction setting now appears in the [**Capacity**]({{<relref "/operate/rs/databases/configure#capacity">}}) section.
 
-        - **High availability** and **Durability** have separate sections.
+        - [**High availability**]({{<relref "/operate/rs/databases/configure#high-availability">}}) and [**Durability**]({{<relref "/operate/rs/databases/configure#durability">}}) have separate sections.
 
 - When you upgrade a database, the upgrade process also attempts to upgrade database modules by default.
 
@@ -64,6 +76,22 @@ This version offers:
     - If you [upgrade a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) using the REST API, you can set `"latest_with_modules": false` in the request body to prevent module upgrades.
 
 - Added support for [log rotation]({{<relref "/operate/rs/clusters/logging/log-security#log-rotation">}}) based on both size and time.
+
+- Added V2 Prometheus metrics.
+
+- [Minimum password length]({{<relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules#change-minimum-password-length">}}), previously hardcoded as 8 characters, is now configurable in the Cluster Manager UI and the REST API.
+
+- The [cluster license expiration alert threshold]({{<relref "/operate/rs/clusters/configure/license-keys#configure-license-expiration-alert">}}), which determines how far in advance you want to be notified of the license expiration, is configurable in the Cluster Manager UI and the REST API.
+
+- The Cluster Manager UI's time zone can be configured with an [update CM settings REST API request]({{<relref "/operate/rs/references/rest-api/requests/cm_settings#put-cm-settings">}}).
+
+- Timeouts for raising connection alarms can be configured with an [update database configuration REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}):
+
+    - `crdt_sync_connection_alarm_timeout_seconds`: if the syncer takes longer than the specified number of seconds to connect to an Active-Active database, raise a connection alarm.
+
+    - `replica_sync_connection_alarm_timeout_seconds`: if the syncer takes longer than the specified number of seconds to connect to a replica, raise a connection alarm.
+
+- Reserved port 3349 for the cluster watchdog exporter.
 
 #### Redis module feature sets
 

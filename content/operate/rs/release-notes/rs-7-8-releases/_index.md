@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Client-side caching support. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements.
+description: Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
 hideListLinks: true
 linkTitle: 7.8.0 releases
 toc: 'true'
@@ -20,12 +20,20 @@ weight: 69
 This version offers:
 
 - Client-side caching support
- 
+
+- New APIs to check database availability, rebalance shards, fail over shards, and control database traffic
+
 - Cluster Manager UI enhancements for node actions, database tags, and database configuration
 
 - Log rotation based on both size and time
 
 - Module management enhancements
+
+- V2 Prometheus metrics
+
+- Configurable minimum password length
+
+- Configurable license expiration alert threshold
 
 ## Detailed release notes
 
