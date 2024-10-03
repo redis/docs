@@ -1,5 +1,5 @@
 ---
-Title: Redis Enterprise Software release notes 7.8.0-tba (October 2024)
+Title: Redis Software release notes 7.8.0-tba (October 2024)
 alwaysopen: false
 categories:
 - docs
@@ -11,7 +11,7 @@ linkTitle: 7.8.0-tba (October 2024)
 weight: 90
 ---
 
-​[​Redis Enterprise Software version 7.8.0](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Software version 7.8.0](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
 
 ## Highlights
 
@@ -67,7 +67,7 @@ This version offers:
 
 #### Redis module feature sets
 
-Redis Enterprise comes packaged with several modules. As of version 7.8.0, Redis Enterprise includes three feature sets, compatible with different Redis database versions.
+Redis Software comes packaged with several modules. As of version 7.8.0, Redis Software includes three feature sets, compatible with different Redis database versions.
 
 The following table shows which Redis modules are compatible with each Redis database version included in this release.
 
@@ -125,7 +125,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Breaking changes
 
-Redis Enterprise Software version 7.8.0 introduces the following breaking changes:
+Redis Software version 7.8.0 introduces the following breaking changes:
 
 - When you upgrade a database, the upgrade process also attempts to upgrade database modules by default.
 
@@ -139,15 +139,15 @@ Redis Enterprise Software version 7.8.0 introduces the following breaking change
 
 #### End-of-life policy extension
 
-The end-of-life policy for Redis Enterprise Software versions 6.2 and later has been extended to 24 months after the formal release of the subsequent major version. For the updated end-of-life schedule, see the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}).
+The end-of-life policy for Redis Software versions 6.2 and later has been extended to 24 months after the formal release of the subsequent major version. For the updated end-of-life schedule, see the [Redis Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}).
 
 #### Supported upgrade paths
 
-Redis Enterprise Software versions 6.2.4 and 6.2.8 do not support direct upgrades beyond version 7.4.x. Versions 6.2.10, 6.2.12, and 6.2.18 are part of the [upgrade path]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}). To upgrade from 6.2.4 or 6.2.8 to versions later than 7.4.x, an intermediate upgrade is required.
+Redis Software versions 6.2.4 and 6.2.8 do not support direct upgrades beyond version 7.4.x. Versions 6.2.10, 6.2.12, and 6.2.18 are part of the [upgrade path]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}). To upgrade from 6.2.4 or 6.2.8 to versions later than 7.4.x, an intermediate upgrade is required.
 
-The next major Redis Enterprise Software release will still bundle Redis database version 6.2 and allow database upgrades from Redis database version 6.2 to 7.x.
+The next major Redis Software release will still bundle Redis database version 6.2 and allow database upgrades from Redis database version 6.2 to 7.x.
 
-See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers.
+See the [Redis Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers.
 
 #### End of triggers and functions preview
 
@@ -213,13 +213,13 @@ The legacy UI is deprecated in favor of the new Cluster Manager UI and will be r
 
 #### Redis 6.0 database deprecation
 
-Redis database version 6.0 is deprecated as of Redis Enterprise Software version 7.4.2 and will be removed in a future release.
+Redis database version 6.0 is deprecated as of Redis Software version 7.4.2 and will be removed in a future release.
 
 To prepare for the future removal of Redis 6.0:
 
-- For Redis Enterprise 6.2.* clusters, upgrade Redis 6.0 databases to Redis 6.2. See the [Redis 6.2 release notes](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) for the list of changes.
+- For Redis Software 6.2.* clusters, upgrade Redis 6.0 databases to Redis 6.2. See the [Redis 6.2 release notes](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) for the list of changes.
 
-- For Redis Enterprise 7.2.4 and 7.4.2 clusters, upgrade Redis 6.0 databases to Redis 7.2. Before you upgrade your databases, see the list of [Redis 7.2 breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#redis-72-breaking-changes" >}}) and update any applications that connect to your database to handle these changes.
+- For Redis Software 7.2.4 and 7.4.2 clusters, upgrade Redis 6.0 databases to Redis 7.2. Before you upgrade your databases, see the list of [Redis 7.2 breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#redis-72-breaking-changes" >}}) and update any applications that connect to your database to handle these changes.
 
 #### Ubuntu 18.04
 
@@ -227,9 +227,9 @@ Ubuntu 18.04 was deprecated in Redis Software version 7.2.4 and is no longer sup
 
 ### Upcoming changes
 
-#### Default image change for Redis Enterprise Software containers
+#### Default image change for Redis Software containers
 
-Starting with version 7.8, Redis Enterprise Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
+Starting with version 7.8, Redis Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
 
 This change will only affect you if you use containers outside the official [Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes">}}) product and use Ubuntu-specific commands.
 
@@ -237,11 +237,11 @@ To use Ubuntu-based images after this change, you can specify the operating syst
 
 ### Supported platforms
 
-The following table provides a snapshot of supported platforms as of this Redis Enterprise Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
+The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
 
-<span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Enterprise Software and Redis Stack modules.
+<span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Software and Redis Stack modules.
 
-<span title="Warning icon" class="font-serif">:warning:</span> Deprecation warning – The platform is still supported for this version of Redis Enterprise Software, but support will be removed in a future release.
+<span title="Warning icon" class="font-serif">:warning:</span> Deprecation warning – The platform is still supported for this version of Redis Software, but support will be removed in a future release.
 
 | Redis Software<br />major versions | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|
@@ -266,7 +266,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 3. <a name="table-note-3" style="display: block; height: 80px; margin-top: -80px;"></a>See the [Redis Enterprise for Kubernetes documentation]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) for details about support per version and Kubernetes distribution.
 
 4. <a name="table-note-4" style="display: block; height: 80px; margin-top: -80px;"></a>
-[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Enterprise Software are certified for development and testing only.
+[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Software are certified for development and testing only.
 
 ## Downloads
 
@@ -297,17 +297,17 @@ The following legacy UI features are not yet available in the new Cluster Manage
 
 #### RedisGraph prevents upgrade to RHEL 9 
 
-You cannot upgrade from a prior RHEL version to RHEL 9 if the Redis Enterprise cluster contains a RedisGraph module, even if unused by any database. The [RedisGraph module has reached End-of-Life](https://redis.com/blog/redisgraph-eol/) and is completely unavailable in RHEL 9.
+You cannot upgrade from a prior RHEL version to RHEL 9 if the Redis Software cluster contains a RedisGraph module, even if unused by any database. The [RedisGraph module has reached End-of-Life](https://redis.com/blog/redisgraph-eol/) and is completely unavailable in RHEL 9.
 
 ## Security
 
 #### Open source Redis security fixes compatibility
 
-As part of Redis's commitment to security, Redis Enterprise Software implements the latest [security fixes](https://github.com/redis/redis/releases) available with [open source Redis](https://github.com/redis/redis). Redis Enterprise has already included the fixes for the relevant CVEs.
+As part of Redis's commitment to security, Redis Software implements the latest [security fixes](https://github.com/redis/redis/releases) available with [open source Redis](https://github.com/redis/redis). Redis Software has already included the fixes for the relevant CVEs.
 
-Some CVEs announced for open source Redis do not affect Redis Enterprise due to different or additional functionality available in Redis Enterprise that is not available in open source Redis.
+Some CVEs announced for open source Redis do not affect Redis Software due to different or additional functionality available in Redis Software that is not available in open source Redis.
 
-Redis Enterprise 7.8.0-tba supports open source Redis 7.2, 6.2, and 6.0. Below is the list of open source Redis CVEs fixed by version.
+Redis Software 7.8.0-tba supports open source Redis 7.2, 6.2, and 6.0. Below is the list of open source Redis CVEs fixed by version.
 
 Redis 7.2.x:
 
