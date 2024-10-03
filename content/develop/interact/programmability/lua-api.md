@@ -660,7 +660,7 @@ That means, for example, that returning the RESP3 map type to a RESP2 connection
 
 ## Additional notes about scripting
 
-### Using [`SELECT`]({{< relref "/commands/select" >}}) inside scripts
+### Using `SELECT` inside scripts
 
 You can call the [`SELECT`]({{< relref "/commands/select" >}}) command from your Lua scripts, like you can with any normal client connection.
 However, one subtle aspect of the behavior changed between Redis versions 2.8.11 and 2.8.12.
