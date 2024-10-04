@@ -312,6 +312,9 @@ efficiently. When you open a connection from a pool, the pool allocates you
 one of its open connections. When you subsequently close the same connection,
 it is not actually closed but simply returned to the pool for reuse.
 This avoids the overhead of repeated connecting and disconnecting.
+See
+[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
+for more information.
 
 Use the following code to connect with a connection pool:
 

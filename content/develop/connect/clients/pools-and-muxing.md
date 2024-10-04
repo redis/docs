@@ -38,14 +38,24 @@ supports both approaches.
 ## Connection pooling
 
 When you initialize a connection pool, the client opens a small number
-of connections and adds them to the pool. Each time you "open" a connection
+of connections and adds them to the pool.
+
+{{< image filename="/images/dev/connect/pool-and-mux/ConnPoolInit.drawio.svg" >}}
+
+Each time you "open" a connection
 from the pool, the client actually justs returns one of these existing
-connections and notes the fact that it is in use. When you later "close"
+connections and notes the fact that it is in use.
+
+{{< image filename="/images/dev/connect/pool-and-mux/ConnPoolInUse.drawio.svg" >}}
+
+When you later "close"
 the connection, the client puts it back into the pool of available
 connections without actually closing it.
 
+{{< image filename="/images/dev/connect/pool-and-mux/ConnPoolDiscon.drawio.svg" >}}
+
 If all connections in the pool are in use but the app needs more then
-the client can simply add new ones as necessary. In this way, the client
+the client can simply open new ones as necessary. In this way, the client
 eventually finds the right number of connections to satisfy your
 app's demands.
 
@@ -56,8 +66,10 @@ single connection open and uses it for all traffic between the
 client and the server. The "connections" returned to your code are
 simply to identify where to send the response data from your commands.
 
-When the multiplexer receives several commands in quick succession, it
-can often combine them into a
+{{< image filename="/images/dev/connect/pool-and-mux/ConnMux.drawio.svg" >}}
+
+Note that it is not a problem if the multiplexer receives several commands close
+together in time. When this happens, the multiplexer can often combine the commands into a
 [pipeline]({{< relref "/develop/use/pipelining" >}}), which
 improves efficiency even more.
 

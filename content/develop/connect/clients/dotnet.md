@@ -84,20 +84,6 @@ IJsonCommands json = db.JSON();
 ITimeSeriesCommands ts = db.TS();
 ```
 
-### Multiplexing
-
-Although example code typically works with a single connection,
-real-world code often uses multiple connections at the same time.
-Opening and closing connections repeatedly is inefficient, so it is best
-to manage open connections carefully to avoid this.
-
-Several other
-Redis client libraries use *connection pools* to reuse a set of open
-connections efficiently. NRedisStack uses a different approach called
-*multiplexing*, which sends all client commands and responses over a
-single connection. NRedisStack manages multiplexing for you automatically.
-This gives high performance without requiring any extra coding.
-
 ## Connect to a Redis cluster
 
 To connect to a Redis cluster, you just need to specify one or all cluster endpoints in the client configuration:
@@ -182,6 +168,23 @@ conn.StringSet("foo", "bar");
 //send GET command and print the value
 Console.WriteLine(conn.StringGet("foo"));   
 ```
+
+## Multiplexing
+
+Although example code typically works with a single connection,
+real-world code often uses multiple connections at the same time.
+Opening and closing connections repeatedly is inefficient, so it is best
+to manage open connections carefully to avoid this.
+
+Several other
+Redis client libraries use *connection pools* to reuse a set of open
+connections efficiently. NRedisStack uses a different approach called
+*multiplexing*, which sends all client commands and responses over a
+single connection. NRedisStack manages multiplexing for you automatically.
+This gives high performance without requiring any extra coding.
+See
+[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
+for more information.
 
 ## Example: Indexing and querying JSON documents
 
