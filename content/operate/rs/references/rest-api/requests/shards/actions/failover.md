@@ -56,8 +56,8 @@ The request body is a JSON object that can contain the following fields:
 | Field | Type | Description |
 |-------|------|-------------|
 | shard_uids | array of strings | List of primary shard UIDs to fail over. The shards must belong to the same database. |
-| dead_uids | array of strings | Primary shards that need not to be killed. Optional. |
-| dead_nodes | array of strings	 | Nodes that should need not to be drained or used for promoted replica shards. Optional. |
+| dead_uids | array of strings | Primary shards to avoid stopping. Optional. |
+| dead_nodes | array of strings | Nodes that should not be drained or used for promoted replica shards. Optional. |
 | dry_run | boolean | Determines whether the failover is actually done. If true, will just do a dry run. If the dry run succeeds, the request returns a `200 OK` status code.  Otherwise, it returns a JSON object with an error code and description. Optional. |
 | force_rebind | boolean | Rebind after promotion. Optional. |
 | redis_version_upgrade | string | New version of the promoted primary shards. Optional. |
@@ -143,8 +143,8 @@ The request body is a JSON object that can contain the following fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| dead_uid | string | Primary shard that needs not to be killed. Optional. |
-| dead_nodes | array of strings | Nodes that should need not to be drained or used for promoted replica shard. Optional. |
+| dead_uid | string | Primary shard to avoid stopping. Optional. |
+| dead_nodes | array of strings | Nodes that should not be drained or used for promoted replica shards. Optional. |
 | dry_run | boolean | Determines whether the failover is actually done. If true, will just do a dry run. If the dry run succeeds, the request returns a `200 OK` status code.  Otherwise, it returns a JSON object with an error code and description. Optional. |
 | force_rebind | boolean | Rebind after promotion. Optional. |
 | redis_version_upgrade | string | New version of the promoted primary shards. Optional. |
