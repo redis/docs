@@ -1,0 +1,68 @@
+---
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
+description: Manage Redis connections efficiently
+linkTitle: Pooling/multiplexing
+title: Connection pools and multiplexing
+weight: 10
+---
+
+Redis example code generally opens a connection, demonstrates
+a command or feature and then closes. Real-world code typically
+has short bursts of communication with the server and periods of
+inactivity in between. Opening and closing connections
+involves some overhead and leads to inefficiency if you do
+it frequently. This means that you can improve the performance of production
+code by making as few separate connections as possible.
+
+Managing connections in your own code can be tricky, so the Redis
+client libraries give you some help. The two basic approaches to
+connection management are called *connection pooling* and *multiplexing*.
+The [`redis-py`]({{< relref "/develop/connect/clients/python/redis-py" >}}),
+[`jedis`]({{< relref "/develop/connect/clients/java/jedis" >}}), and
+[`go-redis`]({{< relref "/develop/connect/clients/go" >}}) clients support
+connection pooling, while
+[`NRedisStack`]({{< relref "/develop/connect/clients/dotnet" >}})
+supports multiplexing.
+[`Lettuce`]({{< relref "/develop/connect/clients/java/lettuce" >}})
+supports both approaches.
+
+## Connection pooling
+
+When you initialize a connection pool, the client opens a small number
+of connections and adds them to the pool. Each time you "open" a connection
+from the pool, the client actually justs returns one of these existing
+connections and notes the fact that it is in use. When you later "close"
+the connection, the client puts it back into the pool of available
+connections without actually closing it.
+
+If all connections in the pool are in use but the app needs more then
+the client can simply add new ones as necessary. In this way, the client
+eventually finds the right number of connections to satisfy your
+app's demands.
+
+## Multiplexing
+
+Instead of pooling several connections, a multiplexer keeps a
+single connection open and uses it for all traffic between the
+client and the server. The "connections" returned to your code are
+simply to identify where to send the response data from your commands.
+
+When the multiplexer receives several commands in quick succession, it
+can often combine them into a
+[pipeline]({{< relref "/develop/use/pipelining" >}}), which
+improves efficiency even more.
+
+Multiplexing offers high efficiency but works transparently without requiring
+any special code to enable it in your app. The main disadvantage of multiplexing compared to
+connection pooling is that it can't support the blocking "pop" commands (such as
+[`BLPOP`]({{< relref "/commands/blpop" >}})) since these would stall the
+connection for all callers.
