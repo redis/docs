@@ -237,7 +237,7 @@ is disconnected.
 For production usage, you should use a connection pool to manage
 connections rather than opening and closing connections individually.
 A connection pool maintains several open connections and reuses them
-efficiently. When you open a connection from a pool, the pool allocates you
+efficiently. When you open a connection from a pool, the pool allocates
 one of its open connections. When you subsequently close the same connection,
 it is not actually closed but simply returned to the pool for reuse.
 This avoids the overhead of repeated connecting and disconnecting.

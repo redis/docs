@@ -16,7 +16,7 @@ weight: 10
 ---
 
 Redis example code generally opens a connection, demonstrates
-a command or feature and then closes. Real-world code typically
+a command or feature, and then closes. Real-world code typically
 has short bursts of communication with the server and periods of
 inactivity in between. Opening and closing connections
 involves some overhead and leads to inefficiency if you do
@@ -43,7 +43,7 @@ of connections and adds them to the pool.
 {{< image filename="/images/dev/connect/pool-and-mux/ConnPoolInit.drawio.svg" >}}
 
 Each time you "open" a connection
-from the pool, the client actually justs returns one of these existing
+from the pool, the client returns one of these existing
 connections and notes the fact that it is in use.
 
 {{< image filename="/images/dev/connect/pool-and-mux/ConnPoolInUse.drawio.svg" >}}
@@ -54,8 +54,8 @@ connections without actually closing it.
 
 {{< image filename="/images/dev/connect/pool-and-mux/ConnPoolDiscon.drawio.svg" >}}
 
-If all connections in the pool are in use but the app needs more then
-the client can simply open new ones as necessary. In this way, the client
+If all connections in the pool are in use but the app needs more, then
+the client can simply open new connections as necessary. In this way, the client
 eventually finds the right number of connections to satisfy your
 app's demands.
 
@@ -64,14 +64,14 @@ app's demands.
 Instead of pooling several connections, a multiplexer keeps a
 single connection open and uses it for all traffic between the
 client and the server. The "connections" returned to your code are
-simply to identify where to send the response data from your commands.
+used to identify where to send the response data from your commands.
 
 {{< image filename="/images/dev/connect/pool-and-mux/ConnMux.drawio.svg" >}}
 
 Note that it is not a problem if the multiplexer receives several commands close
 together in time. When this happens, the multiplexer can often combine the commands into a
 [pipeline]({{< relref "/develop/use/pipelining" >}}), which
-improves efficiency even more.
+improves efficiency.
 
 Multiplexing offers high efficiency but works transparently without requiring
 any special code to enable it in your app. The main disadvantage of multiplexing compared to
