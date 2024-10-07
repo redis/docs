@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Notes on search and query debugging, testing, and documentation
+description: Notes on RediSearch debugging, testing, and documentation
 linkTitle: Developer notes
 title: Developer notes
 weight: 3

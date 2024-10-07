@@ -17,8 +17,6 @@ weight: 20
 
 *Client-side caching* reduces network traffic between
 a Redis client and the server, which generally improves performance.
-See [Client-side caching compatibility with Redis Software and Redis Cloud]({{< relref "operate/rs/references/compatibility/client-side-caching" >}})
-for details on Redis versions that support client-side caching.
 
 By default, an [application server](https://en.wikipedia.org/wiki/Application_server)
 (which sits between the user app and the database) contacts the
@@ -45,7 +43,7 @@ client-side caching works well in the very common use case where a small subset 
 is accessed much more frequently than the rest of the data (according
 to the [Pareto principle](https://en.wikipedia.org/wiki/Pareto_principle)).
 
-## Updating the cache when the data changes
+## Updating the cache when the data changes {#tracking}
 
 All caching systems must implement a scheme to update data in the cache
 when the corresponding data changes in the main database. Redis uses an
@@ -62,6 +60,12 @@ the clients that their cached copies of the data are no longer valid and the cli
 will evict the stale data in response. Next time a client reads from
 the same key, it will access the database directly and refresh its cache
 with the updated data.
+
+{{< note >}}If any connection from a client gets disconnected (including
+one from a connection pool), then the client will flush all keys from the
+client-side cache. Caching then resumes for subsequent reads from the
+connections that are still active.
+{{< /note >}}
 
 The sequence diagram below shows how two clients might interact as they
 access and update the same key:
@@ -82,7 +86,7 @@ will use cached data, except for the following:
     [`HSCAN`]({{< relref "/commands/hscan" >}}),
     and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
     give different results each time they are called.
--   Search and query commands (with the `FT.*` prefix), such as
+-   Redis Query Engine commands (with the `FT.*` prefix), such as
     [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search).
 
 You can use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command to

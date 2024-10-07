@@ -9,15 +9,13 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Learn how to use query dialects
-
-  '
+description: Learn how to use query dialects
 linkTitle: Query dialects
 title: Query dialects
 weight: 5
 ---
 
-Redis Stack currently supports four query dialects for use with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), and other search and query commands.
+Redis Stack currently supports four query dialects for use with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), and other Redis Query Engine commands.
 Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.
 
 ## `DIALECT 1`
