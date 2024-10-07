@@ -109,6 +109,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
+- RS123645: Fixed inconsistent behavior for shard creation when you enable sharding. Now, when creating a database with sharding enabled, you must always provide a `shard_key_regex`.
+
 - RS130444: Fixed an issue that prevented creating or editing users without an email address in the Cluster Manager UI.
 
 - RS121796: The "multiple endpoint" configuration database default setting should also enable sharding when selected.
@@ -122,8 +124,6 @@ The following table shows which Redis modules are compatible with each Redis dat
 - RS125934: Fixed validation that prevented updating the Active-Active database configuration if existing TLS certificates expired.
 
 - RS125412: Fixed an issue where deleted external IP addresses were still listed as available during node configuration when joining a cluster.
-
-- RS123645: Fixed inconsistent behavior for shard creation when you enable sharding.
 
 - RS122012: Fixed an issue that sent a cutoff email message for long-running alerts.
 
