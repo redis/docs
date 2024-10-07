@@ -18,14 +18,20 @@ After you have [created your data pipeline]({{<relref "/operate/rc/databases/rdi
 1. For the **Configure a new pipeline** option, select the Redis data type to write keys to the target. You can choose **Hash** or **JSON**. 
 
     Select **Continue**. 
-1. Select the Schema and Tables you want to migrate to the target database from the **Source data selection** list.
+1. Select the Schema and Tables you want to migrate to the target database from the **Source data selection** list. You can select any number of columns from a table. 
 
     If any tables are missing a unique constraint, the **Missing unique constraint** list will appear. Select the columns that define a unique constraint for those tables from the list.
 
-    After you've selected the tables you want to sync, select **Continue**.
+    Select **Add schema** to add additional database schemas. 
+    
+    Select **Delete** to delete a schema. You must have at least one schema to continue.
+
+    After you've selected the schemas and tables you want to sync, select **Continue**.
 
 1. Review the tables you selected in the **Summary**. If everything looks correct, select **Start ingest** to start ingesting data from your source database. 
 
 At this point, the data pipeline will ingest data from the source database to your target Redis database. This process will take time, especially if you have a lot of records in your source database. 
 
-After this initial sync is complete, the data pipeline enters the *change streaming* phase, where changes are captured as they happen. Changes in the source database are added to the target within a few seconds of capture.
+After this initial sync is complete, the data pipeline enters the *change streaming* phase, where changes are captured as they happen. Changes in the source database are added to the target within a few seconds of capture. 
+
+You can view the status of your data pipeline in the **Data pipeline** tab of your database. See [View and edit data pipeline]({{<relref "/operate/rc/databases/rdi/view-edit">}}) to learn more.

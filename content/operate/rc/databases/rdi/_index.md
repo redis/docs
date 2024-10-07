@@ -65,4 +65,4 @@ To create a new data pipeline, you need to:
 2. [Create data pipeline]({{<relref "/operate/rc/databases/rdi/create">}}) and troubleshoot errors.
 3. [Define the data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}) by selecting which tables to sync.
 
-Once your data pipeline is defined, you can [manage]() and [observe]() it.
+Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/databases/rdi/view-edit">}}) it.
