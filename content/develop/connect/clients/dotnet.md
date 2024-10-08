@@ -192,107 +192,45 @@ This example shows how to convert Redis search results to JSON format using `NRe
 
 Make sure that you have Redis Stack and `NRedisStack` installed. 
 
-Import dependencies and connect to the Redis server:
+Import dependencies:
 
-```csharp
-using NRedisStack;
-using NRedisStack.RedisStackCommands;
-using NRedisStack.Search;
-using NRedisStack.Search.Aggregation;
-using NRedisStack.Search.Literals.Enums;
-using StackExchange.Redis;
+{{< clients-example cs_home_json import >}}
+{{< /clients-example >}}
 
-// ...
+Connect to the server:
 
-ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
-```
+{{< clients-example cs_home_json connect >}}
+{{< /clients-example >}}
 
-Get a reference to the database and for search and JSON commands.
+Create some test data to add to the database:
 
-```csharp
-var db = redis.GetDatabase();
-var ft = db.FT();
-var json = db.JSON();
-```
-
-Let's create some test data to add to your database.
-
-```csharp
-var user1 = new {
-    name = "Paul John",
-    email = "paul.john@example.com",
-    age = 42,
-    city = "London"
-};
-
-var user2 = new {
-    name = "Eden Zamir",
-    email = "eden.zamir@example.com",
-    age = 29,
-    city = "Tel Aviv"
-};
-
-var user3 = new {
-    name = "Paul Zamir",
-    email = "paul.zamir@example.com",
-    age = 35,
-    city = "Tel Aviv"
-};
-```
+{{< clients-example cs_home_json create_data >}}
+{{< /clients-example >}}
 
 Create an index. In this example, all JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}).
 
-```csharp
-var schema = new Schema()
-    .AddTextField(new FieldName("$.name", "name"))
-    .AddTagField(new FieldName("$.city", "city"))
-    .AddNumericField(new FieldName("$.age", "age"));
-
-ft.Create(
-    "idx:users",
-    new FTCreateParams().On(IndexDataType.JSON).Prefix("user:"),
-    schema);
-```
+{{< clients-example cs_home_json make_index >}}
+{{< /clients-example >}}
 
 Use [`JSON.SET`]({{< baseurl >}}/commands/json.set/) to set each user value at the specified path.
 
-```csharp
-json.Set("user:1", "$", user1);
-json.Set("user:2", "$", user2);
-json.Set("user:3", "$", user3);
-```
+{{< clients-example cs_home_json add_data >}}
+{{< /clients-example >}}
 
 Let's find user `Paul` and filter the results by age.
 
-```csharp
-var res = ft.Search("idx:users", new Query("Paul @age:[30 40]")).Documents.Select(x => x["json"]);
-Console.WriteLine(string.Join("\n", res)); 
-// Prints: {"name":"Paul Zamir","email":"paul.zamir@example.com","age":35,"city":"Tel Aviv"}
-```
+{{< clients-example cs_home_json query1 >}}
+{{< /clients-example >}}
 
 Return only the `city` field.
 
-```csharp
-var res_cities = ft.Search("idx:users", new Query("Paul").ReturnFields(new FieldName("$.city", "city"))).Documents.Select(x => x["city"]);
-Console.WriteLine(string.Join(", ", res_cities)); 
-// Prints: London, Tel Aviv
-```
+{{< clients-example cs_home_json query2 >}}
+{{< /clients-example >}}
 
 Count all users in the same city.
 
-```csharp
-var request = new AggregationRequest("*").GroupBy("@city", Reducers.Count().As("count"));
-var result = ft.Aggregate("idx:users", request);
-
-for (var i=0; i<result.TotalResults; i++)
-{
-    var row = result.GetRow(i);
-    Console.WriteLine($"{row["city"]} - {row["count"]}");
-}
-// Prints:
-// London - 1
-// Tel Aviv - 2
-```
+{{< clients-example cs_home_json query3 >}}
+{{< /clients-example >}}
 
 ## Learn more
 
