@@ -8,7 +8,7 @@ description: Releases with support for Redis Enterprise Software 7.4.2.
 hideListLinks: true
 linkTitle: 7.4.2-2
 title: Redis Enterprise for Kubernetes 7.4.2-2 release notes
-weight: 7
+weight: 54
 ---
 
 ## Detailed release notes
