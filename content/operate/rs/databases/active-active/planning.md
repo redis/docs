@@ -83,6 +83,7 @@ Active-Active databases have the following limitations:
 - An existing database can't be changed into an Active-Active database. To move data from an existing database to an Active-Active database, you must [create a new Active-Active database]({{< relref "/operate/rs/databases/active-active/create.md" >}}) and [migrate the data]({{< relref "/operate/rs/databases/import-export/migrate-to-active-active.md" >}}).
 - [Discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) is not supported with Active-Active databases. Active-Active databases require FQDNs or [mDNS]({{< relref "/operate/rs/networking/mdns.md" >}}).
 - The `FLUSH` command is not supported from the CLI. To flush your database, use the API or Cluster Manager UI.
+- The `UNLINK` command is a blocking command for all types of keys.
 - Cross slot multi commands (such as `MSET`) are not supported with Active-Active databases.
 - The hashing policy can't be changed after database creation.
 - If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.

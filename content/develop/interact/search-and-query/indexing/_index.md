@@ -246,7 +246,7 @@ Now you can do full text search for light colored headphones:
   - Any other value type will cause an indexing failure
 
 - `SORTBY` only sorts by the first value
-- No `HIGHLIGHT` support
+- No `HIGHLIGHT` and `SUMMARIZE` support
 - `RETURN` of a Schema attribute, whose JSONPath leads to multiple values, returns only the first value (as a JSON String)
 - If a JSONPath is specified by the `RETURN`, instead of a Schema attribute, all values are returned (as a JSON String)
 

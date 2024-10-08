@@ -42,7 +42,6 @@ You can select more than one advanced capability for a database, though there ar
     - Time series
     - Probabilistic
 
-- Graph cannot be combined with other capabilities.
 - [Active-Active databases]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) only support JSON and Search and query.
 
 You don't have to combine capabilities. To remove a selected capability, clear its checkbox.

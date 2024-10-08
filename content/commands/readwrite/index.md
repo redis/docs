@@ -18,13 +18,13 @@ command_flags:
 - stale
 - fast
 complexity: O(1)
-description: Enables read-write queries for a connection to a Reids Cluster replica
+description: Enables read-write queries for a connection to a Redis Cluster replica
   node.
 group: cluster
 hidden: false
 linkTitle: READWRITE
 since: 3.0.0
-summary: Enables read-write queries for a connection to a Reids Cluster replica node.
+summary: Enables read-write queries for a connection to a Redis Cluster replica node.
 syntax_fmt: READWRITE
 syntax_str: ''
 title: READWRITE
