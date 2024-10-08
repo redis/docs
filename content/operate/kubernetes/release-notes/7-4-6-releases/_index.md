@@ -4,11 +4,11 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Releases with support for Redis Enterprise Software 7.4.2.
+description: Releases with support for Redis Enterprise Software 7.4.6.
 hideListLinks: true
 linkTitle: 7.4.6-2
 title: Redis Enterprise for Kubernetes 7.4.6-2 release notes
-weight: 5
+weight: 52
 ---
 
 ## Detailed release notes
