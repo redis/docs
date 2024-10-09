@@ -518,9 +518,9 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 
 ## Redis Software and Redis Cloud compatibility
 
-| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:--------|:----------------------|:-----------------|:------|
-| [INFO]({{< relref "/commands/info" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Community Edition.<br />Not supported for [scripts]({{<relref "/develop/interact/programmability">}}). |
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Community Edition.<br />Not supported for [scripts]({{<relref "/develop/interact/programmability">}}). |
 
 Note: memory usage for JSON keys will be reported differently on Redis Software or Redis Cloud active-active databases than on non-active-active databases. 
 
