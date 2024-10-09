@@ -44,3 +44,13 @@ weight: $weight
 |--------|------|-------------|
 | [GET]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/recover#get-bdbs-actions-recover">}}) | `/v1/bdbs/{uid}/actions/recover` | Get database recovery plan  |
 | [POST]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/recover#post-bdbs-actions-recover">}}) | `/v1/bdbs/{uid}/actions/recover` | Recover database  |
+
+## Resume traffic
+| Method | Path | Description |
+|--------|------|-------------|
+| [POST]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/resume_traffic#post-bdbs-actions-resume-traffic">}}) | `/v1/bdbs/{uid}/actions/resume_traffic` | Resume database traffic |
+
+## Stop traffic
+| Method | Path | Description |
+|--------|------|-------------|
+| [POST]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/stop_traffic#post-bdbs-actions-stop-traffic">}}) | `/v1/bdbs/{uid}/actions/stop_traffic` | Stop database traffic |
