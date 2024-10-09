@@ -522,17 +522,17 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Community Edition.<br />Not supported for [scripts]({{<relref "/develop/interact/programmability">}}). |
 
-Note: memory usage for JSON keys will be reported differently on Redis Software or Redis Cloud active-active databases than on non-active-active databases. 
+Note: key memory usage will be reported differently on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.
 
-RedisJSON implements a “shard string” mechanism to save memory when the same JSON field names are used more than once (inter-key or intra-key).
-In such cases, instead of storing the field name many times, Redis stores it only once. This mechanism is not in place for active-active databases.
+Additionally, for JSON keys, Redis implements a “shared string” mechanism to save memory when the same JSON field names or field values of type string are used more than once (either inter-key or intra-key).
+In such cases, instead of storing the field names or values many times, Redis stores them only once. This mechanism is not in place for active-active databases.
 
-On non-active-active databases, `INFO` (Memory > used_memory) reports that the shared memory is counted, but only once for all keys. On active-active databases, the shared memory is counted for all keys.
+On non-active-active databases, `INFO` (Memory > used_memory) reports that the shared memory is counted, but only once for all keys. On active-active databases, there is no shared memory, so if strings are repeated, they are stored multiple times.
 
 **Example**
 
 Suppose you have ten JSON keys, and each key has 5KB of unique content and 5KB of shared content.
 
-For non-active-active databases, `INFO` (used_memory) would report (10 keys * 5KB) + 5KB ~= 55KB.
+For non-active-active databases, `INFO` (used_memory) would report (10 keys * 5KB) + 5KB ~= 55KB. The last term, "+ 5KB", is the size of the shared content.
 
 For active-active databases, `INFO` (used_memory) would report 10 keys * 20KB ~= 200KB. This number includes some amount of CRDB overhead per JSON key.
