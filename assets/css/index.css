@@ -970,3 +970,102 @@ code {
 a[href*="#no-click"], img[src*="#no-click"] {
   @apply border-none cursor-default pointer-events-none no-underline;
 }
+
+/* Version selector in side menu */
+.menu__version-selector {
+  float: right;
+  left: 18px;
+  padding: 0 22px 0;
+  position: relative;
+  top: -28px;
+  z-index: 1;
+  border: 1px solid #dfdfdf;
+}
+
+.menu__version-selector button {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  outline: none;
+}
+
+.menu__version-selector button span.menu__version-selector__toggler {
+  display: none;
+  font-size: 8px;
+  transform: translateY(-1px) translateX(2px);
+}
+
+.menu__version-selector span.menu__version-selector__toggler.opener {
+  display: inline-block;
+}
+
+.menu__version-selector span.menu__version-selector__toggler.closer {
+  display: none;
+}
+
+.menu__version-selector .menu__version-selector__list {
+  background: #f7f7f7;
+  border: 1px solid #dfdfdf;
+  border-top: none;
+  display: none;
+  font-size: 13px;
+  left: -1px;
+  position: absolute;
+  width: calc(100% + 2px);
+  z-index: 1;
+}
+
+.menu__version-selector .menu__version-selector__list a {
+  color: #868484;
+  display: block;
+  padding-left: 10px;
+  width: 100%;
+}
+
+.menu__version-selector .menu__version-selector__list a:hover {
+  color: #000;
+}
+
+.menu__version-selector .menu__version-selector__list a.selected-version {
+  display: none;
+}
+
+.menu__version-selector.open {
+  border: 1px solid #dfdfdf;
+}
+
+.menu__version-selector.open .menu__version-selector__toggler.opener {
+  display: none;
+}
+
+.menu__version-selector.open .menu__version-selector__toggler.closer {
+  display: inline-block;
+}
+
+.menu__version-selector.open .menu__version-selector__list {
+  display: block;
+}
+
+.menu__version-selector > li .menu-divider {
+  border-top: 1px solid #5d6876;
+  height: 1px;
+  left: 20px;
+  margin-left: 0 !important;
+  position: absolute;
+  top: 10px;
+  width: calc(100% - 20px);
+}
+
+.menu__version-selector > li > .children {
+  display: none;
+}
+
+.menu__version-selector > li.parent > .children {
+  display: flex;
+  position: relative;
+  padding-top: 60px;
+}
+
+.dd-item .highlight:hover {
+  color: #5961ff;
+}
