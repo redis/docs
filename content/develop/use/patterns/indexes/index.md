@@ -33,7 +33,7 @@ scenarios, there is the explicit need to store indexed data into Redis in order 
 
 ## Hashes and JSON indexes
 
-The Redis query engine provides capabilities to index and query both hash and JSON data using a variety of field types:
+The Redis query engine provides capabilities to index and query both hash and JSON keys using a variety of field types:
 
 * `TEXT`
 * `TAG`
@@ -42,7 +42,7 @@ The Redis query engine provides capabilities to index and query both hash and JS
 * `VECTOR`
 * `GEOSHAPE`
 
-Once data has been indexed using the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create) command, it can be queried using the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) commands.
+Once hash or JSON keys have been indexed using the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create) command, all keys that use the prefix defined in the index can be queried using the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) commands.
 
 For more information on creating hash and JSON indexes, see the following pages.
 
@@ -180,7 +180,7 @@ index.
 
 ## Time series indexes
 
-When you create a new time series using the [`TS.CREATE`]({{< baseurl >}}/commands/ts.create) command, you can associate one or more `LABELS` with it. Each label is a name-value pair, where the value can either be text or numeric. Labels serve as a secondary index that you can query using various time series commands.
+When you create a new time series using the [`TS.CREATE`]({{< baseurl >}}/commands/ts.create) command, you can associate one or more `LABELS` with it. Each label is a name-value pair, where the both name and value are text. Labels serve as a secondary index that allows you to execute queries on groups of time series keys using various time series commands.
 
 See the [time series quickstart guide]({{< relref "/develop/data-types/timeseries/quickstart#labels" >}}) for an example of creating a time series with a label.
 
