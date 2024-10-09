@@ -5,21 +5,21 @@ categories:
 - docs
 - integrate
 - rs
-description: PromQL metrics available to Prometheus as of Redis Enterprise Software version 7.8.0.
+description: V2 metrics available to Prometheus as of Redis Enterprise Software version 7.8.0.
 group: observability
 linkTitle: Prometheus metrics v2
-summary: PromQL metrics available to Prometheus as of Redis Enterprise Software version 7.8.0.
+summary: V2 metrics available to Prometheus as of Redis Enterprise Software version 7.8.0.
 type: integration
 weight: 45
 ---
 
 You can [integrate Redis Enterprise Software with Prometheus and Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise/">}}) to create dashboards for important metrics.
 
-The [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/latest/querying/basics/) metrics in the following tables are available as of Redis Enterprise Software version 7.8.0. For help transitioning from v1 metrics to PromQL, see [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}).
+The v2 metrics in the following tables are available as of Redis Enterprise Software version 7.8.0. For help transitioning from v1 metrics to v2 PromQL, see [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}).
 
 ## Database metrics
 
-| PromQL | Description |
+| V2 metric | Description |
 | :----- | :---------- |
 | <span class="break-all">`sum by (bdb) (irate(endpoint_acc_latency[1m])) / sum by (bdb) (irate(endpoint_total_started_res[1m])) / 1000000`</span> | Average latency of operations on the database (seconds); returned only when there is traffic |
 | <span class="break-all">`sum by (bdb) (irate(endpoint_acc_latency[1m])) / sum by (bdb) (irate(endpoint_total_started_res[1m])) / 1000000`</span> | Highest value of average latency of operations on the database (seconds); returned only when there is traffic |
@@ -92,7 +92,7 @@ The [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/l
 
 ## Node metrics
 
-| PromQL | Description |
+| V2 metric | Description |
 | :----- | :---------- |
 | <span class="break-all">`node_available_flash_bytes`</span> | Available flash in the node (bytes) |
 | <span class="break-all">`node_available_flash_no_overbooking_bytes`</span> | Available flash in the node (bytes), without taking into account overbooking |
@@ -125,13 +125,13 @@ The [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/l
 
 ## Cluster metrics
 
-| PromQL | Description |
+| V2 metric | Description |
 | :----- | :---------- |
 | `license_shards_limit` | Total shard limit by the license by shard type (ram / flash) |
 
 ## Cluster watchdog metrics
 
-| PromQL | Type | Description |
+| V2 metric | Type | Description |
 | :----- | :--- | :---------- |
 | <span class="break-all">`azure_token_ttl{cluster_wd=<node_uid>}`</span> | gauge| How many seconds left or the timestamp when the token is invalid.|
 | <span class="break-all">`generation{cluster_wd=<node_uid>}`</span> | gauge| Generation number of the specific cluster_wd|
@@ -146,7 +146,7 @@ The [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/l
 
 ## Proxy metrics
 
-| PromQL | Description |
+| V2 metric | Description |
 | :----- | :---------- |
 | <span class="break-all">`irate(endpoint_maximal_connections_exceeded[1m])`</span> | Number of times the number of clients connected to the database at the same time has exceeded the max limit |
 | <span class="break-all">`irate(endpoint_read_requests[1m])`</span> | Rate of read requests on the endpoint (ops/sec) |
@@ -157,7 +157,7 @@ The [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/l
 
 ## Replication metrics
 
-| PromQL | Description |
+| V2 metric | Description |
 | :----- | :---------- |
 | <span class="break-all">`rate(replica_src_ingress_bytes[1m])`</span> | Rate of compressed incoming network traffic to a Replica Of database (bytes/sec) |
 | <span class="break-all">`rate(replica_src_ingress_bytes_decompressed[1m])`</span> | Rate of decompressed incoming network traffic to a Replica Of database (bytes/sec) |
@@ -170,7 +170,7 @@ The [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/l
 
 ## Shard metrics
 
-| PromQL | Description |
+| V2 metric | Description |
 | :----- | :---------- |
 | <span class="break-all">`redis_server_active_defrag_running`</span> | Automatic memory defragmentation current aggressiveness (% cpu) |
 | <span class="break-all">`redis_server_allocator_active`</span> | Total used memory, including external fragmentation |
