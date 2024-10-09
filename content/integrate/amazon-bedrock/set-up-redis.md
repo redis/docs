@@ -75,9 +75,9 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/subscription-new-flexible-setup-general.png" width="75%" alt="The General settings of the Setup tab." >}}
 
-1. In the **Version** section, select **Redis 7.2**.
+1. In the **Version** section, select **Redis 7.2** or **Redis 7.4**.
 
-    {{<image filename="images/rc/subscription-new-flexible-version-section.png"  alt="Version selection between Redis 6.2 and 7.2" >}}
+    {{<image filename="images/rc/subscription-new-flexible-version-section.png"  alt="Version selection between Redis 6.2, 7.2, and 7.4" >}}
 
 1. In the **Advanced options** section, select Multi-AZ to ensure [high-availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}). 
 
