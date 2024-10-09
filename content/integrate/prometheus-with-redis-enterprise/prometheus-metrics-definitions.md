@@ -144,6 +144,14 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 | <span class="break-all">`witness_disk_reads{status=” success/failure”, cluster_wd=<node_uid>}`</span> | counter | How many times read from the witness disk |
 | <span class="break-all">`witness_disk_writes{status=”success/failure”, cluster_wd=<node_uid>}`</span> | counter | How many times wrote to the witness disk |
 
+## Latency histogram metrics
+
+| V2 metric | Description |
+| :-------- | :---------- |
+| <span class="break-all">`endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", bdb="$bdb"}`</span> | Latency histograms for commands other than read or write commands |
+| <span class="break-all">`endpoint_read_requests_latency_histogram_bucket{cluster="$cluster", bdb="$bdb"}`</span> | Latency histograms for read commands |
+| <span class="break-all">`endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", bdb="$bdb"}`</span> | Latency histograms for write commands |
+
 ## Proxy metrics
 
 | V2 metric | Description |
