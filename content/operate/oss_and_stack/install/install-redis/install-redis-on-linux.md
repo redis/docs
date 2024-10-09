@@ -25,7 +25,12 @@ sudo apt-get update
 sudo apt-get install redis
 {{< /highlight  >}}
 
-Redis will start automatically, and it will restart at boot time.
+Redis will start automatically, and it should restart at boot time. If Redis doesn't start across reboots, you may need to manually enable it:
+
+{{< highlight bash >}}
+sudo systemctl enable redis-server
+sudo systemctl start redis-server
+{{< /highlight >}}
 
 ## Install on Red Hat/Rocky
 
