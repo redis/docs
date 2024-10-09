@@ -515,3 +515,24 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 **A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
 
 **Modules generated sections**: Starting with Redis 6, modules can inject their information into the `INFO` command. These are excluded by default even when the `all` argument is provided (it will include a list of loaded modules but not their generated info fields). To get these you must use either the `modules` argument or `everything`.
+
+## Redis Software and Redis Cloud compatibility
+
+| <span style="min-width: 9em; display: table-cell">Command</span> | Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:--------|:----------------------|:-----------------|:------|
+| [INFO]({{< relref "/commands/info" >}}) | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Community Edition.<br />Not supported for [scripts]({{<relref "/develop/interact/programmability">}}). |
+
+Note: memory usage for JSON keys will be reported differently on Redis Software or Redis Cloud active-active databases than on non-active-active databases. 
+
+RedisJSON implements a “shard string” mechanism to save memory when the same JSON field names are used more than once (inter-key or intra-key).
+In such cases, instead of storing the field name many times, Redis stores it only once. This mechanism is not in place for active-active databases.
+
+On non-active-active databases, `INFO` (Memory > used_memory) reports that the shared memory is counted, but only once for all keys. On active-active databases, the shared memory is counted for all keys.
+
+**Example**
+
+Suppose you have ten JSON keys, and each key has 5KB of unique content and 5KB of shared content.
+
+For non-active-active databases, `INFO` (used_memory) would report (10 keys * 5KB) + 5KB ~= 55KB.
+
+For active-active databases, `INFO` (used_memory) would report 10 keys * 20KB ~= 200KB. This number includes some amount of CRDB overhead per JSON key.
