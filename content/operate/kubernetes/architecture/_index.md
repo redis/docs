@@ -43,25 +43,27 @@ For settings managed by the operator, any changes made outside of the CR YAML fi
 
 ## RedisEnterpriseCluster REC
 
-A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources. Each node is capable of running multiple Redis instances (shards). A Redis cluster is created an managed by the RedisEnterpriseCluster (REC) custom resource. Changes to the REC YAML configuration prompt the operator to make changes to the cluster.
+A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources. Each node is capable of running multiple Redis instances (shards).
 
 {{< image filename="/images/k8s/k8s-node-arch.png">}}
 
-The REC is required for both standard databases (REDB) and Active-Active databases (REAADB).
+A Redis cluster is created an managed by the RedisEnterpriseCluster (REC) custom resource. Changes to the REC YAML configuration prompt the operator to make changes to the cluster.The REC is required for both standard databases (REDB) and Active-Active databases (REAADB).
+
+See the [RedisEnterpriseCluster (REC) API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for a full list of fields and settings.
 
 ## RedisEnterpriseDatabase REDB
 
 A Redis Enterprise database is a logical entity that manages your entire dataset across multiple Redis instances (shards). A Redis instance is a single-threaded database process (commonly referred to as a shard).
 
-Redis databases are created and managed by the RedisEnterpriseDatabase (REDB)custom resource. Changes to the REDB YAML configuration file prompt the operator to make changes to the database. See the [RedisEnterpriseDatabase (REDB) API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) for a full list of fields and settings.
+Redis databases are created and managed by the RedisEnterpriseDatabase (REDB) custom resource. Changes to the REDB YAML configuration file prompt the operator to make changes to the database. See the [RedisEnterpriseDatabase (REDB) API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) for a full list of fields and settings.
 
 A database can be managed by an operator in the same namespace, or a different namespace. See []"Flexible deployment"]({{<relref "/operate/kubernetes/architecture/deployment-options">}}) options and []"Manage databases in multiple namespaces"]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}) for more information.
 
 ## Active-Active databases
 
-### RedisEnterpriseRemoteCluster RERC
+## RedisEnterpriseRemoteCluster RERC
 
-### RedisEnterpriseActiveActiveDatabase REAADB
+## RedisEnterpriseActiveActiveDatabase REAADB
 
 ## Services Rigger
 
@@ -75,5 +77,8 @@ PVCs, network attached
 
 ## Networking
 
+ingress and ingressorRoutes
+
 ## Metrics
 
+Promethius service
