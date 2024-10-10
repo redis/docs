@@ -522,7 +522,7 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Community Edition.<br />Not supported for [scripts]({{<relref "/develop/interact/programmability">}}). |
 
-Note: key memory usage will be reported differently on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.
+Note: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.
 
 Additionally, for JSON keys, Redis implements a “shared string” mechanism to save memory when the same JSON field names or field values of type string are used more than once (either inter-key or intra-key).
 In such cases, instead of storing the field names or values many times, Redis stores them only once. This mechanism is not in place for active-active databases.
