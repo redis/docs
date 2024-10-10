@@ -72,13 +72,13 @@ If your Linux distribution does not currently have Snap installed, you can insta
 You can start the Redis server as a background process using the `systemctl` command. This only applies to Ubuntu/Debian when installed using `apt`, and Red Hat/Rocky when installed using `yum`.
 
 {{< highlight bash  >}}
-sudo systemctl start redis
+sudo systemctl start redis-server
 {{< / highlight  >}}
 
 To stop the server, use:
 
 {{< highlight bash  >}}
-sudo systemctl stop redis
+sudo systemctl stop redis-server
 {{< / highlight  >}}
 
 ## Connect to Redis
