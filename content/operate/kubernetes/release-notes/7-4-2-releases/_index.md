@@ -17,6 +17,8 @@ weight: 54
 
 ## Version changes
 
+For a list of fixes related to CVEs, see the [Redis Enterprise 7.4.6-22 release notes]({{<relref "operate/rs/release-notes/rs-7-4-2-releases/">}}).
+
 ### Breaking changes
 
 The following changes included in this release affect the upgrade process. Please read carefully before upgrading.
