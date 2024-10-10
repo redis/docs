@@ -5,44 +5,80 @@ categories:
 - docs
 - operate
 - kubernetes
-description: This section provides an overview of the architecture and considerations
-  for Redis Enterprise for Kubernetes.
+description: Overview of the architecture and components of Redis Enterprise for Kubernetes.
 hideListLinks: true
 linkTitle: Architecture
-weight: 11
+weight: 1
 ---
-Redis bases its Kubernetes architecture on several vital concepts.
 
-## Layered architecture
+Redis Enterprise for Kubernetes gives you the speed and durability of [Redis Enterprise](https://redis.io/redis-enterprise/advantages/), with the flexibility and ease of use Kubernetes (K8s) provides. Redis Enterprise for Kubernetes uses a custom operator and custom controllers to bring the best of Redis Enterprise to Kubernetes platforms.
 
-Kubernetes is an excellent orchestration tool, but it was not designed to deal with all the nuances associated with operating Redis Enterprise. Therefore, it can fail to react accurately to internal Redis Enterprise edge cases or failure conditions. Also, Kubernetes orchestration runs outside the Redis Cluster deployment and may fail to trigger failover events, for example, in split network scenarios.
+The image below illustrates the components of a single namespace, three node deployment.
 
-To overcome these issues, Redis created a layered architecture approach that splits responsibilities between operations Kubernetes does well, procedures Redis Enterprise Cluster excels at, and the processes both can orchestrate together. The figure below illustrated this layered orchestration architecture:
+{{< image filename="/images/k8s/k8s-arch-v4.png" >}}
 
-{{< image filename="/images/k8s/kubernetes-overview-layered-orchestration.png" >}}
+## Operator
 
-## Operator based deployment
+An operator is a custom extension of the Kubernetes API designed to manage complex, stateful processes and resources. The Redis Enterprise operator uses controllers to manage Redis Enterprise’s custom resources (CRs), ensuring that these resources are continuously monitored and maintained.
 
-Operator allows Redis to maintain a unified deployment solution across various Kubernetes environments, i.e., RedHat OpenShift, VMware Tanzu (Tanzu Kubernetes Grid, and Tanzu Kubernetes Grid Integrated Edition, formerly known as PKS), Google Kubernetes Engine (GKE), Azure Kubernetes Service (AKS), and vanilla (upstream) Kubernetes. Statefulset and anti-affinity guarantee that each Redis Enterprise node resides on a Pod that is hosted on a different VM or physical server. See this setup shown in the figure below:
+## Namespace
 
-{{< image filename="/images/k8s/kubernetes-overview-unified-deployment.png" >}}
+The Redis Enterprise operator is deployed within a namespace. Each namespace can host only one operator and one RedisEnterpriseCluster instance. Namespaces create a logical boundaries between resources, allowing organization and security. Some resources in your deployment are limited to a namespace, while others are cluster-wide.
 
-## Network-attached persistent storage {#networkattached-persistent-storage}
+Redis Enterprise for Kubernetes supports multi-namespace deployments, meaning databases in multiple namespaces can be monitored by a single operator.
 
-Kubernetes and cloud-native environments require that storage volumes be network-attached to the compute instances, to guarantee data durability. Otherwise, if using local storage,  data may be lost in a Pod failure event. See the figure below:
+## Custom resources
 
-{{< image filename="/images/k8s/kubernetes-overview-network-attached-persistent-storage.png" >}}
+Custom resources (CRs) extend the Kubernetes API, enabling users to manage Redis databases the Kubernetes way. Custom resources are created and managed using YAML configuration files.
 
-On the left-hand side (marked #1), Redis Enterprise uses local ephemeral storage for durability. When a Pod fails, Kubernetes launches another Pod as a replacement, but this Pod comes up with empty local ephemeral storage, and the data from the original Pod is now lost.
+This [declarative configuration approach](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/) allows you to specify the desired state for your resources, and the operator makes the necessary changes to achieve that state. This simplifies installation, upgrades, and scaling both vertically and horizontally.
 
-On the right-hand side of the figure (marked #2), Redis Enterprise uses network-attached storage for data durability. In this case, when a Pod fails, Kubernetes launches another Pod and automatically connects it to the storage device used by the failed Pod. Redis Enterprise then instructs the Redis Enterprise database instance/s running on the newly created node to load the data from the network-attached storage, which guarantees a durable setup.
+The operator continuously monitors CRs for changes, automatically reconciling any differences between the desired state you specified in your YAML configuration file and the actual state of your resources.
 
-Redis Enterprise is not only great as an in-memory database but also extremely efficient in the way it uses persistent storage, even when the user chooses to configure Redis Enterprise to write every change to the disk. Compared to a disk-based database that requires multiple interactions (in most cases) with a storage device for every read or write operation, Redis Enterprise uses a single IOPS, in most cases, for a write operation and zero IOPS for a read operation. As a result, significant performance improvements are seen in typical Kubernetes environments, as illustrated in the figures below:
+## Custom resource definitions
 
-{{< image filename="/images/k8s/kubernetes-overview-performance-improvements-read.png" >}}{{< image filename="/images/k8s/kubernetes-overview-performance-improvements-write.png" >}}
+A custom resource definition (CRD) is a cluster-wide resource that specifies which settings can be configured via custom resource files. Any setting not defined by the CRD is not managed by the operator. Changes to these unmanaged settings can still be made using standard Redis Enterprise Software methods.
 
-## Multiple services on each pod
+For settings managed by the operator, any changes made outside of the CR YAML files (e.g., through the management UI) will be overwritten by the operator. Ensure that all operator-managed settings are updated using the CR YAML files to prevent conflicts.
 
-Each Pod includes multiple Redis Enterprise instances (multiple services). We found that the traditional method of deploying a Redis Enterprise database over Kubernetes, in which each Pod includes only a single Redis Enterprise instance while preserving a dedicated CPU, is notably inefficient. Redis Enterprise is exceptionally fast and in many cases can use just a fraction of the CPU resources to deliver the requested throughput. Furthermore, when running a Redis Enterprise Cluster with multiple Redis Enterprise instances across multiple Pods, the Kubernetes network, with its multiple vSwitches, can quickly become the deployment’s bottleneck. Therefore, Redis took a different approach to managing Redis Enterprise over the Kubernetes environment. Deploying multiple Redis Enterprise database instances on a single Pod allows us to better utilize the hardware resources used by the Pod such as CPU, memory, and network while keeping the same level of isolation. See the figure below:
+## RedisEnterpriseCluster REC
 
-{{< image filename="/images/k8s/kubernetes-overview-multiple-services-per-pod.png" >}}
+A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources. Each node is capable of running multiple Redis instances (shards).
+
+{{< image filename="/images/k8s/k8s-node-arch.png">}}
+
+A Redis cluster is created an managed by the RedisEnterpriseCluster (REC) custom resource. Changes to the REC YAML configuration prompt the operator to make changes to the cluster.The REC is required for both standard databases (REDB) and Active-Active databases (REAADB).
+
+See the [RedisEnterpriseCluster (REC) API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for a full list of fields and settings.
+
+## RedisEnterpriseDatabase REDB
+
+A Redis Enterprise database is a logical entity that manages your entire dataset across multiple Redis instances (shards). A Redis instance is a single-threaded database process (commonly referred to as a shard).
+
+Redis databases are created and managed by the RedisEnterpriseDatabase (REDB) custom resource. Changes to the REDB YAML configuration file prompt the operator to make changes to the database. See the [RedisEnterpriseDatabase (REDB) API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) for a full list of fields and settings.
+
+A database can be managed by an operator in the same namespace, or a different namespace. See []"Flexible deployment"]({{<relref "/operate/kubernetes/architecture/deployment-options">}}) options and []"Manage databases in multiple namespaces"]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}) for more information.
+
+## Active-Active databases
+
+## RedisEnterpriseRemoteCluster RERC
+
+## RedisEnterpriseActiveActiveDatabase REAADB
+
+## Services Rigger
+
+## Security
+
+secrets
+
+## Storage
+
+PVCs, network attached
+
+## Networking
+
+ingress and ingressorRoutes
+
+## Metrics
+
+Promethius service
