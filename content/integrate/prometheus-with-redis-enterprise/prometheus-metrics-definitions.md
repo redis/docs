@@ -67,9 +67,9 @@ TBA
 
 | V2 metric | Description |
 | :-------- | :---------- |
-| <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | Latency histograms for commands other than read or write commands |
-| <span class="break-all">endpoint_read_requests_latency_histogram_bucket</span> | Latency histograms for read commands |
-| <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | Latency histograms for write commands |
+| <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_read_requests_latency_histogram_bucket</span> | Latency histograms for read commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_read_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 
 ## Proxy metrics
 
