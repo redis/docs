@@ -160,7 +160,9 @@ You can install Redis Insight on operating systems that are not officially suppo
 {{< /note >}}
 
 ## Redis Insight API (only for Docker)
-http://localhost:5540/api/docs
+
+If you are running Redis Insight from [Docker]({{< relref "/operate/redisinsight/install/install-on-docker" >}}),
+you can access the API from `http://localhost:5540/api/docs`.
 
 ## Feedback
 
