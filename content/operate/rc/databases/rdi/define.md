@@ -10,11 +10,11 @@ hideListLinks: true
 weight: 3
 ---
 
-After you have [created your data pipeline]({{<relref "/operate/rc/databases/rdi/create">}}), you need to define it. You will select the database schemas and columns that you want to import and synchronize with your primary database.
+After you have [provisioned your data pipeline]({{<relref "/operate/rc/databases/rdi/provision]">}}), you need to define it. You will select the database schemas and columns that you want to import and synchronize with your primary database.
 
 ## Configure a new pipeline
 
-1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab. If your pipeline is already created, select **Complete setup** to go to the **Pipeline definition** section.
+1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab. If your pipeline is already provisioned, select **Complete setup** to go to the **Pipeline definition** section.
 1. For the **Configure a new pipeline** option, select the Redis data type to write keys to the target. You can choose **Hash** or **JSON**. 
 
     Select **Continue**. 

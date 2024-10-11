@@ -31,7 +31,7 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 
 ## Share source database credentials
 
-You need to share your source database credentials in an Amazon secret with Redis Cloud so that the pipeline can connect to your database.
+You need to share your source database credentials and certificates in an Amazon secret with Redis Cloud so that the pipeline can connect to your database.
 
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following key/value fields:
 
@@ -63,4 +63,4 @@ For more details on AWS PrivateLink, see [Share your services through AWS Privat
 
 ## Next steps
 
-After you have set up your source database and prepared connectivity and credentials, select **Start pipeline setup** to [create your data pipeline]({{<relref "/operate/rc/databases/rdi/create">}}).
+After you have set up your source database and prepared connectivity and credentials, select **Start pipeline setup** to [provision data pipeline infrastructure]({{<relref "/operate/rc/databases/rdi/provision">}}).

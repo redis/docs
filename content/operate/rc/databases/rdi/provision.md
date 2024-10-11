@@ -1,11 +1,11 @@
 ---
-Title: Create data pipeline
+Title: Provision data pipeline
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
-description: Create and troubleshoot your data pipeline.
+description: Provision and troubleshoot your data pipeline infrastructure.
 hideListLinks: true
 weight: 2
 ---
@@ -19,20 +19,20 @@ After you have [prepared your source database]({{<relref "/operate/rc/databases/
 1. In the **Connectivity** section, enter the **PrivateLink service name** of the [PrivateLink connected to your source database]({{< relref "/operate/rc/databases/rdi/setup#set-up-connectivity" >}}).
 1. Enter your database details. This depends on your database type, and includes:
     - **Port**: The database's port
-    - **Database**: Your database's name, or the root database
+    - **Database**: Your database's name, or the root database *(PostgresSQL, Oracle only)*; or a comma-separated list of one or more databases you want to connect to *(SQL Server only)*
     - **Database Server ID**: Unique ID for the replication client. Leave as default if you don't use replication *(mySQL and mariaDB only)*
     - **PDB**: Name of the Oracle pluggable database *(Oracle only)*
 1. Enter the ARN of your [database credentials secret]({{< relref "/operate/rc/databases/rdi/setup#share-source-database-credentials" >}}) in the **Source database secrets ARN** field.
 1. Select **Start pipeline setup**.
 
-At this point, Redis Cloud will attempt to create your new pipeline. 
+At this point, Redis Cloud will provision the pipeline infrastructure that will allow you to define your data pipeline. 
 
-Pipelines are created in the background. While they're being created, you aren't allowed to make changes. This process will take some time.
+Pipelines are provisioned in the background. You aren't allowed to make changes to your data pipeline or to your database during provisioning. This process will take a long time, so you can close the window and come back later.
 
 See [Pipeline creation errors](#pipeline-creation-errors) to view a list of errors that can occur at this point.
 
-When your pipeline is created, select **Complete setup**. You will then [define your data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}).
+When your pipeline is provisioned, select **Complete setup**. You will then [define your data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}).
 
-## Pipeline creation errors
+## Pipeline provisioning errors
 
 Add errors here.

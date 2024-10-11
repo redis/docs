@@ -47,14 +47,15 @@ Before you can create a data pipeline, you must have:
     - Oracle
     - SQL Server
     - PostgreSQL
+    - mariaDB
+    - Aurora
 
 {{< note >}}
 Please be aware of the following limitations:
 
 - The target database must be a Redis Cloud Pro database hosted on Amazon Web Services (AWS). Redis Cloud Essentials databases and databases hosted on Google Cloud do not support Data Integration.
-- Only the Ingest use case is supported at this time.
 - Source databases must also be hosted on AWS.
-- One source database can only be connected to one target database.
+- One source database can only be synced to one target database.
 {{< /note >}} 
 
 ## Get started
@@ -62,7 +63,7 @@ Please be aware of the following limitations:
 To create a new data pipeline, you need to:
 
 1. [Prepare your source database]({{<relref "/operate/rc/databases/rdi/setup">}}) and any associated credentials.
-2. [Create data pipeline]({{<relref "/operate/rc/databases/rdi/create">}}) and troubleshoot errors.
+2. [Provision data pipeline infrastructure]({{<relref "/operate/rc/databases/rdi/provision">}}) and troubleshoot errors.
 3. [Define the data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}) by selecting which tables to sync.
 
 Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/databases/rdi/view-edit">}}) it.
