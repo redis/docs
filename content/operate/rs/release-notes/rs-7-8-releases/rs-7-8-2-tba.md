@@ -1,5 +1,5 @@
 ---
-Title: Redis Software release notes 7.8.0-tba (October 2024)
+Title: Redis Software release notes 7.8.2-tba (October 2024)
 alwaysopen: false
 categories:
 - docs
@@ -7,11 +7,11 @@ categories:
 - rs
 compatibleOSSVersion: Redis 7.4.0
 description: Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
-linkTitle: 7.8.0-tba (October 2024)
+linkTitle: 7.8.2-tba (October 2024)
 weight: 90
 ---
 
-​[​Redis Software version 7.8.0](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Software version 7.8.2](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
 
 ## Highlights
 
@@ -47,7 +47,7 @@ This version offers:
     
     - For more information, see the [client-side caching introduction]({{<relref "/develop/connect/clients/client-side-caching">}}) and [client-side caching compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}).
 
-- [Database availability API](<!--TODO: Add link-->), which verifies whether a Redis Software database is available to peform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.
+- [Database availability API]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability">}}), which verifies whether a Redis Software database is available to perform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.
 
 - [Rebalance shard placement REST API request](<!--TODO: Add REST API ref link-->), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
 
@@ -95,7 +95,7 @@ This version offers:
 
 #### Redis module feature sets
 
-Redis Software comes packaged with several modules. As of version 7.8.0, Redis Software includes three feature sets, compatible with different Redis database versions.
+Redis Software comes packaged with several modules. As of version 7.8.2, Redis Software includes three feature sets, compatible with different Redis database versions.
 
 The following table shows which Redis modules are compatible with each Redis database version included in this release.
 
@@ -153,7 +153,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Breaking changes
 
-Redis Software version 7.8.0 introduces the following breaking changes:
+Redis Software version 7.8.2 introduces the following breaking changes:
 
 - When you upgrade a database, the upgrade process also attempts to upgrade database modules by default.
 
@@ -237,13 +237,13 @@ New Redis modules will not be available for download from the Redis download cen
 
 #### Legacy UI not supported
 
-The legacy UI was deprecated in favor of the new Cluster Manager UI in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.0.
+The legacy UI was deprecated in favor of the new Cluster Manager UI in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.2.
 
 #### Redis 6.0 databases not supported
 
-Redis database version 6.0 was deprecated in Redis Software version 7.4.2 and is no longer supported as of Redis Software version 7.8.0.
+Redis database version 6.0 was deprecated in Redis Software version 7.4.2 and is no longer supported as of Redis Software version 7.8.2.
 
-To prepare for the removal of Redis database version 6.0 before you upgrade to Redis Software version 7.8.0:
+To prepare for the removal of Redis database version 6.0 before you upgrade to Redis Software version 7.8.2:
 
 - For Redis Software 6.2.* clusters, upgrade Redis 6.0 databases to Redis 6.2. See the [Redis 6.2 release notes](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) for the list of changes.
 
@@ -251,7 +251,7 @@ To prepare for the removal of Redis database version 6.0 before you upgrade to R
 
 #### Ubuntu 18.04 not supported
 
-Ubuntu 18.04 was deprecated in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.0.
+Ubuntu 18.04 was deprecated in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.2.
 
 ### Upcoming changes
 
@@ -300,7 +300,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (7.8.0-tba Oct release) |
+| Package | SHA256 checksum (7.8.2-tba Oct release) |
 |---------|---------------------------------------|
 | Ubuntu 20 | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |
@@ -335,7 +335,7 @@ As part of Redis's commitment to security, Redis Software implements the latest 
 
 Some CVEs announced for open source Redis do not affect Redis Software due to different or additional functionality available in Redis Software that is not available in open source Redis.
 
-Redis Software 7.8.0-tba supports open source Redis 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
+Redis Software 7.8.2-tba supports open source Redis 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
 
 Redis 7.2.x:
 
