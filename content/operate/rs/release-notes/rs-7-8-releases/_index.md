@@ -1,5 +1,5 @@
 ---
-Title: Redis Software release notes 7.8.0
+Title: Redis Software release notes 7.8.2
 alwaysopen: false
 categories:
 - docs
@@ -8,12 +8,12 @@ categories:
 compatibleOSSVersion: Redis 7.4.0
 description: Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
 hideListLinks: true
-linkTitle: 7.8.0 releases
+linkTitle: 7.8.2 releases
 toc: 'true'
 weight: 69
 ---
 
-​[​Redis Software version 7.8.0](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Software version 7.8.2](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
 
 ## Highlights
 
@@ -47,7 +47,7 @@ For more detailed release notes, select a build version from the following table
 
 ### Breaking changes
 
-Redis Software version 7.8.0 introduces the following breaking changes:
+Redis Software version 7.8.2 introduces the following breaking changes:
 
 - When you upgrade a database, the upgrade process also attempts to upgrade database modules by default.
 
@@ -131,13 +131,13 @@ New Redis modules will not be available for download from the Redis download cen
 
 #### Legacy UI not supported
 
-The legacy UI was deprecated in favor of the new Cluster Manager UI in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.0.
+The legacy UI was deprecated in favor of the new Cluster Manager UI in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.2.
 
 #### Redis 6.0 databases not supported
 
-Redis database version 6.0 was deprecated in Redis Software version 7.4.2 and is no longer supported as of Redis Software version 7.8.0.
+Redis database version 6.0 was deprecated in Redis Software version 7.4.2 and is no longer supported as of Redis Software version 7.8.2.
 
-To prepare for the removal of Redis database version 6.0 before you upgrade to Redis Software version 7.8.0:
+To prepare for the removal of Redis database version 6.0 before you upgrade to Redis Software version 7.8.2:
 
 - For Redis Software 6.2.* clusters, upgrade Redis 6.0 databases to Redis 6.2. See the [Redis 6.2 release notes](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) for the list of changes.
 
@@ -145,7 +145,7 @@ To prepare for the removal of Redis database version 6.0 before you upgrade to R
 
 #### Ubuntu 18.04 not supported
 
-Ubuntu 18.04 was deprecated in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.0.
+Ubuntu 18.04 was deprecated in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.2.
 
 ### Upcoming changes
 
