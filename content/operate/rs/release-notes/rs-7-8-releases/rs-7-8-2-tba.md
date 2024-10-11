@@ -47,7 +47,7 @@ This version offers:
     
     - For more information, see the [client-side caching introduction]({{<relref "/develop/connect/clients/client-side-caching">}}) and [client-side caching compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}).
 
-- [Database availability API](<!--TODO: Add link-->), which verifies whether a Redis Software database is available to peform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.
+- [Database availability API]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability">}}), which verifies whether a Redis Software database is available to perform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.
 
 - [Rebalance shard placement REST API request](<!--TODO: Add REST API ref link-->), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
 
