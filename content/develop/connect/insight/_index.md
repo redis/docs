@@ -159,6 +159,9 @@ These are the locations on supported platforms:
 You can install Redis Insight on operating systems that are not officially supported, but it may not behave as expected.
 {{< /note >}}
 
+## Redis Insight API (only for Docker)
+http://localhost:5540/api/docs
+
 ## Feedback
 
 To provide your feedback, [open a ticket in our Redis Insight repository](https://github.com/Redis-Insight/Redis-Insight/issues/new).
