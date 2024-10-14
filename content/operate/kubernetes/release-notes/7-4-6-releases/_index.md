@@ -31,6 +31,10 @@ Versions 6.4.2-6 and later include a new SCC (`redis-enterprise-scc-v2`) that yo
 
 - Future Redis Enterprise images will be UBI9-based only, without support for Ubuntu-based images.
 
+## Security
+
+For a list of fixes related to CVEs, see the [Redis Enterprise 7.2.4-109 release notes]({{<relref "operate/rs/release-notes/rs-7-4-2-releases">}}).
+
 ## Supported distributions
 
 The following table shows supported distributions at the time of this release. You can also find this list in [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
