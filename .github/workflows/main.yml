@@ -33,14 +33,21 @@ jobs:
             echo "ERROR: Invalid branch name ${{ github.ref_name }}!"
             exit 1
           fi
-    - name: Configure Hugo
+
+    - name: Install dependencies
+      run: make deps
+
+    - name: Build out all versions
       run: |
+        set -x
+
+        function setBaseUrl() {
           if [[ "${{ github.ref_name }}" == "main" ]]
           then
             hugo_root_path=docs/staging/dev
           elif [[ "${{ github.ref_name }}" == "latest" ]]
           then
-            hugo_root_path="docs/latest" 
+            hugo_root_path="docs/latest"
           elif [[ "${{ endsWith(github.ref_name, '-build') }}" == "true" ]]
           then
             hugo_root_path=`echo docs/version/${{ github.ref_name }} | sed 's/-build$//'`
@@ -48,8 +55,70 @@ jobs:
             hugo_root_path=docs/staging/${{ github.ref_name }}
           fi \
           && sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/$hugo_root_path\"#g" config.toml
-    - name: Install dependencies and run Hugo
-      run: make all
+        }
+
+        setBaseUrl
+        kubernetes_versions=($(find content/operate/kubernetes/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
+        rs_versions=($(find content/operate/rs/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
+
+        # build latest
+        for version in "${kubernetes_versions[@]}"; do
+          rm -r "content/operate/kubernetes/${version}"
+        done
+        for version in "${rs_versions[@]}"; do
+          rm -r "content/operate/rs/${version}"
+        done
+        make all
+
+        git checkout .
+
+        # build all versions
+        for version in "${kubernetes_versions[@]}"; do
+
+          setBaseUrl
+
+          # for each version, remove all other versions before building
+          versions_to_remove=($(echo "${kubernetes_versions[@]}" "${version}" | tr ' ' '\n' | sort | uniq -u))
+          for version_to_remove in "${versions_to_remove[@]}"; do
+            rm -r "content/operate/kubernetes/${version_to_remove}"
+          done
+
+          cp -r "content/operate/kubernetes/${version}"/* content/operate/kubernetes/
+          rm -r "content/operate/kubernetes/${version}"
+          sed -i 's/id="versionSelectorKubernetesValue" class="version-selector-control">latest/id="versionSelectorKubernetesValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
+          sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis for Kubernetes/' content/operate/kubernetes/_index.md
+
+          # inject replace command in meta-links to make sure editURL and issuesURL point to right version
+          sed -i "11i \{\{ \$gh_file = replaceRE \`\^operate\/kubernetes\/\` \"operate\/kubernetes\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
+
+          hugo -d "kubernetes-${version}"
+
+          git checkout .
+        done
+
+        for version in "${rs_versions[@]}"; do
+
+          setBaseUrl
+
+          # for each version, remove all other versions before building
+          versions_to_remove=($(echo "${rs_versions[@]}" "${version}" | tr ' ' '\n' | sort | uniq -u))
+          for version_to_remove in "${versions_to_remove[@]}"; do
+            rm -r "content/operate/rs/${version_to_remove}"
+          done
+
+          cp -r "content/operate/rs/${version}"/* content/operate/rs/
+          rm -r "content/operate/rs/${version}"
+          sed -i 's/id="versionSelectorRsValue" class="version-selector-control">latest/id="versionSelectorRsValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
+          sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Software/' content/operate/rs/_index.md
+
+          # inject replace command in meta-links to make sure editURL and issuesURL point to right version
+          sed -i "11i \{\{ \$gh_file = replaceRE \`\^operate\/rs\/\` \"operate\/rs\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
+
+          hugo -d "rs-${version}"
+
+          git checkout .
+        done
+
     - name: List client examples
       run: ls "${{ github.workspace }}/examples"
     - name: List files to be published
@@ -80,5 +149,12 @@ jobs:
             bucket_path=staging/${{ github.ref_name }}
           fi \
           && ./google-cloud-sdk/bin/gsutil -m rsync -r -c -j html -d ${{ github.workspace }}/public gs://$BUCKET/$bucket_path
+
+          versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
+          for versioned_build in "${versioned_builds[@]}"; do
+            product=$(grep -Eo '[a-zA-Z]+' <<< $versioned_build)
+            gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${versioned_build}/operate/${product}"
+          done
+
     - name: End
       run: echo "This job's status is ${{ job.status }}."
