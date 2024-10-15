@@ -22,14 +22,6 @@ weight: 50
 You must purchase a commercial license for RDI with Redis Enterprise. This includes two extra
 Redis Enterprise shards (primary and replica) for the staging database.
 
-## Does RDI have any external dependencies?
-
-RDI is packaged with all of its dependencies except for two dependencies that
-you need if you use IBM Db2 as a source:
-
-- [Db2 JDBC driver](https://www.ibm.com/support/pages/db2-jdbc-driver-versions-and-downloads)
-- [IBM Infopshere Data Replication license](https://www.ibm.com/docs/en/db2/10.5?topic=information-licensing-replication)
-
 ## How does RDI track data changes in the source database?
 
 RDI uses mechanisms that are specific for each of the supported

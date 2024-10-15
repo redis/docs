@@ -33,7 +33,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-      <version>5.1.2</version>
+      <version>5.2.0</version>
   </dependency>
   ```
 
@@ -45,7 +45,7 @@ To include `Jedis` as a dependency in your application, edit the dependency file
   }
   //...
   dependencies {
-      implementation 'redis.clients:jedis:5.1.2'
+      implementation 'redis.clients:jedis:5.2.0'
       //...
   }
   ```
@@ -56,46 +56,36 @@ To include `Jedis` as a dependency in your application, edit the dependency file
 
 ## Connect
 
-For many applications, it's best to use a connection pool. You can instantiate and use a `Jedis` connection pool like so:
+The following code opens a basic connection to a local Redis server:
 
 ```java
 package org.example;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.UnifiedJedis;
 
 public class Main {
     public static void main(String[] args) {
-        JedisPool pool = new JedisPool("localhost", 6379);
+        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
 
-        try (Jedis jedis = pool.getResource()) {
-            // Store & Retrieve a simple string
-            jedis.set("foo", "bar");
-            System.out.println(jedis.get("foo")); // prints bar
-            
-            // Store & Retrieve a HashMap
-            Map<String, String> hash = new HashMap<>();;
-            hash.put("name", "John");
-            hash.put("surname", "Smith");
-            hash.put("company", "Redis");
-            hash.put("age", "29");
-            jedis.hset("user-session:123", hash);
-            System.out.println(jedis.hgetAll("user-session:123"));
-            // Prints: {name=John, surname=Smith, company=Redis, age=29}
-        }
+        // Code that interacts with Redis...
+
+        jedis.close();
     }
 }
 ```
 
-Because adding a `try-with-resources` block for each command can be cumbersome, consider using `JedisPooled` as an easier way to pool connections.
+After you have connected, you can check the connection by storing and
+retrieving a simple string value:
 
 ```java
-import redis.clients.jedis.JedisPooled;
+...
 
-//...
+String res1 = jedis.set("bike:1", "Deimos");
+System.out.println(res1); // OK
 
-JedisPooled jedis = new JedisPooled("localhost", 6379);
-jedis.set("foo", "bar");
-System.out.println(jedis.get("foo")); // prints "bar"
+String res2 = jedis.get("bike:1");
+System.out.println(res2); // Deimos
+
+...
 ```
 
 ### Connect to a Redis cluster
@@ -196,15 +186,178 @@ public class Main {
 }
 ```
 
-## Production usage
+## Connect using client-side caching
 
-The following sections explain how to handle situations that may occur
-in your production environment.
+Client-side caching is a technique to reduce network traffic between
+the client and server, resulting in better performance. See
+[Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
+for more information about how client-side caching works and how to use it effectively.
 
-### Configuring a connection pool
+To enable client-side caching, specify the
+[RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol and pass a cache configuration object during the connection.
 
-As mentioned in the previous section, use `JedisPool` or `JedisPooled` to create a connection pool.
-`JedisPooled`, added in Jedis version 4.0.0, provides capabilities similar to `JedisPool` but with a more straightforward API.
+The example below shows the simplest client-side caching connection to the default host and port,
+`localhost:6379`.
+All of the connection variants described above accept these parameters, so you can
+use client-side caching with a connection pool or a cluster connection in exactly the same way.
+
+{{< note >}}Client-side caching requires Jedis v5.2.0 or later.
+To maximize compatibility with all Redis products, client-side caching
+is supported by Redis v7.4 or later.
+{{< /note >}}
+
+```java
+HostAndPort endpoint = new HostAndPort("localhost", 6379);
+
+DefaultJedisClientConfig config = DefaultJedisClientConfig
+    .builder()
+    .password("secretPassword")
+    .protocol(RedisProtocol.RESP3)
+    .build();
+
+CacheConfig cacheConfig = CacheConfig.builder().maxSize(1000).build();
+
+UnifiedJedis client = new UnifiedJedis(endpoint, config, cacheConfig);
+```
+
+Once you have connected, the usual Redis commands will work transparently
+with the cache:
+
+```java
+client.set("city", "New York");
+client.get("city");     // Retrieved from Redis server and cached
+client.get("city");     // Retrieved from cache
+```
+
+You can see the cache working if you connect to the same Redis database
+with [`redis-cli`]({{< relref "/develop/connect/cli" >}}) and run the
+[`MONITOR`]({{< relref "/commands/monitor" >}}) command. If you run the
+code above but without passing `cacheConfig` during the connection,
+you should see the following in the CLI among the output from `MONITOR`:
+
+```
+1723109720.268903 [...] "SET" "city" "New York"
+1723109720.269681 [...] "GET" "city"
+1723109720.270205 [...] "GET" "city"
+```
+
+The server responds to both `get("city")` calls.
+If you run the code with `cacheConfig` added in again, you will see
+
+```
+1723110248.712663 [...] "SET" "city" "New York"
+1723110248.713607 [...] "GET" "city"
+```
+
+The first `get("city")` call contacted the server, but the second
+call was satisfied by the cache.
+
+### Removing items from the cache
+
+You can remove individual keys from the cache with the
+`deleteByRedisKey()` method of the cache object. This removes all cached items associated
+with each specified key, so all results from multi-key commands (such as
+[`MGET`]({{< relref "/commands/mget" >}})) and composite data structures
+(such as [hashes]({{< relref "/develop/data-types/hashes" >}})) will be
+cleared at once. The example below shows the effect of removing a single
+key from the cache:
+
+```java
+client.hget("person:1", "name");    // Read from the server
+client.hget("person:1", "name");    // Read from the cache
+
+client.hget("person:2", "name");    // Read from the server
+client.hget("person:2", "name");    // Read from the cache
+
+Cache myCache = client.getCache();
+myCache.deleteByRedisKey("person:1");
+
+client.hget("person:1", "name");    // Read from the server
+client.hget("person:1", "name");    // Read from the cache
+
+client.hget("person:2", "name");    // Still read from the cache
+```
+
+You can also clear all cached items using the `flush()`
+method:
+
+```java
+client.hget("person:1", "name");    // Read from the server
+client.hget("person:1", "name");    // Read from the cache
+
+client.hget("person:2", "name");    // Read from the server
+client.hget("person:2", "name");    // Read from the cache
+
+Cache myCache = client.getCache();
+myCache.flush();
+
+client.hget("person:1", "name");    // Read from the server
+client.hget("person:1", "name");    // Read from the cache
+
+client.hget("person:2", "name");    // Read from the server
+client.hget("person:2", "name");    // Read from the cache
+```
+
+The client will also flush the cache automatically
+if any connection (including one from a connection pool)
+is disconnected.
+
+## Connect with a connection pool
+
+For production usage, you should use a connection pool to manage
+connections rather than opening and closing connections individually.
+A connection pool maintains several open connections and reuses them
+efficiently. When you open a connection from a pool, the pool allocates
+one of its open connections. When you subsequently close the same connection,
+it is not actually closed but simply returned to the pool for reuse.
+This avoids the overhead of repeated connecting and disconnecting.
+See
+[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
+for more information.
+
+Use the following code to connect with a connection pool:
+
+```java
+package org.example;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
+public class Main {
+    public static void main(String[] args) {
+        JedisPool pool = new JedisPool("localhost", 6379);
+
+        try (Jedis jedis = pool.getResource()) {
+            // Store & Retrieve a simple string
+            jedis.set("foo", "bar");
+            System.out.println(jedis.get("foo")); // prints bar
+            
+            // Store & Retrieve a HashMap
+            Map<String, String> hash = new HashMap<>();;
+            hash.put("name", "John");
+            hash.put("surname", "Smith");
+            hash.put("company", "Redis");
+            hash.put("age", "29");
+            jedis.hset("user-session:123", hash);
+            System.out.println(jedis.hgetAll("user-session:123"));
+            // Prints: {name=John, surname=Smith, company=Redis, age=29}
+        }
+    }
+}
+```
+
+Because adding a `try-with-resources` block for each command can be cumbersome, consider using `JedisPooled` as an easier way to pool connections. `JedisPooled`, added in Jedis version 4.0.0, provides capabilities similar to `JedisPool` but with a more straightforward API.
+
+```java
+import redis.clients.jedis.JedisPooled;
+
+//...
+
+JedisPooled jedis = new JedisPooled("localhost", 6379);
+jedis.set("foo", "bar");
+System.out.println(jedis.get("foo")); // prints "bar"
+```
+
 A connection pool holds a specified number of connections, creates more connections when necessary, and terminates them when they are no longer needed.
 
 Here is a simplified connection lifecycle in a pool:
@@ -249,6 +402,11 @@ poolConfig.setTimeBetweenEvictionRuns(Duration.ofSeconds(1));
 // to prevent connection starvation
 JedisPooled jedis = new JedisPooled(poolConfig, "localhost", 6379);
 ```
+
+## Production usage
+
+The following sections explain how to handle situations that may occur
+in your production environment.
 
 ### Timeouts
 

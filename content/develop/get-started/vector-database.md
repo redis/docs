@@ -54,7 +54,7 @@ This free Redis Cloud database comes out of the box with all the Redis Stack fea
 
 You can alternatively use the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis Stack on your local machine.
 
-You need to have the following features configured for your Redis server: JSON and search and query.
+You need to have the following features configured for your Redis server: JSON and Search and query.
 
 ## Install the required Python packages
 
@@ -269,6 +269,6 @@ From the description, this bike is an excellent match for younger children, and 
 ## Next steps
 
 1. You can learn more about the query options, such as filters and vector range queries, by reading the [vector reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
-2. The complete [search and query documentation]({{< relref "/develop/interact/search-and-query/" >}}) might be interesting for you.
+2. The complete [Redis Query Engine documentation]({{< relref "/develop/interact/search-and-query/" >}}) might be interesting for you.
 3. If you want to follow the code examples more interactively, then you can use the [Jupyter notebook](https://github.com/RedisVentures/redis-vss-getting-started/blob/main/vector_similarity_with_redis.ipynb) that inspired this quick start guide.
 4. If you want to see more advanced examples of a Redis vector database in action, visit the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) page on GitHub.

@@ -37,7 +37,7 @@ dotnet add package NRedisStack
 
 Connect to localhost on port 6379.
 
-```
+```csharp
 using NRedisStack;
 using NRedisStack.RedisStackCommands;
 using StackExchange.Redis;
@@ -70,7 +70,7 @@ Console.WriteLine(String.Join("; ", hashFields));
 // name: John; surname: Smith; company: Redis; age: 29
 ```
 
-To access Redis Stack capabilities, you should use appropriate interface like this:
+To access Redis Stack capabilities, use the appropriate interface like this:
 
 ```
 IBloomCommands bf = db.BF();
@@ -84,7 +84,7 @@ IJsonCommands json = db.JSON();
 ITimeSeriesCommands ts = db.TS();
 ```
 
-### Connect to a Redis cluster
+## Connect to a Redis cluster
 
 To connect to a Redis cluster, you just need to specify one or all cluster endpoints in the client configuration:
 
@@ -106,7 +106,7 @@ db.StringSet("foo", "bar");
 Console.WriteLine(db.StringGet("foo")); // prints bar
 ```
 
-### Connect to your production Redis with TLS
+## Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
 
@@ -168,6 +168,23 @@ conn.StringSet("foo", "bar");
 //send GET command and print the value
 Console.WriteLine(conn.StringGet("foo"));   
 ```
+
+## Multiplexing
+
+Although example code typically works with a single connection,
+real-world code often uses multiple connections at the same time.
+Opening and closing connections repeatedly is inefficient, so it is best
+to manage open connections carefully to avoid this.
+
+Several other
+Redis client libraries use *connection pools* to reuse a set of open
+connections efficiently. NRedisStack uses a different approach called
+*multiplexing*, which sends all client commands and responses over a
+single connection. NRedisStack manages multiplexing for you automatically.
+This gives high performance without requiring any extra coding.
+See
+[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
+for more information.
 
 ## Example: Indexing and querying JSON documents
 
