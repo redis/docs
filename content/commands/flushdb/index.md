@@ -65,7 +65,7 @@ It is possible to use one of the following modifiers to dictate the flushing mod
 ## Notes
 
 * An asynchronous `FLUSHDB` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.
-* This commands does not delete functions
+* This command does not delete functions.
 
 ## Behavior change history
 
