@@ -58,10 +58,17 @@ secrets are only relevant to TLS/mTLS connections.
 
 If you are hosting RDI on your own VMs, you can use the
 [`deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}})
-command to deploy a configuration, including the jobs, once you have created them.
+command to deploy a configuration, including the jobs, once you have created them:
 
-If your RDI CLI is deployed as a pod in a Kubernetes cluster, you should perform the following
-steps to deploy a pipeline:
+```bash
+redis-di deploy --dir <path to pipeline folder>
+```
+
+You can also deploy a pipeline using [Redis Insight]({{< relref "/develop/connect/insight/rdi-connector" >}}).
+
+If your RDI CLI is deployed as a pod in a
+[Kubernetes cluster]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}),
+you should perform the following steps to deploy a pipeline:
 
 - Create a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) from the
   YAML files in your `jobs` folder:

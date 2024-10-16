@@ -14,7 +14,7 @@ linkTitle: Installation
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 1
+weight: 2
 ---
 
 The guides in this section explain the options you have for installing RDI.

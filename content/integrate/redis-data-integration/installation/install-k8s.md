@@ -28,11 +28,11 @@ The installation creates the following K8s objects:
     [metrics exporter]({{< relref "/integrate/redis-data-integration/observability" >}}), and API server.
 -   A [service account](https://kubernetes.io/docs/concepts/security/service-accounts/) along with a
     [role](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#restrictions-on-role-creation-or-update)
-    and [role binding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) for the RDI operator
+    and [role binding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) for the RDI operator.
 -   A [Configmap](https://kubernetes.io/docs/concepts/configuration/configmap/)
-    for the different components with RDI Redis database details
+    for the different components with RDI Redis database details.
 -   [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
-    with the RDI Redis database credentials and TLS certificates
+    with the RDI Redis database credentials and TLS certificates.
 
 You can use this installation on [OpenShift](https://docs.openshift.com/) and other K8s distributions
 including cloud providers' K8s managed clusters.
@@ -51,10 +51,26 @@ Complete the following steps before running Helm:
     more information).
 -   Download the RDI helm chart tar file from the [download center](https://cloud.redis.io/#/rlec-downloads).
 
+### Create the RDI database
+
+RDI uses a database on your Redis Enterprise cluster to store its state
+information. *This requires Redis Enterprise v6.4 or greater*.
+
+Before installing RDI:
+
+- Use the Redis console to create a database with 250MB RAM with 1 primary and 1 replica.
+- If you are deploying RDI for a production environment then secure this database with a password
+  and [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security).
+
+You should then provide the details of this database in [the `values.yaml` file](#the-valuesyaml-file),
+as described below.
+
 ### Using a private image registry
 
 Add the RDI images from [Docker Hub](https://hub.docker.com/) to your local registry.
-The example below shows how to specify the registry and image pull secret in `values.yaml`:
+The example below shows how to specify the registry and image pull secret in the
+[`values.yaml`](https://helm.sh/docs/topics/charts/#templates-and-values) file for the
+Helm chart:
 
 ```yaml
 global:
@@ -85,13 +101,23 @@ To pull images from a local registry, you must provide the image pull secret and
 	tar -xvf rdi-k8s-<rdi-tag>.tar.gz 
     ```
 
-1.  Open the `values.yaml` file and set the appropriate values (see list of values below).
+1.  Open the `values.yaml` file and set the appropriate values for your installation
+    (see [The `values.yaml` file](#the-valuesyaml-file) below for the full set of
+    available values).
 
 1.  Start the installation:
 
     ```bash
     helm install <The logical chart name> rdi-k8s/<rdi-tag>/helm 
     ```
+
+### The `values.yaml` file
+
+The annotated `values.yaml` file below describes the values you can set
+for the RDI Helm installation:
+
+```yaml
+```
 
 ## Check the installation
 
@@ -101,8 +127,7 @@ To verify the status of the K8s deployment, run the following command:
 helm list -n monitoring -n rdi
 ```
 
-The output looks like the following. Check that `<logical_chart_name>` has
-the value `IDT` in the `STATUS` column.
+The output looks like the following. Check that `<logical_chart_name>` is listed.
 
 ```
 NAME 	             NAMESPACE    REVISION    UPDATED                STATUS    CHART   	 APP VERSION
