@@ -38,13 +38,13 @@ Suppose you want to maintain two metrics for various bicycles: the current price
 {{< clients-example bitfield_tutorial bf >}}
 > BITFIELD bike:1:stats SET u32 #0 1000
 1) (integer) 0
-> BITFIELD bike:1:stats INCRBY u32 #0 -50 INCRBY u32 #1 1
+> BITFIELD bike:1:stats INCRBY u32 #0 -50 INCRBY u32 #32 1
 1) (integer) 950
 2) (integer) 1
-> BITFIELD bike:1:stats INCRBY u32 #0 500 INCRBY u32 #1 1
+> BITFIELD bike:1:stats INCRBY u32 #0 500 INCRBY u32 #32 1
 1) (integer) 1450
 2) (integer) 2
-> BITFIELD bike:1:stats GET u32 #0 GET u32 #1
+> BITFIELD bike:1:stats GET u32 #0 GET u32 #32
 1) (integer) 1450
 2) (integer) 2
 {{< /clients-example >}}
