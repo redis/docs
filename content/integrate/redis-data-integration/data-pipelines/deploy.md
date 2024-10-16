@@ -56,48 +56,12 @@ secrets are only relevant to TLS/mTLS connections.
 
 ## Deploy a pipeline
 
-If you are hosting RDI on your own VMs, you can use the
-[`deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}})
-command to deploy a configuration, including the jobs, once you have created them:
+When you have created your configuration, including the [jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#job-files" >}}), use the
+[`redis-di deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}})
+command to deploy them:
 
 ```bash
 redis-di deploy --dir <path to pipeline folder>
 ```
 
 You can also deploy a pipeline using [Redis Insight]({{< relref "/develop/connect/insight/rdi-connector" >}}).
-
-If your RDI CLI is deployed as a pod in a
-[Kubernetes cluster]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}),
-you should perform the following steps to deploy a pipeline:
-
-- Create a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) from the
-  YAML files in your `jobs` folder:
-
-  ```bash
-  kubectl create configmap redis-di-jobs --from-file=jobs/
-  ```
-
-- Deploy your jobs:
-
-  ```bash
-  kubectl exec -it pod/redis-di-cli -- redis-di deploy
-  ```
-
-{{< note >}}When you create or modify a ConfigMap, it will be available in the `redis-di-cli` pod
-after a short delay. Wait around 30 seconds before running the `redis-di deploy` command.{{< /note >}}
-
-You have two options to update the ConfigMap:
-
-- For smaller changes, you can edit the ConfigMap directly with this command:
-
-  ```bash
-  kubectl edit configmap redis-di-jobs
-  ```
-
-- For bigger changes, such as adding another job file, edit the files in your local `jobs` folder and then run this command:
-
-  ```bash
-  kubectl create configmap redis-di-jobs --from-file=jobs/ --dry-run=client -o yaml | kubectl apply -f -
-  ```
-
-{{< note >}} You must run `kubectl exec -it pod/redis-di-cli -- redis-di deploy` after updating the ConfigMap with either option.{{< /note >}}
