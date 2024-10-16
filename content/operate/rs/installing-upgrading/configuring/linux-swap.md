@@ -27,8 +27,8 @@ must have `sudo` access or be a root user to run the following commands:
     sudo swapoff -a
     ```
 
-1. Comment out the swap partitions configured in the OS so swap remains off even after a reboot:
+1. Comment out the swap partitions configured in `/etc/fstab` so swap remains off even after a reboot:
 
     ```sh
-    sudo sed -i.bak '/ swap / s/^(.*)$/#1/g' /etc/fstab
+    sudo sed -i.bak 's/^[^#].*swap.*/#&/' /etc/fstab
     ```
