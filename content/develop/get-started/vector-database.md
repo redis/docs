@@ -76,7 +76,7 @@ Connect to Redis. By default, Redis returns binary responses. To decode them, yo
 {{< clients-example search_vss connect />}}
 <br/>
 {{% alert title="Tip" color="warning" %}}
-Instead of using a local Redis Stack server, you can copy and paste the connection details from the Redis Cloud database configuration page. Here is an example connection string of a Cloud database that is hosted in the AWS region `us-east-1` and listens on port 16379: `redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com:16379`. The connection string has the format `host:port`. You must also copy and paste the username and password of your Cloud database. The line of code for connecting with the default user changes then to `client = redis.Redis(host="redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com", port=16379, password="your_password_here" decode_responses=True)`.
+Instead of using a local Redis Stack server, you can copy and paste the connection details from the Redis Cloud database configuration page. Here is an example connection string of a Cloud database that is hosted in the AWS region `us-east-1` and listens on port 16379: `redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com:16379`. The connection string has the format `host:port`. You must also copy and paste the username and password of your Cloud database. The line of code for connecting with the default user changes then to `client = redis.Redis(host="redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com", port=16379, password="your_password_here", decode_responses=True)`.
 {{% /alert  %}}
 
 
@@ -115,7 +115,7 @@ Now iterate over the `bikes`  array to store the data as [JSON]({{< relref "/dev
 
 {{< clients-example search_vss load_data />}}
 
-Once loaded, you can retrieve a specific attributes from one of the JSON documents in Redis using a [JSONPath](https://goessner.net/articles/JsonPath/) expression:
+Once loaded, you can retrieve a specific attribute from one of the JSON documents in Redis using a [JSONPath](https://goessner.net/articles/JsonPath/) expression:
 
 {{< clients-example search_vss get />}}
 
