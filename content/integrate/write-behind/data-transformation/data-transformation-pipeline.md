@@ -32,7 +32,7 @@ For example, the default job can streamline tasks such as adding a prefix or pos
 Currently, the default job is supported for ingest pipelines only.
 
 ### Example
-This example demonstrates the process of adding an `app_code` field with a value of `foo` using the [add_field](/content/rdi/reference/data-transformation-block-types/add_field.md) block to all tables that lack explicitly defined jobs. Additionally, it appends an `aws` prefix and a `gcp` postfix to every generated hash key.
+This example demonstrates the process of adding an `app_code` field with a value of `foo` using the [add_field]({{<relref "/content/rdi/reference/data-transformation-block-types/add_field/">}}) block to all tables that lack explicitly defined jobs. Additionally, it appends an `aws` prefix and a `gcp` postfix to every generated hash key.
 
 default.yaml
 ```yaml

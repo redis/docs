@@ -149,7 +149,7 @@ More info: [FQDN wikipedia](https://en.wikipedia.org/wiki/Fully_qualified_domain
 {{%definition "`fysnc`"%}}
 Linux command to synchronize a file's in-core state with a storage device
 
-More info: [`fsync` man page]("https://man7.org/linux/man-pages/man2/fsync.2.html")
+More info: [`fsync` man page](https://man7.org/linux/man-pages/man2/fsync.2.html)
 {{%/definition%}}
 
 ## G - J {#letter-g}
