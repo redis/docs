@@ -33,7 +33,6 @@
     - name: redisenterprise.admission.redislabs
       clientConfig:
        caBundle: $CERT
-     admissionReviewVersions: ["v1beta1"]
     EOF
     ```
 
