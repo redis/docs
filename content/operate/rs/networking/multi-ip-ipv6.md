@@ -1,5 +1,5 @@
 ---
-Title: Multi-IP and IPv6
+Title: Manage IP addresses
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 description: Information and requirements for using multiple IP addresses or IPv6
   addresses with Redis Enterprise Software.
-linkTitle: Multi-IP and IPv6
+linkTitle: Manage IP addresses
 weight: $weight
 ---
 Redis Enterprise Software supports servers, instances, and VMs with
