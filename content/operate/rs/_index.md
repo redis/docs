@@ -18,7 +18,9 @@ With Redis Enterprise, you get many enterprise-grade capabilities, including:
 - Predictable performance
 - 24/7 support
 
-You can run Redis Enterprise Software in an on-premises data center or on your preferred cloud platform.
+You can run self-managed Redis Enterprise Software in an on-premises data center or on your preferred cloud platform.
+
+If you prefer a fully managed Redis database-as-a-service, available on major public cloud services, consider setting up a [Redis Cloud]({{<relref "/operate/rc">}}) subscription. You can [try Redis Cloud](https://redis.io/try-free/) for free.
 
 ## Get started
 Build a small-scale cluster with the Redis Enterprise Software container image.
