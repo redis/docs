@@ -35,19 +35,17 @@ acknowledged within the replica. These are steps 7 and 8.
 
 ## Blocking write operation on replication
 
-With the `WAIT` command, applications can ask to wait for
+With the [`WAIT`]({{<relref "/commands/wait">}}) or [`WAITAOF`]({{<relref "/commands/waitaof">}}) commands, applications can ask to wait for
 acknowledgments only after replication or persistence is confirmed on
-the replica. The flow of a write operation with the WAIT command is:
+the replica. The flow of a write operation with `WAIT` or `WAITAOF` is:
 
 1. The application issues a write.
 1. The proxy communicates with the correct primary shard in the system that contains the given key.
 1. Replication communicates the update to the replica shard.
-1. The replica persists the update to disk if the AOF every write setting is selected.
+1. If using `WAITAOF` and the AOF every write setting, the replica persists the update to disk before sending the acknowledgment.
 1. The acknowledgment is sent back from the replica all the way to the proxy with steps 5 to 8.
 
-With this flow, the application only gets the acknowledgment from the
-write after durability is achieved with replication to the replica and to
-the persistent storage.
+The application only gets the acknowledgment from the write after durability is achieved with replication to the replica for `WAIT` or `WAITAOF` and to the persistent storage for `WAITAOF` only.
 
 {{< image filename="/images/rs/strong-consistency.png" >}}
 
