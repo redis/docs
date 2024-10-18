@@ -39,8 +39,8 @@ With the `WAIT` command, applications can ask to wait for
 acknowledgments only after replication or persistence is confirmed on
 the replica. The flow of a write operation with the WAIT command is:
 
-1. The application issues a write,
-1. The proxy communicates with the correct primary shard in the system that contains the given key,
+1. The application issues a write.
+1. The proxy communicates with the correct primary shard in the system that contains the given key.
 1. Replication communicates the update to the replica shard.
 1. The replica persists the update to disk if the AOF every write setting is selected.
 1. The acknowledgment is sent back from the replica all the way to the proxy with steps 5 to 8.
