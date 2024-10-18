@@ -19,7 +19,7 @@ weight: 2
 The sections below explain how to install `NRedisStack` and connect your application
 to a Redis database.
 
-`NRedisStack` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
+`NRedisStack` requires a running Redis server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Community Edition installation instructions.
 
 You can also access Redis with an object-mapping client interface. See
 [Redis OM for .NET]({{< relref "/integrate/redisom-for-net" >}})
@@ -70,7 +70,7 @@ Console.WriteLine(String.Join("; ", hashFields));
 // name: John; surname: Smith; company: Redis; age: 29
 ```
 
-To access Redis Stack capabilities, use the appropriate interface like this:
+To access the advanced data structures capability of Redis Community Edition, use the appropriate interface like this:
 
 ```
 IBloomCommands bf = db.BF();
@@ -190,7 +190,7 @@ for more information.
 
 This example shows how to convert Redis search results to JSON format using `NRedisStack`.
 
-Make sure that you have Redis Stack and `NRedisStack` installed. 
+Make sure that you have Redis Community Edition 8.x and `NRedisStack` installed. 
 
 Import dependencies and connect to the Redis server:
 

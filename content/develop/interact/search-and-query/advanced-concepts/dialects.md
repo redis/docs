@@ -15,7 +15,7 @@ title: Query dialects
 weight: 5
 ---
 
-Redis Stack currently supports four query dialects for use with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), and other Redis Query Engine commands.
+Redis Community Edition currently supports four query dialects for use with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), and other Redis Query Engine commands.
 Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.
 
 ## `DIALECT 1`
@@ -25,7 +25,7 @@ This dialect is also the default dialect. See below for information about changi
 
 ## `DIALECT 2`
 
-Dialect version 2 was introduced in the [2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) release to address query parser inconsistencies found in previous versions of Redis Stack. Dialect version 1 remains the default dialect. To use dialect version 2, append `DIALECT 2` to your query command.
+Dialect version 2 was introduced in the [2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) release to address query parser inconsistencies found in previous versions of Redis. Dialect version 1 remains the default dialect. To use dialect version 2, append `DIALECT 2` to your query command.
 Support for vector search also was introduced in the 2.4 release and requires `DIALECT 2`. See [here]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) for more details.
 `FT.SEARCH ... DIALECT 2`
 

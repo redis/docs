@@ -38,7 +38,7 @@ implements the following data types:
 - [Bitfield](#bitfields)
 - [Geospatial](#geospatial-indexes)
 
-[Redis Stack]({{< relref "/operate/oss_and_stack" >}}) and
+[Redis Community Edition]({{< relref "/operate/oss_and_stack" >}}) and
 [Redis Enterprise]({{< relref "/operate/rs" >}})
 also include some [extension modules](#adding-extensions) that implement other
 useful types, such as JSON. See [Extension data types](#extension-data-types)
@@ -122,7 +122,7 @@ For more information, see:
 
 ## Extension data types
 
-[Redis Stack]({{< relref "/operate/oss_and_stack" >}}) and
+[Redis Community Edition]({{< relref "/operate/oss_and_stack" >}}) and
 [Redis Enterprise]({{< relref "/operate/rs" >}})
 include some [extension modules](#adding-extensions) that implement
 the following data types:
@@ -229,4 +229,4 @@ To extend the features provided by the included data types, use one of these opt
 
 1. Write your own custom [server-side functions in Lua]({{< relref "/develop/interact/programmability/" >}}).
 1. Write your own Redis module using the [modules API]({{< relref "/develop/reference/modules/" >}}) or check out the [community-supported modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/" >}}).
-1. Use [JSON]({{< relref "/develop/data-types/json/" >}}), [search]({{< relref "/develop/interact/search-and-query/" >}}), [time series]({{< relref "/develop/data-types/timeseries/" >}}), and other capabilities provided by [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}).
+1. Use [JSON]({{< relref "/develop/data-types/json/" >}}), [search]({{< relref "/develop/interact/search-and-query/" >}}), [time series]({{< relref "/develop/data-types/timeseries/" >}}), and other capabilities provided by [Redis Community Edition]({{< relref "/operate/oss_and_stack/" >}}).

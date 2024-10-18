@@ -15,7 +15,7 @@ title: Basic constructs
 weight: 2
 ---
 
-You can use Redis Stack as a powerful search and query engine. It allows you to create indexes and perform efficient queries on structured data, as well as text-based and vector searches on unstructured data.
+You can use Redis Community Edition as a powerful search and query engine. It allows you to create indexes and perform efficient queries on structured data, as well as text-based and vector searches on unstructured data.
 
 This section introduces the basic constructs of querying and searching, and explains how to use them to build powerful search capabilities into your applications.
 
@@ -31,7 +31,7 @@ Not all documents need to have the same fields. You can include or exclude field
 
 ## Indexing fields
 
-Not all fields are relevant to perform search operations, and indexing all fields may lead to unnecessary overhead. That's why you have the flexibility to choose which fields should be indexed for efficient search operations. By indexing a field, you enable Redis Stack to create an index structure that optimizes search performance on that field.
+Not all fields are relevant to perform search operations, and indexing all fields may lead to unnecessary overhead. That's why you have the flexibility to choose which fields should be indexed for efficient search operations. By indexing a field, you enable Redis to create an index structure that optimizes search performance on that field.
 
 Fields that are not indexed will not contribute to search results. However, they can still be retrieved as part of the document data when fetching search results.
 

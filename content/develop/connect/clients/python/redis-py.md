@@ -19,7 +19,7 @@ weight: 1
 The sections below explain how to install `redis-py` and connect your application
 to a Redis database.
 
-`redis-py` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
+`redis-py` requires a running Redis server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Community Edition installation instructions.
 
 You can also access Redis with an object-mapping client interface. See
 [RedisOM for Python]({{< relref "/integrate/redisom-for-python" >}})
@@ -268,7 +268,7 @@ pool.close()
 
 ## Example: Indexing and querying JSON documents
 
-Make sure that you have Redis Stack and `redis-py` installed. Import dependencies:
+Make sure that you have Redis Community Edition 8.x and `redis-py` installed. Import dependencies:
 
 ```python
 import redis

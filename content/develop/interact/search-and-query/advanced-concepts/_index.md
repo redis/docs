@@ -16,7 +16,7 @@ title: Advanced concepts
 weight: 7
 ---
 
-Redis Stack supports the following Redis Query Engine features. This article provides you an overview.
+Redis Community Edition supports the following Redis Query Engine features. This article provides you an overview.
 
 ## Indexing features
 
@@ -54,10 +54,10 @@ Redis Stack supports the following Redis Query Engine features. This article pro
 
 ## Cluster support
 
-The Redis Query Engine features of Redis Stack are also available for distributed databases that can scale to billions of documents and hundreds of servers.
+The Redis Query Engine features of Redis Community Edition are also available for distributed databases that can scale to billions of documents and hundreds of servers.
 
 ## Supported platforms
-Redis Stack is developed and tested on Linux and macOS on x86_64 CPUs.
+Redis Community Edition is developed and tested on Linux and macOS on x86_64 CPUs.
 
 Atom CPUs are not supported.
 

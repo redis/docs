@@ -9,11 +9,9 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Querying and searching in Redis Stack can be tuned through multiple
+description: 'Redis Query Engine can be tuned through multiple
   configuration parameters. Some of these parameters can only be set at load-time,
-  while other parameters can be set either at load-time or at run-time.
-
-  '
+  while other parameters can be set either at load-time or at run-time.'
 linkTitle: Configuration parameters
 title: Configuration parameters
 weight: 4
@@ -43,7 +41,7 @@ $ redis-server --loadmodule ./redisearch.so [OPT VAL]...
 
 ## Set configuration parameters at run-time (for supported parameters)
 
-RediSearch exposes the `FT.CONFIG` endpoint to allow for the setting and retrieval of configuration parameters at run-time.
+Redis Query Engine exposes the `FT.CONFIG` endpoint to allow for the setting and retrieval of configuration parameters at run-time.
 
 To set the value of a configuration parameter at run-time (for supported parameters), simply run:
 
@@ -60,7 +58,7 @@ FT.CONFIG GET *
 
 Values set using [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) are not persisted after server restart.
 
-## RediSearch configuration parameters
+## Redis Query Engine configuration parameters
 
 The following table summarizes which configuration parameters can be set at module load-time and run-time:
 
@@ -144,7 +142,7 @@ Deprecated in v1.6. From this version, SAFEMODE is the default.  If you would st
 
 {{% /alert %}}
 
-If present in the argument list, RediSearch will turn off concurrency for query processing and work in a single thread.
+If present in the argument list, Redis Query Engine will turn off concurrency for query processing and work in a single thread.
 
 This is useful if data consistency is extremely important, and avoids a situation where deletion of documents while querying them can cause momentarily inconsistent results. For example, documents that were valid during the invocation of the query are not returned because they were deleted during query processing.
 
@@ -183,7 +181,7 @@ $ redis-server --loadmodule ./redisearch.so CONCURRENT_WRITE_MODE
 
 ### EXTLOAD
 
-If present, RediSearch will try to load an extension dynamic library from its specified file path. See [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}) for details.
+If present, Redis Query Engine will try to load an extension dynamic library from its specified file path. See [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}) for details.
 
 #### Default
 
@@ -450,7 +448,7 @@ $ redis-server --loadmodule ./redisearch.so GC_POLICY FORK FORK_GC_RUN_INTERVAL 
 
 ### FORK_GC_RETRY_INTERVAL
 
-Interval (in seconds) in which RediSearch will retry to run `fork GC` in case of a failure. Usually, a failure could happen when the Redis fork API does not allow for more than one fork to be created at the same time.
+Interval (in seconds) in which Redis Query Engine will retry to run `fork GC` in case of a failure. Usually, a failure could happen when the Redis fork API does not allow for more than one fork to be created at the same time.
 
 #### Default
 
@@ -496,7 +494,7 @@ $ redis-server --loadmodule ./redisearch.so GC_POLICY FORK FORK_GC_CLEAN_THRESHO
 
 ### UPGRADE_INDEX
 
-This configuration is a special configuration option introduced to upgrade indices from v1.x RediSearch versions, otherwise known as legacy indices. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [ft.create api]({{< baseurl >}}/commands/ft.create/). 
+This configuration is a special configuration option introduced to upgrade indices from v1.x Redis Query Engine versions, otherwise known as legacy indices. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [ft.create api]({{< baseurl >}}/commands/ft.create/). 
 
 #### Default
 

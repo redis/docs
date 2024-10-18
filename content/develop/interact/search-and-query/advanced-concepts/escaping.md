@@ -33,7 +33,7 @@ to improve the search even further. See this article about
 [Tokenization](https://queryunderstanding.com/tokenization-c8cdd6aef7ff)
 for a general introduction to the concepts.
 
-Redis Stack uses a very simple tokenizer for documents and a slightly more sophisticated tokenizer for queries. Both allow a degree of control over string escaping and tokenization. 
+Redis uses a very simple tokenizer for documents and a slightly more sophisticated tokenizer for queries. Both allow a degree of control over string escaping and tokenization. 
 
 The sections below describe the rules for tokenizing text fields and queries.
 Note that
