@@ -107,9 +107,9 @@ See [Add client certificates]({{<relref "/operate/kubernetes/security/add-client
 
 [Persistent storage is mandatory for Redis Enterprise.]({{<relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage/">}}) Redis Enterprise for Kubernetes [requires network-attached storage](https://en.wikipedia.org/wiki/Network-attached_storage).
 
-Redis Enterprise for Kubernetes uses [[PersistentVolumeClaims (PVC)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) to manage storage resources. The PVC is an abstract representation of the PersistentVolume resources used by your Redis pods. PVCs are created by the Redis Enterprise operator and used by the RedisEnterpriseCluster (REC).
+Redis Enterprise for Kubernetes uses [PersistentVolumeClaims (PVC)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) to manage storage resources. The PVC is an abstract representation of the [PersistentVolume (PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes) resources used by your Redis pods. PVCs are created by the Redis Enterprise operator and used by the [RedisEnterpriseCluster (REC)](#redisenterprisecluster-rec).
 
-PVCs are created with a specific size and [can be expanded](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) with the following steps, if the underlying [storage class](https://kubernetes.io/docs/concepts/storage/storage-classes/) supports it.
+PVCs are created with a specific size and [can be expanded](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims), if the underlying [storage class](https://kubernetes.io/docs/concepts/storage/storage-classes/) supports it.
 
 ## Auto Tiering
 
