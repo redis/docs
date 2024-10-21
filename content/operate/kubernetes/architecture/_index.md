@@ -21,6 +21,18 @@ The image below illustrates the components of a single namespace, three node dep
 
 An operator is a custom extension of the Kubernetes API designed to manage complex, stateful processes and resources. The Redis Enterprise operator uses controllers to manage Redis Enterprise’s custom resources (CRs), ensuring that these resources are continuously monitored and maintained.
 
+--->Operator pattern is a common way to extend the K8s API to work with databases.......
+
+The operator is a deployment that runs within a given namespace. These operator pods must run with sufficient privileges to create the Redis Enterprise cluster resources within that namespace.
+
+When the operator is installed, the following resources are created:
+
+- service account under which the operator will run
+- set of roles to define the privileges necessary for the operator to perform its tasks
+- set of role bindings to authorize the service account for the correct roles (see above)
+- CustomResourceDefinition (CRD) for each Redis Enterprise custom resource
+- the operator itself (a deployment)
+
 ## Namespace
 
 The Redis Enterprise operator is deployed within a namespace. Each namespace can host only one operator and one RedisEnterpriseCluster instance. Namespaces create a logical boundaries between resources, allowing organization and security. Some resources in your deployment are limited to a namespace, while others are cluster-wide.
@@ -57,9 +69,13 @@ A Redis Enterprise database is a logical entity that manages your entire dataset
 
 Redis databases are created and managed by the RedisEnterpriseDatabase (REDB) custom resource. Changes to the REDB YAML configuration file prompt the operator to make changes to the database. See the [RedisEnterpriseDatabase (REDB) API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) for a full list of fields and settings.
 
-A database can be managed by an operator in the same namespace, or a different namespace. See []"Flexible deployment"]({{<relref "/operate/kubernetes/architecture/deployment-options">}}) options and []"Manage databases in multiple namespaces"]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}) for more information.
+A database can be managed by an operator in the same namespace, or a different namespace. See ["Flexible deployment"]({{<relref "/operate/kubernetes/architecture/deployment-options">}}) options and ["Manage databases in multiple namespaces"]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}) for more information.
 
 ## Active-Active databases
+
+On Kubernetes, Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases provide read and write access to the same dataset from different Kubernetes clusters. For more general information about Active-Active, see the [Redis Enterprise Software docs]({{< relref "/operate/rs/databases/active-active/" >}}).
+
+Creating an Active-Active database requires routing [network access]({{< relref "/operate/kubernetes/networking/" >}}) between two Redis Enterprise clusters residing in different Kubernetes clusters. Without the proper access configured for each cluster, syncing between the databases instances will fail.
 
 ## RedisEnterpriseRemoteCluster RERC
 
@@ -69,16 +85,38 @@ A database can be managed by an operator in the same namespace, or a different n
 
 ## Security
 
-secrets
+Redis Enterprise for Kubernetes allows you to use secrets to manage your cluster credentials, cluster certificates, and client certificates. You can configure LDAP and internode encryption via the RedisEnterpriseCluster spec.
+
+### REC credentials
+
+Redis Enterprise for Kubernetes uses a custom resource called [`RedisEnterpriseCluster`]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) to create a Redis Enterprise cluster (REC). During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
+
+### REC certificates
+
+By default, Redis Enterprise Software for Kubernetes generates TLS certificates for the cluster during creation. These self-signed certificates are generated on the first node of each Redis Enterprise cluster (REC) and are copied to all other nodes added to the cluster.
+
+## Client certificates
+
+For each client certificate you want to use with your database, you need to create a Kubernetes secret to hold it. You can then reference that secret in your Redis Enterprise database (REDB) custom resource spec.
 
 ## Storage
 
-PVCs, network attached
+Redis Enterprise for Kubernetes requires network-attached storage.
+
+We use PersistentVolumeClaims (PVCs) to manage storage resources. The PVC is an abstract representation of the PersistentVolume resources used by your Redis pods.[PersistentVolumeClaims (PVC)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) are created by the Redis Enterprise operator and used by the RedisEnterpriseCluster (REC).
+
+PVCs are created with a specific size and [can be expanded](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) with the following steps, if the underlying [storage class](https://kubernetes.io/docs/concepts/storage/storage-classes/) supports it.
 
 ## Networking
 
-ingress and ingressorRoutes
+By default, Kubernetes doesn't allow you to access your Redis database from outside your K8s cluster. Redis Enterprise for Kubernetes supports several ways to route external traffic to your RedisEnterpriseCluster:
+
+- Ingress controllers [HAProxy](https://haproxy-ingress.github.io/) and [NGINX](https://kubernetes.github.io/ingress-nginx/) require an `ingress` API resource.
+- [Istio](https://istio.io/latest/docs/setup/getting-started/) requires `Gateway` and `VirtualService` API resources.
+- OpenShift uses [routes]({{< relref "/operate/kubernetes/networking/routes.md" >}}) to route external traffic.
+
+The RedisEnterpriseActiveActiveDatabase (REAADB) requires one of above routing methods to be configured in the RedisEnterpriseCluster (REC) with the `ingressOrRouteSpec` field.
 
 ## Metrics
 
-Promethius service
+To collect  metrics data from your databases and Redis Enterprise cluster (REC), you can connect your [Prometheus](https://prometheus.io/) server to an endpoint exposed on your REC. Redis Enterprise for Kubernetes creates a dedicated service to expose the `prometheus` port (8070) for data collection. A custom resource called `ServiceMonitor` allows the [Prometheus operator](https://github.com/prometheus-operator/prometheus-operator/tree/main/Documentation) to connect to this port and collect data from Redis Enterprise.
