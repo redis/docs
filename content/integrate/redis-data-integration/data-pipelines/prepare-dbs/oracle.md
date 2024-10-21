@@ -78,6 +78,28 @@ exec rdsadmin.rdsadmin_util.set_configuration('archivelog retention hours',24);
 exec rdsadmin.rdsadmin_util.alter_supplemental_logging('ADD');
 ```
 
+You must enable supplemental logging for the tables you want to capture or
+for the entire database. This lets Debezium capture the state of
+database rows before and after changes occur. 
+
+The following example shows how to configure supplemental logging for all columns
+in a single table called `inventory.customers`:
+
+```sql
+ALTER TABLE inventory.customers ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+```
+
+{{< note >}}If you enable supplemental logging for *all* table columns, you will
+probably see the size of the Oracle redo logs increase dramatically. Avoid this
+by using supplemental logging only when you need it. {{< /note >}} 
+
+You must also enable minimal supplemental logging at the database level with
+the following command:
+
+```sql
+ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;
+```
+
 ## 2. Check the redo log sizing
 
 Before you use the Debezium connector, you should check with your
