@@ -51,7 +51,7 @@ Redis Enterprise for Kubernetes also supports [multi-namespace deployments]({{<r
 
 Kubernetes [custom resources (CRs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) are commonly used by databases and other applications to extend the cluster's behavior without changing its underlying code. [Custom resources (CRs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) extend the Kubernetes API, enabling users to manage Redis databases the Kubernetes way. Custom resources are created and managed using YAML configuration files.
 
-This [declarative configuration approach](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/) allows you to specify the desired state for your resources, and the operator makes the necessary changes to achieve that state. This simplifies installation, upgrades, and scaling both vertically and horizontally.
+This [declarative configuration approach](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/) allows you to specify the desired state for your resources, and the operator makes the necessary changes to achieve that state. This simplifies [installation]({{<relref "/operate/kubernetes/deployment">}}), [upgrades]({{<relref "/operate/kubernetes/upgrade">}}), and [scaling]({{<relref "/operate/kubernetes/recommendations/sizing-on-kubernetes">}}) both vertically and horizontally.
 
 The operator continuously monitors CRs for changes, automatically reconciling any differences between the desired state you specified in your YAML configuration file, and the actual state of your resources. Custom resources can also reside in separate namespaces from the operator managing them, such as in [multi-namespace installations]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}).
 
@@ -85,19 +85,19 @@ See the [RedisEnterpriseDatabase (REDB) API Reference]({{<relref "/operate/kuber
 
 Redis Enterprise for Kubernetes uses [secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to manage your cluster credentials, cluster certificates, and client certificates. You can configure [LDAP]({{<relref "/operate/kubernetes/security/ldap">}}) and [internode encryption]({{<relref "/operate/kubernetes/security/internode-encryption">}}) via the [RedisEnterpriseCluster (REC)](#redisenterprisecluster-rec) spec.
 
-## REC credentials
+### REC credentials
 
 Redis Enterprise for Kubernetes the [RedisEnterpriseCluster (REC)]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) to create a Redis Enterprise cluster. During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
 
 See [Manage REC credentials]({{<relref "/operate/kubernetes/security/manage-rec-credentials">}}) for more details.
 
-## REC certificates
+### REC certificates
 
 By default, Redis Enterprise Software for Kubernetes generates TLS certificates for the cluster during creation. These self-signed certificates are generated on the first node of each Redis Enterprise cluster (REC) and are copied to all other nodes in the cluster.
 
 See [Manage REC certificates]({{<relref "/operate/kubernetes/security/manage-rec-certificates.md">}}) for more details.
 
-## Client certificates
+### Client certificates
 
 For each client certificate you want to use, you need to create a [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) to hold it. You can then reference that secret in your [Redis Enterprise database (REDB)](#redisenterprisedatabase-redb) custom resource.
 
@@ -111,7 +111,7 @@ Redis Enterprise for Kubernetes uses [PersistentVolumeClaims (PVC)](https://kube
 
 PVCs are created with a specific size and [can be expanded](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims), if the underlying [storage class](https://kubernetes.io/docs/concepts/storage/storage-classes/) supports it.
 
-## Auto Tiering
+### Auto Tiering
 
 Redis Enterprise Software for Kubernetes supports [Auto Tiering]({{<relref "/operate/kubernetes/re-clusters/auto-tiering">}}) (previously known as Redis on Flash), which extends your node memory to use both RAM and flash storage. SSDs (solid state drives) can store infrequently used (warm) values while your keys and frequently used (hot) values are still stored in RAM. This improves performance and lowers costs for large datasets.
 
@@ -131,26 +131,22 @@ The [Active-Active databases](#active-active-databases) require one of above rou
 
 ## Active-Active databases
 
-On Kubernetes, Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases provide read and write access to the same dataset from different Kubernetes clusters. For more general information about Active-Active, see the [Redis Enterprise Software docs]({{< relref "/operate/rs/databases/active-active/" >}}).
+On Kubernetes, Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases provide read and write access to the same dataset from different Kubernetes clusters. Creating an Active-Active database requires routing [network access]({{< relref "/operate/kubernetes/networking/" >}}) between two Redis Enterprise clusters residing in different Kubernetes clusters. Without the proper access configured for each cluster, syncing between the databases instances will fail.The admission controller is also required for Active-Active databases on Kubernetes, to validate changes to the custom resources.
 
-Creating an Active-Active database requires routing [network access]({{< relref "/operate/kubernetes/networking/" >}}) between two Redis Enterprise clusters residing in different Kubernetes clusters. Without the proper access configured for each cluster, syncing between the databases instances will fail.
-
-The admission controller is required for Active-Active databases on Kubernetes, to validate changes to the custom resources.
-
-For more details and installation information, see [Active-Active databases]({{<relref "/operate/kubernetes/active-active/">}})
+For more details and installation information, see [Active-Active databases]({{<relref "/operate/kubernetes/active-active/">}}). For more general information about Active-Active, see the [Redis Enterprise Software docs]({{< relref "/operate/rs/databases/active-active/" >}}).
 
 ## RedisEnterpriseRemoteCluster RERC
 
-The RedisEnterpriseRemoteCluster (RERC) contains details allowing the REC to link to the RedisEnterpriseActiveActiveDatabase (REAADB). The RERC resource is listed in the REAADB resource to become a participating cluster for the Active-Active database.
+The [RedisEnterpriseRemoteCluster (RERC)]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}) contains details allowing the REC to link to the RedisEnterpriseActiveActiveDatabase (REAADB). The RERC resource is listed in the [REAADB](#redisenterpriseactiveactivedatabase-reaadb) resource to become a participating cluster for the Active-Active database.
 
-For more details, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
+See the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}) for a full list of fields and settings.
 
 ## RedisEnterpriseActiveActiveDatabase REAADB
 
-The RedisEnterpriseActiveActiveDatabase (REAADB) resource creates and manages a database that spans more than one Kubernetes cluster.
+The RedisEnterpriseActiveActiveDatabase (REAADB) resource creates and manages a database that spans more than one Kubernetes cluster. An REAADB requires [external routing](#networking), at least two [RECs](#redisenterprisecluster-rec), and at least two [RERCs](#redisenterpriseremotecluster-rerc).
 
-For more details, see the [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api">}}).
+See the [REAADB API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_active_active_database_api">}}) for a full list of fields and settings.
 
 ## Metrics
 
-To collect  metrics data from your databases and Redis Enterprise cluster (REC), you can connect your [Prometheus](https://prometheus.io/) server to an endpoint exposed on your REC. Redis Enterprise for Kubernetes creates a dedicated service to expose the `prometheus` port (8070) for data collection. A custom resource called `ServiceMonitor` allows the [Prometheus operator](https://github.com/prometheus-operator/prometheus-operator/tree/main/Documentation) to connect to this port and collect data from Redis Enterprise.
+To collect  metrics data from your databases and Redis Enterprise cluster (REC), you can [connect your Prometheus]({{<relref "c/operate/kubernetes/re-clusters/connect-prometheus-operator">}}) server to an endpoint exposed on your REC. Redis Enterprise for Kubernetes creates a dedicated service to expose the `prometheus` port (8070) for data collection. A custom resource called `ServiceMonitor` allows the [Prometheus operator](https://github.com/prometheus-operator/prometheus-operator/tree/main/Documentation) to connect to this port and collect data from Redis Enterprise.
