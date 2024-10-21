@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
+description: Redis Community Edition 7.4 features. Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
 linkTitle: 7.8.2-tba (October 2024)
 weight: 90
 ---
@@ -16,6 +16,8 @@ weight: 90
 ## Highlights
 
 This version offers:
+
+- Redis Community Edition 7.4 features
 
 - Client-side caching support
 
@@ -36,6 +38,8 @@ This version offers:
 ## New in this release
 
 ### New features
+
+- Redis Community Edition 7.4 features are now available when you [create]({{<relref "/operate/rs/databases/create">}}) or [upgrade]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) a database with database version 7.4. See the [Redis 7.4 release blog post](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74/) and [Redis Community Edition 7.4 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisce-7.4-release-notes">}}) for details.
 
 - Client-side caching support:
 
