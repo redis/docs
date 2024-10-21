@@ -48,6 +48,8 @@ If you selected **Apply to new data changes only**, the data pipeline will enter
 
 ## Reset data pipeline
 
+Resetting the data pipeline creates a new baseline snapshot from the current state of your source database, and re-processes the data from the source database to the target Redis database. You may want to reset the pipeline if the source and target databases were disconnected or you made large changes to the data pipeline.
+
 To reset the data pipeline and restart the ingest process:
 
 1. From the **Data pipeline** tab, select **More actions**, and then **Reset pipeline**.

@@ -25,15 +25,15 @@ Using RDI with Redis Cloud simplifies managing your data integration pipeline. N
 
 ## Data pipeline architecture
 
-A RDI data pipeline sits between your source database and your target Redis database. Initially, the pipeline reads all of the data and imports it into the target database during the *initial cache loading* phase. After this initial sync is complete, the data pipeline enters the *change streaming* phase, where changes are captured as they happen. Changes in the source database are added to the target within a few seconds of capture.
+A RDI data pipeline sits between your source database and your target Redis database. Initially, the pipeline reads all of the data and imports it into the target database during the *initial cache loading* phase. After this initial sync is complete, the data pipeline enters the *change streaming* phase, where changes are captured as they happen. Changes in the source database are added to the target within a few seconds of capture. The data pipeline translates relational database rows to Redis hashes or JSON documents. 
 
 For more info on how RDI works, see [RDI Architecture]({{<relref "/integrate/redis-data-integration/architecture">}}).
 
 ### Pipeline security
 
-Data pipelines are set up to ensure a high level of data security. Source database credentials and TLS secrets are stored in AWS secret manager and shared using the AWS Secret Manager CSI driver for secrets. See [Share source database credentials]({{<relref "/operate/rc/databases/rdi/setup#share-source-database-credentials">}}) to learn how to share your source database credentials with Redis Cloud.
+Data pipelines are set up to ensure a high level of data security. Source database credentials and TLS secrets are stored in AWS secret manager and shared using the AWS Secret Manager CSI driver for secrets. See [Share source database credentials]({{<relref "/operate/rc/databases/rdi/setup#share-source-database-credentials">}}) to learn how to share your source database credentials and TLS certificates with Redis Cloud.
 
-Connections to the source database are through [AWS PrivateLink](https://aws.amazon.com/privatelink/), ensuring that the data pipeline is only exposed to the specific database endpoint. See [Set up connectivity]({{<relref "/operate/rc/databases/rdi/setup#set-up-connectivity">}}) to learn how to connect your PrivateLink to the Redis Cloud VPC.
+Connections to the source database use Java Database Connectivity (JDBC) through [AWS PrivateLink](https://aws.amazon.com/privatelink/), ensuring that the data pipeline is only exposed to the specific database endpoint. See [Set up connectivity]({{<relref "/operate/rc/databases/rdi/setup#set-up-connectivity">}}) to learn how to connect your PrivateLink to the Redis Cloud VPC.
 
 RDI encrypts all network connections with TLS. The pipeline will process data from the source database in-memory and write it to the target database using a TLS connection. There are no external connections to your data pipeline except from Redis Cloud management services.
 
