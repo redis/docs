@@ -63,7 +63,7 @@ For settings managed by the operator, any changes made outside of the CR YAML fi
 
 ## RedisEnterpriseCluster REC
 
-A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources. Each node is capable of running multiple Redis instances [(shards)]({{<relref "/operate/rs/references/terminology/">}}).
+A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources. Each node is capable of running multiple Redis instances [(shards)]({{<relref "/operate/rs/references/terminology">}}).
 
 {{< image filename="/images/k8s/k8s-node-arch.png">}}
 
@@ -73,7 +73,7 @@ See the [RedisEnterpriseCluster API Reference]({{<relref "/operate/kubernetes/re
 
 ## RedisEnterpriseDatabase REDB
 
-A Redis Enterprise database is a logical entity that manages your entire dataset across multiple Redis instances (shards). A Redis instance is a single-threaded database process [(commonly referred to as a shard)]({{<relref "/operate/rs/references/terminology/">}}).
+A Redis Enterprise database is a logical entity that manages your entire dataset across multiple Redis instances (shards). A Redis instance is a single-threaded database process [(commonly referred to as a shard)]({{<relref "/operate/rs/references/terminology">}}).
 
 Redis databases are created and managed by the [RedisEnterpriseDatabase (REDB)]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) [custom resource (CR)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REDB YAML configuration file prompt the operator to make changes to the database.
 
@@ -105,7 +105,7 @@ See [Add client certificates]({{<relref "/operate/kubernetes/security/add-client
 
 ## Storage
 
-[Persistent storage is mandatory for Redis Enterprise.]({{<relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage/">}}) Redis Enterprise for Kubernetes [requires network-attached storage](https://en.wikipedia.org/wiki/Network-attached_storage).
+[Persistent storage is mandatory for Redis Enterprise.]({{<relref "operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage">}}) Redis Enterprise for Kubernetes [requires network-attached storage](https://en.wikipedia.org/wiki/Network-attached_storage).
 
 Redis Enterprise for Kubernetes uses [PersistentVolumeClaims (PVC)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) to manage storage resources. The PVC is an abstract representation of the [PersistentVolume (PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes) resources used by your Redis pods. PVCs are created by the Redis Enterprise operator and used by the [RedisEnterpriseCluster (REC)](#redisenterprisecluster-rec).
 
