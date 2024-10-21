@@ -36,64 +36,72 @@ The operator is a deployment that runs within a [namespace](https://kubernetes.i
 When the operator is installed, the following resources are created:
 
 - service account under which the operator will run
-- set of [roles]() to define the privileges necessary for the operator to perform its tasks
-- set of [role bindings]() to authorize the service account
-- [CustomResourceDefinition (CRD)]() for each Redis Enterprise custom resource
+- set of [roles](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole) to define the privileges necessary for the operator to perform its tasks
+- set of [role bindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) to authorize the service account
+- [CustomResourceDefinition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) for each Redis Enterprise custom resource
 - the operator deployment
 
 ## Namespace
 
-The Redis Enterprise operator is deployed within a [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/). Each namespace can host only one operator and one [RedisEnterpriseCluster (REC)](#redisenterprisecluster-rec). Namespaces create a logical boundaries between resources, allowing organization and security. Some resources are limited to a namespace, while others are cluster-wide.
+The Redis Enterprise [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) is deployed within a [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/). Each namespace can host only one operator and one [RedisEnterpriseCluster (REC)](#redisenterprisecluster-rec). Namespaces create a logical boundaries between resources, allowing organization and security. Some resources are limited to a namespace, while others are cluster-wide.
 
 Redis Enterprise for Kubernetes also supports [multi-namespace deployments]({{<relref "/operate/kubernetes/architecture/deployment-options">}}), meaning the operator can monitor other namespaces (that host applications) for custom resources and apply any changes.
 
 ## Custom resources
 
-Kubernetes custom resources (CRs) are commonly used by databases and other applications to extend the cluster's behavior without changing its underlying code. [Custom resources (CRs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) extend the Kubernetes API, enabling users to manage Redis databases the Kubernetes way. Custom resources are created and managed using YAML configuration files.
+Kubernetes [custom resources (CRs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) are commonly used by databases and other applications to extend the cluster's behavior without changing its underlying code. [Custom resources (CRs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) extend the Kubernetes API, enabling users to manage Redis databases the Kubernetes way. Custom resources are created and managed using YAML configuration files.
 
 This [declarative configuration approach](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/) allows you to specify the desired state for your resources, and the operator makes the necessary changes to achieve that state. This simplifies installation, upgrades, and scaling both vertically and horizontally.
 
-The operator continuously monitors CRs for changes, automatically reconciling any differences between the desired state you specified in your YAML configuration file and the actual state of your resources. Custom resources can also reside in separate namespaces from the operator managing them, such as in [multi-namespace installations](ADD LINK).
+The operator continuously monitors CRs for changes, automatically reconciling any differences between the desired state you specified in your YAML configuration file, and the actual state of your resources. Custom resources can also reside in separate namespaces from the operator managing them, such as in [multi-namespace installations]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}).
 
 ## Custom resource definitions
 
-A custom resource definition (CRD) is a cluster-wide resource that specifies which settings can be configured via custom resource files. Any setting not defined by the CRD is not managed by the operator. Changes to these unmanaged settings can still be made using standard Redis Enterprise Software methods.
+A [custom resource definition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) is a cluster-wide resource that specifies which settings can be configured via custom resource files. Any setting not defined by the CRD is not managed by the operator. Changes to these unmanaged settings can still be made using standard Redis Enterprise Software methods.
 
 For settings managed by the operator, any changes made outside of the CR YAML files (e.g., through the management UI) will be overwritten by the operator. Ensure that all operator-managed settings are updated using the CR YAML files to prevent conflicts.
 
 ## RedisEnterpriseCluster REC
 
-A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources. Each node is capable of running multiple Redis instances (shards).
+A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources. Each node is capable of running multiple Redis instances [(shards)]({{<relref "/operate/rs/references/terminology/">}}).
 
 {{< image filename="/images/k8s/k8s-node-arch.png">}}
 
-A Redis cluster is created an managed by the RedisEnterpriseCluster (REC) custom resource. Changes to the REC YAML configuration prompt the operator to make changes to the cluster.The REC is required for both standard databases (REDB) and Active-Active databases (REAADB).
+A Redis cluster is created an managed by the [RedisEnterpriseCluster (REC)]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REC configuration file prompt the operator to make changes to the cluster. The REC is required for both standard databases [(REDB)](#redisenterprisedatabase-redb) and Active-Active databases [(REAADB)](#redisenterpriseactiveactivedatabase-reaadb).
 
-See the [RedisEnterpriseCluster (REC) API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for a full list of fields and settings.
+See the [RedisEnterpriseCluster API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for a full list of fields and settings.
 
 ## RedisEnterpriseDatabase REDB
 
-A Redis Enterprise database is a logical entity that manages your entire dataset across multiple Redis instances (shards). A Redis instance is a single-threaded database process (commonly referred to as a shard).
+A Redis Enterprise database is a logical entity that manages your entire dataset across multiple Redis instances (shards). A Redis instance is a single-threaded database process [(commonly referred to as a shard)]({{<relref "/operate/rs/references/terminology/">}}).
 
-Redis databases are created and managed by the RedisEnterpriseDatabase (REDB) custom resource. Changes to the REDB YAML configuration file prompt the operator to make changes to the database. See the [RedisEnterpriseDatabase (REDB) API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) for a full list of fields and settings.
+Redis databases are created and managed by the [RedisEnterpriseDatabase (REDB)]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) [custom resource (CR)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REDB YAML configuration file prompt the operator to make changes to the database.
 
 A database can be managed by an operator in the same namespace, or a different namespace. See ["Flexible deployment"]({{<relref "/operate/kubernetes/architecture/deployment-options">}}) options and ["Manage databases in multiple namespaces"]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}) for more information.
 
+See the [RedisEnterpriseDatabase (REDB) API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) for a full list of fields and settings.
+
 ## Security
 
-Redis Enterprise for Kubernetes allows you to use secrets to manage your cluster credentials, cluster certificates, and client certificates. You can configure LDAP and internode encryption via the RedisEnterpriseCluster spec.
+Redis Enterprise for Kubernetes uses [secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to manage your cluster credentials, cluster certificates, and client certificates. You can configure [LDAP]({{<relref "/operate/kubernetes/security/ldap">}}) and [internode encryption]({{<relref "/operate/kubernetes/security/internode-encryption">}}) via the [RedisEnterpriseCluster (REC)](#redisenterprisecluster-rec) spec.
 
 ## REC credentials
 
-Redis Enterprise for Kubernetes uses a custom resource called [`RedisEnterpriseCluster`]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) to create a Redis Enterprise cluster (REC). During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
+Redis Enterprise for Kubernetes the [RedisEnterpriseCluster (REC)]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) to create a Redis Enterprise cluster. During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
+
+See [Manage REC credentials]({{<relref "/operate/kubernetes/security/manage-rec-credentials">}}) for more details.
 
 ## REC certificates
 
-By default, Redis Enterprise Software for Kubernetes generates TLS certificates for the cluster during creation. These self-signed certificates are generated on the first node of each Redis Enterprise cluster (REC) and are copied to all other nodes added to the cluster.
+By default, Redis Enterprise Software for Kubernetes generates TLS certificates for the cluster during creation. These self-signed certificates are generated on the first node of each Redis Enterprise cluster (REC) and are copied to all other nodes in the cluster.
+
+See [Manage REC certificates]({{<relref "/operate/kubernetes/security/manage-rec-certificates.md">}}) for more details.
 
 ## Client certificates
 
-For each client certificate you want to use, you need to create a [Kubernetes secret](ADD LINK) to hold it. You can then reference that secret in your Redis Enterprise database (REDB) custom resource spec.
+For each client certificate you want to use, you need to create a [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) to hold it. You can then reference that secret in your [Redis Enterprise database (REDB)](#redisenterprisedatabase-redb) custom resource.
+
+See [Add client certificates]({{<relref "/operate/kubernetes/security/add-client-certificates">}}) for more details.
 
 ## Storage
 
