@@ -119,13 +119,13 @@ NVMe (non-volatile memory express) SSDs are strongly recommended to achieve the 
 
 ## Networking
 
-By default, Kubernetes doesn't allow you to access your Redis database from outside your K8s cluster. Redis Enterprise for Kubernetes supports several ways to route external traffic to your RedisEnterpriseCluster:
+By default, Kubernetes doesn't allow you to access your Redis database from outside your K8s cluster. Redis Enterprise for Kubernetes supports several ways to route external traffic to your [Redis Enterprise cluster (REC)](#redisenterprisecluster-rec):
 
 - Ingress controllers [HAProxy](https://haproxy-ingress.github.io/) and [NGINX](https://kubernetes.github.io/ingress-nginx/) require an `ingress` API resource.
 - [Istio](https://istio.io/latest/docs/setup/getting-started/) requires `Gateway` and `VirtualService` API resources.
 - OpenShift uses [routes]({{< relref "/operate/kubernetes/networking/routes.md" >}}) to route external traffic.
 
-The RedisEnterpriseActiveActiveDatabase (REAADB) requires one of above routing methods to be configured in the RedisEnterpriseCluster (REC) with the `ingressOrRouteSpec` field.
+The [Active-Active databases](#active-active-databases) require one of above routing methods to be configured in the REC with the [ingressOrRouteSpec field]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api#specingressorroutespec">}}).
 
 ## Services Rigger
 
