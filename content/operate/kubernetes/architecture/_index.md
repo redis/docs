@@ -11,7 +11,7 @@ linkTitle: Architecture
 weight: 1
 ---
 
-Redis Enterprise for Kubernetes gives you the speed and durability of [Redis Enterprise](https://redis.io/redis-enterprise/advantages/), with the flexibility and ease of use Kubernetes (K8s) provides. Redis Enterprise for Kubernetes uses a custom operator and custom controllers to bring the best of Redis Enterprise to Kubernetes platforms.
+Redis Enterprise for Kubernetes gives you the speed and durability of [Redis Enterprise](https://redis.io/redis-enterprise/advantages/), with the flexibility and ease of use Kubernetes (K8s) provides. Redis Enterprise for Kubernetes uses a the Kubernetes operator pattern and custom controllers to bring the best of Redis Enterprise to Kubernetes platforms.
 
 The image below illustrates the components of a single namespace, three node deployment.
 
@@ -19,9 +19,9 @@ The image below illustrates the components of a single namespace, three node dep
 
 ## Operator
 
-An operator is a custom extension of the Kubernetes API designed to manage complex, stateful processes and resources. The Redis Enterprise operator uses controllers to manage Redis Enterprise’s custom resources (CRs), ensuring that these resources are continuously monitored and maintained.
+An [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) is a custom extension of the Kubernetes API designed to manage complex, stateful applications and their components. This operator pattern is commonly used by databases and other applications to extend the cluster's behavior without changing its underlying code. Kubernetes.io/docs has a great explanation of the [operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
 
---->Operator pattern is a common way to extend the K8s API to work with databases.......
+The Redis Enterprise operator uses controllers to manage Redis Enterprise’s custom resources (CRs), ensuring that these resources are continuously monitored and maintained.
 
 The operator is a deployment that runs within a given namespace. These operator pods must run with sufficient privileges to create the Redis Enterprise cluster resources within that namespace.
 
@@ -37,15 +37,15 @@ When the operator is installed, the following resources are created:
 
 The Redis Enterprise operator is deployed within a namespace. Each namespace can host only one operator and one RedisEnterpriseCluster instance. Namespaces create a logical boundaries between resources, allowing organization and security. Some resources in your deployment are limited to a namespace, while others are cluster-wide.
 
-Redis Enterprise for Kubernetes supports multi-namespace deployments, meaning databases in multiple namespaces can be monitored by a single operator.
+Redis Enterprise for Kubernetes also supports multi-namespace deployments, meaning databases in other namespaces (that host applications) for custom resources and applies any changes defined in those custom resources.
 
 ## Custom resources
 
-Custom resources (CRs) extend the Kubernetes API, enabling users to manage Redis databases the Kubernetes way. Custom resources are created and managed using YAML configuration files.
+Kubernetes custom resources (CRs) are commonly used by databases and other applications to extend the cluster's behavior without changing its underlying code. [Custom resources (CRs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) extend the Kubernetes API, enabling users to manage Redis databases the Kubernetes way.Custom resources are created and managed using YAML configuration files.
 
 This [declarative configuration approach](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/) allows you to specify the desired state for your resources, and the operator makes the necessary changes to achieve that state. This simplifies installation, upgrades, and scaling both vertically and horizontally.
 
-The operator continuously monitors CRs for changes, automatically reconciling any differences between the desired state you specified in your YAML configuration file and the actual state of your resources.
+The operator continuously monitors CRs for changes, automatically reconciling any differences between the desired state you specified in your YAML configuration file and the actual state of your resources. Custom resources can also reside in separate namespaces from the operator managing them, such as in [multi-namespace installations](ADD LINK).
 
 ## Custom resource definitions
 
@@ -71,18 +71,6 @@ Redis databases are created and managed by the RedisEnterpriseDatabase (REDB) cu
 
 A database can be managed by an operator in the same namespace, or a different namespace. See ["Flexible deployment"]({{<relref "/operate/kubernetes/architecture/deployment-options">}}) options and ["Manage databases in multiple namespaces"]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}) for more information.
 
-## Active-Active databases
-
-On Kubernetes, Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases provide read and write access to the same dataset from different Kubernetes clusters. For more general information about Active-Active, see the [Redis Enterprise Software docs]({{< relref "/operate/rs/databases/active-active/" >}}).
-
-Creating an Active-Active database requires routing [network access]({{< relref "/operate/kubernetes/networking/" >}}) between two Redis Enterprise clusters residing in different Kubernetes clusters. Without the proper access configured for each cluster, syncing between the databases instances will fail.
-
-## RedisEnterpriseRemoteCluster RERC
-
-## RedisEnterpriseActiveActiveDatabase REAADB
-
-## Services Rigger
-
 ## Security
 
 Redis Enterprise for Kubernetes allows you to use secrets to manage your cluster credentials, cluster certificates, and client certificates. You can configure LDAP and internode encryption via the RedisEnterpriseCluster spec.
@@ -97,15 +85,21 @@ By default, Redis Enterprise Software for Kubernetes generates TLS certificates 
 
 ## Client certificates
 
-For each client certificate you want to use with your database, you need to create a Kubernetes secret to hold it. You can then reference that secret in your Redis Enterprise database (REDB) custom resource spec.
+For each client certificate you want to use, you need to create a [Kubernetes secret](ADD LINK) to hold it. You can then reference that secret in your Redis Enterprise database (REDB) custom resource spec.
 
 ## Storage
 
-Redis Enterprise for Kubernetes requires network-attached storage.
+[Persistent storage is mandatory for Redis Enterprise.]({{<relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage/">}}) Redis Enterprise for Kubernetes [requires network-attached storage](https://en.wikipedia.org/wiki/Network-attached_storage).
 
-We use PersistentVolumeClaims (PVCs) to manage storage resources. The PVC is an abstract representation of the PersistentVolume resources used by your Redis pods.[PersistentVolumeClaims (PVC)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) are created by the Redis Enterprise operator and used by the RedisEnterpriseCluster (REC).
+Redis Enterprise for Kubernetes uses [[PersistentVolumeClaims (PVC)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) to manage storage resources. The PVC is an abstract representation of the PersistentVolume resources used by your Redis pods. PVCs are created by the Redis Enterprise operator and used by the RedisEnterpriseCluster (REC).
 
 PVCs are created with a specific size and [can be expanded](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) with the following steps, if the underlying [storage class](https://kubernetes.io/docs/concepts/storage/storage-classes/) supports it.
+
+### Auto Tiering
+
+Redis Enterprise Software for Kubernetes supports using Auto Tiering (previously known as Redis on Flash), which extends your node memory to use both RAM and flash storage. SSDs (solid state drives) can store infrequently used (warm) values while your keys and frequently used (hot) values are still stored in RAM. This improves performance and lowers costs for large datasets.
+
+NVMe (non-volatile memory express) SSDs are strongly recommended to achieve the best performance.
 
 ## Networking
 
@@ -116,6 +110,18 @@ By default, Kubernetes doesn't allow you to access your Redis database from outs
 - OpenShift uses [routes]({{< relref "/operate/kubernetes/networking/routes.md" >}}) to route external traffic.
 
 The RedisEnterpriseActiveActiveDatabase (REAADB) requires one of above routing methods to be configured in the RedisEnterpriseCluster (REC) with the `ingressOrRouteSpec` field.
+
+## Services Rigger
+
+## Active-Active databases
+
+On Kubernetes, Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases provide read and write access to the same dataset from different Kubernetes clusters. For more general information about Active-Active, see the [Redis Enterprise Software docs]({{< relref "/operate/rs/databases/active-active/" >}}).
+
+Creating an Active-Active database requires routing [network access]({{< relref "/operate/kubernetes/networking/" >}}) between two Redis Enterprise clusters residing in different Kubernetes clusters. Without the proper access configured for each cluster, syncing between the databases instances will fail.
+
+## RedisEnterpriseRemoteCluster RERC
+
+## RedisEnterpriseActiveActiveDatabase REAADB
 
 ## Metrics
 
