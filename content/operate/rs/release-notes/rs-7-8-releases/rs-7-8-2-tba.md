@@ -97,7 +97,21 @@ This version offers:
 
 - Reserved port 3349 for the cluster watchdog exporter.
 
-#### Redis module feature sets
+### Redis database versions
+
+Redis Enterprise Software version 6.x includes two Redis database versions. As of version 7.2, Redis Enterprise Software includes three Redis database versions.
+
+The default Redis database version, which is used when you upgrade an existing database or create a new one, differs between Redis Enterprise releases as follows:
+
+| Redis<br />Software | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
+|-------|----------|-----|
+| 7.8.2 | 6.2, 7.2, 7.4 | 7.4 |
+| 7.4.x | 6.0, 6.2, 7.2 | 7.2 |
+| 7.2.4 | 6.0, 6.2, 7.2 | 7.2 |
+| 6.4.2 | 6.0, 6.2 | 6.2 |
+| 6.2.x | 6.0, 6.2 | 6.0 |
+
+### Redis module feature sets
 
 Redis Software comes packaged with several modules. As of version 7.8.2, Redis Software includes three feature sets, compatible with different Redis database versions.
 
