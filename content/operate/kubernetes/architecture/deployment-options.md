@@ -16,8 +16,9 @@ You can deploy Redis Enterprise for Kubernetes in several different ways dependi
 
 Multiple Redis Enterprise database resources (REDB) can be associated with single Redis Enterprise cluster resource (REC) even if they reside in different namespaces.
 
-{{<note>}} The Redis Enterprise cluster (REC) custom resource must reside in the same namespace as the Redis Enterprise operator.
-{{</note>}}
+The Redis Enterprise cluster (REC) custom resource must reside in the same namespace as the Redis Enterprise operator.
+
+{{<warning>}} Multi-namespace installations don't support Active-Active databases (REEADB). Only databases created with the REDB resource are supported in multi-namespace deployments at this time.{{</warning>}}
 
 ## Single REC and single namespace (one-to-one)
 
