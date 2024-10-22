@@ -129,6 +129,10 @@ The [Active-Active databases](#active-active-databases) require one of above rou
 
 ## Services Rigger
 
+The services rigger is responsible for creating and updating services related to database objects. It identifies database objects within the cluster and creates services (by default `cluster_ip` type) to allow access to those databases. By default, the services have the same name as the databases. You can view a list of services with the `kubectl get services` command.
+
+Kubernetes is a dynamic environment, with nodes and pods changing as needed. The services rigger monitors the cluster for these changes and updates the database services to ensure reliable communication with the databases.
+
 ## Active-Active databases
 
 On Kubernetes, Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases provide read and write access to the same dataset from different Kubernetes clusters. Creating an Active-Active database requires routing [network access]({{< relref "/operate/kubernetes/networking/" >}}) between two Redis Enterprise clusters residing in different Kubernetes clusters. Without the proper access configured for each cluster, syncing between the databases instances will fail.The admission controller is also required for Active-Active databases on Kubernetes, to validate changes to the custom resources.
