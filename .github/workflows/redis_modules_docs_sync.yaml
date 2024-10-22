@@ -63,7 +63,7 @@ jobs:
             fi
           done
 
-          if [ "module_change" = true ] ; then
+          if [ "$module_change" = true ] ; then
             git push origin "${branch}"
           fi
 
