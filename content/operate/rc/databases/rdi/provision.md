@@ -19,7 +19,7 @@ After you have [prepared your source database]({{<relref "/operate/rc/databases/
 1. In the **Connectivity** section, enter the **PrivateLink service name** of the [PrivateLink connected to your source database]({{< relref "/operate/rc/databases/rdi/setup#set-up-connectivity" >}}).
 1. Enter your database details. This depends on your database type, and includes:
     - **Port**: The database's port
-    - **Database**: Your database's name, or the root database *(PostgresSQL, Oracle only)*; or a comma-separated list of one or more databases you want to connect to *(SQL Server only)*
+    - **Database**: Your database's name, or the root database *(PostgreSQL, Oracle only)*, or a comma-separated list of one or more databases you want to connect to *(SQL Server only)*
     - **Database Server ID**: Unique ID for the replication client. Leave as default if you don't use replication *(mySQL and mariaDB only)*
     - **PDB**: Name of the Oracle pluggable database *(Oracle only)*
 1. Enter the ARN of your [database credentials secret]({{< relref "/operate/rc/databases/rdi/setup#share-source-database-credentials" >}}) in the **Source database secrets ARN** field.
