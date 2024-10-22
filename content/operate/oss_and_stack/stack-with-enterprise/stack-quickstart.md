@@ -6,10 +6,10 @@ categories:
 - stack
 description: null
 linkTitle: Quick start
-title: Redis Stack quick start
+title: Redis Community Edition quick start
 weight: 1
 ---
-To quickly set up a database with Redis Stack features,
+To quickly set up a database with Redis Stack (Redis Community Edition) features,
 you can sign up for a free [Redis Cloud](https://cloud.redis.io/#/sign-up) subscription and create a Redis Stack database.
 
 Alternatively, you can use one of these methods:
@@ -77,9 +77,9 @@ After creating the database, you can view its **Configuration** settings. You wi
 
 With this information, you can connect to your database with the [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) command-line tool, an application, or [Redis Insight](https://redislabs.com/redisinsight/).
 
-## Try Redis Stack features
+## Try Redis Community Edition features
 
-To try out Redis Stack features, follow the examples provided by the corresponding guides:
+To try out Redis Community Edition features, follow the examples provided by the corresponding guides:
 
 - [Redis Query Engine quick start]({{< relref "/develop/get-started/document-database" >}})
 - [JSON quick start]({{< relref "/develop/data-types/json/" >}}#use-redisjson)
