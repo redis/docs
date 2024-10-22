@@ -69,16 +69,16 @@ jobs:
 
           if [ "$module_change" = true ] ; then
             git push origin "${branch}"
-          fi
 
-          # If a pr is not already open, create one
-          set +e
-          gh search prs -R redis/docs --state open --match title "redis modules docs sync" | grep -q "redis modules docs sync"
-          if [ "$?" -eq 1 ]; then
-            set -e
-            gh pr create \
-              --body "redis modules docs sync" \
-              --title "redis modules docs sync" \
-              --head "$branch" \
-              --base "main"
+            # If a pr is not already open, create one
+            set +e
+            gh search prs -R redis/docs --state open --match title "redis modules docs sync" | grep -q "redis modules docs sync"
+            if [ "$?" -eq 1 ]; then
+              set -e
+              gh pr create \
+                --body "redis modules docs sync" \
+                --title "redis modules docs sync" \
+                --head "$branch" \
+                --base "main"
+            fi
           fi
