@@ -39,11 +39,11 @@ Redis does not support directly:
 | Language | Client name | Github | Docs |
 | :-- | :-- | :-- | :-- |
 | C | hiredis | https://github.com/redis/hiredis | https://github.com/redis/hiredis |
-| [PHP](https://www.php.net/) | PHPRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
+| [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
 | [PHP](https://www.php.net/) | Predis library | https://github.com/predis/predis | https://github.com/predis/predis/wiki |
 | [Ruby](https://www.ruby-lang.org/en/) | redis-rb | https://github.com/redis/redis-rb | https://rubydoc.info/gems/redis |
 | [Rust](https://www.rust-lang.org/) | redis-rs | https://github.com/redis-rs/redis-rs | https://docs.rs/redis/latest/redis/ |
-| [C++](https://en.wikipedia.org/wiki/C%2B%2B) | Boost.redis | https://github.com/boostorg/redis | https://www.boost.org/doc/libs/develop/libs/redis/doc/html/index.html |
+| [C++](https://en.wikipedia.org/wiki/C%2B%2B) | Boost.Redis | https://github.com/boostorg/redis | https://www.boost.org/doc/libs/develop/libs/redis/doc/html/index.html |
 
 ## Requirements
 
