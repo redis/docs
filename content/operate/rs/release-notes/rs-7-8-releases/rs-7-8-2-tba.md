@@ -151,6 +151,10 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS119958: Removed the log file limit that caused the debuginfo script to fail with the error "/bin/tar: Argument list too long" in Auto Tiering clusters and improved RocksDB log file rotation.
 
+- RS137396: Providing an email address is no longer mandatory when creating new ACL users in the Cluster Manager UI.
+
+- RS134238: Improved database sorting performance in the Cluster Manager UI.
+
 ## Version changes
 
 - Added validation to verify the LDAP server URI contains a host and port when updating LDAP configuration.
