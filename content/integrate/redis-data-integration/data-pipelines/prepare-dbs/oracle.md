@@ -71,12 +71,14 @@ should reboot your Oracle AWS RDS instance.
 
 Once `LOG_MODE` is correctly set to ARCHIVELOG, execute the following
 commands to complete the LogMiner configuration. The first command enables
-archive logging and the second adds supplemental logging.
+archive logging and the second adds [supplemental logging](#supp-logging).
 
 ```sql
 exec rdsadmin.rdsadmin_util.set_configuration('archivelog retention hours',24);
 exec rdsadmin.rdsadmin_util.alter_supplemental_logging('ADD');
 ```
+
+## 2. Enable supplemental logging {#supp-logging}
 
 You must enable supplemental logging for the tables you want to capture or
 for the entire database. This lets Debezium capture the state of
@@ -100,7 +102,7 @@ the following command:
 ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;
 ```
 
-## 2. Check the redo log sizing
+## 3. Check the redo log sizing
 
 Before you use the Debezium connector, you should check with your
 database administrator that there are enough
@@ -110,7 +112,7 @@ of tables and columns in the database. If you don't have enough capacity in
 the logs then you might see performance problems with both the database and
 the Debezium connector.
 
-## 3. Set the Archive log destination
+## 4. Set the Archive log destination
 
 You can configure up to 31 different destinations for archive logs
 (you must have administrator privileges to do this). You can set parameters for
@@ -140,7 +142,7 @@ use the following setting:
 }
 ```
 
-## 4. Create a user for the connector
+## 5. Create a user for the connector
 
 The Debezium Oracle connector must run as an Oracle LogMiner user with
 specific permissions. The following example shows some SQL that creates
@@ -197,7 +199,7 @@ GRANT SELECT ON V_$STATNAME TO c##dbzuser CONTAINER=ALL;
 exit;
 ```
 
-## 5. Configuration is complete
+## 6. Configuration is complete
 
 Once you have followed the steps above, your Oracle database is ready
 for Debezium to use.
