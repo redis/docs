@@ -59,6 +59,33 @@ Redis Software version 7.8.2 introduces the following breaking changes:
 
     - When you [upgrade a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) using the REST API, you can set `"latest_with_modules": false` in the request body to prevent module upgrades.
 
+#### Redis database version 7.4 breaking changes {#redis-74-breaking-changes}
+
+When new major versions of Redis Community Edition change existing commands, upgrading your database to a new version can potentially break some functionality. Before you upgrade, read the provided list of breaking changes that affect Redis Software and update any applications that connect to your database to handle these changes.
+
+Confirm your Redis database version (`redis_version`) using the Cluster Manager UI or run the following [`INFO`]({{< relref "/commands/info" >}}) command with [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}):
+
+```sh
+$ redis-cli -p <port> INFO
+"# Server
+redis_version:7.0.8
+..."
+```
+
+##### Modules API potentially breaking changes
+
+- [#13326](https://github.com/redis/redis/pull/13326) Hash - expiration of individual fields: avoid lazy expire when called from a Modules API function.
+
+##### Security behavior changes
+
+- [#13108](https://github.com/redis/redis/pull/13108) Lua: LRU eviction for scripts generated with `EVAL`. 
+
+##### Other general behavior changes
+
+- [#13133](https://github.com/redis/redis/pull/13133) Lua: allocate VM code with jemalloc instead of libc and count it as used memory.
+
+- [#12171](https://github.com/redis/redis/pull/12171) `ACL LOAD`: do not disconnect all clients.
+
 ### Product lifecycle updates
 
 #### End-of-life policy extension
