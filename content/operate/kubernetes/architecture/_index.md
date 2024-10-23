@@ -35,7 +35,7 @@ The operator is a deployment that runs within a [namespace](https://kubernetes.i
 
 When the operator is installed, the following resources are created:
 
-- service account under which the operator will run
+- [service account](https://kubernetes.io/docs/concepts/security/service-accounts/) under which the operator will run
 - set of [roles](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole) to define the privileges necessary for the operator to perform its tasks
 - set of [role bindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) to authorize the service account
 - [CustomResourceDefinition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) for each Redis Enterprise custom resource
