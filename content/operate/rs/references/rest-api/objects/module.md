@@ -20,6 +20,7 @@ Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterp
 | capabilities | array of strings | List of capabilities supported by this module |
 | capability_name | string | Short description of module functionality |
 | command_line_args | string | Command line arguments passed to the module |
+| compatible_redis_version | string | Redis version required by this module |
 | config_command | string | Name of command to configure module arguments at runtime |
 | dependencies | object dependencies | Module dependencies |
 | description | string | Short description of the module
@@ -29,7 +30,7 @@ Represents a [Redis module]({{< relref "/operate/oss_and_stack/stack-with-enterp
 | is_bundled | boolean | Whether module came bundled with a version of Redis Enterprise |
 | license | string | Module is distributed under this license
 | min_redis_pack_version | string | Minimum Redis Enterprise Software cluster version required by this module |
-| min_redis_version | string | Minimum Redis database version required by this module |
+| min_redis_version | string | Minimum Redis database version required by this module. Only relevant for Redis databases earlier than v7.4. |
 | module_file | string | Module filename |
 | module_name | `search`<br />`ReJSON`<br />`graph`<br />`timeseries`<br />`bf` | Module's name<br/> |
 | os | string | Operating system used to compile the module |

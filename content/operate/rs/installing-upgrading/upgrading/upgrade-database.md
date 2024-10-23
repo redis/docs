@@ -81,7 +81,7 @@ To upgrade a database:
 
 1.  Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade" >}}) to upgrade the database. During the upgrade process, the database will restart without losing any data.
 
-    - To upgrade a database without modules:
+    - To upgrade a database and its modules:
 
         ``` shell
         rladmin upgrade db <database name | database ID>
@@ -98,8 +98,6 @@ To upgrade a database:
         completed - SMUpgradeBDB
         Done
         ```
-
-    - If the database has modules enabled and new module versions are available in the cluster, run `rladmin upgrade db` with additional parameters to upgrade the module versions when you upgrade the database. See [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) for more details.
 
     - To upgrade the database to a version other than the default version, use the `redis_version` parameter:
 

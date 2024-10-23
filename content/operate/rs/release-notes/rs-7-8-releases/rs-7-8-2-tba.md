@@ -1,0 +1,463 @@
+---
+Title: Redis Software release notes 7.8.2-tba (October 2024)
+alwaysopen: false
+categories:
+- docs
+- operate
+- rs
+compatibleOSSVersion: Redis 7.4.0
+description: Redis Community Edition 7.4 features. Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
+linkTitle: 7.8.2-tba (October 2024)
+weight: 90
+---
+
+​[​Redis Software version 7.8.2](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+
+## Highlights
+
+This version offers:
+
+- Redis Community Edition 7.4 features
+
+- Client-side caching support
+
+- New APIs to check database availability, rebalance shards, fail over shards, and control database traffic
+
+- Cluster Manager UI enhancements for node actions, database tags, and database configuration
+
+- Log rotation based on both size and time
+
+- Module management enhancements
+
+- V2 Prometheus metrics
+
+- Configurable minimum password length
+
+- Configurable license expiration alert threshold
+
+## New in this release
+
+### New features
+
+- Redis Community Edition 7.4 features are now available when you [create]({{<relref "/operate/rs/databases/create">}}) or [upgrade]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) a database with database version 7.4. See the [Redis 7.4 release blog post](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74/) and [Redis Community Edition 7.4 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisce-7.4-release-notes">}}) for details.
+
+- Client-side caching support:
+
+    - Client-side caching allows Redis clients to store a subset of data in a local cache and avoid sending repeated requests to the Redis database.
+    
+    - When used to cache frequently accessed data, this technique can improve performance by decreasing network traffic, latency, and load on the database.
+
+    - Supported for Redis databases with Redis versions 7.4 and later.
+    
+    - For more information, see the [client-side caching introduction]({{<relref "/develop/connect/clients/client-side-caching">}}) and [client-side caching compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}).
+
+- [Database availability API]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability">}}), which verifies whether a Redis Software database is available to perform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.
+
+- [Rebalance shard placement REST API request](<!--TODO: Add REST API ref link-->), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
+
+- [Shard failover REST API requests](<!--TODO: Add REST API ref link-->), which perform failover on specified primary shards and promotes their replicas to primary shards.
+
+- REST API requests to [stop traffic](<!--TODO: Add REST API ref link-->) or [resume traffic](<!--TODO: Add REST API ref link-->) to a database.
+
+### Enhancements
+
+- New Cluster Manager UI enhancements:
+
+    - Perform node actions from the **Nodes** screen to [verify nodes]({{<relref "/operate/rs/clusters/add-node#verify-node">}}), [set a node as primary or secondary]({{<relref "/operate/rs/clusters/change-node-role">}}), [remove nodes]({{<relref "/operate/rs/clusters/remove-node">}}), and manage node alert settings.
+
+    - Categorize databases with [custom tags]({{<relref "/operate/rs/databases/configure/db-tags">}}). When you add new tags to a database, the keys and values already used by existing tags will appear as suggestions.
+
+    - Moved several settings on the database configuration screen:
+    
+        - The eviction setting now appears in the [**Capacity**]({{<relref "/operate/rs/databases/configure#capacity">}}) section.
+
+        - [**High availability**]({{<relref "/operate/rs/databases/configure#high-availability">}}) and [**Durability**]({{<relref "/operate/rs/databases/configure#durability">}}) have separate sections.
+
+- When you upgrade a database, the upgrade process also attempts to upgrade database modules by default.
+
+    - [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}) will always upgrade the database's modules.
+
+    - If you [upgrade a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) using the REST API, you can set `"latest_with_modules": false` in the request body to prevent module upgrades.
+
+- Added support for [log rotation]({{<relref "/operate/rs/clusters/logging/log-security#log-rotation">}}) based on both size and time.
+
+- Added V2 Prometheus metrics.
+
+- [Minimum password length]({{<relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules#change-minimum-password-length">}}), previously hardcoded as 8 characters, is now configurable in the Cluster Manager UI and the REST API.
+
+- The [cluster license expiration alert threshold]({{<relref "/operate/rs/clusters/configure/license-keys#configure-license-expiration-alert">}}), which determines how far in advance you want to be notified of the license expiration, is configurable in the Cluster Manager UI and the REST API.
+
+- The Cluster Manager UI's time zone can be configured with an [update CM settings REST API request]({{<relref "/operate/rs/references/rest-api/requests/cm_settings#put-cm-settings">}}).
+
+- Timeouts for raising connection alarms can be configured with an [update database configuration REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}):
+
+    - `crdt_sync_connection_alarm_timeout_seconds`: if the syncer takes longer than the specified number of seconds to connect to an Active-Active database, raise a connection alarm.
+
+    - `replica_sync_connection_alarm_timeout_seconds`: if the syncer takes longer than the specified number of seconds to connect to a replica, raise a connection alarm.
+
+- Reserved port 3349 for the cluster watchdog exporter.
+
+#### Redis module feature sets
+
+Redis Software comes packaged with several modules. As of version 7.8.2, Redis Software includes three feature sets, compatible with different Redis database versions.
+
+The following table shows which Redis modules are compatible with each Redis database version included in this release.
+
+| Redis database version | Compatible Redis modules |
+|------------------------|--------------------------|
+| 7.4 | [RediSearch 2.10.7]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.10-release-notes.md" >}})<br />[RedisJSON 2.8.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.8-release-notes.md" >}})<br />[RedisTimeSeries 1.12.2]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.12-release-notes.md" >}})<br />[RedisBloom 2.8.2]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.8-release-notes.md" >}}) |
+| 7.2 | [RediSearch 2.8.18]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.8-release-notes.md" >}})<br />[RedisJSON 2.6.13]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.6-release-notes.md" >}})<br />[RedisTimeSeries 1.10.14]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.10-release-notes.md" >}})<br />[RedisBloom 2.6.15]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.6-release-notes.md" >}}) |
+| 6.2 | [RediSearch 2.6.22]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.6-release-notes.md" >}})<br />[RedisJSON 2.4.9]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.4-release-notes.md" >}})<br />[RedisTimeSeries 1.8.14]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.8-release-notes.md" >}})<br />[RedisBloom 2.4.12]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.4-release-notes.md" >}})<br />[RedisGraph v2.10.15]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.10-release-notes.md" >}})<sup>[1](#module-note-1)</sup>  |
+
+1. <a name="module-note-1"></a>RedisGraph end-of-life has been announced and will be removed in a future release. See the [RedisGraph end-of-life announcement](https://redis.io/blog/redisgraph-eol/) for more details.
+
+### Resolved issues
+
+- RS123645: Fixed inconsistent behavior for shard creation when you enable sharding. Now, when creating a database with sharding enabled, you must always provide a `shard_key_regex`.
+
+- RS130444: Fixed an issue that prevented creating or editing users without an email address in the Cluster Manager UI.
+
+- RS121796: The "multiple endpoint" configuration database default setting should also enable sharding when selected.
+
+- RS128768: Fixed an issue that prevented metric graph timestamp details from displaying in the Cluster Manager UI.
+
+- RS127120: Fixed an issue where `crdt_replicas` were not properly updated when flushing an Active-Active database.
+
+- RS127054: Fixed an issue where the install script incorrectly reported "Port 53 is occupied" instead of the correct value of the occupied port.
+
+- RS125934: Fixed validation that prevented updating the Active-Active database configuration if existing TLS certificates expired.
+
+- RS125412: Fixed an issue where deleted external IP addresses were still listed as available during node configuration when joining a cluster.
+
+- RS122012: Fixed an issue that sent a cutoff email message for long-running alerts.
+
+- RS121726: Block the `remove_shards` option for `rlutil`. You can use Replica Of to decrease the shard count instead.
+
+- RS121076: Added a 5-minute connection timeout when promoting a replica shard to a primary role.
+
+- RS118103: Removed the inaccurate shard `BACKUP_PROGRESS` column from the `rladmin status` command's output.
+
+- RS116990: Fixed an issue with flash-enabled databases where `FLUSHDB` could cause shard crashes in versions 7.0 and 7.2, and cause clients to stop responding in earlier versions.
+
+- RS114923: Fixed an issue where the legacy RDB parser could generate an `XGROUP CREATE` command with an incorrect `ENTRIESREAD` value when syncing a source RDB to a database with Redis version 7.0 or later.
+
+- RS114258: Fixed an issue where an Active-Active database instance could lose keys during partial syncing if the destination shard was stale.
+
+- RS133653: Fixed a validation issue where expired client certificates prevented updates to database configuration unrelated to TLS.
+
+- RS126235: Fixed an issue where database updates could time out and enter a change pending state due to outdated shard data.
+
+- RS125128: Improved real-time logging for installation and upgrade for better visibility.
+
+- RS119958: Removed the log file limit that caused the debuginfo script to fail with the error "/bin/tar: Argument list too long" in Auto Tiering clusters and improved RocksDB log file rotation.
+
+- RS137396: Providing an email address is no longer mandatory when creating new ACL users in the Cluster Manager UI.
+
+- RS134238: Improved database sorting performance in the Cluster Manager UI.
+
+## Version changes
+
+- Added validation to verify the LDAP server URI contains a host and port when updating LDAP configuration.
+
+### Breaking changes
+
+Redis Software version 7.8.2 introduces the following breaking changes:
+
+- When you upgrade a database, the upgrade process also attempts to upgrade database modules by default.
+
+    - The default value of `latest_with_modules` has changed to `true`.
+
+    - [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}) will always upgrade the database's modules.
+
+    - When you [upgrade a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) using the REST API, you can set `"latest_with_modules": false` in the request body to prevent module upgrades.
+
+### Redis database version 7.4 breaking changes {#redis-74-breaking-changes}
+
+When new major versions of Redis Community Edition change existing commands, upgrading your database to a new version can potentially break some functionality. Before you upgrade, read the provided list of breaking changes that affect Redis Software and update any applications that connect to your database to handle these changes.
+
+Confirm your Redis database version (`redis_version`) using the Cluster Manager UI or run the following [`INFO`]({{< relref "/commands/info" >}}) command with [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}):
+
+```sh
+$ redis-cli -p <port> INFO
+"# Server
+redis_version:7.0.8
+..."
+```
+
+#### Modules API potentially breaking changes
+
+- [#13326](https://github.com/redis/redis/pull/13326) Hash - expiration of individual fields: avoid lazy expire when called from a Modules API function.
+
+#### Security behavior changes
+
+- [#13108](https://github.com/redis/redis/pull/13108) Lua: LRU eviction for scripts generated with `EVAL`. 
+
+#### Other general behavior changes
+
+- [#13133](https://github.com/redis/redis/pull/13133) Lua: allocate VM code with jemalloc instead of libc and count it as used memory.
+
+- [#12171](https://github.com/redis/redis/pull/12171) `ACL LOAD`: do not disconnect all clients.
+
+### Product lifecycle updates
+
+#### End-of-life policy extension
+
+The end-of-life policy for Redis Software versions 6.2 and later has been extended to 24 months after the formal release of the subsequent major version. For the updated end-of-life schedule, see the [Redis Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}).
+
+#### Supported upgrade paths
+
+Redis Software versions 6.2.4 and 6.2.8 do not support direct upgrades beyond version 7.4.x. Versions 6.2.10, 6.2.12, and 6.2.18 are part of the [upgrade path]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}). To upgrade from 6.2.4 or 6.2.8 to versions later than 7.4.x, an intermediate upgrade is required.
+
+The next major Redis Software release will still bundle Redis database version 6.2 and allow database upgrades from Redis database version 6.2 to 7.x.
+
+See the [Redis Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers.
+
+#### End of triggers and functions preview
+
+The [triggers and functions]({{<relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions">}}) (RedisGears) preview has been discontinued.
+
+- Commands such as `TFCALL`, `TFCALLASYNC`, and `TFUNCTION` will be deprecated and will return error messages.
+
+- Any JavaScript functions stored in Redis will be removed. 
+
+- JavaScript-based triggers will be blocked.
+
+- Lua functions and scripts will not be affected.
+
+If your database currently uses triggers and functions, you need to: 
+
+1. Adjust your applications to accommodate these changes.
+
+1. Delete all triggers and functions libraries from your existing database:
+
+    1. Run `TFUNCTION LIST`.
+
+    1. Copy all library names.
+
+    1. Run `TFUNCTION DELETE` for each library in the list.
+
+    If any triggers and functions libraries remain in the database, the RDB snapshot won't load on a cluster without RedisGears.
+
+1. Migrate your database to a new database without the RedisGears module.
+
+### Deprecations
+
+#### API deprecations
+
+- Deprecated `background_op` field from BDB REST API object. Use [`GET /v1/actions/bdb/<bdb_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions/bdb">}}) instead.
+
+- Deprecated the following fields for [upgrade database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade">}}) REST API requests:
+
+    - `keep_redis_version`; use `redis_version` instead
+
+    - `current_module`; use `new_module_args` instead
+
+    - `new_module`; use `new_module_args` instead
+
+- Deprecated the following `module_list` fields for [create database]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) REST API requests:
+
+    - `module_id`; use `module_name` instead
+
+    - `semantic_version`; use module_args instead
+
+- `min_redis_version` is only relevant to Redis database versions earlier than 7.4 and is replaced with `compatible_redis_version` in [module REST API]({{<relref "/operate/rs/references/rest-api/requests/modules">}}) responses.
+
+- Deprecated the [`rladmin upgrade modules`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-module">}}) command. Use [`rladmin upgrade db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/upgrade#upgrade-db">}}) instead.
+
+- Deprecated [`POST /v1/modules/upgrade/bdb/<uid>`]({{<relref "/operate/rs/references/rest-api/requests/modules/upgrade#post-modules-upgrade-bdb">}}) REST API request. Use [`POST /v1/bdbs/<uid>/upgrade`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) to upgrade modules instead.
+
+#### Download center modules deprecation
+
+New Redis modules will not be available for download from the Redis download center.
+
+#### Legacy UI not supported
+
+The legacy UI was deprecated in favor of the new Cluster Manager UI in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.2.
+
+#### Redis 6.0 databases not supported
+
+Redis database version 6.0 was deprecated in Redis Software version 7.4.2 and is no longer supported as of Redis Software version 7.8.2.
+
+To prepare for the removal of Redis database version 6.0 before you upgrade to Redis Software version 7.8.2:
+
+- For Redis Software 6.2.* clusters, upgrade Redis 6.0 databases to Redis 6.2. See the [Redis 6.2 release notes](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) for the list of changes.
+
+- For Redis Software 7.2.4 and 7.4.2 clusters, upgrade Redis 6.0 databases to Redis 7.2. Before you upgrade your databases, see the list of [Redis 7.2 breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#redis-72-breaking-changes" >}}) and update any applications that connect to your database to handle these changes.
+
+#### Ubuntu 18.04 not supported
+
+Ubuntu 18.04 was deprecated in Redis Software version 7.2.4 and is no longer supported as of Redis Software version 7.8.2.
+
+### Upcoming changes
+
+#### Default image change for Redis Software containers
+
+Starting with version 7.8, Redis Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
+
+This change will only affect you if you use containers outside the official [Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes">}}) product and use Ubuntu-specific commands.
+
+To use Ubuntu-based images after this change, you can specify the operating system suffix in the image tag. For example, use the image tag `7.4.2-216.focal` instead of `7.4.2-216`.
+
+### Supported platforms
+
+The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
+
+<span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Software and Redis Stack modules.
+
+<span title="Warning icon" class="font-serif">:warning:</span> Deprecation warning – The platform is still supported for this version of Redis Software, but support will be removed in a future release.
+
+| Redis Software<br />major versions | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
+|---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|
+| **Release date** | Oct 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
+| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | TBA | Feb 2026 | Aug 2025 | Feb 2025 |
+| **Platforms** | | | | | |
+| RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
+| RHEL 8 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| RHEL 7 &<br />compatible distros<sup>[1](#table-note-1)</sup> | – | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| Ubuntu 20.04<sup>[2](#table-note-2)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – |
+| Ubuntu 18.04<sup>[2](#table-note-2)</sup> | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| Ubuntu 16.04<sup>[2](#table-note-2)</sup> | – | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| Amazon Linux 2 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – |
+| Amazon Linux 1 | – | – | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| Kubernetes<sup>[3](#table-note-3)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| Docker<sup>[4](#table-note-4)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+
+1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a>The RHEL-compatible distributions CentOS, CentOS Stream, Alma, and Rocky are supported if they have full RHEL compatibility. Oracle Linux running the Red Hat Compatible Kernel (RHCK) is supported, but the Unbreakable Enterprise Kernel (UEK) is not supported.
+
+2. <a name="table-note-2" style="display: block; height: 80px; margin-top: -80px;"></a>The server version of Ubuntu is recommended for production installations. The desktop version is only recommended for development deployments.
+
+3. <a name="table-note-3" style="display: block; height: 80px; margin-top: -80px;"></a>See the [Redis Enterprise for Kubernetes documentation]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) for details about support per version and Kubernetes distribution.
+
+4. <a name="table-note-4" style="display: block; height: 80px; margin-top: -80px;"></a>
+[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Software are certified for development and testing only.
+
+## Downloads
+
+The following table shows the SHA256 checksums for the available packages:
+
+| Package | SHA256 checksum (7.8.2-tba Oct release) |
+|---------|---------------------------------------|
+| Ubuntu 20 | <span class="break-all"></span> |
+| Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |
+| Red Hat Enterprise Linux (RHEL) 9 | <span class="break-all"></span> |
+| Amazon Linux 2 | <span class="break-all"></span> |
+
+## Known issues
+
+- RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
+
+## Known limitations
+
+#### New Cluster Manager UI limitations
+
+The following legacy UI features are not yet available in the new Cluster Manager UI:
+
+- Purge an Active-Active instance.
+
+    Use [`crdb-cli crdb purge-instance`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance" >}}) instead.
+
+- Search and export the log.
+
+#### RedisGraph prevents upgrade to RHEL 9 
+
+You cannot upgrade from a prior RHEL version to RHEL 9 if the Redis Software cluster contains a RedisGraph module, even if unused by any database. The [RedisGraph module has reached End-of-Life](https://redis.com/blog/redisgraph-eol/) and is completely unavailable in RHEL 9.
+
+## Security
+
+#### Open source Redis security fixes compatibility
+
+As part of Redis's commitment to security, Redis Software implements the latest [security fixes](https://github.com/redis/redis/releases) available with [open source Redis](https://github.com/redis/redis). Redis Software has already included the fixes for the relevant CVEs.
+
+Some CVEs announced for open source Redis do not affect Redis Software due to different or additional functionality available in Redis Software that is not available in open source Redis.
+
+Redis Software 7.8.2-tba supports open source Redis 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
+
+Redis 7.2.x:
+
+- (CVE-2024-31449) An authenticated user may use a specially crafted Lua script to trigger a stack buffer overflow in the bit library, which may potentially lead to remote code execution.
+
+- (CVE-2024-31228) An authenticated user can trigger a denial-of-service by using specially crafted, long string match patterns on supported commands such as `KEYS`, `SCAN`, `PSUBSCRIBE`, `FUNCTION LIST`, `COMMAND LIST`, and ACL definitions. Matching of extremely long patterns may result in unbounded recursion, leading to stack overflow and process crashes.
+
+- (CVE-2023-41056) In some cases, Redis may incorrectly handle resizing of memory buffers, which can result in incorrect accounting of buffer sizes and lead to heap overflow and potential remote code execution.
+
+- (CVE-2023-41053) Redis does not correctly identify keys accessed by `SORT_RO` and, as a result, may grant users executing this command access to keys that are not explicitly authorized by the ACL configuration. (Redis 7.2.1)
+
+Redis 7.0.x:
+
+- (CVE-2024-31449) An authenticated user may use a specially crafted Lua script to trigger a stack buffer overflow in the bit library, which may potentially lead to remote code execution.
+
+- (CVE-2024-31228) An authenticated user can trigger a denial-of-service by using specially crafted, long string match patterns on supported commands such as `KEYS`, `SCAN`, `PSUBSCRIBE`, `FUNCTION LIST`, `COMMAND LIST`, and ACL definitions. Matching of extremely long patterns may result in unbounded recursion, leading to stack overflow and process crashes.
+
+- (CVE-2023-41056) In some cases, Redis may incorrectly handle resizing of memory buffers, which can result in incorrect accounting of buffer sizes and lead to heap overflow and potential remote code execution.
+
+- (CVE-2023-41053) Redis does not correctly identify keys accessed by `SORT_RO` and, as a result, may grant users executing this command access to keys that are not explicitly authorized by the ACL configuration. (Redis 7.0.13)
+
+- (CVE-2023-36824) Extracting key names from a command and a list of arguments may, in some cases, trigger a heap overflow and result in reading random heap memory, heap corruption, and potentially remote code execution. Specifically: using `COMMAND GETKEYS*` and validation of key names in ACL rules. (Redis 7.0.12)
+
+- (CVE-2023-28856) Authenticated users can use the `HINCRBYFLOAT` command to create an invalid hash field that will crash Redis on access. (Redis 7.0.11)
+
+- (CVE-2023-28425) Specially crafted `MSETNX` commands can lead to assertion and denial-of-service. (Redis 7.0.10)
+
+- (CVE-2023-25155) Specially crafted `SRANDMEMBER`, `ZRANDMEMBER`, and `HRANDFIELD` commands can trigger an integer overflow, resulting in a runtime assertion and termination of the Redis server process. (Redis 7.0.9)
+
+- (CVE-2023-22458) Integer overflow in the Redis `HRANDFIELD` and `ZRANDMEMBER` commands can lead to denial-of-service. (Redis 7.0.8)
+
+- (CVE-2022-36021) String matching commands (like `SCAN` or `KEYS`) with a specially crafted pattern to trigger a denial-of-service attack on Redis can cause it to hang and consume 100% CPU time. (Redis 7.0.9)
+
+- (CVE-2022-35977) Integer overflow in the Redis `SETRANGE` and `SORT`/`SORT_RO` commands can drive Redis to OOM panic. (Redis 7.0.8)
+
+- (CVE-2022-35951) Executing an `XAUTOCLAIM` command on a stream key in a specific state, with a specially crafted `COUNT` argument, may cause an integer overflow, a subsequent heap overflow, and potentially lead to remote code execution. The problem affects Redis versions 7.0.0 or newer. (Redis 7.0.5)
+
+- (CVE-2022-31144) A specially crafted `XAUTOCLAIM` command on a stream key in a specific state may result in heap overflow and potentially remote code execution. The problem affects Redis versions 7.0.0 or newer. (Redis 7.0.4)
+
+- (CVE-2022-24834) A specially crafted Lua script executing in Redis can trigger a heap overflow in the cjson and cmsgpack libraries, and result in heap corruption and potentially remote code execution. The problem exists in all versions of Redis with Lua scripting support, starting from 2.6, and affects only authenticated and authorized users. (Redis 7.0.12)
+
+- (CVE-2022-24736) An attacker attempting to load a specially crafted Lua script can cause NULL pointer dereference which will result in a crash of the `redis-server` process. This issue affects all versions of Redis. (Redis 7.0.0)
+
+- (CVE-2022-24735) By exploiting weaknesses in the Lua script execution environment, an attacker with access to Redis can inject Lua code that will execute with the (potentially higher) privileges of another Redis user. (Redis 7.0.0)
+
+Redis 6.2.x:
+
+- (CVE-2024-31449) An authenticated user may use a specially crafted Lua script to trigger a stack buffer overflow in the bit library, which may potentially lead to remote code execution.
+
+- (CVE-2024-31228) An authenticated user can trigger a denial-of-service by using specially crafted, long string match patterns on supported commands such as `KEYS`, `SCAN`, `PSUBSCRIBE`, `FUNCTION LIST`, `COMMAND LIST`, and ACL definitions. Matching of extremely long patterns may result in unbounded recursion, leading to stack overflow and process crashes.
+
+- (CVE-2023-28856) Authenticated users can use the `HINCRBYFLOAT` command to create an invalid hash field that will crash Redis on access. (Redis 6.2.12)
+
+- (CVE-2023-25155) Specially crafted `SRANDMEMBER`, `ZRANDMEMBER`, and `HRANDFIELD` commands can trigger an integer overflow, resulting in a runtime assertion and termination of the Redis server process. (Redis 6.2.11)
+
+- (CVE-2023-22458) Integer overflow in the Redis `HRANDFIELD` and `ZRANDMEMBER` commands can lead to denial-of-service. (Redis 6.2.9)
+
+- (CVE-2022-36021) String matching commands (like `SCAN` or `KEYS`) with a specially crafted pattern to trigger a denial-of-service attack on Redis can cause it to hang and consume 100% CPU time. (Redis 6.2.11)
+
+- (CVE-2022-35977) Integer overflow in the Redis `SETRANGE` and `SORT`/`SORT_RO` commands can drive Redis to OOM panic. (Redis 6.2.9)
+
+- (CVE-2022-24834) A specially crafted Lua script executing in Redis can trigger a heap overflow in the cjson and cmsgpack libraries, and result in heap corruption and potentially remote code execution. The problem exists in all versions of Redis with Lua scripting support, starting from 2.6, and affects only authenticated and authorized users. (Redis 6.2.13)
+
+- (CVE-2022-24736) An attacker attempting to load a specially crafted Lua script can cause NULL pointer dereference which will result in a crash of the `redis-server` process. This issue affects all versions of Redis. (Redis 6.2.7)
+
+- (CVE-2022-24735) By exploiting weaknesses in the Lua script execution environment, an attacker with access to Redis can inject Lua code that will execute with the (potentially higher) privileges of another Redis user. (Redis 6.2.7)
+
+- (CVE-2021-41099) Integer to heap buffer overflow handling certain string commands and network payloads, when `proto-max-bulk-len` is manually configured to a non-default, very large value. (Redis 6.2.6)
+
+- (CVE-2021-32762) Integer to heap buffer overflow issue in `redis-cli` and `redis-sentinel` parsing large multi-bulk replies on some older and less common platforms. (Redis 6.2.6)
+
+- (CVE-2021-32761) An integer overflow bug in Redis version 2.2 or newer can be exploited using the `BITFIELD` command to corrupt the heap and potentially result with remote code execution. (Redis 6.2.5)
+
+- (CVE-2021-32687) Integer to heap buffer overflow with intsets, when `set-max-intset-entries` is manually configured to a non-default, very large value. (Redis 6.2.6)
+
+- (CVE-2021-32675) Denial Of Service when processing RESP request payloads with a large number of elements on many connections. (Redis 6.2.6)
+
+- (CVE-2021-32672) Random heap reading issue with Lua Debugger. (Redis 6.2.6)
+
+- (CVE-2021-32628) Integer to heap buffer overflow handling ziplist-encoded data types, when configuring a large, non-default value for `hash-max-ziplist-entries`, `hash-max-ziplist-value`, `zset-max-ziplist-entries` or `zset-max-ziplist-value`. (Redis 6.2.6)
+
+- (CVE-2021-32627) Integer to heap buffer overflow issue with streams, when configuring a non-default, large value for `proto-max-bulk-len` and `client-query-buffer-limit`. (Redis 6.2.6)
+
+- (CVE-2021-32626) Specially crafted Lua scripts may result with Heap buffer overflow. (Redis 6.2.6)
+
+- (CVE-2021-32625) An integer overflow bug in Redis version 6.0 or newer can be exploited using the STRALGO LCS command to corrupt the heap and potentially result with remote code execution. This is a result of an incomplete fix by CVE-2021-29477. (Redis 6.2.4)
+
+- (CVE-2021-29478) An integer overflow bug in Redis 6.2 could be exploited to corrupt the heap and potentially result with remote code execution. The vulnerability involves changing the default set-max-intset-entries configuration value, creating a large set key that consists of integer values and using the COPY command to duplicate it. The integer overflow bug exists in all versions of Redis starting with 2.6, where it could result with a corrupted RDB or DUMP payload, but not exploited through COPY (which did not exist before 6.2). (Redis 6.2.3)
+
+- (CVE-2021-29477) An integer overflow bug in Redis version 6.0 or newer could be exploited using the STRALGO LCS command to corrupt the heap and potentially result in remote code execution. The integer overflow bug exists in all versions of Redis starting with 6.0. (Redis 6.2.3)
