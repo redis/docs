@@ -26,6 +26,7 @@ Available management roles include:
 - **[db_member](#db-member-role)**: Can create or modify databases and view their info.
 - **[cluster_viewer](#cluster-viewer-role)**: Can view cluster and database info.
 - **[cluster_member](#cluster-member-role)**: Can modify the cluster and databases and view their info.
+- **[user_manager](#user-manager-role)**: Can modify users and view their info.
 - **[admin](#admin-role)**: Can view and modify all elements of the cluster.
 
 ## Permissions list for each role

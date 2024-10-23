@@ -22,6 +22,7 @@ Redis Enterprise Software includes five predefined roles that determine a user's
 1. **DB Member** - Administer databases
 1. **Cluster Viewer** - Read cluster settings
 1. **Cluster Member** - Administer the cluster
+1. **User Manager** - Administer users
 1. **Admin** - Full cluster access
 1. **None** - For data access only - cannot access the Cluster Manager UI or use the REST API
 
