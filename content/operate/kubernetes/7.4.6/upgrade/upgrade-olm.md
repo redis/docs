@@ -9,6 +9,7 @@ description: This task describes how to upgrade a Redis Enterprise cluster via O
   OperatorHub.
 linkTitle: OpenShift OperatorHub
 weight: 40
+url: '/operate/kubernetes/7.4.6/upgrade/upgrade-olm/'
 ---
 
 ## Before upgrading

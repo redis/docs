@@ -11,6 +11,7 @@ description: This section lists the different ways to set up and run Redis Enter
 hideListLinks: false
 linkTitle: Deployment
 weight: 11
+url: '/operate/kubernetes/7.4.6/deployment/'
 ---
 
 This section lists the different ways to set up and run Redis Enterprise for Kubernetes. You can deploy on variety of Kubernetes distributions both on-prem and in the cloud via our Redis Enterprise operator for Kubernetes.

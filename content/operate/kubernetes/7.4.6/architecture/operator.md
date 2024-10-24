@@ -9,6 +9,7 @@ description: This section provides a description of the design of Redis Enterpri
   for Kubernetes.
 linkTitle: What is an operator?
 weight: 30
+url: '/operate/kubernetes/7.4.6/architecture/operator/'
 ---
 Redis Enterprise is the fastest, most efficient way to
 deploy and maintain a Redis Enterprise cluster in Kubernetes.

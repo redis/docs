@@ -9,6 +9,7 @@ description: null
 hideListLinks: true
 linkTitle: FAQs
 weight: 100
+url: '/operate/kubernetes/7.4.6/faqs/'
 ---
 Here are some frequently asked questions about Redis Enterprise on integration platforms.
 
