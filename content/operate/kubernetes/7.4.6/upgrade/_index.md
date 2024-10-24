@@ -9,6 +9,7 @@ description: Information about upgrading your Redis Enterprise cluster on Kubern
 hideListLinks: true
 linkTitle: Upgrade
 weight: 15
+url: '/operate/kubernetes/7.4.6/upgrade/'
 ---
 
 Redis implements rolling updates for software upgrades in Kubernetes deployments. The upgrade process includes updating three components:
