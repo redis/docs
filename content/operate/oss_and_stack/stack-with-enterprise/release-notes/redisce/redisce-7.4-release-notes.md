@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - stack
-description: First GA release of Redis Community Edition 7.4.
+description: Redis Community Edition 7.4 release notes.
 linkTitle: v7.4.0 (July 2024)
 min-version-db: blah
 min-version-rs: blah
