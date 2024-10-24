@@ -73,7 +73,7 @@ The upgrade process does not validate the module upgrade arguments, and incorrec
 
     - Use `keep_redis_version` to upgrade the modules without upgrading the database to the latest Redis version.
     
-        `keep_redis_version` is deprecated as of Redis Enterprise Software version 7.6.0. To upgrade modules without upgrading the Redis database version, set `redis_version` to the current Redis database version instead.
+        `keep_redis_version` is deprecated as of Redis Enterprise Software version 7.8.2. To upgrade modules without upgrading the Redis database version, set `redis_version` to the current Redis database version instead.
 
     - To specify the modules to upgrade, add the following for each module:
 
@@ -107,7 +107,7 @@ The following module upgrade examples are supported for Redis Enterprise Softwar
 
 ## Deprecated examples
 
-As of Redis Enterprise Software version 7.6.0, the following module upgrade examples are deprecated but still supported.
+As of Redis Enterprise Software version 7.8.2, the following module upgrade examples are deprecated but still supported.
 
 - Keep the current version of Redis and upgrade to the latest version of the enabled modules:
 
