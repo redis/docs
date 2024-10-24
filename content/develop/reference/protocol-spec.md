@@ -537,20 +537,22 @@ The first element is a key, followed by the corresponding value, then the next k
 
 The attribute type is exactly like the Map type, but instead of a `%` character as the first byte, the `|` character is used. Attributes describe a dictionary exactly like the Map type. However the client should not consider such a dictionary part of the reply, but as auxiliary data that augments the reply.
 
+Note: in the examples below, indentation is shown only for clarity; the additional whitespace would not be part of a real reply.
+
 For example, newer versions of Redis may include the ability to report the popularity of keys for every executed command. The reply to the command `MGET a b` may be the following:
 
-    |1<CR><LF>
-        +key-popularity<CR><LF>
-        %2<CR><LF>
-            $1<CR><LF>
-            a<CR><LF>
-            ,0.1923<CR><LF>
-            $1<CR><LF>
-            b<CR><LF>
-            ,0.0012<CR><LF>
-    *2<CR><LF>
-        :2039123<CR><LF>
-        :9543892<CR><LF>
+    |1\r\n
+        +key-popularity\r\n
+        %2\r\n
+            $1\r\n
+            a\r\n
+            ,0.1923\r\n
+            $1\r\n
+            b\r\n
+            ,0.0012\r\n
+    *2\r\n
+        :2039123\r\n
+        :9543892\r\n
 
 The actual reply to `MGET` is just the two item array `[2039123, 9543892]`. The returned attributes specify the popularity, or frequency of requests, given as floating point numbers ranging from `0.0` to `1.0`, of the keys mentioned in the original command. Note: the actual implementation in Redis may differ.
 
@@ -569,13 +571,13 @@ When a client reads a reply and encounters an attribute type, it should read the
 
 Attributes can appear anywhere before a valid part of the protocol identifying a given type, and supply information only about the part of the reply that immediately follows. For example:
 
-    *3<CR><LF>
-        :1<CR><LF>
-        :2<CR><LF>
-        |1<CR><LF>
-            +ttl
-            :3600
-        :3<CR><LF>
+    *3\r\n
+        :1\r\n
+        :2\r\n
+        |1\r\n
+            +ttl\r\n
+            :3600\r\n
+        :3\r\n
 
 In the above example the third element of the array has associated auxiliary information of `{ttl:3600}`. Note that it's not up to the client library to interpret the attributes, but it should pass them to the caller in a sensible way.
 
