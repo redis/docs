@@ -12,6 +12,10 @@ toc: 'true'
 weight: 35
 ---
 
+You can run self-managed Redis Enterprise Software in an on-premises data center or on your preferred cloud platform. 
+
+If you prefer a fully managed Redis database-as-a-service, available on major public cloud services, consider setting up a [Redis Cloud]({{<relref "/operate/rc">}}) subscription. You can [try Redis Cloud](https://redis.io/try-free/) for free.
+
 ## Quickstarts
 
 If you want to try out Redis Enterprise Software, see the following quickstarts:
