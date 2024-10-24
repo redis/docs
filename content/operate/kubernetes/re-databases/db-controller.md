@@ -26,7 +26,7 @@ the custom resource with default values to create a full specification. It then 
 database on the specified Redis Enterprise cluster (REC).
 
 Once the database is created, it is exposed with the same service mechanisms by the service rigger for the Redis Enterprise cluster.
-If the database [custom resource is deleted]({{< relref "/operate/kubernetes/delete-custom-resources.md" >}}), the database and its services are deleted from the cluster.
+If the database [custom resource is deleted]({{< relref "/operate/kubernetes/re-clusters/delete-custom-resources/" >}}), the database and its services are deleted from the cluster.
 
 ### Flexible deployment options
 
