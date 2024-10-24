@@ -113,8 +113,8 @@ Available management roles include:
 | <a name="view_cluster_stats"></a>view_cluster_stats | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 | <a name="view_crdb"></a>view_crdb | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 | <a name="view_crdb_list"></a>view_crdb_list | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
-| <a name="view_crdb_task"></a>view_crdb_task | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
-| <a name="view_crdb_task_list"></a>view_crdb_task_list | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| <a name="view_crdb_task"></a>view_crdb_task | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| <a name="view_crdb_task_list"></a>view_crdb_task_list | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 | <a name="view_debugging_info"></a>view_debugging_info | admin<br />cluster_member<br />db_member<br />user_manager |
 | <a name="view_endpoint_stats"></a>view_endpoint_stats | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 | <a name="view_ldap_config"></a>view_ldap_config | admin<br />user_manager |
