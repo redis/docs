@@ -55,13 +55,13 @@ To upgrade a module enabled for a database:
 
 1. To upgrade a database to the latest version of Redis and its modules to the latest version without changing the module arguments:
 
-    - For clusters with Redis Enterprise Software versions 7.6.0 or later, run:
+    - For clusters with Redis Enterprise Software versions 7.8.2 or later, run:
 
         ```sh
         rladmin upgrade db < database_name | database_ID >
         ```
 
-    - For clusters with versions earlier than 7.6.0, include the `latest_with_modules` option:
+    - For clusters with versions earlier than 7.8.2, include the `latest_with_modules` option:
 
         ```sh
         rladmin upgrade db < database_name | database_ID > latest_with_modules
@@ -91,7 +91,7 @@ The upgrade process does not validate the module upgrade arguments, and incorrec
 
 ## Examples for Redis Software v7.6 and later
 
-The following module upgrade examples are supported for Redis Enterprise Software versions 7.6.0 and later:
+The following module upgrade examples are supported for Redis Enterprise Software versions 7.8.2 and later:
 
 - Keep the current Redis database version, which is 7.2 in this example, and upgrade to the latest version of the enabled modules:
 
