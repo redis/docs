@@ -31,7 +31,7 @@ If the database [custom resource is deleted]({{< relref "/operate/kubernetes/re-
 
 ### Flexible deployment options
 
-Databases in multiple namespaces can be managed by the same operator. To learn more, see [Manage databases in multiple namespaces]({{<relref "/content/operate/kubernetes/re-clusters/multi-namespace.md">}}).
+Databases in multiple namespaces can be managed by the same operator. To learn more, see [Manage databases in multiple namespaces]({{<relref "/operate/kubernetes/re-clusters/multi-namespace/">}}).
 
 To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/deployment/deployment-options.md" >}}).
 
