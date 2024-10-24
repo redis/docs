@@ -5,10 +5,10 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Release notes for the 6.2.18 releases of Redis Enterprise Software for
+description: Release notes for the 6.2.x releases of Redis Enterprise Software for
   Kubernetes.
 hideListLinks: true
-linkTitle: 6.2.18 releases
+linkTitle: 6.2.x releases
 weight: 58
 ---
 ## Before upgrading
