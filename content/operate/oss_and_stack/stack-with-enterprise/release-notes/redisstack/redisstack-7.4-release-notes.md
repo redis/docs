@@ -68,7 +68,7 @@ This is a GA release of Redis Stack version 7.4.
 ### Headlines
 **Data Structures**
 
-`Hash`: Redis now supports expiration of individual hash fields. Redis already supports key expiration. For each key - users can specify a time when the key should expire, or alternatively - specify the remaining time-to-live (TTL) after which the key would expire. One very frequent request was to allow specifying expiration time or TTL also for individual hash fields, which is now supported using 9 new Redis commands:
+`Hash`: Redis now supports expiration of individual hash fields. Redis already supports key expiration. For each key, users can specify a time when it should expire, or specify the remaining time-to-live (TTL) after which it would expire. One very frequent request was to allow specifying expiration time or TTL also for individual hash fields, which is now supported using nine new Redis commands:
 - `HEXPIRE`, `HPEXPIRE`, `HEXPIREAT`, `HPEXPIREAT` - set the time when specific hash fields should expire, or the remaining time-to-live for specific fields. 
 - `HTTL`, `HPTTL`, `HEXPIRETIME`, `HPEXPIRETIME` - retrieve the time when specific hash fields should expire, or the remaining time-to-live for specific fields
 - `HPERSIST` - remove the expiration of specific hash fields.
@@ -78,16 +78,16 @@ There are many additional improvements, including new command arguments, securit
 
 `Time series`: The latest time series data structure adds a highly requested feature: insertion-filter for close samples. Many sensors report data periodically. Often, the difference between the measured value and the previously measured value is negligible and related to random noise or to measurement accuracy limitations. When both the time difference and the value difference between the current and the previous sample are small, it may be preferable to ignore (not to add) the new measurement.
 
-`JSON`: Introduces a fix to not duplicate AOF commands multiple times in `JSON.MSET`.
+`JSON`: Introduces a fix to avoid duplicating AOF commands multiple times in `JSON.MSET`.
 
 `Probabilistic`: Now, an error is returned if `CMS.MERGE` results in an overflow or underflow.
 
 **Search and query**
 
-New `BFLOAT16` and `FLOAT16` vector data types, reducing memory consumed by vectors while preserving accuracy.
-Support for indexing empty and missing values and enhanced developer experience for queries with exact matching capabilities.
-Developers can now match `TAG` fields without needing to escape special characters, making the onboarding process and use of the query syntax simpler.
-Geospatial search capabilities have been expanded with new `INTERSECT` and `DISJOINT` operators, and ergonomics have been improved by providing better reporting of the memory consumed by the index and exposing the Full-text scoring in the aggregation pipeline.
+- New `BFLOAT16` and `FLOAT16` vector data types reduce memory consumed by vectors while preserving accuracy.
+- Support for indexing empty and missing values and enhanced developer experience for queries with exact matching capabilities.
+- Developers can now match `TAG` fields without needing to escape special characters, making the onboarding process and use of the query syntax simpler.
+- Geospatial search capabilities have been expanded with new `INTERSECT` and `DISJOINT` operators, and ergonomics have been improved by providing better reporting of the memory consumed by the index and exposing the Full-text scoring in the aggregation pipeline.
 
 **Removal of triggers and functions**
 
