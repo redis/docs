@@ -51,7 +51,7 @@ syntax_str: <SEARCH | AGGREGATE> [LIMITED] QUERY query
 title: FT.PROFILE
 ---
 
-Apply [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) or [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) command to collect performance details
+Apply [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) or [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) command to collect performance details.
 
 [Examples](#examples)
 
@@ -104,71 +104,264 @@ Return value has an array with two elements:
 <details open>
 <summary><b>Collect performance information about an index</b></summary>
 
+Imagine you have a dataset consisting of 1M JSON documents, each with the following structure.
+
+```json
+{
+  "fid": "5x2i3a4s2l",
+  "key_name": "25450229-6221-445c-b3ec-0b69c5c423db",
+  "quote": "What a piece of work is man! how noble in reason! how infinite in faculty! in form and moving how express and admirable! in action how like an angel! in apprehension how like a god! the beauty of the world, the paragon of animals! .",
+  "color": "blue",
+  "num": 141
+}
+```
+
+You've created an index similar to the following.
+
+```bash
+FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.num AS num NUMERIC SORTABLE $.color AS color TAG SORTABLE UNF $.quote AS quote TEXT NOSTEM SORTABLE
+```
+
+Next, you run the `FT.PROFILE` command with a search you intend to run on the index.
+
 {{< highlight bash >}}
-127.0.0.1:6379> FT.PROFILE idx SEARCH QUERY "hello world"
-1) 1) (integer) 1
-   2) "doc1"
-   3) 1) "t"
-      2) "hello world"
-2) 1) 1) Total profile time
-      2) "0.47199999999999998"
-   2) 1) Parsing time
-      2) "0.218"
-   3) 1) Pipeline creation time
-      2) "0.032000000000000001"
-   4) 1) Iterators profile
-      2) 1) Type
-         2) INTERSECT
-         3) Time
-         4) "0.025000000000000001"
-         5) Counter
-         6) (integer) 1
-         7) Child iterators
-         8)  1) Type
-             2) TEXT
-             3) Term
-             4) hello
-             5) Time
-             6) "0.0070000000000000001"
-             7) Counter
-             8) (integer) 1
-             9) Size
-            10) (integer) 1
-         9)  1) Type
-             2) TEXT
-             3) Term
-             4) world
-             5) Time
-             6) "0.0030000000000000001"
-             7) Counter
-             8) (integer) 1
-             9) Size
-            10) (integer) 1
-   5) 1) Result processors profile
-      2) 1) Type
-         2) Index
-         3) Time
-         4) "0.036999999999999998"
-         5) Counter
-         6) (integer) 1
-      3) 1) Type
-         2) Scorer
-         3) Time
-         4) "0.025000000000000001"
-         5) Counter
-         6) (integer) 1
-      4) 1) Type
-         2) Sorter
-         3) Time
-         4) "0.013999999999999999"
-         5) Counter
-         6) (integer) 1
-      5) 1) Type
-         2) Loader
-         3) Time
-         4) "0.10299999999999999"
-         5) Counter
-         6) (integer) 1
+127.0.0.1:6379> FT.PROFILE idx SEARCH QUERY '((@num:[100 100] -@color:{blue} @quote:question) | @num:[200 600])' RETURN 1 $.fid
+1) "106898"                                    search results
+2) "key:0cad5563-151f-4f9c-8bcc-398f82913e14"
+3) 1) "$.fid"
+   2) "8v0x3m7n2z"
+4) "key:2316d075-27b7-4c7c-9f2f-f1fe09d53d4e"
+5) 1) "$.fid"
+   2) "8j6q8t3b5g"
+...
+21) 1) "$.fid"
+   2) "0y5q3d1y1m"
+
+
+22) 1) "Shard #1"                              profile information
+   2) 1) "Total profile time"
+      2) "500"
+   3) 1) "Parsing time"
+      2) "0"
+   4) 1) "Pipeline creation time"
+      2) "0"
+   5) 1) "Warning"
+      2) "Timeout limit was reached"
+   6) 1) "Iterators profile"
+      2) 1) "Type"
+         2) "UNION"
+         3) "Query type"
+         4) "UNION"
+         5) "Time"
+         6) "256"
+         7) "Counter"
+         8) "53099"
+         9) "Child iterators"
+         10) 1) "Type"
+            2) "INTERSECT"
+            3) "Time"
+            4) "7"
+            5) "Counter"
+            6) "149"
+            7) "Child iterators"
+            8) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "75 - 112"
+               5) "Time"
+               6) "0"
+               7) "Counter"
+               8) "149"
+               9) "Size"
+               10) "6383"
+            9) 1) "Type"
+               2) "NOT"
+               3) "Time"
+               4) "6"
+               5) "Counter"
+               6) "149"
+               7) "Child iterator"
+               8) 1) "Type"
+                  2) "INTERSECT"
+                  3) "Time"
+                  4) "6"
+                  5) "Counter"
+                  6) "130"
+                  7) "Child iterators"
+                  8) 1) "Type"
+                     2) "TAG"
+                     3) "Term"
+                     4) "blue"
+                     5) "Time"
+                     6) "1"
+                     7) "Counter"
+                     8) "1638"
+                     9) "Size"
+                     10) "16123"
+                  9) 1) "Type"
+                     2) "TEXT"
+                     3) "Term"
+                     4) "question"
+                     5) "Time"
+                     6) "1"
+                     7) "Counter"
+                     8) "1595"
+                     9) "Size"
+                     10) "27773"
+         11) 1) "Type"
+            2) "UNION"
+            3) "Query type"
+            4) "NUMERIC"
+            5) "Time"
+            6) "154"
+            7) "Counter"
+            8) "52951"
+            9) "Child iterators"
+            10) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "189 - 227"
+               5) "Time"
+               6) "3"
+               7) "Counter"
+               8) "3779"
+               9) "Size"
+               10) "6637"
+            11) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "228 - 265"
+               5) "Time"
+               6) "4"
+               7) "Counter"
+               8) "4947"
+               9) "Size"
+               10) "6288"
+            12) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "266 - 304"
+               5) "Time"
+               6) "4"
+               7) "Counter"
+               8) "5122"
+               9) "Size"
+               10) "6409"
+            13) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "305 - 341"
+               5) "Time"
+               6) "4"
+               7) "Counter"
+               8) "4959"
+               9) "Size"
+               10) "6199"
+            14) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "342 - 378"
+               5) "Time"
+               6) "4"
+               7) "Counter"
+               8) "4786"
+               9) "Size"
+               10) "6088"
+            15) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "379 - 415"
+               5) "Time"
+               6) "4"
+               7) "Counter"
+               8) "4789"
+               9) "Size"
+               10) "6064"
+            16) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "416 - 453"
+               5) "Time"
+               6) "4"
+               7) "Counter"
+               8) "4955"
+               9) "Size"
+               10) "6227"
+            17) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "454 - 488"
+               5) "Time"
+               6) "4"
+               7) "Counter"
+               8) "4778"
+               9) "Size"
+               10) "6031"
+            18) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "489 - 524"
+               5) "Time"
+               6) "4"
+               7) "Counter"
+               8) "4765"
+               9) "Size"
+               10) "6011"
+            19) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "525 - 559"
+               5) "Time"
+               6) "4"
+               7) "Counter"
+               8) "4631"
+               9) "Size"
+               10) "5790"
+            20) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "560 - 595"
+               5) "Time"
+               6) "4"
+               7) "Counter"
+               8) "4821"
+               9) "Size"
+               10) "6083"
+            21) 1) "Type"
+               2) "NUMERIC"
+               3) "Term"
+               4) "596 - 625"
+               5) "Time"
+               6) "0"
+               7) "Counter"
+               8) "630"
+               9) "Size"
+               10) "5002"
+   7) 1) "Result processors profile"
+      2) 1) "Type"
+         2) "Index"
+         3) "Time"
+         4) "356"
+         5) "Counter"
+         6) "53099"
+      3) 1) "Type"
+         2) "Scorer"
+         3) "Time"
+         4) "96"
+         5) "Counter"
+         6) "53099"
+      4) 1) "Type"
+         2) "Sorter"
+         3) "Time"
+         4) "48"
+         5) "Counter"
+         6) "10"
+      5) 1) "Type"
+         2) "Loader"
+         3) "Time"
+         4) "0"
+         5) "Counter"
+         6) "10"
 {{< / highlight >}}
 </details>
 
