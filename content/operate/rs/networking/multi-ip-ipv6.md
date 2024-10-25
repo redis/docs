@@ -1,5 +1,5 @@
 ---
-Title: Multi-IP and IPv6
+Title: Manage IP addresses
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 description: Information and requirements for using multiple IP addresses or IPv6
   addresses with Redis Enterprise Software.
-linkTitle: Multi-IP and IPv6
+linkTitle: Manage IP addresses
 weight: $weight
 ---
 Redis Enterprise Software supports servers, instances, and VMs with
@@ -73,8 +73,6 @@ The host file `/etc/hosts` on each node in the cluster must include the followin
 
 ## Change internal IP address
 
-If you need to update the internal IP address in the OS, you must remove that node from the Redis Enterprise cluster, make the IP change, and then add the node back into the cluster.
-
 Before you change an internal IP address, consider the following:
 
 - Verify the address is valid and bound to an active interface on the node. Failure to do so prevents the node from coming back online and rejoining the cluster.
@@ -83,11 +81,11 @@ Before you change an internal IP address, consider the following:
 
 - Joining a node that only has IPv6 network interfaces to a master node that does not have IPv6 enabled causes a `NodeBootstrapError`.
 
-{{<note>}}
-You cannot change the internal address from IPv4 to IPv6 or IPv6 to IPv4 in a running cluster. You can only change the internal address within the same protocol as the cluster.
-{{</note>}}
+- You cannot change the internal address from IPv4 to IPv6 or IPv6 to IPv4 in a running cluster. You can only change the internal address within the same protocol as the cluster.
 
-To update a node's internal IP address:
+If you need to update the internal IP address in the OS, one option is to remove that node from the cluster, change the IP address, and then add the node back into the cluster.
+
+Alternatively, you can use the following steps to update a node's internal IP address without removing it from the cluster:
 
 1. Turn the node into a replica using [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/node/enslave" >}}):
 
