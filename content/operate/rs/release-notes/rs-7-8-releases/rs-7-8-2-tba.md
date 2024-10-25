@@ -75,6 +75,8 @@ This version offers:
 
         - [**High availability**]({{<relref "/operate/rs/databases/configure#high-availability">}}) and [**Durability**]({{<relref "/operate/rs/databases/configure#durability">}}) have separate sections.
 
+    - Improved error messages on the sign-in screen for locked out users versus incorrect or expired passwords.
+
 - A new **User Manager** role designed for user administration is available for [role-based access control]({{<relref "/operate/rs/security/access-control">}}).
 
     - This management role allows assigned users to create, edit, and delete users using the Cluster Manager UI and REST API.
