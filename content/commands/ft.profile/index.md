@@ -101,10 +101,10 @@ Return value has an array with two elements:
 
 ## Examples
 
-<details open>
-<summary><b>Collect performance information about an index</b></summary>
+<details>
+<summary><b>Collect performance information about a simple JSON index.</b></summary>
 
-Imagine you have a dataset consisting of 1M JSON documents, each with the following structure.
+Imagine you have a dataset consisting of 1,000,000 (1M) JSON documents, each with the following structure.
 
 ```json
 {
@@ -116,13 +116,13 @@ Imagine you have a dataset consisting of 1M JSON documents, each with the follow
 }
 ```
 
-You've created an index similar to the following.
+Here's the corresponding index:
 
 ```bash
 FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.num AS num NUMERIC SORTABLE $.color AS color TAG SORTABLE UNF $.quote AS quote TEXT NOSTEM SORTABLE
 ```
 
-Next, you run the `FT.PROFILE` command with a search you intend to run on the index.
+Here's an example of running the `FT.PROFILE` command for a sample query.
 
 {{< highlight bash >}}
 127.0.0.1:6379> FT.PROFILE idx SEARCH QUERY '((@num:[100 100] -@color:{blue} @quote:question) | @num:[200 600])' RETURN 1 $.fid
@@ -363,6 +363,12 @@ Next, you run the `FT.PROFILE` command with a search you intend to run on the in
          5) "Counter"
          6) "10"
 {{< / highlight >}}
+</details>
+
+<details>
+<summary><b>Collect performance information about a JSON index that includes vector data.</b></summary>
+
+Blah blah blah
 </details>
 
 ## See also
