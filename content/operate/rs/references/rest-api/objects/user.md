@@ -28,4 +28,4 @@ An API object that represents a Redis Enterprise user.
 | password_issue_date | string | The date in which the password was set (read-only) |
 | role | 'admin'<br />'cluster_member'<br />'cluster_viewer'<br />'db_member'<br /> **'db_viewer'** <br />'user_manager'<br />'none' | User's [role]({{< relref "/operate/rs/references/rest-api/permissions#roles" >}}) |
 | role_uids | array of integers | UIDs of user's roles for role-based access control |
-| status | 'active'<br />'locked' | User sign-in status (read-only)<br />**active**: able to sign in<br />**locked**: unable to sign in |
+| status | 'active'<br />'locked'<br />'password_expired' | User sign-in status (read-only)<br />**active**: able to sign in<br />**locked**: unable to sign in<br />**password_expired**: unable to sign in because the password expired |
