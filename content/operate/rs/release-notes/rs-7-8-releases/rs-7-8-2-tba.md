@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Redis Community Edition 7.4 features. Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
+description: Redis Community Edition 7.4 features. Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
 linkTitle: 7.8.2-tba (October 2024)
 weight: 90
 ---
@@ -24,6 +24,8 @@ This version offers:
 - New APIs to check database availability, rebalance shards, fail over shards, and control database traffic
 
 - Cluster Manager UI enhancements for node actions, database tags, and database configuration
+
+- User manager role
 
 - Log rotation based on both size and time
 
@@ -72,6 +74,12 @@ This version offers:
         - The eviction setting now appears in the [**Capacity**]({{<relref "/operate/rs/databases/configure#capacity">}}) section.
 
         - [**High availability**]({{<relref "/operate/rs/databases/configure#high-availability">}}) and [**Durability**]({{<relref "/operate/rs/databases/configure#durability">}}) have separate sections.
+
+- A new **User Manager** role designed for user administration is available for [role-based access control]({{<relref "/operate/rs/security/access-control">}}).
+
+    - This management role allows assigned users to create, edit, and delete users using the Cluster Manager UI and REST API.
+
+    - For more details about the privileges granted by the **User Manager** role, see [Cluster Manager UI permissions]({{<relref "/operate/rs/security/access-control/create-cluster-roles#cluster-manager-ui-permissions">}}) and [REST API permissions]({{<relref "/operate/rs/references/rest-api/permissions#user-manager-role">}}).
 
 - When you upgrade a database, the upgrade process also attempts to upgrade database modules by default.
 
