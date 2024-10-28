@@ -14,9 +14,9 @@ weight: 30
 
 You can use the [database availability API]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability">}}) to verify whether a Redis Software database is available to perform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.
 
-## Check database availability
+## Check database availability for monitoring
 
-To check the availability status of a database:
+To monitor database availability, use the following REST API request:
 
 ```sh
 GET /v1/bdbs/<database_id>/availability
@@ -28,9 +28,9 @@ Returns the status code 200 OK if the database is available.
 
 If the database is unavailable, returns an error status code and a JSON object that contains [`error_code` and `description` fields]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability#get-db-error-codes">}}).
 
-## Check local database endpoint availability
+## Check local database endpoint availability for load balancers
 
-To check the availability of a local database endpoint:
+To check database availability when using a load balancer and the recommended `all-nodes` proxy policy, use the local database endpoints for each node:
 
 ```sh
 GET /v1/local/bdbs/<database_id>/endpoint/availability
