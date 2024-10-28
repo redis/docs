@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Redis Community Edition 7.4 features. Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
+description: Redis Community Edition 7.4 features. Client-side caching support. Metrics stream engine preview. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. Configurable minimum password length. Configurable license expiration alert threshold.
 linkTitle: 7.8.2-tba (November 2024)
 weight: 90
 ---
@@ -21,6 +21,8 @@ This version offers:
 
 - Client-side caching support
 
+- Metrics stream engine preview
+
 - New APIs to check database availability, rebalance shards, fail over shards, and control database traffic
 
 - Cluster Manager UI enhancements for node actions, database tags, and database configuration
@@ -30,8 +32,6 @@ This version offers:
 - Log rotation based on both size and time
 
 - Module management enhancements
-
-- V2 Prometheus metrics
 
 - Configurable minimum password length
 
@@ -54,6 +54,18 @@ This version offers:
     - For more information, see the [client-side caching introduction]({{<relref "/develop/connect/clients/client-side-caching">}}) and [client-side caching compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}).
 
 - [Database availability API]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability">}}), which verifies whether a Redis Software database is available to perform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.
+
+- Metrics stream engine preview:
+
+    - The new metrics stream engine's exporter-based infrastructure provides access to more accurate, real-time data. This enhanced, scalable monitoring system allows you to set up more effective alerts and respond to issues faster.
+
+    - Exposes a new `/v2` Prometheus scraping endpoint that you can use to export metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace.
+
+    - Exports raw data instead of aggregated data to improve monitoring at scale and accuracy compared to v1 Prometheus metrics.
+
+    - For a list of metrics exported by the new metrics stream engine, see [Prometheus metrics v2](<!--TODO: Add link-->).
+
+    - V1 Prometheus metrics are deprecated. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL](<!--TODO: Add link-->) or use the [new preconfigured dashboards](<!--TODO: Add link-->) published by Redis.
 
 - [Rebalance shard placement REST API request](<!--TODO: Add REST API ref link-->), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
 
@@ -90,8 +102,6 @@ This version offers:
     - If you [upgrade a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) using the REST API, you can set `"latest_with_modules": false` in the request body to prevent module upgrades.
 
 - Added support for [log rotation]({{<relref "/operate/rs/clusters/logging/log-security#log-rotation">}}) based on both size and time.
-
-- Added V2 Prometheus metrics.
 
 - [Minimum password length]({{<relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules#change-minimum-password-length">}}), previously hardcoded as 8 characters, is now configurable in the Cluster Manager UI and the REST API.
 
