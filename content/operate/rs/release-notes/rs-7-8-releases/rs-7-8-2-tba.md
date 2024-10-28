@@ -1,5 +1,5 @@
 ---
-Title: Redis Software release notes 7.8.2-tba (October 2024)
+Title: Redis Software release notes 7.8.2-tba (November 2024)
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 compatibleOSSVersion: Redis 7.4.0
 description: Redis Community Edition 7.4 features. Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
-linkTitle: 7.8.2-tba (October 2024)
+linkTitle: 7.8.2-tba (November 2024)
 weight: 90
 ---
 
@@ -318,7 +318,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 | Redis Software<br />major versions | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|
-| **Release date** | Oct 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
+| **Release date** | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
 | [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | TBA | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
@@ -345,7 +345,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (7.8.2-tba Oct release) |
+| Package | SHA256 checksum (7.8.2-tba Nov release) |
 |---------|---------------------------------------|
 | Ubuntu 20 | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |
