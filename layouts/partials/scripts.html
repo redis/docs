@@ -3,8 +3,8 @@
 <script>
     window.onload = function(){
         var currentUrl = window.location.href
-        const regex_kubernetes = new RegExp('/docs/latest/operate/kubernetes/.*')
-        const regex_rs = new RegExp('/docs/latest/operate/rs/.*')
+        const regex_kubernetes = new RegExp('/docs/(latest|staging\/.+)/operate/kubernetes/.*')
+        const regex_rs = new RegExp('/docs/(latest|staging\/.+)/operate/rs/.*')
 
         if (regex_kubernetes.test(currentUrl)){
             // unhide kubernetes version selector
