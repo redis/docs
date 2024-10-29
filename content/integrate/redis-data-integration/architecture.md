@@ -142,7 +142,8 @@ for more information.
 ### RDI on Kubernetes
 
 You can use the RDI [Helm chart](https://helm.sh/docs/topics/charts/) to install
-on [Kubernetes (K8s)](https://kubernetes.io/). This creates:
+on [Kubernetes (K8s)](https://kubernetes.io/), including Red Hat
+[OpenShift](https://docs.openshift.com/). This creates:
 
 -   A K8s [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) named `rdi`.
 -   [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) for the 
