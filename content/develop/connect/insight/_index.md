@@ -92,17 +92,19 @@ The CLI is accessible at any time within the application.
 
 ### Workbench
 
-Advanced command line interface with intelligent command auto-complete and complex data visualizations.
+Workbench is an advanced command line interface with intelligent command auto-complete and complex data visualization support.
 * Built-in guides: you can conveniently discover Redis and Redis Stack features using the built-in guides.
 * Command auto-complete support for all features in Redis and Redis Stack.
+* Advanced, schema-aware auto-complete for Redis Query Engine, which provides for faster query building with context-sensitive suggestions that recognize indexes, schemas, and fields based on your current query. Start typing any Redis Query Engine command in to try this feature. See below for an example of an in-progress `FT.SEARCH` command.
+
+<img src="images/Workbench_Search.png">
+
+Workbench also includes:
+
 * Visualizations of your indexes, queries, and aggregations.
 * Visualizations of your [time series]({{< relref "/develop/data-types/timeseries/" >}}) data.
 
   <img src="images/Workbench_TimeSeries.png">
-
-Here's an example of auto-completion for the Redis Query Engine:
-
-<img src="images/Workbench_Search.png">
 
 ## Tools
 
