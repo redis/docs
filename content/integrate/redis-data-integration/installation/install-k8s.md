@@ -107,7 +107,7 @@ To pull images from a local registry, you must provide the image pull secret and
 1.  Start the installation:
 
     ```bash
-    helm install <The logical chart name> rdi-k8s/<rdi-tag>/helm 
+    helm install <The logical chart name> rdi-k8s/<rdi-tag>/helm --create-namespace -n rdi
     ```
 
 ### The `values.yaml` file
