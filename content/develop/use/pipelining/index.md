@@ -126,9 +126,9 @@ end
 
 def with_pipelining
   r = Redis.new
-  r.pipelined do
+  r.pipelined do |rp|
     10_000.times do
-      r.ping
+      rp.ping
     end
   end
 end

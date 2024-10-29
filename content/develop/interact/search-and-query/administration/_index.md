@@ -9,9 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Administration of search and query
-
-  '
+description: Redis Query Engine Administration
 linkTitle: Administration
 title: Administration
 weight: 9

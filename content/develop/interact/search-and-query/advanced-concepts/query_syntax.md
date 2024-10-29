@@ -17,6 +17,19 @@ title: Query syntax
 weight: 5
 ---
 
+{{< note >}}The query syntax that RediSearch uses has improved over time,
+adding new features and making queries simpler to write. However,
+changing the syntax like this could potentially break existing queries that rely on
+an older version of the syntax. To avoid this problem, RediSearch supports
+different query syntax *dialects* to ensure backward compatibility.
+Any breaking changes to the syntax are introduced in a new dialect, while
+RediSearch continues to support older dialects. This means you can always choose
+the correct dialect to support the query you are using.
+See
+[Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+for full details of the dialects and the RediSearch versions that introduced them.
+{{< /note >}}
+
 ## Basic syntax
 
 You can use simple syntax for complex queries using these rules:
@@ -51,7 +64,7 @@ You can use simple syntax for complex queries using these rules:
 * As of v2.4, k-nearest neighbors (KNN) queries on vector fields with or without pre-filtering with the syntax `{filter_query}=>[KNN {num} @field $query_vec]`.
 * Tag field filters with the syntax `@field:{tag | tag | ...}`. See the full documentation on [tags]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}}).
 * Optional terms or clauses: `foo ~bar` means bar is optional but documents containing `bar` will rank higher.
-* Fuzzy matching on terms: `%hello%` means all terms with Levenshtein distance of 1 from it. Use multiple pairs of '%' brackets to increase the Levenshtein distance.
+* Fuzzy matching on terms: `%hello%` means all terms with Levenshtein distance of 1 from it. Use multiple pairs of '%' brackets, up to three deep, to increase the Levenshtein distance.
 * An expression in a query can be wrapped in parentheses to disambiguate, for example, `(hello|hella) (world|werld)`.
 * Query attributes can be applied to individual clauses, for example, `(foo bar) => { $weight: 2.0; $slop: 1; $inorder: false; }`.
 * Combinations of the above can be used together, for example, `hello (world|foo) "bar baz" bbbb`.
@@ -112,7 +125,10 @@ If a field in the schema is defined as NUMERIC, it is possible to use the FILTER
 
 ## Tag filters
 
-As of v0.91, you can use a special field type called _tag field_, with simpler tokenization and encoding in the index. You can't access the values in these fields using a general fieldless search. Instead, you use special syntax:
+As of v0.91, you can use a special field type called a
+[_tag field_]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}}), with simpler
+[tokenization]({{< relref "/develop/interact/search-and-query/advanced-concepts/escaping#tokenization-rules-for-tag-fields" >}})
+and encoding in the index. You can't access the values in these fields using a general fieldless search. Instead, you use special syntax:
 
 ```
 @field:{ tag | tag | ...}
@@ -124,10 +140,10 @@ Example:
 @cities:{ New York | Los Angeles | Barcelona }
 ```
 
-Tags can have multiple words or include other punctuation marks other than the field's separator (`,` by default). Punctuation marks in tags should be escaped with a backslash (`\`). 
+Tags can have multiple words or include other punctuation marks other than the field's separator (`,` by default). The following characters in tags should be escaped with a backslash (`\`): `$`, `{`, `}`, `\`, and `|`.
 
 {{% alert title="Note" color="warning" %}}
-Before RediSearch 2.6, it was also recommended to escape spaces. The reason was that, if a multiword tag included stopwords, a syntax error was returned. So tags, like "to be or not to be" needed be escaped as "to\ be\ or\ not\ to\ be". For good measure, you also could escape all spaces within tags. Starting with RediSearch 2.6, using `DIALECT 2` or greater you can use spaces in a `tag` query, even with stopwords.
+Before RediSearch 2.4, it was also recommended to escape spaces. The reason was that, if a multiword tag included stopwords, a syntax error was returned. So tags, like "to be or not to be" needed be escaped as "to\ be\ or\ not\ to\ be". For good measure, you also could escape all spaces within tags. Starting with RediSearch 2.4, using [`DIALECT 2`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}) or greater you can use spaces in a `tag` query, even with stopwords.
 {{% /alert %}}
 
 Notice that multiple tags in the same clause create a union of documents containing either tags. To create an intersection of documents containing all tags, you should repeat the tag filter several times. For example:
@@ -285,6 +301,8 @@ Will be expanded to cover `(hello|help|helm|...) world`.
 
   * Prefixes are limited to 2 letters or more. You can change this number by using the `MINPREFIX` setting on the module command line.
 
+  * The minimum word length to stem is 4 letters or more. You can change this number by using the `MINSTEMLEN` setting on the module command line.
+
   * Expansion is limited to 200 terms or less. You can change this number by using the `MAXEXPANSIONS` setting on the module command line.
 
 3. Prefix matching fully supports Unicode and is case insensitive.
@@ -438,9 +456,9 @@ As of v2.6.1, the query attributes syntax supports these additional attributes:
 
         @age:[(18 +inf]
 
-## Mapping common SQL predicates to Search and Query
+## Mapping common SQL predicates to Redis Query Engine
 
-| SQL Condition | Search and Query Equivalent | Comments |
+| SQL Condition | Redis Query Engine Equivalent | Comments |
 |---------------|-----------------------|----------|
 | WHERE x='foo' AND y='bar' | @x:foo @y:bar | for less ambiguity use (@x:foo) (@y:bar) |
 | WHERE x='foo' AND y!='bar' | @x:foo -@y:bar |

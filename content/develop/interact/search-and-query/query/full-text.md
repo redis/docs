@@ -46,9 +46,9 @@ Words that occur very often in natural language, such as `the` or `a` for the En
 
 The following example searches for all bicycles that have the word 'kids' in the description:
 
-```
+{{< clients-example query_ft ft1 >}}
 FT.SEARCH idx:bicycle "@description: kids"
-```
+{{< /clients-example >}}
 
 ## Phrase
 
@@ -73,9 +73,9 @@ The prefix needs to be at least two characters long.
 
 Here is an example that shows you how to search for bicycles with a brand that starts with 'ka':
 
-```
+{{< clients-example query_ft ft2 >}}
 FT.SEARCH idx:bicycle "@model: ka*"
-```
+{{< /clients-example >}}
 
 ## Word suffix
 
@@ -93,9 +93,9 @@ FT.SEARCH index "*infix*"
 
 Here is an example that finds all brands that end with 'bikes':
 
-```
+{{< clients-example query_ft ft3 >}}
 FT.SEARCH idx:bicycle "@brand:*bikes"
-```
+{{< /clients-example >}}
 
 ## Fuzzy search
 
@@ -109,12 +109,12 @@ FT.SEARCH index "%word%"
 
 The following example finds all documents that contain a word that has a distance of one to the incorrectly spelled word 'optamized'. You can see that this matches the word 'optimized'.
 
-```
+{{< clients-example query_ft ft4 >}}
 FT.SEARCH idx:bicycle "%optamized%"
-```
+{{< /clients-example >}}
 
 If you want to increase the maximum word distance to two, you can use the following query:
 
-```
+{{< clients-example query_ft ft5 >}}
 FT.SEARCH idx:bicycle "%%optamised%%"
-```
+{{< /clients-example >}}

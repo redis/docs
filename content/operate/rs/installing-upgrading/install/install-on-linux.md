@@ -35,7 +35,7 @@ To install Redis Enterprise Software, use the command line:
         ```  
         2. Verify the package signature: 
         ```sh 
-        dpkg-sig --verify <path to installation package>
+        dpkg-sig --verify </path-to/package.deb>
         ```
 
     - For RHEL:
@@ -45,7 +45,7 @@ To install Redis Enterprise Software, use the command line:
         ```
         2. Verify the package signature:  
          ```sh
-         rpm --checksig <path to installation package>
+         rpm --checksig </path-to/package.rpm>
          ```
 
 1. To start the installation process, run the installation script. See [installation script options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) for a list of command-line options you can add to the following command:
@@ -69,7 +69,7 @@ To skip the installation questions, use one of the following methods:
 - Create an [answer file]({{< relref "/operate/rs/installing-upgrading/install/manage-installation-questions#configure-file-to-answer" >}}) to answer installation questions automatically.
     {{< /note >}}
 
-1. When installation completes successfully, the output displays the admin console's IP address:
+1. When installation completes successfully, the output displays the Cluster Manager UI's IP address:
 
     ```sh
     Summary:
@@ -134,4 +134,4 @@ As a workaround to install Redis Enterprise Software without using any root dire
 
     For geo-distributed Active-Active replication, create an [Active-Active]({{< relref "/operate/rs/databases/active-active/create.md" >}}) database.
 
-1. [Add users]({{< relref "/operate/rs/security/access-control/manage-users/add-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).
+1. [Add users]({{< relref "/operate/rs/security/access-control/create-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).

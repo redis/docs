@@ -149,7 +149,7 @@ More info: [FQDN wikipedia](https://en.wikipedia.org/wiki/Fully_qualified_domain
 {{%definition "`fysnc`"%}}
 Linux command to synchronize a file's in-core state with a storage device
 
-More info: [`fsync` man page]("https://man7.org/linux/man-pages/man2/fsync.2.html")
+More info: [`fsync` man page](https://man7.org/linux/man-pages/man2/fsync.2.html)
 {{%/definition%}}
 
 ## G - J {#letter-g}
@@ -309,7 +309,7 @@ The on-premises version of Redis Enterprise.
 {{%/definition%}}
 
 {{%definition "Redis instance"%}}
-Single-threaded Redis OSS database.
+Single-threaded Redis Community Edition database. Redis OSS was renamed Redis Community Edition (CE) with the v7.4 release.
 {{%/definition%}}
 
 {{%definition "Auto Tiering "%}}

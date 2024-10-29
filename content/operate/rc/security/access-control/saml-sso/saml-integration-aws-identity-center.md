@@ -15,6 +15,8 @@ This guide shows how to configure [AWS IAM Identity Center](https://aws.amazon.c
 
 To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 
+Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+
 ## Step 1: Setup your identity provider (IdP)
 
 ### Create the AWS IAM Identity Center SAML application
@@ -62,13 +64,11 @@ Now that you have your IAM Identity Center IdP server information, configure sup
 
 ### Sign in to Redis Cloud
 
-Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#/login).
+Sign in to your account on the [Redis Cloud console](https://cloud.redis.io/#/login).
 
 ### Activate SAML in Access Management
 
 To activate SAML, you must have a local user (or social sign-on user) with the `owner` role. If you have the correct permissions, you will see the **Single Sign-On** tab.
-
-   {{<image filename="images/rc/saml/aws_iam_identity_center_saml_7.png" >}}
 
 1. Add the information you saved previously in the **Configuration setup** screen. This includes:
 
@@ -76,17 +76,13 @@ To activate SAML, you must have a local user (or social sign-on user) with the `
    * **IdP server URL**: IAM Identity Center sign-in URL.
    * **Assertion signing certificate**: Drag and drop the certificate file you downloaded to disk in the form text area.
 
-   Also add:
-
-   * **Email domain binding** - The domain used in your company's email addresses.
-
-     {{<image filename="images/rc/saml/aws_iam_identity_center_saml_8.png" >}}
+     {{<image filename="images/rc/saml/sm_saml_1.png" >}}
 
    Select **Enable** and wait a few seconds for the status to change.
 
 1. Select **Download** to get the service provider (SP) metadata. Save the file to your local hard disk.
 
-   {{<image filename="images/rc/saml/aws_iam_identity_center_saml_9.png" >}}
+   {{<image filename="images/rc/saml/sm_saml_3.png" >}}
 
 1. Open the file in any text editor. Save the following text from the metadata:
 
@@ -94,9 +90,9 @@ To activate SAML, you must have a local user (or social sign-on user) with the `
 
      {{<image filename="images/rc/saml/sm_saml_4.png" >}}
 
-* **Location** : The location of the assertion consumer service.
+   * **Location** : The location of the assertion consumer service.
 
-  {{<image filename="images/rc/saml/sm_saml_5.png" >}}
+      {{<image filename="images/rc/saml/sm_saml_5.png" >}}
 
 ## Step 3: Finish SAML configuration in AWS IAM Identity Center's Redis Cloud Application
 
@@ -104,7 +100,7 @@ To activate SAML, you must have a local user (or social sign-on user) with the `
 
    {{<image filename="images/rc/saml/aws_iam_identity_center_saml_10.png" >}}
 
-1. If you would like to also configure an IdP initiated workflow, fill in the **relay state** field in the **Application properties** section. Use this URL: `https://app.redislabs.com/#/login/?idpId=XXXXXX`. Take the ID from the location URL in step 3 (the content after the last forward slash "/") and append to the URL.
+1. If you would like to also configure an IdP initiated workflow, fill in the **relay state** field in the **Application properties** section. Use this URL: `https://cloud.redis.io/#/login/?idpId=XXXXXX`. Take the ID from the location URL in step 3 (the content after the last forward slash "/") and append to the URL.
 
    {{<image filename="images/rc/saml/aws_iam_identity_center_saml_11.png" >}}
 
@@ -140,11 +136,11 @@ The final step in our SAML integration with AWS IAM identity Center is to activa
 
 1. In the Single Sign-On screen, select **Activate**.
 
-   {{<image filename="images/rc/saml/aws_iam_identity_center_saml_15.png" >}}
+   {{<image filename="images/rc/saml/sm_saml_8.png" >}}
 
   A logout notification screen displays, letting you know that you are redirected to AWS IAM Identity Center's login screen.
 
-   {{<image filename="images/rc/saml/aws_iam_identity_center_saml_16.png" >}}
+   {{<image filename="images/rc/saml/sm_saml_9.png" >}}
 
 1. Enter your AWS IAM Identity Center credentials.
 
@@ -157,5 +153,3 @@ The final step in our SAML integration with AWS IAM identity Center is to activa
   A message displays, stating that your local user is now converted to a SAML user. Select **Confirm**.
 
    You have successfully configured AWS IAM Identity Center as an identification provider.
-
-   {{<image filename="images/rc/saml/aws_iam_identity_center_saml_22.png" >}}

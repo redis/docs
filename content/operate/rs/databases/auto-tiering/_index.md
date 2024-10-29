@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Auto Tiering enables your data to span both RAM and dedicated flash memory.
 hideListLinks: true
 linktitle: Auto Tiering
@@ -62,7 +63,7 @@ Inactive or infrequently accessed data is referred to as “warm data” and sto
 Redis Enterprise Software allows you to configure and tune the ratio of RAM-to-Flash for each database independently, optimizing performance for your specific use case.
 While this is an online operation requiring no downtime for your database, it is recommended to perform it during maintenance windows as data might move between tiers (RAM <-> Flash).
 
-The RAM size cannot be smaller than 10% or larger than 60% of the total memory. We recommend you keep at least 20% of all values in RAM.
+The RAM limit cannot be smaller than 10% of the total memory. We recommend you keep at least 20% of all values in RAM. Do not set the RAM limit to 100%.
 
 ## Flash memory
 

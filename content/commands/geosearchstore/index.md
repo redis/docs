@@ -171,10 +171,10 @@ since: 6.2.0
 summary: Queries a geospatial index for members inside an area of a box or a circle,
   optionally stores the result.
 syntax_fmt: "GEOSEARCHSTORE destination source <FROMMEMBER\_member |\n  FROMLONLAT\_\
-  longitude latitude> <BYRADIUS\_radius <M | KM | FT | MI>\n  | BYBOX\_width height\
-  \ <M | KM | FT | MI>> [ASC | DESC] [COUNT\_count\n  [ANY]] [STOREDIST]"
+  longitude latitude> <BYRADIUS\_radius <m | km | ft | mi>\n  | BYBOX\_width height\
+  \ <m | km | ft | mi>> [ASC | DESC] [COUNT\_count\n  [ANY]] [STOREDIST]"
 syntax_str: "source <FROMMEMBER\_member | FROMLONLAT\_longitude latitude> <BYRADIUS\_\
-  radius <M | KM | FT | MI> | BYBOX\_width height <M | KM | FT | MI>> [ASC | DESC]\
+  radius <m | km | ft | mi> | BYBOX\_width height <m | km | ft | mi>> [ASC | DESC]\
   \ [COUNT\_count [ANY]] [STOREDIST]"
 title: GEOSEARCHSTORE
 ---

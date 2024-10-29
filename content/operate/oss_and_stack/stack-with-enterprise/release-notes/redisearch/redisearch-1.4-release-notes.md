@@ -31,7 +31,7 @@ Headlines:
 Details:
 
 - Bugfixes:
-    - #[1218](https://github.com/RediSearch/RediSearch/pull/1218) Potential crash when running [without concurrency](https://oss.redislabs.com/redisearch/1.4/Configuring.html#safemode) and using the [cursor API](https://oss.redislabs.com/redisearch/1.4/Aggregations.html#cursor_api).
+    - #[1218](https://github.com/RediSearch/RediSearch/pull/1218) Potential crash when running without concurrency and using the cursor API.
 
 ## v1.4.27 (April 2020)
 
@@ -42,9 +42,9 @@ Headlines:
 Details:
 
 - Features:
-    - #[1172](https://github.com/redisearch/redisearch/issues/1172) Added [`exists`](https://oss.redislabs.com/redisearch/Aggregations.html#list_of_string_apply_functions) function that can be used on conditional updates ([REPLACE PARTIAL](https://oss.redislabs.com/redisearch/Commands.html#ftadd)) to check if a field exists in the document.
+    - #[1172](https://github.com/redisearch/redisearch/issues/1172) Added `exists` function that can be used on conditional updates `REPLACE PARTIAL` to check if a field exists in the document.
 - Minor Enhancements:
-    - #[1172](https://github.com/redisearch/redisearch/issues/1172) Lazy evaluation of the right side of 'or'/'and' clauses in [IF condition](https://oss.redislabs.com/redisearch/Commands.html#parameters_1).
+    - #[1172](https://github.com/redisearch/redisearch/issues/1172) Lazy evaluation of the right side of 'or'/'and' clauses in IF condition.
 - Bugfixes:
     - #[1110](https://github.com/redisearch/redisearch/issues/1110) Rare GC failure when accessing uninitialized variable.
     - #[1131](https://github.com/redisearch/redisearch/issues/1131) Crash on highlighting a search query where the document no longer exists.
@@ -68,7 +68,7 @@ Headlines:
 Details:
 
 - Features:
-    - #[1051](https://github.com/RediSearch/RediSearch/issues/1051) Added support for updating tag fields on document updates with [`NOINDEX`](https://oss.redislabs.com/redisearch/Commands.html#field_options) fields.
+    - #[1051](https://github.com/RediSearch/RediSearch/issues/1051) Added support for updating tag fields on document updates with `NOINDEX` fields.
 - Bugfixes:
     - #[1051](https://github.com/RediSearch/RediSearch/issues/1051) `FORK GC` was not updating the unique sum of the numeric index.
 
@@ -116,7 +116,7 @@ Headlines:
 Details:
 
 - Bugfixes:
-    - #[1031](https://github.com/RediSearch/RediSearch/issues/1031) Highlighting crashed when used with [`NOINDEX`](https://oss.redislabs.com/redisearch/Commands.html#field_options) fields.
+    - #[1031](https://github.com/RediSearch/RediSearch/issues/1031) Highlighting crashed when used with `NOINDEX` fields.
 
 ## v1.4.20 (January 2020)
 
@@ -126,7 +126,7 @@ This is a maintenance release for version 1.4.
 This release improves overall stability and provides fixes for issues found after the previous release.
 
 - Improvements
-    - #[1020](https://github.com/RediSearch/RediSearch/issues/1020) Performance improvement for reading fields that are not [sortable](https://oss.redislabs.com/redisearch/Overview.html#sortable_fields).
+    - #[1020](https://github.com/RediSearch/RediSearch/issues/1020) Performance improvement for reading fields that are not sortable.
 - Bugfixes
     - #[1022](https://github.com/RediSearch/RediSearch/issues/1022) Illegal memory access by queries during `GC` run.
     - #[1022](https://github.com/RediSearch/RediSearch/issues/1022) Recreating the index with the same name (delete+create) removed the index from cursor list.
@@ -144,7 +144,7 @@ This release improves overall stability and provides fixes for issues found afte
 - Bugfixes
     - #[1000](https://github.com/RediSearch/RediSearch/issues/1000) - `FT.DEL` was not replicated to replica correctly
     - #[1004](https://github.com/RediSearch/RediSearch/issues/1004) -  Memory leak on `TAG` array on certain situations
-    - #[1006](https://github.com/RediSearch/RediSearch/issues/1006) - Unexposed error on [conditional update `IF`](https://oss.redislabs.com/redisearch/Commands.html#ftadd) that caused the error message to leak
+    - #[1006](https://github.com/RediSearch/RediSearch/issues/1006) - Unexposed error on conditional update `IF` that caused the error message to leak
 
 ## v1.4.18 (November 2019)
 
@@ -194,8 +194,8 @@ This release improves overall stability and provides fixes for issues found afte
 Main Fixes:
 
 - #[866](https://github.com/RediSearch/RediSearch/issues/866) - Fix RDB corruption caused by deleting none-existing terms from the suggestion trie.
-- When Redis exits, forked processes by [FORK Garbage Collection](https://oss.redislabs.com/redisearch/Configuring.html#gc_policy) will now be closed accordingly.
-- For indices that are not [temporary](https://oss.redislabs.com/redisearch/Commands.html#ftcreate) and  [interleaved](https://oss.redislabs.com/redisearch/Configuring.html#safemode): When an index is dropped, the indexer thread is now closed.
+- When Redis exits, forked processes by FORK Garbage Collection will now be closed accordingly.
+- For indices that are not temporary and interleaved: When an index is dropped, the indexer thread is now closed.
 
 ## v1.4.14 (20 August 2019)
 
@@ -206,7 +206,7 @@ This release improves overall stability and provides fixes for issues found afte
 
 Main Fixes:
 
-- #[851](https://github.com/RediSearch/RediSearch/issues/851) In interleaved mode ([non safemode](https://oss.redislabs.com/redisearch/Configuring.html#safemode)), documents deleted by concurrent updates, will be ignored.
+- #[851](https://github.com/RediSearch/RediSearch/issues/851) In interleaved mode (non safemode), documents deleted by concurrent updates, will be ignored.
 
 ## v1.4.13 (8 August 2019)
 
@@ -246,7 +246,7 @@ Update urgency: Medium
 This release only add support for aliasing to the previews 1.4.10 release.
 
 - Added functionality
-    - #[731](https://github.com/RediSearch/RediSearch/issues/731) Add index aliasing. This allows users to provide (or remove) ‘links’ to indexes. The commands are FT.ALIASADD, FT.ALIASDEL, and FT.ALIASUPDATE. See [ftaliasadd](https://oss.redislabs.com/redisearch/Commands.html#ftaliasadd) for details.
+    - #[731](https://github.com/RediSearch/RediSearch/issues/731) Add index aliasing. This allows users to provide (or remove) ‘links’ to indexes. The commands are FT.ALIASADD, FT.ALIASDEL, and FT.ALIASUPDATE.
 
 ## v1.4.10 (28 May 2019)
 
@@ -382,7 +382,7 @@ redis-server --loadmodule ./redisearch.so GC_POLICY FORK
 
 ### Runtime configuration
 
-RediSearch's [configuration](https://oss.redislabs.com/redisearch/Configuring/) is applied via arguments passed to the module at load time. This release introduces the new [`FT.CONFIG`  command](https://oss.redislabs.com/redisearch/Commands/#ftconfig) that allows to retrieve the current configuration as well as change it during runtime.
+RediSearch's [configuration]({{<relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters">}}) is applied via arguments passed to the module at load time. This release introduces the new `FT.CONFIG` command that allows to retrieve the current configuration as well as change it during runtime.
 
 ### Unlimited autocomplete results
 
@@ -410,19 +410,19 @@ To support this use case, RediSearch has been reworked internally to use 64-bit 
 
 ### Conditional updates
 
-The `IF` subcommand has been add to [`FT.ADD`](https://oss.redislabs.com/redisearch/Commands/#ftadd). When used with the existing `REPLACE [PARTIAL]` subcommand, the document will be updated only if the condition provided evaluates to a truth value, otherwise a special `NOADD` reply is returned.
+The `IF` subcommand has been add to `FT.ADD`. When used with the existing `REPLACE [PARTIAL]` subcommand, the document will be updated only if the condition provided evaluates to a truth value, otherwise a special `NOADD` reply is returned.
 
 ### Schema modification
 
-The [`FT.ALTER`](https://oss.redislabs.com/redisearch/Commands/#ftalter) command has been introduced, and provides the ability to add new fields to the definition of an existing index. The contents of such newly-added fields are indexed only for new or updated documents.
+The `FT.ALTER` command has been introduced, and provides the ability to add new fields to the definition of an existing index. The contents of such newly-added fields are indexed only for new or updated documents.
 
 ### Query spelling correction
 
-Query spelling correction, a.k.a "did you mean", is now provided via the  [`FT.SPELLCHECK`](https://oss.redislabs.com/redisearch/Commands/#ftspellcheck) command. It enables generating suggestions for search terms that could be misspelled. For more details see [Query Spelling Correction](https://oss.redislabs.com/redisearch/Spellcheck/).
+Query spelling correction, a.k.a "did you mean", is now provided via the `FT.SPELLCHECK` command. It enables generating suggestions for search terms that could be misspelled. For more details see [Query Spelling Correction]({{<relref "/develop/interact/search-and-query/advanced-concepts/spellcheck">}}).
 
 ### Phonetic matching
 
-Phonetic matching, a.k.a "Jon or John?", is now supported via the `PHONETIC` text field attribute. The terms in such fields are also indexed by their phonetic equivalents, and search results include these by default. For more details see [Phonetic Matching](https://oss.redislabs.com/redisearch/Phonetic_Matching/).
+Phonetic matching, a.k.a "Jon or John?", is now supported via the `PHONETIC` text field attribute. The terms in such fields are also indexed by their phonetic equivalents, and search results include these by default. For more details see [Phonetic Matching]({{<relref "/develop/interact/search-and-query/advanced-concepts/phonetic_matching">}}).
 
 ### More fuzziness in search
 

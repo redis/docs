@@ -12,7 +12,11 @@ weight: 20
 
 Transport Layer Security (TLS) uses encryption to secure [network communications](https://en.wikipedia.org/wiki/Transport_Layer_Security).  
 
-Redis Cloud Essentials and Redis Cloud Pro plans can use TLS to encrypt data communications between applications and Redis databases.
+Paid Redis Cloud Essentials plans and Redis Cloud Pro plans can use TLS to encrypt data communications between applications and Redis databases.
+
+{{<note>}}
+TLS is not available for Free Redis Cloud Essentials plans.
+{{</note>}}
 
 ## Use TLS with Redis Cloud
 
@@ -39,7 +43,7 @@ Client authentication is not required by Redis Cloud; however, it is strongly re
 
 To enable TLS for a Redis Cloud database:
 
-1. Select **Databases** from the [Redis Cloud console](https://app.redislabs.com/) menu and then select your database from the list.
+1. Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your database from the list.
 
 1. From the database's **Configuration** screen, select the **Edit database** button:
 

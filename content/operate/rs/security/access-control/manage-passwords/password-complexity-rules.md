@@ -28,11 +28,11 @@ In addition, the password:
 
 Password complexity rules apply when a new user account is created and when the password is changed.  Password complexity rules are not applied to accounts authenticated by an external identity provider.  
 
-You can use the admin console or the REST API to enable password complexity rules.
+You can use the Cluster Manager UI or the REST API to enable password complexity rules.
 
-## Enable using the admin console
+## Enable using the Cluster Manager UI
 
-To enable password complexity rules using the admin console:
+To enable password complexity rules using the Cluster Manager UI:
 
 1. Go to **Cluster > Security > Preferences**, then select **Edit**.
 
@@ -53,7 +53,7 @@ PUT https://[host][:port]/v1/cluster
 
 To deactivate password complexity rules:
 
-- Use the admin console:
+- Use the Cluster Manager UI:
 
     1. Go to **Cluster > Security > Preferences**, then select **Edit**.
 

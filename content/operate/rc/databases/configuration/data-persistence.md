@@ -21,7 +21,7 @@ Data can be persisted in one of two ways:
 
 - An _Append-Only File_ (AOF) maintains a record (sometimes called a _redo log_ or _journal_) of write operations.  This allows the data to be restored by using the record to reconstruct the database up to the point of failure.
 
-    The AOF file records write operations made to the database; it can be updated every second or on every write (_Flexible or Annual plans only_).
+    The AOF file records write operations made to the database; it can be updated every second or on every write (_Redis Cloud Pro plans only_).
 
 - Snapshots are copies of the in-memory database, taken at periodic intervals (one, six, or twelve hours). You can restore data to the snapshot's point in time.
 
@@ -41,9 +41,7 @@ The availability of the setting depends on your plan:
 
 - Free Redis Cloud Essentials plans do not support data persistence; the setting is disabled entirely.
 
-- For paid Redis Cloud Essentials plans, persistence requires a standard plan and is not available for cache subscriptions.
-
-    Use the **Plan description** setting to determine your subscription type.  You might need to change your subscription type to enable data persistence.
+- Paid Redis Cloud Essentials plans support AOF every second and all snapshot options.
 
 - Redis Cloud Pro enables data persistence settings for every database.
 

@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Information about using strings and bitfields with an Active-Active database.
 linkTitle: Strings and bitfields
 weight: $weight
@@ -41,7 +42,7 @@ time (t2) wins over the update at t1.
 
 ### String counter support
 
-When you're using a string as counter (for instance, with the [INCR]({{< relref "/commands" >}}/incr) or [INCRBY]({{< relref "/commands" >}}/incrby) commands),
+When you're using a string as counter (for instance, with the [INCR]({{< relref "/commands/incr" >}}) or [INCRBY]({{< relref "/commands/incrby" >}}) commands),
 then conflicts will be resolved semantically.
 
 On conflicting writes, counters accumulate the total counter operations

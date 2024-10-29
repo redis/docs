@@ -12,17 +12,37 @@ categories:
 description: Overview of data types supported by Redis
 linkTitle: Understand data types
 title: Understand Redis data types
+hideListLinks: true
 weight: 35
 ---
 
 Redis is a data structure server.
-At its core, Redis provides a collection of native data types that help you solve a wide variety of problems, from [caching]({{< relref "/develop/use/client-side-caching" >}}) to [queuing]({{< relref "/develop/data-types/lists" >}}) to [event processing]({{< relref "/develop/data-types/streams" >}}).
+At its core, Redis provides a collection of native data types that help you solve a wide variety of problems, from [caching]({{< relref "/develop/data-types/strings" >}}) to
+[queuing]({{< relref "/develop/data-types/lists" >}}) to
+[event processing]({{< relref "/develop/data-types/streams" >}}).
 Below is a short description of each data type, with links to broader overviews and command references.
+Each overview includes a comprehensive tutorial with code samples.
 
-If you'd like to try a comprehensive tutorial for each data structure, see their overview pages below.
+## Core data types
 
+[Redis Community Edition]({{< relref "/operate/oss_and_stack" >}})
+implements the following data types:
 
-## Core
+- [String](#strings)
+- [Hash](#hashes)
+- [List](#lists)
+- [Set](#sets)
+- [Sorted set](#sorted-sets)
+- [Stream](#streams)
+- [Bitmap](#bitmaps)
+- [Bitfield](#bitfields)
+- [Geospatial](#geospatial-indexes)
+
+[Redis Stack]({{< relref "/operate/oss_and_stack" >}}) and
+[Redis Enterprise]({{< relref "/operate/rs" >}})
+also include some [extension modules](#adding-extensions) that implement other
+useful types, such as JSON. See [Extension data types](#extension-data-types)
+for the full list.
 
 ### Strings 
 
@@ -100,6 +120,47 @@ For more information, see:
 * [Overview of Redis bitfields]({{< relref "/develop/data-types/bitfields" >}})
 * The [`BITFIELD`]({{< relref "/commands/bitfield" >}}) command.
 
+## Extension data types
+
+[Redis Stack]({{< relref "/operate/oss_and_stack" >}}) and
+[Redis Enterprise]({{< relref "/operate/rs" >}})
+include some [extension modules](#adding-extensions) that implement
+the following data types:
+
+- [JSON](#json)
+- [Probabilistic data types](#probabilistic-data-types)
+- [Time series](#time-series)
+
+These are not included by default with
+[Redis Community Edition]({{< relref "/operate/oss_and_stack" >}}).
+See [Core data types](#core-data-types) for the list of types that
+Redis Community Edition supports natively.
+
+### JSON
+
+[Redis JSON]({{< relref "/develop/data-types/json" >}}) provides
+structured, hierarchical arrays and key-value objects that match
+the popular [JSON](https://www.json.org/json-en.html) text file
+format. You can import JSON text into Redis objects and access,
+modify, and query individual data elements.
+For more information, see:
+
+- [Overview of Redis JSON]({{< relref "/develop/data-types/json" >}})
+- [JSON command reference]({{< relref "/commands" >}}?group=json)
+
+### Probabilistic data types
+
+These data types let you gather and calculate statistics in a way
+that is approximate but highly efficient. The following types are
+available:
+
+- [HyperLogLog](#hyperloglog)
+- [Bloom filter](#bloom-filter)
+- [Cuckoo filter](#cuckoo-filter)
+- [t-digest](#t-digest)
+- [Top-K](#top-k)
+- [Count-min sketch](#count-min-sketch)
+
 ### HyperLogLog
 
 The [Redis HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}}) data structures provide probabilistic estimates of the cardinality (i.e., number of elements) of large sets. For more information, see:
@@ -107,12 +168,65 @@ The [Redis HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglo
 * [Overview of Redis HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}})
 * [Redis HyperLogLog command reference]({{< relref "/commands/" >}}?group=hyperloglog)
 
-## Extensions
+### Bloom filter
+
+[Redis Bloom filters]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}})
+let you check for the presence or absence of an element in a set. For more
+information, see:
+
+- [Overview of Redis Bloom filters]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}})
+- [Bloom filter command reference]({{< relref "/commands" >}}?group=bf)
+
+### Cuckoo filter
+
+[Redis Cuckoo filters]({{< relref "/develop/data-types/probabilistic/cuckoo-filter" >}})
+let you check for the presence or absence of an element in a set. They are similar to
+[Bloom filters](#bloom-filter) but with slightly different trade-offs between features
+and performance. For more information, see:
+
+- [Overview of Redis Cuckoo filters]({{< relref "/develop/data-types/probabilistic/cuckoo-filter" >}})
+- [Cuckoo filter command reference]({{< relref "/commands" >}}?group=cf)
+
+### t-digest
+
+[Redis t-digest]({{< relref "/develop/data-types/probabilistic/t-digest" >}})
+structures estimate percentiles from a stream of data values. For more
+information, see:
+
+- [Redis t-digest overview]({{< relref "/develop/data-types/probabilistic/t-digest" >}})
+- [t-digest command reference]({{< relref "/commands" >}}?group=tdigest)
+
+### Top-K
+
+[Redis Top-K]({{< relref "/develop/data-types/probabilistic/top-k" >}})
+structures estimate the ranking of a data point within a stream of values.
+For more information, see:
+
+- [Redis Top-K overview]({{< relref "/develop/data-types/probabilistic/top-k" >}})
+- [Top-K command reference]({{< relref "/commands" >}}?group=topk)
+
+### Count-min sketch
+
+[Redis Count-min sketch]({{< relref "/develop/data-types/probabilistic/count-min-sketch" >}})
+estimate the frequency of a data point within a stream of values.
+For more information, see:
+
+- [Redis Count-min sketch overview]({{< relref "/develop/data-types/probabilistic/count-min-sketch" >}})
+- [Count-min sketch command reference]({{< relref "/commands" >}}?group=cms)
+
+## Time series
+
+[Redis time series]({{< relref "/develop/data-types/timeseries" >}})
+structures let you store and query timestamped data points.
+For more information, see:
+
+- [Redis time series overview]({{< relref "/develop/data-types/timeseries" >}})
+- [Count-min sketch command reference]({{< relref "/commands" >}}?group=timeseries)
+
+## Adding extensions
 
 To extend the features provided by the included data types, use one of these options:
 
 1. Write your own custom [server-side functions in Lua]({{< relref "/develop/interact/programmability/" >}}).
 1. Write your own Redis module using the [modules API]({{< relref "/develop/reference/modules/" >}}) or check out the [community-supported modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/" >}}).
-1. Use [JSON]({{< relref "/develop/data-types/json/" >}}), [querying]({{< relref "/develop/interact/search-and-query/" >}}), [time series]({{< relref "/develop/data-types/timeseries/" >}}), and other capabilities provided by [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}).
-
-<hr>
+1. Use [JSON]({{< relref "/develop/data-types/json/" >}}), [search]({{< relref "/develop/interact/search-and-query/" >}}), [time series]({{< relref "/develop/data-types/timeseries/" >}}), and other capabilities provided by [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}).

@@ -10,7 +10,7 @@ Redis Enterprise Software is supported on several operating systems, cloud envi
 | Redis Enterprise<br />major versions | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|
 | **Release date** | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
-| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | July 2025 | Feb 2025 | Aug 2024 |
+| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | – | – | – |
 | RHEL 8 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
@@ -114,6 +114,6 @@ Redis Enterprise Software is compatible with VMware and other similar virtualiza
 
 - Configure your memory, CPU, network, and storage settings to allow for optimal Redis Enterprise performance.
 - Pin each Redis Enterprise shard to a specific ESX or ESXi host by setting the appropriate affinity rules.
-- If you must manually migrate a virtual machine to another host, follow the best practices for shard maintenance and contact support if you have questions.
+- If you must manually migrate a virtual machine to another host, follow the best practices for [shard maintenance]({{<relref "/operate/rs/clusters/maintenance-mode">}}) and contact support if you have questions.
 - Turn off VMware VMotion because Redis Enterprise is not compatible with VMotion.
 - Don't use snapshots because Redis Enterprise cluster manages states dynamically, so a snapshot might not have the correct node and cluster states.

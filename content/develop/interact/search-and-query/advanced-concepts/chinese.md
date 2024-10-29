@@ -9,13 +9,11 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Chinese support
+description: Chinese support for searching and querying in Redis Stack
 linkTitle: Chinese
-title: Chinese
+title: Chinese support
 weight: 15
 ---
-
-# Chinese support for searching and querying in Redis Stack
 
 Support for adding documents in Chinese is available starting at version 0.99.0.
 
@@ -40,8 +38,8 @@ the user and often no additional configuration is required.
 In pseudo-code:
 
 ```
-FT.CREATE idx SCHEMA txt TEXT
-FT.ADD idx docCn 1.0 LANGUAGE chinese FIELDS txt "Redis支持主从同步。数据可以从主服务器向任意数量的从服务器上同步，从服务器可以是关联其他从服务器的主服务器。这使得Redis可执行单层树复制。从盘可以有意无意的对数据进行写操作。由于完全实现了发布/订阅机制，使得从数据库在任何地方同步树时，可订阅一个频道并接收主服务器完整的消息发布记录。同步对读取操作的可扩展性和数据冗余很有帮助。[8]"
+FT.CREATE idx ON HASH SCHEMA txt TEXT
+HSET docCn txt "Redis支持主从同步。数据可以从主服务器向任意数量的从服务器上同步，从服务器可以是关联其他从服务器的主服务器。这使得Redis可执行单层树复制。从盘可以有意无意的对数据进行写操作。由于完全实现了发布/订阅机制，使得从数据库在任何地方同步树时，可订阅一个频道并接收主服务器完整的消息发布记录。同步对读取操作的可扩展性和数据冗余很有帮助。[8]"
 FT.SEARCH idx "数据" LANGUAGE chinese HIGHLIGHT SUMMARIZE
 # Outputs:
 # <b>数据</b>?... <b>数据</b>进行写操作。由于完全实现了发布... <b>数据</b>冗余很有帮助。[8...

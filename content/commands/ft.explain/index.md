@@ -19,6 +19,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(1)
 description: Returns the execution plan for a complex query
 group: search

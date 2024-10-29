@@ -109,7 +109,7 @@ To change `resp3_default` to `disabled`, use one of the following methods:
 
 ## Client prerequisites for Redis 7.2 upgrade
 
-The Redis clients [Go-Redis](https://redis.uptrace.dev/) version 9 and [Lettuce](https://lettuce.io/) versions 6 and later use RESP3 by default. If you use either client to run Redis Stack commands, you should set the client's protocol version to RESP2 before upgrading your database to Redis version 7.2 to prevent potential application issues due to RESP3 breaking changes.
+The Redis clients [Go-Redis](https://redis.uptrace.dev/) version 9 and [Lettuce](https://redis.github.io/lettuce/) versions 6 and later use RESP3 by default. If you use either client to run Redis Stack commands, you should set the client's protocol version to RESP2 before upgrading your database to Redis version 7.2 to prevent potential application issues due to RESP3 breaking changes.
 
 ### Go-Redis
 

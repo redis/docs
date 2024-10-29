@@ -18,7 +18,7 @@ Here's the list of self-signed certificates that create secure, encrypted connec
 | Certificate name | Description |
 |------------------|-------------|
 | `api` | Encrypts [REST API]({{< relref "/operate/rs/references/rest-api/" >}}) requests and responses. |
-| `cm` | Secures connections to the Redis Enterprise admin console. |
+| `cm` | Secures connections to the Redis Enterprise Cluster Manager UI. |
 | `ldap_client` | Secures connections between LDAP clients and LDAP servers. |
 | `metrics_exporter` | Sends Redis Enterprise metrics to external [monitoring tools]({{< relref "/operate/rs/clusters/monitoring/" >}}) over a secure connection. |
 | `proxy` | Creates secure, encrypted connections between clients and databases. |
@@ -26,6 +26,6 @@ Here's the list of self-signed certificates that create secure, encrypted connec
 
 These self-signed certificates are generated on the first node of each Redis Enterprise Software installation and are copied to all other nodes added to the cluster.
 
-When you use the default self-signed certificates and you connect to the admin console over a web browser, you'll see an untrusted connection notification.
+When you use the default self-signed certificates and you connect to the Cluster Manager UI over a web browser, you'll see an untrusted connection notification.
 
 Depending on your browser, you can allow the connection for each session or add an exception to trust the certificate for all future sessions.

@@ -15,7 +15,7 @@ For security reasons, the Redis Cloud API is disabled by default.
 
 To enable the API:
 
-1. Sign in to your [Redis Cloud account](https://app.redislabs.com) as an account owner.
+1. Sign in to your [Redis Cloud account](https://cloud.redis.io) as an account owner.
 1. From the menu, choose **Access Management**.
 1. When the **Access Management** screen appears, select the **API Keys** tab.
 

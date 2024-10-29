@@ -179,7 +179,7 @@ The cluster settings show `login_lockout_threshold: disabled`.
 
 ## Configure session timeout
 
-The Redis Enterprise admin console supports session timeouts. By default, users are automatically logged out after 15 minutes of inactivity.
+The Redis Enterprise Cluster Manager UI supports session timeouts. By default, users are automatically logged out after 15 minutes of inactivity.
 
 To customize the session timeout, use one of the following methods:
 

@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- kubernetes
 description: Redis Enterprise Software hardware requirements for development and production
   environments.
 linkTitle: Hardware requirements

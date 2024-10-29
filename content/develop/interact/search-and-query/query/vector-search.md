@@ -28,7 +28,7 @@ The examples in this article use a schema with the following fields:
 
 ## K-neareast neighbours (KNN)
 
-The Redis command [FT.SEARCH]({{< baseurl >}}/commands/ft.search//) takes the index name, the query string, and additional query parameters as arguments. You need to pass the number of nearest neighbors, the vector field name, and the vector's binary representation in the following way:
+The Redis command [FT.SEARCH]({{< baseurl >}}/commands/ft.search) takes the index name, the query string, and additional query parameters as arguments. You need to pass the number of nearest neighbors, the vector field name, and the vector's binary representation in the following way:
 
 ```
 FT.SEARCH index "(*)=>[KNN num_neighbours @field $vector]" PARAMS 2 vector "binary_data" DIALECT 2
@@ -42,13 +42,13 @@ Here is a more detailed explanation of this query:
 4. **Vector binary data**: You need to use the `PARAMS` argument to substitute `$vector` with the binary representation of the vector. The value `2` indicates that `PARAMS` is followed by two arguments, the parameter name `vector` and the parameter value.
 5. **Dialect**: The vector search feature has been available since version two of the query dialect.
 
-You can read more about the `PARAMS` argument in the [FT.SEARCH]({{< baseurl >}}/commands/ft.search//) command reference.
+You can read more about the `PARAMS` argument in the [FT.SEARCH]({{< baseurl >}}/commands/ft.search) command reference.
 
 The following example shows you how to query for three bikes based on their description embeddings, and by using the field alias `vector`. The result is returned in ascending order based on the distance. You can see that the query only returns the fields `__vector_score` and `description`. The field `__vector_score` is present by default. Because you can have multiple vector fields in your schema, the vector score field name depends on the name of the vector field. If you change the field name `@vector` to `@foo`, the score field name changes to `__foo_score`.
 
-```
+{{< clients-example query_vector vector1 >}}
 FT.SEARCH idx:bikes_vss "(*)=>[KNN 3 @vector $query_vector]" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." SORTBY "__vector_score" ASC RETURN 2 "__vector_score" "description" DIALECT 2
-```
+{{< /clients-example >}}
 
 <!-- Python query>
 query = (
@@ -60,7 +60,7 @@ query = (
 </!-->
 
 {{% alert title="Note" color="warning" %}}
-The binary value of the query vector is significantly shortened in this example.
+The binary value of the query vector is significantly shortened in the CLI example above.
 {{% /alert  %}}
 
 
@@ -93,9 +93,9 @@ By default, [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) returns only the 
 
 The example below shows a radius query that returns the description and the distance within a radius of `0.5`. The result is sorted by the distance.
 
-```
+{{< clients-example query_vector vector2 >}}
 FT.SEARCH idx:bikes_vss "@vector:[VECTOR_RANGE 0.5 $query_vector]=>{$YIELD_DISTANCE_AS: vector_dist}" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." SORTBY vector_dist ASC RETURN 2 vector_dist description DIALECT 2
-```
+{{< /clients-example >}}
 
 <!-- Python query>
 query = (

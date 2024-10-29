@@ -13,7 +13,7 @@ For this tutorial, you need:
 
 - Either:
     - A Redis Enterprise cluster with the [RedisGears module and Python plugin installed]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears#install-redisgears" >}}) and [enabled on a database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/install" >}})
-    - An OSS Redis database with the RedisGears module
+    - An Redis Community Edition database with the RedisGears module
 - `redis-cli` with connectivity to a Redis database
 
 ## RedisGears basics
@@ -139,4 +139,4 @@ redis.cloud:6379> GET age:maximum
 
 ## Next steps
 
-You should now have a basic idea of how to run RedisGears functions for batch and event processing. But there's a lot more to RedisGears than this. To better understand it, see the [RedisGears tutorial](https://oss.redis.com/redisgears/intro.html). If you're interested in write-behind caching, see our [write-behind caching]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/recipes/write-behind" >}}) overview.
+You should now have a basic idea of how to run RedisGears functions for batch and event processing. If you're interested in write-behind caching, see our [write-behind caching]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/recipes/write-behind" >}}) overview.

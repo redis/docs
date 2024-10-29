@@ -12,6 +12,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(1)
 description: Help description of runtime configuration options
 group: search

@@ -14,10 +14,36 @@ weight: 96
 ---
 ## Requirements
 
-RedisJSON v2.6.9 requires:
+RedisJSON v2.6.12 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.6.12 (September 2024)
+
+This is a maintenance release for RedisJSON 2.6
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+
+  - [#1225](https://github.com/redisjson/redisjson/pull/1225) Crash on SET commands with recursive overlapping paths (MOD-7279)
+  - HDT#261 (Redis Enterprise A-A only) Crash when a JSON contains an EOF character (MOD-7464)
+
+## v2.6.10 (April 2024)
+
+This is a maintenance release for RedisJSON 2.6.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+
+  - [#1192](https://github.com/RedisJSON/RedisJSON/pull/1192) Crashes with numeric values greater than i64::MAX (MOD-6501, MOD-4551, MOD-4856, MOD-5714)
+  - HDT#228 (Redis Enterprise A-A only) Incorrect error when processing escaped characters (MOD-6645)
 
 ## v2.6.9 (January 2024)
 
@@ -82,7 +108,7 @@ RedisJSON 2.6 introduces support for RESP3 and new commands.
 
 ### What's new in 2.6
 
-- Introduce [`JSON.MERGE`]({{< relref "/commands" >}}/json.merge) in compliance with [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396), supporting:
+- Introduce [`JSON.MERGE`]({{< baseurl >}}/commands/json.merge) in compliance with [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396), supporting:
 
   - Creating new attributes on an existing JSON document
 
@@ -92,7 +118,7 @@ RedisJSON 2.6 introduces support for RESP3 and new commands.
 
   - Array update - replacing an entire array with the new value
 
-- Introduce [`JSON.MSET`]({{< relref "/commands" >}}/json.mset/), supporting atomic multiple sets for keys in the same hash slot
+- Introduce [`JSON.MSET`]({{< baseurl >}}/commands/json.mset), supporting atomic multiple sets for keys in the same hash slot
 
 - New `FORMAT` argument in `JSON.ARRPOP` and `JSON.GET` to retrieve the results as JSON strings or RESP3 hierarchical structures (RESP3 only)
 

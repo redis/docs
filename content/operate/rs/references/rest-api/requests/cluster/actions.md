@@ -138,6 +138,17 @@ removed as soon as the new one is submitted.
 |-------|------|-------------|
 | action | string | The name of the action required. |
 
+Supported cluster actions:
+
+- `change_master`: Promotes a specified node to become the primary node of the cluster, which coordinates cluster-wide operations. Include the `node_uid` of the node you want to promote in the request body.
+
+    ```sh
+    POST /v1/cluster/actions/change_master
+    {
+        "node_uid": "2"
+    }
+    ```
+
 ### Response {#post-response} 
 
 The body content may provide additional action details. Currently, it is not used. 

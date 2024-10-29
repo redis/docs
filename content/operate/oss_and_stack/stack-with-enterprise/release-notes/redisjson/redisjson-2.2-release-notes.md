@@ -32,4 +32,4 @@ Active-Active JSON requires Redis Enterprise Software v6.2.12. Contact your acco
 
 - Enhancements:
 
-  - [#758](https://github.com/RedisJSON/RedisJSON/pull/758) Add support for [`COPY`]({{< relref "/commands" >}}/copy/)
+  - [#758](https://github.com/RedisJSON/RedisJSON/pull/758) Add support for [`COPY`]({{< relref "/commands/copy" >}})

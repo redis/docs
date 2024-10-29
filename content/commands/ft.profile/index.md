@@ -30,6 +30,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(N)
 description: Performs a `FT.SEARCH` or `FT.AGGREGATE` command and collects performance
   information

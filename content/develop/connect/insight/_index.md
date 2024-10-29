@@ -9,11 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Visualize and optimize Redis data
+description: Visualize and optimize Redis data, connect to RDI, and more.
+hideListLinks: true
 linkTitle: Redis Insight
 stack: true
 title: Redis Insight
-weight: 3
+weight: 1
 ---
 
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/QUkjSsk)
@@ -33,9 +34,34 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis or
 
 * Automatically discover and add your local Redis or Redis Stack databases (that use standalone connection type and do not require authentication).
 * Discover your databases in Redis Enterprise Cluster and databases with Flexible plans in Redis Cloud.
-* Use a form to enter your connection details and add any Redis database running anywhere (including OSS Cluster, Sentinel).
+* Use a form to enter your connection details and add any Redis database running anywhere (including Redis Community Edition Cluster or Sentinel).
+* Connect to a Redis Data Integration (RDI) management plane, create, test, and deploy RDI pipelines, and view RDI statistics.
 
 <img src="images/Databases.png">
+
+{{< note >}}
+When you add a Redis database for a particular user using the `username` and `password` fields, that user must be able to run the `INFO` command. See the [access control list (ACL) documentation]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) for more information.
+{{< /note >}}
+
+### Redis Copilot
+
+Redis Copilot is an AI-powered developer assistant that helps you learn about Redis, explore your Redis data, and build search queries in a conversational manner. It is available in Redis Insight as well as within the Redis public documentation.
+
+Currently, Redis Copilot provides two primary features: a general chatbot and a context-aware data chatbot.
+
+**General chatbot**: the knowledge-based chatbot serves as an interactive and dynamic documentation interface to simplify the learning process. You can ask specific questions about Redis commands, concepts, and products, and get responses on the fly. The general chatbot is also available in our public docs.
+
+**My data chatbot**: the context-aware chatbot available in Redis Insight lets you construct search queries using everyday language rather than requiring specific programming syntax. This feature lets you query and explore data easily and interactively without extensive technical knowledge.
+
+Here's an example of using Redis Copilot to search data using a simple, natural language prompt.
+
+<img src="images/copilot-example.png">
+
+See the [Redis Insight Copilot FAQ]({{< relref "/develop/connect/insight/copilot-faq" >}}) for more information.
+
+### RDI in Redis Insight
+
+Redis Insight includes Redis Data Integration (RDI) connectivity, which allows you to connect to an RDI management plane, and create, test, and deploy RDI pipelines. Read more about this feature [here]({{< relref "/develop/connect/insight/rdi-connector" >}}).
 
 ### Browser
 
@@ -132,6 +158,11 @@ These are the locations on supported platforms:
 {{< note >}}
 You can install Redis Insight on operating systems that are not officially supported, but it may not behave as expected.
 {{< /note >}}
+
+## Redis Insight API (only for Docker)
+
+If you are running Redis Insight from [Docker]({{< relref "/operate/redisinsight/install/install-on-docker" >}}),
+you can access the API from `http://localhost:5540/api/docs`.
 
 ## Feedback
 

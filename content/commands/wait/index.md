@@ -36,9 +36,11 @@ syntax_fmt: WAIT numreplicas timeout
 syntax_str: timeout
 title: WAIT
 ---
+
 This command blocks the current client until all the previous write commands
-are successfully transferred and acknowledged by at least the specified number
-of replicas. If the timeout, specified in milliseconds, is reached, the command
+are successfully transferred and acknowledged by at least the number
+of replicas you specify in the `numreplicas` argument. If the value
+you specify for the `timeout` argument (in milliseconds) is reached, the command
 returns even if the specified number of replicas were not yet reached.
 
 The command **will always return** the number of replicas that acknowledged

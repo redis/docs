@@ -12,29 +12,32 @@ categories:
 description: Connect your .NET application to a Redis database
 linkTitle: C#/.NET
 title: C#/.NET guide
-weight: 1
+weight: 2
 ---
 
-Install Redis and the Redis client, then connect your .NET application to a Redis database. 
+[NRedisStack](https://github.com/redis/NRedisStack) is the .NET client for Redis.
+The sections below explain how to install `NRedisStack` and connect your application
+to a Redis database.
 
-## NRedisStack
+`NRedisStack` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
-[NRedisStack](https://github.com/redis/NRedisStack) is a .NET client for Redis.
-`NredisStack` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
+You can also access Redis with an object-mapping client interface. See
+[Redis OM for .NET]({{< relref "/integrate/redisom-for-net" >}})
+for more information.
 
-### Install
+## Install
 
 Using the `dotnet` CLI, run:
 
-```
+```bash
 dotnet add package NRedisStack
 ```
 
-### Connect
+## Connect
 
 Connect to localhost on port 6379.
 
-```
+```csharp
 using NRedisStack;
 using NRedisStack.RedisStackCommands;
 using StackExchange.Redis;
@@ -67,7 +70,7 @@ Console.WriteLine(String.Join("; ", hashFields));
 // name: John; surname: Smith; company: Redis; age: 29
 ```
 
-To access Redis Stack capabilities, you should use appropriate interface like this:
+To access Redis Stack capabilities, use the appropriate interface like this:
 
 ```
 IBloomCommands bf = db.BF();
@@ -81,7 +84,7 @@ IJsonCommands json = db.JSON();
 ITimeSeriesCommands ts = db.TS();
 ```
 
-#### Connect to a Redis cluster
+## Connect to a Redis cluster
 
 To connect to a Redis cluster, you just need to specify one or all cluster endpoints in the client configuration:
 
@@ -103,7 +106,7 @@ db.StringSet("foo", "bar");
 Console.WriteLine(db.StringGet("foo")); // prints bar
 ```
 
-#### Connect to your production Redis with TLS
+## Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
 
@@ -166,7 +169,24 @@ conn.StringSet("foo", "bar");
 Console.WriteLine(conn.StringGet("foo"));   
 ```
 
-### Example: Indexing and querying JSON documents
+## Multiplexing
+
+Although example code typically works with a single connection,
+real-world code often uses multiple connections at the same time.
+Opening and closing connections repeatedly is inefficient, so it is best
+to manage open connections carefully to avoid this.
+
+Several other
+Redis client libraries use *connection pools* to reuse a set of open
+connections efficiently. NRedisStack uses a different approach called
+*multiplexing*, which sends all client commands and responses over a
+single connection. NRedisStack manages multiplexing for you automatically.
+This gives high performance without requiring any extra coding.
+See
+[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
+for more information.
+
+## Example: Indexing and querying JSON documents
 
 This example shows how to convert Redis search results to JSON format using `NRedisStack`.
 
@@ -274,7 +294,7 @@ for (var i=0; i<result.TotalResults; i++)
 // Tel Aviv - 2
 ```
 
-### Learn more
+## Learn more
 
 * [GitHub](https://github.com/redis/NRedisStack)
  

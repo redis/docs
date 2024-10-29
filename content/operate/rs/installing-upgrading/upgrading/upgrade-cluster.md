@@ -17,10 +17,12 @@ The following upgrade paths are supported:
 
 | Current<br/>cluster version | Upgrade to<br/>cluster version |
 |:-----:|:-----:|
-| 7.2.x | 7.4.2 |
-| 6.4.x | 7.4.2<br />7.2.x |
-| 6.2.x | 7.4.2<br />7.2.x<br />6.4.x |
+| 7.2.x | 7.4.x |
+| 6.4.x | 7.4.x<br />7.2.x |
+| 6.2.x | 7.4.x<br />7.2.x<br />6.4.x |
 | 6.0.x | 7.2.x<br />6.4.x<br />6.2.x |
+
+See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
 
 ## Upgrade prerequisites
 
@@ -30,9 +32,11 @@ Before upgrading a cluster:
 
 - Verify that you meet the upgrade path requirements for your desired cluster version and review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
 
+- Avoid changing the database configuration or performing other cluster management operations during the upgrade process, as this might cause unexpected results.
+
 - Upgrade the cluster's primary (master) node first. To identify the primary node, use one of the following methods:
 
-    - **Nodes** screen in the new admin console (only available for Redis Enterprise versions 7.2 and later)
+    - **Nodes** screen in the new Cluster Manager UI (only available for Redis Enterprise versions 7.2 and later)
 
     - [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes" >}}) command
     
@@ -49,7 +53,7 @@ Starting with the primary (master) node, follow these steps for every node in th
     $ rladmin status extra all
     ```
 
-2.  Download the Redis Enterprise Software installation package to the machine running the node from the Download Center on [https://app.redislabs.com](https://app.redislabs.com).  
+2.  Download the Redis Enterprise Software installation package to the machine running the node from the Download Center on [https://cloud.redis.io](https://cloud.redis.io).  
 
 3.  Extract the installation package:
 
@@ -78,9 +82,9 @@ You cannot change the installation path or the user during the upgrade.
     $ rladmin status extra all
     ```
 
-3.  Visit the admin console.
+3.  Visit the Cluster Manager UI.
 
-    If the admin console was open in a web browser during the upgrade, refresh the browser to reload the console.
+    If the Cluster Manager UI was open in a web browser during the upgrade, refresh the browser to reload the console.
 
 After all nodes are upgraded, the cluster is fully upgraded. Certain features introduced in the new version of Redis Enterprise Software only become available after upgrading the entire cluster.
 

@@ -87,7 +87,7 @@ Every instance of an Active-Active database can receive write operations, and al
         {{<image filename="images/rs/screenshots/databases/active-active-databases/create-db-add-participating-clusters.png" alt="Add cluster panel.">}}
 
         {{<note>}}
-You cannot add RAM-only clusters and [flash-enabled clusters]({{< relref "/operate/rs/databases/auto-tiering" >}}) to the same Active-Active configuration.
+If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
         {{</note>}}
 
     1. Click **Join cluster** to add the cluster to the list of participating clusters. 
@@ -191,13 +191,13 @@ You cannot enable or turn off database clustering after the Active-Active databa
 
 - **Unauthenticated access** - You can access the database as the default user without providing credentials.
 
-- **Password-only authentication** - When you configure a password for your database's default user, all connections to the database must authenticate with the [AUTH command]({{< relref "/commands" >}}/auth).
+- **Password-only authentication** - When you configure a password for your database's default user, all connections to the database must authenticate with the [AUTH command]({{< relref "/commands/auth" >}}.
 
     If you also configure an access control list, connections can specify other users for authentication, and requests are allowed according to the Redis ACLs specified for that user.
 
     Creating a database without ACLs enables a *default* user with full access to the database. You can secure default user access by requiring a password.
 
-- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/security/access-control/rbac/create-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/security/access-control/rbac/configure-acl" >}}) that apply to those connections.
+- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}) that apply to those connections.
 
     You can only configure access control after the Active-Active database is created. In each participating cluster, add ACLs after database creation.
 
@@ -205,9 +205,9 @@ You cannot enable or turn off database clustering after the Active-Active databa
 
     1. In **Security > Access Control > Access Control List**, select **+ Add ACL**.
 
-    1. Select a [role]({{< relref "/operate/rs/security/access-control/rbac/create-roles" >}}) to grant database access.
+    1. Select a [role]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) to grant database access.
 
-    1. Associate a [Redis ACL]({{< relref "/operate/rs/security/access-control/rbac/configure-acl" >}}) with the role and database.
+    1. Associate a [Redis ACL]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) with the role and database.
 
     1. Select the check mark to add the ACL.
 

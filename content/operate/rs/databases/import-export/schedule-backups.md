@@ -51,7 +51,7 @@ Storage location access is verified before periodic backups are scheduled.
 
 To schedule periodic backups for a database:
 
-1. Sign in to the Redis Enterprise Software admin console using admin credentials.
+1. Sign in to the Redis Enterprise Software Cluster Manager UI using admin credentials.
 
 1. From the **Databases** list, select the database, then select **Configuration**.
 
@@ -199,7 +199,7 @@ To store backups in an Amazon Web Services (AWS) Simple Storage Service (S3) [bu
 
 1. [Create an access key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) for that user if you do not already have one.
 
-1. In the Redis Enterprise Software admin console, when you enter the backup location details:
+1. In the Redis Enterprise Software Cluster Manager UI, when you enter the backup location details:
 
     - Select the **AWS S3** tab on the **Path configuration** dialog.
 
@@ -208,6 +208,14 @@ To store backups in an Amazon Web Services (AWS) Simple Storage Service (S3) [bu
     - In the **Access Key ID** field, enter the access key ID.
 
     - In the **Secret Access Key** field, enter the secret access key.
+
+You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+
+```sh
+rladmin cluster config s3_url <URL>
+```
+
+Replace `<URL>` with the hostname or IP address of the S3-compatible storage location.
 
 ### Google Cloud Storage
 
@@ -225,7 +233,7 @@ For [Google Cloud](https://developers.google.com/console/) subscriptions, store 
 
     - Select "Storage Legacy Bucket Writer" from the **Role** list.
 
-1. In the Redis Enterprise Software admin console, when you enter the backup location details:
+1. In the Redis Enterprise Software Cluster Manager UI, when you enter the backup location details:
 
     - Select the **Google Cloud Storage** tab on the **Path configuration** dialog.
 
@@ -252,7 +260,7 @@ To export to Microsoft Azure Blob Storage, sign in to the Azure portal and then:
 
 1. [Manage storage account access keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage) to find the storage account name and account keys.
 
-1. In the Redis Enterprise Software admin console, when you enter the backup location details:
+1. In the Redis Enterprise Software Cluster Manager UI, when you enter the backup location details:
 
     - Select the **Azure Blob Storage** tab on the **Path configuration** dialog.
 

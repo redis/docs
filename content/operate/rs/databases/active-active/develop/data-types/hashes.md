@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Information about using hashes with an Active-Active database.
 linkTitle: Hashes
 weight: $weight

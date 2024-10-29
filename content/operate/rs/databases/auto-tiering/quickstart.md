@@ -29,7 +29,7 @@ with a single node are:
 
 To install on bare metal, a virtual machine, or an instance:
 
-1. Download the binaries from the [Redis Enterprise download center](https://app.redislabs.com/#/sign-up/software?direct=true).
+1. Download the binaries from the [Redis Enterprise download center](https://cloud.redis.io/#/sign-up/software?direct=true).
 
 1. Upload the binaries to a Linux-based operating system.
 
@@ -54,9 +54,25 @@ Docker container on Windows, MacOS, and Linux.
 docker run -d --cap-add sys_resource --name rp -p 8443:8443 -p 12000:12000 redislabs/redis:latest
 ```
 
+## Prepare and format flash memory
+
+After you [install Redis Enterprise Software](#install-redis-enterprise-software), use the `prepare_flash` script to prepare and format flash memory:
+
+```sh
+sudo /opt/redislabs/sbin/prepare_flash.sh
+```
+
+This script finds unformatted disks and mounts them as RAID partitions in `/var/opt/redislabs/flash`.
+
+To verify the disk configuration, run:
+
+```sh
+sudo lsblk
+```
+
 ## Set up a cluster and enable Auto Tiering
 
-1. Direct your browser to `https://localhost:8443/new` on the host machine to
+1. Direct your browser to `https://localhost:8443` on the host machine to
 see the Redis Enterprise Software Cluster Manager UI.
 
     {{<note>}}

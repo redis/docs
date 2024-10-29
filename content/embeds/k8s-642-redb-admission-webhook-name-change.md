@@ -2,12 +2,13 @@
 
 1. Delete the existing `ValidatingWebhookConfiguration` on the Kubernetes cluster (named `redb-admission`).
 
-    ```sh
-    kubectl delete ValidatingWebhookConfiguration redb-admission
-    ```
+        ```sh
+        kubectl delete ValidatingWebhookConfiguration redb-admission
+        ```
 
 1. Apply the resource from the new file.
 
-    ```sh
-    kubectl apply -f deploy/admission/webhook.yaml
-    ```
+        ```sh
+        kubectl apply -f deploy/admission/webhook.yaml
+        ```
+        

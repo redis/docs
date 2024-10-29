@@ -39,7 +39,7 @@ You need to:
 
 To enable internode encryption for a database (also called _data internode encryption_), you need to enable the appropriate setting for each database you wish to encrypt.  To do so, you can:
 
-- Use the admin console to enable the **Internode Encryption** setting from the database **Security** screen.
+- Use the Cluster Manager UI to enable the **Internode Encryption** setting from the database **Security** screen.
 
 -  Use the `rladmin` command-line utility to set the [data_internode_encryption]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db" >}}) setting for the database:
 

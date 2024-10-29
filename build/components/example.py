@@ -19,6 +19,7 @@ PREFIXES = {
     'java': '//',
     'go': '//',
     'c#': '//',
+    'redisvl': '#'
 }
 
 class Example(object):
@@ -109,7 +110,7 @@ class Example(object):
                     return
                 step_start = len(content) + 1
                 try:
-                    step_name = l.split(STEP_START)[1].strip()
+                    step_name = l.split(STEP_START)[1].strip().lower()
                 except IndexError:
                     step_name = None
             elif re.search(send, l):

@@ -8,10 +8,10 @@ categories:
 description: Search and query configuration settings supported by Redis Enterprise.
 linkTitle: Configuration
 toc: 'false'
-weight: 30
+weight: 15
 ---
 
-You cannot use [`FT.CONFIG SET`]({{< relref "/commands" >}}/ft.config-set) to configure RediSearch in [Redis Enterprise Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}). Instead, use one of the following methods.
+You cannot use [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) to configure RediSearch in [Redis Enterprise Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}). Instead, use one of the following methods.
 
 For Redis Cloud:
 
@@ -60,6 +60,7 @@ For Redis Enterprise Software, use either:
 | [MAXPREFIXEXPANSIONS]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> | Default: 200 | 
 | [MAXSEARCHRESULTS]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> | Redis Enterprise default: 1000000<br /><br />Redis Cloud defaults:<br />• Flexible & Annual: 1000000<br />• Free & Fixed: 10000<br /> |
 | [MINPREFIX]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> | Default: 2 |
+| [MINSTEMLEN]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> | Default: 2 |
 | [NOGC]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> | Default: Not set |
 | [ON_TIMEOUT]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> | Default: RETURN |
 | [OSS_GLOBAL_PASSWORD]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters" >}}) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Not supported"><nobr>&#x274c; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |  |

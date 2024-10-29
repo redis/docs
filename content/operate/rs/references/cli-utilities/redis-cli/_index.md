@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Run Redis commands.
 hideListLinks: true
 linkTitle: redis-cli (run Redis commands)
@@ -12,17 +13,17 @@ toc: 'true'
 weight: $weight
 ---
 
-The `redis-cli` command-line utility lets you interact with a Redis database. With `redis-cli`, you can run [Redis commands]({{< relref "/commands" >}}/) directly from the command-line terminal or with [interactive mode](#interactive-mode).
+The `redis-cli` command-line utility lets you interact with a Redis database. With `redis-cli`, you can run [Redis commands]({{< relref "/commands" >}}) directly from the command-line terminal or with [interactive mode](#interactive-mode).
 
 If you want to run Redis commands without `redis-cli`, you can [connect to a database with Redis Insight]({{< relref "/develop/connect/insight/" >}}) and use the built-in [CLI]({{< relref "/develop/connect/insight/" >}}) prompt instead.
 
 ## Install `redis-cli`
 
-When you install Redis Enterprise Software or source available Redis, it also installs the `redis-cli` command-line utility.
+When you install Redis Enterprise Software or Redis Community Edition, it also installs the `redis-cli` command-line utility.
 
 To learn how to install Redis and `redis-cli`, see the following installation guides:
 
-- [Source available Redis]({{< relref "/operate/oss_and_stack/install/install-redis/" >}})
+- [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-redis/" >}})
 
 - [Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 
@@ -55,7 +56,7 @@ To connect to a Redis Enterprise Software or Redis Cloud database over TLS:
 
 1. Download or copy the Redis Enterprise server (or proxy) certificates.
 
-    - For Redis Cloud, see [Download certificates]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [admin console](https://app.redislabs.com/).
+    - For Redis Cloud, see [Download certificates]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [Redis Cloud console](https://cloud.redis.io/).
 
     - For Redis Enterprise Software, copy the proxy certificate from the Cluster Manager UI (**Cluster > Security > Certificates > Server authentication**) or from a cluster node (`/etc/opt/redislabs/proxy_cert.pem`).
 
@@ -129,7 +130,7 @@ OK
 
 ### Check slowlog
 
-Run [`slowlog get`]({{< relref "/commands" >}}/slowlog-get/) for a list of recent slow commands:
+Run [`slowlog get`]({{< relref "/commands/slowlog-get" >}}) for a list of recent slow commands:
 
 ```sh
 redis-cli -h <endpoint> -p <port> slowlog get <number of entries>
@@ -148,4 +149,4 @@ See [Scanning for big keys]({{< relref "/develop/connect/cli" >}}#scanning-for-b
 ## More info
 
 - [Redis CLI documentation]({{< relref "/develop/connect/cli" >}})
-- [Redis commands reference]({{< relref "/commands" >}}/)
+- [Redis commands reference]({{< relref "/commands/" >}}

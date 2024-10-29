@@ -9,6 +9,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(1)
 description: Returns a list of all existing indexes
 group: search

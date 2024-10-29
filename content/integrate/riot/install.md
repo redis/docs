@@ -11,32 +11,30 @@ RIOT can be installed in different ways depending on your environment and prefer
 ## macOS via Homebrew
 
 ```
-brew install redis-developer/tap/riot
+brew install redis/tap/riot
 ```
 
 ## Windows via Scoop
 
 ```
-scoop bucket add redis-developer https://github.com/redis-developer/scoop.git
+scoop bucket add redis https://github.com/redis/scoop.git
 scoop install riot
 ```
 
 ## Linux via Homebrew
 
 ```
-brew install redis-developer/tap/riot
+brew install redis/tap/riot
 ```
 
 ## Docker
 
 ```
-docker run fieldengineering/riot [OPTIONS] [COMMAND]
+docker run riotx/riot [OPTIONS] [COMMAND]
 ```
 
 ## Manual installation
 
-Download the pre-compiled binary from the [releases page](https://github.com/redis-developer/riot/releases), uncompress, and copy to the desired location.
+Download the pre-compiled binary from the [releases page](https://github.com/redis/riot/releases), uncompress, and copy to the desired location.
 
-{{< note >}}
-`riot-3.1.5.zip` requires Java 11 or greater to be installed while `riot-standalone-3.1.5-*.zip` includes its own Java runtime and does not require a Java installation.
-{{< /note >}}
+Full documentation is available at [redis.github.io/riot](https://redis.github.io/riot/).

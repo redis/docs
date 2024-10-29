@@ -255,6 +255,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(N)
 description: Searches the index with a textual query, returning either documents or
   just ids
@@ -263,6 +265,10 @@ hidden: false
 history:
 - - 2.0.0
   - Deprecated `WITHPAYLOADS` and `PAYLOAD` arguments
+- - 2.6
+  - Deprecated `GEOFILTER` argument
+- - "2.10"
+  - Deprecated `FILTER` argument
 linkTitle: FT.SEARCH
 module: Search
 since: 1.0.0
@@ -361,12 +367,14 @@ returns the value of the sorting key, right after the id and score and/or payloa
 
 limits results to those having numeric values ranging between `min` and `max`, if numeric_attribute is defined as a numeric attribute in [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/). 
   `min` and `max` follow [`ZRANGE`]({{< relref "/commands/zrange" >}}) syntax, and can be `-inf`, `+inf`, and use `(` for exclusive ranges. Multiple numeric filters for different attributes are supported in one query.
+**Deprecated since v2.10**: [Query dialect 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}) explains the query syntax for numeric fields that replaces this argument.
 </details>
 
 <details open>
 <summary><code>GEOFILTER {geo_attribute} {lon} {lat} {radius} m|km|mi|ft</code></summary>
 
 filter the results to a given `radius` from `lon` and `lat`. Radius is given as a number and units. See [`GEORADIUS`]({{< relref "/commands/georadius" >}}) for more details.
+**Deprecated since v2.6**: [Query dialect 3]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-3" >}}) explains the query syntax for geospatial fields that replaces this argument.
 </details>
 
 <details open>
@@ -422,7 +430,8 @@ requires the terms in the document to have the same order as the terms in the qu
 
 use a stemmer for the supplied language during search for query expansion. If querying documents in Chinese, set to `chinese` to
   properly tokenize the query terms. Defaults to English. If an unsupported language is sent, the command returns an error.
-  See [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) for the list of languages. 
+  See [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) for the list of languages. If `LANGUAGE` was specified as part of index
+  creation, it doesn't need to specified with `FT.SEARCH`.
 </details>
 
 <details open>
@@ -469,6 +478,8 @@ orders the results by the value of this attribute. This applies to both text and
 <summary><code>LIMIT first num</code></summary>
 
 limits the results to the offset and number of results given. Note that the offset is zero-indexed. The default is 0 10, which returns 10 items starting from the first result. You can use `LIMIT 0 0` to count the number of documents in the result set without actually returning them.
+
+**`LIMIT` behavior**:  If you use the `LIMIT` option without sorting, the results returned are non-deterministic, which means that subsequent queries may return duplicated or missing values. Add `SORTBY` with a unique field, or use `FT.AGGREGATE` with the `WITHCURSOR` option to ensure deterministic result set paging.
 </details>
 
 <details open>
@@ -482,13 +493,15 @@ overrides the timeout parameter of the module.
 
 defines one or more value parameters. Each parameter has a name and a value. 
 
-You can reference parameters in the `query` by a `$`, followed by the parameter name, for example, `$user`. Each such reference in the search query to a parameter name is substituted by the corresponding parameter value. For example, with parameter definition `PARAMS 4 lon 29.69465 lat 34.95126`, the expression `@loc:[$lon $lat 10 km]` is evaluated to `@loc:[29.69465 34.95126 10 km]`. You cannot reference parameters in the query string where concrete values are not allowed, such as in field names, for example, `@loc`. To use `PARAMS`, set `DIALECT` to `2` or greater than `2`.
+You can reference parameters in the `query` by a `$`, followed by the parameter name, for example, `$user`. Each such reference in the search query to a parameter name is substituted by the corresponding parameter value. For example, with parameter definition `PARAMS 4 lon 29.69465 lat 34.95126`, the expression `@loc:[$lon $lat 10 km]` is evaluated to `@loc:[29.69465 34.95126 10 km]`. You cannot reference parameters in the query string where concrete values are not allowed, such as in field names, for example, `@loc`. To use `PARAMS`, set
+[`DIALECT`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}})
+to `2` or greater than `2` (this requires [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) or above).
 </details>
 
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary>
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) command.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) command. See [Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}) for more information.
 </details>
 
 ## Return
@@ -768,9 +781,16 @@ To sum up, the `INORDER` argument or `$inorder` query attribute require the quer
 </details>
 
 <details open>
-<summary><b>NEW!!! Polygon Search with WITHIN and CONTAINS operators</b></summary>
+<summary><b>Polygon Search with WITHIN, CONTAINS, INTERSECTS, and DISJOINT operators</b></summary>
 
-Query for polygons which contain a given geoshape or are within a given geoshape
+Query for polygons which:
+
+- contain a given geoshape
+- are within a given geoshape
+- intersect with a given geoshape
+- are disjoint (nothing in common) with a given shape
+
+`INTERSECTS` and `DISJOINT` were introduced in v2.10.
 
 First, create an index using `GEOSHAPE` type with a `FLAT` coordinate system:
 

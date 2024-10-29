@@ -26,13 +26,13 @@ If you already have a database, see [Manage databases]({{< relref "/operate/rc/d
 
 To create a new account with a free database:
 
-1. Go to the [Sign up](https://redis.com/try-free/) page.
+1. Go to the [Sign up](https://redis.io/try-free/) page.
 
 1. There are two options available to get started with Redis Cloud:
    * Enter your information in the form and select **Get Started**.
    * Sign up with **Google** or **Github**.
 
-1. After you enter your information, you should receive an activation email from Redis. Select **Activate account** to go to the **Get Started** page in the [Redis Cloud console](https://app.redislabs.com).
+1. After you enter your information, you should receive an activation email from Redis. Select **Activate account** to go to the **Get Started** page in the [Redis Cloud console](https://cloud.redis.io).
 
     {{<image filename="images/rc/quickstart-get-started.png" width="75%" alt="Dialog to create your free database." >}}
 
@@ -67,7 +67,7 @@ If you would rather customize your database, select **Create a custom database**
 
        Once the database has been created, it becomes _active_ and the status indicator switches to a green circle containing a checkmark.  
 
-    Admin console operations are asynchronous; they operate [in the background]({{< relref "/operate/rc/api/get-started/process-lifecycle.md" >}}).  You can continue to use the admin console for other tasks, but pending resources aren't available until they're active.
+    Redis Cloud console operations are asynchronous; they operate [in the background]({{< relref "/operate/rc/api/get-started/process-lifecycle.md" >}}).  You can continue to use the Redis Cloud console for other tasks, but pending resources aren't available until they're active.
 
     When your new database becomes active, you're ready to connect to it.
 
@@ -126,7 +126,7 @@ See [Clients]({{< relref "/develop/connect/clients/" >}}) to learn how to connec
 
 ### redis-cli {#using-rediscli}
 
-The [`redis-cli`]({{< relref "/develop/connect/cli" >}}) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands]({{< relref "/commands" >}}/).
+The [`redis-cli`]({{< relref "/develop/connect/cli" >}}) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands]({{< relref "/commands" >}}).
 
 To run `redis-cli`, [install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) on your machine.
 

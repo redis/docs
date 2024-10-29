@@ -15,20 +15,43 @@ title: Connect with Redis clients
 weight: 45
 ---
 
-Here, you will learn how to connect your application to a Redis database. If you're new to Redis, you might first want to [install Redis with Redis Stack and Redis Insight]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}).
+Use the Redis client libraries to connect to Redis servers from
+your own code. We support client libraries
+for five main languages:
+- [Python]({{< relref "/develop/connect/clients/python" >}})
+- [C#/.NET]({{< relref "/develop/connect/clients/dotnet" >}})
+- [Node.js]({{< relref "/develop/connect/clients/nodejs" >}})
+- [Java]({{< relref "/develop/connect/clients/java" >}})
+- [Go]({{< relref "/develop/connect/clients/go" >}})
 
-For more Redis topics, see [Using]({{< relref "/develop/use/" >}}) and [Managing]({{< relref "/operate/oss_and_stack/management/" >}}) Redis.
+We also provide several higher-level
+[object mapping (OM)]({{< relref "/develop/connect/clients/om-clients" >}})
+libraries for [Python]({{< relref "/integrate/redisom-for-python" >}}),
+[C#/.NET]({{< relref "/integrate/redisom-for-net" >}}),
+[Node.js]({{< relref "/integrate/redisom-for-node-js" >}}), and
+[Java/Spring]({{< relref "/integrate/redisom-for-java" >}}).
 
-<!--If you're ready to get started, see the following guides for the official client libraries you can use with Redis. For a complete list of community-driven clients, see [Clients](/resources/clients/).-->
+## Community-supported clients
 
+The table below shows the recommended third-party client libraries for languages that
+Redis does not support directly:
 
-## High-level client libraries
+| Language | Client name | Github | Docs |
+| :-- | :-- | :-- | :-- |
+| C | hiredis | https://github.com/redis/hiredis | https://github.com/redis/hiredis |
+| [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
+| [PHP](https://www.php.net/) | Predis library | https://github.com/predis/predis | https://github.com/predis/predis/wiki |
+| [Ruby](https://www.ruby-lang.org/en/) | redis-rb | https://github.com/redis/redis-rb | https://rubydoc.info/gems/redis |
+| [Rust](https://www.rust-lang.org/) | redis-rs | https://github.com/redis-rs/redis-rs | https://docs.rs/redis/latest/redis/ |
+| [C++](https://en.wikipedia.org/wiki/C%2B%2B) | Boost.Redis | https://github.com/boostorg/redis | https://www.boost.org/doc/libs/develop/libs/redis/doc/html/index.html |
 
-The Redis OM client libraries let you use the document modeling, indexing, and querying capabilities of Redis Stack much like the way you'd use an [ORM](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping). The following Redis OM libraries support Redis Stack:
+## Requirements
 
-* [Redis OM .NET]({{< relref "/integrate/redisom-for-net" >}})
-* [Redis OM Node]({{< relref "/integrate/redisom-for-node-js/" >}})
-* [Redis OM Python]({{< relref "/integrate/redisom-for-python/" >}})
-* [Redis OM Spring]({{< relref "/integrate/redisom-for-java/" >}})
+You will need access to a Redis server to use these libraries.
+You can experiment with a local installation of Redis Stack
+(see [Install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})) or with a free trial of [Redis Cloud]({{< relref "/operate/rc" >}}).
+To interact with a Redis server without writing code, use the
+[Redis CLI]({{< relref "/develop/connect/cli" >}}) and
+[Redis Insight]({{< relref "/develop/connect/insight" >}}) tools.
 
-<hr>
+## Client library guides

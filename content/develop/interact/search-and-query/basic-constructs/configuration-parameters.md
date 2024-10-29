@@ -72,6 +72,7 @@ The following table summarizes which configuration parameters can be set at modu
 | [CONCURRENT_WRITE_MODE](#concurrent_write_mode)     | :white_check_mark: | :white_check_mark:   |
 | [EXTLOAD](#extload)                                 | :white_check_mark: | :white_check_mark:   |
 | [MINPREFIX](#minprefix)                             | :white_check_mark: | :white_check_mark:   |
+| [MINSTEMLEN](#minstemlen)                           | :white_check_mark: | :white_check_mark:   |
 | [MAXPREFIXEXPANSIONS](#maxprefixexpansions)         | :white_check_mark: | :white_check_mark:   |
 | [MAXDOCTABLESIZE](#maxdoctablesize)                 | :white_check_mark: | :white_check_mark:   |
 | [MAXSEARCHRESULTS](#maxsearchresults)               | :white_check_mark: | :white_check_mark:   |
@@ -208,6 +209,22 @@ The minimum number of characters allowed for prefix queries (e.g., `hel*`). Sett
 
 ```
 $ redis-server --loadmodule ./redisearch.so MINPREFIX 3
+```
+
+---
+
+### MINSTEMLEN
+
+The minimum word length to stem. The default value is `4`. Setting it lower than `4` can reduce performance.
+
+#### Default
+
+4
+
+#### Example
+
+```
+$ redis-server --loadmodule ./redisearch.so MINSTEMLEN 3
 ```
 
 ---
@@ -502,7 +519,7 @@ $ redis-server --loadmodule ./redisearch.so UPGRADE_INDEX idx PREFIX 1 tt LANGUA
 
 ### OSS_GLOBAL_PASSWORD
 
-Global oss cluster password that will be used to connect to other shards.
+Global Redis Community Edition cluster password that will be used to connect to other shards.
 
 #### Default
 
@@ -525,7 +542,11 @@ $ redis-server --loadmodule ./redisearch.so OSS_GLOBAL_PASSWORD password
 
 ### DEFAULT_DIALECT
 
-The default DIALECT to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain/), [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), and [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck/).
+The default
+[DIALECT]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain/), [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), and [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck/).
+See [Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+for more information.
 
 #### Default
 
@@ -536,13 +557,6 @@ The default DIALECT to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.crea
 ```
 $ redis-server --loadmodule ./redisearch.so DEFAULT_DIALECT 2
 ```
-
-{{% alert title="Notes" color="info" %}}
-
-* Vector search, added in v2.4.3, requires `DIALECT 2` or greater.
-* Returning multiple values from [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) requires `DIALECT 3` or greater.
-
-{{% /alert %}}
 
 ---
 

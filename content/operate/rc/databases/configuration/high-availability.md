@@ -42,11 +42,11 @@ Replication can affect performance as traffic increases to synchronize all copie
 
 ## Dataset size
 
-For both Redis Cloud Essentials and Redis Cloud Pro, replication doubles the dataset size you need for your database. 
+For both Redis Cloud Essentials and Redis Cloud Pro, replication requires a memory limit that is double the dataset size of your database.
 
-For Redis Cloud Essentials, the size of the plan you choose includes replication. Therefore, if you choose replication, the dataset size you can use is half of the stated plan size. For example, if you choose a 1GB plan, Redis allocates 512 MB for the dataset size, and the other 512 MB for replication.
+For Redis Cloud Essentials, the size of the plan you choose includes replication. Therefore, if you choose replication, the dataset size you can use is half of the stated plan size. For example, if you choose a 1 GB plan, Redis allocates 512 MB for the dataset size, and the other 512 MB for replication.
 
-For Redis Cloud Pro, you also need to double the amount of memory needed if you choose replication.
+For Redis Cloud Pro, you select your dataset size when you create your database, and we calculate your memory limit based on the replication settings you choose.
 
 ## Zone setting maintenance
 

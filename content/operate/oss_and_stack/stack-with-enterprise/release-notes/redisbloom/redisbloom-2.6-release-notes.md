@@ -14,10 +14,23 @@ weight: 95
 ---
 ## Requirements
 
-RedisBloom v2.6.12 requires:
+RedisBloom v2.6.13 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.6.13 (July 2024)
+
+This is a maintenance release for RedisBloom 2.6
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+
+  - [#720](https://github.com/RedisBloom/RedisBloom/pull/720) `BF` crashes on high error rate (MOD-6268)
+  - [#773](https://github.com/RedisBloom/RedisBloom/pull/773) `CMS.MERGE`: reply with an error on overflow and underflow (MOD-6962)
 
 ## v2.6.12 (March 2024)
 

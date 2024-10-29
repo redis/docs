@@ -8,7 +8,7 @@ categories:
 description: This article explains how to delete Redis Enterprise clusters and Redis
   Enterprise databases from your Kubernetes environment.
 linkTitle: Delete custom resources
-weight: 90
+weight: 70
 ---
 
 ## Multi-namespace management
