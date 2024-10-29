@@ -61,32 +61,16 @@ The following table describes the included files:
 
 Each node's `/conf/` directory contains the following files:
 
-- api_cert.modulus
-- api_key.modulus
 - bootstrap_status.json
-- ccs_internode_encryption_cert.modulus
-- ccs_internode_encryption_key.modulus
 - ccs-paths.conf
-- cm_cert.modulus
-- cm_key.modulus
 - config.json
-- data_internode_encryption_cert.modulus
-- data_internode_encryption_key.modulus
 - envoy.yaml
-- gossip_ca_signed_cert.modulus
-- gossip_ca_signed_key.modulus
 - gossip_envoy.yaml
 - heartbeatd-config.json
 - last_bootstrap.json
 - local_addr.conf
-- mesh_ca_signed_cert.modulus
-- mesh_ca_signed_key.modulus
-- metrics_exporter_cert.modulus
-- metrics_exporter_key.modulus
 - node.id
 - node_local_config.json
-- proxy_cert.modulus
-- proxy_key.modulus
 - redislabs_env_config.sh
 - socket.conf
 - supervisord_alert_mgr.conf
@@ -95,6 +79,25 @@ Each node's `/conf/` directory contains the following files:
 - supervisord_crdb_worker.conf
 - supervisord_mdns_server.conf
 - supervisord_pdns_server.conf
+
+Each node's `/conf/` directory also contains the following key and cert modulus files:
+
+- api_cert.modulus
+- api_key.modulus
+- ccs_internode_encryption_cert.modulus
+- ccs_internode_encryption_key.modulus
+- cm_cert.modulus
+- cm_key.modulus
+- data_internode_encryption_cert.modulus
+- data_internode_encryption_key.modulus
+- gossip_ca_signed_cert.modulus
+- gossip_ca_signed_key.modulus
+- mesh_ca_signed_cert.modulus
+- mesh_ca_signed_key.modulus
+- metrics_exporter_cert.modulus
+- metrics_exporter_key.modulus
+- proxy_cert.modulus
+- proxy_key.modulus
 - syncer_cert.modulus
 - syncer_key.modulus
 
