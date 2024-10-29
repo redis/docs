@@ -100,6 +100,10 @@ Advanced command line interface with intelligent command auto-complete and compl
 
   <img src="images/Workbench_TimeSeries.png">
 
+Here's an example of auto-completion for the Redis Query Engine:
+
+<img src="images/Workbench_Search.png">
+
 ## Tools
 
 ### Database analysis
