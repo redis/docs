@@ -63,9 +63,9 @@ This version offers:
 
     - Exports raw data instead of aggregated data to improve monitoring at scale and accuracy compared to v1 Prometheus metrics.
 
-    - For a list of metrics exported by the new metrics stream engine, see [Prometheus metrics v2](<!--TODO: Add link-->).
+    - For an initial list of metrics exported by the new metrics stream engine, see [Prometheus metrics v2](<!--TODO: Add link-->). While the metrics stream engine is in preview, this document provides only a partial list. More metrics will be added.
 
-    - V1 Prometheus metrics are deprecated. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL](<!--TODO: Add link-->) or use the [new preconfigured dashboards](<!--TODO: Add link-->) published by Redis.
+    - V1 Prometheus metrics are deprecated. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL](<!--TODO: Add link-->) now, or wait to use new preconfigured dashboards when they become available in a future release.
 
 - [Rebalance shard placement REST API request](<!--TODO: Add REST API ref link-->), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
 
