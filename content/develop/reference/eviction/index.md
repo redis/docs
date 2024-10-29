@@ -15,52 +15,67 @@ title: Key eviction
 weight: 6
 ---
 
-When Redis is used as a cache, it is often convenient to let it automatically
-evict old data as you add new data. This behavior is well known in the
-developer community, since it is the default behavior for the popular
-*memcached* system.
+Redis is commonly used as a cache to speed up read accesses to a slower server
+or database. Since cache entries are copies of persistently-stored data, it
+is usually safe to evict them when the cache runs out of RAM (they can be
+cached again in the future if necessary).
 
-This page covers the more general topic of the Redis `maxmemory` directive used to limit the memory usage to a fixed amount. It also extensively covers the LRU eviction algorithm used by Redis, which is actually an approximation of
-the exact LRU.
+Redis lets you specify an eviction policy to evict keys automatically
+when the size of the cache exceeds a set memory limit. The sections below
+explain how to [configure this limit](#maxmem) and also describe the available
+[eviction policies](#eviction-policies) and when to use them.
 
-## `Maxmemory` configuration directive
+## `Maxmemory` configuration directive {#maxmem}
 
 The `maxmemory` configuration directive configures Redis
 to use a specified amount of memory for the data set. You can
-set the configuration directive using the `redis.conf` file, or later using
-the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command at runtime.
+set `maxmemory` with the `redis.conf` file at startup time, or
+with the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command at runtime.
 
 For example, to configure a memory limit of 100 megabytes, you can use the
 following directive inside the `redis.conf` file:
 
-    maxmemory 100mb
+```
+maxmemory 100mb
+```
 
-Setting `maxmemory` to zero results into no memory limits. This is the
-default behavior for 64 bit systems, while 32 bit systems use an implicit
-memory limit of 3GB.
+Set `maxmemory` to zero to specify that you don't want to limit the memory
+for the dataset. This is the default behavior for 64 bit systems, while 32 bit
+systems use an implicit memory limit of 3GB.
 
-When the specified amount of memory is reached, how **eviction policies** are configured determines the default behavior.
-Redis can return errors for commands that could result in more memory
-being used, or it can evict some old data to return back to the
-specified limit every time new data is added.
+When the size of your cache reaches the limit set by `maxmemory`, Redis will
+enforce your chosen [eviction policy](#eviction-policies) to prevent any
+further growth of the cache.
 
 ## Eviction policies
 
-The exact behavior Redis follows when the `maxmemory` limit is reached is
-configured using the `maxmemory-policy` configuration directive.
+Use the `maxmemory-policy` configuration directive to choose the eviction
+policy to use when the limit set by `maxmemory` is reached.
 
 The following policies are available:
 
-* **noeviction**: New values aren’t saved when memory limit is reached. When a database uses replication, this applies to the primary database
-* **allkeys-lru**: Keeps most recently used keys; removes least recently used (LRU) keys
-* **allkeys-lfu**: Keeps frequently used keys; removes least frequently used (LFU) keys
-* **volatile-lru**: Removes least recently used keys with the `expire` field set to `true`.
-* **volatile-lfu**: Removes least frequently used keys with the `expire` field set to `true`.
-* **allkeys-random**: Randomly removes keys to make space for the new data added.
-* **volatile-random**: Randomly removes keys with `expire` field set to `true`.
-* **volatile-ttl**: Removes keys with `expire` field set to `true` and the shortest remaining time-to-live (TTL) value.
+-   `noeviction`: Keys are not evicted but the server won't execute any commands
+    that add new data to the cache. If your database uses replication then this
+    condition only applies to the primary database.
+-   `allkeys-lru`: Evict the least recently used (LRU) keys.
+-   `allkeys-lfu`: Evict the least frequently used (LFU) keys.
+-   `allkeys-random`: Evict keys at random.
+-   `volatile-lru`: Evict the least recently used keys that have the `expire` field
+    set to `true`.
+-   `volatile-lfu`: Evict the least frequently used keys that have the `expire` field
+    set to `true`.
+-   `volatile-random`: Evict keys at random only if they have the `expire` field set
+    to `true`.
+-   `volatile-ttl`: Evict keys with the `expire` field set to `true` that have the
+    shortest remaining time-to-live (TTL) value.
 
-The policies **volatile-lru**, **volatile-lfu**, **volatile-random**, and **volatile-ttl** behave like **noeviction** if there are no keys to evict matching the prerequisites.
+The `volatile-xxx` policies behave like `noeviction` if no keys have the `expire`
+field set to true, or if no keys have a time-to-live value set in the case of
+`volatile-ttl`.
+
+You should choose an eviction policy that fits the way your app
+accesses keys. You may be able to predict the access pattern in advance
+but you can also 
 
 Picking the right eviction policy is important depending on the access pattern
 of your application, however you can reconfigure the policy at runtime while
@@ -69,11 +84,16 @@ using the Redis [`INFO`]({{< relref "/commands/info" >}}) output to tune your se
 
 In general as a rule of thumb:
 
-* Use the **allkeys-lru** policy when you expect a power-law distribution in the popularity of your requests. That is, you expect a subset of elements will be accessed far more often than the rest. **This is a good pick if you are unsure**.
-
-* Use the **allkeys-random** if you have a cyclic access where all the keys are scanned continuously, or when you expect the distribution to be uniform.
-
-* Use the **volatile-ttl** if you want to be able to provide hints to Redis about what are good candidate for expiration by using different TTL values when you create your cache objects.
+-   Use `allkeys-lru` when you expect that a subset of elements will be accessed far
+    more often than the rest. This is a very common case according to the
+    [Pareto principle](https://en.wikipedia.org/wiki/Pareto_principle), so
+    `allkeys-lru` is a good default option if you have no reason to prefer any others.
+-   Use `allkeys-random` when you expect all keys to be accessed with roughly equal
+    frequency. An examples of this is when your app reads data items in a repeating cycle.
+-   Use `volatile-ttl` 
+if you want to be able to provide hints to Redis about what are
+    good candidate for expiration by using different TTL values when you create your
+    cache objects.
 
 The **volatile-lru** and **volatile-random** policies are mainly useful when you want to use a single instance for both caching and to have a set of persistent keys. However it is usually a better idea to run two Redis instances to solve such a problem.
 
