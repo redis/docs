@@ -49,6 +49,8 @@ For more detailed release notes, select a build version from the following table
 
 - Added validation to verify the LDAP server URI contains a host and port when updating LDAP configuration.
 
+- The value of the `oss_sharding` API field had no effect in previous versions of Redis Software. However, `oss_sharding` is now set to take effect as part of future plans. Until further notice, set this field to `false` to avoid unintended impacts.
+
 ### Breaking changes
 
 Redis Software version 7.8.2 introduces the following breaking changes:
