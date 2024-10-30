@@ -63,7 +63,7 @@ For settings managed by the operator, any changes made outside of the CR YAML fi
 
 ## RedisEnterpriseCluster REC
 
-A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources. Each node is capable of running multiple Redis instances [(shards)]({{<relref "/operate/rs/references/terminology">}}).
+A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources. Each node is capable of running multiple Redis instances ([shards]({{<relref "/operate/rs/references/terminology">}})).
 
 {{< image filename="/images/k8s/k8s-node-arch.png">}}
 
