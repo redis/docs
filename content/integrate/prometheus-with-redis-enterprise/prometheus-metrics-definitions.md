@@ -30,7 +30,7 @@ TBA
 | <span class="break-all">node_available_memory_bytes</span> | Amount of free memory in the node (bytes) that is available for database provisioning |
 | <span class="break-all">node_available_memory_no_overbooking_bytes</span> | Available RAM in the node (bytes) without taking into account overbooking |
 | <span class="break-all">node_bigstore_free_bytes</span> | Sum of free space of back-end flash (used by flash database's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
-| <span class="break-all">x509_cert_expires_in_seconds</span> | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
+| <span class="break-all">node_cert_expires_in_seconds</span> | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
 | <span class="break-all">node_ephemeral_storage_avail_bytes</span> | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
 | <span class="break-all">node_ephemeral_storage_free_bytes</span> | Free disk space on configured ephemeral disk (bytes) |
 | <span class="break-all">node_memory_MemFree_bytes</span> | Free memory in the node (bytes) |
