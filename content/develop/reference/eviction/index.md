@@ -28,7 +28,7 @@ eviction policy until the total memory used is back below the limit.
 
 Note that when a command adds a lot of data to the cache (for example, a big set
 intersection stored into a new key), this might temporarily exceed the limit by
-a long way.
+a large amount.
 
 The sections below explain how to [configure the memory limit](#maxmem) for the cache
 and also describe the available [eviction policies](#eviction-policies) and when to
@@ -61,24 +61,34 @@ When the size of your cache exceeds the limit set by `maxmemory`, Redis will
 enforce your chosen [eviction policy](#eviction-policies) to prevent any
 further growth of the cache.
 
-### Setting `maxmemory` for a replicated instance
+### Setting `maxmemory` for a replicated or persisted instance
 
-If you are using replication for an instance, Redis will use some
-RAM as a buffer to store the set of updates waiting to be written to the replicas.
+If you are using
+[replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}})
+or [persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
+for a server, Redis will use some RAM as a buffer to store the set of updates waiting
+to be written to the replicas or AOF files.
 The memory used by this buffer is not included in the total that
 is compared to `maxmemory` to see if eviction is required.
 
 This is because the key evictions themselves generate updates that must be added
-to the buffer to send to the replicas. If the updates were counted among the used
+to the buffer. If the updates were counted among the used
 memory then in some circumstances, the memory saved by
 evicting keys would be immediately used up by the update data added to the buffer.
 This, in turn, would trigger even more evictions and the resulting feedback loop
 could evict many items from the cache unnecessarily.
 
-If you are using replication, we recommend that you set `maxmemory` to leave a
-little RAM free to store the replication buffers. Note that this is not
+If you are using replication or persistence, we recommend that you set
+`maxmemory` to leave a little RAM free to store the buffers. Note that this is not
 necessary for the `noeviction` policy (see [the section below](#eviction-policies)
 for more information about eviction policies).
+
+The [`INFO`]({{< relref "/commands/info" >}}) command returns a
+`mem_not_counted_for_evict` data item in the `memory` section (you can use
+the `INFO memory` option to see just this section). This is the amount of
+memory currently used by the buffers. Although the exact amount will vary,
+you can use it to estimate how much to subtract from the total available RAM
+before setting `maxmemory`.
 
 ## Eviction policies
 
@@ -90,7 +100,7 @@ The following policies are available:
 -   `noeviction`: Keys are not evicted but the server will return an error
     when you try to execute commands that cache new data. If your database uses replication
     then this condition only applies to the primary database. Note that commands that only
-    read data still work as normal.
+    read existing data still work as normal.
 -   `allkeys-lru`: Evict the [least recently used](#apx-lru) (LRU) keys.
 -   `allkeys-lfu`: Evict the [least frequently used](#lfu-eviction) (LFU) keys.
 -   `allkeys-random`: Evict keys at random.
@@ -108,12 +118,8 @@ field set to true, or for `volatile-ttl`, if no keys have a time-to-live value s
 
 You should choose an eviction policy that fits the way your app
 accesses keys. You may be able to predict the access pattern in advance
-but you can also 
-
-Picking the right eviction policy is important depending on the access pattern
-of your application, however you can reconfigure the policy at runtime while
-the application is running, and monitor the number of cache misses and hits
-using the Redis [`INFO`]({{< relref "/commands/info" >}}) output to tune your setup.
+but you can also use information from the [`INFO`](#using-the-info-command)
+command at runtime to check or improve your choice of policy.
 
 As a rule of thumb:
 
@@ -122,11 +128,11 @@ As a rule of thumb:
     [Pareto principle](https://en.wikipedia.org/wiki/Pareto_principle), so
     `allkeys-lru` is a good default option if you have no reason to prefer any others.
 -   Use `allkeys-random` when you expect all keys to be accessed with roughly equal
-    frequency. An examples of this is when your app reads data items in a repeating cycle.
--   Use `volatile-ttl` if you can estimate which keys are good candidates for eviction
-    from your code and assign short TTLs to them. Note also that if you make good use of
-    key expiration, then you are less likely to run into the cache memory limit in the
-    first place.
+    frequency. An example of this is when your app reads data items in a repeating cycle.
+-   Use `volatile-ttl` if your code can estimate which keys are good candidates for eviction
+    and assign short TTLs to them. Note also that if you make good use of
+    key expiration, then you are less likely to run into the cache memory limit because keys
+    will often expire before they need to be evicted.
 
 The `volatile-lru` and `volatile-random` policies are mainly useful when you want to use
 a single Redis instance for both caching and for a set of persistent keys. However,
@@ -135,6 +141,54 @@ you should consider running two separate Redis instances in a case like this, if
 Also note that setting an `expire` value for a key costs memory, so a
 policy like `allkeys-lru` is more memory efficient since it doesn't need an
 `expire` value to operate.
+
+### Using the `INFO` command
+
+The [`INFO`]({{< relref "/commands/info" >}}) command provides several pieces
+of data that are useful for checking the performance of your cache. In particular,
+the `INFO stats` section includes two important entries, `keyspace_hits` (the number of
+times keys were successfully found in the cache) and `keyspace_misses` (the number
+of times a key was requested but was not in the cache). The calculation below gives
+the percentage of attempted accesses that were satisfied from the cache:
+
+```
+keyspace_hits / (keyspace_hits + keyspace_misses) * 100
+```
+
+Check that this is roughly equal to what you would expect for your app
+(naturally, a higher percentage indicates better cache performance).
+
+{{< note >}} When the [`EXISTS`]({{< relref "/commands/exists" >}})
+command reports that a key is absent then this is counted as a keyspace miss.
+{{< /note >}}
+
+If the percentage of hits is lower than expected, then this might
+mean you are not using the best eviction policy. For example, if
+you believe that a small subset of "hot" data (that will easily fit into the
+cache) should account for about 75% of accesses, you could reasonably
+expect the percentage of keyspace hits to be around 75%. If the actual
+percentage is lower, check the value of `evicted_keys` (also returned by
+`INFO stats`). A high proportion of evictions would suggest that the
+wrong keys are being evicted too often by your chosen policy
+(so `allkeys-lru` might be a good option here). If the
+value of `evicted_keys` is low and you are using key expiration, check
+`expired_keys` to see how many keys have expired. If this number is high,
+you might be using a TTL that is too low or you are choosing the wrong
+keys to expire and this is causing keys to disappear from the cache
+before they should.
+
+Other useful pieces of information returned by `INFO` include:
+
+-   `used_memory_dataset`: (`memory` section) The amount of memory used for
+    cached data. If this is greater than `maxmemory`, then the difference
+    is the amount by which `maxmemory` has been exceeded.
+-   `current_eviction_exceeded_time`: (`stats` section) The time since
+    the cache last started to exceed `maxmemory`.
+-   `commandstats` section: Among other things, this reports the number of
+    times each command issued to the server has been rejected. If you are
+    using `noeviction` or one of the `volatile_xxx` policies, you can use
+    this to find which commands are being stopped by the `maxmemory` limit
+    and how often it is happening.
 
 ## Approximated LRU algorithm {#apx-lru}
 
