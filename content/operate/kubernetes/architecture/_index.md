@@ -43,7 +43,7 @@ When the operator is installed, the following resources are created:
 
 ## Namespace
 
-The Redis Enterprise [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) is deployed within a [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/). Each namespace can host only one operator and one [RedisEnterpriseCluster (REC)](#redisenterprisecluster-rec). Namespaces create a logical boundaries between resources, allowing organization and security. Some resources are limited to a namespace, while others are cluster-wide.
+The Redis Enterprise [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) is deployed within a [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/). Each namespace can host only one operator and one [RedisEnterpriseCluster (REC)](#redisenterprisecluster-rec). Namespaces create logical boundaries between resources, allowing organization and security. Some resources are limited to a namespace, while others are cluster-wide.
 
 Redis Enterprise for Kubernetes also supports [multi-namespace deployments]({{<relref "/operate/kubernetes/architecture/deployment-options">}}), meaning the operator can monitor other namespaces (that host applications) for custom resources and apply any changes.
 
