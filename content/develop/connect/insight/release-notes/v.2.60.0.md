@@ -10,9 +10,9 @@ weight: 1
 This is the General Availability (GA) release of Redis Insight 2.60.
 
 ### Highlights
-- Advanced and schema-aware command auto-complete for [Redis Query Engine](https://redis.io/docs/latest/develop/interact/search-and-query/?utm_source=redisinsight&utm_medium=main&utm_campaign=release_notes) is now available in Workbench, providing faster, more accurate query construction with intelligent suggestions for indexes, schemas, and expressions.
-- Push multiple elements to the head or tail of list data types, whether creating new or updating existing lists. 
-- Multiple UI enhancements for clarity and ease of use in Redis Data Integration (RDI) jobs.
+- Advanced and schema-aware command auto-complete for [Redis Query Engine](https://redis.io/docs/latest/develop/interact/search-and-query/?utm_source=redisinsight&utm_medium=main&utm_campaign=release_notes) is now available in Workbench, enabling faster and more accurate query building with smart suggestions for indexes, schemas, and expressions.
+- Support for adding multiple elements to the head or tail of lists, for both new or existing keys.
+- Multiple UI enhancements for clarity and ease of use when editing Redis Data Integration (RDI) jobs.
 
 ### Details
 
