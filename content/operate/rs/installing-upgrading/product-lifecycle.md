@@ -40,7 +40,8 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 
 | Version - Release date | End of Life (EOL)  |
 | ----------------------------------------- | ------------------ |
-| 7.4 – February 2024				        | - |
+| 7.8 – November 2024				        | - |
+| 7.4 – February 2024				        | November 30, 2026 |
 | 7.2 – August 2023				            | February 28, 2026 |
 | 6.4 – February 2023						| August 31, 2025 |
 | 6.2 – August 2021                         | February 28, 2025  |
