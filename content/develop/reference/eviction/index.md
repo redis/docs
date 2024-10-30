@@ -17,14 +17,14 @@ weight: 6
 
 Redis is commonly used as a cache to speed up read accesses to a slower server
 or database. Since cache entries are copies of persistently-stored data, it
-is usually safe to evict them when the cache runs out of RAM (they can be
+is usually safe to evict them when the cache runs out of memory (they can be
 cached again in the future if necessary).
 
 Redis lets you specify an eviction policy to evict keys automatically
 when the size of the cache exceeds a set memory limit. Whenever a client
 runs a new command that adds more data to the cache, Redis checks the memory usage.
 If it is greater than the limit, Redis evicts keys according to the chosen
-eviction policy until the used memory is back below the limit.
+eviction policy until the total memory used is back below the limit.
 
 Note that when a command adds a lot of data to the cache (for example, a big set
 intersection stored into a new key), this might temporarily exceed the limit by
@@ -34,22 +34,27 @@ The sections below explain how to [configure the memory limit](#maxmem) for the 
 and also describe the available [eviction policies](#eviction-policies) and when to
 use them.
 
-## `Maxmemory` configuration directive {#maxmem}
+## Using the `maxmemory` configuration directive {#maxmem}
 
 The `maxmemory` configuration directive specifies
 the maximum amount of memory to use for the cache data. You can
-set `maxmemory` with the `redis.conf` file at startup time, or
-with the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command at runtime.
-
-For example, to configure a memory limit of 100 megabytes, you can use the
-following directive inside the `redis.conf` file:
+set `maxmemory` with the [`redis.conf`](https://github.com/redis/redis/blob/7.4.0/redis.conf)
+file at startup time. For example, to configure a memory limit of 100 megabytes,
+you can use the following directive inside `redis.conf`:
 
 ```
 maxmemory 100mb
 ```
 
+You can also use [`CONFIG SET`]({{< relref "/commands/config-set" >}}) to
+set `maxmemory` at runtime using [`redis-cli`]({{< relref "/develop/connect/cli" >}}):
+
+```bash
+> CONFIG SET maxmemory 100mb
+```
+
 Set `maxmemory` to zero to specify that you don't want to limit the memory
-for the dataset. This is the default behavior for 64 bit systems, while 32 bit
+for the dataset. This is the default behavior for 64-bit systems, while 32-bit
 systems use an implicit memory limit of 3GB.
 
 When the size of your cache exceeds the limit set by `maxmemory`, Redis will
@@ -59,21 +64,21 @@ further growth of the cache.
 ### Setting `maxmemory` for a replicated instance
 
 If you are using replication for an instance, Redis will use some
-RAM as a buffer to store the set of updates that must be written to the replicas.
-The memory used by this buffer is not included in the used memory total that
+RAM as a buffer to store the set of updates waiting to be written to the replicas.
+The memory used by this buffer is not included in the total that
 is compared to `maxmemory` to see if eviction is required.
 
 This is because the key evictions themselves generate updates that must be added
 to the buffer to send to the replicas. If the updates were counted among the used
 memory then in some circumstances, the memory saved by
-evicting keys would be immediately used up by the new data added to the buffer.
+evicting keys would be immediately used up by the update data added to the buffer.
 This, in turn, would trigger even more evictions and the resulting feedback loop
 could evict many items from the cache unnecessarily.
 
 If you are using replication, we recommend that you set `maxmemory` to leave a
-little RAM free to store the replication buffers unless you are also using the
-`noeviction` policy (see [the section below](#eviction-policies) for more
-information about eviction policies).
+little RAM free to store the replication buffers. Note that this is not
+necessary for the `noeviction` policy (see [the section below](#eviction-policies)
+for more information about eviction policies).
 
 ## Eviction policies
 
@@ -82,9 +87,9 @@ policy you want to use when the limit set by `maxmemory` is reached.
 
 The following policies are available:
 
--   `noeviction`: Keys are not evicted but the server won't execute any commands
-    that add new data to the cache. If your database uses replication then this
-    condition only applies to the primary database. Note that commands that only
+-   `noeviction`: Keys are not evicted but the server will return an error
+    when you try to execute commands that cache new data. If your database uses replication
+    then this condition only applies to the primary database. Note that commands that only
     read data still work as normal.
 -   `allkeys-lru`: Evict the [least recently used](#apx-lru) (LRU) keys.
 -   `allkeys-lfu`: Evict the [least frequently used](#lfu-eviction) (LFU) keys.
@@ -99,8 +104,7 @@ The following policies are available:
     shortest remaining time-to-live (TTL) value.
 
 The `volatile-xxx` policies behave like `noeviction` if no keys have the `expire`
-field set to true, or if no keys have a time-to-live value set in the case of
-`volatile-ttl`.
+field set to true, or for `volatile-ttl`, if no keys have a time-to-live value set.
 
 You should choose an eviction policy that fits the way your app
 accesses keys. You may be able to predict the access pattern in advance
