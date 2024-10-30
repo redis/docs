@@ -84,7 +84,7 @@ necessary for the `noeviction` policy (see [the section below](#eviction-policie
 for more information about eviction policies).
 
 The [`INFO`]({{< relref "/commands/info" >}}) command returns a
-`mem_not_counted_for_evict` data item in the `memory` section (you can use
+`mem_not_counted_for_evict` value in the `memory` section (you can use
 the `INFO memory` option to see just this section). This is the amount of
 memory currently used by the buffers. Although the exact amount will vary,
 you can use it to estimate how much to subtract from the total available RAM
@@ -118,8 +118,9 @@ field set to true, or for `volatile-ttl`, if no keys have a time-to-live value s
 
 You should choose an eviction policy that fits the way your app
 accesses keys. You may be able to predict the access pattern in advance
-but you can also use information from the [`INFO`](#using-the-info-command)
-command at runtime to check or improve your choice of policy.
+but you can also use information from the `INFO` command at runtime to
+check or improve your choice of policy (see
+[Using the `INFO` command](#using-the-info-command) below for more information).
 
 As a rule of thumb:
 
