@@ -95,7 +95,7 @@ The **Overview** summarizes the options use to created the subscription.
 
     Select the **Edit payment method** button to change the credit card associated with this subscription.
 
-    {{< image filename="/images/rc/icon-subscription-detail-change-payment-flexible.png" alt="The edit payment method button, selected and showing two credit cards." >}}
+    {{< image filename="/images/rc/icon-subscription-detail-change-payment-flexible.png" alt="The edit payment method button, selected and showing two credit cards." width=400px >}}
 
     Select **Add credit card** to add a new credit card.
 
