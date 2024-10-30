@@ -75,9 +75,6 @@ The example below shows how to specify the registry and image pull secret in the
 global:
  imagePullSecrets: []
  # - name: "image-pull-secret"
- # or
- # - "image-pull-secret"
-
 
  image:
    registry: docker.io
