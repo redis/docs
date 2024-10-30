@@ -119,17 +119,9 @@ This version offers:
 
 ### Redis database versions
 
-Redis Enterprise Software version 6.x includes two Redis database versions. As of version 7.2, Redis Enterprise Software includes three Redis database versions.
+Redis Software version 7.8.2 includes three Redis database versions: 7.4, 7.2, and 6.2.
 
-The default Redis database version, which is used when you upgrade an existing database or create a new one, differs between Redis Enterprise releases as follows:
-
-| Redis<br />Software | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
-|-------|----------|-----|
-| 7.8.2 | 6.2, 7.2, 7.4 | 7.4 |
-| 7.4.x | 6.0, 6.2, 7.2 | 7.2 |
-| 7.2.4 | 6.0, 6.2, 7.2 | 7.2 |
-| 6.4.2 | 6.0, 6.2 | 6.2 |
-| 6.2.x | 6.0, 6.2 | 6.0 |
+The [default Redis database version]({{<relref "/operate/rs/databases/configure/db-defaults#database-version">}}) is 7.4.
 
 ### Redis module feature sets
 
