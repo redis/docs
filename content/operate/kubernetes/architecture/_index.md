@@ -87,7 +87,7 @@ Redis Enterprise for Kubernetes uses [secrets](https://kubernetes.io/docs/concep
 
 ### REC credentials
 
-Redis Enterprise for Kubernetes the [RedisEnterpriseCluster (REC)]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) to create a Redis Enterprise cluster. During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
+Redis Enterprise for Kubernetes uses the [RedisEnterpriseCluster (REC)]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) to create a Redis Enterprise cluster. During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
 
 See [Manage REC credentials]({{<relref "/operate/kubernetes/security/manage-rec-credentials">}}) for more details.
 
