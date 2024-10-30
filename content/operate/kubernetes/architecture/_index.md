@@ -67,7 +67,7 @@ A Redis Enterprise cluster is a set of Redis Enterprise nodes pooling resources.
 
 {{< image filename="/images/k8s/k8s-node-arch.png">}}
 
-A Redis cluster is created an managed by the [RedisEnterpriseCluster (REC)]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REC configuration file prompt the operator to make changes to the cluster. The REC is required for both standard databases [(REDB)](#redisenterprisedatabase-redb) and Active-Active databases [(REAADB)](#redisenterpriseactiveactivedatabase-reaadb).
+A Redis cluster is created and managed by the [RedisEnterpriseCluster (REC)]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REC configuration file prompt the operator to make changes to the cluster. The REC is required for both standard databases ([REDB](#redisenterprisedatabase-redb)) and Active-Active databases ([REAADB](#redisenterpriseactiveactivedatabase-reaadb)).
 
 See the [RedisEnterpriseCluster API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for a full list of fields and settings.
 
