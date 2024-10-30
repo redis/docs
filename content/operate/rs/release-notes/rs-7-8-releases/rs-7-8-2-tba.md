@@ -41,7 +41,15 @@ This version offers:
 
 ### New features
 
-- Redis Community Edition 7.4 features are now available when you [create]({{<relref "/operate/rs/databases/create">}}) or [upgrade]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) a database with database version 7.4. See the [Redis 7.4 release blog post](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74/) and [Redis Community Edition 7.4 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisce-7.4-release-notes">}}) for details.
+- Redis Community Edition and Redis Stack 7.4 features are now available when you [create]({{<relref "/operate/rs/databases/create">}}) or [upgrade]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) a database with database version 7.4, including:
+
+    - Hash field expiration
+    
+    - New vector data types to reduce ‌memory usage
+    
+    - Time series insertion filters
+
+    - See the [Redis 7.4 release blog post](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74/) and [Redis Community Edition 7.4 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisce-7.4-release-notes.md">}}) for details.
 
 - Client-side caching support:
 
