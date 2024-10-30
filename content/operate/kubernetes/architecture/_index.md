@@ -77,7 +77,7 @@ A Redis Enterprise database is a logical entity that manages your entire dataset
 
 Redis databases are created and managed by the [RedisEnterpriseDatabase (REDB)]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) [custom resource (CR)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REDB YAML configuration file prompt the operator to make changes to the database.
 
-A database can be managed by an operator in the same namespace, or a different namespace. See ["Flexible deployment"]({{<relref "/operate/kubernetes/architecture/deployment-options">}}) options and ["Manage databases in multiple namespaces"]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}) for more information.
+An operator can manage a database in the same namespace, or a different namespace. See ["Flexible deployment"]({{<relref "/operate/kubernetes/architecture/deployment-options">}}) options and ["Manage databases in multiple namespaces"]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}) for more information.
 
 See the [RedisEnterpriseDatabase (REDB) API Reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) for a full list of fields and settings.
 
