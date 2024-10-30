@@ -22,7 +22,7 @@ This is a maintenance release to support [Redis Enterprise Software version 7.4.
 
 ### OpenShift images
 
-- **Redis Enterprise**: `registry.connect.redhat.com/redislabs/redis-enterprise:7.4.102.rhel8-openshift`
+- **Redis Enterprise**: `registry.connect.redhat.com/redislabs/redis-enterprise:7.4.6-102.rhel8-openshift`
 - **Operator**: `registry.connect.redhat.com/redislabs/redis-enterprise-operator:7.4.6-2`
 - **Services Rigger**: `registry.connect.redhat.com/redislabs/services-manager:7.4.6-2`
 
