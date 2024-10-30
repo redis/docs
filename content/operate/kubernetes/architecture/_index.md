@@ -73,7 +73,7 @@ See the [RedisEnterpriseCluster API Reference]({{<relref "/operate/kubernetes/re
 
 ## RedisEnterpriseDatabase REDB
 
-A Redis Enterprise database is a logical entity that manages your entire dataset across multiple Redis instances (shards). A Redis instance is a single-threaded database process [(commonly referred to as a shard)]({{<relref "/operate/rs/references/terminology">}}).
+A Redis Enterprise database is a logical entity that manages your entire dataset across multiple Redis instances. A Redis instance is a single-threaded database process ([commonly referred to as a shard]({{<relref "/operate/rs/references/terminology">}})).
 
 Redis databases are created and managed by the [RedisEnterpriseDatabase (REDB)]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}}) [custom resource (CR)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/). Changes to the REDB YAML configuration file prompt the operator to make changes to the database.
 
