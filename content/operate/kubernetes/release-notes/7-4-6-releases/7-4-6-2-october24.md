@@ -28,4 +28,6 @@ This is a maintenance release to support [Redis Enterprise Software version 7.4.
 
 ### OLM bundle
 
-**Redis Enterprise operator bundle** : `v7.4.6-2.3`
+**Redis Enterprise operator bundle** : `v7.4.6-2.4`
+
+The OLM version v7.4.6-2.4 replaces the earlier v7.4.6-2.3 release for the same Redis software version, providing only upgrade path fixes.
