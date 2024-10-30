@@ -19,8 +19,8 @@ This document provides monitoring guidance for developers running applications
 that connect to Redis Enterprise. In particular, this guide focuses on the systems
 and resources that are most likely to impact the performance of your application.
 
-.Dashboard showing relevant statistics for a Node
-![Image](images/node_summary.png)
+Dashboard showing relevant statistics for a Node
+{{< image filename="/images/node_summary.png" alt="Dashboard showing relevant statistics for a Node" >}}
 
 To effectively monitor a Redis Enterprise cluster you need to observe
 core cluster resources and key database performance indicators.
@@ -40,8 +40,8 @@ Key database performance indicators include:
 * Key eviction rate
 * Proxy Performance
 
-.Dashboard showing an overview of cluster metrics
-![Image](images/cluster_overview.png)
+Dashboard showing an overview of cluster metrics
+{{< image filename="/images/cluster_overview.png" alt="Dashboard showing an overview of cluster metrics" >}}
 
 In addition to manually monitoring these resources and indicators), it is best practice to set up alerts.
 
@@ -54,8 +54,8 @@ in a multi-database cluster.
 
 Memory usage percentage metric - Percentage of used memory relative to the configured memory limit for a given database
 
-.Dashboard displaying high-level cluster metrics - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/cluster_dashboard_v9-11.json[Cluster Dashboard]
-![Image](images/playbook_used-memory.png)
+Dashboard displaying high-level cluster metrics - [Cluster Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/cluster_dashboard_v9-11.json)
+{{< image filename="/images/playbook_used-memory.png" alt="Dashboard displaying high-level cluster metrics" >}}
 
 #### Thresholds
 
@@ -67,7 +67,7 @@ The appropriate memory threshold depends on how the application is using Redis.
 #### Caching workloads
 
 For applications using Redis solely as a cache, you can safely let the memory usage
-reach 100% as long as you have an (https://redis.io/blog/cache-eviction-strategies/)[eviction policy] in place. This will ensure
+reach 100% as long as you have an [eviction policy](https://redis.io/blog/cache-eviction-strategies/)in place. This will ensure
 that Redis can evict keys while continuing to accept new writes.
 
 **NB** Eviction will increase write command latency as Redis has to cleanup the memory/objects before accepting a new write to prevent OOM when memory usage is at 100%
@@ -117,7 +117,7 @@ This can cause thrashing on the application side, a scenario where the cache is 
 
 The upshot here is that when your Redis database is using 100% of available memory, you need
 to measure the rate of
-https://redis.io/docs/latest/operate/rs/references/metrics/database-operations/#evicted-objectssec[key evictions].
+[key evictions](https://redis.io/docs/latest/operate/rs/references/metrics/database-operations/#evicted-objectssec).
 
 An acceptable rate of key evictions depends on the total number of keys in the database
 and the measure of application-level latency. If application latency is high,
@@ -159,9 +159,9 @@ Once your database reaches this 80% threshold, you should closely review the rat
 
 |Issue | Possible causes | Remediation |
 | ------ | ------ | :------ |
-|Redis memory usage has reached 100% |This may indicate an insufficient Redis memory limit for your application's workload | For non-caching workloads (where eviction is unacceptable), immediately increase the memory limit for the database. You can accomplish this through the Redis Enterprise console or its API. Alternatively, you can contact Redis support to assist. For caching workloads, you need to monitor performance closely. Confirm that you have an (https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/)[eviction policy] in place. If your application's performance starts to degrade, you may need to increase the memory limit, as described above. |
-|Redis has stopped accepting writes | Memory is at 100% and no eviction policy is in place | Increase the database's total amount of memory. If this is for a caching workload, consider enabling an (https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/)[eviction policy]. In addition, you may want to determine whether the application can set a reasonable TTL (time-to-live) on some or all of the data being written to Redis. |
-|Cache hit ratio is steadily decreasing | The application's working set size may be steadily increasing. Alternatively, the application may be misconfigured (e.g., generating more than one unique cache key per cached item.) | If the working set size is increasing, consider increasing the memory limit for the database. If the application is misconfigured, review the application's cache key generation logic. |
+|Redis memory usage has reached 100% |This may indicate an insufficient Redis memory limit for your application's workload | For non-caching workloads (where eviction is unacceptable), immediately increase the memory limit for the database. You can accomplish this through the Redis Enterprise console or its API. Alternatively, you can contact Redis support to assist. For caching workloads, you need to monitor performance closely. Confirm that you have an [eviction policy](https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/) in place. If your application's performance starts to degrade, you may need to increase the memory limit, as described above. |
+|Redis has stopped accepting writes | Memory is at 100% and no eviction policy is in place | Increase the database's total amount of memory. If this is for a caching workload, consider enabling an [eviction policy](https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/). In addition, you may want to determine whether the application can set a reasonable TTL (time-to-live) on some or all of the data being written to Redis. |
+|Cache hit ratio is steadily decreasing | The application's working set size may be steadily increasing. Alternatively, the application may be misconfigured (for example, generating more than one unique cache key per cached item.) | If the working set size is increasing, consider increasing the memory limit for the database. If the application is misconfigured, review the application's cache key generation logic. |
 
 
 
@@ -184,8 +184,8 @@ A database is a set of processes, known as shards, deployed across the nodes of 
 In the dashboard, shard CPU is the CPU utilization of the processes that make up the database.
 When diagnosing performance issues, start by looking at shard CPU.
 
-.Dashboard displaying CPU usage - (https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)[Database Dashboard]
-![Image](images/playbook_database-cpu-shard.png)
+Dashboard displaying CPU usage - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
+{{< image filename="/images/playbook_database-cpu-shard.png" alt="Dashboard displaying CPU usage" >}}
 
 #### Thresholds
 
@@ -193,8 +193,8 @@ In general, we define high CPU as any CPU utilization above 80% of total capacit
 
 Shard CPU should remain below 80%. Shards are single-threaded, so a shard CPU of 100% means that the shard is fully utilized.
 
-.Display showing Proxy CPU usage - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/proxy_dashboard_v9-11.json[Proxy Dashboard]
-![Image](images/playbook_proxy-cpu-usage.png)
+Display showing Proxy CPU usage - [Proxy Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/proxy_dashboard_v9-11.json)
+{{< image filename="/images/playbook_proxy-cpu-usage.png" alt="Display showing Proxy CPU usage" >}}
 
 Proxy CPU should remain below 80% of total capacity.
 The proxy is a multi-threaded process that handles client connections and forwards requests to the appropriate shard.
@@ -202,8 +202,8 @@ Because the total number of proxy threads is configurable, the proxy CPU may exc
 A proxy configured with 6 threads can reach 600% CPU utilization, so in this case,
 keeping utilization below 80% means keeping the total proxy CPU usage below 480%.
 
-.Dashboard displaying an ensemble of Node CPU usage data - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/node_dashboard_v9-11.json[Node Dashboard]
-![Image](images/node_cpu.png)
+Dashboard displaying an ensemble of Node CPU usage data - [Node Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/node_dashboard_v9-11.json)
+{{< image filename="/images/node_cpu.png" alt="Dashboard displaying an ensemble of Node CPU usage data" >}}
 
 Node CPU should also remain below 80% of total capacity. As with the proxy, the node CPU is variable depending
 on the CPU capacity of the node. You will need to calibrate your alerting based on the number of cores in your nodes.
@@ -234,7 +234,7 @@ Such behavior is almost always a sign of a misbehaving application.
 Second, review the total number of operations per second against the cluster.
 If you see more than 50k operations per second per thread, you may need to increase the number of proxy threads.
 |In the case of high connection cycling, review the application's connection behavior.
-In the case of high operations per second, https://redis.io/docs/latest/operate/rs/references/cli-utilities/rladmin/tune/#tune-proxy[increase the number of proxy threads].
+In the case of high operations per second, [increase the number of proxy threads](https://redis.io/docs/latest/operate/rs/references/cli-utilities/rladmin/tune/#tune-proxy).
 |High Node CPU
 |You will typically detect high shard or proxy CPU utilization before you detect high node CPU utilization.
 Use the remediation steps above to address high shard and proxy CPU utilization.
@@ -270,13 +270,13 @@ This may require consulting the application logs or the application's connection
 The most common of such a connection leak is a manually implemented
 connection pool or a connection pool that is not properly configured.
 |Review the application's connection configuration
-|Erratic connection counts (e.g, spikes and drops)
-|Application misbehavior (thundering herds, connection cycling, ) or networking issues
+|Erratic connection counts (for example, spikes and drops)
+|Application misbehavior (thundering herds, connection cycling, or networking issues)
 |Review the application logs and network traffic to determine the cause of the erratic connection counts.
 
 
-.Dashboard displaying connections - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json[Database Dashboard]
-![Image](images/playbook_database-used-connections.png)
+Dashboard displaying connections - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json[Database Dashboard]
+{{< image filename="/images/playbook_database-used-connections.png" alt="Dashboard displaying connections" >}}
 
 #### Network ingress / egress
 
@@ -308,8 +308,8 @@ To achieve consistency between participating clusters, Redis Active-Active synch
 The syncer keeps a replication backlog, which stores changes to the dataset that the syncer sends to other participating clusters.
 The syncer uses partial syncs to keep replicas up to date with changes, or a full sync in the event a replica or primary is lost.
 
-.Dashboard displaying connection metrics between zones - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/synchronization_dashboard_v9-11.json[Synchronization Dashboard]
-![Image](images/playbook_network-connectivity.png)
+Dashboard displaying connection metrics between zones - [Synchronization Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/synchronization_dashboard_v9-11.json)
+{{< image filename="/images/playbook_network-connectivity.png" alt="Dashboard displaying connection metrics between zones" >}}
 
 CRDT provides three fundamental benefits over other geo-distributed solutions:
 
@@ -334,8 +334,8 @@ An adequately provisioned Redis database running efficient Redis operations will
 latency in terms is microseconds. Customers regularly achieve, and sometime require, average latencies of 400-600
 microseconds.
 
-.Dashboard display of latency metrics - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json[Database Dashboard]
-![Image](images/playbook_database-cluster-latency.png)
+Dashboard display of latency metrics - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
+{{< image filename="/images/playbook_database-cluster-latency.png" alt="Dashboard display of latency metrics" >}}
 
 The metrics distinguish between read and write latency. Understanding whether high latency is due
 to read or writes can help you to isolate the underlying issue.
@@ -343,8 +343,8 @@ to read or writes can help you to isolate the underlying issue.
 Note that these latency metrics do not include network round trip time or application-level serialization,
 which is why it's essential to measure request latency at the application, as well.
 
-.Display showing a noticeable spike in latency
-![Image](images/latency_spike.png)
+Display showing a noticeable spike in latency
+{{< image filename="/images/latency_spike.png)" alt="Display showing a noticeable spike in latency" >}}
 
 #### Troubleshooting
 
@@ -381,8 +381,8 @@ For [caching workloads](#Caching workloads), the cache hit rate should generally
 the exact ideal cache hit rate can vary greatly depending on the application and depending on whether the cache
 is already populated.
 
-.Dashboard showing the cache hit ratio along with read/write misses - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json[Database Dashboard]
-![Image](images/playbook_cache-hit.png)
+Dashboard showing the cache hit ratio along with read/write misses - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
+{{< image filename="/images/playbook_cache-hit.png)" alt="Dashboard showing the cache hit ratio along with read/write misses" >}}
 
 Note: Redis Enterprise actually reports four different cache hit / miss metrics.
 These are defined as follows:
@@ -407,8 +407,8 @@ for tips on troubleshooting cache hit rate.
 They **key eviction rate** is rate at which objects are being evicted from the database.
 See (https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/)[eviction policy] for a discussion if key eviction and its relationship with memory usage.
 
-.Dashboard displaying object evictions - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json[Database Dashboard]
-![Image](images/playbook_eviction-expiration.png)
+Dashboard displaying object evictions - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
+{{< image filename="/images/playbook_eviction-expiration.png" alt="Dashboard displaying object evictions">}}
 
 ## Proxy Performance
 
@@ -422,8 +422,8 @@ Redis Enterprise Software (RS) provides high-performance data access through a p
 |All Master Shards|There are multiple proxies that are bound to the database, one on each node that hosts a database master shard. This mode fits most use cases that require multiple proxies.
 |All Nodes|There are multiple proxies that are bound to the database, one on each node in the cluster, regardless of whether or not there is a shard from this database on the node. This mode should be used only in special cases, such as using a load balancer.
 
-.Dashboard displaying proxy thread activity - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/cloud/basic/redis-cloud-proxy-dashboard_v9-11.json[Proxy Thread Dashboard]
-![Image](images/proxy-thread-dashboard.png)
+Dashboard displaying proxy thread activity - [Proxy Thread Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/cloud/basic/redis-cloud-proxy-dashboard_v9-11.json)
+{{< image filename="/images/proxy-thread-dashboard.png" alt="Dashboard displaying proxy thread activity" >}}
 
 When needed, we can tune the number of proxy threads using the "rladmin tune proxy" command in order to be able to make the proxy use more CPU cores.
 Nevertheless, cores used by the proxy won't be available for Redis, therefore we need to take into account the number of Redis nodes on the host and the total number of available cores.
@@ -468,39 +468,39 @@ This section defines each of these patterns and describes how to diagnose and mi
 
 Not all Redis operations are equally efficient.
 The most efficient Redis operations are O(1) operations; that is, they have a constant time complexity.
-Example of such operations include https://redis.io/docs/latest/commands/get/[GET],
-https://redis.io/docs/latest/commands/set/[SET], https://redis.io/docs/latest/commands/sadd/[SADD],
-and https://redis.io/docs/latest/commands/hset/[HSET].
+Example of such operations include [GET](https://redis.io/docs/latest/commands/get/),
+[SET](https://redis.io/docs/latest/commands/set/)[SET], [SADD](https://redis.io/docs/latest/commands/sadd/),
+and [HSET](https://redis.io/docs/latest/commands/hset/).
 
 These constant time operations are unlikely to cause high CPU utilization.footnote:[Even so,
 it's still possible for a high rate of constant time operations to overwhelm an underprovisioned database.]
 
 Other Redis operations exhibit greater levels of time complexity.
 O(n) (linear time) operations are more likely to cause high CPU utilization.
-Examples include (https://redis.io/docs/latest/commands/keys/)[HGETALL], (https://redis.io/docs/latest/commands/smembers/)[SMEMBERS],
-and (https://redis.io/docs/latest/commands/lrem/)[LREM].
+Examples include [HGETALL](https://redis.io/docs/latest/commands/keys/), [SMEMBERS](https://redis.io/docs/latest/commands/smembers/),
+and [LREM](https://redis.io/docs/latest/commands/lrem/).
 These operations are not necessarily problematic, but they can be if executed against data structures holding
 a large number of elements (for example, a list with 1 million elements).
 
-That said, the (https://redis.io/docs/latest/commands/keys/)[KEYS] command should almost never be run against a
+That said, the [KEYS](https://redis.io/docs/latest/commands/keys/) command should almost never be run against a
 production system, since returning a list of all keys in a large Redis database can cause significant slowdowns
 and block other operations. If you need to scan the keyspace, especially in a production cluster, always use the
-(https://redis.io/docs/latest/commands/scan)[SCAN] command instead.
+[SCAN](https://redis.io/docs/latest/commands/scan) command instead.
 
 ==== Troubleshooting
 
 The best way to discover slow operations is to view the slow log.
 The slow low is available in the Redis Enterprise and Redis Cloud consoles:
-* (https://redis.io/docs/latest/operate/rs/clusters/logging/redis-slow-log/)[Redis Enterprise slow log docs]
-* (https://redis.io/docs/latest/operate/rc/databases/view-edit-database/#other-actions-and-info)[Redis cloud slow log docs]
+* [Redis Enterprise slow log docs](https://redis.io/docs/latest/operate/rs/clusters/logging/redis-slow-log/)
+* [Redis cloud slow log docs](https://redis.io/docs/latest/operate/rc/databases/view-edit-database/#other-actions-and-info)
 
 .Redis Cloud dashboard showing slow database operations
-![Image](images/slow_log.png)
+{{< image filename="/images/slow_log.png)" >}}
 
 |**Issue**|**Remediation**
 |The KEYS command shows up in the slow log
 |Find the application that issuing the KEYS command and replace it with a SCAN command.
-In an emergency situation, you can https://redis.io/docs/latest/operate/rs/security/access-control/rbac/configure-acl/[alter the ACLs for the database user]
+In an emergency situation, you can [alter the ACLs for the database user](https://redis.io/docs/latest/operate/rs/security/access-control/rbac/configure-acl/)
 so that Redis will reject the KEYS command altogether.
 |The slow log shows a significant number of slow, O(n) operations
 |If these operations are being issued against large data structures,
@@ -512,7 +512,7 @@ or more to complete
 
 ### Hot keys
 
-A **hot key** is a key that is accessed extremely frequently (e.g., thousands of time a second or more).
+A **hot key** is a key that is accessed extremely frequently (for example, thousands of times a second or more).
 
 Each key in Redis belongs to one, and only one, shard.
 For this reason, a hot key can cause high CPU utilization on that one shard,
@@ -530,7 +530,7 @@ To use the Redis CLI to identify hot keys:
 3. Finally, run `+redis-cli --hotkeys+`
 
 You may also identify hot keys by sampling the operations against Redis.
-You can use do this by running the https://redis.io/docs/latest/commands/monitor/[MONITOR] command
+You can use do this by running the [MONITOR](https://redis.io/docs/latest/commands/monitor/) command
 against the high CPU shard. Since this a potentially high-impact operation, you should only
 use this technique as a secondary restort. For mission-critical databases, consider
 contact Redis support for assistance.
@@ -565,14 +565,14 @@ to the application's data model or the way it interacts with Redis.
 ## Alerting
 
 The Redis Enterprise observability package includes
-https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana#alerts[a suite of alerts and their associated tests for use with Prometheus].footnote:[Not all the alerts are appropriate for all environments; for example, installations that do not use persistence have no need for storage alerts.]
+[a suite of alerts and their associated tests for use with Prometheus](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana#alerts). Footnote:[Not all the alerts are appropriate for all environments; for example, installations that do not use persistence have no need for storage alerts.]
 
-The alerts are packaged with https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/tests[a series of test]
+The alerts are packaged with [a series of test](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/tests)
 that validate the individual triggers. You can use these test to validate your modification to these alerts for specific environments and use cases.
 
-To use these alerts, install https://prometheus.io/docs/alerting/latest/configuration/[Prometheus Alertmanager].
+To use these alerts, install [Prometheus Alertmanager](https://prometheus.io/docs/alerting/latest/configuration/).
 For a comprehensive guide to alerting with Prometheus and Grafana,
-see the https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/[Grafana blog post on the subject].
+see the [Grafana blog post on the subject](https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/).
 
 ### Configuring Prometheus
 
@@ -608,7 +608,7 @@ The built-in configuration, `error_rules.yml`, has a single alert: Critical Conn
 If you open the Prometheus console, by default located at port 9090, and select the Alert tab,
 you will see this alert, as well as the alerts in any other file you have included as a rules file.
 
-![Image](images/playbook_prometheus-alerts.png)
+{{< image filename="/images/playbook_prometheus-alerts.png" alt="prometheus alerts image" >}}
 
 The following is a list of alerts contained in the `alerts.yml` file. There are several points consider:
 
@@ -681,16 +681,16 @@ a holistic picture of your deployment.
 There are two additional sets of dashboards for Redis Enterprise software that provide drill-down functionality: the workflow dashboards.
 
 ### Software
-- https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/software/basic[Basic]
-- https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/software/extended[Extended]
-- https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/software/classic[Classic]
+- [Basic](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/software/basic)
+- [Extended](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/software/extended)
+- [Classic](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/software/classic)
 
 ### Workflow
-- https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/workflow/databases[Database]
-- https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/workflow/nodes[Node]
+- [Database](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/workflow/databases)
+- [Node](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/workflow/nodes)
 
 ### Cloud
-- https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/cloud/basic[Basic]
-- https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/cloud/extended[Extended]
+- [Basic](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/cloud/basic)
+- [Extended](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/cloud/extended)
 
 **NB** - The 'workflow' dashboards are intended to be used as a package. Therefore they should all be installed, as they contain links to the other dashboards in the group permitting rapid navigation between the overview and the drill-down views.
