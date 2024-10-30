@@ -45,7 +45,7 @@ Redis Cloud is a fully managed Database as a Service offering and the fastest wa
 
 - [Redis Cloud REST API introduction]({{< relref "/operate/rc/api/" >}})
 - [Redis Cloud REST API examples]({{< relref "/operate/rc/api/examples/" >}})
-- [Redis Cloud REST API reference]((https://api.redislabs.com/v1/swagger-ui.html)
+- [Redis Cloud REST API reference](https://api.redislabs.com/v1/swagger-ui.html)
 
 
 ### Redis Enterprise Software API
