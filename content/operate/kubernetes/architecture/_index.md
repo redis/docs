@@ -83,7 +83,7 @@ See the [RedisEnterpriseDatabase (REDB) API Reference]({{<relref "/operate/kuber
 
 ## Security
 
-Redis Enterprise for Kubernetes uses [secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to manage your cluster credentials, cluster certificates, and client certificates. You can configure [LDAP]({{<relref "/operate/kubernetes/security/ldap">}}) and [internode encryption]({{<relref "/operate/kubernetes/security/internode-encryption">}}) via the [RedisEnterpriseCluster (REC)](#redisenterprisecluster-rec) spec.
+Redis Enterprise for Kubernetes uses [secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to manage your cluster credentials, cluster certificates, and client certificates. You can configure [LDAP]({{<relref "/operate/kubernetes/security/ldap">}}) and [internode encryption]({{<relref "/operate/kubernetes/security/internode-encryption">}}) using the [RedisEnterpriseCluster (REC)](#redisenterprisecluster-rec) spec.
 
 ### REC credentials
 
