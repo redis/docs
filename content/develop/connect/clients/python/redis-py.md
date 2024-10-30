@@ -228,6 +228,43 @@ r.hget("person:2", "name") # Read from the server
 r.hget("person:2", "name") # Read from the cache
 ```
 
+The client will also flush the cache automatically
+if any connection (including one from a connection pool)
+is disconnected.
+
+## Connect with a connection pool
+
+For production usage, you should use a connection pool to manage
+connections rather than opening and closing connections individually.
+A connection pool maintains several open connections and reuses them
+efficiently. When you open a connection from a pool, the pool allocates
+one of its open connections. When you subsequently close the same connection,
+it is not actually closed but simply returned to the pool for reuse.
+This avoids the overhead of repeated connecting and disconnecting.
+See
+[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
+for more information.
+
+Use the following code to connect with a connection pool:
+
+```python
+import redis
+
+pool = redis.ConnectionPool().from_url("redis://localhost")
+r1 = redis.Redis().from_pool(pool)
+r2 = redis.Redis().from_pool(pool)
+r3 = redis.Redis().from_pool(pool)
+
+r1.set("wind:1", "Hurricane")
+r2.set("wind:2", "Tornado")
+r3.set("wind:3", "Mistral")
+
+r1.close()
+r2.close()
+r3.close()
+
+pool.close()
+```
 
 ## Example: Indexing and querying JSON documents
 

@@ -234,6 +234,9 @@ try (RedisClient client = RedisClient.create(redisURI)) {
 
 A typical approach with Lettuce is to create a single `RedisClient` instance and reuse it to establish connections to your Redis server(s).
 These connections are multiplexed; that is, multiple commands can be run concurrently over a single or a small set of connections, making explicit pooling less practical.
+See
+[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
+for more information.
 
 Lettuce provides pool config to be used with Lettuce asynchronous connection methods.
 
@@ -293,9 +296,12 @@ In this setup, `LettuceConnectionFactory` is a custom class you would need to im
 
 ## DNS cache and Redis
 
-When you connect to a Redis database with multiple endpoints, such as Redis Enterprise Active-Active, it's recommended to disable the JVM's DNS cache to load-balance requests across multiple endpoints.
+When you connect to a Redis server with multiple endpoints, such as [Redis Enterprise Active-Active](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/), you *must*
+disable the JVM's DNS cache. If a server node or proxy fails, the IP address for any database
+affected by the failure will change. When this happens, your app will keep
+trying to use the stale IP address if DNS caching is enabled.
 
-You can do this in your application's code with the following snippet:
+Use the following code to disable the DNS cache:
 
 ```java
 java.security.Security.setProperty("networkaddress.cache.ttl","0");

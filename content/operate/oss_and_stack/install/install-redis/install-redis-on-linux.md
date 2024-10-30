@@ -25,7 +25,12 @@ sudo apt-get update
 sudo apt-get install redis
 {{< /highlight  >}}
 
-Redis will start automatically, and it will restart at boot time.
+Redis will start automatically, and it should restart at boot time. If Redis doesn't start across reboots, you may need to manually enable it:
+
+{{< highlight bash >}}
+sudo systemctl enable redis-server
+sudo systemctl start redis-server
+{{< /highlight >}}
 
 ## Install on Red Hat/Rocky
 
@@ -67,13 +72,13 @@ If your Linux distribution does not currently have Snap installed, you can insta
 You can start the Redis server as a background process using the `systemctl` command. This only applies to Ubuntu/Debian when installed using `apt`, and Red Hat/Rocky when installed using `yum`.
 
 {{< highlight bash  >}}
-sudo systemctl start redis
+sudo systemctl start <redis-service-name> # redis or redis-server depending on platform
 {{< / highlight  >}}
 
 To stop the server, use:
 
 {{< highlight bash  >}}
-sudo systemctl stop redis
+sudo systemctl stop <redis-service-name> # redis or redis-server depending on platform
 {{< / highlight  >}}
 
 ## Connect to Redis

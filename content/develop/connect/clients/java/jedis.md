@@ -56,46 +56,36 @@ To include `Jedis` as a dependency in your application, edit the dependency file
 
 ## Connect
 
-For many applications, it's best to use a connection pool. You can instantiate and use a `Jedis` connection pool like so:
+The following code opens a basic connection to a local Redis server:
 
 ```java
 package org.example;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.UnifiedJedis;
 
 public class Main {
     public static void main(String[] args) {
-        JedisPool pool = new JedisPool("localhost", 6379);
+        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
 
-        try (Jedis jedis = pool.getResource()) {
-            // Store & Retrieve a simple string
-            jedis.set("foo", "bar");
-            System.out.println(jedis.get("foo")); // prints bar
-            
-            // Store & Retrieve a HashMap
-            Map<String, String> hash = new HashMap<>();;
-            hash.put("name", "John");
-            hash.put("surname", "Smith");
-            hash.put("company", "Redis");
-            hash.put("age", "29");
-            jedis.hset("user-session:123", hash);
-            System.out.println(jedis.hgetAll("user-session:123"));
-            // Prints: {name=John, surname=Smith, company=Redis, age=29}
-        }
+        // Code that interacts with Redis...
+
+        jedis.close();
     }
 }
 ```
 
-Because adding a `try-with-resources` block for each command can be cumbersome, consider using `JedisPooled` as an easier way to pool connections.
+After you have connected, you can check the connection by storing and
+retrieving a simple string value:
 
 ```java
-import redis.clients.jedis.JedisPooled;
+...
 
-//...
+String res1 = jedis.set("bike:1", "Deimos");
+System.out.println(res1); // OK
 
-JedisPooled jedis = new JedisPooled("localhost", 6379);
-jedis.set("foo", "bar");
-System.out.println(jedis.get("foo")); // prints "bar"
+String res2 = jedis.get("bike:1");
+System.out.println(res2); // Deimos
+
+...
 ```
 
 ### Connect to a Redis cluster
@@ -309,15 +299,65 @@ client.hget("person:2", "name");    // Read from the server
 client.hget("person:2", "name");    // Read from the cache
 ```
 
-## Production usage
+The client will also flush the cache automatically
+if any connection (including one from a connection pool)
+is disconnected.
 
-The following sections explain how to handle situations that may occur
-in your production environment.
+## Connect with a connection pool
 
-### Configuring a connection pool
+For production usage, you should use a connection pool to manage
+connections rather than opening and closing connections individually.
+A connection pool maintains several open connections and reuses them
+efficiently. When you open a connection from a pool, the pool allocates
+one of its open connections. When you subsequently close the same connection,
+it is not actually closed but simply returned to the pool for reuse.
+This avoids the overhead of repeated connecting and disconnecting.
+See
+[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
+for more information.
 
-As mentioned in the previous section, use `JedisPool` or `JedisPooled` to create a connection pool.
-`JedisPooled`, added in Jedis version 4.0.0, provides capabilities similar to `JedisPool` but with a more straightforward API.
+Use the following code to connect with a connection pool:
+
+```java
+package org.example;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
+public class Main {
+    public static void main(String[] args) {
+        JedisPool pool = new JedisPool("localhost", 6379);
+
+        try (Jedis jedis = pool.getResource()) {
+            // Store & Retrieve a simple string
+            jedis.set("foo", "bar");
+            System.out.println(jedis.get("foo")); // prints bar
+            
+            // Store & Retrieve a HashMap
+            Map<String, String> hash = new HashMap<>();;
+            hash.put("name", "John");
+            hash.put("surname", "Smith");
+            hash.put("company", "Redis");
+            hash.put("age", "29");
+            jedis.hset("user-session:123", hash);
+            System.out.println(jedis.hgetAll("user-session:123"));
+            // Prints: {name=John, surname=Smith, company=Redis, age=29}
+        }
+    }
+}
+```
+
+Because adding a `try-with-resources` block for each command can be cumbersome, consider using `JedisPooled` as an easier way to pool connections. `JedisPooled`, added in Jedis version 4.0.0, provides capabilities similar to `JedisPool` but with a more straightforward API.
+
+```java
+import redis.clients.jedis.JedisPooled;
+
+//...
+
+JedisPooled jedis = new JedisPooled("localhost", 6379);
+jedis.set("foo", "bar");
+System.out.println(jedis.get("foo")); // prints "bar"
+```
+
 A connection pool holds a specified number of connections, creates more connections when necessary, and terminates them when they are no longer needed.
 
 Here is a simplified connection lifecycle in a pool:
@@ -362,6 +402,11 @@ poolConfig.setTimeBetweenEvictionRuns(Duration.ofSeconds(1));
 // to prevent connection starvation
 JedisPooled jedis = new JedisPooled(poolConfig, "localhost", 6379);
 ```
+
+## Production usage
+
+The following sections explain how to handle situations that may occur
+in your production environment.
 
 ### Timeouts
 
@@ -423,9 +468,13 @@ All the Jedis exceptions are runtime exceptions and in most cases irrecoverable,
 
 ### DNS cache and Redis
 
-When you connect to a Redis with multiple endpoints, such as [Redis Enterprise Active-Active](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/), it's recommended to disable the JVM's DNS cache to load-balance requests across multiple endpoints.
+When you connect to a Redis server with multiple endpoints, such as [Redis Enterprise Active-Active](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/), you *must*
+disable the JVM's DNS cache. If a server node or proxy fails, the IP address for any database
+affected by the failure will change. When this happens, your app will keep
+trying to use the stale IP address if DNS caching is enabled.
 
-You can do this in your application's code with the following snippet:
+Use the following code to disable the DNS cache:
+
 ```java
 java.security.Security.setProperty("networkaddress.cache.ttl","0");
 java.security.Security.setProperty("networkaddress.cache.negative.ttl", "0");

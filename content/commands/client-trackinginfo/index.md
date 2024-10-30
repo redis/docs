@@ -29,7 +29,7 @@ syntax_fmt: CLIENT TRACKINGINFO
 syntax_str: ''
 title: CLIENT TRACKINGINFO
 ---
-The command returns information about the current client connection's use of the [server assisted client side caching]({{< relref "/develop/use/client-side-caching" >}}) feature.
+The command returns information about the current client connection's use of the [server assisted client side caching]({{< relref "/develop/connect/clients/client-side-caching" >}}) feature.
 
 Here's the list of tracking information sections and their respective values:
 
