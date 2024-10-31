@@ -141,14 +141,14 @@ Result processors form a powerful pipeline in Redis Query Engine. They work in s
 
 | Type            | Definition |
 |:--              |:--         |
-| `Metrics Applier` | The `Metrics Applier` processor calculates or aggregates specific metrics related to the search results. For example, this might include applying a distance or similarity metric to vector search results, or calculating scores based on relevance or other parameters. |
+| `Metrics`&nbsp;`Applier` | The `Metrics Applier` processor calculates or aggregates specific metrics related to the search results. For example, this might include applying a distance or similarity metric to vector search results, or calculating scores based on relevance or other parameters. |
 | `Index`           | The `Index` processor is responsible for the core retrieval of matching documents from the index based on the initial query criteria (e.g., full-text terms, filters, or numeric ranges). | 
 | `Scorer`          | The `Scorer` processor assigns a relevance score to each document based on the query’s specified scoring function. This function could involve factors like term frequency, inverse document frequency, or other weighted metrics. |
 | `Sorter`          | The `Sorter` processor arranges the query results based on a specified sorting criterion. This could be a field value (e.g., sorting by price, date, or another attribute) or by the score assigned during the scoring phase. It operates after documents are fetched and scored, ensuring the results are ordered as required by the query (e.g., ascending or descending order). `Scorer` results will always be present in `FT.SEARCH` profiles. |
 | `Loader`          | The `Loader` processor retrieves the document contents after the results have been sorted and filtered. It ensures that only the fields specified by the query are loaded, which improves efficiency, especially when dealing with large documents where only a few fields are needed. |
 | `Highlighter`     | The `Highlighter` processor is used to highlight matching terms in the search results. This is especially useful for full-text search applications, where relevant terms are often emphasized in the UI. |
 | `Paginator`       | The `Paginator` processor is responsible for handling pagination by limiting the results to a specific range (e.g., LIMIT 0 10).It trims down the set of results to fit the required pagination window, ensuring efficient memory usage when dealing with large result sets. |
-| `Vector Filter`   | For vector searches, the `Vector Filter` processor is sometimes used to pre-process results based on vector similarity thresholds before the main scoring and sorting. |
+| `Vector`&nbsp;`Filter`   | For vector searches, the `Vector Filter` processor is sometimes used to pre-process results based on vector similarity thresholds before the main scoring and sorting. |
 
 ### Coordinator
 
