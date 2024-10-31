@@ -22,6 +22,8 @@ weight: $weight
 
 Performs failover on the primary shards specified by `shard_uids` in the request body, and promotes their replicas to primary shards. This request is asynchronous.
 
+The cluster automatically manages failover to ensure high availability. Use this failover REST API request only for testing and planned maintenance.
+
 #### Required permissions
 
 | Permission name | Roles |
@@ -101,6 +103,8 @@ When errors are reported, the server may return a JSON object with `error_code` 
     POST /v1/shards/{int: uid}/actions/failover
 
 Performs failover on the primary shard with the specified `shard_uid`, and promotes its replica shard to a primary shard. This request is asynchronous.
+
+The cluster automatically manages failover to ensure high availability. Use this failover REST API request only for testing and planned maintenance.
 
 #### Required permissions
 
