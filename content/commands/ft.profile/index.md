@@ -51,9 +51,7 @@ syntax_str: <SEARCH | AGGREGATE> [LIMITED] QUERY query
 title: FT.PROFILE
 ---
 
-Apply [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) or [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) command to collect performance details.
-
-[Examples](#examples)
+Apply [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) or [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) command to collect performance details. For usage, see [Examples](#examples).
 
 ## Required arguments
 
@@ -101,9 +99,9 @@ If there's only one shard, the label will be omitted.
 
 | Returned field name      | Definition |
 |:--                       |:--         |
-| `Total profile time`     | The total run time (ms) of the query. Normally just a few ms. |
-| `Parsing time`           | The time (ms) spent parsing the query and its parameters into a query plan. Normally just a few ms. |
-| `Pipeline creation time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries. |
+| `Total`&nbsp;`profile`&nbsp;`time`     | The total run time (ms) of the query. Normally just a few ms. |
+| `Parsing`&nbsp;`time`           | The time (ms) spent parsing the query and its parameters into a query plan. Normally just a few ms. |
+| `Pipeline`&nbsp;`creation`&nbsp;`time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries. |
 | `Warning`                | Errors that occurred during query execution. |
 
 ### Iterator profiles
