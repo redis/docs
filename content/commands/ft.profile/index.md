@@ -85,8 +85,8 @@ is the query string, sent to `FT.SEARCH` or `FT.AGGREGATE`.
 
 ## Return
 
-`FT.PROFILE` returns a two-element array reply. The first element contains the results of the `FT.SEARCH` or `FT.AGGREGATE` command.
-The second element contains information about query creation, iterator profiles and result processor profiles.
+`FT.PROFILE` returns a two-element array reply. The first element contains the results of the provided `FT.SEARCH` or `FT.AGGREGATE` command.
+The second element contains information about query creation, iterator profiles, and result processor profiles.
 Details of the second element follow in the sections below.
 
 ### Results
@@ -101,14 +101,14 @@ If there's only one shard, the label will be omitted.
 
 | Returned field name      | Definition |
 |:--                       |:--         |
-| `Total profile time`     | The total run time of the query in milliseconds (ms). Normally just a few ms. |
-| `Parsing time`           | The time spent parsing the query and its parameters into a query plan (ms). Normally just a few ms. |
-| `Pipeline creation time` | The creation time of the execution plan, including iterators, result processors, and reducers creation (ms). Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries. |
+| `Total profile time`     | The total run time (ms) of the query. Normally just a few ms. |
+| `Parsing time`           | The time (ms) spent parsing the query and its parameters into a query plan. Normally just a few ms. |
+| `Pipeline creation time` | The creation time (ms) of the execution plan, including iterators, result processors, and reducers creation. Normally just a few ms for `FT.SEARCH` queries, but expect a larger number for `FT.AGGREGATE` queries. |
 | `Warning`                | Errors that occurred during query execution. |
 
 ### Iterator profiles
 
-This section contains index iterator information, including `Type`, `Query Type`, `Term`, `Time` (in ms), `Counter`, `Child iterator`, and `Size` information.
+This section contains index iterator information, including `Type`, `Query Type`, `Term` (when applicable), `Time` (in ms), `Counter`, `Child iterator`, and `Size` information.
 Each iterator represents an executor for each part of the query plan, nested per the execution plan. The operation types mentioned below (`UNION`, etc) should match up with the provided query.
 
 Inverted-index iterators also include the number of elements they contain. Hybrid vector iterators return the top results from the vector index in batches, including the number of batches.
@@ -135,15 +135,20 @@ Counter is the number of times an iterator was interacted with. A very high valu
 
 ### Result processor profiles
 
-This section contains result process information, including `Type`, `Query Type`, `Term`, `Time`, `Counter` information, and. `Time` is the execution time of a result processor. `Counter` is the interaction count of a result processor. Each result processor is a link in the query pipeline.
+This section contains result process information, including `Type`, `Time`, and `Counter` information. `Time` is the execution time of a result processor. `Counter` is the interaction count of a result processor. Each result processor is a link in the query pipeline chain.
+
+Result processors form a powerful pipeline in Redis Query Engine. They work in stages to gather, filter, score, sort, and return results as efficiently as possible based on complex query needs. Each processor reports `Time` information, which represents the total duration (in milliseconds, or ms) spent by the processor to complete its operation, and `Counter` information, which indicates the number of times the processor was invoked during the query.
 
 | Type            | Definition |
 |:--              |:--         |
-| `Index`           | **NEED DEFINITION**. Includes time (ms) and counter.| 
-| `Metrics Applier` | **NEED DEFINITION**. Includes time (ms) and counter.|
-| `Scorer`          | **NEED DEFINITION**. Includes time (ms) and counter. |
-| `Sorter`          | Used only for sorting, but will always be present in `FT.SEARCH` profiles. Includes time (ms) and counter. |
-| `Loader`          | Interactions with the Redis key space. Includes time (ms) and counter. |
+| `Metrics Applier` | The `Metrics Applier` processor calculates or aggregates specific metrics related to the search results. For example, this might include applying a distance or similarity metric to vector search results, or calculating scores based on relevance or other parameters. |
+| `Index`           | The `Index` processor is responsible for the core retrieval of matching documents from the index based on the initial query criteria (e.g., full-text terms, filters, or numeric ranges). | 
+| `Scorer`          | The `Scorer` processor assigns a relevance score to each document based on the query’s specified scoring function. This function could involve factors like term frequency, inverse document frequency, or other weighted metrics. |
+| `Sorter`          | The `Sorter` processor arranges the query results based on a specified sorting criterion. This could be a field value (e.g., sorting by price, date, or another attribute) or by the score assigned during the scoring phase. It operates after documents are fetched and scored, ensuring the results are ordered as required by the query (e.g., ascending or descending order). `Scorer` results will always be present in `FT.SEARCH` profiles. |
+| `Loader`          | The `Loader` processor retrieves the document contents after the results have been sorted and filtered. It ensures that only the fields specified by the query are loaded, which improves efficiency, especially when dealing with large documents where only a few fields are needed. |
+| `Highlighter`     | The `Highlighter` processor is used to highlight matching terms in the search results. This is especially useful for full-text search applications, where relevant terms are often emphasized in the UI. |
+| `Paginator`       | The `Paginator` processor is responsible for handling pagination by limiting the results to a specific range (e.g., LIMIT 0 10).It trims down the set of results to fit the required pagination window, ensuring efficient memory usage when dealing with large result sets. |
+| `Vector Filter`   | For vector searches, the `Vector Filter` processor is sometimes used to pre-process results based on vector similarity thresholds before the main scoring and sorting. |
 
 ### Coordinator
 
