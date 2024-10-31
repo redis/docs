@@ -133,8 +133,6 @@ Counter is the number of times an iterator was interacted with. A very high valu
 
 ### Result processor profiles
 
-This section contains result process information, including `Type`, `Time`, and `Counter` information. `Time` is the execution time of a result processor. `Counter` is the interaction count of a result processor. Each result processor is a link in the query pipeline chain.
-
 Result processors form a powerful pipeline in Redis Query Engine. They work in stages to gather, filter, score, sort, and return results as efficiently as possible based on complex query needs. Each processor reports `Time` information, which represents the total duration (in milliseconds, or ms) spent by the processor to complete its operation, and `Counter` information, which indicates the number of times the processor was invoked during the query.
 
 | Type            | Definition |
