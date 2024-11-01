@@ -9,7 +9,7 @@ categories:
 description: null
 group: di
 linkTitle: Add new fields
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
+summary: Redis Data Integration keeps Redis in sync with a primary database in near
   real time.
 type: integration
 weight: 40
