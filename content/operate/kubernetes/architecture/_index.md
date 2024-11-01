@@ -130,7 +130,9 @@ The [Active-Active databases](#active-active-databases) require one of above rou
 
 ## Services Rigger
 
-The services rigger is responsible for creating and updating services related to database objects. It identifies database objects within the cluster and creates services (by default `cluster_ip` type) to allow access to those databases. By default, the services have the same name as the databases. You can view a list of services with the `kubectl get services` command.
+The services rigger is responsible for creating and updating services related to database objects. It identifies database objects within the cluster and creates services in accordance with [`redisEnterpriseCluster.Spec.servicesRiggerSpec` setting]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api#specservicesriggerspec">}}) to allow access to those databases. By default, each database has two services, a `cluster_ip` Service with the same name as the database and a `headless` Service with the same name as the database suffixed with `-headless`. It also creates other types of Services such as Ingress Services or OpenshiftRoutes (defined in `redisEnterpriseCluster.Spec.ingressOrRouteSpec`) meant to provide access to REAADB objects.
+
+You can view a list of services with the `kubectl get services` command.
 
 Kubernetes is a dynamic environment, with nodes and pods changing as needed. The services rigger monitors the cluster for these changes and updates the database services to ensure reliable communication with the databases.
 
