@@ -15,7 +15,7 @@ weight: 45
 
 ## Introduction
 
-This document provides monitoring guidance for developers running applications
+This document provides observability and monitoring guidance for developers running applications
 that connect to Redis Enterprise. In particular, this guide focuses on the systems
 and resources that are most likely to impact the performance of your application.
 
@@ -169,10 +169,11 @@ Once your database reaches this 80% threshold, you should closely review the rat
 
 Redis Enterprise provides several CPU metrics:
 
-| **Metric name** | **Definition** | **Unit**
-| Shard CPU - CPU time portion spent by database shards as a percentage, up to 100% per shard
-| Proxy CPU - CPU time portion spent by the cluster's proxy(s) as a percentage, 100% per proxy thread
-| Node CPU (User and System) - CPU time portion spent by all user-space and kernel-level processesas a Percentage, 100% per node CPU
+| Metric name | Definition | Unit |
+| ------ | ------ | :------ |
+| Shard CPU | CPU time portion spent by database shards as a percentage | up to 100% per shard |
+| Proxy CPU | CPU time portion spent by the cluster's proxy(s) as a percentage | 100% per proxy thread |
+| Node CPU (User and System) | CPU time portion spent by all user-space and kernel-level processesas a Percentage | 100% per node CPU |
 
 
 To understand CPU metrics, it's worth recalling how a Redis Enterprise cluster is organized.
@@ -214,39 +215,12 @@ High CPU utilization has multiple possible causes. Common causes include an unde
 excess inefficient Redis operations, and hot master shards.
 
 
-|**Issue**|**Possible causes**|**Remediation**
-|High CPU utilization across all shards of a database
-|This usually indicates that the database is under-provisioned in terms of number of shards.
-A secondary cause may be that the application is running too many inefficient Redis operations.
-You can detect slow Redis operations by enabling the slow log in the Redis Enterprise UI.
-|First, rule out inefficient Redis operations as the cause of the high CPU utilization.
-See <<Slow operations](#Latency>> for a broader discussion of this metric.
-* In the context of your application) for details on this.
-If inefficient Redis operations are not the cause, then increase the number of shards in the database.
-|High CPU utilization on a single shard, with the remaining shards having low CPU utilization
-|This usually indicates a master shard with at least one hot key.
-Hot keys are keys that are accessed extremely frequently (e.g., more than 1000 times per second).
-|Hot key issues generally cannot be resolved by increasing the number of shards.
-To resole this issue, see [review the behavior of connections to the database.
-Frequent cycling of connections, especially with TLS is enabled, can cause high proxy CPU utilization.
-This is especially true when you see more than 100 connections per second per thread.
-Such behavior is almost always a sign of a misbehaving application.
-Second, review the total number of operations per second against the cluster.
-If you see more than 50k operations per second per thread, you may need to increase the number of proxy threads.
-|In the case of high connection cycling, review the application's connection behavior.
-In the case of high operations per second, [increase the number of proxy threads](https://redis.io/docs/latest/operate/rs/references/cli-utilities/rladmin/tune/#tune-proxy).
-|High Node CPU
-|You will typically detect high shard or proxy CPU utilization before you detect high node CPU utilization.
-Use the remediation steps above to address high shard and proxy CPU utilization.
-In spite of this, if you see high node CPU utilization, you may need to increase the number of nodes in the cluster.
-|Consider increasing the number of nodes in the cluster and the rebalancing the shards across the new nodes.
-This is a complex operation and should be done with the help of Redis support.
-|High System CPU
-|Most of the issues above will reflect user-space CPU utilization.
-However, if you see high system CPU utilization, this may indicate a problem at the network or storage level.
-|Review network bytes in and network bytes out to rule out any unexpected spikes in network traffic.
-You may need perform some deeper network diagnostics to identify the cause of the high system CPU utilization.
-For example, with high rates of packet loss, you may need to review network configurations or even the network hardware.
+| Issue | Possible causes | Remediation 
+| ------ | ------ | :------ |
+|High CPU utilization across all shards of a database | This usually indicates that the database is under-provisioned in terms of number of shards. A secondary cause may be that the application is running too many inefficient Redis operations. | You can detect slow Redis operations by enabling the slow log in the Redis Enterprise UI. First, rule out inefficient Redis operations as the cause of the high CPU utilization. See <<Slow operations](#Latency>> for a broader discussion of this metric in the context of your application) for details on this. If inefficient Redis operations are not the cause, then increase the number of shards in the database. |
+|High CPU utilization on a single shard, with the remaining shards having low CPU utilization | This usually indicates a master shard with at least one hot key. Hot keys are keys that are accessed extremely frequently (for example, more than 1000 times per second). | Hot key issues generally cannot be resolved by increasing the number of shards. To resolve this issue, see [review the behavior of connections to the database]. Frequent cycling of connections, especially with TLS is enabled, can cause high proxy CPU utilization. This is especially true when you see more than 100 connections per second per thread. Such behavior is almost always a sign of a misbehaving application. | Review the total number of operations per second against the cluster. If you see more than 50k operations per second per thread, you may need to increase the number of proxy threads. In the case of high connection cycling, review the application's connection behavior. In the case of high operations per second, [increase the number of proxy threads](https://redis.io/docs/latest/operate/rs/references/cli-utilities/rladmin/tune/#tune-proxy). |
+|High Node CPU | You will typically detect high shard or proxy CPU utilization before you detect high node CPU utilization. | Use the remediation steps above to address high shard and proxy CPU utilization. In spite of this, if you see high node CPU utilization, you may need to increase the number of nodes in the cluster. Consider increasing the number of nodes in the cluster and the rebalancing the shards across the new nodes. This is a complex operation and should be done with the help of Redis support. |
+|High System CPU | Most of the issues above will reflect user-space CPU utilization. However, if you see high system CPU utilization, this may indicate a problem at the network or storage level. | Review network bytes in and network bytes out to rule out any unexpected spikes in network traffic. You may need perform some deeper network diagnostics to identify the cause of the high system CPU utilization. For example, with high rates of packet loss, you may need to review network configurations or even the network hardware. |
 
 ### Connections
 
@@ -259,20 +233,20 @@ This number should remain relatively constant over time.
 
 #### Troubleshooting
 
-|**Issue**|**Possible causes**|**Remediation**
-|Fewer connections to Redis than expected
-|The application may not be connecting to the correct Redis database.
-There may be a network partition between the application and the Redis database.
+| Issue | Possible causes | Remediation |
+| ------ | ------ | :------ |
+|Fewer connections to Redis than expected |The application may not be connecting to the correct Redis database.
+There may be a network partition between the application and the Redis database. |
 |Confirm that the application can successfully connect to Redis.
-This may require consulting the application logs or the application's connection configuration.
-|Connection count continues to grow over time
+This may require consulting the application logs or the application's connection configuration. |
+|Connection count continues to grow over time |
 |Your application may not be releasing connections.
 The most common of such a connection leak is a manually implemented
-connection pool or a connection pool that is not properly configured.
-|Review the application's connection configuration
-|Erratic connection counts (for example, spikes and drops)
-|Application misbehavior (thundering herds, connection cycling, or networking issues)
-|Review the application logs and network traffic to determine the cause of the erratic connection counts.
+connection pool or a connection pool that is not properly configured. |
+|Review the application's connection configuration |
+|Erratic connection counts (for example, spikes and drops) |
+|Application misbehavior (thundering herds, connection cycling, or networking issues) |
+|Review the application logs and network traffic to determine the cause of the erratic connection counts. |
 
 
 Dashboard displaying connections - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json[Database Dashboard]
@@ -357,19 +331,19 @@ First, a high rate of evictions, or a
 networking issue.
 
 
-|**Issue**|**Possible causes**|**Remediation**
-|Slow database operations
-|Confirm that there are no excessive slow operations in the [Redis slow log](#Slow operations).
-|If possible, reduce the number of slow operations being sent to the database.
-If this not possible, consider increasing the number of shards in the database.
-|Increased traffic to the database
+| Issue | Possible causes | Remediation |
+|Slow database operations |
+|Confirm that there are no excessive slow operations in the [Redis slow log](#Slow operations). |
+|If possible, reduce the number of slow operations being sent to the database. 
+If this not possible, consider increasing the number of shards in the database. |
+|Increased traffic to the database |
 |Review the [network traffic](#Network ingress / egress) and the database operations per second chart
-to determine if increased traffic is causing the latency.
-|If the database is underprovisioned due to increased traffic, consider increasing the number of shards in the database.
-|Insufficient CPU
-|Check to see if the [CPU utilization](#CPU) is increasing.
+to determine if increased traffic is causing the latency. |
+|If the database is underprovisioned due to increased traffic, consider increasing the number of shards in the database. |
+|Insufficient CPU |
+|Check to see if the [CPU utilization](#CPU) is increasing. |
 |Confirm that [slow operations](#Slow operations) are not causing the high CPU utilization.
-If the high CPU utilization is due to increased load, consider adding shards to the database.
+If the high CPU utilization is due to increased load, consider adding shards to the database. |
 
 ### Cache hit rate
 
@@ -417,10 +391,11 @@ Redis Enterprise Software (RS) provides high-performance data access through a p
 ### Proxy Policies
 
 
-|**Policy**|**Description**
-|Single|There is only a single proxy that is bound to the database. This is the default database configuration and preferable in most use cases.
-|All Master Shards|There are multiple proxies that are bound to the database, one on each node that hosts a database master shard. This mode fits most use cases that require multiple proxies.
-|All Nodes|There are multiple proxies that are bound to the database, one on each node in the cluster, regardless of whether or not there is a shard from this database on the node. This mode should be used only in special cases, such as using a load balancer.
+| Policy | Description |
+| ------ | :------ |
+|Single | There is only a single proxy that is bound to the database. This is the default database configuration and preferable in most use cases. |
+|All Master Shards | There are multiple proxies that are bound to the database, one on each node that hosts a database master shard. This mode fits most use cases that require multiple proxies. |
+|All Nodes | There are multiple proxies that are bound to the database, one on each node in the cluster, regardless of whether or not there is a shard from this database on the node. This mode should be used only in special cases, such as using a load balancer. |
 
 Dashboard displaying proxy thread activity - [Proxy Thread Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/cloud/basic/redis-cloud-proxy-dashboard_v9-11.json)
 {{< image filename="/images/proxy-thread-dashboard.png" alt="Dashboard displaying proxy thread activity" >}}
@@ -441,15 +416,16 @@ How to set a new number of proxy cores using the command:
 The following table indicates ideal proxy thread counts for the specified environments.
 
 
-|**Total Cores**|**Redis (ROR)**|**Redis on Flash (ROF)**
-|1|1|1
-|4|3|3
-|8|5|3
-|12|8|4
-|16|10|5
-|32|24|10
-|64/96|32|20
-|128|32|32
+| Total Cores | Redis (ROR) | Redis on Flash (ROF) |
+| ------ | ------ | :------ |
+|1|1|1 |
+|4|3|3 |
+|8|5|3 |
+|12|8|4 |
+|16|10|5 |
+|32|24|10 |
+|64/96|32|20 |
+|128|32|32 |
 
 
 ## Data access anti-patterns
@@ -497,17 +473,18 @@ The slow low is available in the Redis Enterprise and Redis Cloud consoles:
 .Redis Cloud dashboard showing slow database operations
 {{< image filename="/images/slow_log.png)" >}}
 
-|**Issue**|**Remediation**
+| Issue | Remediation |
+| ------ | :------ |
 |The KEYS command shows up in the slow log
 |Find the application that issuing the KEYS command and replace it with a SCAN command.
 In an emergency situation, you can [alter the ACLs for the database user](https://redis.io/docs/latest/operate/rs/security/access-control/rbac/configure-acl/)
-so that Redis will reject the KEYS command altogether.
-|The slow log shows a significant number of slow, O(n) operations
+so that Redis will reject the KEYS command altogether. |
+|The slow log shows a significant number of slow, O(n) operations |
 |If these operations are being issued against large data structures,
-then the application may need to be refactored to use more efficient Redis commands.
-|The slow logs contains only O(1) commands, and these commands are taking several milliseconds
+then the application may need to be refactored to use more efficient Redis commands. |
+|The slow logs contains only O(1) commands, and these commands are taking several milliseconds |
 or more to complete
-|This likely indicates that the database is underprovisioned. Consider increasing the number of shards and/or nodes.
+|This likely indicates that the database is underprovisioned. Consider increasing the number of shards and/or nodes. |
 
 
 ### Hot keys
@@ -617,55 +594,32 @@ The following is a list of alerts contained in the `alerts.yml` file. There are 
 
 ### List of alerts
 
-|**Description**|**Trigger**
-|Average latency has reached a warning level
-|round(bdb_avg_latency * 1000) > 1
-|Average latency has reached a critical level indicating system degradation
-|round(bdb_avg_latency * 1000) > 4
-|Absence of any connection indicates improper configuration or firewall issue
-|bdb_conns < 1
-|A flood of connections has occurred that will impact normal operations
-|bdb_conns > 64000
-|Absence of any requests indicates improperly configured clients
-|bdb_total_req < 1
-|Excessive number of client requests indicates configuration and/or programmatic issues
-|bdb_total_req > 1000000
-|The database in question will soon be unable to accept new data
-|round((bdb_used_memory/bdb_memory_limit) * 100) > 98
-|The database in question will be unable to accept new data in two hours
-|round((bdb_used_memory/bdb_memory_limit) ** 100) < 98 and (predict_linear(bdb_used_memory[15m], 2 ** 3600) / bdb_memory_limit) > 0.3 and round(predict_linear(bdb_used_memory[15m], 2 * 3600)/bdb_memory_limit) > 0.98
-|Database read operations are failing to find entries more than 50% of the time
-|(100 * bdb_read_hits)/(bdb_read_hits + bdb_read_misses) < 50
-|In situations where TTL values are not set this indicates a problem
-|bdb_evicted_objects > 1
-|Replication between nodes is not in a satisfactory state
-|bdb_replicaof_syncer_status > 0
-|Record synchronization between nodes is not in a satisfactory state
-|bdb_crdt_syncer_status > 0
-|The amount by which replication lags behind events is worrisome
-|bdb_replicaof_syncer_local_ingress_lag_time > 500
-|The amount by which object replication lags behind events is worrisome
-|bdb_crdt_syncer_local_ingress_lag_time > 500
-|The expected number of active nodes is less than expected
-|count(node_up) != 3
-|Persistent storage will soon be exhausted
-|round((node_persistent_storage_free/node_persistent_storage_avail) * 100) <= 5
-|Ephemeral storage will soon be exhausted
-|round((node_ephemeral_storage_free/node_ephemeral_storage_avail) * 100) <= 5
-|The node in question is close to running out of memory
-|round((node_available_memory/node_free_memory) * 100) <= 15
-|The node in question has exceeded expected levels of CPU usage
-|round((1 - node_cpu_idle) * 100) >= 80
-|The shard in question is not reachable
-|redis_up == 0
-|The master shard is not reachable
-|floor(redis_master_link_status{role="slave"}) < 1
-|The shard in question has exceeded expected levels of CPU usage
-|redis_process_cpu_usage_percent >= 80
-|The master shard has exceeded expected levels of CPU usage
-|redis_process_cpu_usage_percent{role="master"} > 0.75 and redis_process_cpu_usage_percent{role="master"} > on (bdb) group_left() (avg by (bdb)(redis_process_cpu_usage_percent{role="master"}) + on(bdb) 1.2 * stddev by (bdb) (redis_process_cpu_usage_percent{role="master"}))
-|The shard in question has an unhealthily high level of connections
-|redis_connected_clients > 500
+| Description | Trigger |
+| ------ | :------ |
+|Average latency has reached a warning level | round(bdb_avg_latency * 1000) > 1 |
+|Average latency has reached a critical level indicating system degradation | round(bdb_avg_latency * 1000) > 4 |
+|Absence of any connection indicates improper configuration or firewall issue | bdb_conns < 1 |
+|A flood of connections has occurred that will impact normal operations | bdb_conns > 64000 |
+|Absence of any requests indicates improperly configured clients | bdb_total_req < 1 |
+|Excessive number of client requests indicates configuration and/or programmatic issues | bdb_total_req > 1000000 |
+|The database in question will soon be unable to accept new data | round((bdb_used_memory/bdb_memory_limit) * 100) > 98 |
+|The database in question will be unable to accept new data in two hours | round((bdb_used_memory/bdb_memory_limit) ** 100) < 98 and (predict_linear(bdb_used_memory[15m], 2 ** 3600) / bdb_memory_limit) > 0.3 and round(predict_linear(bdb_used_memory[15m], 2 * 3600)/bdb_memory_limit) > 0.98 |
+|Database read operations are failing to find entries more than 50% of the time | (100 * bdb_read_hits)/(bdb_read_hits + bdb_read_misses) < 50 |
+|In situations where TTL values are not set this indicates a problem | bdb_evicted_objects > 1 |
+|Replication between nodes is not in a satisfactory state | bdb_replicaof_syncer_status > 0 |
+|Record synchronization between nodes is not in a satisfactory state | bdb_crdt_syncer_status > 0 |
+|The amount by which replication lags behind events is worrisome | bdb_replicaof_syncer_local_ingress_lag_time > 500 |
+|The amount by which object replication lags behind events is worrisome | bdb_crdt_syncer_local_ingress_lag_time > 500 |
+|The expected number of active nodes is less than expected | count(node_up) != 3 |
+|Persistent storage will soon be exhausted | round((node_persistent_storage_free/node_persistent_storage_avail) * 100) <= 5 |
+|Ephemeral storage will soon be exhausted | round((node_ephemeral_storage_free/node_ephemeral_storage_avail) * 100) <= 5 |
+|The node in question is close to running out of memory | round((node_available_memory/node_free_memory) * 100) <= 15 |
+|The node in question has exceeded expected levels of CPU usage | round((1 - node_cpu_idle) * 100) >= 80 |
+|The shard in question is not reachable | redis_up == 0 |
+|The master shard is not reachable | floor(redis_master_link_status{role="slave"}) < 1 |
+|The shard in question has exceeded expected levels of CPU usage | redis_process_cpu_usage_percent >= 80 |
+|The master shard has exceeded expected levels of CPU usage | redis_process_cpu_usage_percent{role="master"} > 0.75 and redis_process_cpu_usage_percent{role="master"} > on (bdb) group_left() (avg by (bdb)(redis_process_cpu_usage_percent{role="master"}) + on(bdb) 1.2 * stddev by (bdb) (redis_process_cpu_usage_percent{role="master"})) |
+|The shard in question has an unhealthily high level of connections | redis_connected_clients > 500 |
 
 ## Appendix A: Grafana Dashboards
 
