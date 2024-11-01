@@ -47,7 +47,7 @@ In addition to manually monitoring these resources and indicators), it is best p
 
 ## Core cluster resource monitoring
 
-### Memory
+## Memory
 
 Every Redis Enterprise database has a maximum configured memory limit to ensure isolation
 in a multi-database cluster.
@@ -57,14 +57,14 @@ Memory usage percentage metric - Percentage of used memory relative to the confi
 Dashboard displaying high-level cluster metrics - [Cluster Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/cluster_dashboard_v9-11.json)
 {{< image filename="/images/playbook_used-memory.png" alt="Dashboard displaying high-level cluster metrics" >}}
 
-#### Thresholds
+### Thresholds
 
 The appropriate memory threshold depends on how the application is using Redis.
 
 * Caching workloads, which permit Redis to evict keys, can safely use 100% of available memory.
 * Non-caching workloadsdo not permit key eviction and should be closely monitored as soon as memory usage reaches 80%.
 
-#### Caching workloads
+### Caching workloads
 
 For applications using Redis solely as a cache, you can safely let the memory usage
 reach 100% as long as you have an [eviction policy](https://redis.io/blog/cache-eviction-strategies/)in place. This will ensure
@@ -79,7 +79,7 @@ it's still important to monitor performance. The key performance indicators incl
 * Cache hit ratio
 * Evicted keys
 
-#### Read latency
+### Read latency
 
 **Latency** has two important definitions, depending on context:
 
@@ -93,7 +93,7 @@ This may indicate a low cache hit ratio, ultimately caused by insufficient memor
 You need to monitor both application-level and Redis-level latency to diagnose
 caching performance issues in production.
 
-#### Cache hit ratio and eviction
+### Cache hit ratio and eviction
 
 **Cache hit ratio** is the percentage of read requests that Redis serves successfully.
 **Eviction rate** is the rate at which Redis evicts keys from the cache. These metrics
@@ -123,7 +123,7 @@ An acceptable rate of key evictions depends on the total number of keys in the d
 and the measure of application-level latency. If application latency is high,
 check to see that key evictions have not increased.
 
-#### Eviction Policies
+### Eviction Policies
 
 | Name | Description |
 | ------ | :------ |
@@ -137,7 +137,7 @@ check to see that key evictions have not increased.
 |volatile-ttl | Removes keys with expire field set to true and the shortest remaining time-to-live (TTL) value. |
 
 
-#### Eviction policy guidelines
+### Eviction policy guidelines
 
 * Use the allkeys-lru policy when you expect a power-law distribution in the popularity of your requests. That is, you expect a subset of elements will be accessed far more often than the rest. This is a good pick if you are unsure.
 
@@ -149,13 +149,13 @@ The volatile-lru and volatile-random policies are mainly useful when you want to
 
 **NB** Setting an expire value to a key costs memory, so using a policy like allkeys-lru is more memory efficient since there is no need for an expire configuration for the key to be evicted under memory pressure.
 
-#### Non-caching workloads
+### Non-caching workloads
 
 If no eviction policy is enabled, then Redis will stop accepting writes once memory reaches 100%.
 Therefore, for non-caching workloads, we recommend that you configure an alert at 80% memory usage.
 Once your database reaches this 80% threshold, you should closely review the rate of memory usage growth.
 
-#### Troubleshooting
+### Troubleshooting
 
 |Issue | Possible causes | Remediation |
 | ------ | ------ | :------ |
@@ -165,7 +165,7 @@ Once your database reaches this 80% threshold, you should closely review the rat
 
 
 
-### CPU
+## CPU
 
 Redis Enterprise provides several CPU metrics:
 
@@ -188,7 +188,7 @@ When diagnosing performance issues, start by looking at shard CPU.
 Dashboard displaying CPU usage - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
 {{< image filename="/images/playbook_database-cpu-shard.png" alt="Dashboard displaying CPU usage" >}}
 
-#### Thresholds
+### Thresholds
 
 In general, we define high CPU as any CPU utilization above 80% of total capacity.
 
@@ -209,7 +209,7 @@ Dashboard displaying an ensemble of Node CPU usage data - [Node Dashboard](https
 Node CPU should also remain below 80% of total capacity. As with the proxy, the node CPU is variable depending
 on the CPU capacity of the node. You will need to calibrate your alerting based on the number of cores in your nodes.
 
-#### Troubleshooting
+### Troubleshooting
 
 High CPU utilization has multiple possible causes. Common causes include an under-provisioned cluster,
 excess inefficient Redis operations, and hot master shards.
@@ -222,7 +222,7 @@ excess inefficient Redis operations, and hot master shards.
 |High Node CPU | You will typically detect high shard or proxy CPU utilization before you detect high node CPU utilization. | Use the remediation steps above to address high shard and proxy CPU utilization. In spite of this, if you see high node CPU utilization, you may need to increase the number of nodes in the cluster. Consider increasing the number of nodes in the cluster and the rebalancing the shards across the new nodes. This is a complex operation and should be done with the help of Redis support. |
 |High System CPU | Most of the issues above will reflect user-space CPU utilization. However, if you see high system CPU utilization, this may indicate a problem at the network or storage level. | Review network bytes in and network bytes out to rule out any unexpected spikes in network traffic. You may need perform some deeper network diagnostics to identify the cause of the high system CPU utilization. For example, with high rates of packet loss, you may need to review network configurations or even the network hardware. |
 
-### Connections
+## Connections
 
 The Redis Enterprise database dashboard indicates to the total number of connections to the database.
 
@@ -231,7 +231,7 @@ Based on the number of application instances connecting to Redis (and whether yo
 you should have a rough idea of the minimum and maximum number of connections you expect to see for any given database.
 This number should remain relatively constant over time.
 
-#### Troubleshooting
+### Troubleshooting
 
 | Issue | Possible causes | Remediation |
 | ------ | ------ | :------ |
@@ -252,14 +252,14 @@ connection pool or a connection pool that is not properly configured. |
 Dashboard displaying connections - https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json[Database Dashboard]
 {{< image filename="/images/playbook_database-used-connections.png" alt="Dashboard displaying connections" >}}
 
-#### Network ingress / egress
+### Network ingress / egress
 
 The network ingress / egress panel show the amount of data being sent to and received from the database.
 Large spikes in network traffic can indicate that the cluster is under-provisioned or that
 the application is reading and/or writing unusually large keys. A correlation between high network traffic
 and high CPU utilization may indicate a large key scenario.
 
-##### Unbalanced database endpoint
+#### Unbalanced database endpoint
 
 One possible cause is that the database endpoint is not located on the same node as master shards. In addition to added network latency, if data plane internode encryption is enabled, CPU consumption can increase as well.
 
@@ -268,7 +268,7 @@ One solution is to used the optimal shard placement and proxy policy to ensure e
 Extreme network traffic utilization may approach the limits of the underlying network infrastructure.
 In this case, the only remediation is to add additional nodes to the cluster and scale the database's shards across them.
 
-### Synchronization
+## Synchronization
 
 In Redis Enterprise, geographically-distributed synchronization is based on CRDT technology.
 The Redis Enterprise implementation of CRDT is called an Active-Active database (formerly known as CRDB).
@@ -320,7 +320,7 @@ which is why it's essential to measure request latency at the application, as we
 Display showing a noticeable spike in latency
 {{< image filename="/images/latency_spike.png)" alt="Display showing a noticeable spike in latency" >}}
 
-#### Troubleshooting
+### Troubleshooting
 
 Here are some possible causes of high database latency. Note that high database latency is just one possible
 cause of high application latency. Application latency can be caused by a variety of factors, including
@@ -345,7 +345,7 @@ to determine if increased traffic is causing the latency. |
 |Confirm that [slow operations](#Slow operations) are not causing the high CPU utilization.
 If the high CPU utilization is due to increased load, consider adding shards to the database. |
 
-### Cache hit rate
+## Cache hit rate
 
 **Cache hit rate** is the percentage of all read operations that return a response.footnote:[Cache hit rate is a composite statistic that is computed by dividing the number of read hits by the total number of read operations.]
 When an application tries to read a key that exists, this is known as a **cache hit**.
@@ -366,7 +366,7 @@ bdb_read_misses - The number of read operations returning null
 bdb_write_hits - The number of write operations against existing keys
 bdb_write_misses - The number of write operations that create new keys
 
-#### Troubleshooting
+### Troubleshooting
 
 Cache hit rate is usually only relevant for caching workloads. Eeviction will begin after the database approaches its max memory capacity.
 
@@ -376,7 +376,7 @@ if the rate of necessary key evictions exceeds the rate of new key insertions.
 See Cache hit ratio and eviction 
 for tips on troubleshooting cache hit rate.
 
-### Key eviction rate
+## Key eviction rate
 
 They **key eviction rate** is rate at which objects are being evicted from the database.
 See (https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/)[eviction policy] for a discussion if key eviction and its relationship with memory usage.
@@ -438,7 +438,7 @@ There are three data access patterns that can limit the performance of your Redi
 
 This section defines each of these patterns and describes how to diagnose and mitigate them.
 
-### Slow operations
+## Slow operations
 
 **Slow operations** are operations that take longer than a few milliseconds to complete.
 
@@ -487,7 +487,7 @@ or more to complete
 |This likely indicates that the database is underprovisioned. Consider increasing the number of shards and/or nodes. |
 
 
-### Hot keys
+## Hot keys
 
 A **hot key** is a key that is accessed extremely frequently (for example, thousands of times a second or more).
 
@@ -495,7 +495,7 @@ Each key in Redis belongs to one, and only one, shard.
 For this reason, a hot key can cause high CPU utilization on that one shard,
 which can increase latency for all other operations.
 
-#### Troubleshooting
+### Troubleshooting
 
 You may suspect that you have a hot key if you see high CPU utilization on a single shard.
 There are two main way to identify hot keys: using the Redis CLI and sampling the operations against Redis.
@@ -512,7 +512,7 @@ against the high CPU shard. Since this a potentially high-impact operation, you 
 use this technique as a secondary restort. For mission-critical databases, consider
 contact Redis support for assistance.
 
-#### Remediation
+### Remediation
 
 Once you discover a hot key, you need to find a way to reduce the number of operations against it.
 This means getting an understanding of the application's access pattern and the reasons for such frequently access.
@@ -521,19 +521,19 @@ If the hot key operations are read-only, then consider implementing an applicati
 that fewer read request are sent to Redis. For example, even a local cache that expires every 5 seconds
 can entirely eliminate a hot key issue.
 
-### Large keys
+## Large keys
 
 **Large keys** are keys that are hundreds of kilobytes or larger.
 High network traffic and high CPU utilization can be caused by large keys.
 
-#### Troubleshooting
+### Troubleshooting
 
 To identify large keys, you can sample the keyspace using the Redis CLI.
 
 Run `+redis-cli --memkeys+` against your database to sample the keyspace in real time
 and potentially identify the largest keys in your database.
 
-#### Remediation
+### Remediation
 
 Addressing a large key issues requires understanding why the application is creating large keys in the first place.
 As such, it's difficult to provide general advice to solving this issue. Resolution often requires a change
@@ -551,7 +551,7 @@ To use these alerts, install [Prometheus Alertmanager](https://prometheus.io/doc
 For a comprehensive guide to alerting with Prometheus and Grafana,
 see the [Grafana blog post on the subject](https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/).
 
-### Configuring Prometheus
+## Configuring Prometheus
 
 To configure Prometheus for alerting, open the `prometheus.yml` configuration file.
 
@@ -592,7 +592,7 @@ The following is a list of alerts contained in the `alerts.yml` file. There are 
 - Not all Redis Enterprise deployments export all metrics
 - Most metrics only alert if the specified trigger persists for a given duration
 
-### List of alerts
+## List of alerts
 
 | Description | Trigger |
 | ------ | :------ |
@@ -634,16 +634,16 @@ a holistic picture of your deployment.
 
 There are two additional sets of dashboards for Redis Enterprise software that provide drill-down functionality: the workflow dashboards.
 
-### Software
+## Software
 - [Basic](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/software/basic)
 - [Extended](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/software/extended)
 - [Classic](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/software/classic)
 
-### Workflow
+## Workflow
 - [Database](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/workflow/databases)
 - [Node](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/workflow/nodes)
 
-### Cloud
+## Cloud
 - [Basic](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/cloud/basic)
 - [Extended](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/cloud/extended)
 
