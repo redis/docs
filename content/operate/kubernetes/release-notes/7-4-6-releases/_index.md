@@ -4,11 +4,11 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Releases with support for Redis Enterprise Software 7.4.2.
+description: Releases with support for Redis Enterprise Software 7.4.6.
 hideListLinks: true
 linkTitle: 7.4.6-2
 title: Redis Enterprise for Kubernetes 7.4.6-2 release notes
-weight: 5
+weight: 52
 ---
 
 ## Detailed release notes
@@ -30,6 +30,10 @@ Versions 6.4.2-6 and later include a new SCC (`redis-enterprise-scc-v2`) that yo
 ### Upcoming Changes
 
 - Future Redis Enterprise images will be UBI9-based only, without support for Ubuntu-based images.
+
+## Security
+
+For a list of fixes related to CVEs, see the [Redis Enterprise 7.2.4-109 release notes]({{<relref "operate/rs/release-notes/rs-7-4-2-releases">}}).
 
 ## Supported distributions
 

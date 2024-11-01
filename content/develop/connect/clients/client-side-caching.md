@@ -82,7 +82,7 @@ will use cached data, except for the following:
     [probabilistic data types]({{< relref "/develop/data-types/probabilistic" >}}).
     These types are designed to be updated frequently, which means that caching
     has little or no benefit.
--   Non-deterministic commands such as [`HGETALL`]({{< relref "/commands/hgetall" >}}),
+-   Non-deterministic commands such as [`HRANDFIELD`]({{< relref "/commands/hrandfield" >}}),
     [`HSCAN`]({{< relref "/commands/hscan" >}}),
     and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
     give different results each time they are called.

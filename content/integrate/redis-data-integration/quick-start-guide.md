@@ -44,7 +44,7 @@ and is already set up for the RDI collector to use.
 ### Install RDI
 
 Install RDI using the instructions in the
-[installation guide]({{< relref "/integrate/redis-data-integration/installation" >}})
+[VM installation guide]({{< relref "/integrate/redis-data-integration/installation/install-vm" >}}).
 
 RDI will create the pipeline template for your chosen source database type at
 `/opt/rdi/config`. You will need this pathname later when you prepare the pipeline for deployment
@@ -112,7 +112,8 @@ contexts.
 
 ### Deploy the pipeline
 
-You can use Redis Insight to deploy the pipeline by adding a connection to the RDI API
+You can use [Redis Insight]({{< relref "/develop/connect/insight/rdi-connector" >}})
+to deploy the pipeline by adding a connection to the RDI API
 endpoint (which has the same IP address as your RDI VM and uses port 8083) and then clicking the **Deploy** button. You can also deploy it with the following command:
 
 ```bash
@@ -126,6 +127,9 @@ validates your pipeline and then deploys it if the configuration is correct.
 
 Once the pipeline is running, you can use Redis Insight to view the data flow using the
 pipeline metrics. You can also connect to your target database to see the keys that RDI has written there.
+
+See [Deploy a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
+for more information about deployment settings.
 
 ### View RDI's response to data changes
 

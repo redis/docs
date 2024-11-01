@@ -19,15 +19,35 @@ Redis is not exactly a key-value store, since values can be complex data structu
 
 This document explains how it is possible to create indexes in Redis using the following data structures:
 
+* Hashes and JSON documents, using a variety of field types; used in conjunction with the Redis query engine.
 * Sorted sets to create secondary indexes by ID or other numerical fields.
 * Sorted sets with lexicographical ranges for creating more advanced secondary indexes, composite indexes and graph traversal indexes.
 * Sets for creating random indexes.
 * Lists for creating simple iterable indexes and last N items indexes.
+* Time series with labels.
 
 Implementing and maintaining indexes with Redis is an advanced topic, so most
 users that need to perform complex queries on data should understand if they
 are better served by a relational store. However often, especially in caching
 scenarios, there is the explicit need to store indexed data into Redis in order to speedup common queries which require some form of indexing in order to be executed.
+
+## Hashes and JSON indexes
+
+The Redis query engine provides capabilities to index and query both hash and JSON keys using a variety of field types:
+
+* `TEXT`
+* `TAG`
+* `NUMERIC`
+* `GEO`
+* `VECTOR`
+* `GEOSHAPE`
+
+Once hash or JSON keys have been indexed using the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create) command, all keys that use the prefix defined in the index can be queried using the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) commands.
+
+For more information on creating hash and JSON indexes, see the following pages.
+
+* [Hash indexes]({{< relref "/develop/interact/search-and-query/basic-constructs/schema-definition" >}})
+* [JSON indexes]({{< relref "/develop/interact/search-and-query/indexing" >}})
 
 ## Simple numerical indexes with sorted sets
 
@@ -157,6 +177,14 @@ and 9007199254740992, which is `-/+ 2^53`.
 When representing much larger numbers, you need a different form of indexing
 that is able to index numbers at any precision, called a lexicographical
 index.
+
+## Time series indexes
+
+When you create a new time series using the [`TS.CREATE`]({{< baseurl >}}/commands/ts.create) command, you can associate one or more `LABELS` with it. Each label is a name-value pair, where the both name and value are text. Labels serve as a secondary index that allows you to execute queries on groups of time series keys using various time series commands.
+
+See the [time series quickstart guide]({{< relref "/develop/data-types/timeseries/quickstart#labels" >}}) for an example of creating a time series with a label.
+
+The [`TS.MGET`]({{< baseurl >}}/commands/ts.mget), [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange), and [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange) commands operate on multiple time series based on specified labels or using a label-related filter expression. The [`TS.QUERYINDEX`]({{< baseurl >}}/commands/ts.queryindex) command returns all time series keys matching a given label-related filter expression.
 
 ## Lexicographical indexes
 

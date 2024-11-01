@@ -9,6 +9,7 @@ description: Set up a development or test deployment of Redis Enterprise Softwar
   using Docker.
 linkTitle: Docker quickstart
 weight: 2
+aliases: /operate/rs/installing-upgrading/get-started-docker/
 ---
 {{< warning >}}
 Docker containers are currently only supported for development and test environments, not for production. Use [Redis Enterprise on Kubernetes]({{< relref "/operate/kubernetes" >}}) for a supported containerized deployment.
