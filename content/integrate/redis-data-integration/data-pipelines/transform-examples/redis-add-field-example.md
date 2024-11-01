@@ -129,7 +129,7 @@ output:
         language: jmespath
 ```
 
-You can query the target database to see the new `fullname` field in
+You can query the target database to see the new `fulladdress` field in
 the JSON object:
 
 ```
