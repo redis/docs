@@ -75,7 +75,7 @@ This version offers:
 
     - V1 Prometheus metrics are deprecated. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL](<!--TODO: Add link-->) now, or wait to use new preconfigured dashboards when they become available in a future release.
 
-- [Rebalance shard placement REST API request](<!--TODO: Add REST API ref link-->), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
+- [Rebalance shard placement REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/rebalance">}}), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
 
 - [Shard failover REST API requests](<!--TODO: Add REST API ref link-->), which perform failover on specified primary shards and promotes their replicas to primary shards.
 
