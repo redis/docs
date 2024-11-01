@@ -57,16 +57,3 @@ The following table shows the relationship between a database's status and avail
 | import-pending  | <span title="Available">&#x2705;</span> Available |
 | pending         | <span title="Available">&#x2705;</span> Available |
 | recovery        | <span title="Not available">:x:</span> Not available |
-
-## Availability by shard status
- 
-| Shard status | Availability |
-|--------------|--------------|
-| busy         | <span title="Available">&#x2705;</span> Available |
-| down         | <span title="Not available">:x:</span> Not available |
-| importing    | <span title="Available">&#x2705;</span> Available |
-| loading      | <span title="Available">&#x2705;</span> Available |
-| ok           | <span title="Available">&#x2705;</span> Available |
-| timeout      | ?            |
-| trimming     | <span title="Available">&#x2705;</span> Available |
-| unknown      | ?            |
