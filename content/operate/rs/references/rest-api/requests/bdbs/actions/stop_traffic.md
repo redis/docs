@@ -23,11 +23,7 @@ POST /v1/bdbs/{int: uid}/actions/stop_traffic
 
 Stop handling traffic for the database.
 
-Use this REST API request when implementing auto-failover or migrating data between Replica Of databases:
-
-1. Use the `stop_traffic` action on a Replica Of source database to ensure that no new data is written to it during data migration.
-
-1. After data migration or failover is complete, and it is safe to write new data to the source database, use the [`resume_traffic`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/resume_traffic">}}) action.
+Use this action to stop read and write traffic on a database. To resume traffic afterward, use the [`resume_traffic`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/resume_traffic">}}) action.
 
 #### Required permissions
 
