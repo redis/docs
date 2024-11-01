@@ -19,7 +19,7 @@ This document provides observability and monitoring guidance for developers runn
 that connect to Redis Enterprise. In particular, this guide focuses on the systems
 and resources that are most likely to impact the performance of your application.
 
-Dashboard showing relevant statistics for a node
+Dashboard showing relevant statistics for a node:
 {{< image filename="/images/node_summary.png" alt="Dashboard showing relevant statistics for a Node" >}}
 
 To effectively monitor a Redis Enterprise cluster you need to observe
@@ -40,7 +40,7 @@ Key database performance indicators include:
 * Key eviction rate
 * Proxy Performance
 
-Dashboard showing an overview of cluster metrics
+Dashboard showing an overview of cluster metrics:
 {{< image filename="/images/cluster_overview.png" alt="Dashboard showing an overview of cluster metrics" >}}
 
 In addition to manually monitoring these resources and indicators, it is best practice to set up alerts.
