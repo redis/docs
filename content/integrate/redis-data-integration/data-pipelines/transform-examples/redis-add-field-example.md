@@ -33,7 +33,7 @@ database (the optional `db` value here corresponds to the
 
 In the `transform` section, the `add_field` transformation adds an extra field called `fullname`
 to the object, which is created by concatenating the existing `firstname` and `lastname` fields using
-an [SQL expression](https://www.simplilearn.com/tutorials/sql-tutorial/concat-function-in-sql).
+a [SQL expression](https://www.simplilearn.com/tutorials/sql-tutorial/concat-function-in-sql).
 You can also specify `jmespath` as the `language` if you prefer to create the new
 field with a [JMESPath](https://jmespath.org/) expression
 
