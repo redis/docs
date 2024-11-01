@@ -9,16 +9,16 @@ description: Redis Enterprise for Kubernetes allows you to deploy to multiple na
   This article describes flexible deployment options you can use to meet your specific
   needs.
 linkTitle: Deployment options
+aliases: [ /operate/kubernetes/architecture/deployment-options/, ]
 weight: 12
 ---
 You can deploy Redis Enterprise for Kubernetes in several different ways depending on your database needs.
 
-Multiple Redis Enterprise database resources (REDB) can be associated with single Redis Enterprise cluster resource (REC) even if they reside in different namespaces.
+Multiple RedisEnterpriseDatabase (REDB) resources can be associated with a single Redis Enterprise cluster resource (REC) even if they reside in different namespaces.
 
 The Redis Enterprise cluster (REC) custom resource must reside in the same namespace as the Redis Enterprise operator.
 
 {{<warning>}} Multi-namespace installations don't support Active-Active databases (REEADB). Only databases created with the REDB resource are supported in multi-namespace deployments at this time.{{</warning>}}
-
 
 ## Single REC and single namespace (one-to-one)
 
