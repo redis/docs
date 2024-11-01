@@ -164,7 +164,7 @@ Checking for an element is O(K) or O(K*n) for stacked filters, where n is the nu
 
 ## Academic sources
 - [Space/Time Trade-offs in Hash Coding with Allowable Errors](http://www.dragonwins.com/domains/getteched/bbc/literature/Bloom70.pdf) by Burton H. Bloom.
-- [Scalable Bloom Filters](https://haslab.uminho.pt/cbm/files/dbloom.pdf)
+- [Scalable Bloom Filters](https://gsd.di.uminho.pt/members/cbm/ps/dbloom.pdf)
 
 ## References
 ### Webinars
