@@ -58,7 +58,7 @@ Redis will start automatically, but it won't restart at boot time. To do this, r
 sudo snap set redis service.start=true
 {{< /highlight  >}}
 
-You an use these additional snap-related commands to start, stop, restart, and check the status of Redis:
+You can use these additional snap-related commands to start, stop, restart, and check the status of Redis:
 
 * `sudo snap start redis`
 * `sudo snap stop redis`
