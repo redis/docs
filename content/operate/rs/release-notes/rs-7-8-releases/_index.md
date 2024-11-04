@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Redis Community Edition 7.4 features. Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
+description: Redis Community Edition 7.4 features. Client-side caching support. Metrics stream engine preview. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. Configurable minimum password length. Configurable license expiration alert threshold.
 hideListLinks: true
 linkTitle: 7.8.2 releases
 toc: 'true'
@@ -23,6 +23,8 @@ This version offers:
 
 - Client-side caching support
 
+- Metrics stream engine preview
+
 - New APIs to check database availability, rebalance shards, fail over shards, and control database traffic
 
 - Cluster Manager UI enhancements for node actions, database tags, and database configuration
@@ -32,8 +34,6 @@ This version offers:
 - Log rotation based on both size and time
 
 - Module management enhancements
-
-- V2 Prometheus metrics
 
 - Configurable minimum password length
 
@@ -48,6 +48,8 @@ For more detailed release notes, select a build version from the following table
 ## Version changes
 
 - Added validation to verify the LDAP server URI contains a host and port when updating LDAP configuration.
+
+- The value of the `oss_sharding` API field had no effect in previous versions of Redis Software. However, `oss_sharding` is now set to take effect as part of future plans. Until further notice, set this field to `false` to avoid unintended impacts.
 
 ### Breaking changes
 
@@ -156,6 +158,10 @@ If your database currently uses triggers and functions, you need to:
 
 - Deprecated [`POST /v1/modules/upgrade/bdb/<uid>`]({{<relref "/operate/rs/references/rest-api/requests/modules/upgrade#post-modules-upgrade-bdb">}}) REST API request. Use [`POST /v1/bdbs/<uid>/upgrade`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) to upgrade modules instead.
 
+#### V1 Prometheus metrics deprecation
+
+ V1 Prometheus metrics are deprecated. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL](<!--TODO: Add link-->) now, or wait to use new preconfigured dashboards when they become available in a future release.
+
 #### Download center modules deprecation
 
 New Redis modules will not be available for download from the Redis download center.
@@ -198,8 +204,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 | Redis Software<br />major versions | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|
-| **Release date** | Oct 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
-| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | TBA | Feb 2026 | Aug 2025 | Feb 2025 |
+| **Release date** | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
+| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
 | RHEL 8 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |

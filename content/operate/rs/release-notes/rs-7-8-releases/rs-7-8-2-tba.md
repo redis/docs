@@ -1,13 +1,13 @@
 ---
-Title: Redis Software release notes 7.8.2-tba (October 2024)
+Title: Redis Software release notes 7.8.2-tba (November 2024)
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Redis Community Edition 7.4 features. Client-side caching support. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. V2 Prometheus metrics. Configurable minimum password length. Configurable license expiration alert threshold.
-linkTitle: 7.8.2-tba (October 2024)
+description: Redis Community Edition 7.4 features. Client-side caching support. Metrics stream engine preview. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. Configurable minimum password length. Configurable license expiration alert threshold.
+linkTitle: 7.8.2-tba (November 2024)
 weight: 90
 ---
 
@@ -21,6 +21,8 @@ This version offers:
 
 - Client-side caching support
 
+- Metrics stream engine preview
+
 - New APIs to check database availability, rebalance shards, fail over shards, and control database traffic
 
 - Cluster Manager UI enhancements for node actions, database tags, and database configuration
@@ -31,8 +33,6 @@ This version offers:
 
 - Module management enhancements
 
-- V2 Prometheus metrics
-
 - Configurable minimum password length
 
 - Configurable license expiration alert threshold
@@ -41,7 +41,15 @@ This version offers:
 
 ### New features
 
-- Redis Community Edition 7.4 features are now available when you [create]({{<relref "/operate/rs/databases/create">}}) or [upgrade]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) a database with database version 7.4. See the [Redis 7.4 release blog post](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74/) and [Redis Community Edition 7.4 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisce-7.4-release-notes">}}) for details.
+- Redis Community Edition and Redis Stack 7.4 features are now available when you [create]({{<relref "/operate/rs/databases/create">}}) or [upgrade]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) a database with database version 7.4, including:
+
+    - Hash field expiration
+    
+    - New vector data types to reduce ‌memory usage
+    
+    - Time series insertion filters
+
+    - See the [Redis 7.4 release blog post](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74/) and [Redis Community Edition 7.4 release notes]({{<relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisce-7.4-release-notes.md">}}) for details.
 
 - Client-side caching support:
 
@@ -55,7 +63,19 @@ This version offers:
 
 - [Database availability API]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability">}}), which verifies whether a Redis Software database is available to perform read and write operations and can respond to queries from client applications. Load balancers and automated monitoring tools can use this API to monitor database availability.
 
-- [Rebalance shard placement REST API request](<!--TODO: Add REST API ref link-->), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
+- Metrics stream engine preview:
+
+    - The new metrics stream engine's exporter-based infrastructure provides access to more accurate, real-time data. This enhanced, scalable monitoring system allows you to set up more effective alerts and respond to issues faster.
+
+    - Exposes a new `/v2` Prometheus scraping endpoint that you can use to export metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace.
+
+    - Exports raw data instead of aggregated data to improve monitoring at scale and accuracy compared to v1 Prometheus metrics.
+
+    - For an initial list of metrics exported by the new metrics stream engine, see [Prometheus metrics v2](<!--TODO: Add link-->). While the metrics stream engine is in preview, this document provides only a partial list. More metrics will be added.
+
+    - V1 Prometheus metrics are deprecated. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL](<!--TODO: Add link-->) now, or wait to use new preconfigured dashboards when they become available in a future release.
+
+- [Rebalance shard placement REST API request]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/rebalance">}}), which distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
 
 - [Shard failover REST API requests](<!--TODO: Add REST API ref link-->), which perform failover on specified primary shards and promotes their replicas to primary shards.
 
@@ -77,6 +97,8 @@ This version offers:
 
     - Improved error messages on the sign-in screen for locked out users versus incorrect or expired passwords.
 
+    - Flush an Active-Active database.
+
 - A new **User Manager** role designed for user administration is available for [role-based access control]({{<relref "/operate/rs/security/access-control">}}).
 
     - This management role allows assigned users to create, edit, and delete users using the Cluster Manager UI and REST API.
@@ -91,8 +113,6 @@ This version offers:
 
 - Added support for [log rotation]({{<relref "/operate/rs/clusters/logging/log-security#log-rotation">}}) based on both size and time.
 
-- Added V2 Prometheus metrics.
-
 - [Minimum password length]({{<relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules#change-minimum-password-length">}}), previously hardcoded as 8 characters, is now configurable in the Cluster Manager UI and the REST API.
 
 - The [cluster license expiration alert threshold]({{<relref "/operate/rs/clusters/configure/license-keys#configure-license-expiration-alert">}}), which determines how far in advance you want to be notified of the license expiration, is configurable in the Cluster Manager UI and the REST API.
@@ -105,9 +125,24 @@ This version offers:
 
     - `replica_sync_connection_alarm_timeout_seconds`: if the syncer takes longer than the specified number of seconds to connect to a replica, raise a connection alarm.
 
-- Reserved port 3349 for the cluster watchdog exporter.
+- Reserved the following ports:
 
-#### Redis module feature sets
+    | Port | Process name | Usage | 
+    |------|--------------|-------|
+    | 3347 | cert_exporter | Reports cluster certificate metrics |
+    | 3348 | process_exporter | Reports process metrics for DMC and Redis processes |
+    | 3349 | cluster_wd_exporter | Reports cluster watchdog metrics |
+    | 3350 | db_controller | Internode communication |
+    | 9091 | node_exporter | Reports host node metrics related to CPU, memory, disk, and more |
+    | 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
+
+### Redis database versions
+
+Redis Software version 7.8.2 includes three Redis database versions: 7.4, 7.2, and 6.2.
+
+The [default Redis database version]({{<relref "/operate/rs/databases/configure/db-defaults#database-version">}}) is 7.4.
+
+### Redis module feature sets
 
 Redis Software comes packaged with several modules. As of version 7.8.2, Redis Software includes three feature sets, compatible with different Redis database versions.
 
@@ -115,9 +150,9 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 | Redis database version | Compatible Redis modules |
 |------------------------|--------------------------|
-| 7.4 | [RediSearch 2.10.7]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.10-release-notes.md" >}})<br />[RedisJSON 2.8.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.8-release-notes.md" >}})<br />[RedisTimeSeries 1.12.2]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.12-release-notes.md" >}})<br />[RedisBloom 2.8.2]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.8-release-notes.md" >}}) |
-| 7.2 | [RediSearch 2.8.18]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.8-release-notes.md" >}})<br />[RedisJSON 2.6.13]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.6-release-notes.md" >}})<br />[RedisTimeSeries 1.10.14]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.10-release-notes.md" >}})<br />[RedisBloom 2.6.15]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.6-release-notes.md" >}}) |
-| 6.2 | [RediSearch 2.6.22]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.6-release-notes.md" >}})<br />[RedisJSON 2.4.9]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.4-release-notes.md" >}})<br />[RedisTimeSeries 1.8.14]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.8-release-notes.md" >}})<br />[RedisBloom 2.4.12]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.4-release-notes.md" >}})<br />[RedisGraph v2.10.15]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.10-release-notes.md" >}})<sup>[1](#module-note-1)</sup>  |
+| 7.4 | [RediSearch 2.10.8]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.10-release-notes.md" >}})<br />[RedisJSON 2.8.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.8-release-notes.md" >}})<br />[RedisTimeSeries 1.12.3]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.12-release-notes.md" >}})<br />[RedisBloom 2.8.2]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.8-release-notes.md" >}}) |
+| 7.2 | [RediSearch 2.8.19]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.8-release-notes.md" >}})<br />[RedisJSON 2.6.13]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.6-release-notes.md" >}})<br />[RedisTimeSeries 1.10.15]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.10-release-notes.md" >}})<br />[RedisBloom 2.6.15]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.6-release-notes.md" >}}) |
+| 6.2 | [RediSearch 2.6.23]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.6-release-notes.md" >}})<br />[RedisJSON 2.4.9]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.4-release-notes.md" >}})<br />[RedisTimeSeries 1.8.15]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.8-release-notes.md" >}})<br />[RedisBloom 2.4.12]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.4-release-notes.md" >}})<br />[RedisGraph v2.10.15]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.10-release-notes.md" >}})<sup>[1](#module-note-1)</sup>  |
 
 1. <a name="module-note-1"></a>RedisGraph end-of-life has been announced and will be removed in a future release. See the [RedisGraph end-of-life announcement](https://redis.io/blog/redisgraph-eol/) for more details.
 
@@ -165,9 +200,15 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS134238: Improved database sorting performance in the Cluster Manager UI.
 
+- RS129418: Improved log rotation mechanism for Auto Tiering clusters to reduce excessive logs.
+
+- RS137231: Fixed an issue where database shards could become stuck during migration due to outdated node data.
+
 ## Version changes
 
 - Added validation to verify the LDAP server URI contains a host and port when updating LDAP configuration.
+
+- The value of the `oss_sharding` API field had no effect in previous versions of Redis Software. However, `oss_sharding` is now set to take effect as part of future plans. Until further notice, set this field to `false` to avoid unintended impacts.
 
 ### Breaking changes
 
@@ -276,6 +317,10 @@ If your database currently uses triggers and functions, you need to:
 
 - Deprecated [`POST /v1/modules/upgrade/bdb/<uid>`]({{<relref "/operate/rs/references/rest-api/requests/modules/upgrade#post-modules-upgrade-bdb">}}) REST API request. Use [`POST /v1/bdbs/<uid>/upgrade`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) to upgrade modules instead.
 
+#### V1 Prometheus metrics deprecation
+
+ V1 Prometheus metrics are deprecated. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL](<!--TODO: Add link-->) now, or wait to use new preconfigured dashboards when they become available in a future release.
+
 #### Download center modules deprecation
 
 New Redis modules will not be available for download from the Redis download center.
@@ -318,8 +363,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 | Redis Software<br />major versions | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|
-| **Release date** | Oct 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
-| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | TBA | Feb 2026 | Aug 2025 | Feb 2025 |
+| **Release date** | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
+| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
 | RHEL 8 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
@@ -345,7 +390,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (7.8.2-tba Oct release) |
+| Package | SHA256 checksum (7.8.2-tba Nov release) |
 |---------|---------------------------------------|
 | Ubuntu 20 | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |

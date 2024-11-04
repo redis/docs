@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - stack
-description: Redis Stack release notes for version 7.4 and later
+description: Redis Stack release notes for version 7.2 and later
 hideListLinks: true
 linkTitle: Redis Stack
 tags:
