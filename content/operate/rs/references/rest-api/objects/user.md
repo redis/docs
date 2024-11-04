@@ -15,7 +15,7 @@ weight: $weight
 | uid | integer | User's unique ID |
 | account_id | integer | SM account ID |
 | action_uid | string | Action UID. If it exists, progress can be tracked by the `GET`&nbsp;`/actions/{uid}` API request (read-only) |
-| auth_method | **'regular'** | User's authentication method |
+| auth_method | **'regular'**<br />'certificate'<br />'entraid' | User's authentication method |
 | bdbs_email_alerts | complex object | UIDs of databases that user will receive alerts for |
 | cluster_email_alerts | boolean | Activate cluster email alerts for a user |
 | email | string | User's email (pattern matching only ASCII characters) |
