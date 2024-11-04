@@ -132,7 +132,7 @@ This version offers:
     | 3347 | cert_exporter | Reports cluster certificate metrics |
     | 3348 | process_exporter | Reports process metrics for DMC and Redis processes |
     | 3349 | cluster_wd_exporter | Reports cluster watchdog metrics |
-    | 3350 | db_controller | In charge of the module control plane |
+    | 3350 | db_controller | Internode communication |
     | 9091 | node_exporter | Reports host node metrics related to CPU, memory, disk, and more |
     | 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
 
