@@ -188,111 +188,63 @@ for more information.
 
 ## Example: Indexing and querying JSON documents
 
-This example shows how to convert Redis search results to JSON format using `NRedisStack`.
+This example shows how to create a
+[search index]({{< relref "/develop/interact/search-and-query/indexing" >}})
+for [JSON]({{< relref "/develop/data-types/json" >}}) data and
+run queries against the index.
 
 Make sure that you have Redis Stack and `NRedisStack` installed. 
 
-Import dependencies and connect to the Redis server:
+Start by importing dependencies:
 
-```csharp
-using NRedisStack;
-using NRedisStack.RedisStackCommands;
-using NRedisStack.Search;
-using NRedisStack.Search.Aggregation;
-using NRedisStack.Search.Literals.Enums;
-using StackExchange.Redis;
+{{< clients-example cs_home_json import >}}
+{{< /clients-example >}}
 
-// ...
+Connect to the database:
 
-ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
-```
+{{< clients-example cs_home_json connect >}}
+{{< /clients-example >}}
 
-Get a reference to the database and for search and JSON commands.
+Create some test data to add to the database:
 
-```csharp
-var db = redis.GetDatabase();
-var ft = db.FT();
-var json = db.JSON();
-```
+{{< clients-example cs_home_json create_data >}}
+{{< /clients-example >}}
 
-Let's create some test data to add to your database.
+Create an index. In this example, only JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}).
 
-```csharp
-var user1 = new {
-    name = "Paul John",
-    email = "paul.john@example.com",
-    age = 42,
-    city = "London"
-};
+{{< clients-example cs_home_json make_index >}}
+{{< /clients-example >}}
 
-var user2 = new {
-    name = "Eden Zamir",
-    email = "eden.zamir@example.com",
-    age = 29,
-    city = "Tel Aviv"
-};
+Add the three sets of user data to the database as
+[JSON]({{< relref "/develop/data-types/json" >}}) objects.
+If you use keys with the `user:` prefix then Redis will index the
+objects automatically as you add them:
 
-var user3 = new {
-    name = "Paul Zamir",
-    email = "paul.zamir@example.com",
-    age = 35,
-    city = "Tel Aviv"
-};
-```
+{{< clients-example cs_home_json add_data >}}
+{{< /clients-example >}}
 
-Create an index. In this example, all JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}).
+You can now use the index to search the JSON objects. The
+[query]({{< relref "/develop/interact/search-and-query/query" >}})
+below searches for objects that have the text "Paul" in any field
+and have an `age` value in the range 30 to 40:
 
-```csharp
-var schema = new Schema()
-    .AddTextField(new FieldName("$.name", "name"))
-    .AddTagField(new FieldName("$.city", "city"))
-    .AddNumericField(new FieldName("$.age", "age"));
+{{< clients-example cs_home_json query1 >}}
+{{< /clients-example >}}
 
-ft.Create(
-    "idx:users",
-    new FTCreateParams().On(IndexDataType.JSON).Prefix("user:"),
-    schema);
-```
+Specify query options to return only the `city` field:
 
-Use [`JSON.SET`]({{< baseurl >}}/commands/json.set/) to set each user value at the specified path.
+{{< clients-example cs_home_json query2 >}}
+{{< /clients-example >}}
 
-```csharp
-json.Set("user:1", "$", user1);
-json.Set("user:2", "$", user2);
-json.Set("user:3", "$", user3);
-```
+Use an
+[aggregation query]({{< relref "/develop/interact/search-and-query/query/aggregation" >}})
+to count all users in each city.
 
-Let's find user `Paul` and filter the results by age.
+{{< clients-example cs_home_json query3 >}}
+{{< /clients-example >}}
 
-```csharp
-var res = ft.Search("idx:users", new Query("Paul @age:[30 40]")).Documents.Select(x => x["json"]);
-Console.WriteLine(string.Join("\n", res)); 
-// Prints: {"name":"Paul Zamir","email":"paul.zamir@example.com","age":35,"city":"Tel Aviv"}
-```
-
-Return only the `city` field.
-
-```csharp
-var res_cities = ft.Search("idx:users", new Query("Paul").ReturnFields(new FieldName("$.city", "city"))).Documents.Select(x => x["city"]);
-Console.WriteLine(string.Join(", ", res_cities)); 
-// Prints: London, Tel Aviv
-```
-
-Count all users in the same city.
-
-```csharp
-var request = new AggregationRequest("*").GroupBy("@city", Reducers.Count().As("count"));
-var result = ft.Aggregate("idx:users", request);
-
-for (var i=0; i<result.TotalResults; i++)
-{
-    var row = result.GetRow(i);
-    Console.WriteLine($"{row["city"]} - {row["count"]}");
-}
-// Prints:
-// London - 1
-// Tel Aviv - 2
-```
+See the [Redis query engine]({{< relref "/develop/interact/search-and-query" >}}) docs
+for a full description of all query features with examples.
 
 ## Learn more
 
