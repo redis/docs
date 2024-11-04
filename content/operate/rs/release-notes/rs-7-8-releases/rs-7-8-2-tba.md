@@ -200,6 +200,10 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS134238: Improved database sorting performance in the Cluster Manager UI.
 
+- RS129418: Improved log rotation mechanism for Auto Tiering clusters to reduce excessive logs.
+
+- RS137231: Fixed an issue where database shards could become stuck during migration due to outdated node data.
+
 ## Version changes
 
 - Added validation to verify the LDAP server URI contains a host and port when updating LDAP configuration.
