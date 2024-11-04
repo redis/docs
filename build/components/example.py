@@ -11,7 +11,7 @@ EXAMPLE = 'EXAMPLE:'
 GO_OUTPUT = 'Output:'
 TEST_MARKER = {
     'java': '@Test',
-    'c#': '\[Fact\]'
+    'c#': '\[Fact\]|\[SkipIfRedis\(.*\)\]'
 }
 PREFIXES = {
     'python': '#',
@@ -19,8 +19,10 @@ PREFIXES = {
     'java': '//',
     'go': '//',
     'c#': '//',
-    'redisvl': '#'
+    'redisvl': '#',
+    'php': '//'
 }
+
 
 class Example(object):
     language = None
