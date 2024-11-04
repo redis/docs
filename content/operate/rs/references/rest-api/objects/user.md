@@ -5,12 +5,10 @@ categories:
 - docs
 - operate
 - rs
-description: An object that represents a Redis Enterprise user
+description: An API object that represents a Redis Enterprise user
 linkTitle: user
 weight: $weight
 ---
-
-An API object that represents a Redis Enterprise user.
 
 | Name | Type/Value | Description |
 |------|------------|-------------|
