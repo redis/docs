@@ -198,10 +198,12 @@ We assume a typical workload that includes a different mix of commands and an av
 - **Security**: Some security options, such as [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}), may affect throughput.
 - **Number of client connections**: The number of client connections affects throughput. Increasing or decreasing the number of client connections can result in higher or lower throughput.
 
-## Cluster API
+## Cluster API {#oss-cluster-api}
 
 {{< embed-md "oss-cluster-api-intro.md"  >}}
 
 The Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the Scalability section of the configuration screen.
+
+The Redis Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy) and does not use Search and Query or Time Series advanced capabilities.
 
 Review [Redis Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.

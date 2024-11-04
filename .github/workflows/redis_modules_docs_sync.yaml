@@ -1,0 +1,84 @@
+name: redis_modules_docs_sync
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # run every day at midnight UTC time
+  workflow_dispatch: # or run on manual trigger
+
+jobs:
+  redis_modules_docs_sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v3'
+
+      - name: 'Fetch commands json files from modules'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch="redis_modules_docs_sync"
+          modules_list=("redisjson" "redisbloom" "redistimeseries" "redisearch")
+          module_change=false
+
+          # check if remote branch already exists
+          git fetch --all
+          set +e
+          git ls-remote --exit-code --heads origin "refs/heads/${branch}"
+          if [ "$?" -eq 0 ]; then
+            set -e
+            # if it does, create local branch off existing remote branch
+            git checkout -b "${branch}" "origin/${branch}"
+            git branch --set-upstream-to="origin/${branch}" "${branch}"
+            git pull
+          else
+            set -e
+            # otherwise, create local branch from main
+            git checkout -b "${branch}"
+          fi
+
+          for module in "${modules_list[@]}"; do
+            # Find latest version
+            module_version=$(
+              curl -Ls \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${module}/${module}/releases/latest" \
+              | jq -r '.tag_name'
+            )
+
+            # Fetch release
+            gh release download "$module_version" -R "${module}/${module}" -A zip -O "${module}.zip"
+            unzip "${module}.zip" -d "${module}"
+            cp ${module}/*/commands.json "data/commands_${module}.json"
+
+            modules_commands_is_different=$(git diff "data/commands_${module}.json")
+            if [[ ! -z $modules_commands_is_different ]]; then
+              module_change=true
+              
+              git add "data/commands_${module}.json"
+              git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
+              git config user.name "redisdocsapp[bot]"
+              git commit -m "Update data/commands_${module}.json for release ${module_version}"
+            fi
+          done
+
+          if [ "$module_change" = true ] ; then
+            git push origin "${branch}"
+
+            # If a pr is not already open, create one
+            set +e
+            gh search prs -R redis/docs --state open --match title "redis modules docs sync" | grep -q "redis modules docs sync"
+            if [ "$?" -eq 1 ]; then
+              set -e
+              gh pr create \
+                --body "redis modules docs sync" \
+                --title "redis modules docs sync" \
+                --head "$branch" \
+                --base "main"
+            fi
+          fi

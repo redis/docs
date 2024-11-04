@@ -47,7 +47,7 @@ $ pip install -e .
 
 ## Install Redis
 
-RedisVL requires a distribution of Redis that supports the [search and query](https://redis.com/modules/redis-search/) capability, of which there are three:
+RedisVL requires a distribution of Redis that supports the [Redis Query Engine](https://redis.com/modules/redis-search/) capability, of which there are three:
 
 1. [Redis Cloud](https://redis.com/try-free), a fully managed cloud offering that you can try for free.
 2. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}}), a local docker image for testing and development.

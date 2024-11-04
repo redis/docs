@@ -33,6 +33,7 @@ Cluster resources management policy
 | default_tracking_table_max_keys_policy | integer (default: 1000000) | Defines the default value of the client-side caching invalidation table size for new databases. 0 makes the cache unlimited. |
 | endpoint_rebind_propagation_grace_time | integer | Time to wait between the addition and removal of a proxy |
 | failure_detection_sensitivity | `high`<br />`low` | Predefined thresholds and timeouts for failure detection (previously known as <span class="break-all">`watchdog_profile`</span>)<br />• `high` (previously `local-network`) – high failure detection sensitivity, lower thresholds, faster failure detection and failover<br />• `low` (previously `cloud`) – low failure detection sensitivity, higher tolerance for latency variance (also called network jitter) |
+| hide_user_data_from_log | boolean (default: false) | Set to `true` to enable the `hide-user-data-from-log` Redis configuration setting, which avoids logging user data |
 | login_lockout_counter_reset_after | integer | Number of seconds that must elapse between failed sign in attempts before the lockout counter is reset to 0. |
 | login_lockout_duration | integer | Duration (in secs) of account lockout. If set to 0, the account lockout will persist until released by an admin. |
 | login_lockout_threshold | integer | Number of failed sign in attempts allowed before locking a user account |

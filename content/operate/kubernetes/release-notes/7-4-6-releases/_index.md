@@ -4,62 +4,38 @@ categories:
 - docs
 - operate
 - kubernetes
-description: This is a feature release with a new version of Redis Enterprise Software
-  7.4.2.
-linkTitle: 7.4.2-12 (May 2024)
-title: Redis Enterprise for Kubernetes 7.4.2-12 (May 2024) release notes
-weight: 6
+description: Releases with support for Redis Enterprise Software 7.4.6.
+hideListLinks: true
+linkTitle: 7.4.6-2
+title: Redis Enterprise for Kubernetes 7.4.6-2 release notes
+weight: 52
 ---
 
-## Highlights
+## Detailed release notes
 
-This release has many enhancements, most notably support for persistent volume expansion in the REC. Also, some essential changes in module handling support newer capabilities prompted by changes in the underlying Redis Enterprise around versioning.
+{{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
-## New in this release
-
-### Enhancements
-
-- Support for persistent volume expansion in the REC (RED-84018)
-- Ability to specify Redis version in REDB spec (RED-103945)
-- Updated [supported distributions]({{<relref "/operate/kubernetes/release-notes/7-4-2-releases/#supported-distributions">}}) (RED-119711)
-- Ability to enable modules via REDB without specifying a module version (RED-116082)
-- Dual Stack configuration support (RED-121897)
-
-### Resolved issues
-
-- Fixed case of client certificates being updated in a loop (RED-121633)
-- Fixed issues disabling replication on REDB (RED-122721)
-
-### API changes
-
-| **CRD** | **Field** | **Change** | **Description** |
-|---|---|---|---|
-| REC | spec.persistentSpec.enablePersistentVolumeResize | ADD | Set to "true" to allow changes in volumeSize after REC creation (for sizing up only) |
-| REC | status.persistenceStatus | ADD | Indicates the status of persistent volume expansion |
-| REC | spec.redisEnterpriseIPFamily | ADD | Configure which IP family to use when Kubernetes cluster has Dual Stack networking enabled  |
-| REDB | spec.moduleList[x].version | CHANGE | Field is no longer mandatory |
-| REDB | spec.upgradeSpec | ADD | New field allows configuration of module upgrade settings |
-| REDB | spec.redisVersion | CHANGE | Now allows setting version numbers (Major.Minor) |
-
-## Version changes
-
-### Breaking changes
+## Breaking changes
 
 The following changes included in this release affect the upgrade process. Please read carefully before upgrading.
 
-#### ValidatingWebhookConfiguration
+### ValidatingWebhookConfiguration
 
 Versions 6.4.2-4 and later include a new `ValidatingWebhookConfiguration` resource to replace the `redb-admission` webhook resource. To use releases 6.4.2-4 or later, delete the old webhook resource and apply the new file. See [upgrade Redis cluster]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster#reapply-webhook" >}}) for instructions.
 
-#### OpenShift SCC
+### OpenShift SCC
 
-Versions 6.4.2-6 and later include a new SCC (`redis-enterprise-scc-v2`) that you need to bind to your service account before upgrading. OpenShift clusters running version 6.2.12 or earlier upgrading to version 6.2.18 or later might get stuck if you skip this step. See [upgrade a Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster#before-upgrading" >}}) for instructions.
+Versions 6.4.2-6 and later include a new SCC (`redis-enterprise-scc-v2`) that you need to bind to your service account before upgrading. If you skip this step, OpenShift clusters running version 6.2.12 or earlier might get stuck when upgrading to version 6.2.18 or later. See [upgrade a Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster#before-upgrading" >}}) for instructions.
 
-#### Upcoming Changes
+### Upcoming Changes
 
 - Future Redis Enterprise images will be UBI9-based only, without support for Ubuntu-based images.
 
-### Supported distributions
+## Security
+
+For a list of fixes related to CVEs, see the [Redis Enterprise 7.2.4-109 release notes]({{<relref "operate/rs/release-notes/rs-7-4-2-releases">}}).
+
+## Supported distributions
 
 The following table shows supported distributions at the time of this release. You can also find this list in [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
 
@@ -71,45 +47,25 @@ The following table shows supported distributions at the time of this release. Y
 
 Any distribution not listed below is not supported for production workloads.
 
-| **Kubernetes version** | **1.24** | **1.25** | **1.26** | **1.27** | **1.28** | **1.29** |
+| **Kubernetes version** | **1.25** | **1.26** | **1.27** | **1.28** | **1.29** | **1.30** |
 |---|---|---|---|---|---|---|
-| **Community Kubernetes** |  |  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| **Amazon EKS** |  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |
-| **Azure AKS** |  |  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| **Google GKE** |  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| **Rancher RKE2** | <span title="X icon">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
-| **VMware TKG 2.2** | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> |  |  |  |  |
-| **VMware TKG 2.3** | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |
-| **VMware TKG 2.4** |  | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
-| **OpenShift version** | **4.11** | **4.12** | **4.13** | **4.14** | **4.15** |  |
-|  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |
-| **VMware TKGI version** | **1.15** | **1.16** | **1.17** | **1.18** |  |  |
-|  | <span title="X icon">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
+| **Community Kubernetes** |  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| **Amazon EKS** | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |
+| **Azure AKS** |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| **Google GKE** | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| **Rancher RKE2** | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
+| **VMware TKG 2.2** | <span title="X icon">&#x274c;</span> |  |  |  |  |  |
+| **VMware TKG 2.3** | <span title="X icon">&#x274c;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |
+| **VMware TKG 2.4** | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |
+| **OpenShift version** | **4.12** | **4.13** | **4.14** | **4.15** | **4.16** |  |
+|  | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |
+| **VMware TKGI version** | **1.16** | **1.17** | **1.18** | **1.19** |  |  |
+|  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
 
-
-## Downloads
-
-- **Redis Enterprise**: `redislabs/redis:7.4.2-129`
-- **Operator**: `redislabs/operator:7.4.2-12`
-- **Services Rigger**: `redislabs/k8s-controller:7.4.2-12`
-
-### OpenShift images
-
-- **Redis Enterprise**: `registry.connect.redhat.com/redislabs/redis-enterprise:7.4.2-129.rhel8-openshift`
-- **Operator**: `registry.connect.redhat.com/redislabs/redis-enterprise-operator:7.4.2-12`
-- **Services Rigger**: `registry.connect.redhat.com/redislabs/services-manager:7.4.2-12`
-
-### OLM bundle
-
-**Redis Enterprise operator bundle** : `v7.4.2-12.0`
 
 ## Known limitations
 
-### New limitations
-
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
-
-### Existing limitations
 
 - **The REDB “redisVersion” field can’t be used for memcached databases(RED-119152)**
 
@@ -158,3 +114,5 @@ Any distribution not listed below is not supported for production workloads.
 - **Long cluster names cause routes to be rejected  (RED-25871)** A cluster name longer than 20 characters will result in a rejected route configuration because the host part of the domain name exceeds 63 characters. The workaround is to limit the cluster name to 20 characters or fewer.
 
 - **Cluster CR (REC) errors are not reported after invalid updates (RED-25542)** A cluster CR specification error is not reported if two or more invalid CR resources are updated in sequence.
+
+

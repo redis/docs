@@ -3,7 +3,7 @@ You can select the tag's **Key** and **Value** from the suggestions, or you can 
 {{<image filename="images/rc/tags-new-tag.png" alt="The New tag fields." >}}
 
 A valid tag must follow these guidelines:
-- Tag keys must be between 2 and 64 characters long, and values must be at least 2 characters long.
+- Tag keys must be between 1 and 64 characters long, and values must be at least 1 character long.
 - Tags can only have lowercase letters, numbers, spaces, and these special characters: `-`, `_`, `.`, `+`, `@`, and `:`.
 
 After you add your first tag, you can:

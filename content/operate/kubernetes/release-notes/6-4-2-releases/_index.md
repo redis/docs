@@ -32,5 +32,8 @@ Operator version 6.4.2-6 includes a fix for this issue.
 
 On clusters with more than 9 REC nodes, a Kubernetes upgrade can render the Redis cluster unresponsive in some cases. A fix is available in the 6.4.2-5 release. Upgrade your operator version to 6.4.2-5 or later before upgrading your Kubernetes cluster.
 
+## Security
+
+For a list of fixes related to CVEs, see the [Redis Enterprise 6.4.2 release notes]({{<relref "operate/rs/release-notes/rs-6-4-2-releases/">}}).
 
 {{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}

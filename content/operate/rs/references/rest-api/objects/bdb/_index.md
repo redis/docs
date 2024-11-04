@@ -29,7 +29,7 @@ An API object that represents a managed database in the cluster.
 | authorized_subjects | {{<code>}}[{<br />  "CN": string,<br />  "O": string,<br />  "OU": [array of strings],<br />  "L": string,<br />  "ST": string,<br />  "C": string<br />}, ...]{{</code>}} A list of valid subjects used for additional certificate validations during TLS client authentication. All subject attributes are case-sensitive.<br />**Required subject fields**:<br />"CN" for Common Name<br />**Optional subject fields:**<br />"O" for Organization<br />"OU" for Organizational Unit (array of strings)<br />"L" for Locality (city)<br />"ST" for State/Province<br />"C" for 2-letter country code |
 | auto_upgrade | boolean (default:&nbsp;false); Upgrade the database automatically after a cluster upgrade |
 | avoid_nodes | array of strings; Cluster node UIDs to avoid when placing the database's shards and binding its endpoints |
-| background_op | Deprecated as of Redis Enterprise Software v7.6. Use [`GET /v1/actions/bdb/<bdb_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions/bdb">}}) instead.<br />{{<code>}}[{<br />  "status": string,<br />  "name": string,<br />  "error": object,<br />  "progress": number<br />}, ...]{{</code>}} (read-only); **progress**: Percent of completed steps in current operation |
+| background_op | Deprecated as of Redis Enterprise Software v7.8.2. Use [`GET /v1/actions/bdb/<bdb_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions/bdb">}}) instead.<br />{{<code>}}[{<br />  "status": string,<br />  "name": string,<br />  "error": object,<br />  "progress": number<br />}, ...]{{</code>}} (read-only); **progress**: Percent of completed steps in current operation |
 | backup | boolean (default:&nbsp;false); Policy for periodic database backup |
 | backup_failure_reason | Reason of last failed backup process (read-only)<br />Values:<br />'no-permission'<br />'wrong-file-path'<br />'general-error' |
 | backup_history | integer (default:&nbsp;0); Backup history retention policy (number of days, 0 is forever) |
@@ -57,6 +57,7 @@ An API object that represents a managed database in the cluster.
 | crdt_replicas | string;  Replica set configuration, for internal use only. |
 | crdt_sources | array of [syncer_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/syncer_sources" >}}) objects; Remote endpoints/peers of CRDB database to sync from. See the 'bdb -\> replica_sources' section |
 | crdt_sync | Enable, disable, or pause syncing from specified crdt_sources. Applicable only for Active-Active databases. See [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) for more details.<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
+| <span class="break-all">crdt_sync_connection_alarm_timeout_seconds</span> | integer (default: 0); If the syncer takes longer than the specified number of seconds to connect to an Active-Active database, raise a connection alarm |
 | crdt_sync_dist | boolean;  Enable/disable distributed syncer in master-master |
 | crdt_syncer_auto_oom_unlatch | boolean (default:&nbsp;true);  Syncer automatically attempts to recover synchronisation from peers after this database throws an Out-Of-Memory error. Otherwise, the syncer exits |
 | crdt_xadd_id_uniqueness_mode | XADD strict ID uniqueness mode. CRDT only.<br />Values:<br />‘liberal’<br />**‘strict’**<br />‘semi-strict’ |
@@ -101,7 +102,7 @@ An API object that represents a managed database in the cluster.
 | memory_size | integer (default:&nbsp;0); Database memory limit (0 is unlimited), expressed in bytes. |
 | metrics_export_all | boolean; Enable/disable exposing all shard metrics through the metrics exporter |
 | mkms | boolean (default:&nbsp;true); Are MKMS (Multi Key Multi Slots) commands supported? |
-| module_list | {{<code>}}[{<br />  "module_id": string,<br />  "module_args": [<br />    u'string',<br />    u'null'],<br />  "module_name": string,<br />  "semantic_version": string<br />}, ...]{{</code>}} List of modules associated with the database<br /><br />**module_id**: Module UID (deprecated; use `module_name` instead)<br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version (deprecated; use `module_args` instead)<br /><br />**module_id** and **semantic_version** are optional as of Redis Enterprise Software v7.4.2 and deprecated as of v7.6. |
+| module_list | {{<code>}}[{<br />  "module_id": string,<br />  "module_args": [<br />    u'string',<br />    u'null'],<br />  "module_name": string,<br />  "semantic_version": string<br />}, ...]{{</code>}} List of modules associated with the database<br /><br />**module_id**: Module UID (deprecated; use `module_name` instead)<br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version (deprecated; use `module_args` instead)<br /><br />**module_id** and **semantic_version** are optional as of Redis Enterprise Software v7.4.2 and deprecated as of v7.8.2. |
 | mtls_allow_outdated_certs | boolean; An optional mTLS relaxation flag for certs verification |
 | mtls_allow_weak_hashing | boolean; An optional mTLS relaxation flag for certs verification |
 | name | string; Database name. Only letters, numbers, or hyphens are valid characters. The name must start and end with a letter or number. |
@@ -117,6 +118,7 @@ An API object that represents a managed database in the cluster.
 | repl_backlog_size | string; Redis replication backlog size ('auto' or size in bytes) |
 | replica_sources | array of [syncer_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/syncer_sources" >}}) objects; Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section |
 | [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) | Enable, disable, or pause syncing from specified replica_sources<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
+| <span class="break-all">replica_sync_connection_alarm_timeout_seconds</span> | integer (default: 0); If the syncer takes longer than the specified number of seconds to connect to a replica, raise a connection alarm |
 | replica_sync_dist | boolean; Enable/disable distributed syncer in replica-of |
 | replication | boolean (default:&nbsp;false); In-memory database replication mode |
 | resp3 | boolean (default:&nbsp;true); Enables or deactivates RESP3 support |

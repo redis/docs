@@ -42,7 +42,6 @@ You can select more than one advanced capability for a database, though there ar
     - Time series
     - Probabilistic
 
-- Graph cannot be combined with other capabilities.
 - [Active-Active databases]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) only support JSON and Search and query.
 
 You don't have to combine capabilities. To remove a selected capability, clear its checkbox.
@@ -61,8 +60,10 @@ Use the [Search and query sizing calculator](https://redis.io/redisearch-sizing-
 
 #### Query performance factor
 
-The query performance factor adds extra compute power specifically for search and query. When you create a database with search and query, you can increase your search queries per second by the selected factor.  Below is a screenshot of the Cloud configuration for query perfomance factor.
+The query performance factor adds extra compute power specifically for search and query. When you create a database with search and query, you can increase your search queries per second by the selected factor.  Below is a screenshot of the Cloud configuration for query performance factor.
 
 {{<image filename="images/rc/database-details-query-performance-factor-pro.png" alt="For Pro databases, you can select the query performance factor for your database." width="75%">}}
 
 We recommend testing your application with a test database to see your baseline queries per second and determine how much you want to boost your query performance. After you have determined your queries per second and your desired performance factor, [create a new database]({{< relref "/operate/rc/databases/create-database" >}}) with the desired performance factor and [migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) from the test database to your new database.
+
+For more info on how to use scalable search, see [Best practices for scalable Redis Query Engine]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/scalable-query-best-practices" >}}).

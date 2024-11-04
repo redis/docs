@@ -16,10 +16,24 @@ weight: 99
 
 ## Requirements
 
-RedisGears v1.2.9 requires:
+RedisGears v1.2.10 requires:
 
 - Minimum Redis compatibility version (database): 6.0.0
 - Minimum Redis Enterprise Software version (cluster): 6.0.12
+
+## 1.2.10 (October 2024)
+
+This is a maintenance release for RedisGears 1.2
+
+Update urgency: `LOW`: No need to upgrade unless there are new features or fixes.
+
+Details
+
+- Bug fixes:
+  - [#1114](https://github.com/redisgears/redisgears/pull/1114) (REPLICAOF and Redis Enterprise A-A only) Cross slot violation. Avoid using `RM_Call` + `SCAN` command which might replicate multiple keys deletion inside a `MULTI EXEC` block when a lazy expire takes place
+
+- Notes:
+  - RHEL7 is no longer supported
 
 ## 1.2.9 (March 2024)
 

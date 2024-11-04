@@ -8,6 +8,7 @@ categories:
 description: The product lifecycle of Redis Enterprise Software.
 linkTitle: Product lifecycle
 weight: 100
+tocEmbedHeaders: true
 ---
 The Redis Enterprise Software product lifecycle fully reflects the [subscription agreement](https://redis.com/software-subscription-agreement).
 However, for any discrepancy between the two policies, the subscription agreement prevails.
@@ -39,7 +40,8 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 
 | Version - Release date | End of Life (EOL)  |
 | ----------------------------------------- | ------------------ |
-| 7.4 – February 2024				        | - |
+| 7.8 – November 2024				        | - |
+| 7.4 – February 2024				        | November 30, 2026 |
 | 7.2 – August 2023				            | February 28, 2026 |
 | 6.4 – February 2023						| August 31, 2025 |
 | 6.2 – August 2021                         | February 28, 2025  |
@@ -47,3 +49,11 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 | 5.6 – April 2020                          | October 31, 2021  |
 | 5.4 – December 2018                       | December 31, 2020  |
 | 5.2 – June 2018                           | December 31, 2019  |
+
+{{<embed-md "rs-upgrade-paths.md">}}
+
+For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
+
+{{<note>}}
+Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}).
+{{</note>}}
