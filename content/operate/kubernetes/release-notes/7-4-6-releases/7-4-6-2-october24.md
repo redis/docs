@@ -16,7 +16,7 @@ This is a maintenance release to support [Redis Enterprise Software version 7.4.
 
 ## Downloads
 
-- **Redis Enterprise**: `redislabs/redis:7.4.102`
+- **Redis Enterprise**: `redislabs/redis:7.4.6-102`
 - **Operator**: `redislabs/operator:7.4.6-2`
 - **Services Rigger**: `redislabs/k8s-controller:7.4.6-2`
 
