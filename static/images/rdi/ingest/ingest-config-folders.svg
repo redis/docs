@@ -42,7 +42,7 @@
     </g>
 </defs><use href="#fileIcon" x="0" y="0"/>
 <text x="25" y="18" class="filename">config.yaml</text>
-<text x="175" y="18" class="comment">"config.yaml" is the main configuration file</text><rect x="0" y="25" width="100%" height="30" class="listShade" rx="5" /><use href="#folderIcon" x="0" y="30"/>
+<text x="175" y="18" class="comment">"config.yaml" is the main configuration file.</text><rect x="0" y="25" width="100%" height="30" class="listShade" rx="5" /><use href="#folderIcon" x="0" y="30"/>
 <text x="25" y="48" class="filename">jobs</text>
 <text x="175" y="48" class="comment">Job files are optional.</text><use href="#fileIcon" x="20" y="60"/>
 <text x="45" y="78" class="filename">default-job.yaml</text>
