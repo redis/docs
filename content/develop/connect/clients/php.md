@@ -136,7 +136,7 @@ openssl x509 -req -days 365 -in redis_user.csr -signkey redis_user_private.key -
 ```
 
 If you have the [Redis source folder](https://github.com/redis/redis) available,
-you can also use generate the certificate and private key with these commands:
+you can also generate the certificate and private key with these commands:
 
 ```bash
 ./utils/gen-test-certs.sh
