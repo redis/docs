@@ -50,7 +50,7 @@ If your source database has TLS or mTLS enabled, we recommend that you enter the
 
 - **Encryption key**: Select a self-managed encryption key from the list of keys, or select **Add a new key** to [create one](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
 
-- **Resource permissions**: Add the following permissions to your secret to allow the Redis data pipeline to access your secret:
+- **Resource permissions**: Add the following permissions to your secret to allow the Redis data pipeline to access your secret. Replace `<AWS ACCOUNT ID>` with the provided AWS Account ID. 
 
     ```json
     {
@@ -63,7 +63,7 @@ If your source database has TLS or mTLS enabled, we recommend that you enter the
             "Resource" : "*",
             "Condition" : {
                 "StringLike" : {
-                    "aws:PrincipalArn" : "arn:aws:iam::984612047909:role/redis-data-pipeline-secrets-role"
+                    "aws:PrincipalArn" : "arn:aws:iam::<AWS ACCOUNT ID>:role/redis-data-pipeline-secrets-role"
                 }
             }
         } ]
