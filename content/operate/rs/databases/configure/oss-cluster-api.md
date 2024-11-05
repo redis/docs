@@ -8,8 +8,6 @@ categories:
 description: null
 linkTitle: OSS Cluster API
 weight: 20
-aliases: 
-    - /operate/rs/concepts/data-access/oss-cluster-api
 ---
 
 Review [Redis OSS Cluster API]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.

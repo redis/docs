@@ -1,0 +1,249 @@
+---
+Title: Create a support package
+alwaysopen: false
+categories:
+- docs
+- operate
+- rs
+description: Create a support package that gathers essential information to help debug
+  issues.
+linkTitle: Create support package
+toc: 'true'
+weight: $weight
+---
+If you encounter any issues that you are not able to resolve yourself
+and need to [contact Redis support](https://redis.com/company/support/) for assistance, you can create a
+support package that gathers all essential information to help debug
+your issues.
+
+{{< note >}}
+The process of creating the support package can take several minutes and generates load on the system.
+{{< /note >}}
+
+## Support package files
+
+The support package is a zip file that contains all cluster configuration and logs.
+
+When downloaded from the Cluster Manager UI, the name of the package is `debuginfo.tar.gz`.
+
+### Database support package files
+
+The support package includes database details in a `database_{bdb_uid}` directory, where `{bdb_uid}` is the database ID.
+
+| File | Description |
+|------|-------------|
+| database_{bdb_uid}_ccs_info.txt | Database information from cluster configuration store (CCS). Includes settings for databases, endpoints, shards, replicas, and CRDB. |
+| database_{bdb_uid}.clientlist | List of clients connected to the database when the support package was created. |
+| database_{bdb_uid}.info | Redis information and statistics for the database. See [`INFO`]({{<relref "/commands/info">}}) for details about the collected fields. |
+| database_{bdb_uid}.rladmin | Database information. See [`rladmin info db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/info#info-db">}}) for an example of collected fields. Also includes creation time, last changed time, Redis version, memory limit, persistence type, eviction policy, hashing policy, and whether SSL, backups, and email alerts are enabled. |
+| ccs-redis.json | Master node's local cluster configuration store (CCS). |
+
+If slowlog is enabled or sanitized is disabled, the database directory will also include:
+
+- `database_{bdb_uid}.slowlog`
+
+for each shard of the specified database only:
+
+/node_{node_uid}/
+
+"redis_{shard_uid}.txt"
+
+### Node support package files
+
+The support package collects database details in a `node_{node_uid}` directory, where `{node_uid}` is the node ID.
+
+"node_{node_uid}.ccs"
+
+"node_{node_uid}.rladmin"
+
+"node_{node_uid}_sys_info.txt"
+
+"node_{node_uid}_envoy_config.json"
+
+"ccs-redis.json"
+
+/logs/
+
+/conf/
+
+"supervisord_cm_server.conf"
+
+"redislabs_env_config.sh"
+
+"node_local_config.json"
+
+"last_bootstrap.json"
+
+"supervisord_crdb_coordinator.conf"
+
+"node.id"
+
+"supervisord_pdns_server.conf"
+
+"bootstrap_status.json"
+
+"gossip_envoy.yaml"
+
+"socket.conf"
+
+"local_addr.conf"
+
+"ccs-paths.conf"
+
+"envoy.yaml"
+
+"heartbeatd-config.json"
+
+"config.json"
+
+"supervisord_crdb_worker.conf"
+
+"supervisord_mdns_server.conf"
+
+"supervisord_alert_mgr.conf"
+
+"metrics_exporter_cert.modulus"
+
+"metrics_exporter_key.modulus"
+
+"cm_key.modulus"
+
+"cm_cert.modulus"
+
+"api_cert.modulus"
+
+"api_key.modulus"
+
+"ccs_internode_encryption_cert.modulus"
+
+"ccs_internode_encryption_key.modulus"
+
+"data_internode_encryption_cert.modulus"
+
+"data_internode_encryption_key.modulus"
+
+"gossip_ca_signed_cert.modulus"
+
+"gossip_ca_signed_key.modulus"
+
+"mesh_ca_signed_cert.modulus"
+
+"mesh_ca_signed_key.modulus"
+
+"proxy_cert.modulus"
+
+"proxy_key.modulus"
+
+"syncer_cert.modulus"
+
+"syncer_key.modulus"
+
+If sanitized is disabled, will also include:
+
+"ccs-auth.conf"
+
+"api_cert.pem"
+
+"ccs_internode_encryption_cert.pem"
+
+"cm_config.cfg"
+
+"cm_config_external.cfg"
+
+"cm_cert.pem"
+
+"data_internode_encryption_cert.pem"
+
+"gossip_ca_signed_cert.pem"
+
+"mesh_ca_signed_cert.pem"
+
+"metrics_exporter_cert.pem"
+
+"proxy_cert.pem"
+
+"syncer_cert.pem"
+
+"trusted_ca.pem"
+
+## Create support package
+
+### Cluster Manager UI method
+
+To create a support package from the Cluster Manager UI:
+
+1. In the navigation menu, select **Support**.
+
+    {{<image filename="images/rs/screenshots/create-support-package.png"  width="60%" alt="Select Support and create a support package.">}}
+
+1. Select **Proceed**.
+
+1. In the **Create support package** dialog, select **Run process**.
+
+1. The package is created and downloaded by your browser.
+
+### Command-line method
+
+If package creation fails with `internal error` or if you cannot access the UI, create a support package for the cluster from the command line on any node in the cluster using the [`rladmin cluster debug_info`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/debug_info" >}}) command: 
+
+```sh
+/opt/redislabs/bin/rladmin cluster debug_info
+```
+
+- If `rladmin cluster debug_info` fails for lack of space in the `/tmp` directory, you can:
+
+    1. Change the storage location where the support package is saved: 
+    
+        ```sh
+        rladmin cluster config debuginfo_path <path>
+        ```
+
+        The `redislabs` user must have write access to the storage location on all cluster nodes.
+
+    1. On any node in the cluster, run:
+        
+        ```sh
+        rladmin cluster debug_info
+        ```
+
+- If `rladmin cluster debug_info` fails for another reason, you can create a support package for the cluster from the command line on each node in the cluster with the command: 
+
+    ```sh
+    /opt/redislabs/bin/debuginfo
+    ```
+
+Upload the tar file to [Redis support](https://redis.com/company/support/). The path to the archive is shown in the command output.
+
+### REST API method
+
+You can also use `debuginfo` [REST API]({{< relref "/operate/rs/references/rest-api" >}}) requests to create and download support packages.
+
+To download debug info from all nodes and databases:
+
+```sh
+GET /v1/cluster/debuginfo
+```
+
+To download debug info from all nodes:
+
+```sh
+GET /v1/nodes/debuginfo
+```
+
+To download debug info from a specific node, replace `<uid>` in the following request with the node ID:
+
+```sh
+GET /v1/nodes/<uid>/debuginfo
+```
+
+To download debug info from all databases:
+
+```sh
+GET /v1/bdbs/debuginfo
+```
+
+To download debug info from a specific database, replace `<uid>` in the following request with the database ID:
+
+```sh
+GET /v1/bdbs/<uid>/debuginfo
+```
