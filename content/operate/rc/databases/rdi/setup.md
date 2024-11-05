@@ -45,7 +45,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
     - `client_certificate_passphrase`: Passphrase or password for the client certificate or chain in PEM format *(mTLS only)*
 
     {{<note>}}
-    If your source database has TLS or mTLS enabled, we recommend that you enter the `server_certificate`, `client_certificate`, and `client_certificate_key` into the secret editor using the **Key/Value** input method instead of the **JSON** input method. Pasting directly into the JSON editor may cause an error. 
+If your source database has TLS or mTLS enabled, we recommend that you enter the `server_certificate`, `client_certificate`, and `client_certificate_key` into the secret editor using the **Key/Value** input method instead of the **JSON** input method. Pasting directly into the JSON editor may cause an error. 
     {{</note>}}
 
 - **Encryption key**: Select a self-managed encryption key from the list of keys, or select **Add a new key** to [create one](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
