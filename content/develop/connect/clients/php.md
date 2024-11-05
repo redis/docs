@@ -30,7 +30,7 @@ instructions.
 
 ## Install
 
-Use [Composer](https://getcomposer.org/) to install the `predis` library
+Use [Composer](https://getcomposer.org/) to install the `Predis` library
 with the following command line:
 
 ```bash
