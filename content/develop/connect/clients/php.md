@@ -17,7 +17,7 @@ weight: 6
 
 [`Predis`](https://github.com/predis/predis) is the recommended [PHP](https://php.net/)
 client for Redis. 
-The sections below explain how to install `predis` and connect your application to a Redis database.
+The sections below explain how to install `Predis` and connect your application to a Redis database.
 
 {{< note >}}Although we provide basic documentation for `Predis`, it is a third-party
 client library and is not developed or supported directly by Redis.
