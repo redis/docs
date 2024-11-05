@@ -16,16 +16,18 @@ This is a maintenance release to support [Redis Enterprise Software version 7.4.
 
 ## Downloads
 
-- **Redis Enterprise**: `redislabs/redis:7.4.102`
+- **Redis Enterprise**: `redislabs/redis:7.4.6-102`
 - **Operator**: `redislabs/operator:7.4.6-2`
 - **Services Rigger**: `redislabs/k8s-controller:7.4.6-2`
 
 ### OpenShift images
 
-- **Redis Enterprise**: `registry.connect.redhat.com/redislabs/redis-enterprise:7.4.102.rhel8-openshift`
+- **Redis Enterprise**: `registry.connect.redhat.com/redislabs/redis-enterprise:7.4.6-102.rhel8-openshift`
 - **Operator**: `registry.connect.redhat.com/redislabs/redis-enterprise-operator:7.4.6-2`
 - **Services Rigger**: `registry.connect.redhat.com/redislabs/services-manager:7.4.6-2`
 
 ### OLM bundle
 
-**Redis Enterprise operator bundle** : `v7.4.6-2.3`
+**Redis Enterprise operator bundle** : `v7.4.6-2.4`
+
+The OLM version v7.4.6-2.4 replaces the earlier v7.4.6-2.3 release for the same Redis software version, providing only upgrade path fixes.

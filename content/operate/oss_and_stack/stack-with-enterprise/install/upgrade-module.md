@@ -89,7 +89,7 @@ The upgrade process does not validate the module upgrade arguments, and incorrec
 
         - `module_args keep_args` to use the existing module arguments.
 
-## Examples for Redis Software v7.6 and later
+## Examples for Redis Software v7.8.2 and later
 
 The following module upgrade examples are supported for Redis Enterprise Software versions 7.8.2 and later:
 

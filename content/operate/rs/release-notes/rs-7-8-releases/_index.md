@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Redis Community Edition 7.4 features. Client-side caching support. Metrics stream engine preview. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. Configurable minimum password length. Configurable license expiration alert threshold.
+description: Redis Community Edition 7.4 features. Hash field expiration. Client-side caching support. Metrics stream engine preview. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. Configurable minimum password length. Configurable license expiration alert threshold.
 hideListLinks: true
 linkTitle: 7.8.2 releases
 toc: 'true'
@@ -20,6 +20,8 @@ weight: 69
 This version offers:
 
 - Redis Community Edition 7.4 features
+
+- Hash field expiration
 
 - Client-side caching support
 
@@ -75,10 +77,6 @@ $ redis-cli -p <port> INFO
 redis_version:7.0.8
 ..."
 ```
-
-##### Modules API potentially breaking changes
-
-- [#13326](https://github.com/redis/redis/pull/13326) Hash - expiration of individual fields: avoid lazy expire when called from a Modules API function.
 
 ##### Security behavior changes
 
@@ -160,7 +158,7 @@ If your database currently uses triggers and functions, you need to:
 
 #### V1 Prometheus metrics deprecation
 
- V1 Prometheus metrics are deprecated. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL](<!--TODO: Add link-->) now, or wait to use new preconfigured dashboards when they become available in a future release.
+ V1 Prometheus metrics are deprecated. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
 
 #### Download center modules deprecation
 

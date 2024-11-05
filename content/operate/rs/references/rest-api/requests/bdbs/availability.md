@@ -28,7 +28,7 @@ Verifies the local database endpoint is available. This request does not redirec
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_bdb_info]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_bdb_info]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-endpoint-request}
 
@@ -73,7 +73,7 @@ The following are possible `error_code` values:
 
 | Code | Description |
 |------|-------------|
-| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Database endpoint is available |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Database endpoint is available. |
 | [503 Service Unavailable](https://www.rfc-editor.org/rfc/rfc9110.html#name-503-service-unavailable) | Database endpoint is unavailable. |
 
 
@@ -93,7 +93,7 @@ Gets the availability status of a database.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_bdb_info]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_bdb_info]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-db-request}
 
@@ -138,5 +138,5 @@ The following are possible `error_code` values:
 
 | Code | Description |
 |------|-------------|
-| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Database is available |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Database is available. |
 | [503 Service Unavailable](https://www.rfc-editor.org/rfc/rfc9110.html#name-503-service-unavailable) | Database is unavailable or doesn't have quorum. |

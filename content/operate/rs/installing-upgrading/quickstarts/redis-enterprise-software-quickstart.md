@@ -88,7 +88,7 @@ To set up your machine as a Redis Enterprise Software cluster:
 
 ## Create a database
 
-{{<embed-md "quick-db-setup.md">}}
+{{<embed-md "rs-quick-db-setup-7-8.md">}}
 
 ## Connect to your database
 
