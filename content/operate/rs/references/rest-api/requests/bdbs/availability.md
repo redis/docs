@@ -73,7 +73,7 @@ The following are possible `error_code` values:
 
 | Code | Description |
 |------|-------------|
-| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Database endpoint is available |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Database endpoint is available. |
 | [503 Service Unavailable](https://www.rfc-editor.org/rfc/rfc9110.html#name-503-service-unavailable) | Database endpoint is unavailable. |
 
 
@@ -138,5 +138,5 @@ The following are possible `error_code` values:
 
 | Code | Description |
 |------|-------------|
-| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Database is available |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | Database is available. |
 | [503 Service Unavailable](https://www.rfc-editor.org/rfc/rfc9110.html#name-503-service-unavailable) | Database is unavailable or doesn't have quorum. |
