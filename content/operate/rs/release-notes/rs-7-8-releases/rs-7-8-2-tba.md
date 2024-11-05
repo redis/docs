@@ -43,7 +43,7 @@ This version offers:
 
 - Redis Community Edition and Redis Stack 7.4 features are now available when you [create]({{<relref "/operate/rs/databases/create">}}) or [upgrade]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) a database with database version 7.4, including:
 
-    - Hash field expiration
+    - [Hash field expiration]({{<relref "/develop/data-types/hashes#field-expiration">}})
     
     - New vector data types to reduce ‌memory usage
     
