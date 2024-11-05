@@ -479,7 +479,46 @@ Use the following code to disable the DNS cache:
 java.security.Security.setProperty("networkaddress.cache.ttl","0");
 java.security.Security.setProperty("networkaddress.cache.negative.ttl", "0");
 ```
+## Example: Indexing and querying JSON documents
 
+Import dependencies:
+
+{{< clients-example java_home_json import>}}
+{{< /clients-example >}}
+
+Connect:
+
+{{< clients-example java_home_json connect>}}
+{{< /clients-example >}}
+
+Create data:
+
+{{< clients-example java_home_json create_data>}}
+{{< /clients-example >}}
+
+Create index:
+
+{{< clients-example java_home_json make_index>}}
+{{< /clients-example >}}
+
+Add data:
+{{< clients-example java_home_json add_data>}}
+{{< /clients-example >}}
+
+Query Pauls:
+
+{{< clients-example java_home_json query1>}}
+{{< /clients-example >}}
+
+Query just cities:
+
+{{< clients-example java_home_json query2>}}
+{{< /clients-example >}}
+
+Agg query:
+
+{{< clients-example java_home_json query3 >}}
+{{< /clients-example >}}
 ## Learn more
 
 * [Jedis API reference](https://www.javadoc.io/doc/redis.clients/jedis/latest/index.html)
