@@ -33,18 +33,42 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 
 You need to share your source database credentials and certificates in an Amazon secret with Redis Cloud so that the pipeline can connect to your database.
 
-In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following key/value fields:
+In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following settings:
 
-- `username`: Database username
-- `password`: Database password
-- `server_certificate`: Server certificate in PEM format *(TLS only)*
-- `client_certificate`: [X.509 client certificate](https://en.wikipedia.org/wiki/X.509) or chain in PEM format *(mTLS only)*
-- `client_certificate_key`: Key for the client certificate or chain in PEM format *(mTLS only)*
-- `client_certificate_passphrase`: Passphrase or password for the client certificate or chain in PEM format *(mTLS only)*
+- **Key/value pairs**: Enter the following key/value pairs.
 
-{{<note>}}
-If your source database has TLS or mTLS enabled, we recommend that you enter the `server_certificate`, `client_certificate`, and `client_certificate_key` into the secret editor using the **Key/Value** input method instead of the **JSON** input method. Pasting directly into the JSON editor may cause an error. 
-{{</note>}}
+    - `username`: Database username
+    - `password`: Database password
+    - `server_certificate`: Server certificate in PEM format *(TLS only)*
+    - `client_certificate`: [X.509 client certificate](https://en.wikipedia.org/wiki/X.509) or chain in PEM format *(mTLS only)*
+    - `client_certificate_key`: Key for the client certificate or chain in PEM format *(mTLS only)*
+    - `client_certificate_passphrase`: Passphrase or password for the client certificate or chain in PEM format *(mTLS only)*
+
+    {{<note>}}
+    If your source database has TLS or mTLS enabled, we recommend that you enter the `server_certificate`, `client_certificate`, and `client_certificate_key` into the secret editor using the **Key/Value** input method instead of the **JSON** input method. Pasting directly into the JSON editor may cause an error. 
+    {{</note>}}
+
+- **Encryption key**: Select a self-managed encryption key from the list of keys, or select **Add a new key** to [create one](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
+
+- **Resource permissions**: Add the following permissions to your secret to allow the Redis data pipeline to access your secret:
+
+    ```json
+    {
+        "Version" : "2012-10-17",
+        "Statement" : [ {
+            "Sid" : "RedisDataIntegrationRoleAccess",
+            "Effect" : "Allow",
+            "Principal" : "*",
+            "Action" : [ "secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret" ],
+            "Resource" : "*",
+            "Condition" : {
+                "StringLike" : {
+                    "aws:PrincipalArn" : "arn:aws:iam::984612047909:role/redis-data-pipeline-secrets-role"
+                }
+            }
+        } ]
+    }
+    ```
 
 After you store this secret, you can view and copy the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#iam-resources) of your secret on the secret details page. 
 
