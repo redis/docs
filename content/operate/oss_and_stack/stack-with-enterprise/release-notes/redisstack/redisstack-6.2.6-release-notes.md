@@ -57,12 +57,12 @@ Additionally, this maintenance release includes the latest version of **Redis In
 
 Compatible with [Redis Insight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [Redis Insight 2.58](https://github.com/RedisInsight/RedisInsight/releases/tag/2.58.0).
 
-Note: version numbers follow the following pattern:
-`x.y.z-b`
-* `x.y` Redis Major version
-* `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+Note: version numbers follow the pattern:
 
+`x.y.z-b`
+* `x.y` Redis major version
+* `z` increases with even numbers as a module x.y version increases.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v16 (August 2024)
 
@@ -122,11 +122,12 @@ This maintenance release also contains the latest version of **RedisInsight**.
 
 Compatible with [Redis Insight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [Redis Insight 2.54](https://github.com/RedisInsight/RedisInsight/releases/tag/2.54.0).
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v15 (June 2024)
 
@@ -181,11 +182,12 @@ This maintenance release also contains the latest version of **RedisInsight**.
 
 Compatible with [Redis Insight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [Redis Insight 2.50](https://github.com/RedisInsight/RedisInsight/releases/tag/2.50.0).
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Downloads
 
@@ -260,11 +262,12 @@ This version contains the latest **search and query** capability with several im
 
 Compatible with [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.46](https://github.com/RedisInsight/RedisInsight/releases/tag/2.46.0).
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Downloads
 
@@ -328,11 +331,12 @@ This version contains the latest **search and query** capability and **probabili
 
 Compatible with [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.44](https://github.com/RedisInsight/RedisInsight/releases/tag/2.44.0).
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Downloads
 
@@ -396,12 +400,12 @@ This maintenance release contains the new version of **probabilistic** data stru
 
 Compatible with [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.40](https://github.com/RedisInsight/RedisInsight/releases/tag/2.40.0).
 
-Note: version numbers follow the following pattern:
-`x.y.z-b`
-* `x.y` Redis Major version
-* `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+Note: version numbers follow the pattern:
 
+`x.y.z-b`
+* `x.y` Redis major version
+* `z` increases with even numbers as a module x.y version increases.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v11 (January 2024)
 
@@ -470,11 +474,12 @@ This version contains the latest **time series data** structure with a security 
 
 Compatible with [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.40](https://github.com/RedisInsight/RedisInsight/releases/tag/2.40.0).
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v10 (November 2023)
 
@@ -537,11 +542,12 @@ This version contains a security fix for the Redis server to avoid bypassing des
 
 Compatible with [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.36](https://github.com/RedisInsight/RedisInsight/releases/tag/2.36.0).
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Downloads
 
@@ -616,11 +622,12 @@ This version contains the latest Search and Query capability v. 2.6.12, time ser
 
 Compatible with [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.28](https://github.com/RedisInsight/RedisInsight/releases/tag/2.28.0).
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v8 (July 2023)
 
@@ -675,12 +682,12 @@ using COMMAND GETKEYS* and validation of key names in ACL rules.
 
 Compatible with [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight](https://github.com/RedisInsight/RedisInsight/releases/).
 
-Note: version numbers follow the following pattern:
-`x.y.z-b`
-* `x.y` Redis Major version
-* `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+Note: version numbers follow the pattern:
 
+`x.y.z-b`
+* `x.y` Redis major version
+* `z` increases with even numbers as a module x.y version increases.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v7 (April 2023)
 
@@ -737,11 +744,12 @@ This version contains the latest RediSearch 2.6.9, RedisJSON 2.4.7, RedisGraph 2
 
 Compatible with the latest [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.22](https://github.com/RedisInsight/RedisInsight/releases/tag/2.22.1).
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v6 (March 2023)
 
@@ -786,11 +794,12 @@ This version contains the latest RedisTimeSeries 1.8.9 with bugs fixed.
 
 Compatible with the latest [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.20](https://github.com/RedisInsight/RedisInsight/releases/tag/2.20.0).
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v5 (March 2023)
 
@@ -844,12 +853,12 @@ This version contains the latest RediSearch 2.6.6, RedisJSON 2.4.6, RedisGraph 2
 
 Compatible with the latest [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.20](https://github.com/RedisInsight/RedisInsight/releases/tag/2.20.0).
 
-Note: version numbers follow the following pattern:
-`x.y.z-b`
-* `x.y` Redis Major version
-* `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+Note: version numbers follow the pattern:
 
+`x.y.z-b`
+* `x.y` Redis major version
+* `z` increases with even numbers as a module x.y version increases.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v4 (February 2023)
 
@@ -883,12 +892,12 @@ This version contains the latest RedisJSON 2.4.5 with support for Ubuntu 20 - Fo
 
 Compatible with the latest [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.18](https://github.com/RedisInsight/RedisInsight/releases/tag/2.18.0).
 
-Note: version numbers follow the following pattern:
-`x.y.z-b`
-* `x.y` Redis Major version
-* `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+Note: version numbers follow the pattern:
 
+`x.y.z-b`
+* `x.y` Redis major version
+* `z` increases with even numbers as a module x.y version increases.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v3 (February 2023)
 
@@ -949,13 +958,12 @@ This version contains the latest RediSearch 2.6.5, RedisJSON 2.4.4, RedisGraph 2
 
 Compatible with the latest [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for is bundled with [RedisInsight 2.18](https://github.com/RedisInsight/RedisInsight/releases/tag/2.18.0).
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
-
-
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v2  (January 2023)
 
@@ -995,11 +1003,12 @@ This version contains the latest RedisInsight 2.16 and RedisTimeSeries 1.8.5 wit
 
 Compatible with the latest [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.16](https://github.com/RedisInsight/RedisInsight/releases/tag/2.16.0).
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack 6.2.6-v1 (January 2023)
 
@@ -1055,12 +1064,12 @@ This version contains the latest RediSearch 2.6.4, RedisJSON 2.4.3, RedisGraph 2
 
 Compatible with [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.14](https://github.com/RedisInsight/RedisInsight/releases/tag/2.14.0).
 
-Note: version numbers follow the following pattern:
-`x.y.z-b`
-* `x.y` Redis Major version
-* `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+Note: version numbers follow the pattern:
 
+`x.y.z-b`
+* `x.y` Redis major version
+* `z` increases with even numbers as a module x.y version increases.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-v0 (December 2022)
 
@@ -1170,12 +1179,12 @@ This is a GA release of Redis Stack version 6.2.6
 
 Compatible with the latest [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with [RedisInsight 2.14](https://github.com/RedisInsight/RedisInsight/releases/tag/2.14.0).
 
-Note: version numbers follow the following pattern:
-`x.y.z-b`
-* `x.y` Redis Major version
-* `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+Note: version numbers follow the pattern:
 
+`x.y.z-b`
+* `x.y` Redis major version
+* `z` increases with even numbers as a module x.y version increases.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
 ## Redis Stack Server 6.2.6-RC1 (November 2022)
 
@@ -1260,9 +1269,10 @@ This is a Release Candidate of Redis Stack Server 6.2.6
 
 Compatible with the latest [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with RedisInsight 2.12.0.
 
-Note: version numbers follow the following pattern:
+Note: version numbers follow the pattern:
+
 `x.y.z-b`
-* `x.y` Redis Major version
+* `x.y` Redis major version
 * `z` increases with even numbers as a module x.y version increases.
-* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or modules). `b` will consist of a `v` + numeric value.
 
