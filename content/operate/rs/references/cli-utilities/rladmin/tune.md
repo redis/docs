@@ -105,7 +105,7 @@ Configures database parameters.
 
 ``` sh
 rladmin tune db { db:<id> | <name> }
-        [ slave_buffer <valueMG | hard:soft:time> ]
+        [ slave_buffer <auto | valueMB | hard:soft:time> ]
         [ client_buffer <value> ]
         [ repl_backlog <valueMB | auto> ]
         [ crdt_repl_backlog <valueMB | auto> ]
@@ -181,7 +181,7 @@ rladmin tune db { db:<id> | <name> }
 | resp3 | `enabled`<br /> `disabled` | Enables or deactivates RESP3 support (defaults to `enabled`) |
 | schedpolicy                          | `cmp`<br /> `mru`<br /> `spread`<br /> `mnp` | Controls how server-side connections are used when forwarding traffic to shards                                           |
 | skip_import_analyze                  | `enabled`<br /> `disabled`       | Skips the analyzing step when importing a database                                                                                    |
-| slave_buffer                         | value in MB<br /> hard:soft:time | Redis replica output buffer limits                                                                                                    |
+| slave_buffer                         | `auto`<br />value in MB<br /> hard:soft:time | Redis replica output buffer limits<br />• `auto`: dynamically adjusts the buffer limit based on the shard’s current used memory<br />• value in MB: sets the buffer limit in MB<br />• hard:soft:time: sets the hard limit (maximum buffer size in MB), soft limit in MB, and the time in seconds that the soft limit can be exceeded |
 | slave_ha                             | `enabled`<br /> `disabled`       | Activates or deactivates replica high availability (defaults to the cluster setting)                                                      |
 | slave_ha_priority                    | integer                          | Priority of the database in the replica high-availability mechanism                                                                           |
 | syncer_mode                          | `distributed`<br /> `centralized`| Configures syncer to run in distributed or centralized mode. For distributed syncer, the DMC policy must be all-nodes or all-master-nodes |
