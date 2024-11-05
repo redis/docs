@@ -235,10 +235,6 @@ redis_version:7.0.8
 ..."
 ```
 
-#### Modules API potentially breaking changes
-
-- [#13326](https://github.com/redis/redis/pull/13326) Hash - expiration of individual fields: avoid lazy expire when called from a Modules API function.
-
 #### Security behavior changes
 
 - [#13108](https://github.com/redis/redis/pull/13108) Lua: LRU eviction for scripts generated with `EVAL`. 
