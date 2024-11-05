@@ -6,7 +6,7 @@ categories:
 - operate
 - stack
 description: Redis Stack 6.2.6 release notes.
-linkTitle: v6.2.6-v0 (December 2021)
+linkTitle: v6.2.6-v0 (November 2022)
 weight: 100
 ---
 
