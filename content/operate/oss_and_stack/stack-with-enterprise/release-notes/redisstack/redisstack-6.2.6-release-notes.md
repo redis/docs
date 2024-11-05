@@ -1062,7 +1062,7 @@ Note: version numbers follow the following pattern:
 * `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
 
 
-## Redis Stack Server 6.2.6-v0 (December 2021)
+## Redis Stack Server 6.2.6-v0 (December 2022)
 
 This is a GA release of Redis Stack version 6.2.6
 
@@ -1175,3 +1175,94 @@ Note: version numbers follow the following pattern:
 * `x.y` Redis Major version
 * `z` increases with even numbers as a module x.y version increases.
 * `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+
+
+## Redis Stack Server 6.2.6-RC1 (November 2022)
+
+This is a Release Candidate of Redis Stack Server 6.2.6
+
+### Headlines:
+* Query & Search:
+  - multi-value index and query for: text, tag, numeric, geo and vector!
+  - affix search `*oolman` and wildcard search `y?fta*`
+  - support for FP64 vectors
+* New faster JSONPath parser
+* New probabilistic data structure: t-digest
+* New path-finding algorithms `algo.SPpaths` and `algo.SSpaths` for Graph
+* Support for gap filling for Time series
+
+### Details:
+**RediSearch**  introduces the following features:
+* the ability to search using wildcard queries for TEXT and TAG fields. This enables the frequently asked feature of affix search and includes optimized wildcard query support :
+   - `?` matches any single character
+   - `*` matches zero or more characters
+   - use `’` and `\` for escaping, other special characters are ignored
+* Multi-value indexing and querying of attributes for any attribute type ([Text](https://redis.io/docs/stack/search/indexing_json/#index-json-arrays-as-text), [Tag](https://redis.io/docs/stack/search/indexing_json/#index-json-arrays-as-tag), [Numeric](https://redis.io/docs/stack/search/indexing_json/#index-json-arrays-as-numeric), [Geo](https://redis.io/docs/stack/search/indexing_json/#index-json-arrays-as-geo) and [Vector](https://redis.io/docs/stack/search/indexing_json/#index-json-arrays-as-vector)) defined by a [JSONPath](https://redis.io/docs/stack/json/path/) leading to an array:
+  - Multi-value text search - perform full-text search on [array of string or on a JSONPath](https://redis.io/docs/stack/search/indexing_json/#index-json-arrays-as-tag) leading to multiple strings
+  - Return JSON rather than scalars from multi-value attributes. This is enabled via Dialect 3 in order not to break existing applications.
+  - Support for `SORTABLE` fields on JSON in an implicit un-normalized form (UNF)
+* Support for indexing double-precision floating-point vectors and range queries from a given vector:
+  - Better space optimization selection
+  - Aligning index capacity with block size
+  - Support FLOAT64 as vector data type
+  - Range query support
+  - Support query attributes for vector queries
+ 
+**RedisJSON**  introduces the following features:
+* A new JSONPath library which enhances the performance of parsing any JSONPath expression in RedisJSON.
+ 
+**RedisBloom** introduces the following new features:
+* A new sketch data structure: t-digest. t-digest is a sketch data structure for estimating quantiles based on a data stream or a large dataset of values. As for other sketch data structures, t-digest requires sublinear space and has controllable space-accuracy tradeoffs.
+
+**RedisGraph** introduces the following new features:
+* New path-finding algorithms: 
+  - The `algo.SPpaths` procedure returns one, _n_, or all minimal-weight, optionally bounded-cost, optionally bounded-length paths between a given pair of nodes.
+  - The `algo.SSpaths` procedure returns one, _n_, or all minimal-weight, optionally bounded-cost, optionally bounded-length paths from a given node.
+* Introduce `SET` for adding node labels and `REMOVE` for removing node labels, node properties, and edge properties
+* Support deleting paths with `DELETE`
+* Introduce `toBoolean`, `toBooleanOrNull`, `toFloatOrNull`, `toIntegerOrNull`, `toStringOrNull`, `toBooleanList`, `toFloatList`, `toIntegerList`, `toStringList`, `properties`, `split`, `last`, `isEmpty`,`e`, `exp`, `log`, `log10`, `sin`, `cos`, `tan`, `cot`, `asin`, `acos`, `atan`, `atan2`, `degrees`, `radians`, `pi`, and `haversin` functions.
+* Graph slow log can be reset with `GRAPH.SLOWLOG g RESET` (also added in 2.8.20)
+* Queries are now atomic (_Atomicity_ is the guarantee that each query either succeeds or fails with no side effects). Whenever a failure occurs, the query effect is rolled-back from an undo-log.
+ 
+**RedisTimeSeries** introduces the following new features:
+* Introduction of a new aggregator: `twa` (time-weighted average)
+* Introduction of a new optional `EMPTY` flag to `TS.RANGE`, `TS.REVRANGE`, `TS.MRANGE`, and `TS.MREVRANGE` to retrieve aggregations for empty buckets as well.
+* Gap-filling: Using `EMPTY` when the aggregator is `twa` allows estimating the average of a continuous signal even for empty buckets based on linear interpolation of previous and next samples. Using `EMPTY` when the aggregator is `last` would repeat the value of the previous sample when the bucket is empty.
+* Introduction of a new optional `BUCKETTIMESTAMP` parameter to `TS.RANGE`, `TS.REVRANGE`, `TS.MRANGE`, and `TS.MREVRANGE`. It is now possible to report the start time, the end time, or the mid time for each bucket.
+* Introduction of a new optional `alignTimestamp` parameter to `TS.CREATERULE` and to `COMPACTION_POLICY` configuration parameter.  It is now possible to define alignment for compaction rules, so one can, for example, aggregate daily events from 06:00 to 06:00 the next day.
+* Introduction of additional reducer types in `GROUPBY` (`TS.MRANGE`, and `TS.MREVRANGE`): `avg`, `range`, `count`, `std.p`, `std.s`, `var.p`, and `var.s`
+* Introduction of a new optional `LATEST` flag to `TS.GET`, `TS.MGET`, `TS.RANGE`, `TS.REVRANGE`, `TS.MRANGE`, and `TS.MREVRANGE`. it is possible to retrieve the latest (possibly partial) bucket as well.
+
+ 
+**Redis version** (no changes)
+* [Redis 6.2.7](https://github.com/redis/redis/blob/6.2.7/00-RELEASENOTES)
+ 
+
+**Module versions**
+* __[RediSearch 2.6.1](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.1)__
+* __[RedisJSON 2.4.0](https://github.com/RedisJSON/RedisJSON/releases/tag/v2.4.0)__
+* __[RedisGraph 2.10-RC1 (v2.10.2)](https://github.com/RedisGraph/RedisGraph/releases/tag/v2.10.2)__
+* __[RedisTimeSeries 1.8-RC3 (v1.8.2)](https://github.com/RedisTimeSeries/RedisTimeSeries/releases/tag/v1.8.2)__
+* __[RedisBloom 2.4-RC3 (v2.4.2)](https://github.com/RedisBloom/RedisBloom/releases/tag/v2.4.2)__
+
+**Recommended Client Libraries  (no changes)**
+* Java
+  * [Jedis 4.2.0 or greater ](https://github.com/redis/jedis/releases/tag/v4.2.0)
+  * [redis-om-spring](https://github.com/redis/redis-om-spring)
+* Python
+  * [redis-py 4.3.1 or greater ](https://github.com/redis/redis-py/releases/tag/v4.3.1)
+  * [redis-om-python](https://github.com/redis/redis-om-python)
+* NodeJS
+  * [node-redis 4.4.0  or greater](https://www.npmjs.com/package/redis)
+  * [redis-om-node](https://github.com/redis/redis-om-node)
+* .NET
+  * [redis-om-dotnet](https://github.com/redis/redis-om-dotnet)
+
+Compatible with the latest [RedisInsight](https://redis.io/download). The docker image redis/redis-stack for this version is bundled with RedisInsight 2.12.0.
+
+Note: version numbers follow the following pattern:
+`x.y.z-b`
+* `x.y` Redis Major version
+* `z` increases with even numbers as a module x.y version increases.
+* `b` denotes a patch to Redis or a module (any `z` of Redis or Modules). `b` will consist of a `v` + numeric value.
+
