@@ -15,7 +15,7 @@ weight: 45
 
 You can [integrate Redis Enterprise Software with Prometheus and Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise/">}}) to create dashboards for important metrics.
 
-As of Redis Enterprise Software version 7.8.0, [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/latest/querying/basics/) metrics are available, and v1 metrics are deprecated. You can use the following tables to transition from v1 metrics to equivalent v2 PromQL. For a list of all available v2 PromQL metrics, see [Prometheus metrics v2]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions">}}).
+As of Redis Enterprise Software version 7.8.2, [PromQL (Prometheus Query Language)](https://prometheus.io/docs/prometheus/latest/querying/basics/) metrics are available, and v1 metrics are deprecated. You can use the following tables to transition from v1 metrics to equivalent v2 PromQL. For a list of all available v2 PromQL metrics, see [Prometheus metrics v2]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions">}}).
 
 ## Database metrics
 

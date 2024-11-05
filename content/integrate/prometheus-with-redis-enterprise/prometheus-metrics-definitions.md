@@ -5,10 +5,10 @@ categories:
 - docs
 - integrate
 - rs
-description: V2 metrics available to Prometheus as of Redis Enterprise Software version 7.8.0.
+description: V2 metrics available to Prometheus as of Redis Enterprise Software version 7.8.2.
 group: observability
 linkTitle: Prometheus metrics v2
-summary: V2 metrics available to Prometheus as of Redis Enterprise Software version 7.8.0.
+summary: V2 metrics available to Prometheus as of Redis Enterprise Software version 7.8.2.
 type: integration
 weight: 45
 ---
