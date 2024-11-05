@@ -43,7 +43,7 @@ The **Copy** button copies the account key to the Clipboard.
 
 **API user keys** (also known as _secret keys_) are used as the value of the `x-api-secret-key` HTTP header used to authenticate a REST API request.
 
-In this context, _user_ refers to the account used to sign in to the Redis Cloud console.  Users must be account owners.
+In this context, _user_ refers to the account used to sign in to the Redis Cloud console.  Users must have an owner (read-write) or viewer (read-only) role.
 
 Users can have more than one user key; however, users should not share user keys.
 
@@ -62,7 +62,7 @@ The key name:
 - Must be between 10 and 50 characters long
 - Can contain alphanumeric characters, hyphens, and underscores. Spaces are not allowed.
 
-The user name must be an account owner.
+The user name must have an owner or viewer role.
 
 Select **Create** to create the new key.  
 

@@ -1,5 +1,5 @@
 ---
-Title: RedisTimeSeries 1.0 release rotes
+Title: RedisTimeSeries 1.0 release notes
 alwaysopen: false
 categories:
 - docs

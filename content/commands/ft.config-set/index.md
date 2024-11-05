@@ -35,7 +35,7 @@ Set the value of a RediSearch configuration parameter.
 
 Values set using `FT.CONFIG SET` are not persisted after server restart.
 
-RediSearch configuration parameters are detailed in [Configuration parameters]({{< relref "/develop/interact/search-and-query/administration" >}}).
+RediSearch configuration parameters are detailed in [Configuration parameters]({{< relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters" >}}).
 
 {{% alert title="Note" color="warning" %}}
 As detailed in the link above, not all RediSearch configuration parameters can be set at runtime.

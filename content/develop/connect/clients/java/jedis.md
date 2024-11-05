@@ -468,9 +468,13 @@ All the Jedis exceptions are runtime exceptions and in most cases irrecoverable,
 
 ### DNS cache and Redis
 
-When you connect to a Redis with multiple endpoints, such as [Redis Enterprise Active-Active](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/), it's recommended to disable the JVM's DNS cache to load-balance requests across multiple endpoints.
+When you connect to a Redis server with multiple endpoints, such as [Redis Enterprise Active-Active](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/), you *must*
+disable the JVM's DNS cache. If a server node or proxy fails, the IP address for any database
+affected by the failure will change. When this happens, your app will keep
+trying to use the stale IP address if DNS caching is enabled.
 
-You can do this in your application's code with the following snippet:
+Use the following code to disable the DNS cache:
+
 ```java
 java.security.Security.setProperty("networkaddress.cache.ttl","0");
 java.security.Security.setProperty("networkaddress.cache.negative.ttl", "0");
