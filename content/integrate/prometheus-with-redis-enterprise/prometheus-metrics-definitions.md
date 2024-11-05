@@ -17,10 +17,6 @@ You can [integrate Redis Enterprise Software with Prometheus and Grafana]({{<rel
 
 The v2 metrics in the following tables are available as of Redis Enterprise Software version 7.8.0. For help transitioning from v1 metrics to v2 PromQL, see [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}).
 
-## Database metrics
-
-TBA
-
 ## Node metrics
 
 | V2 metric | Description |
@@ -52,7 +48,6 @@ TBA
 
 | V2 metric | Type | Description |
 | :-------- | :--- | :---------- |
-| <span class="break-all">azure_token_ttl{cluster_wd=<node_uid>}</span> | gauge| How many seconds left or the timestamp when the token is invalid.|
 | <span class="break-all">generation{cluster_wd=<node_uid>}</span> | gauge| Generation number of the specific cluster_wd|
 | <span class="break-all">has_qourum{cluster_wd=<node_uid>, has_witness_disk=BOOL}</span> | gauge| Has_qourum = 1<br />No quorum = 0 |
 | <span class="break-all">is_primary{cluster_wd=<node_uid>}</span> | gauge| primary = 1<br />secondary = 0 |
@@ -60,8 +55,6 @@ TBA
 | <span class="break-all">total_node_count{cluster_wd=<node_uid>}</span> | gauge| Number of nodes |
 | <span class="break-all">total_primary_selection_ended{cluster_wd=<node_uid>}</span> | counter | Monotonic counter for each selection process that ended |
 | <span class="break-all">total_primary_selections{cluster_wd=<node_uid>}</span> | counter | Monotonic counter for each selection process that started|
-| <span class="break-all">witness_disk_reads{status=” success/failure”, cluster_wd=<node_uid>}</span> | counter | How many times read from the witness disk |
-| <span class="break-all">witness_disk_writes{status=”success/failure”, cluster_wd=<node_uid>}</span> | counter | How many times wrote to the witness disk |
 
 ## Latency histogram metrics
 
@@ -70,10 +63,6 @@ TBA
 | <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 | <span class="break-all">endpoint_read_requests_latency_histogram_bucket</span> | Latency histograms for read commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_read_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 | <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
-
-## Proxy metrics
-
-TBA
 
 ## Replication metrics
 
