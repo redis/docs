@@ -37,7 +37,7 @@ At this point, Redis Cloud will provision the pipeline infrastructure that will 
 
 Pipelines are provisioned in the background. You aren't allowed to make changes to your data pipeline or to your database during provisioning. This process will take a long time, so you can close the window and come back later.
 
-When your pipeline is provisioned, select **Complete setup**. You will then [define your data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}).
+When your pipeline is provisioned, select **Complete setup**. You will then [define your data pipeline](#define-data-pipeline).
 
 ## Define data pipeline
 
