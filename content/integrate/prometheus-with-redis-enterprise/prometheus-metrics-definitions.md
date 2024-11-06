@@ -1,5 +1,5 @@
 ---
-Title: Prometheus metrics v2
+Title: Prometheus metrics v2 preview
 alwaysopen: false
 categories:
 - docs
@@ -13,9 +13,21 @@ type: integration
 weight: 45
 ---
 
+{{<banner-article>}}
+While the metrics stream engine is in preview, this document provides only a partial list of v2 metrics. More metrics will be added.
+{{</banner-article>}}
+
 You can [integrate Redis Enterprise Software with Prometheus and Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise/">}}) to create dashboards for important metrics.
 
 The v2 metrics in the following tables are available as of Redis Enterprise Software version 7.8.0. For help transitioning from v1 metrics to v2 PromQL, see [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}).
+
+## Database metrics
+
+| V2 metric | Description |
+| :-------- | :---------- |
+| <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_read_requests_latency_histogram_bucket</span> | Latency histograms for read commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_read_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 
 ## Node metrics
 
@@ -40,29 +52,16 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 
 ## Cluster metrics
 
-| V2 metric | Description |
-| :-------- | :---------- |
-| license_shards_limit | Total shard limit by the license by shard type (ram / flash) |
-
-## Cluster watchdog metrics
-
 | V2 metric | Type | Description |
 | :-------- | :--- | :---------- |
 | <span class="break-all">generation{cluster_wd=<node_uid>}</span> | gauge| Generation number of the specific cluster_wd|
 | <span class="break-all">has_qourum{cluster_wd=<node_uid>, has_witness_disk=BOOL}</span> | gauge| Has_qourum = 1<br />No quorum = 0 |
 | <span class="break-all">is_primary{cluster_wd=<node_uid>}</span> | gauge| primary = 1<br />secondary = 0 |
+| license_shards_limit | | Total shard limit by the license by shard type (ram / flash) |
 | <span class="break-all">total_live_nodes_count{cluster_wd=<node_uid>}</span> | gauge| Number of live nodes|
 | <span class="break-all">total_node_count{cluster_wd=<node_uid>}</span> | gauge| Number of nodes |
 | <span class="break-all">total_primary_selection_ended{cluster_wd=<node_uid>}</span> | counter | Monotonic counter for each selection process that ended |
 | <span class="break-all">total_primary_selections{cluster_wd=<node_uid>}</span> | counter | Monotonic counter for each selection process that started|
-
-## Latency histogram metrics
-
-| V2 metric | Description |
-| :-------- | :---------- |
-| <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
-| <span class="break-all">endpoint_read_requests_latency_histogram_bucket</span> | Latency histograms for read commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_read_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
-| <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
 
 ## Replication metrics
 
