@@ -16,14 +16,19 @@ weight: 45
 ---
 
 Use the Redis client libraries to connect to Redis servers from
-your own code. We document client libraries
+your own code. We document the following client libraries
 for six main languages:
-- [Python]({{< relref "/develop/connect/clients/python" >}})
-- [C#/.NET]({{< relref "/develop/connect/clients/dotnet" >}})
-- [Node.js]({{< relref "/develop/connect/clients/nodejs" >}})
-- [Java]({{< relref "/develop/connect/clients/java" >}})
-- [Go]({{< relref "/develop/connect/clients/go" >}})
-- [PHP]({{< relref "/develop/connect/clients/php" >}})
+
+| Language | Client name | Docs | Supported |
+| :-- | :-- | :-- | :-- |
+| [Python](https://www.python.org/) | [`redis-py`](https://github.com/redis/redis-py) |[Redis Python library guide]({{< relref "/develop/connect/clients/python/redis-py" >}}) | Yes |
+| [Python](https://www.python.org/) | [`RedisVL`](https://github.com/redis/redis-vl-python) |[RedisVL guide]({{< relref "/integrate/redisvl" >}}) | Yes 
+| [C#/.NET](https://learn.microsoft.com/en-us/dotnet/csharp/) | [`NRedisStack`](https://github.com/redis/NRedisStack) |[C#/.NET guide]({{< relref "/develop/connect/clients/dotnet" >}}) | Yes |
+| [Node.js](https://nodejs.org/en) | [`node-redis`](https://github.com/redis/node-redis) | [Node.js guide]({{< relref "/develop/connect/clients/nodejs" >}}) | Yes |
+| [Java](https://www.java.com/en/) | [`Jedis`](https://github.com/redis/jedis) | [Jedis guide]({{< relref "/develop/connect/clients/java/jedis" >}}) |  Yes |
+| [Java](https://www.java.com/en/) | [`Lettuce`](https://github.com/redis/lettuce) | [Lettuce guide]({{< relref "/develop/connect/clients/java/lettuce" >}}) | Yes |
+| [Go](https://go.dev/) | [`go-redis`](https://github.com/redis/go-redis) | [Go guide]({{< relref "/develop/connect/clients/go" >}}) | Yes |
+| [PHP](https://www.php.net/)| [`Predis`](https://github.com/predis/predis) | [PHP guide]({{< relref "/develop/connect/clients/php" >}}) | No |
 
 We also provide several higher-level
 [object mapping (OM)]({{< relref "/develop/connect/clients/om-clients" >}})
