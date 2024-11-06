@@ -67,8 +67,26 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 
 | V2 metric | Description |
 | :-------- | :---------- |
-| <span class="break-all">database_syncer_lag_ms</span> | Lag time between the source and the destination for traffic (ms) |
+| <span class="break-all">database_syncer_config</span> | Used as a placeholder for configuration labels |
 | <span class="break-all">database_syncer_current_status</span> | Syncer status for traffic; 0 = in-sync, 1 = syncing, 2 = out of sync |
+| <span class="break-all">database_syncer_dst_connectivity_state</span> | Destination connectivity state |
+| <span class="break-all">database_syncer_dst_connectivity_state_ms</span> | Destination connectivity state duration |
+| <span class="break-all">database_syncer_dst_lag</span> | Lag in milliseconds between the syncer and the destination |
+| <span class="break-all">database_syncer_dst_repl_offset</span> | Offset of the last command acknowledged |
+| <span class="break-all">database_syncer_flush_counter</span> | Number of destination flushes |
+| <span class="break-all">database_syncer_ingress_bytes</span> | Number of bytes read from source shard |
+| <span class="break-all">database_syncer_ingress_bytes_decompressed</span> | Number of bytes read from source shard |
+| <span class="break-all">database_syncer_internal_state</span> | Internal state of the syncer |
+| <span class="break-all">database_syncer_lag_ms</span> | Lag time between the source and the destination for traffic in milliseconds |
+| <span class="break-all">database_syncer_rdb_size</span> | The source's RDB size in bytes to be transferred during the syncing phase |
+| <span class="break-all">database_syncer_rdb_transferred</span> | Number of bytes transferred from the source's RDB during the syncing phase |
+| <span class="break-all">database_syncer_src_connectivity_state</span> | Source connectivity state |
+| <span class="break-all">database_syncer_src_connectivity_state_ms</span> | Source connectivity state duration |
+| <span class="break-all">database_syncer_src_repl_offset</span> | Last known source offset |
+| <span class="break-all">database_syncer_state</span> | Internal state of the shard syncer |
+| <span class="break-all">database_syncer_syncer_repl_offset</span> | Offset of the last command handled by the syncer |
+| <span class="break-all">database_syncer_total_requests</span> | Number of destination writes |
+| <span class="break-all">database_syncer_total_responses</span> | Number of destination writes acknowledged |
 
 ## Shard metrics
 
