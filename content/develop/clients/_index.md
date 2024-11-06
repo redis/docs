@@ -12,7 +12,7 @@ categories:
 description: Connect your application to a Redis database and try an example
 linkTitle: Clients
 title: Connect with Redis clients
-weight: 45
+weight: 30
 ---
 
 Use the Redis client libraries to connect to Redis servers from
