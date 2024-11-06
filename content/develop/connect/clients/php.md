@@ -56,10 +56,10 @@ Store and retrieve a simple string to test the connection:
 
 ```php
 echo $r->set('foo', 'bar'), PHP_EOL;
-// OK
+// >>> OK
 
 echo $r->get('foo'), PHP_EOL;
-// bar
+// >>> bar
 ```
 
 Store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}})
@@ -100,7 +100,7 @@ $options    = ['cluster' => 'redis'];
 $rc = new PredisClient($clusterNodes, $options);
 
 echo $rc->cluster('nodes'), PHP_EOL;
-/*
+/* >>>
 d8773e888e92d015b7c52fc66798fd6815afefec 127.0.0.1:30004@40004 slave cde97d1f7dce13e9253ace5cafd3fb0aa67cda63 0 1730713764217 1 connected
 58fe1346de4c425d60db24e9b153926fbde0d174 127.0.0.1:30002@40002 master - 0 1730713763361 2 connected 5461-10922
 015ecc8148a05377dda22f19921d16efcdd6d678 127.0.0.1:30006@40006 slave c019b75d8b52e83e7e52724eccc716ac553f71d6 0 1730713764218 3 connected
@@ -110,9 +110,9 @@ cde97d1f7dce13e9253ace5cafd3fb0aa67cda63 127.0.0.1:30001@40001 master - 0 173071
 */
 
 echo $rc->set('foo', 'bar'), PHP_EOL;
-// OK
+// >>> OK
 echo $rc->get('foo'), PHP_EOL;
-// bar
+// >>> bar
 ```
 
 ## Connect to your production Redis with TLS
@@ -159,9 +159,9 @@ $options = [
 $tlsConnection = new PredisClient($options);
 
 echo $tlsConnection->set('foo', 'bar'), PHP_EOL;
-// OK
+// >>> OK
 echo $tlsConnection->get('foo'), PHP_EOL;
-// bar
+// >>> bar
 ```
 
 ## Example: Indexing and querying JSON documents
@@ -269,7 +269,7 @@ and have an `age` value in the range 30 to 40:
 ```php
 $res = $r->ftSearch("idx:users", "Paul @age:[30 40]");
 echo json_encode($res), PHP_EOL;
-// [1,"user:3",["$","{\"name\":\"Paul Zamir\",\"email\":\"paul.zamir@example.com\",\"age\":35,\"city\":\"London\"}"]]
+// >>> [1,"user:3",["$","{\"name\":\"Paul Zamir\",\"email\":\"paul.zamir@example.com\",\"age\":35,\"city\":\"London\"}"]]
 ```
 
 Specify query options to return only the `city` field:
@@ -283,7 +283,7 @@ $arguments->limit(0, 5);
 $res = $r->ftSearch("idx:users", "Paul", $arguments);
 
 echo json_encode($res), PHP_EOL;
-// [2,"user:1",["thecity","London"],"user:3",["thecity","Tel Aviv"]]
+// >>> [2,"user:1",["thecity","London"],"user:3",["thecity","Tel Aviv"]]
 ```
 
 Use an
@@ -297,7 +297,7 @@ $ftAggregateArguments = (new AggregateArguments())
 
 $res = $r->ftAggregate('idx:users', '*', $ftAggregateArguments);
 echo json_encode($res), PHP_EOL;
-// [2,["city","London","count","1"],["city","Tel Aviv","count","2"]]
+// >>> [2,["city","London","count","1"],["city","Tel Aviv","count","2"]]
 ```
 
 See the [Redis query engine]({{< relref "/develop/interact/search-and-query" >}}) docs
