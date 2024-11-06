@@ -15,13 +15,12 @@ You can use the metrics that measure the performance of your Redis Enterprise So
 to monitor the performance of your databases.
 In the Redis Enterprise Cluster Manager UI, you can see metrics and configure alerts that send notifications based on alert parameters. You can also access metrics and configure alerts through the REST API.
 
-Starting with version 7.8.2 Redis Enterprise has a new metrics stream engine which exposes new version of prometheus scraping endpoint (In preview)
-This engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic and Dynatrace using Prometheus.
+Redis Enterprise vesion 7.8.2 introduces a new metrics stream engine that exposes new version of prometheus scraping endpoint (In preview).
+This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic and Dynatrace using Prometheus.
 
-With this new capability, you are able to monitor real-time metrics during maintenance and stay informed with full visibility into performance even during events like failovers and scaling.
+The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations.
 
-If you are already using our scraping endpoint for integration, visit our transition page. You can scrape both old and new endpoints simultaneously, allowing you to prepare your dashboards in advance and switch seamlessly when ready.
-In coming maintenance releases we will share operational dashboards and basic alerts configuration based on the new engine.
+Users who are already using the existing scraping endpoint for integration, can follow this guide [link] to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing in advanced dashboards preparation and smooth transition when ready.
 
 To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) or [Uptrace]({{< relref "/integrate/uptrace-with-redis-enterprise/" >}}).
 
