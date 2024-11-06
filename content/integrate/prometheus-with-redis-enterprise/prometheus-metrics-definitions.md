@@ -25,9 +25,41 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 
 | V2 metric | Description |
 | :-------- | :---------- |
+| <span class="break-all">endpoint_client_connections</span> | Number of client connection establishment events |
+| <span class="break-all">endpoint_client_disconnections</span> | Number of client disconnections initiated by the client |
+| <span class="break-all">endpoint_client_connection_expired</span> | Total number of client connections with expired TTL (Time To Live) |
+| <span class="break-all">endpoint_client_establishment_failures</span> | Number of client connections that failed to establish properly |
+| <span class="break-all">endpoint_client_expiration_refresh</span> | Number of expiration time changes of clients |
+| <span class="break-all">endpoint_client_tracking_off_requests</span> | Total number of `CLIENT TRACKING OFF` requests |
+| <span class="break-all">endpoint_client_tracking_on_requests</span> | Total number of `CLIENT TRACKING ON` requests |
+| <span class="break-all">endpoint_disconnected_cba_client</span> | Number of certificate-based clients disconnected |
+| <span class="break-all">endpoint_disconnected_ldap_client</span> | Number of LDAP clients disconnected |
+| <span class="break-all">endpoint_disconnected_user_password_client</span> | Number of user&password clients disconnected |
+| <span class="break-all">endpoint_disposed_commands_after_client_caching</span> | Total number of client caching commands that were disposed due to misuse |
+| <span class="break-all">endpoint_egress</span> | Number of egress bytes |
+| <span class="break-all">endpoint_egress_pending</span> | Number of send-pending bytes |
+| <span class="break-all">endpoint_egress_pending_discarded</span> | Number of send-pending bytes that were discarded due to disconnection |
+| <span class="break-all">endpoint_failed_cba_authentication</span> | Number of clients that failed certificate-based authentication |
+| <span class="break-all">endpoint_failed_ldap_authentication</span> | Number of clients that failed LDAP authentication |
+| <span class="break-all">endpoint_failed_user_password_authentication</span> | Number of clients that failed user password authentication |
+| <span class="break-all">endpoint_ingress</span> | Number of ingress bytes |
+| <span class="break-all">endpoint_longest_pipeline_histogram</span> | Client connections with the longest pipeline lengths |
+| <span class="break-all">endpoint_other_requests</span> | Number of other requests |
+| <span class="break-all">endpoint_other_requests_latency_histogram</span> | Latency (in µs) histogram of other commands |
 | <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_other_responses</span> | Number of other responses |
+| <span class="break-all">endpoint_proxy_disconnections</span> | Number of client disconnections initiated by the proxy |
+| <span class="break-all">endpoint_read_requests</span> | Number of read requests |
+| <span class="break-all">endpoint_read_requests_latency_histogram</span> | Latency (in µs) histogram of read commands |
 | <span class="break-all">endpoint_read_requests_latency_histogram_bucket</span> | Latency histograms for read commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_read_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_read_responses</span> | Number of read responses |
+| <span class="break-all">endpoint_successful_cba_authentication</span> | Number of clients that successfully authenticated with certificate-based authentication |
+| <span class="break-all">endpoint_successful_ldap_authentication</span> | Number of clients that successfully authenticated with LDAP |
+| <span class="break-all">endpoint_successful_user_password_authentication</span> | Number of clients that successfully authenticated with user&password |
+| <span class="break-all">endpoint_write_requests</span> | Number of write requests |
+| <span class="break-all">endpoint_write_requests_latency_histogram</span> | Latency (in µs) histogram of write commands |
 | <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_write_responses</span> | Number of write responses |
 
 ## Node metrics
 
