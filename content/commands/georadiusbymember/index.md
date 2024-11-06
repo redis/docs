@@ -113,6 +113,8 @@ doc_flags:
 group: geo
 hidden: false
 history:
+- - 6.2.0
+  - Added the `ANY` option for `COUNT`.
 - - 7.0.0
   - Added support for uppercase unit names.
 key_specs:
@@ -160,10 +162,10 @@ replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) and [`GEOSEARC
 since: 3.2.0
 summary: Queries a geospatial index for members within a distance from a member, optionally
   stores the result.
-syntax_fmt: "GEORADIUSBYMEMBER key member radius <m | km | ft | mi> [WITHCOORD]\n\
+syntax_fmt: "GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD]\n\
   \  [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key\n  | STOREDIST\_\
   key]"
-syntax_str: "member radius <m | km | ft | mi> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT\_\
+syntax_str: "member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT\_\
   count [ANY]] [ASC | DESC] [STORE\_key | STOREDIST\_key]"
 title: GEORADIUSBYMEMBER
 ---

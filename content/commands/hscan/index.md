@@ -21,6 +21,11 @@ arguments:
   optional: true
   token: COUNT
   type: integer
+- display_text: novalues
+  name: novalues
+  optional: true
+  token: NOVALUES
+  type: pure-token
 arity: -3
 categories:
 - docs
