@@ -49,13 +49,7 @@ require 'vendor/autoload.php';
 
 use Predis\Client as PredisClient;
 
-$r = new PredisClient([
-                'scheme'   => 'tcp',
-                'host'     => '127.0.0.1',
-                'port'     => 6379,
-                'password' => '',
-                'database' => 0,
-            ]);
+$r = new PredisClient();
 ```
 
 Store and retrieve a simple string to test the connection:
@@ -78,7 +72,7 @@ $r->hset('user-session:123', 'company', 'Redis');
 $r->hset('user-session:123', 'age', 29);
 
 echo var_export($r->hgetall('user-session:123')), PHP_EOL;
-/*
+/* >>>
 array (
   'name' => 'John',
   'surname' => 'Smith',
