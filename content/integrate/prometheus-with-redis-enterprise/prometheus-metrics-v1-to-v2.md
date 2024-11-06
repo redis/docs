@@ -1,5 +1,5 @@
 ---
-Title: Prometheus v1 metrics and equivalent v2 PromQL
+Title: Transition from Prometheus v1 to Prometheus v2
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 description: Transition from v1 metrics to v2 PromQL equivalents.
 group: observability
-linkTitle: Prometheus v1 metrics & v2 equivalents
+linkTitle: Transition from Prometheus v1 to v2
 summary: Transition from v1 metrics to v2 PromQL equivalents.
 type: integration
 weight: 45
