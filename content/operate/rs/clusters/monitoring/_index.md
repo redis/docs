@@ -15,7 +15,7 @@ You can use the metrics that measure the performance of your Redis Enterprise So
 to monitor the performance of your databases.
 In the Redis Enterprise Cluster Manager UI, you can see metrics and configure alerts that send notifications based on alert parameters. You can also access metrics and configure alerts through the REST API.
 
-Redis Enterprise vesion 7.8.2 introduces a new metrics stream engine that exposes new version of prometheus scraping endpoint (In preview).
+Redis Enterprise vesion 7.8.2 introduces a new metrics stream engine that exposes new version of prometheus scraping endpoint https://<IP>:8070/v2  (In preview).
 This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic and Dynatrace using Prometheus.
 
 The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations.
