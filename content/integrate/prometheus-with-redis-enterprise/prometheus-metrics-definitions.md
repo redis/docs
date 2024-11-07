@@ -23,7 +23,7 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 
 ## Database metrics
 
-| V2 metric | Description |
+| Metric | Description |
 | :-------- | :---------- |
 | <span class="break-all">endpoint_client_connections</span> | Number of client connection establishment events |
 | <span class="break-all">endpoint_client_disconnections</span> | Number of client disconnections initiated by the client |
@@ -63,7 +63,7 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 
 ## Node metrics
 
-| V2 metric | Description |
+| Metric | Description |
 | :-------- | :---------- |
 | <span class="break-all">node_available_flash_bytes</span> | Available flash in the node (bytes) |
 | <span class="break-all">node_available_flash_no_overbooking_bytes</span> | Available flash in the node (bytes), without taking into account overbooking |
@@ -84,7 +84,7 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 
 ## Cluster metrics
 
-| V2 metric | Type | Description |
+| Metric | Type | Description |
 | :-------- | :--- | :---------- |
 | <span class="break-all">generation{cluster_wd=<node_uid>}</span> | gauge| Generation number of the specific cluster_wd|
 | <span class="break-all">has_qourum{cluster_wd=<node_uid>, has_witness_disk=BOOL}</span> | gauge| Has_qourum = 1<br />No quorum = 0 |
@@ -97,7 +97,7 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 
 ## Replication metrics
 
-| V2 metric | Description |
+| Metric | Description |
 | :-------- | :---------- |
 | <span class="break-all">database_syncer_config</span> | Used as a placeholder for configuration labels |
 | <span class="break-all">database_syncer_current_status</span> | Syncer status for traffic; 0 = in-sync, 1 = syncing, 2 = out of sync |
@@ -122,7 +122,7 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 
 ## Shard metrics
 
-| V2 metric | Description |
+| Metric | Description |
 | :-------- | :---------- |
 | <span class="break-all">redis_server_active_defrag_running</span> | Automatic memory defragmentation current aggressiveness (% cpu) |
 | <span class="break-all">redis_server_allocator_active</span> | Total used memory, including external fragmentation |
