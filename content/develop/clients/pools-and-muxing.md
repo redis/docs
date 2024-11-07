@@ -12,7 +12,7 @@ categories:
 description: Manage Redis connections efficiently
 linkTitle: Pooling/multiplexing
 title: Connection pools and multiplexing
-weight: 10
+weight: 30
 ---
 
 Redis example code generally opens a connection, demonstrates

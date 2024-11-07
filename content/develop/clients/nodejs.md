@@ -10,9 +10,9 @@ categories:
 - kubernetes
 - clients
 description: Connect your Node.js application to a Redis database
-linkTitle: Node.js
-title: Node.js guide
-weight: 3
+linkTitle: node-redis (Node.js)
+title: node-redis guide (Node.js)
+weight: 4
 ---
 
 [node-redis](https://github.com/redis/node-redis) is the Redis client for Node.js.

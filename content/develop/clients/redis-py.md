@@ -10,8 +10,8 @@ categories:
 - kubernetes
 - clients
 description: Connect your Python application to a Redis database
-linkTitle: Redis Python library
-title: Redis Python library guide
+linkTitle: redis-py (Python)
+title: redis-py guide (Python)
 weight: 1
 ---
 

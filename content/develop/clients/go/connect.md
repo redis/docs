@@ -17,8 +17,6 @@ weight: 1
 
 ## Basic connection
 
-## Connect
-
 The following example shows the simplest way to connect to a Redis server:
 
 ```go

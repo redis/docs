@@ -10,9 +10,9 @@ categories:
 - kubernetes
 - clients
 description: Connect your Go application to a Redis database
-linkTitle: Go
-title: Go guide
-weight: 5
+linkTitle: go-redis (Go)
+title: go-redis guide (Go)
+weight: 7
 ---
 
 [`go-redis`](https://github.com/redis/go-redis) is the [Go](https://go.dev/) client for Redis.

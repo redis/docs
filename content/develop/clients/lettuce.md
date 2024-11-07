@@ -10,9 +10,9 @@ categories:
 - kubernetes
 - clients
 description: Connect your Lettuce application to a Redis database
-linkTitle: Lettuce
-title: Lettuce guide
-weight: 2
+linkTitle: Lettuce (Java)
+title: Lettuce guide (Java)
+weight: 6
 ---
 
 [Lettuce](https://github.com/redis/lettuce/tree/main/src/main) is an advanced Java client for Redis

@@ -9,9 +9,10 @@ categories:
 - oss
 - kubernetes
 - clients
+hideListLinks: true
 description: Connect your application to a Redis database and try an example
-linkTitle: Clients
-title: Connect with Redis clients
+linkTitle: Client APIs 👩🏻‍💻
+title: Connect with Redis client API libraries
 weight: 30
 ---
 
@@ -58,5 +59,3 @@ You can experiment with a local installation of Redis Stack
 To interact with a Redis server without writing code, use the
 [Redis CLI]({{< relref "/develop/connect/cli" >}}) and
 [Redis Insight]({{< relref "/develop/connect/insight" >}}) tools.
-
-## Client library guides

@@ -10,9 +10,9 @@ categories:
 - kubernetes
 - clients
 description: Connect your .NET application to a Redis database
-linkTitle: C#/.NET
-title: C#/.NET guide
-weight: 2
+linkTitle: NRedisStack (C#/.NET)
+title: NRedisStack guide (C#/.NET)
+weight: 3
 ---
 
 [NRedisStack](https://github.com/redis/NRedisStack) is the .NET client for Redis.

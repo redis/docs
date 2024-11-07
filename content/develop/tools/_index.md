@@ -10,7 +10,7 @@ categories:
 - kubernetes
 - clients
 description: Tools to interact with a Redis server
-linkTitle: Tools
+linkTitle: Client tools
 hideListLinks: true
 title: Redis tools
 weight: 25

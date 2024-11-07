@@ -10,9 +10,9 @@ categories:
 - kubernetes
 - clients
 description: Connect your Java application to a Redis database
-linkTitle: Jedis
-title: Jedis guide
-weight: 1
+linkTitle: Jedis (Java)
+title: Jedis guide (Java)
+weight: 5
 ---
 
 [Jedis](https://github.com/redis/jedis) is a synchronous Java client for Redis.

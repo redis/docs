@@ -10,9 +10,9 @@ categories:
 - kubernetes
 - clients
 description: Connect your PHP application to a Redis database
-linkTitle: PHP
-title: PHP guide
-weight: 6
+linkTitle: Predis (PHP)
+title: Predis guide (PHP)
+weight: 8
 ---
 
 [`Predis`](https://github.com/predis/predis) is the recommended [PHP](https://php.net/)

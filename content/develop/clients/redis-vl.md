@@ -10,9 +10,9 @@ categories:
 - kubernetes
 - clients
 description: Connect your Python vector application to a Redis vector database
-linkTitle: Redis vector library
-title: Redis vector library guide
-weight: 1
+linkTitle: RedisVL (Python)
+title: Redis vector library guide (Python)
+weight: 2
 ---
 
 See the [RedisVL Guide]({{< relref "/integrate/redisvl" >}}) for more information.
