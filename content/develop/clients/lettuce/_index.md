@@ -67,7 +67,7 @@ public class ConnectBasicTest {
         RedisURI uri = RedisURI.Builder
                 .redis("localhost", 6379)
                 .build();
-                
+
         RedisClient client = RedisClient.create(uri);
         StatefulRedisConnection<String, String> connection = client.connect();
         RedisCommands<String, String> commands = connection.sync();
@@ -133,69 +133,6 @@ try (RedisClient client = RedisClient.create(redisURI)) {
 }
 ```
 
-### Connection pooling
-
-A typical approach with Lettuce is to create a single `RedisClient` instance and reuse it to establish connections to your Redis server(s).
-These connections are multiplexed; that is, multiple commands can be run concurrently over a single or a small set of connections, making explicit pooling less practical.
-See
-[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
-for more information.
-
-Lettuce provides pool config to be used with Lettuce asynchronous connection methods.
-
-```java
-package org.example;
-import io.lettuce.core.RedisClient;
-import io.lettuce.core.RedisURI;
-import io.lettuce.core.TransactionResult;
-import io.lettuce.core.api.StatefulRedisConnection;
-import io.lettuce.core.api.async.RedisAsyncCommands;
-import io.lettuce.core.codec.StringCodec;
-import io.lettuce.core.support.*;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-
-public class Pool {
-  public static void main(String[] args) {
-    RedisClient client = RedisClient.create();
-
-    String host = "localhost";
-    int port = 6379;
-
-    CompletionStage<BoundedAsyncPool<StatefulRedisConnection<String, String>>> poolFuture
-        = AsyncConnectionPoolSupport.createBoundedObjectPoolAsync(
-            () -> client.connectAsync(StringCodec.UTF8, RedisURI.create(host, port)),
-            BoundedPoolConfig.create());
-
-    // await poolFuture initialization to avoid NoSuchElementException: Pool exhausted when starting your application
-    AsyncPool<StatefulRedisConnection<String, String>> pool = poolFuture.toCompletableFuture()
-        .join();
-
-    // execute work
-    CompletableFuture<TransactionResult> transactionResult = pool.acquire()
-        .thenCompose(connection -> {
-
-          RedisAsyncCommands<String, String> async = connection.async();
-
-          async.multi();
-          async.set("key", "value");
-          async.set("key2", "value2");
-          System.out.println("Executed commands in pipeline");
-          return async.exec().whenComplete((s, throwable) -> pool.release(connection));
-        });
-    transactionResult.join();
-
-    // terminating
-    pool.closeAsync();
-
-    // after pool completion
-    client.shutdownAsync();
-  }
-}
-```
-
-In this setup, `LettuceConnectionFactory` is a custom class you would need to implement, adhering to Apache Commons Pool's `PooledObjectFactory` interface, to manage lifecycle events of pooled `StatefulRedisConnection` objects.
 
 ## DNS cache and Redis
 
