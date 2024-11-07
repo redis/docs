@@ -46,7 +46,7 @@ public class ConnectBasicTest {
 }
 ```
 
-### Asynchronous connection
+## Asynchronous connection
 
 ```java
 package org.example;
@@ -89,7 +89,7 @@ public class Async {
 
 Learn more about asynchronous Lettuce API in [the reference guide](https://redis.github.io/lettuce/#asynchronous-api).
 
-### Reactive connection
+## Reactive connection
 
 ```java
 package org.example;
