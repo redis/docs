@@ -51,134 +51,37 @@ If you wish to use the JAR files directly, download the latest Lettuce and, opti
 
 To build from source, see the instructions on the [Lettuce source code GitHub repo](https://github.com/lettuce-io/lettuce-core).
 
-## Connect
+## Connect and test
 
-Start by creating a connection to your Redis server. There are many ways to achieve this using Lettuce. Here are a few.
-
-### Asynchronous connection
+Connect to a local server using the following code. This example
+also stores and retrieves a simple string value to test the connection.
 
 ```java
-package org.example;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-
 import io.lettuce.core.*;
-import io.lettuce.core.api.async.RedisAsyncCommands;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.api.sync.RedisCommands;
 
-public class Async {
-  public static void main(String[] args) {
-    RedisClient redisClient = RedisClient.create("redis://localhost:6379");
+public class ConnectBasicTest {
 
-    try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
-      RedisAsyncCommands<String, String> asyncCommands = connection.async();
+    public void connectBasic() {
+        RedisURI uri = RedisURI.Builder
+                .redis("localhost", 6379)
+                .build();
+                
+        RedisClient client = RedisClient.create(uri);
+        StatefulRedisConnection<String, String> connection = client.connect();
+        RedisCommands<String, String> commands = connection.sync();
 
-      // Asynchronously store & retrieve a simple string
-      asyncCommands.set("foo", "bar").get();
-      System.out.println(asyncCommands.get("foo").get()); // prints bar
+        commands.set("foo", "bar");
+        String result = commands.get("foo");
+        System.out.println(result); // >>> bar
 
-      // Asynchronously store key-value pairs in a hash directly
-      Map<String, String> hash = new HashMap<>();
-      hash.put("name", "John");
-      hash.put("surname", "Smith");
-      hash.put("company", "Redis");
-      hash.put("age", "29");
-      asyncCommands.hset("user-session:123", hash).get();
+        connection.close();
 
-      System.out.println(asyncCommands.hgetall("user-session:123").get());
-      // Prints: {name=John, surname=Smith, company=Redis, age=29}
-    } catch (ExecutionException | InterruptedException e) {
-      throw new RuntimeException(e);
-    } finally {
-      redisClient.shutdown();
+        client.shutdown();
     }
-  }
 }
 ```
-
-Learn more about asynchronous Lettuce API in [the reference guide](https://redis.github.io/lettuce/#asynchronous-api).
-
-### Reactive connection
-
-```java
-package org.example;
-import java.util.*;
-import io.lettuce.core.*;
-import io.lettuce.core.api.reactive.RedisReactiveCommands;
-import io.lettuce.core.api.StatefulRedisConnection;
-
-public class Main {
-  public static void main(String[] args) {
-    RedisClient redisClient = RedisClient.create("redis://localhost:6379");
-
-    try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
-      RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();
-
-      // Reactively store & retrieve a simple string
-      reactiveCommands.set("foo", "bar").block();
-      reactiveCommands.get("foo").doOnNext(System.out::println).block(); // prints bar
-
-      // Reactively store key-value pairs in a hash directly
-      Map<String, String> hash = new HashMap<>();
-      hash.put("name", "John");
-      hash.put("surname", "Smith");
-      hash.put("company", "Redis");
-      hash.put("age", "29");
-
-      reactiveCommands.hset("user-session:124", hash).then(
-              reactiveCommands.hgetall("user-session:124")
-                  .collectMap(KeyValue::getKey, KeyValue::getValue).doOnNext(System.out::println))
-          .block();
-      // Prints: {surname=Smith, name=John, company=Redis, age=29}
-
-    } finally {
-      redisClient.shutdown();
-    }
-  }
-}
-```
-
-Learn more about reactive Lettuce API in [the reference guide](https://redis.github.io/lettuce/#reactive-api).
-
-### Redis Cluster connection
-
-```java
-import io.lettuce.core.RedisURI;
-import io.lettuce.core.cluster.RedisClusterClient;
-import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
-import io.lettuce.core.cluster.api.async.RedisAdvancedClusterAsyncCommands;
-
-// ...
-
-RedisURI redisUri = RedisURI.Builder.redis("localhost").withPassword("authentication").build();
-
-RedisClusterClient clusterClient = RedisClusterClient.create(redisUri);
-StatefulRedisClusterConnection<String, String> connection = clusterClient.connect();
-RedisAdvancedClusterAsyncCommands<String, String> commands = connection.async();
-
-// ...
-
-connection.close();
-clusterClient.shutdown();
-```
-
-### TLS connection
-
-When you deploy your application, use TLS and follow the [Redis security guidelines]({{< relref "/operate/oss_and_stack/management/security/" >}}).
-
-```java
-RedisURI redisUri = RedisURI.Builder.redis("localhost")
-                                 .withSsl(true)
-                                 .withPassword("secret!") // use your Redis password
-                                 .build();
-
-RedisClient client = RedisClient.create(redisUri);
-```
-
-## Connection Management in Lettuce
-
-Lettuce uses `ClientResources` for efficient management of shared resources like event loop groups and thread pools.
-For connection pooling, Lettuce leverages `RedisClient` or `RedisClusterClient`, which can handle multiple concurrent connections efficiently.
 
 ### Timeouts
 
