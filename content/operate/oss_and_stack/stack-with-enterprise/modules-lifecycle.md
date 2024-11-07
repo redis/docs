@@ -11,7 +11,7 @@ weight: 7
 ---
 Redis Enterprise Software follows the [Redis Enterprise lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle" >}}).  (For complete details, see the Redis Enterprise Software [subscription agreement](https://redis.com/software-subscription-agreement).)
 
-The modules included in Redis Stack also follow a release lifecycle and schedule. Here, you'll find the "end-of-life" dates for each module and release.
+The modules included in Redis Community Edition (CE), formerly called Redis Stack, also follow a release lifecycle and schedule. Here, you'll find the "end-of-life" dates for each module and release.
 
 ## Module release numbering
 
@@ -23,10 +23,27 @@ The format is “Major1.Major2.Minor”.
 
 - The _Minor_ section of the version number represents quality improvements and fixes to existing capabilities.  The minor release number is increased when release quality improves.
 
-## Module end-of-life schedule {#modules-endoflife-schedule}
-
 End-of-Life for a given Major version is 18 months after the formal release of
 that version or 12 months after the release of the next subsequent (following) version, whichever comes last.
+
+## Module end-of-life schedule after Redis CE 8.0
+
+In Redis CE 8.0 and beyond, module version numbers will align exactly with the Redis CE versions that include them.
+For example, the modules included with Redis CE 8.0 will all have version number 8.0.
+
+This also means that Redis CE versions 8.0+ require modules with an exact match in version number.
+
+### Redis Community Edition
+
+Included modules:
+- Redis scalable query engine
+- JSON data structure
+- Probabilistic data structures
+- Time series data structure
+
+{{< table-csv "redisce-lifecycle.csv" 2 >}}
+
+## Module end-of-life schedule before Redis CE 8.0 {#modules-endoflife-schedule}
 
 ### RediSearch
 
