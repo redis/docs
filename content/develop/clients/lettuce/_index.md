@@ -19,7 +19,7 @@ weight: 6
 [Lettuce](https://github.com/redis/lettuce/tree/main/src/main) is an advanced Java client for Redis
 that supports synchronous, asynchronous, and reactive connections.
 If you only need synchronous connections then you may find the other Java client
-[Jedis]({{< relref "/develop/connect/clients/java/jedis" >}}) easier to use.
+[Jedis]({{< relref "/develop/clients/jedis" >}}) easier to use.
 
 The sections below explain how to install `Lettuce` and connect your application
 to a Redis database.

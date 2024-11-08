@@ -176,7 +176,7 @@ For connection pooling, Lettuce leverages `RedisClient` or `RedisClusterClient`,
 A typical approach with Lettuce is to create a single `RedisClient` instance and reuse it to establish connections to your Redis server(s).
 These connections are multiplexed; that is, multiple commands can be run concurrently over a single or a small set of connections, making explicit pooling less practical.
 See
-[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
+[Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
 for more information.
 
 Lettuce provides pool config to be used with Lettuce asynchronous connection methods.

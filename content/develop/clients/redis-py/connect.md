@@ -95,7 +95,7 @@ For more information, see [redis-py TLS examples](https://redis-py.readthedocs.i
 
 Client-side caching is a technique to reduce network traffic between
 the client and server, resulting in better performance. See
-[Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
+[Client-side caching introduction]({{< relref "/develop/clients/client-side-caching" >}})
 for more information about how client-side caching works and how to use it effectively.
 
 To enable client-side caching, add some extra parameters when you connect
@@ -214,7 +214,7 @@ one of its open connections. When you subsequently close the same connection,
 it is not actually closed but simply returned to the pool for reuse.
 This avoids the overhead of repeated connecting and disconnecting.
 See
-[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
+[Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
 for more information.
 
 Use the following code to connect with a connection pool:

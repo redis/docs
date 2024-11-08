@@ -27,13 +27,13 @@ code by making as few separate connections as possible.
 Managing connections in your own code can be tricky, so the Redis
 client libraries give you some help. The two basic approaches to
 connection management are called *connection pooling* and *multiplexing*.
-The [`redis-py`]({{< relref "/develop/connect/clients/python/redis-py" >}}),
-[`jedis`]({{< relref "/develop/connect/clients/java/jedis" >}}), and
-[`go-redis`]({{< relref "/develop/connect/clients/go" >}}) clients support
+The [`redis-py`]({{< relref "/develop/clients/redis-py" >}}),
+[`jedis`]({{< relref "/develop/clients/jedis" >}}), and
+[`go-redis`]({{< relref "/develop/clients/go" >}}) clients support
 connection pooling, while
-[`NRedisStack`]({{< relref "/develop/connect/clients/dotnet" >}})
+[`NRedisStack`]({{< relref "/develop/clients/dotnet" >}})
 supports multiplexing.
-[`Lettuce`]({{< relref "/develop/connect/clients/java/lettuce" >}})
+[`Lettuce`]({{< relref "/develop/clients/lettuce" >}})
 supports both approaches.
 
 ## Connection pooling
