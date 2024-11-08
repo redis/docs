@@ -83,8 +83,8 @@
             (dict "Text" "Vector search" "URL" "./develop/interact/search-and-query/query/vector-search")
             (dict "Text" "Data structure store" "URL" "./develop/get-started/data-store/")
 	    (dict "Text" "Document database" "URL" "./develop/get-started/document-database/")
-            )
-          ) }}
+          )
+        ) }}
         {{ partial "docs-section.html" (dict
           "Title" "Libraries and tools"
           "Description" "Learn about libraries and tools available for Redis."
@@ -94,8 +94,8 @@
           "LinksLeft" (slice
             (dict "Text" "RedisVL" "URL" "./integrate/redisvl/")
             (dict "Text" "RedisOM for Python" "URL" "./integrate/redisom-for-python")
-            (dict "Text" "Ingest" "URL" "./integrate/redis-data-integration/quickstart/ingest-guide/")
-            (dict "Text" "Write-behind" "URL" "./integrate/redis-data-integration/quickstart/write-behind-guide/")
+            (dict "Text" "Ingest" "URL" "./integrate/redis-data-integration/")
+            (dict "Text" "Write-behind" "URL" "./integrate/write-behind/quickstart/write-behind-guide/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
@@ -105,10 +105,10 @@
           "ButtonLabel" "Learn more"
           "LinksLeftTitle" "LEARN MORE"
           "LinksLeft" (slice
-            (dict "Text" "Quick start" "URL" "./integrate/redis-data-integration/ingest/quick-start-guide")
-            (dict "Text" "Architecture" "URL" "./integrate/redis-data-integration/ingest/architecture")
-            (dict "Text" "Install" "URL" "./integrate/redis-data-integration/ingest/installation")
-            (dict "Text" "Reference" "URL" "./integrate/redis-data-integration/ingest/reference")
+            (dict "Text" "Quick start" "URL" "./integrate/redis-data-integration/quick-start-guide")
+            (dict "Text" "Architecture" "URL" "./integrate/redis-data-integration/architecture")
+            (dict "Text" "Install" "URL" "./integrate/redis-data-integration/installation")
+            (dict "Text" "Reference" "URL" "./integrate/redis-data-integration/reference")
           )
         ) }}
         {{ partial "docs-section.html" (dict
@@ -134,24 +134,24 @@
           "LinksLeftTitle" "Learn more"
           "LinksLeft" (slice
             (dict "Text" "Install" "URL" "./operate/oss_and_stack/install/install-stack/")
-            (dict "Text" "Search and query" "URL" "./develop/interact/search-and-query/")
+            (dict "Text" "Redis Query Engine" "URL" "./develop/interact/search-and-query/")
             (dict "Text" "JSON" "URL" "./develop/data-types/json/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
-        "Title" "Redis Cloud"
-        "Description" "Deploy Redis Enterprise on Amazon Web Services, Google Cloud, or Microsoft Azure."
-        "ButtonLink" "./operate/rc"
-        "ButtonLabel" "Read more"
-        "LinksLeftTitle" "Learn more"
-        "LinksLeft" (slice
-          (dict "Text" "Quick start" "URL" "./operate/rc/rc-quickstart/")
-          (dict "Text" "Subscriptions" "URL" "./operate/rc/subscriptions/")
-          (dict "Text" "Databases" "URL" "./operate/rc/databases/")
-	  (dict "Text" "Active-Active" "URL" "./operate/rc/databases/create-database/create-active-active-database/")
-        )
-      ) }}
-      {{ partial "docs-section.html" (dict
+          "Title" "Redis Cloud"
+          "Description" "Deploy Redis Enterprise on Amazon Web Services, Google Cloud, or Microsoft Azure."
+          "ButtonLink" "./operate/rc"
+          "ButtonLabel" "Read more"
+          "LinksLeftTitle" "Learn more"
+          "LinksLeft" (slice
+            (dict "Text" "Quick start" "URL" "./operate/rc/rc-quickstart/")
+            (dict "Text" "Subscriptions" "URL" "./operate/rc/subscriptions/")
+            (dict "Text" "Databases" "URL" "./operate/rc/databases/")
+	    (dict "Text" "Active-Active" "URL" "./operate/rc/databases/create-database/create-active-active-database/")
+          )
+        ) }}
+        {{ partial "docs-section.html" (dict
           "Title" "Redis Enterprise Software"
           "Description" "A self-managed data platform that unlocks the full potential of Redis at enterprise scale."
           "ButtonLink" "./operate/rs"

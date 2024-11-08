@@ -66,7 +66,7 @@ Choose the `FLAT` index when you have small datasets (< 1M vectors) or when perf
 
 | Attribute          | Description                              |
 |:-------------------|:-----------------------------------------|
-| `TYPE`             | Vector type (`BFLOAT16`, `FLOAT16`, `FLOAT32`, `FLOAT64`).  |
+| `TYPE`             | Vector type (`BFLOAT16`, `FLOAT16`, `FLOAT32`, `FLOAT64`). `BFLOAT16` and `FLOAT16` require v2.10 or later.  |
 | `DIM`              | The width, or number of dimensions, of the vector embeddings stored in this field. In other words, the number of floating point elements comprising the vector. `DIM` must be a positive integer. The vector used to query this field must have the exact dimensions as the field itself.  |
 | `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`).  |
 
@@ -95,7 +95,7 @@ Choose the `HNSW` index type when you have larger datasets (> 1M documents) or w
 
 | Attribute          | Description                              |
 |:-------------------|:-----------------------------------------|
-| `TYPE`             | Vector type (`BFLOAT16`, `FLOAT16`, `FLOAT32`, `FLOAT64`). |
+| `TYPE`             | Vector type (`BFLOAT16`, `FLOAT16`, `FLOAT32`, `FLOAT64`). `BFLOAT16` and `FLOAT16` require v2.10 or later. |
 | `DIM`              | The width, or number of dimensions, of the vector embeddings stored in this field. In other words, the number of floating point elements comprising the vector. `DIM` must be a positive integer. The vector used to query this field must have the exact dimensions as the field itself. |
 | `DISTANCE_METRIC`  | Distance metric (`L2`, `IP`, `COSINE`). |
 
@@ -441,7 +441,7 @@ FT.SEARCH movies "(@category:{action} ~@category:{drama})=>[KNN 10 @doc_embeddin
 Among the movies that have `drama` or `action` as a category tag, return the top 10 nearest neighbors and explicitly set the filter mode (hybrid policy) to "ad-hoc brute force" rather than it being auto-selected:
 
 ```
-FT.SEARCH movies "(@category:{drama | action})=>[KNN 10 @doc_embedding $BLOB HYBRID_POLICY ADHOC_BF]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vec_scores DIALECT 4
+FT.SEARCH movies "(@category:{drama | action})=>[KNN 10 @doc_embedding $BLOB HYBRID_POLICY ADHOC_BF]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vec_score DIALECT 4
 ```
 
 Among the movies that have `action` as a category tag, return the top 10 nearest neighbors and explicitly set the filter mode (hybrid policy) to "batches" and batch size 50 using a query parameter:

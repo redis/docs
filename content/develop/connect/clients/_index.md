@@ -16,13 +16,19 @@ weight: 45
 ---
 
 Use the Redis client libraries to connect to Redis servers from
-your own code. We support client libraries
-for five main languages:
-- [Python]({{< relref "/develop/connect/clients/python" >}})
-- [C#/.NET]({{< relref "/develop/connect/clients/dotnet" >}})
-- [Node.js]({{< relref "/develop/connect/clients/nodejs" >}})
-- [Java]({{< relref "/develop/connect/clients/java" >}})
-- [Go]({{< relref "/develop/connect/clients/go" >}})
+your own code. We document the following client libraries
+for six main languages:
+
+| Language | Client name | Docs | Supported |
+| :-- | :-- | :-- | :-- |
+| [Python](https://www.python.org/) | [`redis-py`](https://github.com/redis/redis-py) |[Redis Python library guide]({{< relref "/develop/connect/clients/python/redis-py" >}}) | Yes |
+| [Python](https://www.python.org/) | [`RedisVL`](https://github.com/redis/redis-vl-python) |[RedisVL guide]({{< relref "/integrate/redisvl" >}}) | Yes 
+| [C#/.NET](https://learn.microsoft.com/en-us/dotnet/csharp/) | [`NRedisStack`](https://github.com/redis/NRedisStack) |[C#/.NET guide]({{< relref "/develop/connect/clients/dotnet" >}}) | Yes |
+| [Node.js](https://nodejs.org/en) | [`node-redis`](https://github.com/redis/node-redis) | [Node.js guide]({{< relref "/develop/connect/clients/nodejs" >}}) | Yes |
+| [Java](https://www.java.com/en/) | [`Jedis`](https://github.com/redis/jedis) | [Jedis guide]({{< relref "/develop/connect/clients/java/jedis" >}}) |  Yes |
+| [Java](https://www.java.com/en/) | [`Lettuce`](https://github.com/redis/lettuce) | [Lettuce guide]({{< relref "/develop/connect/clients/java/lettuce" >}}) | Yes |
+| [Go](https://go.dev/) | [`go-redis`](https://github.com/redis/go-redis) | [Go guide]({{< relref "/develop/connect/clients/go" >}}) | Yes |
+| [PHP](https://www.php.net/)| [`Predis`](https://github.com/predis/predis) | [PHP guide]({{< relref "/develop/connect/clients/php" >}}) | No |
 
 We also provide several higher-level
 [object mapping (OM)]({{< relref "/develop/connect/clients/om-clients" >}})
@@ -34,14 +40,15 @@ libraries for [Python]({{< relref "/integrate/redisom-for-python" >}}),
 ## Community-supported clients
 
 The table below shows the recommended third-party client libraries for languages that
-Redis does not support directly:
+Redis does not document directly:
 
 | Language | Client name | Github | Docs |
 | :-- | :-- | :-- | :-- |
 | C | hiredis | https://github.com/redis/hiredis | https://github.com/redis/hiredis |
-| [PHP](https://www.php.net/) | predis | https://github.com/predis/predis | https://github.com/predis/predis/wiki |
+| [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
 | [Ruby](https://www.ruby-lang.org/en/) | redis-rb | https://github.com/redis/redis-rb | https://rubydoc.info/gems/redis |
-| [Rust](https://www.rust-lang.org/) | redis-rs | https://github.com/redis-rs/redis-rs | https://docs.rs/redis/latest/redis/ | 
+| [Rust](https://www.rust-lang.org/) | redis-rs | https://github.com/redis-rs/redis-rs | https://docs.rs/redis/latest/redis/ |
+| [C++](https://en.wikipedia.org/wiki/C%2B%2B) | Boost.Redis | https://github.com/boostorg/redis | https://www.boost.org/doc/libs/develop/libs/redis/doc/html/index.html |
 
 ## Requirements
 

@@ -285,7 +285,7 @@ $ redis-cli
 "{\"$.skills[0]\":[\"synths\"],\"$.address\":[{\"pk\":\"01FX8SSSDNRDSRB3HMVH00NQTT\",\"street_number\":56,\"unit\":\"4A\",\"street_name\":\"The Rushes\",\"city\":\"Birmingham\",\"state\":\"West Midlands\",\"postal_code\":\"B91 6HG\",\"country\":\"United Kingdom\"}]}"
 ```
 
-For more information on the JSON Path syntax used to query JSON documents in Redis, see the [documentation](https://oss.redis.com/redisjson/path/).
+For more information on the JSON Path syntax used to query JSON documents in Redis, see the [documentation]({{<relref "/develop/data-types/json/path#jsonpath-syntax">}}).
 
 ### Find a Person by ID
 

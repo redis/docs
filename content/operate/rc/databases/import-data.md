@@ -24,7 +24,7 @@ In preparation, make certain the Redis version of the source database is compati
 
 To import a dataset from any publicly available Redis server:
 
-1. Select **Databases** from the admin console menu and then select the target database from the database list.
+1. Select **Databases** from the Redis Cloud console menu and then select the target database from the database list.
 1. In the **Danger Zone**, select **Import**.
 1. Enter the source database details:
     - Source type - Select **Redis**.
@@ -41,7 +41,7 @@ If you have an RDB or a compressed RDB file from a previous backup, you can rest
 
 To import an RDB file stored on an FTP or HTTP server:
 
-1. Select **Databases** from the admin console menu and then select your database from the list.
+1. Select **Databases** from the Redis Cloud console menu and then select your database from the list.
 1. In the **Danger Zone**, select **Import**.
 1. Enter the details for the RDB file:
     - Source type - Select **FTP** or **HTTP**.
@@ -67,7 +67,7 @@ If your FTP username or password contains special characters such as `@`, `\`, o
 
 ### Via AWS S3
 
-To use the Redis Cloud admin console to import your data, you must first share the file from the Amazon Web Services (AWS) management console.
+To use the Redis Cloud console to import your data, you must first share the file from the Amazon Web Services (AWS) management console.
 
 To share and import an RDB file that is stored in an AWS Simple Storage Service (S3) bucket:
 
@@ -145,7 +145,7 @@ To share and import an RDB file that is stored in an AWS Simple Storage Service 
 
 
 
-1. In the [Redis Cloud admin console](https://app.redislabs.com/), select the target database from the database list.
+1. In the [Redis Cloud console](https://cloud.redis.io/), select the target database from the database list.
 1. In the **Danger Zone**, select **Import**.
 1. Enter the details for the RDB file:
     - Source type - Select **AWS S3**.
@@ -163,7 +163,7 @@ To share and import an RDB file that is stored in an AWS Simple Storage Service 
 
 ### Via Google Cloud Storage
 
-To use the Redis Cloud admin console to import your data, you must first share the file from the Google Cloud console.
+To use the Redis Cloud console to import your data, you must first share the file from the Google Cloud console.
 
 To share and import an RDB file that is stored in a Google Cloud Storage bucket:
 
@@ -178,7 +178,7 @@ To share and import an RDB file that is stored in a Google Cloud Storage bucket:
 
     For more info, see [Set ACLs](https://cloud.google.com/storage/docs/access-control/create-manage-lists#set-an-acl).
 
-1. In the [Redis Cloud admin console](https://app.redislabs.com/), select the target database from the database list.
+1. In the [Redis Cloud console](https://cloud.redis.io/), select the target database from the database list.
 1. In the **Danger Zone**, select **Import**.
 1. Enter the details for the RDB file:
     - Source type - Select **Google Cloud Storage**.
@@ -197,7 +197,7 @@ To share and import an RDB file that is stored in a Google Cloud Storage bucket:
 
 To import an RDB file stored in a Microsoft Azure Blog storage container:
 
-1. In the Redis Cloud admin console, select the target database from the database list.
+1. In the Redis Cloud console, select the target database from the database list.
 1. In the **Danger Zone**, select **Import**.
 1. Enter the details for the RDB file:
     - Source type - Select **Azure Blob Storage**.

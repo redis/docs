@@ -51,7 +51,7 @@ Now that you have your Google Workspace IdP server information, configure suppor
 
 ### Sign in to Redis Cloud
 
-Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#/login).
+Sign in to your account on the [Redis Cloud console](https://cloud.redis.io/#/login).
 
 ### Activate SAML in Access Management
 

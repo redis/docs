@@ -45,13 +45,13 @@ Redis Cloud is a fully managed Database as a Service offering and the fastest wa
 
 - [Redis Cloud REST API introduction]({{< relref "/operate/rc/api/" >}})
 - [Redis Cloud REST API examples]({{< relref "/operate/rc/api/examples/" >}})
-- [Redis Cloud REST API reference]({{< relref "/operate/rs/references/rest-api/" >}})
+- [Redis Cloud REST API reference](https://api.redislabs.com/v1/swagger-ui.html)
 
 
 ### Redis Enterprise Software API
 If you have installed Redis Enterprise Software, you can automate operations with the Redis Enterprise REST API.
 
-- [Redis Enterprise Software REST API introduction]({{< relref "/operate/rc/api/" >}})
+- [Redis Enterprise Software REST API introduction]({{< relref "/operate/rs/references/rest-api/" >}})
 - [Redis Enterprise Software REST API requests]({{< relref "/operate/rs/references/rest-api/requests/" >}})
 - [Redis Enterprise Software REST API objects]({{< relref "/operate/rs/references/rest-api/objects/" >}})
 
@@ -60,5 +60,5 @@ If you have installed Redis Enterprise Software, you can automate operations wit
 
 If you need to install Redis Enterprise on Kubernetes, then you can use the [Redis Enterprise for Kubernetes Operators]({{< relref "/operate/Kubernetes/" >}}). You can find the resource definitions here:
 
-- [Redis Enterprise Cluster API](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_cluster_api.md)
-- [Redis Enterprise Database API](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md)
+- [Redis Enterprise Cluster API]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}})
+- [Redis Enterprise Database API]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}})

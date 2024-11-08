@@ -64,7 +64,7 @@ Now that you have your IAM Identity Center IdP server information, configure sup
 
 ### Sign in to Redis Cloud
 
-Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#/login).
+Sign in to your account on the [Redis Cloud console](https://cloud.redis.io/#/login).
 
 ### Activate SAML in Access Management
 
@@ -100,7 +100,7 @@ To activate SAML, you must have a local user (or social sign-on user) with the `
 
    {{<image filename="images/rc/saml/aws_iam_identity_center_saml_10.png" >}}
 
-1. If you would like to also configure an IdP initiated workflow, fill in the **relay state** field in the **Application properties** section. Use this URL: `https://app.redislabs.com/#/login/?idpId=XXXXXX`. Take the ID from the location URL in step 3 (the content after the last forward slash "/") and append to the URL.
+1. If you would like to also configure an IdP initiated workflow, fill in the **relay state** field in the **Application properties** section. Use this URL: `https://cloud.redis.io/#/login/?idpId=XXXXXX`. Take the ID from the location URL in step 3 (the content after the last forward slash "/") and append to the URL.
 
    {{<image filename="images/rc/saml/aws_iam_identity_center_saml_11.png" >}}
 

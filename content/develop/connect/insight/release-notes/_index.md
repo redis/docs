@@ -12,7 +12,7 @@ categories:
 description:
 linkTitle: Release notes
 title: Redis Insight release notes
-weight: 2
+weight: 7
 hideListLinks: true
 ---
 

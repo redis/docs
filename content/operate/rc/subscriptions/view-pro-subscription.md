@@ -11,7 +11,7 @@ weight: 40
 ---
 To view the details of a Redis Cloud Pro subscription:
 
-1.  Sign in to the [Redis Cloud console](https://app.redislabs.com/#) and select **Subscriptions**.
+1.  Sign in to the [Redis Cloud console](https://cloud.redis.io/#) and select **Subscriptions**.
 
 1.  If you have more than one subscription, select the target subscription from the subscription list.
 
@@ -95,7 +95,9 @@ The **Overview** summarizes the options use to created the subscription.
 
     Select the **Edit payment method** button to change the credit card associated with this subscription.
 
-    {{< image filename="/images/rc/icon-subscription-detail-change-payment-flexible.png" alt="The update credit card button." >}}
+    {{< image filename="/images/rc/icon-subscription-detail-change-payment-flexible.png" alt="The edit payment method button, selected and showing two credit cards." width=400px >}}
+
+    Select **Add credit card** to add a new credit card.
 
 - The **Maintenance Window** panel shows your current [maintenance window settings]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}).
 

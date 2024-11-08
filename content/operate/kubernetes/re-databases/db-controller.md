@@ -32,7 +32,7 @@ If the database [custom resource is deleted]({{< relref "/operate/kubernetes/del
 
 Databases in multiple namespaces can be managed by the same operator. To learn more, see [Manage databases in multiple namespaces]({{<relref "/content/operate/kubernetes/re-clusters/multi-namespace.md">}}).
 
-To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/deployment/deployment-options.md" >}}).
+To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options.md" >}}).
 
 ## Create a database
 
@@ -84,7 +84,7 @@ To modify the database:
     ```
 
 1. Change the specification (only properties in `spec` section) and save the changes.  
-    For more details, see [RedisEnterpriseDatabaseSpec](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md#redisenterprisedatabasespec) or [Options for Redis Enterprise databases]({{< relref "/operate/kubernetes/reference/db-options.md" >}}). 
+    For more details, see [RedisEnterpriseDatabaseSpec](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md#redisenterprisedatabasespec) or [Options for Redis Enterprise databases]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}). 
 
 1. Monitor the status to see when the changes take effect:
 

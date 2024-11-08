@@ -9,12 +9,12 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Visualize and optimize Redis data
+description: Visualize and optimize Redis data, connect to RDI, and more.
 hideListLinks: true
 linkTitle: Redis Insight
 stack: true
 title: Redis Insight
-weight: 3
+weight: 1
 ---
 
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/QUkjSsk)
@@ -35,8 +35,13 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis or
 * Automatically discover and add your local Redis or Redis Stack databases (that use standalone connection type and do not require authentication).
 * Discover your databases in Redis Enterprise Cluster and databases with Flexible plans in Redis Cloud.
 * Use a form to enter your connection details and add any Redis database running anywhere (including Redis Community Edition Cluster or Sentinel).
+* Connect to a Redis Data Integration (RDI) management plane, create, test, and deploy RDI pipelines, and view RDI statistics.
 
 <img src="images/Databases.png">
+
+{{< note >}}
+When you add a Redis database for a particular user using the `username` and `password` fields, that user must be able to run the `INFO` command. See the [access control list (ACL) documentation]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) for more information.
+{{< /note >}}
 
 ### Redis Copilot
 
@@ -53,6 +58,10 @@ Here's an example of using Redis Copilot to search data using a simple, natural 
 <img src="images/copilot-example.png">
 
 See the [Redis Insight Copilot FAQ]({{< relref "/develop/connect/insight/copilot-faq" >}}) for more information.
+
+### RDI in Redis Insight
+
+Redis Insight includes Redis Data Integration (RDI) connectivity, which allows you to connect to an RDI management plane, and create, test, and deploy RDI pipelines. Read more about this feature [here]({{< relref "/develop/connect/insight/rdi-connector" >}}).
 
 ### Browser
 
@@ -83,9 +92,15 @@ The CLI is accessible at any time within the application.
 
 ### Workbench
 
-Advanced command line interface with intelligent command auto-complete and complex data visualizations.
+Workbench is an advanced command line interface with intelligent command auto-complete and complex data visualization support.
 * Built-in guides: you can conveniently discover Redis and Redis Stack features using the built-in guides.
 * Command auto-complete support for all features in Redis and Redis Stack.
+* Advanced, schema-aware auto-complete for Redis Query Engine, which provides for faster query building with context-sensitive suggestions that recognize indexes, schemas, and fields based on your current query. Start typing any Redis Query Engine command in to try this feature. See below for an example of an in-progress `FT.SEARCH` command.
+
+<img src="images/Workbench_Search.png">
+
+Workbench also includes:
+
 * Visualizations of your indexes, queries, and aggregations.
 * Visualizations of your [time series]({{< relref "/develop/data-types/timeseries/" >}}) data.
 
@@ -149,6 +164,11 @@ These are the locations on supported platforms:
 {{< note >}}
 You can install Redis Insight on operating systems that are not officially supported, but it may not behave as expected.
 {{< /note >}}
+
+## Redis Insight API (only for Docker)
+
+If you are running Redis Insight from [Docker]({{< relref "/operate/redisinsight/install/install-on-docker" >}}),
+you can access the API from `http://localhost:5540/api/docs`.
 
 ## Feedback
 

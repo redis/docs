@@ -16,7 +16,7 @@ toc: 'true'
 weight: 70
 ---
 
-​[​Redis Enterprise Software version 7.4.2](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Enterprise Software version 7.4](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
 
 ## Highlights
 
@@ -54,7 +54,7 @@ The end-of-life policy for Redis Enterprise Software versions 6.2 and later has 
 
 #### Supported upgrade paths
 
-After August 31, 2024, Redis Enterprise Software versions 6.2.4 and 6.2.8 will not be included in [supported upgrade paths]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}) for Redis Enterprise Software versions beyond 7.4.x. Redis Enterprise Software versions 6.2.10, 6.2.12, and 6.2.18 will continue to be part of the upgrade path.
+Redis Enterprise Software versions 6.2.4 and 6.2.8 do not support direct upgrades beyond version 7.4.x. Versions 6.2.10, 6.2.12, and 6.2.18 are part of the [upgrade path]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster#supported-upgrade-paths">}}). To upgrade from 6.2.4 or 6.2.8 to versions later than 7.4.x, an intermediate upgrade is required.
 
 The next major Redis Enterprise Software release will still bundle Redis database version 6.2 and allow database upgrades from Redis database version 6.2 to 7.x.
 
@@ -82,7 +82,41 @@ To prepare for the future removal of Redis 6.0:
 
 - For Redis Enterprise 6.2.* clusters, upgrade Redis 6.0 databases to Redis 6.2. See the [Redis 6.2 release notes](https://raw.githubusercontent.com/redis/redis/6.2/00-RELEASENOTES) for the list of changes.
 
-- For Redis Enterprise 7.2.4 and 7.4.2 clusters, upgrade Redis 6.0 databases to Redis 7.2. Before you upgrade your databases, see the list of [Redis 7.2 breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#redis-72-breaking-changes" >}}) and update any applications that connect to your database to handle these changes.
+- For Redis Enterprise 7.2.4 and 7.4.x clusters, upgrade Redis 6.0 databases to Redis 7.2. Before you upgrade your databases, see the list of [Redis 7.2 breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#redis-72-breaking-changes" >}}) and update any applications that connect to your database to handle these changes.
+
+#### End of triggers and functions preview
+
+The [triggers and functions]({{<relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions">}}) (RedisGears) preview has been discontinued.
+
+- Commands such as `TFCALL`, `TFCALLASYNC`, and `TFUNCTION` will be deprecated and will return error messages.
+
+- Any JavaScript functions stored in Redis will be removed. 
+
+- JavaScript-based triggers will be blocked.
+
+- Lua functions and scripts will not be affected.
+
+If your database currently uses triggers and functions, you need to: 
+
+1. Adjust your applications to accommodate these changes.
+
+1. Delete all triggers and functions libraries from your existing database:
+
+    1. Run `TFUNCTION LIST`.
+
+    1. Copy all library names.
+
+    1. Run `TFUNCTION DELETE` for each library in the list.
+
+    If any triggers and functions libraries remain in the database, the RDB snapshot won't load on a cluster without RedisGears.
+
+1. Migrate your database to a new database without the RedisGears module.
+
+#### RedisGraph end of life
+
+Redis has announced the end of life for RedisGraph. Redis will continue to support all RedisGraph customers, including releasing patch versions until January 31, 2025.
+
+See the [RedisGraph end-of-life announcement](https://redis.com/blog/redisgraph-eol/) for more details.
 
 #### Operating system retirements
 
@@ -100,7 +134,7 @@ To prepare for the future removal of Redis 6.0:
 
 #### Default image change for Redis Enterprise Software containers
 
-Starting with version 7.6, Redis Enterprise Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
+Starting with the next major version, Redis Enterprise Software containers with the image tag `x.y.z-build` will be based on RHEL instead of Ubuntu.
 
 This change will only affect you if you use containers outside the official [Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes">}}) product and use Ubuntu-specific commands.
 
@@ -140,6 +174,8 @@ The following table provides a snapshot of supported platforms as of this Redis 
 [Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Enterprise Software are certified for development and testing only.
 
 ## Known issues
+
+- RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
 - RS61676: Full chain certificate update fails if any certificate in the chain does not have a Common Name (CN).
 

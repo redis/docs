@@ -1,12 +1,12 @@
 ---
-LinkTitle: Prometheus & Grafana with Redis Enterprise
-Title: Prometheus and Grafana with Redis Enterprise
+LinkTitle: Prometheus & Grafana with Redis Software
+Title: Prometheus and Grafana with Redis Enterprise Software
 alwaysopen: false
 categories:
 - docs
 - integrate
 - rs
-description: Use Prometheus and Grafana to collect and visualize Redis Cloud metrics.
+description: Use Prometheus and Grafana to collect and visualize Redis Enterprise Software metrics.
 group: observability
 summary: You can use Prometheus and Grafana to collect and visualize your Redis Enterprise
   Software metrics.
@@ -161,10 +161,11 @@ Redis publishes four preconfigured dashboards for Redis Enterprise and Grafana:
 
 * The [cluster status dashboard](https://grafana.com/grafana/dashboards/18405-cluster-status-dashboard/) provides an overview of your Redis Enterprise clusters.
 * The [database status dashboard](https://grafana.com/grafana/dashboards/18408-database-status-dashboard/) displays specific database metrics, including latency, memory usage, ops/second, and key count.
-* The [node metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/software/basic/redis-software-node-dashboard.json) provides metrics for each of the nodes hosting your cluster.
-* The [shard metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/software/basic/redis-software-shard-dashboard.json) displays metrics for the individual Redis processes running on your cluster nodes
-* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/software/basic/redis-software-active-active-dashboard.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}).
+* The [node metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-node-dashboard_v9-11.json) provides metrics for each of the nodes hosting your cluster.
+* The [shard metrics dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-shard-dashboard_v9-11.json) displays metrics for the individual Redis processes running on your cluster nodes
+* The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/basic/redis-software-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}).
 
 These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Enterprise observability Github repository](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana).
 
 For more information about configuring Grafana dashboards, see the [Grafana documentation](https://grafana.com/docs/).
+

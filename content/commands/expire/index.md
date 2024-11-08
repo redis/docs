@@ -137,6 +137,29 @@ are now fixed.
 
 ## Examples
 
+{{< clients-example cmds_generic expire >}}
+> SET mykey "Hello"
+"OK"
+> EXPIRE mykey 10
+(integer) 1
+> TTL mykey
+(integer) 10
+> SET mykey "Hello World"
+"OK"
+> TTL mykey
+(integer) -1
+> EXPIRE mykey 10 XX
+(integer) 0
+> TTL mykey
+(integer) -1
+> EXPIRE mykey 10 NX
+(integer) 1
+> TTL mykey
+(integer) 10
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 SET mykey "Hello"
 EXPIRE mykey 10

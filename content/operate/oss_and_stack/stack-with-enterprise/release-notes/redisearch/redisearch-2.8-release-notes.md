@@ -13,10 +13,53 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.14 requires:
+RediSearch v2.8.17 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.17 (August 2024)
+
+This is a maintenance release for RediSearch 2.8
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+- Bug fixes:
+
+  - [#4941](https://github.com/redisearch/redisearch/pull/4941) Adjusting the module configuration to avoid routing overload on the first shard in a clustered database (MOD-7505)
+  - [#4950](https://github.com/redisearch/redisearch/pull/4950) `FT.PROFILE` on `AGGREGATE` numeric queries could cause a crash due to reusing internal `CURSOR` in large range of numeric values (MOD-7454)
+
+## v2.8.16 (August 2024)
+
+This is a maintenance release for RediSearch 2.8
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+- Bug fixes:
+
+  - [#4896](https://github.com/redisearch/redisearch/pull/4896) - `FT.AGGREGATE` with `VERBATIM` option is not handled by the shards in cluster mode (MOD-7463)
+  - [#4917](https://github.com/redisearch/redisearch/pull/4917) - Union query, similar to `"is|the"`, starting with 2 [stopwords](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
+  - [#4921](https://github.com/redisearch/redisearch/pull/4921) - Counting twice the field statistics at the `#search` section of an `INFO` response (MOD-7339)
+  - [#4939](https://github.com/redisearch/redisearch/pull/4939) - Query warning when using RESP3 response for reaching `MAXPREFIXEXPANSION` (MOD-7588)
+  - [#4930](https://github.com/redisearch/redisearch/pull/4930) - Loop when using the wildcard `w'term'` and prefix/infix/suffix pattern `'ter*'` leading shard to restart (MOD-7453)
+  - [#4912](https://github.com/redisearch/redisearch/pull/4912) - Avoid stemming expansion when querying for numeric values (MOD-7025)
+
+## v2.8.15 (July 2024)
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+- Bug fixes:
+  - [#4754](https://github.com/RediSearch/RediSearch/pull/4754) - Correct return the maximum value for negative values when using `MAX` reducer (MOD-7252)
+  - [#4737](https://github.com/RediSearch/RediSearch/pull/4737) - Separators ignored when escaping backslash `\` after the escaped character such as in `hello\\,world` ignoring `,` (MOD-7240)
+  - [#4717](https://github.com/RediSearch/RediSearch/pull/4717) - Sorting by multiple fields `SORTBY 2 @field1 @field2` was ignoring the subsequent field(MOD-7206)
+  - [#4803](https://github.com/RediSearch/RediSearch/pull/4803) - Keys expiring during query returning empty array (MOD-7010)
+  - [#4794](https://github.com/RediSearch/RediSearch/pull/4794) - Index sanitiser (GC) trying to clean deleted numeric index could cause a crash (MOD-7303)
+
+- Improvements:
+  - [#4792](https://github.com/RediSearch/RediSearch/pull/4792) - Add character validations to simple string replies and escape it when required(MOD-7258)
+  - [#4768](https://github.com/RediSearch/RediSearch/pull/4768) - Indicate which value is missing on the error message at the aggregation pipeline (MOD-7201)
+  - [#4745](https://github.com/RediSearch/RediSearch/pull/4745) - `GROUPBY` recursion cleanup (MOD-7245)
+  - [#4823](https://github.com/RediSearch/RediSearch/pull/4823) - Mechanism of keys expiration during the query execution clearing intermediate results
 
 ## v2.8.14 (June 2024)
 
@@ -30,7 +73,7 @@ Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgen
   - [#4556](https://github.com/RediSearch/RediSearch/pull/4556) `FT.EXPLAIN` returns additional `}` when querying using wildcards (MOD-6768)
   - [#4646](https://github.com/RediSearch/RediSearch/pull/4646) `FT.DROPINDEX` with `DD` flag deleted keys in one AA cluster but not the others (MOD-1855)
 
-**Improvements:**
+- Improvements:
   - [#4595](https://github.com/RediSearch/RediSearch/pull/4595) Report memory of the `TAG` and `TEXT` tries (MOD-5902)
   - [#4669](https://github.com/RediSearch/RediSearch/pull/4669) Inverted index memory counting (MOD-5977,MOD-5866)
   - [#4687](https://github.com/RediSearch/RediSearch/pull/4687) Add missing `FT.INFO` fields when used within a cluster (MOD-6920)

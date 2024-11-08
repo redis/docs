@@ -263,9 +263,9 @@ after the SCHEMA keyword, declares which fields to index:
 
   - `WITHSUFFIXTRIE` for `TEXT` and `TAG` attributes, keeps a suffix trie with all terms which match the suffix. It is used to optimize `contains` (*foo*) and `suffix` (*foo) queries. Otherwise, a brute-force search on the trie is performed. If suffix trie exists for some fields, these queries will be disabled for other fields.
 
-  - `INDEXEMPTY` for `TEXT` and `TAG` attributes, allows you to index and search for empty strings. By default, empty strings are not indexed.
+  - `INDEXEMPTY` for `TEXT` and `TAG` attributes, introduced in v2.10, allows you to index and search for empty strings. By default, empty strings are not indexed. 
 
-  - `INDEXMISSING` for all field types, allows you to search for missing values, that is, documents that do not contain a specific field. Note the difference between a field with an empty value and a document with a missing value. By default, missing values are not indexed.
+  - `INDEXMISSING` for all field types, introduced in v2.10, allows you to search for missing values, that is, documents that do not contain a specific field. Note the difference between a field with an empty value and a document with a missing value. By default, missing values are not indexed.
 
 </details>
 
@@ -431,10 +431,6 @@ author_id TAG SORTABLE author_ids TAG title TEXT name TEXT
 {{< / highlight >}}
 
 In this example, keys for author data use the key pattern `author:details:<id>` while keys for book data use the pattern `book:details:<id>`.
-</details>
-
-<details open>
-<summary><b>Index a JSON document using a JSON Path expression</b></summary>
 
 Index authors whose names start with G.
 
@@ -451,10 +447,14 @@ Index only books that have a subtitle.
 Index books that have a "categories" attribute where each category is separated by a `;` character.
 
 {{< highlight bash >}}
-127.0.0.1:6379> FT.CREATE books-idx ON HASH PREFIX 1 book:details FILTER SCHEMA title TEXT categories TAG SEPARATOR ";"
+127.0.0.1:6379> FT.CREATE books-idx ON HASH PREFIX 1 book:details SCHEMA title TEXT categories TAG SEPARATOR ";"
 {{< / highlight >}}
+</details>
 
-Index a JSON document using a JSON Path expression.
+<details open>
+<summary><b>Index a JSON document using a JSON Path expression</b></summary>
+
+The following example uses data similar to the hash examples above but uses JSON instead.
 
 {{< highlight bash >}}
 127.0.0.1:6379> FT.CREATE idx ON JSON SCHEMA $.title AS title TEXT $.categories AS categories TAG

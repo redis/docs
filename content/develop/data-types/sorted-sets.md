@@ -57,13 +57,13 @@ As you can see [`ZADD`]({{< relref "/commands/zadd" >}}) is similar to [`SADD`](
 [`ZADD`]({{< relref "/commands/zadd" >}}) is also variadic, so you are free to specify multiple score-value
 pairs, even if this is not used in the example above.
 
-With sorted sets it is trivial to return a list of hackers sorted by their
+With sorted sets it is trivial to return a list of racers sorted by their
 birth year because actually *they are already sorted*.
 
 Implementation note: Sorted sets are implemented via a
 dual-ported data structure containing both a skip list and a hash table, so
 every time we add an element Redis performs an O(log(N)) operation. That's
-good, but when we ask for sorted elements Redis does not have to do any work at
+good, so when we ask for sorted elements, Redis does not have to do any work at
 all, it's already sorted. Note that the [`ZRANGE`]({{< relref "/commands/zrange" >}}) order is low to high, while the [`ZREVRANGE`]({{< relref "/commands/zrevrange" >}}) order is high to low:
 
 {{< clients-example ss_tutorial zrange >}}
@@ -163,7 +163,7 @@ Redis instance will reply with the same output).
 The main commands to operate with lexicographical ranges are [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}),
 [`ZREVRANGEBYLEX`]({{< relref "/commands/zrevrangebylex" >}}), [`ZREMRANGEBYLEX`]({{< relref "/commands/zremrangebylex" >}}) and [`ZLEXCOUNT`]({{< relref "/commands/zlexcount" >}}).
 
-For example, let's add again our list of famous hackers, but this time
+For example, let's add again our list of famous racers, but this time
 using a score of zero for all the elements. We'll see that because of the sorted sets ordering rules, they are already sorted lexicographically. Using [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) we can ask for lexicographical ranges:
 
 {{< clients-example ss_tutorial zadd_lex >}}
@@ -246,7 +246,7 @@ This command's time complexity is O(log(n) + m), where _m_ is the number of resu
 ## Alternatives
 
 Redis sorted sets are sometimes used for indexing other Redis data structures.
-If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Search and query]({{< relref "/develop/interact/search-and-query/" >}}) features.
+If you need to index and query your data, consider the [JSON]({{< relref "/develop/data-types/json/" >}}) data type and the [Redis Query Engine]({{< relref "/develop/interact/search-and-query/" >}}) features.
 
 ## Learn more
 

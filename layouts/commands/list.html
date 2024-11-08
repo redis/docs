@@ -62,7 +62,7 @@
             <option value="cf" data-kind="stack">Cuckoo filter</option>
             <option value="cms" data-kind="stack">Count-min sketch</option>
             <option value="json" data-kind="stack">JSON</option>
-            <option value="search" data-kind="stack">Search and query</option>
+            <option value="search" data-kind="stack">Redis Query Engine</option>
             <option value="suggestion" data-kind="stack">Auto-suggest</option>
             <option value="tdigest" data-kind="stack">T-digest</option>
             <option value="timeseries" data-kind="stack">Time series</option>
@@ -118,8 +118,9 @@
       {{ $pages = (where $pages "Type" "!=" "search") }}
       {{ $pages = (where $pages ".Params.hide_summary" "!=" true) }}
       {{ $pages = (where $pages ".Parent" "!=" nil) }}
-      {{ $pages = (where $pages "Parent.File.UniqueID" "==" $parent.File.UniqueID) }}
+      {{/* $pages = (where $pages "Parent.File.UniqueID" "==" $parent.File.UniqueID) */}}
       {{ $pages = (where $pages ".Params.hidden" "!=" true) }}
+      {{ $pages = (where $pages "Kind" "!=" "section") }}
       <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-redis-ink-900 mx-auto">
         {{ range $index, $page := $pages }}
           <article 

@@ -32,7 +32,7 @@ To create a new account with a free database:
    * Enter your information in the form and select **Get Started**.
    * Sign up with **Google** or **Github**.
 
-1. After you enter your information, you should receive an activation email from Redis. Select **Activate account** to go to the **Get Started** page in the [Redis Cloud console](https://app.redislabs.com).
+1. After you enter your information, you should receive an activation email from Redis. Select **Activate account** to go to the **Get Started** page in the [Redis Cloud console](https://cloud.redis.io).
 
     {{<image filename="images/rc/quickstart-get-started.png" width="75%" alt="Dialog to create your free database." >}}
 
@@ -67,7 +67,7 @@ If you would rather customize your database, select **Create a custom database**
 
        Once the database has been created, it becomes _active_ and the status indicator switches to a green circle containing a checkmark.  
 
-    Admin console operations are asynchronous; they operate [in the background]({{< relref "/operate/rc/api/get-started/process-lifecycle.md" >}}).  You can continue to use the admin console for other tasks, but pending resources aren't available until they're active.
+    Redis Cloud console operations are asynchronous; they operate [in the background]({{< relref "/operate/rc/api/get-started/process-lifecycle.md" >}}).  You can continue to use the Redis Cloud console for other tasks, but pending resources aren't available until they're active.
 
     When your new database becomes active, you're ready to connect to it.
 
@@ -115,10 +115,10 @@ A Redis client is a software library or tool that enables applications to intera
 
 The connection wizard provides code snippets to connect to your database with the following programming languages:
 
-- node.js using [node-redis](https://github.com/redis/node-redis/blob/master/README.md)
+- node.js using [node-redis]({{< relref "/develop/connect/clients/nodejs" >}})
 - .NET using [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/)
-- Python using [redis-py](https://github.com/redis/redis-py#redis-py)
-- Java using [Jedis](https://github.com/redis/jedis#jedis)
+- Python using [redis-py]({{< relref "/develop/connect/clients/python/redis-py" >}})
+- Java using [Jedis]({{< relref "/develop/connect/clients/java/jedis" >}})
 
 {{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." >}}
 

@@ -90,6 +90,7 @@ The following table summarizes which configuration parameters can be set at modu
 | [OSS_GLOBAL_PASSWORD](#oss_global_password)         | :white_check_mark: | :white_large_square: |
 | [DEFAULT_DIALECT](#default_dialect)                 | :white_check_mark: | :white_check_mark:   |
 | [VSS_MAX_RESIZE](#vss_max_resize)                   | :white_check_mark: | :white_check_mark:   |
+| [INDEX_CURSOR_LIMIT](#index_cursor_limit)           | :white_check_mark: | :white_check_mark:   |
 
 ---
 
@@ -579,3 +580,25 @@ $ redis-server --loadmodule ./redisearch.so VSS_MAX_RESIZE 52428800  # 50MB
 * Added in v2.4.8
 
 {{% /alert %}}
+### INDEX_CURSOR_LIMIT
+
+The maximum number of cursors that can be opened, per shard, at any given time.  Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< baseurl >}}/commands/ft.aggregate/).  Cursors are also opened internally by the Redis Query Engine for long-running queries.  Once `INDEX_CURSOR_LIMIT` is reached, any further attempts at opening a cursor will result in an error.
+
+{{% alert title="Notes" color="info" %}}
+
+* Caution should be used in modifying this parameter.  Every open cursor results in additional memory usage.
+* Cursor usage should be regulated first by use of [`FT.CURSOR DEL`]({{< baseurl >}}/commands/ft.cursor-del/) and/or [`MAXIDLE`]({{< baseurl >}}/commands/ft.aggregate/) prior to modifying `INDEX_CURSOR_LIMIT`
+* See [Cursor API]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api) for more details.
+
+* Added in 2.10.8
+{{% /alert %}}
+
+#### Default
+
+128
+
+#### Example
+
+```
+$ redis-server --loadmodule ./redisearch.so INDEX_CURSOR_LIMIT 180
+```

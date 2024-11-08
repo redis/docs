@@ -25,7 +25,52 @@ This guide shows how to create a Pro database with a new subscription.
     {{< /note >}}
     
 
-After you select **Pro**, you need to: 
+After you select **Pro**, the **Database settings** section will appear.
+
+{{<image filename="images/rc/create-pro-db-settings.png" alt="The database settings section.">}}
+
+You can choose to create your database in one of two ways:
+
+- [**Easy create**](#easy-create) selects the optimal settings for your use case for you. 
+- [**Custom settings**](#custom-settings) lets you select all of the configuration options for your new database.
+
+## Create database with Easy create {#easy-create}
+
+If you choose to create your database with Easy create:
+
+{{<image filename="images/rc/pro-easy-create-vendor.png" alt="The database name, cloud vendor and region settings.">}}
+
+1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
+
+1. Choose a **Cloud Provider** and a **Region**.
+
+1. Review the **Optimal database settings** that we selected for you based on your use case.
+
+    {{<image filename="images/rc/pro-easy-create-optimal-settings.png" alt="The optimal database settings.">}}
+
+    Settings marked with the **Edit later** icon can be changed later. Anything not marked with this icon can't be changed after creation. If you want to change these settings, you can select [**Switch to custom settings**](#custom-settings).
+
+    {{<image filename="images/rc/pro-easy-create-edit-icon.png" alt="The Edit later icon." width=50px >}}
+
+1. Enter your payment details.
+
+    If you haven't previously entered a payment method, use the **Add Credit Card** button to add one.
+
+    {{<image filename="images/rc/icon-add-credit-card.png" alt="The Add credit card icon." >}}
+
+ Select **Confirm & pay** to create your database.
+
+{{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & Pay to create your new database." >}}
+
+Note that databases are created in the background.  While they are provisioning, you aren't allowed to make changes. This process generally takes 10-15 minutes.
+
+Use the **Database list** to check the status of your databases.
+
+## Create database with Custom settings {#custom-settings}
+
+{{<image filename="images/rc/create-pro-db-settings-custom.png" alt="The database settings section, with custom settings selected.">}}
+
+If you choose to create your database with custom settings, you need to:
 
 1. Set up the deployment options, including cloud vendor details, high availability settings, and advanced options.
 
@@ -35,7 +80,7 @@ After you select **Pro**, you need to:
 
 The following sections provide more information.
 
-## Set up deployment details
+### Set up deployment details
 
 The **Setup** tab specifies general settings for your Redis deployment.
 
@@ -47,7 +92,7 @@ There are three sections on this tab:
 - [Version](#version) lets you choose the Redis version of your databases.
 - [Advanced options](#advanced-options) define settings for high availability and security. Configurable settings vary according to cloud provider.
 
-### General settings {#general-settings}
+#### General settings {#general-settings}
 
 {{<image filename="images/rc/subscription-new-flexible-setup-general.png" width="75%" alt="The General settings of the Setup tab." >}}
 
@@ -60,13 +105,15 @@ The following settings are defined in the **General settings** of the **Setup** 
 | **Active-Active Redis** | Hosts your datasets in multiple read-write locations to support distributed applications and disaster recovery. See [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active. |
 | **Auto Tiering**| Determines if your databases are stored only in memory (RAM) or are split between memory and Flash storage (RAM+Flash).  See [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})|
 
-### Version {#version}
+#### Version {#version}
 
-{{<image filename="images/rc/subscription-new-flexible-version-section.png" width="75%" alt="Version selection between Redis 6.2 and 7.2" >}}
+{{<image filename="images/rc/subscription-new-flexible-version-section.png" width="75%" alt="Version selection between Redis 6.2, 7.2, and 7.4." >}}
 
-The **Version** section lets you choose the Redis version of your databases. Choose **Redis 7.2** if you want to use the latest advanced features of Redis.
+The **Version** section lets you choose the Redis version of your databases. Choose **Redis 7.2** if you want to use the latest stable version of Redis, or select **Redis 7.4** for the Redis 7.4 Preview. 
 
-### Advanced options {#advanced-options}
+Redis 7.4 offers hash field expiration and other feature set improvements. For more information on the changes in Redis 7.4, see the [Redis 7.4 release notes](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74).
+
+#### Advanced options {#advanced-options}
 
 {{<image filename="images/rc/subscription-new-flexible-setup-advanced.png" width="75%" alt="The Advanced settings of the Setup tab." >}}
 
@@ -85,7 +132,7 @@ When finished, choose **Continue** to determine your size requirements.
 
 {{<image filename="images/rc/button-subscription-continue.png" width="100px" alt="Select the Continue button to continue to the next step." >}}
 
-## Sizing tab
+### Sizing tab
 
 The **Sizing** tab helps you specify the database, memory, and throughput requirements for your subscription.
 
@@ -104,10 +151,10 @@ By default, you're shown basic settings, which include:
 | Database&nbsp;setting | Description |
 |:---------|:-----------|
 | **Name** | A custom name for your database (_required_) |
-| **Advanced Capabilities** | Advanced data types used by the database. Choose from [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}), [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}), or [Graph (EOL)]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}). <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
-| **Query performance factor** | *(Search and query databases only)* Adds additional compute power to process your Search and Query workloads and boost your queries per second. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
-| **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/clustering#throughput" >}}) for more information. |
-| **Dataset size (GB)** | The amount of data for your dataset. Specify small sizes as decimals of 1.0&nbsp;GB; example: `0.1` GB (minimum). We calculate the total memory limit for you based on the other settings you choose for your database. |
+| **Advanced Capabilities** | [Advanced data types]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) used by the database. Choose from [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}), [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), or [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}). <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
+| **Query performance factor** | *(Search and query databases only)* Adds additional compute power to process your query and vector search workloads and boost your queries per second. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
+| **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/clustering#throughput" >}}) for more information. <br/> Databases with Search and query have specific throughput requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
+| **Dataset size (GB)** | The amount of data for your dataset. Specify small sizes as decimals of 1.0&nbsp;GB; example: `0.1` GB (minimum). We calculate the total memory limit for you based on the other settings you choose for your database. <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **High Availability** | Indicates whether a replica copy of the database is maintained in case the primary database becomes unavailable.  (Warning: Doubles memory consumption). See [High Availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).  |
 | **Data Persistence** | Defines the data persistence policy, if any. See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}}). |
 
@@ -133,7 +180,7 @@ Hover over a database to see the **Edit** and **Delete** icons. You can use the 
 {{<image filename="images/rc/icon-database-edit.png#no-click" width="30px" alt="Use the Edit button to change database settings." class="inline" >}}&nbsp;{{<image filename="images/rc/icon-database-delete.png#no-click" width="30px" alt="Use the Delete button to remove a database." class="inline">}}
 
 
-## Review and Create tab
+### Review and Create tab
 
 The **Review & Create** tab provides a cost estimate for your Redis Cloud Pro plan:
 

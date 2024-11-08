@@ -456,9 +456,9 @@ As of v2.6.1, the query attributes syntax supports these additional attributes:
 
         @age:[(18 +inf]
 
-## Mapping common SQL predicates to Search and Query
+## Mapping common SQL predicates to Redis Query Engine
 
-| SQL Condition | Search and Query Equivalent | Comments |
+| SQL Condition | Redis Query Engine Equivalent | Comments |
 |---------------|-----------------------|----------|
 | WHERE x='foo' AND y='bar' | @x:foo @y:bar | for less ambiguity use (@x:foo) (@y:bar) |
 | WHERE x='foo' AND y!='bar' | @x:foo -@y:bar |

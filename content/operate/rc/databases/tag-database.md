@@ -14,7 +14,7 @@ Tags are key-value pairs that let you categorize your databases. You can create 
 
 ## Manage tags
 
-You can manage tags from the [Redis Cloud console](https://app.redislabs.com/#/) in the [tag manager](#tag-manager). You can find the tag manager in the following places: 
+You can manage tags from the [Redis Cloud console](https://cloud.redis.io/#/) in the [tag manager](#tag-manager). You can find the tag manager in the following places: 
 
 - [From your database in the **Configuration** tab](#configuration-tab)
 - [From the database list](#database-list)

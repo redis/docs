@@ -13,7 +13,7 @@ This document is a converted form of [this Jupyter notebook](https://github.com/
 Before beginning, be sure of the following:
 
 1. You have installed RedisVL and have that environment activated.
-1. You have a running Redis instance with the search and query capability.
+1. You have a running Redis instance with the Redis Query Engine capability.
 
 ## Semantic caching for LLMs
 
