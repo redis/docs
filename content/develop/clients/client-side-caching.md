@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/clients/client-side-caching
 categories:
 - docs
 - develop

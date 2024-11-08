@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/clients/pools-and-muxing
 categories:
 - docs
 - develop

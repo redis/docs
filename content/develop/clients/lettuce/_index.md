@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/clients/java/lettuce
 categories:
 - docs
 - develop

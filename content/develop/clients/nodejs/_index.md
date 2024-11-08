@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/clients/nodejs
 categories:
 - docs
 - develop

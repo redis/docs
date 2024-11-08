@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/clients/php
 categories:
 - docs
 - develop

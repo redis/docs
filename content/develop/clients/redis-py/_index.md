@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/clients/python/redis-py
 categories:
 - docs
 - develop
