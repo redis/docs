@@ -308,6 +308,48 @@ java.security.Security.setProperty("networkaddress.cache.ttl","0");
 java.security.Security.setProperty("networkaddress.cache.negative.ttl", "0");
 ```
 
+## Example - JSON query
+
+Import:
+
+{{< clients-example lettuce_home_json import >}}
+{{< /clients-example >}}
+
+Connect:
+
+{{< clients-example lettuce_home_json connect >}}
+{{< /clients-example >}}
+
+Create data:
+
+{{< clients-example lettuce_home_json create_data >}}
+{{< /clients-example >}}
+
+Make index:
+
+{{< clients-example lettuce_home_json make_index >}}
+{{< /clients-example >}}
+
+Add data:
+
+{{< clients-example lettuce_home_json add_data >}}
+{{< /clients-example >}}
+
+Paul query:
+
+{{< clients-example lettuce_home_json query1 >}}
+{{< /clients-example >}}
+
+Cities query:
+
+{{< clients-example lettuce_home_json query2 >}}
+{{< /clients-example >}}
+
+Agg query:
+
+{{< clients-example lettuce_home_json query3 >}}
+{{< /clients-example >}}
+
 ## Learn more
 
 - [Lettuce reference documentation](https://redis.github.io/lettuce/)

@@ -216,6 +216,47 @@ const client = createClient({
 client.on('error', error => console.error('Redis client error:', error));
 ```
 
+## Example - JSON query
+
+Import:
+
+{{< clients-example js_home_json import >}}
+{{< /clients-example >}}
+
+Connect:
+
+{{< clients-example js_home_json connect >}}
+{{< /clients-example >}}
+
+Create data:
+
+{{< clients-example js_home_json create_data >}}
+{{< /clients-example >}}
+
+Make index:
+
+{{< clients-example js_home_json make_index >}}
+{{< /clients-example >}}
+
+Add data:
+
+{{< clients-example js_home_json add_data >}}
+{{< /clients-example >}}
+
+Paul query:
+
+{{< clients-example js_home_json query1 >}}
+{{< /clients-example >}}
+
+Cities query:
+
+{{< clients-example js_home_json query2 >}}
+{{< /clients-example >}}
+
+Agg query:
+
+{{< clients-example js_home_json query3 >}}
+{{< /clients-example >}}
 ## Learn more
 
 * [Node-Redis Configuration Options](https://github.com/redis/node-redis/blob/master/docs/client-configuration.md)
