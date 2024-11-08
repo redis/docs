@@ -25,7 +25,7 @@ manage it and interact with the data:
 
 ## Redis command line interface (CLI)
 
-The [Redis command line interface]({{< relref "/develop/connect/cli" >}}) (also known as `redis-cli`) is a terminal program that sends commands to and reads replies from the Redis server. It has the following two main modes: 
+The [Redis command line interface]({{< relref "/develop/tools/cli" >}}) (also known as `redis-cli`) is a terminal program that sends commands to and reads replies from the Redis server. It has the following two main modes: 
 
 1. An interactive Read Eval Print Loop (REPL) mode where the user types Redis commands and receives replies.
 2. A command mode where `redis-cli` is executed with additional arguments, and the reply is printed to the standard output.

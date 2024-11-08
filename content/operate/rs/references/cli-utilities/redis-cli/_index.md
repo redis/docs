@@ -102,15 +102,15 @@ $ redis-cli -h <endpoint> -p 12000 GET mykey
 "Hello world"
 ```
 
-For more information, see [Command line usage]({{< relref "/develop/connect/cli" >}}#command-line-usage).
+For more information, see [Command line usage]({{< relref "/develop/tools/cli" >}}#command-line-usage).
 
 ## Interactive mode
 
-In `redis-cli` [interactive mode]({{< relref "/develop/connect/cli" >}}#interactive-mode), you can:
+In `redis-cli` [interactive mode]({{< relref "/develop/tools/cli" >}}#interactive-mode), you can:
 
 - Run any `redis-cli` command without prefacing it with `redis-cli`.
-- Enter `?` for more information about how to use the `HELP` command and [set `redis-cli` preferences]({{< relref "/develop/connect/cli" >}}#preferences).
-- Enter [`HELP`]({{< relref "/develop/connect/cli" >}}#showing-help-about-redis-commands) followed by the name of a command for more information about the command and its options.
+- Enter `?` for more information about how to use the `HELP` command and [set `redis-cli` preferences]({{< relref "/develop/tools/cli" >}}#preferences).
+- Enter [`HELP`]({{< relref "/develop/tools/cli" >}}#showing-help-about-redis-commands) followed by the name of a command for more information about the command and its options.
 - Press the `Tab` key for command completion.
 - Enter `exit` or `quit` or press `Control+D` to exit interactive mode and return to the terminal prompt.
 
@@ -144,9 +144,9 @@ Scan the database for big keys:
 redis-cli -h <endpoint> -p <port> --bigkeys
 ```
 
-See [Scanning for big keys]({{< relref "/develop/connect/cli" >}}#scanning-for-big-keys) for more information.
+See [Scanning for big keys]({{< relref "/develop/tools/cli" >}}#scanning-for-big-keys) for more information.
 
 ## More info
 
-- [Redis CLI documentation]({{< relref "/develop/connect/cli" >}})
+- [Redis CLI documentation]({{< relref "/develop/tools/cli" >}})
 - [Redis commands reference]({{< relref "/commands/" >}}

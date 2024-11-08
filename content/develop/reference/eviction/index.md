@@ -47,7 +47,7 @@ maxmemory 100mb
 ```
 
 You can also use [`CONFIG SET`]({{< relref "/commands/config-set" >}}) to
-set `maxmemory` at runtime using [`redis-cli`]({{< relref "/develop/connect/cli" >}}):
+set `maxmemory` at runtime using [`redis-cli`]({{< relref "/develop/tools/cli" >}}):
 
 ```bash
 > CONFIG SET maxmemory 100mb

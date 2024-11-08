@@ -29,7 +29,7 @@ In [redis.conf]({{< relref "/operate/oss_and_stack/management/config" >}}):
 loadmodule ./redisearch.so [OPT VAL]...
 ```
 
-From the [Redis CLI]({{< relref "/develop/connect/cli" >}}), using the [MODULE LOAD]({{< relref "/commands/module-load" >}}) command:
+From the [Redis CLI]({{< relref "/develop/tools/cli" >}}), using the [MODULE LOAD]({{< relref "/commands/module-load" >}}) command:
 
 ```
 127.0.0.6379> MODULE LOAD redisearch.so [OPT VAL]...

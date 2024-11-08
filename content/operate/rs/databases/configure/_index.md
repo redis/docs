@@ -22,7 +22,7 @@ You can manage your Redis Enterprise Software databases with several tools:
 
     - [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) for Active-Active database configuration
 
-    - [`redis-cli`]({{< relref "/develop/connect/cli" >}}) for Redis Community Edition configuration
+    - [`redis-cli`]({{< relref "/develop/tools/cli" >}}) for Redis Community Edition configuration
 
 - [REST API]({{< relref "/operate/rs/references/rest-api/_index.md" >}})
 
