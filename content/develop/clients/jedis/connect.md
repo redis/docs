@@ -192,7 +192,7 @@ client.get("city");     // Retrieved from cache
 ```
 
 You can see the cache working if you connect to the same Redis database
-with [`redis-cli`]({{< relref "/develop/connect/cli" >}}) and run the
+with [`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run the
 [`MONITOR`]({{< relref "/commands/monitor" >}}) command. If you run the
 code above but without passing `cacheConfig` during the connection,
 you should see the following in the CLI among the output from `MONITOR`:

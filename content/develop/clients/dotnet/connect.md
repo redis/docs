@@ -144,5 +144,5 @@ connections efficiently. NRedisStack uses a different approach called
 single connection. NRedisStack manages multiplexing for you automatically.
 This gives high performance without requiring any extra coding.
 See
-[Connection pools and multiplexing]({{< relref "/develop/connect/clients/pools-and-muxing" >}})
+[Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
 for more information.
