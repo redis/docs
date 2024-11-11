@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/insight
 categories:
 - docs
 - develop

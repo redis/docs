@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/redis-for-vscode
 categories:
 - docs
 - develop

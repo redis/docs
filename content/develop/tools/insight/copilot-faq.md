@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/insight/copilot-faq
 categories:
 - docs
 - operate

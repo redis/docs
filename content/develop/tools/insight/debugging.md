@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/insight/debugging
 categories:
 - docs
 - develop

@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/insight/rdi-connector
 categories:
 - docs
 - develop

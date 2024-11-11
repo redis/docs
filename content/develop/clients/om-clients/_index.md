@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/om-clients
 categories:
 - docs
 - develop

@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/insight/tutorials/insight-stream-consumer
 categories:
 - docs
 - develop

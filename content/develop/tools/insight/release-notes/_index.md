@@ -1,4 +1,5 @@
 ---
+aliases: /develop/connect/insight/release-notes
 categories:
 - docs
 - develop
