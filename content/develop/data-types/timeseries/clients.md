@@ -21,7 +21,7 @@ The table below shows the client libraries that support Redis time series:
 
 | Language | Client |
 | :-- | :-- |
-| Python | [redis-py]({{< relref "/develop/connect/clients/python" >}}) |
+| Python | [redis-py]({{< relref "/develop/clients/redis-py" >}}) |
 | JavaScript | [node-redis]({{< relref "/develop/clients/nodejs" >}}) |
 | Java | [Jedis]({{< relref "/develop/clients/jedis" >}}) |
 | C#/.NET | [NRedisStack]({{< relref "/develop/clients/dotnet" >}}) |

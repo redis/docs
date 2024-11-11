@@ -57,11 +57,11 @@ Here's an example of using Redis Copilot to search data using a simple, natural 
 
 <img src="images/copilot-example.png">
 
-See the [Redis Insight Copilot FAQ]({{< relref "/develop/connect/insight/copilot-faq" >}}) for more information.
+See the [Redis Insight Copilot FAQ]({{< relref "/develop/tools/insight/copilot-faq" >}}) for more information.
 
 ### RDI in Redis Insight
 
-Redis Insight includes Redis Data Integration (RDI) connectivity, which allows you to connect to an RDI management plane, and create, test, and deploy RDI pipelines. Read more about this feature [here]({{< relref "/develop/connect/insight/rdi-connector" >}}).
+Redis Insight includes Redis Data Integration (RDI) connectivity, which allows you to connect to an RDI management plane, and create, test, and deploy RDI pipelines. Read more about this feature [here]({{< relref "/develop/tools/insight/rdi-connector" >}}).
 
 ### Browser
 

@@ -18,7 +18,7 @@ Redis comes with a wide range of commands that help you to develop real-time app
 
 As a developer, you will likely use one of our supported client libraries for connecting and executing commands.
 
-- [Connect with Redis clients introduction]({{< relref "/develop/connect/clients/" >}})
+- [Connect with Redis clients introduction]({{< relref "/develop/clients" >}})
 
 ### Programmability APIs
 

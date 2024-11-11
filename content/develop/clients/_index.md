@@ -33,7 +33,7 @@ for six main languages:
 | [PHP](https://www.php.net/)| [`Predis`](https://github.com/predis/predis) | [PHP guide]({{< relref "/develop/clients/php" >}}) | No |
 
 We also provide several higher-level
-[object mapping (OM)]({{< relref "/develop/connect/clients/om-clients" >}})
+[object mapping (OM)]({{< relref "/develop/clients/om-clients" >}})
 libraries for [Python]({{< relref "/integrate/redisom-for-python" >}}),
 [C#/.NET]({{< relref "/integrate/redisom-for-net" >}}),
 [Node.js]({{< relref "/integrate/redisom-for-node-js" >}}), and
@@ -59,4 +59,4 @@ You can experiment with a local installation of Redis Stack
 (see [Install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})) or with a free trial of [Redis Cloud]({{< relref "/operate/rc" >}}).
 To interact with a Redis server without writing code, use the
 [Redis CLI]({{< relref "/develop/tools/cli" >}}) and
-[Redis Insight]({{< relref "/develop/connect/insight" >}}) tools.
+[Redis Insight]({{< relref "/develop/tools/insight" >}}) tools.

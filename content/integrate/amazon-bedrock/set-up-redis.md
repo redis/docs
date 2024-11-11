@@ -196,7 +196,7 @@ After your Redis Cloud database is set up, create a search index with a vector f
 
 ### Redis Insight
 
-[Redis Insight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
+[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
 
 To create your vector index in Redis Insight:
 

@@ -96,18 +96,18 @@ The connection wizard provides the following database connection methods:
 
 ### Redis Insight{#using-redisinsight}
 
-[Redis Insight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that is available for macOS, Windows, and Linux.
+[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that is available for macOS, Windows, and Linux.
 
 1. In the connection wizard, under **Redis Insight**, select **Download** to download Redis Insight.
 
-1. [Install Redis Insight]({{< relref "/develop/connect/insight/" >}}).
+1. [Install Redis Insight]({{< relref "/develop/tools/insight" >}}).
 
 1. Once installed, select **Open with Redis Insight**.
 
 1. A pop-up asks if you wish to open the link with Redis Insight. Select **Open Redis Insight** to connect to your database with Redis Insight.
 
 
-See the [Redis Insight docs]({{< relref "/develop/connect/insight/" >}}) for more info.
+See the [Redis Insight docs]({{< relref "/develop/tools/insight" >}}) for more info.
 
 ### Redis client{#using-redis-client}
 
@@ -122,7 +122,7 @@ The connection wizard provides code snippets to connect to your database with th
 
 {{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." >}}
 
-See [Clients]({{< relref "/develop/connect/clients/" >}}) to learn how to connect with the official Redis clients.
+See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
 
 ### redis-cli {#using-rediscli}
 
@@ -134,7 +134,7 @@ See [Redis CLI]({{< relref "/develop/tools/cli" >}}) to learn how to use `redis-
 
 ## More info
 
-- [Connect your application]({{< relref "/develop/connect/clients/" >}})
+- [Connect your application]({{< relref "/develop/clients" >}})
 - [Import data]({{< relref "/operate/rc/databases/import-data.md" >}})
 - [Manage databases]({{< relref "/operate/rc/databases" >}})
 - [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}})

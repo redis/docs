@@ -58,19 +58,19 @@ A Redis Cloud Essentials database has a set maintenance window based on the regi
 
 When you're developing your apps, it is best to use specific Redis Client features to connect to Redis Cloud if they are available for your preferred client.
 
-See [Clients]({{< relref "/develop/connect/clients/" >}}) to learn how to connect with the official Redis clients.
+See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
 
 ### Re-attempt connections
 
 Some clients allow you to re-try connecting to your database if the connection fails. For these clients, we recommend that you implement connection re-attempts to ensure high availability and connection stability. 
 
-View your [client's docs]({{< relref "/develop/connect/clients/" >}}) to learn more.
+View your [client's docs]({{< relref "/develop/clients" >}}) to learn more.
 
 ### Refresh DNS
 
 Your application may disconnect from your database either during planned maintenance or for other, unplanned reasons. Most Redis clients are set to refresh their DNS address when they reconnect to the database, and you will not be required to perform any further action. If you encounter connectivity problems for more than a minute during maintenance then you should refresh your DNS entries. 
 
-Depending on the client, you may be recommended to turn off the DNS cache entirely. Refer to your [client's docs]({{< relref "/develop/connect/clients/" >}}) to learn more.
+Depending on the client, you may be recommended to turn off the DNS cache entirely. Refer to your [client's docs]({{< relref "/develop/clients" >}}) to learn more.
 
 ### Use the WAIT and WAITAOF commands
 
@@ -80,6 +80,6 @@ For more info, see [Use the WAIT command for strong consistency]({{< relref "/op
 
 ## More info
 
-- [Redis Clients]({{< relref "/develop/connect/clients/" >}})
+- [Redis Clients]({{< relref "/develop/clients" >}})
 - [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
 - [Active-Active Redis applications]({{< relref "/operate/rs/databases/active-active/develop" >}})

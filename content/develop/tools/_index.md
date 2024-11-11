@@ -32,7 +32,7 @@ The [Redis command line interface]({{< relref "/develop/tools/cli" >}}) (also kn
 
 ## Redis Insight
 
-[Redis Insight]({{< relref "/develop/connect/insight" >}}) combines a graphical user interface with Redis CLI to let you work with any Redis deployment. You can visually browse and interact with data, take advantage of diagnostic tools, learn by example, and much more. Best of all, Redis Insight is free.
+[Redis Insight]({{< relref "/develop/tools/insight" >}}) combines a graphical user interface with Redis CLI to let you work with any Redis deployment. You can visually browse and interact with data, take advantage of diagnostic tools, learn by example, and much more. Best of all, Redis Insight is free.
 
 ## Redis VSCode extension
 

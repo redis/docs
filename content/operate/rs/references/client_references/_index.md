@@ -22,11 +22,11 @@ To connect to Redis instances from within your application, use a Redis client l
 | Go | [go-redis]({{< relref "/develop/clients/go" >}}) |
 | Java | [Jedis]({{< relref "/develop/clients/jedis" >}}) (Synchronous) and [Lettuce]({{< relref "/develop/clients/lettuce" >}}) (Asynchronous) |
 | Node.js | [node-redis]({{< relref "/develop/clients/nodejs" >}}) |
-| Python | [redis-py]({{< relref "/develop/connect/clients/python" >}}) |
+| Python | [redis-py]({{< relref "/develop/clients/redis-py" >}}) |
 
 Select a client name to see its quick start.
 
 ## Other clients
 
 For a list of community-driven Redis clients, which are available for more programming languages, see
-[Community-supported clients]({{< relref "/develop/connect/clients#community-supported-clients" >}}).
+[Community-supported clients]({{< relref "/develop/clients#community-supported-clients" >}}).

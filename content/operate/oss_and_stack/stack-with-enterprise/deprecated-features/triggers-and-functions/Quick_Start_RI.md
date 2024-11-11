@@ -19,7 +19,7 @@ aliases:
 
 Make sure that you have [Redis Stack installed]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) and running. Alternatively, you can create a [free Redis Cloud account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 
-If you haven't already installed Redis Insight, you can download the latest version [here](https://redis.com/redis-enterprise/redis-insight/?_ga=2.232184223.127667221.1704724457-86137583.1685485233&_gl=1*1gygred*_ga*ODYxMzc1ODMuMTY4NTQ4NTIzMw..*_ga_8BKGRQKRPV*MTcwNDkyMzExMC40MDEuMS4xNzA0OTI3MjQ2LjUyLjAuMA..*_gcl_au*MTQzODY1OTU4OS4xNzAxMTg0MzY0). If this is your first time using Redis Insight, you may wish to read through the [Redis Insight guide]({{< relref "/develop/connect/insight/" >}}) before continuing with this guide.
+If you haven't already installed Redis Insight, you can download the latest version [here](https://redis.com/redis-enterprise/redis-insight/?_ga=2.232184223.127667221.1704724457-86137583.1685485233&_gl=1*1gygred*_ga*ODYxMzc1ODMuMTY4NTQ4NTIzMw..*_ga_8BKGRQKRPV*MTcwNDkyMzExMC40MDEuMS4xNzA0OTI3MjQ2LjUyLjAuMA..*_gcl_au*MTQzODY1OTU4OS4xNzAxMTg0MzY0). If this is your first time using Redis Insight, you may wish to read through the [Redis Insight guide]({{< relref "/develop/tools/insight" >}}) before continuing with this guide.
 
 ## Connect to Redis Stack
 

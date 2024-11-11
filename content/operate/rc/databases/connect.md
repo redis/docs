@@ -35,19 +35,19 @@ The connection wizard provides the following database connection methods:
 
 ## Redis Insight {#using-redisinsight}
 
-[Redis Insight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that is available for macOS, Windows, and Linux.
+[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that is available for macOS, Windows, and Linux.
 
 1. If you haven't downloaded Redis Insight, select **Download** under **Redis Insight** in the Connection wizard to download it. 
 
-1. [Install Redis Insight]({{< relref "/develop/connect/insight/" >}}).
+1. [Install Redis Insight]({{< relref "/develop/tools/insight" >}}).
 
 1. Once installed, select **Open with Redis Insight**.
 
 1. A pop-up asks if you wish to open the link with Redis Insight. Select **Open Redis Insight** to connect to your database with Redis Insight.
 
-If you get an error when connecting with Redis Insight, [manually connect to your database]({{< relref "/develop/connect/insight/" >}}) from Redis Insight.
+If you get an error when connecting with Redis Insight, [manually connect to your database]({{< relref "/develop/tools/insight" >}}) from Redis Insight.
 
-You can use Redis Insight to view your data, run Redis commands, and analyze database performance. See the [Redis Insight docs]({{< relref "/develop/connect/insight/" >}}) for more info.
+You can use Redis Insight to view your data, run Redis commands, and analyze database performance. See the [Redis Insight docs]({{< relref "/develop/tools/insight" >}}) for more info.
 
 ## Redis client {#using-redis-client}
 
@@ -64,7 +64,7 @@ The connection wizard provides code snippets to connect to your database with th
 
 If the username and password are not already filled in, replace `<username>` and `<password>` with your username and password.
 
-See [Clients]({{< relref "/develop/connect/clients/" >}}) to learn how to connect with the official Redis clients.
+See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
 
 ### redis-cli {#using-rediscli}
 
@@ -76,7 +76,7 @@ See [Redis CLI]({{< relref "/develop/tools/cli" >}}) to learn how to use `redis-
 
 ## More info
 
-- [Connect your application]({{< relref "/develop/connect/clients/" >}})
+- [Connect your application]({{< relref "/develop/clients" >}})
 - [Connect with TLS]({{< relref "/operate/rc/security/database-security/tls-ssl#connect-over-tls" >}})
 - [Default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}})
 - [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}})
