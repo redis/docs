@@ -1,5 +1,6 @@
 ---
 categories:
+aliases: 
 - docs
 - develop
 - stack
@@ -12,7 +13,7 @@ categories:
 description: Tools to interact with a Redis server
 linkTitle: Client tools
 hideListLinks: true
-title: Redis tools
+title: Client tools
 weight: 25
 ---
 
@@ -21,7 +22,7 @@ manage it and interact with the data:
 
 * The [`redis-cli`](#redis-command-line-interface-cli) command line tool
 * [Redis Insight](#redis-insight) (a graphical user interface tool)
-* The Redis VSCode extension
+* The Redis [VSCode extension](#redis-vscode-extension)
 
 ## Redis command line interface (CLI)
 
