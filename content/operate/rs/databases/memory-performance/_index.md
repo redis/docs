@@ -108,6 +108,6 @@ accesses to the same value is fast, once the value is in RAM.
 
 ## Client-side caching
 
-Client-side caching allows Redis clients to store a subset of data in a local cache and avoid sending repeated requests to the Redis database. When used to cache frequently accessed data, this technique can improve performance by decreasing network traffic, latency, and load on the database. For more information about client-side caching, see the [client-side caching introduction]({{<relref "/develop/connect/clients/client-side-caching">}}).
+Client-side caching allows Redis clients to store a subset of data in a local cache and avoid sending repeated requests to the Redis database. When used to cache frequently accessed data, this technique can improve performance by decreasing network traffic, latency, and load on the database. For more information about client-side caching, see the [client-side caching introduction]({{<relref "/develop/clients/client-side-caching">}}).
 
 Redis Software supports client-side caching for databases with Redis versions 7.4 and later. See [Client-side caching compatibility with Redis Software]({{<relref "/operate/rs/references/compatibility/client-side-caching">}}) for more information about compatibility and configuration options.
