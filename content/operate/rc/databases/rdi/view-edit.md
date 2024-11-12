@@ -20,19 +20,41 @@ To change the data you want to ingest from the data pipeline:
 
 1. From the **Data pipeline** tab, select **Edit**.
 
+    {{<image filename="images/rc/rdi/rdi-edit-button.png" alt="The edit pipeline button." width=100px >}}
+
 1. For the **Configure a new pipeline** option, select the Redis data type to write keys to the target. You can choose **Hash** or **JSON**. 
 
+    {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The Pipeline definition screen. Configure a new pipeline is selected." width=75% >}}
+    
     Select **Continue**.
+    
+    {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
 
-1. Select the schema and tables you want to migrate to the target database from the **Source data selection** list. You can select any number of columns from a table. 
+1. Select the schema and tables you want to migrate to the target database from the **Source data selection** list. 
+
+    {{<image filename="images/rc/rdi/rdi-select-source-data.png" alt="The select source data section. " width=75% >}}
+
+    You can select any number of columns from a table.
+
+    {{<image filename="images/rc/rdi/rdi-select-columns.png" alt="The select source data section. A table is expanded with a few columns selected." width=75% >}}
 
     If any tables are missing a unique constraint, the **Missing unique constraint** list will appear. Select the columns that define a unique constraint for those tables from the list.
 
-    Select **Add schema** to add additional database schema.
+    {{<image filename="images/rc/rdi/rdi-missing-unique-constraint.png" alt="The missing unique constraint list." width=75% >}}
 
+    {{<image filename="images/rc/rdi/rdi-select-constraints.png" alt="The missing unique constraint list with columns selected." width=75% >}}
+
+    Select **Add schema** to add additional database schemas.
+
+    {{<image filename="images/rc/rdi/rdi-add-schema.png" alt="The add schema button." width=150px >}}
+    
     Select **Delete** to delete a schema. You must have at least one schema to continue.
 
+    {{<image filename="images/rc/rdi/rdi-delete-schema.png" alt="The delete schema button." width=50px >}}
+
     After you've selected the schemas and tables you want to sync, select **Continue**.
+
+     {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}
 
 1. Review the tables you selected in the **Summary** and select how you want to update the data pipeline:
 
@@ -44,7 +66,7 @@ To change the data you want to ingest from the data pipeline:
 
 At this point, the data pipeline will apply the changes. If you selected **Reset pipeline** or **Flush cached data and reset pipeline**, the data pipeline will ingest data from the source database to the target database. After this initial sync is complete, the data pipeline enters the *change streaming* phase, where changes are captured as they happen.
 
-If you selected **Apply to new data changes only**, the data pipeline will enter the *change streaming* phase without ingesting the data.
+If you selected **Apply to new data changes only**, the data pipeline will enter the *change streaming* phase without ingesting data.
 
 ## Reset data pipeline
 
