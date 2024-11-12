@@ -482,7 +482,7 @@ Example:
 (The raw RESP encoding is split into multiple lines for readability).
 
 Some client libraries may ignore the difference between this type and the string type and return a native string in both cases.
-However, interactive clients, such as command line interfaces (e.g., [`redis-cli`]({{< relref "/develop/connect/cli" >}})), can use this type and know that their output should be presented to the human user as is and without quoting the string.
+However, interactive clients, such as command line interfaces (e.g., [`redis-cli`]({{< relref "/develop/tools/cli" >}})), can use this type and know that their output should be presented to the human user as is and without quoting the string.
 
 For example, the Redis command [`INFO`]({{< relref "/commands/info" >}}) outputs a report that includes newlines.
 When using RESP3, `redis-cli` displays it correctly because it is sent as a Verbatim String reply (with its three bytes being "txt").

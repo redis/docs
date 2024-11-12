@@ -75,7 +75,7 @@ syntax_str: "[REDIRECT\_client-id] [PREFIX\_prefix [PREFIX prefix ...]] [BCAST] 
 title: CLIENT TRACKING
 ---
 This command enables the tracking feature of the Redis server, that is used
-for [server assisted client side caching]({{< relref "/develop/connect/clients/client-side-caching#tracking" >}}).
+for [server assisted client side caching]({{< relref "/develop/clients/client-side-caching#tracking" >}}).
 
 When tracking is enabled Redis remembers the keys that the connection
 requested, in order to send later invalidation messages when such keys are

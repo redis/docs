@@ -64,4 +64,4 @@ command to deploy them:
 redis-di deploy --dir <path to pipeline folder>
 ```
 
-You can also deploy a pipeline using [Redis Insight]({{< relref "/develop/connect/insight/rdi-connector" >}}).
+You can also deploy a pipeline using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).

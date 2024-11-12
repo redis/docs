@@ -27,7 +27,7 @@ The following quick start guides will show you how to use Redis for the followin
 - [Retrieval Augmented Generation (RAG) with Redis]({{< relref "/develop/get-started/rag" >}})
 
 ## Data integration tools, libraries, and frameworks
-- [Client API libraries]({{< relref "/develop/connect/clients" >}})
+- [Client API libraries]({{< relref "/develop/clients" >}})
 - [Redis Data Integration]({{< relref "/integrate/redis-data-integration/" >}})
 - [Redis vector library for Python]({{< relref "/integrate/redisvl/" >}})
 - [Redis Cloud with Amazon Bedrock]({{< relref "/integrate/amazon-bedrock/" >}})

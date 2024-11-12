@@ -326,7 +326,7 @@ to run the script.
 #### Interact with the cluster
 
 To connect to Redis Cluster, you'll need a cluster-aware Redis client. 
-See the [documentation]({{< relref "/develop/connect/clients/" >}}) for your client of choice to determine its cluster support.
+See the [documentation]({{< relref "/develop/clients" >}}) for your client of choice to determine its cluster support.
 
 You can also test your Redis Cluster using the `redis-cli` command line utility:
 

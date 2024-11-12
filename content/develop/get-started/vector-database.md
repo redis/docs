@@ -60,7 +60,7 @@ You need to have the following features configured for your Redis server: JSON a
 
 Create a Python virtual environment and install the following dependencies using `pip`:
 
-* `redis`: You can find further details about the `redis-py` client library in the [clients]({{< relref "/develop/connect/clients/python" >}}) section of this documentation site.
+* `redis`: You can find further details about the `redis-py` client library in the [clients]({{< relref "/develop/clients/redis-py" >}}) section of this documentation site.
 * `pandas`: Pandas is a data analysis library.
 * `sentence-transformers`: You will use the [SentenceTransformers](https://www.sbert.net/) framework to generate embeddings on full text.
 * `tabulate`: `pandas` uses `tabulate` to render Markdown.
