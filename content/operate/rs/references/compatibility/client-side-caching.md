@@ -11,7 +11,7 @@ toc: 'true'
 weight: 80
 ---
 
-Redis Software and Redis Cloud support [client-side caching]({{<relref "/develop/connect/clients/client-side-caching">}}) for databases with Redis versions 7.4 or later.
+Redis Software and Redis Cloud support [client-side caching]({{<relref "/develop/clients/client-side-caching">}}) for databases with Redis versions 7.4 or later.
 
 ## Required database versions
 
