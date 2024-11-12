@@ -131,6 +131,33 @@ Follow the steps below to run `sys.sp_cdc_help_change_data_capture`:
     access. If the result is empty then you should check that you have privileges
     to access both the capture instance and the CDC tables.
 
+### Troubleshooting
+
+If no CDC is happening then it might mean that SQL Server Agent is down.
+You can check for this using the SQL query shown below:
+
+```sql
+IF EXISTS (  SELECT 1 
+             FROM master.dbo.sysprocesses 
+             WHERE program_name = N'SQLAgent - Generic Refresher')
+BEGIN
+    SELECT @@SERVERNAME AS 'InstanceName', 1 AS 'SQLServerAgentRunning'
+END
+ELSE 
+BEGIN
+    SELECT @@SERVERNAME AS 'InstanceName', 0 AS 'SQLServerAgentRunning'
+END
+```
+
+If the query returns a result of `0`, you need to need to start
+SQL Server Agent using the following commands:
+
+```sql
+EXEC xp_servicecontrol N'START',N'SQLServerAGENT';
+GO
+```
+
+
 ## SQL Server on Azure
 
 You can also use the Debezium SQL Server connector with SQL Server on Azure.
