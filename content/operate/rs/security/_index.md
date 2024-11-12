@@ -8,8 +8,6 @@ categories:
 description: null
 hideListLinks: true
 weight: 60
-aliases:
-    - /operate/rs/administering/designing-production/security
 ---
 
 Redis Enterprise Software provides various features to secure your Redis Enterprise Software deployment:

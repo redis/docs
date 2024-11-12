@@ -339,7 +339,7 @@ you are ready to start using RDI. See the guides to
 [configuring]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) and
 [deploying]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 RDI pipelines for more information. You can also configure and deploy a pipeline
-using [Redis Insight]({{< relref "/develop/connect/insight/rdi-connector" >}}).
+using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
 
 ## Uninstall RDI
 

@@ -18,4 +18,4 @@ weight: 2
 
 Connect your Java application to a Redis database using the Lettuce client library. 
 
-Refer to the complete [Lettuce guide]({{< relref "/develop/connect/clients/java/lettuce" >}}) to install, connect, and use Lettuce.
+Refer to the complete [Lettuce guide]({{< relref "/develop/clients/lettuce" >}}) to install, connect, and use Lettuce.

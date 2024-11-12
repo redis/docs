@@ -25,7 +25,7 @@ Redis OM Spring provides a robust repository and custom object-mapping abstracti
 ## What you’ll need:
 
 * Redis Stack: See [{{< relref "/operate/oss_and_stack/install/install-stack/" >}}]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})
-* [Redis Insight]({{< relref "/develop/connect/insight/" >}})
+* [Redis Insight]({{< relref "/develop/tools/insight" >}})
 * Your favorite browser
 * Java 11 or greater
 

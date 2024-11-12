@@ -149,7 +149,7 @@ HSET test:1 tags "Andrew's Top 5,Justin's Top 5"
 
 However, when you query for those tags, you must escape the punctuation characters
 with a backslash (`\`). So, querying for the tag `Andrew's Top 5` in
-[`redis-cli`]({{< relref "/develop/connect/cli" >}}) looks like this:
+[`redis-cli`]({{< relref "/develop/tools/cli" >}}) looks like this:
 
 ```
 FT.SEARCH punctuation "@tags:{ Andrew\\'s Top 5 }"

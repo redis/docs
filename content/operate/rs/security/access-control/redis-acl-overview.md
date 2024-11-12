@@ -8,8 +8,6 @@ categories:
 description: An overview of Redis ACLs, syntax, and ACL command support in Redis Enterprise Software.
 linkTitle: Redis ACL overview
 weight: 17
-aliases:
-    - /operate/rs/security/access-control/rbac/configure-acl/
 ---
 
 Redis access control lists (Redis ACLs) allow you to define named permissions for specific Redis commands, keys, and pub/sub channels. You can use defined Redis ACLs for multiple databases and roles.

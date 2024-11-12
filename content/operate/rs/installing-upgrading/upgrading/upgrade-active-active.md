@@ -68,15 +68,11 @@ To upgrade an Active-Active database (CRDB) instance:
 
     {{< image filename="/images/rs/crdb-upgrade-node.png" >}}
 
-1. To upgrade each Active-Active instance, including the Redis version and CRDB protocol version, run:
+1. To upgrade each Active-Active instance and its modules, including the Redis version and CRDB protocol version, run:
 
-    - To upgrade a database without modules:
-
-        ```sh
-        rladmin upgrade db <database_name | database_ID>
-        ```
-    
-    - If the database has modules enabled and new module versions are available in the cluster, run `rladmin upgrade db` with additional parameters to upgrade the module versions when you upgrade the database. See [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) for more details.
+    ```sh
+    rladmin upgrade db <database_name | database_ID>
+    ```
 
     If the protocol version is old, read the warning message carefully and confirm.
 

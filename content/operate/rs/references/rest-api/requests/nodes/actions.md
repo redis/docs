@@ -32,7 +32,7 @@ actions on all nodes.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_status_of_all_node_actions]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_all_node_actions" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_status_of_all_node_actions]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_all_node_actions" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -71,7 +71,7 @@ Get the status of all actions on a specific node.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_status_of_node_action]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_node_action" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_status_of_node_action]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_node_action" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request-all-actions}
 

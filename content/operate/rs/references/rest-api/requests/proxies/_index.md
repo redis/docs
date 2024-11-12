@@ -31,7 +31,7 @@ Get all the proxies in the cluster.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_proxies_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_proxies_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_all_proxies_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_proxies_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -102,7 +102,7 @@ Get a single proxy's info.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_proxy_info]({{< relref "/operate/rs/references/rest-api/permissions#view_proxy_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_proxy_info]({{< relref "/operate/rs/references/rest-api/permissions#view_proxy_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -177,7 +177,7 @@ However, if `allow_restart` is `false`, such changes only take effect after the 
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_proxy]({{< relref "/operate/rs/references/rest-api/permissions#update_proxy" >}}) | admin |
+| [update_proxy]({{< relref "/operate/rs/references/rest-api/permissions#update_proxy" >}}) | admin<br />user_manager |
 
 ### Request {#put-request}
 
@@ -246,7 +246,7 @@ However, if `allow_restart` is `false`, such changes only take effect after the 
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_proxy]({{< relref "/operate/rs/references/rest-api/permissions#update_proxy" >}}) | admin |
+| [update_proxy]({{< relref "/operate/rs/references/rest-api/permissions#update_proxy" >}}) | admin<br />user_manager |
 
 ### Request {#put-all-request}
 

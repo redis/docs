@@ -96,18 +96,18 @@ The connection wizard provides the following database connection methods:
 
 ### Redis Insight{#using-redisinsight}
 
-[Redis Insight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that is available for macOS, Windows, and Linux.
+[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that is available for macOS, Windows, and Linux.
 
 1. In the connection wizard, under **Redis Insight**, select **Download** to download Redis Insight.
 
-1. [Install Redis Insight]({{< relref "/develop/connect/insight/" >}}).
+1. [Install Redis Insight]({{< relref "/develop/tools/insight" >}}).
 
 1. Once installed, select **Open with Redis Insight**.
 
 1. A pop-up asks if you wish to open the link with Redis Insight. Select **Open Redis Insight** to connect to your database with Redis Insight.
 
 
-See the [Redis Insight docs]({{< relref "/develop/connect/insight/" >}}) for more info.
+See the [Redis Insight docs]({{< relref "/develop/tools/insight" >}}) for more info.
 
 ### Redis client{#using-redis-client}
 
@@ -115,26 +115,26 @@ A Redis client is a software library or tool that enables applications to intera
 
 The connection wizard provides code snippets to connect to your database with the following programming languages:
 
-- node.js using [node-redis](https://github.com/redis/node-redis/blob/master/README.md)
+- node.js using [node-redis]({{< relref "/develop/clients/nodejs" >}})
 - .NET using [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/)
-- Python using [redis-py](https://github.com/redis/redis-py#redis-py)
-- Java using [Jedis](https://github.com/redis/jedis#jedis)
+- Python using [redis-py]({{< relref "/develop/clients/redis-py" >}})
+- Java using [Jedis]({{< relref "/develop/clients/jedis" >}})
 
 {{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." >}}
 
-See [Clients]({{< relref "/develop/connect/clients/" >}}) to learn how to connect with the official Redis clients.
+See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
 
 ### redis-cli {#using-rediscli}
 
-The [`redis-cli`]({{< relref "/develop/connect/cli" >}}) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands]({{< relref "/commands" >}}).
+The [`redis-cli`]({{< relref "/develop/tools/cli" >}}) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands]({{< relref "/commands" >}}).
 
 To run `redis-cli`, [install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) on your machine.
 
-See [Redis CLI]({{< relref "/develop/connect/cli" >}}) to learn how to use `redis-cli`.
+See [Redis CLI]({{< relref "/develop/tools/cli" >}}) to learn how to use `redis-cli`.
 
 ## More info
 
-- [Connect your application]({{< relref "/develop/connect/clients/" >}})
+- [Connect your application]({{< relref "/develop/clients" >}})
 - [Import data]({{< relref "/operate/rc/databases/import-data.md" >}})
 - [Manage databases]({{< relref "/operate/rc/databases" >}})
 - [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence.md" >}})

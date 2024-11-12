@@ -18,4 +18,4 @@ weight: 2
 
 Connect your Java application to a Redis database using the Jedis client library. 
 
-Refer to the complete [Jedis guide]({{< relref "/develop/connect/clients/java/jedis" >}}) to install, connect, and use Jedis.
+Refer to the complete [Jedis guide]({{< relref "/develop/clients/jedis" >}}) to install, connect, and use Jedis.
