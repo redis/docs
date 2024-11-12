@@ -14,12 +14,16 @@ weight: 1
 
 1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab.
 1. Select **Create data pipeline**.
+    {{<image filename="images/rc/rdi/rdi-create-data-pipeline.png" alt="ADD ALT TEXT" >}}
 1. Select your source database type. The following database types are supported:
     - MySQL
+    - mariaDB
     - Oracle
     - SQL Server
     - PostgreSQL
+    {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="ADD ALT TEXT" >}}
 1. If you know the size of your source database, enter it into the **Source dataset size** field.
+    {{<image filename="images/rc/rdi/rdi-source-dataset-size.png" alt="ADD ALT TEXT" >}}
 
 ## Prepare source database
 
@@ -87,4 +91,6 @@ For more details on AWS PrivateLink, see [Share your services through AWS Privat
 
 ## Next steps
 
-After you have set up your source database and prepared connectivity and credentials, select **Start pipeline setup** to [provision data pipeline infrastructure]({{<relref "/operate/rc/databases/rdi/provision">}}).
+After you have set up your source database and prepared connectivity and credentials, select **Define source database** to [define your source connection and data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}).
+
+{{<image filename="images/rc/rdi/rdi-define-source-database.png" alt="ADD ALT TEXT" >}}

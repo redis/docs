@@ -48,7 +48,6 @@ Before you can create a data pipeline, you must have:
     - SQL Server
     - PostgreSQL
     - mariaDB
-    - Aurora
 
 {{< note >}}
 Please be aware of the following limitations:
