@@ -26,7 +26,7 @@ for six main languages:
 | [Python](https://www.python.org/) | [`redis-py`](https://github.com/redis/redis-py) |[`redis-py` guide]({{< relref "/develop/clients/redis-py" >}}) | Yes |
 | [Python](https://www.python.org/) | [`RedisVL`](https://github.com/redis/redis-vl-python) |[RedisVL guide]({{< relref "/integrate/redisvl" >}}) | Yes 
 | [C#/.NET](https://learn.microsoft.com/en-us/dotnet/csharp/) | [`NRedisStack`](https://github.com/redis/NRedisStack) |[`NRedisStack` guide]({{< relref "/develop/clients/dotnet" >}}) | Yes |
-| [Node.js](https://nodejs.org/en) | [`node-redis`](https://github.com/redis/node-redis) | [`node-redis` guide]({{< relref "/develop/clients/nodejs" >}}) | Yes |
+| [JavaScript](https://nodejs.org/en) | [`node-redis`](https://github.com/redis/node-redis) | [`node-redis` guide]({{< relref "/develop/clients/nodejs" >}}) | Yes |
 | [Java](https://www.java.com/en/) | [`Jedis`](https://github.com/redis/jedis) | [`Jedis` guide]({{< relref "/develop/clients/jedis" >}}) |  Yes |
 | [Java](https://www.java.com/en/) | [`Lettuce`](https://github.com/redis/lettuce) | [`Lettuce` guide]({{< relref "/develop/clients/lettuce" >}}) | Yes |
 | [Go](https://go.dev/) | [`go-redis`](https://github.com/redis/go-redis) | [`go-redis` guide]({{< relref "/develop/clients/go" >}}) | Yes |
