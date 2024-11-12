@@ -35,18 +35,20 @@ rladmin upgrade db { db:<id> | <name> }
 
 As of v6.2.4, the default behavior for `upgrade db` has changed.  It is now controlled by a new parameter that sets the default upgrade policy used to create new databases and to upgrade ones already in the cluster.  To learn more, see [`tune cluster default_redis_version`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}).
 
+As of Redis Enterprise Software version 7.8.2, `upgrade db` will always upgrade modules.
+
 ### Parameters
 
 | Parameters                 | Type/Value               | Description                                                                                                            |
 |----------------------------|--------------------------|------------------------------------------------------------------------------------------------------------------------|
 | db                         | db:\<id\> <br />name     | Database to upgrade                                                                                                    |
-| and module | [upgrade module](#upgrade-module) command | Clause that allows the upgrade of a database and a specified Redis module in a single step with only one restart (can be specified multiple times)  |
+| and module | [upgrade module](#upgrade-module) command | Clause that allows the upgrade of a database and a specified Redis module in a single step with only one restart (can be specified multiple times). Deprecated as of Redis Enterprise Software v7.8.2.  |
 | discard_data               |                          | Indicates that data will not be saved after the upgrade                                                                |
 | force                      |                          | Forces upgrade and skips warnings and confirmations                                                                    |
 | force_discard              |                          | Forces `discard_data` if replication or persistence is enabled                                                   |
 | keep_crdt_protocol_version |                          | Keeps the current CRDT protocol version                                                                                |
-| keep_redis_version       |                          | Upgrades to a new patch release, not to the latest major.minor version                                                 |
-| latest_with_modules        |                          | Upgrades the Redis Enterprise Software version and all modules in the database                                                             |
+| keep_redis_version       |                          | Upgrades to a new patch release, not to the latest major.minor version. Deprecated as of Redis Enterprise Software v7.8.2. To upgrade modules without upgrading the Redis database version, set `redis_version` to the current Redis database version instead. |
+| latest_with_modules        |                          | Upgrades the Redis Enterprise Software version and all modules in the database. As of Redis Enterprise Software version 7.8.2, `upgrade db` will always upgrade modules. |
 | parallel_shards_upgrade    | integer <br />'all'        | Maximum number of shards to upgrade all at once                                                                        |
 | preserve_roles             |                          | Performs an additional failover to guarantee the shards' roles are preserved                                             |
 | redis_version              | Redis version            | Upgrades the database to the specified version instead of the latest version                                               |
@@ -72,7 +74,7 @@ Done
 
 ## `upgrade module`
 
-Upgrades Redis modules in use by a specific database.
+Upgrades Redis modules in use by a specific database. Deprecated as of Redis Enterprise Software v7.8.2. Use [`upgrade db`](#upgrade-db) instead.
 
 For more information, see [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}).
 
