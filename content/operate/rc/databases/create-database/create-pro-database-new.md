@@ -8,6 +8,7 @@ categories:
 description: Shows how to create a Pro database with a new subscription
 linkTitle: Create Pro database (new subscription)
 weight: 10
+tocEmbedHeaders: true
 ---
 
 {{< embed-md "rc-create-db-first-steps.md" >}}
