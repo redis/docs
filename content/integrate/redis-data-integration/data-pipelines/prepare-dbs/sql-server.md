@@ -157,7 +157,6 @@ EXEC xp_servicecontrol N'START',N'SQLServerAGENT';
 GO
 ```
 
-
 ## SQL Server on Azure
 
 You can also use the Debezium SQL Server connector with SQL Server on Azure.
