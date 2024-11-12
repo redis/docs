@@ -8,6 +8,7 @@ categories:
 description: The self-managed, enterprise-grade version of Redis.
 hideListLinks: true
 weight: 10
+linkTitle: Redis Software
 ---
 
 [Redis Enterprise](https://redis.io/enterprise/) is a self-managed, enterprise-grade version of Redis.

@@ -8,8 +8,6 @@ categories:
 description: Create roles with cluster access only.
 linkTitle: Create roles with cluster access only
 weight: 14
-aliases:
-    - /operate/rs/security/access-control/admin-console-access/
 ---
 
 Roles with cluster access allow access to the Cluster Management UI and REST API.
