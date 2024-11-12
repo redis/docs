@@ -157,7 +157,7 @@ The Active-Active database global configurations, contains the global properties
         <td><a href="#specglobalconfigurationsalertsettings">alertSettings</a></td>
         <td>object</td>
         <td>
-          Settings for database alerts<br/>
+          Settings for database alerts. Note - Alert settings are not supported for Active-Active database.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -278,7 +278,7 @@ The Active-Active database global configurations, contains the global properties
         <td>redisVersion</td>
         <td>string</td>
         <td>
-          Redis OSS version. Version can be specified via <major.minor> prefix, or via channels - for existing databases - Upgrade Redis OSS version. For new databases - the version which the database will be created with. If set to 'major' - will always upgrade to the most recent major Redis version. If set to 'latest' - will always upgrade to the most recent Redis version. Depends on 'redisUpgradePolicy' - if you want to set the value to 'latest' for some databases, you must set redisUpgradePolicy on the cluster before. Possible values are 'major' or 'latest' When using upgrade - make sure to backup the database before. This value is used only for database type 'redis'<br/>
+          Redis OSS version. Version can be specified via <major.minor> prefix, or via channels - for existing databases - Upgrade Redis OSS version. For new databases - the version which the database will be created with. If set to 'major' - will always upgrade to the most recent major Redis version. If set to 'latest' - will always upgrade to the most recent Redis version. Depends on 'redisUpgradePolicy' - if you want to set the value to 'latest' for some databases, you must set redisUpgradePolicy on the cluster before. Possible values are 'major' or 'latest' When using upgrade - make sure to backup the database before. This value is used only for database type 'redis'. Note - Specifying Redis version is currently not supported for Active-Active database.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -401,7 +401,7 @@ Connection/ association to the Active-Active database.
 ### spec.globalConfigurations.alertSettings
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
 
-Settings for database alerts
+Settings for database alerts. Note - Alert settings are not supported for Active-Active database.
 
 <table>
     <thead>
@@ -1516,6 +1516,15 @@ RedisEnterpriseActiveActiveDatabaseStatus defines the observed state of RedisEnt
         </tr>
     </thead>
     <tbody><tr>
+        <td>clusterCertificatesGeneration</td>
+        <td>integer</td>
+        <td>
+          Versions of the cluster's Proxy and Syncer certificates. In Active-Active databases, these are used to detect updates to the certificates, and trigger synchronization across the participating clusters. .<br/>
+          <br/>
+            <i>Format</i>: int64<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>guid</td>
         <td>string</td>
         <td>
