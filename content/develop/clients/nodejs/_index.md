@@ -10,13 +10,13 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Connect your Node.js application to a Redis database
-linkTitle: node-redis (Node.js)
-title: node-redis guide (Node.js)
+description: Connect your Node.js/JavaScript application to a Redis database
+linkTitle: node-redis (JavaScript)
+title: node-redis guide (JavaScript)
 weight: 4
 ---
 
-[node-redis](https://github.com/redis/node-redis) is the Redis client for Node.js.
+[node-redis](https://github.com/redis/node-redis) is the Redis client for Node.js/JavaScript.
 The sections below explain how to install `node-redis` and connect your application
 to a Redis database.
 
