@@ -14,22 +14,26 @@ weight: 1
 
 1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab.
 1. Select **Create data pipeline**.
-    {{<image filename="images/rc/rdi/rdi-create-data-pipeline.png" alt="ADD ALT TEXT" >}}
+    {{<image filename="images/rc/rdi/rdi-create-data-pipeline.png" alt="The create data pipeline button." width=200px >}}
 1. Select your source database type. The following database types are supported:
     - MySQL
     - mariaDB
     - Oracle
     - SQL Server
     - PostgreSQL
-    {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="ADD ALT TEXT" >}}
+    {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=500px >}}
 1. If you know the size of your source database, enter it into the **Source dataset size** field.
-    {{<image filename="images/rc/rdi/rdi-source-dataset-size.png" alt="ADD ALT TEXT" >}}
+    {{<image filename="images/rc/rdi/rdi-source-dataset-size.png" alt="Enter the amount of source data you plan to ingest." width=400px >}}
 
 ## Prepare source database
 
 Before using the pipeline, you must first prepare your source database to use the Debezium connector for change data capture (CDC).
 
-See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/">}}) to find steps for your database type.
+See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/">}}) to find steps for your database type:
+- [MySQL and mariaDB]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb">}})
+- [Oracle]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle">}})
+- [SQL Server]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/sql-server">}})
+- [PostgreSQL]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql">}})
 
 See the [RDI architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}}) for more information about CDC.
 
@@ -93,4 +97,4 @@ For more details on AWS PrivateLink, see [Share your services through AWS Privat
 
 After you have set up your source database and prepared connectivity and credentials, select **Define source database** to [define your source connection and data pipeline]({{<relref "/operate/rc/databases/rdi/define">}}).
 
-{{<image filename="images/rc/rdi/rdi-define-source-database.png" alt="ADD ALT TEXT" >}}
+{{<image filename="images/rc/rdi/rdi-define-source-database.png" alt="ADD ALT TEXT" width=200px >}}
