@@ -100,7 +100,7 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 | Metric | Description |
 | :-------- | :---------- |
 | <span class="break-all">database_syncer_config</span> | Used as a placeholder for configuration labels |
-| <span class="break-all">database_syncer_current_status</span> | Syncer status for traffic; 0 = in-sync, 1 = syncing, 2 = out of sync |
+| <span class="break-all">database_syncer_current_status</span> | Syncer status for traffic; 0 = in-sync, 2 = out of sync |
 | <span class="break-all">database_syncer_dst_connectivity_state</span> | Destination connectivity state |
 | <span class="break-all">database_syncer_dst_connectivity_state_ms</span> | Destination connectivity state duration |
 | <span class="break-all">database_syncer_dst_lag</span> | Lag in milliseconds between the syncer and the destination |
