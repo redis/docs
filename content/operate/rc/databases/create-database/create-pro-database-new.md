@@ -8,6 +8,7 @@ categories:
 description: Shows how to create a Pro database with a new subscription
 linkTitle: Create Pro database (new subscription)
 weight: 10
+tocEmbedHeaders: true
 ---
 
 {{< embed-md "rc-create-db-first-steps.md" >}}
@@ -44,13 +45,21 @@ If you choose to create your database with Easy create:
 
 1. Choose a **Cloud Provider** and a **Region**.
 
-1. Review the **Optimal database settings** that we selected for you based on your use case.
+1. Enter the following settings for your database:
+
+    {{<image filename="images/rc/pro-easy-create-size-throughput.png" alt="The Dataset size, throughput, and High availability settings.">}}
+
+    | Database&nbsp;setting | Description |
+    |:---------|:-----------|
+    | **Dataset size (GB)** | The amount of data for your dataset. Specify small sizes as decimals of 1.0&nbsp;GB; example: `0.1` GB (minimum). We calculate the total memory limit for you based on the other settings you choose for your database. <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
+    | **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/clustering#throughput" >}}) for more information. <br/> Databases with Search and query have specific throughput requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
+    | **High Availability** | Indicates whether a replica copy of the database is maintained in case the primary database becomes unavailable.  (Warning: doubles memory consumption). See [High Availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).  |
+
+1. Select **View all settings** to review the database settings that we selected for you based on your use case.
 
     {{<image filename="images/rc/pro-easy-create-optimal-settings.png" alt="The optimal database settings.">}}
 
-    Settings marked with the **Edit later** icon can be changed later. Anything not marked with this icon can't be changed after creation. If you want to change these settings, you can select [**Switch to custom settings**](#custom-settings).
-
-    {{<image filename="images/rc/pro-easy-create-edit-icon.png" alt="The Edit later icon." width=50px >}}
+    If you want to change these settings, select [**Switch to custom settings**](#custom-settings).
 
 1. Enter your payment details.
 
