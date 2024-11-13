@@ -8,7 +8,7 @@
       "git_uri": "https://github.com/redis/lettuce"
   },
   "examples": {
-      "git_uri": "/home/imalinovskyi/playground/lettuce-src",
+      "git_uri": "https://github.com/redis/lettuce",
       "dev_branch": "doctests",
       "path": "src/test/java/io/redis/examples/reactive",
       "pattern": "*.java"
