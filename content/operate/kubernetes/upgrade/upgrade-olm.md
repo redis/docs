@@ -1,5 +1,5 @@
 ---
-Title: Upgrade Redis Enterprise with OpenShift OperatorHub
+Title: Upgrade Redis Enterprise 7.8.2-2 with OpenShift OperatorHub
 alwaysopen: false
 categories:
 - docs
