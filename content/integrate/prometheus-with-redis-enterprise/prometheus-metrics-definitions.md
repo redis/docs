@@ -63,24 +63,24 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 
 ## Node metrics
 
-| Metric | Description |
-| :-------- | :---------- |
-| <span class="break-all">node_available_flash_bytes</span> | Available flash in the node (bytes) |
-| <span class="break-all">node_available_flash_no_overbooking_bytes</span> | Available flash in the node (bytes), without taking into account overbooking |
-| <span class="break-all">node_available_memory_bytes</span> | Amount of free memory in the node (bytes) that is available for database provisioning |
-| <span class="break-all">node_available_memory_no_overbooking_bytes</span> | Available RAM in the node (bytes) without taking into account overbooking |
-| <span class="break-all">node_bigstore_free_bytes</span> | Sum of free space of back-end flash (used by flash database's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
-| <span class="break-all">node_cert_expires_in_seconds</span> | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
-| <span class="break-all">node_ephemeral_storage_avail_bytes</span> | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
-| <span class="break-all">node_ephemeral_storage_free_bytes</span> | Free disk space on configured ephemeral disk (bytes) |
-| <span class="break-all">node_memory_MemFree_bytes</span> | Free memory in the node (bytes) |
-| <span class="break-all">node_persistent_storage_avail_bytes</span> | Disk space available to RLEC processes on configured persistent disk (bytes) |
-| <span class="break-all">node_persistent_storage_free_bytes</span> | Free disk space on configured persistent disk (bytes) |
-| <span class="break-all">node_provisional_flash_bytes</span> | Amount of flash available for new shards on this node, taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
-| <span class="break-all">node_provisional_flash_no_overbooking_bytes</span> | Amount of flash available for new shards on this node, without taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
-| <span class="break-all">node_provisional_memory_bytes</span> | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
-| <span class="break-all">node_provisional_memory_no_overbooking_bytes</span> | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
-| <span class="break-all">node_metrics_up</span> | Node is part of the cluster and is connected |
+| Metric | Type |Description |
+| :-------- | :--- | :---------- |
+| <span class="break-all">node_available_flash_bytes</span> | gauge | Available flash in the node (bytes) |
+| <span class="break-all">node_available_flash_no_overbooking_bytes</span> | gauge | Available flash in the node (bytes), without taking into account overbooking |
+| <span class="break-all">node_available_memory_bytes</span> | gauge | Amount of free memory in the node (bytes) that is available for database provisioning |
+| <span class="break-all">node_available_memory_no_overbooking_bytes</span> | gauge | Available RAM in the node (bytes) without taking into account overbooking |
+| <span class="break-all">node_bigstore_free_bytes</span> | gauge | Sum of free space of back-end flash (used by flash database's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
+| <span class="break-all">node_cert_expires_in_seconds</span> | gauge | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
+| <span class="break-all">node_ephemeral_storage_avail_bytes</span> | gauge | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
+| <span class="break-all">node_ephemeral_storage_free_bytes</span> | gauge | Free disk space on configured ephemeral disk (bytes) |
+| <span class="break-all">node_memory_MemFree_bytes</span> | gauge | Free memory in the node (bytes) |
+| <span class="break-all">node_persistent_storage_avail_bytes</span> | gauge | Disk space available to RLEC processes on configured persistent disk (bytes) |
+| <span class="break-all">node_persistent_storage_free_bytes</span> | gauge | Free disk space on configured persistent disk (bytes) |
+| <span class="break-all">node_provisional_flash_bytes</span> | gauge | Amount of flash available for new shards on this node, taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
+| <span class="break-all">node_provisional_flash_no_overbooking_bytes</span> | gauge | Amount of flash available for new shards on this node, without taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
+| <span class="break-all">node_provisional_memory_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
+| <span class="break-all">node_provisional_memory_no_overbooking_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
+| <span class="break-all">node_metrics_up</span> | gauge | Node is part of the cluster and is connected |
 
 ## Cluster metrics
 
