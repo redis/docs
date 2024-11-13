@@ -2,7 +2,8 @@
     "id": "redisvl",
     "type": "client",
     "name": "RedisVL",
-    "language": "RedisVL",
+    "language": "Python",
+    "label": "RedisVL",
     "repository": {
         "git_uri": "https://github.com/redis/redis-vl-python"
     },

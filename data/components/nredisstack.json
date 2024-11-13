@@ -3,6 +3,7 @@
   "type": "client",
   "name": "NRedisStack",
   "language": "C#",
+  "label": "C#",
   "repository": {
       "git_uri": "https://github.com/redis/NRedisStack"
   },

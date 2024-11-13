@@ -19,7 +19,7 @@
 {{ range $client := $.Site.Params.clientsexamples }}
     {{ $example := index $clientExamples $client }}
     {{ $clientConfig := index $.Site.Params.clientsconfig $client }}
-    {{ $language := index $clientConfig "lang" }}
+    {{ $language := index $example "language" }}
     {{ $quickstartSlug := index $clientConfig "quickstartSlug" }}
 
     {{ if and ($example) (or (eq $lang "") (eq $lang $client)) }}
