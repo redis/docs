@@ -43,7 +43,7 @@ Follow these steps to install Redis Stack.
     {{< highlight bash >}}
     [Redis]
     name=Redis
-    baseurl=http://packages.redis.io/rpm/rhel9 # replace rhel7 with the appropriate value for your platform
+    baseurl=http://packages.redis.io/rpm/rhel9 # replace rhel9 with the appropriate value for your platform
     enabled=1
     gpgcheck=1
     {{< /highlight >}}
