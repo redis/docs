@@ -94,7 +94,7 @@ To pull images from a local registry, you must provide the image pull secret and
 1.  Decompress the tar file:
 
     ```bash
-	tar -xvf rdi-k8s-<rdi-tag>.tar.gz 
+	tar -xvf rdi-<rdi-tag>.tar.gz 
     ```
 
 1.  Open the `values.yaml` file and set the appropriate values for your installation
@@ -153,7 +153,7 @@ global:
 
   image:
     # Overrides the image tag for all RDI components.
-    tag: 0.0.0
+    # tag: 0.0.0
 
     # If using a private repository, update the default values accordingly.
     # Docker registry.
