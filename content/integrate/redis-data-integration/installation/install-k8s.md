@@ -104,13 +104,32 @@ To pull images from a local registry, you must provide the image pull secret and
 1.  Start the installation:
 
     ```bash
-    helm install <The logical chart name> rdi-k8s/<rdi-tag>/helm --create-namespace -n rdi
+    helm install <The logical chart name> ./rdi --create-namespace -n rdi
     ```
 
 ### The `values.yaml` file
 
 The annotated [`values.yaml`](https://helm.sh/docs/topics/charts/#templates-and-values)
-file below describes the values you can set for the RDI Helm installation:
+file below describes the values you can set for the RDI Helm installation.
+
+Note that if you want to use
+[Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+to connect to your RDI deployment and you are using TLS, make sure you
+uncomment the `RDI_API_AUTH_ENABLED` line in the default `values.yaml`:
+
+```yaml
+# Enable authentication for the RDI API.
+RDI_API_AUTH_ENABLED: "1"
+```
+
+You must also set the appropriate value for `JWT_SECRET_KEY`:
+
+```yaml
+# The key used to encrypt the JWT token used by RDI API.
+JWT_SECRET_KEY: "yourKey"
+```
+
+The full `values.yaml` file is shown below:
 
 ```yaml
 # Default RDI values in YAML format.
@@ -436,11 +455,10 @@ NAME 	             NAMESPACE    REVISION    UPDATED                STATUS    CHA
 <logical_chart_name>    rdi 		   1      2024-10-10 16:53... +0300   IDT    deployed    rdi-1.0.0        	
 ```
 
-
 Also, check that the following pods have `Running` status:
 
 ```bash
-sudo k3s kubectl get  pod -n rdi
+kubectl get pod -n rdi
 
 NAME                              READY  STATUS  	RESTARTS   AGE
 rdi-api-<id>                       1/1 	 Running 	   0      	29m
