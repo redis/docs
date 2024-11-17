@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Connect your .NET application to a Redis database
+description: Connect your Java application to a Redis database
 linkTitle: Connect
 title: Connect to the server
 weight: 2
