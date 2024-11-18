@@ -112,22 +112,11 @@ To pull images from a local registry, you must provide the image pull secret and
 The annotated [`values.yaml`](https://helm.sh/docs/topics/charts/#templates-and-values)
 file below describes the values you can set for the RDI Helm installation.
 
-Note that if you want to use
+{{< note >}}If you want to use
 [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
-to connect to your RDI deployment and you are using TLS, make sure you
-uncomment the `RDI_API_AUTH_ENABLED` line in the default `values.yaml`:
-
-```yaml
-# Enable authentication for the RDI API.
-RDI_API_AUTH_ENABLED: "1"
-```
-
-You must also set the appropriate value for `JWT_SECRET_KEY`:
-
-```yaml
-# The key used to encrypt the JWT token used by RDI API.
-JWT_SECRET_KEY: "yourKey"
-```
+to connect to your RDI deployment from outside the K8s cluster, you
+must enable TLS.
+{{< /note >}}
 
 The full `values.yaml` file is shown below:
 
