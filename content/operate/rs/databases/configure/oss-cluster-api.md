@@ -32,6 +32,8 @@ The OSS Cluster API setting applies to individual databases instead of the entir
 
 You can use the Cluster Manager UI or the `rladmin` utility to enable OSS Cluster API support for a database.
 
+When you enable OSS Cluster API support for an existing database, the change applies to new connections but does not affect existing connections. Clients must close existing connections and reconnect to apply the change.
+
 ### Cluster Manager UI
 
 When you use the Cluster Manager UI to enable the OSS Cluster API, it automatically configures the [prerequisites]({{< relref "/operate/rs/databases/configure/oss-cluster-api#prerequisites" >}}).
@@ -128,6 +130,8 @@ To deactivate OSS Cluster API support for a database, either:
     $ crdb-cli crdb update --crdb-guid <CRDB-GUID> \
         --oss-cluster false
     ```
+
+When you turn off OSS Cluster API support for an existing database, the change applies to new connections but does not affect existing connections. Clients must close existing connections and reconnect to apply the change.
 
 ## Multi-key command support
 
