@@ -57,9 +57,9 @@ To schedule periodic backups for a database:
 
 1. Select the **Edit** button.
 
-1. Expand the **Scheduled backup** section.
+1. Expand the **Durability** section.
 
-1. Select **Add backup path** to open the **Path configuration** dialog.
+1. In the **Scheduled backup** section, click **Add backup path** to open the **Path configuration** dialog.
 
 1. Select the tab that corresponds to your storage location type, enter the location details, and select **Done**. 
 

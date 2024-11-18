@@ -9,8 +9,6 @@ description: null
 linkTitle: Recommended security practices
 hideListLinks: true
 weight: 5
-aliases:
-    - /operate/rs/security/admin-console-security/
 ---
 
 ## Deployment security

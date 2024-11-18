@@ -451,7 +451,7 @@ collector-api-<id>                 1/1    Running       0        29m
 ```
 
 You can verify that the RDI API works by adding the server in
-[Redis Insight]({{< relref "/develop/connect/insight/rdi-connector" >}}).
+[Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
 
 ## Prepare your source database
 
@@ -466,4 +466,4 @@ you are ready to start using RDI. See the guides to
 [configuring]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) and
 [deploying]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 RDI pipelines for more information. You can also configure and deploy a pipeline
-using [Redis Insight]({{< relref "/develop/connect/insight/rdi-connector" >}}).
+using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).

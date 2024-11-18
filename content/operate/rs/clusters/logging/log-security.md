@@ -26,13 +26,13 @@ By default, log rotation occurs when a log exceeds 200 MB. We recommend sending 
 The following log rotation policy is enabled by default in Redis Enterprise Software, but you can modify it as needed.
 
 ```sh
-/var/opt/redislabs/log/*.log {
+${logdir}/*.log {
     su ${osuser} ${osgroup}
-    size 200M
+    maxsize 200M
+    daily
     missingok
     copytruncate
-    # 2000 is logrotate's way of saying 'infinite'
-    rotate 2000
+    rotate 10
     maxage 7
     compress
     notifempty
@@ -40,12 +40,12 @@ The following log rotation policy is enabled by default in Redis Enterprise Soft
     nosharedscripts
     prerotate
         # copy cluster_wd log to another file that will have longer retention
-        if [ "\$1" = "/var/opt/redislabs/log/cluster_wd.log" ]; then
-        	cp -p /var/opt/redislabs/log/cluster_wd.log /var/opt/redislabs/log/cluster_wd.log.long_retention
+        if [ "\$1" = "${logdir}/cluster_wd.log" ]; then
+            cp -p ${logdir}/cluster_wd.log ${logdir}/cluster_wd.log.long_retention
         fi
     endscript
 }
-/var/opt/redislabs/log/cluster_wd.log.long_retention {
+${logdir}/cluster_wd.log.long_retention {
     su ${osuser} ${osgroup}
     daily
     missingok
@@ -57,23 +57,25 @@ The following log rotation policy is enabled by default in Redis Enterprise Soft
 }
 ```
 
-- `/var/opt/redislabs/log/*.log` - `logrotate` checks the files under the `$logdir` directory (`/var/opt/redislabs/log/`) and rotates any files that end with the extension `.log`.
+- `${logdir}/*.log`: `logrotate` checks the files under the `$logdir` directory (`/var/opt/redislabs/log/`) and rotates any files that end with the extension `.log`.
 
-- `/var/opt/redislabs/log/cluster_wd.log.long_retention` - The contents of `cluster_wd.log` is copied to `cluster_wd.log.long_retention` before rotation, and this copy is kept for longer than normal (30 days).
+- `${logdir}/cluster_wd.log.long_retention`: `cluster_wd.log` is copied to `cluster_wd.log.long_retention` before rotation. This copy is kept longer than usual, which is 30 days by default.
 
-- `size 200M` - Rotate log files that exceed 200 MB.
+- `maxsize 200M`: Rotate log files that exceed 200 MB.
 
-- `missingok` - If there are missing log files, do nothing.
+- `daily`: Rotate logs every day regardless of their size.
 
-- `copytruncate` - Truncate the original log file to zero sizes after creating a copy.
+- `missingok`: If there are missing log files, do nothing.
 
-- `rotate 2000` - Keep up to 2000 (effectively infinite) log files.
+- `copytruncate`: Truncate the original log file to zero sizes after creating a copy.
 
-- `compress` - gzip log files.
+- `rotate 10`: Save a maximum of 10 rotated log files. To keep effectively infinite log files, use `rotate 2000` instead.
 
-- `maxage 7` - Keep the rotated log files for 7 days.
+- `compress`: gzip log files.
 
-- `notifempty` - Don't rotate the log file if it is empty.
+- `maxage 7`: Keep the rotated log files for 7 days.
+
+- `notifempty`: Don't rotate the log file if it is empty.
 
 {{<note>}}
 For large scale deployments, you might need to rotate logs at faster intervals than daily. You can also use a cronjob or external vendor solutions.

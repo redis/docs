@@ -97,14 +97,14 @@ PONG
 {{< / highlight >}}
 
 You can also test that your Redis server is running using
-[Redis Insight]({{< relref "/develop/connect/insight" >}}).
+[Redis Insight]({{< relref "/develop/tools/insight" >}}).
 
 ## Next steps
 
 Once you have a running Redis instance, you may want to:
 
-* Try the [Redis CLI tutorial]({{< relref "/develop/connect/cli" >}})
-* Connect using one of the [Redis clients]({{< relref "/develop/connect/clients" >}})
+* Try the [Redis CLI tutorial]({{< relref "/develop/tools/cli" >}})
+* Connect using one of the [Redis clients]({{< relref "/develop/clients" >}})
 * [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/install-redis#install-redis-properly" >}})
   for production use.
   

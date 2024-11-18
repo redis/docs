@@ -23,7 +23,7 @@ Use the copy button to copy the password to the clipboard:
 
 You'll need to use this password whenever you connect to your database using a Redis client. See [Connect to a database]({{< relref "/operate/rc/databases/connect" >}}) for more info.
 
-See your [Redis client's documentation]({{< relref "/develop/connect/clients/" >}}) to learn how to provide your password when connecting.
+See your [Redis client's documentation]({{< relref "/develop/clients" >}}) to learn how to provide your password when connecting.
 
 ## Change password
 

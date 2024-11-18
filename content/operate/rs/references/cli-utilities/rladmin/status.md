@@ -189,7 +189,7 @@ Displays the current status of modules installed on the cluster and modules used
 ``` sh
 rladmin status modules
         [ db { db:<id1> | <name1> } ... { db:<idN> | <nameN> } ]
-        [ extra { all | min_redis_version | module_id } ]
+        [ extra { all | compatible_redis_version | min_redis_version | module_id } ]
 ```
 
 ### Parameters
@@ -199,6 +199,7 @@ rladmin status modules
 | db db:\<id\> | Provide a list of database IDs to show only modules used by the specified databases<br />(for example: `rladmin status modules db db:1 db:2`) |
 | db \<name\> | Provide a list of database names to show only modules used by the specified databases<br />(for example: `rladmin status modules db name1 name2`) |
 | extra all | Shows all extra information |
+| extra compatible_redis_version | Shows the compatible Redis database version for the module |
 | extra module_id | Shows module IDs |
 | extra&nbsp;min_redis_version | Shows the minimum compatible Redis database version for each module |
 
