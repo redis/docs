@@ -57,14 +57,14 @@ rdi_db_types = "cassandra|mysql|oracle|postgresql|sqlserver"
 rdi_cli_latest = "latest"
 
 [params.clientsConfig]
-"Python"={quickstartSlug="python/redis-py"}
+"Python"={quickstartSlug="redis-py"}
 "Node.js"={quickstartSlug="nodejs"}
-"Java sync"={quickstartSlug="java/jedis"}
-"Java async"={quickstartSlug="java/lettuce"}
-"Java reactive"={quickstartSlug="java/lettuce"}
+"Java sync"={quickstartSlug="jedis"}
+"Java async"={quickstartSlug="lettuce"}
+"Java reactive"={quickstartSlug="lettuce"}
 "Go"={quickstartSlug="go"}
 "C#"={quickstartSlug="dotnet"}
-"RedisVL"={quickstartSlug="python/redis-vl"}
+"RedisVL"={quickstartSlug="redis-vl"}
 
 # Markup
 [markup]
