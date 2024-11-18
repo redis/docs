@@ -31,6 +31,8 @@ The following are the notable changes:
 
 ## Version changes
 
+For a list of fixes related to CVEs, see the [Redis Enterprise 7.2.4 release notes]({{<relref "operate/rs/release-notes/rs-7-2-4-releases/">}}).
+
 ### Breaking changes
 
 The following changes included in this release affect the upgrade process. Please read carefully before upgrading to 7.2.4-2.

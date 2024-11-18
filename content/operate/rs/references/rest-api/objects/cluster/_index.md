@@ -50,6 +50,7 @@ An API object that represents the cluster.
 | name | string | Cluster's fully qualified domain name (read-only) |
 | password_complexity | boolean (default:&nbsp;false) | Enforce password complexity policy |
 | password_expiration_duration | integer (default:&nbsp;0) | The number of days a password is valid until the user is required to replace it |
+| password_min_length | integer, (range: 8-256) (default: 8) | The minimum length required for a password. |
 | proxy_certificate | string | Cluster's proxy certificate |
 | proxy_max_ccs_disconnection_time | integer | Cluster-wide proxy timeout policy between proxy and CCS |
 | rack_aware | boolean | Cluster operates in a rack-aware mode (read-only) |

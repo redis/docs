@@ -54,15 +54,15 @@ Upgrade a database.
 | Field | Type | Description |
 |-------|------|-------------|
 | force_restart | boolean | Restart shards even if no version change (default: false) |
-| keep_redis_version | boolean | Keep current Redis version (default: false) |
+| keep_redis_version | boolean | Keep current Redis version (default: false). Deprecated as of Redis Enterprise Software v7.8.2. To upgrade modules without upgrading the Redis database version, set `redis_version` to the current Redis database version instead. |
 | keep_crdt_protocol_version | boolean | Keep current crdt protocol version (default: false)  |
 | may_discard_data | boolean | Discard data in a non-replicated, non-persistent bdb (default: false) |
 | force_discard | boolean | Discard data even if the bdb is replicated and/or persistent (default: false) |
 | preserve_roles | boolean | Preserve shards' master/replica roles (requires an extra failover) (default: false) |
 | parallel_shards_upgrade | integer | Max number of shards to upgrade in parallel (default: all) |
-| modules | list of modules | List of dicts representing the modules that will be upgraded.<br></br>Each dict includes:<br></br>• `current_module`: uid of a module to upgrade<br></br>• `new_module`: uid of the module we want to upgrade to<br></br>• `new_module_args`: args list for the new module (no defaults for the three module-related parameters).
-| redis_version | version number | Upgrades the database to the specified Redis version instead of the latest version |
-| latest_with_modules | boolean | Upgrades the database to the latest Redis version and latest supported versions of modules available in the cluster |
+| modules | list of modules | List of dicts representing the modules that will be upgraded. As of Redis Enterprise Software v7.8.2, `current_module` and `new_module` are deprecated.<br></br>Each dict includes:<br></br>• `current_module`: uid of a module to upgrade (deprecated)<br></br>• `new_module`: uid of the module we want to upgrade to (deprecated)<br></br>• `new_module_args`: args list for the new module (no defaults for the three module-related parameters).
+| redis_version | version number | Upgrades the database to the specified Redis version instead of the latest version. To upgrade modules without upgrading the Redis database version, set `redis_version` to the current Redis database version instead. |
+| latest_with_modules | boolean | Upgrades the database to the latest Redis version and latest supported versions of modules available in the cluster. (default: true as of v7.8.2) Deprecated as of Redis Enterprise Software v7.8.2. |
 
 ### Response {#post-response} 
 

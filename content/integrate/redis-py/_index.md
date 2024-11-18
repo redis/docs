@@ -18,4 +18,4 @@ weight: 1
 
 Connect your Python application to a Redis database using the redis-py client library. 
 
-Refer to the complete [Python guide]({{< relref "/develop/connect/clients/python" >}}) to install, connect, and use redis-py.
+Refer to the complete [Python guide]({{< relref "/develop/clients/redis-py" >}}) to install, connect, and use redis-py.

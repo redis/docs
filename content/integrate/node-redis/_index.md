@@ -18,4 +18,4 @@ weight: 2
 
 Connect your Node.js application to a Redis database using the node-redis client library. 
 
-Refer to the complete [Node.js guide]({{< relref "/develop/connect/clients/nodejs" >}}) to install, connect, and use node-redis.
+Refer to the complete [Node.js guide]({{< relref "/develop/clients/nodejs" >}}) to install, connect, and use node-redis.

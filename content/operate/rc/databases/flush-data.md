@@ -47,7 +47,7 @@ redis-cli -h redis-12345.server.cloud.redislabs.example.com -p 12345 -a xyz flus
 
 ### Redis Insight
 
-If you install [Redis Insight]({{< relref "/develop/connect/insight/" >}}) and [add your database]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}}), you can use the Redis Insight workbench to run commands:
+If you install [Redis Insight]({{< relref "/develop/tools/insight" >}}) and [add your database]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}}), you can use the Redis Insight workbench to run commands:
 
 1.  Start Redis Insight and connect to your database.
 

@@ -10,6 +10,6 @@ hideListLinks: true
 linkTitle: Redis Community Edition
 tags:
 - visible
-weight: 40
+weight: 10
 ---
 {{< table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major&nbsp;changes" columnSources="LinkTitle,Description" enableLinks="LinkTitle" >}}

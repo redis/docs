@@ -128,9 +128,9 @@ Each Active-Active instance must have a unique fully-qualified domain name (FQDN
 
 1. Configure additional settings:
 
-    1. In the **High availability & durability** section, turn off **Replication** since each cluster has only one node in this setup:
+    1. In the **High availability** section, turn off **Replication** since each cluster has only one node in this setup:
 
-        {{<image filename="images/rs/screenshots/databases/active-active-databases/quickstart-ha-turn-off-replication.png" alt="Turn off replication in the High availability & durability section.">}}
+        {{<image filename="images/rs/screenshots/databases/active-active-databases/quickstart-ha-turn-off-replication-7-8-2.png" alt="Turn off replication in the High availability section.">}}
 
 
     1. In the **Clustering** section, either:

@@ -10,7 +10,6 @@ headerRange: '[1-2]'
 hideListLinks: true
 linkTitle: stats
 weight: $weight
-aliases: /operate/rs/references/rest-api/requests/shards-stats/
 ---
 
 | Method | Path | Description |

@@ -15,7 +15,7 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 - A Redis Enterprise database that will serve as the pipeline target. The dataset that will be ingested is
   quite small in size, so a single shard database should be enough. RDI also needs to maintain its
   own database on the cluster to store state information. *This requires Redis Enterprise v6.4 or greater*.
-- [Redis Insight]({{< relref "/develop/connect/insight/" >}})
+- [Redis Insight]({{< relref "/develop/tools/insight" >}})
   to edit your pipeline
 - A virtual machine (VM) with one of the following operating systems:  
   - Ubuntu 20.04 or 22.04
@@ -44,7 +44,7 @@ and is already set up for the RDI collector to use.
 ### Install RDI
 
 Install RDI using the instructions in the
-[installation guide]({{< relref "/integrate/redis-data-integration/installation" >}})
+[VM installation guide]({{< relref "/integrate/redis-data-integration/installation/install-vm" >}}).
 
 RDI will create the pipeline template for your chosen source database type at
 `/opt/rdi/config`. You will need this pathname later when you prepare the pipeline for deployment
@@ -112,7 +112,8 @@ contexts.
 
 ### Deploy the pipeline
 
-You can use Redis Insight to deploy the pipeline by adding a connection to the RDI API
+You can use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+to deploy the pipeline by adding a connection to the RDI API
 endpoint (which has the same IP address as your RDI VM and uses port 8083) and then clicking the **Deploy** button. You can also deploy it with the following command:
 
 ```bash
@@ -126,6 +127,9 @@ validates your pipeline and then deploys it if the configuration is correct.
 
 Once the pipeline is running, you can use Redis Insight to view the data flow using the
 pipeline metrics. You can also connect to your target database to see the keys that RDI has written there.
+
+See [Deploy a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
+for more information about deployment settings.
 
 ### View RDI's response to data changes
 
@@ -145,4 +149,4 @@ To see the RDI pipeline working in CDC mode:
 - Run
   [`redis-di status --live`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}})
   to see the flow of records.
-- User [Redis Insight]({{< relref "/develop/connect/insight" >}}) to look at the data in the target database.
+- User [Redis Insight]({{< relref "/develop/tools/insight" >}}) to look at the data in the target database.

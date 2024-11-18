@@ -196,7 +196,7 @@ After your Redis Cloud database is set up, create a search index with a vector f
 
 ### Redis Insight
 
-[Redis Insight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
+[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
 
 To create your vector index in Redis Insight:
 
@@ -250,7 +250,7 @@ To create your vector index in Redis Insight:
 
 ### `redis-cli`
 
-The [`redis-cli`]({{< relref "/develop/connect/cli" >}}) command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}).
+The [`redis-cli`]({{< relref "/develop/tools/cli" >}}) command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}).
 
 Public endpoint and port details are available from the **Databases** list or the database's **Configuration** screen. Select **Connect** to view how to connect to your database with `redis-cli`.
 

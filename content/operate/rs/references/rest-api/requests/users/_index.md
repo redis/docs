@@ -32,7 +32,7 @@ Get a list of all users.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_users_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_users_info" >}}) | admin |
+| [view_all_users_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_users_info" >}}) | admin<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -99,7 +99,7 @@ Get a single user's details.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_user_info]({{< relref "/operate/rs/references/rest-api/permissions#view_user_info" >}}) | admin |
+| [view_user_info]({{< relref "/operate/rs/references/rest-api/permissions#view_user_info" >}}) | admin<br />user_manager |
 
 ### Request {#get-request}
 
@@ -162,7 +162,7 @@ Update an existing user's configuration.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_user]({{< relref "/operate/rs/references/rest-api/permissions#update_user" >}}) | admin |
+| [update_user]({{< relref "/operate/rs/references/rest-api/permissions#update_user" >}}) | admin<br />user_manager |
 
 Any user can change their own name, password, or alert preferences.
 
@@ -257,7 +257,7 @@ Create a new user.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [create_new_user]({{< relref "/operate/rs/references/rest-api/permissions#create_new_user" >}}) | admin |
+| [create_new_user]({{< relref "/operate/rs/references/rest-api/permissions#create_new_user" >}}) | admin<br />user_manager |
 
 ### Request {#post-request}
 
@@ -405,7 +405,7 @@ Delete a user.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [delete_user]({{< relref "/operate/rs/references/rest-api/permissions#delete_user" >}}) | admin |
+| [delete_user]({{< relref "/operate/rs/references/rest-api/permissions#delete_user" >}}) | admin<br />user_manager |
 
 ### Request {#delete-request}
 

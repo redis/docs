@@ -88,7 +88,46 @@ When the license is expired:
     - Fail over when a node fails and explicitly migrate shards between nodes.
 
     - Upgrade a node to a new version of Redis Enterprise Software.
- 
+
+## Configure license expiration alert
+
+By default, a cluster license alert is scheduled to occur 7 days before the cluster license expiration date.
+
+{{<image filename="images/rs/screenshots/cluster/cluster-license-expiration-alert.png" alt="An alert appears in the Cluster Manager UI that says 'Your license will expire on day-month-year time. Contact support to renew your license.'" >}}
+
+You can adjust the threshold value of the cluster license expiration alert based on how far in advance you want to be notified of the license expiration. The value should be within a reasonable range that allows your organization enough time to take action, such as renewing the license, before it expires.
+
+To change the cluster license alert settings, use one of the following methods:
+
+- Cluster Manager UI:
+
+    1. On the **Cluster > Configuration** screen, select the **Alerts Settings** tab.
+
+    1. Click **Edit**.
+
+    1. In the **Cluster utilization** section, enable the alert setting "License expiry notifications will be sent \<value\> days before the license expires" and enter a new value in the box.
+
+        {{<image filename="images/rs/screenshots/cluster/cluster-config-alert-settings-utilization.png" alt="Cluster utilization alert settings." >}}
+
+    1. Click **Save**.
+
+
+- [Update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request:
+
+    The following example changes the cluster license alert to occur 30 days before the cluster license expiration date:
+
+    ```sh
+    PUT /v1/cluster
+    {
+        "alert_settings": {
+            "cluster_license_about_to_expire": {
+                "enabled": true,
+                "threshold": "30"
+            }
+        }
+    }
+    ```
+
 ## Monitor cluster license
 
 As of version 7.2, Redis Enterprise exposes the license quotas and the shards consumption metrics in the Cluster Manager UI or via the [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).

@@ -119,6 +119,7 @@ By default, a single Redis string can be a maximum of 512 MB.
 
 ### Managing counters
 
+* [`INCR`]({{< relref "/commands/incr" >}}) atomically increments counters stored at a given key by 1.
 * [`INCRBY`]({{< relref "/commands/incrby" >}}) atomically increments (and decrements when passing a negative number) counters stored at a given key.
 * Another command exists for floating point counters: [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}).
 

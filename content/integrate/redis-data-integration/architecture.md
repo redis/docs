@@ -136,14 +136,29 @@ traffic. The diagram below shows this configuration:
 
 {{< image filename="images/rdi/ingest/ingest-active-passive-vms.png" >}}
 
+See [Install on VMs]({{< relref "/integrate/redis-data-integration/installation/install-vm" >}})
+for more information.
+
 ### RDI on Kubernetes
 
-You can run RDI in a namespace on your own Kubernetes cluster with
-a separate deployment for each of the control plane
-components (REST API, operator, and metrics exporter). The operator
-creates and configures deployments for the collector and stream processor
-when you start a pipeline from the CLI tool. This means that you must
-provide the operator with a service account that has permissions to create and manipulate pods in the namespace. 
+You can use the RDI [Helm chart](https://helm.sh/docs/topics/charts/) to install
+on [Kubernetes (K8s)](https://kubernetes.io/), including Red Hat
+[OpenShift](https://docs.openshift.com/). This creates:
+
+-   A K8s [namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) named `rdi`.
+-   [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) for the 
+    [RDI operator]({{< relref "/integrate/redis-data-integration/architecture#how-rdi-is-deployed" >}}),
+    [metrics exporter]({{< relref "/integrate/redis-data-integration/observability" >}}), and API server.
+-   A [service account](https://kubernetes.io/docs/concepts/security/service-accounts/) along with a
+    [role](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#restrictions-on-role-creation-or-update)
+    and [role binding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) for the RDI operator.
+-   A [Configmap](https://kubernetes.io/docs/concepts/configuration/configmap/)
+    for the different components with RDI Redis database details.
+-   [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
+    with the RDI Redis database credentials and TLS certificates.
+
+See [Install on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}})
+for more information.
 
 ### Secrets and security considerations
 

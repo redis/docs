@@ -8,11 +8,6 @@ categories:
 description: Logged alerts and events
 linkTitle: Alerts and events
 weight: 50
-aliases: 
-    - /operate/rs/clusters/logging/rsyslog-logging/cluster-events/
-    - /operate/rs/clusters/logging/rsyslog-logging/bdb-events/
-    - /operate/rs/clusters/logging/rsyslog-logging/node-events/
-    - /operate/rs/clusters/logging/rsyslog-logging/user-events/
 ---
 
 The following alerts and events can appear in `syslog` and the Cluster Manager UI logs.
