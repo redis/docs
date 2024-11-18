@@ -104,6 +104,13 @@ RedisEntepriseRemoteCluster represents a remote participating cluster.
         </td>
         <td>true</td>
       </tr><tr>
+        <td>apiPort</td>
+        <td>integer</td>
+        <td>
+          The port number of the cluster's URL used for connectivity/sync<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>dbFqdnSuffix</td>
         <td>string</td>
         <td>
@@ -136,6 +143,13 @@ RedisEntepriseRemoteCluster represents a remote participating cluster.
         </tr>
     </thead>
     <tbody><tr>
+        <td>internalObservedSecretResourceVersion</td>
+        <td>string</td>
+        <td>
+          The observed secret resource version. Used for internal purposes only.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>local</td>
         <td>boolean</td>
         <td>

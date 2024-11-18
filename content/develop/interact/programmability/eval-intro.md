@@ -407,7 +407,7 @@ Note: an important part of this behavior is that the PRNG that Redis implements 
 ## Debugging Eval scripts
 
 Starting with Redis 3.2, Redis has support for native Lua debugging.
-The Redis Lua debugger is a remote debugger consisting of a server, which is Redis itself, and a client, which is by default [`redis-cli`]({{< relref "/develop/connect/cli" >}}).
+The Redis Lua debugger is a remote debugger consisting of a server, which is Redis itself, and a client, which is by default [`redis-cli`]({{< relref "/develop/tools/cli" >}}).
 
 The Lua debugger is described in the [Lua scripts debugging]({{< relref "/develop/interact/programmability/lua-debugging" >}}) section of the Redis documentation.
 

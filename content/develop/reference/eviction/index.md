@@ -15,97 +15,198 @@ title: Key eviction
 weight: 6
 ---
 
-When Redis is used as a cache, it is often convenient to let it automatically
-evict old data as you add new data. This behavior is well known in the
-developer community, since it is the default behavior for the popular
-*memcached* system.
+Redis is commonly used as a cache to speed up read accesses to a slower server
+or database. Since cache entries are copies of persistently-stored data, it
+is usually safe to evict them when the cache runs out of memory (they can be
+cached again in the future if necessary).
 
-This page covers the more general topic of the Redis `maxmemory` directive used to limit the memory usage to a fixed amount. It also extensively covers the LRU eviction algorithm used by Redis, which is actually an approximation of
-the exact LRU.
+Redis lets you specify an eviction policy to evict keys automatically
+when the size of the cache exceeds a set memory limit. Whenever a client
+runs a new command that adds more data to the cache, Redis checks the memory usage.
+If it is greater than the limit, Redis evicts keys according to the chosen
+eviction policy until the total memory used is back below the limit.
 
-## `Maxmemory` configuration directive
+Note that when a command adds a lot of data to the cache (for example, a big set
+intersection stored into a new key), this might temporarily exceed the limit by
+a large amount.
 
-The `maxmemory` configuration directive configures Redis
-to use a specified amount of memory for the data set. You can
-set the configuration directive using the `redis.conf` file, or later using
-the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command at runtime.
+The sections below explain how to [configure the memory limit](#maxmem) for the cache
+and also describe the available [eviction policies](#eviction-policies) and when to
+use them.
 
-For example, to configure a memory limit of 100 megabytes, you can use the
-following directive inside the `redis.conf` file:
+## Using the `maxmemory` configuration directive {#maxmem}
 
-    maxmemory 100mb
+The `maxmemory` configuration directive specifies
+the maximum amount of memory to use for the cache data. You can
+set `maxmemory` with the [`redis.conf`](https://github.com/redis/redis/blob/7.4.0/redis.conf)
+file at startup time. For example, to configure a memory limit of 100 megabytes,
+you can use the following directive inside `redis.conf`:
 
-Setting `maxmemory` to zero results into no memory limits. This is the
-default behavior for 64 bit systems, while 32 bit systems use an implicit
-memory limit of 3GB.
+```
+maxmemory 100mb
+```
 
-When the specified amount of memory is reached, how **eviction policies** are configured determines the default behavior.
-Redis can return errors for commands that could result in more memory
-being used, or it can evict some old data to return back to the
-specified limit every time new data is added.
+You can also use [`CONFIG SET`]({{< relref "/commands/config-set" >}}) to
+set `maxmemory` at runtime using [`redis-cli`]({{< relref "/develop/tools/cli" >}}):
+
+```bash
+> CONFIG SET maxmemory 100mb
+```
+
+Set `maxmemory` to zero to specify that you don't want to limit the memory
+for the dataset. This is the default behavior for 64-bit systems, while 32-bit
+systems use an implicit memory limit of 3GB.
+
+When the size of your cache exceeds the limit set by `maxmemory`, Redis will
+enforce your chosen [eviction policy](#eviction-policies) to prevent any
+further growth of the cache.
+
+### Setting `maxmemory` for a replicated or persisted instance
+
+If you are using
+[replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}})
+or [persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
+for a server, Redis will use some RAM as a buffer to store the set of updates waiting
+to be written to the replicas or AOF files.
+The memory used by this buffer is not included in the total that
+is compared to `maxmemory` to see if eviction is required.
+
+This is because the key evictions themselves generate updates that must be added
+to the buffer. If the updates were counted among the used
+memory then in some circumstances, the memory saved by
+evicting keys would be immediately used up by the update data added to the buffer.
+This, in turn, would trigger even more evictions and the resulting feedback loop
+could evict many items from the cache unnecessarily.
+
+If you are using replication or persistence, we recommend that you set
+`maxmemory` to leave a little RAM free to store the buffers. Note that this is not
+necessary for the `noeviction` policy (see [the section below](#eviction-policies)
+for more information about eviction policies).
+
+The [`INFO`]({{< relref "/commands/info" >}}) command returns a
+`mem_not_counted_for_evict` value in the `memory` section (you can use
+the `INFO memory` option to see just this section). This is the amount of
+memory currently used by the buffers. Although the exact amount will vary,
+you can use it to estimate how much to subtract from the total available RAM
+before setting `maxmemory`.
 
 ## Eviction policies
 
-The exact behavior Redis follows when the `maxmemory` limit is reached is
-configured using the `maxmemory-policy` configuration directive.
+Use the `maxmemory-policy` configuration directive to select the eviction
+policy you want to use when the limit set by `maxmemory` is reached.
 
 The following policies are available:
 
-* **noeviction**: New values aren’t saved when memory limit is reached. When a database uses replication, this applies to the primary database
-* **allkeys-lru**: Keeps most recently used keys; removes least recently used (LRU) keys
-* **allkeys-lfu**: Keeps frequently used keys; removes least frequently used (LFU) keys
-* **volatile-lru**: Removes least recently used keys with the `expire` field set to `true`.
-* **volatile-lfu**: Removes least frequently used keys with the `expire` field set to `true`.
-* **allkeys-random**: Randomly removes keys to make space for the new data added.
-* **volatile-random**: Randomly removes keys with `expire` field set to `true`.
-* **volatile-ttl**: Removes keys with `expire` field set to `true` and the shortest remaining time-to-live (TTL) value.
+-   `noeviction`: Keys are not evicted but the server will return an error
+    when you try to execute commands that cache new data. If your database uses replication
+    then this condition only applies to the primary database. Note that commands that only
+    read existing data still work as normal.
+-   `allkeys-lru`: Evict the [least recently used](#apx-lru) (LRU) keys.
+-   `allkeys-lfu`: Evict the [least frequently used](#lfu-eviction) (LFU) keys.
+-   `allkeys-random`: Evict keys at random.
+-   `volatile-lru`: Evict the least recently used keys that have the `expire` field
+    set to `true`.
+-   `volatile-lfu`: Evict the least frequently used keys that have the `expire` field
+    set to `true`.
+-   `volatile-random`: Evict keys at random only if they have the `expire` field set
+    to `true`.
+-   `volatile-ttl`: Evict keys with the `expire` field set to `true` that have the
+    shortest remaining time-to-live (TTL) value.
 
-The policies **volatile-lru**, **volatile-lfu**, **volatile-random**, and **volatile-ttl** behave like **noeviction** if there are no keys to evict matching the prerequisites.
+The `volatile-xxx` policies behave like `noeviction` if no keys have the `expire`
+field set to true, or for `volatile-ttl`, if no keys have a time-to-live value set.
 
-Picking the right eviction policy is important depending on the access pattern
-of your application, however you can reconfigure the policy at runtime while
-the application is running, and monitor the number of cache misses and hits
-using the Redis [`INFO`]({{< relref "/commands/info" >}}) output to tune your setup.
+You should choose an eviction policy that fits the way your app
+accesses keys. You may be able to predict the access pattern in advance
+but you can also use information from the `INFO` command at runtime to
+check or improve your choice of policy (see
+[Using the `INFO` command](#using-the-info-command) below for more information).
 
-In general as a rule of thumb:
+As a rule of thumb:
 
-* Use the **allkeys-lru** policy when you expect a power-law distribution in the popularity of your requests. That is, you expect a subset of elements will be accessed far more often than the rest. **This is a good pick if you are unsure**.
+-   Use `allkeys-lru` when you expect that a subset of elements will be accessed far
+    more often than the rest. This is a very common case according to the
+    [Pareto principle](https://en.wikipedia.org/wiki/Pareto_principle), so
+    `allkeys-lru` is a good default option if you have no reason to prefer any others.
+-   Use `allkeys-random` when you expect all keys to be accessed with roughly equal
+    frequency. An example of this is when your app reads data items in a repeating cycle.
+-   Use `volatile-ttl` if your code can estimate which keys are good candidates for eviction
+    and assign short TTLs to them. Note also that if you make good use of
+    key expiration, then you are less likely to run into the cache memory limit because keys
+    will often expire before they need to be evicted.
 
-* Use the **allkeys-random** if you have a cyclic access where all the keys are scanned continuously, or when you expect the distribution to be uniform.
+The `volatile-lru` and `volatile-random` policies are mainly useful when you want to use
+a single Redis instance for both caching and for a set of persistent keys. However,
+you should consider running two separate Redis instances in a case like this, if possible.
 
-* Use the **volatile-ttl** if you want to be able to provide hints to Redis about what are good candidate for expiration by using different TTL values when you create your cache objects.
+Also note that setting an `expire` value for a key costs memory, so a
+policy like `allkeys-lru` is more memory efficient since it doesn't need an
+`expire` value to operate.
 
-The **volatile-lru** and **volatile-random** policies are mainly useful when you want to use a single instance for both caching and to have a set of persistent keys. However it is usually a better idea to run two Redis instances to solve such a problem.
+### Using the `INFO` command
 
-It is also worth noting that setting an `expire` value to a key costs memory, so using a policy like **allkeys-lru** is more memory efficient since there is no need for an `expire` configuration for the key to be evicted under memory pressure.
+The [`INFO`]({{< relref "/commands/info" >}}) command provides several pieces
+of data that are useful for checking the performance of your cache. In particular,
+the `INFO stats` section includes two important entries, `keyspace_hits` (the number of
+times keys were successfully found in the cache) and `keyspace_misses` (the number
+of times a key was requested but was not in the cache). The calculation below gives
+the percentage of attempted accesses that were satisfied from the cache:
 
-## How the eviction process works
+```
+keyspace_hits / (keyspace_hits + keyspace_misses) * 100
+```
 
-It is important to understand that the eviction process works like this:
+Check that this is roughly equal to what you would expect for your app
+(naturally, a higher percentage indicates better cache performance).
 
-* A client runs a new command, resulting in more data added.
-* Redis checks the memory usage, and if it is greater than the `maxmemory` limit , it evicts keys according to the policy.
-* A new command is executed, and so forth.
+{{< note >}} When the [`EXISTS`]({{< relref "/commands/exists" >}})
+command reports that a key is absent then this is counted as a keyspace miss.
+{{< /note >}}
 
-So we continuously cross the boundaries of the memory limit, by going over it, and then by evicting keys to return back under the limits.
+If the percentage of hits is lower than expected, then this might
+mean you are not using the best eviction policy. For example, if
+you believe that a small subset of "hot" data (that will easily fit into the
+cache) should account for about 75% of accesses, you could reasonably
+expect the percentage of keyspace hits to be around 75%. If the actual
+percentage is lower, check the value of `evicted_keys` (also returned by
+`INFO stats`). A high proportion of evictions would suggest that the
+wrong keys are being evicted too often by your chosen policy
+(so `allkeys-lru` might be a good option here). If the
+value of `evicted_keys` is low and you are using key expiration, check
+`expired_keys` to see how many keys have expired. If this number is high,
+you might be using a TTL that is too low or you are choosing the wrong
+keys to expire and this is causing keys to disappear from the cache
+before they should.
 
-If a command results in a lot of memory being used (like a big set intersection stored into a new key) for some time, the memory limit can be surpassed by a noticeable amount.
+Other useful pieces of information returned by `INFO` include:
 
-## Approximated LRU algorithm
+-   `used_memory_dataset`: (`memory` section) The amount of memory used for
+    cached data. If this is greater than `maxmemory`, then the difference
+    is the amount by which `maxmemory` has been exceeded.
+-   `current_eviction_exceeded_time`: (`stats` section) The time since
+    the cache last started to exceed `maxmemory`.
+-   `commandstats` section: Among other things, this reports the number of
+    times each command issued to the server has been rejected. If you are
+    using `noeviction` or one of the `volatile_xxx` policies, you can use
+    this to find which commands are being stopped by the `maxmemory` limit
+    and how often it is happening.
 
-Redis LRU algorithm is not an exact implementation. This means that Redis is
-not able to pick the *best candidate* for eviction, that is, the key that
-was accessed the furthest in the past. Instead it will try to run an approximation
-of the LRU algorithm, by sampling a small number of keys, and evicting the
-one that is the best (with the oldest access time) among the sampled keys.
+## Approximated LRU algorithm {#apx-lru}
 
-However, since Redis 3.0 the algorithm was improved to also take a pool of good
-candidates for eviction. This improved the performance of the algorithm, making
-it able to approximate more closely the behavior of a real LRU algorithm.
+The Redis LRU algorithm uses an approximation of the least recently used
+keys rather than calculating them exactly. It samples a small number of keys
+at random and then evicts the ones with the longest time since last access.
 
-What is important about the Redis LRU algorithm is that you **are able to tune** the precision of the algorithm by changing the number of samples to check for every eviction. This parameter is controlled by the following configuration directive:
+From Redis 3.0 onwards, the algorithm also tracks a pool of good
+candidates for eviction. This improves the performance of the algorithm, making
+it a close approximation to a true LRU algorithm.
 
-    maxmemory-samples 5
+You can tune the performance of the algorithm by changing the number of samples to check
+before every eviction with the `maxmemory-samples` configuration directive:
+
+```
+maxmemory-samples 5
+```
 
 The reason Redis does not use a true LRU implementation is because it
 costs more memory. However, the approximation is virtually equivalent for an
@@ -139,7 +240,7 @@ difference in your cache misses rate.
 To experiment in production with different values for the sample size by using
 the `CONFIG SET maxmemory-samples <count>` command, is very simple.
 
-## The new LFU mode
+## LFU eviction
 
 Starting with Redis 4.0, the [Least Frequently Used eviction mode](http://antirez.com/news/109) is available. This mode may work better (provide a better
 hits/misses ratio) in certain cases. In LFU mode, Redis will try to track

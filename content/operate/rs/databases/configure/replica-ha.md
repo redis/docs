@@ -12,7 +12,7 @@ weight: 50
 ---
 
 When you enable [database replication]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}),
-Redis Enterprise Software creates a replica of each primary (master) shard.  The replica shard will always be 
+Redis Enterprise Software creates a replica of each primary shard.  The replica shard will always be 
 located on a different node than the primary shard to make your data highly available.  If the primary shard 
 fails or if the node hosting the primary shard fails, then the replica is promoted to primary.
 
@@ -27,20 +27,20 @@ An available node:
 
 1. Meets replica migration requirements, such as [rack-awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}).
 1. Has enough available RAM to store the replica shard.
-1. Does not also contain the master shard.
+1. Does not also contain the primary shard.
 
-In practice, replica migration creates a new replica shard and copies the data from the master shard to the new replica shard.
+In practice, replica migration creates a new replica shard and copies the data from the primary shard to the new replica shard.
 
 For example:
 
-1. Node:2 has a master shard and node:3 has the corresponding replica shard.
+1. Node:2 has a primary shard and node:3 has the corresponding replica shard.
 1. Either:
 
-    - Node:2 fails and the replica shard on node:3 is promoted to master.
-    - Node:3 fails and the master shard is no longer replicated to the replica shard on the failed node.
+    - Node:2 fails and the replica shard on node:3 is promoted to primary.
+    - Node:3 fails and the primary shard is no longer replicated to the replica shard on the failed node.
 
 1. If replica HA is enabled, a new replica shard is created on an available node.
-1. The data from the master shard is replicated to the new replica shard.
+1. The data from the primary shard is replicated to the new replica shard.
 
 {{< note >}}
 - Replica HA follows all prerequisites of replica migration, such as [rack-awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}).
@@ -50,7 +50,7 @@ For example:
 ## Configure high availability for replica shards
 
 If replica high availability is enabled for both the cluster and a database,
-the database's replica shards automatically migrate to another node when a master or replica shard fails.
+the database's replica shards automatically migrate to another node when a primary or replica shard fails.
 If replica HA is not enabled at the cluster level,
 replica HA will not migrate replica shards even if replica HA is enabled for a database.
 
@@ -58,7 +58,7 @@ Replica high availability is enabled for the cluster by default.
 
 When you create a database using the Cluster Manager UI, replica high availability is enabled for the database by default if you enable replication.
 
-{{<image filename="images/rs/screenshots/databases/config-replica-ha-enabled.png" alt="When you select the Replication checkbox in the High availability & durability section of the database configuration screen, the Replica high availability checkbox is also selected by default.">}}
+{{<image filename="images/rs/screenshots/databases/config-replica-ha-enabled-7-8-2.png" alt="When you select the Replication checkbox in the High availability section of the database configuration screen, the Replica high availability checkbox is also selected by default.">}}
 
 To use replication without replication high availability, clear the **Replica high availability** checkbox.
 
@@ -69,10 +69,6 @@ For Active-Active databases, replica HA is enabled for the database by default t
 {{< /note >}}
 
 ### Configure cluster policy for replica HA
-
-{{<note>}}
-The replica HA cluster policy is deprecated as of Redis Enterprise Software version 7.2.4.
-{{</note>}}
 
 To enable or turn off replica high availability by default for the entire cluster, use one of the following methods:
 

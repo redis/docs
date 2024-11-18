@@ -9,7 +9,6 @@ description: Set up a development or test deployment of Redis Enterprise Softwar
   using Docker.
 linkTitle: Docker quickstart
 weight: 2
-aliases: /operate/rs/installing-upgrading/get-started-docker/
 ---
 {{< warning >}}
 Docker containers are currently only supported for development and test environments, not for production. Use [Redis Enterprise on Kubernetes]({{< relref "/operate/kubernetes" >}}) for a supported containerized deployment.
@@ -70,7 +69,7 @@ with `-p <host_port>:<container_port>` or use the `--network host` option to ope
 
 ## Create a database
 
-{{<embed-md "quick-db-setup.md">}}
+{{<embed-md "rs-quick-db-setup-7-8.md">}}
 
 {{< note >}}
 {{< embed-md "docker-memory-limitation.md" >}}

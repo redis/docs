@@ -431,10 +431,6 @@ author_id TAG SORTABLE author_ids TAG title TEXT name TEXT
 {{< / highlight >}}
 
 In this example, keys for author data use the key pattern `author:details:<id>` while keys for book data use the pattern `book:details:<id>`.
-</details>
-
-<details open>
-<summary><b>Index a JSON document using a JSON Path expression</b></summary>
 
 Index authors whose names start with G.
 
@@ -451,10 +447,14 @@ Index only books that have a subtitle.
 Index books that have a "categories" attribute where each category is separated by a `;` character.
 
 {{< highlight bash >}}
-127.0.0.1:6379> FT.CREATE books-idx ON HASH PREFIX 1 book:details FILTER SCHEMA title TEXT categories TAG SEPARATOR ";"
+127.0.0.1:6379> FT.CREATE books-idx ON HASH PREFIX 1 book:details SCHEMA title TEXT categories TAG SEPARATOR ";"
 {{< / highlight >}}
+</details>
 
-Index a JSON document using a JSON Path expression.
+<details open>
+<summary><b>Index a JSON document using a JSON Path expression</b></summary>
+
+The following example uses data similar to the hash examples above but uses JSON instead.
 
 {{< highlight bash >}}
 127.0.0.1:6379> FT.CREATE idx ON JSON SCHEMA $.title AS title TEXT $.categories AS categories TAG

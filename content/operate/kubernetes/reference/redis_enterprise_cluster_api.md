@@ -1193,6 +1193,13 @@ Cluster-level LDAP configuration, such as server addresses, protocol, authentica
         </td>
         <td>false</td>
       </tr><tr>
+        <td>directoryTimeoutSeconds</td>
+        <td>integer</td>
+        <td>
+          The connection timeout to the LDAP server when authenticating a user, in seconds<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>enabledForControlPlane</td>
         <td>boolean</td>
         <td>
@@ -26404,6 +26411,13 @@ Volume represents a named volume in a pod that may be accessed by any container 
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#statuscertificatesstatus">certificatesStatus</a></td>
+        <td>object</td>
+        <td>
+          Stores information about cluster certificates and their update process. In Active-Active databases, this is used to detect updates to the certificates, and trigger synchronization across the participating clusters.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>ingressOrRouteMethodStatus</td>
         <td>string</td>
         <td>
@@ -26503,6 +26517,40 @@ Volume represents a named volume in a pod that may be accessed by any container 
         <td>boolean</td>
         <td>
           <br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### status.certificatesStatus
+<sup><sup>[↩ Parent](#status)</sup></sup>
+
+Stores information about cluster certificates and their update process. In Active-Active databases, this is used to detect updates to the certificates, and trigger synchronization across the participating clusters.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>generation</td>
+        <td>integer</td>
+        <td>
+          Generation stores the version of the cluster's Proxy and Syncer certificate secrets. In Active-Active databases, when a user updates the proxy or syncer certificate, a crdb-update command needs to be triggered to avoid potential sync issues. This helps the REAADB controller detect a change in a certificate and trigger a crdb-update. The version of the cluster's Proxy certificate secret.<br/>
+          <br/>
+            <i>Format</i>: int64<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>updateStatus</td>
+        <td>string</td>
+        <td>
+          The status of the cluster's certificates update<br/>
         </td>
         <td>false</td>
       </tr></tbody>
