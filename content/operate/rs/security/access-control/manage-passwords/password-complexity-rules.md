@@ -1,11 +1,11 @@
 ---
-Title: Enable password complexity rules
+Title: Configure password complexity rules
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Enable password complexity rules.
+description: Enable password complexity rules and configure minimum password length.
 linkTitle: Password complexity rules
 toc: 'true'
 weight: 30
@@ -28,32 +28,59 @@ In addition, the password:
 
 Password complexity rules apply when a new user account is created and when the password is changed.  Password complexity rules are not applied to accounts authenticated by an external identity provider.  
 
-You can use the Cluster Manager UI or the REST API to enable password complexity rules.
+## Enable password complexity rules
 
-## Enable using the Cluster Manager UI
+To enable password complexity rules, use one of the following methods:
 
-To enable password complexity rules using the Cluster Manager UI:
+- Cluster Manager UI:
 
-1. Go to **Cluster > Security > Preferences**, then select **Edit**.
+    1. Go to **Cluster > Security > Preferences**, then select **Edit**.
 
-1. In the **Password** section, turn on **Complexity rules**.
+    1. In the **Password** section, enable **Complexity rules**.
 
-1. Select **Save**.
+    1. Select **Save**.
 
-## Enable using the REST API
+- [Update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request:
 
-To use the REST API to enable password complexity rules:
+    ```sh
+    PUT https://[host][:port]/v1/cluster
+    { "password_complexity": true }
+    ```
 
-``` REST
-PUT https://[host][:port]/v1/cluster
-{"password_complexity":true}
-```
+## Change minimum password length
+
+When password complexity rules are enabled, passwords must have at least 8 characters by default.
+
+If you change the minimum password length, the new minimum is enforced for new users and when existing users change their passwords.
+
+To change the minimum password length, use one of the following methods:
+
+- Cluster Manager UI:
+
+    1. Go to **Cluster > Security > Preferences**.
+    
+    1. Click **Edit**.
+
+    1. In the **Password** section, enable **Complexity rules**.
+
+    1. Set the number of characters for **Minimum password length**.
+
+        {{<image filename="images/rs/screenshots/cluster/security-preferences-min-password-length.png" alt="The minimum password length setting appears in the password section of the cluster security preferences screen when complexity rules are enabled." >}}
+
+    1. Click **Save**.
+
+- [Update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request:
+
+    ```sh
+    PUT https://[host][:port]/v1/cluster
+    { "password_min_length": <integer between 8-256> }
+    ```
 
 ## Deactivate password complexity rules
 
-To deactivate password complexity rules:
+To deactivate password complexity rules, use one of the following methods:
 
-- Use the Cluster Manager UI:
+- Cluster Manager UI:
 
     1. Go to **Cluster > Security > Preferences**, then select **Edit**.
 
@@ -61,4 +88,9 @@ To deactivate password complexity rules:
 
     1. Select **Save**.
 
-- Use the `cluster` REST API endpoint to set `password_complexity` to `false`
+- [Update cluster]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request:
+
+    ```sh
+    PUT https://[host][:port]/v1/cluster
+    { "password_complexity": false }
+    ```

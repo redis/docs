@@ -20,7 +20,7 @@ weight: 2
 
 {{<note>}}This document is intended as an in-depth reference for
 client-side caching. See
-[Client-side caching introduction]({{< relref "/develop/connect/clients/client-side-caching" >}})
+[Client-side caching introduction]({{< relref "/develop/clients/client-side-caching" >}})
 for general usage guidelines.
 {{</note>}}
 

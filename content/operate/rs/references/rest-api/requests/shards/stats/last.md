@@ -9,7 +9,6 @@ description: Most recent shard statistics requests
 headerRange: '[1-2]'
 linkTitle: last
 weight: $weight
-aliases: /operate/rs/references/rest-api/requests/shards-stats/last/
 ---
 
 | Method | Path | Description |

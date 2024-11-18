@@ -1,5 +1,5 @@
 ---
-Title: Remove a cluster node
+Title: Remove a node
 alwaysopen: false
 categories:
 - docs
@@ -73,25 +73,25 @@ The [DNS records]({{< relref "/operate/rs/networking/cluster-dns" >}}) must be u
 
 To remove a node using the Cluster Manager UI:
 
-1. If you are using the new Cluster Manager UI, switch to the legacy admin console.
+1. On the **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to remove.
 
-    {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
+    {{<image filename="images/rs/screenshots/nodes/secondary-nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
 
-1. On the **nodes** page, select the node you want to remove.
+1. Select **Remove node** from the list.
 
-1. Click **Remove** at the top of the **node** page.
+1. If there are shards on the node, select **Confirm node removal**.
 
-1. Confirm you want to **Remove** the node when prompted.
+    {{<image filename="images/rs/screenshots/nodes/confirm-node-removal-selected.png" alt="The Confirm node removal checkbox is selected, and the Remove button is clickable.">}}
 
-1. Redis Enterprise Software examines the node and the cluster and takes the actions required
-    to remove the node.
+    If the node has no shards, the **Confirm node removal** checkbox does not appear.
 
-1. At any point, you can click the **Abort** button to stop the
-    process. When aborted, the current internal action is completed, and
-    then the process stops.
-    
-1. Once the process finishes, the node is no longer shown in
-    the UI.
+1. Click **Remove**.
+
+    Redis Enterprise Software examines the node and the cluster, then takes the actions required to remove the node, such as migrating shards to other nodes. After the process finishes, the node is no longer shown in the UI.
+
+    {{<note>}}
+At any point, you can click the **Cancel removal** button to stop the process. When cancelled, the current internal action is completed, and then the process stops.
+    {{</note>}}
 
 To remove a node using the REST API, use [`POST /v1/nodes/<node_id>/actions/remove`]({{< relref "/operate/rs/references/rest-api/requests/nodes/actions#post-node-action" >}}).
 

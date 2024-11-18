@@ -8,8 +8,6 @@ categories:
 description: Create roles with database access only.
 linkTitle: Create roles with database access only 
 weight: 15
-aliases:
-    - /operate/rs/security/access-control/database-access/
 ---
 
 Roles with database access grant the ability to access and interact with a database's data. Database access privileges are determined by defining [Redis ACLs]({{<relref "/operate/rs/security/access-control/redis-acl-overview">}}) and adding them to roles.

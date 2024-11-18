@@ -9,20 +9,16 @@ description: Upgrade a Redis Enterprise Software cluster.
 linkTitle: Upgrade cluster
 toc: 'true'
 weight: 30
+tocEmbedHeaders: true
 ---
 
-## Supported upgrade paths
-
-The following upgrade paths are supported:
-
-| Current<br/>cluster version | Upgrade to<br/>cluster version |
-|:-----:|:-----:|
-| 7.2.x | 7.4.x |
-| 6.4.x | 7.4.x<br />7.2.x |
-| 6.2.x | 7.4.x<br />7.2.x<br />6.4.x |
-| 6.0.x | 7.2.x<br />6.4.x<br />6.2.x |
+{{<embed-md "rs-upgrade-paths.md">}}
 
 See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
+
+{{<note>}}
+Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}).
+{{</note>}}
 
 ## Upgrade prerequisites
 

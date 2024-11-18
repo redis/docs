@@ -43,7 +43,7 @@ Follow these steps to install Redis Stack.
     {{< highlight bash >}}
     [Redis]
     name=Redis
-    baseurl=http://packages.redis.io/rpm/rhel9 # replace rhel7 with the appropriate value for your platform
+    baseurl=http://packages.redis.io/rpm/rhel9 # replace rhel9 with the appropriate value for your platform
     enabled=1
     gpgcheck=1
     {{< /highlight >}}
@@ -191,13 +191,13 @@ PONG
 {{< / highlight >}}
 
 You can also test that your Redis server is running using
-[Redis Insight]({{< relref "/develop/connect/insight" >}}).
+[Redis Insight]({{< relref "/develop/tools/insight" >}}).
 
 ## Next steps
 
 Once you have a running Redis instance, you may want to:
 
-* Try the [Redis CLI tutorial]({{< relref "/develop/connect/cli" >}})
-* Connect using one of the [Redis clients]({{< relref "/develop/connect/clients" >}})
+* Try the [Redis CLI tutorial]({{< relref "/develop/tools/cli" >}})
+* Connect using one of the [Redis clients]({{< relref "/develop/clients" >}})
 * [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/install-redis#install-redis-properly" >}})
   for production use.

@@ -8,9 +8,6 @@ categories:
 description: Create users and assign access control roles.
 linkTitle: Create users
 weight: 10
-aliases:
-    - /operate/rs/security/access-control/manage-users/add-users/
-    - /operate/rs/security/access-control/rbac/assign-user-role/
 ---
 
 ## Prerequisites

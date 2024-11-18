@@ -37,7 +37,11 @@ and then run the following commands:
 1.  Grant the required permissions to the user:
 
     ```sql
+    # MySQL <v8.0
     mysql> GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'user' IDENTIFIED BY 'password';
+
+    # MySQL v8.0 and above
+    mysql> GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'user'@'localhost';
     ```
 
 1.  Finalize the user's permissions:

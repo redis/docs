@@ -10,7 +10,7 @@ linkTitle: Install on a cluster
 weight: 10
 ---
 
-[Redis Enterprise]({{< relref "/operate/rs" >}}) comes packaged with several modules. As of version 7.4.2, Redis Enterprise includes two feature sets, compatible with different Redis database versions. You can view the installed modules, their versions, and their minimum compatible Redis database versions from **Cluster > Modules** in the Redis Enterprise Cluster Manager UI.
+[Redis Enterprise Software]({{< relref "/operate/rs" >}}) comes packaged with several modules. As of version 7.8.2, Redis Enterprise Software includes three feature sets, compatible with different Redis database versions. You can view the installed modules, their versions, and their minimum compatible Redis database versions from **Cluster > Modules** in the Cluster Manager UI.
 
 To use other modules or upgrade an existing module to a more recent version, you need to install the new module package on your cluster.
 
@@ -22,11 +22,9 @@ To use other modules or upgrade an existing module to a more recent version, you
 
 ## Get packaged modules
 
-To install or upgrade a module on a [Redis Enterprise]({{< relref "/operate/rs" >}}) cluster, you need a module package.
+To install or upgrade a module on a [Redis Enterprise Software]({{< relref "/operate/rs" >}}) cluster, you need a module package.
 
-- For the latest Redis Enterprise modules, download packages from the [Redis download center](https://redislabs.com/download-center/modules/).
-
-- For earlier versions of Redis Enterprise modules that are no longer available from the Redis download center, [contact support](https://redis.com/company/support/).
+- For versions of official Redis modules that are not available from the [Redis download center](https://redislabs.com/download-center/modules/), [contact support](https://redis.com/company/support/).
 
 - For custom-packaged modules, download a [custom-packaged module](https://redislabs.com/community/redis-modules-hub/) from the developer.
 

@@ -22,7 +22,7 @@ well as some per-key overhead that Redis uses. On top of that, the value in the 
 RAM.
 
 Redis JSON stores JSON values as binary data after deserializing them. This representation is often more
-expensive, size-wize, than the serialized form. The JSON data type uses at least 24 bytes (on
+expensive, size-wise, than the serialized form. The JSON data type uses at least 24 bytes (on
 64-bit architectures) for every value, as can be seen by sampling an empty string with the
 [`JSON.DEBUG MEMORY`]({{< baseurl >}}/commands/json.debug-memory/) command:
 

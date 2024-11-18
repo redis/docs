@@ -10,4 +10,4 @@ See [Compatibility with Redis commands]({{< relref "/operate/rs/references/compa
 
 ## Redis clients
 
-You can use any standard [Redis client]({{< relref "/develop/connect/clients/" >}}) with Redis Enterprise Software and Redis Cloud.
+You can use any standard [Redis client]({{< relref "/develop/clients" >}}) with Redis Enterprise Software and Redis Cloud.

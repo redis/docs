@@ -58,7 +58,7 @@ Redis will start automatically, but it won't restart at boot time. To do this, r
 sudo snap set redis service.start=true
 {{< /highlight  >}}
 
-You an use these additional snap-related commands to start, stop, restart, and check the status of Redis:
+You can use these additional snap-related commands to start, stop, restart, and check the status of Redis:
 
 * `sudo snap start redis`
 * `sudo snap stop redis`
@@ -97,14 +97,14 @@ PONG
 {{< / highlight >}}
 
 You can also test that your Redis server is running using
-[Redis Insight]({{< relref "/develop/connect/insight" >}}).
+[Redis Insight]({{< relref "/develop/tools/insight" >}}).
 
 ## Next steps
 
 Once you have a running Redis instance, you may want to:
 
-* Try the [Redis CLI tutorial]({{< relref "/develop/connect/cli" >}})
-* Connect using one of the [Redis clients]({{< relref "/develop/connect/clients" >}})
+* Try the [Redis CLI tutorial]({{< relref "/develop/tools/cli" >}})
+* Connect using one of the [Redis clients]({{< relref "/develop/clients" >}})
 * [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/install-redis#install-redis-properly" >}})
   for production use.
   
