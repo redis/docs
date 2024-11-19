@@ -34,7 +34,7 @@ Learn to perform vector search and use Redis integrations in your AI/ML projects
 
 ## Next steps
 
-Get started with the following Redis python notebooks.
+Get started with the following Redis Python notebooks.
 
 * [The place to start if you are brand new to Redis](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/redis-intro/00_redis_intro.ipynb)
 
