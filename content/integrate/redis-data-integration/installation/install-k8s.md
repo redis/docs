@@ -112,6 +112,10 @@ To pull images from a local registry, you must provide the image pull secret and
 The annotated [`values.yaml`](https://helm.sh/docs/topics/charts/#templates-and-values)
 file below describes the values you can set for the RDI Helm installation.
 
+At a minimum, you must set the values of `RDI_REDIS_HOST` and `RDI_REDIS_PORT`
+in the `global.rdiSysConfig` section and also `RDI_REDIS_PASSWORD` in
+`global.rdiSysSecret` to enable the basic connection to the RDI database.
+
 {{< note >}}If you want to use
 [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
 to connect to your RDI deployment from outside the K8s cluster, you
@@ -203,7 +207,7 @@ global:
     # DO NOT modify this value.
     # RDI_REDIS_CACERT: /etc/certificates/rdi_db/cacert
 
-    # Uncomment these properties when using a TLS connection from RDI to its Redis database.
+    # Uncomment these properties when using an mTLS connection from RDI to its Redis database.
     # DO NOT modify these values.
     # RDI_REDIS_CERT: /etc/certificates/rdi_db/cert
     # RDI_REDIS_KEY: /etc/certificates/rdi_db/key
@@ -211,7 +215,8 @@ global:
     # The passphrase used to get the private key stored in the secret store when using mTLS.
     # RDI_REDIS_KEY_PASSPHRASE: ""
 
-    # The key used to encrypt the JWT token used by RDI API.
+    # The key used to encrypt the JWT token used by RDI API. Best practice is for this
+    # to contain 32 ASCII characters (equivalent to 256 bits of data).
     # JWT_SECRET_KEY: ""
 
   rdiDbSSLSecret:
@@ -223,11 +228,11 @@ global:
     # cacert: ""
 
     # The content of the certificate PEM file.
-    # Uncomment and set this property when using a TLS connection from RDI to its Redis database.
+    # Uncomment and set this property when using an mTLS connection from RDI to its Redis database.
     # cert: ""
 
     # The content of the private key PEM file.
-    # Uncomment and set this property when using a TLS connection from RDI to its Redis database.
+    # Uncomment and set this property when using an mTLS connection from RDI to its Redis database.
     # key: ""
 
   # Container default security context.
