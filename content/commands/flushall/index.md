@@ -66,7 +66,7 @@ It is possible to use one of the following modifiers to dictate the flushing mod
 
 * An asynchronous `FLUSHALL` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.
 * This command does not delete functions.
-* Other than emptying all databases (similar to `FLUSHDB`), this command clears the RDB persistence file, aborts any snapshot that is in progress, and, if the `save` config is enabled, it saves an empty RDB file.
+* Other than emptying all databases (similar to `FLUSHDB`), this command clears the RDB persistence file, aborts any snapshot that is in progress, and, if the `save` config is enabled, saves an empty RDB file.
 
 ## Behavior change history
 
