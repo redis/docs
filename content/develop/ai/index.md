@@ -40,7 +40,7 @@ Get started with the following Redis Python notebooks.
 
 **Hybrid and vector search notebooks**
 * [Implementing hybrid search with Redis](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/02_hybrid_search.ipynb)
-* [Vector search with Redis python client](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) 
+* [Vector search with Redis Python client](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) 
 * [Vector search with Redis Vector Library](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb)
 
 **RAG notebooks**  
