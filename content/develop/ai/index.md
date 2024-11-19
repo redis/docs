@@ -32,7 +32,7 @@ Learn to perform vector search and use Redis integrations in your AI/ML projects
 | :-- | :-- | :-- |
 | {{<image filename="images/ai-search.png" alt="AI Redis icon.">}}[Vector search guide]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) | {{<image filename="images/ai-model.png" alt="AI Redis icon.">}}[Amazon Bedrock setup guide]({{< relref "/integrate/amazon-bedrock/set-up-redis" >}}) |{{<image filename="images/ai-brain-2.png" alt="AI Redis icon.">}}[Redis vector python library documentation]({{< relref "/integrate/redisvl/overview/" >}})
 
-## Next steps
+## Notebooks
 
 Get started with the following Redis Python notebooks.
 
