@@ -13,7 +13,7 @@ toc: 'true'
 weight: 69
 ---
 
-​[​Redis Software version 7.8.2](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Software version 7.8.2](https://redis.io/downloads/#software) is now available!
 
 ## Highlights
 
