@@ -66,7 +66,7 @@ It is possible to use one of the following modifiers to dictate the flushing mod
 
 * An asynchronous `FLUSHDB` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.
 * This command does not delete functions.
-* When using Redis Cluster, this command is identical to `FLUSHALL` since a Redis Cluster supports only database zero.
+* When using Redis Cluster, this command is identical to `FLUSHALL` since a Redis Cluster supports only one database with and ID of zero.
 
 ## Behavior change history
 
