@@ -33,7 +33,8 @@ database (the optional `db` value here corresponds to the
 
 In the `transform` section, the `add_field` transformation adds an extra field called `localphone`
 to the object, which is created by removing the country and area code from the `phone`
-field with the `regex_replace()` [JMESPath](https://jmespath.org/) function.
+field with the
+[JMESPath]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) function `regex_replace()`.
 You can also specify `sql` as the `language` if you prefer to create the new
 field with an [SQL](https://en.wikipedia.org/wiki/SQL) expression.
 
@@ -86,7 +87,7 @@ see something like the following:
 Using the job file above, the data also includes the new `localphone` field:
 
 ```
-  1) "customerid"
+ 1) "customerid"
  2) "27"
  3) "firstname"
  4) "Patrick"
@@ -101,40 +102,44 @@ Using the job file above, the data also includes the new `localphone` field:
 ## Add multiple fields
 
 The `add_field` transformation can also add multiple fields at the same time
-if you specify them under a `fields` subsection. The example below is similar
-to the previous one but also adds a `fulladdress` field and uses JSON as the
-target datatype, rather than hash: 
+if you specify them under a `fields` subsection. The example below adds two
+fields to the `track` objects. The first new field, `seconds`, is created using a SQL
+expression to calculate the duration of the track in seconds from the
+`milliseconds` field.
+The second new field, `composerlist`, adds a JSON array using the `split()` function
+to split the `composer` string field wherever it contains a comma.
 
 ```yaml
 source:
   db: chinook
-  table: customer
+  table: track
 transform:
   - uses: add_field
     with:
       fields:
-        - expression: concat(firstname, ' ', lastname)
-          field: fullname
+        - expression: floor(milliseconds / 1000)
+          field: seconds
           language: sql
-        - expression: concat(address, ', ', city, ', ', country, ', ', postalcode)
-          field: fulladdress
-          language: sql
+        - expression: split(composer)
+          field: composerlist
+          language: jmespath
 output:
   - uses: redis.write
     with:
       connection: target
       data_type: json
       key:
-        expression: concat(['cust:', customerid])
+        expression: concat(['track:', trackid])
         language: jmespath
 ```
 
-You can query the target database to see the new `fulladdress` field in
+You can query the target database to see the new fields in
 the JSON object:
 
-```
-> JSON.GET cust:14 $.fulladdress
-"[\"8210 111 ST NW, Edmonton, Canada, T6G 2C7\"]"
+```bash
+> JSON.GET track:1 $
+
+"[{\"trackid\":1,\"name\":\"For Those About To Rock (We Salute You)\",\"albumid\":1,\"mediatypeid\":1,\"genreid\":1,\"composer\":\"Angus Young, Malcolm Young, Brian Johnson\",\"milliseconds\":343719,\"bytes\":11170334,\"unitprice\":\"0.99\",\"seconds\":343,\"composerlist\":[\"Angus Young\",\" Malcolm Young\",\" Brian Johnson\"]}]"
 ```
 
 ## Using `add_field` with `remove_field`
