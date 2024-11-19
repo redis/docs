@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 - rc
-description: An overivew of the Redis for AI documentation
+description: An overview of the Redis for AI documentation
 linkTitle: Redis for AI
 weight: 40
 ---
