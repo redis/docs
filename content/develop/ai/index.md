@@ -8,13 +8,13 @@ categories:
 - rc
 description: An overivew of the Redis for AI documentation
 linkTitle: Redis for AI
-weight: 4
+weight: 40
 ---
 Redis stores and indexes vector embeddings that semantically represent unstructured data including text passages, images, videos, or audio. Store vectors and the associated metadata within hashes or JSON documents for indexing and search.
 
 | Vector | RAG |
 | :-- | :-- |
-| {{<image filename="images/ai-cube.png" alt="AI Redis icon.">}}[Redis as a vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) |{{<image filename="images/ai-brain.png" alt="AI Redis icon.">}} [quick start guide]({{< relref "/develop/get-started/rag" >}}) |
+| {{<image filename="images/ai-cube.png" alt="AI Redis icon.">}}[Redis as a vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) |{{<image filename="images/ai-brain.png" alt="AI Redis icon.">}} [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/get-started/rag" >}}) |
 
 
 ## Overview
