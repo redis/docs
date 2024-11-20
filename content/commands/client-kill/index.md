@@ -74,6 +74,12 @@ arguments:
       optional: true
       token: SKIPME
       type: oneof
+    - display_text: maxage
+      name: maxage
+      optional: true
+      since: 7.4.0
+      token: MAXAGE
+      type: integer
     multiple: true
     name: new-format
     type: oneof
@@ -110,6 +116,8 @@ history:
   - Replaced `slave` `TYPE` with `replica`. `slave` still supported for backward compatibility.
 - - 6.2.0
   - '`LADDR` option.'
+- - 7.4.0
+  - '`MAXAGE` option.'
 linkTitle: CLIENT KILL
 since: 2.4.0
 summary: Terminates open connections.

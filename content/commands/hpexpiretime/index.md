@@ -8,14 +8,18 @@ arguments:
   key_spec_index: 0
   name: key
   type: key
-- display_text: numfields
-  name: numfields
-  type: integer
-- display_text: field
-  multiple: true
-  name: field
-  type: string
-arity: -4
+- arguments:
+  - display_text: numfields
+    name: numfields
+    type: integer
+  - display_text: field
+    multiple: true
+    name: field
+    type: string
+  name: fields
+  token: FIELDS
+  type: block
+arity: -5
 categories:
 - docs
 - develop
@@ -29,7 +33,7 @@ categories:
 command_flags:
 - readonly
 - fast
-complexity: O(N) where N is the number of arguments to the command
+complexity: O(N) where N is the number of specified fields
 description: Returns the expiration time of a hash field as a Unix timestamp, in msec.
 group: hash
 hidden: false
@@ -48,9 +52,9 @@ key_specs:
     type: range
 linkTitle: HPEXPIRETIME
 since: 7.4.0
-summary: Returns the expiration time of each specified field as a Unix timestamp in milliseconds
-syntax_fmt: HPEXPIRETIME key FIELDS numfields field [field ...]
-syntax_str: FIELDS numfields field [field ...]
+summary: Returns the expiration time of a hash field as a Unix timestamp, in msec.
+syntax_fmt: "HPEXPIRETIME key FIELDS\_numfields field [field ...]"
+syntax_str: "FIELDS\_numfields field [field ...]"
 title: HPEXPIRETIME
 ---
 `HPEXPIRETIME` has the same semantics as [`HEXPIRETIME`]({{< relref "/commands/hexpiretime" >}}), but returns the absolute Unix expiration timestamp in milliseconds since Unix epoch instead of seconds.
