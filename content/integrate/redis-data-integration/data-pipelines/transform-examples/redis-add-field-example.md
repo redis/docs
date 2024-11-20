@@ -66,7 +66,7 @@ output:
 ```
 
 If you queried the generated target data from the default transformation
-using [`redis-cli`]({{< relref "/develop/connect/cli" >}}), you would
+using [`redis-cli`]({{< relref "/develop/tools/cli" >}}), you would
 see something like the following:
 
 ```
