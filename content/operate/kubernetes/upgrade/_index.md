@@ -25,7 +25,7 @@ For all other Kubernetes distributions, see [Upgrade Redis Enterprise for Kubern
 
 When upgrading, both your Kubernetes version and Redis operator version need to be supported at all times.
 
-{{<warning>}}If your current Kubernetes distribution is not [supported by 7.8.2-6]({{<relref "/operate/kubernetes/release-notes/7-8-2-releases/7-8-2-8-nov24#supported-distributions">}}), upgrade to a supported distribution before upgrading. {{</warning>}}
+{{<warning>}}If your current Kubernetes distribution is not [supported by 7.8.2-6]({{<relref "/operate/kubernetes/release-notes/7-8-2-releases/7-8-2-6-nov24#supported-distributions">}}), upgrade to a supported distribution before upgrading. {{</warning>}}
 
 ## RHEL9-based image
 
