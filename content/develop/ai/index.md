@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 - rc
-description: An overview of the Redis for AI documentation
+description: An overview of Redis for AI documentation
 linkTitle: Redis for AI
 weight: 40
 ---
@@ -14,7 +14,7 @@ Redis stores and indexes vector embeddings that semantically represent unstructu
 
 | Vector | RAG | RedisVL |
 | :-- | :-- | :-- |
-| {{<image filename="images/ai-cube.png" alt="AI Redis icon.">}}[Redis as a vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) |{{<image filename="images/ai-brain.png" alt="AI Redis icon.">}} [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/get-started/rag" >}}) | {{<image filename="images/ai-lib.png" alt="AI Redis icon.">}}[Redis vector Python client library documentation]({{< relref "/integrate/redisvl/overview/" >}}) |
+| {{<image filename="images/ai-cube.png" alt="AI Redis icon.">}}[Redis vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) |{{<image filename="images/ai-brain.png" alt="AI Redis icon.">}} [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/get-started/rag" >}}) | {{<image filename="images/ai-lib.png" alt="AI Redis icon.">}}[Redis vector Python client library documentation]({{< relref "/integrate/redisvl/overview/" >}}) |
 
 #### Overview
 
@@ -31,7 +31,7 @@ Learn to perform vector search and use gateways and semantic caching in your AI/
 | :-- | :-- | :-- |
 | {{<image filename="images/ai-search.png" alt="AI Redis icon.">}}[Vector search guide]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) | {{<image filename="images/ai-model.png" alt="AI Redis icon.">}}[Deploy an enhanced gateway with Redis](https://redis.io/blog/ai-gateways-what-are-they-how-can-you-deploy-an-enhanced-gateway-with-redis/) | {{<image filename="images/ai-brain-2.png" alt="AI Redis icon.">}}[Semantic caching for faster, smarter LLM apps](https://redis.io/blog/what-is-semantic-caching) |
 
-#### Ecosystem integrations
+## Ecosystem integrations
 
 * [Amazon Bedrock setup guide]({{< relref "/integrate/amazon-bedrock/set-up-redis" >}})
 * [LangChain Redis Package: Smarter AI apps with advanced vector storage and faster caching](https://redis.io/blog/langchain-redis-partner-package/))
@@ -42,7 +42,7 @@ Learn to perform vector search and use gateways and semantic caching in your AI/
 * [Building LLM Applications with Kernel Memory and Redis](https://redis.io/blog/building-llm-applications-with-kernel-memory-and-redis/)
 
 
-## Notebooks
+## Examples
 
 Get started with the following Redis Python notebooks.
 
