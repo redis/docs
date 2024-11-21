@@ -48,6 +48,8 @@ Returns tables of the status of all nodes, databases, and database endpoints on 
 
 If `issues_only` is specified, it only shows instances that do not have an `OK` status.
 
+In the `CLUSTER NODES` section, `*node` indicates which node you are connected to.
+
 ### Example
 
 ``` sh
@@ -269,6 +271,8 @@ Returns a table of the status of all nodes on the cluster.
 If `sort <column_titles>` is specified, the result is sorted by the specified table columns.
 
 If `issues_only` is specified, it only shows nodes that do not have an `OK` status.
+
+`*node` indicates which node you are connected to.
 
 ### Example
 
