@@ -45,6 +45,7 @@ The following table shows which Redis Enterprise Software version first tested a
 | 8.8 | 6.4.2 |
 | 8.9 | 7.2.4 |
 | 9.3 | 7.4.2 |
+| 9.5 | 7.8.2 |
 
 ## Operating system compatibility policy
 
