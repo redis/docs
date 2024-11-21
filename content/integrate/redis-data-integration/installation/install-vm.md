@@ -34,7 +34,7 @@ Each of the RDI VMs should have at least:
   baseline snapshot as fast as possible.
 - **RAM**: 2GB 
 - **Disk**: 25GB, which includes the OS footprint. In particular, you should
-  expect the `/var` folder to require 7GB and the `/opt` folder to require 1GB (to
+  RDI requires  7GB in  `/var` and 1GB in `/opt` folder  (to
   store the log files).
 - **Network interface**: 10GB or more.
 
