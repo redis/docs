@@ -24,6 +24,20 @@ your source database. You can also
 will not work on VMs where IPv6 is disabled. This problem is solved with version 1.4.0.
 {{< /note >}}
 
+## Hardware sizing
+
+RDI is mainly CPU and network bound. 
+Each of the RDI VMs should have at least:
+
+- **CPU**: A minimum of 4 CPU cores. You should consider adding
+  2-6 extra cores on top of this if your dataset is big and you want to ingest the
+  baseline snapshot as fast as possible.
+- **RAM**: 2GB 
+- **Disk**: 25GB, which includes the OS footprint. In particular, you should
+  expect the `/var` folder to require 7GB and the `/opt` folder to require 1GB (to
+  store the log files).
+- **Network interface**: 10GB or more.
+
 ## Install RDI on VMs
 
 You would normally install RDI on two VMs for high availability (HA) but you can also install
@@ -143,18 +157,6 @@ ufw allow 9121/tcp  # rdi-metric-exporter
 
 {{<note>}}You may also need to add similar rules to open other ports if your setup requires them.
 {{</note>}}
-
-## Hardware sizing
-
-RDI is mainly CPU and network bound. 
-Each of the RDI VMs should have:
-
-- CPU: A minimum of 4 CPU cores. You should consider adding
-  2-6 extra cores on top of this if your dataset is big and you want to ingest the
-  baseline snapshot as fast as possible.
-- RAM: 2GB 
-- Disk: 25GB of disk (this includes the OS footprint)
-- 10GB or more network interface
 
 ## Installation steps
 
