@@ -154,13 +154,6 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
-        <td><a href="#specglobalconfigurationsalertsettings">alertSettings</a></td>
-        <td>object</td>
-        <td>
-          Settings for database alerts. Note - Alert settings are not supported for Active-Active database.<br/>
-        </td>
-        <td>false</td>
-      </tr><tr>
         <td><a href="#specglobalconfigurationsbackup">backup</a></td>
         <td>object</td>
         <td>
