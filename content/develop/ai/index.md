@@ -36,7 +36,7 @@ Learn to perform vector search and use gateways and semantic caching in your AI/
 * [Amazon Bedrock setup guide]({{< relref "/integrate/amazon-bedrock/set-up-redis" >}})
 * [LangChain Redis Package: Smarter AI apps with advanced vector storage and faster caching](https://redis.io/blog/langchain-redis-partner-package/))
 * [Redis Cloud available on Vercel](https://redis.io/blog/redis-cloud-now-available-on-vercel-marketplace/)
-* [Create a Redis Cloud database with the Vercel integration]({{< relref "/operate/rc/cloud-integrations/vercel/" >}})
+* [Create a Redis Cloud database with the Vercel integration]({{< relref "/operate/rc/cloud-integrations/vercel" >}})
 * [Building a RAG application with Redis and Spring AI](https://redis.io/blog/building-a-rag-application-with-redis-and-spring-ai/)
 * [Deploy GenAI apps faster with Redis and NVIDIA NIM](https://redis.io/blog/use-redis-with-nvidia-nim-to-deploy-genai-apps-faster/)
 * [Building LLM Applications with Kernel Memory and Redis](https://redis.io/blog/building-llm-applications-with-kernel-memory-and-redis/)
