@@ -159,5 +159,14 @@ jobs:
             done
           fi
 
+          if [[ "$bucket_path" == staging/* ]]
+          then
+            versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
+            for versioned_build in "${versioned_builds[@]}"; do
+              product=$(grep -Eo '[a-zA-Z]+' <<< $versioned_build)
+              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/operate/${product}"
+            done
+          fi
+
     - name: End
       run: echo "This job's status is ${{ job.status }}."
