@@ -1,11 +1,11 @@
 ---
-Title: Redis Enterprise observability and monitoring guidance
+Title: Redis Enterprise Software observability and monitoring guidance
 alwaysopen: false
 categories:
 - docs
 - integrate
 - rs
-description: Using monitoring and observability with Redis Enterprise
+description: Using monitoring and observability with Redis Enterprise 
 group: observability
 linkTitle: Observability and monitoring
 summary: Observe Redis Enterprise resources and database perfomance indicators.
@@ -23,15 +23,15 @@ Dashboard showing relevant statistics for a node:
 {{< image filename="/images/node_summary.png" alt="Dashboard showing relevant statistics for a Node" >}}
 
 To effectively monitor a Redis Enterprise cluster you need to observe
-core cluster resources and key database performance indicators.
+core cluster resources and key database performance indicators as described in the following sections for this guide.
 
 Core cluster resources include:
 
-* [Memory utilization](#Memory)
-* [CPU utilization](#CPU)
-* [Database connections](#Connections)
-* [Network traffic](#Network)
-* [Synchronization](#Synchronization)
+* Memory utilization
+* CPU utilization
+* Database connections
+* Network traffic
+* Synchronization
 
 Key database performance indicators include:
 
@@ -46,6 +46,12 @@ Dashboard showing an overview of cluster metrics:
 In addition to manually monitoring these resources and indicators, it is best practice to set up alerts.
 
 ## Core cluster resource monitoring
+
+Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2 Prometheus scraping endpoint at https://<IP>:8070/v2. This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
+
+The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations. See [Monitoring with metrics and alerts]({{<relref "/operate/rs/clusters/monitoring/">}}) for more details.
+
+If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
 
 ### Memory
 
@@ -85,8 +91,10 @@ it's still important to monitor performance. The key performance indicators incl
 
 **Latency** has two important definitions, depending on context:
 
-* In context Redis itself, latency is **the time it takes for Redis
-to respond to a request**. See latency is
+* In the context Redis itself, latency is **the time it takes for Redis
+to respond to a request**. The following section of Latency provides a broader discussion of this metric.
+
+
 
 * In the context of your application, Latency is **the time it takes for the application
 to process a request**. This will include the time it takes to execute both reads and writes
@@ -106,7 +114,7 @@ are often inversely correlated: a high eviction rate may cause a low cache hit r
 If the Redis server is empty, the hit ratio will be 0%. As the application runs and the fills the cache,
 the hit ratio will increase.
 
-**When the entire cached working set fits in memory**, then the cache hit ratio will reach close to 100%
+**When the entire cached working set fits in memory**, the cache hit ratio will reach close to 100%
 while the percent of used memory will remain below 100%.
 
 **When the working set cannot fit in memory**, the eviction policy will start to evict keys.
@@ -221,8 +229,8 @@ excess inefficient Redis operations, and hot master shards.
 
 | Issue | Possible causes | Remediation 
 | ------ | ------ | :------ |
-|High CPU utilization across all shards of a database | This usually indicates that the database is under-provisioned in terms of number of shards. A secondary cause may be that the application is running too many inefficient Redis operations. | You can detect slow Redis operations by enabling the slow log in the Redis Enterprise UI. First, rule out inefficient Redis operations as the cause of the high CPU utilization. See <<Slow operations](#Latency>> for a broader discussion of this metric in the context of your application) for details on this. If inefficient Redis operations are not the cause, then increase the number of shards in the database. |
-|High CPU utilization on a single shard, with the remaining shards having low CPU utilization | This usually indicates a master shard with at least one hot key. Hot keys are keys that are accessed extremely frequently (for example, more than 1000 times per second). | Hot key issues generally cannot be resolved by increasing the number of shards. To resolve this issue, see [Hot keys]. |
+|High CPU utilization across all shards of a database | This usually indicates that the database is under-provisioned in terms of number of shards. A secondary cause may be that the application is running too many inefficient Redis operations. | You can detect slow Redis operations by enabling the slow log in the Redis Enterprise UI. First, rule out inefficient Redis operations as the cause of the high CPU utilization. The Latency section below includes a broader discussion of this metric in the context of your application. If inefficient Redis operations are not the cause, then increase the number of shards in the database. |
+|High CPU utilization on a single shard, with the remaining shards having low CPU utilization | This usually indicates a master shard with at least one hot key. Hot keys are keys that are accessed extremely frequently (for example, more than 1000 times per second). | Hot key issues generally cannot be resolved by increasing the number of shards. To resolve this issue, see the section on Hot keys below. |
 | High Proxy CPU | There are several possible causes of high proxy CPU. Firs, review the behavior of connections to the database. Frequent cycling of connections, especially with TLS is enabled, can cause high proxy CPU utilization. This is especially true when you see more than 100 connections per second per thread. Such behavior is almost always a sign of a misbehaving application. Review the total number of operations per second against the cluster. If you see more than 50k operations per second per thread, you may need to increase the number of proxy threads. | In the case of high connection cycling, review the application's connection behavior. In the case of high operations per second, [increase the number of proxy threads](https://redis.io/docs/latest/operate/rs/references/cli-utilities/rladmin/tune/#tune-proxy). |
 |High Node CPU | You will typically detect high shard or proxy CPU utilization before you detect high node CPU utilization. Use the remediation steps above to address high shard and proxy CPU utilization. In spite of this, if you see high node CPU utilization, you may need to increase the number of nodes in the cluster. | Consider increasing the number of nodes in the cluster and the rebalancing the shards across the new nodes. This is a complex operation and should be done with the help of Redis support. |
 |High System CPU | Most of the issues above will reflect user-space CPU utilization. However, if you see high system CPU utilization, this may indicate a problem at the network or storage level. | Review network bytes in and network bytes out to rule out any unexpected spikes in network traffic. You may need perform some deeper network diagnostics to identify the cause of the high system CPU utilization. For example, with high rates of packet loss, you may need to review network configurations or even the network hardware. |
@@ -328,11 +336,11 @@ networking issue.
 
 | Issue | Possible causes | Remediation |
 | ------ | ------ | :------ |
-|Slow database operations | Confirm that there are no excessive slow operations in the [Redis slow log](#Slow operations). | If possible, reduce the number of slow operations being sent to the database. 
+|Slow database operations | Confirm that there are no excessive slow operations in the Redis slow log. | If possible, reduce the number of slow operations being sent to the database. 
 If this not possible, consider increasing the number of shards in the database. |
-|Increased traffic to the database | Review the [network traffic](#Network ingress / egress) and the database operations per second chart
+|Increased traffic to the database | Review the network traffic and the database operations per second chart
 to determine if increased traffic is causing the latency. | If the database is underprovisioned due to increased traffic, consider increasing the number of shards in the database. |
-|Insufficient CPU | Check to see if the [CPU utilization](#CPU) is increasing. | Confirm that [slow operations](#Slow operations) are not causing the high CPU utilization.
+|Insufficient CPU | Check to see if the CPU utilization is increasing. | Confirm that slow operations are not causing the high CPU utilization.
 If the high CPU utilization is due to increased load, consider adding shards to the database. |
 
 ## Cache hit rate
@@ -365,7 +373,7 @@ Cache hit rate is usually only relevant for caching workloads. Eviction will beg
 A high or increasing rate of evictions will negatively affect database latency, especially
 if the rate of necessary key evictions exceeds the rate of new key insertions.
 
-See (Cache hit ratio and eviction) for tips on troubleshooting cache hit rate.
+See the Cache hit ratio and eviction section for tips on troubleshooting cache hit rate.
 
 ## Key eviction rate
 
@@ -459,7 +467,7 @@ and block other operations. If you need to scan the keyspace, especially in a pr
 The best way to discover slow operations is to view the slow log.
 The slow log is available in the Redis Enterprise and Redis Cloud consoles:
 * [Redis Enterprise slow log docs](https://redis.io/docs/latest/operate/rs/clusters/logging/redis-slow-log/)
-* [Redis cloud slow log docs](https://redis.io/docs/latest/operate/rc/databases/view-edit-database/#other-actions-and-info)
+* [Redis Cloud slow log docs](https://redis.io/docs/latest/operate/rc/databases/view-edit-database/#other-actions-and-info)
 
 Redis Cloud dashboard showing slow database operations
 {{< image filename="/images/slow_log.png" alt="Redis Cloud dashboard showing slow database operations" >}}
