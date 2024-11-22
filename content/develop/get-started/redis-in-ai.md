@@ -1,11 +1,11 @@
 ---
-Title: Agents, bots, and GenAI apps
+Title: Redis for GenAI apps
 alwaysopen: false
 categories:
 - docs
 - develop
 description: Understand key benefits of using Redis for AI.
-linktitle: Redis in agents, bots, and GenAI apps
+linktitle: GenAI apps
 weight: 20
 ---
 
