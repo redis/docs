@@ -37,9 +37,9 @@ Redis improves session persistence and caching for conversational agents managin
 
 Redis supports chatbot platforms by enabling:
 
-- **Caching**: Enhances bot responsiveness.
-- **Session Management**: Tracks conversation states for seamless interactions.
-- **Scalability**: Handles high-traffic bot usage.
+- **Caching**: enhances bot responsiveness.
+- **Session Management**: tracks conversation states for seamless interactions.
+- **Scalability**: handles high-traffic bot usage.
 
 Learn how to build a GenAI chatbot with Redis through the [LangChain and Redis tutorial](https://redis.io/learn/howtos/solutions/vector/gen-ai-chatbot). For customer engagement platforms integrating human support with chatbots, Redis ensures rapid access to frequently used data. Check out the tutorial on [AI-Powered Video Q&A Applications](https://redis.io/learn/howtos/solutions/vector/ai-qa-videos-langchain-redis-openai-google).
 
