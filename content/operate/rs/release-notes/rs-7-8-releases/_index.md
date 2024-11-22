@@ -231,6 +231,24 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
+- After upgrading, clusters using Sentinel for service discovery might encounter an issue that requires a restart of the Sentinel service. To determine if your cluster is affected, check for the following symptoms:
+
+    1. The `sentinel masters` command is unresponsive.
+
+    1. Review `sentinel_service.log` for messages such as:
+
+    ```
+    INFO Failed to read ‘HGETALL node:##’, ERROR: ‘HGETALL node:##’ returned empty results (retry ######), will try again in 1s.
+    ```
+
+    Workaround: To resolve the issue, run the following command on each node:
+
+    ```sh
+    supervisorctl restart sentinel_service
+    ```
+    
+    If you are uncertain whether you are impacted or need assistance with remediation, [contact support](https://redis.io/support/).
+
 ## Known limitations
 
 #### New Cluster Manager UI limitations
