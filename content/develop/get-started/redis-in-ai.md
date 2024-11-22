@@ -15,10 +15,10 @@ Redis excels in storing and indexing vector embeddings that semantically represe
 
 ## Key Benefits of Redis in GenAI Apps
 
-- **Performance**: Low-latency data access enables real-time interactions critical for AI-driven applications.
-- **Scalability**: Designed to handle numerous concurrent connections, Redis is perfect for high-demand GenAI apps.
-- **Caching**: Efficiently stores frequently accessed data and responses, reducing primary database load and accelerating response times.
-- **Session Management**: In-memory data structures simplify managing session states in conversational AI scenarios.
+- **Performance**: low-latency data access enables real-time interactions critical for AI-driven applications.
+- **Scalability**: designed to handle numerous concurrent connections, Redis is perfect for high-demand GenAI apps.
+- **Caching**: efficiently stores frequently accessed data and responses, reducing primary database load and accelerating response times.
+- **Session Management**: in-memory data structures simplify managing session states in conversational AI scenarios.
 - **Flexibility**: Redis supports diverse data structures (for example, strings, hashes, lists, sets), allowing tailored solutions for GenAI apps.
 
 [RedisVL]({{< relref "/integrate/redisvl" >}}) is a Python library with an integrated CLI, offering seamless integration with Redis to enhance GenAI applications.
