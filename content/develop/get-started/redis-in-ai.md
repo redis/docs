@@ -56,8 +56,8 @@ Refer to [Semantic Image-Based Queries Using LangChain and Redis](https://redis.
 
 Redis enhances natural language understanding by:
 
-- **Session Management**: Tracks user interactions for seamless conversational experiences.
-- **Caching**: Reduces latency for frequent queries.
+- **Session Management**: tracks user interactions for seamless conversational experiences.
+- **Caching**: reduces latency for frequent queries.
 
 See the [Streaming LLM Output Using Redis Streams](https://redis.io/learn/howtos/solutions/streams/streaming-llm-output) tutorial for an in-depth walkthrough.
 
