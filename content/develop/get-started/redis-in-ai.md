@@ -47,8 +47,8 @@ Learn how to build a GenAI chatbot with Redis through the [LangChain and Redis t
 
 Machine learning frameworks leverage Redis for:
 
-- **Message Queuing**: Ensures smooth communication between components.
-- **State Management**: Tracks conversation states for real-time interactions.
+- **Message Queuing**: ensures smooth communication between components.
+- **State Management**: tracks conversation states for real-time interactions.
 
 Refer to [Semantic Image-Based Queries Using LangChain and Redis](https://redis.io/learn/howtos/solutions/vector/image-summary-search) for a detailed guide. To expand your knowledge, enroll in the [Redis as a Vector Database course](https://redis.io/university/courses/ru402/), where you'll learn about integrations with tools like LangChain, LlamaIndex, FeatureForm, Amazon Bedrock, and AzureOpenAI.
 
