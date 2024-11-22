@@ -13,7 +13,7 @@ weight: $weight
 Cancels the Active-Active database task specified by the task ID.
 
 ```sh
-crdb-cli task cancel <task_id>
+crdb-cli task cancel --task-id <task_id>
 ```
 
 ### Parameters
