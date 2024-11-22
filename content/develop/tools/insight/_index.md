@@ -113,6 +113,10 @@ Workbench also includes:
 
 Use the database analysis tool to optimize the performance and memory usage of your Redis database. Check data type distribution and memory allocation and review the summary of key expiration time and memory to be freed over time. Inspect the top keys and namespaces sorted by consumed memory or key length and count of keys, respectively. Capture and track the changes in your database by viewing historical analysis reports. Next figure shows a sample database analysis report.
 
+{{< note >}}
+The database analysis tool will only analyze up to 10,000 keys. If more than 10,000 keys are present, the tool will attempt to use extrapolation in its analysis.
+{{< /note >}}
+
 <img src="images/database_analysis.png">
 
 ### Redis Streams support
