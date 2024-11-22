@@ -9,6 +9,8 @@ description: Information about upgrading your Redis Enterprise cluster on Kubern
 hideListLinks: true
 linkTitle: Upgrade
 weight: 15
+bannerText: This page applies to version [7.8.2-6 and above]({{<relref "/operate/kubernetes/release-notes/7-8-2-releases"}}). To install older versions, see the [7.4.6 documentation]({{<relref "/operate/kubernetes/7.4.6/"}}).
+bannerChildren: true
 ---
 
 The upgrade process includes updating three components:
