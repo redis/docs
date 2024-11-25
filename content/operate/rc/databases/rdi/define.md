@@ -72,7 +72,7 @@ After your pipeline is provisioned, you will be able to define your pipeline. Yo
 
     {{<image filename="images/rc/rdi/rdi-select-constraints.png" alt="The missing unique constraint list with columns selected." width=75% >}}
 
-    Select **Add schema** to add additional database schemas.
+    Select **Add schema** to add more database schemas.
 
     {{<image filename="images/rc/rdi/rdi-add-schema.png" alt="The add schema button." width=150px >}}
     

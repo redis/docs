@@ -10,7 +10,7 @@ hideListLinks: true
 weight: 3
 ---
 
-You can use the **Data pipeline** tab in your database to view and edit it.
+Use the **Data pipeline** tab in your database to view and edit your data pipeline.
 
 The **Data pipeline** tab gives an overview of your data pipeline and lets you view your data stream metrics. 
 
@@ -44,7 +44,7 @@ To change the data you want to ingest from the data pipeline:
 
     {{<image filename="images/rc/rdi/rdi-select-constraints.png" alt="The missing unique constraint list with columns selected." width=75% >}}
 
-    Select **Add schema** to add additional database schemas.
+    Select **Add schema** to add more database schemas.
 
     {{<image filename="images/rc/rdi/rdi-add-schema.png" alt="The add schema button." width=150px >}}
     
