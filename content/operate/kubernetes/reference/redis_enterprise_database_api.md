@@ -171,7 +171,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td><a href="#specmoduleslist">modulesList</a></td>
         <td>[]object</td>
         <td>
-          List of modules associated with database. Note - For Active-Active databases this feature is currently in preview. For this feature to take effect for Active-Active databases, set a boolean environment variable with the name "ENABLE_ALPHA_FEATURES" to True. This variable can be set via the redis-enterprise-operator pod spec, or through the operator-environment-config Config Map.<br/>
+          List of modules associated with database. Note - For Active-Active databases this feature is currently in preview. For this feature to take effect for Active-Active databases, set a boolean environment variable with the name "ENABLE_ALPHA_FEATURES" to True. This variable can be set via the redis-enterprise-operator pod spec, or through the operator-environment-config Config Map. Note - if you do not want to upgrade to the latest version you must set upgradeSpec -> upgradeModulesToLatest to false. if you specify a version and do not set the upgradeModulesToLatest it can result errors in the operator. in addition, the option to specify specific version is Deprecated and will be deleted in next releases.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1154,7 +1154,7 @@ Redis Enterprise Module: https://redislabs.com/redis-enterprise/modules/
         <td>version</td>
         <td>string</td>
         <td>
-          Module's semantic version e.g "1.6.12" - optional only in REDB, must be set in REAADB<br/>
+          DEPRECATED - Module's semantic version e.g "1.6.12" - optional only in REDB, must be set in REAADB<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -1303,7 +1303,7 @@ Specifications for DB upgrade.
         <td>upgradeModulesToLatest</td>
         <td>boolean</td>
         <td>
-          Upgrades the modules to the latest version that supportes the DB version during a DB upgrade action, to upgrade the DB version view the 'redisVersion' field. Notes - All modules must be without specifing the version. in addition, This field is currently not supported for Active-Active databases.<br/>
+          DEPRECATED Upgrades the modules to the latest version that supports the DB version during a DB upgrade action, to upgrade the DB version view the 'redisVersion' field. Notes - All modules must be without specifying the version. in addition, This field is currently not supported for Active-Active databases. The default is true<br/>
         </td>
         <td>true</td>
       </tr></tbody>

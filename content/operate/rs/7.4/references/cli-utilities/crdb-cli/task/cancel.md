@@ -14,7 +14,7 @@ url: '/operate/rs/7.4/references/cli-utilities/crdb-cli/task/cancel/'
 Cancels the Active-Active database task specified by the task ID.
 
 ```sh
-crdb-cli task cancel <task_id>
+crdb-cli task cancel --task-id <task_id>
 ```
 
 ### Parameters

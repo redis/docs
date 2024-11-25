@@ -1,6 +1,6 @@
 ---
 LinkTitle: Vercel Marketplace
-Title: Create a Redis Cloud database with the Vercel integration.
+Title: Create a Redis Cloud database with the Vercel integration
 alwaysopen: false
 categories:
 - docs

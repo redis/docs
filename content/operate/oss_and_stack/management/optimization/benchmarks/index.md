@@ -124,7 +124,7 @@ in order to read each command from every client. Also RTT is paid as well.
 Redis supports [pipelining](/topics/pipelining), so it is possible to send
 multiple commands at once, a feature often exploited by real world applications.
 Redis pipelining is able to dramatically improve the number of operations per
-second a server is able do deliver.
+second a server is able to deliver.
 
 This is an example of running the benchmark in a MacBook Air 11" using a
 pipelining of 16 commands:

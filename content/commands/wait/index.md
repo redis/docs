@@ -1,6 +1,7 @@
 ---
 acl_categories:
 - '@slow'
+- '@blocking'
 - '@connection'
 arguments:
 - display_text: numreplicas
@@ -20,6 +21,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- blocking
 complexity: O(1)
 description: Blocks until the asynchronous replication of all preceding write commands
   sent by the connection is completed.

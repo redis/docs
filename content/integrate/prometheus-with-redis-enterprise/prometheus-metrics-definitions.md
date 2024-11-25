@@ -23,64 +23,64 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 
 ## Database metrics
 
-| Metric | Description |
-| :-------- | :---------- |
-| <span class="break-all">endpoint_client_connections</span> | Number of client connection establishment events |
-| <span class="break-all">endpoint_client_disconnections</span> | Number of client disconnections initiated by the client |
-| <span class="break-all">endpoint_client_connection_expired</span> | Total number of client connections with expired TTL (Time To Live) |
-| <span class="break-all">endpoint_client_establishment_failures</span> | Number of client connections that failed to establish properly |
-| <span class="break-all">endpoint_client_expiration_refresh</span> | Number of expiration time changes of clients |
-| <span class="break-all">endpoint_client_tracking_off_requests</span> | Total number of `CLIENT TRACKING OFF` requests |
-| <span class="break-all">endpoint_client_tracking_on_requests</span> | Total number of `CLIENT TRACKING ON` requests |
-| <span class="break-all">endpoint_disconnected_cba_client</span> | Number of certificate-based clients disconnected |
-| <span class="break-all">endpoint_disconnected_ldap_client</span> | Number of LDAP clients disconnected |
-| <span class="break-all">endpoint_disconnected_user_password_client</span> | Number of user&password clients disconnected |
-| <span class="break-all">endpoint_disposed_commands_after_client_caching</span> | Total number of client caching commands that were disposed due to misuse |
-| <span class="break-all">endpoint_egress</span> | Number of egress bytes |
-| <span class="break-all">endpoint_egress_pending</span> | Number of send-pending bytes |
-| <span class="break-all">endpoint_egress_pending_discarded</span> | Number of send-pending bytes that were discarded due to disconnection |
-| <span class="break-all">endpoint_failed_cba_authentication</span> | Number of clients that failed certificate-based authentication |
-| <span class="break-all">endpoint_failed_ldap_authentication</span> | Number of clients that failed LDAP authentication |
-| <span class="break-all">endpoint_failed_user_password_authentication</span> | Number of clients that failed user password authentication |
-| <span class="break-all">endpoint_ingress</span> | Number of ingress bytes |
-| <span class="break-all">endpoint_longest_pipeline_histogram</span> | Client connections with the longest pipeline lengths |
-| <span class="break-all">endpoint_other_requests</span> | Number of other requests |
-| <span class="break-all">endpoint_other_requests_latency_histogram</span> | Latency (in µs) histogram of other commands |
-| <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
-| <span class="break-all">endpoint_other_responses</span> | Number of other responses |
-| <span class="break-all">endpoint_proxy_disconnections</span> | Number of client disconnections initiated by the proxy |
-| <span class="break-all">endpoint_read_requests</span> | Number of read requests |
-| <span class="break-all">endpoint_read_requests_latency_histogram</span> | Latency (in µs) histogram of read commands |
-| <span class="break-all">endpoint_read_requests_latency_histogram_bucket</span> | Latency histograms for read commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_read_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
-| <span class="break-all">endpoint_read_responses</span> | Number of read responses |
-| <span class="break-all">endpoint_successful_cba_authentication</span> | Number of clients that successfully authenticated with certificate-based authentication |
-| <span class="break-all">endpoint_successful_ldap_authentication</span> | Number of clients that successfully authenticated with LDAP |
-| <span class="break-all">endpoint_successful_user_password_authentication</span> | Number of clients that successfully authenticated with user&password |
-| <span class="break-all">endpoint_write_requests</span> | Number of write requests |
-| <span class="break-all">endpoint_write_requests_latency_histogram</span> | Latency (in µs) histogram of write commands |
-| <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
-| <span class="break-all">endpoint_write_responses</span> | Number of write responses |
+| Metric | Type | Description |
+| :-------- | :--- | :---------- |
+| <span class="break-all">endpoint_client_connections</span> | counter | Number of client connection establishment events |
+| <span class="break-all">endpoint_client_disconnections</span> | counter | Number of client disconnections initiated by the client |
+| <span class="break-all">endpoint_client_connection_expired</span> | counter | Total number of client connections with expired TTL (Time To Live) |
+| <span class="break-all">endpoint_client_establishment_failures</span> | counter | Number of client connections that failed to establish properly |
+| <span class="break-all">endpoint_client_expiration_refresh</span> | counter | Number of expiration time changes of clients |
+| <span class="break-all">endpoint_client_tracking_off_requests</span> | counter | Total number of `CLIENT TRACKING OFF` requests |
+| <span class="break-all">endpoint_client_tracking_on_requests</span> | counter | Total number of `CLIENT TRACKING ON` requests |
+| <span class="break-all">endpoint_disconnected_cba_client</span> | counter | Number of certificate-based clients disconnected |
+| <span class="break-all">endpoint_disconnected_ldap_client</span> | counter | Number of LDAP clients disconnected |
+| <span class="break-all">endpoint_disconnected_user_password_client</span> | counter | Number of user&password clients disconnected |
+| <span class="break-all">endpoint_disposed_commands_after_client_caching</span> | counter | Total number of client caching commands that were disposed due to misuse |
+| <span class="break-all">endpoint_egress</span> | counter | Number of egress bytes |
+| <span class="break-all">endpoint_egress_pending</span> | counter | Number of send-pending bytes |
+| <span class="break-all">endpoint_egress_pending_discarded</span> | counter | Number of send-pending bytes that were discarded due to disconnection |
+| <span class="break-all">endpoint_failed_cba_authentication</span> | counter | Number of clients that failed certificate-based authentication |
+| <span class="break-all">endpoint_failed_ldap_authentication</span> | counter | Number of clients that failed LDAP authentication |
+| <span class="break-all">endpoint_failed_user_password_authentication</span> | counter | Number of clients that failed user password authentication |
+| <span class="break-all">endpoint_ingress</span> | counter | Number of ingress bytes |
+| <span class="break-all">endpoint_longest_pipeline_histogram</span> | counter | Client connections with the longest pipeline lengths |
+| <span class="break-all">endpoint_other_requests</span> | counter | Number of other requests |
+| <span class="break-all">endpoint_other_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of other commands |
+| <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | histogram | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_other_responses</span> | counter | Number of other responses |
+| <span class="break-all">endpoint_proxy_disconnections</span> | counter | Number of client disconnections initiated by the proxy |
+| <span class="break-all">endpoint_read_requests</span> | counter | Number of read requests |
+| <span class="break-all">endpoint_read_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of read commands |
+| <span class="break-all">endpoint_read_requests_latency_histogram_bucket</span> | histogram | Latency histograms for read commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_read_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_read_responses</span> | counter | Number of read responses |
+| <span class="break-all">endpoint_successful_cba_authentication</span> | counter | Number of clients that successfully authenticated with certificate-based authentication |
+| <span class="break-all">endpoint_successful_ldap_authentication</span> | counter | Number of clients that successfully authenticated with LDAP |
+| <span class="break-all">endpoint_successful_user_password_authentication</span> | counter | Number of clients that successfully authenticated with user&password |
+| <span class="break-all">endpoint_write_requests</span> | counter | Number of write requests |
+| <span class="break-all">endpoint_write_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of write commands |
+| <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | histogram | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_write_responses</span> | counter | Number of write responses |
 
 ## Node metrics
 
-| Metric | Description |
-| :-------- | :---------- |
-| <span class="break-all">node_available_flash_bytes</span> | Available flash in the node (bytes) |
-| <span class="break-all">node_available_flash_no_overbooking_bytes</span> | Available flash in the node (bytes), without taking into account overbooking |
-| <span class="break-all">node_available_memory_bytes</span> | Amount of free memory in the node (bytes) that is available for database provisioning |
-| <span class="break-all">node_available_memory_no_overbooking_bytes</span> | Available RAM in the node (bytes) without taking into account overbooking |
-| <span class="break-all">node_bigstore_free_bytes</span> | Sum of free space of back-end flash (used by flash database's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
-| <span class="break-all">node_cert_expires_in_seconds</span> | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
-| <span class="break-all">node_ephemeral_storage_avail_bytes</span> | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
-| <span class="break-all">node_ephemeral_storage_free_bytes</span> | Free disk space on configured ephemeral disk (bytes) |
-| <span class="break-all">node_memory_MemFree_bytes</span> | Free memory in the node (bytes) |
-| <span class="break-all">node_persistent_storage_avail_bytes</span> | Disk space available to RLEC processes on configured persistent disk (bytes) |
-| <span class="break-all">node_persistent_storage_free_bytes</span> | Free disk space on configured persistent disk (bytes) |
-| <span class="break-all">node_provisional_flash_bytes</span> | Amount of flash available for new shards on this node, taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
-| <span class="break-all">node_provisional_flash_no_overbooking_bytes</span> | Amount of flash available for new shards on this node, without taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
-| <span class="break-all">node_provisional_memory_bytes</span> | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
-| <span class="break-all">node_provisional_memory_no_overbooking_bytes</span> | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
-| <span class="break-all">node_metrics_up</span> | Node is part of the cluster and is connected |
+| Metric | Type |Description |
+| :-------- | :--- | :---------- |
+| <span class="break-all">node_available_flash_bytes</span> | gauge | Available flash in the node (bytes) |
+| <span class="break-all">node_available_flash_no_overbooking_bytes</span> | gauge | Available flash in the node (bytes), without taking into account overbooking |
+| <span class="break-all">node_available_memory_bytes</span> | gauge | Amount of free memory in the node (bytes) that is available for database provisioning |
+| <span class="break-all">node_available_memory_no_overbooking_bytes</span> | gauge | Available RAM in the node (bytes) without taking into account overbooking |
+| <span class="break-all">node_bigstore_free_bytes</span> | gauge | Sum of free space of back-end flash (used by flash database's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
+| <span class="break-all">node_cert_expires_in_seconds</span> | gauge | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
+| <span class="break-all">node_ephemeral_storage_avail_bytes</span> | gauge | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
+| <span class="break-all">node_ephemeral_storage_free_bytes</span> | gauge | Free disk space on configured ephemeral disk (bytes) |
+| <span class="break-all">node_memory_MemFree_bytes</span> | gauge | Free memory in the node (bytes) |
+| <span class="break-all">node_persistent_storage_avail_bytes</span> | gauge | Disk space available to RLEC processes on configured persistent disk (bytes) |
+| <span class="break-all">node_persistent_storage_free_bytes</span> | gauge | Free disk space on configured persistent disk (bytes) |
+| <span class="break-all">node_provisional_flash_bytes</span> | gauge | Amount of flash available for new shards on this node, taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
+| <span class="break-all">node_provisional_flash_no_overbooking_bytes</span> | gauge | Amount of flash available for new shards on this node, without taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
+| <span class="break-all">node_provisional_memory_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
+| <span class="break-all">node_provisional_memory_no_overbooking_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
+| <span class="break-all">node_metrics_up</span> | gauge | Node is part of the cluster and is connected |
 
 ## Cluster metrics
 
@@ -100,7 +100,7 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 | Metric | Description |
 | :-------- | :---------- |
 | <span class="break-all">database_syncer_config</span> | Used as a placeholder for configuration labels |
-| <span class="break-all">database_syncer_current_status</span> | Syncer status for traffic; 0 = in-sync, 1 = syncing, 2 = out of sync |
+| <span class="break-all">database_syncer_current_status</span> | Syncer status for traffic; 0 = in-sync, 2 = out of sync |
 | <span class="break-all">database_syncer_dst_connectivity_state</span> | Destination connectivity state |
 | <span class="break-all">database_syncer_dst_connectivity_state_ms</span> | Destination connectivity state duration |
 | <span class="break-all">database_syncer_dst_lag</span> | Lag in milliseconds between the syncer and the destination |

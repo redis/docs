@@ -31,14 +31,18 @@ arguments:
   name: condition
   optional: true
   type: oneof
-- display_text: numfields
-  name: numfields
-  type: integer
-- display_text: field
-  multiple: true
-  name: field
-  type: string
-arity: -5
+- arguments:
+  - display_text: numfields
+    name: numfields
+    type: integer
+  - display_text: field
+    multiple: true
+    name: field
+    type: string
+  name: fields
+  token: FIELDS
+  type: block
+arity: -6
 categories:
 - docs
 - develop
@@ -53,7 +57,7 @@ command_flags:
 - write
 - denyoom
 - fast
-complexity: O(N) where N is the number of arguments to the command
+complexity: O(N) where N is the number of specified fields
 description: Set expiration for hash fields using an absolute Unix timestamp (milliseconds)
 group: hash
 hidden: false
@@ -72,9 +76,11 @@ key_specs:
   update: true
 linkTitle: HPEXPIREAT
 since: 7.4.0
-summary: Set expiration for hash fields using an absolute Unix timestamp in milliseconds
-syntax_fmt: "HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]\n\ \ FIELDS numfields field [field ...]"
-syntax_str: unix-time-milliseconds [NX | XX | GT | LT] FIELDS numfields field [field ...]
+summary: Set expiry for hash field using an absolute Unix timestamp (milliseconds)
+syntax_fmt: "HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]\n  FIELDS\_\
+  numfields field [field ...]"
+syntax_str: "unix-time-milliseconds [NX | XX | GT | LT] FIELDS\_numfields field [field\
+  \ ...]"
 title: HPEXPIREAT
 ---
 `HPEXPIREAT` has the same effect and semantics as [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}}), but the Unix time at

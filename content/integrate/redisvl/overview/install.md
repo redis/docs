@@ -70,6 +70,6 @@ This will also start the [Redis Insight application](https://redis.com/redis-ent
 
 ### Redis Enterprise (self-hosted)
 
-Redis Enterprise is a commercial offering that can be self-hosted. You can download the latest version [here](https://redis.com/redis-enterprise-software/download-center/software/).
+Redis Enterprise is a commercial offering that can be self-hosted. You can download the latest version [here](https://redis.io/downloads/#software).
 
 If you are considering a self-hosted Redis Enterprise deployment on Kubernetes, there is the [Redis Enterprise Operator](https://docs.redis.com/latest/kubernetes/) for Kubernetes. This will allow you to easily deploy and manage a Redis Enterprise cluster on Kubernetes.

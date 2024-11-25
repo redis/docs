@@ -19,56 +19,22 @@ This example shows how to create a
 for [JSON]({{< relref "/develop/data-types/json" >}}) data and
 run queries against the index.
 
-Make sure that you have Redis Stack and `NRedisStack` installed. 
+Make sure that you have Redis Stack and `go-redis` installed. 
 
-Start by connecting to the Redis server:
+Start by importing dependencies:
 
-```go
-import (
-	"context"
-	"fmt"
+{{< clients-example go_home_json import >}}
+{{< /clients-example >}}
 
-	"github.com/redis/go-redis/v9"
-)
+Connect to the database:
 
-func main() {
-	ctx := context.Background()
+{{< clients-example go_home_json connect >}}
+{{< /clients-example >}}
 
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "",
-		DB:       0,
-		Protocol: 2,
-	})
+Create some test data to add to the database:
 
-    // ...
-}
-```
-
-Add some `map` objects to store in JSON format in the database:
-
-```go
-user1 := map[string]interface{}{
-    "name":  "Paul John",
-    "email": "paul.john@example.com",
-    "age":   42,
-    "city":  "London",
-}
-
-user2 := map[string]interface{}{
-    "name":  "Eden Zamir",
-    "email": "eden.zamir@example.com",
-    "age":   29,
-    "city":  "Tel Aviv",
-}
-
-user3 := map[string]interface{}{
-    "name":  "Paul Zamir",
-    "email": "paul.zamir@example.com",
-    "age":   35,
-    "city":  "Tel Aviv",
-}
-```
+{{< clients-example go_home_json create_data >}}
+{{< /clients-example >}}
 
 Use the code below to create a search index. The `FTCreateOptions` parameter enables
 indexing only for JSON objects where the key has a `user:` prefix.
@@ -82,79 +48,36 @@ to provide an alias for the JSON path expression. You can use
 the alias in queries as a short and intuitive way to refer to the
 expression, instead of typing it in full:
 
-```go
-_, err := rdb.FTCreate(
-    ctx,
-    "idx:users",
-    // Options:
-    &redis.FTCreateOptions{
-        OnJSON: true,
-        Prefix: []interface{}{"user:"},
-    },
-    // Index schema fields:
-    &redis.FieldSchema{
-        FieldName: "$.name",
-        As:        "name",
-        FieldType: redis.SearchFieldTypeText,
-    },
-    &redis.FieldSchema{
-        FieldName: "$.city",
-        As:        "city",
-        FieldType: redis.SearchFieldTypeTag,
-    },
-    &redis.FieldSchema{
-        FieldName: "$.age",
-        As:        "age",
-        FieldType: redis.SearchFieldTypeNumeric,
-    },
-).Result()
-
-if err != nil {
-    panic(err)
-}
-```
+{{< clients-example go_home_json make_index >}}
+{{< /clients-example >}}
 
 Add the three sets of user data to the database as
 [JSON]({{< relref "/develop/data-types/json" >}}) objects.
 If you use keys with the `user:` prefix then Redis will index the
 objects automatically as you add them:
 
-```go
-_, err = rdb.JSONSet(ctx, "user:1", "$", user1).Result()
-
-if err != nil {
-    panic(err)
-}
-
-_, err = rdb.JSONSet(ctx, "user:2", "$", user2).Result()
-
-if err != nil {
-    panic(err)
-}
-
-_, err = rdb.JSONSet(ctx, "user:3", "$", user3).Result()
-
-if err != nil {
-    panic(err)
-}
-```
+{{< clients-example go_home_json add_data >}}
+{{< /clients-example >}}
 
 You can now use the index to search the JSON objects. The
 [query]({{< relref "/develop/interact/search-and-query/query" >}})
 below searches for objects that have the text "Paul" in any field
 and have an `age` value in the range 30 to 40:
 
-```go
-searchResult, err := rdb.FTSearch(
-    ctx,
-    "idx:users",
-    "Paul @age:[30 40]",
-).Result()
+{{< clients-example go_home_json query1 >}}
+{{< /clients-example >}}
 
-if err != nil {
-    panic(err)
-}
+Specify query options to return only the `city` field:
 
-fmt.Println(searchResult)
-// >>> {1 [{user:3 <nil> <nil> <nil> map[$:{"age":35,"city":"Tel Aviv"...
-```
+{{< clients-example go_home_json query2 >}}
+{{< /clients-example >}}
+
+Use an
+[aggregation query]({{< relref "/develop/interact/search-and-query/query/aggregation" >}})
+to count all users in each city.
+
+{{< clients-example go_home_json query3 >}}
+{{< /clients-example >}}
+
+See the [Redis query engine]({{< relref "/develop/interact/search-and-query" >}}) docs
+for a full description of all query features with examples.

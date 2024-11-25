@@ -13,7 +13,7 @@ toc: 'true'
 weight: 69
 ---
 
-​[​Redis Software version 7.8.2](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Software version 7.8.2](https://redis.io/downloads/#software) is now available!
 
 ## Highlights
 
@@ -158,7 +158,7 @@ If your database currently uses triggers and functions, you need to:
 
 #### V1 Prometheus metrics deprecation
 
- V1 Prometheus metrics are deprecated. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
+ V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
 
 #### Download center modules deprecation
 
@@ -230,6 +230,24 @@ The following table provides a snapshot of supported platforms as of this Redis 
 ## Known issues
 
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
+
+- After upgrading, clusters using Sentinel for service discovery might encounter an issue that requires a restart of the Sentinel service. To determine if your cluster is affected, check for the following symptoms:
+
+    1. The `sentinel masters` command is unresponsive.
+
+    1. Review `sentinel_service.log` for messages such as:
+
+    ```
+    INFO Failed to read ‘HGETALL node:##’, ERROR: ‘HGETALL node:##’ returned empty results (retry ######), will try again in 1s.
+    ```
+
+    Workaround: To resolve the issue, run the following command on each node:
+
+    ```sh
+    supervisorctl restart sentinel_service
+    ```
+    
+    If you are uncertain whether you are impacted or need assistance with remediation, [contact support](https://redis.io/support/).
 
 ## Known limitations
 

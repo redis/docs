@@ -77,8 +77,10 @@ After approximately two minutes, the client logs an error message and terminates
 To set a timeout for a connection, use the `connectTimeout` option:
 ```typescript
 const client = createClient({
-  // setting a 10-second timeout  
-  connectTimeout: 10000 // in milliseconds
+  socket: {
+    // setting a 10-second timeout  
+    connectTimeout: 10000 // in milliseconds
+  }
 });
 client.on('error', error => console.error('Redis client error:', error));
 ```

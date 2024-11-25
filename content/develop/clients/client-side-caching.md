@@ -73,6 +73,15 @@ access and update the same key:
 
 {{< image filename="images/csc/CSCSeqDiagram.drawio.svg" >}}
 
+## Which client libraries support client-side caching?
+
+The following client libraries support CSC from the stated version onwards:
+
+| Client | Version |
+| :-- | :-- |
+| [`redis-py`]({{< relref "/develop/clients/redis-py/connect#connect-using-client-side-caching" >}}) | v5.1.0 |
+| [`Jedis`]({{< relref "/develop/clients/jedis/connect#connect-using-client-side-caching" >}}) | v5.2.0 |
+
 ## Which commands can cache data?
 
 All read-only commands (with the `@read`
