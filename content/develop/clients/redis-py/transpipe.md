@@ -20,8 +20,7 @@ There are two types of batch that you can use:
 
 -   **Pipelines** avoid network and processing overhead by sending several commands
     to the server together in a single communication. The server then sends back
-    a single communication with all the responses. This typically improves
-    performance compared to sending the commands separately. See the
+    a single communication with all the responses. See the
     [Pipelining]({{< relref "/develop/use/pipelining" >}}) page for more
     information.
 -   **Transactions** guarantee that all the included commands will execute
@@ -80,31 +79,11 @@ pipe = r.pipeline(transaction=False)
 
 ## Watch keys for changes
 
-When you use transactions, you will often need to read values from the
-database, process them, and then write the modified values back. Ideally,
-you would want to perform the whole read-modify-write sequence atomically, without any
-interruptions from other clients. However, you don't get the results from
-any commands that are buffered in a transaction until the whole transaction has finished
-executing. This means you can't read keys, process the data, and then write the keys back
-in the same transaction. Other clients can therefore modify the values you have
-read before you have the chance to write them.
-
-Redis solves this problem by letting you watch for changes to keys in the
-database just before executing a transaction. The basic stages are as
-follows:
-
-1.  Start watching the keys you are about to update.
-1.  Read the data values from those keys.
-1.  Perform changes to the data values.
-1.  Add commands to a transaction to write the data values back.
-1.  Attempt to execute the transaction.
-1.  If the keys you were watching changed before the transaction started
-    executing, then abort the transaction and start again from step 1.
-    Otherwise, the transaction was successful and the updated data is written back.
-
-This technique is called *optimistic locking* and works well in cases
-where multiple clients might access the same data simultaneously, but
-usually don't. See
+Redis supports *optimistic locking* to avoid inconsistent updates
+to different keys. The basic idea is to watch for changes to any
+keys that you use in a transaction while you are are processing the
+updates. If the watched keys do change, you must restart the updates
+with the latest data from the keys. See
 [Transactions]({{< relref "/develop/interact/transactions" >}})
 for more information about optimistic locking.
 
