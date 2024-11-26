@@ -41,10 +41,11 @@ Note that the command methods for a pipeline always return the original
 pipeline object, so you can "chain" several commands together, as the
 example below shows:
 
-<!-- Tested examples will replace the inline ones when they are approved. -->
-<!--
-{{< clients-example pipe_trans_tutorial basic_pipe Python >}}
-{{< /clients-example >}}
+<!-- Tested examples will replace the inline ones when they are approved.
+Markup removed to stop warnings.
+
+clients-example pipe_trans_tutorial basic_pipe Python
+/clients-example
 -->
 ```python
 import redis
@@ -96,8 +97,8 @@ with a `WatchError` exception, and the loop executes again for another attempt.
 Otherwise, the loop terminates successfully.
 
 <!--
-{{< clients-example pipe_trans_tutorial trans_watch Python >}}
-{{< /clients-example >}}
+clients-example pipe_trans_tutorial trans_watch Python
+/clients-example
 -->
 ```python
 r.set("shellpath", "/usr/syscmds/")
@@ -144,8 +145,8 @@ call automatically, so you must still place this correctly in your
 transaction function.
 
 <!--
-{{< clients-example pipe_trans_tutorial watch_conv_method Python >}}
-{{< /clients-example >}}
+clients-example pipe_trans_tutorial watch_conv_method Python 
+/clients-example 
 *-->
 ```python
 r.set("shellpath", "/usr/syscmds/")
