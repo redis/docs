@@ -94,12 +94,17 @@ kubectl create secret generic source-db \
 --namespace=rdi \
 --from-literal=SOURCE_DB_CACERT=/etc/certificates/source_db/ca.crt
 
-# Source public key
+# Source public key (both commands are required)
+kubectl create secret generic source-db-ssl --from-file=client.crt=/path/to/myclient.crt -n rdi
+
 kubectl create secret generic source-db \
 --namespace=rdi \
 --from-literal=SOURCE_DB_CERT=/etc/certificates/source_db/client.crt
 
-# Source private key
+
+# Source private key (both commands are required)
+kubectl create secret generic source-db-ssl --from-file=client.key=/path/to/myclient.key -n rdi
+
 kubectl create secret generic source-db \
 --namespace=rdi \
 --from-literal=SOURCE_DB_KEY=/etc/certificates/source_db/client.key
@@ -125,15 +130,20 @@ kubectl create secret generic target-db \
 --namespace=rdi \
 --from-literal=TARGET_DB_CACERT=/etc/certificates/target-db/ca.crt
 
-# Target public key
-kubectl create secret generic target-db \
---namespace=rdi \
---from-literal=TARGET_DB_CERT=/etc/certificates/target-db/client.crt
+# Target public key (both commands are required)
+kubectl create secret generic target-db-ssl --from-file=client.crt=/path/to/myclient.crt -n rdi
 
-# Target private key
 kubectl create secret generic target-db \
 --namespace=rdi \
---from-literal=TARGET_DB_KEY=/etc/certificates/target-db/client.key
+--from-literal=SOURCE_DB_CERT=/etc/certificates/target_db/client.crt
+
+
+# Target private key (both commands are required)
+kubectl create secret generic target-db-ssl --from-file=client.key=/path/to/myclient.key -n rdi
+
+kubectl create secret generic target-db \
+--namespace=rdi \
+--from-literal=SOURCE_DB_KEY=/etc/certificates/target_db/client.key
 ```
 
 ## Deploy a pipeline
