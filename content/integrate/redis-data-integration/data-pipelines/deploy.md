@@ -87,7 +87,9 @@ kubectl create secret generic source-db \
 --namespace=rdi \
 --from-literal=SOURCE_DB_PASSWORD=yourPassword
 
-# Source trust certificate
+# Source trust certificate (both commands are required)
+kubectl create secret generic source-db-ssl --from-file=ca.crt=/path/to/myca.crt -n rdi
+
 kubectl create secret generic source-db \
 --namespace=rdi \
 --from-literal=SOURCE_DB_CACERT=/etc/certificates/source_db/ca.crt
@@ -116,7 +118,9 @@ kubectl create secret generic target-db \
 --namespace=rdi \
 --from-literal=TARGET_DB_PASSWORD=yourPassword
 
-# Target trust certificate
+# Target trust certificate (both commands are required)
+kubectl create secret generic target-db-ssl --from-file=ca.crt=/path/to/myca.crt -n rdi
+
 kubectl create secret generic target-db \
 --namespace=rdi \
 --from-literal=TARGET_DB_CACERT=/etc/certificates/target-db/ca.crt
