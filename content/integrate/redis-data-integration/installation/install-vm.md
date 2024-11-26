@@ -264,7 +264,7 @@ The sections below describe the properties in more detail.
 | `scaffold` | Do you want to enable [scaffolding]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-scaffold" >}}) during the install? (true/false) |
 | `db_index` | Integer to specify the source database type for scaffolding. The options are 2 (MySQL/MariaDB), 3 (Oracle), 4 (PostgreSQL), and 5 (SQL Server). |
 | `deploy_directory` | Path to the directory where you want to store the RDI configuration. |
-| `nameservers` | 
+| `nameservers` | This is needed if the installer detects a DNS resolver with a loopback address as an upstream DNS server (for example, `nameservers = ["8.8.8.8", "8.8.4.4"]`). |
 
 #### `rdi.database`
 
