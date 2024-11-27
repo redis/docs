@@ -32,6 +32,7 @@ You can use Prometheus and Grafana to:
 {{<image filename="images/rs/grafana-prometheus.png" alt="Graphic showing how Prometheus and Grafana collect and display data from a Redis Enterprise Cluster. Prometheus collects metrics from the Redis Enterprise cluster, and Grafana queries those metrics for visualization.">}}
 
 In each cluster, the metrics_exporter process exposes Prometheus metrics on port 8070.
+Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2 Prometheus scraping endpoint at https://<IP>:8070/v2.
 
 ## Quick start
 
@@ -80,7 +81,7 @@ We recommend running Prometheus in Docker only for development and testing.
         tls_config:
           insecure_skip_verify: true
         static_configs:
-          - targets: ["<cluster_name>:8070"]
+          - targets: ["<cluster_name>:8070"] #for v2 use ["<cluster_name>:8070/v2"]
     ```
 
 1. Set up your Prometheus and Grafana servers.
