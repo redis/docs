@@ -14,6 +14,32 @@ Use the **Data pipeline** tab in your database to view and edit your data pipeli
 
 The **Data pipeline** tab gives an overview of your data pipeline and lets you view your data stream metrics. 
 
+The **Status** table shows statistics for the whole data pipeline: 
+- **Status**: The status of the data pipeline. Possible statuses include:
+    | Status | Description |
+    |--------|-------------|
+    | {{<image filename="images/rc/rdi/pipeline-status-initial-sync.png#no-click" height=30px alt="Initial Sync" class="inline" >}} | The data pipeline is ingesting all records from the source database into the target database. |
+    | {{<image filename="images/rc/rdi/pipeline-status-streaming.png#no-click" height=30px alt="Streaming" class="inline" >}} | The data pipeline is capturing new changes from the source database as they happen. Changes in the source database are added to the target database within a few seconds. |
+    | {{<image filename="images/rc/rdi/pipeline-status-stopped.png#no-click" height=30px alt="Stopped" class="inline" >}}| The data pipeline has been [stopped](#stop-and-restart-data-pipeline). |
+    | {{<image filename="images/rc/rdi/pipeline-status-error.png#no-click" height=30px alt="Error" class="inline" >}} | There is an error in the data pipeline. [Reset the pipeline](#reset-data-pipeline) and contact support if the issue persists. |
+- **Total ingested**: Total number of records ingested from the source database.
+- **Total inserted**: Total number of records inserted into the target database.
+- **Total filtered**: Total number of records filtered from being inserted into the target database.
+- **Total rejected**: Total number of records that could not be parsed or inserted into the target database.
+
+The **Data stream metrics** table shows the following metrics for each data stream:
+| Metric | Description |
+|--------|-------------|
+| **Name** | Name of the data stream. Each stream corresponds to a table from the source database.  |
+| **Total** | Total number of records arrived from the source table. |
+| **Pending** | Number of records from the source table that are waiting to be processed. |
+| **Inserted** | Number of new records from the source table that have been written to the target database. |
+| **Updated** | Number of updated records from the source table that have been updated in the target database. |
+| **Deleted** | Number of deleted records from the source table that have been deleted in the target database. |
+| **Filtered** | Number of records from the source table that were filtered from being inserted into the target database. |
+| **Rejected** | Number of records from the source table that could not be parsed or inserted into the target database. |
+
+
 ## Edit data pipeline
 
 To change the data you want to ingest from the data pipeline:
