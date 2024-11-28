@@ -61,6 +61,10 @@ information. *This requires Redis Enterprise v6.4 or greater*.
 - Use the Redis console to create a database with 250MB RAM with one primary and one replica.
 - If you are deploying RDI for a production environment then secure this database with a password
   and [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security).
+- Set the database's
+  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
+  [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
+  to AOF - fsync every 1 sec.
 
 You should then provide the details of this database in the [`values.yaml`](#the-valuesyaml-file)
 file as described below.

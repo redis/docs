@@ -52,11 +52,17 @@ RDI will create the pipeline template for your chosen source database type at
 
 At the end of the installation, RDI CLI will prompt you to set the access secrets
 for both the source PostgreSQL database and the Redis RDI database. RDI needs these to
-run the pipeline. If you provide admin credentials for your Redis Enterprise cluster here then RDI CLI will
-create the RDI database for you automatically. Otherwise, you should create this
-database yourself with the Redis Enterprise management console. A single-shard
-database with 125MB of RAM will work fine for this tutorial but you can also add a
-replica if you want (this will double the RAM requirements to 250MB).
+run the pipeline.
+
+Use the Redis console to create the RDI database with the following requirements:
+
+- A single-shard database with 125MB RAM is enough for the quickstart but double this
+  to 250MB if you want to add a replica.
+- Provide the installation with the required RDI database details.
+- Set the database's
+  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
+  [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
+  to AOF - fsync every 1 sec.
 
 ### Prepare the pipeline
 
