@@ -10,16 +10,15 @@ weight: 1
 This is the General Availability (GA) release of Redis Insight 2.62.
 
 ### Highlights 
-- Stay authenticated to [Redis Copilot](https://redis.io/docs/latest/develop/tools/insight/?utm_source=redisinsight&utm_medium=main&utm_campaign=tutorials#:~:text=for%20more%20information.-,Redis%20Copilot,-Redis%20Copilot%20is) when reopening Redis Insight for seamless and uninterrupted access.
 - Support for multiple key name delimiters in Tree View, allowing more flexible browsing for databases with diverse key structures.
+- Remain authenticated to [Redis Copilot](https://redis.io/docs/latest/develop/tools/insight/?utm_source=redisinsight&utm_medium=main&utm_campaign=tutorials#:~:text=for%20more%20information.-,Redis%20Copilot,-Redis%20Copilot%20is), even after reopening Redis Insight, for seamless and uninterrupted access with daily use.
 
 ### Details
 
 **Features and improvements**
 - [#4090](https://github.com/RedisInsight/RedisInsight/pull/4090) Added support for multiple key name delimiters in Tree View, enabling more flexible browsing of databases with varied key name patterns.
-- [#3957](https://github.com/RedisInsight/RedisInsight/pull/3957) Stay authenticated to [Redis Copilot](https://redis.io/docs/latest/develop/tools/insight/?utm_source=redisinsight&utm_medium=main&utm_campaign=tutorials#:~:text=for%20more%20information.-,Redis%20Copilot,-Redis%20Copilot%20is) when reopening Redis Insight for seamless and uninterrupted access.
-- [#3988](https://github.com/RedisInsight/RedisInsight/pull/3988) Enhanced the Java serialized formatter to support date and time data, improving compatibility with serialized objects.
-- [#4059](https://github.com/RedisInsight/RedisInsight/pull/4059) Added UTF-8 encoding to the PHP serialized formatter for accurate handling of special characters and multi-language data.
+- [#3957](https://github.com/RedisInsight/RedisInsight/pull/3957) Remain authenticated to [Redis Copilot](https://redis.io/docs/latest/develop/tools/insight/?utm_source=redisinsight&utm_medium=main&utm_campaign=tutorials#:~:text=for%20more%20information.-,Redis%20Copilot,-Redis%20Copilot%20is), even after reopening Redis Insight, for seamless and uninterrupted access with daily use.
+- [#3988](https://github.com/RedisInsight/RedisInsight/pull/3988), [#4059](https://github.com/RedisInsight/RedisInsight/pull/4059) Enhanced both the Java and PHP serialized formatters: the Java formatter now supports date and time data, while the PHP formatter includes UTF-8 encoding for better handling of special characters and multi-language data.
 - [#4081](https://github.com/RedisInsight/RedisInsight/pull/4081) Introduced a unique theme key name with a proxy path prefix to prevent conflicts when multiple instances run on the same origin.
 - [#2970](https://github.com/RedisInsight/RedisInsight/pull/4107) Upgraded to Electron 33.2.0 for enhanced security and compatibility with modern web standards.
 
