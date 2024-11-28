@@ -20,7 +20,7 @@ This guide explains how to install Redis Data Integration (RDI) on one or more V
 your source database. You can also
 [Install RDI on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
 
-{{< note >}}We recommend you use RDI v1.4.0 or above. The previous version, RDI v1.2.8,
+{{< note >}}We recommend you use RDI v1.4.2 or above. The previous version, RDI v1.2.8,
 will not work on VMs where IPv6 is disabled. This problem is solved with version 1.4.0.
 {{< /note >}}
 
