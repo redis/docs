@@ -155,3 +155,22 @@ step 6 above.
 psql --host=<copied-endpoint-name> --dbname=postgres --username=postgres
 ```
 
+## 8. Create and populate the Chinook test database (optional)
+
+We provide a test database schema and data set called `chinook`,
+which is useful for learning about RDI and understanding the
+[job file examples]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}).
+
+To install `chinook` on your Aurora PostgreSQL instance,
+first create the database with the following command:
+
+```bash
+psql -h <your-endpoint-name> -U postgres postgres -f ./chinook-create-db.sql
+```
+
+You can then populate the new database with our data set using this
+command:
+
+```bash
+psql -h gvb-database.cluster-cdrk45f3oozw.eu-west-2.rds.amazonaws.com -U postgres chinook -f ./chinook-init-db.sql
+```
