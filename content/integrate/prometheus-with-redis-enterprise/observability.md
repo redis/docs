@@ -614,8 +614,8 @@ The following is a list of alerts contained in the `alerts.yml` file. There are 
 
 Grafana dashboards are available for Redis Enterprise Software and Redis Cloud deployments.
 
-These dashboards come in three styles, which may be used in concert with one another to provide
-a holistic picture of your deployment.
+These dashboards come in three styles, which may be used together to provide
+a full picture of your deployment.
 
 1. Classic dashboards provide detailed information about the cluster, nodes, and individual databases.
 2. Basic dashboards provide a high-level overviews of the various cluster components.
