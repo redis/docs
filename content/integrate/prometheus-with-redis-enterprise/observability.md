@@ -237,7 +237,7 @@ excess inefficient Redis operations, and hot master shards.
 
 ## Connections
 
-The Redis Enterprise database dashboard indicates to the total number of connections to the database.
+The Redis Enterprise database dashboard indicates the total number of connections to the database.
 
 This connection count metric should be monitored with both a minimum and maximum number of connections in mind.
 Based on the number of application instances connecting to Redis (and whether your application uses connection pooling),
