@@ -454,7 +454,7 @@ and [LREM]({{< relref "/commands/lrem" >}}).
 These operations are not necessarily problematic, but they can be if executed against data structures holding
 a large number of elements (for example, a list with 1 million elements).
 
-However, the [KEYS](https://redis.io/docs/latest/commands/keys/) command should almost never be run against a
+However, the [KEYS]({{< relref "/commands/keys" >}}) command should almost never be run against a
 production system, since returning a list of all keys in a large Redis database can cause significant slowdowns
 and block other operations. If you need to scan the keyspace, especially in a production cluster, always use the
 [SCAN](https://redis.io/docs/latest/commands/scan) command instead.
