@@ -457,7 +457,7 @@ a large number of elements (for example, a list with 1 million elements).
 However, the [KEYS]({{< relref "/commands/keys" >}}) command should almost never be run against a
 production system, since returning a list of all keys in a large Redis database can cause significant slowdowns
 and block other operations. If you need to scan the keyspace, especially in a production cluster, always use the
-[SCAN](https://redis.io/docs/latest/commands/scan) command instead.
+[SCAN]({{< relref "/commands/scan" >}}) command instead.
 
 ### Troubleshooting
 
