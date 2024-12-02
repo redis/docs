@@ -19,7 +19,7 @@ This document provides observability and monitoring guidance for developers runn
 that connect to Redis Enterprise. In particular, this guide focuses on the systems
 and resources that are most likely to impact the performance of your application.
 
-Dashboard showing relevant statistics for a node:
+The screenshot below shows a dashboard with relevant statistics for a node:
 {{< image filename="/images/node_summary.png" alt="Dashboard showing relevant statistics for a Node" >}}
 
 To effectively monitor a Redis Enterprise cluster you need to observe
