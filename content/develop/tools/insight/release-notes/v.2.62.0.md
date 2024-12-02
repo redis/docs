@@ -24,3 +24,12 @@ This is the General Availability (GA) release of Redis Insight 2.62.
 
 **Bugs**
 - [#4089](https://github.com/RedisInsight/RedisInsight/pull/4089) Resolved an issue where large integers in JSON keys were being rounded, ensuring data integrity.
+
+**SHA-256 Checksums**
+| Package | SHA-256 |
+|--|--|
+| Windows | ibZ5kn0GSdrbnfHRWC1lDdKozn6YllcGIrDhmLEnt2K1rjgjL2kGKvbtfq9QEkumgGwk2a9zTjr0u5zztGHriQ== |
+| Linux AppImage | bM6lbyeAHFX/f0sBehu9a9ifHsDvX8o/2qn91sdtyiRcIU+f31+Ch7K4NI4v226rgj6LvkFDWDNq6VQ4pyLAPA== |
+| Linux Debian| ilD86T/+8gEgrZg8MS8Niv/8g54FPeEn1nZrUI6DA7KTl3owqzqD0npb8fdAdL6YtSRbSBUK2fXPQ6GRXWZ/GA== |
+| MacOS Intel | pSy3CvRfVIT3O7BXUPMUoONRaZCOA1965tF9T19gZ1NnUn9YkjWlNXdniQHZ4ALKbpC2q62ygt39xF6O52LxAw== |
+| MacOS Apple silicon | uoz6I6MO4/j8UJo7eNje3dz4rx1KKj6mum/vXb2882fYPD/lK1cG0Q0OZu/lbxuk0xgzXfWv0MhMTIVVV+EADg== |
