@@ -274,7 +274,7 @@ In this case, the only remediation is to add more nodes to the cluster and scale
 
 ## Synchronization
 
-In Redis Enterprise, geographically-distributed synchronization is based on CRDT technology.
+In Redis Enterprise, geographically-distributed synchronization is based on Conflict-free replicated data types (CRDT) technology.
 The Redis Enterprise implementation of CRDT is called an Active-Active database (formerly known as CRDB).
 With Active-Active databases, applications can read and write to the same data set from different geographical locations seamlessly and with low latency, without changing the way the application connects to the database.
 
