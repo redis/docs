@@ -109,7 +109,7 @@ caching performance issues in production.
 
 **Cache hit ratio** is the percentage of read requests that Redis serves successfully.
 **Eviction rate** is the rate at which Redis evicts keys from the cache. These metrics
-are often inversely correlated: a high eviction rate may cause a low cache hit ratio.
+are sometimes inversely correlated: a high eviction rate may cause a low cache hit ratio if too many frequently-used keys are being evicted.
 
 If the Redis server is empty, the hit ratio will be 0%. As the application runs and the fills the cache,
 the hit ratio will increase.
