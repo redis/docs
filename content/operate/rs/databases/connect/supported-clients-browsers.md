@@ -12,7 +12,7 @@ You can connect to Redis Enterprise Software databases programmatically using cl
 
 ## Redis client libraries
 
-To connect an application to a Redis database hosted by Redis Enterprise Software, use a [client library]({{< relref "/develop/connect/clients/" >}}) appropriate for your programming language.
+To connect an application to a Redis database hosted by Redis Enterprise Software, use a [client library]({{< relref "/develop/clients" >}}) appropriate for your programming language.
 
 You can also use the `redis-cli` utility to connect to a database from the command line.
 
@@ -28,11 +28,11 @@ Note: You cannot use client libraries to configure Redis Enterprise Software.  I
 
 We recommend the following clients when using a [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) based on the Redis Sentinel API:
 
-- [redis-py]({{< relref "/develop/connect/clients/python" >}}) (Python client)
-- [NRedisStack]({{< relref "/develop/connect/clients/dotnet" >}}) (.NET client)
-- [Jedis]({{< relref "/develop/connect/clients/java/jedis" >}}) (synchronous Java client)
-- [Lettuce]({{< relref "/develop/connect/clients/java/lettuce" >}}) (asynchronous Java client)
-- [go-redis]({{< relref "/develop/connect/clients/go" >}}) (Go client)
+- [redis-py]({{< relref "/develop/clients/redis-py" >}}) (Python client)
+- [NRedisStack]({{< relref "/develop/clients/dotnet" >}}) (.NET client)
+- [Jedis]({{< relref "/develop/clients/jedis" >}}) (synchronous Java client)
+- [Lettuce]({{< relref "/develop/clients/lettuce" >}}) (asynchronous Java client)
+- [go-redis]({{< relref "/develop/clients/go" >}}) (Go client)
 - [Hiredis](https://github.com/redis/hiredis) (C client)
 
 If you need to use another client, you can use [Sentinel Tunnel](https://github.com/RedisLabs/sentinel_tunnel)

@@ -1,5 +1,5 @@
 ---
-Title: Upgrade Redis Enterprise for Kubernetes
+Title: Upgrade Redis Enterprise for Kubernetes 7.8.2-6
 alwaysopen: false
 categories:
 - docs
@@ -9,32 +9,36 @@ description: Information about upgrading your Redis Enterprise cluster on Kubern
 hideListLinks: true
 linkTitle: Upgrade
 weight: 15
+bannerText: This page applies to version [7.8.2-6 and above](https://redis.io/docs/latest/operate/kubernetes/release-notes/7-8-2-releases). To install older versions, see the [7.4.6 documentation](https://redis.io/docs/latest/operate/kubernetes/7.4.6/).
+bannerChildren: true
 ---
 
-Redis implements rolling updates for software upgrades in Kubernetes deployments. The upgrade process includes updating three components:
+The upgrade process includes updating three components:
 
   1. Upgrade the Redis Enterprise operator
   2. Upgrade the Redis Enterprise cluster (REC)
   3. Upgrade Redis Enterprise databases (REDB)
 
-To use OpenShift container platform CLI to upgrade your Redis Enterprise, see [Upgrade Redis Enterprise with OpenShift CLI]({{< relref "/operate/kubernetes/upgrade/openshift-cli.md" >}}).
+If you are using OpenShift, see [Upgrade Redis Enterprise with OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}}) or [Upgrade Redis Enterprise with OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}}).
 
-For all other Kubernetes distributions, see [Upgrade Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster.md" >}}).
+For all other Kubernetes distributions, see [Upgrade Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}}).
 
 ## Upgrade compatibility
 
-When upgrading, both your Kubernetes version and Redis operator version need to be supported at all times. When upgrading your Kubernetes version, you need to make sure both the current and target K8s version are supported by your Redis operator version. When upgrading your Redis operator version, you need make sure both the current and target operator versions are supported by your K8s version. This means if you are planning a large jump in versions, the upgrade might need to be done in multiple steps.
+When upgrading, both your Kubernetes version and Redis operator version need to be supported at all times.
 
-The flow chart below can help you decide if your upgrade requires multiple steps.
+{{<warning>}}If your current Kubernetes distribution is not [supported by 7.8.2-6]({{<relref "/operate/kubernetes/release-notes/7-8-2-releases/7-8-2-6-nov24#supported-distributions">}}), upgrade to a supported distribution before upgrading. {{</warning>}}
 
-{{< image filename="/images/k8s/upgrade-flowchart.jpg" alt="Upgrade flowchart" >}}
+## RHEL9-based image
 
-## How does the REC upgrade work?
+Redis Enterprise images are now based on Red Hat Enterprise Linux 9 (RHEL9). This means upgrades to 7.8.2-6 require:
 
-The Redis Enterprise cluster (REC) uses a rolling upgrade, meaning it upgrades pods one by one. Each pod is updated after the last one completes successfully. This helps keep your cluster available for use.
+- Cluster version of 7.4.2-2 or later.
+- Database version 7.2 or later.
+- RHEL9 compatible binaries for any modules you need.
 
-To upgrade, the cluster terminates each pod and deploys a new pod based on the new image.
-  Before each pod goes down, the operator checks if the pod is a primary (master) for the cluster, and if it hosts any primary (master) shards. If so, a replica on a different pod is promoted to primary. Then when the pod is terminated, the API remains available through the newly promoted primary pod.
+For detailed steps, see the relevant upgrade page:
 
-After a pod is updated, the next pod is terminated and updated.
-After all of the pods are updated, the upgrade process is complete.
+- [OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}})
+- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}})
+- [Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})

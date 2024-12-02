@@ -103,7 +103,7 @@ On the **Databases** screen:
 
 1. Verify **Flash** is selected for **Runs on**.
 
-    {{<image filename="images/rs/screenshots/databases/quick-db-flash.png" alt="Create a quick database with Runs on Flash selected." >}}
+    {{<image filename="images/rs/screenshots/databases/quick-db-flash-7-8-2.png" alt="Create a quick database with Runs on Flash selected." >}}
 
 1. Enter `12000` for the endpoint **Port** number.
 
@@ -115,11 +115,8 @@ You now have a  database with Auto Tiering enabled!
 
 ## Connect to your database
 
-You are ready to connect to your database to store data. See the [test connectivity]({{< relref "/operate/rs/databases/connect/test-client-connectivity.md" >}}) page to learn how to connect to your database.
+After you create the database, you can connect to it and store data. See [Test client connection]({{<relref "/operate/rs/databases/connect/test-client-connectivity">}}) for connection options and examples.
 
 ## Next steps
-
-If you want to generate load against the
-database or add a bunch of data for cluster testing, see the [memtier_benchmark quick start]({{< relref "/operate/rs/clusters/optimize/memtier-benchmark.md" >}}) for help.
 
 To see the true performance and scale of Auto Tiering, you must tune your I/O path and set the flash path to the mounted path of SSD or NVMe flash memory as that is what it is designed to run on. For more information, see [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}}).

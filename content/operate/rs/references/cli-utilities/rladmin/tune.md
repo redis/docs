@@ -47,6 +47,9 @@ rladmin tune cluster
         [ acl_pubsub_default { resetchannels | allchannels } ]
         [ resp3_default { enabled | disabled } ]
         [ automatic_node_offload { enabled | disabled } ]
+        [ default_tracking_table_max_keys_policy <value> ]
+        [ default_oss_sharding { enabled | disabled } ]
+ ]
 ```
 
 ### Parameters
@@ -59,9 +62,11 @@ rladmin tune cluster
 | db_conns_auditing                      | `enabled`<br /> `disabled`      | Activates or deactivates [connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) by default for new databases of a cluster                                                                  |
 | default_concurrent_restore_actions     | integer<br />`all`              | Default number of concurrent actions when restoring a node from a snapshot (positive integer or "all")                         |
 | default_non_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created non-sharded databases' endpoints |
+| default_oss_sharding | `enabled`<br />`disabled` | Default hashing policy to use for new databases. Set to `disabled` by default. This field is for future use only and should not be changed. |
 | default_redis_version                  | version number                    | The default Redis database compatibility version used to create new databases.<br/><br/>  The value parameter should be a version number in the form of "x.y" where _x_ represents the major version number and _y_ represents the minor version number.  The final value corresponds to the desired version of Redis.<br/><br/>You cannot set _default_redis_version_ to a value higher than that supported by the current _redis_upgrade_policy_ value. |
 | default_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created sharded databases' endpoints |
 | default_shards_placement | `dense`<br />`sparse` | New databases place shards according to the default [shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) |
+| default_tracking_table_max_keys_policy | integer (default: 1000000) | Defines the default value of the client-side caching invalidation table size for new databases. 0 makes the cache unlimited. |
 | expose_hostnames_for_all_suffixes      | `enabled`<br />`disabled`       | Exposes hostnames for all DNS suffixes                                                                                       |
 | failure_detection_sensitivity | `high`<br />`low` | Predefined thresholds and timeouts for failure detection (previously known as `watchdog_profile`)<br />• `high` (previously `local-network`) – high failure detection sensitivity, lower thresholds, faster failure detection and failover<br />• `low` (previously `cloud`) – low failure detection sensitivity, higher tolerance for latency variance (also called network jitter) |
 | login_lockout_counter_reset_after      | time in seconds                   | Time after failed login attempt before the counter resets to 0                                                                   |
@@ -141,6 +146,7 @@ rladmin tune db { db:<id> | <name> }
         [ data_internode_encryption { enabled | disabled } ]
         [ db_conns_auditing { enabled | disabled } ]
         [ resp3 { enabled | disabled } ]
+        [ tracking_table_max_keys <size> ]
 ```
 
 ### Parameters
@@ -186,6 +192,7 @@ rladmin tune db { db:<id> | <name> }
 | slave_ha_priority                    | integer                          | Priority of the database in the replica high-availability mechanism                                                                           |
 | syncer_mode                          | `distributed`<br /> `centralized`| Configures syncer to run in distributed or centralized mode. For distributed syncer, the DMC policy must be all-nodes or all-master-nodes |
 | syncer_monitoring                    | `enabled`<br /> `disabled`       | Activates syncer monitoring                                                                                                           |
+| tracking_table_max_keys | integer | The client-side caching invalidation table size. 0 makes the cache unlimited. |
 
 | XADD behavior mode | Description |
 | - | - |

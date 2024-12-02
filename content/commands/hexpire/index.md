@@ -31,14 +31,18 @@ arguments:
   name: condition
   optional: true
   type: oneof
-- display_text: numfields
-  name: numfields
-  type: integer
-- display_text: field
-  multiple: true
-  name: field
-  type: string
-arity: -5
+- arguments:
+  - display_text: numfields
+    name: numfields
+    type: integer
+  - display_text: field
+    multiple: true
+    name: field
+    type: string
+  name: fields
+  token: FIELDS
+  type: block
+arity: -6
 categories:
 - docs
 - develop
@@ -53,7 +57,7 @@ command_flags:
 - write
 - denyoom
 - fast
-complexity: O(N) where N is the number of arguments to the command
+complexity: O(N) where N is the number of specified fields
 description: Set expiration for hash fields using relative time to expire (seconds)
 group: hash
 hidden: false
@@ -72,9 +76,10 @@ key_specs:
   update: true
 linkTitle: HEXPIRE
 since: 7.4.0
-summary: Set expiration for hash fields using relative time to expire in seconds
-syntax_fmt: "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS numfields\n\ \ field [field ...]"
-syntax_str: seconds [NX | XX | GT | LT] FIELDS numfields field [field ...]
+summary: Set expiry for hash field using relative time to expire (seconds)
+syntax_fmt: "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS\_numfields field\n  [field\
+  \ ...]"
+syntax_str: "seconds [NX | XX | GT | LT] FIELDS\_numfields field [field ...]"
 title: HEXPIRE
 ---
 Set an expiration (TTL or time to live) on one or more fields of a given hash key. You must specify at least one field.

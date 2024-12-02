@@ -62,7 +62,7 @@ Note that a Redis instance exposed to the internet without any security [is very
 
 Of course using Redis just from the command line interface is not enough as the goal is to use it from your application. To do so, you need to download and install a Redis client library for your programming language.
 
-You'll find a [full list of supported clients for different languages in this page]({{< relref "develop/connect/clients/" >}}).
+You'll find a [full list of supported clients for different languages in this page]({{< relref "develop/clients/" >}}).
 
 
 ## Redis persistence

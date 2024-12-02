@@ -30,7 +30,7 @@ In the Redis Enterprise Cluster Manager UI, follow these steps to add modules to
 
 1. In the **Capabilities** section, select one or more capabilities:
 
-    {{<image filename="images/rs/screenshots/databases/quick-db-capabilities.png" alt="Select which capabilities to add to your database.">}}
+    {{<image filename="images/rs/screenshots/databases/quick-db-capabilities-7-8-2.png" alt="Select which capabilities to add to your database.">}}
 
     {{<note>}}
 You cannot use RediSearch 1.x and RediSearch 2.x in the same database.

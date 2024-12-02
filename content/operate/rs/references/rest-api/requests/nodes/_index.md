@@ -30,7 +30,7 @@ Get all cluster nodes.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_nodes_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_nodes_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_all_nodes_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_nodes_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -114,7 +114,7 @@ Get a single cluster node.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_node_info]({{< relref "/operate/rs/references/rest-api/permissions#view_node_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_node_info]({{< relref "/operate/rs/references/rest-api/permissions#view_node_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 

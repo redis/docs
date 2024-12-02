@@ -275,7 +275,7 @@ since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Searches the index with a textual query, returning either documents or just
   ids
-syntax: "FT.SEARCH index query \n  [NOCONTENT] \n  [VERBATIM] [NOSTOPWORDS] \n  [WITHSCORES]\
+syntax: "FT.SEARCH index query \n  [NOCONTENT] \n  [VERBATIM] \n  [NOSTOPWORDS] \n  [WITHSCORES]\
   \ \n  [WITHPAYLOADS] \n  [WITHSORTKEYS] \n  [FILTER numeric_field min max [ FILTER\
   \ numeric_field min max ...]] \n  [GEOFILTER geo_field lon lat radius m | km | mi\
   \ | ft [ GEOFILTER geo_field lon lat radius m | km | mi | ft ...]] \n  [INKEYS count\
@@ -343,6 +343,13 @@ returns the document ids and not the content. This is useful if RediSearch is on
 
 does not try to use stemming for query expansion but searches the query terms verbatim.
 </details>
+
+<details open>
+<summary><code>NOSTOPWORDS</code></summary>
+
+ignores any defined stop words in full text searches.
+</details>
+
 
 <details open>
 <summary><code>WITHSCORES</code></summary>

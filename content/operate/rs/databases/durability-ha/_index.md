@@ -15,7 +15,7 @@ Redis Enterprise Software comes with several features that make your data more d
 
 ## Replication
 
-When you [replicate your database]({{<relref "/operate/rs/databases/durability-ha/replication">}}), each database instance (shard) is copied one or more times. Your database will have one primary shard and one or more replica shards. When a primary shard fails, Redis Enterprise automatically promotes a replica shard to primary. 
+When you [replicate your database]({{<relref "/operate/rs/databases/durability-ha/replication">}}), each database instance (primary shard) is copied to a replica shard. When a primary shard fails, the cluster automatically promotes a replica shard to primary.
 
 ## Clustering
 

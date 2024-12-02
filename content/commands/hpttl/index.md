@@ -8,14 +8,18 @@ arguments:
   key_spec_index: 0
   name: key
   type: key
-- display_text: numfields
-  name: numfields
-  type: integer
-- display_text: field
-  multiple: true
-  name: field
-  type: string
-arity: -4
+- arguments:
+  - display_text: numfields
+    name: numfields
+    type: integer
+  - display_text: field
+    multiple: true
+    name: field
+    type: string
+  name: fields
+  token: FIELDS
+  type: block
+arity: -5
 categories:
 - docs
 - develop
@@ -29,7 +33,7 @@ categories:
 command_flags:
 - readonly
 - fast
-complexity: O(N) where N is the number of arguments to the command
+complexity: O(N) where N is the number of specified fields
 description: Returns the TTL in milliseconds of a hash field.
 group: hash
 hidden: false
@@ -48,9 +52,9 @@ key_specs:
     type: range
 linkTitle: HPTTL
 since: 7.4.0
-summary: Returns the TTL of each specified field in milliseconds
-syntax_fmt: HPTTL key FIELDS numfields field [field ...]
-syntax_str: FIELDS numfields field [field ...]
+summary: Returns the TTL in milliseconds of a hash field.
+syntax_fmt: "HPTTL key FIELDS\_numfields field [field ...]"
+syntax_str: "FIELDS\_numfields field [field ...]"
 title: HPTTL
 ---
 Like [`HTTL`]({{< relref "/commands/httl" >}}), this command returns the remaining TTL (time to live) of a field that has an

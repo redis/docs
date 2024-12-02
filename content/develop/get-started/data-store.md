@@ -37,7 +37,7 @@ You can alternatively follow the [installation guides]({{< relref "/operate/oss_
 
 ## Connect
 
-The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [connection section]({{< relref "/develop/connect" >}}). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
+The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
 
 {{< clients-example search_quickstart connect >}}
 > redis-cli -h 127.0.0.1 -p 6379

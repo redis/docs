@@ -3,6 +3,7 @@
     "type": "client",
     "name": "redis-py",
     "language": "Python",
+    "label": "Python",
     "repository": {
         "git_uri": "https://github.com/redis/redis-py"
     },

@@ -25,15 +25,11 @@ Before you deploy your pipeline, you must set the authentication secrets for the
 source and target databases. Each secret has a corresponding property name that
 you can pass to the
 [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
-command to set the property's value. You can then refer to these properties
+command (VM deployment) or
+[`kubectl create secret generic`](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/)
+(K8s deployment) to set the property's value. You can then refer to these properties
 in `config.yaml` using the syntax "`${PROPERTY_NAME}`"
 (the sample [config.yaml file](#the-configyaml-file) shows these properties in use).
-For example, you would use the
-following command line to set the source database username to `myUserName`:
-
-```bash
-redis-di set-secret SOURCE_DB_USERNAME myUserName
-```
 
 The table below shows the property name for each secret. Note that the
 username and password are required for the source and target, but the other
@@ -54,6 +50,102 @@ secrets are only relevant to TLS/mTLS connections.
 | `TARGET_DB_CERT` | (For mTLS only) Target database public key |
 | `TARGET_DB_KEY_PASSWORD` | (For mTLS only) Target database private key password |
 
+### Set secrets for VM deployment
+
+Use
+[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
+to set secrets for a VM deployment. For example, you would use the
+following command line to set the source database username to `myUserName`:
+
+```bash
+redis-di set-secret SOURCE_DB_USERNAME myUserName
+```
+
+### Set secrets for K8s/Helm deployment
+
+Use
+[`kubectl create secret generic`](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/)
+to set secrets for a K8s/Helm deployment. The general pattern of the commands is
+
+```bash
+kubectl create secret generic <DB> \
+--namespace=rdi \
+--from-literal=<SECRET-NAME>=<SECRET-VALUE>
+```
+
+Where `<DB>` is either `source-db` for source secrets or `target-db` for target secrets.
+The specific command lines for source secrets are as follows:
+
+```bash
+# Source username
+kubectl create secret generic source-db \
+--namespace=rdi \
+--from-literal=SOURCE_DB_USERNAME=yourUsername
+
+# Source password
+kubectl create secret generic source-db \
+--namespace=rdi \
+--from-literal=SOURCE_DB_PASSWORD=yourPassword
+
+# Source trust certificate (both commands are required)
+kubectl create secret generic source-db-ssl --from-file=ca.crt=/path/to/myca.crt -n rdi
+
+kubectl create secret generic source-db \
+--namespace=rdi \
+--from-literal=SOURCE_DB_CACERT=/etc/certificates/source_db/ca.crt
+
+# Source public key (both commands are required)
+kubectl create secret generic source-db-ssl --from-file=client.crt=/path/to/myclient.crt -n rdi
+
+kubectl create secret generic source-db \
+--namespace=rdi \
+--from-literal=SOURCE_DB_CERT=/etc/certificates/source_db/client.crt
+
+
+# Source private key (both commands are required)
+kubectl create secret generic source-db-ssl --from-file=client.key=/path/to/myclient.key -n rdi
+
+kubectl create secret generic source-db \
+--namespace=rdi \
+--from-literal=SOURCE_DB_KEY=/etc/certificates/source_db/client.key
+```
+
+The corresponding command lines for target secrets are:
+
+```bash
+# Target username
+kubectl create secret generic target-db \
+--namespace=rdi \
+--from-literal=TARGET_DB_USERNAME=yourUsername
+
+# Target password
+kubectl create secret generic target-db \
+--namespace=rdi \
+--from-literal=TARGET_DB_PASSWORD=yourPassword
+
+# Target trust certificate (both commands are required)
+kubectl create secret generic target-db-ssl --from-file=ca.crt=/path/to/myca.crt -n rdi
+
+kubectl create secret generic target-db \
+--namespace=rdi \
+--from-literal=TARGET_DB_CACERT=/etc/certificates/target-db/ca.crt
+
+# Target public key (both commands are required)
+kubectl create secret generic target-db-ssl --from-file=client.crt=/path/to/myclient.crt -n rdi
+
+kubectl create secret generic target-db \
+--namespace=rdi \
+--from-literal=SOURCE_DB_CERT=/etc/certificates/target_db/client.crt
+
+
+# Target private key (both commands are required)
+kubectl create secret generic target-db-ssl --from-file=client.key=/path/to/myclient.key -n rdi
+
+kubectl create secret generic target-db \
+--namespace=rdi \
+--from-literal=SOURCE_DB_KEY=/etc/certificates/target_db/client.key
+```
+
 ## Deploy a pipeline
 
 When you have created your configuration, including the [jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#job-files" >}}), use the
@@ -64,4 +156,4 @@ command to deploy them:
 redis-di deploy --dir <path to pipeline folder>
 ```
 
-You can also deploy a pipeline using [Redis Insight]({{< relref "/develop/connect/insight/rdi-connector" >}}).
+You can also deploy a pipeline using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).

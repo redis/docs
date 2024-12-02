@@ -61,7 +61,7 @@ For detailed configuration instructions, see your cloud provider's documentation
 
 To install Redis Enterprise Software:
 
-1. Download the installation files from the [Redis Enterprise Download Center](https://redis.com/redis-enterprise-software/download-center/software/)
+1. Download the installation files from the [Redis Enterprise Download Center](https://redis.io/downloads/#software)
 and copy the download package to a machine with a Linux-based OS. 
 
     {{< note >}}
@@ -88,7 +88,7 @@ To set up your machine as a Redis Enterprise Software cluster:
 
 ## Create a database
 
-{{<embed-md "quick-db-setup.md">}}
+{{<embed-md "rs-quick-db-setup-7-8.md">}}
 
 ## Connect to your database
 
@@ -98,21 +98,5 @@ See [Test client connection]({{< relref "/operate/rs/databases/connect/test-clie
 ## Supported web browsers
 
 To use the Redis Enterprise Software Cluster Manager UI, you need a modern browser with JavaScript enabled.
-
-The following browsers have been tested with the current version of the Cluster Manager UI:
-
-- Microsoft Windows, version 10 or later.
-    - [Google Chrome](https://www.google.com/chrome/), version 48 and later
-    - [Microsoft Edge](https://www.microsoft.com/edge), version 20 and later
-    - [Mozilla Firefox](https://www.mozilla.org/firefox/), version 44 and and later
-    - [Opera](https://www.opera.com/), version 35 and later
-
-- Apple macOS:
-    - [Google Chrome](https://www.google.com/chrome/), version 48 and later
-    - [Mozilla Firefox](https://www.mozilla.org/firefox/), version 44 and and later
-    - [Opera](https://www.opera.com/), version 35 and later
-
-- Linux:
-    - [Google Chrome](https://www.google.com/chrome/), version 49 and later
-    - [Mozilla Firefox](https://www.mozilla.org/firefox/), version 44 and and later
-    - [Opera](https://www.opera.com/), version 35 and later
+ 
+The Cluster Manager UI is officially supported for the latest version of [Google Chrome](https://www.google.com/chrome/), as well as the three previous and three subsequent versions.

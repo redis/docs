@@ -29,6 +29,6 @@ Use one of the following connection methods to connect to your database:
 
 - [Redis Insight](https://redis.com/redis-enterprise/redis-insight/)
 
-- [Redis client]({{< relref "/develop/connect/clients/" >}}) for your preferred programming language
+- [Redis client]({{< relref "/develop/clients" >}}) for your preferred programming language
 
 For examples, see [Test client connection]({{< relref "/operate/rs/databases/connect/test-client-connectivity" >}}).

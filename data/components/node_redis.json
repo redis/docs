@@ -3,6 +3,7 @@
     "type": "client",
     "name": "node-redis",
     "language": "Node.js",
+    "label": "Node.js",
     "repository": {
         "git_uri": "https://github.com/redis/node-redis"
     },

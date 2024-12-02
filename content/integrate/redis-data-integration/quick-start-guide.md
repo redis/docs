@@ -15,7 +15,7 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 - A Redis Enterprise database that will serve as the pipeline target. The dataset that will be ingested is
   quite small in size, so a single shard database should be enough. RDI also needs to maintain its
   own database on the cluster to store state information. *This requires Redis Enterprise v6.4 or greater*.
-- [Redis Insight]({{< relref "/develop/connect/insight/" >}})
+- [Redis Insight]({{< relref "/develop/tools/insight" >}})
   to edit your pipeline
 - A virtual machine (VM) with one of the following operating systems:  
   - Ubuntu 20.04 or 22.04
@@ -52,11 +52,17 @@ RDI will create the pipeline template for your chosen source database type at
 
 At the end of the installation, RDI CLI will prompt you to set the access secrets
 for both the source PostgreSQL database and the Redis RDI database. RDI needs these to
-run the pipeline. If you provide admin credentials for your Redis Enterprise cluster here then RDI CLI will
-create the RDI database for you automatically. Otherwise, you should create this
-database yourself with the Redis Enterprise management console. A single-shard
-database with 125MB of RAM will work fine for this tutorial but you can also add a
-replica if you want (this will double the RAM requirements to 250MB).
+run the pipeline.
+
+Use the Redis console to create the RDI database with the following requirements:
+
+- A single-shard database with 125MB RAM is enough for the quickstart but double this
+  to 250MB if you want to add a replica.
+- Provide the installation with the required RDI database details.
+- Set the database's
+  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
+  [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
+  to AOF - fsync every 1 sec.
 
 ### Prepare the pipeline
 
@@ -112,7 +118,7 @@ contexts.
 
 ### Deploy the pipeline
 
-You can use [Redis Insight]({{< relref "/develop/connect/insight/rdi-connector" >}})
+You can use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
 to deploy the pipeline by adding a connection to the RDI API
 endpoint (which has the same IP address as your RDI VM and uses port 8083) and then clicking the **Deploy** button. You can also deploy it with the following command:
 
@@ -149,4 +155,4 @@ To see the RDI pipeline working in CDC mode:
 - Run
   [`redis-di status --live`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}})
   to see the flow of records.
-- User [Redis Insight]({{< relref "/develop/connect/insight" >}}) to look at the data in the target database.
+- User [Redis Insight]({{< relref "/develop/tools/insight" >}}) to look at the data in the target database.

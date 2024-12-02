@@ -10,8 +10,6 @@ headerRange: '[1-2]'
 hideListLinks: true
 linkTitle: certificates
 weight: $weight
-aliases: 
-    - /operate/rs/references/rest-api/requests/cluster/update-cert
 ---
 
 | Method | Path | Description |
