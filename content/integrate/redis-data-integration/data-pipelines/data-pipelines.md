@@ -131,11 +131,11 @@ targets:
 #     cert: ${TARGET_DB_CERT}
 #     cacert: ${TARGET_DB_CACERT}
 #     key_password: ${TARGET_DB_KEY_PASSWORD}
-#processors:
-# Enable Debezium LOB placeholders for tables that contain large binary objects.
+processors:
+# Enable Debezium LOB placeholders for tables that contain large objects.
 # Uncomment this property (and the `processors:` section) if your tables include
 # Oracle large objects (BLOB, CLOB, NCLOB).
-#     debezium_lob_encoded_placeholder: X19kZWJleml1bV91bmF2YWlsYWJsZV92YWx1ZQ==
+#  debezium_lob_encoded_placeholder: X19kZWJleml1bV91bmF2YWlsYWJsZV92YWx1ZQ==
 ```
 
 The main sections of the file configure [`sources`](#sources) and [`targets`](#targets).
