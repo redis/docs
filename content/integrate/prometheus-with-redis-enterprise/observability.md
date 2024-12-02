@@ -118,7 +118,7 @@ the hit ratio will increase.
 while the percent of used memory will remain below 100%.
 
 **When the working set cannot fit in memory**, the eviction policy will start to evict keys.
-The greater the rate of key eviction, the lower the cache hit ratio.
+It is important to choose a policy that generally evicts rarely-used keys to keep the cache hit ratio as high as possible.
 
 In both cases, keys will may be manually invalidated by the application or evicted through
 the uses of TTLs (time-to-live) and an eviction policy.
