@@ -260,7 +260,7 @@ Dashboard displaying connections - [Database Dashboard](https://github.com/redis
 
 The network ingress/egress panel shows the amount of data being sent to and received from the database.
 Large spikes in network traffic can indicate that the cluster is under-provisioned or that
-the application is reading and/or writing unusually large keys. A correlation between high network traffic
+the application is reading and/or writing unusually [large keys](#large-keys). A correlation between high network traffic
 and high CPU utilization may indicate a large key scenario.
 
 #### Unbalanced database endpoint
