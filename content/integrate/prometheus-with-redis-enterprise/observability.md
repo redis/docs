@@ -370,7 +370,7 @@ Cache hit rate is usually only relevant for caching workloads. Eviction will beg
 A high or increasing rate of evictions will negatively affect database latency, especially
 if the rate of necessary key evictions exceeds the rate of new key insertions.
 
-See the Cache hit ratio and eviction section for tips on troubleshooting cache hit rate.
+See the [Cache hit ratio and eviction](#cache-hit-ratio-and-eviction) section for tips on troubleshooting cache hit rate.
 
 ## Key eviction rate
 
