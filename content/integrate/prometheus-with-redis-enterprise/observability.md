@@ -619,7 +619,7 @@ a full picture of your deployment.
 
 1. Classic dashboards provide detailed information about the cluster, nodes, and individual databases.
 2. Basic dashboards provide a high-level overviews of the various cluster components.
-3. Extended dashboards which requires a third-party library to perform ReST calls.
+3. Extended dashboards. These require a third-party library to perform ReST calls.
 
 There are two additional sets of dashboards for Redis Enterprise software that provide drill-down functionality: the workflow dashboards.
 
