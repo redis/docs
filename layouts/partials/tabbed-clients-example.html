@@ -35,7 +35,7 @@
         {{ end }}
         {{ $params := dict "language" $language "contentPath" $examplePath "options" $options }}
         {{ $content := partial "tabs/source.html" $params }}
-        {{ $tabs = $tabs | append (dict "title" $client "language" $language "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl")) }}
+        {{ $tabs = $tabs | append (dict "title" $client "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl")) }}
     {{ end }}
 {{ end }}
 
