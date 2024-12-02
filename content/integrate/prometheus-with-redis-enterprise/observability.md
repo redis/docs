@@ -396,7 +396,7 @@ Redis Enterprise Software (RS) provides high-performance data access through a p
 Dashboard displaying proxy thread activity - [Proxy Thread Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/cloud/basic/redis-cloud-proxy-dashboard_v9-11.json)
 {{< image filename="/images/proxy-thread-dashboard.png" alt="Dashboard displaying proxy thread activity" >}}
 
-When needed, you can tune the number of proxy threads using the `rladmin tune proxy` command to make the proxy use more CPU cores.
+If you need to, you can tune the number of proxy threads using the [`rladmin tune proxy`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-proxy" >}}) command to make the proxy use more CPU cores.
 Cores used by the proxy won't be available for Redis, therefore we need to take into account the number of Redis nodes on the host and the total number of available cores.
 
 How to set a new number of proxy cores using the command:
