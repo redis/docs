@@ -599,7 +599,7 @@ The following is a list of alerts contained in the `alerts.yml` file. There are 
 |Record synchronization between nodes is not in a satisfactory state | bdb_crdt_syncer_status > 0 |
 |The amount by which replication lags behind events is worrisome | bdb_replicaof_syncer_local_ingress_lag_time > 500 |
 |The amount by which object replication lags behind events is worrisome | bdb_crdt_syncer_local_ingress_lag_time > 500 |
-|The expected number of active nodes is less than expected | count(node_up) != 3 |
+|The number of active nodes is less than expected | count(node_up) != 3 |
 |Persistent storage will soon be exhausted | round((node_persistent_storage_free/node_persistent_storage_avail) * 100) <= 5 |
 |Ephemeral storage will soon be exhausted | round((node_ephemeral_storage_free/node_ephemeral_storage_avail) * 100) <= 5 |
 |The node in question is close to running out of memory | round((node_available_memory/node_free_memory) * 100) <= 15 |
