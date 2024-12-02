@@ -250,7 +250,7 @@ This number should remain relatively constant over time.
 | ------ | ------ | :------ |
 |Fewer connections to Redis than expected |The application may not be connecting to the correct Redis database. There may be a network partition between the application and the Redis database. | Confirm that the application can successfully connect to Redis. This may require consulting the application logs or the application's connection configuration. | 
 |Connection count continues to grow over time | Your application may not be releasing connections. The most common of such a connection leak is a manually implemented connection pool or a connection pool that is not properly configured. | Review the application's connection configuration |
-|Erratic connection counts (for example, spikes and drops) | Application misbehavior (thundering herds, connection cycling, or networking issues) | Review the application logs and network traffic to determine the cause of the erratic connection counts. |
+|Erratic connection counts (for example, spikes and drops) | Application misbehavior ([thundering herds](https://en.wikipedia.org/wiki/Thundering_herd_problem), connection cycling, or networking issues) | Review the application logs and network traffic to determine the cause of the erratic connection counts. |
 
 
 Dashboard displaying connections - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
