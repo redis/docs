@@ -326,8 +326,8 @@ Display showing a noticeable spike in latency
 
 ### Troubleshooting
 
-Here are some possible causes of high database latency. Note that high database latency is just one possible
-cause of high application latency. Application latency can be caused by a variety of factors, including
+Here are some possible causes of high database latency. Note that high database latency is just one of the reasons
+why application latency might be high. Application latency can be caused by a variety of factors, including
 a low cache hit rate.
 
 High Proxy CPU - There are several possible causes of high proxy CPU.
