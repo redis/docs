@@ -256,9 +256,9 @@ This number should remain relatively constant over time.
 Dashboard displaying connections - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
 {{< image filename="/images/playbook_database-used-connections.png" alt="Dashboard displaying connections" >}}
 
-### Network ingress / egress
+### Network ingress/egress
 
-The network ingress / egress panel show the amount of data being sent to and received from the database.
+The network ingress/egress panel shows the amount of data being sent to and received from the database.
 Large spikes in network traffic can indicate that the cluster is under-provisioned or that
 the application is reading and/or writing unusually large keys. A correlation between high network traffic
 and high CPU utilization may indicate a large key scenario.
