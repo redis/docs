@@ -440,9 +440,9 @@ This section defines each of these patterns and describes how to diagnose and mi
 
 Not all Redis operations are equally efficient.
 The most efficient Redis operations are O(1) operations; that is, they have a constant time complexity.
-Example of such operations include [GET](https://redis.io/docs/latest/commands/get/),
-[SET](https://redis.io/docs/latest/commands/set/), [SADD](https://redis.io/docs/latest/commands/sadd/),
-and [HSET](https://redis.io/docs/latest/commands/hset/).
+Example of such operations include [GET]({{< relref "/commands/get" >}}),
+[SET]({{< relref "/commands/set" >}}), [SADD]({{< relref "/commands/sadd" >}}),
+and [HSET]({{< relref "/commands/hset" >}}).
 
 These constant time operations are unlikely to cause high CPU utilization. **Note:** Even so,
 it's still possible for a high rate of constant time operations to overwhelm an underprovisioned database.
