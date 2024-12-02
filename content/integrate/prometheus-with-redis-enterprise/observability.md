@@ -240,7 +240,7 @@ excess inefficient Redis operations, and hot master shards.
 The Redis Enterprise database dashboard indicates the total number of connections to the database.
 
 You should monitor this connection count metric with both a minimum and maximum number of connections in mind.
-Based on the number of application instances connecting to Redis (and whether your application uses connection pooling),
+Based on the number of application instances connecting to Redis (and whether your application uses [connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}})),
 you should have a rough idea of the minimum and maximum number of connections you expect to see for any given database.
 This number should remain relatively constant over time.
 
