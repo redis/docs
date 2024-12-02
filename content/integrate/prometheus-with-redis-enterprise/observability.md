@@ -297,7 +297,7 @@ CRDT provides three fundamental benefits over other geo-distributed solutions:
 
 ## Database performance indicators
 
-There several key performance indicators that report your database's performance against your application's workload:
+There are several key performance indicators that report your database's performance against your application's workload:
 
 * Latency
 * Cache hit rate
