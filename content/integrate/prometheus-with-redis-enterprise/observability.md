@@ -399,7 +399,7 @@ Dashboard displaying proxy thread activity - [Proxy Thread Dashboard](https://gi
 If you need to, you can tune the number of proxy threads using the [`rladmin tune proxy`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-proxy" >}}) command to make the proxy use more CPU cores.
 Cores used by the proxy won't be available for Redis, therefore we need to take into account the number of Redis nodes on the host and the total number of available cores.
 
-How to set a new number of proxy cores using the command:
+The command has a few parameters you can use to set a new number of proxy cores:
 
 * `id|all` - you can either tune a specific proxy by its id, or all proxies.
 
