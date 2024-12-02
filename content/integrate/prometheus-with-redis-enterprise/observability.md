@@ -309,7 +309,7 @@ Latency is **the time it takes for Redis to respond to a request**.
 Redis Enterprise measures latency from the first byte received by the proxy to the last byte sent in the command's response.
 
 An adequately provisioned Redis database running efficient Redis operations will report an average latency below 1 millisecond. In fact, it's common to measure
-latency in terms is microseconds. Businesses regularly achieve, and sometimes require, average latencies of 400-600
+latency in terms of microseconds. Businesses regularly achieve, and sometimes require, average latencies of 400-600
 microseconds.
 
 Dashboard display of latency metrics - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
