@@ -449,8 +449,8 @@ it's still possible for a high rate of constant time operations to overwhelm an 
 
 Other Redis operations exhibit greater levels of time complexity.
 O(n) (linear time) operations are more likely to cause high CPU utilization.
-Examples include [HGETALL](https://redis.io/docs/latest/commands/keys/), [SMEMBERS](https://redis.io/docs/latest/commands/smembers/),
-and [LREM](https://redis.io/docs/latest/commands/lrem/).
+Examples include [HGETALL]({{< relref "/commands/hgetall" >}}), [SMEMBERS]({{< relref "/commands/smembers" >}}),
+and [LREM]({{< relref "/commands/lrem" >}}).
 These operations are not necessarily problematic, but they can be if executed against data structures holding
 a large number of elements (for example, a list with 1 million elements).
 
