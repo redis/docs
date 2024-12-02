@@ -556,7 +556,7 @@ alerting:
 ```
 
 The Rule file section of the config file instructs Alertmanager to read specific rules files.
-If you pasted the 'alerts.yml' file into '/etc/prometheus' then the following configuration would be required.
+If you pasted the `alerts.yml` file into `/etc/prometheus` then the following configuration would be required.
 
 ```
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
