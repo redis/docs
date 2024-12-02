@@ -270,7 +270,7 @@ One possible cause of network traffic spikes is that the database endpoint is no
 One solution is to use the optimal shard placement and proxy policy to ensure endpoints are collocated on nodes hosting master shards. If you need to restore balance (for example, after node failure) you can manually failover shard(s) with the `rladmin` cli tool.
 
 Extreme network traffic utilization may approach the limits of the underlying network infrastructure.
-In this case, the only remediation is to add additional nodes to the cluster and scale the database's shards across them.
+In this case, the only remediation is to add more nodes to the cluster and scale the database's shards across them.
 
 ## Synchronization
 
