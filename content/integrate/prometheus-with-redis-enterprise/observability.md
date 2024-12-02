@@ -565,7 +565,7 @@ rule_files:
   - "alerts.yml"
 ```
 
-After this is done, restart Prometheus.
+After you've done this, restart Prometheus.
 
 The built-in configuration, `error_rules.yml`, has a single alert: Critical Connection Exception.
 If you open the Prometheus console, by default located at port 9090, and select the Alert tab,
