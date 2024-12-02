@@ -576,7 +576,7 @@ you will see this alert, as well as the alerts in any other file you have includ
 
 {{< image filename="/images/playbook_prometheus-alerts.png" alt="prometheus alerts image" >}}
 
-The following is a list of alerts contained in the `alerts.yml` file. There are several points consider:
+The following is a list of alerts contained in the `alerts.yml` file. There are several points to consider:
 
 - Not all Redis Enterprise deployments export all metrics
 - Most metrics only alert if the specified trigger persists for a given duration
