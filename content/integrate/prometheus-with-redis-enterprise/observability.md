@@ -163,7 +163,7 @@ The volatile-lru and volatile-random policies are mainly useful when you want to
 
 ### Non-caching workloads
 
-If no eviction policy is enabled, then Redis will stop accepting writes once memory reaches 100%.
+If no eviction policy is enabled, then Redis will stop accepting writes when memory usage reaches 100%.
 Therefore, for non-caching workloads, it is best practice to configure an alert at 80% memory usage.
 After your database reaches this 80% threshold, you should closely review the rate of memory usage growth.
 
