@@ -469,6 +469,28 @@ collector-api-<id>                 1/1    Running       0        29m
 You can verify that the RDI API works by adding the server in
 [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
 
+## Using ingress controllers
+
+If you want to expose the RDI API service via the K8s
+[`Ingress`](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+resource, you must ensure that an appropriate
+[ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) is available in your K8s cluster. Follow the documentation of your cloud provider or of
+the ingress controller to install the controller correctly.
+
+### Using the `nginx` ingress controller on AKS
+
+On AKS, if you want to use the open source
+[`nginx`](https://nginx.org/)
+[ingress controller](https://github.com/kubernetes/ingress-nginx/blob/main/README.md#readme)
+rather than the
+[AKS application routing add-on](https://learn.microsoft.com/en-us/azure/aks/app-routing),
+follow the AKS documentation for
+[creating an unmanaged ingress controller](https://learn.microsoft.com/en-us/troubleshoot/azure/azure-kubernetes/load-bal-ingress-c/create-unmanaged-ingress-controller?tabs=azure-cli).
+Specifically, ensure that one or both of the following Helm chart values is set:
+
+- `controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz`
+- `controller.service.externalTrafficPolicy=Local`
+
 ## Prepare your source database
 
 You must also configure your source database to use the CDC connector. See the
