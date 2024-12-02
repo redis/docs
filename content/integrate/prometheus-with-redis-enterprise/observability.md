@@ -621,7 +621,7 @@ a full picture of your deployment.
 2. Basic dashboards provide a high-level overviews of the various cluster components.
 3. Extended dashboards. These require a third-party library to perform ReST calls.
 
-There are two additional sets of dashboards for Redis Enterprise software that provide drill-down functionality: the workflow dashboards.
+There are also two workflow dashboards for Redis Enterprise software that provide drill-down functionality.
 
 ### Software
 - [Basic](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana/dashboards/grafana_v9-11/software/basic)
