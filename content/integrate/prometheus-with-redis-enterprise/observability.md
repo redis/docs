@@ -365,7 +365,7 @@ These are defined as follows:
 
 ### Troubleshooting
 
-Cache hit rate is usually only relevant for caching workloads. Eviction will begin after the database approaches its max memory capacity.
+Cache hit rate is usually only relevant for caching workloads. Eviction will begin after the database approaches its maximum memory capacity.
 
 A high or increasing rate of evictions will negatively affect database latency, especially
 if the rate of necessary key evictions exceeds the rate of new key insertions.
