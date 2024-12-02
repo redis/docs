@@ -92,7 +92,7 @@ it's still important to monitor performance. The key performance indicators incl
 **Latency** has two important definitions, depending on context:
 
 * In the context Redis itself, latency is **the time it takes for Redis
-to respond to a request**. The following section of Latency provides a broader discussion of this metric.
+to respond to a request**. The [Latency](#latency) section below provides a broader discussion of this metric.
 
 
 
