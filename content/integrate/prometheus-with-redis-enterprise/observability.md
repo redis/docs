@@ -265,7 +265,7 @@ and high CPU utilization may indicate a large key scenario.
 
 #### Unbalanced database endpoint
 
-One possible cause is that the database endpoint is not located on the same node as master shards. In addition to added network latency, if data plane internode encryption is enabled, CPU consumption can increase as well.
+One possible cause of network traffic spikes is that the database endpoint is not located on the same node as the master shards. In addition to added network latency, if data plane internode encryption is enabled, CPU consumption can increase as well.
 
 One solution is to use the optimal shard placement and proxy policy to ensure endpoints are collocated on nodes hosting master shards. If you need to restore balance (for example, after node failure) you can manually failover shard(s) with the `rladmin` cli tool.
 
