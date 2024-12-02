@@ -338,8 +338,7 @@ networking issue.
 | ------ | ------ | :------ |
 |Slow database operations | Confirm that there are no excessive slow operations in the Redis slow log. | If possible, reduce the number of slow operations being sent to the database. <br/>If this not possible, consider increasing the number of shards in the database. |
 |Increased traffic to the database | Review the network traffic and the database operations per second chart to determine if increased traffic is causing the latency. | If the database is underprovisioned due to increased traffic, consider increasing the number of shards in the database. |
-|Insufficient CPU | Check to see if the CPU utilization is increasing. | Confirm that slow operations are not causing the high CPU utilization.
-If the high CPU utilization is due to increased load, consider adding shards to the database. |
+|Insufficient CPU | Check to see if the CPU utilization is increasing. | Confirm that slow operations are not causing the high CPU utilization. If the high CPU utilization is due to increased load, consider adding shards to the database. |
 
 ## Cache hit rate
 
