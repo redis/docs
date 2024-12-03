@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: TBA
+description: Bug fixes, including a fix for a RHEL 8 OpenSSL dependency issue that caused frequent restarts of the `cm_server` and prevented access to the Redis Software Cluster Manager UI after upgrading to Redis Software version 7.8.2-34.
 linkTitle: 7.8.2-tba (December 2024)
 weight: 89
 aliases: /operate/rs/release-notes/rs-7-8-releases/rs-7-8-2-tba/
@@ -18,17 +18,9 @@ This is a maintenance release for ​[​Redis Software version 7.8.2](https://r
 
 This version offers:
 
-- TBA
+- Bug fixes, including a fix for a RHEL 8 OpenSSL dependency issue that caused frequent restarts of the `cm_server` and prevented access to the Redis Software Cluster Manager UI after upgrading to Redis Software version 7.8.2-34.
 
 ## New in this release
-
-### New features
-
-- TBA
-
-### Enhancements
-
-- TBA
 
 ### Redis database versions
 
@@ -52,11 +44,9 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
+- RS142899: Fixed a RHEL 8 OpenSSL dependency issue that caused frequent restarts of the `cm_server` and prevented access to the Cluster Manager UI after upgrading to Redis Software version 7.8.2-34.
+
 - RS126364: Fixed a memory leak in the DMC proxy process.
-
-- RS137337: Maintenance mode tasks are no longer incorrectly marked as `aborted` when the primary node is demoted.
-
-- TBA
 
 ## Version changes
 
@@ -110,23 +100,6 @@ The following table shows the SHA256 checksums for the available packages:
 
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
-- After upgrading, clusters using Sentinel for service discovery might encounter an issue that requires a restart of the Sentinel service. To determine if your cluster is affected, check for the following symptoms:
-
-    1. The `sentinel masters` command is unresponsive.
-
-    1. Review `sentinel_service.log` for messages such as:
-
-    ```
-    INFO Failed to read ‘HGETALL node:##’, ERROR: ‘HGETALL node:##’ returned empty results (retry ######), will try again in 1s.
-    ```
-
-    Workaround: To resolve the issue, run the following command on each node:
-
-    ```sh
-    supervisorctl restart sentinel_service
-    ```
-    
-    If you are uncertain whether you are impacted or need assistance with remediation, [contact support](https://redis.io/support/).
 
 ## Known limitations
 
