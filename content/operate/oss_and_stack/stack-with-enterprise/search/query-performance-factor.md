@@ -12,7 +12,7 @@ aliases: /operate/oss_and_stack/stack-with-enterprise/search/scalable-search/
          /operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor/
 ---
 
-Query performance factors are intended to increase the performance of queries, including [vector search]({{<relref "/develop/interact/search-and-query/query/vector-search">}}). When enabled, it allows you to increase a database's compute capacity and throughput by allocating more virtual CPUs per shard in addition to horizontal scaling with more shards. This document describes how to configure the query performance factor.
+Query performance factors are intended to increase the performance of queries, including [vector search]({{<relref "/develop/interact/search-and-query/query/vector-search">}}). When enabled, it allows you to increase a database's compute capacity and query throughput by allocating more virtual CPUs per shard. This is in addition to horizontal scaling with more shards which enables a higher throughput of key value operations. This document describes how to configure the query performance factor.
 
 {{<note>}}
 Some use cases might not scale effectively. Redis experts can help determine if vertical scaling with the Redis Query Engine will boost performance for your use case and guide you on whether to use vertical scaling, horizontal scaling, or both.
@@ -40,7 +40,7 @@ If you do not have a cluster that supports Redis Query Engine, [install Redis En
 
 ### CPUs for query performance factor
 
-Vertical scaling of the Redis Query Engine is achieved by provisioning additional CPUs for the search module. At least 20% of the available CPUs must be reserved for Redis internal processing. Use the following formula to define the maximum number of CPUs that can be allocated to search.
+Vertical scaling of the Redis Query Engine is achieved by provisioning additional CPUs for the RediSearch module. At least 20% of the available CPUs must be reserved for Redis internal processing. Use the following formula to define the maximum number of CPUs that can be allocated to search.
 
 | Variable | Value |
 |----------|-------|

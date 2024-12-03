@@ -61,6 +61,10 @@ information. *This requires Redis Enterprise v6.4 or greater*.
 - Use the Redis console to create a database with 250MB RAM with one primary and one replica.
 - If you are deploying RDI for a production environment then secure this database with a password
   and [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security).
+- Set the database's
+  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
+  [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
+  to AOF - fsync every 1 sec.
 
 You should then provide the details of this database in the [`values.yaml`](#the-valuesyaml-file)
 file as described below.
@@ -464,6 +468,28 @@ collector-api-<id>                 1/1    Running       0        29m
 
 You can verify that the RDI API works by adding the server in
 [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
+
+## Using ingress controllers
+
+If you want to expose the RDI API service via the K8s
+[`Ingress`](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+resource, you must ensure that an appropriate
+[ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) is available in your K8s cluster. Follow the documentation of your cloud provider or of
+the ingress controller to install the controller correctly.
+
+### Using the `nginx` ingress controller on AKS
+
+On AKS, if you want to use the open source
+[`nginx`](https://nginx.org/)
+[ingress controller](https://github.com/kubernetes/ingress-nginx/blob/main/README.md#readme)
+rather than the
+[AKS application routing add-on](https://learn.microsoft.com/en-us/azure/aks/app-routing),
+follow the AKS documentation for
+[creating an unmanaged ingress controller](https://learn.microsoft.com/en-us/troubleshoot/azure/azure-kubernetes/load-bal-ingress-c/create-unmanaged-ingress-controller?tabs=azure-cli).
+Specifically, ensure that one or both of the following Helm chart values is set:
+
+- `controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz`
+- `controller.service.externalTrafficPolicy=Local`
 
 ## Prepare your source database
 

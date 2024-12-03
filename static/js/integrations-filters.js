@@ -51,12 +51,27 @@ function handleAlphaFilterClick(event) {
     filterGridItems(); // Apply filter based on the selected first letter
 }
 
+// Function to handle key down events
+function keyDownHandler(event) {
+    switch (event.key) {
+        case "Enter":
+            visibleLibrariesAndTools = document.querySelectorAll("article.flex.flex-col.gap-2.transition.relative:not([style='display: none;'])")
+            if (visibleLibrariesAndTools.length == 1) {
+                event.preventDefault();
+                libraryAndToolHref = visibleLibrariesAndTools[0].getElementsByTagName("a")[0].href
+                window.location.assign(libraryAndToolHref)
+            };
+        default:
+            return;
+    }
+};
 
 // Listen for change events on the group filter
 groupFilter.addEventListener('change', filterGridItems);
 
 // Listen for input events on the name filter
 nameFilter.addEventListener('input', filterGridItems);
+nameFilter.addEventListener('keydown', keyDownHandler);
 
 // Attach click event listeners to alpha filter buttons
 alphaFilterButtons.forEach(button => {
