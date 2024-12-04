@@ -29,7 +29,7 @@ Check [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/refere
 
 ### Redis operator version
 
-Your Redis Enterprise clusters must be running version 7.4.2-2 or later before upgrading to 7.8.2-6. See the [7.4 upgrade]({{<relref "/operate/kubernetes/7.4.6/upgrade">}}) for detailed steps.
+Your Redis Enterprise clusters must be running version 7.4.2-2 or later before upgrading to 7.8.2-6. See the [7.4 upgrade](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/openshift-cli/) for detailed steps.
 
 ### Redis database version
 
@@ -37,7 +37,7 @@ Your Redis databases must be running version 7.2 or later before upgrading your 
 
 ### RHEL9-compatible modules
 
-Upgrading to Redis operator version 7.8.2-6 involves migrating your Redis Enterprise nodes to RHEL9 from either Ubuntu 18 or RHEL8. If your databases use modules, you need to manually install modules compatibile with RHEL9.
+Upgrading to Redis operator version 7.8.2-6 involves migrating your Redis Enterprise nodes to RHEL9 from either Ubuntu 18 or RHEL8. If your databases use modules, you need to manually install modules compatible with RHEL9.
 
 To see which modules you have installed, run:
 
@@ -56,6 +56,7 @@ See [Upgrade modules]({{<relref "/operate/oss_and_stack/stack-with-enterprise/in
 ### Valid license
 
 Use `kubectl get rec` and verify the `LICENSE STATE` is valid on your REC before you start the upgrade process.
+
 ## Upgrade the operator
 
 ### Download the bundle
