@@ -31,7 +31,7 @@ To enable the API:
 
 To authenticate REST API calls, you need to combine the API account key with an [API user key]({{< relref "/operate/rc/api/get-started/manage-api-keys#api-user-keys" >}}) to make API calls.
 
-Only account owners can see the access key in the account settings.
+Only account owners can see the access key in the account settings and give API access to other users.
 
 {{< warning >}}
 Make sure that you keep your access keys secret. Anyone who sends an API request with a valid access key can make changes to your account.
