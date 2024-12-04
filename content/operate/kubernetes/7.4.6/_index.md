@@ -11,7 +11,7 @@ hideListLinks: false
 linkTitle: 7.4.6
 weight: 50
 url: '/operate/kubernetes/7.4.6/'
-bannerText: This documentation applies to version 7.4.6. For documentation on the latest version, see [redis.io/docs/latest/kubernetes/](https://redis.io/docs/latest/operate/kubernetes/).
+bannerText: This documentation applies to version 7.4.6. For documentation on the latest version, see [redis.io/docs/latest/operate/kubernetes/](https://redis.io/docs/latest/operate/kubernetes/).
 bannerChildren: true
 ---
 
