@@ -32,7 +32,7 @@ Check [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/refere
 
 ### Redis operator version
 
-Your Redis Enterprise clusters must be running version 7.4.2-2 or later before upgrading to 7.8.2-6. See the [7.4 upgrade]({{<relref "/operate/kubernetes/7.4.6/upgrade">}}) for detailed steps.
+Your Redis Enterprise clusters must be running version 7.4.2-2 or later before upgrading to 7.8.2-6. See the [7.4 upgrade](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/upgrade-redis-cluster/) for detailed steps.
 
 ### Redis database version
 
