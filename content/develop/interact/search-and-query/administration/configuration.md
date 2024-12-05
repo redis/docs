@@ -26,9 +26,9 @@ Configuration parameters for Redis Query Engine are now set in the following way
 
 ## Redis Query Engine configuration parameters
 
-The following table summarizes which configuration parameters can be set at run-time, and compatibility with Redis Enterprise and Redis Cloud.
+The following table summarizes which configuration parameters can be set at run-time, and compatibility with Redis Software and Redis Cloud.
 
-| Old parameter name                | New parameter name                                              | Run-time             | Redis<br />Enterprise | Redis<br />Cloud |
+| Old parameter name                | New parameter name                                              | Run-time             | Redis<br />Software | Redis<br />Cloud |
 | :-------                          | :-----                                                          | :-----------         | :--| :-- |
 | BG_INDEX_SLEEP_GAP                | [search-bg-index-sleep-gap](#search-bg-index-sleep-gap)         | :white_large_square: |||
 | CONCURRENT_WRITE_MODE             | [search-concurrent-write-mode](#search-concurrent-write-mode)   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
@@ -236,7 +236,7 @@ Valid range: `[1 .. 9,223,372,036,854,775,807]`
 
 Redis CE default: `100`
 
-Redis Enterprise default: `-1` (unlimited)
+Redis Software default: `-1` (unlimited)
 
 Redis Cloud defaults:
 - Flexible & Annual: `-1` (unlimited)
@@ -268,7 +268,7 @@ Valid range: `[1 .. 9,223,372,036,854,775,807]`
 
 Redis CE default: `-1` (unlimited)
 
-Redis Enterprise default: `-1` (unlimited)
+Redis Software default: `-1` (unlimited)
 
 Redis Cloud defaults:
 - Flexible & Annual: `-1` (unlimited)
@@ -311,7 +311,7 @@ Valid range: `[1 .. 9,223,372,036,854,775,807]`
 
 Redis CE default: `1000000`
 
-Redis Enterprise default: `1000000`
+Redis Software default: `1000000`
 
 Redis Cloud defaults:
 - Flexible & Annual: `1000000`
@@ -357,7 +357,7 @@ Valid range: `[2 .. 4,294,967,295]`
 
 Redis CE default: `4`
 
-Redis Enterprise and Redis Cloud default: `2`
+Redis Software and Redis Cloud default: `2`
 
 ### search-multi-text-slop
 
@@ -456,7 +456,7 @@ Value range: `[1 .. 9,223,372,036,854,775,807]`
 
 Redis CE default: `500`
 
-Redis Enterprise default: `500`
+Redis Software default: `500`
 
 Redis Cloud defaults:
 - Flexible & Annual: `500`

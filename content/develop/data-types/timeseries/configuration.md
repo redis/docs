@@ -22,7 +22,7 @@ As of Redis Community Edition 8.0, configuration parameters for the time series 
 
 ## Redis time series configuration parameters
 
-| Old parameter name   | New parameter name | Run-time | Redis<br />Enterprise | Redis<br />Cloud |
+| Old parameter name   | New parameter name | Run-time | Redis<br />Software | Redis<br />Cloud |
 | :-------             | :-------           | :------- | :-------              | :-------         |
 | CHUNK_SIZE_BYTES     | [ts-chunk-size-bytes](#ts-chunk-size-bytes)                   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | COMPACTION_POLICY    | [ts-compaction-policy](#ts-compaction-policy)                 | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
@@ -203,7 +203,7 @@ Valid range: `[1..16]`
 
 Redis CE default: `3`
 
-Redis Enterprise default: Set by plan, and automatically updates when you change your plan.
+Redis Software default: Set by plan, and automatically updates when you change your plan.
 
 Redis Cloud defaults:
 - Flexible & Annual: Set by plan
