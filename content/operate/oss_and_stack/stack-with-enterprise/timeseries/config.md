@@ -33,4 +33,4 @@ To change RedisTimeSeries configuration using the Redis Software Cluster Manager
 
 ## Configuration settings
 
-See [configuration settings]({{< relref "/develop/data-types/timeseries/configuration" >}}) in the Develop section.
+See [configuration parameters]({{< relref "/develop/data-types/timeseries/configuration" >}}) in the Develop section for parameter details and compatibility with Redis Software and Redis Cloud.

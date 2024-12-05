@@ -23,17 +23,17 @@ As of Redis Community Edition 8.0, configuration parameters for the probabilisti
 
 ## Redis probabilistic data structure configuration parameters
 
-The following table summarizes which Bloom filter configuration parameters can be set at run-time, and compatibility with Redis Enterprise and Redis Cloud
+The following table summarizes which Bloom filter configuration parameters can be set at run-time, and compatibility with Redis Software and Redis Cloud
 
-| Old parameter name | New parameter name                          | Run-time           | Redis<br />Enterprise | Redis<br />Cloud |
+| Old parameter name | New parameter name                          | Run-time           | Redis<br />Software | Redis<br />Cloud |
 | :-------           | :-------                                    | :-------           | :-------              | :-------         |
 | ERROR_RATE         | [bf-error-rate](#bf-error-rate)             | :white_check_mark: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 |                    | [bf-expansion-factor](#bf-expansion-factor) | :white_check_mark: |||
 | INITIAL_SIZE       | [bf-initial-size](#bf-initial-size)         | :white_check_mark: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 
-The following table summarizes which Cuckoo filter configuration parameters can be set at run-time, and compatibility with Redis Enterprise and Redis Cloud.
+The following table summarizes which Cuckoo filter configuration parameters can be set at run-time, and compatibility with Redis Software and Redis Cloud.
 
-| Old parameter name | New parameter name                          | Run-time           | Redis<br />Enterprise | Redis<br />Cloud |
+| Old parameter name | New parameter name                          | Run-time           | Redis<br />Software | Redis<br />Cloud |
 | :-------           | :-------                                    | :-------           | :-------              | :-------         |
 |                    | [cf-bucket-size](#cf-bucket-size)           | :white_check_mark: |||
 |                    | [cf-initial-size](#cf-initial-size)         | :white_check_mark: |||

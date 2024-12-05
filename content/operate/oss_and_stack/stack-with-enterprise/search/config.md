@@ -66,4 +66,4 @@ For Redis Enterprise Software, use one of the following methods:
 
 ## Configuration settings
 
-See [configuration settings]({{< relref "/develop/interact/search-and-query/administration/configuration" >}}) in the Develop section.
+See [configuration parameters]({{< relref "/develop/interact/search-and-query/administration/configuration" >}}) in the Develop section for parameter details and compatibility with Redis Software and Redis Cloud.
