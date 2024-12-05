@@ -11,12 +11,18 @@ EXAMPLE = 'EXAMPLE:'
 GO_OUTPUT = 'Output:'
 TEST_MARKER = {
     'java': '@Test',
+    'java-sync': '@Test',
+    'java-async': '@Test',
+    'java-reactive': '@Test',
     'c#': '\[Fact\]|\[SkipIfRedis\(.*\)\]'
 }
 PREFIXES = {
     'python': '#',
     'node.js': '//',
     'java': '//',
+    'java-sync': '//',
+    'java-async': '//',
+    'java-reactive': '//',
     'go': '//',
     'c#': '//',
     'redisvl': '#',
