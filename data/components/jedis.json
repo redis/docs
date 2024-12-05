@@ -2,14 +2,14 @@
   "id": "jedis",
   "type": "client",
   "name": "jedis",
-  "language": "Java",
-  "label": "Java Sync",
+  "language": "Java-Sync",
+  "label": "Java-Sync",
   "repository": {
       "git_uri": "https://github.com/redis/jedis"
   },
   "examples": {
-      "git_uri": "https://github.com/redis/jedis",
-      "dev_branch": "master",
+      "git_uri": "/Users/andrew.stark/Documents/Repos/forks/jedis",
+      "dev_branch": "DOC-4560-trans-pipe-examples",
       "path": "src/test/java/io/redis/examples",
       "pattern": "*.java"
   }
