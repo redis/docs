@@ -2,8 +2,8 @@
   "id": "jedis",
   "type": "client",
   "name": "jedis",
-  "language": "Java",
-  "label": "Java Sync",
+  "language": "Java-Sync",
+  "label": "Java-Sync",
   "repository": {
       "git_uri": "https://github.com/redis/jedis"
   },

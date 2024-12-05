@@ -2,8 +2,8 @@
   "id": "lettuce_reactive",
   "type": "client",
   "name": "lettuce_reactive",
-  "language": "Java",
-  "label": "Java Reactive",
+  "language": "Java-Reactive",
+  "label": "Java-Reactive",
   "repository": {
       "git_uri": "https://github.com/redis/lettuce"
   },
