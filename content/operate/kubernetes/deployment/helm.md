@@ -53,6 +53,20 @@ See [`values.yaml`](https://github.com/RedisLabs/redis-enterprise-operator/blob/
 
 ### Install with values file
 
+1. View configurable values with `helm show values`.
+
+2. Create a YAML file with the values you wish to configure.
+
+3. Install the chart with the `--values` option.
+
+    ```sh
+    helm install <operator-name> redis-enterprise-helm/redis-enterprise-operator \
+        -- version <release-name> \
+        -- namespace <namespace-name> \
+        -- create-namespace
+        -- values <path-to-values-file>
+    ```
+    
 ### Install and override specific default values
 
 ## Uninstall
