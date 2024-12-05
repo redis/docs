@@ -24,6 +24,6 @@ See [Team Management roles]({{< relref "/operate/rc/security/access-control/acce
 
 Redis Flex is now available in Preview on Redis Cloud Essentials.
 
-Redis Flex databases have a combined solid state drive (SSD) and RAM architecture. Using SSDs instead of RAM significantly reduces infrastructure costs, which means developers can build applications that require large datasets using the same Redis API.
+Redis Flex databases have a tiered solid state drive (SSD) and RAM architecture. Using SSDs instead of RAM significantly reduces infrastructure costs, which means developers can build applications that require large datasets using the same Redis API.
 
 See [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) for more info.
