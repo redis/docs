@@ -23,7 +23,7 @@ If you need additional resources, you can [upgrade your subscription]({{< relref
 
 ## Current plans
 
-These plans are currently offered for all new and upgraded Essentials subscriptions (updated March 2024).
+These plans are currently offered for all new and upgraded Essentials subscriptions (updated December 2024).
 
 ### Redis Cloud Essentials plans
 
