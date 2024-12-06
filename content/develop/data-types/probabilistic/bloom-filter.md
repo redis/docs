@@ -111,11 +111,11 @@ BF.RESERVE {key} {error_rate} {capacity} [EXPANSION expansion] [NONSCALING]
 The rate is a decimal value between 0 and 1. For example, for a desired false positive rate of 0.1% (1 in 1000), error_rate should be set to 0.001.
 
 #### 2. Expected capacity (`capacity`)
-This is the number of elements you expect having in your filter in total and is trivial when you have a static set but it becomes more challenging when your set grows over time. It's important to get the number right because if you **oversize** - you'll end up wasting memory. If you **undersize**, the filter will fill up and a new one will have to be stacked on top of it (sub-filter stacking). In the cases when a filter consists of multiple sub-filters stacked on top of each other latency for adds stays the same, but the latency for presence checks increases. The reason for this is the way the checks work: a regular check would first be performed on the top (latest) filter and if a negative answer is returned the next one is checked and so on. That's where the added latency comes from.
+This is the number of items you expect having in your filter in total and is trivial when you have a static set but it becomes more challenging when your set grows over time. It's important to get the number right because if you **oversize** - you'll end up wasting memory. If you **undersize**, the filter will fill up and a new one will have to be stacked on top of it (sub-filter stacking). In the cases when a filter consists of multiple sub-filters stacked on top of each other latency for adds stays the same, but the latency for presence checks increases. The reason for this is the way the checks work: a regular check would first be performed on the top (latest) filter and if a negative answer is returned the next one is checked and so on. That's where the added latency comes from.
 
 #### 3. Scaling (`EXPANSION`)
-Adding an element to a Bloom filter never fails due to the data structure "filling up". Instead the error rate starts to grow. To keep the error close to the one set on filter initialisation - the Bloom filter will auto-scale, meaning when capacity is reached an additional sub-filter will be created.  
- The size of the new sub-filter is the size of the last sub-filter multiplied by `EXPANSION`. If the number of elements to be stored in the filter is unknown, we recommend that you use an expansion of 2 or more to reduce the number of sub-filters. Otherwise, we recommend that you use an expansion of 1 to reduce memory consumption. The default expansion value is 2. 
+Adding an item to a Bloom filter never fails due to the data structure "filling up". Instead, the error rate starts to grow. To keep the error close to the one set on filter initialization - the Bloom filter will auto-scale, meaning, when capacity is reached, an additional sub-filter will be created.  
+ The size of the new sub-filter is the size of the last sub-filter multiplied by `EXPANSION`. If the number of items to be stored in the filter is unknown, we recommend that you use an expansion of 2 or more to reduce the number of sub-filters. Otherwise, we recommend that you use an expansion of 1 to reduce memory consumption. The default expansion value is 2. 
  
  The filter will keep adding more hash functions for every new sub-filter in order to keep your desired error rate. 
 
@@ -127,16 +127,14 @@ If you know you're not going to scale use the `NONSCALING` flag because that way
 
 ### Total size of a Bloom filter
 The actual memory used by a Bloom filter is a function of the chosen error rate:
-```
-bits_per_item = -log(error)/ln(2)
-memory = capacity * bits_per_item
-  
-memory = capacity * (-log(error)/ln(2))
-```
 
-- 1% error rate requires 10.08 bits per item
-- 0.1% error rate requires  14.4 bits per item
-- 0.01% error rate requires  20.16 bits per item
+The optimal number of hash functions is `ceil(-ln(error_rate) / ln(2))`.
+
+The required number of bits per item, given the desired `error_rate` and the optimal number of hash functions, is `-ln(error_rate) / ln(2)^2`. Hence, the required number of bits in the filter is `capacity * -ln(error_rate) / ln(2)^2`.
+
+* **1%**    error rate requires  7 hash functions and  9.585 bits per item.
+* **0.1%**  error rate requires 10 hash functions and 14.378 bits per item.
+* **0.01%** error rate requires 14 hash functions and 19.170 bits per item.
 
 Just as a comparison, when using a Redis set for membership testing the memory needed is:
 
@@ -144,9 +142,7 @@ Just as a comparison, when using a Redis set for membership testing the memory n
 memory_with_sets = capacity*(192b + value)
 ```
 
-For a set of IP addresses, for example, we would have around 40 bytes (320 bits) per element, which is considerably higher than the 20 bits per element we need for a Bloom filter with 0.01% precision.
-
-
+For a set of IP addresses, for example, we would have around 40 bytes (320 bits) per element, which is considerably higher than the 19.170 bits per item we need for a Bloom filter with 0.01% precision.
 
 
 ## Bloom vs. Cuckoo filters
