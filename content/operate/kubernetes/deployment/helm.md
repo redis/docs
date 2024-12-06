@@ -23,7 +23,7 @@ Helm charts provide a simple way to install the Redis Enterprise for Kubernetes 
 
 ## Install
 
-1. Add the `redis-enterprise-helm` repository.
+1. Add the `redis` repository.
 
     ```sh
     helm repo add redis-enterprise-helm https://helm.redis.io/
@@ -49,11 +49,11 @@ HELM INSTALL FROM LOCAL DIRECTORY
 
 ## Configuration
 
-See [`values.yaml`](https://github.com/RedisLabs/redis-enterprise-operator/blob/master/deploy/helm/redis-enterprise-operator/values.yaml) for the default values.
+helm show values redis/redis-enterprise-operator --version <release-name>
 
 ### Install with values file
 
-1. View configurable values with `helm show values`.
+1. View configurable values with `helm show values redis/redis-enterprise-operator --version <release-name>`.
 
 2. Create a YAML file with the values you wish to configure.
 
