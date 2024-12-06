@@ -142,7 +142,7 @@ Just as a comparison, when using a Redis set for membership testing the memory n
 memory_with_sets = capacity*(192b + value)
 ```
 
-For a set of IP addresses, for example, we would have around 40 bytes (320 bits) per element - considerably higher than the 19.170 bits per item we need for a Bloom filter with a 0.01% probability of false positives.
+For a set of IP addresses, for example, we would have around 40 bytes (320 bits) per element - considerably higher than the 19.170 bits per item we need for a Bloom filter with a 0.01% false positives rate.
 
 
 ## Bloom vs. Cuckoo filters
