@@ -21,44 +21,24 @@ There are two default locations for the socket files in Redis Enterprise Softwar
 The default location was changed in case you run any maintenance procedures that delete the `/tmp` directory.
     {{</note>}}
 
-When you upgrade Redis Enterprise Software from an earlier version to 5.2.2 or later, the socket files
-are not moved to the new location by default. You need to either specify a custom location
-for the socket files during [installation]({{< relref "/operate/rs/installing-upgrading" >}}) or use the [following procedure](#change-socket-file-locations) after installation.
+When you upgrade Redis Enterprise Software from an earlier version to 5.2.2 or later, the socket files are not moved to the new location by default. You need to specify the socket file location [during installation](#during-install) or change the location [after cluster setup](#after-cluster-setup).
 
-## Change socket file locations
+## Specify socket file location during install {#during-install}
 
-To change the location of the socket files:
+To specify the socket file location during a new installation, follow the [Install Redis Enterprise Software on Linux]({{<relref "/operate/rs/installing-upgrading/install/install-on-linux">}}) instructions, but use the `-s` [installation script option]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}):
 
-1. On each node in the cluster, run:
+```sh
+sudo ./install.sh -s </path/to/socket/files>
+```
 
-    ```sh
-    sudo rlutil create_socket_path socket_path=/var/opt/redislabs/run
+## Change socket file location after cluster setup {#after-cluster-setup}
+
+To change the socket file location for an existing cluster:
+
+1. Create a new cluster with the new socket file path. To do so, follow the [Install Redis Enterprise Software on Linux]({{<relref "/operate/rs/installing-upgrading/install/install-on-linux">}}) instructions, but use the `-s` [installation script option]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}):
+
+    ```
+    sudo ./install.sh -s </path/to/socket/files>
     ```
 
-1. Identify the node with the `master` role by running the following command on any node in the cluster:
-
-    ```sh
-    rladmin status nodes
-    ```
-
-1. On the master node, change the socket file location:
-
-    ```sh
-    sudo rlutil set_socket_path socket_path=/var/opt/redislabs/run
-    ```
-
-1. To update the socket file location for all other nodes, restart Redis Enterprise Software on each node in the cluster, one at a time:
-
-    ```sh
-    sudo service rlec_supervisor restart
-    ```
-
-1. Restart each database in the cluster to update the socket file location:
-
-    ```sh
-    rladmin restart db <db name>
-    ```
-
-    {{< warning >}}
-Restarting databases can cause interruptions in data traffic.
-    {{< /warning >}}
+1. Use Replica Of to migrate your databases from the original cluster to the new cluster. For detailed steps, see the procedure to [configure Replica Of with different Redis Software clusters]({{<relref "/operate/rs/databases/import-export/replica-of/create#different-cluster">}}).
