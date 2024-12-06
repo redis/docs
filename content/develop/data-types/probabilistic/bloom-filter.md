@@ -10,18 +10,18 @@ categories:
 - kubernetes
 - clients
 description: Bloom filters are a probabilistic data structure that checks for presence
-  of an element in a set
+  of an item in a set
 linkTitle: Bloom filter
 stack: true
 title: Bloom filter
 weight: 10
 ---
 
-A Bloom filter is a probabilistic data structure in Redis Stack that enables you to check if an element is present in a set using a very small memory space of a fixed size.
+A Bloom filter is a probabilistic data structure in Redis Stack that enables you to check if an item is present in a set using a very small memory space of a fixed size.
 
-Instead of storing all of the elements in the set, Bloom Filters store only the items' hashed representation, thus sacrificing some precision. The trade-off is that Bloom Filters are very space-efficient and fast.
+Instead of storing all the items in a set, a Bloom Filter stores only the items' hashed representation, thus sacrificing some precision. The trade-off is that Bloom Filters are very space-efficient and fast.
 
-A Bloom filter can guarantee the absence of an element from a set, but it can only give an estimation about its presence. So when it responds that an element is not present in a set (a negative answer), you can be sure that indeed is the case. But one out of every N positive answers will be wrong. Even though it looks unusual at a first glance, this kind of uncertainty still has its place in computer science. There are many cases out there where a negative answer will prevent more costly operations, for example checking if a username has been taken, if a credit card has been reported as stolen, if a user has already seen an ad and much more.
+A Bloom filter can guarantee the absence of an item from a set, but it can only give an estimation about its presence. So when it responds that an item is not present in a set (a negative answer), you can be sure that indeed is the case. But one out of every N positive answers will be wrong. Even though it looks unusual at first glance, this kind of uncertainty still has its place in computer science. There are many cases out there where a negative answer will prevent more costly operations, for example checking if a username has been taken, if a credit card has been reported as stolen, if a user has already seen an ad and much more.
 
 ## Use cases
 
@@ -142,7 +142,7 @@ Just as a comparison, when using a Redis set for membership testing the memory n
 memory_with_sets = capacity*(192b + value)
 ```
 
-For a set of IP addresses, for example, we would have around 40 bytes (320 bits) per element - considerably higher than the 19.170 bits per item we need for a Bloom filter with a 0.01% false positives rate.
+For a set of IP addresses, for example, we would have around 40 bytes (320 bits) per item - considerably higher than the 19.170 bits we need for a Bloom filter with a 0.01% false positives rate.
 
 
 ## Bloom vs. Cuckoo filters
@@ -155,7 +155,7 @@ Cuckoo filters are quicker on check operations and also allow deletions.
 
 Insertion in a Bloom filter is O(K), where `k` is the number of hash functions. 
 
-Checking for an element is O(K) or O(K*n) for stacked filters, where n is the number of stacked filters.
+Checking for an item is O(K) or O(K*n) for stacked filters, where n is the number of stacked filters.
 
 
 ## Academic sources
