@@ -15,9 +15,11 @@ title: Configuration Parameters
 weight: 100
 ---
 {{< note >}}
-As of Redis Community Edition 8.0, configuration parameters for the probabilistic data structures are now set in the following ways:
+As of Redis Community Edition (CE) 8.0, configuration parameters for the probabilistic data structures are now set in the following ways:
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
+
+Also, Redis CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< baseurl >}}/commands/config-rewrite/) command).
 {{< /note >}}
 
 
@@ -25,21 +27,27 @@ As of Redis Community Edition 8.0, configuration parameters for the probabilisti
 
 The following table summarizes which Bloom filter configuration parameters can be set at run-time, and compatibility with Redis Software and Redis Cloud
 
-| Old parameter name | New parameter name                          | Run-time           | Redis<br />Software | Redis<br />Cloud |
-| :-------           | :-------                                    | :-------           | :-------              | :-------         |
+| Parameter name<br />(version < 8.0) | Parameter name<br />(version &#8805; 8.0) | Run-time | Redis<br />Software | Redis<br />Cloud |
+| :------- | :------- | :------- | :------- | :------- |
 | ERROR_RATE         | [bf-error-rate](#bf-error-rate)             | :white_check_mark: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 |                    | [bf-expansion-factor](#bf-expansion-factor) | :white_check_mark: |||
 | INITIAL_SIZE       | [bf-initial-size](#bf-initial-size)         | :white_check_mark: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 
 The following table summarizes which Cuckoo filter configuration parameters can be set at run-time, and compatibility with Redis Software and Redis Cloud.
 
-| Old parameter name | New parameter name                          | Run-time           | Redis<br />Software | Redis<br />Cloud |
-| :-------           | :-------                                    | :-------           | :-------              | :-------         |
+| Parameter name<br />(version < 8.0) | Parameter name<br />(version &#8805; 8.0) | Run-time | Redis<br />Software | Redis<br />Cloud |
+| :------- | :------- | :------- | :------- | :------- |
 |                    | [cf-bucket-size](#cf-bucket-size)           | :white_check_mark: |||
 |                    | [cf-initial-size](#cf-initial-size)         | :white_check_mark: |||
 |                    | [cf-expansion-factor](#cf-expansion-factor) | :white_check_mark: |||
 | CF_MAX_EXPANSIONS  | [cf-max-expansions](#cf-max-expansions)     | :white_check_mark: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 |                    | [cf-max-iterations](#cf-max-iterations)     | :white_check_mark: |||
+
+{{< note >}}
+Parameter names for Redis CE versions < 8.0, while deprecated, will still be supported in version 8.0.
+{{< /note >}}
+
+---
 
 {{< warning >}}
 A filter should always be sized for the expected capacity and the desired error rate.
@@ -55,7 +63,7 @@ Default error ratio for Bloom filters.
 
 Type: double
 
-Valid range: `[0 .. 1]`; consider limiting the range to `[0 .. 0.25]`.
+Valid range: `[0 .. 1]`
 
 Default: `0.01`
 
@@ -77,7 +85,7 @@ Initial capacity for Bloom filters.
 
 Type: integer
 
-Valid range: `[1 .. 1GB]`
+Valid range: `[1 .. 1,048,576]`
 
 Default: `100`
 
@@ -103,7 +111,7 @@ Cuckoo filter initial capacity.
 
 Type: integer
 
-Valid range: `[2*CF_BUCKET_SIZE .. 1GB]`
+Valid range: `[2*cf-bucket-size .. 1GB]`
 
 Default: `1024`
 

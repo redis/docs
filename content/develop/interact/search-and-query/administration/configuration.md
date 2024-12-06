@@ -17,19 +17,20 @@ linkTitle: Configuration parameters
 title: Configuration parameters
 weight: 1
 ---
-{{< note >}}
-As of Redis Community Edition 8.0, the `FT.CONFIG SET` and `FT.CONFIG GET` commands are deprecated.
-Configuration parameters for Redis Query Engine are now set in the following ways:
-* At load-time via your `redis.conf` file.
-* At run-time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
+{{{< note >}}
+As of Redis Community Edition 8.0, configuration parameters for the time series data structure are now set in the following ways:
+* At load time via your `redis.conf` file.
+* At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
+
+Also, Redis CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< baseurl >}}/commands/config-rewrite/) command).
 {{< /note >}}
 
 ## Redis Query Engine configuration parameters
 
 The following table summarizes which configuration parameters can be set at run-time, and compatibility with Redis Software and Redis Cloud.
 
-| Old parameter name                | New parameter name                                              | Run-time             | Redis<br />Software | Redis<br />Cloud |
-| :-------                          | :-----                                                          | :-----------         | :--| :-- |
+| Parameter name<br />(version < 8.0) | Parameter name<br />(version &#8805; 8.0) | Run-time | Redis<br />Software | Redis<br />Cloud |
+| :------- | :------- | :------- | :------- | :------- |
 | BG_INDEX_SLEEP_GAP                | [search-bg-index-sleep-gap](#search-bg-index-sleep-gap)         | :white_large_square: |||
 | CONCURRENT_WRITE_MODE             | [search-concurrent-write-mode](#search-concurrent-write-mode)   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | CONN_PER_SHARD                    | [search-conn-per-shard](#search-conn-per-shard)                 | :white_check_mark:   |||
@@ -77,6 +78,10 @@ The following table summarizes which configuration parameters can be set at run-
 | PRIVILEGED_THREADS_NUM            | Deprecated in v8.0.0.                                           | :white_large_square: |||
 | WORKER_THREADS                    | Deprecated in v8.0.0.                                           | :white_large_square: |||
 | SAFEMODE                          | Deprecated in v1.6.0. This is now the default setting           | :white_large_square: |||
+
+{{< note >}}
+Parameter names for Redis CE versions < 8.0, while deprecated, will still be supported in version 8.0.
+{{< /note >}}
 
 ---
 

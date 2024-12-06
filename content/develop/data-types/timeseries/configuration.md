@@ -18,12 +18,14 @@ weight: 3
 As of Redis Community Edition 8.0, configuration parameters for the time series data structure are now set in the following ways:
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
+
+Also, Redis CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< baseurl >}}/commands/config-rewrite/) command).
 {{< /note >}}
 
-## Redis time series configuration parameters
+## Time series configuration parameters
 
-| Old parameter name   | New parameter name | Run-time | Redis<br />Software | Redis<br />Cloud |
-| :-------             | :-------           | :------- | :-------              | :-------         |
+| Parameter name<br />(version < 8.0) | Parameter name<br />(version &#8805; 8.0) | Run-time | Redis<br />Software | Redis<br />Cloud |
+| :------- | :------- | :------- | :------- | :------- |
 | CHUNK_SIZE_BYTES     | [ts-chunk-size-bytes](#ts-chunk-size-bytes)                   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | COMPACTION_POLICY    | [ts-compaction-policy](#ts-compaction-policy)                 | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | DUPLICATE_POLICY     | [ts-duplicate-policy](#ts-duplicate-policy)                   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
@@ -33,6 +35,12 @@ As of Redis Community Edition 8.0, configuration parameters for the time series 
 | NUM_THREADS          | [ts-num-threads](#ts-num-threads)                             | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | RETENTION_POLICY     | [ts-retention-policy](#ts-retention-policy)                   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | OSS_GLOBAL_PASSWORD  | Deprecated in v8.0.0. Replace with the `masterauth` password. | :white_check_mark:   |||
+
+{{< note >}}
+Parameter names for Redis CE versions < 8.0, while deprecated, will still be supported in version 8.0.
+{{< /note >}}
+
+---
 
 ### ts-chunk-size-bytes
 
