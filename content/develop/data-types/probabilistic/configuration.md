@@ -85,7 +85,7 @@ Initial capacity for Bloom filters.
 
 Type: integer
 
-Valid range: `[1 .. 1,048,576]`
+Valid range: `[1 .. 1048576]`
 
 Default: `100`
 
@@ -111,7 +111,7 @@ Cuckoo filter initial capacity.
 
 Type: integer
 
-Valid range: `[2*cf-bucket-size .. 1GB]`
+Valid range: `[2*cf-bucket-size .. 1048576]`
 
 Default: `1024`
 
