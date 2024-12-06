@@ -15,17 +15,19 @@ categories:
 command_flags:
 - readonly
 complexity: O(1)
+deprecated_since: 8.0.0
 description: Retrieves runtime configuration options
+doc_flags:
+- deprecated
 group: search
 hidden: false
 linkTitle: FT.CONFIG GET
 module: Search
+replaced_by: '[`CONFIG GET`]({{< relref "/commands/config-get" >}})'
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Retrieves runtime configuration options
-syntax: 'FT.CONFIG GET option
-
-  '
+syntax: FT.CONFIG GET option
 syntax_fmt: FT.CONFIG GET option
 syntax_str: ''
 title: FT.CONFIG GET
