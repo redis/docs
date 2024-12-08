@@ -111,7 +111,7 @@ Number of items in each bucket. A higher bucket size value improves the fill rat
 error_rate = (buckets * hash_functions)/2^fingerprint_size = (buckets*2)/256
 ```
 
-When bucket size of 1 is used the fill rate is 55% and false positive error rate is 2/256 ≈ 0.78% **which is the minimal false positive rate you can achieve**. Larger buckets increase the error rate linearly but improve the fill rate of the filter. For example, a bucket size of 3 yields a 2.34% error rate and 80% fill rate. Bucket size of 4 - a 3.12% error rate and a 95% fill rate. 
+When bucket size of 1 is used the fill rate is 55% and false positive error rate is 2/256 ≈ 0.78% **which is the minimal false positive rate you can achieve**. Larger buckets increase the error rate linearly but improve the fill rate of the filter. For example, a bucket size of 3 yields a 2.34% error rate and an 80% fill rate. Bucket size of 4 yields a 3.12% error rate and a 95% fill rate. 
 
 ### Choosing the scaling factor (`EXPANSION`)
 
