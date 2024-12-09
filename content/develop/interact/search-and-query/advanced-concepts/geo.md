@@ -38,10 +38,15 @@ or for games, simulations, and other artificial scenarios.
 
 ## Storing geospatial data
 
+
+
+## Specifying geospatial data in queries
+
 Redis Query Engine uses the
-[*Well-Known Text*](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)
+[*Well-Known Text* (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)
 format for geospatial data, specifically the `POINT` and `POLYGON`
-constructs.
+constructs. Add fields containing WKT data to your JSON objects,
+then add 
 
 ### `POINT` data
 
