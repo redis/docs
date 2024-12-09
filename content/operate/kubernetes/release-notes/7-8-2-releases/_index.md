@@ -34,6 +34,32 @@ This means upgrades to 7.8.2-6 or later require:
 
 See [Upgrade Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster">}}) for detailed steps to upgrade to 7.8.2-6 or later.
 
+## Supported distributions
+
+The following table shows supported distributions at the time of this release. You can also find this list in [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
+
+<span title="Check mark icon">&#x2705;</span> Supported – This distribution is supported for this version of Redis Enterprise Software for Kubernetes.
+
+<span title="Deprecation warning" class="font-serif">:warning:</span> Deprecated – This distribution is still supported for this version of Redis Enterprise Software for Kubernetes, but support will be removed in a future release.
+
+<span title="X icon">&#x274c;</span> End of life – Support for this distribution ended.
+
+Any distribution not listed below is not supported for production workloads.
+
+| **Kubernetes version** | **1.25** | **1.26** | **1.27** | **1.28** | **1.29** | **1.30** | **1.31** |
+|---|---|---|---|---|---|---|---|
+| **Community Kubernetes** |  |  | <span title="X icon">&#x274c;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> |
+| **Amazon EKS** |  | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> |  |
+| **Azure AKS** |  |  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> |  |
+| **Google GKE** |  |  | <span title="X icon">&#x274c;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> |  |
+| **Rancher RKE2** |  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> |  |  |  |
+| **VMware TKG 2.3** |  | <span title="Deprecation warning" class="font-serif">:warning:</span> |  |  |  |  |  |
+| **VMware TKG 2.4** |  | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> |  |  |  |  |
+| **OpenShift** | **4.12** | **4.13** | **4.14** | **4.15** | **4.16** |  |  |
+| **** | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> |  |  |
+| **VMWare TKGI** | **1.16** | **1.17** | **1.18** | **1.19** |  |  |  |
+| **** | <span title="X icon">&#x274c;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> | <span title="Check mark icon">&#x2705;</span> |  |  |  |
+
 ## Known limitations
 
 ### New limitations
