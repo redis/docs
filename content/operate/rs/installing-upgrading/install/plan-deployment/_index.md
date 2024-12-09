@@ -32,6 +32,8 @@ Before installing Redis Enterprise Software, you need to:
 - Configure [cluster DNS]({{< relref "/operate/rs/networking/cluster-dns.md" >}}) so that cluster nodes can reach each other by DNS names.
 - By default, the installation process requires an internet connection to install dependencies and synchronize the operating system clock. To learn more, see [Offline installation]({{< relref "/operate/rs/installing-upgrading/install/offline-installation" >}}).
 
+- [Configure different mount points for data and log directories]({{<relref "/operate/rs/installing-upgrading/install/customize-install-directories#config-diff-data-log-dirs">}}).
+
 ## Next steps
 
 After you finish planning your deployment, you can:
