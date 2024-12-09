@@ -33,27 +33,33 @@ There are two types of batch that you can use:
 To execute commands in a pipeline, you first create a pipeline object
 and then add commands to it using methods that resemble the standard
 command methods (for example, `set()` and `get()`). The commands are
-buffered in the pipeline and only execute when you call the `execute()`
-method on the pipeline object. This method returns a list that contains
-the results from all the commands in order.
+buffered in the pipeline and only execute when you call the `sync()`
+method on the pipeline object.
 
-Note that the command methods for a pipeline always return the original
-pipeline object, so you can "chain" several commands together, as the
-example below shows:
+The main difference with the pipeline commands is that they return
+`Response<Type>` objects, where `Type` is the return type of the
+standard command method. A `Response` object contains a valid result
+only after the pipeline has finished executing. You can access the
+result using the `Response` object's `get()` method.
 
-{{< clients-example pipe_trans_tutorial basic_pipe Python >}}
+{{< clients-example pipe_trans_tutorial basic_pipe Java-Sync >}}
 {{< /clients-example >}}
 
 ## Execute a transaction
 
-A pipeline actually executes as a transaction by default (that is to say,
-all commands are executed in an uninterrupted sequence). However, if you
-need to switch this behavior off, you can set the `transaction` parameter
-to `False` when you create the pipeline:
+A transaction works in a similar way to a pipeline. Create a
+transaction object with the `multi()`, call command methods
+on that object, and then call the transaction object's 
+`exec()` method to execute it. You can access the results
+from commands in the transaction using `Response` objects, as
+you would with a pipeline. However, the `exec()` method also
+returns a `List<Object>` value that contains all the result
+values in the order the commands were executed (see
+[Watch keys for changes](#watch-keys-for-changes) below for
+an example that uses the results list).
 
-```python
-pipe = r.pipeline(transaction=False)
-```
+{{< clients-example pipe_trans_tutorial basic_trans Java-Sync >}}
+{{< /clients-example >}}
 
 ## Watch keys for changes
 
@@ -65,26 +71,16 @@ with the latest data from the keys. See
 [Transactions]({{< relref "/develop/interact/transactions" >}})
 for more information about optimistic locking.
 
-The example below shows how to repeatedly attempt a transaction with a watched
-key until it succeeds. The code reads a string
+The code below reads a string
 that represents a `PATH` variable for a command shell, then appends a new
 command path to the string before attempting to write it back. If the watched
-key is modified by another client before writing, the transaction aborts
-with a `WatchError` exception, and the loop executes again for another attempt.
-Otherwise, the loop terminates successfully.
+key is modified by another client before writing, the transaction aborts.
+Note that you should call read-only commands for the watched keys synchronously on
+the usual client object (called `jedis` in our examples) but you still call commands
+for the transaction on the transaction object.
 
-{{< clients-example pipe_trans_tutorial trans_watch Python >}}
-{{< /clients-example >}}
+For production usage, you would generally call code like the following in
+a loop to retry it until it succeeds or else report or log the failure.
 
-Because this is a common pattern, the library includes a convenience
-method called `transaction()` that handles the code to watch keys,
-execute the transaction, and retry if necessary. Pass
-`transaction()` a function that implements your main transaction code,
-and also pass the keys you want to watch. The example below implements
-the same basic transaction as the previous example but this time
-using `transaction()`. Note that `transaction()` can't add the `multi()`
-call automatically, so you must still place this correctly in your
-transaction function.
-
-{{< clients-example pipe_trans_tutorial watch_conv_method Python >}}
+{{< clients-example pipe_trans_tutorial trans_watch Java-Sync >}}
 {{< /clients-example >}}
