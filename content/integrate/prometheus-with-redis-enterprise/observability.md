@@ -129,7 +129,7 @@ This can cause thrashing on the application side, a scenario where the cache is 
 
 This means that when your Redis database is using 100% of available memory, you need
 to measure the rate of
-[key evictions](https://redis.io/docs/latest/operate/rs/references/metrics/database-operations/#evicted-objectssec).
+[key evictions]({{< relref "/operate/rs/references/metrics/database-operations#evicted-objectssec" >}}).
 
 An acceptable rate of key evictions depends on the total number of keys in the database
 and the measure of application-level latency. If application latency is high,
@@ -171,8 +171,8 @@ After your database reaches this 80% threshold, you should closely review the ra
 
 |Issue | Possible causes | Remediation |
 | ------ | ------ | :------ |
-|Redis memory usage has reached 100% |This may indicate an insufficient Redis memory limit for your application's workload | For non-caching workloads (where eviction is unacceptable), immediately increase the memory limit for the database. You can accomplish this through the Redis Enterprise console or its API. Alternatively, you can contact Redis support to assist. For caching workloads, you need to monitor performance closely. Confirm that you have an [eviction policy](https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/) in place. If your application's performance starts to degrade, you may need to increase the memory limit, as described above. |
-|Redis has stopped accepting writes | Memory is at 100% and no eviction policy is in place | Increase the database's total amount of memory. If this is for a caching workload, consider enabling an [eviction policy](https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/). In addition, you may want to determine whether the application can set a reasonable TTL (time-to-live) on some or all of the data being written to Redis. |
+|Redis memory usage has reached 100% |This may indicate an insufficient Redis memory limit for your application's workload | For non-caching workloads (where eviction is unacceptable), immediately increase the memory limit for the database. You can accomplish this through the Redis Enterprise console or its API. Alternatively, you can contact Redis support to assist. For caching workloads, you need to monitor performance closely. Confirm that you have an [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) in place. If your application's performance starts to degrade, you may need to increase the memory limit, as described above. |
+|Redis has stopped accepting writes | Memory is at 100% and no eviction policy is in place | Increase the database's total amount of memory. If this is for a caching workload, consider enabling an [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}). In addition, you may want to determine whether the application can set a reasonable TTL (time-to-live) on some or all of the data being written to Redis. |
 |Cache hit ratio is steadily decreasing | The application's working set size may be steadily increasing. Alternatively, the application may be misconfigured (for example, generating more than one unique cache key per cached item.) | If the working set size is increasing, consider increasing the memory limit for the database. If the application is misconfigured, review the application's cache key generation logic. |
 
 
@@ -231,7 +231,7 @@ excess inefficient Redis operations, and hot master shards.
 | ------ | ------ | :------ |
 |High CPU utilization across all shards of a database | This usually indicates that the database is under-provisioned in terms of number of shards. A secondary cause may be that the application is running too many inefficient Redis operations. | You can detect slow Redis operations by enabling the slow log in the Redis Enterprise UI. First, rule out inefficient Redis operations as the cause of the high CPU utilization. The Latency section below includes a broader discussion of this metric in the context of your application. If inefficient Redis operations are not the cause, then increase the number of shards in the database. |
 |High CPU utilization on a single shard, with the remaining shards having low CPU utilization | This usually indicates a master shard with at least one hot key. Hot keys are keys that are accessed extremely frequently (for example, more than 1000 times per second). | Hot key issues generally cannot be resolved by increasing the number of shards. To resolve this issue, see the section on Hot keys below. |
-| High Proxy CPU | There are several possible causes of high proxy CPU. First, review the behavior of connections to the database. Frequent cycling of connections, especially with TLS is enabled, can cause high proxy CPU utilization. This is especially true when you see more than 100 connections per second per thread. Such behavior is almost always a sign of a misbehaving application. Review the total number of operations per second against the cluster. If you see more than 50k operations per second per thread, you may need to increase the number of proxy threads. | In the case of high connection cycling, review the application's connection behavior. In the case of high operations per second, [increase the number of proxy threads](https://redis.io/docs/latest/operate/rs/references/cli-utilities/rladmin/tune/#tune-proxy). |
+| High Proxy CPU | There are several possible causes of high proxy CPU. First, review the behavior of connections to the database. Frequent cycling of connections, especially with TLS is enabled, can cause high proxy CPU utilization. This is especially true when you see more than 100 connections per second per thread. Such behavior is almost always a sign of a misbehaving application. Review the total number of operations per second against the cluster. If you see more than 50k operations per second per thread, you may need to increase the number of proxy threads. | In the case of high connection cycling, review the application's connection behavior. In the case of high operations per second, [increase the number of proxy threads]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-proxy" >}}). |
 |High Node CPU | You will typically detect high shard or proxy CPU utilization before you detect high node CPU utilization. Use the remediation steps above to address high shard and proxy CPU utilization. In spite of this, if you see high node CPU utilization, you may need to increase the number of nodes in the cluster. | Consider increasing the number of nodes in the cluster and the rebalancing the shards across the new nodes. This is a complex operation and you should do it with the help of Redis support. |
 |High System CPU | Most of the issues above will reflect user-space CPU utilization. However, if you see high system CPU utilization, this may indicate a problem at the network or storage level. | Review network bytes in and network bytes out to rule out any unexpected spikes in network traffic. You may need perform some deeper network diagnostics to identify the cause of the high system CPU utilization. For example, with high rates of packet loss, you may need to review network configurations or even the network hardware. |
 
@@ -375,7 +375,7 @@ See the [Cache hit ratio and eviction](#cache-hit-ratio-and-eviction) section fo
 ## Key eviction rate
 
 They **key eviction rate** is rate at which objects are being evicted from the database.
-See [eviction policy](https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/) for a discussion of key eviction and its relationship with memory usage.
+See [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) for a discussion of key eviction and its relationship with memory usage.
 
 Dashboard displaying object evictions - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
 {{< image filename="/images/playbook_eviction-expiration.png" alt="Dashboard displaying object evictions">}}
@@ -463,8 +463,8 @@ and block other operations. If you need to scan the keyspace, especially in a pr
 
 The best way to discover slow operations is to view the slow log.
 The slow log is available in the Redis Enterprise and Redis Cloud consoles:
-* [Redis Enterprise slow log docs](https://redis.io/docs/latest/operate/rs/clusters/logging/redis-slow-log/)
-* [Redis Cloud slow log docs](https://redis.io/docs/latest/operate/rc/databases/view-edit-database/#other-actions-and-info)
+* [Redis Enterprise slow log docs]({{< relref "/operate/rs/clusters/logging/redis-slow-log" >}})
+* [Redis Cloud slow log docs]({{< relref "/operate/rc/databases/view-edit-database#other-actions-and-info" >}})
 
 Redis Cloud dashboard showing slow database operations
 {{< image filename="/images/slow_log.png" alt="Redis Cloud dashboard showing slow database operations" >}}
@@ -496,7 +496,7 @@ To use the Redis CLI to identify hot keys:
 3. Finally, run `redis-cli --hotkeys`
 
 You may also identify hot keys by sampling the operations against Redis.
-You can use do this by running the [MONITOR](https://redis.io/docs/latest/commands/monitor/) command
+You can use do this by running the [MONITOR]({{< relref "/commands/monitor" >}}) command
 against the high CPU shard. Because this is a potentially high-impact operation, you should only
 use this technique as a secondary option. For mission-critical databases, consider
 contacting Redis support for assistance.
