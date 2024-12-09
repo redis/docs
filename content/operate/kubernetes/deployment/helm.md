@@ -55,18 +55,19 @@ helm show values redis/redis-enterprise-operator --version <release-name>
 
 1. View configurable values with `helm show values redis/redis-enterprise-operator --version <release-name>`.
 
-2. Create a YAML file with the values you wish to configure.
+1. Create a YAML file containing the configuration values you want to set.
+1. Create a YAML file to specify the values you want to configure.
 
-3. Install the chart with the `--values` option.
+1. Install the chart with the `--values` option.
 
     ```sh
     helm install <operator-name> redis-enterprise-helm/redis-enterprise-operator \
         -- version <release-name> \
         -- namespace <namespace-name> \
-        -- create-namespace
+        -- create-namespace \
         -- values <path-to-values-file>
     ```
-    
+
 ### Install and override specific default values
 
 ## Uninstall
