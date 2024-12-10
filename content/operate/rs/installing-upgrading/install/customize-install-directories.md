@@ -67,13 +67,13 @@ To configure different mount points for data and log directories, use symbolic l
 1. Create a symbolic link for the data directory:
 
     ```sh
-    ln -s </path/to/data/mount/point> /var/opt/redislabs/data
+    ln -s /var/opt/redislabs/data </path/to/data/mount/point>
     ```
 
 1. Create a symbolic link for the log directory:
 
     ```sh
-    ln -s </path/to/log/mount/point> /var/opt/redislabs/log
+    ln -s /var/opt/redislabs/log </path/to/log/mount/point>
     ```
 
 ## Limitations
