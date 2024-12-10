@@ -95,7 +95,7 @@ To pull images from a local registry, you must provide the image pull secret and
 
 ## Install the RDI Helm chart
 
-1.  Extract the default `values.yaml` file from the chart into a local
+1.  Scaffold the default `values.yaml` file from the chart into a local
     `rdi-values.yaml` file:
 
     ```bash
