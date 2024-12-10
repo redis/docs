@@ -65,6 +65,8 @@ information. *This requires Redis Enterprise v6.4 or greater*.
   [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
   [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
   to AOF - fsync every 1 sec.
+- **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
+  RDI database is clustered, but it is OK for the target database to be clustered.
 
 You should then provide the details of this database in the [`values.yaml`](#the-valuesyaml-file)
 file as described below.
