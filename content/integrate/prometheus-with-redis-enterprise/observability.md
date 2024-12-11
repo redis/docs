@@ -330,10 +330,6 @@ Here are some possible causes of high database latency. Note that high database 
 why application latency might be high. Application latency can be caused by a variety of factors, including
 a low cache hit rate.
 
-High Proxy CPU - There are several possible causes of high proxy CPU.
-First, a high rate of evictions, or a
-networking issue.
-
 | Issue | Possible causes | Remediation |
 | ------ | ------ | :------ |
 |Slow database operations | Confirm that there are no excessive slow operations in the Redis slow log. | If possible, reduce the number of slow operations being sent to the database. <br/>If this not possible, consider increasing the number of shards in the database. |
