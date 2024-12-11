@@ -1,4 +1,9 @@
 ---
+acl_categories:
+- '@search'
+- '@write'
+- '@dangerous'
+- '@slow'
 arguments:
 - name: index
   type: string

@@ -72,6 +72,14 @@ Checking for all the available categories is as simple as:
 19) "connection"
 20) "transaction"
 21) "scripting"
+22) "json"
+23) "search"
+24) "tdigest"
+25) "cms"
+26) "bloom"
+27) "cuckoo"
+28) "topk"
+29) "timeseries"
 ```
 
 Then we may want to know what commands are part of a given category:

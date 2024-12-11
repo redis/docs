@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@json'
+- '@write'
+- '@slow'
 arguments:
 - arguments:
   - name: key

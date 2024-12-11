@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@search'
+- '@admin'
+- '@fast'
 arguments:
 - name: option
   type: string

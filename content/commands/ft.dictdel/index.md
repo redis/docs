@@ -1,4 +1,7 @@
 ---
+acl_categories:
+- '@search'
+- '@fast'
 arguments:
 - name: dict
   type: string

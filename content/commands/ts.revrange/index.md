@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@timeseries'
+- '@read'
+- '@slow'
 arguments:
 - name: key
   type: key
