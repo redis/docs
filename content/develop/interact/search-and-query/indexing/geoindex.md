@@ -24,20 +24,30 @@ Redis supports two different schema types for geospatial data:
     the JSON object shown below as `GEO`:
 
     ```json
-    {
+   {
+        "description": "Navy Blue Slippers",
+        "price": 45.99,
+        "city": "Denver",
         "location": "-104.991531, 39.742043"
     }
     ```
 -   `GEOSHAPE`: This uses a subset of the 
     [Well-Known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)
-    format to specify both points and points and polygons. A
+    format to specify both points and polygons. A
     `GEOSHAPE` field supports more advanced queries that `GEO`,
     such as checking if one shape overlaps or contains another.
-    For example, the `rect` field of the JSON object shown
-    below specifies a rectangular area:
+    For example, the `geom` field of the JSON object shown
+    below specifies a point (in Cartesian coordinates):
 
     ```json
     {
-        "rect": "POLYGON ((2 2.5, 2 3.5, 3.5 3.5, 3.5 2.5, 2 2.5))" 
+        "name": "Purple Point",
+        "geom": "POINT (2 2)"
     }
     ```
+
+The sections below describe these schema types in more detail.
+
+## `GEO`
+
+
