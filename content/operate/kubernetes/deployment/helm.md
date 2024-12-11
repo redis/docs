@@ -65,7 +65,7 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 1. Install the Helm chart, overriding specific value defaults using `--set`.
 
     ```sh
-    helm install <operator-name> redis-enterprise-helm/redis-enterprise-operator \
+    helm install <operator-name> redis/redis-enterprise-operator \
         -- version <release-name> \
         -- namespace <namespace-name> \
         -- create-namespace
