@@ -26,7 +26,7 @@ Helm charts provide a simple way to install the Redis Enterprise for Kubernetes 
 1. Add the `redis` repository.
 
     ```sh
-    helm repo add redis-enterprise-helm https://helm.redis.io/
+    helm repo add redis-enterprise https://helm.redis.io/
     ```
 
 1. Install the Helm chart into a new namespace.
