@@ -50,4 +50,28 @@ The sections below describe these schema types in more detail.
 
 ## `GEO`
 
+A `GEO` index lets you represent geospatial data either as
+a string containing a longitude-latitude pair (for example,
+"-104.991531, 39.742043") or as a JSON array of these
+strings. Note that the longitude value comes first in the
+string.
 
+The following command creates a `GEO` index for JSON objects
+like the one shown in the example above:
+
+FT.CREATE productidx ON JSON PREFIX 1 product: SCHEMA $.location AS location GEO
+
+If you now add JSON objects with the `product:` prefix and a `location` field,
+they will be added to the index automatically:
+
+>JSON.SET product:46885 $ '{"description": "Navy Blue Slippers","price": 45.99,"city": "Denver","location": "-104.991531, 39.742043"}'
+OK
+>JSON.SET product:46886 $ '{"description": "Bright Green Socks","price": 25.50,"city": "Fort Collins","location": "-105.0618814,40.5150098"}'
+
+
+
+> FT.SEARCH productidx '@location:[-104.800644 38.846127 100 mi]'
+1) "1"
+2) "product:46885"
+3) 1) "$"
+   2) "{\"description\":\"Navy Blue Slippers\",\"price\":45.99,\"city\":\"Denver\",\"location\":\"-104.991531, 39.742043\"}"
