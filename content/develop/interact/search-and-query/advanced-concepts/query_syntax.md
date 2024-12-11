@@ -478,4 +478,4 @@ As of v2.6.1, the query attributes syntax supports these additional attributes:
 
 The query parser is built using the Lemon Parser Generator and a Ragel based lexer. You can see the `DIALECT 2` grammar definition [at this git repo](https://github.com/RediSearch/RediSearch/blob/master/src/query_parser/v2/parser.y).
 
-You can also see the [DEFAULT_DIALECT]({{< baseurl >}}/develop/interact/search-and-query/basic-constructs/configuration-parameters#default_dialect) configuration parameter.
+You can also see the [DEFAULT_DIALECT]({{< baseurl >}}/develop/interact/search-and-query/administration/configuration#default_dialect) configuration parameter.

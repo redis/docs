@@ -33,8 +33,4 @@ To change the RedisBloom configuration using the Redis Software Cluster Manager 
 
 ## Configuration settings
 
-| Setting | Redis<br />Enterprise | Redis<br />Cloud | Notes |
-|:--------|:----------------------|:-----------------|:------|
-| [CF_MAX_EXPANSIONS]({{< relref "/develop/data-types/probabilistic/" >}}configuration/#cf_max_expansions) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> | Default: 32 |
-| [ERROR_RATE]({{< relref "/develop/data-types/probabilistic/" >}}configuration/#error_rate) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> | Default: 0.01 |
-| [INITIAL_SIZE]({{< relref "/develop/data-types/probabilistic/" >}}configuration/#initial_size) | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> | Default: 100 |
+See [configuration parameters]({{< relref "/develop/data-types/probabilistic/configuration" >}}) in the Develop section for parameter details and compatibility with Redis Software and Redis Cloud.
