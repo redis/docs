@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@topk'
+- '@write'
+- '@slow'
 arguments:
 - name: key
   type: key

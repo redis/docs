@@ -274,17 +274,7 @@ really annoying, so instead we do things like this:
 
     > ACL SETUSER antirez on +@all -@dangerous >42a979... ~*
 
-By saying +@all and -@dangerous, we included all the commands and later removed
-all the commands that are tagged as dangerous inside the Redis command table.
-Note that command categories **never include modules commands** with
-the exception of +@all. If you say +@all, all the commands can be executed by
-the user, even future commands loaded via the modules system. However if you
-use the ACL rule +@read or any other, the modules commands are always
-excluded. This is very important because you should just trust the Redis
-internal command table. Modules may expose dangerous things and in
-the case of an ACL that is just additive, that is, in the form of `+@all -...`
-You should be absolutely sure that you'll never include what you did not mean
-to.
+The above command includes all commands (`+@all`) and then removes all commands tagged as dangerous (`-@dangerous`) inside the Redis command table.
 
 The following is a list of command categories and their meanings:
 
@@ -293,16 +283,19 @@ The following is a list of command categories and their meanings:
 * **bitmap** - Data type: bitmaps related.
 * **blocking** - Potentially blocking the connection until released by another
   command.
+* **bloom** - Data type: all Bloom filter related commands.
+* **cms** - Data type: count-min sketch related commands.
 * **connection** - Commands affecting the connection or other connections.
   This includes [`AUTH`](/commands/auth), [`SELECT`](/commands/select), [`COMMAND`](/commands/command), [`CLIENT`](/commands/client), [`ECHO`](/commands/echo), [`PING`](/commands/ping), etc.
+* **cuckoo** - Data type: all Cuckoo filter related commands.
 * **dangerous** - Potentially dangerous commands (each should be considered with care for
   various reasons). This includes [`FLUSHALL`](/commands/flushall), [`MIGRATE`](/commands/migrate), [`RESTORE`](/commands/restore), [`SORT`](/commands/sort), [`KEYS`](/commands/keys),
   [`CLIENT`](/commands/client), [`DEBUG`](/commands/debug), [`INFO`](/commands/info), [`CONFIG`](/commands/config), [`SAVE`](/commands/save), [`REPLICAOF`](/commands/replicaof), etc.
+* **fast** - Fast O(1) commands. May loop on the number of arguments, but not the number of elements in the key.
 * **geo** - Data type: geospatial indexes related.
 * **hash** - Data type: hashes related.
 * **hyperloglog** - Data type: hyperloglog related.
-* **fast** - Fast O(1) commands. May loop on the number of arguments, but not the
-  number of elements in the key.
+* **json** - Data type: all JSON related commands.
 * **keyspace** - Writing or reading from keys, databases, or their metadata 
   in a type agnostic way. Includes [`DEL`](/commands/del), [`RESTORE`](/commands/restore), [`DUMP`](/commands/dump), [`RENAME`](/commands/rename), [`EXISTS`](/commands/exists), [`DBSIZE`](/commands/dbsize),
   [`KEYS`](/commands/keys), [`EXPIRE`](/commands/expire), [`TTL`](/commands/ttl), [`FLUSHALL`](/commands/flushall), etc. Commands that may modify the keyspace,
@@ -313,11 +306,15 @@ The following is a list of command categories and their meanings:
 * **read** - Reading from keys (values or metadata). Note that commands that don't
   interact with keys, will not have either `read` or `write`.
 * **scripting** - Scripting related.
+* **search** - All search related commands.
 * **set** - Data type: sets related.
 * **sortedset** - Data type: sorted sets related.
 * **slow** - All commands that are not `fast`.
 * **stream** - Data type: streams related.
 * **string** - Data type: strings related.
+* **tdigest** - Data type: all t-digest related commands.
+* **timeseries** - Data type: all time series related commands.
+* **topk** - Data type: all top-k related commands.
 * **transaction** - [`WATCH`](/commands/watch) / [`MULTI`](/commands/multi) / [`EXEC`](/commands/exec) related commands.
 * **write** - Writing to keys (values or metadata).
 
@@ -328,43 +325,55 @@ Redis can also show you a list of all categories and the exact commands each cat
 
 Examples:
 
-     > ACL CAT
-     1) "keyspace"
-     2) "read"
-     3) "write"
-     4) "set"
-     5) "sortedset"
-     6) "list"
-     7) "hash"
-     8) "string"
-     9) "bitmap"
-    10) "hyperloglog"
-    11) "geo"
-    12) "stream"
-    13) "pubsub"
-    14) "admin"
-    15) "fast"
-    16) "slow"
-    17) "blocking"
-    18) "dangerous"
-    19) "connection"
-    20) "transaction"
-    21) "scripting"
+```
+> ACL CAT
+ 1) "keyspace"
+ 2) "read"
+ 3) "write"
+ 4) "set"
+ 5) "sortedset"
+ 6) "list"
+ 7) "hash"
+ 8) "string"
+ 9) "bitmap"
+10) "hyperloglog"
+11) "geo"
+12) "stream"
+13) "pubsub"
+14) "admin"
+15) "fast"
+16) "slow"
+17) "blocking"
+18) "dangerous"
+19) "connection"
+20) "transaction"
+21) "scripting"
+22) "json"
+23) "search"
+24) "tdigest"
+25) "cms"
+26) "bloom"
+27) "cuckoo"
+28) "topk"
+29) "timeseries"
+```
 
-As you can see, so far there are 21 distinct categories. Now let's check what
+As you can see, so far there are 29 distinct categories. Now let's check what
 command is part of the *geo* category:
 
-     > ACL CAT geo
-     1) "geohash"
-     2) "georadius_ro"
-     3) "georadiusbymember"
-     4) "geopos"
-     5) "geoadd"
-     6) "georadiusbymember_ro"
-     7) "geodist"
-     8) "georadius"
-     9) "geosearch"
-    10) "geosearchstore"
+```
+> ACL CAT geo
+1) "geohash"
+2) "georadius_ro"
+3) "georadiusbymember"
+4) "geopos"
+5) "geoadd"
+6) "georadiusbymember_ro"
+7) "geodist"
+8) "georadius"
+9) "geosearch"
+10) "geosearchstore"
+```
 
 Note that commands may be part of multiple categories. For example, an
 ACL rule like `+@geo -@read` will result in certain geo commands to be
@@ -470,19 +479,21 @@ and check the output of [`ACL LIST`](/commands/acl-list) or [`ACL GETUSER`](/com
 string that looks pseudo random. Here is an example, because in the previous
 examples, for the sake of brevity, the long hex string was trimmed:
 
-    > ACL GETUSER default
-    1) "flags"
-    2) 1) "on"
-    3) "passwords"
-    4) 1) "2d9c75273d72b32df726fb545c8a4edc719f0a95a6fd993950b10c474ad9c927"
-    5) "commands"
-    6) "+@all"
-    7) "keys"
-    8) "~*"
-    9) "channels"
-    10) "&*"
-    11) "selectors"
-    12) (empty array)
+```
+> ACL GETUSER default
+1) "flags"
+2) 1) "on"
+3) "passwords"
+4) 1) "2d9c75273d72b32df726fb545c8a4edc719f0a95a6fd993950b10c474ad9c927"
+5) "commands"
+6) "+@all"
+7) "keys"
+8) "~*"
+9) "channels"
+10) "&*"
+11) "selectors"
+12) (empty array)
+```
 
 Using SHA256 provides the ability to avoid storing the password in clear text
 while still allowing for a very fast [`AUTH`](/commands/auth) command, which is a very important
