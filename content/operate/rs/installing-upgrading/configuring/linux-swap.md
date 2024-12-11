@@ -19,16 +19,36 @@ When you install or build the OS on the machine intended to host your Redis Ente
 ## Turn off swap
 
 To turn off swap in the OS of an existing server, VM, or instance, you
-must have `sudo` access or be a root user to run the following commands:
+must have `sudo` access or be a root user to run the following commands.
 
-1. Turn off swap:
+Turn off swap:
+
+```sh
+sudo swapoff -a
+```
+
+To ensure swap remains off even after a reboot:
+
+1. Open `/etc/fstab` in a text editor and locate the entry that defines the swap space.
+
+    Example swap space entries:
 
     ```sh
-    sudo swapoff -a
+    /swapfile   none    swap    sw      0       0
     ```
 
-1. Comment out the swap partitions configured in the OS so swap remains off even after a reboot:
+    ```sh
+    UUID=1d5e1de7-226d-4f60-a99c-f7a31a045c59 none            swap    defaults        0 0
+    ```
+
+1. Comment out the swap space entry, then save the file.
+
+    Example swap space entries commented out:
 
     ```sh
-    sudo sed -i.bak '/ swap / s/^(.*)$/#1/g' /etc/fstab
+    #/swapfile   none    swap    sw      0       0
+    ```
+
+    ```sh
+    #UUID=1d5e1de7-226d-4f60-a99c-f7a31a045c59 none            swap    defaults        0 0
     ```
