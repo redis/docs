@@ -60,7 +60,7 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 
 ### Specify values during install
 
-1. View configurable values with `helm show values redis/redis-enterprise-operator --version <release-name>`.
+1. View configurable values with `helm show values redis/redis --version <release-name>`.
 
 1. Install the Helm chart, overriding specific value defaults using `--set`.
 
