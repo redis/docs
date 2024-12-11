@@ -467,7 +467,7 @@ Redis Cloud dashboard showing slow database operations
 
 | Issue | Remediation |
 | ------ | :------ |
-|The KEYS command shows up in the slow log |Find the application that issues the KEYS command and replace it with a SCAN command. In an emergency situation, you can [alter the ACLs for the database user](https://redis.io/docs/latest/operate/rs/security/access-control/rbac/configure-acl/) so that Redis will reject the KEYS command altogether. |
+|The KEYS command shows up in the slow log |Find the application that issues the KEYS command and replace it with a SCAN command. In an emergency situation, you can [alter the ACLs for the database user]({{< relref "/operate/rs/security/access-control/redis-acl-overview/" >}}) so that Redis will reject the KEYS command altogether. |
 |The slow log shows a significant number of slow, O(n) operations | If these operations are being issued against large data structures, then the application may need to be refactored to use more efficient Redis commands. |
 |The slow logs contains only O(1) commands, and these commands are taking several milliseconds or more to complete |This likely indicates that the database is underprovisioned. Consider increasing the number of shards and/or nodes. |
 
