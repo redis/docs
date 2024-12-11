@@ -32,7 +32,7 @@ Helm charts provide a simple way to install the Redis Enterprise for Kubernetes 
 1. Install the Helm chart into a new namespace.
 
     ```sh
-    helm install <operator-name> redis-enterprise-helm/redis-enterprise-operator \
+    helm install <operator-name> redis/redis-enterprise-operator \
         -- version <release-name> \
         -- namespace <namespace-name> \
         -- create-namespace
