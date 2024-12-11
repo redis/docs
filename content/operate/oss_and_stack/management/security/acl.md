@@ -275,6 +275,12 @@ really annoying, so instead we do things like this:
     > ACL SETUSER antirez on +@all -@dangerous >42a979... ~*
 
 The above command includes all commands (`+@all`) and then removes all commands tagged as dangerous (`-@dangerous`) inside the Redis command table.
+Note that command categories, with the exception of `+@all`, never include module commands.
+
+If you use `+@all` for a particular user, all commands are available to that user, including commands loaded via the modules system. However, if you use `+@read` or any other, module commands are excluded. This concept is fundamental because you should only trust the Redis
+internal command table. Modules may expose dangerous things, and in
+the case of an ACL that is just additive, that is, in the form of `+@all -...`,
+you should be absolutely sure that you won't include what you did not mean to.
 
 The following is a list of command categories and their meanings:
 
