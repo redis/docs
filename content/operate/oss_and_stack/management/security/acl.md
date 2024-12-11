@@ -280,7 +280,7 @@ The following is a list of command categories and their meanings:
 
 * **admin** - Administrative commands. Normal applications will never need to use
   these. Includes [`REPLICAOF`](/commands/replicaof), [`CONFIG`](/commands/config), [`DEBUG`](/commands/debug), [`SAVE`](/commands/save), [`MONITOR`](/commands/monitor), [`ACL`](/commands/acl), [`SHUTDOWN`](/commands/shutdown), etc.
-* **bitmap** - Data type: bitmaps related.
+* **bitmap** - Data type: all bitmap related commands.
 * **blocking** - Potentially blocking the connection until released by another
   command.
 * **bloom** - Data type: all Bloom filter related commands.
@@ -292,31 +292,30 @@ The following is a list of command categories and their meanings:
   various reasons). This includes [`FLUSHALL`](/commands/flushall), [`MIGRATE`](/commands/migrate), [`RESTORE`](/commands/restore), [`SORT`](/commands/sort), [`KEYS`](/commands/keys),
   [`CLIENT`](/commands/client), [`DEBUG`](/commands/debug), [`INFO`](/commands/info), [`CONFIG`](/commands/config), [`SAVE`](/commands/save), [`REPLICAOF`](/commands/replicaof), etc.
 * **fast** - Fast O(1) commands. May loop on the number of arguments, but not the number of elements in the key.
-* **geo** - Data type: geospatial indexes related.
-* **hash** - Data type: hashes related.
-* **hyperloglog** - Data type: hyperloglog related.
+* **geo** - Data type: all geospatial index related commands.
+* **hash** - Data type: all hash related commands.
+* **hyperloglog** - Data type: all hyperloglog related commands.
 * **json** - Data type: all JSON related commands.
 * **keyspace** - Writing or reading from keys, databases, or their metadata 
   in a type agnostic way. Includes [`DEL`](/commands/del), [`RESTORE`](/commands/restore), [`DUMP`](/commands/dump), [`RENAME`](/commands/rename), [`EXISTS`](/commands/exists), [`DBSIZE`](/commands/dbsize),
   [`KEYS`](/commands/keys), [`EXPIRE`](/commands/expire), [`TTL`](/commands/ttl), [`FLUSHALL`](/commands/flushall), etc. Commands that may modify the keyspace,
   key, or metadata will also have the `write` category. Commands that only read
   the keyspace, key, or metadata will have the `read` category.
-* **list** - Data type: lists related.
-* **pubsub** - PubSub-related commands.
-* **read** - Reading from keys (values or metadata). Note that commands that don't
-  interact with keys, will not have either `read` or `write`.
+* **list** - Data type: all list related commands.
+* **pubsub** - all pubsub related commands.
+* **read** - Reading from keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
 * **scripting** - Scripting related.
 * **search** - All search related commands.
-* **set** - Data type: sets related.
-* **sortedset** - Data type: sorted sets related.
+* **set** - Data type: all set related commands.
+* **sortedset** - Data type: all sorted set related commands.
 * **slow** - All commands that are not `fast`.
-* **stream** - Data type: streams related.
-* **string** - Data type: strings related.
+* **stream** - Data type: all stream related commands.
+* **string** - Data type: all string related commands.
 * **tdigest** - Data type: all t-digest related commands.
 * **timeseries** - Data type: all time series related commands.
 * **topk** - Data type: all top-k related commands.
 * **transaction** - [`WATCH`](/commands/watch) / [`MULTI`](/commands/multi) / [`EXEC`](/commands/exec) related commands.
-* **write** - Writing to keys (values or metadata).
+* **write** - Writing to keys (values or metadata). Note that commands that don't interact with keys, will not have either `read` or `write`.
 
 Redis can also show you a list of all categories and the exact commands each category includes using the Redis [`ACL CAT`](/commands/acl-cat) command. It can be used in two forms:
 

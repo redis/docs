@@ -200,10 +200,10 @@ syntax_str: "query [VERBATIM] [LOAD\_count field [field ...]] [TIMEOUT\_timeout]
 title: FT.AGGREGATE
 ---
 
-Run a search query on an index, and perform aggregate transformations on the results, extracting statistics etc from them.
+Run a search query on an index and perform aggregate transformations on the results.
 
 {{< note >}}
-This command will only return keys that the user has access to.
+This command will only return keys to which the user has at least read access.
 {{< /note >}}
 
 [Examples](#examples)
