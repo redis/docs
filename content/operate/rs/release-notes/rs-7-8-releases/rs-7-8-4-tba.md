@@ -32,6 +32,16 @@ This version offers:
 
     - To set up certificate-based authentication, use [REST API]({{<relref "/operate/rs/references/rest-api">}}) requests to do the following:
 
+        1. Configure a trusted CA certificate `mtls_trusted_ca` using an [update cluster certificate]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-update_cert">}}) request:
+
+            ```sh
+            PUT /v1/cluster/update_cert
+            {
+              "name": "mtls_trusted_ca",
+              "certificate": "<content of certificate PEM file>"
+            }
+            ```
+
         1. [Update cluster settings]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) with mutual TLS configuration:
 
             ```sh
@@ -49,18 +59,16 @@ This version offers:
               }]
             }
             ```
-        
-        1. Configure a trusted CA certificate `mtls_trusted_ca` using an [update cluster certificate]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-update_cert">}}) request:
+
+        1. Include `"auth_method": "certificate"` and `certificate_subject_line` in the request body when you [create new users]({{<relref "/operate/rs/references/rest-api/requests/users#post-user">}}) or [update existing users]({{<relref "/operate/rs/references/rest-api/requests/users#put-user">}}):
 
             ```sh
-            PUT /v1/cluster/update_cert
+            POST /v1/users | PUT /v1/users/<user-id>
             {
-              "name": "mtls_trusted_ca",
-              "certificate": "<content of certificate PEM file>"
+              "auth_method": "certificate",
+              "certificate_subject_line": "<subject of the user's client certificate>"
             }
             ```
-
-        1. Include `"auth_method": "certificate"` in the request body when you [create new users]({{<relref "/operate/rs/references/rest-api/requests/users#post-user">}}) or [update existing users]({{<relref "/operate/rs/references/rest-api/requests/users#put-user">}}).
 
     - Limitations: 
 
