@@ -83,7 +83,7 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 1. Install the chart with the `--values` option.
 
     ```sh
-    helm install <operator-name> redis-enterprise-helm/redis-enterprise-operator \
+    helm install <operator-name> redis/redis-enterprise-operator \
         -- version <release-name> \
         -- namespace <namespace-name> \
         -- create-namespace \
