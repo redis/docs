@@ -203,7 +203,7 @@ title: FT.AGGREGATE
 Run a search query on an index and perform aggregate transformations on the results.
 
 {{< note >}}
-This command will only return keys to which the user has at least read access.
+This command will only return keys to which the user has read access.
 {{< /note >}}
 
 [Examples](#examples)

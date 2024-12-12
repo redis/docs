@@ -319,7 +319,7 @@ title: FT.SEARCH
 Search the index with a textual query, returning either documents or just ids.
 
 {{< note >}}
-This command will only return keys that the user has access to.
+This command will only return keys to which the user has read access.
 {{< /note >}}
 
 [Examples](#examples)
