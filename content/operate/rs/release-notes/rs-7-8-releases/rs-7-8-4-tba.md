@@ -47,7 +47,7 @@ This version offers:
             ```sh
             PUT /v1/cluster
             {
-              "mtls_certificate_authentication": "enabled",
+              "mtls_certificate_authentication": true,
               "mtls_client_cert_subject_validation_type": "san_cn",
               "mtls_authorized_subjects": [{
                 "CN": "test",
