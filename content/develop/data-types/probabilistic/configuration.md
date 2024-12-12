@@ -59,11 +59,11 @@ Not optimizing a filter for its intended use will result in degradation of perfo
 
 ### bf-error-rate
 
-Default error ratio for Bloom filters.
+Default false positive rate for Bloom filters.
 
 Type: double
 
-Valid range: `[0 .. 1]`
+Valid range: `(0 .. 1)`. Though the valid range is `(0 .. 1)` (corresponding to `> 0%` to `< 100%` false positive rate), any value greater than `0.25` is treated as `0.25`.
 
 Default: `0.01`
 
