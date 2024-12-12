@@ -9,8 +9,8 @@ categories:
 - oss
 - kubernetes
 - clients
-description: How to index and search geospatial data
-linkTitle: Geo indexing
+description: Options for indexing geospatial data
+linkTitle: Geospatial
 title: Geospatial indexing
 weight: 3
 ---
@@ -32,9 +32,8 @@ reference page for a full description of both types.
 
 ## `GEO`
 
-The following [`redis-cli`]({{< relref "/develop/tools/cli" >}}) command
-creates a `GEO` index for JSON objects that contain the geospatial data
-in a field called `location`:
+The following command creates a `GEO` index for JSON objects that contain
+the geospatial data in a field called `location`:
 
 ```bash
 > FT.CREATE productidx ON JSON PREFIX 1 product: SCHEMA $.location AS location GEO

@@ -190,3 +190,13 @@ See
 for more information about these query types and see
 [Geospatial indexing]({{< relref "/develop/interact/search-and-query/indexing/geoindex" >}})
 for examples of indexing `GEOSHAPE` fields.
+
+## Limitations of geographical coordinates
+
+Planet Earth is actually shaped more like an
+[ellipsoid](https://en.wikipedia.org/wiki/Earth_ellipsoid) than a perfect sphere.
+The spherical coordinate system used by Redis Query Engine is a close
+approximation to the shape of the Earth but not exact. For most practical
+uses of geospatial queries, the approximation works very well, but you
+shouldn't rely on it if you need very precise location data (for example, to track
+the GPS locations of boats in an emergency response system).
