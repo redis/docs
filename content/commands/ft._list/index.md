@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@search'
+- '@admin'
+- '@slow'
 categories:
 - docs
 - develop

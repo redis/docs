@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@cms'
+- '@write'
+- '@fast'
 arguments:
 - name: key
   type: key
