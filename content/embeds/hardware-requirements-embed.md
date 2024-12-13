@@ -23,16 +23,16 @@ We recommend these hardware requirements for production systems or for developme
 
 | Item | Description | Minimum requirements | Recommended |
 |------------|-----------------|------------|-----------------|
-| Nodes<sup>*</sup> per cluster | At least three nodes are required to support a reliable, highly available deployment that handles process failure, node failure, and network split events in a consistent manner. | 3 nodes | >= 3 nodes (Must be an odd number of nodes) |
-| Cores<sup>*</sup> per node | Redis Enterprise Software is based on a multi-tenant architecture and can run multiple Redis processes (or shards) on the same core without significant performance degradation. | 4 cores | >=8 cores |
-| RAM<sup>*</sup> per node | Defining your RAM size must be part of the capacity planning for your Redis usage. | 15GB | >=30GB |
+| Nodes<sup>[1](#table-note-1)</sup> per cluster | At least three nodes are required to support a reliable, highly available deployment that handles process failure, node failure, and network split events in a consistent manner. | 3 nodes | >= 3 nodes (Must be an odd number of nodes) |
+| Cores<sup>[2](#table-note-2)</sup> per node | Redis Enterprise Software is based on a multi-tenant architecture and can run multiple Redis processes (or shards) on the same core without significant performance degradation. | 4 cores | >=8 cores |
+| RAM<sup>[3](#table-note-3)</sup> per node | Defining your RAM size must be part of the capacity planning for your Redis usage. | 15GB | >=30GB |
 | Ephemeral Storage | Used for storing [replication files (RDB format) and cluster log files]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}). | RAM x 2 | >= RAM x 4 |
 | Persistent Storage | Used for storing [snapshot (RDB format) and AOF files]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}) over a persistent storage media, such as AWS Elastic Block Storage (EBS) or Azure Data Disk. | RAM x 3 | In-memory >= RAM x 6 (except for [extreme 'write' scenarios]({{< relref "/operate/rs/clusters/optimize/disk-sizing-heavy-write-scenarios" >}}))<br /><br /> [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}}) >= (RAM + Flash) x 5. |
-| Network | We recommend using multiple NICs per node where each NIC is >100Mbps, but Redis Enterprise Software can also run over a single 1Gbps interface network used for processing application requests, inter-cluster communication, and storage access. | 1G | >=10G |
+| Network<sup>[4](#table-note-4)</sup> | We recommend using multiple NICs per node where each NIC is >100Mbps, but Redis Enterprise Software can also run over a single 1Gbps interface network used for processing application requests, inter-cluster communication, and storage access. | 1G | >=10G |
 
-<sup>*</sup>Additional considerations:
+Additional considerations:
 
-- Nodes per Cluster:
+1. <a name="table-note-1"></a>Nodes per cluster:
 
     - Clusters with more than 35 nodes are not supported. Please contact the Redis support team for assistance if your sizing calls for deploying a larger number of nodes.
 
@@ -40,7 +40,7 @@ We recommend these hardware requirements for production systems or for developme
     
     - To ensure synchronization and consistency, Active-Active deployments with three-node clusters should not use quorum nodes. Because quorum nodes do not store data shards, they cannot support replication. In case of a node failure, replica shards aren't available for Active-Active synchronization.
 
-- Cores:
+2. <a name="table-note-2"></a>Cores:
 
     - When the CPU load reaches a certain level, Redis Enterprise Software sends an alert to the operator.  
 
@@ -50,7 +50,7 @@ We recommend these hardware requirements for production systems or for developme
 
     - If all the cluster nodes are utilizing over 80% of the CPU, consider scaling out the cluster by [adding a node]({{< relref "/operate/rs/clusters/add-node" >}}).
 
-- RAM:
+3. <a name="table-note-3"></a> RAM:
 
     - Redis uses a relatively large number of buffers, which enable replica communication, client communication, pub/sub commands, and more.  As a result, you should ensure that 30% of the RAM is available on each node at any given time.
 
@@ -59,3 +59,7 @@ We recommend these hardware requirements for production systems or for developme
     - If all cluster nodes are utilizing more than 70% of available RAM, consider [adding a node]({{< relref "/operate/rs/clusters/add-node" >}}).
 
     - Do not run any other memory-intensive processes on the Redis Enterprise Software node.
+
+4. <a name="table-note-4"></a>Network:
+
+    - Only static IP addresses are supported to ensure nodes remain part of the cluster after a reboot.

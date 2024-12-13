@@ -105,14 +105,15 @@ There are three sections on this tab:
 
 {{<image filename="images/rc/subscription-new-flexible-setup-general.png" width="75%" alt="The General settings of the Setup tab." >}}
 
-The following settings are defined in the **General settings** of the **Setup** tab:
+In the **General settings** of the **Setup** tab, you need to:
 
-| General setting | Description |
-|:---------|:-----------|
-| **Cloud vendor** | The public cloud vendor to deploy your databases. (_required_) |
-| **Region** | The vendor region where you wish to deploy your databases.  (_required_)|
-| **Active-Active Redis** | Hosts your datasets in multiple read-write locations to support distributed applications and disaster recovery. See [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active. |
-| **Auto Tiering**| Determines if your databases are stored only in memory (RAM) or are split between memory and Flash storage (RAM+Flash).  See [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})|
+1. Select the public **Cloud vendor** to deploy your databases.
+
+1. Select the **Region** where you want to deploy your database. 
+
+    {{< note >}}
+This guide is for single region database deployment. If you want to create a multi-region Active-Active database, see [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) for specific steps and configuration options exclusive to Active-Active.
+    {{< /note >}}
 
 #### Version {#version}
 
@@ -135,6 +136,7 @@ The following settings are defined in the **Advanced options** of the **Setup** 
 | **Cloud account** | To deploy these databases to an existing cloud account, select it here.  Use the **Add** button to add a new cloud account.<br/><br/>(Available only if [self-managed cloud vendor accounts]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts" >}}) are enabled) |
 | **VPC configuration** | Select **In a new VPC** to deploy to a new [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC).<br/><br/>To deploy these databases to an existing virtual private cloud, select **In existing VPC** and then set VPC ID to the appropriate ID value.<br/><br/>(Available only if [self-managed cloud vendor accounts]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts" >}}) are enabled) |
 | **Deployment CIDR** | The [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) range of IP addresses for your deployment. Redis creates a new [subnet](https://en.wikipedia.org/wiki/Subnetwork) for the **Deployment CIDR** in your [virtual private cloud](https://en.wikipedia.org/wiki/Virtual_private_cloud) (VPC). It cannot overlap with the CIDR ranges of other subnets used by your account.<br/><br/>For deployments in an existing VPC, the **Deployment CIDR** must be within your VPC's **primary** CIDR range (secondary CIDRs are not supported). |
+| **Auto Tiering**| Determines if your databases are stored only in memory (RAM) or are split between memory and Flash storage (RAM+Flash).  See [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})|
 | **Maintenance windows** | Determines when Redis can perform [maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) on your databases. Select **Manual** if you want to set [manual maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}). |
 
 When finished, choose **Continue** to determine your size requirements.

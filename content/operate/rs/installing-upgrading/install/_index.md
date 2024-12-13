@@ -31,6 +31,8 @@ For installation on machines without an internet connection, see [Offline instal
 Do not reduce permissions to `700`. This configuration has not been tested and is not supported.
     {{</warning>}}
 
+- Redis Enterprise Software requires `umask` to be `0022` during installation to correctly set permissions for the installed directories and files.
+
 ## More info and options
 
 If you've already installed Redis Enterprise Software, you can also:

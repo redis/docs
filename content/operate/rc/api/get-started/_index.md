@@ -53,7 +53,7 @@ User keys are personal secrets. Do not share them.
 {{< /note >}}
 
 Individual owners can [generate multiple user keys]({{< relref "/operate/rc/api/get-started/manage-api-keys.md" >}})
-for themselves, for separate apps, or for other owners within the same account.
+for themselves, for separate apps, or for other owners, viewers, or log viewers within the same account.
 
 Use key names to uniquely associate specific API requests to individual users or apps.
 

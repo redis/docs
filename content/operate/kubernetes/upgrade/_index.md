@@ -33,7 +33,7 @@ When upgrading, both your Kubernetes version and Redis operator version need to 
 
 Redis Enterprise images are now based on Red Hat Enterprise Linux 9 (RHEL9). This means upgrades to 7.8.2-6 require:
 
-- Cluster version of 7.4.2-2 or later.
+- [Cluster version of 7.4.2-2 or later](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/).
 - Database version 7.2 or later.
 - RHEL9 compatible binaries for any modules you need.
 
