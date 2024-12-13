@@ -66,6 +66,11 @@ You can also use the following query syntax to perform more complex numeric quer
 
 Geo fields are used to store geographical coordinates such as longitude and latitude. They enable geospatial radius queries, which allow you to implement location-based search functionality in your applications such as finding nearby restaurants, stores, or any other points of interest.
 
+Redis Query Engine also supports [geoshape fields](#geoshape-fields) for more advanced
+geospatial queries. See the
+[Geospatial]({{< relref "/develop/interact/search-and-query/advanced-concepts/geo" >}})
+reference page for an introduction to the format and usage of both schema types.
+
 You can add geo fields to the schema in [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) using this syntax:
 
 ```
@@ -81,6 +86,57 @@ You can query geo fields using the `@<field_name>:[<lon> <lat> <radius> <unit>]`
 ```
 FT.SEARCH cities "@coords:[2.34 48.86 1000 km]"
 ```
+
+See
+[Geospatial queries]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}})
+for more information and code examples.
+
+## Geoshape fields
+
+Geoshape fields provide more advanced functionality than [Geo](#geo-fields).
+You can use them to represent locations as points but also to define
+shapes and query the interactions between points and shapes (for example,
+to find all points that are contained within an enclosing shape). You can
+also choose between geographical coordinates (on the surface of a sphere)
+or standard Cartesian coordinates. Use geoshape fields for spatial queries
+such as finding all office locations in a specified region or finding
+all rooms in a building that fall within range of a wi-fi router.
+
+See the
+[Geospatial]({{< relref "/develop/interact/search-and-query/advanced-concepts/geo" >}})
+reference page for an introduction to the format and usage of both the
+geoshape and geo schema types.
+
+Add geoshape fields to the schema in
+[`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) using the following syntax:
+
+```
+FT.CREATE ... SCHEMA ... {field_name} GEOSHAPE [FLAT|SPHERICAL] [NOINDEX]
+```
+
+Where:
+-   `FLAT` indicates Cartesian (planar) coordinates.
+-   `SPHERICAL` indicates spherical (geographical) coordinates. This is the
+    default option if you don't specify one explicitly.
+-   `NOINDEX` indicates that the field is not indexed. This is useful for storing
+    coordinates that you don't want to search for, but that you still want to retrieve
+    in search results.
+
+Note that unlike geo fields, geoshape fields don't support the `SORTABLE` option.
+
+Query geoshape fields using the syntax `@<field_name>:[<OPERATION> <shape>]`
+where `<operation>` is one of `WITHIN`, `CONTAINS`, `INTERSECTS`, or `DISJOINT`,
+and `<shape>` is the shape of interest, specified in the
+[Well-known text](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)
+format. For example, the query below finds shapes that contain the point (2, 2):
+
+```
+FT.SEARCH idx "(@geom:[CONTAINS $qshape])" PARAMS 2 qshape "POINT (2 2)" RETURN 1 name DIALECT 4
+```
+
+See
+[Geospatial queries]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}})
+for more information and code examples.
 
 ## Vector fields
 
