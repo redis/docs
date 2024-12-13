@@ -58,7 +58,7 @@ for geospatial data:
 -   [`GEO`](#geo): This uses a simple format where individual geospatial
     points are specified as numeric longitude-latitude pairs.
     
--   [`GEOSHAPE`](#geoshape): [Redis Stack]({{< relref "/operate/oss_and_stack" >}}) also
+-   [`GEOSHAPE`](#geoshape): [Redis Community Edition]({{< relref "/operate/oss_and_stack" >}}) also
     supports `GEOSHAPE` indexing in v7.2 and later.
     This uses a subset of the 
     [Well-Known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)
@@ -161,7 +161,7 @@ POLYGON ((3.5 1, 3.75 2, 4 1, 3.5 1))
 
 {{< image filename="/images/dev/rqe/geoshapes.jpg" >}}
 
-You can run various types of query against a geospatial index. For
+You can run various types of queries against a geospatial index. For
 example, the query below returns one primitive that lies within the boundary
 of the green square (from the example above) but omits the square itself:
 
