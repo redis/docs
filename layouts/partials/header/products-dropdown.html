@@ -2,6 +2,7 @@
   <div class="lg:w-60">
     <div class="flex flex-col gap-4">
       <h3 class="uppercase font-mono mb-2">Products</h3>
+      <div class="w-full h-px bg-redis-pen-300 my-4"></div>
       <a class="flex flex-col group/link" href="https://redis.io/docs/latest/get-started">
         <span class="group-hover/link:text-redis-red-500 tracking-tight">Community Edition</span><span class="text-redis-pen-600 font-sans font-medium">In-memory database for caching and streaming</span>
       </a>
@@ -11,7 +12,7 @@
       <a class="flex flex-col group/link" href="https://redis.io/enterprise">
         <span class="group-hover/link:text-redis-red-500 tracking-tight">Redis Software</span><span class="text-redis-pen-600 font-sans font-medium">Self-managed software with additional compliance, reliability, and resiliency for enterprise scaling</span>
       </a>
-      {{ partial "components/button-link.html" (dict "Href" "https://redis.io/downloads" "Text" "Download") }}   
+     
   </div>
   </div>
   <div class="lg:w-60">
@@ -23,14 +24,17 @@
       <a class="flex flex-col group/link" href="https://redis.io/data-integration/">
         <span class="group-hover/link:text-redis-red-500 tracking-tight">RDI</span>
       </a>
-       <div class="w-full h-px bg-redis-pen-300 my-4"></div>
+       <div class="flex flex-col gap-4">
       <h3 class="uppercase font-mono mb-2">Tools</h3>
+      <div class="w-full h-px bg-redis-pen-300 my-4"></div>
       <a class="flex flex-col group/link" href="https://redis.io/insight">
         <span class="group-hover/link:text-redis-red-500 tracking-tight">Redis Insight</span>
       </a>
       <a class="flex flex-col group/link" href="https://redis.io/clients">
         <span class="group-hover/link:text-redis-red-500 tracking-tight">Clients & Connectors</span>
       </a>
+       {{ partial "components/button-link.html" (dict "Href" "https://redis.io/downloads" "Text" "Download") }} 
+    </div>
     </div>
     </div>
   </div>
