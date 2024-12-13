@@ -1,4 +1,4 @@
-| Database | Versions | Versions for Amazon RDS | Versions for Google Cloud SQL |
+| Database | Versions | AWS RDS  Versions | GCP SQL Versions |
 | :-- | :-- | :-- | :-- |
 | Oracle | 12c, 19c, 21c | 19c, 21c | - |
 | MariaDB | 10.5, 11.4.3 | 10.4 to 10.11, 11.4.3 | - |
