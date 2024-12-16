@@ -2,7 +2,7 @@
   <div class="lg:w-60">
     <div class="flex flex-col gap-4">
       <h3 class="uppercase font-mono mb-2">Products</h3>
-      <div class="w-120 h-px bg-redis-pen-300 my-4"></div>
+      <div class="w-full h-px bg-redis-pen-300 my-4"></div>
       <a class="flex flex-col group/link" href="https://redis.io/docs/latest/get-started">
         <span class="group-hover/link:text-redis-red-500 tracking-tight">Community Edition</span><span class="text-redis-pen-600 font-sans font-medium">In-memory database for caching and streaming</span>
       </a>
@@ -27,20 +27,21 @@
   
   </div>
   </div>
-  <div class="lg:w-60">
-       <div class="flex flex-col gap-4">
-      <h3 class="uppercase font-mono mb-2">Tools</h3>
-      <div class="w-full h-px bg-redis-pen-300 my-4"></div>
-      <a class="flex flex-col group/link" href="https://redis.io/insight">
-        <span class="group-hover/link:text-redis-red-500 tracking-tight">Redis Insight</span>
-      </a>
-      <a class="flex flex-col group/link" href="https://redis.io/clients">
-        <span class="group-hover/link:text-redis-red-500 mb-22 tracking-tight">Clients & Connectors</span>
-      </a>
-         <h3 class="uppercase font-mono mb-2">Get Redis</h3>
-       {{ partial "components/button-link.html" (dict "Href" "https://redis.io/downloads" "Text" "Download") }} 
-    </div>
-    </div>
+ <div class="lg:w-60 bg-gray-100">
+  <div class="flex flex-col gap-4">
+    <h3 class="uppercase font-mono mb-2">Tools</h3>
+    <div class="w-full h-px bg-redis-pen-300 my-4"></div>
+    <a class="flex flex-col group/link" href="https://redis.io/insight">
+      <span class="group-hover/link:text-redis-red-500 tracking-tight font-bold">Redis Insight</span>
+    </a>
+    <a class="flex flex-col group/link" href="https://redis.io/clients">
+      <span class="group-hover/link:text-redis-red-500 mb-22 tracking-tight font-bold">Clients & Connectors</span>
+    </a>
+    <h3 class="uppercase font-mono mb-2 mt-24 font-bold">Get Redis</h3>
+    {{ partial "components/button-link.html" (dict "Href" "https://redis.io/downloads" "Text" "Download") }}
+  </div>
+</div>
+
    
   </div>
   </div>
