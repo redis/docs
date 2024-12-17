@@ -36,8 +36,9 @@
   </div>
 
   <!-- Third Column (Tools Content) -->
-  <div class="lg:w-60 bg-gray-100">
-    <div class="flex flex-col">
+  <div class="w-screen bg-gray-100">
+    <div class="flex justify-start p-8">
+      <div class="flex flex-col gap-4">
       <h3 class="uppercase font-mono mb-2">Tools</h3>
       <div class="w-full h-px bg-redis-pen-300 my-4"></div>
       <a class="flex flex-col group/link" href="https://redis.io/insight">
@@ -49,6 +50,7 @@
       <h3 class="uppercase font-mono mb-2 mt-24 font-bold">Get Redis</h3>
       {{ partial "components/button-link.html" (dict "Href" "https://redis.io/downloads" "Text" "Download") }}
     </div>
+  </div>
   </div>
 </div>
 </div>
