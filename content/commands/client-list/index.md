@@ -114,6 +114,8 @@ Here is the meaning of the fields:
 * `user`: the authenticated username of the client
 * `redir`: client id of current client tracking redirection
 * `resp`: client RESP protocol version. Added in Redis 7.0
+* `rbp`: peak size of the client's read buffer since the client connected. Added in Redis 7.0
+* `rbs`: current size of the client's read buffer in bytes. Added in Redis 7.0
 
 The client flags can be a combination of:
 
