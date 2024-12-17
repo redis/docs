@@ -11,7 +11,7 @@ linkTitle: REST API
 weight: 80
 ---
 
-The [Redis Cloud REST API](https://api.redislabs.com/v1/swagger-ui.html) helps you manage your Redis Cloud databases programmatically.
+The [Redis Cloud REST API]({{< relref "/operate/rc/api/api-reference" >}}) helps you manage your Redis Cloud databases programmatically.
 
 You can use the API to:
  
@@ -41,5 +41,5 @@ You can use the API to:
 ## More info
 
 - Use the [Redis Cloud API]({{< relref "/operate/rc/api/get-started/use-rest-api.md" >}})
-- [Full API Reference](https://api.redislabs.com/v1/swagger-ui.html)
+- [Full API Reference]({{< relref "/operate/rc/api/api-reference" >}})
 - Secure [authentication and authorization]({{< relref "/operate/rc/api/get-started" >}})
