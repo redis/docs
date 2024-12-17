@@ -46,10 +46,4 @@ The JSON body contains only the most basic, required parameters in order to crea
 
 ### Additional database parameters
 
-There are many additional parameters and settings that can be defined on database creation:
-
-- Review the database parameters and options in the [Swagger OpenAPI documentation](https://api.redislabs.com/v1/swagger-ui.html#/Databases).
-- Select `POST Create database`.
-- Under `Database definition`, click on the `Model` options.
-
-{{< image filename="/images/rv/api/swagger-database-create-documentation.png" >}}
+There are many additional parameters and settings that can be defined on database creation. Review the database parameters and options in the [Full API documentation]({{< relref "/operate/rc/api/api-reference#tag/Databases-Pro/operation/createDatabase" >}}).
