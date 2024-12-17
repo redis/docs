@@ -50,7 +50,7 @@ The response body contains the `taskId` for the task that creates the subscripti
 
 ### Update an Essentials subscription
 
-Use [`PUT /v1/fixed/subscriptions/{subscriptionId}`]({{< relref "/operate/rc/api/api-reference#ADD-TAG" >}}) to update an Essentials subscription.
+Use [`PUT /v1/fixed/subscriptions/{subscriptionId}`]({{< relref "/operate/rc/api/api-reference#tag/Subscriptions-Essentials/operation/updateSubscription_1" >}}) to update an Essentials subscription.
 
 ```sh
 PUT "https://[host]/v1/fixed/subscriptions/{subscriptionId}"
@@ -80,7 +80,7 @@ The response body contains the `taskId` for the task that updates the subscripti
 
 ### Delete an Essentials subscription
 
-Use [`DELETE /v1/fixed/subscriptions/{subscriptionId}`]({{< relref "/operate/rc/api/api-reference#ADD-TAG" >}}) to delete a subscription.
+Use [`DELETE /v1/fixed/subscriptions/{subscriptionId}`]({{< relref "/operate/rc/api/api-reference#tag/Subscriptions-Essentials/operation/deleteSubscriptionById_1" >}}) to delete a subscription.
 
 ```sh
 DELETE "https://[host]/v1/fixed/subscriptions/{subscriptionId}"
@@ -91,7 +91,7 @@ The response body contains the `taskId` for the task that deletes the subscripti
 
 ### Create a Pro subscription
 
-Use [`POST /v1/subscriptions`]({{< relref "/operate/rc/api/api-reference#ADD-TAG" >}}) to create a Pro subscription.
+Use [`POST /v1/subscriptions`]({{< relref "/operate/rc/api/api-reference#tag/Subscriptions-Pro/operation/createSubscription" >}}) to create a Pro subscription.
 
 ```sh
 POST "https://[host]/v1/subscriptions"
@@ -130,7 +130,7 @@ Modify the following parameters in the sample JSON document to create a subscrip
 
 - **`cloudAccountId`** - Set a cloud account ID connected to your account.
 
-    To list cloud account IDs, use [`GET /v1/cloud-accounts`]({{< relref "/operate/rc/api/api-reference#ADD-TAG" >}}). 
+    To list cloud account IDs, use [`GET /v1/cloud-accounts`]({{< relref "/operate/rc/api/api-reference#tag/Cloud-Accounts/operation/getCloudAccounts" >}}). 
     
     You don't need to pass this field in your API request if you want to use internal resources.
 
@@ -146,7 +146,7 @@ The response body contains the `taskId` for the task that creates the subscripti
 
 ### Update a Pro subscription
 
-Use [`PUT /v1/subscriptions/{subscriptionId}`]({{< relref "/operate/rc/api/api-reference#ADD-TAG" >}}) to update a Pro subscription.
+Use [`PUT /v1/subscriptions/{subscriptionId}`]({{< relref "/operate/rc/api/api-reference#tag/Subscriptions-Pro/operation/updateSubscription" >}}) to update a Pro subscription.
 
 ```sh
 PUT "https://[host]/v1/subscriptions/{subscriptionId}"
@@ -167,7 +167,7 @@ The response body contains the `taskId` for the task that updates the subscripti
 
 ### Delete a Pro subscription
 
-Use [`DELETE /v1/subscriptions/{subscriptionId}`]({{< relref "/operate/rc/api/api-reference#ADD-TAG" >}}) to delete a subscription.
+Use [`DELETE /v1/subscriptions/{subscriptionId}`]({{< relref "/operate/rc/api/api-reference#tag/Subscriptions-Pro/operation/deleteSubscriptionById" >}}) to delete a subscription.
 
 ```sh
 DELETE "https://[host]/v1/subscriptions/{subscriptionId}"
