@@ -56,7 +56,7 @@ Manage [secure connections]({{< relref "/operate/rc/security" >}}) to cloud data
 ## REST API
 Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage the database.
 - [Get started with the REST API]({{< relref "/operate/rc/api/get-started" >}})
-- REST API [reference](https://api.redislabs.com/v1/swagger-ui.html) & [examples]({{< relref "/operate/rc/api/examples" >}})
+- REST API [reference]({{< relref "/operate/rc/api/api-reference" >}}) & [examples]({{< relref "/operate/rc/api/examples" >}})
 
 
 ## Related info

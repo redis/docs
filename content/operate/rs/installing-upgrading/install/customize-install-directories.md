@@ -14,12 +14,19 @@ When you install Redis Enterprise Software on Red Hat Enterprise Linux, you can 
 
 The files are installed in the `redislabs` directory located in the path that you specify.
 
-{{< note >}}
+## Considerations
+
 - When you install with custom directories, the installation does not run as an RPM file.
+
 - If a `redislabs` directory already exists in the path that you specify, the installation fails.
+
 - All nodes in a cluster must be installed with the same file locations.
+
 - Custom installation directories are not supported for databases using Auto Tiering.
-{{< /note >}}
+
+- [Configure different mount points for data and log directories](#config-diff-data-log-dirs).
+
+## Specify file locations
 
 You can specify these file locations:
 
@@ -52,7 +59,23 @@ To specify directories during [installation]({{< relref "/operate/rs/installing-
 ```sh
 sudo ./install.sh --install-dir <path> --config-dir <path> --var-dir <path>
 ```
- 
+
+## Configure different mount points for data and log directories {#config-diff-data-log-dirs}
+
+To configure different mount points for data and log directories, use symbolic links:
+
+1. Create a symbolic link for the data directory:
+
+    ```sh
+    ln -s /var/opt/redislabs/data </path/to/data/mount/point>
+    ```
+
+1. Create a symbolic link for the log directory:
+
+    ```sh
+    ln -s /var/opt/redislabs/log </path/to/log/mount/point>
+    ```
+
 ## Limitations
 
 Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use custom installation directories.
