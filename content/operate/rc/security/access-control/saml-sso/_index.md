@@ -330,4 +330,4 @@ When a user is removed from your identity provider, their access to Redis Cloud 
 
 When you have revoked a user’s access to Redis Cloud, they cannot access the Redis Cloud console, but their API keys remain active. You can [delete an API key]({{< relref "/operate/rc/api/get-started/manage-api-keys#delete-a-user-key" >}}) to remove access.
 
-To deprovision SAML users upon deletion, the identity provider admin can set up a webhook to automatically make the appropriate Cloud API requests. For more information about managing users with API requests, see [Users](https://api.redislabs.com/v1/swagger-ui.html#/Users) in the Redis Cloud API documentation.
+To deprovision SAML users upon deletion, the identity provider admin can set up a webhook to automatically make the appropriate Cloud API requests. For more information about managing users with API requests, see [Users]({{< relref "/operate/rc/api/api-reference#tag/Users" >}}) in the Redis Cloud API documentation.
