@@ -10,14 +10,14 @@ weight: 1
 This is the General Availability (GA) release of Redis Insight 2.64.
 
 ### Highlights 
-- New in-app reminders notify you before your free Redis Cloud database is deleted due to inactivity, helping you use your free Cloud database to discover the power of Redis in your tech stack.
-- Improved the list of database connections and streamlined the forms for adding connections, providing a cleaner UI to help you focus on what matters.
+- Improved the database connections list and simplified the connection form, delivering a cleaner, more intuitive UI for improved focus.
+- New in-app reminders to prevent your free Redis Cloud database from being deleted due to inactivity, ensuring you can make the most of it to test your ideas.
 
 ### Details
 
 **Features and improvements**
-- [#4189](https://github.com/RedisInsight/RedisInsight/pull/4189), [#4191](https://github.com/RedisInsight/RedisInsight/pull/4191) New in-app reminders notify you before your free Redis Cloud database is deleted due to inactivity, helping you use your free Cloud database to discover the power of Redis in your tech stack.
-- [#4088](https://github.com/RedisInsight/RedisInsight/pull/4088), [#4078](https://github.com/RedisInsight/RedisInsight/pull/4078), [#4094](https://github.com/RedisInsight/RedisInsight/pull/4094) Improved the list of database connections and streamlined the forms for adding connections, providing a cleaner UI to help you focus on what matters.
+- [#4189](https://github.com/RedisInsight/RedisInsight/pull/4189), [#4191](https://github.com/RedisInsight/RedisInsight/pull/4191) New in-app reminders notify you before your free Redis Cloud database is deleted due to inactivity, ensuring you can make the most of it to test your ideas.
+- [#4088](https://github.com/RedisInsight/RedisInsight/pull/4088), [#4078](https://github.com/RedisInsight/RedisInsight/pull/4078), [#4094](https://github.com/RedisInsight/RedisInsight/pull/4094) Improved the database connections list and simplified the connection form, delivering a cleaner, more intuitive UI for improved focus.
 - [#4204](https://github.com/RedisInsight/RedisInsight/pull/4204), [#4196](https://github.com/RedisInsight/RedisInsight/pull/4196), [#4202](https://github.com/RedisInsight/RedisInsight/pull/4202) Various vulnerabilities have been fixed.
 
 **Bugs**
