@@ -247,6 +247,6 @@ The following legacy UI features are not yet available in the new Cluster Manage
 
 You cannot upgrade from a prior RHEL version to RHEL 9 if the Redis Software cluster contains a RedisGraph module, even if unused by any database. The [RedisGraph module has reached end-of-life](https://redis.com/blog/redisgraph-eol/) and is completely unavailable in RHEL 9.
 
-#### Query results might include lazily expired hash key fields
+#### Query results might include hash keys with lazily expired fields
 
-If one or more fields of a hash key expire after an `FT.SEARCH` or `FT.AGGREGATE` query begins, Redis does not account for these lazily expired fields. As a result, expired fields might still be included in the query results, leading to potentially incorrect or inconsistent results.
+If one or more fields of a hash key expire after an `FT.SEARCH` or `FT.AGGREGATE` query begins, Redis does not account for these lazily expired fields. As a result, keys with expired fields might still be included in the query results, leading to potentially incorrect or inconsistent results.
