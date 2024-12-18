@@ -36,9 +36,7 @@ You can use the API to:
     - [Create database]({{< relref "/operate/rc/api/examples/create-database" >}})
     - [Update database]({{< relref "/operate/rc/api/examples/update-database.md" >}})
     - [Back up and import data]({{< relref "/operate/rc/api/examples/back-up-and-import-data.md" >}})
-1. [Manage cloud accounts]({{< relref "/operate/rc/api/examples/manage-cloud-accounts.md" >}})
 1. [Estimate costs]({{< relref "/operate/rc/api/examples/dryrun-cost-estimates.md" >}})
-1. [View account info]({{< relref "/operate/rc/api/examples/view-account-information.md" >}})
     
 ## More info
 
