@@ -39,8 +39,12 @@ This example JSON body contains only the most basic, required parameters in orde
 
 There are many additional parameters and settings that can be defined on database creation. Review the database parameters and options in the [full API reference]({{< relref "/operate/rc/api/api-reference#tag/Databases-Pro/operation/createDatabase" >}}).
 
+The response body contains the `taskId` for the task that creates the database. You can use [`GET /v1/tasks/{taskId}`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getTaskById" >}}) to track the task's status.
+
 ### Update a Redis Cloud Pro database
 
 To update a Redis Cloud Pro database, use `PUT /subscriptions/{subscriptionId}/databases/{databaseId}`. 
 
 The primary component of a database update request is the JSON request body that contains the details of the requested database changes. You can see the full set of changes you can make in the [full API reference]({{< relref "/operate/rc/api/api-reference#tag/Databases-Pro/operation/updateDatabase" >}}).
+
+The response body contains the `taskId` for the task that updates the database. You can use [`GET /v1/tasks/{taskId}`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getTaskById" >}}) to track the task's status.
