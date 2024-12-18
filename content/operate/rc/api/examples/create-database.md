@@ -39,7 +39,7 @@ The response body contains the `taskId` for the task that creates the database. 
 
 ### Update an Essentials database
 
-To update a Redis Cloud Essentials database, use [`PUT /fixed/subscriptions/{subscriptionId}/databases/{databaseId}`]({{< relref "/operate/rc/api/api-reference#ADD-TAG" >}}). 
+To update a Redis Cloud Essentials database, use [`PUT /fixed/subscriptions/{subscriptionId}/databases/{databaseId}`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Essentials/operation/deleteFixedDatabaseByID" >}}). 
 
 The primary component of a database update request is the JSON request body that contains the details of the requested database changes. You can see the full set of changes you can make in the [full API reference]({{< relref "/operate/rc/api/api-reference#tag/Databases-Essentials/operation/deleteFixedDatabaseByID" >}}).
 
@@ -53,9 +53,9 @@ The response body contains the `taskId` for the task that updates the database. 
 
 If you want to create a Pro database in a new subscription, see [Create a Pro subscription]({{< relref "/operate/rc/api/examples/manage-subscriptions#create-a-pro-subscription" >}}).
 
-To create a Redis Cloud Pro database in an existing subscription, use [`POST /subscriptions/{subscriptionId}/databases`]({{< relref "/operate/rc/api/api-reference#ADD-TAG" >}}).
+To create a Redis Cloud Pro database in an existing subscription, use [`POST /subscriptions/{subscriptionId}/databases`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Pro/operation/createDatabase" >}}).
 
-This call creates a database in the specified subscription. Use [`GET /subscriptions`]({{< relref "/operate/rc/api/api-reference#ADD-TAG" >}}) to get a list of subscriptions and their IDs. 
+This call creates a database in the specified subscription. Use [`GET /subscriptions`]({{< relref "/operate/rc/api/api-reference#tag/Subscriptions-Pro/operation/getAllSubscriptions" >}}) to get a list of subscriptions and their IDs. 
 
 ```shell
 POST "https://[host]/v1/subscriptions/{subscriptionId}/databases"
@@ -76,7 +76,7 @@ The response body contains the `taskId` for the task that creates the database. 
 
 ### Update a Redis Cloud Pro database
 
-To update a Redis Cloud Pro database, use [`PUT /subscriptions/{subscriptionId}/databases/{databaseId}`]({{< relref "/operate/rc/api/api-reference#ADD-TAG" >}}). 
+To update a Redis Cloud Pro database, use [`PUT /subscriptions/{subscriptionId}/databases/{databaseId}`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Pro/operation/updateDatabase" >}}). 
 
 The primary component of a database update request is the JSON request body that contains the details of the requested database changes. You can see the full set of changes you can make in the [full API reference]({{< relref "/operate/rc/api/api-reference#tag/Databases-Pro/operation/updateDatabase" >}}).
 
