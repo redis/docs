@@ -12,7 +12,7 @@ weight: 30
 tocEmbedHeaders: true
 ---
 
-Before you upgrade a cluster to a later Redis Software version, review the [supported upgrade paths](##supported-upgrade-paths) and [prerequisites](#upgrade-prerequisites).
+Before you upgrade a cluster to a later Redis Software version, review the [supported upgrade paths](#supported-upgrade-paths) and [prerequisites](#upgrade-prerequisites).
 
 To upgrade a cluster's Redis Software version, use one of the following methods:
 
