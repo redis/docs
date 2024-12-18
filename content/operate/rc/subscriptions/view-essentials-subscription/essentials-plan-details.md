@@ -36,7 +36,7 @@ These plans are currently offered for all new and upgraded Essentials subscripti
 
 1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication where applicable. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#dataset-size" >}}) for more information.
 
-2. <a name="table-note-2" style="display: block; height: 80px; margin-top: -80px;"></a> The monthly total network bandwidth limit applies over all databases in the plan.
+2. <a name="table-note-2" style="display: block; height: 80px; margin-top: -80px;"></a> The monthly total network bandwidth limit applies to the entire plan. All databases in the plan share the allocated bandwidth limit.
 
 3. <a name="table-note-3" style="display: block; height: 80px; margin-top: -80px;"></a> Assumes request size of 1 KiB. Maximums are capped by actual MB/s reached. To find the MB/s limit, divide the Maximum throughput by 1024.
 
@@ -54,6 +54,6 @@ These plans were available before November 2023.
 
 1. <a name="table-note-1-legacy" style="display: block; height: 80px; margin-top: -80px;"></a> Database size includes replication. See [High availability cost impact]({{< relref "/operate/rc/databases/configuration/high-availability#dataset-size" >}}) for more information.
 
-2. <a name="table-note-2-legacy" style="display: block; height: 80px; margin-top: -80px;"></a> The monthly total network bandwidth limit applies over all databases in the plan.
+2. <a name="table-note-2-legacy" style="display: block; height: 80px; margin-top: -80px;"></a> The monthly total network bandwidth limit applies to the entire plan. All databases in the plan share the allocated bandwidth limit.
 
 2. <a name="table-note-2-legacy" style="display: block; height: 80px; margin-top: -80px;"></a> Assumes request size of 1 KiB. Maximums are capped by actual MB/s reached. To find the MB/s limit, divide the Maximum throughput by 1024.
