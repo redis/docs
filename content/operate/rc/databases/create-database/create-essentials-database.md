@@ -14,6 +14,8 @@ tocEmbedHeaders: true
 ---
 
 {{< embed-md "rc-create-db-first-steps.md" >}} 
+
+{{< embed-md "rc-create-db-use-cases.md" >}}
     {{< note >}}
 See [Use case settings](#use-case-settings) to view the default settings for each use case.
     {{< /note >}}
@@ -24,6 +26,7 @@ See [Use case settings](#use-case-settings) to view the default settings for eac
 
     {{< note >}}
 This guide shows how to create an Essentials database.
+- If you'd rather create a Redis Flex database on Redis Cloud Essentials, see [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}})
 - If you'd rather create a Pro database, see [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}).
 - If you already have a Pro subscription and want to add a database to it, see [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}).
     {{< /note >}}

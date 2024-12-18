@@ -13,6 +13,8 @@ tocEmbedHeaders: true
 
 {{< embed-md "rc-create-db-first-steps.md" >}}
 
+{{< embed-md "rc-create-db-use-cases.md" >}}
+
 {{< note >}}See [Use case settings](#use-case-settings) to view the default settings for each use case.{{< /note >}}
 
 4. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Pro**, select **Existing subscription**, and then select your existing pro subscription from the list.
