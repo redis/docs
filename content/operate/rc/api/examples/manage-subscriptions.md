@@ -96,26 +96,27 @@ Use [`POST /v1/subscriptions`]({{< relref "/operate/rc/api/api-reference#tag/Sub
 ```sh
 POST "https://[host]/v1/subscriptions"
 {
-    "name": "Basic subscription example",
+    "name": "Basic Subscription Example",
     "paymentMethodId": <payment_id>,
     "cloudProviders": [
-      {
-        "cloudAccountId": <account_id>,
-        "regions": [
-          {
-            "region": "us-east-1",
-            "networking": {
-              "deploymentCIDR": "10.0.0.0/24"
-            }
-          }
-        ]
-      }
+        {
+            "provider": "AWS",
+            "regions": [
+                {
+                    "region": "us-east-1",
+                    "networking": {
+                        "deploymentCIDR": "10.0.1.0/24"
+                    }
+                }
+            ]
+        }
     ],
     "databases": [
-      {
-        "name": "Redis-database-example",
-        "memoryLimitInGb": 1.1
-      }
+        {
+            "name": "Redis-database-example",
+            "protocol": "redis",
+            "datasetSizeInGb": 1
+        }
     ]
 }
 ```
@@ -128,19 +129,9 @@ Modify the following parameters in the sample JSON document to create a subscrip
 
     You don't need to pass this field in your API request if you subscribed to Redis Cloud through a marketplace integration.
 
-- **`cloudAccountId`** - Set a cloud account ID connected to your account.
+The request JSON body contains two primary segments: subscription specification and databases specification. When you create a subscription, you must specify one or more databases in the "`databases`" array. 
 
-    To list cloud account IDs, use [`GET /v1/cloud-accounts`]({{< relref "/operate/rc/api/api-reference#tag/Cloud-Accounts/operation/getCloudAccounts" >}}). 
-    
-    You don't need to pass this field in your API request if you want to use internal resources.
-
-The request JSON body contains two primary segments: subscription specification and databases specification. When you create a subscription, you must specify one or more databases in the "`databases`" array.
-
-You can include the contents of the JSON document in the `POST /subscriptions` operation in the [Swagger UI](https://api.redislabs.com/v1/swagger-ui.html). See [Swagger user interface]({{< relref "/operate/rc/api/get-started/use-rest-api#swagger-user-interface" >}}) for more details.
-
-{{< note >}}
-The Swagger UI generates default JSON examples for `POST` and `PUT` operations. You can reference these examples and modify them to fit your specific needs and account settings. The examples will fail if used as-is.
-{{< /note >}}
+There are many additional parameters and settings that can be defined on subscription and database creation. Review the subscription parameters and options in the [Full API documentation]({{< relref "/operate/rc/api/api-reference#tag/Subscriptions-Pro/operation/createSubscription" >}}).
 
 The response body contains the `taskId` for the task that creates the subscription. You can use [`GET /v1/tasks/{taskId}`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getTaskById" >}}) to track the task's status.
 
