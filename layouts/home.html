@@ -72,112 +72,138 @@
       </nav>
     </div>
     <div class="lg:px-11 w-full flex flex-col gap-3">
-      <h2 class="text-5xl font-medium" id="operate">Learn</h2>
-        {{ partial "docs-section.html" (dict
-          "Title" "Develop with Redis"
-          "Description" "Learn how to use the Redis in-memory data store."
-	  "ButtonLink" "./develop"
-          "ButtonLabel" "Learn more"
-          "LinksLeftTitle" "Featured content"
-          "LinksLeft" (slice
-            (dict "Text" "Vector search" "URL" "./develop/interact/search-and-query/query/vector-search")
-            (dict "Text" "Data structure store" "URL" "./develop/get-started/data-store/")
-	    (dict "Text" "Document database" "URL" "./develop/get-started/document-database/")
-          )
-        ) }}
-        {{ partial "docs-section.html" (dict
-          "Title" "Libraries and tools"
-          "Description" "Learn about libraries and tools available for Redis."
-          "ButtonLink" "./integrate"
-          "ButtonLabel" "Browse tools"
-          "LinksLeftTitle" "Featured libraries"
-          "LinksLeft" (slice
-            (dict "Text" "RedisVL" "URL" "./integrate/redisvl/")
-            (dict "Text" "RedisOM for Python" "URL" "./integrate/redisom-for-python")
-            (dict "Text" "Ingest" "URL" "./integrate/redis-data-integration/")
-            (dict "Text" "Write-behind" "URL" "./integrate/write-behind/quickstart/write-behind-guide/")
-          )
-        ) }}
-        {{ partial "docs-section.html" (dict
-          "Title" "Redis Data Integration"
-          "Description" "Redis Data Integration keeps Redis in sync with the primary database in near real time."
-          "ButtonLink" "./integrate/redis-data-integration"
-          "ButtonLabel" "Learn more"
-          "LinksLeftTitle" "LEARN MORE"
-          "LinksLeft" (slice
-            (dict "Text" "Quick start" "URL" "./integrate/redis-data-integration/quick-start-guide")
-            (dict "Text" "Architecture" "URL" "./integrate/redis-data-integration/architecture")
-            (dict "Text" "Install" "URL" "./integrate/redis-data-integration/installation")
-            (dict "Text" "Reference" "URL" "./integrate/redis-data-integration/reference")
-          )
-        ) }}
-        {{ partial "docs-section.html" (dict
-          "Title" "Redis Insight"
-          "Description" "A cross-platform GUI for Redis, with focus on reducing memory usage and improving application performance."
-          "ButtonLink" "./develop/tools/insight/"
-          "ButtonLabel" "Learn more"
-          "LinksLeftTitle" "Learn more"
-          "LinksLeft" (slice
-            (dict "Text" "Install" "URL" "./operate/redisinsight/install/")
-            (dict "Text" "User guide" "URL" "./develop/tools/insight/")
-            (dict "Text" "Manage Streams in Redis Insight" "URL" "./develop/tools/insight/tutorials/insight-stream-consumer/")
-          )
-        ) }}
-      </div>
-      <div class="lg:px-11 w-full flex flex-col gap-3">
-        <h2 class="text-5xl font-medium" id="operate">Explore</h2>
-        {{ partial "docs-section.html" (dict
-          "Title" "Redis and Stack"
-          "Description" "Redis Stack extends Redis with modern data models and processing engines."
-          "ButtonLink" "./operate/oss_and_stack/"
-          "ButtonLabel" "Read more"
-          "LinksLeftTitle" "Learn more"
-          "LinksLeft" (slice
-            (dict "Text" "Install" "URL" "./operate/oss_and_stack/install/install-stack/")
-            (dict "Text" "Redis Query Engine" "URL" "./develop/interact/search-and-query/")
-            (dict "Text" "JSON" "URL" "./develop/data-types/json/")
-          )
-        ) }}
-        {{ partial "docs-section.html" (dict
-          "Title" "Redis Cloud"
-          "Description" "Deploy Redis Enterprise on Amazon Web Services, Google Cloud, or Microsoft Azure."
-          "ButtonLink" "./operate/rc"
-          "ButtonLabel" "Read more"
-          "LinksLeftTitle" "Learn more"
-          "LinksLeft" (slice
-            (dict "Text" "Quick start" "URL" "./operate/rc/rc-quickstart/")
-            (dict "Text" "Subscriptions" "URL" "./operate/rc/subscriptions/")
-            (dict "Text" "Databases" "URL" "./operate/rc/databases/")
-	    (dict "Text" "Active-Active" "URL" "./operate/rc/databases/create-database/create-active-active-database/")
-          )
-        ) }}
-        {{ partial "docs-section.html" (dict
-          "Title" "Redis Enterprise Software"
-          "Description" "A self-managed data platform that unlocks the full potential of Redis at enterprise scale."
-          "ButtonLink" "./operate/rs"
-          "ButtonLabel" "Read more"
-          "LinksLeftTitle" "Learn more"
-          "LinksLeft" (slice
-            (dict "Text" "Quick start" "URL" "./operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart/")
-            (dict "Text" "Clusters" "URL" "./operate/rs/clusters/")
-            (dict "Text" "Databases" "URL" "./operate/rs/databases/")
-	    (dict "Text" "Networking" "URL" "./operate/rs/networking/")
-          )
-        ) }}
-        {{ partial "docs-section.html" (dict
-          "Title" "Redis Enterprise for Kubernetes"
-          "Description" "Redis Enterprise deployed on containerized software platforms and integrated with our partners."
-          "ButtonLink" "./operate/kubernetes/"
-          "ButtonLabel" "Read more"
-          "LinksLeftTitle" "Learn more"
-          "LinksLeft" (slice
-            (dict "Text" "Architecture" "URL" "./operate/kubernetes/architecture/")
-            (dict "Text" "Deployments" "URL" "./operate/kubernetes/deployment/")
-            (dict "Text" "Clusters" "URL" "./operate/kubernetes/re-clusters/")
-            (dict "Text" "Databases" "URL" "./operate/kubernetes/re-databases/")
-          )
-        ) }}
-      </div>
+             <h1>
+          Welcome to Redis documentation</h1>
+      
+             
+    
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Get started</th>
+<th style="text-align:left">Install RedisInsight</th>
+<th style="text-align:left">Install Redis Stack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">
+
+
+
+    
+
+
+
+	
+
+<a href='/docs/latest/images/ai-cube.png' sdata-lightbox="/images/ai-cube.png">
+	<img src='/docs/latest/images/ai-cube.png'
+		  
+		 
+		  alt="AI Redis icon." 
+		 />
+</a>
+<a href="https://redis.io/docs/latest/operate/rc/rc-quickstart/">Free Redis Cloud account and database quick start guide</a>
+
+
+<td style="text-align:left">
+
+
+
+    
+
+
+
+	
+
+<a href='/docs/latest/images/ai-brain.png' sdata-lightbox="/images/ai-brain.png">
+	<img src='/docs/latest/images/ai-brain.png'
+		  
+		 
+		  alt="AI Redis icon." 
+		 />
+</a>
+ <a href="https://redis.io/docs/latest/operate/oss_and_stack/redisinsight/install/">RedisInsight on AWS EC2, Docker, Kubernetes, and desktop install guide</a></td></td>
+<td style="text-align:left">
+
+
+
+    
+
+
+
+	
+
+<a href='/docs/latest/images/ai-lib.png' sdata-lightbox="/images/ai-lib.png">
+	<img src='/docs/latest/images/ai-lib.png'
+		  
+		 
+		  alt="AI Redis icon." 
+		 />
+</a>
+<a href="https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/">Redis Stack on Linux, macOS, Windows, or Docker install guide</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="overview">Deploy Redis to production</h2>
+<ul>
+<li>Use the [Redis Software deployment planning guide]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/" >}}) for enterprise-grade deployments including hybrid and geo-distributed environments.</li>
+<li>Refer to the [Redis Cloud documentation]({{< relref "/operate/rc/“ >}} to deploy Redis on Amazon Web Services, Google Cloud, or Microsoft Azure.</li>
+<li>See the [Deploy Redis Software for Kubernetes]({{< relref "/operate/kubernetes/deployment/quick-start/“ >}} to get started with the container image.</li>
+</ul>
+<h2 id="concepts">Easily migrate to Redis and integrate with your systems</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left”>Ingest and sync data to Redis</th>
+<th style="text-align:left">Migrate to Redis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">
+
+
+
+    
+
+
+
+	
+
+<a href='/docs/latest/images/ai-search.png' sdata-lightbox="/images/ai-search.png">
+	<img src='/docs/latest/images/ai-search.png'
+		  
+		 
+		  alt="AI Redis icon." 
+		 />
+</a>
+<a href="/docs/latest/develop/integrate/redis-data-integration/quick-start-guide/">Redis Data Integration pipeline quickstart guide</a></td>
+<td style="text-align:left">
+
+
+
+    
+
+
+
+	
+
+<a href='/docs/latest/images/ai-model.png' sdata-lightbox="/images/ai-model.png">
+	<img src='/docs/latest/images/ai-model.png'
+		  
+		 
+		  alt="AI Redis icon." 
+		 />
+</a>
+<a href=“/“docs/latest/integrate/riot">Redis input and output CLI tool user guide</a></td>
+<td style="text-align:left">
+
+</tr>
+</tbody>
+</table>
+
     </div>
   </div>
   <script>
