@@ -17,6 +17,7 @@ weight: $weight
 | action_uid | string | Action UID. If it exists, progress can be tracked by the `GET`&nbsp;`/actions/{uid}` API request (read-only) |
 | auth_method | **'regular'**<br />'certificate'<br />'entraid' | User's authentication method |
 | bdbs_email_alerts | complex object | UIDs of databases that user will receive alerts for |
+| certificate_subject_line | string | The certificate’s subject line as defined by RFC2253. Used for certificate-based authentication users only. |
 | cluster_email_alerts | boolean | Activate cluster email alerts for a user |
 | email | string | User's email (pattern matching only ASCII characters) |
 | email_alerts | boolean (default:&nbsp;true) | Activate email alerts for a user |
