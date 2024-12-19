@@ -71,8 +71,8 @@
         </div>
       </nav>
     </div>
-    <div class="lg:px-11 w-full flex flex-col gap-3">
- <h2 class="text-5xl font-medium" id="operate">Welcome to Redis Documentation</h2>
+    <div class="lg:px-11 w-screen flex flex-col gap-3">
+ <h2 class="text-5xl font-medium" id="operate">Welcome to Redis Docs</h2>
       
              
     
@@ -107,7 +107,7 @@
 <td style="text-align:left">
 
 {{ partial "docs-section.html" (dict
-          "Title" "Optimize data in RedisInsight GUI"
+          "Title" "Optimize data in RedisInsight"
           "Description" "RedisInsight on AWS EC2, Docker, Kubernetes, and desktop install guide"
 	  "ButtonLink" ".operate/oss_and_stack/redisinsight/install/"
           "ButtonLabel" "Install guide"  
@@ -123,7 +123,12 @@
 <td style="text-align:left">
 
 
-
+{{ partial "docs-section.html" (dict
+          "Title" "Redis Stack provides querying, indexing, full-text search, JSON, time series, and probabilistic data structures."
+          "Description" "Redis Stack on Linux, macOS, Windows, or Docker install guide"
+	  "ButtonLink" ".operate/oss_and_stack/install/install-stack/"
+          "ButtonLabel" "Install guide"  
+         ) }}
     
 
 
@@ -131,13 +136,7 @@
 	
 
 <a href='/docs/latest/images/ai-lib.png' sdata-lightbox="/images/ai-lib.png">
-	<img src='/docs/latest/images/ai-lib.png'
-		  
-		 
-		  alt="AI Redis icon." 
-		 />
-</a>
-<a href="https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/">Redis Stack on Linux, macOS, Windows, or Docker install guide</a></td>
+</td>
 </tr>
 </tbody>
 </table>
