@@ -16,8 +16,8 @@ This is the General Availability (GA) release of Redis Insight 2.64.
 ### Details
 
 **Features and improvements**
-- [#4189](https://github.com/RedisInsight/RedisInsight/pull/4189), [#4191](https://github.com/RedisInsight/RedisInsight/pull/4191) New in-app reminders notify you before your free Redis Cloud database is deleted due to inactivity, ensuring you can make the most of it to test your ideas.
 - [#4088](https://github.com/RedisInsight/RedisInsight/pull/4088), [#4078](https://github.com/RedisInsight/RedisInsight/pull/4078), [#4094](https://github.com/RedisInsight/RedisInsight/pull/4094) Improved the database connections list and simplified the connection form, delivering a cleaner, more intuitive UI for improved focus.
+- [#4189](https://github.com/RedisInsight/RedisInsight/pull/4189), [#4191](https://github.com/RedisInsight/RedisInsight/pull/4191) New in-app reminders notify you before your free Redis Cloud database is deleted due to inactivity, ensuring you can make the most of it to test your ideas.
 - [#4204](https://github.com/RedisInsight/RedisInsight/pull/4204), [#4196](https://github.com/RedisInsight/RedisInsight/pull/4196), [#4202](https://github.com/RedisInsight/RedisInsight/pull/4202) Various vulnerabilities have been fixed.
 
 **Bugs**
