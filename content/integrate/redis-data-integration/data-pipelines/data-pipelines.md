@@ -110,6 +110,14 @@ sources:
   #   sink:
   #     redis.memory.limit.mb: 100
   #     redis.memory.threshold.percentage: 85
+  #  Uncomment the lines below for production usage with high availability (HA). When writing data 
+  #  to the state database or the target with HA enabled, RDI should wait briefly for an
+  #  acknowledgment from the replica database. It should also retry a write operation after a 
+  #  certain delay if the original operation times out.
+  #     redis.wait.enabled:true
+  #     redis.wait.timeout.ms:2
+  #     redis.wait.retry.enabled:true
+  #     redis.wait.retry.delay.ms: 
   # Source specific properties - see the full list at https://debezium.io/documentation/reference/stable/connectors/
   #   source:
   #     snapshot.mode: initial
