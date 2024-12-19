@@ -72,8 +72,7 @@
       </nav>
     </div>
     <div class="lg:px-11 w-full flex flex-col gap-3">
-             <h1>
-          Welcome to Redis documentation</h1>
+ <h2 class="text-5xl font-medium" id="operate">Learn</h2>
       
              
     
@@ -88,7 +87,12 @@
 <tbody>
 <tr>
 <td style="text-align:left">
-
+{{ partial "docs-section.html" (dict
+          "Title" "Redis Cloud"
+          "Description" "Free Redis Cloud account and database quick start guide"
+	  "ButtonLink" ".operate/rc/rc-quickstart/"
+          "ButtonLabel" "Quick start guide"  
+         ) }}
 
 
     
@@ -97,14 +101,7 @@
 
 	
 
-<a href='/docs/latest/images/ai-cube.png' sdata-lightbox="/images/ai-cube.png">
-	<img src='/docs/latest/images/ai-cube.png'
-		  
-		 
-		  alt="AI Redis icon." 
-		 />
-</a>
-<a href="https://redis.io/docs/latest/operate/rc/rc-quickstart/">Free Redis Cloud account and database quick start guide</a>
+
 
 
 <td style="text-align:left">
