@@ -84,4 +84,5 @@ Improvements (since 2.10.4):
 - The version inside Redis will be 2.10.5 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a Release Candidate flag.
 - Minimal Redis version: 7.4
 - If indexing and querying RedisJSON data structures, this version is best combined with RedisJSON 2.8 (v2.8.2 onwards)
+- If one or more fields of a hash key expire after a query begins (using FT.SEARCH or FT.AGGREGATE), Redis does not account for these lazily expired fields. As a result, keys with expired fields may still be included in the query results, leading to potentially incorrect or inconsistent results.
 {{< /note >}}
