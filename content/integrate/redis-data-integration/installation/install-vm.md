@@ -232,11 +232,15 @@ silent install configuration:
 title = "RDI Silent Installer Config"
 
 scaffold = true
+db_index = 4
 deploy_directory = "/opt/rdi/config"
 
-# Needed if the installer detects a DNS resolver with a loopback address
-# as an upstream DNS server
-nameservers = ["8.8.8.8", "8.8.4.4"]
+# Upstream DNS servers. This is needed if the installer detects a DNS resolver 
+# with a loopback address as an upstream DNS server.
+# nameservers = ["8.8.8.8", "8.8.4.4"]
+
+# HTTPS port you want to expose the RDI API on, if different from 443.
+# https_port = 5443
 
 [rdi.database]
 host = "localhost"
@@ -266,7 +270,8 @@ The sections below describe the properties in more detail.
 | `scaffold` | Do you want to enable [scaffolding]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-scaffold" >}}) during the install? (true/false) |
 | `db_index` | Integer to specify the source database type for scaffolding. The options are 2 (MySQL/MariaDB), 3 (Oracle), 4 (PostgreSQL), and 5 (SQL Server). |
 | `deploy_directory` | Path to the directory where you want to store the RDI configuration. |
-| `nameservers` | This is needed if the installer detects a DNS resolver with a loopback address as an upstream DNS server (for example, `nameservers = ["8.8.8.8", "8.8.4.4"]`). |
+| `nameservers` | Upstream DNS servers. This is needed if the installer detects a DNS resolver with a loopback address as an upstream DNS server (for example, `nameservers = ["8.8.8.8", "8.8.4.4"]`). |
+| `https_port` | HTTPS port you want to expose the RDI API on, if different from 443. |
 
 #### `rdi.database`
 
