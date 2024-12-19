@@ -1,5 +1,5 @@
 ---
-Title: View Redis slow log
+Title: View and manage Redis slow log
 alwaysopen: false
 categories:
 - docs
@@ -9,32 +9,32 @@ description: null
 linkTitle: Slow log
 weight: $weight
 ---
-On the **Databases** \> **Slowlog** page, you can view Slow Log details
-for Redis Enterprise Software databases.
 
-[Redis Slow Log](http://redis.io/commands/slowlog) is one of the best
+[Redis slow log]({{<relref "/commands/slowlog">}}) is one of the best
 tools for debugging and tracing your Redis database, especially if you
 experience high latency and high CPU usage with Redis operations.
-Because Redis is based on a single threaded architecture, Redis Slow Log
+Because Redis is based on a single threaded architecture, Redis slow log
 can be much more useful than slow log mechanisms of multi-threaded
-database systems such as MySQL Slow Query Log.
+database systems such as MySQL slow query log.
 
-Unlike tools that introduce lock overhead (which complicates the debugging
-process), Redis Slow Log is highly effective at showing the actual processing time of each command.
+Unlike tools that introduce lock overhead, which complicates the debugging
+process, Redis slow log is highly effective at showing the actual processing time of each command.
 
-Redis Enterprise Software includes enhancements to the standard Redis
-Slow Log capabilities that allow you to analyze the execution time
+## Redis Software slow log enhancements 
+
+Redis Software includes enhancements to the standard Redis
+slow log capabilities that allow you to analyze the execution time
 complexity of each command. This enhancement can help you better analyze
 Redis operations, allowing you to compare the differences between
 execution times of the same command, observe spikes in CPU usage, and
 more.
 
 This is especially useful with complex commands such as
-[ZUNIONSTORE](http://redis.io/commands/zunionstore),
-[ZINTERSTORE](http://redis.io/commands/zinterstore) and
-[ZRANGEBYSCORE](http://redis.io/commands/zrangebyscore).
+[ZUNIONSTORE]({{<relref "/commands/zunionstore">}}),
+[ZINTERSTORE]({{<relref "/commands/zinterstore">}}), and
+[ZRANGEBYSCORE]({{<relref "/commands/zrangebyscore">}}).
 
-The enhanced Redis Enterprise Software Slow Log adds the **Complexity info** field to the
+The enhanced Redis Software slow log adds the **Complexity info** field to the
 output data.
 
 View the complexity info data by its respective command in the table
@@ -70,3 +70,55 @@ below:
 | ZREVRANGE             | N – number of elements in the zset</br>M – number of results | O(log(N)+M) |
 | ZREVRANK              | N – number of elements in the zset | O(log(N)) |
 | ZUNIONSTORE           | N – sum of element counts of all zsets</br>M – element count of result | O(N)+O(M\*log(M)) |
+
+## View slow log
+
+To view slow log entries for Redis Software databases, use one of the following methods:
+
+- Cluster Manager UI:
+
+    1. To access the slow log in the Cluster Manager UI, your [cluster management role]({{<relref "/operate/rs/security/access-control/create-cluster-roles">}}) must be Admin, Cluster Member, or DB Member.
+    
+    1. Select a database from the **Databases** list.
+
+    1. On the database's **Configuration** screen, select the **Slowlog** tab.
+
+- Command line:
+
+    Use [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}) to run [`SLOWLOG GET`]({{<relref "/commands/slowlog-get">}}):
+
+    ```sh
+    redis-cli -h <endpoint> -p <port> SLOWLOG GET <count>
+    ```
+
+## Change slow log threshold
+
+The slow log includes all database commands that take longer than ten milliseconds (10,000 microseconds) by default. You can use [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}) to view or change this threshold.
+
+To check the current threshold, run [`CONFIG GET`]({{<relref "/commands/config-get">}}):
+
+```sh
+redis-cli -h <endpoint> -p <port> CONFIG GET slowlog-log-slower-than
+```
+
+To change the threshold, run [`CONFIG SET`]({{<relref "/commands/config-set">}}):
+
+```sh
+redis-cli -h <endpoint> -p <port> CONFIG SET slowlog-log-slower-than <value_in_microseconds>
+```
+
+## Change maximum entries
+
+The slow log retains the last 128 entries by default. You can use [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}) to view or change the maximum number of entries.
+
+To check the current maximum, run [`CONFIG GET`]({{<relref "/commands/config-get">}}):
+
+```sh
+redis-cli -h <endpoint> -p <port> CONFIG GET slowlog-max-len
+```
+
+To change the maximum, run [`CONFIG SET`]({{<relref "/commands/config-set">}}):
+
+```sh
+redis-cli -h <endpoint> -p <port> CONFIG SET slowlog-max-len <value>
+```
