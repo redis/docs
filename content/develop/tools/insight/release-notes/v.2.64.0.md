@@ -22,3 +22,12 @@ This is the General Availability (GA) release of Redis Insight 2.64.
 
 **Bugs**
 - [#4194](https://github.com/RedisInsight/RedisInsight/pull/4194) Resolved an [issue](https://github.com/RedisInsight/RedisInsight/issues/4186) where modifying a JSON value inadvertently converted strings into numbers.
+
+**SHA-256 Checksums**
+| Package | SHA-256 |
+|--|--|
+| Windows | iYZbKsFtz/Ua4qeBdeHIRtZRiA1I50R3yY1t3VUD2cn94EpZLR5Xz3lK3yRxA85PxJaHjrWljyGliZv0OX0KBg== |
+| Linux AppImage | ToEFW8wVLI8oFoc/puzf2Cwoff8gBTsIxEsGjQRZq5D5BgrE3muxtuEQto3J2RiRbadGAZx6AZPh75WVJ0DKRw== |
+| Linux Debian| /k6jgfzDSRJ0yWmbtxpD5WG2i9wGUZ4r2AexDz6rUOLyZMqQPJUKEKuonprFvHZp+PUW/EtSWc436IFykBVmsQ== |
+| MacOS Intel | PrbRc+ju0UKxr4huP7Xl9Sq0fH0XaxUtydW86rAYepEAADUADsAYV2lB8gO7Ohs9ukJ7mXBEU7OJWRqJGLhxHg== |
+| MacOS Apple silicon | E6kTbnkoW3eji/v7WVrnwqlEKk444+hxiFqt56r8J+zAHhmX9dlNd7y37xdJlQ82FZ9QOIIMsN5Z0N+bgRisuw== |
