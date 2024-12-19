@@ -7,7 +7,9 @@ categories:
 - rc
 description: Get initial information on account parameters
 weight: 70
+draft: true
 ---
+<!-- This article is removed since it was duplicated with the REST API reference. I decided to keep it as a draft just in case. -->
 
 The root API operation returns information about the current account, user, and API Key (as identified by the set of API Keys provided in the API request).
 
