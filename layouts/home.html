@@ -72,23 +72,23 @@
       </nav>
     </div>
     <div class="lg:px-11 w-full flex flex-col gap-3">
- <h2 class="text-5xl font-medium" id="operate">Learn</h2>
+ <h2 class="text-5xl font-medium" id="operate">Welcome to Redis Documentation</h2>
       
              
     
 <table>
 <thead>
 <tr>
-<th style="text-align:left">Get started</th>
-<th style="text-align:left">Install RedisInsight</th>
-<th style="text-align:left">Install Redis Stack</th>
+<th style="text-align:left">Get started by reviewing the user guides for setting up a free account, creating your first database, downloading RedisInsight, and installing Redis Stack. </th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left">
 {{ partial "docs-section.html" (dict
-          "Title" "Redis Cloud"
+          "Title" "Try Redis Cloud"
           "Description" "Free Redis Cloud account and database quick start guide"
 	  "ButtonLink" ".operate/rc/rc-quickstart/"
           "ButtonLabel" "Quick start guide"  
@@ -106,7 +106,12 @@
 
 <td style="text-align:left">
 
-
+{{ partial "docs-section.html" (dict
+          "Title" "Optimize data in RedisInsight GUI"
+          "Description" "RedisInsight on AWS EC2, Docker, Kubernetes, and desktop install guide"
+	  "ButtonLink" ".operate/oss_and_stack/redisinsight/install/"
+          "ButtonLabel" "Install guide"  
+         ) }}
 
     
 
@@ -114,14 +119,7 @@
 
 	
 
-<a href='/docs/latest/images/ai-brain.png' sdata-lightbox="/images/ai-brain.png">
-	<img src='/docs/latest/images/ai-brain.png'
-		  
-		 
-		  alt="AI Redis icon." 
-		 />
-</a>
- <a href="https://redis.io/docs/latest/operate/oss_and_stack/redisinsight/install/">RedisInsight on AWS EC2, Docker, Kubernetes, and desktop install guide</a></td></td>
+
 <td style="text-align:left">
 
 
