@@ -27,7 +27,7 @@ POST "https://[host]/v1/fixed/subscriptions/{subscriptionId}/databases"
 }
 ```
 
-This example JSON body contains only the most basic, required parameters in order to create a database:
+This example JSON body contains only the most basic, required parameters to create a database:
 
 - `name`: The database name. A unique name per subscription that can contain only alphanumeric characters and hyphens
 
@@ -65,7 +65,7 @@ POST "https://[host]/v1/subscriptions/{subscriptionId}/databases"
 }
 ```
 
-This example JSON body contains only the most basic, required parameters in order to create a database:
+This example JSON body contains only the most basic, required parameters to create a database:
 
 - `name`: The database name. A unique name per subscription that can contain only alphanumeric characters and hyphens
 - `datasetSizeInGb`: Maximum dataset size in GB
