@@ -11,9 +11,9 @@ linkTitle: Release notes
 weight: 99
 ---
 
-## Redis version matrix
+## Redis feature sets
 
-{{<embed-md "redis-api-distros.md">}}
+{{<embed-md "redis-feature-sets.md">}}
 
 ## Release notes
 
