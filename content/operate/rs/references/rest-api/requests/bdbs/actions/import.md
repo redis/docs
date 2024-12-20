@@ -64,7 +64,9 @@ The request _may_ contain a subset of the [BDB JSON object]({{< relref "/operate
 Other attributes are not allowed and will cause the request to fail.
 {{</note>}}
 
-##### Example JSON Body
+##### Example JSON body
+
+General example:
 
 ```json
 {
@@ -83,6 +85,85 @@ Other attributes are not allowed and will cause the request to fail.
 ```
 
 This request initiates an import process using `dataset_import_sources` values that were previously configured for the database.
+
+FTP example:
+
+```json
+{
+  "dataset_import_sources": [
+    {
+      "type": "url",
+      "url": "ftp://<ftp_user>:<ftp_password>@example.com/<path>/<filename>.rdb.gz"
+    }
+  ]
+}
+```
+
+SFTP example:
+
+```json
+{
+  "dataset_import_sources": [
+    {
+      "type": "sftp",
+      "sftp_url": "sftp://<sftp_user>@example.com/<path>/<filename>.rdb"
+    }
+  ]
+}
+```
+
+AWS S3 example:
+
+```json
+{
+  "dataset_import_sources": [
+    {
+      "type": "s3",
+      "bucket_name": "backups",
+      "subdir": "test-db",
+      "filename": "<filename>.rdb",
+      "access_key_id": "XXXXXXXXXXXXX",
+      "secret_access_key": "XXXXXXXXXXXXXXXX"
+    }
+  ]
+}
+```
+
+Google Cloud Storage example:
+
+```json
+{
+  "dataset_import_sources": [
+    {
+      "type": "gs",
+      "bucket_name": "backups",
+      "client_id": "XXXXXXXX",
+      "client_email": "cloud-storage-client@my-project-id.iam.gserviceaccount.com",
+      "subdir": "test-db",
+      "filename": "<filename>.rdb",
+      "private_key_id": "XXXXXXXXXXXXX",
+      "private_key": "XXXXXXXXXXXXXXXX"
+    }
+  ]
+}
+```
+
+Azure Blob Storage example:
+
+```json
+{
+  "dataset_import_sources": [
+    {
+      "type": "abs",
+      "container": "backups",
+      "subdir": "test-db",
+      "filename": "<filename>.rdb",
+      "account_name": "name",
+      "account_key": "XXXXXXXXXXXXXXXX" // Or you can use "sas_token": "XXXXXXXXXXXXXXXXXX" instead
+    }
+  ]
+}
+```
 
 ### Response {#post-response}
 
