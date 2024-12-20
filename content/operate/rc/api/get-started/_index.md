@@ -28,7 +28,7 @@ To use the keys to authenticate and authorize your request, include the keys wit
 
 ## Enable the API
 
-The API is disabled on all accounts by default. You must [enable the API]({{< relref "/operate/rc/api/get-started/enable-the-api.md" >}}) before you can use it.
+The API is disabled on all accounts by default. You must [enable the API]({{< relref "/operate/rc/api/get-started/enable-the-api" >}}) before you can use it.
 
 ## Account key
 
@@ -44,20 +44,20 @@ If you need to change or delete your account key, please [contact support](https
 
 ## User key
 
-The user key is a personal key that belongs to a specific user having the **owner** role.  User keys are assigned owners when they're created.  Keys cannot be assigned to users that aren't owners.  Keys can belong to only one owner; however, an owner may have multiple keys.
+The user key is a personal key that belongs to a specific user having the **Owner**, **Viewer**, or **Logs viewer** role.  User keys are assigned to users when they're created.  Keys can belong to only one user; however, a user may have multiple keys.
 
-You can view keys or copy their values _only_ during the [creation process]({{< relref "/operate/rc/api/get-started/manage-api-keys.md" >}}).
+You can view keys or copy their values _only_ during the [creation process]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}}).
 
 {{< note >}}
 User keys are personal secrets. Do not share them.
 {{< /note >}}
 
-Individual owners can [generate multiple user keys]({{< relref "/operate/rc/api/get-started/manage-api-keys.md" >}})
+Individual owners can [generate multiple user keys]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}})
 for themselves, for separate apps, or for other owners, viewers, or log viewers within the same account.
 
 Use key names to uniquely associate specific API requests to individual users or apps.
 
-Doing so lets you [audit API requests]({{< relref "/operate/rc/api/examples/audit-system-logs.md" >}}) using the system log, which tracks the key used to authenticate each request.
+Doing so lets you [audit API requests]({{< relref "/operate/rc/api/examples/audit-system-logs" >}}) using the system log, which tracks the key used to authenticate each request.
 
 ## Authentication using API keys
 
@@ -79,5 +79,6 @@ An API request successfully authenticates when:
 
 To learn more, see:
 
-- [Manage API keys]({{< relref "/operate/rc/api/get-started/manage-api-keys.md" >}})
-- [Use the API]({{< relref "/operate/rc/api/get-started/use-rest-api.md" >}})
+- [Manage API keys]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}})
+- [Use the API]({{< relref "/operate/rc/api/get-started/use-rest-api" >}})
+- [Full API reference]({{< relref "/operate/rc/api/api-reference" >}})
