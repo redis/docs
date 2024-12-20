@@ -38,7 +38,7 @@ Modify the following parameters in the sample JSON document to create a subscrip
 
     Use [`GET /v1/fixed/plans`]({{< relref "/operate/rc/api/api-reference#tag/Subscriptions-Essentials/operation/getAllFixedSubscriptionsPlans" >}}) to get a list of plan IDs.
 
-After you create an Essentials subscription, you must use the [`POST /v1/fixed/subscriptions/{subscriptionId}/databases`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Essentials/operation/createFixedDatabase" >}}) endpoint to create the database.
+After you create an Essentials subscription, you must use the [`POST /v1/fixed/subscriptions/{subscriptionId}/databases`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Essentials/operation/createFixedDatabase" >}}) endpoint to [create the database]({{< relref "/operate/rc/api/examples/create-database#redis-cloud-essentials" >}}).
 
 You can include the contents of the JSON document in the `POST /v1/fixed/subscriptions` operation in the [Swagger UI](https://api.redislabs.com/v1/swagger-ui.html). See [Swagger user interface]({{< relref "/operate/rc/api/get-started/use-rest-api#swagger-user-interface" >}}) for more details.
 
