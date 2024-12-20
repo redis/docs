@@ -9,9 +9,9 @@ description: Use the Redis Cloud dashboard to enable the REST API.
 weight: 10
 ---
 
-If you have a Redis Cloud subscription, you can use a REST API to manage your subscription programmatically.
+If you have a Redis Cloud account, you can use a REST API to manage your subscriptions and databases programmatically.
 
-For security reasons, the Redis Cloud API is disabled by default.
+For security reasons, the Redis Cloud API is inactive by default.
 
 To enable the API:
 
