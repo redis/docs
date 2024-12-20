@@ -24,10 +24,9 @@ After you request an asynchronous operation, the operation returns a `taskId` th
 
 Tasks are part of the API [processing and provisioning lifecycle]({{< relref "/operate/rc/api/get-started/process-lifecycle" >}}).
 
-### Task information
+## Task information
 
-When you query a task of an asynchronous API operation,
-the response to the request includes the task status and additional information about the task:
+When you request an asynchronous operation, the response to the request includes the task status and additional information about the task:
 
 ```json
 {
@@ -57,19 +56,15 @@ Where:
     - A link to itself
     - Additional links based on the context of the response
 
-### Task status updates
+## Task status updates
 
 With the task ID, you can query the task status for updates and progress information.
 The response in the above example shows a URL with the title `getTaskStatusUpdates`.
 The URL in the `href` property returns updates for the specified task.
 
-This request returns the updated status of the task identifier:
+Use [`GET /v1/tasks/{taskId}`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getTaskById" >}}) to check the task status.
 
-```bash
-GET "https://[host]/v1/tasks/<taskId>"
-```
-
-The response to the `getTaskStatusUpdates` request shows:
+This endpoint returns information about the queried task.
 
 ```json
 {
@@ -104,12 +99,8 @@ This response example shows:
 
 ### Tasks list
 
-You can use the API operation `GET /tasks` to list the recently submitted and completed tasks for the current account.
+You can use the API operation [`GET /tasks`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getAllTasks" >}}) to list the recently submitted and completed tasks for the current account.
 
 This API operation returns a list of tasks for the current account, sorted by most recent status update.
-
-```bash
-GET "https://$HOST/tasks"
-```
 
 The result returns all the tasks submitted during the past 10 days.
