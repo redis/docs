@@ -77,73 +77,81 @@ Where `<DB>` is either `source-db` for source secrets or `target-db` for target 
 The specific command lines for source secrets are as follows:
 
 ```bash
-# Source username
-kubectl create secret generic source-db \
---namespace=rdi \
---from-literal=SOURCE_DB_USERNAME=yourUsername
+# Without source TLS
+# Create or update source-db secret
+kubectl create secret generic source-db --namespace=rdi \
+--from-literal=SOURCE_DB_USERNAME=yourUsername \
+--from-literal=SOURCE_DB_PASSWORD=yourPassword \
+--save-config --dry-run=client -o yaml | kubectl apply -f -
 
-# Source password
-kubectl create secret generic source-db \
---namespace=rdi \
---from-literal=SOURCE_DB_PASSWORD=yourPassword
+# With source TLS
+# Create of update source-db secret
+kubectl create secret generic source-db --namespace=rdi \
+--from-literal=SOURCE_DB_USERNAME=yourUsername \
+--from-literal=SOURCE_DB_PASSWORD=yourPassword \
+--from-literal=SOURCE_DB_CACERT=/etc/certificates/source_db/ca.crt \
+--save-config --dry-run=client -o yaml | kubectl apply -f -
+# Create or update source-db-ssl secret
+kubectl create secret generic source-db-ssl --namespace=rdi \
+--from-file=ca.crt=/path/to/myca.crt \
+--save-config --dry-run=client -o yaml | kubectl apply -f -
 
-# Source trust certificate (both commands are required)
-kubectl create secret generic source-db-ssl --from-file=ca.crt=/path/to/myca.crt -n rdi
-
-kubectl create secret generic source-db \
---namespace=rdi \
---from-literal=SOURCE_DB_CACERT=/etc/certificates/source_db/ca.crt
-
-# Source public key (both commands are required)
-kubectl create secret generic source-db-ssl --from-file=client.crt=/path/to/myclient.crt -n rdi
-
-kubectl create secret generic source-db \
---namespace=rdi \
---from-literal=SOURCE_DB_CERT=/etc/certificates/source_db/client.crt
-
-
-# Source private key (both commands are required)
-kubectl create secret generic source-db-ssl --from-file=client.key=/path/to/myclient.key -n rdi
-
-kubectl create secret generic source-db \
---namespace=rdi \
---from-literal=SOURCE_DB_KEY=/etc/certificates/source_db/client.key
+# With source mTLS
+# Create or update source-db secret
+kubectl create secret generic source-db --namespace=rdi \
+--from-literal=SOURCE_DB_USERNAME=yourUsername \
+--from-literal=SOURCE_DB_PASSWORD=yourPassword \
+--from-literal=SOURCE_DB_CACERT=/etc/certificates/source_db/ca.crt \
+--from-literal=SOURCE_DB_CERT=/etc/certificates/source_db/client.crt \ 
+--from-literal=SOURCE_DB_KEY=/etc/certificates/source_db/client.key \
+--from-literal=SOURCE_DB_KEY_PASSWORD=yourKeyPassword \ # add this only if SOURCE_DB_KEY is password-protected
+--save-config --dry-run=client -o yaml | kubectl apply -f -
+# Create or update source-db-ssl secret
+kubectl create secret generic source-db-ssl --namespace=rdi \
+--from-file=ca.crt=/path/to/myca.crt \
+--from-file=client.crt=/path/to/myclient.crt \
+--from-file=client.key=/path/to/myclient.key \
+--save-config --dry-run=client -o yaml | kubectl apply -f -
 ```
 
 The corresponding command lines for target secrets are:
 
 ```bash
-# Target username
-kubectl create secret generic target-db \
---namespace=rdi \
---from-literal=TARGET_DB_USERNAME=yourUsername
+# Without target TLS
+# Create or update target-db secret
+kubectl create secret generic target-db --namespace=rdi \
+--from-literal=TARGET_DB_USERNAME=yourUsername \
+--from-literal=TARGET_DB_PASSWORD=yourPassword \
+--save-config --dry-run=client -o yaml | kubectl apply -f -
 
-# Target password
-kubectl create secret generic target-db \
---namespace=rdi \
---from-literal=TARGET_DB_PASSWORD=yourPassword
+# With target TLS
+# Create of update target-db secret
+kubectl create secret generic target-db --namespace=rdi \
+--from-literal=TARGET_DB_USERNAME=yourUsername \
+--from-literal=TARGET_DB_PASSWORD=yourPassword \
+--from-literal=TARGET_DB_CACERT=/etc/certificates/target_db/ca.crt \
+--save-config --dry-run=client -o yaml | kubectl apply -f -
+# Create or update target-db-ssl secret
+kubectl create secret generic target-db-ssl --namespace=rdi \
+--from-file=ca.crt=/path/to/myca.crt \
+--save-config --dry-run=client -o yaml | kubectl apply -f -
 
-# Target trust certificate (both commands are required)
-kubectl create secret generic target-db-ssl --from-file=ca.crt=/path/to/myca.crt -n rdi
-
-kubectl create secret generic target-db \
---namespace=rdi \
---from-literal=TARGET_DB_CACERT=/etc/certificates/target-db/ca.crt
-
-# Target public key (both commands are required)
-kubectl create secret generic target-db-ssl --from-file=client.crt=/path/to/myclient.crt -n rdi
-
-kubectl create secret generic target-db \
---namespace=rdi \
---from-literal=SOURCE_DB_CERT=/etc/certificates/target_db/client.crt
-
-
-# Target private key (both commands are required)
-kubectl create secret generic target-db-ssl --from-file=client.key=/path/to/myclient.key -n rdi
-
-kubectl create secret generic target-db \
---namespace=rdi \
---from-literal=SOURCE_DB_KEY=/etc/certificates/target_db/client.key
+# With target mTLS
+# Create or update target-db secret
+kubectl create secret generic target-db --namespace=rdi \
+--from-literal=TARGET_DB_USERNAME=yourUsername \
+--from-literal=TARGET_DB_PASSWORD=yourPassword \
+--from-literal=TARGET_DB_CACERT=/etc/certificates/target_db/ca.crt \
+--from-literal=TARGET_DB_CERT=/etc/certificates/target_db/client.crt \ 
+--from-literal=TARGET_DB_KEY=/etc/certificates/target_db/client.key \
+--from-literal=TARGET_DB_KEY_PASSWORD=yourKeyPassword \ # add this only if TARGET_DB_KEY is password-protected
+--save-config --dry-run=client -o yaml | kubectl apply -f -
+# Create or update target-db-ssl secret
+kubectl create secret generic target-db-ssl --namespace=rdi \
+--from-file=ca.crt=/path/to/myca.crt \
+--from-file=client.crt=/path/to/myclient.crt \
+--from-file=client.key=/path/to/myclient.key \
+--save-config --dry-run=client -o yaml | kubectl apply -f -
 ```
 
 ## Deploy a pipeline
