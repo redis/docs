@@ -1,5 +1,5 @@
 ---
-Title: Redis Software release notes 7.8.2
+Title: Redis Software release notes 7.8.x
 alwaysopen: false
 categories:
 - docs
@@ -8,12 +8,12 @@ categories:
 compatibleOSSVersion: Redis 7.4.0
 description: Redis Community Edition 7.4 features. Hash field expiration. Client-side caching support. Metrics stream engine preview. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. Configurable minimum password length. Configurable license expiration alert threshold.
 hideListLinks: true
-linkTitle: 7.8.2 releases
+linkTitle: 7.8.x releases
 toc: 'true'
 weight: 69
 ---
 
-​[​Redis Software version 7.8.2](https://redis.io/downloads/#software) is now available!
+​[​Redis Software version 7.8](https://redis.io/downloads/#software) is now available!
 
 ## Highlights
 
