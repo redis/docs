@@ -57,6 +57,10 @@ Starting with the primary node, follow these steps for every node in the cluster
     $ rladmin status extra all
     ```
 
+    {{<warning>}}
+Do not proceed if any shard, node, or endpoint is not `OK`.
+    {{</warning>}}
+
 2.  Download the Redis Enterprise Software installation package to the machine running the node from the Download Center on [https://cloud.redis.io](https://cloud.redis.io).  
 
 3.  Extract the installation package:
