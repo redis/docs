@@ -9,7 +9,10 @@ description: Cloud accounts specify which account to use when creating and modif
   infrastructure resources.
 linkTitle: Manage cloud accounts
 weight: 80
+draft: true
 ---
+<!-- This article is removed since it was duplicated with the REST API reference. I decided to keep it as a draft just in case. -->
+
 You can use the Redis Cloud REST API to create and manage cloud accounts.
 
 These examples use the [`cURL` utility]({{< relref "/operate/rc/api/get-started/use-rest-api#use-the-curl-http-client" >}}); you can use any REST client to work with the Redis Cloud REST API.
