@@ -183,6 +183,17 @@ PUT /redis_acls/17
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
 
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the updated [Redis ACL object]({{< relref "/operate/rs/references/rest-api/objects/redis_acl" >}}) but don't apply the update. |
+
+#### URL parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| uid | integer | The Redis ACL's unique ID. |
 
 #### Request body
 
@@ -258,6 +269,11 @@ POST /redis_acls
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
 
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the new [Redis ACL object]({{< relref "/operate/rs/references/rest-api/objects/redis_acl" >}}) but don't apply the update. |
 
 #### Request body
 

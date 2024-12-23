@@ -26,6 +26,8 @@ Redis Cloud maintains consistency among instances in the background; that is, ea
 
 {{< embed-md "rc-create-db-first-steps.md" >}}
 
+{{< embed-md "rc-create-db-use-cases.md" >}}
+
 4. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Pro**. 
 
     {{<image filename="images/rc/create-database-subscription-pro-new.png" alt="The Subscription selection panel with Pro selected.">}}
