@@ -9,11 +9,11 @@ weight: 1
 ## 2.64.1 (December 2024)
 This is a maintenance release for Redis Insight 2.64.
 
-Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
 
 ### Details
 
-- [#4236](https://github.com/RedisInsight/RedisInsight/pull/4236) Reverted the change to use the dollar sign ($) instead of the period character (.) to denote the root of a JSON data structure. The period character (.) continues to be used as the root identifier, resolving potential issues with shards in conflict-free replicated databases.
+- [#4236](https://github.com/RedisInsight/RedisInsight/pull/4236) Reverts the change to use JSONPath ($) by default rather than (.). These changes could cause issues with shards in Redis Enterprise Active-Active databases.
 
 **SHA-256 Checksums**
 | Package | SHA-256 |
