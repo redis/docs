@@ -21,7 +21,7 @@ There are two default locations for the socket files in Redis Enterprise Softwar
 The default location was changed in case you run any maintenance procedures that delete the `/tmp` directory.
     {{</note>}}
 
-When you upgrade Redis Enterprise Software from an earlier version to 5.2.2 or later, the socket files are not moved to the new location by default. You need to specify the socket file location [during installation](#during-install) or change the location [after cluster setup](#after-cluster-setup).
+When you upgrade Redis Enterprise Software from an earlier version to 5.2.2 or later, the socket files are not moved to the new location by default. You need to specify the socket file location [during installation](#during-install).
 
 ## Specify socket file location during install {#during-install}
 
@@ -31,7 +31,9 @@ To specify the socket file location during a new installation, follow the [Insta
 sudo ./install.sh -s </path/to/socket/files>
 ```
 
-## Change socket file location after cluster setup {#after-cluster-setup}
+## Change socket file location for an existing cluster {#after-cluster-setup}
+
+Changing the socket file location is not supported for bootstrapped nodes.
 
 To change the socket file location for an existing cluster:
 
