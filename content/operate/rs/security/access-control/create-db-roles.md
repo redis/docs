@@ -20,7 +20,9 @@ To create a role that grants database access without granting access to the Redi
 
 ## Define Redis ACLs
 
-To define a Redis ACL rule that you can assign to a role:
+### Cluster Manager UI method
+
+To define a Redis ACL rule that you can assign to a role using the Cluster Manager UI:
 
 1. From **Access Control > Redis ACLs**, you can either:
 
@@ -42,11 +44,25 @@ The **ACL builder** does not support selectors and key permissions. Use **Free t
 For multi-key commands on multi-slot keys, the return value is `failure`, but the command runs on the keys that are allowed.
 {{</note>}}
 
+### REST API method
+
+To define a Redis ACL rule that you can assign to a role using the REST API:
+
+```sh
+POST /v1/redis_acls
+{ 
+  "name": "Test_ACL_1",
+  "acl": "+@read +FT.INFO +FT.SEARCH"
+}
+```
+
 ## Create roles with ACLs
 
 To create a role that grants database access to users but blocks access to the Redis Enterprise Cluster Manager UI and REST API, set the **Cluster management role** to **None**.
 
-To define a role for database access:
+### Cluster Manager UI method
+
+To define a role for database access using the Cluster Manager UI:
 
 1. From **Access Control** > **Roles**, you can:
 
@@ -77,3 +93,32 @@ To define a role for database access:
     {{<image filename="images/rs/access-control-role-save.png" alt="Add databases to access" >}}
 
 You can [assign the new role to users]({{<relref "/operate/rs/security/access-control/create-users#assign-roles-to-users">}}) to grant database access.
+
+### REST API method
+
+To define a role for database access using the REST API:
+
+1. Create role:
+
+    ```sh
+    POST /v1/roles
+    { 
+      "name": "<role-name>",
+      "management": "none" 
+    }
+    ```
+
+1. Associate the role with ACLs and databases:
+
+    ```sh
+    POST /v1/bdbs/<database-id>
+    {
+      "roles_permissions":
+      [
+        {
+          "role_uid": <integer>,
+          "redis_acl_uid": <integer>
+        }
+      ]
+    }
+    ```
