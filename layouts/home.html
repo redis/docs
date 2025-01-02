@@ -91,7 +91,7 @@
           "Title" "Try Redis Cloud"
           "Description" "Free Redis Cloud account managed by Redis or on AWS, GCP, or Azure"
 	  "ButtonLink" ".operate/rc/rc-quickstart/"
-          "ButtonLabel" "Cloud quick start guide"  
+          "ButtonLabel" "Redis Cloud quick start guide"  
          ) }}
 
 
@@ -131,11 +131,6 @@
          ) }}
     
 
-
-
-	
-
-<a href='/docs/latest/images/ai-lib.png' sdata-lightbox="/images/ai-lib.png">
 </td>
 </tr>
 </tbody>
@@ -200,48 +195,33 @@
          ) }}
     
 
+</td>
+</tr>
+</tbody>
+</table>
 
 
-
-
-
-	    
-<h2 id="overview">Deploy Redis to production</h2>
-<ul>
-<li>Use the <a href="https://redis.io/docs/latest/operate/rs/installing-upgrading/install/plan-deployment/">Redis Software deployment planning guide</a> for enterprise-grade deployments including hybrid and geo-distributed environments.</li>
-<li>Refer to the <a href="https://redis.io/docs/latest/operate/rc/">Redis Cloud documentation</a>  to deploy Redis on Amazon Web Services, Google Cloud, or Microsoft Azure.</li>
-<li>See the <a href="https://redis.io/docs/latest/operate/kubernetes/deployment/quick-start/">Deploy Redis Software for Kubernetes</a> to get started with the container image.</li>
-</ul>
-<h2 id="concepts">Tools to migrate to Redis and integrate with your systems</h2>
+	    <h2 class="text-5xl font-medium" id="operate">Sync, migrate, and monitor your data</h2>
+      
+             
+    
 <table>
 <thead>
 <tr>
-<th style="text-align:left">Ingest and sync data to Redis</th>
-<th style="text-align:left">Migrate to Redis</th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left">
-
-
-
-    
-
-
-
-	
-
-<a href='/docs/latest/images/ai-search.png' sdata-lightbox="/images/ai-search.png">
-	<img src='/docs/latest/images/ai-search.png'
-		  
-		 
-		  alt="AI Redis icon." 
-		 />
-</a>
-<a href="https://redis.io/docs/latest/develop/integrate/redis-data-integration/quick-start-guide/">Redis Data Integration pipeline quickstart guide</a></td>
-<td style="text-align:left">
-
+<td style="text-align:center">
+{{ partial "docs-section.html" (dict
+          "Title" "Ingest and sync data to Redis"
+          "Description" "Sync Redis Software with live data from your disk-based databases"
+	  "ButtonLink" ".integrate/redis-data-integration/quick-start-guide/"
+          "ButtonLabel" "Redis Data Integration pipeline quickstart guide"  
+         ) }}
 
 
     
@@ -250,19 +230,51 @@
 
 	
 
-<a href='/docs/latest/images/ai-model.png' sdata-lightbox="/images/ai-model.png">
-	<img src='/docs/latest/images/ai-model.png'
-		  
-		 
-		  alt="AI Redis icon." 
-		 />
-</a>
-<a href="https://redis.io/docs/latest/integrate/riot">Redis input and output CLI tool user guide</a></td>
-<td style="text-align:left">
 
+
+
+<td style="text-align:center">
+
+{{ partial "docs-section.html" (dict
+          "Title" "Migrate data to or from Redis"
+          "Description" "Migrate data from files, data generators, relational databases, or snapshot replication"
+	  "ButtonLink" ".integrate/riot/"
+          "ButtonLabel" "Redis input and output CLI tool user guide"  
+         ) }}
+
+    
+
+
+
+	
+
+
+<td style="text-align:center">
+
+
+{{ partial "docs-section.html" (dict
+          "Title" "Monitor Redis with Prometheus and Grafana"
+          "Description" "Get started with the Redis Software and Prometheus"
+	  "ButtonLink" ".integrate/prometheus-with-redis-enterprise/"
+          "ButtonLabel" "Prometheus and Grafana with Redis Software guide"  
+         ) }}
+    
+
+</td>
 </tr>
 </tbody>
 </table>
+
+
+
+
+
+
+    
+
+
+
+
 
     </div>
   </div>
