@@ -89,7 +89,7 @@
 <td style="text-align:center">
 {{ partial "docs-section.html" (dict
           "Title" "Try Redis Cloud"
-          "Description" "Free Redis Cloud account and database quick start guide"
+          "Description" "Free Redis Cloud account managed by Redis or on AWS, GCP, or Azure"
 	  "ButtonLink" ".operate/rc/rc-quickstart/"
           "ButtonLabel" "Cloud quick start guide"  
          ) }}
@@ -125,7 +125,7 @@
 
 {{ partial "docs-section.html" (dict
           "Title" "Use Redis Stack"
-          "Description" "Install Redis Stack on Linux, macOS, Windows, or Docker"
+          "Description" "Install and use Redis Stack on Linux, macOS, Windows, or Docker"
 	  "ButtonLink" ".operate/oss_and_stack/install/install-stack/"
           "ButtonLabel" "Redis Stack install guide"  
          ) }}
@@ -140,6 +140,72 @@
 </tr>
 </tbody>
 </table>
+
+<h2 class="text-5xl font-medium" id="operate">Deploy to production</h2>
+      
+             
+    
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">
+{{ partial "docs-section.html" (dict
+          "Title" "Deploy Redis Software"
+          "Description" "Enterprise-grade deployment including hybrid and geo-distributed environments"
+	  "ButtonLink" ".operate/rs/installing-upgrading/install/plan-deployment/"
+          "ButtonLabel" ">Redis Software deployment planning guide"  
+         ) }}
+
+
+    
+
+
+
+	
+
+
+
+
+<td style="text-align:center">
+
+{{ partial "docs-section.html" (dict
+          "Title" "Deploy Redis Cloud"
+          "Description" "Deploy Redis Cloud in multiple regions and availability zones"
+	  "ButtonLink" ".operate/rc/databases/create-database/create-active-active-database/"
+          "ButtonLabel" "Active-active Redis Cloud database guide"  
+         ) }}
+
+    
+
+
+
+	
+
+
+<td style="text-align:center">
+
+
+{{ partial "docs-section.html" (dict
+          "Title" "Deploy Redis Software for Kubernetes"
+          "Description" "Get started with the Redis Software for Kubernetes container image"
+	  "ButtonLink" ".operate/kubernetes/deployment/quick-start/"
+          "ButtonLabel" "Redis operator for Kubernetes quick start guide"  
+         ) }}
+    
+
+
+
+
+
+
+	    
 <h2 id="overview">Deploy Redis to production</h2>
 <ul>
 <li>Use the <a href="https://redis.io/docs/latest/operate/rs/installing-upgrading/install/plan-deployment/">Redis Software deployment planning guide</a> for enterprise-grade deployments including hybrid and geo-distributed environments.</li>
