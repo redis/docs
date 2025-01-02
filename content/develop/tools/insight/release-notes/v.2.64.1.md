@@ -18,8 +18,8 @@ Update urgency: `HIGH`: There is a critical bug that may affect a subset of user
 **SHA-256 Checksums**
 | Package | SHA-256 |
 |--|--|
-| Windows |  |
-| Linux AppImage |  |
-| Linux Debian|  |
-| MacOS Intel |  |
-| MacOS Apple silicon |  |
+| Windows | hIK4qrC50Gd4jZnpHnwRIIVyDWtOfvfFID9nv8xfdcDgf4LvJcGLa9zVYkbfvwUv+aEaaBCohJJZMIGFC6iYHQ== |
+| Linux AppImage | ll999oWjvKppawlYBPN6phGNa+mDiWmefIvkbQNAd7JPZFbHTYuLFWMWo4F1NrnZlr6vnPF6awbu7ubbiZL0HA== |
+| Linux Debian| 4MKHfmmapfhxXUln0X+rpFXzm2dH6IPj2BIwlNRPQDGhpQ5flzOtLlV1iNGm9xqennZUv+hx+cVQodzPIj8FTw== |
+| MacOS Intel | 5FkllEVCbD9M1fYww7N6XT3Qknl5tWrkHKWQWGhjkUiR/nZ89u+A84UzynB5H/lzBCFwUWJidfGJ4akrX2J7Hg== |
+| MacOS Apple silicon | 2gWxZqGlAo0RyQKa0h8puyXMkIg1vF/Gobd9vS9DNWZMr3aYJojALx6f7pfknBoL7MDmZI29Mohtx4mnQPbjGQ== |
