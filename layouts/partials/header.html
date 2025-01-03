@@ -4,46 +4,25 @@
     <a class="relative text-redis-red-500 w-[82px] -mt-[5px] mr-[4px]" href="https://redis.io/">
       {{ partial "icons/logo-script.html" }}
     </a>
-    <div class="h-full flex items-center mx-4 grow">
-      <div class="hidden lg:flex flex-row h-full items-center">
-        <div class="group h-full px-2 xl:px-[14px]">
+    
+     <div class="hidden lg:flex flex-row h-full items-center">
+      <div class="group h-full px-2 xl:px-[14px]">
           <div class="flex flex-row h-full items-center cursor-pointer w-[10ch] justify-between">
             <span class="inline-block group-hover:font-bold">Products</span>
             <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
           </div>
           {{ partial "header/products-dropdown.html" . }}
+          <div class="group h-full px-2 xl:px-[14px]">
+            <div class="flex flex-row h-full ml-2 mr-4 pr-4 items-center cursor-pointer w-[10ch]">
+             <span class="inline-block group-hover:font-bold">Resources</span>
+             <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
+           </div>
+           {{ partial "header/learn-dropdown.html" . }}
         </div>
-        <div class="group h-full px-2 xl:px-[14px]">
-          <div class="flex flex-row h-full items-center cursor-pointer w-[11ch] justify-between">
-            <span class="inline-block group-hover:font-bold">Solutions</span>
-            <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
-          </div>
-          {{ partial "header/solutions-dropdown.html" . }}
-        </div>
-        <div class="group h-full px-2 xl:px-[14px]">
-          <div class="flex flex-row h-full items-center cursor-pointer w-[9ch] justify-between">
-            <span class="inline-block group-hover:font-bold">Support</span>
-            <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
-          </div>
-          {{ partial "header/support-dropdown.html" . }}
-        </div>
-        <div class="group h-full px-2 xl:px-[14px]">
-          <div class="flex flex-row h-full items-center cursor-pointer w-[9ch] justify-between">
-            <span class="inline-block group-hover:font-bold">Company</span>
-            <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
-          </div>
-          {{ partial "header/company-dropdown.html" . }}
-        </div>
-        <div class="group h-full px-2 xl:px-[14px]">
-          <div class="flex flex-row h-full items-center cursor-pointer w-[6ch] justify-between">
-            <span class="inline-block group-hover:font-bold">Docs</span>
-            <span class="inline-block ml-2 mt-1 text-redis-red-500 group-hover:rotate-180 transition-all ease-in-out duration-200">{{ partial "icons/caret.html" }}</span>
-          </div>
-          {{ partial "header/docs-dropdown.html" . }}
-        </div>
-      </div>
-      <a class="hidden lg:flex group flex-row items-center pl-2 xl:pl-[14px]" href="https://redis.io/pricing"><span class="group-hover:font-bold">Pricing</span></a>
-    </div>
+        <a class="hidden lg:flex group flex-row items-center ml-2 mr-2 pr-2" href="https://redis.io/docs/latest/"><span class="group-hover:font-bold">Docs</span></a>
+      <a class="hidden lg:flex group flex-row items-center ml-2 pl-4 xl:pl-[14px]" href="https://redis.io/pricing"><span class="group-hover:font-bold">Pricing</span></a>
+   </div>
+  </div>
 
     <div class="h-full flex gap-[18px] xl:gap-7 items-center text-center">
       <button id="search-button" type="button" class="p-1 mt-1 transition-colors hover:text-redis-red-500">
@@ -84,22 +63,14 @@
       </div>
     </div>
     <div id="headerMenu" class="mt-16">
-      <div class="flex flex-col gap-6 px-4 py-6">
+      <div class="flex flex-row gap-6 px-4 py-6">
         <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('products')">
           <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Products</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
         </button>
-        <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('solutions')">
-          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Solutions</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
+        <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('learn')">
+          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Resources</span><span class="inline-block text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
         </button>
-        <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('support')">
-          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Support</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
-        </button>
-        <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('company')">
-          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Company</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
-        </button>
-        <button class="flex flex-row h-full cursor-pointer items-center group" onclick="openPage('docs')">
-          <span class="inline-block group-hover:font-bold group-hover:tracking-tight">Docs</span><span class="inline-block ml-2 text-redis-red-500 -rotate-90 mt-1">{{ partial "icons/caret.html" }}</span>
-        </button>
+        <a class="group flex-row items-center" href="https://redis.io/docs/latest/"><span class="group-hover:font-bold group-hover:tracking-tight">Docs</span></a>
         <a class="group flex-row items-center" href="https://redis.io/pricing"><span class="group-hover:font-bold group-hover:tracking-tight">Pricing</span></a>
       </div>
       <div class="flex flex-col gap-6 px-4 text-center mt-16 max-w-[360px] mx-auto">
@@ -111,17 +82,8 @@
     <div id="productsPage" class="menuPage hidden overflow-y-scroll mt-16 px-4 py-6">
       {{ partial "header/products-dropdown.html" }}
     </div>
-    <div id="solutionsPage" class="menuPage hidden overflow-y-scroll mt-16 px-4 py-6">
-      {{ partial "header/solutions-dropdown.html" }}
-    </div>
-    <div id="supportPage" class="menuPage hidden overflow-y-scroll mt-16 px-4 py-6">
-      {{ partial "header/support-dropdown.html" }}
-    </div>
-    <div id="companyPage" class="menuPage hidden overflow-y-scroll mt-16 px-4 py-6">
-      {{ partial "header/company-dropdown.html" }}
-    </div>
-    <div id="docsPage" class="menuPage hidden overflow-y-scroll mt-16 px-4 py-6">
-      {{ partial "header/docs-dropdown.html" }}
+    <div id="learnPage" class="menuPage hidden overflow-y-scroll mt-16 px-4 py-6">
+      {{ partial "header/learn-dropdown.html" }}
     </div>
   </div>
 </header>
