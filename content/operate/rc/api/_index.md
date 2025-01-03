@@ -11,7 +11,7 @@ linkTitle: REST API
 weight: 80
 ---
 
-The [Redis Cloud REST API](https://api.redislabs.com/v1/swagger-ui.html) helps you manage your Redis Cloud databases programmatically.
+The [Redis Cloud REST API]({{< relref "/operate/rc/api/api-reference" >}}) helps you manage your Redis Cloud databases programmatically.
 
 You can use the API to:
  
@@ -33,15 +33,12 @@ You can use the API to:
 
 1. [Manage subscriptions]({{< relref "/operate/rc/api/examples/manage-subscriptions.md" >}})
 1. Database examples
-    - [Create database]({{< relref "/operate/rc/api/examples/create-database" >}})
-    - [Update database]({{< relref "/operate/rc/api/examples/update-database.md" >}})
+    - [Create and manage databases]({{< relref "/operate/rc/api/examples/create-database" >}})
     - [Back up and import data]({{< relref "/operate/rc/api/examples/back-up-and-import-data.md" >}})
-1. [Manage cloud accounts]({{< relref "/operate/rc/api/examples/manage-cloud-accounts.md" >}})
 1. [Estimate costs]({{< relref "/operate/rc/api/examples/dryrun-cost-estimates.md" >}})
-1. [View account info]({{< relref "/operate/rc/api/examples/view-account-information.md" >}})
     
 ## More info
 
 - Use the [Redis Cloud API]({{< relref "/operate/rc/api/get-started/use-rest-api.md" >}})
-- [Full API Reference](https://api.redislabs.com/v1/swagger-ui.html)
+- [Full API Reference]({{< relref "/operate/rc/api/api-reference" >}})
 - Secure [authentication and authorization]({{< relref "/operate/rc/api/get-started" >}})

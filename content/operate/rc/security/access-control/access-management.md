@@ -108,7 +108,7 @@ Roles and responsibilities are:
 
 - **Viewer** can view all databases and their configurations, including database secrets.
 
-- **Logs viewer** can not access the Redis Cloud console. They are only allowed access to the [Redis Cloud API]({{< relref "/operate/rc/api" >}}) [`GET logs/`](https://api.redislabs.com/v1/swagger-ui/index.html#/Account/getAccountSystemLogs) endpoint. 
+- **Logs viewer** can not access the Redis Cloud console. They are only allowed access to the [Redis Cloud API]({{< relref "/operate/rc/api" >}}) [`GET logs/`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}) endpoint. 
 
 This table shows each role's ability to perform common tasks.
 
@@ -135,4 +135,4 @@ This table shows each role's ability to perform common tasks.
 
 4. <a name="table-note-4" style="display: block; height: 80px; margin-top: -80px;"></a>Viewers can use the REST API for GET requests, but can not modify subscription or database details.
 
-5. <a name="table-note-5" style="display: block; height: 80px; margin-top: -80px;"></a>Logs viewers can only use the [`GET logs/`](https://api.redislabs.com/v1/swagger-ui/index.html#/Account/getAccountSystemLogs) endpoint of the REST API.
+5. <a name="table-note-5" style="display: block; height: 80px; margin-top: -80px;"></a>Logs viewers can only use the [`GET logs/`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}) endpoint of the REST API.
