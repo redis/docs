@@ -21,35 +21,35 @@ The following table shows which Redis Stack features are supported by Redis Ente
 |:-------|:-------------------------|:-----------------------|
 | [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) | &#x2705; Supported | &#x2705; Supported |
 | [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})   | &#x2705; Supported | &#x2705; Supported |
-| [Graph]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 | [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | &#x2705; Supported | &#x2705; Supported |
 | [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | &#x2705; Supported | &#x2705; Supported |
-| [Triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 | [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1" >}}) | &#x2705; Supported | &#x274c; Not supported |
+| [Triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
+| [Graph]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 
 ## Feature compatibility
 
-The following tables show Redis Enterprise feature support for each Redis Stack feature. 
+The following tables show Redis Enterprise feature support for each non-deprecated Redis Stack feature. 
 
 Version numbers indicate when the feature was first supported.  If you're using an earlier version than what's shown in the table, the feature is not supported.
 
 For details about individual features, see the corresponding documentation.
 
-| Feature name/capability   | [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) | [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})    |  [Graph]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}})   | 
-|---------------------------|:--------------:|:------------:|:------------:|
-| Active-Active (CRDB)[^5]  | Yes (v2.0)     | Yes (v2.2)   | No           |
-| Backup/Restore            | Yes (v1.4)     | Yes (v1.0)   | Yes (v1.0)   |
-| Clustering                | Yes (v1.6)[^3] | Yes (v1.0)   | Yes (v2.2.3)[^1] |
-| Custom hashing policy     | Yes (v2.0)     | Yes (v1.0)   | Yes (v1.0)   |
-| Eviction expiration       | Yes (v2.0)     | Yes (v1.0)   | Yes (v2.8.10) |
-| Failover/migration        | Yes (v1.4)     | Yes (v1.0)   | Yes (v1.0)   |
-| Internode encryption      | Yes (v2.0.11)  | Yes (v1.0.8) | Yes (v2.4)   |
-| Module data types         | Yes            | Yes          | Yes          |
-| Persistence (AOF)         | Yes (v1.4)     | Yes (v1.0)   | Yes (v2.0)   |
-| Persistence (snapshot)    | Yes (v1.6)     | Yes (v1.0)   | Yes (v1.0)   |
-| Auto Tiering [^4]  | Yes (v2.0)     | Yes (v1.0)   | No           |
-| Replica Of                | Yes (v1.6)[^2] | Yes (v1.0)   | Yes (v2.2)   |
-| Reshard/rebalance         | Yes (v2.0)     | Yes (v1.0)   | No           |
+| Feature name/capability   | [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) | [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})    | 
+|---------------------------|:--------------:|:------------:|
+| Active-Active (CRDB)[^5]  | Yes (v2.0)     | Yes (v2.2)   |
+| Backup/Restore            | Yes (v1.4)     | Yes (v1.0)   |
+| Clustering                | Yes (v1.6)[^3] | Yes (v1.0)   |
+| Custom hashing policy     | Yes (v2.0)     | Yes (v1.0)   |
+| Eviction expiration       | Yes (v2.0)     | Yes (v1.0)   |
+| Failover/migration        | Yes (v1.4)     | Yes (v1.0)   |
+| Internode encryption      | Yes (v2.0.11)  | Yes (v1.0.8) |
+| Module data types         | Yes            | Yes          |
+| Persistence (AOF)         | Yes (v1.4)     | Yes (v1.0)   |
+| Persistence (snapshot)    | Yes (v1.6)     | Yes (v1.0)   |
+| Auto Tiering [^4]         | Yes (v2.0)     | Yes (v1.0)   |
+| Replica Of                | Yes (v1.6)[^2] | Yes (v1.0)   |
+| Reshard/rebalance         | Yes (v2.0)     | Yes (v1.0)   |
 
 [^1]: Graphs are compatible with clustering; however, individual graphs contained in a key reside in a single shard, which can affect pricing.  To learn more, [contact support](https://redis.com/company/support/).
 
@@ -63,21 +63,21 @@ For details about individual features, see the corresponding documentation.
 
 [^6]: Although time series are compatible with Auto Tiering, the entire series either lives in RAM or on flash.
 
-| Feature name/capability | [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1" >}}) | [Triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions" >}}) |
-|--------------------------|:--------------:|:------------:|:----------:|:----------:|  
-| Active-Active (CRDB)[^5] | No             | No           | Yes (v1.0) | No |
-| Backup/Restore           | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) | Yes |
-| Clustering               | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) | Yes |
-| Custom hashing policy    | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) | Yes |
-| Eviction expiration      | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) | Yes |
-| Failover/migration       | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) | Yes |
-| Internode encryption     | Yes (v1.4.9)   | Yes (v2.2.6) | Yes (v1.2) | yes |
-| Module data types        | Yes            | Yes          | Yes        | Yes |
-| Persistence (AOF)        | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) | Yes |
-| Persistence (snapshot)   | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) | Yes |
-| Auto Tiering [^4]        | Yes (v1.6)[^6] | Yes (vTBD)   | Yes (vTBD) | No |
-| Replica Of               | Yes (v1.2)     | Yes (v2.0)   | No         | Yes |
-| Reshard/rebalance        | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) | Yes |
+| Feature name/capability | [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | [Gears]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1" >}}) |
+|--------------------------|:--------------:|:------------:|:----------:|
+| Active-Active (CRDB)[^5] | No             | No           | Yes (v1.0) |
+| Backup/Restore           | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
+| Clustering               | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
+| Custom hashing policy    | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
+| Eviction expiration      | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
+| Failover/migration       | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
+| Internode encryption     | Yes (v1.4.9)   | Yes (v2.2.6) | Yes (v1.2) |
+| Module data types        | Yes            | Yes          | Yes        |
+| Persistence (AOF)        | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
+| Persistence (snapshot)   | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
+| Auto Tiering [^4]        | Yes (v1.6)[^6] | Yes (vTBD)   | Yes (vTBD) |
+| Replica Of               | Yes (v1.2)     | Yes (v2.0)   | No         |
+| Reshard/rebalance        | Yes (v1.2)     | Yes (v2.0)   | Yes (v1.0) |
 
 
 ## Feature descriptions
