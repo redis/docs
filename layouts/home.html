@@ -128,8 +128,10 @@
           "Description" "Install and use Redis Stack on Linux, macOS, Windows, or Docker"
 	  "ButtonLink" "./operate/oss_and_stack/install/install-stack/"
           "ButtonLabel" "Redis Stack install guide"  
-         
-         ) }}
+	"LinksLeft" (slice
+            (dict "Text" "Install Redis Community Edition" "URL" "./operate/oss_and_stack/install/install-redis")
+          )  ) }}
+     
     
 
 </td>
@@ -192,8 +194,10 @@
           "Description" "Get started with the Redis Software for Kubernetes container image"
 	  "ButtonLink" "./operate/kubernetes/deployment/quick-start/"
           "ButtonLabel" "Kubernetes deployment quickstart"  
+	"LinksLeft" (slice
+            (dict "Text" "Manage Redis clusters" "URL" "./operate/rs/clusters/")
+          )  ) }}
 	
-         ) }}
     
 
 </td>
@@ -258,8 +262,10 @@
           "Description" "Get started with the Redis Software integration for Prometheus"
 	  "ButtonLink" "./integrate/prometheus-with-redis-enterprise/"
           "ButtonLabel" "Prometheus and Grafana with Redis"  
+	"LinksLeft" (slice
+            (dict "Text" "Optimize Redis clusters" "URL" "./operate/rs/clusters/optimize")
+          )  ) }}
 	 
-         ) }}
     
 
 </td>
