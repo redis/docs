@@ -16,10 +16,24 @@ weight: 96
 ---
 ## Requirements
 
-RedisTimeSeries v1.8.13 requires:
+RedisTimeSeries v1.8.16 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v1.8.16 (January 2025)
+
+This is a maintenance release for RedisTimeSeries 1.8.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details
+
+- **Security and privacy:**
+  - [#1672](https://github.com/redistimeseries/redistimeseries/pull/1672) (CVE-2024-51480) `TS.QUERYINDEX`, `TS.MGET`, `TS.MRANGE`, `TS.MREVRANGE` - potential integer overflow leading to an out-of-bounds write (MOD-7548)
+
+- Improvements:
+  - [#1664](https://github.com/redistimeseries/redistimeseries/pull/1664) Added support for Ubuntu 22 and macOS 13 and 14
 
 ## v1.8.13 (March 2024)
 

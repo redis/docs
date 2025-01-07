@@ -13,14 +13,34 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.17 requires:
+RediSearch v2.8.21 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
 
+## v2.8.21 (January 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+**Security and privacy:**
+- [#5457](https://github.com/redisearch/redisearch/pull/5457) (CVE-2024-51737) Query: potential out-of-bounds write (MOD-8486)
+
+Bug fixes:
+- [#5299](https://github.com/redisearch/redisearch/pull/5299) Prefix/Infix/Suffix queries longer than 1024 chars could cause a crash (MOD-7882)
+- [#5303](https://github.com/redisearch/redisearch/pull/5303) Expired keys while background indexing could cause cross slot error when using `replicaof` (MOD-7949)
+- [#5280](https://github.com/redisearch/redisearch/pull/5280) `FT.CURSOR READ` retrieving deleted `TAG` fields cause a crash (MOD-8011)
+- [#5427](https://github.com/redisearch/redisearch/pull/5427) `FT.AGGREGATE` on numeric fields lead to `failed_calls` count increase on clustered DBs (MOD-8058)
+- [#5242](https://github.com/redisearch/redisearch/pull/5242) Memory count on `bytes_collected` by the index sanitiser with missing values (MOD-8097, MOD-8114)
+- [#5167](https://github.com/redisearch/redisearch/pull/5167) Cursors from queries that timed out weren't depleted causing exhaustion of number of cursors available(MOD-8009)
+
+Improvements:
+- [#5260](https://github.com/redisearch/redisearch/pull/5260) Optimizing index consumed memory with the creation only upon write operations (MOD-8125)
+
 ## v2.8.17 (August 2024)
 
-This is a maintenance release for RediSearch 2.8
+This is a maintenance release for RediSearch 2.8.
 
 Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
 
@@ -31,7 +51,7 @@ Update urgency: `HIGH` : There is a critical bug that may affect a subset of use
 
 ## v2.8.16 (August 2024)
 
-This is a maintenance release for RediSearch 2.8
+This is a maintenance release for RediSearch 2.8.
 
 Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
 
@@ -63,7 +83,7 @@ Update urgency: `HIGH` : There is a critical bug that may affect a subset of use
 
 ## v2.8.14 (June 2024)
 
-This is a maintenance release for RediSearch 2.8
+This is a maintenance release for RediSearch 2.8.
 
 Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
 
