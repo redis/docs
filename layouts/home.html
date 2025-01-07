@@ -128,11 +128,7 @@
           "Description" "Install and use Redis Stack on Linux, macOS, Windows, or Docker"
 	  "ButtonLink" "./operate/oss_and_stack/install/install-stack/"
           "ButtonLabel" "Redis Stack install guide"  
-          "LinksLeft" (slice
-            (dict "Text" "Python" "URL" "./develop/clients/redis-py/")
-            (dict "Text" "Python (vector)" "URL" "./integrate/redisvl/")
-	    (dict "Text" "C#/.NET" "URL" "./develop/clients/dotnet/")
-          )
+         
          ) }}
     
 
@@ -196,11 +192,7 @@
           "Description" "Get started with the Redis Software for Kubernetes container image"
 	  "ButtonLink" "./operate/kubernetes/deployment/quick-start/"
           "ButtonLabel" "Kubernetes deployment quickstart"  
-	 "LinksLeft" (slice
-            (dict "Text" "JavaScript" "URL" "./develop/clients/nodejs/")
-            (dict "Text" "Java (synchronous)" "URL" "./develop/clients/jedis/")
-	    (dict "Text"  "Java (asynchronous)" "URL" "./develop/clients/lettuce/")
-          )
+	
          ) }}
     
 
@@ -266,12 +258,7 @@
           "Description" "Get started with the Redis Software integration for Prometheus"
 	  "ButtonLink" "./integrate/prometheus-with-redis-enterprise/"
           "ButtonLabel" "Prometheus and Grafana with Redis"  
-	 "LinksLeft" (slice
-            (dict "Text" "Go" "URL" "./develop/clients/go/")
-            (dict "Text" "PHP" "URL" "./develop/clients/php/")
-	    (dict "Text" "Spring Data" "URL" "./integrate/spring-framework-cache/")
-	    (dict "Text" "More client APIs" "URL" "./develop/clients/")
-          )
+	 
          ) }}
     
 
@@ -281,8 +268,32 @@
 </table>
 
 
-
-
+ <h2 class="text-5xl font-medium" id="operate">Client APIs</h2>
+      
+             
+    
+<table>
+<thead>
+<tr>
+<th style="text-align:left"> "LinksLeft" (slice
+            (dict "Text" "Python" "URL" "./develop/clients/redis-py/")
+            (dict "Text" "Python (vector)" "URL" "./integrate/redisvl/")
+	    (dict "Text" "C#/.NET" "URL" "./develop/clients/dotnet/")
+          )</th>
+<th style="text-align:left"> "LinksLeft" (slice
+            (dict "Text" "JavaScript" "URL" "./develop/clients/nodejs/")
+            (dict "Text" "Java (synchronous)" "URL" "./develop/clients/jedis/")
+	    (dict "Text"  "Java (asynchronous)" "URL" "./develop/clients/lettuce/")
+          )</th>
+<th style="text-align:left">"LinksLeft" (slice
+            (dict "Text" "Go" "URL" "./develop/clients/go/")
+            (dict "Text" "PHP" "URL" "./develop/clients/php/")
+	    (dict "Text" "Spring Data" "URL" "./integrate/spring-framework-cache/")
+	    (dict "Text" "More client APIs" "URL" "./develop/clients/")
+          )</th>
+</tr>
+</thead>
+</table>
 
 
     
