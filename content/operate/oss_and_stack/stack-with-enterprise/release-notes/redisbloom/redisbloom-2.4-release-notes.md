@@ -14,10 +14,27 @@ weight: 96
 ---
 ## Requirements
 
-RedisBloom v2.4.9 requires:
+RedisBloom v2.4.13 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.4.13 (January 2025)
+
+This is a maintenance release for RedisBloom 2.4.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- **Security and privacy:**
+  - [#845](https://github.com/redisbloom/redisbloom/pull/845) (CVE-2024-53993) CMS: potential out-of-bounds write (MOD-6970)
+
+- Bug fixes:
+  - [#845](https://github.com/redisbloom/redisbloom/pull/845) `CMS.MERGE` crashes or hangs on negative number of keys (MOD-6964)
+
+- Improvements:
+  - [#831](https://github.com/redisbloom/redisbloom/pull/831) Added support for Ubuntu 22 and macOS 13 and 14
 
 ## v2.4.9 (March 2024)
 
