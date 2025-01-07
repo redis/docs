@@ -266,9 +266,6 @@
 </tr>
 </tbody>
 </table>
-
-
- <h2 class="text-5xl font-medium" id="operate">Client APIs</h2>
       
              
     
@@ -277,7 +274,8 @@
 <tr>
 <th style="text-align:left"> 
 	{{ partial "docs-section.html" (dict
-         
+          "ButtonLink" "./develop/clients/"
+          "ButtonLabel" "Connect with Redis client API libraries"
        
 "LinksLeft" (slice
             (dict "Text" "Python" "URL" "./develop/clients/redis-py/")
@@ -286,8 +284,10 @@
           )  ) }}
 </th>
 	
-<th style="text-align:left"> {{ partial "docs-section.html" (dict
-	
+<th style="text-align:left"> 
+	{{ partial "docs-section.html" (dict
+	"ButtonLink" "./develop/tools/"
+          "ButtonLabel" "Tools to connect to a Redis server"
 	"LinksLeft" (slice
             (dict "Text" "JavaScript" "URL" "./develop/clients/nodejs/")
             (dict "Text" "Java (synchronous)" "URL" "./develop/clients/jedis/")
@@ -295,7 +295,8 @@
           ) ) }}
 </th>
 <th style="text-align:left"> {{ partial "docs-section.html" (dict
-	
+	"ButtonLink" "./develop/clients/client-side-caching/"
+          "ButtonLabel" "Client-side caching introduction"
 	"LinksLeft" (slice
             (dict "Text" "Go" "URL" "./develop/clients/go/")
             (dict "Text" "PHP" "URL" "./develop/clients/php/")
