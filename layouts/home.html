@@ -281,6 +281,8 @@
             (dict "Text" "Python" "URL" "./develop/clients/redis-py/")
             (dict "Text" "Python (vector)" "URL" "./integrate/redisvl/")
 	    (dict "Text" "C#/.NET" "URL" "./develop/clients/dotnet/")
+	(dict "Text" "JavaScript" "URL" "./develop/clients/nodejs/")
+            (dict "Text" "Java (synchronous)" "URL" "./develop/clients/jedis/")
           )  ) }}
 </th>
 	
@@ -289,21 +291,14 @@
 	"ButtonLink" "./develop/tools/"
           "ButtonLabel" "Tools to connect to a Redis server"
 	"LinksLeft" (slice
-            (dict "Text" "JavaScript" "URL" "./develop/clients/nodejs/")
-            (dict "Text" "Java (synchronous)" "URL" "./develop/clients/jedis/")
 	    (dict "Text"  "Java (asynchronous)" "URL" "./develop/clients/lettuce/")
-          ) ) }}
-</th>
-<th style="text-align:left"> {{ partial "docs-section.html" (dict
-	"ButtonLink" "./develop/clients/client-side-caching/"
-          "ButtonLabel" "Client-side caching introduction"
-	"LinksLeft" (slice
-            (dict "Text" "Go" "URL" "./develop/clients/go/")
+	 (dict "Text" "Go" "URL" "./develop/clients/go/")
             (dict "Text" "PHP" "URL" "./develop/clients/php/")
 	    (dict "Text" "Spring Data" "URL" "./integrate/spring-framework-cache/")
 	    (dict "Text" "More client APIs" "URL" "./develop/clients/")
           ) ) }}
 </th>
+
 </tr>
 </thead>
 </table>
