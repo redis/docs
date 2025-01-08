@@ -1,5 +1,5 @@
 ---
-Title: Redis Software release notes 7.8.2
+Title: Redis Software release notes 7.8.x
 alwaysopen: false
 categories:
 - docs
@@ -8,12 +8,12 @@ categories:
 compatibleOSSVersion: Redis 7.4.0
 description: Redis Community Edition 7.4 features. Hash field expiration. Client-side caching support. Metrics stream engine preview. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. Configurable minimum password length. Configurable license expiration alert threshold.
 hideListLinks: true
-linkTitle: 7.8.2 releases
+linkTitle: 7.8.x releases
 toc: 'true'
 weight: 69
 ---
 
-​[​Redis Software version 7.8.2](https://redis.io/downloads/#software) is now available!
+​[​Redis Software version 7.8](https://redis.io/downloads/#software) is now available!
 
 ## Highlights
 
@@ -231,24 +231,6 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
-- After upgrading, clusters using Sentinel for service discovery might encounter an issue that requires a restart of the Sentinel service. To determine if your cluster is affected, check for the following symptoms:
-
-    1. The `sentinel masters` command is unresponsive.
-
-    1. Review `sentinel_service.log` for messages such as:
-
-    ```
-    INFO Failed to read ‘HGETALL node:##’, ERROR: ‘HGETALL node:##’ returned empty results (retry ######), will try again in 1s.
-    ```
-
-    Workaround: To resolve the issue, run the following command on each node:
-
-    ```sh
-    supervisorctl restart sentinel_service
-    ```
-    
-    If you are uncertain whether you are impacted or need assistance with remediation, [contact support](https://redis.io/support/).
-
 ## Known limitations
 
 #### New Cluster Manager UI limitations
@@ -264,3 +246,7 @@ The following legacy UI features are not yet available in the new Cluster Manage
 #### RedisGraph prevents upgrade to RHEL 9 
 
 You cannot upgrade from a prior RHEL version to RHEL 9 if the Redis Software cluster contains a RedisGraph module, even if unused by any database. The [RedisGraph module has reached end-of-life](https://redis.com/blog/redisgraph-eol/) and is completely unavailable in RHEL 9.
+
+#### Query results might include hash keys with lazily expired fields
+
+If one or more fields of a hash key expire after an `FT.SEARCH` or `FT.AGGREGATE` query begins, Redis does not account for these lazily expired fields. As a result, keys with expired fields might still be included in the query results, leading to potentially incorrect or inconsistent results.

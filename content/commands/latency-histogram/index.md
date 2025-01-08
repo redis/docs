@@ -54,9 +54,9 @@ Each histogram consists of the following fields:
   * Each bucket represents a latency range
   * Each bucket covers twice the previous bucket's range
   * Empty buckets are excluded from the reply
-  * The tracked latencies are between 1 microsecond and roughly 1 second
+  * The tracked latencies are between 1 nanosecond and roughly 1 second
   * Everything above 1 second is considered +Inf
-  * At max, there will be log2(1,000,000,000)=30 buckets
+  * At max, there will be log2(1,000,000,000) = 30 buckets
 
 This command requires the extended latency monitoring feature to be enabled, which is the default.
 If you need to enable it, call `CONFIG SET latency-tracking yes`.

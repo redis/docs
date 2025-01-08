@@ -55,10 +55,12 @@ A Redis client is a software library or tool that enables applications to intera
 
 The connection wizard provides code snippets to connect to your database with the following programming languages:
 
+- .NET using [NRedisStack]({{< relref "/develop/clients/dotnet" >}})
 - node.js using [node-redis]({{< relref "/develop/clients/nodejs" >}})
-- .NET using [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/)
 - Python using [redis-py]({{< relref "/develop/clients/redis-py" >}})
-- Java using [Jedis]({{< relref "/develop/clients/jedis" >}})
+- Java using [Jedis]({{< relref "/develop/clients/jedis" >}}) and [Lettuce]({{< relref "/develop/clients/lettuce" >}})
+- Go using [go-redis]({{< relref "/develop/clients/go" >}})
+- PHP using [Predis]({{< relref "/develop/clients/php" >}})
 
 {{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." >}}
 

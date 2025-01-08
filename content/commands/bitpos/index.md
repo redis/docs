@@ -104,16 +104,25 @@ Non-existent keys are treated as empty strings.
 
 ## Examples
 
-{{% redis-cli %}}
-SET mykey "\xff\xf0\x00"
-BITPOS mykey 0
-SET mykey "\x00\xff\xf0"
-BITPOS mykey 1 0
-BITPOS mykey 1 2
-BITPOS mykey 1 2 -1 BYTE
-BITPOS mykey 1 7 15 BIT
-set mykey "\x00\x00\x00"
-BITPOS mykey 1
-BITPOS mykey 1 7 -3 BIT
-{{% /redis-cli %}}
-
+```redis
+redis> SET mykey "\xff\xf0\x00"
+OK
+redis> BITPOS mykey 0
+(integer) 12
+redis> SET mykey "\x00\xff\xf0"
+OK
+redis> BITPOS mykey 1 0
+(integer) 8
+redis> BITPOS mykey 1 2
+(integer) 16
+redis> BITPOS mykey 1 2 -1 BYTE
+(integer) 16
+redis> BITPOS mykey 1 7 15 BIT
+(integer) 8
+redis> set mykey "\x00\x00\x00"
+OK
+redis> BITPOS mykey 1
+(integer) -1
+redis> BITPOS mykey 1 7 -3 BIT
+(integer) -1
+```

@@ -13,10 +13,30 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.7 requires:
+RediSearch v2.10.10 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+
+## v2.10.10 (January 2025)
+
+This is a maintenance release for RediSearch 2.10
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+**Security and privacy**:
+- [#5459](https://github.com/redisearch/redisearch/pull/5459) (CVE-2024-51737) Query: potential out-of-bounds write (MOD-8486)
+
+Bug fixes:
+- [#5392](https://github.com/redisearch/redisearch/pull/5392) `NOSTEM` option does not work on query, just on tokenisation (index creation) (MOD-7634)
+- [#5300](https://github.com/redisearch/redisearch/pull/5300) Prefix/Infix/Suffix queries longer than 1024 chars could cause a crash (MOD-7882)
+- [#5294](https://github.com/redisearch/redisearch/pull/5294) Expired keys while background indexing could cause cross slot error when using `replicaof` (MOD-7949)
+- [#5282](https://github.com/redisearch/redisearch/pull/5282) `FT.CURSOR READ` retrieving deleted `TAG` fields cause a crash (MOD-8011)
+- [#5424](https://github.com/redisearch/redisearch/pull/5424) `FT.AGGREGATE` on numeric fields lead to `failed_calls` count increase on clustered DBs (MOD-8058)
+- [#5241](https://github.com/redisearch/redisearch/pull/5241) Memory count on `bytes_collected` by the index sanitiser with missing values (MOD-8097, MOD-8114)
+
+Improvements:
+- [#5257](https://github.com/redisearch/redisearch/pull/5257) Optimizing index consumed memory with the creation only upon write operations (MOD-8125)
 
 ## v2.10.7 (Septermber 2024)
 
@@ -24,7 +44,7 @@ This is a maintenance release for RediSearch 2.10
 
 Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
 
-Bug Fixes
+Bug Fixes:
 - https://github.com/RediSearch/RediSearch/pull/4941 Adjusting the module configuration to avoid routing overload on the first shard in a clustered database (MOD-7505)
 - https://github.com/RediSearch/RediSearch/pull/4950 `FT.PROFILE` on `AGGREGATE` numeric queries could cause a crash due to reuse of an internal CURSOR in a large range of numeric values (MOD-7454)
 
@@ -84,4 +104,5 @@ Improvements (since 2.10.4):
 - The version inside Redis will be 2.10.5 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a Release Candidate flag.
 - Minimal Redis version: 7.4
 - If indexing and querying RedisJSON data structures, this version is best combined with RedisJSON 2.8 (v2.8.2 onwards)
+- If one or more fields of a hash key expire after a query begins (using FT.SEARCH or FT.AGGREGATE), Redis does not account for these lazily expired fields. As a result, keys with expired fields may still be included in the query results, leading to potentially incorrect or inconsistent results.
 {{< /note >}}

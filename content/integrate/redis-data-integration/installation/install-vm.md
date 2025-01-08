@@ -20,7 +20,7 @@ This guide explains how to install Redis Data Integration (RDI) on one or more V
 your source database. You can also
 [Install RDI on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
 
-{{< note >}}We recommend you use RDI v1.4.0. The previous version, RDI v1.2.8,
+{{< note >}}We recommend you use RDI v1.4.2 or above. The previous version, RDI v1.2.8,
 will not work on VMs where IPv6 is disabled. This problem is solved with version 1.4.0.
 {{< /note >}}
 
@@ -33,7 +33,7 @@ Each of the RDI VMs should have at least:
   2-6 extra cores on top of this if your dataset is big and you want to ingest the
   baseline snapshot as fast as possible.
 - **RAM**: 2GB 
-- **Disk**: 25GB, which includes the OS footprint. In particular, you should
+- **Disk**: 25GB, which includes the OS footprint. In particular,
   RDI requires  7GB in  `/var` and 1GB in `/opt` folder  (to
   store the log files).
 - **Network interface**: 10GB or more.
@@ -181,21 +181,20 @@ RDI uses a database on your Redis Enterprise cluster to store its state
 information. *This requires Redis Enterprise v6.4 or greater*.
 
 The installer gives you instructions to help you create secrets and create your pipeline.
-It will ask you for cluster admin credentials during installation. You should supply
-these if you want the installer to create the RDI database for you.
- 
-{{<note>}}The installer does not create the RDI Redis database with
-[TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
-[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS).
-If you want to use TLS or other advanced options then you must create the Redis database
-yourself using the Redis Enterprise console.{{</note>}}
+It will ask you for cluster admin credentials during installation.
 
-If you don’t want the installation to create the RDI database for you:
+Use the Redis console to create the RDI database with the following requirements:
 
-- Use the Redis console to create a database with 250MB RAM with 1 primary and 1 replica.
+- 250MB RAM with one primary and one replica.
 - If you are deploying RDI for a production environment then secure this database with a password
   and TLS.
 - Provide the installation with the required RDI database details.
+- Set the database's
+  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
+  [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
+  to AOF - fsync every 1 sec.
+- **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
+  RDI database is clustered, but it is OK for the target database to be clustered.
 
 {{< note >}}If you specify `localhost` as the address of the RDI database server during
 installation then the connection will fail if the actual IP address changes for the local
@@ -233,32 +232,22 @@ silent install configuration:
 title = "RDI Silent Installer Config"
 
 scaffold = true
+db_index = 4
 deploy_directory = "/opt/rdi/config"
 
-# If you are *not* using an existing RDI database and you want
-# the installer to create one then remove the properties in this
-# section, apart from :
-# - `password`
-# - `use_existing_rdi` -  set this to `false`
-# Also, uncomment the [rdi.cluster] section below.
+# Upstream DNS servers. This is needed if the installer detects a DNS resolver 
+# with a loopback address as an upstream DNS server.
+# nameservers = ["8.8.8.8", "8.8.4.4"]
+
+# HTTPS port you want to expose the RDI API on, if different from 443.
+# https_port = 5443
+
 [rdi.database]
 host = "localhost"
 port = 12001
 username = "username"
 password = "password"
-use_existing_rdi = true
 ssl = true
-
-# Uncomment this section and remove properties from the
-# [rdi.database] section as described above if you
-# are *not* using an existing RDI database and you want
-# the installer to create one.
-# [rdi.cluster]
-# host = "localhost"
-# port = 9443
-# username = "username"
-# password = "password"
-
 
 # Uncomment the properties in this section only if the RDI
 # database uses TLS/mTLS.
@@ -278,18 +267,15 @@ The sections below describe the properties in more detail.
 | Property | Description |
 |-- |-- |
 | `title` | Text to identify the file. RDI doesn't use use this, so you can use any text you like. |
-| `high_availability` | Do you want to enable replication on the RDI database (true/false)? You should only use this if you ask the installer to create the RDI database for you. |
 | `scaffold` | Do you want to enable [scaffolding]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-scaffold" >}}) during the install? (true/false) |
 | `db_index` | Integer to specify the source database type for scaffolding. The options are 2 (MySQL/MariaDB), 3 (Oracle), 4 (PostgreSQL), and 5 (SQL Server). |
 | `deploy_directory` | Path to the directory where you want to store the RDI configuration. |
+| `nameservers` | Upstream DNS servers. This is needed if the installer detects a DNS resolver with a loopback address as an upstream DNS server (for example, `nameservers = ["8.8.8.8", "8.8.4.4"]`). |
+| `https_port` | HTTPS port you want to expose the RDI API on, if different from 443. |
 
 #### `rdi.database`
 
-Use the properties in this section if you want to use an existing RDI database.
-See [`rdi.cluster`](#rdicluster) below if you want the installer to create a new
-RDI database. However, you should still supply the `password` in this
-section and set `use_existing_rdi` to `false` if the installer creates the
-database.
+Use the properties in this section to specify your RDI database.
 
 | Property | Description |
 |-- |-- |
@@ -297,21 +283,7 @@ database.
 | `port` | Port for the RDI database. |
 | `username` | Username for the RDI database. |
 | `password` | Password for the RDI database. |
-| `use_existing_rdi` | Do you want to use an existing RDI instance (true) or create a new one (false)? If you enable SSL (see the property below), this will be set to true, overriding the value you specify here. |
 | `ssl` | Is SSL enabled for the RDI database (true/false)? If this is false then RDI will ignore the settings in the [`rdi.database.certificates`](#rdidatabasecertificates) section. |
-
-#### `rdi.cluster`
-
-Use the properties in this section if you are *not* using an existing RDI database
-and you want the installer to create one.
-See [`rdi.database`](#rdidatabase) above if you want to use an existing RDI database.
-
-| Property | Description |
-|-- |-- |
-| `host` | Hostname of the Redis cluster to use for RDI. |
-| `port` | Port for the cluster. |
-| `username` | Username for the cluster. |
-| `password` | Password for the cluster. |
 
 #### `rdi.database.certificates`
 

@@ -2,8 +2,8 @@
   "id": "lettuce_async",
   "type": "client",
   "name": "lettuce_async",
-  "language": "Java",
-  "label": "Java Async",
+  "language": "Java-Async",
+  "label": "Java-Async",
   "repository": {
       "git_uri": "https://github.com/redis/lettuce"
   },

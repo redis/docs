@@ -62,7 +62,7 @@ The key name:
 - Must be between 10 and 50 characters long
 - Can contain alphanumeric characters, hyphens, and underscores. Spaces are not allowed.
 
-The user name must have an owner or viewer role.
+The selected user must have an owner, viewer, or logs viewer role.
 
 Select **Create** to create the new key.  
 

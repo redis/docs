@@ -26,6 +26,8 @@ Redis Cloud maintains consistency among instances in the background; that is, ea
 
 {{< embed-md "rc-create-db-first-steps.md" >}}
 
+{{< embed-md "rc-create-db-use-cases.md" >}}
+
 4. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Pro**. 
 
     {{<image filename="images/rc/create-database-subscription-pro-new.png" alt="The Subscription selection panel with Pro selected.">}}
@@ -35,7 +37,11 @@ This guide shows how to create an Active-Active database with a new Pro subscrip
     {{< /note >}}
     
 
-After you select **Pro**, you need to: 
+After you select **Pro**, the **Database settings** section will appear.
+
+{{<image filename="images/rc/create-pro-db-settings-custom.png" alt="The database settings section, with custom settings selected.">}}
+
+For this guide, select **Custom settings**. For an Active-Active database, you will need to: 
 
 1. Set up the deployment options, including cloud vendor and region details for each instance.
 
@@ -59,7 +65,7 @@ There are three sections on this tab:
 
 #### General settings {#general-settings}
 
-Select **Active-Active Redis** to turn on Active-Active. 
+Select **Active-Active (Multi-region)** to turn on Active-Active. 
 
 {{<image filename="images/rc/create-flexible-sub-active-active-on.png" width="75%" alt="When you enable Active-Actve, you need to specify the regions for each database instance." >}}
 
