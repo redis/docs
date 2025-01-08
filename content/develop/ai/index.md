@@ -16,18 +16,18 @@ Redis stores and indexes vector embeddings that semantically represent unstructu
 | :-- | :-- | :-- |
 | {{<image filename="images/ai-cube.png" alt="AI Redis icon.">}}[Redis vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) |{{<image filename="images/ai-brain.png" alt="AI Redis icon.">}} [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/get-started/rag" >}}) | {{<image filename="images/ai-lib.png" alt="AI Redis icon.">}}[Redis vector Python client library documentation]({{< relref "/integrate/redisvl/overview/" >}}) |
 
-## Overview
+#### Overview
 
 This page organized into a few sections depending on what you’re trying to do:
-* **Docs** - The comprehensive reference section for every feature, API, and setting. It’s your source for detailed, technical information to support any level of development.
-* **Concepts** - Explanations of foundational ideas and core principles to help you understand the "why" behind the product’s features and design.
-* **Quickstarts** - Short, focused guides to get you up and running with key features or workflows in minutes. 
+* **How to's** - The comprehensive reference section for every feature, API, and setting. It’s your source for detailed, technical information to support any level of development.
+* **Concepts** - Explanations of foundational ideas and core principles to help you understand the reason behind the product’s features and design.
+* **Quickstarts** - Short, focused guides to get you started with key features or workflows in minutes. 
 * **Tutorials** - In-depth walkthroughs that dive deeper into specific use cases or processes. These step-by-step guides help you master essential tasks and workflows.
 * **Integrations** - Guides and resources to help you connect and use the product with popular tools, frameworks, or platforms.
 * **Benchmarks** - Performance comparisons and metrics to demonstrate how the product performs under various scenarios. This helps you understand its efficiency and capabilities.
 * **Best practices** - Recommendations and guidelines for maximizing effectiveness and avoiding common pitfalls. This section equips you to use the product effectively and efficiently.
 
-## Docs
+## How to's
 
 1. [**Create a vector index**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#create-a-vector-index): Redis maintains a secondary index over your data with a defined schema (including vector fields and metadata). Redis supports [`FLAT`]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#flat-index) and [`HNSW`]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#hnsw-index) vector index types.
 1. [**Store and update vectors**]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors#store-and-update-vectors): Redis stores vectors and metadata in hashes or JSON objects.
@@ -39,12 +39,12 @@ This page organized into a few sections depending on what you’re trying to do:
 Learn to perform vector search and use gateways and semantic caching in your AI/ML projects.
 
 | Search | LLM memory | Semantic caching | Semantic routing | AI Gateways |
-| :-- | :-- | :-- |
+| :-- | :-- | :-- | :-- | :-- |
 | {{<image filename="images/ai-search.png" alt="AI Redis icon.">}}[Vector search guide]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) | {{<image filename="images/ai-LLM-memory.png" alt="LLM memory icon.">}}[Store memory for LLMs](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-brain-2.png" alt="AI Redis icon.">}}[Semantic caching for faster, smarter LLM apps](https://redis.io/blog/what-is-semantic-caching) | {{<image filename="images/ai-semantic-routing.png" alt="Semantic routing icon.">}}[Semantic routing chooses the best tool](https://redis.io/blog/level-up-rag-apps-with-redis-vector-library/) | {{<image filename="images/ai-model.png" alt="AI Redis icon.">}}[Deploy an enhanced gateway with Redis](https://redis.io/blog/ai-gateways-what-are-they-how-can-you-deploy-an-enhanced-gateway-with-redis/) | {{<image filename="images/ai-brain-2.png" alt="AI Redis icon.">}}[Semantic caching for faster, smarter LLM apps](https://redis.io/blog/what-is-semantic-caching) |
 
 ## Quickstarts
 
-Quickstarts or recipes are for when you are trying to build specific functionality. For example, you might want to do RAG with LangChain or set up LLM memory for you AI agent. Get started with the following Redis Python notebooks.
+Quickstarts or recipes are useful when you are trying to build specific functionality. For example, you might want to do RAG with LangChain or set up LLM memory for you AI agent. Get started with the following Redis Python notebooks.
 
 * [The place to start if you are brand new to Redis](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/redis-intro/00_redis_intro.ipynb)
 
@@ -69,7 +69,7 @@ Retrieval Augmented Generation (aka RAG) is a technique to enhance the ability o
 
 #### Agents
 AI agents can act autonomously to plan and execute tasks for the user.
-* [Notebook to get started with lang-graph and agents](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/agents/00_langgraph_redis_agentic_rag.ipynb) 
+* [Notebook to get started with LangGraph and agents](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/agents/00_langgraph_redis_agentic_rag.ipynb) 
 * [Build a collaborative movie recommendation system using Redis for data storage, CrewAI for agent-based task execution, and LangGraph for workflow management.](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/agents/01_crewai_langgraph_redis.ipynb)
 
 #### LLM memory
@@ -96,11 +96,11 @@ Need a deeper-dive through different use cases and topics?
 #### RAG
 * [Agentic RAG](https://github.com/redis-developer/agentic-rag) - A tutorial focused on agentic RAG with LlamaIndex and Amazon Bedrock
 * [RAG on Vertex AI](https://github.com/redis-developer/gcp-redis-llm-stack/tree/main) - A RAG tutorial featuring Redis with Vertex AI
-* [RAG workbench](https://github.com/redis-developer/redis-rag-workbench) - A development playground for exploring RAG techniques with Redis.
+* [RAG workbench](https://github.com/redis-developer/redis-rag-workbench) - A development playground for exploring RAG techniques with Redis
 
 #### Recommendation system
 * [Recommendation systems w/ NVIDIA Merlin & Redis](https://github.com/redis-developer/redis-nvidia-recsys) - Three examples, each escalating in complexity, showcasing the process of building a realtime recsys with NVIDIA and Redis
-* [Redis product search](https://github.com/redis-developer/redis-product-search) - Build a real-time product search engine using features like full-text search, vector similarity, and real-time data updates.
+* [Redis product search](https://github.com/redis-developer/redis-product-search) - Build a real-time product search engine using features like full-text search, vector similarity, and real-time data updates
 
 ## Ecosystem integrations
 
@@ -116,10 +116,10 @@ Need a deeper-dive through different use cases and topics?
 
 ## Benchmarks
 See how we stack up against the competition.
-* [Benchmarking results for vector databases](https://redis.io/blog/benchmarking-results-for-vector-databases/)
+* [Redis vector benchmark results](https://redis.io/blog/benchmarking-results-for-vector-databases/)
 * [1 billion vectors](https://redis.io/blog/redis-8-0-m02-the-fastest-redis-ever/)
 
 ## Best practices
 See how leaders in the industry are building their RAG apps.
 * [Advanced RAG example](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/RAG/04_advanced_redisvl.ipynb)
-* [get better RAG responses with Ragas](https://redis.io/blog/get-better-rag-responses-with-ragas/)
+* [Get better RAG responses with Ragas](https://redis.io/blog/get-better-rag-responses-with-ragas/)
