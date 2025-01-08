@@ -33,7 +33,7 @@ After you have [prepared your source database]({{<relref "/operate/rc/databases/
 1. Enter the ARN of your [database credentials secret]({{< relref "/operate/rc/databases/rdi/setup#share-source-database-credentials" >}}) in the **Source database secrets ARN** field.
 1. Select **Start pipeline setup**.
     {{<image filename="images/rc/rdi/rdi-start-pipeline-setup.png" alt="The start pipeline setup button." width=200px >}}
-1. Redis Cloud will attempt to connect to PrivateLink. Accept the incoming connection on AWS PrivateLink to proceed. See [Accept or Reject PrivateLink connection requests](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#accept-reject-connection-requests).
+1. Redis Cloud will attempt to connect to PrivateLink. If your PrivateLink does not allow automatic acceptance of incoming connections, accept the incoming connection on AWS PrivateLink to proceed. See [Accept or Reject PrivateLink connection requests](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#accept-reject-connection-requests).
 
     If Redis Cloud can't find your PrivateLink connection, make sure that the PrivateLink service name is correct and that Redis Cloud is listed as an Allowed Principal for your VPC. See [Set up connectivity]({{<relref "/operate/rc/databases/rdi/setup#set-up-connectivity">}}) for more info.
 
@@ -49,13 +49,13 @@ When your pipeline is provisioned, select **Complete setup**. You will then [def
 
 ## Define data pipeline
 
-After your pipeline is provisioned, you will be able to define your pipeline. You will select the database schemas and columns that you want to import and synchronize with your primary database.
+After your pipeline is provisioned, you will be able to define your pipeline. You will select the database schemas, tables, and columns that you want to import and synchronize with your primary database.
 
 ### Configure a new pipeline
 
 1. In the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Pipeline** tab. If your pipeline is already provisioned, select **Complete setup** to go to the **Pipeline definition** section.
     {{<image filename="images/rc/rdi/rdi-complete-setup.png" alt="The complete setup button." width=200px >}}
-1. For the **Configure a new pipeline** option, select the Redis data type to write keys to the target. You can choose **Hash** or **JSON**. 
+1. For the **Configure a new pipeline** option, select the Redis data type to write keys to the target. You can choose **Hash** or **JSON** if the target database supports JSON. 
     {{<image filename="images/rc/rdi/rdi-configure-new-pipeline.png" alt="The Pipeline definition screen. Configure a new pipeline is selected." width=75% >}}
     Select **Continue**.
     {{<image filename="images/rc/rdi/rdi-continue-button.png" alt="The continue button." width=150px >}}

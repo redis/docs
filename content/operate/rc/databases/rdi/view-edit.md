@@ -1,18 +1,20 @@
 ---
-Title: View and edit data pipeline
+Title: View data pipeline
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
-description: Edit and observe your data pipeline.
+description: Observe and stop your data pipeline.
 hideListLinks: true
 weight: 3
 ---
 
-Use the **Data pipeline** tab in your database to view and edit your data pipeline.
+Use the **Data pipeline** tab in your database to view your data pipeline.
 
 The **Data pipeline** tab gives an overview of your data pipeline and lets you view your data stream metrics. 
+
+{{<image filename="images/rc/rdi/rdi-status-metrics-tables.png" alt="The select source database type list." width=80% >}}
 
 The **Status** table shows statistics for the whole data pipeline: 
 - **Status**: The status of the data pipeline. Possible statuses include:
@@ -39,7 +41,7 @@ The **Data stream metrics** table shows the following metrics for each data stre
 | **Filtered** | Number of records from the source table that were filtered from being inserted into the target database. |
 | **Rejected** | Number of records from the source table that could not be parsed or inserted into the target database. |
 
-
+<!-- DOUBLE CHECK THIS BEFORE PHASE 2
 ## Edit data pipeline
 
 To change the data you want to ingest from the data pipeline:
@@ -106,7 +108,7 @@ To reset the data pipeline and restart the ingest process:
 
 1. Select **Reset data pipeline**.
 
-At this point, the data pipeline will re-ingest data from the source database to your target Redis database. 
+At this point, the data pipeline will re-ingest data from the source database to your target Redis database. -->
 
 ## Stop and restart data pipeline
 

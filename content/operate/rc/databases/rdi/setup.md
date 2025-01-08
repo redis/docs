@@ -24,6 +24,11 @@ weight: 1
     {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=500px >}}
 1. If you know the size of your source database, enter it into the **Source dataset size** field.
     {{<image filename="images/rc/rdi/rdi-source-dataset-size.png" alt="Enter the amount of source data you plan to ingest." width=400px >}}
+1. Under **Setup connectivity**, save the provided ARN and extract the AWS account ID for the account associated with your Redis Cloud cluster from it. 
+
+    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The select source database type list." width=80% >}}
+
+    The AWS account ID is the string of numbers after `arn:aws:iam::` in the ARN. For example, if the ARN is `arn:aws:iam::123456789012:role/redis-data-pipeline`, the AWS account ID is `123456789012`.
 
 ## Prepare source database
 
@@ -41,24 +46,44 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 
 You need to share your source database credentials and certificates in an Amazon secret with Redis Cloud so that the pipeline can connect to your database.
 
+To do this, you need to:
+1. [Create an encryption key](#create-encryption-key) using AWS Key Management Service with the right permissions.
+1. [Create a secret](#create-database-credentials-secret) containing the source database credentials encrypted using that key.
+
+### Create encryption key
+
+In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Key Management Service**. [Create an encryption key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) with the following settings:
+
+1. In **Step 1 - Configure key**:
+    - **Key type**: Select **Symmetric**.
+    - **Key usage**: Select **Encrypt and decrypt**.
+    - Under **Advanced options**, set the following:
+        - **Key material origin**: Select **KMS - recommended**.
+        - **Regionality**: Select **Single-Region key**.
+1. In **Step 2 - Add labels**, add an alias and description for the key.
+1. In **Step 3 - Define key administrative permissions**, under **Key deletion**, select **Allow key administrators to delete this key**.
+1. In **Step 4 - Define key usage permissions**, under **Other AWS accounts**, select **Add another AWS account**. Enter the AWS account ID for the Redis Cloud cluster that you saved earlier.
+
+### Create database credentials secret
+
 In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Security, Identity, and Compliance** > **Secrets Manager**. [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html) of type **Other type of secret** with the following settings:
 
 - **Key/value pairs**: Enter the following key/value pairs.
 
     - `username`: Database username
     - `password`: Database password
-    - `server_certificate`: Server certificate in PEM format *(TLS only)*
-    - `client_certificate`: [X.509 client certificate](https://en.wikipedia.org/wiki/X.509) or chain in PEM format *(mTLS only)*
-    - `client_certificate_key`: Key for the client certificate or chain in PEM format *(mTLS only)*
-    - `client_certificate_passphrase`: Passphrase or password for the client certificate or chain in PEM format *(mTLS only)*
+    - `trust_certificate`: Server certificate in PEM format *(TLS only)*
+    - `client_public_key`: [X.509 client certificate](https://en.wikipedia.org/wiki/X.509) or chain in PEM format *(mTLS only)*
+    - `client_private_key`: Key for the client certificate or chain in PEM format *(mTLS only)*
+    - `client_private_key_passphrase`: Passphrase or password for the client certificate or chain in PEM format *(mTLS only)*
 
     {{<note>}}
-If your source database has TLS or mTLS enabled, we recommend that you enter the `server_certificate`, `client_certificate`, and `client_certificate_key` into the secret editor using the **Key/Value** input method instead of the **JSON** input method. Pasting directly into the JSON editor may cause an error. 
+If your source database has TLS or mTLS enabled, we recommend that you enter the `trust_certificate`, `client_public_key`, and `client_private_key` into the secret editor using the **Key/Value** input method instead of the **JSON** input method. Pasting directly into the JSON editor may cause an error. 
     {{</note>}}
 
-- **Encryption key**: Select a self-managed encryption key from the list of keys, or select **Add a new key** to [create one](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
+- **Encryption key**: Select the [encryption key](#create-encryption-key) you created earlier.
 
-- **Resource permissions**: Add the following permissions to your secret to allow the Redis data pipeline to access your secret. Replace `<AWS ACCOUNT ID>` with the provided AWS Account ID. 
+- **Resource permissions**: Add the following permissions to your secret to allow the Redis data pipeline to access your secret. Replace `<AWS ACCOUNT ID>` with the AWS account ID for the Redis Cloud cluster that you saved earlier.
 
     ```json
     {
