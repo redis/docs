@@ -33,7 +33,7 @@ The **Data stream metrics** table shows the following metrics for each data stre
 | Metric | Description |
 |--------|-------------|
 | **Name** | Name of the data stream. Each stream corresponds to a table from the source database.  |
-| **Total** | Total number of records arrived from the source table. |
+| **Total** | Total number of records that arrived from the source table. |
 | **Pending** | Number of records from the source table that are waiting to be processed. |
 | **Inserted** | Number of new records from the source table that have been written to the target database. |
 | **Updated** | Number of updated records from the source table that have been updated in the target database. |
