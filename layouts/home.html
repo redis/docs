@@ -111,56 +111,41 @@
         ) }}
       </div>
       <div class="lg:px-11 w-full flex flex-col gap-3">
-        <h2 class="text-5xl font-medium" id="operate">Explore</h2>
+        <h2 class="text-5xl font-medium" id="operate">Deploy</h2>
         {{ partial "docs-section.html" (dict
-          "Title" "Redis and Stack"
-          "Description" "Redis Stack extends Redis with modern data models and processing engines."
-          "ButtonLink" "./operate/oss_and_stack/"
-          "ButtonLabel" "Read more"
-          "LinksLeftTitle" "Learn more"
+            "Title" "Deploy Redis for a large-scale organization"
+          "Description" "Enterprise-grade deployment including hybrid and geo-distributed environments"
+	  "ButtonLink" "./operate/rs/installing-upgrading/install/plan-deployment/"
+          "ButtonLabel" "Redis Software deployment planning guide"  
           "LinksLeft" (slice
-            (dict "Text" "Install" "URL" "./operate/oss_and_stack/install/install-stack/")
-            (dict "Text" "Redis Query Engine" "URL" "./develop/interact/search-and-query/")
-            (dict "Text" "JSON" "URL" "./develop/data-types/json/")
+           (dict "Text" "Optimize Redis clusters guide" "URL" "./operate/rs/clusters/optimize")
           )
         ) }}
         {{ partial "docs-section.html" (dict
-          "Title" "Redis Cloud"
-          "Description" "Deploy Redis Enterprise on Amazon Web Services, Google Cloud, or Microsoft Azure."
-          "ButtonLink" "./operate/rc"
-          "ButtonLabel" "Read more"
-          "LinksLeftTitle" "Learn more"
+           "Title" "Deploy on Kubernetes"
+          "Description" "Get started with the Redis Software for Kubernetes container image"
+	  "ButtonLink" "./operate/kubernetes/deployment/quick-start/"
+          "ButtonLabel" "Kubernetes deployment quickstart"  
           "LinksLeft" (slice
-            (dict "Text" "Quick start" "URL" "./operate/rc/rc-quickstart/")
-            (dict "Text" "Subscriptions" "URL" "./operate/rc/subscriptions/")
-            (dict "Text" "Databases" "URL" "./operate/rc/databases/")
-	    (dict "Text" "Active-Active" "URL" "./operate/rc/databases/create-database/create-active-active-database/")
+            (dict "Text" "Deploy Redis Enterprise for Kubernetes with OpenShift guide" "URL" "./operate/kubernetes/deployment/openshift/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
-          "Title" "Redis Enterprise Software"
-          "Description" "A self-managed data platform that unlocks the full potential of Redis at enterprise scale."
-          "ButtonLink" "./operate/rs"
-          "ButtonLabel" "Read more"
-          "LinksLeftTitle" "Learn more"
+            "Title" "Ingest and sync data to Redis"
+          "Description" "Sync Redis Software with live data from your disk-based databases"
+	  "ButtonLink" "./integrate/redis-data-integration/quick-start-guide/"
+          "ButtonLabel" "Redis Data Integration (RDI) pipeline quickstart"  
           "LinksLeft" (slice
-            (dict "Text" "Quick start" "URL" "./operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart/")
-            (dict "Text" "Clusters" "URL" "./operate/rs/clusters/")
-            (dict "Text" "Databases" "URL" "./operate/rs/databases/")
-	    (dict "Text" "Networking" "URL" "./operate/rs/networking/")
+            (dict "Text" "RDI feature overview" "URL" "./integrate/redis-data-integration/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
-          "Title" "Redis Enterprise for Kubernetes"
-          "Description" "Redis Enterprise deployed on containerized software platforms and integrated with our partners."
-          "ButtonLink" "./operate/kubernetes/"
-          "ButtonLabel" "Read more"
-          "LinksLeftTitle" "Learn more"
-          "LinksLeft" (slice
-            (dict "Text" "Architecture" "URL" "./operate/kubernetes/architecture/")
-            (dict "Text" "Deployments" "URL" "./operate/kubernetes/deployment/")
-            (dict "Text" "Clusters" "URL" "./operate/kubernetes/re-clusters/")
-            (dict "Text" "Databases" "URL" "./operate/kubernetes/re-databases/")
+          "Title" "Monitor Redis with Prometheus"
+          "Description" "Get started with the Redis Software integration for Prometheus"
+	  "ButtonLink" "./integrate/prometheus-with-redis-enterprise/"
+          "ButtonLabel" "Prometheus and Grafana with Redis guide"  
+	"LinksLeft" (slice
+            (dict "Text" "Prometheus and Graphana with Redis Cloud guide" "URL" "./integrate/prometheus-with-redis-cloud/")
           )
         ) }}
       </div>
