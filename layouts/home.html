@@ -109,6 +109,17 @@
             (dict "Text" "Redis Input/Output Tool quickstart guide" "URL" "./integrate/riot/quick-start/")
           )
         ) }}
+	{{ partial "docs-section.html" (dict
+          "ButtonLink" "./develop/clients/"
+          "ButtonLabel" "Connect with Redis client API libraries"
+       
+          "LinksLeft" (slice
+            (dict "Text" "Python" "URL" "./develop/clients/redis-py/")
+            (dict "Text" "Python (vector)" "URL" "./integrate/redisvl/")
+	    (dict "Text" "C#/.NET" "URL" "./develop/clients/dotnet/")
+	    (dict "Text" "JavaScript" "URL" "./develop/clients/nodejs/")
+            (dict "Text" "Java (synchronous)" "URL" "./develop/clients/jedis/")
+          )  ) }}
       </div>
       <div class="lg:px-11 w-full flex flex-col gap-3">
         <h2 class="text-5xl font-medium" id="operate">Deploy</h2>
@@ -148,25 +159,6 @@
             (dict "Text" "Prometheus and Graphana with Redis Cloud guide" "URL" "./integrate/prometheus-with-redis-cloud/")
           )
         ) }}
-
-<table>
-<thead>
-<tr>
-<th style="text-align:left"> 
-	{{ partial "docs-section.html" (dict
-          "ButtonLink" "./develop/clients/"
-          "ButtonLabel" "Connect with Redis client API libraries"
-       
-"LinksLeft" (slice
-            (dict "Text" "Python" "URL" "./develop/clients/redis-py/")
-            (dict "Text" "Python (vector)" "URL" "./integrate/redisvl/")
-	    (dict "Text" "C#/.NET" "URL" "./develop/clients/dotnet/")
-	(dict "Text" "JavaScript" "URL" "./develop/clients/nodejs/")
-            (dict "Text" "Java (synchronous)" "URL" "./develop/clients/jedis/")
-          )  ) }}
-</th>
-	
-<th style="text-align:left"> 
 	{{ partial "docs-section.html" (dict
 	"ButtonLink" "./develop/tools/"
           "ButtonLabel" "Tools to connect to a Redis server"
@@ -177,11 +169,6 @@
 	    (dict "Text" "Spring Data" "URL" "./integrate/spring-framework-cache/")
 	    (dict "Text" "More client APIs" "URL" "./develop/clients/")
           ) ) }}
-</th>
-
-</tr>
-</thead>
-</table>
 	      
       </div>
     </div>
