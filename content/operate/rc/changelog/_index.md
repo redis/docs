@@ -11,6 +11,12 @@ linktitle: Changelog
 weight: 95
 ---
 
+## Redis feature sets
+
+{{<embed-md "redis-feature-sets.md">}}
+
+## Changelogs
+
 Changelogs list new features, enhancements, and other changes in Redis Cloud.
 
 Select a month from the following table to see a more detailed changelog for that month:
