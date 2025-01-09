@@ -132,7 +132,7 @@
         ) }}
         {{ partial "docs-section.html" (dict
             "Title" "Ingest and sync data to Redis"
-          "Description" "Sync Redis Software with live data from your disk-based databases"
+          "Description" "Enable pipeline sync of Redis Software with live data from your disk-based databases"
 	  "ButtonLink" "./integrate/redis-data-integration/quick-start-guide/"
           "ButtonLabel" "Redis Data Integration (RDI) pipeline quickstart"  
           "LinksLeft" (slice
@@ -141,13 +141,48 @@
         ) }}
         {{ partial "docs-section.html" (dict
           "Title" "Monitor Redis with Prometheus"
-          "Description" "Get started with the Redis Software integration for Prometheus"
+          "Description" "Get started with the Redis Software integration for Prometheus and Grafana"
 	  "ButtonLink" "./integrate/prometheus-with-redis-enterprise/"
           "ButtonLabel" "Prometheus and Grafana with Redis guide"  
 	"LinksLeft" (slice
             (dict "Text" "Prometheus and Graphana with Redis Cloud guide" "URL" "./integrate/prometheus-with-redis-cloud/")
           )
         ) }}
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left"> 
+	{{ partial "docs-section.html" (dict
+          "ButtonLink" "./develop/clients/"
+          "ButtonLabel" "Connect with Redis client API libraries"
+       
+"LinksLeft" (slice
+            (dict "Text" "Python" "URL" "./develop/clients/redis-py/")
+            (dict "Text" "Python (vector)" "URL" "./integrate/redisvl/")
+	    (dict "Text" "C#/.NET" "URL" "./develop/clients/dotnet/")
+	(dict "Text" "JavaScript" "URL" "./develop/clients/nodejs/")
+            (dict "Text" "Java (synchronous)" "URL" "./develop/clients/jedis/")
+          )  ) }}
+</th>
+	
+<th style="text-align:left"> 
+	{{ partial "docs-section.html" (dict
+	"ButtonLink" "./develop/tools/"
+          "ButtonLabel" "Tools to connect to a Redis server"
+	"LinksLeft" (slice
+	    (dict "Text"  "Java (asynchronous)" "URL" "./develop/clients/lettuce/")
+	 (dict "Text" "Go" "URL" "./develop/clients/go/")
+            (dict "Text" "PHP" "URL" "./develop/clients/php/")
+	    (dict "Text" "Spring Data" "URL" "./integrate/spring-framework-cache/")
+	    (dict "Text" "More client APIs" "URL" "./develop/clients/")
+          ) ) }}
+</th>
+
+</tr>
+</thead>
+</table>
+	      
       </div>
     </div>
   </div>
