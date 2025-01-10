@@ -189,14 +189,22 @@ Memory limits in Redis Cloud are subject to the same considerations as Redis Ent
 
 Throughput is the amount of operations a database can handle over a certain period of time. For Redis Cloud databases, throughput is defined in operations per second (ops/sec).
 
-For a Redis Cloud Pro subscription, you define throughput for a database when you create it. For a Redis Cloud Essentials subscription, your maximum throughput depends on your plan.
+For a Redis Cloud Pro subscription, you define throughput for a database when you create it. For a Redis Cloud Essentials subscription, your maximum throughput depends on your plan. 
 
-We assume a typical workload that includes a different mix of commands and an average key and value size of 1KB. Therefore, your actual throughput may be higher or lower than the throughput you set when you create your database. The following properties can affect your database's throughput:
-- **Command complexity**: O(N) and O(log(N)) commands will take more time than O(1) commands, and will affect throughput accordingly.
-- **Key and value sizing**: If your database's keys and values are very large, your actual throughput may be lower than expected. If the keys and values are smaller than the typical workload, the actual throughput might be higher than expected.
+We use this setting to guide the allocation of compute power and network bandwidth, ensuring your database can handle the expected workload. However, the throughput specified is not guaranteed - actual throughput may be higher or lower depending on your workload and database configuration.
+
+The following factors can affect your database's throughput:
+- **Request size**: Smaller requests consume less network bandwidth and may result in more operations per second than requested, while larger requests may result in fewer operations per second.
+- **Command complexity**: Simple commands, like `GET` and `SET`, are faster and require fewer resources, whereas more complex commands involve more processing time and can reduce throughput.
 - **Replication**: Using [multi-zone replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) affects throughput as each write operation is executed asynchronously in each zone.
 - **Security**: Some security options, such as [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl" >}}), may affect throughput.
 - **Number of client connections**: The number of client connections affects throughput. Increasing or decreasing the number of client connections can result in higher or lower throughput.
+
+Here are some things to keep in mind for optimizing throughput:
+- Optimize capacity planning and sizing of your Redis Cloud databases to meet your app performance requirements.
+- Monitor your app's performance and adjust the set ops/sec based on how if performs in real-world conditions. 
+- 
+
 
 ## Cluster API {#oss-cluster-api}
 
