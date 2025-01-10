@@ -21,10 +21,10 @@ Redis Insight is supported on multiple operating systems:
 |                  | macOS 12                |
 |                  | macOS 11                |
 |                  | macOS 10.15             |
-| **Ubuntu Linux** | Ubuntu 23.10            |
-|                  | Ubuntu 22.04            |
+| **Ubuntu Linux** | Ubuntu 24.04            |
 |                  | Ubuntu 23.10            |
-|                  | Ubuntu 24.04            |
+|                  | Ubuntu 22.04            |
+|                  | Ubuntu 20.04            |
 | **Debian Linux** | Debian 12               |
 |                  | Debian 11               |
 
