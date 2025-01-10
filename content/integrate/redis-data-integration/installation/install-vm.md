@@ -231,7 +231,7 @@ shows the appropriate IP address for each platform:
 | [Azure DNS](https://azure.microsoft.com/en-gb/products/dns) | 168.63.129.16 |
 
 If you are planning to use Route 53, you should first check that your VPC
-allows it. See
+is configured to allow it. See
 [DNS attributes in your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/AmazonDNS-concepts.html#vpc-dns-support)
 in the Amazon docs for more information.
 
