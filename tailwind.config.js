@@ -58,6 +58,8 @@ module.exports = {
 					900: '#091A23'
 				},
 				'redis-neutral': {
+					200: '#F9F9F9',
+					600: '#bfc2c4',
 					800: '#4E545B'
 				}
 			},
