@@ -49,7 +49,11 @@ Here's a summary of the Cluster Manager UI actions permitted by each default man
 
 ## Create roles for cluster access {#create-cluster-role}
 
-To create a role that grants cluster access but does not grant access to any databases:
+You can use the [Cluster Manager UI](#create-roles-ui) or the [REST API](#define-roles-rest-api) to create a role that grants cluster access but does not grant access to any databases.
+
+### Cluster Manager UI method {#create-roles-ui}
+
+To create a role that grants cluster access:
 
 1. From **Access Control** > **Roles**, you can:
 
@@ -70,3 +74,15 @@ To create a role that grants cluster access but does not grant access to any dat
 1. Select **Save**.
 
 You can [assign the new role to users]({{<relref "/operate/rs/security/access-control/create-users#assign-roles-to-users">}}) to grant cluster access.
+
+### REST API method {#define-roles-rest-api}
+
+To [create a role]({{<relref "/operate/rs/references/rest-api/requests/roles#post-role">}}) that grants cluster access:
+
+```sh
+POST /v1/roles
+{ 
+  "name": "<role-name>",
+  "management": "db_viewer | db_member | cluster_viewer | cluster_member | user_manager | admin" 
+}
+```
