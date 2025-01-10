@@ -224,6 +224,31 @@ sudo service k3s restart
 
 After the installation is finished, RDI is ready for use.
 
+## Supply cloud DNS information
+
+{{< note >}}This section is only relevant if you are installing RDI
+on VMs in a cloud environment.
+{{< /note >}}
+
+If you are using [Amazon Route 53](https://aws.amazon.com/route53/),
+[Google Cloud DNS](https://cloud.google.com/dns?hl=en), or
+[Azure DNS](https://azure.microsoft.com/en-gb/products/dns)
+then you must supply the installer with the nameserver IP address
+during installation (or with the `nameservers` property if you are
+using [Silent installation](#silent-installation)). The table below
+shows the appropriate IP address for each platform:
+
+| Platform | Nameserver IP |
+| :-- | :-- |
+| [Amazon Route 53](https://aws.amazon.com/route53/) | 169.254.169.253 |
+| [Google Cloud DNS](https://cloud.google.com/dns?hl=en) | 169.254.169.254 |
+| [Azure DNS](https://azure.microsoft.com/en-gb/products/dns) | 168.63.129.16 |
+
+If you are planning to use Route 53, you should first check that your VPC
+allows it. See
+[DNS attributes in your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/AmazonDNS-concepts.html#vpc-dns-support)
+in the Amazon docs for more information.
+
 ## "Silent" installation
 
 You can use the

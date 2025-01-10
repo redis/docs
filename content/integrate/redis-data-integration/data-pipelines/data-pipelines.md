@@ -166,11 +166,9 @@ configuration contains the following data:
     (the default is to include all tables if you don't specify a query here).
   - `columns`: A list of the columns you are interested in (the default is to
     include all columns if you don't supply a list)
-  - `keys`: A list of primary keys, one for each table. If the table doesn't
-    have a column with a
-    [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.asp) or
-    [`UNIQUE`](https://www.w3schools.com/sql/sql_unique.asp) constraint then you can
-    supply a unique composite key.
+  - `keys`: A list of columns to create a composite key if your table
+    doesn't already have a [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.asp) or
+    [`UNIQUE`](https://www.w3schools.com/sql/sql_unique.asp) constraint.
 - `advanced`: These optional properties configure other Debezium-specific features.
   The available sub-sections are:
   - `sink`: All advanced properties for writing to RDI (TLS, memory threshold, etc).
