@@ -16,7 +16,8 @@ Redis Insight is supported on multiple operating systems:
 |:---              |:---                     |
 | **Windows**      | Windows 11              |
 |                  | Windows 10              |
-| **macOS**        | macOS 14                |
+| **macOS**        | macOS 15                |
+|                  | macOS 14                |
 |                  | macOS 13                |
 |                  | macOS 12                |
 |                  | macOS 11                |
