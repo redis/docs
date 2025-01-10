@@ -127,10 +127,10 @@
       <div class="lg:px-11 w-full flex flex-col gap-3">
         <h2 class="text-5xl font-medium" id="operate">Deploy</h2>
         {{ partial "docs-section.html" (dict
-            "Title" "Deploy Redis in a large-scale organization"
+            "Title" "Deploy Redis clusters for scale and availability"
           "Description" "Robust support for hybrid and geo-distributed environments"
 	  "ButtonLink" "./operate/rs/installing-upgrading/install/plan-deployment/"
-          "ButtonLabel" "Redis Software deployment planning guide"  
+          "ButtonLabel" "Redis deployment planning"  
           "LinksLeft" (slice
            (dict "Text" "Optimize Redis clusters guide" "URL" "./operate/rs/clusters/optimize")
           )
@@ -148,9 +148,9 @@
             "Title" "Ingest and sync data to Redis"
           "Description" "Enable pipeline sync of Redis Software with live data from your disk-based databases"
 	  "ButtonLink" "./integrate/redis-data-integration/quick-start-guide/"
-          "ButtonLabel" "Redis Data Integration (RDI) pipeline quick start"  
+          "ButtonLabel" "Pipeline quick start"  
           "LinksLeft" (slice
-            (dict "Text" "RDI feature overview" "URL" "./integrate/redis-data-integration/")
+            (dict "Text" "Redis Data Integration feature overview" "URL" "./integrate/redis-data-integration/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
