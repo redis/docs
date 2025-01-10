@@ -12,20 +12,23 @@ weight: 1
 
 Redis Insight is supported on multiple operating systems:
 
-| Operating System | Supported Versions |
-|:---              |:---                |
-| **Windows**      | Windows 11         |
-|                  | Windows 10         |
-| **macOS**        | macOS 14           |
-|                  | macOS 13           |
-|                  | macOS 12           |
-|                  | macOS 11           |
-|                  | macOS 10.15        |
-| **Ubuntu Linux** | Ubuntu 23.10       |
-|                  | Ubuntu 22.04       |
-|                  | Ubuntu 23.10       |
-| **Debian Linux** | Debian 12          |
-|                  | Debian 11          |
+| Operating System | Supported Versions [^1] |
+|:---              |:---                     |
+| **Windows**      | Windows 11              |
+|                  | Windows 10              |
+| **macOS**        | macOS 14                |
+|                  | macOS 13                |
+|                  | macOS 12                |
+|                  | macOS 11                |
+|                  | macOS 10.15             |
+| **Ubuntu Linux** | Ubuntu 23.10            |
+|                  | Ubuntu 22.04            |
+|                  | Ubuntu 23.10            |
+|                  | Ubuntu 24.04            |
+| **Debian Linux** | Debian 12               |
+|                  | Debian 11               |
+
+[^1]: Includes later versions of same major or major.minor release.
 
 ## Install
 
