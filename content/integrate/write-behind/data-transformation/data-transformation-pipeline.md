@@ -38,12 +38,11 @@ default.yaml
 ```yaml
 source:
   table: "*"
-  row_format: full
 transform:
   - uses: add_field
     with:
       fields:
-        - field: after.app_code
+        - field: app_code
           expression: "`foo`"
           language: jmespath
 output:
