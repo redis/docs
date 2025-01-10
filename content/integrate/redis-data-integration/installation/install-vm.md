@@ -177,6 +177,20 @@ Follow the steps below for each of your VMs:
     ```bash
     sudo ./install.sh
     ```
+
+    {{< note >}}RDI uses [K3s](https://k3s.io/) as part of its implementation.
+    By default, the installer installs K3s in the `/var/lib` directory,
+    but this might be a problem if you have limited space in `/var`
+    or your company policy forbids you to install there. You can
+    select a different directory for the K3s installation using the
+    `--installation-dir` option with `install.sh` (or
+    [`redis-di install`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-install" >}})):
+
+    ```bash
+    sudo ./install.sh --installation-dir <custom-directory-path>
+    ```
+    {{< /note >}}
+
 RDI uses a database on your Redis Enterprise cluster to store its state
 information. *This requires Redis Enterprise v6.4 or greater*.
 
