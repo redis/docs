@@ -202,9 +202,11 @@ The following factors can affect your database's throughput:
 
 Here are some things to keep in mind for optimizing throughput:
 - Optimize capacity planning and sizing of your Redis Cloud databases to meet your app performance requirements.
-- Monitor your app's performance and adjust the set ops/sec based on how if performs in real-world conditions. 
-- 
-
+- Benchmark your app to understand what latency expectations are required, and adjust throughput accordingly.
+- Test and monitor your app's performance and adjust the set ops/sec based on how if performs in real-world conditions.
+- If your average request size is larger than 3KB, set your throughput higher than expected.
+- Track the slow logs using the [`SLOWLOG` command]({{< relref "/commands/slowlog" >}}) or the **Slowlog** tab on the [database screen]({{< relref "/operate/rc/databases/view-edit-database" >}}).
+- Use [pipelining]({{< relref "/develop/use/pipelining" >}}) and [concurrent connections]({{< relref "/develop/reference/clients" >}}) effectively to optimize throughput and latency.
 
 ## Cluster API {#oss-cluster-api}
 
