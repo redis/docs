@@ -68,6 +68,12 @@ It can also take the following values:
 
 When no parameter is provided, the `default` option is assumed.
 
+{{< clients-example cmds_servermgmt info >}}
+INFO
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 INFO
 {{% /redis-cli %}}

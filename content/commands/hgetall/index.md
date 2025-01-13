@@ -53,6 +53,20 @@ of the reply is twice the size of the hash.
 
 ## Examples
 
+{{< clients-example cmds_hash hgetall >}}
+redis> HSET myhash field1 "Hello"
+(integer) 1
+redis> HSET myhash field2 "World"
+(integer) 1
+redis> HGETALL myhash
+1) "field1"
+2) "Hello"
+3) "field2"
+4) "World"
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 HSET myhash field1 "Hello"
 HSET myhash field2 "World"

@@ -51,6 +51,18 @@ Returns all values in the hash stored at `key`.
 
 ## Examples
 
+{{< clients-example cmds_hash hvals >}}
+redis> HSET myhash field1 "Hello"
+(integer) 1
+redis> HSET myhash field2 "World"
+(integer) 1
+redis> HVALS myhash
+1) "Hello"
+2) "World"
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 HSET myhash field1 "Hello"
 HSET myhash field2 "World"
