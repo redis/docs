@@ -20,7 +20,7 @@ With a **dry-run request**, you can evaluate the impact and obtain a new cost es
 
 API operations that support dry-run requests accept the `dryRun` boolean parameter in the JSON request body.
 
-For example, the JSON body of a create subscription request body can include the `dryRun=true` parameter:
+For example, the JSON body of a create subscription request body can include `"dryRun": true`:
 
 
 ```json
@@ -55,7 +55,7 @@ For example, the JSON body of a create subscription request body can include the
 Dry-run requests behave like regular requests except that no changes are made to existing resources.
 A dry-run request produces a cost evaluation report for the subscription.
 
-| API Operation | `dryRun=false` (default) | `dryRun=true` |
+| API Operation | `"dryRun": false` (default) | `"dryRun": true` |
 |---|---|---|
 | **Create subscription** | Create a subscription | Returns a cost evaluation report of the planned subscription |
 | **Create database** | Creates a new database in the subscription | Returns a cost evaluation report for the relevant subscription |

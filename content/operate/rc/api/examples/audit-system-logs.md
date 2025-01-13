@@ -16,16 +16,9 @@ To view the log, sign in to the [Redis Cloud console](https://cloud.redis.io/) a
 
 To learn more, see [System logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}).
 
+## Get system logs via REST API
 
-### System log REST API
-
-The REST API operation for querying the system service log is `GET /logs`.
-
-For example, the following request returns the latest 100 system log entries, in descending order:
-
-```shell
-GET "https://[host]/v1/logs?limit=100&offset=0"
-```
+The REST API operation for querying the system service log is [`GET /logs`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}).
 
 The `/logs` API operation accepts the following parameters:
 
