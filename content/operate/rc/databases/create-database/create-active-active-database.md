@@ -189,7 +189,7 @@ Use the **Database list** to check the status of your databases.
 - [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
 - [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
 - [Develop applications with Active-Active databases]({{< relref "/operate/rs/databases/active-active/develop/_index.md" >}})
-- Database [memory limit]({{< relref "/operate/rc/databases/configuration/clustering#dataset-size" >}})
+- Database [memory limit]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}})
 - Redis Cloud [subscription plans]({{< relref "/operate/rc/subscriptions/" >}})
 - [Redis Cloud pricing](https://redis.io/pricing/#monthly)
 
