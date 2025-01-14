@@ -17,7 +17,6 @@ type: integration
 weight: 7
 ---
 
-To collect, view, and monitor metrics data from your databases and other cluster components, you can connect Dynatrace to 
 your Redis Enterprise cluster using Redis' Dynatrace integration.
 
 [Dynatrace](https://www.dynatrace.com/) is used by organizations of all sizes and across a wide range of industries to 
