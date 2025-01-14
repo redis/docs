@@ -83,7 +83,7 @@ The following dashboards are currently available:
 
 ## Monitor metrics
 
-New Relic dashboards can be filtered using the text area. For example, when viewing a cluster dashboard it is possible 
+New Relic dashboards can be filtered using the text area. For example, when viewing a cluster dashboard it is possible to
 filter the display to show data for only one cluster by typing 'cluster' in the text area and waiting for the system to
 retrieve the relevant data before choosing one of the options in the 'cluster' section.
 
