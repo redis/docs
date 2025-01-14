@@ -17,7 +17,6 @@ type: integration
 weight: 7
 ---
 
-To collect, view, and monitor metrics data from your databases and other cluster components, you can connect Datadog to 
 your Redis Enterprise cluster using Redis' Datadog integration.
 
 [Datadog](https://www.datadoghq.com/) is used by organizations of all sizes and across a wide range of industries to 
