@@ -33,7 +33,7 @@ See [Set up backup storage locations]({{< relref "/operate/rc/databases/back-up-
 You can import data into an existing database from multiple storage sources, including AWS S3, Redis, and FTP.
 Database import is an [asynchronous operation]({{< relref "/operate/rc/api/get-started/process-lifecycle" >}}).
 
-Use [`POST /v1/subscriptions/{subscriptionId}/databases/{databaseId}/import`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Pro/operation/importDatabase" >}}) to import data to an existing Redis Cloud Pro database. For Redis Cloud Essentials databases, use [`POST /fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Essentials/operation/backupDatabase_1" >}})
+Use [`POST /v1/subscriptions/{subscriptionId}/databases/{databaseId}/import`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Pro/operation/importDatabase" >}}) to import data to an existing Redis Cloud Pro database. For Redis Cloud Essentials databases, use [`POST /fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup`]({{< relref "/operate/rc/api/api-reference#tag/Databases-Essentials/operation/importDatabase_1" >}})
 
 The requirements for data import are:
 
