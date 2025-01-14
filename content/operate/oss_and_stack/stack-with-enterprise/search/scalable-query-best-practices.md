@@ -93,7 +93,7 @@ Here's an improved query that follows best practices for vertical scaling:
 
 ```sh
 FT.AGGREGATE jsonidx:profiles '@t:[1299 1299]' 
-                LOAD 6 id t nam" lastname loc ver 
+                LOAD 6 id t name lastname loc ver
                 LIMIT 0 10
                 DIALECT 3
 ```
