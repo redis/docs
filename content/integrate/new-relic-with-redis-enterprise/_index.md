@@ -37,7 +37,7 @@ This integration makes it possible to:
 {{< image filename="/images/rc/redis-integration-newrelic.png" >}}
 ## Install Redis' New Relic Integration for Redis Enterprise
 
-Redis' New Relic Integration is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 
+The New Relic Integration for Redis is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 
 another destination using remote writes. The Prometheus installation must be configured to pull metrics from Redis 
 Enterprise and write them to New Relic. There are two sections, first the pull from Redis and second the write to New Relic.
 
