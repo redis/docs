@@ -17,7 +17,6 @@ type: integration
 weight: 7
 ---
 
-your Redis Cloud cluster using Redis' New Relic integration.
 
 [New Relic](https://newrelic.com/?customer-bypass=true) is used by organizations of all sizes and across a wide range of industries to 
 enable digital transformation and cloud migration, drive collaboration among development, operations, security and 
