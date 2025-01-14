@@ -42,7 +42,7 @@ Enterprise and write them to New Relic. There are two sections, first the pull f
 Get metrics from Redis Enterprise:
 
 ```yaml
-  - job_name: "redis-cloud"
+  - job_name: "redis-enterprise"
     scrape_interval: 30s
     scrape_timeout: 30s
     metrics_path: /
