@@ -23,7 +23,7 @@ enable digital transformation and cloud migration, drive collaboration among dev
 business teams, accelerate time to market for applications, reduce time to problem resolution, secure applications and 
 infrastructure, understand user behavior, and track key business metrics.
 
-Redis' Dynatrace Integration for Redis Enterprise uses Prometheus remote write functionality to connect Prometheus data 
+The Dynatrace Integration for Redis Enterprise uses Prometheus remote write functionality to connect Prometheus data 
 sources to Dynatrace. This integration enables Redis Enterprise users to export metrics to Dynatrace for analysis, 
 and includes Redis-designed dashboards for use in monitoring Redis Enterprise clusters.
 
