@@ -36,7 +36,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-{{< image filename="/images/rc/redis-cloud-datadog.png" >}}
+{{< image filename="/images/rc/redis-cloud-datadog.png" alt="screenshot of datadog dashboard">}}
 ## Install Redis' Datadog Integration for Redis Cloud
 
 Installing the Datadog integration is a two-step process. Firstly, the installation must be part of your configuration. 
