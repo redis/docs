@@ -48,7 +48,7 @@ Datadog agent lives you should do so now. Please visit [VPC Peering](https://red
 and follow the instructions for the cloud platform of your choice.
 
 Returning to the Datadog console, open the 'Configure' tab of the integration and follow the instructions for installing 
-the integration on the local machine. Once it has been installed follow the instruction for adding an instance to the 
+the integration on the local machine. After it has been installed follow the instruction for adding an instance to the 
 conf.yaml in /etc/datadog-agent/conf.d/redis_cloud.d.
 
 After you have edited the conf.yaml file please restart the service and check its status:
