@@ -1,95 +1,26 @@
 ---
-Title: Redis Software release notes 7.8.4-18 (December 2024)
+Title: Redis Software release notes 7.8.4-tba (January 2025)
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Certificate-based authentication for the REST API. Dry run option to validate Redis ACL REST API requests.
-linkTitle: 7.8.4-18 (December 2024)
-weight: 88
+description: Bug fixes for crashes, unexpected restarts, and incorrect type for the automatically calculated replica buffer.
+linkTitle: 7.8.4-tba (January 2025)
+weight: 87
+aliases: /operate/rs/release-notes/rs-7-8-releases/rs-7-8-4-tba/
 ---
 
-​[​Redis Enterprise Software version 7.8.4](https://redis.io/downloads/#software) is now available! This release includes API enhancements that warranted a new minor version instead of a maintenance release for version 7.8.2. However, you can upgrade from 7.8.2 to 7.8.4 without issue.
+This is a maintenance release for ​[​Redis Software version 7.8.4](https://redis.io/downloads/#software).
 
 ## Highlights
 
 This version offers:
 
-- Certificate-based authentication for the REST API
-
-- Dry run option to validate Redis ACL REST API requests
+- Bug fixes for crashes, unexpected restarts, and incorrect type for the automatically calculated replica buffer
 
 ## New in this release
-
-### New features
-
-- Certificate-based authentication for the REST API
-
-    - Added support for certificate-based authentication to enable secure, passwordless access to the Redis Software REST API.
-
-    - Certificate-based authentication can be used in addition to basic authentication with a username and password.
-
-    - To set up certificate-based authentication, use [REST API]({{<relref "/operate/rs/references/rest-api">}}) requests to do the following:
-
-        1. Configure a trusted CA certificate `mtls_trusted_ca` using an [update cluster certificate]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates#put-cluster-update_cert">}}) request:
-
-            ```sh
-            PUT /v1/cluster/update_cert
-            {
-              "name": "mtls_trusted_ca",
-              "certificate": "<content of certificate PEM file>"
-            }
-            ```
-
-        1. [Update cluster settings]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) with mutual TLS configuration:
-
-            ```sh
-            PUT /v1/cluster
-            {
-              "mtls_certificate_authentication": true,
-              "mtls_client_cert_subject_validation_type": "san_cn",
-              "mtls_authorized_subjects": [{
-                "CN": "test",
-                "OU": [],
-                "O": "",
-                "C": "",
-                "L": "",
-                "ST": ""
-              }]
-            }
-            ```
-
-        1. Include `"auth_method": "certificate"` and `certificate_subject_line` in the request body when you [create new users]({{<relref "/operate/rs/references/rest-api/requests/users#post-user">}}) or [update existing users]({{<relref "/operate/rs/references/rest-api/requests/users#put-user">}}):
-
-            ```sh
-            POST /v1/users | PUT /v1/users/<user-id>
-            {
-              "auth_method": "certificate",
-              "certificate_subject_line": "<subject of the user's client certificate>"
-            }
-            ```
-
-    - Limitations: 
-
-        - Certificate-based authentication is not implemented for the Cluster Manager UI.
-
-### Enhancements
-
-- If you create or update a Redis ACL using the REST API, you can use the `dry_run` query parameter to validate the request without actually applying the update.
-
-    - [Create Redis ACL]({{<relref "/operate/rs/references/rest-api/requests/redis_acls#post-redis_acl">}}) example request:
-
-        ```sh
-        POST /v1/redis_acls?dry_run
-        ```
-
-    - [Update Redis ACL]({{<relref "/operate/rs/references/rest-api/requests/redis_acls#put-redis_acl">}}) example request: 
-
-        ```sh
-        PUT /v1/redis_acls/<uid>?dry_run
-        ```
 
 ### Redis database versions
 
@@ -113,17 +44,11 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- RS137337: Maintenance mode tasks are no longer incorrectly marked as `aborted` when the primary node is demoted.
+- RS146125: Fixed an issue with the CCS cached context that could cause crashes.
 
-- RS125921: Fixed a PDNS server script to ensure the symbolic links are not expanded.
+- RS145856: Fixed the automatically calculated replica buffer's type from float to integer.
 
-- RS142457: Fixed an issue in the Cluster Manager UI where incorrect FQDN information was shown for Active-Active databases in Kubernetes.
-
-- RS134410: Removed dependency test files that contain TLS keys from the Python install for Kubernetes.
-
-- RS136270: Changed the owner and group of the `rlec_supervisor.service` file to `root:root` instead of `redislabs:redislabs` to improve security.
-
-- RS142166: Fixed the representation of available RAM.
+- RS146282: Fixed a missing Prisma dependency for OpenSSL 1.0 that caused unexpected `cm_server` restarts on Ubuntu 20.
 
 ## Version changes
 
@@ -166,12 +91,12 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (7.8.4-18 Dec release) |
+| Package | SHA256 checksum (7.8.4-tba Jan release) |
 |---------|---------------------------------------|
-| Ubuntu 20 | <span class="break-all">1aee0b6cee72b6ceae73951611ac2073d8905189174c731561f1228c16cbcc3a</span> |
-| Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all">cceb563d56221d391667dd302ac334b5d98e3a8dc59bc479a79fe9b83c1634d6</span> |
-| Red Hat Enterprise Linux (RHEL) 9 | <span class="break-all">396b2eeafe9b4a75aa8579b4d618ca7f2df8619b1256aeec7863c80ecba7703a</span> |
-| Amazon Linux 2 | <span class="break-all">56e18f73fb8507fec476d9b59a00ed1b5fcc52b80005a749b869650641e6f6f6</span> |
+| Ubuntu 20 | <span class="break-all"></span> |
+| Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |
+| Red Hat Enterprise Linux (RHEL) 9 | <span class="break-all"></span> |
+| Amazon Linux 2 | <span class="break-all"></span> |
 
 ## Known issues
 
@@ -205,7 +130,7 @@ As part of Redis's commitment to security, Redis Software implements the latest 
 
 Some CVEs announced for open source Redis do not affect Redis Software due to different or additional functionality available in Redis Software that is not available in open source Redis.
 
-Redis Software 7.8.4-18 supports open source Redis 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
+Redis Software 7.8.4-tba supports open source Redis 7.4, 7.2, and 6.2. Below is the list of open source Redis CVEs fixed by version.
 
 Redis 7.2.x:
 
