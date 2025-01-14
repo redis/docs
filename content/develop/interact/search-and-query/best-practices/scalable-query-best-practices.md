@@ -17,7 +17,7 @@ If you're using Redis Software or Redis Cloud, see the [best practices for scala
 {{< /note >}}
 
 ## Checklist
-Below are basic steps to ensure good performance of Redis Query Engine.
+Below are some basic steps to ensure good performance of Redis Query Engine.
 
 * Create a Redis data model with your query patterns in mind.
 * Ensure the Redis architecture has been sized for the expected load using the [sizing calculator](https://redis.io/redisearch-sizing-calculator/).
