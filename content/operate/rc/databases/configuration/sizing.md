@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rc
-description: 
+description: Describes sizing considerations for your Redis Cloud database, including throughput and dataset size.
 linkTitle: Sizing
 weight: $weight
 ---
@@ -38,7 +38,7 @@ For a Redis Cloud Pro subscription, you define throughput for a database when yo
 
 We use this setting to guide the allocation of compute power and network bandwidth, ensuring your database can handle the expected workload. However, the throughput specified is not guaranteed - actual throughput may be higher or lower depending on your workload and database configuration.
 
-### Why can throughput vary?
+### Throughput factors and variability
 
 The following factors can affect your database's throughput:
 - **Request size**: Smaller requests (under 3KB) consume less network bandwidth and may result in more operations per second than requested, while larger requests may result in fewer operations per second.
@@ -58,3 +58,25 @@ Here are some things to keep in mind for optimizing throughput:
 - Track the slow logs using the [`SLOWLOG` command]({{< relref "/commands/slowlog" >}}) or the **Slowlog** tab on the [database screen]({{< relref "/operate/rc/databases/view-edit-database" >}}).
 - Use [pipelining]({{< relref "/develop/use/pipelining" >}}) and [concurrent connections]({{< relref "/develop/reference/clients" >}}) effectively to optimize throughput and latency.
 - Search databases have their own throughput requirements. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more info.
+
+### Frequently asked questions
+
+#### Can my workload exceed the configured throughput?
+
+Yes, many workloads perform better than expected, especially with optimized configurations and ideal conditions.
+
+#### Why is my application getting less throughput than what I set?
+
+Factors like high connection counts, complex commands, large payloads, and network limitations can affect throughput. Test and adjust based on your application’s needs. 
+
+#### How do I know the optimal throughput for my application?
+
+Start with the expected ops/sec. Most of the time, it’s more than enough. For an average request size of less than 3KB, we suggest specifying lower ops/sec than expected to reduce costs. For request sizes higher than 3 KB, we suggest specifying higher ops/sec than your target. Benchmarking your application under production-like conditions will help you find the best configuration.
+
+#### How does network bandwidth impact throughput?
+
+Insufficient bandwidth can bottleneck performance, especially with large request sizes. Ensure your network setup supports your workload demands.
+
+#### What is the expected latency for my application?
+
+Latency expectations vary by use case. Some applications tolerate milliseconds, while others require sub-millisecond performance. Benchmark your application to understand its latency profile.
