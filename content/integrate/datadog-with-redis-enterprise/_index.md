@@ -17,7 +17,6 @@ type: integration
 weight: 7
 ---
 
-your Redis Enterprise cluster using Redis' Datadog integration.
 
 [Datadog](https://www.datadoghq.com/) is used by organizations of all sizes and across a wide range of industries to 
 enable digital transformation and cloud migration, drive collaboration among development, operations, security and 
