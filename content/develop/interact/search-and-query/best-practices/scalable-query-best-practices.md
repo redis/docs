@@ -17,7 +17,7 @@ If you're using Redis Software or Redis Cloud, see the [best practices for scala
 {{< /note >}}
 
 ## Checklist
-Below are some basic steps to ensure good performance of Redis Query Engine.
+Below are some basic steps to ensure good performance of the Redis Query Engine (RQE).
 
 * Create a Redis data model with your query patterns in mind.
 * Ensure the Redis architecture has been sized for the expected load using the [sizing calculator](https://redis.io/redisearch-sizing-calculator/).
@@ -64,19 +64,19 @@ The following informational items are available for analysis:
 
 ## Anti-patterns
 
-The following items are anti-patterns for RQE:
+When designing and querying indexes in RQE, certain practices can hinder performance, scalability, and maintainability. Below are some common anti-patterns to avoid:
 
-- Large documents
-- Deeply-nested fields
-- Large result sets
-- Wildcarding
-- Large projections
+- **Large documents**: storing excessively large documents in Redis makes data retrieval slower and increases memory usage. Break data into smaller, focused records whenever possible.
+- **Deeply-nested fields**: retrieving or indexing deeply-nested JSON fields is computationally expensive. Use a flatter schema for better performance.
+- **Large result sets**: fetching unnecessarily large result sets puts a strain on memory and network resources. Limit results to only what is needed.
+- **Wildcarding**: using wildcard patterns indiscriminately in queries can lead to large and inefficient scans, especially if the index size is significant.
+- **Large projections**: including excessive fields in query results increases memory overhead and slows down query execution. Limit projections to essential fields.
 
-The following examples depict an anti-pattern index schema and query, followed by a corrected index schema and query, which allows for scalability with the Redis Query Engine.
+The following examples depict an anti-pattern index schema and query, followed by corrected versions designed for scalability with RQE.
 
 ### Anti-pattern index schema
 
-The following index schema is not optimized for vertical scaling:
+The following schema introduces challenges for scalability and performance:
 
 ```sh
 FT.CREATE jsonidx:profiles ON JSON PREFIX 1 profiles: 
@@ -85,17 +85,28 @@ FT.CREATE jsonidx:profiles ON JSON PREFIX 1 profiles:
                  $.location as loc GEO
 ```
 
+Issues:
+
+- Minimal schema definition: the schema is sparse and lacks fields like `lastName`, `id`, and `version` that might be frequently queried. This results in additional operations to fetch these fields separately, reducing efficiency.
+- Missing `SORTABLE` flag for text fields: sorting operations on unsortable fields require full-text processing, which is slow.
+- Wildcard indexing: `$.tags.*` creates a broad index that can lead to excessive memory usage and reduced query performance.
+
 ### Anti-pattern query
 
-The following query is not optimized for vertical scaling:
+The following query is inefficient and not optimized for vertical scaling:
 
 ```sh
 FT.AGGREGATE jsonidx:profiles '@t:[1299 1299]' LOAD * LIMIT 0 10
 ```
+Issues:
+
+- Wildcard projection (`LOAD *`): retrieving all fields in the result set is inefficient and increases memory usage, especially if the documents are large.
+- Unnecessary fields: fields that aren't required for the current operation are still fetched, slowing down execution.
+- Lack of advanced query syntax: without specifying a query dialect or leveraging features like tagging, the query may perform unnecessary computations.
 
 ### Improved index schema
 
-Here's an improved index schema that follows best practices for vertical scaling:
+Here’s an optimized schema that adheres to best practices for vertical scaling:
 
 ```sh
 FT.CREATE jsonidx:profiles ON JSON PREFIX 1 profiles: 
@@ -107,9 +118,23 @@ FT.CREATE jsonidx:profiles ON JSON PREFIX 1 profiles:
                  $.ver as ver TAG SORTABLE UNF
 ```
 
+Improvements:
+
+- `NOSTEM` for text fields: prevents stemming on fields like `firstName` and `lastName` to allow for exact matches (e.g., "Smith" stays "Smith").
+- Expanded schema: adds commonly queried fields like `lastName`, `id`, and `version`, making queries more efficient by reducing the need for post-query data retrieval.
+- `TAG` fields: `id` and `ver` are defined as `TAG` fields to support fast filtering with exact matches.
+- `SORTABLE` for all relevant fields: ensures that sorting operations are efficient without requiring full-text scanning.
+
+You might be wondering why `$.tags.* as t NUMERIC SORTABLE` is acceptable in the improved schema and it wasn't previously.
+The inclusion of `$.tags.*` is acceptable when:
+
+- It has a clear purpose: it is actively used in queries, such as filtering on numeric ranges or matching specific values.
+- Other fields in the schema complement it: these fields reduce over-reliance on `$.tags.*` for all query operations, distributing the load more evenly.
+- Projections and limits are managed carefully: queries that use `$.tags.*` should avoid loading unnecessary fields or returning excessively large result sets.
+
 ### Improved query
 
-Here's an improved query that follows best practices for vertical scaling:
+The following query is better suited for vertical scaling:
 
 ```sh
 FT.AGGREGATE jsonidx:profiles '@t:[1299 1299]' 
@@ -117,3 +142,9 @@ FT.AGGREGATE jsonidx:profiles '@t:[1299 1299]'
                 LIMIT 0 10
                 DIALECT 3
 ```
+
+Improvements:
+
+- Targeted projection: the `LOAD` clause specifies only essential fields (`id, t, name, lastname, loc, ver`), reducing memory and network overhead.
+- Limited results: the `LIMIT` clause ensures the query retrieves only the first 10 results, avoiding large result sets.
+- [`DIALECT 3`]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-3" >}}): enables the latest RQE syntax and features, ensuring compatibility with modern capabilities.
