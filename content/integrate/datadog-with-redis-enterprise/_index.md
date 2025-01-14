@@ -23,7 +23,7 @@ enable digital transformation and cloud migration, drive collaboration among dev
 business teams, accelerate time to market for applications, reduce time to problem resolution, secure applications and 
 infrastructure, understand user behavior, and track key business metrics.
 
-Redis' Datadog Integration for Redis Enterprise uses Datadog's Integration API to connect to Redis' metrics exporters. 
+The Datadog Integration for Redis Enterprise uses Datadog's Integration API to connect to Redis metrics exporters. 
 The integration is based on Datadog's 
 [OpenMetrics integration](https://datadoghq.dev/integrations-core/base/openmetrics/) in their core API. This integration 
 enables Redis Enterprise users to export metrics directly to Datadog for analysis, and includes Redis-designed 
