@@ -15,10 +15,32 @@ weight: 94
 
 ## Requirements
 
-RedisBloom v2.8.2 requires:
+RedisBloom v2.8.5 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+
+## v2.8.5 (January 2025)
+
+This is a maintenance release for RedisBloom 2.8.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- **Security and privacy:**
+  - [#843](https://github.com/redisbloom/redisbloom/pull/843) (CVE-2024-53993) CMS: potential out-of-bounds write (MOD-6970)
+
+- Bug fixes:
+  - [#843](https://github.com/redisbloom/redisbloom/pull/843) `CMS.MERGE` crashes or hangs on negative number of keys (MOD-6964)
+  - [#699](https://github.com/redisbloom/redisbloom/pull/699) `BF.RESERVE` crashes (OOM) on huge initialization values (MOD-7057)
+  - [#843](https://github.com/redisbloom/redisbloom/pull/843) `CF.RESERVE` crashes (OOM) on huge initialization values (MOD-7058)
+  - [#843](https://github.com/redisbloom/redisbloom/pull/843) `TOPK.RESERVE` crashes (OOM) on huge initialization values (MOD-7059)
+  - [#843](https://github.com/redisbloom/redisbloom/pull/843) `CMS.INITBYDIM` and `CMS.INITBYPROB` crash (OOM) on huge initialization values (MOD-7060)
+
+- Improvements:
+  - [#801](https://github.com/redisbloom/redisbloom/pull/801) Support active memory defragmentation (MOD-7890)
+  - [#829](https://github.com/redisbloom/redisbloom/pull/829) Added support for Ubuntu 22 and macOS 13 and 14
 
 ## v2.8 GA (v2.8.2) (July 2024)
 

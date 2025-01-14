@@ -58,27 +58,46 @@ const mobileMenu = (() => {
     }
   }
 
+  function toggleIcon(selector) {
+    const icon = document.querySelector(selector)
+
+    if (icon) {
+      icon.classList.toggle('hidden')
+    }
+  }
+
+  function toggleMenu(name, dataName) {
+    // Toggle body state attribute
+    document.documentElement.dataset[dataName] = document.documentElement.dataset[dataName] === 'on' ? 'off' : 'on'
+
+    // Set up modal focus trap
+    if (document.documentElement.dataset.menuState === 'on') {
+      sessionStorage.setItem('scroll-position', document.documentElement.scrollTop)
+      document.documentElement.dataset.scrollDisabled = 'on'
+      toggleIcon('[data-' + name + '-open-icon]')
+      toggleIcon('[data-' + name + '-close-icon]')
+      allowFocus('[data-' + name + ']', true)
+      trapFocus()
+
+    } else {
+      document.documentElement.dataset.scrollDisabled = 'off'
+      document.documentElement.scrollTop = sessionStorage.getItem('scroll-position')
+      toggleIcon('[data-' + name + '-close-icon]')
+      toggleIcon('[data-' + name + '-open-icon]')
+      allowFocus('[data-' + name + ']', false)
+    }
+  }
+
   // Click handler function
   function clickHandler(event) {
 
     // Only run on menu button
     if (event.target.closest('[data-menu-toggle]')) {
-
-      // Toggle body state attribute
-      document.documentElement.dataset.menuState = document.documentElement.dataset.menuState === 'on' ? 'off' : 'on'
-
-      // Set up modal focus trap
-      if (document.documentElement.dataset.menuState === 'on') {
-        sessionStorage.setItem('scroll-position', document.documentElement.scrollTop)
-        document.documentElement.dataset.scrollDisabled = 'on'
-        allowFocus('[data-menu]', true)
-        trapFocus()
-
-      } else {
-        document.documentElement.dataset.scrollDisabled = 'off'
-        document.documentElement.scrollTop = sessionStorage.getItem('scroll-position')
-        allowFocus('[data-menu]', false)
-      }
+      toggleMenu('menu', 'menuState')
+    } else if (event.target.closest('[data-products-mobile-menu-toggle]')) {
+      toggleMenu('products-mobile-menu', 'productsMobileMenuState')
+    } else if (event.target.closest('[data-resources-mobile-menu-toggle]')) {
+      toggleMenu('resources-mobile-menu', 'resourcesMobileMenuState')
     }
   }
 

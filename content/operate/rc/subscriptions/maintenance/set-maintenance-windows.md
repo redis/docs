@@ -53,11 +53,11 @@ To skip maintenance temporarily for a subscription:
 
 1. Select the **Overview** tab.
 
-1. In the **Maintenance Windows** panel, select **Skip the next 7 days**.
+1. In the **Maintenance Windows** panel, select **Skip the next 14 days**.
 
 1. Click **Continue** to confirm your selection.
 
-You will only be allowed to skip maintenance twice in one month. 
+You will only be allowed to skip maintenance once per month. 
 
 During the skipped maintenance period, Redis will not perform any minor or major upgrades. Redis may perform [urgent maintenance]({{< relref "/operate/rc/subscriptions/maintenance#urgent-maintenance" >}}) on your subscription, but only if it is absolutely necessary.
 
