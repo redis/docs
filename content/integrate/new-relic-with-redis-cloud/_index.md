@@ -35,7 +35,7 @@ This integration makes it possible to:
 {{< image filename="/images/rc/redis-cloud-newrelic.png" >}}
 ## Install Redis' New Relic Integration for Redis Cloud
 
-Redis' New Relic Integration is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 
+The New Relic Integration for Redis is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 
 another destination using remote writes. This will require a Prometheus installation inside the same datacenter as the 
 Redis Cloud deployment.
 
