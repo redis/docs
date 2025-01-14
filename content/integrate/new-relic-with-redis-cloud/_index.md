@@ -23,7 +23,7 @@ enable digital transformation and cloud migration, drive collaboration among dev
 business teams, accelerate time to market for applications, reduce time to problem resolution, secure applications and 
 infrastructure, understand user behavior, and track key business metrics.
 
-Redis' New Relic Integration for Redis Cloud uses Prometheus remote write functionality to connect Prometheus data 
+The New Relic Integration for Redis Cloud uses Prometheus remote write functionality to connect Prometheus data 
 sources to New Relic. This integration enables Redis Cloud users to export metrics to New Relic for analysis, 
 and includes Redis-designed dashboards for use in monitoring Redis Cloud clusters.
 
