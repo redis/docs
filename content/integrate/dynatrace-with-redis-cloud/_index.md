@@ -33,7 +33,7 @@ This integration makes it possible to:
 {{< image filename="/images/rc/redis-cloud-dynatrace.png" >}}
 ## Install Redis' Dynatrace Integration for Redis Cloud
 
-Redis' Dynatrace Integration is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 
+The Dynatrace Integration is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 
 another destination using remote writes. This will require a Prometheus installation inside the same datacenter as the 
 Redis Cloud deployment.
 
