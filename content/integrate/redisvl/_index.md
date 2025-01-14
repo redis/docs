@@ -27,7 +27,6 @@ categories:
 description: This is the Redis vector library (RedisVL).
 group: library
 hidden: false
-hideListLinks: true
 linkTitle: RedisVL
 summary: RedisVL provides a powerful, dedicated Python client library for using Redis
   as a vector database. Leverage Redis's speed, reliability, and vector-based semantic
