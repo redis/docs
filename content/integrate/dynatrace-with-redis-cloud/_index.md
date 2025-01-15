@@ -1,4 +1,5 @@
 ---
+Title: Dynatrace with Redis Cloud
 LinkTitle: Dynatrace with Redis Cloud
 categories:
 - docs
@@ -10,7 +11,7 @@ description: To collect, view, and monitor metrics data from your databases and 
 group: observability
 summary: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect Dynatrace to your Redis Cloud cluster using
-  Redis' Dynatrace Integration.
+  the Redis Dynatrace Integration.
 type: integration
 weight: 7
 ---
