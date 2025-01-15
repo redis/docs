@@ -7,7 +7,7 @@ categories:
 - rs
 description: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect Dynatrace to your Redis Cloud cluster using
-  Redis' Dynatrace Integration.
+  the Redis Dynatrace Integration.
 group: observability
 summary: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect Dynatrace to your Redis Cloud cluster using
@@ -22,7 +22,7 @@ enable digital transformation and cloud migration, drive collaboration among dev
 business teams, accelerate time to market for applications, reduce time to problem resolution, secure applications and 
 infrastructure, understand user behavior, and track key business metrics.
 
-Redis' Dynatrace Integration for Redis Cloud uses Prometheus remote write functionality to connect Prometheus data 
+The Redis Dynatrace Integration for Redis Cloud uses Prometheus remote write functionality to connect Prometheus data 
 sources to Dynatrace. This integration enables Redis Cloud users to export metrics to Dynatrace for analysis, 
 and includes Redis-designed dashboards for use in monitoring Redis Cloud clusters.
 
