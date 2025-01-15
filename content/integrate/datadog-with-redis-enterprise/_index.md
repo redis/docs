@@ -8,11 +8,11 @@ categories:
 - rs
 description: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect Datadog to your Redis Enterprise cluster using
-  Redis' Datadog Integration.
+  the Redis Datadog Integration.
 group: observability
 summary: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect Datadog to your Redis Enterprise cluster using
-  Redis' Datadog Integration.
+  the Redis Datadog Integration.
 type: integration
 weight: 7
 ---
@@ -24,7 +24,7 @@ business teams, accelerate time to market for applications, reduce time to probl
 infrastructure, understand user behavior, and track key business metrics.
 
 The Datadog Integration for Redis Enterprise uses Datadog's Integration API to connect to Redis metrics exporters. 
-The integration is based on Datadog's 
+The integration is based on the Datadog 
 [OpenMetrics integration](https://datadoghq.dev/integrations-core/base/openmetrics/) in their core API. This integration 
 enables Redis Enterprise users to export metrics directly to Datadog for analysis, and includes Redis-designed 
 dashboards for use in monitoring Redis Enterprise clusters.
@@ -85,4 +85,5 @@ The following dashboards are currently available:
 
 ## Monitor metrics
 
+See [Observability and monitoring guidance]({{< relref "/integrate/prometheus-with-redis-enterprise/observability/" >}}) for monitoring details.
 
