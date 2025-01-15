@@ -7,18 +7,18 @@ categories:
 - integrate
 - rs
 description: To collect, view, and monitor metrics data from your databases and other
-  cluster components, you can connect Datadog to your Redis Cloud cluster using
-  Redis' Datadog Integration.
+  cluster components, you can connect Datadog to your Redis Cloud cluster using the
+  Redis Datadog Integration.
 group: observability
 summary: To collect, view, and monitor metrics data from your databases and other
-  cluster components, you can connect Datadog to your Redis Cloud cluster using
-  Redis' Datadog Integration.
+  cluster components, you can connect Datadog to your Redis Cloud cluster using the 
+  Redis Datadog Integration.
 type: integration
 weight: 7
 ---
 
 To collect, view, and monitor metrics data from your databases and other cluster components, you can connect Datadog to 
-your Redis Enterprise cluster using Redis' Datadog integration.
+your Redis Enterprise cluster using the Redis Datadog integration.
 
 [Datadog](https://www.datadoghq.com/) is used by organizations of all sizes and across a wide range of industries to 
 enable digital transformation and cloud migration, drive collaboration among development, operations, security and 
