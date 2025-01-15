@@ -32,7 +32,7 @@ An object that represents the database configuration.
 | rack_aware | boolean | Require the database to be always replicated across multiple racks |
 | replication | boolean | Database replication |
 | sharding | boolean (default:&nbsp;false) | Cluster mode (server-side sharding). When true, shard hashing rules must be provided by either `oss_sharding` or `shard_key_regex` |
-| shard_key_regex | `[{ "regex": string }, ...]` | Custom keyname-based sharding rules (required if sharding is enabled)<br /><br />To use the default rules you should set the value to:<br />`[{ “regex”: “.*\\{(?< tag >.*)\\}.*” }, { “regex”: “(?< tag >.*)” }]` |
+| shard_key_regex | `[{ "regex": string }, ...]` | Custom keyname-based sharding rules (required if sharding is enabled)<br /><br />To use the default rules you should set the value to:<br />`[{"regex": ".*\\{(?<tag>.*)\\}.*"}, {"regex": "(?<tag>.*)"}]` |
 | shards_count | integer | Number of database shards |
 | shards_placement | string | Control the density of shards: should they reside on as few or as many nodes as possible |
 | snapshot_policy | array of [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) objects | Policy for snapshot-based data persistence (required) |

@@ -177,6 +177,20 @@ Follow the steps below for each of your VMs:
     ```bash
     sudo ./install.sh
     ```
+
+    {{< note >}}RDI uses [K3s](https://k3s.io/) as part of its implementation.
+    By default, the installer installs K3s in the `/var/lib` directory,
+    but this might be a problem if you have limited space in `/var`
+    or your company policy forbids you to install there. You can
+    select a different directory for the K3s installation using the
+    `--installation-dir` option with `install.sh` (or
+    [`redis-di install`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-install" >}})):
+
+    ```bash
+    sudo ./install.sh --installation-dir <custom-directory-path>
+    ```
+    {{< /note >}}
+
 RDI uses a database on your Redis Enterprise cluster to store its state
 information. *This requires Redis Enterprise v6.4 or greater*.
 
@@ -209,6 +223,31 @@ sudo service k3s restart
 {{< /note >}}
 
 After the installation is finished, RDI is ready for use.
+
+## Supply cloud DNS information
+
+{{< note >}}This section is only relevant if you are installing RDI
+on VMs in a cloud environment.
+{{< /note >}}
+
+If you are using [Amazon Route 53](https://aws.amazon.com/route53/),
+[Google Cloud DNS](https://cloud.google.com/dns?hl=en), or
+[Azure DNS](https://azure.microsoft.com/en-gb/products/dns)
+then you must supply the installer with the nameserver IP address
+during installation (or with the `nameservers` property if you are
+using [Silent installation](#silent-installation)). The table below
+shows the appropriate IP address for each platform:
+
+| Platform | Nameserver IP |
+| :-- | :-- |
+| [Amazon Route 53](https://aws.amazon.com/route53/) | 169.254.169.253 |
+| [Google Cloud DNS](https://cloud.google.com/dns?hl=en) | 169.254.169.254 |
+| [Azure DNS](https://azure.microsoft.com/en-gb/products/dns) | 168.63.129.16 |
+
+If you are planning to use Route 53, you should first check that your VPC
+is configured to allow it. See
+[DNS attributes in your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/AmazonDNS-concepts.html#vpc-dns-support)
+in the Amazon docs for more information.
 
 ## "Silent" installation
 
