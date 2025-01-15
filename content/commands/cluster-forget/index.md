@@ -52,9 +52,9 @@ table of the node receiving the command, it also implements a ban-list, not
 allowing the same node to be added again as a side effect of processing the
 *gossip section* of the heartbeat packets received from other nodes.
 
-Since redis 7.2.0 the ban-list is included in the cluster gossip ping/pong messages. 
-This means that CLUSTER FORGET doesn't need to be sent to all nodes in a cluster.
-It can be sent to one or more nodes and then be automatically propagated to the rest of them in most cases.
+Starting with Redis 7.2.0, the ban-list is included in cluster gossip ping/pong messages. 
+This means that `CLUSTER FORGET` doesn't need to be sent to all nodes in a cluster.
+You can run the command on one or more nodes, after which it will be propagated to the rest of the nodes in most cases.
 
 ## Details on why the ban-list is needed
 
