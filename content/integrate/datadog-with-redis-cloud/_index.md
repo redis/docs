@@ -25,7 +25,7 @@ enable digital transformation and cloud migration, drive collaboration among dev
 business teams, accelerate time to market for applications, reduce time to problem resolution, secure applications and 
 infrastructure, understand user behavior, and track key business metrics.
 
-The Datadog Integration for Redis Cloud uses Datadog's Integration API to connect to Redis metrics exporters. 
+The Datadog Integration for Redis Cloud uses the Datadog Integration API to connect to Redis metrics exporters. 
 The integration is based on Datadog's 
 [OpenMetrics integration](https://datadoghq.dev/integrations-core/base/openmetrics/) in their core API. This integration 
 enables Redis Cloud users to export metrics directly to Datadog for analysis, and includes Redis-designed 
@@ -89,8 +89,5 @@ The following dashboards are currently available:
 A number of additional dashboards will be included in the next release (v1.1.0).
 
 ## Monitor metrics
-
-See [Observability and monitoring guidance]({{< relref "/integrate/prometheus-with-redis-enterprise/observability/" >}}) for monitoring details.
-
 
 See [Observability and monitoring guidance]({{< relref "/integrate/prometheus-with-redis-enterprise/observability/" >}}) for monitoring details.
