@@ -32,7 +32,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-{{< image filename="/images/rs/redis-integration-newrelic.png" >}}
+{{< image filename="/images/rs/redis-enterprise-newrelic.png" >}}
 ## Install Redis' New Relic Integration for Redis Enterprise
 
 The New Relic Integration for Redis is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 
