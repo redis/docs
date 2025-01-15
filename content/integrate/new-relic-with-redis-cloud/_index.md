@@ -8,11 +8,11 @@ categories:
 - rs
 description: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect New Relic to your Redis Cloud cluster using
-  Redis' New Relic Integration.
+  the Redis New Relic Integration.
 group: observability
 summary: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect New Relic to your Redis Cloud cluster using
-  Redis' New Relic Integration.
+  the Redis New Relic Integration.
 type: integration
 weight: 7
 ---
