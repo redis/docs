@@ -8,15 +8,16 @@ categories:
 - rs
 description: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect New Relic to your Redis Enterprise cluster using
-  Redis' New Relic Integration.
+  the Redis New Relic Integration.
 group: observability
 summary: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect New Relic to your Redis Enterprise cluster using
-  Redis' New Relic Integration.
+  the Redis New Relic Integration.
 type: integration
 weight: 7
 ---
 
+To collect, view, and monitor metrics data from your databases and other cluster components, you can connect New Relic to your Redis Enterprise cluster using the Redis New Relic Integration.
 
 [New Relic](https://newrelic.com/?customer-bypass=true) is used by organizations of all sizes and across a wide range of industries to 
 enable digital transformation and cloud migration, drive collaboration among development, operations, security and 
@@ -32,7 +33,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-{{< image filename="/images/rc/redis-integration-newrelic.png" >}}
+{{< image filename="/images/rs/redis-integration-newrelic.png" >}}
 ## Install Redis' New Relic Integration for Redis Enterprise
 
 The New Relic Integration for Redis is based on a feature of the Prometheus data source. Prometheus can forward metrics on to 
