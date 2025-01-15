@@ -8,11 +8,11 @@ categories:
 - rs
 description: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect Dynatrace to your Redis Enterprise cluster using
-  Redis' Dynatrace Integration.
+  the Redis Dynatrace Integration.
 group: observability
 summary: To collect, view, and monitor metrics data from your databases and other
   cluster components, you can connect Dynatrace to your Redis Enterprise cluster using
-  Redis' Dynatrace Integration.
+  the Redis Dynatrace Integration.
 type: integration
 weight: 7
 ---
@@ -32,7 +32,7 @@ This integration makes it possible to:
 - Set up automatic alerts for node or cluster events
 - Display these metrics alongside data from other systems
 
-{{< image filename="/images/rc/redis-enterprise-dynatrace.png" >}}
+{{< image filename="/images/rs/redis-enterprise-dynatrace.png" >}}
 ## Install Redis' Dynatrace Integration for Redis Enterprise
 
 At the present time the Dynatrace integration is not signed by Dynatrace, meaning that it will be necessary to download 
