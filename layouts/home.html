@@ -74,21 +74,21 @@
     <div class="lg:px-11 w-full flex flex-col gap-3">
       <h2 class="text-5xl font-medium" id="operate">Get Started</h2>
         {{ partial "docs-section.html" (dict
-          "Title" "Quickly set up Redis in the cloud"
+          "Title" "Quickly set up Redis"
           "Description" "Set up a Free Redis-managed database on AWS, GCP, or Azure"
 	  "ButtonLink" "./operate/rc/rc-quickstart/"
           "ButtonLabel" "Redis Cloud quick start" 
           "LinksLeft" (slice
-            (dict "Text" "High availability & replication guide" "URL" "./operate/rc/databases/configuration/high-availability/")
+            (dict "Text" "Get started with Redis Community Edition" "URL" "./get-started/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
-          "Title" "Build modern real-time applications with Redis"
-          "Description" "Install and use Redis Stack on Linux, macOS, Windows, or Docker"
-	  "ButtonLink" "./operate/oss_and_stack/install/install-stack/"
-          "ButtonLabel" "Install Redis Stack"  
+          "Title" "Build GenAI apps with Redis"
+          "Description" "Get started using Redis for retrieval augmented generation (RAG)"
+	  "ButtonLink" "./develop/get-started/rag/"
+          "ButtonLabel" "Redis with RAG"  
 	"LinksLeft" (slice
-            (dict "Text" "Redis for AI docs and examples" "URL" "./develop/ai/")
+            (dict "Text" "Redis for AI docs and code examples" "URL" "./develop/ai/")
           )  
 	) }}
         {{ partial "docs-section.html" (dict
@@ -127,12 +127,12 @@
       <div class="lg:px-11 w-full flex flex-col gap-3">
         <h2 class="text-5xl font-medium" id="operate">Deploy</h2>
         {{ partial "docs-section.html" (dict
-            "Title" "Deploy Redis clusters for scale and availability"
+            "Title" "Control your Redis deployments on-premises or on cloud platforms"
           "Description" "Robust support for hybrid and geo-distributed environments"
 	  "ButtonLink" "./operate/rs/installing-upgrading/install/plan-deployment/"
           "ButtonLabel" "Redis deployment planning"  
           "LinksLeft" (slice
-           (dict "Text" "Optimize Redis clusters guide" "URL" "./operate/rs/clusters/optimize")
+           (dict "Text" "Active-Active geo-distributed Redis" "URL" "./operate/rs/databases/active-active/")
           )
         ) }}
         {{ partial "docs-section.html" (dict
