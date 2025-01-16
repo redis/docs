@@ -21,26 +21,38 @@ Helm charts provide a simple way to install the Redis Enterprise for Kubernetes 
 - [Kubernetes client (kubectl)](https://kubernetes.io/docs/tasks/tools/).
 - [Helm 3.10 or later](https://helm.sh/docs/intro/install/).
 
+### Example values
+
+The steps below use the following placeholders to indicate values you must provide: 
+
+- `<repo-name>` is the name of repo holding your helm chart (example: `redis`).
+- `<release-name>` is the name you give a specific installation of the Helm chart (example: ``)
+- `<chart-version>` is the version of the Helm chart you are installing (example: `7.8.2-2`)
+- `<namespace-name>` is the name of the new namespace the Redis operator will run in (example: `ns1`)
+- `<path-to-chart>` is the filepath to the Helm chart, if it is stored in a local directory (exmaple: ``)
+
 ## Install
 
-1. Add the `redis` repository.
+1. Add the Redis repository.
 
     ```sh
-    helm repo add redis-enterprise https://helm.redis.io/
+    helm repo add <repo-name> https://helm.redis.io/
     ```
+
 
 1. Install the Helm chart into a new namespace.
 
     ```sh
-    helm install <operator-name> redis/redis-enterprise-operator \
-        -- version <release-name> \
-        -- namespace <namespace-name> \
-        -- create-namespace
+    helm install <release-name> redis/redis-enterprise-operator \
+        --version <chart-version> \
+        --namespace <namespace-name> \
+        --create-namespace
     ```
 
 To install with Openshift, add `--set openshift.mode=true`.
 
-To monitor the installation add the `--debug` flag. The installation runs several jobs synchronously and may take few minutes to complete.
+To monitor the installation add the `--debug` flag. The installation runs several jobs synchronously and may take afew minutes to complete.
+
 
 ### Install from local directory
 
@@ -50,13 +62,13 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 
     ```sh
     helm install <release-name> <path-to-chart> \
-        -- namespace <namespace-name> \
-        -- create-namespace
+        --namespace <namespace-name> \
+        --create-namespace
     ```
 
 To install with Openshift, add `--set openshift.mode=true`.
 
-To monitor the installation add the `--debug` flag. The installation runs several jobs synchronously and may take few minutes to complete.
+To monitor the installation add the `--debug` flag. The installation runs several jobs synchronously and may take a few minutes to complete.
 
 ### Specify values during install
 
@@ -66,9 +78,9 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 
     ```sh
     helm install <operator-name> redis/redis-enterprise-operator \
-        -- version <release-name> \
-        -- namespace <namespace-name> \
-        -- create-namespace
+        --version <release-name> \
+        --namespace <namespace-name> \
+        --create-namespace
         --set <key1>=<value1> \
         --set <key2>=<value2>
     ```
@@ -77,7 +89,6 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 
 1. View configurable values with `helm show values redis/redis-enterprise-operator --version <release-name>`.
 
-1. Create a YAML file containing the configuration values you want to set.
 1. Create a YAML file to specify the values you want to configure.
 
 1. Install the chart with the `--values` option.
@@ -89,6 +100,7 @@ To monitor the installation add the `--debug` flag. The installation runs severa
         -- create-namespace \
         -- values <path-to-values-file>
     ```
+
 
 ## Uninstall
 
