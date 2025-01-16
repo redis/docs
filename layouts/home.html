@@ -74,7 +74,7 @@
     <div class="lg:px-11 w-full flex flex-col gap-3">
       <h2 class="text-5xl font-medium" id="operate">Get Started</h2>
         {{ partial "docs-section.html" (dict
-          "Title" "Quickly set up Redis"
+          "Title" "Quickly set up a Redis cache, primary, vector, or custom database"
           "Description" "Set up a Free Redis-managed database on AWS, GCP, or Azure"
 	  "ButtonLink" "./operate/rc/rc-quickstart/"
           "ButtonLabel" "Redis Cloud quick start" 
@@ -104,7 +104,7 @@
          "Title" "Migrate data to or from Redis"
           "Description" "Migrate data from files, data generators, relational databases, or snapshots"
 	  "ButtonLink" "./integrate/riot/"
-          "ButtonLabel" "Redis input and output CLI tool user guide"  
+          "ButtonLabel" "Redis input and output CLI tool"  
           "LinksLeft" (slice
             (dict "Text" "Redis Input/Output Tool quick start" "URL" "./integrate/riot/quick-start/")
           )
@@ -127,8 +127,8 @@
       <div class="lg:px-11 w-full flex flex-col gap-3">
         <h2 class="text-5xl font-medium" id="operate">Deploy</h2>
         {{ partial "docs-section.html" (dict
-            "Title" "Control your Redis deployments on-premises or on cloud platforms"
-          "Description" "Robust support for hybrid and geo-distributed environments"
+            "Title" "Control your Redis deployments on-premises and on cloud platforms"
+          "Description" "Robust support for hybrid and multi-AZ environments"
 	  "ButtonLink" "./operate/rs/installing-upgrading/install/plan-deployment/"
           "ButtonLabel" "Redis deployment planning"  
           "LinksLeft" (slice
@@ -136,7 +136,7 @@
           )
         ) }}
         {{ partial "docs-section.html" (dict
-           "Title" "Deploy on containers running in Kubernetes"
+           "Title" "Deploy on Kubernetes"
           "Description" "Get started with the Redis Software for Kubernetes container image"
 	  "ButtonLink" "./operate/kubernetes/deployment/quick-start/"
           "ButtonLabel" "Kubernetes deployment guide"  
@@ -157,7 +157,7 @@
           "Title" "Monitor Redis with Prometheus"
           "Description" "Get started with the Redis Software integration for Prometheus and Grafana"
 	  "ButtonLink" "./integrate/prometheus-with-redis-enterprise/"
-          "ButtonLabel" "Prometheus and Grafana with Redis Software"  
+          "ButtonLabel" "Prometheus and Grafana with Redis"  
 	"LinksLeft" (slice
             (dict "Text" "Prometheus and Grafana with Redis Cloud" "URL" "./integrate/prometheus-with-redis-cloud/")
           )
