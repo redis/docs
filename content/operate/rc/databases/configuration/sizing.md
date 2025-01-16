@@ -40,7 +40,7 @@ We use this setting to guide the allocation of compute power and network bandwid
 
 ### Throughput factors and variability
 
-The following factors can affect your database's throughput:
+Some factors that can affect throughput include:
 - **Request size**: Smaller requests (under 3KB) consume less network bandwidth and may result in more operations per second than requested, while larger requests may result in fewer operations per second.
 - **Command complexity**: Simple commands, like `GET` and `SET`, are faster and require fewer resources, whereas more complex commands involve more processing time and can reduce throughput.
 - **Replication**: Using [multi-zone replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) affects throughput as each write operation is executed asynchronously in each zone.
@@ -53,30 +53,29 @@ Here are some things to keep in mind for optimizing throughput:
 - Optimize capacity planning and sizing of your Redis Cloud databases to meet your app performance requirements.
 - Benchmark your app to understand what latency expectations are required, and adjust throughput accordingly.
 - Test and monitor your app's performance and adjust the set ops/sec based on how if performs in real-world conditions.
-- If your average request size is larger than 3KB, set your throughput higher than expected. 
-- If you consistently notice that throughput is higher than expected, consider lowering your set ops/sec to reduce costs. 
+- If your average request size is larger than 3KB, consider setting your throughput higher than expected. 
 - Track the slow logs using the [`SLOWLOG` command]({{< relref "/commands/slowlog" >}}) or the **Slowlog** tab on the [database screen]({{< relref "/operate/rc/databases/view-edit-database" >}}).
 - Use [pipelining]({{< relref "/develop/use/pipelining" >}}) and [concurrent connections]({{< relref "/develop/reference/clients" >}}) effectively to optimize throughput and latency.
 - Search databases have their own throughput requirements. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more info.
 
 ### Frequently asked questions
 
-#### Can my workload exceed the configured throughput?
+**Can my workload exceed the configured throughput?**
 
 Yes, many workloads perform better than expected, especially with optimized configurations and ideal conditions.
 
-#### Why is my application getting less throughput than what I set?
+**Why is my application getting less throughput than what I set?**
 
 Factors like high connection counts, complex commands, large payloads, and network limitations can affect throughput. Test and adjust based on your application’s needs. 
 
-#### How do I know the optimal throughput for my application?
+**How do I know the optimal throughput for my application?**
 
 Start with the expected ops/sec. Most of the time, it’s more than enough. For an average request size of less than 3KB, we suggest specifying lower ops/sec than expected to reduce costs. For request sizes higher than 3 KB, we suggest specifying higher ops/sec than your target. Benchmarking your application under production-like conditions will help you find the best configuration.
 
-#### How does network bandwidth impact throughput?
+**How does network bandwidth impact throughput?**
 
-Insufficient bandwidth can bottleneck performance, especially with large request sizes. Ensure your network setup supports your workload demands.
+Insufficient bandwidth can bottleneck performance, especially with large request sizes.
 
-#### What is the expected latency for my application?
+**What is the expected latency for my application?**
 
 Latency expectations vary by use case. Some applications tolerate milliseconds, while others require sub-millisecond performance. Benchmark your application to understand its latency profile.
