@@ -44,7 +44,7 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 
 ### Install from local directory
 
-1. Find the latest release on the [redis-enterprise-k8s-docs Github](https://github.com/RedisLabs/redis-enterprise-k8s-docs/releases) and download the `tar.gz` source code into a local directory.
+1. Find the latest release on the [redis-enterprise-k8s-docs](https://github.com/RedisLabs/redis-enterprise-k8s-docs/releases) repo and download the `tar.gz` source code into a local directory.
 
 1. Install the Helm chart from your local directory.
 
