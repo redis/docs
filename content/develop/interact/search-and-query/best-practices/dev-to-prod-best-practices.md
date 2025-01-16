@@ -20,20 +20,20 @@ RQE offers several configurable parameters that influence query results and perf
 
 ### 1. `TIMEOUT`
 
-- Purpose: Limits the duration a query is allowed to execute. 
+- Purpose: limits the duration a query is allowed to execute. 
 - Default: 500 milliseconds.
 - Behavior:
+  - Ensures that queries do not monopolize the main Redis thread.
   - If a query exceeds the `TIMEOUT` value, its outcome is determined by the `ON_TIMEOUT` setting:
-    - `FAIL`: The query will return an error.
-    - `PARTIAL`: Partial results will be returned.
+    - `FAIL`: the query will return an error.
+    - `PARTIAL`: this setting will return the top results accumulated by the query until it timed out.
 - Recommendations:
-  - Default behavior: Ensures that queries do not monopolize the main Redis thread.
-  - Caution: Be mindful when increasing `TIMEOUT`,<!-- especially in environments without QPF,--> as long-running queries can degrade overall system performance.
- <!-- - With Query Performance Factor (QPF): If QPF (multi-threaded query execution) is enabled, the risks of increasing this value are mitigated, as queries execute against index memory using multiple threads.-->
+  - Caution: be mindful when increasing `TIMEOUT`,<!-- especially in environments without QPF,--> as long-running queries can degrade overall system performance.
+ <!-- - With Query Performance Factor (QPF): if QPF (multi-threaded query execution) is enabled, the risks of increasing this value are mitigated, as queries execute against index memory using multiple threads.-->
 
 ### 2. `MINPREFIX`
 
-- Purpose: Sets the minimum number of characters required for wildcard searches.
+- Purpose: sets the minimum number of characters required for wildcard searches.
 - Default: 2 characters.
 - Behavior:
   - Queries like `he*` are valid, while `h*` would not meet the threshold.
@@ -45,13 +45,16 @@ RQE offers several configurable parameters that influence query results and perf
 
 - Purpose: Defines the maximum number of expansions for a wildcard query term.
 - Default: 200 expansions.
+- Behavior:
+  - Expansions: when a wildcard query term is processed, Redis generates a list of all possible matches from the index that satisfy the wildcard. For example, the query he* might expand to terms like hello, hero, and heat. Each of these matches is an "expansion."
+  - This parameter limits how many of these expansions Redis will generate and process. If the number of possible matches exceeds the limit, the query may return incomplete results or fail, depending on the query context.
 - Recommendations:
   - Avoid increasing this parameter excessively, as it can lead to performance bottlenecks during query execution.
   - If wildcard searches are common, consider optimizing your index to reduce the reliance on large wildcard expansions.
 
 ### 4. `DEFAULT_DIALECT`
 
-- Purpose: Specifies the default query dialect used by [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) commands.
+- Purpose: specifies the default query dialect used by [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) commands.
 - Default: [Dialect 1]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}).
 - Recommendations:
   - Update the default to [**Dialect 4**]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-4" >}}) for better performance and access to advanced features.
@@ -60,9 +63,9 @@ RQE offers several configurable parameters that influence query results and perf
 ## Testing
 
 ### 1. Correctness
-- Ensure query results align with expected outcomes.
+- Run a few test queries and check the results are what you expect.
 - Use the following tools to validate and debug:
-  - Redis CLI: Use [`MONITOR`]({{< baseurl >}}/commands/monitor) or [profiling features]({{< relref "/develop/tools/insight#profiler" >}}) in Redis Insight to analyze commands.
+  - Redis CLI: use the [`MONITOR`]({{< baseurl >}}/commands/monitor) command or [profiling features]({{< relref "/develop/tools/insight#profiler" >}}) in Redis Insight to analyze commands.
   - [`FT.PROFILE`]({{< baseurl >}}/commands/ft.profile): Provides detailed insights into individual query execution paths, helping identify bottlenecks and inefficiencies.
 
 ### 2. Performance
