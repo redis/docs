@@ -85,5 +85,5 @@ The following dashboards are currently available:
 
 ## Monitor metrics
 
-See [Observability and monitoring guidance]({{< relref "/integrate/prometheus-with-redis-enterprise/observability" >}}) for monitoring details.
+See [Observability and monitoring guidance]({{< relref "/integrate/prometheus-with-redis-enterprise/observability.md">}}) for monitoring details.
 
