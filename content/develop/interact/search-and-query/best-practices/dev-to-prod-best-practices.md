@@ -1,5 +1,5 @@
 ---
-Title: Moving from Development to Production with Redis Query Engine
+Title: Move from Development to Production with Redis Query Engine
 alwaysopen: false
 categories:
 - docs
@@ -72,11 +72,11 @@ RQE offers several configurable parameters that influence query results and perf
   - Minimize latency during testing by locating test clients in the same network as the Redis instance.
   - For Redis Cloud, ensure test machines are in a **VPC-peered environment** with the target Redis database.
 
-## Sizing Requirements
+## Sizing requirements
 
 Redis Search has resource requirements distinct from general caching use cases. Proper sizing ensures that the system can handle production workloads efficiently.
 
-### Key Considerations:
+### Key considerations:
 1. CPU: 
    - Adequate CPU resources are critical<!--, especially when using QPF-->.
    - Ensure CPUs are not over-subscribed with search threads and shard processes.
@@ -88,7 +88,7 @@ Redis Search has resource requirements distinct from general caching use cases. 
 ### Tools:
 - Use the [Redis Search Sizing Calculator](https://redis.io/redisearch-sizing-calculator/) to estimate resource requirements based on your dataset and workload.
 
-## Demand Spikes
+## Demand spikes
 
 Production environments must be sized for peak load scenarios to ensure performance remains acceptable under maximum stress.
 
