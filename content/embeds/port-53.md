@@ -1,4 +1,4 @@
-If port 53 is in use, the installation fails. This issue can occur in default installations of certain operating systems, in which `systemd-resolved` (DNS server) is running.
+If port 53 is in use, the installation fails. This issue can occur in default installations of certain operating systems in which `systemd-resolved` (DNS server) is running.
 
 To prevent this issue, change the system configuration to make this port available before installation.
 
