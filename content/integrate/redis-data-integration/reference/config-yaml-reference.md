@@ -231,7 +231,7 @@ Not allowed
 
 ## targets: Target connections {#targets}
 
-**Properties**
+## Properties
 
 | Name | Type | Description | Required |
 | -- | -- | -- | -- |
@@ -239,7 +239,7 @@ Not allowed
 
 ### targets\.connection: Connection details {#targetsconnection}
 
-**Properties (Pattern)**
+### Properties (Pattern)ß
 
 | Name | Type | Description | |
 | -- | -- | -- | -- |
