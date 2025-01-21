@@ -64,12 +64,12 @@ The **Performance** section describes the memory size, throughput, and hashing p
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Dataset size** | Maximum size (in GB) for your dataset. See [Dataset size]({{< relref "/operate/rc/configuration/sizing#dataset-size" >}}).  |
-| **Throughput**        | Defines [throughput]({{< relref "/operate/rc/configuration/sizing#throughput" >}}) in terms of maximum operations per second for the database (_Redis Cloud Pro only_). |
+| **Dataset size** | Maximum size (in GB) for your dataset. See [Dataset size]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}}).  |
+| **Throughput**        | Defines [throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) in terms of maximum operations per second for the database (_Redis Cloud Pro only_). |
 | **Memory used**       | Memory currently used for your database.  |
 | **High availability**    | Replicates your data across multiple nodes; [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) depend on your plan type  |
 | **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}) (_Redis Cloud Pro only_).  |
-| **OSS Cluster API**       | Enables the [Cluster API]({{< relref "/operate/rc/configuration/clustering#cluster-api" >}}) for a database (_Redis Cloud Pro only_).<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
+| **OSS Cluster API**       | Enables the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database (_Redis Cloud Pro only_).<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
 
 To learn more about these settings and when to use them, see [Sizing]({{< relref "/operate/rc/configuration/sizing" >}}) and [Database clustering]({{< relref "/operate/rc/databases/configuration/clustering" >}}).
 
