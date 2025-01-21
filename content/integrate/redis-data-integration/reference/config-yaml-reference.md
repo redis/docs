@@ -1,72 +1,255 @@
 ---
 Title: Redis Data Integration configuration file
 linkTitle: RDI configuration file
-description: Redis Data Integration configuration file reference
+description: Reference for the RDI `config.yaml` file
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases: /integrate/redis-data-integration/ingest/reference/config-yaml-reference/
 ---
 
-**Properties**
+## Top level objects
 
-|Name|Type|Description|Required|
-|----|----|-----------|--------|
-|[**sources**](#sources)<br/>(Source collectors)|`object`|||
-|[**processors**](#processors)<br/>(Configuration details of Redis Data Integration Processors)|`object`, `null`|||
-|[**targets**](#targets)<br/>(Target connections)|`object`|||
+These objects define the sections at the root level of `config.yaml`.
 
-<a name="sources"></a>
-## sources: Source collectors
+### Properties
 
-**Additional Properties**
+| Name | Type | Description |
+| -- | -- | -- |
+| [`sources`](#sources) | `object` | Source collectors |
+| [`processors`](#processors)| `object`, `null` | RDI Processors |
+| [`targets`](#targets) | `object` | Target connections |
 
-|Name|Type|Description|Required|
-|----|----|-----------|--------|
+## `sources`: Source collectors {#sources}
 
-<a name="processors"></a>
-## processors: Configuration details of Redis Data Integration Processors
+Each source database type has its own connector, but the basic configuration properties are
+the same for all databases.
 
-**Properties**
+See the Debezium documentation for more information about the specific connectors:
 
-|Name|Type|Description|Required|
-|----|----|-----------|--------|
-|**on\_failed\_retry\_interval**<br/>(Interval \(in seconds\) on which to perform retry on failure)|`integer`, `string`|Default: `5`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**read\_batch\_size**<br/>(The batch size for reading data from source database)|`integer`, `string`|Default: `2000`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**debezium\_lob\_encoded\_placeholder**<br/>(Enable Debezium LOB placeholders)|`string`|Default: `"X19kZWJleml1bV91bmF2YWlsYWJsZV92YWx1ZQ=="`<br/>||
-|**dedup**<br/>(Enable deduplication mechanism)|`boolean`|Default: `false`<br/>||
-|**dedup\_max\_size**<br/>(Max size of the deduplication set)|`integer`|Default: `1024`<br/>Minimum: `1`<br/>||
-|**dedup\_strategy**<br/>(Deduplication strategy: reject \- reject messages\(dlq\), ignore \- ignore messages)|`string`|(DEPRECATED)<br/>Property 'dedup_strategy' is now deprecated. The only supported strategy is 'ignore'. Please remove from the configuration.<br/>Default: `"ignore"`<br/>Enum: `"reject"`, `"ignore"`<br/>||
-|**duration**<br/>(Time \(in ms\) after which data will be read from stream even if read\_batch\_size was not reached)|`integer`, `string`|Default: `100`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**write\_batch\_size**<br/>(The batch size for writing data to target Redis database\. Should be less or equal to the read\_batch\_size)|`integer`, `string`|Default: `200`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**error\_handling**<br/>(Error handling strategy: ignore \- skip, dlq \- store rejected messages in a dead letter queue)|`string`|Default: `"dlq"`<br/>Pattern: ``^\${.*}$|ignore|dlq``<br/>||
-|**dlq\_max\_messages**<br/>(Dead letter queue max messages per stream)|`integer`, `string`|Default: `1000`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**target\_data\_type**<br/>(Target data type: hash/json \- RedisJSON module must be in use in the target DB)|`string`|Default: `"hash"`<br/>Pattern: ``^\${.*}$|hash|json``<br/>||
-|**json\_update\_strategy**<br/>(Target update strategy: replace/merge \- RedisJSON module must be in use in the target DB)|`string`|(DEPRECATED)<br/>Property 'json_update_strategy' will be deprecated in future releases. Use 'on_update' job-level property to define the json update strategy.<br/>Default: `"replace"`<br/>Pattern: ``^\${.*}$|replace|merge``<br/>||
-|**initial\_sync\_processes**<br/>(Number of processes RDI Engine creates to process the initial sync with the source)|`integer`, `string`|Default: `4`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>Maximum: `32`<br/>||
-|**idle\_sleep\_time\_ms**<br/>(Idle sleep time \(in milliseconds\) between batches)|`integer`, `string`|Default: `200`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>Maximum: `999999`<br/>||
-|**idle\_streams\_check\_interval\_ms**<br/>(Interval \(in milliseconds\) for checking new streams when the stream processor is idling)|`integer`, `string`|Default: `1000`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>Maximum: `999999`<br/>||
-|**busy\_streams\_check\_interval\_ms**<br/>(Interval \(in milliseconds\) for checking new streams when the stream processor is busy)|`integer`, `string`|Default: `5000`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>Maximum: `999999`<br/>||
-|**wait\_enabled**<br/>(Checks if the data has been written to the replica shard)|`boolean`|Default: `false`<br/>||
-|**wait\_timeout**<br/>(Timeout in milliseconds when checking write to the replica shard)|`integer`, `string`|Default: `1000`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**retry\_on\_replica\_failure**<br/>(Ensures that the data has been written to the replica shard and keeps retrying if not)|`boolean`|Default: `true`<br/>||
+- [MySQL/MariaDB](https://debezium.io/documentation/reference/stable/connectors/mysql.html)
+- [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html)
+- [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html)
+- [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html)
 
-**Additional Properties:** not allowed  
-<a name="targets"></a>
-## targets: Target connections
+### Essential properties
 
-**Properties**
+#### `connection`
 
-|Name|Type|Description|Required|
-|----|----|-----------|--------|
-|[**connection**](#targetsconnection)<br/>(Connection details)|`object`|||
+| Name | Type | Source Databases | Description |
+| -- | -- | -- | -- |
+| `host` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer| The IP address of the database instance. |
+| `port` | `integer` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | The port of the database instance. |
+| `database` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer| The name of the database to capture changes from. For `SQL Server` you can define this as comma-separated list of database names. |
+| `database.pdb.name` | `string` | Oracle |The name of the [Oracle Pluggable Database](https://docs.oracle.com/en/database/oracle/oracle-database/19/riwin/about-pluggable-databases-in-oracle-rac.html) that the connector captures changes from. Do not specify this property for a non-CDB installation.<br/> Default: `"ORCLPDB1"` |
+| `database.encrypt` | `string` | MySQL| If SSL is enabled for your SQL Server database, you should also enable SSL in RDI by setting the value of this property to `true`.<br/> Default: `false` |
+| `database.server.id` | `integer` | MySQL | Numeric ID of this database client, which must be unique across all currently-running database processes in the MySQL cluster.<br/> Default: 1|
+| `database.url` | `string` | Oracle | Specifies the raw database JDBC URL. Use this property to provide flexibility in defining the database connection. Valid values include raw TNS names and RAC connection strings.|
+| `topic.prefix` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | A prefix for all topic names that receive events emitted by this connector.<br/> Default: `"rdi"` |
 
-<a name="targetsconnection"></a>
-### targets\.connection: Connection details
+### Advanced properties
 
-**Properties (Pattern)**
+#### `sink`
 
-|Name|Type|Description|Required|
-|----|----|-----------|--------|
-|**\.\***||||
-|**additionalProperties**||||
+| Name | Type | Description |
+| -- | -- | -- |
+| `redis.null.key` | `string` | Redis does not allow data objects without keys. This string will be used as the key for records that don't have a primary key.<br/> Default: `"default"` |
+| `redis.null.value` | `string` | Redis does not allow null object values (these occur with tombstone events, for example). This string will be used as the value for records without a payload.<br/> Default: `"default"` |
+| `redis.batch.size` | `integer` | Number of change records to insert in a single batch write (pipelined transaction).<br/> Default: `500` |
+| `redis.memory.limit.mb` | `integer` | The connector stops sending events when the Redis database size exceeds this size (in MB).<br/> Default: `300` |
+| `redis.wait.enabled` | `string` | If Redis is configured with a replica shard, this lets you verify that the data has been written to the replica.<br/> Default: `false` |
+| `redis.wait.timeout.ms` | `integer` | Defines the timeout in milliseconds when waiting for the replica.<br/> Default: `1000` |
+| `redis.wait.retry.enabled` | `string` | Enables retry on wait for replica failure.<br/> Default: `false` |
+| `redis.wait.retry.delay.ms` | `integer` | Defines the delay for retry on wait for replica failure.<br/> Default: `1000` |
+| `redis.retry.initial.delay.ms` | `integer` | Initial retry delay (in milliseconds) when encountering Redis connection or OOM issues. This value will be doubled upon every retry but won’t exceed `redis.retry.max.delay.ms`.<br/> Default: `300` |
+| `redis.retry.max.delay.ms` | `integer` | Maximum delay (in milliseconds) when encountering Redis connection or OOM issues.<br/> Default: `10000` |
+
+#### `source`
+
+| Name | Type | Source Databases | Description |
+|--|--|--|--|
+| `snapshot.mode` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | Specifies the mode that the connector uses to take snapshots of a captured table.<br/> Default: `"initial"` |
+| `topic.prefix` | `string` | MySQL, Oracle, PostgreSQL, SQLServer| A prefix for all topic names that receive events emitted by this connector.<br/>Default: `"rdi"` |
+| `database.exclude.list` | `string` | MariaDB, MySQL | An optional, comma-separated list of regular expressions that match the names of databases for which you do not want to capture changes. The connector captures changes in any database whose name is not included in `database.exclude.list`. Do not specify the `database` field in the `connection` configuration if you are using the `database.exclude.list` property to filter out databases. |
+| `schema.exclude.list` | `string` | Oracle, PostgreSQL, SQLServer | An optional, comma-separated list of regular expressions that match names of schemas for which you do not want to capture changes. The connector captures changes in any schema whose name is not included in `schema.exclude.list`. Do no specify the `schemas` section if you are using the `schema.exclude.list` property to filter out schemas. |
+| `table.exclude.list` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | An optional comma-separated list of regular expressions that match fully-qualified table identifiers for the tables that you want to exclude from being captured; The connector captures all tables that are not included in `table.exclude.list`. Do not specify the `tables` block in the configuration if you are using the `table.exclude.list` property to filter out tables. |
+| `column.exclude.list` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | An optional comma-separated list of regular expressions that match the fully-qualified names of columns that should be excluded from change event message values. Fully-qualified names for columns are of the form `schemaName.tableName.columnName`. Do not specify the `columns` block in the configuration if you are using the `column.exclude.list` property to filter out columns. |
+| `snapshot.select.statement.overrides` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer |Specifies the table rows to include in a snapshot. Use this property if you want a snapshot to include only a subset of the rows in a table. This property affects snapshots only. It does not apply to events that the connector reads from the log. |
+| `log.enabled` | `string` | Oracle | Enables capturing and serialization of large object (CLOB, NCLOB, and BLOB) column values in change events.<br/>Default: `false` |
+| `unavailable.value.placeholder` | Special | Oracle | Specifies the constant that the connector provides to indicate that the original value is unchanged and not provided by the database (this has the type `__debezium_unavailable_value`). |
+
+### Using queries in the initial snapshot (relevant for MySQL, Oracle, PostgreSQL and SQLServer)
+
+- In case you want a snapshot to include only a subset of the rows in a table, you need to add the property `snapshot.select.statement.overrides` and add a comma-separated list of [fully-qualified table names](#fully-qualified-table-name). The list should include every table for which you want to add a SELECT statement.
+
+- **For each table in the list above, add a further configuration property** that specifies the `SELECT` statement for the connector to run on the table when it takes a snapshot.
+
+ The specified `SELECT` statement determines the subset of table rows to include in the snapshot.
+
+ Use the following format to specify the name of this `SELECT` statement property:
+
+ - Oracle, SQLServer, PostrgreSQL: `snapshot.select.statement.overrides: <SCHEMA_NAME>.<TABLE_NAME>`
+ - MySQL: `snapshot.select.statement.overrides: <DATABASE_NAME>.<TABLE_NAME>`
+
+- Add the list of columns you want to include in the `SELECT` statement using fully-qualified names. Each column should be specified in the configuration as shown below:
+
+ ```yaml
+ tables:
+ schema_name.table_name: # For MySQL: use database_name.table_name
+ columns:
+ - column_name1 # Each column on a new line
+ - column_name2
+ - column_name3
+ ```
+
+- To capture all columns from a table, use empty curly braces `{}` instead of listing individual columns:
+
+ ```yaml
+ tables:
+ schema_name.table_name: {} # Captures all columns
+ ```
+
+### Example
+
+To select the columns `CustomerId`, `FirstName` and `LastName` from `customer` table and join it with `invoice` table in order to get customers with total invoices greater than 8000, we need to add the following properties to the `config.yaml` file:
+
+```yaml
+tables:
+ chinook.customer:
+ columns:
+ - CustomerID
+ - FirstName
+ - LastName
+
+advanced:
+ source:
+ snapshot.select.statement.overrides: chinook.customer
+ snapshot.select.statement.overrides.chinook.customer: |
+ SELECT c.CustomerId, c.FirstName, c.LastName
+ FROM chinook.customer c
+ INNER JOIN chinook.invoice inv
+ ON c.CustomerId = inv.CustomerId
+ WHERE inv.total > 8000
+```
+
+### Form custom message key(s) for change event records
+
+- By default, Debezium uses the primary key column(s) of a table as the message key for records that it emits.
+ In place of the default, or to specify a key for tables that lack a primary key, you can configure custom message keys based on one or more columns.
+
+- To establish a custom message key for a table, list the table followed by the column to use as the message key. Each list entry takes the following format:
+
+ ```yaml
+ # To include entries for multiple tables, simply add each table with its corresponding columns and keys under the 'tables' field.
+ tables:
+ <DATABASE_NAME>.<TABLE_NAME>:
+ columns:
+ - <COLUMN(S)_LIST> # List of columns to include
+ keys:
+ - <COLUMN(S)_LIST> # Column(s) to be used as the primary key
+ ```
+
+ Notes:
+
+ - When specifying columns in the `keys` field, ensure that these same columns are also listed under the `columns` field in your configuration.
+ - There is no limit to the number of columns that can be used to create custom message keys. However, it’s best to use the minimum required number of columns to specify a unique key.
+
+### Fully-qualified table name
+
+In this document we refer to the fully-qualified table name as `<databaseName>.<tableName>`. This format is for MySQL database. For Oracle, SQLServer and Postgresql databases use `<schemaName>`.`<tableName>` instead.
+
+| Database Type | Fully-qualified Table Name |
+| -- | -- |
+| Oracle, SQLServer, PostrgreSQL | `<schemaName>.<tableName>` |
+| MySQL | `<databaseName>.<tableName>` |
+
+{{< note >}}You can specify the fully-qualified table name `<databaseName>.<tableName>` as
+a regular expression instead of providing the full name of the `databaseName` and `tableName`.
+{{< /note >}}
+
+### Examples
+
+- The primary key of the tables `customer` and `employee` is `ID`.
+
+ To establish custom messages keys based on `FirstName` and `LastName` for the tables `customer` and `employee`, add the following block to the `config.yaml` file:
+
+ ```yaml
+ tables:
+ # Sync a specific table with all its columns:
+ chinook.customer:
+ columns:
+ - ID
+ - FirstName
+ - LastName
+ - Company
+ - Address
+ - Email
+ keys:
+ - FirstName
+ - LastName
+ chinook.employee:
+ columns:
+ - ID
+ - FirstName
+ - LastName
+ - ReportsTo
+ - Address
+ - City
+ - State
+ keys:
+ - FirstName
+ - LastName
+ ```
+
+## `processors`: RDI processors {#processors}
+
+### Properties
+
+| Name | Type | Description |
+| -- | -- | -- |
+| `on_failed_retry_interval` |`integer`, `string`| Interval (in seconds) between attempts to retry on failure.<br/>Default: `5`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`|
+| `read_batch_size` |`integer`, `string`| Batch size for reading data from the source database.<br/>Default: `2000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`|
+| `debezium_lob_encoded_placeholder` |`string`| Enable Debezium LOB placeholders.<br/>Default: `"X19kZWJleml1bV91bmF2YWlsYWJsZV92YWx1ZQ=="`|
+| `dedup` |`boolean`| Enable deduplication mechanism.<br/>Default: `false`<br/>||
+| `dedup_max_size` |`integer`| Maximum size of the deduplication set.<br/> Default: `1024`<br/>Minimum: `1`<br/>|
+| `dedup_strategy` |`string`| Deduplication strategy: reject \- reject messages(dlq), ignore \- ignore messages.<br/> (DEPRECATED)<br/>The property `dedup_strategy` is now deprecated. The only supported strategy is 'ignore'. Please remove from the configuration.<br/>Default: `"ignore"`<br/>Enum: `"reject"`, `"ignore"`<br/>|
+| `duration` |`integer`, `string`| Time (in ms) after which data will be read from stream even if `read_batch_size` was not reached.<br/> Default: `100`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>|
+| `write_batch_size` |`integer`, `string`| The batch size for writing data to target Redis database\. Should be less or equal to `read_batch_size`.<br/> Default: `200`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>|
+| `error_handling` |`string`| Error handling strategy: ignore \- skip, dlq \- store rejected messages in a dead letter queue.<br/> Default: `"dlq"`<br/>Pattern: `^\${.*}$\|ignore\|dlq`<br/>|
+| `dlq_max_messages` |`integer`, `string`| Maximum number of messages per stream in the dead letter queue .<br/> Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>|
+| `target_data_type` |`string`| Target data type: `hash`/`json` (the RedisJSON module must be enabled in the target database to use JSON).<br/> Default: `"hash"`<br/>Pattern: `^\${.*}$\|hash\|json`<br/>|
+| `json_update_strategy` |`string`| Target update strategy: replace/merge (the RedisJSON module must be enabled in the target DB to use JSON).<br/> (DEPRECATED)<br/>The property `json_update_strategy` will be deprecated in future releases. Use the job-level property `on_update` to define the JSON update strategy.<br/>Default: `"replace"`<br/>Pattern: `^\${.*}$\|replace\|merge`<br/>|
+| `initial_sync_processes` |`integer`, `string`| Number of processes the RDI Engine creates to process the initial sync with the source.<br/> Default: `4`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `32`<br/>|
+| `idle_sleep_time_ms` |`integer`, `string`| Idle sleep time (in milliseconds) between batches.<br/>Default: `200`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>|
+| `idle_streams_check_interval_ms` |`integer`, `string`| Interval (in milliseconds) for checking new streams when the stream processor is idling.<br/> Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>|
+| `busy_streams_check_interval_ms` |`integer`, `string`| Interval (in milliseconds) for checking new streams when the stream processor is busy.<br/> Default: `5000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>|
+| `wait_enabled` |`boolean`| Checks if the data has been written to the replica shard.<br/> Default: `false`<br/>|
+| `wait_timeout` |`integer`, `string`| Timeout in milliseconds when checking write to the replica shard.<br/> Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>|
+| `retry_on_replica_failure` |`boolean`| Ensures that the data has been written to the replica shard and keeps retrying if not.<br/> Default: `true`<br/>|
+
+### Additional properties
+
+Not allowed 
+
+## `targets`: Target connections {#targets}
+
+## Properties
+
+| Name | Type | Description |
+| -- | -- | -- |
+| [`connection`](#targetsconnection) | `object` | Connection details |
+
+### `targets.connection`: Connection details {#targetsconnection}
+
+### Properties
+
+| Name | Type | Description |
+| -- | -- | -- |
+| `host` | `string` | IP address of the Redis database where RDI will write the processed data. |
+| `port` | `integer` | Port of the Redis database where RDI will write the processed data. |
+| `user` | `string` | User of the Redis database where RDI will write the processed data. Uncomment this if you are not using the default user. |
+| `password` | `string` | Password for Redis target database. |
+| `key` | `string` | Uncomment the lines below this if you are using SSL/TLS. |
+| `key_password` | `string` | Uncomment the lines below this if you are using SSL/TLS. |
+| `cert` | `string` | Uncomment the lines below this if you are using SSL/TLS. |
+| `cacert` | `string` | Uncomment the lines below this if you are using SSL/TLS. |
