@@ -1,5 +1,5 @@
 ---
-Title: Size a Redis Cloud Database
+Title: Size a Redis Cloud database
 alwaysopen: false
 categories:
 - docs
@@ -12,7 +12,7 @@ weight: $weight
 
 ## Dataset size {#dataset-size}
 
-The dataset size of a database is a part of the full memory limit for the database. The memory limit represents the maximum amount of memory for the database, which includes data values, keys, module data, and overhead for specific features.  High availability features, such as replication and Active-Active,  increase memory consumption, so in those cases your dataset size and memory limit will be different.
+The dataset size of a database is a part of the full memory limit for the database. The memory limit represents the maximum amount of memory for the database, which includes data values, keys, module data, and overhead for specific features.  High availability features, such as replication and Active-Active,  increase memory consumption, so your dataset size and memory limit will be different.
 
 For Redis Cloud Essentials, the plan size refers to the full memory limit, not the dataset size. Both the total memory limit and dataset size are listed under **Database details** when you create an Essentials database.
 
@@ -32,7 +32,7 @@ Memory limits in Redis Cloud are subject to the same considerations as Redis Ent
 
 ## Throughput
 
-Throughput is the amount of operations a database can handle over a certain period of time. For Redis Cloud databases, throughput is defined in operations per second (ops/sec).
+Throughput is the number of operations a database can handle over a certain period of time. For Redis Cloud databases, throughput is defined in operations per second (ops/sec).
 
 For a Redis Cloud Pro subscription, you define throughput for a database when you create it. For a Redis Cloud Essentials subscription, your maximum throughput depends on your plan. 
 
