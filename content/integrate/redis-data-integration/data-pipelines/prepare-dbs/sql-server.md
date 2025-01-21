@@ -17,7 +17,7 @@ weight: 2
 ---
 
 To prepare your SQL Server database for Debezium, you must first create a dedicated Debezium user,
-run a script to enable CDC globally and then separately enable CDC for each table you want to
+run a script to enable CDC globally, and then separately enable CDC for each table you want to
 capture. You need administrator privileges to do this.
 
 Once you enable CDC, it captures all of the INSERT, UPDATE, and DELETE operations
