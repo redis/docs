@@ -18,6 +18,6 @@ Before [installing Redis Enterprise Software]({{< relref "/operate/rs/installing
 
 {{<embed-md "port-collision-avoidance.md">}}
 
-## Ubuntu conflicts with port 53
+## OS conflicts with port 53
 
 {{<embed-md "port-53.md">}}
