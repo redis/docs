@@ -55,7 +55,7 @@ Let's start with a simple example, we'll add all our racers and the score they g
 As you can see [`ZADD`]({{< relref "/commands/zadd" >}}) is similar to [`SADD`]({{< relref "/commands/sadd" >}}), but takes one additional argument
 (placed before the element to be added) which is the score.
 [`ZADD`]({{< relref "/commands/zadd" >}}) is also variadic, so you are free to specify multiple score-value
-pairs, as in example above.
+pairs, as shown in the example above.
 
 With sorted sets it is trivial to return a list of racers sorted by their
 birth year because actually *they are already sorted*.
