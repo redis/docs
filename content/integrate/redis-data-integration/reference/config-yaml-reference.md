@@ -14,11 +14,11 @@ These objects define the sections at the root level of `config.yaml`.
 
 ### Properties
 
-| Name | Type | Description | Required |
-| -- | -- | -- | -- |
-| [`sources`](#sources) | `object` | Source collectors ||
-| [`processors`](#processors)| `object`, `null` | RDI Processors ||
-| [`targets`](#targets) | `object` | Target connections ||
+| Name | Type | Description |
+| -- | -- | -- |
+| [`sources`](#sources) | `object` | Source collectors |
+| [`processors`](#processors)| `object`, `null` | RDI Processors |
+| [`targets`](#targets) | `object` | Target connections |
 
 ## sources: Source collectors {#sources}
 
@@ -36,47 +36,47 @@ See the Debezium documentation for more information about the specific connector
 
 #### `connection`
 
-|Name|Type|Default|Source Databases|Description|
-|--|--|--|--|--|
-| `host` |string| |MariaDB, MySQL, Oracle, PostgreSQL, SQLServer|The address of the database instance.|
-| `port` | int||MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | The port of the database instance.|
-| `database` |string||MariaDB, MySQL, Oracle, PostgreSQL, SQLServer|The name of the database from which to stream the changes. For `SQL Server` you can define the database as comma-separated list of the SQL Server database names from which to stream the changes.|
-| `database.pdb.name` |string|ORCLPDB1|Oracle|The name of the [Oracle Pluggable Database](https://docs.oracle.com/en/database/oracle/oracle-database/19/riwin/about-pluggable-databases-in-oracle-rac.html) that the connector captures changes from. For non-CDB installation, do not specify this property.|
-| `database.encrypt` |boolean|false|MySQL|If SSL is enabled for a SQL Server database, enable SSL by setting the value of this property to true. |
-| `database.server.id` |int|1|MySQL|A numeric ID of this database client, which must be unique across all currently-running database processes in the MySQL cluster.|
-| `database.url` |string||Oracle|Specifies the raw database JDBC URL. Use this property to provide flexibility in defining that database connection. Valid values include raw TNS names and RAC connection strings.|
-| `topic.prefix` |string|rdi|MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | A prefix for all topic names that receive events emitted by this connector.|
+|Name|Type|Source Databases|Description|
+|--|--|--|--|
+| `host` |string| MariaDB, MySQL, Oracle, PostgreSQL, SQLServer|The address of the database instance.|
+| `port` | int| MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | The port of the database instance.|
+| `database` |string| MariaDB, MySQL, Oracle, PostgreSQL, SQLServer|The name of the database from which to stream the changes. For `SQL Server` you can define the database as comma-separated list of the SQL Server database names from which to stream the changes.|
+| `database.pdb.name` |string| Oracle|The name of the [Oracle Pluggable Database](https://docs.oracle.com/en/database/oracle/oracle-database/19/riwin/about-pluggable-databases-in-oracle-rac.html) that the connector captures changes from. For non-CDB installation, do not specify this property.<br/> Default: "ORCLPDB1"|
+| `database.encrypt` |boolean| MySQL|If SSL is enabled for a SQL Server database, enable SSL by setting the value of this property to true.<br/> Default: false |
+| `database.server.id` |int| MySQL|A numeric ID of this database client, which must be unique across all currently-running database processes in the MySQL cluster.<br/> Default: 1|
+| `database.url` |string| Oracle|Specifies the raw database JDBC URL. Use this property to provide flexibility in defining that database connection. Valid values include raw TNS names and RAC connection strings.|
+| `topic.prefix` |string| MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | A prefix for all topic names that receive events emitted by this connector.<br/> Default: "rdi" |
 
 ### Advanced properties
 
 #### `sink`
 
-|Name|Type|Default|Description|
-|--|--|--|--|
-| `redis.null.key` | string | default | Redis does not support the notion of data without key, so this string will be used as key for records without primary key. |
-| `redis.null.value` | string | default | Redis does not support the notion of null payloads, as is the case with tombstone events. This string will be used as value for records without a payload. |
-| `redis.batch.size` | int | 500 | Number of change records to insert in a single batch write (Pipelined transaction).|
-| `redis.memory.limit.mb` | int | 300 | The connector stops sending events when Redis size exceeds this threshold.|
-| `redis.wait.enabled` | boolean | false | In case Redis is configured with a replica shard, this allows to verify that the data has been written to the replica. |
-| `redis.wait.timeout.ms` | int | 1000 | Defines the timeout in milliseconds when waiting for replica. |
-| `redis.wait.retry.enabled` | boolean | false | Enables retry on wait for replica failure.|
-| `redis.wait.retry.delay.ms` | int | 1000 | Defines the delay of retry on wait for replica failure. |
-| `redis.retry.initial.delay.ms` | int | 300 | Initial retry delay when encountering Redis connection or OOM issues. This value will be doubled upon every retry but won’t exceed `redis.retry.max.delay.ms`. |
-| `redis.retry.max.delay.ms` | int | 10000 | Max delay when encountering Redis connection or OOM issues. |
+|Name|Type|Description|
+|--|--|--|
+| `redis.null.key` | string | Redis does not support the notion of data without key, so this string will be used as key for records without primary key.<br/> Default: "default" |
+| `redis.null.value` | string | Redis does not support the notion of null payloads, as is the case with tombstone events. This string will be used as value for records without a payload.<br/> Default: "default" |
+| `redis.batch.size` | int | Number of change records to insert in a single batch write (Pipelined transaction).<br/> Default: 500 |
+| `redis.memory.limit.mb` | int | The connector stops sending events when Redis size exceeds this threshold.<br/> Default: 300 |
+| `redis.wait.enabled` | boolean | In case Redis is configured with a replica shard, this allows to verify that the data has been written to the replica.<br/> Default: false |
+| `redis.wait.timeout.ms` | int | Defines the timeout in milliseconds when waiting for replica.<br/> Default: 1000 |
+| `redis.wait.retry.enabled` | boolean | Enables retry on wait for replica failure.<br/> Default: false |
+| `redis.wait.retry.delay.ms` | int | Defines the delay of retry on wait for replica failure.<br/> Default: 1000 |
+| `redis.retry.initial.delay.ms` | int | Initial retry delay when encountering Redis connection or OOM issues. This value will be doubled upon every retry but won’t exceed `redis.retry.max.delay.ms`.<br/> Default: 300 |
+| `redis.retry.max.delay.ms` | int | Max delay when encountering Redis connection or OOM issues.<br/> Default: 10000 |
 
 ## `source`
 
-|Name|Type|Default|Source Databases|Description|
-|--|--|--|--|--|
-| `snapshot.mode` |string|initial|MariaDB, MySQL, Oracle, PostgreSQL, SQLServer|Specifies the mode that the connector uses to take snapshots of a captured table.|
-| `topic.prefix` |string|rdi|MySQL, Oracle, PostgreSQL, SQLServer|A prefix for all topic names that receive events emitted by this connector.|
-| `database.exclude.list` |string||MariaDB, MySQL|An optional, comma-separated list of regular expressions that match the names of databases for which you do not want to capture changes. The connector captures changes in any database whose name is not included in `database.exclude.list`. Do not specify the `database` field in the `connection` configuration if you are using the `database.exclude.list` property to filter out databases.|
-| `schema.exclude.list` |string||Oracle, PostgreSQL, SQLServer|An optional, comma-separated list of regular expressions that match names of schemas for which you do not want to capture changes. The connector captures changes in any schema whose name is not included in `schema.exclude.list`. Do no specify the `schemas` section if you are using the `schema.exclude.list` property to filter out schemas. |
-| `table.exclude.list` |string||MariaDB, MySQL, Oracle, PostgreSQL, SQLServer|An optional comma-separated list of regular expressions that match fully-qualified table identifiers for the tables that you want to exclude from being captured; The connector captures all tables that are not included in `table.exclude.list`. Do not specify the `tables` block in the configuration if you are using the `table.exclude.list` property to filter out tables. |
-| `column.exclude.list` | string| | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | An optional comma-separated list of regular expressions that match the fully-qualified names of columns that should be excluded from change event message values. Fully-qualified names for columns are of the form `schemaName.tableName.columnName`. Do not specify the `columns` block in the configuration if you are using the `column.exclude.list` property to filter out columns. |
-| `snapshot.select.statement.overrides` |String||MariaDB, MySQL, Oracle, PostgreSQL, SQLServer|Specifies the table rows to include in a snapshot. Use the property if you want a snapshot to include only a subset of the rows in a table. This property affects snapshots only. It does not apply to events that the connector reads from the log.|
-| `log.enabled` |boolean|false|Oracle|Enables capturing and serialization of large object (CLOB, NCLOB, and BLOB) column values in change events.|
-| `unavailable.value.placeholder` |\_\_debezium_unavailable_value |Oracle|Specifies the constant that the connector provides to indicate that the original value is unchanged and not provided by the database.|
+|Name|Type|Source Databases|Description|
+|--|--|--|--|
+| `snapshot.mode` |string| MariaDB, MySQL, Oracle, PostgreSQL, SQLServer|Specifies the mode that the connector uses to take snapshots of a captured table.<br/> Default: "initial" |
+| `topic.prefix` |string| MySQL, Oracle, PostgreSQL, SQLServer|A prefix for all topic names that receive events emitted by this connector.<br/>Default: "rdi" |
+| `database.exclude.list` |string| MariaDB, MySQL|An optional, comma-separated list of regular expressions that match the names of databases for which you do not want to capture changes. The connector captures changes in any database whose name is not included in `database.exclude.list`. Do not specify the `database` field in the `connection` configuration if you are using the `database.exclude.list` property to filter out databases.|
+| `schema.exclude.list` |string| Oracle, PostgreSQL, SQLServer|An optional, comma-separated list of regular expressions that match names of schemas for which you do not want to capture changes. The connector captures changes in any schema whose name is not included in `schema.exclude.list`. Do no specify the `schemas` section if you are using the `schema.exclude.list` property to filter out schemas. |
+| `table.exclude.list` |string| MariaDB, MySQL, Oracle, PostgreSQL, SQLServer|An optional comma-separated list of regular expressions that match fully-qualified table identifiers for the tables that you want to exclude from being captured; The connector captures all tables that are not included in `table.exclude.list`. Do not specify the `tables` block in the configuration if you are using the `table.exclude.list` property to filter out tables. |
+| `column.exclude.list` | string| MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | An optional comma-separated list of regular expressions that match the fully-qualified names of columns that should be excluded from change event message values. Fully-qualified names for columns are of the form `schemaName.tableName.columnName`. Do not specify the `columns` block in the configuration if you are using the `column.exclude.list` property to filter out columns. |
+| `snapshot.select.statement.overrides` |String| MariaDB, MySQL, Oracle, PostgreSQL, SQLServer|Specifies the table rows to include in a snapshot. Use the property if you want a snapshot to include only a subset of the rows in a table. This property affects snapshots only. It does not apply to events that the connector reads from the log.|
+| `log.enabled` |boolean| Oracle|Enables capturing and serialization of large object (CLOB, NCLOB, and BLOB) column values in change events.<br/>Default: false |
+| `unavailable.value.placeholder` | Special | Oracle|Specifies the constant that the connector provides to indicate that the original value is unchanged and not provided by the database (this has the type `__debezium_unavailable_value`).|
 
 ### Using queries in the initial snapshot (relevant for MySQL, Oracle, PostgreSQL and SQLServer)
 
