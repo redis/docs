@@ -24,98 +24,51 @@ Make sure that you have Redis Stack and `redis-py` installed.
 
 Import dependencies:
 
-```python
-import redis
-from redis.commands.json.path import Path
-import redis.commands.search.aggregation as aggregations
-import redis.commands.search.reducers as reducers
-from redis.commands.search.field import TextField, NumericField, TagField
-from redis.commands.search.indexDefinition import IndexDefinition, IndexType
-from redis.commands.search.query import NumericFilter, Query
-```
+{{< clients-example py_home_json import >}}
+{{< /clients-example >}}
 
 Connect to your Redis database.
 
-```python
-r = redis.Redis(host='localhost', port=6379)
-```
+{{< clients-example py_home_json connect >}}
+{{< /clients-example >}}
 
-Let's create some test data to add to your database.
+Create some test data to add to your database.
 
-```python
-user1 = {
-    "name": "Paul John",
-    "email": "paul.john@example.com",
-    "age": 42,
-    "city": "London"
-}
-user2 = {
-    "name": "Eden Zamir",
-    "email": "eden.zamir@example.com",
-    "age": 29,
-    "city": "Tel Aviv"
-}
-user3 = {
-    "name": "Paul Zamir",
-    "email": "paul.zamir@example.com",
-    "age": 35,
-    "city": "Tel Aviv"
-}
-```
+{{< clients-example py_home_json create_data >}}
+{{< /clients-example >}}
 
-Define indexed fields and their data types using `schema`. Use JSON path expressions to map specific JSON elements to the schema fields.
+Create an index. In this example, only JSON documents with the key prefix `user:` are indexed. For more information, see [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}).
 
-```python
-schema = (
-    TextField("$.name", as_name="name"), 
-    TagField("$.city", as_name="city"), 
-    NumericField("$.age", as_name="age")
-)
-```
+{{< clients-example py_home_json make_index >}}
+{{< /clients-example >}}
 
-Create an index. In this example, all JSON documents with the key prefix `user:` will be indexed. For more information, see [Query syntax]({{< relref "/develop/interact/search-and-query/query/" >}}). 
+Add the three sets of user data to the database as
+[JSON]({{< relref "/develop/data-types/json" >}}) objects.
+If you use keys with the `user:` prefix then Redis will index the
+objects automatically as you add them:
 
-```python
-rs = r.ft("idx:users")
-rs.create_index(
-    schema,
-    definition=IndexDefinition(
-        prefix=["user:"], index_type=IndexType.JSON
-    )
-)
-# b'OK'
-```
+{{< clients-example py_home_json add_data >}}
+{{< /clients-example >}}
 
-Use [`JSON.SET`]({{< baseurl >}}/commands/json.set/) to set each user value at the specified path.
+You can now use the index to search the JSON objects. The
+[query]({{< relref "/develop/interact/search-and-query/query" >}})
+below searches for objects that have the text "Paul" in any field
+and have an `age` value in the range 30 to 40:
 
-```python
-r.json().set("user:1", Path.root_path(), user1)
-r.json().set("user:2", Path.root_path(), user2)
-r.json().set("user:3", Path.root_path(), user3)
-```
+{{< clients-example py_home_json query1 >}}
+{{< /clients-example >}}
 
-Let's find user `Paul` and filter the results by age.
+Specify query options to return only the `city` field:
 
-```python
-res = rs.search(
-    Query("Paul @age:[30 40]")
-)
-# Result{1 total, docs: [Document {'id': 'user:3', 'payload': None, 'json': '{"name":"Paul Zamir","email":"paul.zamir@example.com","age":35,"city":"Tel Aviv"}'}]}
-```
+{{< clients-example py_home_json query2 >}}
+{{< /clients-example >}}
 
-Query using JSON Path expressions.
+Use an
+[aggregation query]({{< relref "/develop/interact/search-and-query/query/aggregation" >}})
+to count all users in each city.
 
-```python
-rs.search(
-    Query("Paul").return_field("$.city", as_field="city")
-).docs
-# [Document {'id': 'user:1', 'payload': None, 'city': 'London'}, Document {'id': 'user:3', 'payload': None, 'city': 'Tel Aviv'}]
-```
+{{< clients-example py_home_json query3 >}}
+{{< /clients-example >}}
 
-Aggregate your results using [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/).
-
-```python
-req = aggregations.AggregateRequest("*").group_by('@city', reducers.count().alias('count'))
-print(rs.aggregate(req).rows)
-# [[b'city', b'Tel Aviv', b'count', b'2'], [b'city', b'London', b'count', b'1']]
-```
+See the [Redis query engine]({{< relref "/develop/interact/search-and-query" >}}) docs
+for a full description of all query features with examples.
