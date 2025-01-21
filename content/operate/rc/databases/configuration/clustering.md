@@ -169,7 +169,7 @@ their order to suit your application's requirements.
 
 {{< embed-md "oss-cluster-api-intro.md"  >}}
 
-The Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the Scalability section of the configuration screen.
+The Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the Performance section of the configuration screen.
 
 The Redis Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy) and does not use Search and Query or Time Series advanced capabilities.
 
