@@ -483,6 +483,33 @@ FT.SEARCH products "(@type:{shirt} @year:[2020 2022]) | @description_vector:[VEC
 
 To explore additional Python vector search examples, review recipes for the [`Redis Python`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) client library and the [`Redis Vector Library`](https://github.com/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb).
 
+## Memory consumption comparison
+
+Following is a Python+NumPy example of vector sizes for the supported vector types; `BFLOAT16`, `FLOAT16`, `FLOAT32`, and `FLOAT64`.
+
+```python
+import numpy as np
+
+#install ml_dtypes from pip install ml-dtypes
+from ml_dtypes import bfloat16
+
+# random float64 100 dimensions
+double_precision_vec = np.random.rand(100)
+
+# for float64 and float32
+print(f'length of float64 vector: {len(double_precision_vec.tobytes())}') # >>> 800
+print(f'length of float32 vector: {len(double_precision_vec.astype(np.float32).tobytes())}') # >>> 400
+
+# for float16
+np_data_type = np.float16
+half_precision_vec_float16 = double_precision_vec.astype(np_data_type)
+print(f'length of float16 vector: {len(half_precision_vec_float16.tobytes())}') # >>> 200
+
+# for bfloat16
+bfloat_dtype = bfloat16
+half_precision_vec_bfloat16 = double_precision_vec.astype(bfloat_dtype)
+print(f'length of bfloat16 vector: {len(half_precision_vec_bfloat16.tobytes())}') # >>> 200
+```
 
 ## Next steps
 

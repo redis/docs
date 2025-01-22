@@ -10,7 +10,7 @@ categories:
 - kubernetes
 - clients
 description: Learn how to use the Redis query engine with JSON
-linkTitle: JSON query example
+linkTitle: Index and query JSON
 title: Example - Index and query JSON documents
 weight: 2
 ---
