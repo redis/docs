@@ -26,6 +26,8 @@ Redis Cloud maintains consistency among instances in the background; that is, ea
 
 {{< embed-md "rc-create-db-first-steps.md" >}}
 
+{{< embed-md "rc-create-db-use-cases.md" >}}
+
 4. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Pro**. 
 
     {{<image filename="images/rc/create-database-subscription-pro-new.png" alt="The Subscription selection panel with Pro selected.">}}
@@ -187,7 +189,7 @@ Use the **Database list** to check the status of your databases.
 - [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
 - [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}})
 - [Develop applications with Active-Active databases]({{< relref "/operate/rs/databases/active-active/develop/_index.md" >}})
-- Database [memory limit]({{< relref "/operate/rc/databases/configuration/clustering#dataset-size" >}})
+- Database [memory limit]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}})
 - Redis Cloud [subscription plans]({{< relref "/operate/rc/subscriptions/" >}})
 - [Redis Cloud pricing](https://redis.io/pricing/#monthly)
 

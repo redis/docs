@@ -110,6 +110,14 @@ sources:
   #   sink:
   #     redis.memory.limit.mb: 100
   #     redis.memory.threshold.percentage: 85
+  #  Uncomment the lines below for production usage with high availability (HA). When writing data 
+  #  to the state database or the target with HA enabled, RDI should wait briefly for an
+  #  acknowledgment from the replica database. It should also retry a write operation after a 
+  #  certain delay if the original operation times out.
+  #     redis.wait.enabled:true
+  #     redis.wait.timeout.ms:2
+  #     redis.wait.retry.enabled:true
+  #     redis.wait.retry.delay.ms: 
   # Source specific properties - see the full list at https://debezium.io/documentation/reference/stable/connectors/
   #   source:
   #     snapshot.mode: initial
@@ -158,11 +166,9 @@ configuration contains the following data:
     (the default is to include all tables if you don't specify a query here).
   - `columns`: A list of the columns you are interested in (the default is to
     include all columns if you don't supply a list)
-  - `keys`: A list of primary keys, one for each table. If the table doesn't
-    have a column with a
-    [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.asp) or
-    [`UNIQUE`](https://www.w3schools.com/sql/sql_unique.asp) constraint then you can
-    supply a unique composite key.
+  - `keys`: A list of columns to create a composite key if your table
+    doesn't already have a [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.asp) or
+    [`UNIQUE`](https://www.w3schools.com/sql/sql_unique.asp) constraint.
 - `advanced`: These optional properties configure other Debezium-specific features.
   The available sub-sections are:
   - `sink`: All advanced properties for writing to RDI (TLS, memory threshold, etc).

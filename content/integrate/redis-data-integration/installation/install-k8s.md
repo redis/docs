@@ -65,6 +65,8 @@ information. *This requires Redis Enterprise v6.4 or greater*.
   [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
   [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
   to AOF - fsync every 1 sec.
+- **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
+  RDI database is clustered, but it is OK for the target database to be clustered.
 
 You should then provide the details of this database in the [`values.yaml`](#the-valuesyaml-file)
 file as described below.
@@ -95,20 +97,22 @@ To pull images from a local registry, you must provide the image pull secret and
 
 ## Install the RDI Helm chart
 
-1.  Decompress the tar file:
+1.  Scaffold the default `values.yaml` file from the chart into a local
+    `rdi-values.yaml` file:
 
     ```bash
-	tar -xvf rdi-<rdi-tag>.tar.gz 
+    helm show values rdi-<rdi-tag>.tar.gz > rdi-values.yaml
     ```
 
-1.  Open the `values.yaml` file and set the appropriate values for your installation
+1.  Open the `rdi-values.yaml` file you just created and set the appropriate
+    values for your installation
     (see [The `values.yaml` file](#the-valuesyaml-file) below for the full set of
     available values).
 
 1.  Start the installation:
 
     ```bash
-    helm install <The logical chart name> ./rdi --create-namespace -n rdi
+    helm install rdi rdi-<rdi-tag>.tar.gz -f rdi-values.yaml
     ```
 
 ### The `values.yaml` file
@@ -117,8 +121,18 @@ The annotated [`values.yaml`](https://helm.sh/docs/topics/charts/#templates-and-
 file below describes the values you can set for the RDI Helm installation.
 
 At a minimum, you must set the values of `RDI_REDIS_HOST` and `RDI_REDIS_PORT`
-in the `global.rdiSysConfig` section and also `RDI_REDIS_PASSWORD` in
-`global.rdiSysSecret` to enable the basic connection to the RDI database.
+in the `global.rdiSysConfig` section and also `RDI_REDIS_PASSWORD` and
+`JWT_SECRET_KEY` in `global.rdiSysSecret` to enable the basic connection to the
+RDI database. RDI uses the value in `JWT_SECRET_KEY` to encrypt the
+[JSON web token (JWT)](https://jwt.io/) token used by RDI API. Best practice is
+to generate a value containing 32 random bytes of data (equivalent to 256
+bits) and then encode this value as ASCII characters. Use the following
+command to generate the random key from the
+[`urandom` special file](https://en.wikipedia.org/wiki//dev/random):
+
+```bash
+head -c 32 /dev/urandom | base64
+```
 
 {{< note >}}If you want to use
 [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
@@ -220,7 +234,8 @@ global:
     # RDI_REDIS_KEY_PASSPHRASE: ""
 
     # The key used to encrypt the JWT token used by RDI API. Best practice is for this
-    # to contain 32 ASCII characters (equivalent to 256 bits of data).
+    # to contain 32 random bytes encoded as ASCII characters (equivalent to 256 bits of
+    # data). See `The values.yaml file` section above to learn how to generate the key.
     # JWT_SECRET_KEY: ""
 
   rdiDbSSLSecret:

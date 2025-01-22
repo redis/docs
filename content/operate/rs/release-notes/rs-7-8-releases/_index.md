@@ -1,5 +1,5 @@
 ---
-Title: Redis Software release notes 7.8.2
+Title: Redis Software release notes 7.8.x
 alwaysopen: false
 categories:
 - docs
@@ -8,12 +8,12 @@ categories:
 compatibleOSSVersion: Redis 7.4.0
 description: Redis Community Edition 7.4 features. Hash field expiration. Client-side caching support. Metrics stream engine preview. New APIs to check database availability, rebalance shards, fail over shards, and control database traffic. Cluster Manager UI enhancements for node actions, database tags, and database configuration. User manager role. Log rotation based on both size and time. Module management enhancements. Configurable minimum password length. Configurable license expiration alert threshold.
 hideListLinks: true
-linkTitle: 7.8.2 releases
+linkTitle: 7.8.x releases
 toc: 'true'
 weight: 69
 ---
 
-​[​Redis Software version 7.8.2](https://redis.io/downloads/#software) is now available!
+​[​Redis Software version 7.8](https://redis.io/downloads/#software) is now available!
 
 ## Highlights
 
@@ -246,3 +246,7 @@ The following legacy UI features are not yet available in the new Cluster Manage
 #### RedisGraph prevents upgrade to RHEL 9 
 
 You cannot upgrade from a prior RHEL version to RHEL 9 if the Redis Software cluster contains a RedisGraph module, even if unused by any database. The [RedisGraph module has reached end-of-life](https://redis.com/blog/redisgraph-eol/) and is completely unavailable in RHEL 9.
+
+#### Query results might include hash keys with lazily expired fields
+
+If one or more fields of a hash key expire after an `FT.SEARCH` or `FT.AGGREGATE` query begins, Redis does not account for these lazily expired fields. As a result, keys with expired fields might still be included in the query results, leading to potentially incorrect or inconsistent results.

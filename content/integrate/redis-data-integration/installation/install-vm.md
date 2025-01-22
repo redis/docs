@@ -177,6 +177,20 @@ Follow the steps below for each of your VMs:
     ```bash
     sudo ./install.sh
     ```
+
+    {{< note >}}RDI uses [K3s](https://k3s.io/) as part of its implementation.
+    By default, the installer installs K3s in the `/var/lib` directory,
+    but this might be a problem if you have limited space in `/var`
+    or your company policy forbids you to install there. You can
+    select a different directory for the K3s installation using the
+    `--installation-dir` option with `install.sh` (or
+    [`redis-di install`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-install" >}})):
+
+    ```bash
+    sudo ./install.sh --installation-dir <custom-directory-path>
+    ```
+    {{< /note >}}
+
 RDI uses a database on your Redis Enterprise cluster to store its state
 information. *This requires Redis Enterprise v6.4 or greater*.
 
@@ -193,6 +207,8 @@ Use the Redis console to create the RDI database with the following requirements
   [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
   [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
   to AOF - fsync every 1 sec.
+- **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
+  RDI database is clustered, but it is OK for the target database to be clustered.
 
 {{< note >}}If you specify `localhost` as the address of the RDI database server during
 installation then the connection will fail if the actual IP address changes for the local
@@ -207,6 +223,31 @@ sudo service k3s restart
 {{< /note >}}
 
 After the installation is finished, RDI is ready for use.
+
+## Supply cloud DNS information
+
+{{< note >}}This section is only relevant if you are installing RDI
+on VMs in a cloud environment.
+{{< /note >}}
+
+If you are using [Amazon Route 53](https://aws.amazon.com/route53/),
+[Google Cloud DNS](https://cloud.google.com/dns?hl=en), or
+[Azure DNS](https://azure.microsoft.com/en-gb/products/dns)
+then you must supply the installer with the nameserver IP address
+during installation (or with the `nameservers` property if you are
+using [Silent installation](#silent-installation)). The table below
+shows the appropriate IP address for each platform:
+
+| Platform | Nameserver IP |
+| :-- | :-- |
+| [Amazon Route 53](https://aws.amazon.com/route53/) | 169.254.169.253 |
+| [Google Cloud DNS](https://cloud.google.com/dns?hl=en) | 169.254.169.254 |
+| [Azure DNS](https://azure.microsoft.com/en-gb/products/dns) | 168.63.129.16 |
+
+If you are planning to use Route 53, you should first check that your VPC
+is configured to allow it. See
+[DNS attributes in your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/AmazonDNS-concepts.html#vpc-dns-support)
+in the Amazon docs for more information.
 
 ## "Silent" installation
 
@@ -230,11 +271,15 @@ silent install configuration:
 title = "RDI Silent Installer Config"
 
 scaffold = true
+db_index = 4
 deploy_directory = "/opt/rdi/config"
 
-# Needed if the installer detects a DNS resolver with a loopback address
-# as an upstream DNS server
-nameservers = ["8.8.8.8", "8.8.4.4"]
+# Upstream DNS servers. This is needed if the installer detects a DNS resolver 
+# with a loopback address as an upstream DNS server.
+# nameservers = ["8.8.8.8", "8.8.4.4"]
+
+# HTTPS port you want to expose the RDI API on, if different from 443.
+# https_port = 5443
 
 [rdi.database]
 host = "localhost"
@@ -264,7 +309,8 @@ The sections below describe the properties in more detail.
 | `scaffold` | Do you want to enable [scaffolding]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-scaffold" >}}) during the install? (true/false) |
 | `db_index` | Integer to specify the source database type for scaffolding. The options are 2 (MySQL/MariaDB), 3 (Oracle), 4 (PostgreSQL), and 5 (SQL Server). |
 | `deploy_directory` | Path to the directory where you want to store the RDI configuration. |
-| `nameservers` | This is needed if the installer detects a DNS resolver with a loopback address as an upstream DNS server (for example, `nameservers = ["8.8.8.8", "8.8.4.4"]`). |
+| `nameservers` | Upstream DNS servers. This is needed if the installer detects a DNS resolver with a loopback address as an upstream DNS server (for example, `nameservers = ["8.8.8.8", "8.8.4.4"]`). |
+| `https_port` | HTTPS port you want to expose the RDI API on, if different from 443. |
 
 #### `rdi.database`
 

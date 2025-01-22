@@ -56,24 +56,22 @@ The available settings vary according to your plan, cloud provider, and design c
 | **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 | **Advanced Capabilites**  | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database                                                  |
 
-### Scalability section
+### Performance section
 
-The **Scalability** section describes the memory size, throughput, and hashing policy for a database.
+The **Performance** section describes the memory size, throughput, and hashing policy for a database.
 
-{{<image filename="images/rc/database-details-configuration-tab-scalability-flexible.png" alt="Use the Scalability section to control the size, throughput, and hashing policy for a database." >}}
-
-The **Scalability** section is primarily for Redis Cloud Pro plans. Redis Cloud Essentials plans have options for memory limit and memory used.
+{{<image filename="images/rc/database-details-configuration-tab-scalability-flexible.png" alt="Use the Performance section to control the size, throughput, and hashing policy for a database." >}}
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Dataset size** | Maximum size (in GB) for your dataset.  |
+| **Dataset size** | Maximum size (in GB) for your dataset. See [Dataset size]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}}).  |
+| **Throughput**        | Defines [throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) in terms of maximum operations per second for the database (_Redis Cloud Pro only_). |
 | **Memory used**       | Memory currently used for your database.  |
-| **Throughput**        | Defines throughput in terms of maximum operations per second for the database |
 | **High availability**    | Replicates your data across multiple nodes; [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) depend on your plan type  |
-| **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
-| **OSS Cluster API**       | Enables the [Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) for a database.<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
+| **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}) (_Redis Cloud Pro only_).  |
+| **OSS Cluster API**       | Enables the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database (_Redis Cloud Pro only_).<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
 
-To learn more about these settings and when to use them, see [Database clustering]({{< relref "/operate/rc/databases/configuration/clustering" >}}).
+To learn more about these settings and when to use them, see [Sizing]({{< relref "/operate/rc/databases/configuration/sizing" >}}) and [Database clustering]({{< relref "/operate/rc/databases/configuration/clustering" >}}).
 
 ### Durability section
 
@@ -200,12 +198,12 @@ Here's what you can change:
 | General | Database name                  ||
 | | Supported protocol(s)                  ||
 | | Tags                                   ||
-| Scalability | Memory limit                   | |
+| Performance | Dataset size                   | |
+| | High-availability                     | _Paid plans only_ |
 | | Throughput                     | _Pro plans only_ |
 | | Hashing policy                 | _Pro plans only_ |
 | | OSS Cluster API                | _Pro plans only_ |
-| Durability | High-availability              | _Paid plans only_ |
-| | Data persistence               | _Paid plans only_ |
+| Durability | Data persistence                | _Paid plans only_ |
 | | Data eviction policy           | |
 | | Remote backup                  | _Paid plans only_ |
 | | Active-Passive Redis           | _Pro plans only_ |

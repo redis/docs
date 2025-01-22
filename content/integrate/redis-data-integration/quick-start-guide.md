@@ -63,6 +63,8 @@ Use the Redis console to create the RDI database with the following requirements
   [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
   [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
   to AOF - fsync every 1 sec.
+- **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
+  RDI database is clustered, but it is OK for the target database to be clustered.
 
 ### Prepare the pipeline
 

@@ -279,7 +279,7 @@ syntax: "FT.SEARCH index query \n  [NOCONTENT] \n  [VERBATIM] \n  [NOSTOPWORDS] 
   \ \n  [WITHPAYLOADS] \n  [WITHSORTKEYS] \n  [FILTER numeric_field min max [ FILTER\
   \ numeric_field min max ...]] \n  [GEOFILTER geo_field lon lat radius m | km | mi\
   \ | ft [ GEOFILTER geo_field lon lat radius m | km | mi | ft ...]] \n  [INKEYS count\
-  \ key [key ...]] [ INFIELDS count field [field ...]] \n  [RETURN count identifier\
+  \ key [key ...]] \n  [INFIELDS count field [field ...]] \n  [RETURN count identifier\
   \ [AS property] [ identifier [AS property] ...]] \n  [SUMMARIZE [ FIELDS count field\
   \ [field ...]] [FRAGS num] [LEN fragsize] [SEPARATOR separator]] \n  [HIGHLIGHT\
   \ [ FIELDS count field [field ...]] [ TAGS open close]] \n  [SLOP slop] \n  [TIMEOUT\
