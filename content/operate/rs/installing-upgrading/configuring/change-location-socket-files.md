@@ -33,14 +33,36 @@ sudo ./install.sh -s </path/to/socket/files>
 
 ## Change socket file location for an existing cluster {#after-cluster-setup}
 
-Changing the socket file location is not supported for bootstrapped nodes.
+Directly changing the socket file location directly is not supported for bootstrapped nodes. If you need to change the socket file location for an existing cluster, use one of the following methods instead:
 
-To change the socket file location for an existing cluster:
+- [Replace nodes](#replace-nodes)
 
-1. Create a new cluster with the new socket file path. To do so, follow the [Install Redis Enterprise Software on Linux]({{<relref "/operate/rs/installing-upgrading/install/install-on-linux">}}) instructions, but use the `-s` [installation script option]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}):
+- [Migrate the cluster using Replica Of](#migrate-replica-of)
+
+### Replace nodes {#replace-nodes}
+
+To change the socket file location for all nodes in a cluster, follow these steps:
+
+1. Install Redis Enterprise Software on a new node with the new socket file location. Follow the [Install Redis Enterprise Software on Linux]({{<relref "/operate/rs/installing-upgrading/install/install-on-linux">}}) instructions, but use the -s [installation script option]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}):
+
+    ```sh
+    sudo ./install.sh -s </path/to/socket/files>
+    ```
+
+1. [Add the new node]({{<relref "/operate/rs/clusters/add-node">}}) to the existing cluster.
+
+1. [Remove a node]({{<relref "/operate/rs/clusters/remove-node#remove-a-node">}}) with the old socket file location.
+
+1. Repeat the previous steps until all nodes with the old socket file location have been replaced.
+
+### Migrate cluster using Replica Of {#migrate-replica-of}
+
+To migrate an existing cluster to a new cluster with a different socket file location:
+
+1. Create a new cluster with the new socket file location. To do so, follow the [Install Redis Enterprise Software on Linux]({{<relref "/operate/rs/installing-upgrading/install/install-on-linux">}}) instructions, but use the `-s` [installation script option]({{<relref "/operate/rs/installing-upgrading/install/install-script">}}):
 
     ```
     sudo ./install.sh -s </path/to/socket/files>
     ```
 
-1. Use Replica Of to migrate your databases from the original cluster to the new cluster. For detailed steps, see the procedure to [configure Replica Of with different Redis Software clusters]({{<relref "/operate/rs/databases/import-export/replica-of/create#different-cluster">}}).
+1. Use Replica Of to migrate your databases from the original cluster to the new cluster. For detailed steps, see the procedure to [configure Replica Of with different Redis Enterprise Software clusters]({{<relref "/operate/rs/databases/import-export/replica-of/create#different-cluster">}}).
