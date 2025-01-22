@@ -61,11 +61,6 @@ Additional considerations:
     - If all cluster nodes are utilizing more than 70% of available RAM, highly consider [adding a node]({{< relref "/operate/rs/clusters/add-node" >}}).
 
     - Do not run any other memory-intensive processes on the Redis Enterprise Software node.
-  
-3. <a name="table-note-4"></a> RAM:
-
-    - Redis uses a relatively large number of buffers, which enable replica communication, client communication, pub/sub commands, and more.  As a result, you should ensure that 30% of the RAM is available on each node at any given time.
-
 
 4. <a name="table-note-4"></a>Persistent storage:
 
