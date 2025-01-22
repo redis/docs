@@ -15,8 +15,8 @@ To create a replica connection, you define a database as a replica of a source d
 
 Sources databases can be:
 
-- Located in the same Redis Software cluster
-- Located in a different Redis Software cluster
+- Located in the same Redis Enterprise Software cluster
+- Located in a different Redis Enterprise Software cluster
 - Hosted by a different deployment, e.g. Redis Cloud
 - Redis Community Edition databases
 
@@ -33,9 +33,9 @@ When you change the replica status of a database by adding, removing, or changin
 
 You can configure a database as a Replica Of, where the source database is in one of the following clusters:
 
-- [Same Redis Software cluster](#same-cluster)
+- [Same Redis Enterprise Software cluster](#same-cluster)
 
-- [Different Redis Software cluster](#different-cluster)
+- [Different Redis Enterprise Software cluster](#different-cluster)
 
 - [Redis Community Edition cluster](#source-available-cluster)
 
@@ -47,9 +47,9 @@ For best results when using the [Multicast DNS](https://en.wikipedia.org/wiki/Mu
 As long as Replica Of is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}}).
 {{< /note >}}
 
-### Same Redis Software cluster {#same-cluster}
+### Same Redis Enterprise Software cluster {#same-cluster}
 
-To configure a Replica Of database in the same Redis Software cluster as the source database:
+To configure a Replica Of database in the same Redis Enterprise Software cluster as the source database:
 
 1. [Create a new database]({{< relref "/operate/rs/databases/create" >}}) or select an existing database from the **Databases** screen.
 
@@ -67,9 +67,9 @@ To configure a Replica Of database in the same Redis Software cluster as the sou
 
 1. Select **Save**.
 
-### Different Redis Software cluster {#different-cluster}
+### Different Redis Enterprise Software cluster {#different-cluster}
 
-To configure a Replica Of database in a different Redis Software cluster from the source database:
+To configure a Replica Of database in a different Redis Enterprise Software cluster from the source database:
 
 1. Sign in to the Cluster Manager UI of the cluster hosting the source database.
 
