@@ -55,11 +55,11 @@ The available settings vary according to your subscription plan:
 | **Query performance factor** | *(Search and query databases on Redis 7.2 or later only)* Adds additional compute power to process your query and vector search workloads and boost your queries per second. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details                                                                                                                                                   |
 
-## Scalability section
+## Performance section
 
-The **Scalability** section lets you manage the maximum size, throughput, and hashing policy for a database.
+The **Performance** section lets you manage the maximum size, throughput, and hashing policy for a database.
 
-{{<image filename="images/rc/database-new-flexible-scalability.png" alt="Use the Scalability section to control the size, throughput, and hashing policy for a database." >}}
+{{<image filename="images/rc/database-new-flexible-scalability.png" alt="Use the Performance section to control the size, throughput, and hashing policy for a database." >}}
 
 | Setting name        | Description                                                                                                                                                                                                                                                                                                                                   |
 |:--------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
