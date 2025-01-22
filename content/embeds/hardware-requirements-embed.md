@@ -61,7 +61,11 @@ Additional considerations:
     - If all cluster nodes are utilizing more than 70% of available RAM, highly consider [adding a node]({{< relref "/operate/rs/clusters/add-node" >}}).
 
     - Do not run any other memory-intensive processes on the Redis Enterprise Software node.
+  
+4. <a name="table-note-3"></a>Network:
 
-4. <a name="table-note-4"></a>Persistent storage:
+     - Only static IP addresses are supported to ensure nodes remain part of the cluster after a reboot.
+
+6. <a name="table-note-5"></a>Persistent storage:
 
      - If no databases on the cluster have [persistence]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}) enabled, minimum persistent storage is RAM x 1.1 and the recommended persistent storage is RAM x 2. Persistent storage is essential because Redis Enterprise also uses it to maintain the cluster and database health, configurations, recovery procedures, and more.
