@@ -8,8 +8,5 @@ categories:
 - redisinsight
 ---
 
-
-For information on using Redis Insight, see [these pages]({{< relref "/develop/tools/insight" >}}).
-=======
 For information on using Redis Insight, see [these pages]({{< relref "/develop/tools/insight" >}}).
 
