@@ -64,4 +64,4 @@ Additional considerations:
 
 4. <a name="table-note-4"></a>Persistent storage:
 
-    - When all databases on the cluster do not use, and will not enable [persistency]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}), minimal Persistent Storage can be lowered to RAM x 1.1 and recommended to RAM x 2. Having a Persistent Storage is essencial as it's being used also by Redis Enteprise to maintain the cluster and database health, configurations, recovery procedures and more.
+     - If no databases on the cluster have [persistence]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}) enabled, minimum persistent storage is RAM x 1.1 and the recommended persistent storage is RAM x 2. Persistent storage is essential because Redis Enterprise also uses it to maintain the cluster and database health, configurations, recovery procedures, and more.
