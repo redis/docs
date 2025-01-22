@@ -195,29 +195,31 @@ advanced:
             WHERE inv.total > 8000
 ```
 
-### Form custom message key(s) for change event records
+### Specifying custom message keys for change event records
 
-- By default, Debezium uses the primary key column(s) of a table as the message key for records that it emits.
- In place of the default, or to specify a key for tables that lack a primary key, you can configure custom message keys based on one or more columns.
+By default, Debezium uses the primary key column(s) of a table as the message key for the
+records that it emits. However, you might want to configure custom message keys based on
+one or more columns to override this default behavior, or to specify message keys for tables
+that don't have a primary key.
 
-- To establish a custom message key for a table, list the table followed by the column to use as the message key. Each list entry takes the following format:
+Use the `sources.tables` section of `config.yaml` to specify a custom message key for 
+one or more tables. List the columns you want to capture from the table under `columns` and
+list the columns you want to use for the message key under `keys`, as shown below:
 
  ```yaml
  # To include entries for multiple tables, simply add each table with its corresponding columns and keys under the 'tables' field.
  tables:
- <DATABASE_NAME>.<TABLE_NAME>:
- columns:
- - <COLUMN(S)_LIST> # List of columns to include
- keys:
- - <COLUMN(S)_LIST> # Column(s) to be used as the primary key
+    <DATABASE_NAME>.<TABLE_NAME>:
+        columns:
+            - <COLUMN(S)_LIST> # List of columns to include
+        keys:
+            - <COLUMN(S)_LIST> # Column(s) to be used together as the primary key
  ```
 
- Notes:
-
- - When specifying columns in the `keys` field, ensure that these same columns are also listed under the `columns` field in your configuration.
- - There is no limit to the number of columns that can be used to create custom message keys. However, it’s best to use the minimum required number of columns to specify a unique key.
-
-
+Note that you must add the columns you use for the message key to both the `keys` list and the
+`columns` list. You can use as many columns as you like to create the custom message keys but we
+recommend you use only the minimum set of columns required to guarantee a unique key for each
+message.
 
 ## `processors`: RDI processors {#processors}
 
