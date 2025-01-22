@@ -86,7 +86,7 @@ See the Debezium documentation for more information about the specific connector
 | `port` | `integer` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | The port of the database instance. |
 | `database` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer| The name of the database to capture changes from. For `SQL Server` you can define this as comma-separated list of database names. |
 | `database.pdb.name` | `string` | Oracle |The name of the [Oracle Pluggable Database](https://docs.oracle.com/en/database/oracle/oracle-database/19/riwin/about-pluggable-databases-in-oracle-rac.html) that the connector captures changes from. Do not specify this property for a non-CDB installation.<br/> Default: `"ORCLPDB1"` |
-| `database.encrypt` | `string` | MySQL| If SSL is enabled for your SQL Server database, you should also enable SSL in RDI by setting the value of this property to `true`.<br/> Default: `false` |
+| `database.encrypt` | `string` | SQL Server| If SSL is enabled for your SQL Server database, you should also enable SSL in RDI by setting the value of this property to `true`.<br/> Default: `false` |
 | `database.server.id` | `integer` | MySQL | Numeric ID of this database client, which must be unique across all currently-running database processes in the MySQL cluster.<br/> Default: 1|
 | `database.url` | `string` | Oracle | Specifies the raw database JDBC URL. Use this property to provide flexibility in defining the database connection. Valid values include raw TNS names and RAC connection strings.|
 | `topic.prefix` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | A prefix for all topic names that receive events emitted by this connector.<br/> Default: `"rdi"` |
@@ -232,20 +232,20 @@ message.
 | `debezium_lob_encoded_placeholder` |`string`| Enable Debezium LOB placeholders.<br/>Default: `"X19kZWJleml1bV91bmF2YWlsYWJsZV92YWx1ZQ=="`|
 | `dedup` |`boolean`| Enable deduplication mechanism.<br/>Default: `false`<br/>||
 | `dedup_max_size` |`integer`| Maximum size of the deduplication set.<br/> Default: `1024`<br/>Minimum: `1`<br/>|
-| `dedup_strategy` |`string`| Deduplication strategy: reject \- reject messages(dlq), ignore \- ignore messages.<br/> (DEPRECATED)<br/>The property `dedup_strategy` is now deprecated. The only supported strategy is 'ignore'. Please remove from the configuration.<br/>Default: `"ignore"`<br/>Enum: `"reject"`, `"ignore"`<br/>|
+| `dedup_strategy` |`string`| Deduplication strategy: `reject` - reject messages (dlq), `ignore` \- ignore messages.<br/> (DEPRECATED)<br/>The property `dedup_strategy` is now deprecated. The only supported strategy is `ignore`. Please remove from the configuration.<br/>Default: `"ignore"`<br/>Enum: `"reject"`, `"ignore"`<br/>|
 | `duration` |`integer`, `string`| Time (in ms) after which data will be read from stream even if `read_batch_size` was not reached.<br/> Default: `100`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>|
 | `write_batch_size` |`integer`, `string`| The batch size for writing data to target Redis database\. Should be less or equal to `read_batch_size`.<br/> Default: `200`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>|
-| `error_handling` |`string`| Error handling strategy: ignore \- skip, dlq \- store rejected messages in a dead letter queue.<br/> Default: `"dlq"`<br/>Pattern: `^\${.*}$\|ignore\|dlq`<br/>|
+| `error_handling` |`string`| Error handling strategy: `ignore` - skip, `dlq` - store rejected messages in a dead letter queue.<br/> Default: `"dlq"`<br/>Pattern: `^\${.*}$\|ignore\|dlq`<br/>|
 | `dlq_max_messages` |`integer`, `string`| Maximum number of messages per stream in the dead letter queue .<br/> Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>|
 | `target_data_type` |`string`| Target data type: `hash`/`json` (the RedisJSON module must be enabled in the target database to use JSON).<br/> Default: `"hash"`<br/>Pattern: `^\${.*}$\|hash\|json`<br/>|
-| `json_update_strategy` |`string`| Target update strategy: replace/merge (the RedisJSON module must be enabled in the target DB to use JSON).<br/> (DEPRECATED)<br/>The property `json_update_strategy` will be deprecated in future releases. Use the job-level property `on_update` to define the JSON update strategy.<br/>Default: `"replace"`<br/>Pattern: `^\${.*}$\|replace\|merge`<br/>|
+| `json_update_strategy` |`string`| Target update strategy: `replace`/`merge` (the RedisJSON module must be enabled in the target DB to use JSON).<br/> (DEPRECATED)<br/>The property `json_update_strategy` will be deprecated in future releases. Use the job-level property `on_update` to define the JSON update strategy.<br/>Default: `"replace"`<br/>Pattern: `^\${.*}$\|replace\|merge`<br/>|
 | `initial_sync_processes` |`integer`, `string`| Number of processes the RDI Engine creates to process the initial sync with the source.<br/> Default: `4`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `32`<br/>|
 | `idle_sleep_time_ms` |`integer`, `string`| Idle sleep time (in milliseconds) between batches.<br/>Default: `200`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>|
 | `idle_streams_check_interval_ms` |`integer`, `string`| Interval (in milliseconds) for checking new streams when the stream processor is idling.<br/> Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>|
 | `busy_streams_check_interval_ms` |`integer`, `string`| Interval (in milliseconds) for checking new streams when the stream processor is busy.<br/> Default: `5000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>|
-| `wait_enabled` |`boolean`| Checks if the data has been written to the replica shard.<br/> Default: `false`<br/>|
-| `wait_timeout` |`integer`, `string`| Timeout in milliseconds when checking write to the replica shard.<br/> Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>|
-| `retry_on_replica_failure` |`boolean`| Ensures that the data has been written to the replica shard and keeps retrying if not.<br/> Default: `true`<br/>|
+| `wait_enabled` |`boolean`| Check that the data has been written to the replica shard.<br/> Default: `false`<br/>|
+| `wait_timeout` |`integer`, `string`| Timeout in milliseconds when checking writes to the replica shard.<br/> Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>|
+| `retry_on_replica_failure` |`boolean`| Checks that the data has been written to the replica shard and keeps retrying if not.<br/> Default: `true`<br/>|
 
 ### Additional properties
 
@@ -269,7 +269,7 @@ Not allowed
 | `port` | `integer` | Port of the Redis database where RDI will write the processed data. |
 | `user` | `string` | User of the Redis database where RDI will write the processed data. Uncomment this if you are not using the default user. |
 | `password` | `string` | Password for Redis target database. |
-| `key` | `string` | Uncomment the lines below this if you are using SSL/TLS. |
-| `key_password` | `string` | Uncomment the lines below this if you are using SSL/TLS. |
-| `cert` | `string` | Uncomment the lines below this if you are using SSL/TLS. |
-| `cacert` | `string` | Uncomment the lines below this if you are using SSL/TLS. |
+| `key` | `string` | Uncomment this line if you are using SSL/TLS. |
+| `key_password` | `string` | Uncomment this line if you are using SSL/TLS. |
+| `cert` | `string` | Uncomment this line if you are using SSL/TLS. |
+| `cacert` | `string` | Uncomment this line if you are using SSL/TLS. |
