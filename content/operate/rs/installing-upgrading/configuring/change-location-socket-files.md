@@ -65,4 +65,4 @@ To migrate an existing cluster to a new cluster with a different socket file loc
     sudo ./install.sh -s </path/to/socket/files>
     ```
 
-1. Use Replica Of to migrate your databases from the original cluster to the new cluster. For detailed steps, see the procedure to [configure Replica Of with different Redis Enterprise Software clusters]({{<relref "/operate/rs/databases/import-export/replica-of/create#different-cluster">}}).
+1. Use Replica Of to migrate your databases from the original cluster to the new cluster. For detailed steps, see the procedure to [configure Replica Of with different Redis Enterprise clusters]({{<relref "/operate/rs/databases/import-export/replica-of/create#different-cluster">}}).
