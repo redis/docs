@@ -62,7 +62,7 @@ Additional considerations:
 
     - Do not run any other memory-intensive processes on the Redis Enterprise Software node.
   
-4. <a name="table-note-3"></a>Network:
+4. <a name="table-note-4"></a>Network:
 
      - Only static IP addresses are supported to ensure nodes remain part of the cluster after a reboot.
 
