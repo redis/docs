@@ -8,6 +8,50 @@ categories: ["redis-di"]
 aliases: /integrate/redis-data-integration/ingest/reference/config-yaml-reference/
 ---
 
+This document describes the options RDI's `config.yaml` file in detail. See
+[Configure data pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}})
+for more information about the role `config.yaml` plays in defining a pipeline.
+
+## Note about fully-qualified table names
+
+Throughout this document we use the format `<databaseName>.<tableName>` to refer to a fully-qualified table name. This format is actually the one used by MySQL, but for Oracle,
+SQLServer, and PostgreSQL, you should use `<schemaName>`.`<tableName>` instead.
+
+{{< note >}}You can specify the fully-qualified table name `<databaseName>.<tableName>` as
+a regular expression instead of providing the full name of the `databaseName` and `tableName`.
+{{< /note >}}
+
+The example below shows the MySQL format specifying the desired columns and primary keys
+for the `chinook.customer` and `chinook.employee` tables:
+
+ ```yaml
+ tables:
+ # Sync a specific table with all its columns:
+    chinook.customer:
+        columns:
+            - ID
+            - FirstName
+            - LastName
+            - Company
+            - Address
+            - Email
+        keys:
+            - FirstName
+            - LastName
+    chinook.employee:
+        columns:
+            - ID
+            - FirstName
+            - LastName
+            - ReportsTo
+            - Address
+            - City
+            - State
+        keys:
+            - FirstName
+            - LastName
+ ```
+
 ## Top level objects
 
 These objects define the sections at the root level of `config.yaml`.
@@ -74,62 +118,81 @@ See the Debezium documentation for more information about the specific connector
 | `schema.exclude.list` | `string` | Oracle, PostgreSQL, SQLServer | An optional, comma-separated list of regular expressions that match names of schemas for which you do not want to capture changes. The connector captures changes in any schema whose name is not included in `schema.exclude.list`. Do no specify the `schemas` section if you are using the `schema.exclude.list` property to filter out schemas. |
 | `table.exclude.list` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | An optional comma-separated list of regular expressions that match fully-qualified table identifiers for the tables that you want to exclude from being captured; The connector captures all tables that are not included in `table.exclude.list`. Do not specify the `tables` block in the configuration if you are using the `table.exclude.list` property to filter out tables. |
 | `column.exclude.list` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | An optional comma-separated list of regular expressions that match the fully-qualified names of columns that should be excluded from change event message values. Fully-qualified names for columns are of the form `schemaName.tableName.columnName`. Do not specify the `columns` block in the configuration if you are using the `column.exclude.list` property to filter out columns. |
-| `snapshot.select.statement.overrides` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer |Specifies the table rows to include in a snapshot. Use this property if you want a snapshot to include only a subset of the rows in a table. This property affects snapshots only. It does not apply to events that the connector reads from the log. |
+| `snapshot.select.statement.overrides` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer |Specifies the table rows to include in a snapshot. Use this property if you want a snapshot to include only a subset of the rows in a table. This property affects snapshots only. It does not apply to events that the connector reads from the log. See [Using custom queries in the initial snapshot](#custom-initial-query) below for more information. |
 | `log.enabled` | `string` | Oracle | Enables capturing and serialization of large object (CLOB, NCLOB, and BLOB) column values in change events.<br/>Default: `false` |
 | `unavailable.value.placeholder` | Special | Oracle | Specifies the constant that the connector provides to indicate that the original value is unchanged and not provided by the database (this has the type `__debezium_unavailable_value`). |
 
-### Using queries in the initial snapshot (relevant for MySQL, Oracle, PostgreSQL and SQLServer)
+### Using custom queries in the initial snapshot {#custom-initial-query}
 
-- In case you want a snapshot to include only a subset of the rows in a table, you need to add the property `snapshot.select.statement.overrides` and add a comma-separated list of [fully-qualified table names](#fully-qualified-table-name). The list should include every table for which you want to add a SELECT statement.
+{{< note >}}This section is relevant only for MySQL, Oracle, PostgreSQL, and SQLServer.
+{{< /note >}}
 
-- **For each table in the list above, add a further configuration property** that specifies the `SELECT` statement for the connector to run on the table when it takes a snapshot.
+By default, the initial snapshot captures all rows from each table.
+If you want the snapshot to include only a subset of the rows in a table, you can use a
+custom `SELECT` statement to override the default and select only the rows you are interested in.
+To do this, you must first specify the tables whose `SELECT` statement you want to override by adding a `snapshot.select.statement.overrides` in the `source` section with a comma-separated list of [fully-qualified table names](#fully-qualified-table-name).
 
- The specified `SELECT` statement determines the subset of table rows to include in the snapshot.
+After the `snapshot.select.statement.overrides` list, you must then add another configuration property for each table in the list to specify the custom `SELECT` statement for that table.
+The format of the property name depends on the database you are using:
 
- Use the following format to specify the name of this `SELECT` statement property:
+- For Oracle, SQLServer, and PostrgreSQL, use `snapshot.select.statement.overrides.<SCHEMA_NAME>.<TABLE_NAME>`
+- For MySQL, use: `snapshot.select.statement.overrides<DATABASE_NAME>.<TABLE_NAME>`
 
- - Oracle, SQLServer, PostrgreSQL: `snapshot.select.statement.overrides: <SCHEMA_NAME>.<TABLE_NAME>`
- - MySQL: `snapshot.select.statement.overrides: <DATABASE_NAME>.<TABLE_NAME>`
+For example, with PostgreSQL, you would have a configuration like the following:
 
-- Add the list of columns you want to include in the `SELECT` statement using fully-qualified names. Each column should be specified in the configuration as shown below:
+```yaml
+source:
+    snapshot.select.statement.overrides: myschema.mytable
+    snapshot.select.statement.overrides.myschema.mytable: |
+    SELECT ...
+```
 
- ```yaml
- tables:
- schema_name.table_name: # For MySQL: use database_name.table_name
- columns:
- - column_name1 # Each column on a new line
- - column_name2
- - column_name3
- ```
+For MySQL, you would have:
 
-- To capture all columns from a table, use empty curly braces `{}` instead of listing individual columns:
+```yaml
+source:
+    snapshot.select.statement.overrides: mydatabase.mytable
+    snapshot.select.statement.overrides.mydatabase.mytable: |
+    SELECT ...
+```
+
+You must also add the list of columns you want to include in the custom `SELECT` statement using fully-qualified names under "sources.tables". Specify each column in the configuration as shown below:
+
+```yaml
+tables:
+schema_name.table_name: # For MySQL: use database_name.table_name
+columns:
+- column_name1 # Each column on a new line
+- column_name2
+- column_name3
+```
+
+If you want to capture all columns from a table, you can use empty curly braces `{}` instead of listing all the individual columns:
 
  ```yaml
  tables:
  schema_name.table_name: {} # Captures all columns
  ```
 
-### Example
-
-To select the columns `CustomerId`, `FirstName` and `LastName` from `customer` table and join it with `invoice` table in order to get customers with total invoices greater than 8000, we need to add the following properties to the `config.yaml` file:
+The example configuration below selects the columns `CustomerId`, `FirstName` and `LastName` from the `customer` table and joins it with the `invoice` table to select customers with total invoices greater than 8000:
 
 ```yaml
 tables:
  chinook.customer:
  columns:
- - CustomerID
- - FirstName
- - LastName
+    - CustomerID
+    - FirstName
+    - LastName
 
 advanced:
- source:
- snapshot.select.statement.overrides: chinook.customer
- snapshot.select.statement.overrides.chinook.customer: |
- SELECT c.CustomerId, c.FirstName, c.LastName
- FROM chinook.customer c
- INNER JOIN chinook.invoice inv
- ON c.CustomerId = inv.CustomerId
- WHERE inv.total > 8000
+    source:
+        snapshot.select.statement.overrides: chinook.customer
+        snapshot.select.statement.overrides.chinook.customer: |
+            SELECT c.CustomerId, c.FirstName, c.LastName
+            FROM chinook.customer c
+            INNER JOIN chinook.invoice inv
+            ON c.CustomerId = inv.CustomerId
+            WHERE inv.total > 8000
 ```
 
 ### Form custom message key(s) for change event records
@@ -154,52 +217,7 @@ advanced:
  - When specifying columns in the `keys` field, ensure that these same columns are also listed under the `columns` field in your configuration.
  - There is no limit to the number of columns that can be used to create custom message keys. However, it’s best to use the minimum required number of columns to specify a unique key.
 
-### Fully-qualified table name
 
-In this document we refer to the fully-qualified table name as `<databaseName>.<tableName>`. This format is for MySQL database. For Oracle, SQLServer and Postgresql databases use `<schemaName>`.`<tableName>` instead.
-
-| Database Type | Fully-qualified Table Name |
-| -- | -- |
-| Oracle, SQLServer, PostrgreSQL | `<schemaName>.<tableName>` |
-| MySQL | `<databaseName>.<tableName>` |
-
-{{< note >}}You can specify the fully-qualified table name `<databaseName>.<tableName>` as
-a regular expression instead of providing the full name of the `databaseName` and `tableName`.
-{{< /note >}}
-
-### Examples
-
-- The primary key of the tables `customer` and `employee` is `ID`.
-
- To establish custom messages keys based on `FirstName` and `LastName` for the tables `customer` and `employee`, add the following block to the `config.yaml` file:
-
- ```yaml
- tables:
- # Sync a specific table with all its columns:
- chinook.customer:
- columns:
- - ID
- - FirstName
- - LastName
- - Company
- - Address
- - Email
- keys:
- - FirstName
- - LastName
- chinook.employee:
- columns:
- - ID
- - FirstName
- - LastName
- - ReportsTo
- - Address
- - City
- - State
- keys:
- - FirstName
- - LastName
- ```
 
 ## `processors`: RDI processors {#processors}
 
