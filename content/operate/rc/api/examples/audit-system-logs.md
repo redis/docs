@@ -10,22 +10,15 @@ weight: 60
 ---
 Service logs collect and report actions performed on various entities in your Redis Cloud subscription.  These entities include the account itself, users, API Keys, subscriptions, databases, accounts, payment methods, and more. For each entity, various lifecycle events are logged in the system log.
 
-To view the log, sign in to the Redis Cloud [admin console](https://app.redislabs.com/) and then select **Logs** from the main menu.
+To view the log, sign in to the [Redis Cloud console](https://cloud.redis.io/) and then select **Logs** from the main menu.
 
-{{<image filename="images/rc/system-logs.png" alt="Choose the Logs command from the Redis Cloud admin console menu to view your subscription system log." width="75%">}} 
+{{<image filename="images/rc/system-logs.png" alt="Choose the Logs command from the Redis Cloud console menu to view your subscription system log." width="75%">}} 
 
 To learn more, see [System logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}).
 
+## Get system logs via REST API
 
-### System log REST API
-
-The REST API operation for querying the system service log is `GET /logs`.
-
-For example, the following request returns the latest 100 system log entries, in descending order:
-
-```shell
-GET "https://[host]/v1/logs?limit=100&offset=0"
-```
+The REST API operation for querying the system service log is [`GET /logs`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}).
 
 The `/logs` API operation accepts the following parameters:
 
@@ -46,7 +39,7 @@ An API system log request results in data that includes an `entries` array. The 
 
 - `apiKeyName` - The name of the API key used to perform the action described by the system log entry.
     This field only appears if the action was performed through the API.
-    If the operation was performed through the Redis Cloud admin console, this property is omitted.
+    If the operation was performed through the Redis Cloud console, this property is omitted.
 
 - `resource` - The name of the entity associated with the logged action (for example, database name).
     This property is omitted if it is not applicable to the specific log entry.

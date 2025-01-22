@@ -15,10 +15,103 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.16 requires:
+RediSearch v2.6.24 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.24 (January 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+- **Security and privacy:**
+  - [#5458](https://github.com/redisearch/redisearch/pull/5458) (CVE-2024-51737) Query: potential out-of-bounds write (MOD-8486)
+
+- Bug fixes:
+  - [#5302](https://github.com/redisearch/redisearch/pull/5302) Prefix/Infix/Suffix queries longer than 1024 chars could cause a crash (MOD-7882)
+  - [#5281](https://github.com/redisearch/redisearch/pull/5281) `FT.CURSOR READ` retrieving deleted `TAG` fields cause a crash (MOD-8011)
+  - [#5168](https://github.com/redisearch/redisearch/pull/5168) Cursors from queries that timed out weren't depleted causing exhaustion of number of cursors available(MOD-8009)
+
+## v2.6.21 (August 2024)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+- Bug fixes:
+  - [#4944](https://github.com/redisearch/redisearch/pull/4944) Adjusting the module configuration to avoid routing overload on the first shard in a clustered database (MOD-7505)
+  - [#4897](https://github.com/redisearch/redisearch/pull/4897) - `FT.AGGREGATE` with `VERBATIM` option is not handled by the shards in cluster mode (MOD-7463)
+  - [#4918](https://github.com/redisearch/redisearch/pull/4918) - Union query, similar to `"is|the"`, starting with 2 [stopwords](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
+  - [#4919](https://github.com/redisearch/redisearch/pull/4919) - Counting twice the field statistics at the `#search` section of an `INFO` response (MOD-7339)
+  - [#4923](https://github.com/redisearch/redisearch/pull/4923) - Loop when using the wildcard `w'term'` and prefix/infix/suffix pattern `'ter*'`, causing the shard to restart (MOD-7453)
+  - [#4954](https://github.com/redisearch/redisearch/pull/4954) `FT.PROFILE` on `AGGREGATE` numeric queries could cause a crash due to reusing the internal `CURSOR` in a large range of numeric values (MOD-7454)
+
+## v2.6.20 (July 2024)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+- Bug fixes:
+  - [#4755](https://github.com/RediSearch/RediSearch/pull/4755) - Correct return the maximum value for negative values when using `MAX` reducer (MOD-7252)
+  - [#4733](https://github.com/RediSearch/RediSearch/pull/4733) - Separators ignored when escaping backslash `\` after the escaped character such as in `hello\\,world` ignoring `,` (MOD-7240)
+  - [#4717](https://github.com/RediSearch/RediSearch/pull/4717) - Sorting by multiple fields as in `SORTBY 2 @field1 @field2` was ignoring the subsequent field (MOD-7206)
+
+- Improvements:
+  - [#4793](https://github.com/RediSearch/RediSearch/pull/4793) - Add character validations to simple string replies and escape it when required(MOD-7258)
+  - [#4769](https://github.com/RediSearch/RediSearch/pull/4769) - Indicate which value is missing on the error message at the aggregation pipeline (MOD-7201)
+  - [#4746](https://github.com/RediSearch/RediSearch/pull/4746) - `GROUPBY` recursion cleanup (MOD-7245)
+
+## v2.6.19 (June 2024)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+- Bug fixes:
+
+  - [#4616](https://github.com/RediSearch/RediSearch/pull/4616) Shards become unresponsive when using FT.AGGREGATE with APPLY 'split(...)' (MOD-6759)
+  - [#4557](https://github.com/RediSearch/RediSearch/pull/4557) FT.EXPLAIN returns additional } when querying using wildcards (MOD-6768)
+  - [#4647](https://github.com/RediSearch/RediSearch/pull/4647) FT.DROPINDEX with DD flag deleted keys in one AA cluster but not the others (MOD-1855)
+
+- Improvements:
+
+  - [#4599](https://github.com/RediSearch/RediSearch/pull/4599) Report additional memory consumed by the TAG and TEXT tries (MOD-5902)
+  - [#4688](https://github.com/RediSearch/RediSearch/pull/4688) Add missing FT.INFO fields when used within a cluster (MOD-6920)
+
+## v2.6.18 (April 2024)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+- Bug fixes:
+
+  - [#4557](https://github.com/RediSearch/RediSearch/pull/4557) Additional "`}`" on wildcards replies for `FT.EXPLAIN` (MOD-6768)
+
+## v2.6.17 (April 2024)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Details:
+
+- Bug fixes:
+
+  - [#4524](https://github.com/RediSearch/RediSearch/pull/4524) `FT.CURSOR READ` in a numeric query causing a crash (MOD-6597)
+  - [#4543](https://github.com/RediSearch/RediSearch/pull/4543) `FT.SEARCH` accessing an inexistent memory address causes a crash if using deprecated `FT.ADD` command (MOD-6599)
+  - [#4535](https://github.com/RediSearch/RediSearch/pull/4535) `FT.PROFILE` with incorrect arguments could cause a crash on cluster setup (MOD-6791)
+  - [#4540](https://github.com/RediSearch/RediSearch/pull/4540) Unfree memory from an existing RDB while re-indexing loading a new RDB could cause a crash (MOD-6831, 6810)
+  - [#4485](https://github.com/RediSearch/RediSearch/pull/4485) Some parameter settings using just prefixes instead of full values were working (MOD-6709)
+
+- Improvements:
+
+  - [#4502](https://github.com/RediSearch/RediSearch/pull/4502) Handle error properly when trying to execute Search commands on cluster setup as part of `MULTI ... EXEC` or LUA script (MOD-6541)
 
 ## v2.6.16 (March 2024)
 
@@ -184,7 +277,7 @@ This is the General Availability release of RediSearch 2.6.
 ### Highlights
 
 This new major version introduces the ability to search using **wildcard queries** for TEXT and TAG fields. This enables the frequently requested feature **suffix search** (`*vatore` and `ant?rez` are now supported).
-In addition, the 2.6 release is all about **multi-value indexing and querying of attributes** for any attribute type ( [Text]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-text), [Tag]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-tag), [Numeric]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-numeric), [Geo]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-geo) and [Vector]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-vector)) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}/) leading to an array or to multiple scalar values.
+In addition, the 2.6 release is all about **multi-value indexing and querying of attributes** for any attribute type ( [Text]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-text), [Tag]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-tag), [Numeric]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-numeric), [Geo]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-geo) and [Vector]({{< relref "/develop/interact/search-and-query/indexing/" >}}#index-json-arrays-as-vector)) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or to multiple scalar values.
 Lastly, this version adds support for indexing double-precision floating-point vectors and range queries from a given vector.
 
 ### What's new in 2.6

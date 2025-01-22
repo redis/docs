@@ -1,20 +1,20 @@
 ---
-description: Get started with source available Redis
+description: Get started with Redis Community Edition
 hideListLinks: true
-linkTitle: Source available
-title: Source available
+linkTitle: Community Edition
+title: Community Edition
 type: develop
 ---
 Redis is an [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) used by millions of developers as a cache, [vector database]({{< relref "/develop/get-started/vector-database" >}}), [document database]({{< relref "/develop/get-started/document-database" >}}), [streaming engine]({{< relref "/develop/data-types/streams" >}}), and message broker. Redis has built-in replication and different levels of [on-disk persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It supports complex [data types]({{< relref "/develop/data-types/" >}}) (for example, strings, hashes, lists, sets, sorted sets, and JSON), with atomic operations defined on those data types.
 
 You can install Redis from source, from an executable for your OS, or bundled with Redis Stack and Redis Insight which include popular features and monitoring.
 
-* [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}})
 * [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
 * [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os" >}})
 * [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-windows" >}})
 * [Install Redis with Redis Stack and Redis Insight]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
 * [Run Redis Stack on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}})
+* [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}})
 
 ## Use cases
 
@@ -23,9 +23,11 @@ The following quick start guides will show you how to use Redis for the followin
 - [Data structure store]({{< relref "/develop/get-started/data-store" >}})
 - [Document database]({{< relref "/develop/get-started/document-database" >}})
 - [Vector database]({{< relref "/develop/get-started/vector-database" >}})
+- [AI agents and chatbots]({{< relref "/develop/get-started/redis-in-ai" >}})
+- [Retrieval Augmented Generation (RAG) with Redis]({{< relref "/develop/get-started/rag" >}})
 
 ## Data integration tools, libraries, and frameworks
-- [Client API libraries]({{< relref "/develop/connect/clients" >}})
+- [Client API libraries]({{< relref "/develop/clients" >}})
 - [Redis Data Integration]({{< relref "/integrate/redis-data-integration/" >}})
 - [Redis vector library for Python]({{< relref "/integrate/redisvl/" >}})
 - [Redis Cloud with Amazon Bedrock]({{< relref "/integrate/amazon-bedrock/" >}})

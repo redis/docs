@@ -5,12 +5,13 @@ categories:
 - docs
 - operate
 - rs
-description: null
+description: The self-managed, enterprise-grade version of Redis.
 hideListLinks: true
 weight: 10
+linkTitle: Redis Software
 ---
 
-[Redis Enterprise](https://redis.com/redis-enterprise/advantages/) is a self-managed, enterprise-grade version of Redis.
+[Redis Enterprise](https://redis.io/enterprise/) is a self-managed, enterprise-grade version of Redis.
 
 With Redis Enterprise, you get many enterprise-grade capabilities, including:
 - Linear scalability
@@ -18,7 +19,9 @@ With Redis Enterprise, you get many enterprise-grade capabilities, including:
 - Predictable performance
 - 24/7 support
 
-You can run Redis Enterprise Software in an on-premises data center or on your preferred cloud platform.
+You can run self-managed Redis Enterprise Software in an on-premises data center or on your preferred cloud platform.
+
+If you prefer a fully managed Redis database-as-a-service, available on major public cloud services, consider setting up a [Redis Cloud]({{<relref "/operate/rc">}}) subscription. You can [try Redis Cloud](https://redis.io/try-free/) for free.
 
 ## Get started
 Build a small-scale cluster with the Redis Enterprise Software container image.
@@ -42,7 +45,7 @@ Create and manage a [Redis database]({{< relref "/operate/rs/databases" >}}) on 
 ## Security
 [Manage secure connections]({{< relref "/operate/rs/security" >}}) to the cluster and databases.
 - [Access control]({{< relref "/operate/rs/security/access-control" >}})
-- [Users]({{< relref "/operate/rs/security/access-control/manage-users" >}}) & [roles]({{< relref "/operate/rs/security/access-control/rbac/create-roles" >}})
+- [Users]({{< relref "/operate/rs/security/access-control/manage-users" >}}) & [roles]({{< relref "/operate/rs/security/access-control" >}})
 - [Certificates]({{< relref "/operate/rs/security/certificates" >}})
 - [TLS]({{< relref "/operate/rs/security/encryption/tls" >}}) & [Encryption]({{< relref "/operate/rs/security/encryption" >}})
 
@@ -50,11 +53,11 @@ Create and manage a [Redis database]({{< relref "/operate/rs/databases" >}}) on 
 Use command-line utilities and the REST API to manage the cluster and databases.
 - [rladmin]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}), [crdb-cli]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}), & [other utilities]({{< relref "/operate/rs/references/cli-utilities" >}})
 - [REST API reference]({{< relref "/operate/rs/references/rest-api" >}}) & [examples]({{< relref "/operate/rs/references/rest-api/quick-start" >}})
-- [Redis commands]({{< relref "/commands" >}}/)
+- [Redis commands]({{< relref "/commands" >}})
 
 ## Related info
 - [Redis Cloud]({{< relref "/operate/rc" >}})
-- [Source available Redis]({{< relref "/operate/oss_and_stack" >}})
+- [Redis Community Edition]({{< relref "/operate/oss_and_stack" >}})
 - [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}})
 - [Glossary]({{< relref "/glossary" >}})
 

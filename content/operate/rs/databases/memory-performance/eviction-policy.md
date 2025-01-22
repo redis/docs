@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- kubernetes
 description: The eviction policy determines what happens when a database reaches its
   memory limit.
 linkTitle: Eviction policy

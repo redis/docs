@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rc
-description: How to use the Redis Cloud admin console to create and manage API user
+description: How to use the Redis Cloud console to create and manage API user
   keys for your account's team owners
 weight: 20
 ---
@@ -17,7 +17,7 @@ Every REST API request must include the following API keys:
 
 Use the **API Keys** tab of the **Access Management** screen to manage your keys:
 
-1. Sign in to your [Redis Cloud account](https://app.redislabs.com) as an account owner.
+1. Sign in to your [Redis Cloud account](https://cloud.redis.io) as an account owner.
 
 1. From the menu, choose **Access Management** and then select the **API Keys** tab.
 
@@ -43,7 +43,7 @@ The **Copy** button copies the account key to the Clipboard.
 
 **API user keys** (also known as _secret keys_) are used as the value of the `x-api-secret-key` HTTP header used to authenticate a REST API request.
 
-In this context, _user_ refers to the account used to sign in to the admin console.  Users must be account owners.
+In this context, _user_ refers to the account used to sign in to the Redis Cloud console.  Users must have an owner (read-write) or viewer (read-only) role.
 
 Users can have more than one user key; however, users should not share user keys.
 
@@ -62,7 +62,7 @@ The key name:
 - Must be between 10 and 50 characters long
 - Can contain alphanumeric characters, hyphens, and underscores. Spaces are not allowed.
 
-The user name must be an account owner.
+The selected user must have an owner, viewer, or logs viewer role.
 
 Select **Create** to create the new key.  
 

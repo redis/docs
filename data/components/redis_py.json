@@ -3,12 +3,13 @@
     "type": "client",
     "name": "redis-py",
     "language": "Python",
+    "label": "Python",
     "repository": {
         "git_uri": "https://github.com/redis/redis-py"
     },
     "examples": {
         "git_uri": "https://github.com/redis/redis-py",
-        "dev_branch": "emb-examples",
+        "dev_branch": "master",
         "path": "doctests",
         "pattern": "*.py"
     }

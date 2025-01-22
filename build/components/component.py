@@ -1,6 +1,8 @@
 import logging
 import glob
 import os
+import shutil
+
 import semver
 import uuid
 from typing import Tuple
@@ -514,13 +516,20 @@ class Client(Component):
                 if not example_id:
                     continue
 
-                example_metadata = {'source': f}
+                example_metadata = {
+                    'source': f,
+                    'language': self.get('language').lower()
+                }
 
-                mkdir_p(f'{dst}/{example_id}')
-                rsync(example_metadata['source'], f'{dst}/{example_id}/')
+                base_path = os.path.join(dst, example_id)
+                mkdir_p(base_path)
+                rsync(example_metadata['source'], base_path)
 
-                example_metadata['target'] = f'{dst}/{example_id}/{os.path.basename(f)}'
-                e = Example(self.get('language'), example_metadata['target'])
+                target_path = os.path.join(base_path, f'{self.get("id")}_{os.path.basename(f)}')
+                shutil.move(os.path.join(base_path, os.path.basename(f)), target_path)
+
+                example_metadata['target'] = target_path
+                e = Example(self.get('language'), target_path)
                 example_metadata['highlight'] = e.highlight
                 example_metadata['hidden'] = e.hidden
                 example_metadata['named_steps'] = e.named_steps
@@ -532,7 +541,7 @@ class Client(Component):
                     examples[example_id] = {}
 
                 logging.info(f'Example {example_id} processed successfully.')
-                examples[example_id][self.get('language')] = example_metadata
+                examples[example_id][self.get('label')] = example_metadata
 
     def apply(self) -> None:
         logging.info(f'Applying client {self._id}')

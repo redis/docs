@@ -37,10 +37,6 @@ To upgrade your Essentials database to Redis Cloud Pro:
     - Set the memory limit to comply with [Active-Passive memory requirements]({{< relref "/operate/rc/databases/migrate-databases#active-passive-memory-requirements" >}}) if you want to migrate your database using [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}).
     - Select any advanced capabilities that your Essentials database offers. You can find a list of enabled advanced capabilities in the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-details-tab" >}}) of your database.
 
-        {{< note >}}
-A preview of [Triggers and functions]({{< relref "/operate/rc/changelog/june-2023#Triggers-and-functions-preview" >}}) (previously known as RedisGears) is available for Redis Cloud Essentials in select regions. If you have a Redis Cloud Essentials database in these regions and would like to continue to use Triggers and functions in your Redis Cloud Pro subscription, [contact support](https://redis.com/company/support/).
-        {{< /note >}}
-
 ### Migrate database
 
 You can migrate your Redis Cloud Essentials database to your new Redis Cloud Pro subscription using any method in the [Migrate databases]({{< relref "/operate/rc/databases/migrate-databases" >}}) guide. This guide uses [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}) to migrate databases between subscriptions in the same account.
@@ -48,7 +44,7 @@ You can migrate your Redis Cloud Essentials database to your new Redis Cloud Pro
 {{< note >}}
 Before you follow this guide, be aware of the following limitations:
 
-- This guide is for migrating databases between subscriptions in the same Redis Cloud console account. [Contact support](https://redis.com/company/support/) if you want to migrate a database between accounts using Active-Passive.
+- This guide is for migrating databases between subscriptions in the same Redis Cloud console account. [Contact support](https://redis.io/support/) if you want to migrate a database between accounts using Active-Passive.
 
 - As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}). We recommend that you turn off Active-Passive after the databases are synced. 
 {{< /note >}}

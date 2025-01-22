@@ -32,7 +32,7 @@ hints:
 - nondeterministic_output
 history:
 - - 7.2.0
-  - Added the `inactive` field.
+  - Added the `inactive` field, and changed the meaning of `idle`.
 key_specs:
 - RO: true
   access: true

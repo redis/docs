@@ -14,10 +14,10 @@ weight: 50
 public static java.lang.String configGet​(java.lang.String key)
 ```
 
-Gets the value of a RedisGears [configuration setting](https://oss.redis.com/redisgears/configuration.html).
+Gets the value of a RedisGears [configuration setting]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/Configuration" >}}).
 
 {{<note>}}
-You can set configuration values when you load the module or use the [`RG.CONFIGSET`](https://oss.redislabs.com/redisgears/commands.html#rgconfigset) command.
+You can set configuration values when you load the module or use the `RG.CONFIGSET` command.
 {{</note>}}
 
 ## Parameters

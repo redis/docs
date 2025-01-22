@@ -93,7 +93,7 @@ The _redis_ singleton is an object instance that's accessible from all scripts.
 It provides the API to interact with Redis from scripts.
 Its description follows [below](#redis_object).
 
-### <a name="the-keys-global-variable"></a>The _KEYS_ global variable
+### The _KEYS_ global variable {#the-keys-global-variable}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -107,7 +107,7 @@ Scripts **should never** access keys with programmatically-generated names or ba
 The _KEYS_ global variable is available only for [ephemeral scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).
 It is pre-populated with all key name input arguments.
 
-### <a name="the-argv-global-variable"></a>The _ARGV_ global variable
+### The _ARGV_ global variable {#the-argv-global-variable}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -116,7 +116,7 @@ It is pre-populated with all key name input arguments.
 The _ARGV_ global variable is available only in [ephemeral scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}).
 It is pre-populated with all regular input arguments.
 
-## <a name="redis_object"></a>_redis_ object
+## _redis_ object {#redis_object}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -126,7 +126,7 @@ The Redis Lua execution context always provides a singleton instance of an objec
 The _redis_ instance enables the script to interact with the Redis server that's running it.
 Following is the API provided by the _redis_ object instance.
 
-### <a name="redis.call"></a> `redis.call(command [,arg...])`
+### `redis.call(command [,arg...])` {#redis.call}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -153,7 +153,7 @@ Note that the call can fail due to various reasons, see [Execution under low mem
 
 To handle Redis runtime errors use `redis.pcall()` instead.
 
-### <a name="redis.pcall"></a> `redis.pcall(command [,arg...])`
+### `redis.pcall(command [,arg...])` {#redis.pcall}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -184,7 +184,7 @@ redis> EVAL "..." 0 hello world
 (error) ERR Something is wrong, but no worries, everything is under control
 ```
 
-### <a name="redis.error_reply"></a> `redis.error_reply(x)`
+### `redis.error_reply(x)` {#redis.error_reply}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -217,7 +217,7 @@ Refer to the [Data type conversion](#data-type-conversion) for returning other r
 By convention, Redis uses the first word of an error string as a unique error code for specific errors or `ERR` for general-purpose errors.
 Scripts are advised to follow this convention, as shown in the example above, but this is not mandatory.
 
-### <a name="redis.status_reply"></a> `redis.status_reply(x)`
+### `redis.status_reply(x)` {#redis.status_reply}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -247,7 +247,7 @@ TOCK
 For returning Redis error replies refer to [`redis.error_reply()`](#redis.error_reply).
 Refer to the [Data type conversion](#data-type-conversion) for returning other response types.
 
-### <a name="redis.sha1hex"></a> `redis.sha1hex(x)`
+### `redis.sha1hex(x)` {#redis.sha1hex}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -262,7 +262,7 @@ redis> EVAL "return redis.sha1hex('')" 0
 "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 ```
 
-### <a name="redis.log"></a> `redis.log(level, message)`
+### `redis.log(level, message)` {#redis.log}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -294,7 +294,7 @@ will produce a line similar to the following in your server's log:
 [32343] 22 Mar 15:21:39 # Something is terribly wrong
 ```
 
-### <a name="redis.setresp"></a> `redis.setresp(x)`
+### `redis.setresp(x)` {#redis.setresp}
 
 * Since version: 6.0.0
 * Available in scripts: yes
@@ -312,7 +312,7 @@ redis.setresp(3)
 
 Please refer to the [Data type conversion](#data-type-conversion) for more information about type conversions.
 
-### <a name="redis.set_repl"></a> `redis.set_repl(x)`
+### `redis.set_repl(x)` {#redis.set_repl}
 
 * Since version: 3.2.0
 * Available in scripts: yes
@@ -367,7 +367,7 @@ redis.call('SET', KEYS[3], ARGV[3])
 
 If you run this script by calling `EVAL "..." 3 A B C 1 2 3`, the result will be that only the keys _A_ and _C_ are created on the replicas and AOF.
 
-### <a name="redis.replicate_commands"></a> `redis.replicate_commands()`
+### `redis.replicate_commands()` {#redis.replicate_commands}
 
 * Since version: 3.2.0
 * Until version: 7.0.0
@@ -382,7 +382,7 @@ as of Redis v7.0, verbatim script replication is no longer supported.
 The default, and only script replication mode supported, is script effects' replication.
 For more information, please refer to [`Replicating commands instead of scripts`]({{< relref "/develop/interact/programmability/eval-intro#replicating-commands-instead-of-scripts" >}})
 
-### <a name="redis.breakpoint"></a>  `redis.breakpoint()`
+### `redis.breakpoint()` {#redis.breakpoint}
 
 * Since version: 3.2.0
 * Available in scripts: yes
@@ -390,7 +390,7 @@ For more information, please refer to [`Replicating commands instead of scripts`
 
 This function triggers a breakpoint when using the [Redis Lua debugger]({{< relref "/develop/interact/programmability/lua-debugging" >}}).
 
-### <a name="redis.debug"></a> `redis.debug(x)`
+### `redis.debug(x)` {#redis.debug}
 
 * Since version: 3.2.0
 * Available in scripts: yes
@@ -398,7 +398,7 @@ This function triggers a breakpoint when using the [Redis Lua debugger]({{< relr
 
 This function prints its argument in the [Redis Lua debugger]({{< relref "/develop/interact/programmability/lua-debugging" >}}) console.
 
-### <a name="redis.acl_check_cmd"></a> `redis.acl_check_cmd(command [,arg...])`
+### `redis.acl_check_cmd(command [,arg...])` {#redis.acl_check_cmd}
 
 * Since version: 7.0.0
 * Available in scripts: yes
@@ -410,7 +410,7 @@ The return value is a boolean `true` in case the current user has permissions to
 
 The function will raise an error if the passed command or its arguments are invalid.
 
-### <a name="redis.register_function"></a> `redis.register_function`
+### `redis.register_function` {#redis.register_function}
 
 * Since version: 7.0.0
 * Available in scripts: no
@@ -420,8 +420,7 @@ This function is only available from the context of the [`FUNCTION LOAD`]({{< re
 When called, it registers a function to the loaded library.
 The function can be called either with positional or named arguments.
 
-#### <a name="redis.register_function_pos_args"></a> positional arguments: `redis.register_function(name, callback)`
-
+#### positional arguments: `redis.register_function(name, callback)` {#redis.register_function_pos_args}
 The first argument to `redis.register_function` is a Lua string representing the function name.
 The second argument to `redis.register_function` is a Lua function.
 
@@ -431,7 +430,7 @@ Usage example:
 redis> FUNCTION LOAD "#!lua name=mylib\n redis.register_function('noop', function() end)"
 ```
 
-#### <a name="redis.register_function_named_args"></a> Named arguments:  `redis.register_function{function_name=name, callback=callback, flags={flag1, flag2, ..}, description=description}`
+#### Named arguments:  `redis.register_function{function_name=name, callback=callback, flags={flag1, flag2, ..}, description=description}` {#redis.register_function_named_args}
 
 The named arguments variant accepts the following arguments:
 
@@ -448,7 +447,7 @@ Usage example:
 redis> FUNCTION LOAD "#!lua name=mylib\n redis.register_function{function_name='noop', callback=function() end, flags={ 'no-writes' }, description='Does nothing'}"
 ```
 
-#### <a name="script_flags"></a> Script flags
+#### Script flags {#script_flags}
 
 **Important:**
 Use script flags with care, which may negatively impact if misused.
@@ -510,7 +509,7 @@ You can use the following flags and instruct the server to treat the scripts' ex
 
 Please refer to [Function Flags]({{< baseurl >}}/develop/interact/programmability/functions-intro#function-flags) and [Eval Flags]({{< baseurl >}}/develop/interact/programmability/eval-intro#eval-flags) for a detailed example.
 
-### <a name="redis.redis_version"></a> `redis.REDIS_VERSION`
+### `redis.REDIS_VERSION` {#redis.redis_version}
 
 * Since version: 7.0.0
 * Available in scripts: yes
@@ -523,7 +522,7 @@ The reply's format is `MM.mm.PP`, where:
 * **mm:** is the minor version.
 * **PP:** is the patch level.
 
-### <a name="redis.redis_version_num"></a> `redis.REDIS_VERSION_NUM`
+### `redis.REDIS_VERSION_NUM` {#redis.redis_version_num}
 
 * Since version: 7.0.0
 * Available in scripts: yes
@@ -661,7 +660,7 @@ That means, for example, that returning the RESP3 map type to a RESP2 connection
 
 ## Additional notes about scripting
 
-### Using [`SELECT`]({{< relref "/commands/select" >}}) inside scripts
+### Using `SELECT` inside scripts
 
 You can call the [`SELECT`]({{< relref "/commands/select" >}}) command from your Lua scripts, like you can with any normal client connection.
 However, one subtle aspect of the behavior changed between Redis versions 2.8.11 and 2.8.12.
@@ -687,9 +686,9 @@ In addition, the following external libraries are loaded and accessible to scrip
 * The [_cmsgpack_ library](#cmsgpack-library)
 * The [_bitop_ library](#bitop-library)
 
-### <a name="os-library"></a> _os_ library
+### _os_ library {#os-library}
 
-* Since version: 7.4 RC1
+* Since version: 7.4
 * Available in scripts: yes
 * Available in functions: yes
 
@@ -699,7 +698,7 @@ Note that for sandbox security, currently only the following os functions is exp
 
 * `os.clock()`
 
-### <a name="struct-library"></a> _struct_ library
+### _struct_ library {#struct-library}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -714,7 +713,7 @@ It provides the following functions:
 
 All of _struct_'s functions expect their first argument to be a [format string](#struct-formats).
 
-#### <a name="struct-formats"></a> _struct_ formats
+#### _struct_ formats {#struct-formats}
 
 The following are valid format strings for _struct_'s functions:
 
@@ -735,7 +734,7 @@ The following are valid format strings for _struct_'s functions:
 * `d`: double
 * ` ` (space): ignored
 
-#### <a name="struct.pack"></a> `struct.pack(x)`
+#### `struct.pack(x)` {#struct.pack}
 
 This function returns a struct-encoded string from values.
 It accepts a [_struct_ format string](#struct-formats) as its first argument, followed by the values that are to be encoded.
@@ -747,7 +746,7 @@ redis> EVAL "return struct.pack('HH', 1, 2)" 0
 "\x01\x00\x02\x00"
 ```
 
-#### <a name="struct.unpack"></a> `struct.unpack(x)`
+#### `struct.unpack(x)` {#struct.unpack}
 
 This function returns the decoded values from a struct.
 It accepts a [_struct_ format string](#struct-formats) as its first argument, followed by encoded struct's string.
@@ -761,7 +760,7 @@ redis> EVAL "return { struct.unpack('HH', ARGV[1]) }" 0 "\x01\x00\x02\x00"
 3) (integer) 5
 ```
 
-#### <a name="struct.size"></a> `struct.size(x)`
+#### `struct.size(x)` {#struct.size}
 
 This function returns the size, in bytes, of a struct.
 It accepts a [_struct_ format string](#struct-formats) as its only argument.
@@ -773,7 +772,7 @@ redis> EVAL "return struct.size('HH')" 0
 (integer) 4
 ```
 
-### <a name="cjson-library"></a> _cjson_ library
+### _cjson_ library {#cjson-library}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -782,7 +781,7 @@ redis> EVAL "return struct.size('HH')" 0
 The _cjson_ library provides fast [JSON](https://json.org) encoding and decoding from Lua.
 It provides these functions.
 
-#### <a name="cjson.encode()"></a> `cjson.encode(x)`
+#### `cjson.encode(x)` {#cjson.encode}
 
 This function returns a JSON-encoded string for the Lua data type provided as its argument.
 
@@ -793,7 +792,7 @@ redis> EVAL "return cjson.encode({ ['foo'] = 'bar' })" 0
 "{\"foo\":\"bar\"}"
 ```
 
-#### <a name="cjson.decode()"></a> `cjson.decode(x)`
+#### `cjson.decode(x)` {#cjson.decode()}
 
 This function returns a Lua data type from the JSON-encoded string provided as its argument.
 
@@ -804,7 +803,7 @@ redis> EVAL "return cjson.decode(ARGV[1])['foo']" 0 '{"foo":"bar"}'
 "bar"
 ```
 
-### <a name="cmsgpack-library"></a> _cmsgpack_ library
+### _cmsgpack_ library {#cmsgpack-library}
 
 * Since version: 2.6.0
 * Available in scripts: yes
@@ -813,7 +812,7 @@ redis> EVAL "return cjson.decode(ARGV[1])['foo']" 0 '{"foo":"bar"}'
 The _cmsgpack_ library provides fast [MessagePack](https://msgpack.org/index.html) encoding and decoding from Lua.
 It provides these functions.
 
-#### <a name="cmsgpack.pack()"></a> `cmsgpack.pack(x)`
+#### `cmsgpack.pack(x)` {#cmsgpack.pack()}
 
 This function returns the packed string encoding of the Lua data type it is given as an argument.
 
@@ -824,7 +823,7 @@ redis> EVAL "return cmsgpack.pack({'foo', 'bar', 'baz'})" 0
 "\x93\xa3foo\xa3bar\xa3baz"
 ```
 
-#### <a name="cmsgpack.unpack()"></a> `cmsgpack.unpack(x)`
+#### `cmsgpack.unpack(x)` {#cmsgpack.unpack()}
 
 This function returns the unpacked values from decoding its input string argument.
 
@@ -837,7 +836,7 @@ redis> EVAL "return cmsgpack.unpack(ARGV[1])" 0 "\x93\xa3foo\xa3bar\xa3baz"
 3) "baz"
 ```
 
-### <a name="bitop-library"></a> _bit_ library
+### _bit_ library {#bitop-library}
 
 * Since version: 2.8.18
 * Available in scripts: yes
@@ -847,7 +846,7 @@ The _bit_ library provides bitwise operations on numbers.
 Its documentation resides at [Lua BitOp documentation](http://bitop.luajit.org/api.html)
 It provides the following functions.
 
-#### <a name="bit.tobit()"></a> `bit.tobit(x)`
+#### `bit.tobit(x)` {#bit.tobit()}
 
 Normalizes a number to the numeric range for bit operations and returns it.
 
@@ -858,7 +857,7 @@ redis> EVAL 'return bit.tobit(1)' 0
 (integer) 1
 ```
 
-#### <a name="bit.tohex()"></a> `bit.tohex(x [,n])`
+#### `bit.tohex(x [,n])` {#bit.tohex()}
 
 Converts its first argument to a hex string. The number of hex digits is given by the absolute value of the optional second argument.
 
@@ -869,11 +868,11 @@ redis> EVAL 'return bit.tohex(422342)' 0
 "000671c6"
 ```
 
-#### <a name="bit.bnot()"></a> `bit.bnot(x)`
+#### `bit.bnot(x)` {#bit.bnot()}
 
 Returns the bitwise **not** of its argument.
 
-#### <a name="bit.ops"></a> `bit.bnot(x)` `bit.bor(x1 [,x2...])`, `bit.band(x1 [,x2...])` and `bit.bxor(x1 [,x2...])`
+#### `bit.bnot(x)` `bit.bor(x1 [,x2...])`, `bit.band(x1 [,x2...])` and `bit.bxor(x1 [,x2...])` {#bit.ops}
 
 Returns either the bitwise **or**, bitwise **and**, or bitwise **xor** of all of its arguments.
 Note that more than two arguments are allowed.
@@ -885,16 +884,16 @@ redis> EVAL 'return bit.bor(1,2,4,8,16,32,64,128)' 0
 (integer) 255
 ```
 
-#### <a name="bit.shifts"></a> `bit.lshift(x, n)`, `bit.rshift(x, n)` and `bit.arshift(x, n)`
+#### `bit.lshift(x, n)`, `bit.rshift(x, n)` and `bit.arshift(x, n)` {#bit.shifts}
 
 Returns either the bitwise logical **left-shift**, bitwise logical **right-shift**, or bitwise **arithmetic right-shift** of its first argument by the number of bits given by the second argument.
 
-#### <a name="bit.ro"></a> `bit.rol(x, n)` and `bit.ror(x, n)`
+#### `bit.rol(x, n)` and `bit.ror(x, n)` {#bit.ro}
 
 Returns either the bitwise **left rotation**, or bitwise **right rotation** of its first argument by the number of bits given by the second argument.
 Bits shifted out on one side are shifted back in on the other side.
 
-#### <a name="bit.bswap()"></a> `bit.bswap(x)`
+#### `bit.bswap(x)` {#bit.bswap()}
 
 Swaps the bytes of its argument and returns it.
 This can be used to convert little-endian 32-bit numbers to big-endian 32-bit numbers and vice versa.

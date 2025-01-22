@@ -13,10 +13,90 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.13 requires:
+RediSearch v2.8.21 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.21 (January 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+**Security and privacy:**
+- [#5457](https://github.com/redisearch/redisearch/pull/5457) (CVE-2024-51737) Query: potential out-of-bounds write (MOD-8486)
+
+Bug fixes:
+- [#5299](https://github.com/redisearch/redisearch/pull/5299) Prefix/Infix/Suffix queries longer than 1024 chars could cause a crash (MOD-7882)
+- [#5303](https://github.com/redisearch/redisearch/pull/5303) Expired keys while background indexing could cause cross slot error when using `replicaof` (MOD-7949)
+- [#5280](https://github.com/redisearch/redisearch/pull/5280) `FT.CURSOR READ` retrieving deleted `TAG` fields cause a crash (MOD-8011)
+- [#5427](https://github.com/redisearch/redisearch/pull/5427) `FT.AGGREGATE` on numeric fields lead to `failed_calls` count increase on clustered DBs (MOD-8058)
+- [#5242](https://github.com/redisearch/redisearch/pull/5242) Memory count on `bytes_collected` by the index sanitiser with missing values (MOD-8097, MOD-8114)
+- [#5167](https://github.com/redisearch/redisearch/pull/5167) Cursors from queries that timed out weren't depleted causing exhaustion of number of cursors available(MOD-8009)
+
+Improvements:
+- [#5260](https://github.com/redisearch/redisearch/pull/5260) Optimizing index consumed memory with the creation only upon write operations (MOD-8125)
+
+## v2.8.17 (August 2024)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+- Bug fixes:
+
+  - [#4941](https://github.com/redisearch/redisearch/pull/4941) Adjusting the module configuration to avoid routing overload on the first shard in a clustered database (MOD-7505)
+  - [#4950](https://github.com/redisearch/redisearch/pull/4950) `FT.PROFILE` on `AGGREGATE` numeric queries could cause a crash due to reusing internal `CURSOR` in large range of numeric values (MOD-7454)
+
+## v2.8.16 (August 2024)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+- Bug fixes:
+
+  - [#4896](https://github.com/redisearch/redisearch/pull/4896) - `FT.AGGREGATE` with `VERBATIM` option is not handled by the shards in cluster mode (MOD-7463)
+  - [#4917](https://github.com/redisearch/redisearch/pull/4917) - Union query, similar to `"is|the"`, starting with 2 [stopwords](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
+  - [#4921](https://github.com/redisearch/redisearch/pull/4921) - Counting twice the field statistics at the `#search` section of an `INFO` response (MOD-7339)
+  - [#4939](https://github.com/redisearch/redisearch/pull/4939) - Query warning when using RESP3 response for reaching `MAXPREFIXEXPANSION` (MOD-7588)
+  - [#4930](https://github.com/redisearch/redisearch/pull/4930) - Loop when using the wildcard `w'term'` and prefix/infix/suffix pattern `'ter*'` leading shard to restart (MOD-7453)
+  - [#4912](https://github.com/redisearch/redisearch/pull/4912) - Avoid stemming expansion when querying for numeric values (MOD-7025)
+
+## v2.8.15 (July 2024)
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+- Bug fixes:
+  - [#4754](https://github.com/RediSearch/RediSearch/pull/4754) - Correct return the maximum value for negative values when using `MAX` reducer (MOD-7252)
+  - [#4737](https://github.com/RediSearch/RediSearch/pull/4737) - Separators ignored when escaping backslash `\` after the escaped character such as in `hello\\,world` ignoring `,` (MOD-7240)
+  - [#4717](https://github.com/RediSearch/RediSearch/pull/4717) - Sorting by multiple fields `SORTBY 2 @field1 @field2` was ignoring the subsequent field(MOD-7206)
+  - [#4803](https://github.com/RediSearch/RediSearch/pull/4803) - Keys expiring during query returning empty array (MOD-7010)
+  - [#4794](https://github.com/RediSearch/RediSearch/pull/4794) - Index sanitiser (GC) trying to clean deleted numeric index could cause a crash (MOD-7303)
+
+- Improvements:
+  - [#4792](https://github.com/RediSearch/RediSearch/pull/4792) - Add character validations to simple string replies and escape it when required(MOD-7258)
+  - [#4768](https://github.com/RediSearch/RediSearch/pull/4768) - Indicate which value is missing on the error message at the aggregation pipeline (MOD-7201)
+  - [#4745](https://github.com/RediSearch/RediSearch/pull/4745) - `GROUPBY` recursion cleanup (MOD-7245)
+  - [#4823](https://github.com/RediSearch/RediSearch/pull/4823) - Mechanism of keys expiration during the query execution clearing intermediate results
+
+## v2.8.14 (June 2024)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+- Bug fixes:
+
+  - [#4614](https://github.com/RediSearch/RediSearch/pull/4614) Shards become unresponsive when using `FT.AGGREGATE` with `APPLY 'split(...)'`(MOD-6759)
+  - [#4556](https://github.com/RediSearch/RediSearch/pull/4556) `FT.EXPLAIN` returns additional `}` when querying using wildcards (MOD-6768)
+  - [#4646](https://github.com/RediSearch/RediSearch/pull/4646) `FT.DROPINDEX` with `DD` flag deleted keys in one AA cluster but not the others (MOD-1855)
+
+- Improvements:
+  - [#4595](https://github.com/RediSearch/RediSearch/pull/4595) Report memory of the `TAG` and `TEXT` tries (MOD-5902)
+  - [#4669](https://github.com/RediSearch/RediSearch/pull/4669) Inverted index memory counting (MOD-5977,MOD-5866)
+  - [#4687](https://github.com/RediSearch/RediSearch/pull/4687) Add missing `FT.INFO` fields when used within a cluster (MOD-6920)
 
 ## v2.8.13 (March 2024)
 
@@ -28,17 +108,17 @@ Details:
 
 - Bug fixes:
 
-  - [#4481](https://github.com/RediSearch/RediSearch/pull/4481) Query syntax on GEOSHAPE accepting just prefix instead of complete predicate (MOD-6663)
-  - [#4513](https://github.com/RediSearch/RediSearch/pull/4513) FT.CURSOR READ in a numeric query causing a crash (MOD-6597)
-  - [#4534](https://github.com/RediSearch/RediSearch/pull/4534) FT.PROFILE with incorrect arguments could cause a crash on cluster setup (MOD-6791)
+  - [#4481](https://github.com/RediSearch/RediSearch/pull/4481) Query syntax on `GEOSHAPE` accepting just prefix instead of complete predicate (MOD-6663)
+  - [#4513](https://github.com/RediSearch/RediSearch/pull/4513) `FT.CURSOR READ` in a numeric query causing a crash (MOD-6597)
+  - [#4534](https://github.com/RediSearch/RediSearch/pull/4534) `FT.PROFILE` with incorrect arguments could cause a crash on cluster setup (MOD-6791)
   - [#4530](https://github.com/RediSearch/RediSearch/pull/4530) Some parameter settings using just prefixes instead of full values were working (MOD-6709)
   - [#4539](https://github.com/RediSearch/RediSearch/pull/4539) Unfree memory while re-indexing a new RDB as it's loading could cause a crash (MOD-6831, 6810)
   - [#4498](https://github.com/RediSearch/RediSearch/pull/4498) Vector pre-filtered query (hybrid query) that times out causing a crash due to deadlock when trying to write a new document (MOD-6510, MOD-6244)
-  - [#4495](https://github.com/RediSearch/RediSearch/pull/4495) FT.SEARCH accessing an inexistent memory address causes a crash if using the deprecated FT.ADD command (MOD-6599)
+  - [#4495](https://github.com/RediSearch/RediSearch/pull/4495) `FT.SEARCH` accessing an inexistent memory address causes a crash if using the deprecated `FT.ADD` command (MOD-6599)
 
 - Improvements:
 
-  - [#4502](https://github.com/RediSearch/RediSearch/pull/4502) Handle error properly when trying to execute Search commands on cluster setup as part of MULTI/EXEC or LUA script (MOD-6541)
+  - [#4502](https://github.com/RediSearch/RediSearch/pull/4502) Handle error properly when trying to execute Search commands on cluster setup as part of `MULTI ... EXEC` or LUA script (MOD-6541)
   - [#4526](https://github.com/RediSearch/RediSearch/pull/4526) Adding detailed geometry info on error messages (MOD-6701)
 
 ## v2.8.12 (March 2024)
@@ -178,11 +258,11 @@ Features:
 
 - Introduce support for geo polygon shapes and queries:
 
-  - Adding `GEOSHAPE` [field type]({{< relref "/commands" >}}/ft.create/) to map polygons in the `SCHEMA` on `FT.CREATE` (MOD-4798)
+  - Adding `GEOSHAPE` [field type]({{< baseurl >}}/commands/ft.create) to map polygons in the `SCHEMA` on `FT.CREATE` (MOD-4798)
 
   - Support for polygons `POLYGON` and `POINT` using [WKT notation](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry), for example `POLYGON((lon1 lat1, lon2 lat2, ...))`
 
-  - Adjust the [query syntax]({{< relref "/commands" >}}/ft.search/#examples) on `FT.SEARCH` for polygons using the predicate `@geom:[OPERATOR $poly]` and defining polygon in WKT format as `PARAMS 2 poly "POLYGON((10 20, ...))"` using `DIALECT 3`
+  - Adjust the [query syntax]({{< baseurl >}}/commands/ft.search#examples) on `FT.SEARCH` for polygons using the predicate `@geom:[OPERATOR $poly]` and defining polygon in WKT format as `PARAMS 2 poly "POLYGON((10 20, ...))"` using `DIALECT 3`
 
   - Initially `WITHIN` and `CONTAINS` operators with `GEOSHAPES` for now
 

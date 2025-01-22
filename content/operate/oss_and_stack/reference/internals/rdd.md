@@ -12,16 +12,16 @@ weight: 2
 
 **Note: this document was written by the creator of Redis, Salvatore Sanfilippo, early in the development of Redis (c. 2013), as part of a series of design drafts. This is preserved for historical interest.**
 
-# Redis Design Draft 2 -- RDB version 7 info fields
+## Redis Design Draft 2 -- RDB version 7 info fields
 
 * Author: Salvatore Sanfilippo `antirez@gmail.com`
 * GitHub issue [#1048](https://github.com/redis/redis/issues/1048)
 
-## History of revisions
+### History of revisions
 
 1.0, 10 April 2013 - Initial draft.
 
-## Overview
+### Overview
 
 The Redis RDB format lacks a simple way to add info fields to an RDB file
 without causing a backward compatibility issue even if the added meta data
@@ -47,7 +47,7 @@ However currently the info fields are designed to only hold additional
 information that are not useful to load the dataset, but can better specify
 how the RDB file was created.
 
-## Info fields representation
+### Info fields representation
 
 The RDB format 6 has the following layout:
 
@@ -81,24 +81,24 @@ ordering.
 The special identifier 0 means that there are no other info fields, and that
 the remaining of the RDB file contains the key-value pairs.
 
-## Handling of info fields
+### Handling of info fields
 
 A program can simply skip every info field it does not understand, as long
 as the RDB version matches the one that it is capable to load.
 
-## Specification of info fields IDs and content.
+### Specification of info fields IDs and content.
 
-### Info field 0 -- End of info fields
+#### Info field 0 -- End of info fields
 
 This just means there are no longer info fields to process.
 
-### Info field 1 -- Creation date
+#### Info field 1 -- Creation date
 
 This field represents the unix time at which the RDB file was created.
 The format of the unix time is a 64 bit little endian integer representing
 seconds since 1th January 1970.
 
-### Info field 2 -- Redis version
+#### Info field 2 -- Redis version
 
 This field represents a null-terminated string containing the Redis version
 that generated the file, as displayed in the Redis version INFO field.

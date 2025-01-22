@@ -8,9 +8,14 @@ categories:
 description: Shows how to create a Pro database in an existing subscription
 linkTitle: Create Pro database (existing subscription)
 weight: 15
+tocEmbedHeaders: true
 ---
 
 {{< embed-md "rc-create-db-first-steps.md" >}}
+
+{{< embed-md "rc-create-db-use-cases.md" >}}
+
+{{< note >}}See [Use case settings](#use-case-settings) to view the default settings for each use case.{{< /note >}}
 
 4. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Pro**, select **Existing subscription**, and then select your existing pro subscription from the list.
 
@@ -46,19 +51,20 @@ The available settings vary according to your subscription plan:
 | **Database name**         | A name for your database (_required_)                                                                                                                                                                                                                                                                             |
 | **Database port**         | Automatically or manually assigns a database port (range: 10000-19999).  You cannot assign a port that is reserved or already in use.                                                                                                                                                                                      |
 | **Type**                  | Controls advanced database capabilities and protocol.  Supported values include _Redis_ and _Memcached_                                                                       |
-| **Advanced capabilities** | Extend core Redis functionality using [advanced capabilities]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).  Redis Cloud supports selected advanced capabilities; for details, see [Redis Enterprise and Redis Stack feature compatibility]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities#redis-enterprise-module-support" >}})   |
+| **Advanced capabilities** | Advanced data types used by the database. Choose from [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}}), [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}), or [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}). <br/> Databases with Search and query have specific sizing requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
+| **Query performance factor** | *(Search and query databases on Redis 7.2 or later only)* Adds additional compute power to process your query and vector search workloads and boost your queries per second. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **Supported Protocol(s)** | Choose between RESP2 and RESP3 _(Redis 7.2 only)_. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details                                                                                                                                                   |
 
-## Scalability section
+## Performance section
 
-The **Scalability** section lets you manage the maximum size, throughput, and hashing policy for a database.
+The **Performance** section lets you manage the maximum size, throughput, and hashing policy for a database.
 
-{{<image filename="images/rc/database-new-flexible-scalability.png" alt="Use the Scalability section to control the size, throughput, and hashing policy for a database." >}}
+{{<image filename="images/rc/database-new-flexible-scalability.png" alt="Use the Performance section to control the size, throughput, and hashing policy for a database." >}}
 
 | Setting name        | Description                                                                                                                                                                                                                                                                                                                                   |
 |:--------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Dataset size**    | Maximum size (in GB) for your dataset. See [Dataset size]({{< relref "/operate/rc/databases/configuration/clustering#dataset-size" >}}) for sizing considerations. |
-| **Throughput**      | Defines throughput in terms of maximum operations per second for the database. See [Throughput]({{< relref "/operate/rc/databases/configuration/clustering#throughput" >}}) for more info. |
+| **Dataset size**    | Maximum size (in GB) for your dataset. See [Dataset size]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}}) for sizing considerations. <br/> Databases with Search and query have specific size requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
+| **Throughput**      | Defines throughput in terms of maximum operations per second for the database. See [Throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) for more info. <br/> Databases with Search and query have specific throughput requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **High availability**    | Replicates your data across multiple nodes, as allowed by your subscription plan. See [High availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) for more info|
 | **Hashing policy**  | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
 | **OSS Cluster API** | Enables the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database<br/><br/>When this option is enabled, you cannot define a custom hashing policy.  |

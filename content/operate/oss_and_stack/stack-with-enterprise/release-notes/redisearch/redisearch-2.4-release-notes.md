@@ -202,11 +202,11 @@ RediSearch 2.4 introduces a new capability, Vector Similarity Search (VSS), whic
 
 It also introduces a new query syntax to address query parser inconsistencies found in previous versions of RediSearch. Users can now choose between Dialect version 1 (to keep existing query parser behavior) or Dialect version 2 (to switch to the updated behavior).
 
-All VSS queries or any query using the [`PARAMS`](https://oss.redis.com/redisearch/Commands/#ftsearch) option must use Dialect version 2.
+All VSS queries or any query using the `PARAMS` option must use Dialect version 2.
 
 ### What's new in 2.4
 
-- [`FT.CREATE`](https://oss.redis.com/redisearch/master/Commands/#ftcreate) is extended to support the creation of 2 popular types of vector indexes:
+- `FT.CREATE` is extended to support the creation of 2 popular types of vector indexes:
 
   - **FLAT Index**
 
@@ -218,7 +218,7 @@ All VSS queries or any query using the [`PARAMS`](https://oss.redis.com/redisear
 
     You can try out different HNSW index parameters (`M`, `EFCONSTRUCTION`, `EFRUNTIME`) to improve the “recall versus speed” balance.
 
-- Use [`FT.SEARCH`](https://oss.redis.com/redisearch/master/Commands/#ftsearch) to retrieve the top K hashes with the most similar vectors to a given query vector.
+- Use `FT.SEARCH` to retrieve the top K hashes with the most similar vectors to a given query vector.
 
 - Hybrid queries in `FT.SEARCH`:
 
@@ -227,21 +227,21 @@ All VSS queries or any query using the [`PARAMS`](https://oss.redis.com/redisear
   Hybrid queries are often used in modern ecommerce search applications featuring “visual” similarity plus metadata similarity.
   For example, you can use a single hybrid query to find products that are visually similar to a given image within a price range and/or geo-location.
 
-- Use [`FT.CONFIG`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftconfig) to set `DEFAULT_DIALECT` at the module level. By default, `DEFAULT_DIALECT` is set to 1.
+- Use [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set) to set `DEFAULT_DIALECT` at the module level. By default, `DEFAULT_DIALECT` is set to 1.
 
 - Override `DIALECT`:
 
   It is possible to override the module-level dialect for a specific command at runtime. You can specify the dialect when executing any of the following commands:
 
-    - [`FT.SEARCH`](https://oss.redis.com/redisearch/master/Commands/#ftsearch)
+    - [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search)
 
-    - [`FT.AGGREGATE`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftaggregate)
+    - [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate)
 
-    - [`FT.EXPLAIN`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftexplain)
+    - [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain)
 
-    - [`FT.EXPLAINCLI`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftexplaincli)
+    - [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli)
 
-    - [`FT.SPELLCHECK`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftspellcheck)
+    - [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck)
 
   If you do not specify dialect when running any of these commands, they will use the default module-level dialect value.
 

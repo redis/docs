@@ -46,8 +46,7 @@ A Redis client supporting Sentinel can automatically discover the address of a R
 
 This is the procedure a client should follow in order to obtain the master address starting from the list of Sentinels and the service name.
 
-Step 1: connecting to the first Sentinel
----
+### Step 1: connect to the first Sentinel
 
 The client should iterate the list of Sentinel addresses. For every address it should try to connect to the Sentinel, using a short timeout (in the order of a few hundreds of milliseconds). On errors or timeouts the next Sentinel address should be tried.
 
@@ -55,8 +54,7 @@ If all the Sentinel addresses were tried without success, an error should be ret
 
 The first Sentinel replying to the client request should be put at the start of the list, so that at the next reconnection, we'll try first the Sentinel that was reachable in the previous connection attempt, minimizing latency.
 
-Step 2: ask for master address
----
+### Step 2: ask for the master address
 
 Once a connection with a Sentinel is established, the client should retry to execute the following command on the Sentinel:
 
@@ -71,8 +69,7 @@ The result from this call can be one of the following two replies:
 
 If an ip:port pair is received, this address should be used to connect to the Redis master. Otherwise if a null reply is received, the client should try the next Sentinel in the list.
 
-Step 3: call the ROLE command in the target instance
----
+### Step 3: call the ROLE command in the target instance
 
 Once the client discovered the address of the master instance, it should
 attempt a connection with the master, and call the [`ROLE`]({{< relref "/commands/role" >}}) command in order
@@ -82,8 +79,7 @@ If the [`ROLE`]({{< relref "/commands/role" >}}) commands is not available (it w
 
 If the instance is not a master as expected, the client should wait a short amount of time (a few hundreds of milliseconds) and should try again starting from Step 1.
 
-Handling reconnections
-===
+## Handle reconnections
 
 Once the service name is resolved into the master address and a connection is established with the Redis master instance, every time a reconnection is needed, the client should resolve again the address using Sentinels restarting from Step 1. For instance Sentinel should contacted again the following cases:
 
@@ -92,8 +88,7 @@ Once the service name is resolved into the master address and a connection is es
 
 In the above cases and any other case where the client lost the connection with the Redis server, the client should resolve the master address again.
 
-Sentinel failover disconnection
-===
+## Sentinel failover disconnection
 
 Starting with Redis 2.8.12, when Redis Sentinel changes the configuration of
 an instance, for example promoting a replica to a master, demoting a master to
@@ -107,8 +102,7 @@ If the client will contact a Sentinel with yet not updated information, the veri
 
 Note: it is possible that a stale master returns online at the same time a client contacts a stale Sentinel instance, so the client may connect with a stale master, and yet the ROLE output will match. However when the master is back again Sentinel will try to demote it to replica, triggering a new disconnection. The same reasoning applies to connecting to stale replicas that will get reconfigured to replicate with a different master.
 
-Connecting to replicas
-===
+## Connect to replicas
 
 Sometimes clients are interested to connect to replicas, for example in order to scale read requests. This protocol supports connecting to replicas by modifying step 2 slightly. Instead of calling the following command:
 
@@ -124,21 +118,18 @@ Symmetrically the client should verify with the [`ROLE`]({{< relref "/commands/r
 instance is actually a replica, in order to avoid scaling read queries with
 the master.
 
-Connection pools
-===
+## Connection pools
 
 For clients implementing connection pools, on reconnection of a single connection, the Sentinel should be contacted again, and in case of a master address change all the existing connections should be closed and connected to the new address.
 
-Error reporting
-===
+## Error reporting
 
 The client should correctly return the information to the user in case of errors. Specifically:
 
 * If no Sentinel can be contacted (so that the client was never able to get the reply to `SENTINEL get-master-addr-by-name`), an error that clearly states that Redis Sentinel is unreachable should be returned.
 * If all the Sentinels in the pool replied with a null reply, the user should be informed with an error that Sentinels don't know this master name.
 
-Sentinels list automatic refresh
-===
+## Sentinels list automatic refresh
 
 Optionally once a successful reply to `get-master-addr-by-name` is received, a client may update its internal list of Sentinel nodes following this procedure:
 
@@ -147,8 +138,7 @@ Optionally once a successful reply to `get-master-addr-by-name` is received, a c
 
 It is not needed for a client to be able to make the list persistent updating its own configuration. The ability to upgrade the in-memory representation of the list of Sentinels can be already useful to improve reliability.
 
-Subscribe to Sentinel events to improve responsiveness
-===
+## Subscribe to Sentinel events to improve responsiveness
 
 The [Sentinel documentation]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) shows how clients can connect to
 Sentinel instances using Pub/Sub in order to subscribe to changes in the
@@ -163,7 +153,6 @@ However update messages received via Pub/Sub should not substitute the
 above procedure, since there is no guarantee that a client is able to
 receive all the update messages.
 
-Additional information
-===
+## Additional information
 
 For additional information or to discuss specific aspects of this guidelines, please drop a message to the [Redis Google Group](https://groups.google.com/group/redis-db).

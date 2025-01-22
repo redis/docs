@@ -32,6 +32,14 @@ title: JSON.MGET
 ---
 Return the values at `path` from multiple `key` arguments
 
+{{% warning %}}
+When cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).
+
+When the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.
+
+
+{{% /warning %}}
+
 [Examples](#examples)
 
 ## Required arguments

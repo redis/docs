@@ -1758,6 +1758,10 @@
             [
                 "6.2.0",
                 "`LADDR` option."
+            ],
+            [
+                "8.0.0",
+                "`MAXAGE` option."
             ]
         ],
         "acl_categories": [
@@ -1873,6 +1877,14 @@
                                         "token": "NO"
                                     }
                                 ]
+                            },
+                            {
+                                "name": "maxage",
+                                "type": "integer",
+                                "display_text": "maxage",
+                                "token": "MAXAGE",
+                                "since": "8.0.0",
+                                "optional": true
                             }
                         ]
                     }
@@ -5447,6 +5459,10 @@
         "replaced_by": "`GEOSEARCH` and `GEOSEARCHSTORE` with the `BYRADIUS` and `FROMMEMBER` arguments",
         "history": [
             [
+                "6.2.0",
+                "Added the `ANY` option for `COUNT`."
+            ],
+            [
                 "7.0.0",
                 "Added support for uppercase unit names."
             ]
@@ -5660,6 +5676,16 @@
         "complexity": "O(N+log(M)) where N is the number of elements inside the bounding box of the circular area delimited by center and radius and M is the number of items inside the index.",
         "deprecated_since": "6.2.0",
         "replaced_by": "`GEOSEARCH` with the `BYRADIUS` and `FROMMEMBER` arguments",
+        "history": [
+            [
+                "6.2.0",
+                "Added the `ANY` option for `COUNT`."
+            ],
+            [
+                "7.0.0",
+                "Added support for uppercase unit names."
+            ]
+        ],
         "acl_categories": [
             "@read",
             "@geo",
@@ -5812,6 +5838,10 @@
             [
                 "6.2.0",
                 "Added the `ANY` option for `COUNT`."
+            ],
+            [
+                "7.0.0",
+                "Added support for uppercase unit names."
             ]
         ],
         "acl_categories": [
@@ -6936,6 +6966,245 @@
             "fast"
         ]
     },
+    "HEXPIRE": {
+        "summary": "Set expiry for hash field using relative time to expire (seconds)",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "seconds",
+                "type": "integer",
+                "display_text": "seconds"
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "numfields",
+                "type": "integer",
+                "display_text": "numfields"
+            },
+            {
+                "name": "field",
+                "type": "string",
+                "display_text": "field",
+                "multiple": true
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "fast"
+        ]
+    },
+    "HEXPIREAT": {
+        "summary": "Set expiry for hash field using an absolute Unix timestamp (seconds)",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "unix-time-seconds",
+                "type": "unix-time",
+                "display_text": "unix-time-seconds"
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "numfields",
+                "type": "integer",
+                "display_text": "numfields"
+            },
+            {
+                "name": "field",
+                "type": "string",
+                "display_text": "field",
+                "multiple": true
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "fast"
+        ]
+    },
+    "HEXPIRETIME": {
+        "summary": "Returns the expiration time of a hash field as a Unix timestamp, in seconds.",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@read",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true,
+                "access": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "numfields",
+                "type": "integer",
+                "display_text": "numfields"
+            },
+            {
+                "name": "field",
+                "type": "string",
+                "display_text": "field",
+                "multiple": true
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "fast"
+        ]
+    },
     "HGET": {
         "summary": "Returns the value of a field in a hash.",
         "since": "2.0.0",
@@ -7029,6 +7298,135 @@
         ],
         "hints": [
             "nondeterministic_output_order"
+        ]
+    },
+    "HGETF": {
+        "summary": "For each specified field, returns its value and optionally set the field's remaining expiration time in seconds / milliseconds",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "expiration",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "seconds",
+                        "type": "integer",
+                        "display_text": "seconds",
+                        "token": "EX"
+                    },
+                    {
+                        "name": "milliseconds",
+                        "type": "integer",
+                        "display_text": "milliseconds",
+                        "token": "PX"
+                    },
+                    {
+                        "name": "unix-time-seconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-seconds",
+                        "token": "EXAT"
+                    },
+                    {
+                        "name": "unix-time-milliseconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-milliseconds",
+                        "token": "PXAT"
+                    },
+                    {
+                        "name": "persist",
+                        "type": "pure-token",
+                        "display_text": "persist",
+                        "token": "PERSIST"
+                    }
+                ]
+            },
+            {
+                "name": "fields",
+                "type": "string",
+                "display_text": "fields"
+            },
+            {
+                "name": "count",
+                "type": "integer",
+                "display_text": "count"
+            },
+            {
+                "name": "field",
+                "type": "string",
+                "display_text": "field",
+                "multiple": true
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "fast"
         ]
     },
     "HINCRBY": {
@@ -7349,6 +7747,355 @@
             "deprecated"
         ]
     },
+    "HPERSIST": {
+        "summary": "Removes the expiration time for each specified field",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@read",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true,
+                "access": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "numfields",
+                "type": "integer",
+                "display_text": "numfields"
+            },
+            {
+                "name": "field",
+                "type": "string",
+                "display_text": "field",
+                "multiple": true
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "fast"
+        ]
+    },
+    "HPEXPIRE": {
+        "summary": "Set expiry for hash field using relative time to expire (milliseconds)",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "milliseconds",
+                "type": "integer",
+                "display_text": "milliseconds"
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "numfields",
+                "type": "integer",
+                "display_text": "numfields"
+            },
+            {
+                "name": "field",
+                "type": "string",
+                "display_text": "field",
+                "multiple": true
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "fast"
+        ]
+    },
+    "HPEXPIREAT": {
+        "summary": "Set expiry for hash field using an absolute Unix timestamp (milliseconds)",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -5,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "unix-time-milliseconds",
+                "type": "unix-time",
+                "display_text": "unix-time-milliseconds"
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "numfields",
+                "type": "integer",
+                "display_text": "numfields"
+            },
+            {
+                "name": "field",
+                "type": "string",
+                "display_text": "field",
+                "multiple": true
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "fast"
+        ]
+    },
+    "HPEXPIRETIME": {
+        "summary": "Returns the expiration time of a hash field as a Unix timestamp, in msec.",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@read",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true,
+                "access": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "numfields",
+                "type": "integer",
+                "display_text": "numfields"
+            },
+            {
+                "name": "field",
+                "type": "string",
+                "display_text": "field",
+                "multiple": true
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "fast"
+        ]
+    },
+    "HPTTL": {
+        "summary": "Returns the TTL in milliseconds of a hash field.",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@read",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true,
+                "access": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "numfields",
+                "type": "integer",
+                "display_text": "numfields"
+            },
+            {
+                "name": "field",
+                "type": "string",
+                "display_text": "field",
+                "multiple": true
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "fast"
+        ]
+    },
     "HRANDFIELD": {
         "summary": "Returns one or more random fields from a hash.",
         "since": "6.2.0",
@@ -7470,6 +8217,13 @@
                 "display_text": "count",
                 "token": "COUNT",
                 "optional": true
+            },
+            {
+                "name": "novalues",
+                "type": "pure-token",
+                "display_text": "novalues",
+                "token": "NOVALUES",
+                "optional": true
             }
         ],
         "command_flags": [
@@ -7522,6 +8276,191 @@
                 "type": "key",
                 "display_text": "key",
                 "key_spec_index": 0
+            },
+            {
+                "name": "data",
+                "type": "block",
+                "multiple": true,
+                "arguments": [
+                    {
+                        "name": "field",
+                        "type": "string",
+                        "display_text": "field"
+                    },
+                    {
+                        "name": "value",
+                        "type": "string",
+                        "display_text": "value"
+                    }
+                ]
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "fast"
+        ]
+    },
+    "HSETF": {
+        "summary": "For each specified field, returns its value and optionally set the field's remaining expiration time in seconds / milliseconds",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -6,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true,
+                "update": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "create key option",
+                "type": "pure-token",
+                "display_text": "create key option",
+                "token": "DC",
+                "optional": true
+            },
+            {
+                "name": "create option",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "dcf",
+                        "type": "pure-token",
+                        "display_text": "dcf",
+                        "token": "DCF"
+                    },
+                    {
+                        "name": "dof",
+                        "type": "pure-token",
+                        "display_text": "dof",
+                        "token": "DOF"
+                    }
+                ]
+            },
+            {
+                "name": "return option",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "getnew",
+                        "type": "pure-token",
+                        "display_text": "getnew",
+                        "token": "GETNEW"
+                    },
+                    {
+                        "name": "getold",
+                        "type": "pure-token",
+                        "display_text": "getold",
+                        "token": "GETOLD"
+                    }
+                ]
+            },
+            {
+                "name": "condition",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "nx",
+                        "type": "pure-token",
+                        "display_text": "nx",
+                        "token": "NX"
+                    },
+                    {
+                        "name": "xx",
+                        "type": "pure-token",
+                        "display_text": "xx",
+                        "token": "XX"
+                    },
+                    {
+                        "name": "gt",
+                        "type": "pure-token",
+                        "display_text": "gt",
+                        "token": "GT"
+                    },
+                    {
+                        "name": "lt",
+                        "type": "pure-token",
+                        "display_text": "lt",
+                        "token": "LT"
+                    }
+                ]
+            },
+            {
+                "name": "expiration",
+                "type": "oneof",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "seconds",
+                        "type": "integer",
+                        "display_text": "seconds",
+                        "token": "EX"
+                    },
+                    {
+                        "name": "milliseconds",
+                        "type": "integer",
+                        "display_text": "milliseconds",
+                        "token": "PX"
+                    },
+                    {
+                        "name": "unix-time-seconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-seconds",
+                        "token": "EXAT"
+                    },
+                    {
+                        "name": "unix-time-milliseconds",
+                        "type": "unix-time",
+                        "display_text": "unix-time-milliseconds",
+                        "token": "PXAT"
+                    },
+                    {
+                        "name": "keepttl",
+                        "type": "pure-token",
+                        "display_text": "keepttl",
+                        "token": "KEEPTTL"
+                    }
+                ]
+            },
+            {
+                "name": "fvs",
+                "type": "string",
+                "display_text": "fvs"
+            },
+            {
+                "name": "count",
+                "type": "integer",
+                "display_text": "count"
             },
             {
                 "name": "data",
@@ -7643,6 +8582,61 @@
                 "name": "field",
                 "type": "string",
                 "display_text": "field"
+            }
+        ],
+        "command_flags": [
+            "readonly",
+            "fast"
+        ]
+    },
+    "HTTL": {
+        "summary": "Returns the TTL in seconds of a hash field.",
+        "since": "8.0.0",
+        "group": "hash",
+        "complexity": "O(N) where N is the number of arguments to the command",
+        "acl_categories": [
+            "@read",
+            "@hash",
+            "@fast"
+        ],
+        "arity": -4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 1
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true,
+                "access": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "numfields",
+                "type": "integer",
+                "display_text": "numfields"
+            },
+            {
+                "name": "field",
+                "type": "string",
+                "display_text": "field",
+                "multiple": true
             }
         ],
         "command_flags": [
@@ -12668,7 +13662,7 @@
                         "limit": 0
                     }
                 },
-                "RW": true,
+                "OW": true,
                 "update": true
             },
             {
@@ -14289,6 +15283,7 @@
         "complexity": "O(1)",
         "acl_categories": [
             "@slow",
+            "@blocking",
             "@connection"
         ],
         "arity": 3,
@@ -14304,6 +15299,9 @@
                 "display_text": "timeout"
             }
         ],
+        "command_flags": [
+            "blocking"
+        ],
         "hints": [
             "request_policy:all_shards",
             "response_policy:agg_min"
@@ -14316,6 +15314,7 @@
         "complexity": "O(1)",
         "acl_categories": [
             "@slow",
+            "@blocking",
             "@connection"
         ],
         "arity": 4,
@@ -14337,7 +15336,7 @@
             }
         ],
         "command_flags": [
-            "noscript"
+            "blocking"
         ],
         "hints": [
             "request_policy:all_shards",
@@ -14935,7 +15934,7 @@
                 "optional": true
             },
             {
-                "name": "entries-read",
+                "name": "entriesread",
                 "type": "integer",
                 "display_text": "entries-read",
                 "token": "ENTRIESREAD",
@@ -15213,7 +16212,7 @@
         "history": [
             [
                 "7.2.0",
-                "Added the `inactive` field."
+                "Added the `inactive` field, and changed the meaning of `idle`."
             ]
         ],
         "acl_categories": [
@@ -18329,4945 +19328,5 @@
             "denyoom",
             "movablekeys"
         ]
-    },
-    "FT.CREATE": {
-        "summary": "Creates an index with the given spec",
-        "complexity": "O(K) at creation where K is the number of fields, O(N) if scanning the keyspace is triggered, where N is the number of keys in the keyspace",
-        "history": [
-            [
-                "2.0.0",
-                "Added `PAYLOAD_FIELD` argument for backward support of `FT.SEARCH` deprecated `WITHPAYLOADS` argument"
-            ],
-            [
-                "2.0.0",
-                "Deprecated `PAYLOAD_FIELD` argument"
-            ]
-        ],
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "data_type",
-                "token": "ON",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "hash",
-                        "type": "pure-token",
-                        "token": "HASH"
-                    },
-                    {
-                        "name": "json",
-                        "type": "pure-token",
-                        "token": "JSON"
-                    }
-                ],
-                "optional": true
-            },
-            {
-                "name": "prefix",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "count",
-                        "type": "integer",
-                        "token": "PREFIX"
-                    },
-                    {
-                        "name": "prefix",
-                        "type": "string",
-                        "multiple": true
-                    }
-                ]
-            },
-            {
-                "name": "filter",
-                "type": "string",
-                "optional": true,
-                "token": "FILTER"
-            },
-            {
-                "name": "default_lang",
-                "type": "string",
-                "token": "LANGUAGE",
-                "optional": true
-            },
-            {
-                "name": "lang_attribute",
-                "type": "string",
-                "token": "LANGUAGE_FIELD",
-                "optional": true
-            },
-            {
-                "name": "default_score",
-                "type": "double",
-                "token": "SCORE",
-                "optional": true
-            },
-            {
-                "name": "score_attribute",
-                "type": "string",
-                "token": "SCORE_FIELD",
-                "optional": true
-            },
-            {
-                "name": "payload_attribute",
-                "type": "string",
-                "token": "PAYLOAD_FIELD",
-                "optional": true
-            },
-            {
-                "name": "maxtextfields",
-                "type": "pure-token",
-                "token": "MAXTEXTFIELDS",
-                "optional": true
-            },
-            {
-                "name": "seconds",
-                "type": "double",
-                "token": "TEMPORARY",
-                "optional": true
-            },
-            {
-                "name": "nooffsets",
-                "type": "pure-token",
-                "token": "NOOFFSETS",
-                "optional": true
-            },
-            {
-                "name": "nohl",
-                "type": "pure-token",
-                "token": "NOHL",
-                "optional": true
-            },
-            {
-                "name": "nofields",
-                "type": "pure-token",
-                "token": "NOFIELDS",
-                "optional": true
-            },
-            {
-                "name": "nofreqs",
-                "type": "pure-token",
-                "token": "NOFREQS",
-                "optional": true
-            },
-            {
-                "name": "stopwords",
-                "type": "block",
-                "optional": true,
-                "token": "STOPWORDS",
-                "arguments": [
-                    {
-                        "name": "count",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "stopword",
-                        "type": "string",
-                        "multiple": true,
-                        "optional": true
-                    }
-                ]
-            },
-            {
-                "name": "skipinitialscan",
-                "type": "pure-token",
-                "token": "SKIPINITIALSCAN",
-                "optional": true
-            },
-            {
-                "name": "schema",
-                "type": "pure-token",
-                "token": "SCHEMA"
-            },
-            {
-                "name": "field",
-                "type": "block",
-                "multiple": true,
-                "arguments": [
-                    {
-                        "name": "field_name",
-                        "type": "string"
-                    },
-                    {
-                        "name": "alias",
-                        "type": "string",
-                        "token": "AS",
-                        "optional": true
-                    },
-                    {
-                        "name": "field_type",
-                        "type": "oneof",
-                        "arguments": [
-                            {
-                                "name": "text",
-                                "type": "pure-token",
-                                "token": "TEXT"
-                            },
-                            {
-                                "name": "tag",
-                                "type": "pure-token",
-                                "token": "TAG"
-                            },
-                            {
-                                "name": "numeric",
-                                "type": "pure-token",
-                                "token": "NUMERIC"
-                            },
-                            {
-                                "name": "geo",
-                                "type": "pure-token",
-                                "token": "GEO"
-                            },
-                            {
-                                "name": "vector",
-                                "type": "pure-token",
-                                "token": "VECTOR"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "withsuffixtrie",
-                        "type": "pure-token",
-                        "token": "WITHSUFFIXTRIE",
-                        "optional": true
-                    },
-                    {
-                        "name": "sortable",
-                        "type": "block",
-                        "optional": true,
-                        "arguments": [
-                            {
-                                "name": "sortable",
-                                "type": "pure-token",
-                                "token": "SORTABLE"
-                            },
-                            {
-                                "name": "UNF",
-                                "type": "pure-token",
-                                "token": "UNF",
-                                "optional": true
-                            }
-                        ]
-                    },
-                    {
-                        "name": "noindex",
-                        "type": "pure-token",
-                        "token": "NOINDEX",
-                        "optional": true
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.INFO": {
-        "summary": "Returns information and statistics on the index",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.EXPLAIN": {
-        "summary": "Returns the execution plan for a complex query",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "query",
-                "type": "string"
-            },
-            {
-                "name": "dialect",
-                "type": "integer",
-                "optional": true,
-                "token": "DIALECT",
-                "since": "2.4.3"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.EXPLAINCLI": {
-        "summary": "Returns the execution plan for a complex query",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "query",
-                "type": "string"
-            },
-            {
-                "name": "dialect",
-                "type": "integer",
-                "optional": true,
-                "token": "DIALECT",
-                "since": "2.4.3"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.ALTER": {
-        "summary": "Adds a new field to the index",
-        "complexity": "O(N) where N is the number of keys in the keyspace",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "skipinitialscan",
-                "type": "pure-token",
-                "token": "SKIPINITIALSCAN",
-                "optional": true
-            },
-            {
-                "name": "schema",
-                "type": "pure-token",
-                "token": "SCHEMA"
-            },
-            {
-                "name": "add",
-                "type": "pure-token",
-                "token": "ADD"
-            },
-            {
-                "name": "field",
-                "type": "string"
-            },
-            {
-                "name": "options",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.DROPINDEX": {
-        "summary": "Deletes the index",
-        "complexity": "O(1) or O(N) if documents are deleted, where N is the number of keys in the keyspace",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "delete docs",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "delete docs",
-                        "type": "pure-token",
-                        "token": "DD"
-                    }
-                ],
-                "optional": true
-            }
-        ],
-        "since": "2.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.ALIASADD": {
-        "summary": "Adds an alias to the index",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "alias",
-                "type": "string"
-            },
-            {
-                "name": "index",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.ALIASUPDATE": {
-        "summary": "Adds or updates an alias to the index",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "alias",
-                "type": "string"
-            },
-            {
-                "name": "index",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.ALIASDEL": {
-        "summary": "Deletes an alias from the index",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "alias",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.TAGVALS": {
-        "summary": "Returns the distinct tags indexed in a Tag field",
-        "complexity": "O(N)",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "field_name",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.SUGADD": {
-        "summary": "Adds a suggestion string to an auto-complete suggestion dictionary",
-        "complexity": "O(1)",
-        "history": [
-            [
-                "2.0.0",
-                "Deprecated `PAYLOAD` argument"
-            ]
-        ],
-        "arguments": [
-            {
-                "name": "key",
-                "type": "string"
-            },
-            {
-                "name": "string",
-                "type": "string"
-            },
-            {
-                "name": "score",
-                "type": "double"
-            },
-            {
-                "name": "increment score",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "incr",
-                        "type": "pure-token",
-                        "token": "INCR"
-                    }
-                ],
-                "optional": true
-            },
-            {
-                "name": "payload",
-                "token": "PAYLOAD",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "suggestion",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.SUGGET": {
-        "summary": "Gets completion suggestions for a prefix",
-        "complexity": "O(1)",
-        "history": [
-            [
-                "2.0.0",
-                "Deprecated `WITHPAYLOADS` argument"
-            ]
-        ],
-        "arguments": [
-            {
-                "name": "key",
-                "type": "string"
-            },
-            {
-                "name": "prefix",
-                "type": "string"
-            },
-            {
-                "name": "fuzzy",
-                "type": "pure-token",
-                "token": "FUZZY",
-                "optional": true
-            },
-            {
-                "name": "withscores",
-                "type": "pure-token",
-                "token": "WITHSCORES",
-                "optional": true
-            },
-            {
-                "name": "withpayloads",
-                "type": "pure-token",
-                "token": "WITHPAYLOADS",
-                "optional": true
-            },
-            {
-                "name": "max",
-                "token": "MAX",
-                "type": "integer",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "suggestion",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.SUGDEL": {
-        "summary": "Deletes a string from a suggestion index",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "string"
-            },
-            {
-                "name": "string",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "suggestion",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.SUGLEN": {
-        "summary": "Gets the size of an auto-complete suggestion dictionary",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "suggestion",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.SYNUPDATE": {
-        "summary": "Creates or updates a synonym group with additional terms",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "synonym_group_id",
-                "type": "string"
-            },
-            {
-                "name": "skipinitialscan",
-                "type": "pure-token",
-                "token": "SKIPINITIALSCAN",
-                "optional": true
-            },
-            {
-                "name": "term",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "1.2.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.SYNDUMP": {
-        "summary": "Dumps the contents of a synonym group",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            }
-        ],
-        "since": "1.2.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.SPELLCHECK": {
-        "summary": "Performs spelling correction on a query, returning suggestions for misspelled terms",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "query",
-                "type": "string"
-            },
-            {
-                "name": "distance",
-                "token": "DISTANCE",
-                "type": "integer",
-                "optional": true
-            },
-            {
-                "name": "terms",
-                "token": "TERMS",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "inclusion",
-                        "type": "oneof",
-                        "arguments": [
-                            {
-                                "name": "include",
-                                "type": "pure-token",
-                                "token": "INCLUDE"
-                            },
-                            {
-                                "name": "exclude",
-                                "type": "pure-token",
-                                "token": "EXCLUDE"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "dictionary",
-                        "type": "string"
-                    },
-                    {
-                        "name": "terms",
-                        "type": "string",
-                        "multiple": true,
-                        "optional": true
-                    }
-                ]
-            },
-            {
-                "name": "dialect",
-                "type": "integer",
-                "optional": true,
-                "token": "DIALECT",
-                "since": "2.4.3"
-            }
-        ],
-        "since": "1.4.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.DICTADD": {
-        "summary": "Adds terms to a dictionary",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "dict",
-                "type": "string"
-            },
-            {
-                "name": "term",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "1.4.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.DICTDEL": {
-        "summary": "Deletes terms from a dictionary",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "dict",
-                "type": "string"
-            },
-            {
-                "name": "term",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "1.4.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.DICTDUMP": {
-        "summary": "Dumps all terms in the given dictionary",
-        "complexity": "O(N), where N is the size of the dictionary",
-        "arguments": [
-            {
-                "name": "dict",
-                "type": "string"
-            }
-        ],
-        "since": "1.4.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT._LIST": {
-        "summary": "Returns a list of all existing indexes",
-        "complexity": "O(1)",
-        "since": "2.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.CONFIG SET": {
-        "summary": "Sets runtime configuration options",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "option",
-                "type": "string"
-            },
-            {
-                "name": "value",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.CONFIG GET": {
-        "summary": "Retrieves runtime configuration options",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "option",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.CONFIG HELP": {
-        "summary": "Help description of runtime configuration options",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "option",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.SEARCH": {
-        "summary": "Searches the index with a textual query, returning either documents or just ids",
-        "complexity": "O(N)",
-        "history": [
-            [
-                "2.0.0",
-                "Deprecated `WITHPAYLOADS` and `PAYLOAD` arguments"
-            ]
-        ],
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "query",
-                "type": "string"
-            },
-            {
-                "name": "nocontent",
-                "type": "pure-token",
-                "token": "NOCONTENT",
-                "optional": true
-            },
-            {
-                "name": "verbatim",
-                "type": "pure-token",
-                "token": "VERBATIM",
-                "optional": true
-            },
-            {
-                "name": "nostopwords",
-                "type": "pure-token",
-                "token": "NOSTOPWORDS",
-                "optional": true
-            },
-            {
-                "name": "withscores",
-                "type": "pure-token",
-                "token": "WITHSCORES",
-                "optional": true
-            },
-            {
-                "name": "withpayloads",
-                "type": "pure-token",
-                "token": "WITHPAYLOADS",
-                "optional": true
-            },
-            {
-                "name": "withsortkeys",
-                "type": "pure-token",
-                "token": "WITHSORTKEYS",
-                "optional": true
-            },
-            {
-                "name": "filter",
-                "type": "block",
-                "optional": true,
-                "multiple": true,
-                "arguments": [
-                    {
-                        "name": "numeric_field",
-                        "type": "string",
-                        "token": "FILTER"
-                    },
-                    {
-                        "name": "min",
-                        "type": "double"
-                    },
-                    {
-                        "name": "max",
-                        "type": "double"
-                    }
-                ]
-            },
-            {
-                "name": "geo_filter",
-                "type": "block",
-                "optional": true,
-                "multiple": true,
-                "arguments": [
-                    {
-                        "name": "geo_field",
-                        "type": "string",
-                        "token": "GEOFILTER"
-                    },
-                    {
-                        "name": "lon",
-                        "type": "double"
-                    },
-                    {
-                        "name": "lat",
-                        "type": "double"
-                    },
-                    {
-                        "name": "radius",
-                        "type": "double"
-                    },
-                    {
-                        "name": "radius_type",
-                        "type": "oneof",
-                        "arguments": [
-                            {
-                                "name": "m",
-                                "type": "pure-token",
-                                "token": "m"
-                            },
-                            {
-                                "name": "km",
-                                "type": "pure-token",
-                                "token": "km"
-                            },
-                            {
-                                "name": "mi",
-                                "type": "pure-token",
-                                "token": "mi"
-                            },
-                            {
-                                "name": "ft",
-                                "type": "pure-token",
-                                "token": "ft"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "in_keys",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "count",
-                        "type": "string",
-                        "token": "INKEYS"
-                    },
-                    {
-                        "name": "key",
-                        "type": "string",
-                        "multiple": true
-                    }
-                ]
-            },
-            {
-                "name": "in_fields",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "count",
-                        "type": "string",
-                        "token": "INFIELDS"
-                    },
-                    {
-                        "name": "field",
-                        "type": "string",
-                        "multiple": true
-                    }
-                ]
-            },
-            {
-                "name": "return",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "count",
-                        "type": "string",
-                        "token": "RETURN"
-                    },
-                    {
-                        "name": "identifiers",
-                        "type": "block",
-                        "multiple": true,
-                        "arguments": [
-                            {
-                                "name": "identifier",
-                                "type": "string"
-                            },
-                            {
-                                "name": "property",
-                                "type": "string",
-                                "token": "AS",
-                                "optional": true
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "summarize",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "summarize",
-                        "type": "pure-token",
-                        "token": "SUMMARIZE"
-                    },
-                    {
-                        "name": "fields",
-                        "type": "block",
-                        "optional": true,
-                        "arguments": [
-                            {
-                                "name": "count",
-                                "type": "string",
-                                "token": "FIELDS"
-                            },
-                            {
-                                "name": "field",
-                                "type": "string",
-                                "multiple": true
-                            }
-                        ]
-                    },
-                    {
-                        "name": "num",
-                        "type": "integer",
-                        "token": "FRAGS",
-                        "optional": true
-                    },
-                    {
-                        "name": "fragsize",
-                        "type": "integer",
-                        "token": "LEN",
-                        "optional": true
-                    },
-                    {
-                        "name": "separator",
-                        "type": "string",
-                        "token": "SEPARATOR",
-                        "optional": true
-                    }
-                ]
-            },
-            {
-                "name": "highlight",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "highlight",
-                        "type": "pure-token",
-                        "token": "HIGHLIGHT"
-                    },
-                    {
-                        "name": "fields",
-                        "type": "block",
-                        "optional": true,
-                        "arguments": [
-                            {
-                                "name": "count",
-                                "type": "string",
-                                "token": "FIELDS"
-                            },
-                            {
-                                "name": "field",
-                                "type": "string",
-                                "multiple": true
-                            }
-                        ]
-                    },
-                    {
-                        "name": "tags",
-                        "type": "block",
-                        "optional": true,
-                        "arguments": [
-                            {
-                                "name": "tags",
-                                "type": "pure-token",
-                                "token": "TAGS"
-                            },
-                            {
-                                "name": "open",
-                                "type": "string"
-                            },
-                            {
-                                "name": "close",
-                                "type": "string"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "slop",
-                "type": "integer",
-                "optional": true,
-                "token": "SLOP"
-            },
-            {
-                "name": "timeout",
-                "type": "integer",
-                "optional": true,
-                "token": "TIMEOUT"
-            },
-            {
-                "name": "inorder",
-                "type": "pure-token",
-                "token": "INORDER",
-                "optional": true
-            },
-            {
-                "name": "language",
-                "type": "string",
-                "optional": true,
-                "token": "LANGUAGE"
-            },
-            {
-                "name": "expander",
-                "type": "string",
-                "optional": true,
-                "token": "EXPANDER"
-            },
-            {
-                "name": "scorer",
-                "type": "string",
-                "optional": true,
-                "token": "SCORER"
-            },
-            {
-                "name": "explainscore",
-                "type": "pure-token",
-                "token": "EXPLAINSCORE",
-                "optional": true
-            },
-            {
-                "name": "payload",
-                "type": "string",
-                "optional": true,
-                "token": "PAYLOAD"
-            },
-            {
-                "name": "sortby",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "sortby",
-                        "type": "string",
-                        "token": "SORTBY"
-                    },
-                    {
-                        "name": "order",
-                        "type": "oneof",
-                        "optional": true,
-                        "arguments": [
-                            {
-                                "name": "asc",
-                                "type": "pure-token",
-                                "token": "ASC"
-                            },
-                            {
-                                "name": "desc",
-                                "type": "pure-token",
-                                "token": "DESC"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "limit",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "limit",
-                        "type": "pure-token",
-                        "token": "LIMIT"
-                    },
-                    {
-                        "name": "offset",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "num",
-                        "type": "integer"
-                    }
-                ]
-            },
-            {
-                "name": "params",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "params",
-                        "type": "pure-token",
-                        "token": "PARAMS"
-                    },
-                    {
-                        "name": "nargs",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "values",
-                        "type": "block",
-                        "multiple": true,
-                        "arguments": [
-                            {
-                                "name": "name",
-                                "type": "string"
-                            },
-                            {
-                                "name": "value",
-                                "type": "string"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "dialect",
-                "type": "integer",
-                "optional": true,
-                "token": "DIALECT",
-                "since": "2.4.3"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.AGGREGATE": {
-        "summary": "Run a search query on an index and perform aggregate transformations on the results",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "query",
-                "type": "string"
-            },
-            {
-                "name": "verbatim",
-                "type": "pure-token",
-                "token": "VERBATIM",
-                "optional": true
-            },
-            {
-                "name": "load",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "count",
-                        "type": "string",
-                        "token": "LOAD"
-                    },
-                    {
-                        "name": "field",
-                        "type": "string",
-                        "multiple": true
-                    }
-                ]
-            },
-            {
-                "name": "timeout",
-                "type": "integer",
-                "optional": true,
-                "token": "TIMEOUT"
-            },
-            {
-                "name": "loadall",
-                "type": "pure-token",
-                "token": "LOAD *",
-                "optional": true
-            },
-            {
-                "name": "groupby",
-                "type": "block",
-                "optional": true,
-                "multiple": true,
-                "arguments": [
-                    {
-                        "name": "nargs",
-                        "type": "integer",
-                        "token": "GROUPBY"
-                    },
-                    {
-                        "name": "property",
-                        "type": "string",
-                        "multiple": true
-                    },
-                    {
-                        "name": "reduce",
-                        "type": "block",
-                        "optional": true,
-                        "multiple": true,
-                        "arguments": [
-                            {
-                                "name": "function",
-                                "type": "string",
-                                "token": "REDUCE"
-                            },
-                            {
-                                "name": "nargs",
-                                "type": "integer"
-                            },
-                            {
-                                "name": "arg",
-                                "type": "string",
-                                "multiple": true
-                            },
-                            {
-                                "name": "name",
-                                "type": "string",
-                                "token": "AS",
-                                "optional": true
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "sortby",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "nargs",
-                        "type": "integer",
-                        "token": "SORTBY"
-                    },
-                    {
-                        "name": "fields",
-                        "type": "block",
-                        "optional": true,
-                        "multiple": true,
-                        "arguments": [
-                            {
-                                "name": "property",
-                                "type": "string"
-                            },
-                            {
-                                "name": "order",
-                                "type": "oneof",
-                                "arguments": [
-                                    {
-                                        "name": "asc",
-                                        "type": "pure-token",
-                                        "token": "ASC"
-                                    },
-                                    {
-                                        "name": "desc",
-                                        "type": "pure-token",
-                                        "token": "DESC"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "name": "num",
-                        "type": "integer",
-                        "token": "MAX",
-                        "optional": true
-                    }
-                ]
-            },
-            {
-                "name": "apply",
-                "type": "block",
-                "optional": true,
-                "multiple": true,
-                "arguments": [
-                    {
-                        "name": "expression",
-                        "type": "string",
-                        "token": "APPLY"
-                    },
-                    {
-                        "name": "name",
-                        "type": "string",
-                        "token": "AS"
-                    }
-                ]
-            },
-            {
-                "name": "limit",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "limit",
-                        "type": "pure-token",
-                        "token": "LIMIT"
-                    },
-                    {
-                        "name": "offset",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "num",
-                        "type": "integer"
-                    }
-                ]
-            },
-            {
-                "name": "filter",
-                "type": "string",
-                "optional": true,
-                "token": "FILTER"
-            },
-            {
-                "name": "cursor",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "withcursor",
-                        "type": "pure-token",
-                        "token": "WITHCURSOR"
-                    },
-                    {
-                        "name": "read_size",
-                        "type": "integer",
-                        "optional": true,
-                        "token": "COUNT"
-                    },
-                    {
-                        "name": "idle_time",
-                        "type": "integer",
-                        "optional": true,
-                        "token": "MAXIDLE"
-                    }
-                ]
-            },
-            {
-                "name": "params",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "params",
-                        "type": "pure-token",
-                        "token": "PARAMS"
-                    },
-                    {
-                        "name": "nargs",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "values",
-                        "type": "block",
-                        "multiple": true,
-                        "arguments": [
-                            {
-                                "name": "name",
-                                "type": "string"
-                            },
-                            {
-                                "name": "value",
-                                "type": "string"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "dialect",
-                "type": "integer",
-                "optional": true,
-                "token": "DIALECT",
-                "since": "2.4.3"
-            }
-        ],
-        "since": "1.1.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.PROFILE": {
-        "summary": "Performs a `FT.SEARCH` or `FT.AGGREGATE` command and collects performance information",
-        "complexity": "O(N)",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "querytype",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "search",
-                        "type": "pure-token",
-                        "token": "SEARCH"
-                    },
-                    {
-                        "name": "aggregate",
-                        "type": "pure-token",
-                        "token": "AGGREGATE"
-                    }
-                ]
-            },
-            {
-                "name": "limited",
-                "type": "pure-token",
-                "token": "LIMITED",
-                "optional": true
-            },
-            {
-                "name": "queryword",
-                "type": "pure-token",
-                "token": "QUERY"
-            },
-            {
-                "name": "query",
-                "type": "string"
-            }
-        ],
-        "since": "2.2.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.CURSOR READ": {
-        "summary": "Reads from a cursor",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "cursor_id",
-                "type": "integer"
-            },
-            {
-                "name": "read size",
-                "type": "integer",
-                "optional": true,
-                "token": "COUNT"
-            }
-        ],
-        "since": "1.1.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "FT.CURSOR DEL": {
-        "summary": "Deletes a cursor",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "index",
-                "type": "string"
-            },
-            {
-                "name": "cursor_id",
-                "type": "integer"
-            }
-        ],
-        "since": "1.1.0",
-        "group": "search",
-        "module": "Search",
-        "stack_path": "docs/interact/search-and-query"
-    },
-    "JSON.DEL": {
-        "summary": "Deletes a value",
-        "complexity": "O(N) when path is evaluated to a single value where N is the size of the deleted value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.FORGET": {
-        "summary": "Deletes a value",
-        "complexity": "O(N) when path is evaluated to a single value where N is the size of the deleted value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.GET": {
-        "summary": "Gets the value at one or more paths in JSON serialized form",
-        "complexity": "O(N) when path is evaluated to a single value where N is the size of the value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "indent",
-                "token": "INDENT",
-                "type": "string",
-                "optional": true
-            },
-            {
-                "name": "newline",
-                "token": "NEWLINE",
-                "type": "string",
-                "optional": true
-            },
-            {
-                "name": "space",
-                "token": "SPACE",
-                "type": "string",
-                "optional": true
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true,
-                "multiple": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.TOGGLE": {
-        "summary": "Toggles a boolean value",
-        "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string"
-            }
-        ],
-        "since": "2.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.CLEAR": {
-        "summary": "Clears all values from an array or an object and sets numeric values to `0`",
-        "complexity": "O(N) when path is evaluated to a single value where N is the size of the values, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "2.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.SET": {
-        "summary": "Sets or updates the JSON value at a path",
-        "complexity": "O(M+N) when path is evaluated to a single value where M is the size of the original value (if it exists) and N is the size of the new value, O(M+N) when path is evaluated to multiple values where M is the size of the key and N is the size of the new value * the number of original values in the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string"
-            },
-            {
-                "name": "value",
-                "type": "string"
-            },
-            {
-                "name": "condition",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "nx",
-                        "type": "pure-token",
-                        "token": "NX"
-                    },
-                    {
-                        "name": "xx",
-                        "type": "pure-token",
-                        "token": "XX"
-                    }
-                ],
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.MSET": {
-        "summary": "Sets or updates the JSON value of one or more keys",
-        "complexity": "O(K*(M+N)) where k is the number of keys in the command, when path is evaluated to a single value where M is the size of the original value (if it exists) and N is the size of the new value, or O(K*(M+N)) when path is evaluated to multiple values where M is the size of the key and N is the size of the new value * the number of original values in the key",
-        "arguments": [
-            {
-                "name": "triplet",
-                "type": "block",
-                "multiple": true,
-                "arguments": [
-                    {
-                        "name": "key",
-                        "type": "key"
-                    },
-                    {
-                        "name": "path",
-                        "type": "string"
-                    },
-                    {
-                        "name": "value",
-                        "type": "string"
-                    }
-                ]
-            }
-        ],
-        "since": "2.6.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.MERGE": {
-        "summary": "Merges a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children",
-        "complexity": "O(M+N) when path is evaluated to a single value where M is the size of the original value (if it exists) and N is the size of the new value, O(M+N) when path is evaluated to multiple values where M is the size of the key and N is the size of the new value * the number of original values in the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string"
-            },
-            {
-                "name": "value",
-                "type": "string"
-            }
-        ],
-        "since": "2.6.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.MGET": {
-        "summary": "Returns the values at a path from one or more keys",
-        "complexity": "O(M*N) when path is evaluated to a single value where M is the number of keys and N is the size of the value, O(N1+N2+...+Nm) when path is evaluated to multiple values where m is the number of keys and Ni is the size of the i-th key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key",
-                "multiple": true
-            },
-            {
-                "name": "path",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.NUMINCRBY": {
-        "summary": "Increments the numeric value at path by a value",
-        "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string"
-            },
-            {
-                "name": "value",
-                "type": "double"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.NUMMULTBY": {
-        "summary": "Multiplies the numeric value at path by a value",
-        "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "deprecated_since": "2.0",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string"
-            },
-            {
-                "name": "value",
-                "type": "double"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.STRAPPEND": {
-        "summary": "Appends a string to a JSON string value at path",
-        "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            },
-            {
-                "name": "value",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.STRLEN": {
-        "summary": "Returns the length of the JSON String at path in key",
-        "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.ARRAPPEND": {
-        "summary": "Append one or more json values into the array at path after the last element in it.",
-        "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            },
-            {
-                "name": "value",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.ARRINDEX": {
-        "summary": "Returns the index of the first occurrence of a JSON scalar value in the array at path",
-        "complexity": "O(N) when path is evaluated to a single value where N is the size of the array, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string"
-            },
-            {
-                "name": "value",
-                "type": "string"
-            },
-            {
-                "name": "range",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "start",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "stop",
-                        "type": "integer",
-                        "optional": true
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.ARRINSERT": {
-        "summary": "Inserts the JSON scalar(s) value at the specified index in the array at path",
-        "complexity": "O(N) when path is evaluated to a single value where N is the size of the array, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string"
-            },
-            {
-                "name": "index",
-                "type": "integer"
-            },
-            {
-                "name": "value",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.ARRLEN": {
-        "summary": "Returns the length of the array at path",
-        "complexity": "O(1) where path is evaluated to a single value, O(N) where path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.ARRPOP": {
-        "summary": "Removes and returns the element at the specified index in the array at path",
-        "complexity": "O(N) when path is evaluated to a single value where N is the size of the array and the specified index is not the last element, O(1) when path is evaluated to a single value and the specified index is the last element, or O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "path",
-                        "type": "string"
-                    },
-                    {
-                        "name": "index",
-                        "type": "integer",
-                        "optional": true
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.ARRTRIM": {
-        "summary": "Trims the array at path to contain only the specified inclusive range of indices from start to stop",
-        "complexity": "O(N) when path is evaluated to a single value where N is the size of the array, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string"
-            },
-            {
-                "name": "start",
-                "type": "integer"
-            },
-            {
-                "name": "stop",
-                "type": "integer"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.OBJKEYS": {
-        "summary": "Returns the JSON keys of the object at path",
-        "complexity": "O(N) when path is evaluated to a single value, where N is the number of keys in the object, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.OBJLEN": {
-        "summary": "Returns the number of keys of the object at path",
-        "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.TYPE": {
-        "summary": "Returns the type of the JSON value at path",
-        "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.RESP": {
-        "summary": "Returns the JSON value at path in Redis Serialization Protocol (RESP)",
-        "complexity": "O(N) when path is evaluated to a single value, where N is the size of the value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "deprecated_since": "2.6",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.DEBUG": {
-        "summary": "Debugging container command",
-        "complexity": "N/A",
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.DEBUG HELP": {
-        "summary": "Shows helpful information",
-        "complexity": "N/A",
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "JSON.DEBUG MEMORY": {
-        "summary": "Reports the size in bytes of a key",
-        "complexity": "O(N) when path is evaluated to a single value, where N is the size of the value, O(N) when path is evaluated to multiple values, where N is the size of the key",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "path",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "json",
-        "module": "JSON",
-        "stack_path": "docs/data-types/json"
-    },
-    "TS.CREATE": {
-        "summary": "Create a new time series",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "type": "integer",
-                "token": "RETENTION",
-                "name": "retentionPeriod",
-                "optional": true
-            },
-            {
-                "token": "ENCODING",
-                "name": "enc",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "uncompressed",
-                        "type": "pure-token",
-                        "token": "UNCOMPRESSED"
-                    },
-                    {
-                        "name": "compressed",
-                        "type": "pure-token",
-                        "token": "COMPRESSED"
-                    }
-                ],
-                "optional": true
-            },
-            {
-                "type": "integer",
-                "token": "CHUNK_SIZE",
-                "name": "size",
-                "optional": true
-            },
-            {
-                "type": "oneof",
-                "token": "DUPLICATE_POLICY",
-                "name": "policy",
-                "arguments": [
-                    {
-                        "name": "block",
-                        "type": "pure-token",
-                        "token": "BLOCK"
-                    },
-                    {
-                        "name": "first",
-                        "type": "pure-token",
-                        "token": "FIRST"
-                    },
-                    {
-                        "name": "last",
-                        "type": "pure-token",
-                        "token": "LAST"
-                    },
-                    {
-                        "name": "min",
-                        "type": "pure-token",
-                        "token": "MIN"
-                    },
-                    {
-                        "name": "max",
-                        "type": "pure-token",
-                        "token": "MAX"
-                    },
-                    {
-                        "name": "sum",
-                        "type": "pure-token",
-                        "token": "SUM"
-                    }
-                ],
-                "optional": true
-            },
-            {
-                "type": "block",
-                "name": "labels",
-                "token": "LABELS",
-                "optional": true,
-                "multiple": true,
-                "arguments": [
-                    {
-                        "type": "string",
-                        "name": "label"
-                    },
-                    {
-                        "type": "string",
-                        "name": "value"
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.DEL": {
-        "summary": "Delete all samples between two timestamps for a given time series",
-        "complexity": "O(N) where N is the number of data points that will be removed",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "from_timestamp",
-                "type": "integer"
-            },
-            {
-                "name": "to_timestamp",
-                "type": "integer"
-            }
-        ],
-        "since": "1.6.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.ALTER": {
-        "summary": "Update the retention, chunk size, duplicate policy, and labels of an existing time series",
-        "complexity": "O(N) where N is the number of labels requested to update",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "type": "integer",
-                "token": "RETENTION",
-                "name": "retentionPeriod",
-                "optional": true
-            },
-            {
-                "type": "integer",
-                "token": "CHUNK_SIZE",
-                "name": "size",
-                "optional": true
-            },
-            {
-                "type": "oneof",
-                "token": "DUPLICATE_POLICY",
-                "name": "policy",
-                "arguments": [
-                    {
-                        "name": "block",
-                        "type": "pure-token",
-                        "token": "BLOCK"
-                    },
-                    {
-                        "name": "first",
-                        "type": "pure-token",
-                        "token": "FIRST"
-                    },
-                    {
-                        "name": "last",
-                        "type": "pure-token",
-                        "token": "LAST"
-                    },
-                    {
-                        "name": "min",
-                        "type": "pure-token",
-                        "token": "MIN"
-                    },
-                    {
-                        "name": "max",
-                        "type": "pure-token",
-                        "token": "MAX"
-                    },
-                    {
-                        "name": "sum",
-                        "type": "pure-token",
-                        "token": "SUM"
-                    }
-                ],
-                "optional": true
-            },
-            {
-                "type": "block",
-                "name": "labels",
-                "token": "LABELS",
-                "optional": true,
-                "multiple": true,
-                "arguments": [
-                    {
-                        "type": "string",
-                        "name": "label"
-                    },
-                    {
-                        "type": "string",
-                        "name": "value"
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.ADD": {
-        "summary": "Append a sample to a time series",
-        "complexity": "O(M) when M is the amount of compaction rules or O(1) with no compaction",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "timestamp",
-                "type": "string"
-            },
-            {
-                "name": "value",
-                "type": "double"
-            },
-            {
-                "type": "integer",
-                "token": "RETENTION",
-                "name": "retentionPeriod",
-                "optional": true
-            },
-            {
-                "token": "ENCODING",
-                "name": "enc",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "uncompressed",
-                        "type": "pure-token",
-                        "token": "UNCOMPRESSED"
-                    },
-                    {
-                        "name": "compressed",
-                        "type": "pure-token",
-                        "token": "COMPRESSED"
-                    }
-                ],
-                "optional": true
-            },
-            {
-                "type": "integer",
-                "token": "CHUNK_SIZE",
-                "name": "size",
-                "optional": true
-            },
-            {
-                "type": "oneof",
-                "token": "ON_DUPLICATE",
-                "name": "policy",
-                "arguments": [
-                    {
-                        "name": "block",
-                        "type": "pure-token",
-                        "token": "BLOCK"
-                    },
-                    {
-                        "name": "first",
-                        "type": "pure-token",
-                        "token": "FIRST"
-                    },
-                    {
-                        "name": "last",
-                        "type": "pure-token",
-                        "token": "LAST"
-                    },
-                    {
-                        "name": "min",
-                        "type": "pure-token",
-                        "token": "MIN"
-                    },
-                    {
-                        "name": "max",
-                        "type": "pure-token",
-                        "token": "MAX"
-                    },
-                    {
-                        "name": "sum",
-                        "type": "pure-token",
-                        "token": "SUM"
-                    }
-                ],
-                "optional": true
-            },
-            {
-                "type": "block",
-                "name": "labels",
-                "token": "LABELS",
-                "optional": true,
-                "multiple": true,
-                "arguments": [
-                    {
-                        "type": "string",
-                        "name": "label"
-                    },
-                    {
-                        "type": "string",
-                        "name": "value"
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.MADD": {
-        "summary": "Append new samples to one or more time series",
-        "complexity": "O(N*M) when N is the amount of series updated and M is the amount of compaction rules or O(N) with no compaction",
-        "arguments": [
-            {
-                "type": "block",
-                "name": "ktv",
-                "multiple": true,
-                "arguments": [
-                    {
-                        "type": "key",
-                        "name": "key"
-                    },
-                    {
-                        "type": "string",
-                        "name": "timestamp"
-                    },
-                    {
-                        "type": "double",
-                        "name": "value"
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.INCRBY": {
-        "summary": "Increase the value of the sample with the maximum existing timestamp, or create a new sample with a value equal to the value of the sample with the maximum existing timestamp with a given increment",
-        "complexity": "O(M) when M is the amount of compaction rules or O(1) with no compaction",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "value",
-                "type": "double"
-            },
-            {
-                "name": "timestamp",
-                "type": "string",
-                "token": "TIMESTAMP",
-                "optional": true
-            },
-            {
-                "type": "integer",
-                "token": "RETENTION",
-                "name": "retentionPeriod",
-                "optional": true
-            },
-            {
-                "name": "uncompressed",
-                "type": "pure-token",
-                "token": "UNCOMPRESSED",
-                "optional": true
-            },
-            {
-                "type": "integer",
-                "token": "CHUNK_SIZE",
-                "name": "size",
-                "optional": true
-            },
-            {
-                "type": "block",
-                "name": "labels",
-                "token": "LABELS",
-                "optional": true,
-                "multiple": true,
-                "arguments": [
-                    {
-                        "type": "string",
-                        "name": "label"
-                    },
-                    {
-                        "type": "string",
-                        "name": "value"
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.DECRBY": {
-        "summary": "Decrease the value of the sample with the maximum existing timestamp, or create a new sample with a value equal to the value of the sample with the maximum existing timestamp with a given decrement",
-        "complexity": "O(M) when M is the amount of compaction rules or O(1) with no compaction",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "value",
-                "type": "double"
-            },
-            {
-                "name": "timestamp",
-                "type": "string",
-                "token": "TIMESTAMP",
-                "optional": true
-            },
-            {
-                "type": "integer",
-                "token": "RETENTION",
-                "name": "retentionPeriod",
-                "optional": true
-            },
-            {
-                "name": "uncompressed",
-                "type": "pure-token",
-                "token": "UNCOMPRESSED",
-                "optional": true
-            },
-            {
-                "type": "integer",
-                "token": "CHUNK_SIZE",
-                "name": "size",
-                "optional": true
-            },
-            {
-                "type": "block",
-                "name": "labels",
-                "token": "LABELS",
-                "optional": true,
-                "multiple": true,
-                "arguments": [
-                    {
-                        "type": "string",
-                        "name": "label"
-                    },
-                    {
-                        "type": "string",
-                        "name": "value"
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.CREATERULE": {
-        "summary": "Create a compaction rule",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "sourceKey",
-                "type": "key"
-            },
-            {
-                "name": "destKey",
-                "type": "key"
-            },
-            {
-                "type": "oneof",
-                "token": "AGGREGATION",
-                "name": "aggregator",
-                "arguments": [
-                    {
-                        "name": "avg",
-                        "type": "pure-token",
-                        "token": "AVG"
-                    },
-                    {
-                        "name": "first",
-                        "type": "pure-token",
-                        "token": "FIRST"
-                    },
-                    {
-                        "name": "last",
-                        "type": "pure-token",
-                        "token": "LAST"
-                    },
-                    {
-                        "name": "min",
-                        "type": "pure-token",
-                        "token": "MIN"
-                    },
-                    {
-                        "name": "max",
-                        "type": "pure-token",
-                        "token": "MAX"
-                    },
-                    {
-                        "name": "sum",
-                        "type": "pure-token",
-                        "token": "SUM"
-                    },
-                    {
-                        "name": "range",
-                        "type": "pure-token",
-                        "token": "RANGE"
-                    },
-                    {
-                        "name": "count",
-                        "type": "pure-token",
-                        "token": "COUNT"
-                    },
-                    {
-                        "name": "std.p",
-                        "type": "pure-token",
-                        "token": "STD.P"
-                    },
-                    {
-                        "name": "std.s",
-                        "type": "pure-token",
-                        "token": "STD.S"
-                    },
-                    {
-                        "name": "var.p",
-                        "type": "pure-token",
-                        "token": "VAR.P"
-                    },
-                    {
-                        "name": "var.s",
-                        "type": "pure-token",
-                        "token": "VAR.S"
-                    },
-                    {
-                        "name": "twa",
-                        "type": "pure-token",
-                        "token": "TWA",
-                        "since": "1.8.0"
-                    }
-                ]
-            },
-            {
-                "name": "bucketDuration",
-                "type": "integer"
-            },
-            {
-                "name": "alignTimestamp",
-                "type": "integer",
-                "optional": true,
-                "since": "1.8.0"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.DELETERULE": {
-        "summary": "Delete a compaction rule",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "sourceKey",
-                "type": "key"
-            },
-            {
-                "name": "destKey",
-                "type": "key"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.RANGE": {
-        "summary": "Query a range in forward direction",
-        "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested range",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "fromTimestamp",
-                "type": "string"
-            },
-            {
-                "name": "toTimestamp",
-                "type": "string"
-            },
-            {
-                "name": "LATEST",
-                "type": "string",
-                "optional": true,
-                "since": "1.8.0"
-            },
-            {
-                "token": "FILTER_BY_TS",
-                "name": "Timestamp",
-                "type": "integer",
-                "multiple": true,
-                "optional": true
-            },
-            {
-                "type": "block",
-                "name": "fbv",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "FILTER_BY_VALUE",
-                        "type": "pure-token",
-                        "token": "FILTER_BY_VALUE"
-                    },
-                    {
-                        "type": "double",
-                        "name": "min"
-                    },
-                    {
-                        "type": "double",
-                        "name": "max"
-                    }
-                ]
-            },
-            {
-                "token": "COUNT",
-                "name": "count",
-                "type": "integer",
-                "optional": true
-            },
-            {
-                "name": "aggregation",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "token": "ALIGN",
-                        "name": "value",
-                        "type": "integer",
-                        "optional": true
-                    },
-                    {
-                        "type": "oneof",
-                        "token": "AGGREGATION",
-                        "name": "aggregator",
-                        "arguments": [
-                            {
-                                "name": "avg",
-                                "type": "pure-token",
-                                "token": "AVG"
-                            },
-                            {
-                                "name": "first",
-                                "type": "pure-token",
-                                "token": "FIRST"
-                            },
-                            {
-                                "name": "last",
-                                "type": "pure-token",
-                                "token": "LAST"
-                            },
-                            {
-                                "name": "min",
-                                "type": "pure-token",
-                                "token": "MIN"
-                            },
-                            {
-                                "name": "max",
-                                "type": "pure-token",
-                                "token": "MAX"
-                            },
-                            {
-                                "name": "sum",
-                                "type": "pure-token",
-                                "token": "SUM"
-                            },
-                            {
-                                "name": "range",
-                                "type": "pure-token",
-                                "token": "RANGE"
-                            },
-                            {
-                                "name": "count",
-                                "type": "pure-token",
-                                "token": "COUNT"
-                            },
-                            {
-                                "name": "std.p",
-                                "type": "pure-token",
-                                "token": "STD.P"
-                            },
-                            {
-                                "name": "std.s",
-                                "type": "pure-token",
-                                "token": "STD.S"
-                            },
-                            {
-                                "name": "var.p",
-                                "type": "pure-token",
-                                "token": "VAR.P"
-                            },
-                            {
-                                "name": "var.s",
-                                "type": "pure-token",
-                                "token": "VAR.S"
-                            },
-                            {
-                                "name": "twa",
-                                "type": "pure-token",
-                                "token": "TWA",
-                                "since": "1.8.0"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "bucketDuration",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "buckettimestamp",
-                        "type": "pure-token",
-                        "token": "BUCKETTIMESTAMP",
-                        "optional": true,
-                        "since": "1.8.0"
-                    },
-                    {
-                        "name": "empty",
-                        "type": "pure-token",
-                        "token": "EMPTY",
-                        "optional": true,
-                        "since": "1.8.0"
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.REVRANGE": {
-        "summary": "Query a range in reverse direction",
-        "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested range",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "fromTimestamp",
-                "type": "string"
-            },
-            {
-                "name": "toTimestamp",
-                "type": "string"
-            },
-            {
-                "name": "LATEST",
-                "type": "string",
-                "optional": true,
-                "since": "1.8.0"
-            },
-            {
-                "token": "FILTER_BY_TS",
-                "name": "Timestamp",
-                "type": "integer",
-                "multiple": true,
-                "optional": true
-            },
-            {
-                "type": "block",
-                "name": "fbv",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "FILTER_BY_VALUE",
-                        "type": "pure-token",
-                        "token": "FILTER_BY_VALUE"
-                    },
-                    {
-                        "type": "double",
-                        "name": "min"
-                    },
-                    {
-                        "type": "double",
-                        "name": "max"
-                    }
-                ]
-            },
-            {
-                "token": "COUNT",
-                "name": "count",
-                "type": "integer",
-                "optional": true
-            },
-            {
-                "name": "aggregation",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "token": "ALIGN",
-                        "name": "value",
-                        "type": "integer",
-                        "optional": true
-                    },
-                    {
-                        "type": "oneof",
-                        "token": "AGGREGATION",
-                        "name": "aggregator",
-                        "arguments": [
-                            {
-                                "name": "avg",
-                                "type": "pure-token",
-                                "token": "AVG"
-                            },
-                            {
-                                "name": "first",
-                                "type": "pure-token",
-                                "token": "FIRST"
-                            },
-                            {
-                                "name": "last",
-                                "type": "pure-token",
-                                "token": "LAST"
-                            },
-                            {
-                                "name": "min",
-                                "type": "pure-token",
-                                "token": "MIN"
-                            },
-                            {
-                                "name": "max",
-                                "type": "pure-token",
-                                "token": "MAX"
-                            },
-                            {
-                                "name": "sum",
-                                "type": "pure-token",
-                                "token": "SUM"
-                            },
-                            {
-                                "name": "range",
-                                "type": "pure-token",
-                                "token": "RANGE"
-                            },
-                            {
-                                "name": "count",
-                                "type": "pure-token",
-                                "token": "COUNT"
-                            },
-                            {
-                                "name": "std.p",
-                                "type": "pure-token",
-                                "token": "STD.P"
-                            },
-                            {
-                                "name": "std.s",
-                                "type": "pure-token",
-                                "token": "STD.S"
-                            },
-                            {
-                                "name": "var.p",
-                                "type": "pure-token",
-                                "token": "VAR.P"
-                            },
-                            {
-                                "name": "var.s",
-                                "type": "pure-token",
-                                "token": "VAR.S"
-                            },
-                            {
-                                "name": "twa",
-                                "type": "pure-token",
-                                "token": "TWA",
-                                "since": "1.8.0"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "bucketDuration",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "buckettimestamp",
-                        "type": "pure-token",
-                        "token": "BUCKETTIMESTAMP",
-                        "optional": true,
-                        "since": "1.8.0"
-                    },
-                    {
-                        "name": "empty",
-                        "type": "pure-token",
-                        "token": "EMPTY",
-                        "optional": true,
-                        "since": "1.8.0"
-                    }
-                ]
-            }
-        ],
-        "since": "1.4.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.MRANGE": {
-        "summary": "Query a range across multiple time series by filters in forward direction",
-        "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested ranges",
-        "arguments": [
-            {
-                "name": "fromTimestamp",
-                "type": "string"
-            },
-            {
-                "name": "toTimestamp",
-                "type": "string"
-            },
-            {
-                "name": "LATEST",
-                "type": "string",
-                "optional": true,
-                "since": "1.8.0"
-            },
-            {
-                "token": "FILTER_BY_TS",
-                "name": "Timestamp",
-                "type": "integer",
-                "multiple": true,
-                "optional": true
-            },
-            {
-                "type": "block",
-                "name": "fbv",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "FILTER_BY_VALUE",
-                        "type": "pure-token",
-                        "token": "FILTER_BY_VALUE"
-                    },
-                    {
-                        "type": "double",
-                        "name": "min"
-                    },
-                    {
-                        "type": "double",
-                        "name": "max"
-                    }
-                ]
-            },
-            {
-                "name": "labels",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "WITHLABELS",
-                        "type": "pure-token",
-                        "token": "WITHLABELS"
-                    },
-                    {
-                        "type": "block",
-                        "name": "SELECTED_LABELS_BLOCK",
-                        "arguments": [
-                            {
-                                "name": "SELECTED_LABELS",
-                                "type": "pure-token",
-                                "token": "SELECTED_LABELS"
-                            },
-                            {
-                                "name": "label1",
-                                "type": "string",
-                                "multiple": true
-                            }
-                        ]
-                    }
-                ],
-                "optional": true
-            },
-            {
-                "token": "COUNT",
-                "name": "count",
-                "type": "integer",
-                "optional": true
-            },
-            {
-                "name": "aggregation",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "token": "ALIGN",
-                        "name": "value",
-                        "type": "integer",
-                        "optional": true
-                    },
-                    {
-                        "type": "oneof",
-                        "token": "AGGREGATION",
-                        "name": "aggregator",
-                        "arguments": [
-                            {
-                                "name": "avg",
-                                "type": "pure-token",
-                                "token": "AVG"
-                            },
-                            {
-                                "name": "first",
-                                "type": "pure-token",
-                                "token": "FIRST"
-                            },
-                            {
-                                "name": "last",
-                                "type": "pure-token",
-                                "token": "LAST"
-                            },
-                            {
-                                "name": "min",
-                                "type": "pure-token",
-                                "token": "MIN"
-                            },
-                            {
-                                "name": "max",
-                                "type": "pure-token",
-                                "token": "MAX"
-                            },
-                            {
-                                "name": "sum",
-                                "type": "pure-token",
-                                "token": "SUM"
-                            },
-                            {
-                                "name": "range",
-                                "type": "pure-token",
-                                "token": "RANGE"
-                            },
-                            {
-                                "name": "count",
-                                "type": "pure-token",
-                                "token": "COUNT"
-                            },
-                            {
-                                "name": "std.p",
-                                "type": "pure-token",
-                                "token": "STD.P"
-                            },
-                            {
-                                "name": "std.s",
-                                "type": "pure-token",
-                                "token": "STD.S"
-                            },
-                            {
-                                "name": "var.p",
-                                "type": "pure-token",
-                                "token": "VAR.P"
-                            },
-                            {
-                                "name": "var.s",
-                                "type": "pure-token",
-                                "token": "VAR.S"
-                            },
-                            {
-                                "name": "twa",
-                                "type": "pure-token",
-                                "token": "TWA",
-                                "since": "1.8.0"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "bucketDuration",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "buckettimestamp",
-                        "type": "pure-token",
-                        "token": "BUCKETTIMESTAMP",
-                        "optional": true,
-                        "since": "1.8.0"
-                    },
-                    {
-                        "name": "empty",
-                        "type": "pure-token",
-                        "token": "EMPTY",
-                        "optional": true,
-                        "since": "1.8.0"
-                    }
-                ]
-            },
-            {
-                "name": "filterExpr",
-                "token": "FILTER",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "l=v",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=v",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l=",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l=(v1,v2,...)",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=(v1,v2,...)",
-                        "type": "string"
-                    }
-                ],
-                "multiple": true
-            },
-            {
-                "type": "block",
-                "name": "groupby",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "GROUPBY",
-                        "type": "pure-token",
-                        "token": "GROUPBY"
-                    },
-                    {
-                        "type": "string",
-                        "name": "label"
-                    },
-                    {
-                        "type": "string",
-                        "name": "REDUCE"
-                    },
-                    {
-                        "type": "string",
-                        "name": "reducer"
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.MREVRANGE": {
-        "summary": "Query a range across multiple time-series by filters in reverse direction",
-        "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested ranges",
-        "since": "1.4.0",
-        "arguments": [
-            {
-                "name": "fromTimestamp",
-                "type": "string"
-            },
-            {
-                "name": "toTimestamp",
-                "type": "string"
-            },
-            {
-                "name": "LATEST",
-                "type": "string",
-                "optional": true,
-                "since": "1.8.0"
-            },
-            {
-                "token": "FILTER_BY_TS",
-                "name": "Timestamp",
-                "type": "integer",
-                "multiple": true,
-                "optional": true
-            },
-            {
-                "type": "block",
-                "name": "fbv",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "FILTER_BY_VALUE",
-                        "type": "pure-token",
-                        "token": "FILTER_BY_VALUE"
-                    },
-                    {
-                        "type": "double",
-                        "name": "min"
-                    },
-                    {
-                        "type": "double",
-                        "name": "max"
-                    }
-                ]
-            },
-            {
-                "name": "labels",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "WITHLABELS",
-                        "type": "pure-token",
-                        "token": "WITHLABELS"
-                    },
-                    {
-                        "type": "block",
-                        "name": "SELECTED_LABELS_BLOCK",
-                        "arguments": [
-                            {
-                                "name": "SELECTED_LABELS",
-                                "type": "pure-token",
-                                "token": "SELECTED_LABELS"
-                            },
-                            {
-                                "name": "label1",
-                                "type": "string",
-                                "multiple": true
-                            }
-                        ]
-                    }
-                ],
-                "optional": true
-            },
-            {
-                "token": "COUNT",
-                "name": "count",
-                "type": "integer",
-                "optional": true
-            },
-            {
-                "name": "aggregation",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "token": "ALIGN",
-                        "name": "value",
-                        "type": "integer",
-                        "optional": true
-                    },
-                    {
-                        "type": "oneof",
-                        "token": "AGGREGATION",
-                        "name": "aggregator",
-                        "arguments": [
-                            {
-                                "name": "avg",
-                                "type": "pure-token",
-                                "token": "AVG"
-                            },
-                            {
-                                "name": "first",
-                                "type": "pure-token",
-                                "token": "FIRST"
-                            },
-                            {
-                                "name": "last",
-                                "type": "pure-token",
-                                "token": "LAST"
-                            },
-                            {
-                                "name": "min",
-                                "type": "pure-token",
-                                "token": "MIN"
-                            },
-                            {
-                                "name": "max",
-                                "type": "pure-token",
-                                "token": "MAX"
-                            },
-                            {
-                                "name": "sum",
-                                "type": "pure-token",
-                                "token": "SUM"
-                            },
-                            {
-                                "name": "range",
-                                "type": "pure-token",
-                                "token": "RANGE"
-                            },
-                            {
-                                "name": "count",
-                                "type": "pure-token",
-                                "token": "COUNT"
-                            },
-                            {
-                                "name": "std.p",
-                                "type": "pure-token",
-                                "token": "STD.P"
-                            },
-                            {
-                                "name": "std.s",
-                                "type": "pure-token",
-                                "token": "STD.S"
-                            },
-                            {
-                                "name": "var.p",
-                                "type": "pure-token",
-                                "token": "VAR.P"
-                            },
-                            {
-                                "name": "var.s",
-                                "type": "pure-token",
-                                "token": "VAR.S"
-                            },
-                            {
-                                "name": "twa",
-                                "type": "pure-token",
-                                "token": "TWA",
-                                "since": "1.8.0"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "bucketDuration",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "buckettimestamp",
-                        "type": "pure-token",
-                        "token": "BUCKETTIMESTAMP",
-                        "optional": true,
-                        "since": "1.8.0"
-                    },
-                    {
-                        "name": "empty",
-                        "type": "pure-token",
-                        "token": "EMPTY",
-                        "optional": true,
-                        "since": "1.8.0"
-                    }
-                ]
-            },
-            {
-                "name": "filterExpr",
-                "token": "FILTER",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "l=v",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=v",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l=",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l=(v1,v2,...)",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=(v1,v2,...)",
-                        "type": "string"
-                    }
-                ],
-                "multiple": true
-            },
-            {
-                "type": "block",
-                "name": "groupby",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "GROUPBY",
-                        "type": "pure-token",
-                        "token": "GROUPBY"
-                    },
-                    {
-                        "type": "string",
-                        "name": "label"
-                    },
-                    {
-                        "type": "string",
-                        "name": "REDUCE"
-                    },
-                    {
-                        "type": "string",
-                        "name": "reducer"
-                    }
-                ]
-            }
-        ],
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.GET": {
-        "summary": "Get the sample with the highest timestamp from a given time series",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "LATEST",
-                "type": "string",
-                "optional": true,
-                "since": "1.8.0"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.MGET": {
-        "summary": "Get the sample with the highest timestamp from each time series matching a specific filter",
-        "complexity": "O(n) where n is the number of time-series that match the filters",
-        "arguments": [
-            {
-                "name": "LATEST",
-                "type": "string",
-                "optional": true,
-                "since": "1.8.0"
-            },
-            {
-                "name": "labels",
-                "type": "oneof",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "WITHLABELS",
-                        "type": "pure-token",
-                        "token": "WITHLABELS"
-                    },
-                    {
-                        "type": "block",
-                        "name": "SELECTED_LABELS_BLOCK",
-                        "arguments": [
-                            {
-                                "name": "SELECTED_LABELS",
-                                "type": "pure-token",
-                                "token": "SELECTED_LABELS"
-                            },
-                            {
-                                "name": "label1",
-                                "type": "string",
-                                "multiple": true
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "filterExpr",
-                "token": "FILTER",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "l=v",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=v",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l=",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l=(v1,v2,...)",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=(v1,v2,...)",
-                        "type": "string"
-                    }
-                ],
-                "multiple": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.INFO": {
-        "summary": "Returns information and statistics for a time series",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "DEBUG",
-                "type": "string",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "TS.QUERYINDEX": {
-        "summary": "Get all time series keys matching a filter list",
-        "complexity": "O(n) where n is the number of time-series that match the filters",
-        "arguments": [
-            {
-                "name": "filterExpr",
-                "type": "oneof",
-                "arguments": [
-                    {
-                        "name": "l=v",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=v",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l=",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l=(v1,v2,...)",
-                        "type": "string"
-                    },
-                    {
-                        "name": "l!=(v1,v2,...)",
-                        "type": "string"
-                    }
-                ],
-                "multiple": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "timeseries",
-        "module": "TimeSeries",
-        "stack_path": "docs/data-types/timeseries"
-    },
-    "BF.RESERVE": {
-        "summary": "Creates a new Bloom Filter",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "error_rate",
-                "type": "double"
-            },
-            {
-                "name": "capacity",
-                "type": "integer"
-            },
-            {
-                "name": "expansion",
-                "type": "integer",
-                "token": "EXPANSION",
-                "optional": true
-            },
-            {
-                "name": "nonscaling",
-                "type": "pure-token",
-                "token": "NONSCALING",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "bf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "BF.ADD": {
-        "summary": "Adds an item to a Bloom Filter",
-        "complexity": "O(k), where k is the number of hash functions used by the last sub-filter",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "bf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "BF.MADD": {
-        "summary": "Adds one or more items to a Bloom Filter. A filter will be created if it does not exist",
-        "complexity": "O(k * n), where k is the number of hash functions and n is the number of items",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "bf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "BF.INSERT": {
-        "summary": "Adds one or more items to a Bloom Filter. A filter will be created if it does not exist",
-        "complexity": "O(k * n), where k is the number of hash functions and n is the number of items",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "capacity",
-                "type": "integer",
-                "token": "CAPACITY",
-                "optional": true
-            },
-            {
-                "name": "error",
-                "type": "double",
-                "token": "ERROR",
-                "optional": true
-            },
-            {
-                "name": "expansion",
-                "type": "integer",
-                "token": "EXPANSION",
-                "optional": true
-            },
-            {
-                "name": "nocreate",
-                "token": "NOCREATE",
-                "type": "pure-token",
-                "optional": true
-            },
-            {
-                "name": "nonscaling",
-                "token": "NONSCALING",
-                "type": "pure-token",
-                "optional": true
-            },
-            {
-                "name": "items",
-                "token": "ITEMS",
-                "type": "pure-token"
-            },
-            {
-                "name": "item",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "bf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "BF.EXISTS": {
-        "summary": "Checks whether an item exists in a Bloom Filter",
-        "complexity": "O(k), where k is the number of hash functions used by the last sub-filter",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "bf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "BF.MEXISTS": {
-        "summary": "Checks whether one or more items exist in a Bloom Filter",
-        "complexity": "O(k * n), where k is the number of hash functions and n is the number of items",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "bf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "BF.SCANDUMP": {
-        "summary": "Begins an incremental save of the bloom filter",
-        "complexity": "O(n), where n is the capacity",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "iterator",
-                "type": "integer"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "bf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "BF.LOADCHUNK": {
-        "summary": "Restores a filter previously saved using SCANDUMP",
-        "complexity": "O(n), where n is the capacity",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "iterator",
-                "type": "integer"
-            },
-            {
-                "name": "data",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "bf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "BF.INFO": {
-        "summary": "Returns information about a Bloom Filter",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "single_value",
-                "type": "oneof",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "capacity",
-                        "type": "pure-token",
-                        "token": "CAPACITY"
-                    },
-                    {
-                        "name": "size",
-                        "type": "pure-token",
-                        "token": "SIZE"
-                    },
-                    {
-                        "name": "filters",
-                        "type": "pure-token",
-                        "token": "FILTERS"
-                    },
-                    {
-                        "name": "items",
-                        "type": "pure-token",
-                        "token": "ITEMS"
-                    },
-                    {
-                        "name": "expansion",
-                        "type": "pure-token",
-                        "token": "EXPANSION"
-                    }
-                ]
-            }
-        ],
-        "since": "1.0.0",
-        "group": "bf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "BF.CARD": {
-        "summary": "Returns the cardinality of a Bloom filter",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            }
-        ],
-        "since": "2.4.4",
-        "group": "bf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.RESERVE": {
-        "summary": "Creates a new Cuckoo Filter",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "capacity",
-                "type": "integer"
-            },
-            {
-                "name": "bucketsize",
-                "type": "integer",
-                "token": "BUCKETSIZE",
-                "optional": true
-            },
-            {
-                "name": "maxiterations",
-                "type": "integer",
-                "token": "MAXITERATIONS",
-                "optional": true
-            },
-            {
-                "name": "expansion",
-                "type": "integer",
-                "token": "EXPANSION",
-                "optional": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.ADD": {
-        "summary": "Adds an item to a Cuckoo Filter",
-        "complexity": "O(k + i), where k is the number of sub-filters and i is maxIterations",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.ADDNX": {
-        "summary": "Adds an item to a Cuckoo Filter if the item did not exist previously.",
-        "complexity": "O(k + i), where k is the number of sub-filters and i is maxIterations",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.INSERT": {
-        "summary": "Adds one or more items to a Cuckoo Filter. A filter will be created if it does not exist",
-        "complexity": "O(n * (k + i)), where n is the number of items, k is the number of sub-filters and i is maxIterations",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "capacity",
-                "type": "integer",
-                "token": "CAPACITY",
-                "optional": true
-            },
-            {
-                "name": "nocreate",
-                "token": "NOCREATE",
-                "type": "pure-token",
-                "optional": true
-            },
-            {
-                "name": "items",
-                "token": "ITEMS",
-                "type": "pure-token"
-            },
-            {
-                "name": "item",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.INSERTNX": {
-        "summary": "Adds one or more items to a Cuckoo Filter if the items did not exist previously. A filter will be created if it does not exist",
-        "complexity": "O(n * (k + i)), where n is the number of items, k is the number of sub-filters and i is maxIterations",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "capacity",
-                "type": "integer",
-                "token": "CAPACITY",
-                "optional": true
-            },
-            {
-                "name": "nocreate",
-                "token": "NOCREATE",
-                "type": "pure-token",
-                "optional": true
-            },
-            {
-                "name": "items",
-                "token": "ITEMS",
-                "type": "pure-token"
-            },
-            {
-                "name": "item",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.EXISTS": {
-        "summary": "Checks whether one or more items exist in a Cuckoo Filter",
-        "complexity": "O(k), where k is the number of sub-filters",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.MEXISTS": {
-        "summary": "Checks whether one or more items exist in a Cuckoo Filter",
-        "complexity": "O(k * n), where k is the number of sub-filters and n is the number of items",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.DEL": {
-        "summary": "Deletes an item from a Cuckoo Filter",
-        "complexity": "O(k), where k is the number of sub-filters",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.COUNT": {
-        "summary": "Return the number of times an item might be in a Cuckoo Filter",
-        "complexity": "O(k), where k is the number of sub-filters",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.SCANDUMP": {
-        "summary": "Begins an incremental save of the bloom filter",
-        "complexity": "O(n), where n is the capacity",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "iterator",
-                "type": "integer"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.LOADCHUNK": {
-        "summary": "Restores a filter previously saved using SCANDUMP",
-        "complexity": "O(n), where n is the capacity",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "iterator",
-                "type": "integer"
-            },
-            {
-                "name": "data",
-                "type": "string"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CF.INFO": {
-        "summary": "Returns information about a Cuckoo Filter",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            }
-        ],
-        "since": "1.0.0",
-        "group": "cf",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CMS.INITBYDIM": {
-        "summary": "Initializes a Count-Min Sketch to dimensions specified by user",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "width",
-                "type": "integer"
-            },
-            {
-                "name": "depth",
-                "type": "integer"
-            }
-        ],
-        "since": "2.0.0",
-        "group": "cms",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CMS.INITBYPROB": {
-        "summary": "Initializes a Count-Min Sketch to accommodate requested tolerances.",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "error",
-                "type": "double"
-            },
-            {
-                "name": "probability",
-                "type": "double"
-            }
-        ],
-        "since": "2.0.0",
-        "group": "cms",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CMS.INCRBY": {
-        "summary": "Increases the count of one or more items by increment",
-        "complexity": "O(n) where n is the number of items",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "items",
-                "type": "block",
-                "multiple": true,
-                "arguments": [
-                    {
-                        "name": "item",
-                        "type": "string"
-                    },
-                    {
-                        "name": "increment",
-                        "type": "integer"
-                    }
-                ]
-            }
-        ],
-        "since": "2.0.0",
-        "group": "cms",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CMS.QUERY": {
-        "summary": "Returns the count for one or more items in a sketch",
-        "complexity": "O(n) where n is the number of items",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "2.0.0",
-        "group": "cms",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CMS.MERGE": {
-        "summary": "Merges several sketches into one sketch",
-        "complexity": "O(n) where n is the number of sketches",
-        "arguments": [
-            {
-                "name": "destination",
-                "type": "key"
-            },
-            {
-                "name": "numKeys",
-                "type": "integer"
-            },
-            {
-                "name": "source",
-                "type": "key",
-                "multiple": true
-            },
-            {
-                "name": "weight",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "weights",
-                        "token": "WEIGHTS",
-                        "type": "pure-token"
-                    },
-                    {
-                        "name": "weight",
-                        "type": "double",
-                        "multiple": true
-                    }
-                ]
-            }
-        ],
-        "since": "2.0.0",
-        "group": "cms",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "CMS.INFO": {
-        "summary": "Returns information about a sketch",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            }
-        ],
-        "since": "2.0.0",
-        "group": "cms",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TOPK.RESERVE": {
-        "summary": "Initializes a TopK with specified parameters",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "topk",
-                "type": "integer"
-            },
-            {
-                "name": "params",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "width",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "depth",
-                        "type": "integer"
-                    },
-                    {
-                        "name": "decay",
-                        "type": "double"
-                    }
-                ]
-            }
-        ],
-        "since": "2.0.0",
-        "group": "topk",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TOPK.ADD": {
-        "summary": "Increases the count of one or more items by increment",
-        "complexity": "O(n * k) where n is the number of items and k is the depth",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "items",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "2.0.0",
-        "group": "topk",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TOPK.INCRBY": {
-        "summary": "Increases the count of one or more items by increment",
-        "complexity": "O(n * k * incr) where n is the number of items, k is the depth and incr is the increment",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "items",
-                "type": "block",
-                "multiple": true,
-                "arguments": [
-                    {
-                        "name": "item",
-                        "type": "string"
-                    },
-                    {
-                        "name": "increment",
-                        "type": "integer"
-                    }
-                ]
-            }
-        ],
-        "since": "2.0.0",
-        "group": "topk",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TOPK.QUERY": {
-        "summary": "Checks whether one or more items are in a sketch",
-        "complexity": "O(n) where n is the number of items",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "2.0.0",
-        "group": "topk",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TOPK.COUNT": {
-        "summary": "Return the count for one or more items are in a sketch",
-        "complexity": "O(n) where n is the number of items",
-        "deprecated_since": "2.4",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "item",
-                "type": "string",
-                "multiple": true
-            }
-        ],
-        "since": "2.0.0",
-        "group": "topk",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TOPK.LIST": {
-        "summary": "Return full list of items in Top K list",
-        "complexity": "O(k) where k is the value of top-k",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "withcount",
-                "token": "WITHCOUNT",
-                "type": "pure-token",
-                "optional": true
-            }
-        ],
-        "since": "2.0.0",
-        "group": "topk",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TOPK.INFO": {
-        "summary": "Returns information about a sketch",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            }
-        ],
-        "since": "2.0.0",
-        "group": "topk",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.CREATE": {
-        "summary": "Allocates memory and initializes a new t-digest sketch",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "compression",
-                "type": "integer",
-                "token": "COMPRESSION",
-                "optional": true
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.RESET": {
-        "summary": "Resets a t-digest sketch: empty the sketch and re-initializes it.",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.ADD": {
-        "summary": "Adds one or more observations to a t-digest sketch",
-        "complexity": "O(N) , where N is the number of samples to add",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "values",
-                "type": "block",
-                "multiple": true,
-                "arguments": [
-                    {
-                        "name": "value",
-                        "type": "double"
-                    }
-                ]
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.MERGE": {
-        "summary": "Merges multiple t-digest sketches into a single sketch",
-        "complexity": "O(N*K), where N is the number of centroids and K being the number of input sketches",
-        "arguments": [
-            {
-                "name": "destination-key",
-                "type": "key"
-            },
-            {
-                "name": "numkeys",
-                "type": "integer"
-            },
-            {
-                "name": "source-key",
-                "type": "key",
-                "multiple": true
-            },
-            {
-                "name": "config",
-                "type": "block",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "compression",
-                        "token": "COMPRESSION",
-                        "type": "pure-token"
-                    },
-                    {
-                        "name": "compression",
-                        "type": "integer"
-                    }
-                ]
-            },
-            {
-                "name": "override",
-                "type": "pure-token",
-                "token": "OVERRIDE",
-                "optional": true
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.MIN": {
-        "summary": "Returns the minimum observation value from a t-digest sketch",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.MAX": {
-        "summary": "Returns the maximum observation value from a t-digest sketch",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.QUANTILE": {
-        "summary": "Returns, for each input fraction, an estimation of the value (floating point) that is smaller than the given fraction of observations",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "quantile",
-                "type": "double",
-                "multiple": true
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.CDF": {
-        "summary": "Returns, for each input value, an estimation of the fraction (floating-point) of (observations smaller than the given value + half the observations equal to the given value)",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "value",
-                "type": "double",
-                "multiple": true
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.TRIMMED_MEAN": {
-        "summary": "Returns an estimation of the mean value from the sketch, excluding observation values outside the low and high cutoff quantiles",
-        "complexity": "O(N) where N is the number of centroids",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "low_cut_quantile",
-                "type": "double"
-            },
-            {
-                "name": "high_cut_quantile",
-                "type": "double"
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.RANK": {
-        "summary": "Returns, for each input value (floating-point), the estimated rank of the value (the number of observations in the sketch that are smaller than the value + half the number of observations that are equal to the value)",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "value",
-                "type": "double",
-                "multiple": true
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.REVRANK": {
-        "summary": "Returns, for each input value (floating-point), the estimated reverse rank of the value (the number of observations in the sketch that are larger than the value + half the number of observations that are equal to the value)",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "value",
-                "type": "double",
-                "multiple": true
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.BYRANK": {
-        "summary": "Returns, for each input rank, an estimation of the value (floating-point) with that rank",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "rank",
-                "type": "double",
-                "multiple": true
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.BYREVRANK": {
-        "summary": "Returns, for each input reverse rank, an estimation of the value (floating-point) with that reverse rank",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            },
-            {
-                "name": "reverse_rank",
-                "type": "double",
-                "multiple": true
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TDIGEST.INFO": {
-        "summary": "Returns information and statistics about a t-digest sketch",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "key",
-                "type": "key"
-            }
-        ],
-        "since": "2.4.0",
-        "group": "tdigest",
-        "module": "Bloom",
-        "stack_path": "docs/data-types/probabilistic"
-    },
-    "TFCALL": {
-        "summary": "Invoke a JavaScript function",
-        "since": "2.0.0",
-        "group": "triggers_and_functions",
-        "complexity": "Depends on the function that is executed.",
-        "arguments": [
-            {
-                "name": "library.function",
-                "type": "string"
-            },
-            {
-                "name": "numkeys",
-                "type": "integer"
-            },
-            {
-                "name": "key",
-                "type": "key",
-                "key_space_index": 0,
-                "optional": true,
-                "multiple": true
-            },
-            {
-                "name": "arg",
-                "type": "string",
-                "optional": true,
-                "multiple": true
-            }
-        ],
-        "module": "Triggers and functions",
-        "stack_path": "docs/interact/programmability/triggers-and-functions"
-    },
-    "TFCALLASYNC": {
-        "summary": "Invoke an asynchronous JavaScript function",
-        "since": "2.0.0",
-        "group": "triggers_and_functions",
-        "complexity": "Depends on the function that is executed.",
-        "arguments": [
-            {
-                "name": "library.function",
-                "type": "string"
-            },
-            {
-                "name": "numkeys",
-                "type": "integer"
-            },
-            {
-                "name": "key",
-                "type": "key",
-                "key_space_index": 0,
-                "optional": true,
-                "multiple": true
-            },
-            {
-                "name": "arg",
-                "type": "string",
-                "optional": true,
-                "multiple": true
-            }
-        ],
-        "module": "Triggers and functions",
-        "stack_path": "docs/interact/programmability/triggers-and-functions"
-    },
-    "TFUNCTION DELETE": {
-        "summary": "Delete a JavaScript library from Redis by name",
-        "since": "2.0.0",
-        "group": "triggers_and_functions",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "library-name",
-                "type": "string",
-                "display_text": "library name"
-            }
-        ],
-        "module": "Triggers and functions",
-        "stack_path": "docs/interact/programmability/triggers-and-functions"
-    },
-    "TFUNCTION LOAD": {
-        "summary": "Load a new JavaScript library into Redis",
-        "since": "2.0.0",
-        "group": "triggers_and_functions",
-        "complexity": "O(1)",
-        "arguments": [
-            {
-                "name": "replace",
-                "type": "pure-token",
-                "display_text": "replace",
-                "token": "REPLACE",
-                "optional": true
-            },
-            {
-                "name": "config",
-                "type": "string",
-                "display_text": "config",
-                "token": "CONFIG",
-                "optional": true
-            },
-            {
-                "name": "library-code",
-                "type": "string",
-                "display_text": "library code"
-            }
-        ],
-        "module": "Triggers and functions",
-        "stack_path": "docs/interact/programmability/triggers-and-functions"
-    },
-    "TFUNCTION LIST": {
-        "summary": "List all JavaScript libraries loaded into Redis",
-        "since": "2.0.0",
-        "group": "triggers_and_functions",
-        "complexity": "O(N) where N is the number of libraries loaded into Redis",
-        "arguments": [
-            {
-                "name": "library-name",
-                "type": "string",
-                "display_text": "library name",
-                "token": "LIBRARYNAME",
-                "optional": true
-            },
-            {
-                "name": "withcode",
-                "type": "pure-token",
-                "display_text": "withcode",
-                "token": "WITHCODE",
-                "optional": true
-            },
-            {
-                "name": "verbose",
-                "type": "pure-token",
-                "display_text": "verbose",
-                "token": "VERBOSE",
-                "optional": true
-            },
-            {
-                "name": "v",
-                "type": "pure-token",
-                "display_text": "v",
-                "token": "V",
-                "optional": true
-            }
-        ],
-        "command_flags": [
-            "readonly"
-        ],
-        "module": "Triggers and functions",
-        "stack_path": "docs/interact/programmability/triggers-and-functions"
     }
 }

@@ -30,7 +30,7 @@ Details:
     - #[257](https://github.com/redisjson/redisjson/issues/257) Support inter shards TLS capability
 
 - Bug fixes:
-   - #[282](https://github.com/redisjson/redisjson/issues/282) Change [JSON.DEBUG](https://oss.redislabs.com/redisjson/commands/#jsondebug) first key index to 2
+   - #[282](https://github.com/redisjson/redisjson/issues/282) Change `JSON.DEBUG` first key index to 2
 
 
 ## v1.0.7 (December 2020)

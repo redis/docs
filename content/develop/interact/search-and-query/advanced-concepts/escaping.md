@@ -15,13 +15,34 @@ title: Tokenization
 weight: 4
 ---
 
-# Controlling text tokenization and escaping
+Full-text search works by comparing words, URLs, numbers, and other elements of the query
+against the text in the searchable fields of each document. However,
+it would be very inefficient to compare the entire text of the query against the
+entire text of each field over and over again, so the search system doesn't do this.
+Instead, it splits the document text into short, significant sections
+called *tokens* during the indexing process and stores the tokens as part of the document's
+index data.
+
+During a search, the query system also tokenizes the
+query text and then simply compares the tokens from the query against the tokens stored
+for each document. Finding a match like this is much more efficient than pattern-matching on
+the whole text and also lets you use
+[stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}}) and
+[stop words]({{< relref "/develop/interact/search-and-query/advanced-concepts/stopwords" >}})
+to improve the search even further. See this article about
+[Tokenization](https://queryunderstanding.com/tokenization-c8cdd6aef7ff)
+for a general introduction to the concepts.
 
 Redis Stack uses a very simple tokenizer for documents and a slightly more sophisticated tokenizer for queries. Both allow a degree of control over string escaping and tokenization. 
 
-Note: There is a different mechanism for tokenizing text and tag fields, this document refers only to text fields. For tag fields please refer to the [tag fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}}) documentation. 
+The sections below describe the rules for tokenizing text fields and queries.
+Note that
+[Tag fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}}) 
+are essentially text fields but they use a simpler form of tokenization, as described
+separately in the
+[Tokenization rules for tag fields](#tokenization-rules-for-tag-fields) section.
 
-## The rules of text field tokenization
+## Tokenization rules for text fields
 
 1. All punctuation marks and whitespace (besides underscores) separate the document and queries into tokens. For example, any character of `,.<>{}[]"':;!@#$%^&*()-+=~` will break the text into terms, so the text `foo-bar.baz...bag` will be tokenized into `[foo, bar, baz, bag]`
 
@@ -34,3 +55,23 @@ Note: There is a different mechanism for tokenizing text and tag fields, this do
 5. Latin characters are converted to lowercase. 
 
 6. A backslash before the first digit will tokenize it as a term. This will translate the `-` sign as NOT, which otherwise would make the number negative. Add a backslash before `.` if you are searching for a float. For example, `-20 -> {-20} vs -\20 -> {NOT{20}}`.
+
+## Tokenization rules for tag fields
+
+[Tag fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}}) interpret
+a text field as a list of *tags* delimited by a
+[separator]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags#creating-a-tag-field" >}})
+character (which is a comma "," by
+default). The tokenizer simply splits the text wherever it finds the separator and so most
+punctuation marks and whitespace are valid characters within each tag token. The only
+changes that the tokenizer makes to the tags are:
+
+-   Trimming whitespace at the start and end of the tag. Other whitespace in the tag text is left intact.
+-   Converting Latin alphabet characters to lowercase. You can override this by adding the
+    [`CASESENSITIVE`]({{< relref "/develop/interact/search-and-query/basic-constructs/field-and-type-options#tag-fields" >}}) option in the indexing schema for the tag field.
+
+This means that when you define a tag field, you don't need to escape any characters, except
+in the unusual case where you want leading or trailing spaces to be part of the tag text.
+However, you do need to escape certain characters in a *query* against a tag field. See
+[Query syntax]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax#tag-filters" >}})
+for more information about this.

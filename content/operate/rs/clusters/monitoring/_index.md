@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- kubernetes
 description: Use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards to track the performance of your databases.
 hideListLinks: true
 linkTitle: Monitoring
@@ -12,14 +13,21 @@ weight: 96
 ---
 You can use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards
 to monitor the performance of your databases.
-In the Redis Enterprise Cluster Manager UI, you can see real-time metrics and configure alerts that send notifications based on alert parameters. You can also access metrics and configure alerts through the REST API.
+In the Redis Enterprise Cluster Manager UI, you can view metrics, configure alerts, and send notifications based on alert parameters. You can also access metrics and configure alerts through the REST API.
+
+Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2  Prometheus scraping endpoint at `https://<IP>:8070/v2`.
+This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
+
+The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations.
+
+If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
 
 To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) or [Uptrace]({{< relref "/integrate/uptrace-with-redis-enterprise/" >}}).
 
 Make sure you read the [definition of each metric]({{< relref "/operate/rs/references/metrics/" >}})
 so that you understand exactly what it represents.
 
-## Real-time metrics
+## Cluster manager metrics
 
 You can see the metrics of the cluster in:
 
@@ -44,7 +52,7 @@ Configured alerts are shown:
 
 - As a notification on the status icon ( {{< image filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" class="inline" >}} ) for the node and cluster
 - In the **log**
-- In email notifications, if you configure [email alerts](#sending-alerts-by-email)
+- In email notifications, if you configure [email alerts](#send-alerts-by-email)
 
 {{< note >}}
 If you enable alerts for "Node joined" or "Node removed" actions,
@@ -64,7 +72,7 @@ Configured alerts are shown:
 
 - As a notification on the status icon ( {{< image filename="/images/rs/icons/icon_warning.png#no-click" alt="Warning" width="18px" class="inline" >}} ) for the database
 - In the **log**
-- In emails, if you configure [email alerts](#sending-alerts-by-email)
+- In emails, if you configure [email alerts](#send-alerts-by-email)
 
 To enable alerts for a database:
 

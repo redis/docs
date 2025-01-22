@@ -32,7 +32,7 @@ Get all Redis ACL objects.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_redis_acls_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_redis_acls_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_all_redis_acls_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_redis_acls_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -99,7 +99,7 @@ Get a single Redis ACL object.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_redis_acl_info]({{< relref "/operate/rs/references/rest-api/permissions#view_redis_acl_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_redis_acl_info]({{< relref "/operate/rs/references/rest-api/permissions#view_redis_acl_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -158,7 +158,7 @@ Update an existing Redis ACL object.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_redis_acl]({{< relref "/operate/rs/references/rest-api/permissions#update_redis_acl" >}}) | admin |
+| [update_redis_acl]({{< relref "/operate/rs/references/rest-api/permissions#update_redis_acl" >}}) | admin<br />user_manager |
 
 ### Request {#put-request}
 
@@ -183,6 +183,17 @@ PUT /redis_acls/17
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
 
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the updated [Redis ACL object]({{< relref "/operate/rs/references/rest-api/objects/redis_acl" >}}) but don't apply the update. |
+
+#### URL parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| uid | integer | The Redis ACL's unique ID. |
 
 #### Request body
 
@@ -232,7 +243,7 @@ Create a new Redis ACL object.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [create_redis_acl]({{< relref "/operate/rs/references/rest-api/permissions#create_redis_acl" >}}) | admin |
+| [create_redis_acl]({{< relref "/operate/rs/references/rest-api/permissions#create_redis_acl" >}}) | admin<br />user_manager |
 
 ### Request {#post-request}
 
@@ -258,6 +269,11 @@ POST /redis_acls
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
 
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the new [Redis ACL object]({{< relref "/operate/rs/references/rest-api/objects/redis_acl" >}}) but don't apply the update. |
 
 #### Request body
 
@@ -343,7 +359,7 @@ Delete a Redis ACL object.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [delete_redis_acl]({{< relref "/operate/rs/references/rest-api/permissions#delete_redis_acl" >}}) | admin |
+| [delete_redis_acl]({{< relref "/operate/rs/references/rest-api/permissions#delete_redis_acl" >}}) | admin<br />user_manager |
 
 ### Request {#delete-request}
 

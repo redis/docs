@@ -231,9 +231,9 @@ SORT mylist BY weight_* GET object_* GET #
 
 ## Restrictions for using external keys
 
-Before 7.4 RC1, when enabling `Redis cluster-mode` there is no way to guarantee the existence of the external keys on the node which the command is processed on. In this case, any use of [`GET`]({{< relref "/commands/get" >}}) or `BY` which reference external key pattern will cause the command to fail with an error.
+Before 7.4, when enabling `Redis cluster-mode` there is no way to guarantee the existence of the external keys on the node which the command is processed on. In this case, any use of [`GET`]({{< relref "/commands/get" >}}) or `BY` which reference external key pattern will cause the command to fail with an error.
 
-Starting from 7.4 RC1, pattern with hash tag can be mapped to a slot, and so in `Redis cluster-mode`, the use of `BY` or [`GET`]({{< relref "/commands/get" >}}) is allowed when pattern contains hash tag and implies a specific slot which the key is also in, which means any key matching this pattern must be in the same slot as the key, and therefore in the same node. For example, in cluster mode, `{mylist}weight_*` is acceptable as a pattern when sorting `mylist`, while pattern `{abc}weight_*` will be denied, causing the command to fail with an error.
+Starting from 7.4, pattern with hash tag can be mapped to a slot, and so in `Redis cluster-mode`, the use of `BY` or [`GET`]({{< relref "/commands/get" >}}) is allowed when pattern contains hash tag and implies a specific slot which the key is also in, which means any key matching this pattern must be in the same slot as the key, and therefore in the same node. For example, in cluster mode, `{mylist}weight_*` is acceptable as a pattern when sorting `mylist`, while pattern `{abc}weight_*` will be denied, causing the command to fail with an error.
 
 To use pattern with hash tag, see [Hash tags]({{< baseurl >}}/operate/oss_and_stack/reference/cluster-spec#hash-tags) for more information.
 

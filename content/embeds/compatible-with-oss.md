@@ -1,4 +1,4 @@
-Yes we are. Not only are we are the home of Redis, but most of the core engineers on open source Redis also work here.  We contribute extensively to the open source Redis project. As a rule, we adhere to the open source’s specifications and make every effort to update our service with its latest versions.
+Yes we are. Not only are we are the home of Redis, but most of the core engineers on Redis Community Edition also work here.  We contribute extensively to the Redis Community Edition project. As a rule, we adhere to the Redis Community Edition’s specifications and make every effort to update our service with its latest versions.
 
 That said, the following Redis features are not applicable in the context of our service:
 
@@ -15,7 +15,7 @@ That said, the following Redis features are not applicable in the context of our
     - [REPLCONF](http://redis.io/commands/REPLCONF)
     - [SLAVEOF](http://redis.io/commands/SLAVEOF)
     - [SYNC](http://redis.io/commands/SYNC)/[PSYNC](http://redis.io/commands/PSYNC)
-- Redis Enterprise clustering technology is different than the open source Redis Cluster and supports clustering in a seamless manner that works with all standard Redis clients. As a result, [all Cluster related commands](http://redis.io/commands#cluster) are blocked and show an error when used.
+- Redis Enterprise clustering technology is different than the Redis Community Edition Cluster and supports clustering in a seamless manner that works with all standard Redis clients. As a result, [all Cluster related commands](http://redis.io/commands#cluster) are blocked and show an error when used.
 - Redis Enterprise clustering technology allows [multiple active proxies](http://docs.redislabs.com/latest/rs/databases/configure/proxy-policy.md). As a result, the CLIENT ID command cannot guarantee incremental IDs between clients who connect to different nodes under multi proxy policies.
 - Commands that aren’t relevant for a hosted Redis service are blocked:
     - [CONFIG RESETSTAT](http://redis.io/commands/CONFIG-RESETSTAT)
@@ -31,13 +31,13 @@ That said, the following Redis features are not applicable in the context of our
     - [LATENCY RESET](http://redis.io/commands/LATENCY-RESET)
     - [LATENCY GRAPH](http://redis.io/commands/LATENCY-GRAPH)
     - [LATENCY DOCTOR](http://redis.io/commands/LATENCY-DOCTOR)
-    - [MEMORY STATS]({{< relref "/commands" >}}/memory-stats)
-    - [MEMORY DOCTOR]({{< relref "/commands" >}}/memory-doctor)
-    - [MEMORY MALLOC-STATS]({{< relref "/commands" >}}/memory-malloc-stats)
-    - [MEMORY PURGE]({{< relref "/commands" >}}/memory-purge)
-    - [MODULE LOAD]({{< relref "/commands" >}}/module-load)
-    - [MODULE UNLOAD]({{< relref "/commands" >}}/module-unload)
-    - [MODULE LIST]({{< relref "/commands" >}}/module-list)
+    - [MEMORY STATS]({{< relref "/commands/memory-stats" >}}
+    - [MEMORY DOCTOR]({{< relref "/commands/memory-doctor" >}}
+    - [MEMORY MALLOC-STATS]({{< relref "/commands/memory-malloc-stats" >}}
+    - [MEMORY PURGE]({{< relref "/commands/memory-purge" >}}
+    - [MODULE LOAD]({{< relref "/commands/module-load" >}}
+    - [MODULE UNLOAD]({{< relref "/commands/module-unload" >}}
+    - [MODULE LIST]({{< relref "/commands/module-list" >}}
 - Additionally, only a subset of Redis’ configuration settings (via CONFIG GET/SET) is applicable to Redis Cloud. Attempts to get or set a configuration parameter that isn’t included in the following list show an error when used:
     - hash-max-ziplist-entries
     - hash-max-ziplist-value

@@ -20,6 +20,14 @@ weight: 80
 Redis geospatial indexes let you store coordinates and search for them.
 This data structure is useful for finding nearby points within a given radius or bounding box.
 
+{{< note >}}Take care not to confuse the Geospatial data type with the
+[Geospatial]({{< relref "/develop/interact/search-and-query/advanced-concepts/geo" >}})
+features in [Redis Query Engine]({{< relref "/develop/interact/search-and-query" >}}).
+Although there are some similarities between these two features, the data type is intended
+for simpler use cases and doesn't have the range of format options and queries
+available in Redis Query Engine.
+{{< /note >}}
+
 ## Basic commands
 
 * [`GEOADD`]({{< relref "/commands/geoadd" >}}) adds a location to a given geospatial index (note that longitude comes before latitude with this command).

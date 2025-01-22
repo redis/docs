@@ -138,7 +138,7 @@ class Markdown:
         def linkifier(m):
             command = m.group(1)
             if command in commands and command not in exclude:
-                return f'[`{command}`](/commands/{command_filename(command)})'
+                return f'[`{command}`]({{{{< relref "/commands/{command_filename(command)}" >}}}})'
             else:
                 return m.group(0)
         return linkifier

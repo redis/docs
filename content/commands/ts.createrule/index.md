@@ -131,7 +131,10 @@ aggregates results into time buckets.
 - If no samples are added to the source time series during a bucket period. no _compacted sample_ is added to the destination time series.
 - The timestamp of a compacted sample added to the destination time series is set to the start timestamp the appropriate compaction bucket. For example, for a 10-minute compaction bucket with no alignment, the compacted samples timestamps are `x:00`, `x:10`, `x:20`, and so on.
 - Deleting `destKey` will cause the compaction rule to be deleted as well.
-- On a clustered environment, hash tags should be used to force `sourceKey` and `destKey` to be stored in the same hash slot.
+
+{{% warning %}}
+On a clustered environment, you must use [hash tags]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags) to force `sourceKey` and `destKey` to be stored in the same hash slot.
+{{% /warning %}}
   
 </note>
 

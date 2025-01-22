@@ -17,7 +17,33 @@
         {{ end -}}
         <span>{{.LinkTitle}}</span>
       </a>
+      {{if (eq (.Params.linkTitle) "Redis for Kubernetes")}}
+      <div id="versionSelectorKubernetes" class="menu__version-selector version-selector-control" onclick="_openVersionSelector('Kubernetes')" style="display: none;">
+        <button class="menu__version-selector-btn version-selector-control">
+            <span id="versionSelectorKubernetesValue" class="version-selector-control">latest</span>
+            <span class="menu__version-selector__toggler opener version-selector-control">&#x25BC;</span>
+            <span class="menu__version-selector__toggler closer version-selector-control">&#x25B2;</span>
+        </button>
+        <div id="versionDropdownKubernetes" class="menu__version-selector__list version-selector-control">
+            <a href="https://redis.io/docs/latest/operate/kubernetes/" id="kubernetes-version-select-latest" onclick="_setSelectedVersion('kubernetes', 'latest')">latest</a>
+            <a href="https://redis.io/docs/latest/operate/kubernetes/7.4.6/" id="kubernetes-version-select-7.4.6" onclick="_setSelectedVersion('kubernetes', 'v7.4.6')">v7.4.6</a> 
+        </div>
+      </div>
+      {{else if (eq (.Params.linkTitle) "Redis Software")}}
+      <div id="versionSelectorRs" class="menu__version-selector version-selector-control" onclick="_openVersionSelector('Rs')" style="display: none;">
+        <button class="menu__version-selector-btn version-selector-control">
+            <span id="versionSelectorRsValue" class="version-selector-control">latest</span>
+            <span class="menu__version-selector__toggler opener version-selector-control">&#x25BC;</span>
+            <span class="menu__version-selector__toggler closer version-selector-control">&#x25B2;</span>
+        </button>
+        <div id="versionDropdownRs" class="menu__version-selector__list version-selector-control">
+            <a href="https://redis.io/docs/latest/operate/rs/" id="rs-version-select-latest" onclick="_setSelectedVersion('rs', 'latest')">latest</a>
+            <a href="https://redis.io/docs/latest/operate/rs/7.4/" id="rs-version-select-7.4" onclick="_setSelectedVersion('rs', 'v7.4')">v7.4</a>  
+        </div>
+      </div>
     </li>
+
+    {{end}}
     {{ if and (gt (len $childPages) 0) (or $isActive $isActivePath)}}
       <ul class="child-list">
         {{ template "li" (dict "page" $page "pages" $childPages) }}

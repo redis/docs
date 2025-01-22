@@ -16,7 +16,7 @@ Deleting a database requires the Account Owner role.
 
 Deleted databases cannot be recovered.  We recommend [making a backup]({{< relref "/operate/rc/databases/back-up-data.md" >}}), just in case.
 
-1. Sign in to the [Redis Cloud console](https://app.redislabs.com/).
+1. Sign in to the [Redis Cloud console](https://cloud.redis.io/).
 
 1.  Select the database from the list.  The **Configuration** tab is selected by default.
 

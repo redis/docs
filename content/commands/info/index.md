@@ -68,6 +68,12 @@ It can also take the following values:
 
 When no parameter is provided, the `default` option is assumed.
 
+{{< clients-example cmds_servermgmt info >}}
+INFO
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 INFO
 {{% /redis-cli %}}
@@ -126,10 +132,10 @@ Here is the meaning of all fields in the **clients** section:
 *   `blocked_clients`: Number of clients pending on a blocking call ([`BLPOP`]({{< relref "/commands/blpop" >}}),
      [`BRPOP`]({{< relref "/commands/brpop" >}}), [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}), [`BLMOVE`]({{< relref "/commands/blmove" >}}), [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}), [`BZPOPMAX`]({{< relref "/commands/bzpopmax" >}}))
 *   `tracking_clients`: Number of clients being tracked ([`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}))
-*   `pubsub_clients`: Number of clients in pubsub mode ([`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}), [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}})). Added in Redis 7.4 RC1
-*   `watching_clients`: Number of clients in watching mode ([`WATCH`]({{< relref "/commands/watch" >}})). Added in Redis 7.4 RC1
+*   `pubsub_clients`: Number of clients in pubsub mode ([`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}), [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}})). Added in Redis 7.4
+*   `watching_clients`: Number of clients in watching mode ([`WATCH`]({{< relref "/commands/watch" >}})). Added in Redis 7.4
 *   `clients_in_timeout_table`: Number of clients in the clients timeout table
-*   `total_watched_keys`: Number of watched keys. Added in Redis 7.4 RC1.
+*   `total_watched_keys`: Number of watched keys. Added in Redis 7.4.
 *   `total_blocking_keys`: Number of blocking keys. Added in Redis 7.2.
 *   `total_blocking_keys_on_nokey`: Number of blocking keys that one or more clients that would like to be unblocked when the key is deleted. Added in Redis 7.2.
 
@@ -196,7 +202,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `mem_replication_backlog`: Memory used by replication backlog
 *   `mem_total_replication_buffers`: Total memory consumed for replication buffers - Added in Redis 7.0.
 *   `mem_allocator`: Memory allocator, chosen at compile time.
-*   `mem_overhead_db_hashtable_rehashing`: Temporary memory overhead of database dictionaries currently being rehashed - Added in 7.4 RC1.
+*   `mem_overhead_db_hashtable_rehashing`: Temporary memory overhead of database dictionaries currently being rehashed - Added in 7.4.
 *   `active_defrag_running`: When `activedefrag` is enabled, this indicates whether defragmentation is currently active, and the CPU percentage it intends to utilize.
 *   `lazyfree_pending_objects`: The number of objects waiting to be freed (as a
      result of calling [`UNLINK`]({{< relref "/commands/unlink" >}}), or [`FLUSHDB`]({{< relref "/commands/flushdb" >}}) and [`FLUSHALL`]({{< relref "/commands/flushall" >}}) with the **ASYNC**
@@ -313,13 +319,14 @@ Here is the meaning of all fields in the **stats** section:
 *   `sync_full`: The number of full resyncs with replicas
 *   `sync_partial_ok`: The number of accepted partial resync requests
 *   `sync_partial_err`: The number of denied partial resync requests
+*   `expired_subkeys`: The number of hash field expiration events
 *   `expired_keys`: Total number of key expiration events
 *   `expired_stale_perc`: The percentage of keys probably expired
 *   `expired_time_cap_reached_count`: The count of times that active expiry cycles have stopped early
 *   `expire_cycle_cpu_milliseconds`: The cumulative amount of time spent on active expiry cycles
 *   `evicted_keys`: Number of evicted keys due to `maxmemory` limit
 *   `evicted_clients`: Number of evicted clients due to `maxmemory-clients` limit. Added in Redis 7.0.
-*   `evicted_scripts`: Number of evicted EVAL scripts due to LRU policy, see [`EVAL`]({{< relref "/commands/eval" >}}) for more details. Added in Redis 7.4 RC1.
+*   `evicted_scripts`: Number of evicted EVAL scripts due to LRU policy, see [`EVAL`]({{< relref "/commands/eval" >}}) for more details. Added in Redis 7.4.
 *   `total_eviction_exceeded_time`:  Total time `used_memory` was greater than `maxmemory` since server startup, in milliseconds
 *   `current_eviction_exceeded_time`: The time passed since `used_memory` last rose above `maxmemory`, in milliseconds
 *   `keyspace_hits`: Number of successful lookup of keys in the main dictionary
@@ -495,7 +502,7 @@ The statistics are the number of keys, and the number of keys with an expiration
 
 For each database, the following line is added:
 
-*   `dbXXX`: `keys=XXX,expires=XXX`
+*   `dbXXX`: `keys=XXX,expires=XXX,avg_ttl=XXX,subexpiry=XXX`
 
 The **debug** section contains experimental metrics, which might change or get removed in future versions.
 It won't be included when `INFO` or `INFO ALL` are called, and it is returned only when `INFO DEBUG` is used.
@@ -514,3 +521,24 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 **A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
 
 **Modules generated sections**: Starting with Redis 6, modules can inject their information into the `INFO` command. These are excluded by default even when the `all` argument is provided (it will include a list of loaded modules but not their generated info fields). To get these you must use either the `modules` argument or `everything`.
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Community Edition.<br />Not supported for [scripts]({{<relref "/develop/interact/programmability">}}). |
+
+Note: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.
+
+Additionally, for JSON keys, Redis implements a “shared string” mechanism to save memory when the same JSON field names or field values of type string are used more than once (either inter-key or intra-key).
+In such cases, instead of storing the field names or values many times, Redis stores them only once. This mechanism is not in place for active-active databases.
+
+On non-active-active databases, `INFO` (Memory > used_memory) reports that the shared memory is counted, but only once for all keys. On active-active databases, there is no shared memory, so if strings are repeated, they are stored multiple times.
+
+**Example**
+
+Suppose you have ten JSON keys, and each key has 5KB of unique content and 5KB of shared content.
+
+For non-active-active databases, `INFO` (used_memory) would report (10 keys * 5KB) + 5KB ~= 55KB. The last term, "+ 5KB", is the size of the shared content.
+
+For active-active databases, `INFO` (used_memory) would report 10 keys * 20KB ~= 200KB. This number includes some amount of CRDB overhead per JSON key.

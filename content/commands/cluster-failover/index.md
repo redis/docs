@@ -82,7 +82,7 @@ in order to perform a data center switch, while all the masters are down
 or partitioned away.
 
 The **TAKEOVER** option implies everything **FORCE** implies, but also does
-not uses any cluster authorization in order to failover. A replica receiving
+not use any cluster authorization in order to failover. A replica receiving
 `CLUSTER FAILOVER TAKEOVER` will instead:
 
 1. Generate a new `configEpoch` unilaterally, just taking the current greatest epoch available and incrementing it if its local configuration epoch is not already the greatest.

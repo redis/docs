@@ -52,7 +52,7 @@ To set up Private Service Connect, you need to:
 
 First, configure Private Service Connect in Redis Cloud:
 
-1. Select **Subscriptions** from the [Redis Cloud console](https://app.redislabs.com/) menu and then select your subscription from the list.
+1. Select **Subscriptions** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your subscription from the list.
 
 2. Select the **Connectivity** tab and then **Private Service Connect**.
 
@@ -144,7 +144,7 @@ Once your Private Service Connect endpoint is active, you must connect to the da
 
 To deactivate Private Service Connect for your subscription:
 
-1. Select **Subscriptions** from the [Redis Cloud console](https://app.redislabs.com/) menu and then select your subscription from the list.
+1. Select **Subscriptions** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your subscription from the list.
 
 1. Select the **Connectivity** tab and then **Private Service Connect**.
 
@@ -174,4 +174,4 @@ Private Service Connect has the following limitations in Redis Cloud:
 
 - Although Redis Cloud supports using Private Service Connect with Enterprise clustering, you cannot use the [Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) with Private Service Connect enabled.
 
-- Private Service Connect is not available for clusters with Redis versions 6.2.12 and earlier. Contact [Redis support](https://redis.com/company/support) to upgrade the cluster to a compatible version or [create a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}).
+- Private Service Connect is not available for clusters with Redis versions 6.2.12 and earlier. Contact [Redis support](https://redis.io/support) to upgrade the cluster to a compatible version or [create a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}).

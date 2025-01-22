@@ -19,15 +19,15 @@ To deploy Redis Enterprise Software for Kubernetes and start your Redis Enterpri
 
 This guide works with most supported Kubernetes distributions. If you're using OpenShift, see [Redis Enterprise on OpenShift]({{< relref "/operate/kubernetes/deployment/openshift" >}}). For details on what is currently supported, see [supported distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions.md" >}}).
 
-
 ## Prerequisites
 
 To deploy Redis Enterprise for Kubernetes, you'll need:
 
-* a Kubernetes cluster in a [supported distribution]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions.md" >}})
-* a minimum of three worker nodes
-* a Kubernetes client (kubectl)
-* access to DockerHub, RedHat Container Catalog, or a private repository that can hold the required images.
+- Kubernetes cluster in a [supported distribution]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions.md" >}})
+- minimum of three worker nodes
+- Kubernetes client (kubectl)
+- access to DockerHub, RedHat Container Catalog, or a private repository that can hold the required images.
+NOTE: If you are applying version 7.8.2-6 or above, check if the [OS](https://redis.io/docs/latest/operate/kubernetes/release-notes/7-8-2-releases/7-8-2-6-nov24/#breaking-changes) installed on the node is supported.
 
 ### Create a new namespace
 
@@ -37,15 +37,15 @@ Throughout this guide, each command is applied to the namespace in which the Red
 
 1. Create a new namespace
 
-  ```sh
-  kubectl create namespace <rec-namespace>
-  ```
+    ```sh
+   kubectl create namespace <rec-namespace>
+   ```
 
-2. Change the namespace context to make the newly created namespace default for future commands.
+1. Change the namespace context to make the newly created namespace default for future commands.
 
-  ```sh
-  kubectl config set-context --current --namespace=<rec-namespace>
-  ```
+    ```sh
+    kubectl config set-context --current --namespace=<rec-namespace>
+   ```
 
 You can use an existing namespace as long as it does not contain any existing Redis Enterprise cluster resources. It's best practice to create a new namespace to make sure there are no Redis Enterprise resources that could interfere with the deployment.
 
@@ -112,10 +112,13 @@ redis-enterprise-operator   1/1     1            1           0m36s
 A Redis Enterprise cluster (REC) is created from a `RedisEnterpriseCluster` custom resource
 that contains cluster specifications.
 
-The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_cluster_api.md) for more information on the various options available.
+The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for more information on the various options available.
 
 1. Create a file that defines a Redis Enterprise cluster with three nodes.
-  {{<note>}} The REC name (`my-rec` in this example) cannot be changed after cluster creation.{{</note>}}
+
+    {{<note>}}
+The REC name (`my-rec` in this example) cannot be changed after cluster creation.
+    {{</note>}}
 
     ```sh
     cat <<EOF > my-rec.yaml
@@ -128,12 +131,11 @@ The following example creates a minimal Redis Enterprise cluster. See the [Redis
     EOF
     ```
 
-    This will request a cluster with three Redis Enterprise nodes using the
-    default requests (i.e., 2 CPUs and 4GB of memory per node).
+   This will request a cluster with three Redis Enterprise nodes using the default requests (i.e., 2 CPUs and 4GB of memory per node).
 
-    To test with a larger configuration, use the example below to add node resources to the `spec` section of your test cluster (`my-rec.yaml`).
+   To test with a larger configuration, use the example below to add node resources to the `spec` section of your test cluster (`my-rec.yaml`).
 
-    ```yaml
+    ```sh
     redisEnterpriseNodeResources:
       limits:
         cpu: 2000m
@@ -144,52 +146,49 @@ The following example creates a minimal Redis Enterprise cluster. See the [Redis
     ```
 
     {{<note>}}
-    Each cluster must have at least 3 nodes. Single-node RECs are not supported.
+Each cluster must have at least 3 nodes. Single-node RECs are not supported.
     {{</note>}}
 
-    See the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}) for more
-    information on sizing Redis Enterprise node resource requests.
+    See the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}) for more information on sizing Redis Enterprise node resource requests.
   
 1. Apply your custom resource file in the same namespace as `my-rec.yaml`.
 
-  ```sh
-  kubectl apply -f my-rec.yaml
-  ```
+    ```sh
+    kubectl apply -f my-rec.yaml
+    ```
 
-  You should see a result similar to this:
+   You should see a result similar to this:
 
-  ```sh
-  redisenterprisecluster.app.redislabs.com/my-rec created
-  ```
+   ```sh
+   redisenterprisecluster.app.redislabs.com/my-rec created
+   ```
 
 1. You can verify the creation of the cluster with:
 
-  ```sh
-  kubectl get rec
-  ```
+    ```sh
+    kubectl get rec
+    ```
 
-  You should see a result similar to this:
+    You should see a result similar to this:
 
-  ```sh
-  NAME           AGE
-  my-rec   1m
-  ```
+    ```sh
+    NAME           AGE
+    my-rec   1m
+    ```
 
-   At this point, the operator will go through the process of creating various
-   services and pod deployments.
+    At this point, the operator will go through the process of creating various services and pod deployments.
 
-   You can track the progress by examining the
-   StatefulSet associated with the cluster:
+    You can track the progress by examining the StatefulSet associated with the cluster:
 
-   ```sh
-   kubectl rollout status sts/my-rec
-   ```
+    ```sh
+    kubectl rollout status sts/my-rec
+    ```
 
-   or by looking at the status of all of the resources in your namespace:
+    or by looking at the status of all of the resources in your namespace:
 
-   ```sh
-   kubectl get all
-   ```
+    ```sh
+    kubectl get all
+    ```
 
 ## Enable the admission controller
 
@@ -248,15 +247,14 @@ The operator bundle includes a webhook file. The webhook will intercept requests
     EOF
     ```
 
-You should see your request was denied by the `admission webhook "redisenterprise.admission.redislabs"`.
+    You should see your request was denied by the `admission webhook "redisenterprise.admission.redislabs"`.
 
-```sh
-Error from server: error when creating "STDIN": admission webhook "redisenterprise.admission.redislabs" denied the request: eviction_policy: u'illegal' is not one of [u'volatile-lru', u'volatile-ttl', u'volatile-random', u'allkeys-lru', u'allkeys-random', u'noeviction', u'volatile-lfu', u'allkeys-lfu']
-```
+    ```sh
+    Error from server: error when creating "STDIN": admission webhook "redisenterprise.admission.redislabs" denied the request: eviction_policy: u'illegal' is not one of [u'volatile-lru', u'volatile-ttl', u'volatile-random', u'allkeys-lru', u'allkeys-random', u'noeviction', u'volatile-lfu', u'allkeys-lfu']
+    ```
 
 ## Create a Redis Enterprise Database (REDB)
 
 You can create multiple databases within the same namespace as your REC or in other namespaces.
 
 See [manage Redis Enterprise databases for Kubernetes]({{< relref "/operate/kubernetes/re-databases/db-controller.md" >}}) to create a new REDB.
-

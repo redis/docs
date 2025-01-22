@@ -25,7 +25,7 @@ When the database **Type** is set to _Redis Stack_, the Advanced capabilities se
 
 {{<image filename="images/rc/database-details-modules-stack-free.png" alt="For Essentials, the Database details page lists the capabilities and versions added by Redis Stack." width="75%">}}
 
-Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the admin console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). 
+Redis Cloud is updated on a regular basis, which includes the advanced capabilities supported by the service. Versions displayed by the Redis Cloud console may vary from those shown above.  For the latest details of any capability, see [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}). 
 
 ## Redis Cloud Pro {#pro}
 
@@ -42,9 +42,30 @@ You can select more than one advanced capability for a database, though there ar
     - Time series
     - Probabilistic
 
-- Graph cannot be combined with other capabilities.
 - [Active-Active databases]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) only support JSON and Search and query.
 
 You don't have to combine capabilities. To remove a selected capability, clear its checkbox.
 
 To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
+
+### Search and query sizing
+
+When you create a Pro database with [Search and Query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}), you must consider the sizing and throughput requirements for search and query when you define the dataset size and throughput for your database. 
+
+Use the [Search and query sizing calculator](https://redis.io/redisearch-sizing-calculator/) to estimate your index size and throughput requirements.
+
+- **Dataset Size**: Add the estimated index size from the Sizing calculator to your expected dataset size.
+- **Throughput**: Enter the total estimated throughput from the Sizing calculator when you enter your throughput.
+- **Query performance factor**: The query performance factor adds extra power specifically for search and query. Select a factor to increase your queries per second by that amount.
+
+#### Query performance factor
+
+The query performance factor adds extra compute power specifically for search and query. When you create a database with search and query, you can increase your search queries per second by the selected factor.
+
+{{<image filename="images/rc/database-details-query-performance-factor-pro.png" alt="For Pro databases, you can select the query performance factor for your database." width="75%">}}
+
+We recommend testing your application with a test database to see your baseline queries per second and determine how much you want to boost your query performance. After you have determined your queries per second and your desired performance factor, [create a new database]({{< relref "/operate/rc/databases/create-database" >}}) with the desired performance factor and [migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) from the test database to your new database.
+
+For more info on how to use scalable search, see [Best practices for scalable Redis Query Engine]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/scalable-query-best-practices" >}}).
+
+The query performance factor is available for Redis Cloud Pro databases on Redis 7.2 and later.

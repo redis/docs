@@ -10,7 +10,7 @@ linkTitle: Maintenance mode
 weight: 60
 ---
 
-Use maintenance mode to prevent data loss during hardware or operating system maintenance on Redis Enterprise servers. When maintenance mode is on, all shards move off of the node under maintenance and migrate to another available node.
+Use maintenance mode to prevent data loss during hardware patching or operating system maintenance on Redis Enterprise servers. When maintenance mode is on, all shards move off of the node under maintenance and migrate to another available node.
 
 ## Activate maintenance mode
 

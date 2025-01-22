@@ -43,7 +43,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/aws-marketplace-account-setup-button.png" alt="Use the Set Up Your Account button after subscribing to Redis Cloud with your AWS Marketplace account." width="50%">}}
 
-1.  Sign in to the Redis Cloud [admin console](https://app.redislabs.com).
+1.  Sign in to the [Redis Cloud console](https://cloud.redis.io).
 
 1.  Select the Redis account to be mapped to your AWS Marketplace account and confirm that your payment method will change and that the connection cannot be undone.
 
@@ -59,7 +59,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
 ### Create a database {#create-sub} 
 
-1. In the [admin console](https://app.redislabs.com/), select **New database**. 
+1. In the [Redis Cloud console](https://cloud.redis.io/), select **New database**. 
 
     {{<image filename="images/rc/button-database-new.png" alt="The New Database button creates a new database." width="120px">}}
 
@@ -75,9 +75,9 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/subscription-new-flexible-setup-general.png" width="75%" alt="The General settings of the Setup tab." >}}
 
-1. In the **Version** section, select **Redis 7.2**.
+1. In the **Version** section, select **Redis 7.2** or **Redis 7.4**.
 
-    {{<image filename="images/rc/subscription-new-flexible-version-section.png"  alt="Version selection between Redis 6.2 and 7.2" >}}
+    {{<image filename="images/rc/subscription-new-flexible-version-section.png"  alt="Version selection between Redis 6.2, 7.2, and 7.4" >}}
 
 1. In the **Advanced options** section, select Multi-AZ to ensure [high-availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}). 
 
@@ -110,7 +110,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 | 1,000,000 kb                  | 13.5 Gb                              | 27 Gb                          |
 | 10,000,000 kb                 | 135 Gb                             | 270 Gb                         |
 
-    For more information on sizing, see the [Bedrock integration blog post](https://redis.com/blog/amazon-bedrock-integration-with-redis-enterprise#right-size-your-database-for-amazon-bedrock).
+    For more information on sizing, see the [Bedrock integration blog post](https://redis.io/blog/amazon-bedrock-integration-with-redis-enterprise/#right-size-your-database-for-amazon-bedrock).
 
 1. When finished, select **Save database** to create your database.
 
@@ -132,7 +132,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
 For your database to be fully secure, you must enable [Transport Layer Security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl#enable-tls" >}}) for your database with client authentication.
 
-1. Select **Databases** from the [admin console](https://app.redislabs.com/) menu and then select your database from the list.
+1. Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your database from the list.
 
 1. From the database's **Configuration** screen, select the **Edit database** button:
 
@@ -192,17 +192,17 @@ After you store this secret, you can view and copy the [Amazon Resource Name (AR
 
 ## Create a vector index in your database {#create-vector-index}
 
-After your Redis Cloud database is set up, create a search index with a vector field using [FT.CREATE]({{< relref "/commands" >}}/ft.create/) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
+After your Redis Cloud database is set up, create a search index with a vector field using [FT.CREATE]({{< baseurl >}}/commands/ft.create) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
 
 ### Redis Insight
 
-[Redis Insight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
+[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
 
 To create your vector index in Redis Insight:
 
-1. [Download and install Redis Insight](https://redis.com/redis-enterprise/redis-insight/) if you don't have it already.
+1. [Download and install Redis Insight](https://redis.io/insight/) if you don't have it already.
 
-1. In the Redis Cloud [admin console](https://app.redislabs.com/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
+1. In the [Redis Cloud console](https://cloud.redis.io/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
 
     {{< image filename="/images/rc/connection-wizard-button.png#no-click" alt="Connect button." >}}
 
@@ -222,7 +222,7 @@ To create your vector index in Redis Insight:
 
     {{<image filename="images/rc/ri-bedrock-workbench.png" width=50px alt="The Redis Insight workbench icon." >}}
 
-1. Enter the [FT.CREATE]({{< relref "/commands" >}}/ft.create/) command to create an index. 
+1. Enter the [FT.CREATE]({{< baseurl >}}/commands/ft.create) command to create an index. 
 
     ```text
     FT.CREATE <index_name>                    
@@ -250,7 +250,7 @@ To create your vector index in Redis Insight:
 
 ### `redis-cli`
 
-The [`redis-cli`]({{< relref "/develop/connect/cli" >}}) command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}).
+The [`redis-cli`]({{< relref "/develop/tools/cli" >}}) command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}).
 
 Public endpoint and port details are available from the **Databases** list or the database's **Configuration** screen. Select **Connect** to view how to connect to your database with `redis-cli`.
 
@@ -259,7 +259,7 @@ redis-cli -h <endpoint> -p <port> --tls --cacert redis_ca.pem \
     --cert redis_user.crt --key redis_user_private.key
 ```
 
-After you are connected with `redis-cli`, create an index using [FT.CREATE]({{< relref "/commands" >}}/ft.create/). 
+After you are connected with `redis-cli`, create an index using [FT.CREATE]({{< baseurl >}}/commands/ft.create). 
 
 ```text
 FT.CREATE <index_name>                    

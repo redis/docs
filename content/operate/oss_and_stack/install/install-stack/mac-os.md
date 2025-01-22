@@ -36,7 +36,7 @@ The `redis-stack-server` cask will install all Redis and Redis Stack binaries. H
 
 ### First-time Redis installation
 
-If this is the first time you've installed Redis on your system, then all Redis Stack binaries be installed and accessible from the `$PATH`. On Apple silicon Macs, this assumes that `/opt/homebrew/bin` is in your path. On Intel-based Macs, `/usr/local/bin` should be in the `$PATH`.
+If this is the first time you've installed Redis on your system, you need to be sure that your `PATH` variable includes the Redis Stack installation location. This location is either `/opt/homebrew/bin` for Apple silicon Macs or `/usr/local/bin` for Intel-based Macs.
 
 To check this, run:
 
@@ -45,6 +45,10 @@ echo $PATH
 {{< / highlight >}}
 
 Then, confirm that the output contains `/opt/homebrew/bin` (Apple silicon Macs) or `/usr/local/bin` (Intel Mac). If these directories are not in the output, see the "Existing Redis installation" instructions below.
+
+{{< note >}}
+Because Redis Stack is installed using a brew cask via the `brew tap` command, it will not be integrated with the `brew services` command.
+{{< /note >}}
 
 ### Existing Redis installation
 
@@ -77,15 +81,6 @@ You can now start Redis Stack Server as follows:
 {{< highlight bash >}}
 redis-stack-server
 {{< / highlight >}}
-
-## Launch Redis Insight
-
-To start up the Redis UI, Redis Insight, type:
-
-{{< highlight bash >}}
-redisinsight
-{{< / highlight >}}
-
 
 ## Installing Redis after installing Redis Stack
 
@@ -122,3 +117,30 @@ To uninstall Redis Stack, run:
 brew uninstall redis-stack-redisinsight redis-stack-server redis-stack
 brew untap redis-stack/redis-stack
 {{< / highlight >}}
+
+## Connect to Redis
+
+Once Redis is running, you can test it by running `redis-cli`:
+
+{{< highlight bash  >}}
+redis-cli
+{{< / highlight >}}
+
+Test the connection with the `ping` command:
+
+{{< highlight bash  >}}
+127.0.0.1:6379> ping
+PONG
+{{< / highlight >}}
+
+You can also test that your Redis server is running using
+[Redis Insight]({{< relref "/develop/tools/insight" >}}).
+
+## Next steps
+
+Once you have a running Redis instance, you may want to:
+
+* Try the [Redis CLI tutorial]({{< relref "/develop/tools/cli" >}})
+* Connect using one of the [Redis clients]({{< relref "/develop/clients" >}})
+* [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/install-redis#install-redis-properly" >}})
+  for production use.

@@ -15,7 +15,7 @@ This page helps you manage your Redis Cloud subscriptions; it briefly compares a
 
 ## Subscription plans
 
-As of November 2022, Redis Cloud supports the following subscription plans:
+As of April 2024, Redis Cloud supports the following subscription plans:
 
 - [Free Redis Cloud Essentials](#free-rce)
 - [Paid Redis Cloud Essentials](#paid-rce)
@@ -26,13 +26,12 @@ Here's a quick comparison of each plan:
 | Feature | Redis Cloud Essentials (free) | Redis Cloud Essentials (paid) | Redis Cloud Pro |
 |:-----|:-------:|:----:|:-----:|
 | Memory size | 30 MB | 250 MB-12 GB | 50 TB |
-| Concurrent connections | 30 | 256-Unlimited | Unlimited |
-| Security | role-based auth<br/>password protection<br/>encryption in transit | role-based auth<br/>password protection<br/>SSL & SIP auth<br/>encryption in transit | role-based auth<br/>password protection<br/>SSL & SAIP auth<br/>encryption in transit<br/>encryption at rest |
-| Admin REST API | No | No | Yes |  
-| Support | Basic | Standard | Hourly: Enhanced<br/>Annual: Premium |
+| Concurrent connections | 30 | 256-10000 | Unlimited |
+| Security | Role-based auth<br/>Password protection<br/>Encryption in transit | Role-based auth<br/>Password protection<br/>TLS auth<br/>Encryption in transit | Role-based auth<br/>Password protection<br/>TLS auth<br/>Encryption in transit<br/>Encryption at rest |
+| REST API | No | Yes | Yes | 
 | Selected additional features<br/> <br/> <br/>|| Replication<br/>Auto-failover<br /> | Dedicated accounts<br>Auto Tiering<br/>Active/Active<br/> |   
 
-To learn more, see [Redis Cloud Pricing](https://redislabs.com/redis-enterprise-cloud/pricing/).
+To learn more, see [Redis Cloud Pricing](https://redis.io/pricing/).
 
 ### Free Redis Cloud Essentials {#free-rce}
 

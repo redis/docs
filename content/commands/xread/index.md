@@ -263,11 +263,11 @@ You can read the last entry in a single stream easily using the `XREVRANGE` comm
 > XREVRANGE stream + - COUNT 1
 ```
 But this approach becomes slow as you add more streams because you must issue a separate command for each stream.
-Instead, starting from Redis 7.4 RC1, you can use the `+` sign as a special ID.
+Instead, starting from Redis 7.4, you can use the `+` sign as a special ID.
 This requests the last available entry in a stream. For example:
 
 ```
-> XREAD STREAM streamA streamB streamC streamD + + + +
+> XREAD STREAMS streamA streamB streamC streamD + + + +
 ```
 
 Note that when using this special ID for a stream, the **COUNT** option will

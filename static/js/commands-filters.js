@@ -43,6 +43,21 @@ const FILTERS = {
   }
 };
 
+nameFilter = FILTERS.name.element
+nameFilter.addEventListener('keydown', function (event) {
+  switch (event.key) {
+    case "Enter":
+      visibleCommands = document.querySelectorAll("article.flex.flex-col.gap-2.transition.relative:not([style='display: none;'])")
+      if (visibleCommands.length == 1) {
+        event.preventDefault();
+        commandHref = visibleCommands[0].getElementsByTagName("a")[0].href
+        window.location.assign(commandHref)
+      };
+    default:
+      return;
+  }
+});
+
 const hiddenCards = [];
 
 function setDisabledVersions(value) {

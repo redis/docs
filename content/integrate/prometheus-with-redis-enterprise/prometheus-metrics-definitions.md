@@ -1,281 +1,176 @@
 ---
-Title: Metrics in Prometheus
+Title: Prometheus metrics v2 preview
 alwaysopen: false
 categories:
 - docs
 - integrate
 - rs
-description: The metrics available to Prometheus.
+description: V2 metrics available to Prometheus as of Redis Enterprise Software version 7.8.2.
 group: observability
-linkTitle: Prometheus metrics
-summary: You can use Prometheus and Grafana to collect and visualize your Redis Enterprise
-  Software metrics.
+linkTitle: Prometheus metrics v2
+summary: V2 metrics available to Prometheus as of Redis Enterprise Software version 7.8.2.
 type: integration
 weight: 45
 ---
-The [integration with Prometheus]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}})
-lets you create dashboards that highlight the metrics that are important to you.
 
-Here are the metrics available to Prometheus:
+{{<banner-article>}}
+While the metrics stream engine is in preview, this document provides only a partial list of v2 metrics. More metrics will be added.
+{{</banner-article>}}
+
+You can [integrate Redis Enterprise Software with Prometheus and Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise/">}}) to create dashboards for important metrics.
+
+The v2 metrics in the following tables are available as of Redis Enterprise Software version 7.8.0. For help transitioning from v1 metrics to v2 PromQL, see [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}).
 
 ## Database metrics
 
-| Metric | Description |
-| ------ | :------ |
-| bdb_avg_latency | Average latency of operations on the DB (seconds); returned only when there is traffic |
-| bdb_avg_latency_max | Highest value of average latency of operations on the DB (seconds); returned only when there is traffic |
-| bdb_avg_read_latency | Average latency of read operations (seconds); returned only when there is traffic |
-| bdb_avg_read_latency_max | Highest value of average latency of read operations (seconds); returned only when there is traffic |
-| bdb_avg_write_latency | Average latency of write operations (seconds); returned only when there is traffic |
-| bdb_avg_write_latency_max | Highest value of average latency of write operations (seconds); returned only when there is traffic |
-| bdb_bigstore_shard_count | Shard count by database and by storage engine (driver - rocksdb / speedb); Only for databases with Auto Tiering enabled |
-| bdb_conns | Number of client connections to DB |
-| bdb_egress_bytes | Rate of outgoing network traffic from the DB (bytes/sec) |
-| bdb_egress_bytes_max | Highest value of rate of outgoing network traffic from the DB (bytes/sec) |
-| bdb_evicted_objects | Rate of key evictions from DB (evictions/sec) |
-| bdb_evicted_objects_max | Highest value of rate of key evictions from DB (evictions/sec) |
-| bdb_expired_objects | Rate keys expired in DB (expirations/sec) |
-| bdb_expired_objects_max | Highest value of rate keys expired in DB (expirations/sec) |
-| bdb_fork_cpu_system | % cores utilization in system mode for all redis shard fork child processes of this database |
-| bdb_fork_cpu_system_max | Highest value of % cores utilization in system mode for all redis shard fork child processes of this database |
-| bdb_fork_cpu_user | % cores utilization in user mode for all redis shard fork child processes of this database |
-| bdb_fork_cpu_user_max | Highest value of % cores utilization in user mode for all redis shard fork child processes of this database |
-| bdb_ingress_bytes | Rate of incoming network traffic to DB (bytes/sec) |
-| bdb_ingress_bytes_max | Highest value of rate of incoming network traffic to DB (bytes/sec) |
-| bdb_instantaneous_ops_per_sec | Request rate handled by all shards of DB (ops/sec) |
-| bdb_main_thread_cpu_system | % cores utilization in system mode for all redis shard main threas of this database |
-| bdb_main_thread_cpu_system_max | Highest value of % cores utilization in system mode for all redis shard main threas of this database |
-| bdb_main_thread_cpu_user | % cores utilization in user mode for all redis shard main threads of this database |
-| bdb_main_thread_cpu_user_max | Highest value of % cores utilization in user mode for all redis shard main threads of this database |
-| bdb_mem_frag_ratio | RAM fragmentation ratio (RSS / allocated RAM) |
-| bdb_mem_size_lua | Redis lua scripting heap size (bytes) |
-| bdb_memory_limit | Configured RAM limit for the database |
-| bdb_monitor_sessions_count | Number of client connected in monitor mode to the DB |
-| bdb_no_of_keys | Number of keys in DB |
-| bdb_other_req | Rate of other (non read/write) requests on DB (ops/sec) |
-| bdb_other_req_max | Highest value of rate of other (non read/write) requests on DB (ops/sec) |
-| bdb_other_res | Rate of other (non read/write) responses on DB (ops/sec) |
-| bdb_other_res_max | Highest value of rate of other (non read/write) responses on DB (ops/sec) |
-| bdb_pubsub_channels | Count the pub/sub channels with subscribed clients |
-| bdb_pubsub_channels_max | Highest value of count the pub/sub channels with subscribed clients |
-| bdb_pubsub_patterns | Count the pub/sub patterns with subscribed clients |
-| bdb_pubsub_patterns_max | Highest value of count the pub/sub patterns with subscribed clients |
-| bdb_read_hits | Rate of read operations accessing an existing key (ops/sec) |
-| bdb_read_hits_max | Highest value of rate of read operations accessing an existing key (ops/sec) |
-| bdb_read_misses | Rate of read operations accessing a non-existing key (ops/sec) |
-| bdb_read_misses_max | Highest value of rate of read operations accessing a non-existing key (ops/sec) |
-| bdb_read_req | Rate of read requests on DB (ops/sec) |
-| bdb_read_req_max | Highest value of rate of read requests on DB (ops/sec) |
-| bdb_read_res | Rate of read responses on DB (ops/sec) |
-| bdb_read_res_max | Highest value of rate of read responses on DB (ops/sec) |
-| bdb_shard_cpu_system | % cores utilization in system mode for all redis shard processes of this database |
-| bdb_shard_cpu_system_max | Highest value of % cores utilization in system mode for all redis shard processes of this database |
-| bdb_shard_cpu_user | % cores utilization in user mode for the redis shard process |
-| bdb_shard_cpu_user_max | Highest value of % cores utilization in user mode for the redis shard process |
-| bdb_shards_used | Used shard count by database and by shard type (ram / flash) |
-| bdb_total_connections_received | Rate of new client connections to DB (connections/sec) |
-| bdb_total_connections_received_max | Highest value of rate of new client connections to DB (connections/sec) |
-| bdb_total_req | Rate of all requests on DB (ops/sec) |
-| bdb_total_req_max | Highest value of rate of all requests on DB (ops/sec) |
-| bdb_total_res | Rate of all responses on DB (ops/sec) |
-| bdb_total_res_max | Highest value of rate of all responses on DB (ops/sec) |
-| bdb_up | Database is up and running |
-| bdb_used_memory | Memory used by db (in bigredis this includes flash) (bytes) |
-| bdb_write_hits | Rate of write operations accessing an existing key (ops/sec) |
-| bdb_write_hits_max | Highest value of rate of write operations accessing an existing key (ops/sec) |
-| bdb_write_misses | Rate of write operations accessing a non-existing key (ops/sec) |
-| bdb_write_misses_max | Highest value of rate of write operations accessing a non-existing key (ops/sec) |
-| bdb_write_req | Rate of write requests on DB (ops/sec) |
-| bdb_write_req_max | Highest value of rate of write requests on DB (ops/sec) |
-| bdb_write_res | Rate of write responses on DB (ops/sec) |
-| bdb_write_res_max | Highest value of rate of write responses on DB (ops/sec) |
-| no_of_expires | Current number of volatile keys in the database |
+| Metric | Type | Description |
+| :-------- | :--- | :---------- |
+| <span class="break-all">endpoint_client_connections</span> | counter | Number of client connection establishment events |
+| <span class="break-all">endpoint_client_disconnections</span> | counter | Number of client disconnections initiated by the client |
+| <span class="break-all">endpoint_client_connection_expired</span> | counter | Total number of client connections with expired TTL (Time To Live) |
+| <span class="break-all">endpoint_client_establishment_failures</span> | counter | Number of client connections that failed to establish properly |
+| <span class="break-all">endpoint_client_expiration_refresh</span> | counter | Number of expiration time changes of clients |
+| <span class="break-all">endpoint_client_tracking_off_requests</span> | counter | Total number of `CLIENT TRACKING OFF` requests |
+| <span class="break-all">endpoint_client_tracking_on_requests</span> | counter | Total number of `CLIENT TRACKING ON` requests |
+| <span class="break-all">endpoint_disconnected_cba_client</span> | counter | Number of certificate-based clients disconnected |
+| <span class="break-all">endpoint_disconnected_ldap_client</span> | counter | Number of LDAP clients disconnected |
+| <span class="break-all">endpoint_disconnected_user_password_client</span> | counter | Number of user&password clients disconnected |
+| <span class="break-all">endpoint_disposed_commands_after_client_caching</span> | counter | Total number of client caching commands that were disposed due to misuse |
+| <span class="break-all">endpoint_egress</span> | counter | Number of egress bytes |
+| <span class="break-all">endpoint_egress_pending</span> | counter | Number of send-pending bytes |
+| <span class="break-all">endpoint_egress_pending_discarded</span> | counter | Number of send-pending bytes that were discarded due to disconnection |
+| <span class="break-all">endpoint_failed_cba_authentication</span> | counter | Number of clients that failed certificate-based authentication |
+| <span class="break-all">endpoint_failed_ldap_authentication</span> | counter | Number of clients that failed LDAP authentication |
+| <span class="break-all">endpoint_failed_user_password_authentication</span> | counter | Number of clients that failed user password authentication |
+| <span class="break-all">endpoint_ingress</span> | counter | Number of ingress bytes |
+| <span class="break-all">endpoint_longest_pipeline_histogram</span> | counter | Client connections with the longest pipeline lengths |
+| <span class="break-all">endpoint_other_requests</span> | counter | Number of other requests |
+| <span class="break-all">endpoint_other_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of other commands |
+| <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | histogram | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_other_responses</span> | counter | Number of other responses |
+| <span class="break-all">endpoint_proxy_disconnections</span> | counter | Number of client disconnections initiated by the proxy |
+| <span class="break-all">endpoint_read_requests</span> | counter | Number of read requests |
+| <span class="break-all">endpoint_read_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of read commands |
+| <span class="break-all">endpoint_read_requests_latency_histogram_bucket</span> | histogram | Latency histograms for read commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_read_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_read_responses</span> | counter | Number of read responses |
+| <span class="break-all">endpoint_successful_cba_authentication</span> | counter | Number of clients that successfully authenticated with certificate-based authentication |
+| <span class="break-all">endpoint_successful_ldap_authentication</span> | counter | Number of clients that successfully authenticated with LDAP |
+| <span class="break-all">endpoint_successful_user_password_authentication</span> | counter | Number of clients that successfully authenticated with user&password |
+| <span class="break-all">endpoint_write_requests</span> | counter | Number of write requests |
+| <span class="break-all">endpoint_write_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of write commands |
+| <span class="break-all">endpoint_write_requests_latency_histogram_bucket</span> | histogram | Latency histograms for write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_write_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
+| <span class="break-all">endpoint_write_responses</span> | counter | Number of write responses |
 
 ## Node metrics
 
-| Metric | Description |
-| ------ | :------ |
-| node_available_flash | Available flash in node (bytes) |
-| node_available_flash_no_overbooking | Available flash in node (bytes), without taking into account overbooking |
-| node_available_memory | Amount of free memory in node (bytes) that is available for database provisioning |
-| node_available_memory_no_overbooking | Available ram in node (bytes) without taking into account overbooking |
-| node_avg_latency | Average latency of requests handled by endpoints on the node in milliseconds; returned only when there is traffic |
-| node_bigstore_free | Sum of free space of back-end flash (used by flash DB's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
-| node_bigstore_iops | Rate of i/o operations against back-end flash for all shards which are part of a flash based DB (BigRedis) in cluster (ops/sec); returned only when BigRedis is enabled |
-| node_bigstore_kv_ops | Rate of value read/write operations against back-end flash for all shards which are part of a flash based DB (BigRedis) in cluster (ops/sec); returned only when BigRedis is enabled |
-| node_bigstore_throughput | Throughput i/o operations against back-end flash for all shards which are part of a flash based DB (BigRedis) in cluster (bytes/sec); returned only when BigRedis is enabled |
-| node_cert_expiration_seconds | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates expiration]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
-| node_conns | Number of clients connected to endpoints on node |
-| node_cpu_idle | CPU idle time portion (0-1, multiply by 100 to get percent) |
-| node_cpu_idle_max | Highest value of CPU idle time portion (0-1, multiply by 100 to get percent) |
-| node_cpu_idle_median | Average value of CPU idle time portion (0-1, multiply by 100 to get percent) |
-| node_cpu_idle_min | Lowest value of CPU idle time portion (0-1, multiply by 100 to get percent) |
-| node_cpu_system | CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
-| node_cpu_system_max | Highest value of CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
-| node_cpu_system_median | Average value of CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
-| node_cpu_system_min | Lowest value of CPU time portion spent in kernel (0-1, multiply by 100 to get percent) |
-| node_cpu_user | CPU time portion spent by users-pace processes (0-1, multiply by 100 to get percent) |
-| node_cpu_user_max | Highest value of CPU time portion spent by users-pace processes (0-1, multiply by 100 to get percent) |
-| node_cpu_user_median | Average value of CPU time portion spent by users-pace processes (0-1, multiply by 100 to get percent) |
-| node_cpu_user_min | Lowest value of CPU time portion spent by users-pace processes (0-1, multiply by 100 to get percent) |
-| node_cur_aof_rewrites | Number of aof rewrites that are currently performed by shards on this node |
-| node_egress_bytes | Rate of outgoing network traffic to node (bytes/sec) |
-| node_egress_bytes_max | Highest value of rate of outgoing network traffic to node (bytes/sec) |
-| node_egress_bytes_median | Average value of rate of outgoing network traffic to node (bytes/sec) |
-| node_egress_bytes_min | Lowest value of rate of outgoing network traffic to node (bytes/sec) |
-| node_ephemeral_storage_avail | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
-| node_ephemeral_storage_free | Free disk space on configured ephemeral disk (bytes) |
-| node_free_memory | Free memory in node (bytes) |
-| node_ingress_bytes | Rate of incoming network traffic to node (bytes/sec) |
-| node_ingress_bytes_max | Highest value of rate of incoming network traffic to node (bytes/sec) |
-| node_ingress_bytes_median | Average value of rate of incoming network traffic to node (bytes/sec) |
-| node_ingress_bytes_min | Lowest value of rate of incoming network traffic to node (bytes/sec) |
-| node_persistent_storage_avail | Disk space available to RLEC processes on configured persistent disk (bytes) |
-| node_persistent_storage_free | Free disk space on configured persistent disk (bytes) |
-| node_provisional_flash | Amount of flash available for new shards on this node, taking into account overbooking, max redis servers, reserved flash and provision and migration thresholds (bytes) |
-| node_provisional_flash_no_overbooking | Amount of flash available for new shards on this node, without taking into account overbooking, max redis servers, reserved flash and provision and migration thresholds (bytes) |
-| node_provisional_memory | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
-| node_provisional_memory_no_overbooking | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
-| node_total_req | Request rate handled by endpoints on node (ops/sec) |
-| node_up | Node is part of the cluster and is connected |
+| Metric | Type |Description |
+| :-------- | :--- | :---------- |
+| <span class="break-all">node_available_flash_bytes</span> | gauge | Available flash in the node (bytes) |
+| <span class="break-all">node_available_flash_no_overbooking_bytes</span> | gauge | Available flash in the node (bytes), without taking into account overbooking |
+| <span class="break-all">node_available_memory_bytes</span> | gauge | Amount of free memory in the node (bytes) that is available for database provisioning |
+| <span class="break-all">node_available_memory_no_overbooking_bytes</span> | gauge | Available RAM in the node (bytes) without taking into account overbooking |
+| <span class="break-all">node_bigstore_free_bytes</span> | gauge | Sum of free space of back-end flash (used by flash database's [BigRedis]) on all cluster nodes (bytes); returned only when BigRedis is enabled |
+| <span class="break-all">node_cert_expires_in_seconds</span> | gauge | Certificate expiration (in seconds) per given node; read more about [certificates in Redis Enterprise]({{< relref "/operate/rs/security/certificates" >}}) and [monitoring certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) |
+| <span class="break-all">node_ephemeral_storage_avail_bytes</span> | gauge | Disk space available to RLEC processes on configured ephemeral disk (bytes) |
+| <span class="break-all">node_ephemeral_storage_free_bytes</span> | gauge | Free disk space on configured ephemeral disk (bytes) |
+| <span class="break-all">node_memory_MemFree_bytes</span> | gauge | Free memory in the node (bytes) |
+| <span class="break-all">node_persistent_storage_avail_bytes</span> | gauge | Disk space available to RLEC processes on configured persistent disk (bytes) |
+| <span class="break-all">node_persistent_storage_free_bytes</span> | gauge | Free disk space on configured persistent disk (bytes) |
+| <span class="break-all">node_provisional_flash_bytes</span> | gauge | Amount of flash available for new shards on this node, taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
+| <span class="break-all">node_provisional_flash_no_overbooking_bytes</span> | gauge | Amount of flash available for new shards on this node, without taking into account overbooking, max Redis servers, reserved flash, and provision and migration thresholds (bytes) |
+| <span class="break-all">node_provisional_memory_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases |
+| <span class="break-all">node_provisional_memory_no_overbooking_bytes</span> | gauge | Amount of RAM that is available for provisioning to databases out of the total RAM allocated for databases, without taking into account overbooking |
+| <span class="break-all">node_metrics_up</span> | gauge | Node is part of the cluster and is connected |
 
 ## Cluster metrics
 
-| Metric | Description |
-| ------ | :------ |
-| cluster_shards_limit | Total shard limit by the license by shard type (ram / flash) |
-
-
-## Proxy metrics
-
-| Metric | Description |
-| ------ | :------ |
-| listener_acc_latency | Accumulative latency (sum of the latencies) of all types of commands on DB. For the average latency, divide this value by listener_total_res |
-| listener_acc_latency_max | Highest value of accumulative latency of all types of commands on DB |
-| listener_acc_other_latency | Accumulative latency (sum of the latencies) of commands that are type "other" on DB. For the average latency, divide this value by listener_other_res |
-| listener_acc_other_latency_max | Highest value of accumulative latency of commands that are type "other" on DB |
-| listener_acc_read_latency | Accumulative latency (sum of the latencies) of commands that are type "read" on DB. For the average latency, divide this value by listener_read_res |
-| listener_acc_read_latency_max | Highest value of accumulative latency of commands that are type "read" on DB |
-| listener_acc_write_latency | Accumulative latency (sum of the latencies) of commands that are type "write" on DB. For the average latency, divide this value by listener_write_res |
-| listener_acc_write_latency_max | Highest value of accumulative latency of commands that are type "write" on DB |
-| listener_auth_cmds | Number of memcached AUTH commands sent to the DB |
-| listener_auth_cmds_max | Highest value of number of memcached AUTH commands sent to the DB |
-| listener_auth_errors | Number of error responses to memcached AUTH commands  |
-| listener_auth_errors_max | Highest value of number of error responses to memcached AUTH commands  |
-| listener_cmd_flush | Number of memcached FLUSH_ALL commands sent to the DB |
-| listener_cmd_flush_max | Highest value of number of memcached FLUSH_ALL commands sent to the DB |
-| listener_cmd_get | Number of memcached GET commands sent to the DB |
-| listener_cmd_get_max | Highest value of number of memcached GET commands sent to the DB |
-| listener_cmd_set | Number of memcached SET commands sent to the DB |
-| listener_cmd_set_max | Highest value of number of memcached SET commands sent to the DB |
-| listener_cmd_touch | Number of memcached TOUCH commands sent to the DB |
-| listener_cmd_touch_max | Highest value of number of memcached TOUCH commands sent to the DB |
-| listener_conns | Number of clients connected to the endpoint |
-| listener_egress_bytes | Rate of outgoing network traffic to the endpoint (bytes/sec) |
-| listener_egress_bytes_max | Highest value of rate of outgoing network traffic to the endpoint (bytes/sec) |
-| listener_ingress_bytes | Rate of incoming network traffic to the endpoint (bytes/sec) |
-| listener_ingress_bytes_max | Highest value of rate of incoming network traffic to the endpoint (bytes/sec) |
-| listener_last_req_time | Time of last command sent to the DB |
-| listener_last_res_time | Time of last response sent from the DB |
-| listener_max_connections_exceeded | Number of times the Number of clients connected to the db at the same time has exeeded the max limit |
-| listener_max_connections_exceeded_max | Highest value of number of times the Number of clients connected to the db at the same time has exeeded the max limit |
-| listener_monitor_sessions_count | Number of client connected in monitor mode to the endpoint |
-| listener_other_req | Rate of other (non read/write) requests on the endpoint (ops/sec) |
-| listener_other_req_max | Highest value of rate of other (non read/write) requests on the endpoint (ops/sec) |
-| listener_other_res | Rate of other (non read/write) responses on the endpoint (ops/sec) |
-| listener_other_res_max | Highest value of rate of other (non read/write) responses on the endpoint (ops/sec) |
-| listener_other_started_res | Number of responses sent from the DB of type "other" |
-| listener_other_started_res_max | Highest value of number of responses sent from the DB of type "other" |
-| listener_read_req | Rate of read requests on the endpoint (ops/sec) |
-| listener_read_req_max | Highest value of rate of read requests on the endpoint (ops/sec) |
-| listener_read_res | Rate of read responses on the endpoint (ops/sec) |
-| listener_read_res_max | Highest value of rate of read responses on the endpoint (ops/sec) |
-| listener_read_started_res | Number of responses sent from the DB of type "read" |
-| listener_read_started_res_max | Highest value of number of responses sent from the DB of type "read" |
-| listener_total_connections_received | Rate of new client connections to the endpoint (connections/sec) |
-| listener_total_connections_received_max | Highest value of rate of new client connections to the endpoint (connections/sec) |
-| listener_total_req | Request rate handled by the endpoint (ops/sec) |
-| listener_total_req_max | Highest value of rate of all requests on the endpoint (ops/sec) |
-| listener_total_res | Rate of all responses on the endpoint (ops/sec) |
-| listener_total_res_max | Highest value of rate of all responses on the endpoint (ops/sec) |
-| listener_total_started_res | Number of responses sent from the DB of all types |
-| listener_total_started_res_max | Highest value of number of responses sent from the DB of all types |
-| listener_write_req | Rate of write requests on the endpoint (ops/sec) |
-| listener_write_req_max | Highest value of rate of write requests on the endpoint (ops/sec) |
-| listener_write_res | Rate of write responses on the endpoint (ops/sec) |
-| listener_write_res_max | Highest value of rate of write responses on the endpoint (ops/sec) |
-| listener_write_started_res | Number of responses sent from the DB of type "write" |
-| listener_write_started_res_max | Highest value of number of responses sent from the DB of type "write" |
+| Metric | Type | Description |
+| :-------- | :--- | :---------- |
+| <span class="break-all">generation{cluster_wd=<node_uid>}</span> | gauge| Generation number of the specific cluster_wd|
+| <span class="break-all">has_qourum{cluster_wd=<node_uid>, has_witness_disk=BOOL}</span> | gauge| Has_qourum = 1<br />No quorum = 0 |
+| <span class="break-all">is_primary{cluster_wd=<node_uid>}</span> | gauge| primary = 1<br />secondary = 0 |
+| license_shards_limit | | Total shard limit by the license by shard type (ram / flash) |
+| <span class="break-all">total_live_nodes_count{cluster_wd=<node_uid>}</span> | gauge| Number of live nodes|
+| <span class="break-all">total_node_count{cluster_wd=<node_uid>}</span> | gauge| Number of nodes |
+| <span class="break-all">total_primary_selection_ended{cluster_wd=<node_uid>}</span> | counter | Monotonic counter for each selection process that ended |
+| <span class="break-all">total_primary_selections{cluster_wd=<node_uid>}</span> | counter | Monotonic counter for each selection process that started|
 
 ## Replication metrics
 
 | Metric | Description |
-| ------ | :------ |
-| bdb_replicaof_syncer_ingress_bytes | Rate of compressed incoming network traffic to Replica Of DB (bytes/sec) |
-| bdb_replicaof_syncer_ingress_bytes_decompressed | Rate of decompressed incoming network traffic to Replica Of DB (bytes/sec) |
-| bdb_replicaof_syncer_local_ingress_lag_time | Lag time between the source and the destination for Replica Of traffic (ms) |
-| bdb_replicaof_syncer_status | Syncer status for Replica Of traffic; 0 = in-sync, 1 = syncing, 2 = out of sync |
-| bdb_crdt_syncer_ingress_bytes | Rate of compressed incoming network traffic to CRDB (bytes/sec) |
-| bdb_crdt_syncer_ingress_bytes_decompressed | Rate of decompressed incoming network traffic to CRDB (bytes/sec) |
-| bdb_crdt_syncer_local_ingress_lag_time | Lag time between the source and the destination (ms) for CRDB traffic |
-| bdb_crdt_syncer_status | Syncer status for CRDB traffic; 0 = in-sync, 1 = syncing, 2 = out of sync |
+| :-------- | :---------- |
+| <span class="break-all">database_syncer_config</span> | Used as a placeholder for configuration labels |
+| <span class="break-all">database_syncer_current_status</span> | Syncer status for traffic; 0 = in-sync, 2 = out of sync |
+| <span class="break-all">database_syncer_dst_connectivity_state</span> | Destination connectivity state |
+| <span class="break-all">database_syncer_dst_connectivity_state_ms</span> | Destination connectivity state duration |
+| <span class="break-all">database_syncer_dst_lag</span> | Lag in milliseconds between the syncer and the destination |
+| <span class="break-all">database_syncer_dst_repl_offset</span> | Offset of the last command acknowledged |
+| <span class="break-all">database_syncer_flush_counter</span> | Number of destination flushes |
+| <span class="break-all">database_syncer_ingress_bytes</span> | Number of bytes read from source shard |
+| <span class="break-all">database_syncer_ingress_bytes_decompressed</span> | Number of bytes read from source shard |
+| <span class="break-all">database_syncer_internal_state</span> | Internal state of the syncer |
+| <span class="break-all">database_syncer_lag_ms</span> | Lag time between the source and the destination for traffic in milliseconds |
+| <span class="break-all">database_syncer_rdb_size</span> | The source's RDB size in bytes to be transferred during the syncing phase |
+| <span class="break-all">database_syncer_rdb_transferred</span> | Number of bytes transferred from the source's RDB during the syncing phase |
+| <span class="break-all">database_syncer_src_connectivity_state</span> | Source connectivity state |
+| <span class="break-all">database_syncer_src_connectivity_state_ms</span> | Source connectivity state duration |
+| <span class="break-all">database_syncer_src_repl_offset</span> | Last known source offset |
+| <span class="break-all">database_syncer_state</span> | Internal state of the shard syncer |
+| <span class="break-all">database_syncer_syncer_repl_offset</span> | Offset of the last command handled by the syncer |
+| <span class="break-all">database_syncer_total_requests</span> | Number of destination writes |
+| <span class="break-all">database_syncer_total_responses</span> | Number of destination writes acknowledged |
 
 ## Shard metrics
 
 | Metric | Description |
-| ------ | :------ |
-| redis_active_defrag_running | Automatic memory defragmentation current aggressiveness (% cpu) |
-| redis_allocator_active | Total used memory including external fragmentation |
-| redis_allocator_allocated | Total allocated memory |
-| redis_allocator_resident | Total resident memory (RSS) |
-| redis_aof_last_cow_size | Last AOFR, CopyOnWrite memory |
-| redis_aof_rewrite_in_progress | The number of simultaneous AOF rewrites that are in progress |
-| redis_aof_rewrites | Number of AOF rewrites this process executed |
-| redis_aof_delayed_fsync | Number of times an AOF fsync caused delays in the redis main thread (inducing latency); This can indicate that the disk is slow or overloaded |
-| redis_blocked_clients | Count the clients waiting on a blocking call |
-| redis_connected_clients | Number of client connections to the specific shard |
-| redis_connected_slaves | Number of connected slaves |
-| redis_db0_avg_ttl | Average TTL of all volatile keys |
-| redis_db0_expires | Total count of volatile keys |
-| redis_db0_keys | Total key count |
-| redis_evicted_keys | Keys evicted so far (since restart) |
-| redis_expire_cycle_cpu_milliseconds | The cumulative amount of time spent on active expiry cycles |
-| redis_expired_keys | Keys expired so far (since restart) |
-| redis_forwarding_state | Shard forwarding state (on or off) |
-| redis_keys_trimmed | The number of keys that were trimmed in the current or last resharding process |
-| redis_keyspace_read_hits | Number of read operations accessing an existing keyspace |
-| redis_keyspace_read_misses | Number of read operations accessing an non-existing keyspace |
-| redis_keyspace_write_hits | Number of write operations accessing an existing keyspace |
-| redis_keyspace_write_misses | Number of write operations accessing an non-existing keyspace |
-| redis_master_link_status | Indicates if the replica is connected to its master |
-| redis_master_repl_offset | Number of bytes sent to replicas by the shard; Calculate the throughput for a time period by comparing the value at different times |
-| redis_master_sync_in_progress | The master shard is synchronizing (1 true | 0 false) |
-| redis_max_process_mem | Current memory limit configured by redis_mgr according to node free memory |
-| redis_maxmemory | Current memory limit configured by redis_mgr according to db memory limits |
-| redis_mem_aof_buffer | Current size of AOF buffer |
-| redis_mem_clients_normal | Current memory used for input and output buffers of non-replica clients |
-| redis_mem_clients_slaves | Current memory used for input and output buffers of replica clients |
-| redis_mem_fragmentation_ratio | Memory fragmentation ratio (1.3 means 30% overhead) |
-| redis_mem_not_counted_for_evict | Portion of used_memory (in bytes) that's not counted for eviction and OOM error |
-| redis_mem_replication_backlog | Size of replication backlog |
-| redis_module_fork_in_progress | A binary value that indicates if there is an active fork spawned by a module (1) or not (0) |
-| redis_process_cpu_system_seconds_total | Shard Process system CPU time spent in seconds |
-| redis_process_cpu_usage_percent | Shard Process cpu usage precentage |
-| redis_process_cpu_user_seconds_total | Shard user CPU time spent in seconds |
-| redis_process_main_thread_cpu_system_seconds_total | Shard main thread system CPU time spent in seconds |
-| redis_process_main_thread_cpu_user_seconds_total | Shard main thread user CPU time spent in seconds |
-| redis_process_max_fds | Shard Maximum number of open file descriptors |
-| redis_process_open_fds | Shard Number of open file descriptors |
-| redis_process_resident_memory_bytes | Shard Resident memory size in bytes |
-| redis_process_start_time_seconds | Shard Start time of the process since unix epoch in seconds |
-| redis_process_virtual_memory_bytes | Shard virtual memory in bytes |
-| redis_rdb_bgsave_in_progress | Indication if bgsave is currently in progress |
-| redis_rdb_last_cow_size | Last bgsave (or SYNC fork) used CopyOnWrite memory |
-| redis_rdb_saves | Total count of bgsaves since process was restarted (including replica fullsync and persistence) |
-| redis_repl_touch_bytes | Number of bytes sent to replicas as TOUCH commands by the shard as a result of a READ command that was processed; Calculate the throughput for a time period by comparing the value at different times |
-| redis_total_commands_processed | Number of commands processed by the shard; Calculate the number of commands for a time period by comparing the value at different times |
-| redis_total_connections_received | Number of connections received by the shard; Calculate the number of connections for a time period by comparing the value at different times |
-| redis_total_net_input_bytes | Number of bytes received by the shard; Calculate the throughput for a time period by comparing the value at different times |
-| redis_total_net_output_bytes | Number of bytes sent by the shard; Calculate the throughput for a time period by comparing the value at different times |
-| redis_up | Shard is up and running |
-| redis_used_memory | Memory used by shard (in bigredis this includes flash) (bytes) |
+| :-------- | :---------- |
+| <span class="break-all">redis_server_active_defrag_running</span> | Automatic memory defragmentation current aggressiveness (% cpu) |
+| <span class="break-all">redis_server_allocator_active</span> | Total used memory, including external fragmentation |
+| <span class="break-all">redis_server_allocator_allocated</span> | Total allocated memory |
+| <span class="break-all">redis_server_allocator_resident</span> | Total resident memory (RSS) |
+| <span class="break-all">redis_server_aof_last_cow_size</span> | Last AOFR, CopyOnWrite memory |
+| <span class="break-all">redis_server_aof_rewrite_in_progress</span> | The number of simultaneous AOF rewrites that are in progress |
+| <span class="break-all">redis_server_aof_rewrites</span> | Number of AOF rewrites this process executed |
+| <span class="break-all">redis_server_aof_delayed_fsync</span> | Number of times an AOF fsync caused delays in the main Redis thread (inducing latency); this can indicate that the disk is slow or overloaded |
+| <span class="break-all">redis_server_blocked_clients</span> | Count the clients waiting on a blocking call |
+| <span class="break-all">redis_server_connected_clients</span> | Number of client connections to the specific shard |
+| <span class="break-all">redis_server_connected_slaves</span> | Number of connected replicas |
+| <span class="break-all">redis_server_db0_avg_ttl</span> | Average TTL of all volatile keys |
+| <span class="break-all">redis_server_expired_keys</span> | Total count of volatile keys |
+| <span class="break-all">redis_server_db0_keys</span> | Total key count |
+| <span class="break-all">redis_server_evicted_keys</span> | Keys evicted so far (since restart) |
+| <span class="break-all">redis_server_expire_cycle_cpu_milliseconds</span> | The cumulative amount of time spent on active expiry cycles |
+| <span class="break-all">redis_server_expired_keys</span> | Keys expired so far (since restart) |
+| <span class="break-all">redis_server_forwarding_state</span> | Shard forwarding state (on or off) |
+| <span class="break-all">redis_server_keys_trimmed</span> | The number of keys that were trimmed in the current or last resharding process |
+| <span class="break-all">redis_server_keyspace_read_hits</span> | Number of read operations accessing an existing keyspace |
+| <span class="break-all">redis_server_keyspace_read_misses</span> | Number of read operations accessing a non-existing keyspace |
+| <span class="break-all">redis_server_keyspace_write_hits</span> | Number of write operations accessing an existing keyspace |
+| <span class="break-all">redis_server_keyspace_write_misses</span> | Number of write operations accessing a non-existing keyspace |
+| <span class="break-all">redis_server_master_link_status</span> | Indicates if the replica is connected to its master |
+| <span class="break-all">redis_server_master_repl_offset</span> | Number of bytes sent to replicas by the shard; calculate the throughput for a time period by comparing the value at different times |
+| <span class="break-all">redis_server_master_sync_in_progress</span> | The master shard is synchronizing (1 true | 0 false) |
+| <span class="break-all">redis_server_max_process_mem</span> | Current memory limit configured by redis_mgr according to node free memory |
+| <span class="break-all">redis_server_maxmemory</span> | Current memory limit configured by redis_mgr according to database memory limits |
+| <span class="break-all">redis_server_mem_aof_buffer</span> | Current size of AOF buffer |
+| <span class="break-all">redis_server_mem_clients_normal</span> | Current memory used for input and output buffers of non-replica clients |
+| <span class="break-all">redis_server_mem_clients_slaves</span> | Current memory used for input and output buffers of replica clients |
+| <span class="break-all">redis_server_mem_fragmentation_ratio</span> | Memory fragmentation ratio (1.3 means 30% overhead) |
+| <span class="break-all">redis_server_mem_not_counted_for_evict</span> | Portion of used_memory (in bytes) that's not counted for eviction and OOM error |
+| <span class="break-all">redis_server_mem_replication_backlog</span> | Size of replication backlog |
+| <span class="break-all">redis_server_module_fork_in_progress</span> | A binary value that indicates if there is an active fork spawned by a module (1) or not (0) |
+| <span class="break-all">namedprocess_namegroup_cpu_seconds_total</span> | Shard process CPU usage percentage |
+| <span class="break-all">namedprocess_namegroup_thread_cpu_seconds_total</span> | Shard main thread CPU time spent in seconds |
+| <span class="break-all">namedprocess_namegroup_open_filedesc</span> | Shard number of open file descriptors |
+| <span class="break-all">namedprocess_namegroup_memory_bytes</span> | Shard memory size in bytes |
+| <span class="break-all">namedprocess_namegroup_oldest_start_time_seconds</span> | Shard start time of the process since unix epoch in seconds |
+| <span class="break-all">redis_server_rdb_bgsave_in_progress</span> | Indication if bgsave is currently in progress |
+| <span class="break-all">redis_server_rdb_last_cow_size</span> | Last bgsave (or SYNC fork) used CopyOnWrite memory |
+| <span class="break-all">redis_server_rdb_saves</span> | Total count of bgsaves since the process was restarted (including replica fullsync and persistence) |
+| <span class="break-all">redis_server_repl_touch_bytes</span> | Number of bytes sent to replicas as TOUCH commands by the shard as a result of a READ command that was processed; calculate the throughput for a time period by comparing the value at different times |
+| <span class="break-all">redis_server_total_commands_processed</span> | Number of commands processed by the shard; calculate the number of commands for a time period by comparing the value at different times |
+| <span class="break-all">redis_server_total_connections_received</span> | Number of connections received by the shard; calculate the number of connections for a time period by comparing the value at different times |
+| <span class="break-all">redis_server_total_net_input_bytes</span> | Number of bytes received by the shard; calculate the throughput for a time period by comparing the value at different times |
+| <span class="break-all">redis_server_total_net_output_bytes</span> | Number of bytes sent by the shard; calculate the throughput for a time period by comparing the value at different times |
+| <span class="break-all">redis_server_up</span> | Shard is up and running |
+| <span class="break-all">redis_server_used_memory</span> | Memory used by shard (in BigRedis this includes flash) (bytes) |

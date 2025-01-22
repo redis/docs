@@ -59,7 +59,7 @@ Several metric graphs are available:
 | [Expired objects/sec]({{< relref "/operate/rs/references/metrics/database-operations#expired-objectssec" >}}) | Number of expired objects per second. An expired object is an object with expired TTL that was deleted from the database. |
 | [Hit ratio]({{< relref "/operate/rs/references/metrics/database-operations#hit-ratio" >}}) | Percent of operations on existing keys out of the total number database operations |
 
-For more detailed analysis, consider using [Redis Insight]({{< relref "/develop/connect/insight/" >}}) or [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}).
+For more detailed analysis, consider using [Redis Insight]({{< relref "/develop/tools/insight" >}}) or [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}).
 
 ## Configure metric alerts
 
@@ -73,6 +73,6 @@ Alert settings are specific to a given database.  To receive alerts for multiple
 
 Any member of the account team can receive alert emails.
 
-To update alert settings for one or more team members, select **Access Management** from the admin console menu and then select the **Team** tab. For details, see [Access management]({{< relref "/operate/rc/security/access-control/access-management" >}}).
+To update alert settings for one or more team members, select **Access Management** from the Redis Cloud console menu and then select the **Team** tab. For details, see [Access management]({{< relref "/operate/rc/security/access-control/access-management" >}}).
 
 If you subscribe to Redis Cloud through a Platform-as-a-Service (PaaS) provider (such as Heroku), you will need to review your provider's documentation for help managing your team.

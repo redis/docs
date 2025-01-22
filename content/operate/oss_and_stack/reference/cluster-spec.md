@@ -198,7 +198,7 @@ Then instead of hashing the key, only what is between the first occurrence of `{
 Examples:
 
 * The two keys `{user1000}.following` and `{user1000}.followers` will hash to the same hash slot since only the substring `user1000` will be hashed in order to compute the hash slot.
-* For the key `foo{}{bar}` the whole key will be hashed as usually since the first occurrence of `{` is followed by `}` on the right without characters in the middle.
+* For the key `foo{}{bar}` the whole key will be hashed as usual since the first occurrence of `{` is followed by `}` on the right without characters in the middle.
 * For the key `foo{{bar}}zap` the substring `{bar` will be hashed, because it is the substring between the first occurrence of `{` and the first occurrence of `}` on its right.
 * For the key `foo{bar}{zap}` the substring `bar` will be hashed, since the algorithm stops at the first valid or invalid (without bytes inside) match of `{` and `}`.
 * What follows from the algorithm is that if the key starts with `{}`, it is guaranteed to be hashed as a whole. This is useful when using binary data as key names.
@@ -289,7 +289,7 @@ the node was pinged and the last time the pong was received, the current
 *configuration epoch* of the node (explained later in this specification),
 the link state and finally the set of hash slots served.
 
-A detailed [explanation of all the node fields]({{< relref "/commands" >}}/cluster-nodes) is described in the [`CLUSTER NODES`](/commands/cluster-nodes) documentation.
+A detailed [explanation of all the node fields]({{< relref "/commands/cluster-nodes" >}}) is described in the [`CLUSTER NODES`](/commands/cluster-nodes) documentation.
 
 The [`CLUSTER NODES`](/commands/cluster-nodes) command can be sent to any node in the cluster and provides the state of the cluster and the information for each node according to the local view the queried node has of the cluster.
 

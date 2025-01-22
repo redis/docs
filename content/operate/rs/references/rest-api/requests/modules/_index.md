@@ -33,7 +33,7 @@ List available modules, i.e. modules stored within the CCS.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_modules]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_cluster_modules]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#list-request}
 
@@ -72,7 +72,7 @@ Get specific available modules, i.e. modules stored within the CCS.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_modules]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_cluster_modules]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -119,7 +119,7 @@ POST /v1/modules
 Uploads a new module to the cluster.
 
 The request must contain a Redis module, bundled using [RedisModule
-Packer](https://github.com/RedisLabs/RAMP). For modules in Redis Stack, download the module from the [download center](https://redis.com/redis-enterprise-software/download-center/software/).
+Packer](https://github.com/RedisLabs/RAMP). For modules in Redis Stack, download the module from the [download center](https://redis.io/downloads/).
 
 See [Install a module on a cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster#rest-api-method" >}}) for more information.
 

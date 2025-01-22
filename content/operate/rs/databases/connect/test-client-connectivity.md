@@ -42,7 +42,7 @@ database and store data using one of the following methods:
 
 - [Redis Insight](https://redis.com/redis-enterprise/redis-insight/), a free Redis GUI that is available for macOS, Windows, and Linux 
 
-- An application using a Redis client library, such as [`redis-py`](https://github.com/redis/redis-py) for Python. See the [client list]({{< relref "/develop/connect/clients/" >}}) to view all Redis clients by language.
+- An application using a Redis client library, such as [`redis-py`](https://github.com/redis/redis-py) for Python. See the [client list]({{< relref "/develop/clients" >}}) to view all Redis clients by language.
 
 ### Connect with redis-cli
 
@@ -62,7 +62,7 @@ For more `redis-cli` connection examples, see the [`redis-cli` reference]({{< re
 
 Redis Insight is a free Redis GUI that is available for macOS, Windows, and Linux.
 
-1. [Install Redis Insight]({{< relref "/develop/connect/insight/" >}}).
+1. [Install Redis Insight]({{< relref "/develop/tools/insight" >}}).
 
 1. Open Redis Insight and select **Add Redis Database**.
 
@@ -72,7 +72,7 @@ Redis Insight is a free Redis GUI that is available for macOS, Windows, and Linu
 
 1. Select **Add Redis Database** to connect to the database.
 
-See the [Redis Insight documentation]({{< relref "/develop/connect/insight/" >}}) for more information.
+See the [Redis Insight documentation]({{< relref "/develop/tools/insight" >}}) for more information.
 
 ### Connect with Python
 

@@ -8,62 +8,22 @@ categories:
 description: null
 hideListLinks: true
 weight: 60
-aliases:
-    - /operate/rs/administering/designing-production/security
 ---
-Security is an important part of any production system. This section describes the security features and settings available in Redis Enterprise.
 
-## Architecture security
+Redis Enterprise Software provides various features to secure your Redis Enterprise Software deployment:
 
-When deploying Redis Enterprise Software to production, we recommend the following practices:
+| Login and passwords | Users and roles | Encryption and TLS | Certificates and audit |
+|---------------------|-----------------|--------------------|-----------------------|
+| [Password attempts and session timeout]({{<relref "/operate/rs/security/access-control/manage-users/login-lockout">}}) | [Cluster and database access explained]({{<relref "/operate/rs/security/access-control">}}) | [Enable TLS]({{<relref "/operate/rs/security/encryption/tls/enable-tls">}}) | [Create certificates]({{<relref "/operate/rs/security/certificates/create-certificates">}}) |
+| [Password complexity]({{<relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules">}}) | [Create users]({{<relref "/operate/rs/security/access-control/create-users">}}) | [Configure TLS protocols]({{<relref "/operate/rs/security/encryption/tls/tls-protocols">}}) | [Monitor certificates]({{<relref "/operate/rs/security/certificates/monitor-certificates">}}) |
+| [Password expiration]({{<relref "/operate/rs/security/access-control/manage-passwords/password-expiration">}}) | [Create roles]({{<relref "/operate/rs/security/access-control/create-combined-roles">}}) | [Configure cipher suites]({{<relref "/operate/rs/security/encryption/tls/ciphers">}}) | [Update certificates]({{<relref "/operate/rs/security/certificates/updating-certificates">}}) |
+| [Default database access]({{<relref "/operate/rs/security/access-control/manage-users/default-user">}}) | [Redis ACLs]({{<relref "/operate/rs/security/access-control/redis-acl-overview">}}) | [Encrypt private keys on disk]({{<relref "/operate/rs/security/encryption/pem-encryption">}}) | [Enable OCSP stapling]({{<relref "/operate/rs/security/certificates/ocsp-stapling">}}) |
+| [Rotate user passwords]({{<relref "/operate/rs/security/access-control/manage-passwords/rotate-passwords">}}) | [Integrate with LDAP]({{<relref "/operate/rs/security/access-control/ldap">}}) | [Internode encryption]({{<relref "/operate/rs/security/encryption/internode-encryption">}}) | [Audit database connections]({{<relref "/operate/rs/security/audit-events">}}) |
 
-- **Deploy Redis Enterprise inside a trusted network**:  Redis Enterprise is database software and should be deployed on a trusted network not accessible to the public internet. Deploying Redis Enterprise in a trusted network reduces the likelihood that someone can obtain unauthorized access to your data or the ability to manage your database configuration.
+## Recommended security practices
 
-- **Implement anti-virus exclusions**: To ensure that anti-virus solutions that scan files or intercept processes to protect memory do not interfere with Redis Enterprise software, customers should ensure that anti-virus exclusions are implemented across all nodes in their Redis Enterprise cluster in a consistent policy. This helps ensure that anti-virus software does not impact the availability of your Redis Enterprise cluster.
+See [Recommended security practices]({{<relref "/operate/rs/security/recommended-security-practices">}}) to learn how to protect Redis Enterprise Software.
 
-    If you are replacing your existing antivirus solution or installing/supporting Redis Enterprise, make sure that the below paths are excluded:
+## Redis Trust Center
 
-    {{< note >}}
-For antivirus solutions that intercept processes, binary files may have to be excluded directly depending on the requirements of your anti-virus vendor.
-    {{< /note >}}
-
-    | **Path** | **Description** |
-    |------------|-----------------|
-    | /opt/redislabs | Main installation directory for all Redis Enterprise Software binaries |
-    | /opt/redislabs/bin | Binaries for all the utilities for command line access and managements such as "rladmin" or "redis-cli" |
-    | /opt/redislabs/config | System configuration files |
-    | /opt/redislabs/lib | System library files |
-    | /opt/redislabs/sbin | System binaries for tweaking provisioning |
-
-- **Send logs to a remote logging server**: Redis Enterprise is configured to send logs by default to syslog. To send these logs to a remote logging server you must [configure syslog]({{< relref "/operate/rs/clusters/logging/log-security.md" >}}) based the requirements of the remote logging server vendor. Remote logging helps ensure that the logs are not deleted so that you can rotate the logs so that your server disk does not fill up.
-
-- **Deploy clusters with an odd number of 3 or more nodes** - Redis is an available and partition tolerant database. We recommend that Redis Enterprise be deployed in a cluster of an odd number of 3 or more nodes so that you are able to successfully failover in the event of a failure.
-
-- **Reboot nodes in a sequence rather that all at once**: Customers will frequently maintain reboot schedules. There are cases, however, where our customers have rebooted too many servers at once, causing a quorum failure and resulting in loss of availability of the database. We recommend that rebooting be done in a phased manner so that quorum is not lost. For example, to maintain quorum in a 3 node cluster, at least 2 nodes must be up at all times. Only one server should be rebooted at any given time to maintain quorum.
-
-- **Implement client-side encryption**: Client-side encryption, or the practice of encrypting data within an application before storing it in a database, such as Redis, is the most widely adopted method to achieve encryption in memory. Redis is an in-memory database and stores data in-memory. If you require encryption in memory, better known as encryption in use, then client side encryption may be the right solution for you. Please be aware that when implementing solutions using client-side encryption database functions that need to operate on data — such as simple searching functions, comparisons, and incremental operations — don’t work with client-side encryption.
-
-## Database security
-
-Redis Enterprise offers several database security controls to help protect your data against unauthorized access and to improve the operational security of your database. The following section details configurable security controls available for implementation.
-
-- **Implement role-based access for users**: With [role-based access control (RBAC)]({{< relref "/operate/rs/security/access-control/rbac" >}}), you can [manage access control lists (ACLs)]({{< relref "/operate/rs/security/access-control/rbac/configure-acl" >}}) for the entire cluster. You can reuse ACL templates across users, accounts, and multiple databases to scale complex security configurations. RBAC lets you set permissions for the Redis Enterprise Software [Cluster Manager UI]({{< relref "/operate/rs/security/access-control/admin-console-access" >}}), [REST API]({{< relref "/operate/rs/references/rest-api" >}}), and [databases]({{< relref "/operate/rs/security/access-control/database-access" >}}), providing a complete security management solution for your cluster.
-
-- **Prevent database users from logging into the Cluster Manager UI**: Redis Enterprise allows users to be provisioned with both control plane access and access to the database. In some senarios this may be helpful for administrative users, but for applications we recommend that you [disable their access to the control plane]({{< relref "/operate/rs/security/access-control/manage-users" >}}).
-
-- **Use strong Redis passwords**: A frequent recommendation in the security industry is to use strong passwords to authenticate users. This helps to prevent brute force password guessing attacks against your database. Its important to check that your password aligns with your organizations security policy.
-
-- **Deactivate default user access**: Redis Enterprise comes with a "default" user for backwards compatibility with applications designed with versions of Redis prior to Redis Enterprise 6. The default user is turned on by default. This allows you to access the database without specifying a username and only using a shared secret. For applications designed to use access control lists, we recommend that you [deactivate default user access]({{< relref "/operate/rs/security/access-control/manage-users/default-user#deactivate-default-user" >}}).
-
-- **Enable client certificate authentication**: To prevent unauthorized access to your data, Redis Enterprise databases support the [TLS protocol]({{< relref "/operate/rs/security/encryption/tls#client-certificate-authentication" >}}), which includes authentication and encryption. Client certificate authentication can be used to ensure only authorized hosts can access the database.
-
-- **Install trusted certificates**: Redis implements self-signed certificates for the database proxy and replication service, but many organizations prefer to [use their own certificates]({{< relref "/operate/rs/security/certificates/create-certificates" >}}).
-
-- **Configure Transport Layer Security (TLS)**: Similar to the control plane, you can also [configure TLS protocols]({{< relref "/operate/rs/security/encryption/tls/tls-protocols" >}}) to help support your security and compliance needs.
-
-- **Configure and verify database backups**: Implementing a disaster recovery strategy is an important part of data security. Redis Enterprise supports [database backups to many destinations]({{< relref "/operate/rs/databases/import-export/schedule-backups.md" >}}).
-
-## LDAP authentication
-
-If your organization uses the Lightweight Directory Access Protocol (LDAP), we recommend enabling Redis Software support for role-based [LDAP authentication]({{< relref "/operate/rs/security/access-control/ldap/" >}}).
-
+Visit our [Trust Center](https://trust.redis.io/) to learn more about Redis security policies. If you find a suspected security bug, you can [submit a report](https://hackerone.com/redis-vdp?type=team).

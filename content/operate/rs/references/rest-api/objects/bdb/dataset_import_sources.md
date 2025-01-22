@@ -61,6 +61,8 @@ Any additional required parameters may differ based on the import location type.
 |----------|------|-------------|
 | access_key_id | string | The AWS Access Key ID with access to the bucket |
 | bucket_name | string | S3 bucket name |
+| filename | string | RDB filename, including the file extension. |
+| region_name | string | Amazon S3 region name (optional) |
 | secret_access_key | string | The AWS Secret Access that matches the Access Key ID |
 | subdir | string | Path to the backup directory in the S3 bucket (optional) |
 
@@ -71,6 +73,7 @@ Any additional required parameters may differ based on the import location type.
 | bucket_name | string | Cloud Storage bucket name |
 | client_email | string | Email address for the Cloud Storage client ID |
 | client_id | string | Cloud Storage client ID with access to the Cloud Storage bucket |
+| filename | string | RDB filename, including the file extension. |
 | private_key | string | Private key for the Cloud Storage matching the private key ID |
 | private_key_id | string | Cloud Storage private key ID with access to the Cloud Storage bucket |
 | subdir | string | Path to the backup directory in the Cloud Storage bucket (optional) |
@@ -82,6 +85,7 @@ Any additional required parameters may differ based on the import location type.
 | account_key | string | Access key for the storage account |
 | account_name | string | Storage account name with access to the container |
 | container | string | Blob Storage container name |
+| filename | string | RDB filename, including the file extension. |
 | sas_token | string | Token to authenticate with shared access signature |
 | subdir | string | Path to the backup directory in the Blob Storage container (optional) |
 

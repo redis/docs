@@ -15,7 +15,7 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(1)
+complexity: O(N) where N is the number of values specified.
 description: Returns, for each input value (floating-point), the estimated rank of
   the value (the number of observations in the sketch that are smaller than the value
   + half the number of observations that are equal to the value)
@@ -34,7 +34,7 @@ title: TDIGEST.RANK
 ---
 Returns, for each input value (floating-point), the estimated rank of the value (the number of observations in the sketch that are smaller than the value + half the number of observations that are equal to the value).
 
-Multiple ranks can be retrieved in a signle call.
+Multiple ranks can be retrieved in a single call.
 
 ## Required arguments
 <details open><summary><code>key</code></summary>

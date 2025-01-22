@@ -29,7 +29,7 @@ syntax_fmt: CLIENT TRACKINGINFO
 syntax_str: ''
 title: CLIENT TRACKINGINFO
 ---
-The command returns information about the current client connection's use of the [server assisted client side caching]({{< relref "/develop/use/client-side-caching" >}}) feature.
+The command returns information about the current client connection's use of the [server assisted client side caching]({{< relref "/develop/clients/client-side-caching" >}}) feature.
 
 Here's the list of tracking information sections and their respective values:
 
@@ -43,5 +43,5 @@ Here's the list of tracking information sections and their respective values:
   * `caching-no`: The next command won't cache keys (exists only together with `optout`).
   * `noloop`: The client isn't notified about keys modified by itself.
   * `broken_redirect`: The client ID used for redirection isn't valid anymore.
-* **redirect**: The client ID used for notifications redirection, or -1 when none.
+* **redirect**: The client ID used for notifications redirection, 0 for self-redirection, or -1 when none.
 * **prefixes**: A list of key prefixes for which notifications are sent to the client.

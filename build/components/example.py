@@ -11,15 +11,24 @@ EXAMPLE = 'EXAMPLE:'
 GO_OUTPUT = 'Output:'
 TEST_MARKER = {
     'java': '@Test',
-    'c#': '\[Fact\]'
+    'java-sync': '@Test',
+    'java-async': '@Test',
+    'java-reactive': '@Test',
+    'c#': '\[Fact\]|\[SkipIfRedis\(.*\)\]'
 }
 PREFIXES = {
     'python': '#',
     'node.js': '//',
     'java': '//',
+    'java-sync': '//',
+    'java-async': '//',
+    'java-reactive': '//',
     'go': '//',
     'c#': '//',
+    'redisvl': '#',
+    'php': '//'
 }
+
 
 class Example(object):
     language = None
@@ -109,7 +118,7 @@ class Example(object):
                     return
                 step_start = len(content) + 1
                 try:
-                    step_name = l.split(STEP_START)[1].strip()
+                    step_name = l.split(STEP_START)[1].strip().lower()
                 except IndexError:
                     step_name = None
             elif re.search(send, l):

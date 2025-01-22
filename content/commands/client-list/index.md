@@ -100,7 +100,7 @@ Here is the meaning of the fields:
 * `psub`: number of pattern matching subscriptions
 * `ssub`: number of shard channel subscriptions. Added in Redis 7.0.3
 * `multi`: number of commands in a MULTI/EXEC context
-* `watch`: number of keys this client is currently watching. Added in Redis 7.4 RC1
+* `watch`: number of keys this client is currently watching. Added in Redis 7.4
 * `qbuf`: query buffer length (0 means no query pending)
 * `qbuf-free`: free space of the query buffer (0 means the buffer is full)
 * `argv-mem`: incomplete arguments for the next command (already extracted from query buffer)
@@ -114,6 +114,8 @@ Here is the meaning of the fields:
 * `user`: the authenticated username of the client
 * `redir`: client id of current client tracking redirection
 * `resp`: client RESP protocol version. Added in Redis 7.0
+* `rbp`: peak size of the client's read buffer since the client connected. Added in Redis 7.0
+* `rbs`: current size of the client's read buffer in bytes. Added in Redis 7.0
 
 The client flags can be a combination of:
 
