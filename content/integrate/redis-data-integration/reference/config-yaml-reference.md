@@ -8,7 +8,7 @@ categories: ["redis-di"]
 aliases: /integrate/redis-data-integration/ingest/reference/config-yaml-reference/
 ---
 
-This document describes the options RDI's `config.yaml` file in detail. See
+This document describes the RDI `config.yaml` file in detail. See
 [Configure data pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}})
 for more information about the role `config.yaml` plays in defining a pipeline.
 
@@ -88,7 +88,7 @@ See the Debezium documentation for more information about the specific connector
 | `database.pdb.name` | `string` | Oracle |The name of the [Oracle Pluggable Database](https://docs.oracle.com/en/database/oracle/oracle-database/19/riwin/about-pluggable-databases-in-oracle-rac.html) that the connector captures changes from. Do not specify this property for a non-CDB installation.<br/> Default: `"ORCLPDB1"` |
 | `database.encrypt` | `string` | SQL Server| If SSL is enabled for your SQL Server database, you should also enable SSL in RDI by setting the value of this property to `true`.<br/> Default: `false` |
 | `database.server.id` | `integer` | MySQL | Numeric ID of this database client, which must be unique across all currently-running database processes in the MySQL cluster.<br/> Default: 1|
-| `database.url` | `string` | Oracle | Specifies the raw database JDBC URL. Use this property to provide flexibility in defining the database connection. Valid values include raw TNS names and RAC connection strings.|
+| `database.url` | `string` | Oracle | Specifies the raw database JDBC URL. Use this property to define a custom database connection. Valid values include raw TNS names and RAC connection strings.|
 | `topic.prefix` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | A prefix for all topic names that receive events emitted by this connector.<br/> Default: `"rdi"` |
 
 ### Advanced properties
@@ -115,7 +115,7 @@ See the Debezium documentation for more information about the specific connector
 | `snapshot.mode` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | Specifies the mode that the connector uses to take snapshots of a captured table.<br/> Default: `"initial"` |
 | `topic.prefix` | `string` | MySQL, Oracle, PostgreSQL, SQLServer| A prefix for all topic names that receive events emitted by this connector.<br/>Default: `"rdi"` |
 | `database.exclude.list` | `string` | MariaDB, MySQL | An optional, comma-separated list of regular expressions that match the names of databases for which you do not want to capture changes. The connector captures changes in any database whose name is not included in `database.exclude.list`. Do not specify the `database` field in the `connection` configuration if you are using the `database.exclude.list` property to filter out databases. |
-| `schema.exclude.list` | `string` | Oracle, PostgreSQL, SQLServer | An optional, comma-separated list of regular expressions that match names of schemas for which you do not want to capture changes. The connector captures changes in any schema whose name is not included in `schema.exclude.list`. Do no specify the `schemas` section if you are using the `schema.exclude.list` property to filter out schemas. |
+| `schema.exclude.list` | `string` | Oracle, PostgreSQL, SQLServer | An optional, comma-separated list of regular expressions that match names of schemas for which you do not want to capture changes. The connector captures changes in any schema whose name is not included in `schema.exclude.list`. Do not specify the `schemas` section if you are using the `schema.exclude.list` property to filter out schemas. |
 | `table.exclude.list` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | An optional comma-separated list of regular expressions that match fully-qualified table identifiers for the tables that you want to exclude from being captured; The connector captures all tables that are not included in `table.exclude.list`. Do not specify the `tables` block in the configuration if you are using the `table.exclude.list` property to filter out tables. |
 | `column.exclude.list` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | An optional comma-separated list of regular expressions that match the fully-qualified names of columns that should be excluded from change event message values. Fully-qualified names for columns are of the form `schemaName.tableName.columnName`. Do not specify the `columns` block in the configuration if you are using the `column.exclude.list` property to filter out columns. |
 | `snapshot.select.statement.overrides` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer |Specifies the table rows to include in a snapshot. Use this property if you want a snapshot to include only a subset of the rows in a table. This property affects snapshots only. It does not apply to events that the connector reads from the log. See [Using custom queries in the initial snapshot](#custom-initial-query) below for more information. |
