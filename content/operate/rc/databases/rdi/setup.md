@@ -42,6 +42,21 @@ See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data
 
 See the [RDI architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}}) for more information about CDC.
 
+## Set up service provider
+
+### Create network load balancer
+
+In the [AWS Management Console](https://console.aws.amazon.com/), use the **Services** menu to locate and select **Compute** > **EC2**. [Create a network load balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-network-load-balancer.html#configure-load-balancer) with the following settings:
+
+1. In **Basic configuration**: 
+    - **Scheme**: Select **Internet-facing**.
+    - **Load balancer IP address type**: Select **IPv4**.
+1. In **Network mapping**, select the VPC and availability zone associated with your source database.
+1. In **Security groups**, select the security group associated with your source database.
+1. In **Listeners and routing**, select **Create target group**
+
+
+
 ## Share source database credentials
 
 You need to share your source database credentials and certificates in an Amazon secret with Redis Cloud so that the pipeline can connect to your database.
