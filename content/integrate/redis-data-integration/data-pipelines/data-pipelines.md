@@ -85,7 +85,6 @@ sources:
       type: mysql
       host: ${RDI_REDIS_HOST}
       port: 13000
-      database: redislabscdc
       user: ${SOURCE_DB_USERNAME}
       password: ${SOURCE_DB_PASSWORD}
 # The names of the following properties should match the ones you used
@@ -96,14 +95,12 @@ sources:
 #     cacert: ${SOURCE_DB_CACERT}
 #     key_password: ${SOURCE_DB_KEY_PASSWORD}
     tables:
-          emp:
+          redislabscdc.emp:
             snapshot_sql: "SELECT * from redislabscdc.emp WHERE empno < 1000"
             columns:
               - empno
               - fname
               - lname
-            keys:
-              - empno
   # Advanced collector properties (optional):
   # advanced:
   # Sink collector properties - see the full list at https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream
