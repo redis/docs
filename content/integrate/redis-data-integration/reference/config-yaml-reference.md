@@ -14,7 +14,7 @@ for more information about the role `config.yaml` plays in defining a pipeline.
 
 ## Note about fully-qualified table names
 
-Throughout this document we use the format `<databaseName>.<tableName>` to refer to a fully-qualified table name. This format is actually the one used by MySQL, but for Oracle,
+Throughout this document we use the format `<databaseName>.<tableName>` to refer to a fully-qualified table name. This format is actually the one used by MySQL/MariaDB, but for Oracle,
 SQLServer, and PostgreSQL, you should use `<schemaName>`.`<tableName>` instead.
 
 {{< note >}}You can specify the fully-qualified table name `<databaseName>.<tableName>` as
@@ -84,7 +84,7 @@ See the Debezium documentation for more information about the specific connector
 | -- | -- | -- | -- |
 | `host` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer| The IP address of the database instance. |
 | `port` | `integer` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | The port of the database instance. |
-| `database` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer| The name of the database to capture changes from. For `SQL Server` you can define this as comma-separated list of database names. |
+| `database` | `string` | Oracle, PostgreSQL, SQLServer| The name of the database to capture changes from. For `SQL Server` you can define this as comma-separated list of database names. |
 | `database.pdb.name` | `string` | Oracle |The name of the [Oracle Pluggable Database](https://docs.oracle.com/en/database/oracle/oracle-database/19/riwin/about-pluggable-databases-in-oracle-rac.html) that the connector captures changes from. Do not specify this property for a non-CDB installation.<br/> Default: `"ORCLPDB1"` |
 | `database.encrypt` | `string` | SQL Server| If SSL is enabled for your SQL Server database, you should also enable SSL in RDI by setting the value of this property to `true`.<br/> Default: `false` |
 | `database.server.id` | `integer` | MySQL | Numeric ID of this database client, which must be unique across all currently-running database processes in the MySQL cluster.<br/> Default: 1|
@@ -104,7 +104,7 @@ See the Debezium documentation for more information about the specific connector
 | `redis.wait.enabled` | `string` | If Redis is configured with a replica shard, this lets you verify that the data has been written to the replica.<br/> Default: `false` |
 | `redis.wait.timeout.ms` | `integer` | Defines the timeout in milliseconds when waiting for the replica.<br/> Default: `1000` |
 | `redis.wait.retry.enabled` | `string` | Enables retry on wait for replica failure.<br/> Default: `false` |
-| `redis.wait.retry.delay.ms` | `integer` | Defines the delay for retry on wait for replica failure.<br/> Default: `1000` |
+| `redis.wait.retry.delay.ms` | `integer` | Defines the delay (in milliseconds) for retry on wait for replica failure.<br/> Default: `1000` |
 | `redis.retry.initial.delay.ms` | `integer` | Initial retry delay (in milliseconds) when encountering Redis connection or OOM issues. This value will be doubled upon every retry but won’t exceed `redis.retry.max.delay.ms`.<br/> Default: `300` |
 | `redis.retry.max.delay.ms` | `integer` | Maximum delay (in milliseconds) when encountering Redis connection or OOM issues.<br/> Default: `10000` |
 
@@ -112,7 +112,7 @@ See the Debezium documentation for more information about the specific connector
 
 | Name | Type | Source Databases | Description |
 |--|--|--|--|
-| `snapshot.mode` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | Specifies the mode that the connector uses to take snapshots of a captured table.<br/> Default: `"initial"` |
+| `snapshot.mode` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | Specifies the mode that the connector uses to take snapshots of a captured table. See the [Debezium documentation](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) for more details about the available options and configuration.<br/> Default: `"initial"` |
 | `topic.prefix` | `string` | MySQL, Oracle, PostgreSQL, SQLServer| A prefix for all topic names that receive events emitted by this connector.<br/>Default: `"rdi"` |
 | `database.exclude.list` | `string` | MariaDB, MySQL | An optional, comma-separated list of regular expressions that match the names of databases for which you do not want to capture changes. The connector captures changes in any database whose name is not included in `database.exclude.list`. Do not specify the `database` field in the `connection` configuration if you are using the `database.exclude.list` property to filter out databases. |
 | `schema.exclude.list` | `string` | Oracle, PostgreSQL, SQLServer | An optional, comma-separated list of regular expressions that match names of schemas for which you do not want to capture changes. The connector captures changes in any schema whose name is not included in `schema.exclude.list`. Do not specify the `schemas` section if you are using the `schema.exclude.list` property to filter out schemas. |
@@ -124,7 +124,7 @@ See the Debezium documentation for more information about the specific connector
 
 ### Using custom queries in the initial snapshot {#custom-initial-query}
 
-{{< note >}}This section is relevant only for MySQL, Oracle, PostgreSQL, and SQLServer.
+{{< note >}}This section is relevant only for MySQL/MariaDB, Oracle, PostgreSQL, and SQLServer.
 {{< /note >}}
 
 By default, the initial snapshot captures all rows from each table.
@@ -136,7 +136,7 @@ After the `snapshot.select.statement.overrides` list, you must then add another 
 The format of the property name depends on the database you are using:
 
 - For Oracle, SQLServer, and PostrgreSQL, use `snapshot.select.statement.overrides.<SCHEMA_NAME>.<TABLE_NAME>`
-- For MySQL, use: `snapshot.select.statement.overrides<DATABASE_NAME>.<TABLE_NAME>`
+- For MySQL and MariaDB, use: `snapshot.select.statement.overrides<DATABASE_NAME>.<TABLE_NAME>`
 
 For example, with PostgreSQL, you would have a configuration like the following:
 
@@ -144,7 +144,7 @@ For example, with PostgreSQL, you would have a configuration like the following:
 source:
     snapshot.select.statement.overrides: myschema.mytable
     snapshot.select.statement.overrides.myschema.mytable: |
-    SELECT ...
+        SELECT ...
 ```
 
 For MySQL, you would have:
@@ -153,25 +153,27 @@ For MySQL, you would have:
 source:
     snapshot.select.statement.overrides: mydatabase.mytable
     snapshot.select.statement.overrides.mydatabase.mytable: |
-    SELECT ...
+        SELECT ...
 ```
 
 You must also add the list of columns you want to include in the custom `SELECT` statement using fully-qualified names under "sources.tables". Specify each column in the configuration as shown below:
 
 ```yaml
 tables:
-schema_name.table_name: # For MySQL: use database_name.table_name
-columns:
-- column_name1 # Each column on a new line
-- column_name2
-- column_name3
+    # For MySQL and MariaDB: use database_name.table_name
+    schema_name.table_name:
+        columns:
+            - column_name1 # Each column on a new line
+            - column_name2
+            - column_name3
 ```
 
 If you want to capture all columns from a table, you can use empty curly braces `{}` instead of listing all the individual columns:
 
  ```yaml
  tables:
- schema_name.table_name: {} # Captures all columns
+    # Captures all columns. For MySQL and MariaDB: use database_name.table_name.
+    schema_name.table_name: {}
  ```
 
 The example configuration below selects the columns `CustomerId`, `FirstName` and `LastName` from the `customer` table and joins it with the `invoice` table to select customers with total invoices greater than 8000:
@@ -179,10 +181,10 @@ The example configuration below selects the columns `CustomerId`, `FirstName` an
 ```yaml
 tables:
  chinook.customer:
- columns:
-    - CustomerID
-    - FirstName
-    - LastName
+    columns:
+        - CustomerID
+        - FirstName
+        - LastName
 
 advanced:
     source:
@@ -231,7 +233,7 @@ message.
 | `read_batch_size` |`integer`, `string`| Batch size for reading data from the source database.<br/>Default: `2000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`|
 | `debezium_lob_encoded_placeholder` |`string`| Enable Debezium LOB placeholders.<br/>Default: `"X19kZWJleml1bV91bmF2YWlsYWJsZV92YWx1ZQ=="`|
 | `dedup` |`boolean`| Enable deduplication mechanism.<br/>Default: `false`<br/>||
-| `dedup_max_size` |`integer`| Maximum size of the deduplication set.<br/> Default: `1024`<br/>Minimum: `1`<br/>|
+| `dedup_max_size` |`integer`| Maximum number of items in the deduplication set.<br/> Default: `1024`<br/>Minimum: `1`<br/>|
 | `dedup_strategy` |`string`| Deduplication strategy: `reject` - reject messages (dlq), `ignore` \- ignore messages.<br/> (DEPRECATED)<br/>The property `dedup_strategy` is now deprecated. The only supported strategy is `ignore`. Please remove from the configuration.<br/>Default: `"ignore"`<br/>Enum: `"reject"`, `"ignore"`<br/>|
 | `duration` |`integer`, `string`| Time (in ms) after which data will be read from stream even if `read_batch_size` was not reached.<br/> Default: `100`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>|
 | `write_batch_size` |`integer`, `string`| The batch size for writing data to target Redis database\. Should be less or equal to `read_batch_size`.<br/> Default: `200`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>|
