@@ -51,7 +51,9 @@ The AUTH command authenticates the current connection in two cases:
 Redis versions prior of Redis 6 were only able to understand the one argument
 version of the command:
 
-    AUTH <password>
+{{< clients-example cmds_cnxmgmt auth1 >}}
+AUTH "temp-pass"
+{{< /clients-example >}}
 
 This form just authenticates against the password set with `requirepass`.
 In this configuration Redis will deny any command executed by the just
@@ -62,7 +64,9 @@ Otherwise, an error is returned and the clients needs to try a new password.
 
 When Redis ACLs are used, the command should be given in an extended way:
 
-    AUTH <username> <password>
+{{< clients-example cmds_cnxmgmt auth2 >}}
+AUTH "test-user" "strong_password"
+{{< /clients-example >}}
 
 In order to authenticate the current connection with one of the connections
 defined in the ACL list (see [`ACL SETUSER`]({{< relref "/commands/acl-setuser" >}})) and the official [ACL guide]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) for more information.
