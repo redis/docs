@@ -84,7 +84,7 @@ Returns one of these replies:
 - `nil`
   - if `key` exists but `path` does not exist and cannot be created
   - if an `NX` or `XX` condition was unmet
-- error if `key` does not exist and `path` is not root
+- error if `key` does not exist and `path` is not root  (`.` or `$`)
 
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
