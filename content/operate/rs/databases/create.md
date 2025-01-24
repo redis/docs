@@ -99,6 +99,6 @@ For Active-Active databases, see [Create an Active-Active geo-replicated databas
 
 1. Select **Create**.
 
-## Continue learning with Redis Univeristy
+## Continue learning with Redis University
 
 See the [Create a database on Redis Software course](https://university.redis.io/course/cvj3ntarrg8roa) for modules.
