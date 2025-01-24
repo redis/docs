@@ -100,3 +100,7 @@ See [Test client connection]({{< relref "/operate/rs/databases/connect/test-clie
 To use the Redis Enterprise Software Cluster Manager UI, you need a modern browser with JavaScript enabled.
  
 The Cluster Manager UI is officially supported for the latest version of [Google Chrome](https://www.google.com/chrome/), as well as the three previous and three subsequent versions.
+
+## Continue learning with Redis University
+
+See the [Get started with Redis Software learning path](https://university.redis.io/learningpath/an0mgw5bjpjfbe) for courses.
