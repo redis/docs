@@ -79,7 +79,11 @@ sets the key only if it already exists.
 
 ## Return value 
 
-JSET.SET returns a simple string reply: `OK` if executed correctly or `nil` if the specified `NX` or `XX` conditions were not met.
+Returns one of these replies:
+- A simple string reply: `OK` if executed correctly
+- `nil` - if `path` does not exist and cannot be created, or if the specified `NX` or `XX` conditions were unmet
+- error if `key` does not exist and `path` is not root
+
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
@@ -122,6 +126,38 @@ redis> JSON.GET doc
 "{\"f1\":{\"a\":3},\"f2\":{\"a\":3}}"
 {{< / highlight >}}
 </details>
+
+<details open>
+<summary><b>path does not exist and cannot be created</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.SET doc $ 1
+OK
+redis> JSON.SET doc $.x.y 2
+(nil)
+{{< / highlight >}}
+</details>
+
+<details open>
+<summary><b>XX condition unmet</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.SET nonexistentkey $ 5 XX
+(nil)
+redis> JSON.GET nonexistentkey
+(nil)
+{{< / highlight >}}
+</details>
+
+<details open>
+<summary><b>key does not exist and path is not root</b></summary>
+
+{{< highlight bash >}}
+redis> JSON.SET nonexistentkey $.x 5
+(error) ERR new objects must be created at the root
+{{< / highlight >}}
+</details>
+
 
 ## See also
 
