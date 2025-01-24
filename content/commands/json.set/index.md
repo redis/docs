@@ -83,7 +83,7 @@ Returns one of these replies:
 - A simple string reply: `OK` if executed correctly
 - `nil`
   - if `key` exists but `path` does not exist and cannot be created
-  - if a specified `NX` or `XX` condition were unmet
+  - if a specified `NX` or `XX` condition was unmet
 - error if `key` does not exist and `path` is not root
 
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
