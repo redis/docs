@@ -207,23 +207,23 @@ deployment in a K8s cluster.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redisinsight #deployment name
+  name: redisinsight # deployment name
   labels:
-    app: redisinsight #deployment label
+    app: redisinsight # deployment label
 spec:
-  replicas: 1 #a single replica pod
+  replicas: 1 # a single replica pod
   selector:
     matchLabels:
-      app: redisinsight #which pods is the deployment managing, as defined by the pod template
-  template: #pod template
+      app: redisinsight # which pods is the deployment managing, as defined by the pod template
+  template: # pod template
     metadata:
       labels:
-        app: redisinsight #label for pod/s
+        app: redisinsight # label for pod/s
     spec:
       containers:
-      - name:  redisinsight #Container name (DNS_LABEL, unique)
-        image: redis/redisinsight:latest #repo/image
-        imagePullPolicy: IfNotPresent #Always pull image
+      - name: redisinsight # Container name (DNS_LABEL, unique)
+        image: redis/redisinsight:latest # repo/image
+        imagePullPolicy: IfNotPresent # Always pull image
         env:
           # If there's a service named 'redisinsight' that exposes the
           # deployment, we manually set `RI_APP_HOST` and
@@ -234,18 +234,18 @@ spec:
           - name: RI_APP_PORT
             value: "5540"
         volumeMounts:
-        - name: redisinsight #Pod volumes to mount into the container's filesystem. Cannot be updated.
+        - name: redisinsight # Pod volumes to mount into the container's filesystem. Cannot be updated.
           mountPath: /data
         ports:
-        - containerPort: 5540 #exposed container port and protocol
+        - containerPort: 5540 # exposed container port and protocol
           protocol: TCP
-      livenessProbe:
-           httpGet:
-              path : /healthcheck/ # exposed RI endpoint for healthcheck
-              port: 5540 # exposed container port
-           initialDelaySeconds: 5 # number of seconds to wait after the container starts to perform liveness probe
-           periodSeconds: 5 # period in seconds after which liveness probe is performed
-           failureThreshold: 1 # number of liveness probe failures after which container restarts
+        livenessProbe: # Probe to check container health
+          httpGet:
+            path: /healthcheck/ # exposed RI endpoint for healthcheck
+            port: 5540 # exposed container port
+          initialDelaySeconds: 5 # number of seconds to wait after the container starts to perform liveness probe
+          periodSeconds: 5 # period in seconds after which liveness probe is performed
+          failureThreshold: 1 # number of liveness probe failures after which container restarts
       volumes:
       - name: redisinsight
         emptyDir: {} # node-ephemeral volume https://kubernetes.io/docs/concepts/storage/volumes/#emptydir

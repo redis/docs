@@ -15,14 +15,28 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.21 requires:
+RediSearch v2.6.24 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
 
+## v2.6.24 (January 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+- **Security and privacy:**
+  - [#5458](https://github.com/redisearch/redisearch/pull/5458) (CVE-2024-51737) Query: potential out-of-bounds write (MOD-8486)
+
+- Bug fixes:
+  - [#5302](https://github.com/redisearch/redisearch/pull/5302) Prefix/Infix/Suffix queries longer than 1024 chars could cause a crash (MOD-7882)
+  - [#5281](https://github.com/redisearch/redisearch/pull/5281) `FT.CURSOR READ` retrieving deleted `TAG` fields cause a crash (MOD-8011)
+  - [#5168](https://github.com/redisearch/redisearch/pull/5168) Cursors from queries that timed out weren't depleted causing exhaustion of number of cursors available(MOD-8009)
+
 ## v2.6.21 (August 2024)
 
-This is a maintenance release for RediSearch 2.6
+This is a maintenance release for RediSearch 2.6.
 
 Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
 
@@ -36,7 +50,7 @@ Update urgency: `HIGH` : There is a critical bug that may affect a subset of use
 
 ## v2.6.20 (July 2024)
 
-This is a maintenance release for RediSearch 2.6
+This is a maintenance release for RediSearch 2.6.
 
 Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
 
@@ -52,7 +66,7 @@ Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgen
 
 ## v2.6.19 (June 2024)
 
-This is a maintenance release for RediSearch 2.6
+This is a maintenance release for RediSearch 2.6.
 
 Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
 

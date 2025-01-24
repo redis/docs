@@ -40,6 +40,12 @@ Usage: redis-di install [OPTIONS]
 
   Run installer in online mode
 
+* `installation-dir`:
+  * Type: STRING
+  * Default: `/var/lib`
+  * Usage: `--installation-dir`
+
+  Custom installation directory
 
 * `help`: 
   * Type: BOOL 
@@ -62,5 +68,7 @@ Options:
                                   [default: WARN]
   -f, --file FILE                 Path to a TOML configuration file for silent
                                   installation
+  --installation-dir              Custom installation directory
+
   --help                          Show this message and exit.
 ```
