@@ -81,7 +81,9 @@ sets the key only if it already exists.
 
 Returns one of these replies:
 - A simple string reply: `OK` if executed correctly
-- `nil` - if `path` does not exist and cannot be created, or if the specified `NX` or `XX` conditions were unmet
+- `nil`
+  - if `key` exists but `path` does not exist and cannot be created
+  - if a specified `NX` or `XX` condition were unmet
 - error if `key` does not exist and `path` is not root
 
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
