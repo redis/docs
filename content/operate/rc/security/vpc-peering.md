@@ -140,4 +140,4 @@ Once VPC peering is established, we recommend switching your application connect
 
 ## Continue learning with Redis University
 
-See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) for modules.
+See the [Redis Cloud networking course](https://university.redis.io/course/xkz1coqj9tsqjr) for modules.
