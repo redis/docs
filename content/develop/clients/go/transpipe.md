@@ -32,33 +32,42 @@ There are two types of batch that you can use:
 
 To execute commands in a pipeline, you first create a pipeline object
 and then add commands to it using methods that resemble the standard
-command methods (for example, `set()` and `get()`). The commands are
-buffered in the pipeline and only execute when you call the `sync()`
+command methods (for example, `Set()` and `Get()`). The commands are
+buffered in the pipeline and only execute when you call the `Exec()`
 method on the pipeline object.
 
-The main difference with the pipeline commands is that they return
-`Response<Type>` objects, where `Type` is the return type of the
-standard command method. A `Response` object contains a valid result
-only after the pipeline has finished executing. You can access the
-result using the `Response` object's `get()` method.
+The main difference with the pipeline commands is that their return
+values contain a valid result only after the pipeline has finished executing.
+You can access the result using the `Val()` method instead of
+`Result()` (note that errors are reported by the `Exec()` method rather
+than by the individual commands).
 
-{{< clients-example pipe_trans_tutorial basic_pipe Java-Sync >}}
+{{< clients-example pipe_trans_tutorial basic_pipe Go >}}
+{{< /clients-example >}}
+
+You can also create a pipeline using the `Pipelined()` method.
+This executes pipeline commands in a callback function that you
+provide and calls `Exec()` automatically after it returns:
+
+{{< clients-example pipe_trans_tutorial basic_pipe_pipelined Go >}}
 {{< /clients-example >}}
 
 ## Execute a transaction
 
 A transaction works in a similar way to a pipeline. Create a
-transaction object with the `multi()` command, call command methods
+transaction object with the `TxPipeline()` method, call command methods
 on that object, and then call the transaction object's 
-`exec()` method to execute it. You can access the results
-from commands in the transaction using `Response` objects, as
-you would with a pipeline. However, the `exec()` method also
-returns a `List<Object>` value that contains all the result
-values in the order the commands were executed (see
-[Watch keys for changes](#watch-keys-for-changes) below for
-an example that uses the results list).
+`Exec()` method to execute it. You can access the results
+from commands in the transaction after it completes using the
+`Val()` method.
 
-{{< clients-example pipe_trans_tutorial basic_trans Java-Sync >}}
+{{< clients-example pipe_trans_tutorial basic_trans Go >}}
+{{< /clients-example >}}
+
+There is also a `TxPipelined()` method that works in a similar way
+to `Pipelined()`, described above:
+
+{{< clients-example pipe_trans_tutorial basic_trans_txpipelined Go >}}
 {{< /clients-example >}}
 
 ## Watch keys for changes
@@ -75,12 +84,17 @@ The code below reads a string
 that represents a `PATH` variable for a command shell, then appends a new
 command path to the string before attempting to write it back. If the watched
 key is modified by another client before writing, the transaction aborts.
-Note that you should call read-only commands for the watched keys synchronously on
-the usual client object (called `jedis` in our examples) but you still call commands
-for the transaction on the transaction object.
+The `Watch()` method receives a callback function where you execute the
+commands you want to watch. In the body of this callback, you can execute
+read-only commands before the transaction using the usual client object
+(called `rdb` in our examples) and receive an immediate result. Start the
+transaction itself by calling `TxPipeline()` or `TxPipelined()` on the
+`Tx` object passed to the callback. `Watch()` also receives one or more
+`string` parameters after the callback that represent the keys you want
+to watch.
 
 For production usage, you would generally call code like the following in
-a loop to retry it until it succeeds or else report or log the failure.
+a loop to retry it until it succeeds or else report or log the failure:
 
-{{< clients-example pipe_trans_tutorial trans_watch Java-Sync >}}
+{{< clients-example pipe_trans_tutorial trans_watch Go >}}
 {{< /clients-example >}}
