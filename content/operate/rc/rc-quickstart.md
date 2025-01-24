@@ -143,3 +143,7 @@ See [Redis CLI]({{< relref "/develop/tools/cli" >}}) to learn how to use `redis-
 - [Secure your Redis Cloud database]({{< relref "/operate/rc/security/" >}})
 - [Back-up databases]({{< relref "/operate/rc/databases/back-up-data.md" >}})
 - [Monitor Redis Cloud performance]({{< relref "/operate/rc/databases/monitor-performance.md" >}})
+
+## Continue learning with Redis University
+
+See the [Get started with Redis Cloud learning path](https://university.redis.io/learningpath/lwkfbjbbqetoqc) for courses.
