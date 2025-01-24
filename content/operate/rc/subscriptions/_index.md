@@ -40,7 +40,7 @@ Free plans are a type of Redis Cloud Essentials plans designed for training purp
 ### Paid Redis Cloud Essentials {#paid-rce}
 Redis Cloud Essentials is cost-efficient and designed for low-throughput scenarios. It support a range of availability, persistence, and backup options.  Pricing supports low throughput workloads. See [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}) for a list of available plans.
 
-- [View and upgrade Essentials plan]({{< relref "/operate/rc/subscriptions/view-pro-subscription" >}})
+- [View and upgrade Essentials plan]({{< relref "/operate/rc/subscriptions/view-essentials-subscription" >}})
 
 ### Redis Cloud Pro
 Redis Cloud Pro supports more databases, larger databases, greater throughput, and unlimited connections compared to Redis Cloud Essentials. Hosted in dedicated VPCs, they feature high-availability in a single or multi-AZ, Active-Active, Auto-Tiering, clustering, data persistence, and configurable backups.  Pricing is "pay as you go" to support any dataset size or throughput.
