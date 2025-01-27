@@ -21,35 +21,28 @@ SQLServer, and PostgreSQL, you should use `<schemaName>`.`<tableName>` instead.
 a regular expression instead of providing the full name of the `databaseName` and `tableName`.
 {{< /note >}}
 
-The example below shows the MySQL format specifying the desired columns and primary keys
-for the `chinook.customer` and `chinook.employee` tables:
+The example below shows the MySQL format specifying the desired columns for the
+`chinook.customer` and `chinook.employee` tables:
 
- ```yaml
- tables:
- # Sync a specific table with all its columns:
-    chinook.customer:
-        columns:
-            - ID
-            - FirstName
-            - LastName
-            - Company
-            - Address
-            - Email
-        keys:
-            - FirstName
-            - LastName
-    chinook.employee:
-        columns:
-            - ID
-            - FirstName
-            - LastName
-            - ReportsTo
-            - Address
-            - City
-            - State
-        keys:
-            - FirstName
-            - LastName
+```yaml
+tables:
+   chinook.customer:
+       columns:
+           - CustID
+           - FirstName
+           - LastName
+           - Company
+           - Address
+           - Email
+   chinook.employee:
+       columns:
+           - EmpID
+           - FirstName
+           - LastName
+           - ReportsTo
+           - Address
+           - City
+           - State
  ```
 
 ## Top level objects
