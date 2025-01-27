@@ -46,12 +46,13 @@ Though the filter can scale up by creating sub-filters, it is recommended to res
 sub-filters requires additional memory (each sub-filter uses an extra bits and hash function) and consume  further CPU time than an equivalent filter that had
 the right capacity at creation time.
 
-The number of hash functions is `-log(error)/ln(2)^2`.
-The number of bits per item is `-log(error)/ln(2)` ≈ 1.44.
+The optimal number of hash functions is `ceil(-ln(error_rate) / ln(2))`.
 
-* **1%**    error rate requires 7  hash functions and 10.08 bits per item.
-* **0.1%**  error rate requires 10 hash functions and 14.4  bits per item.
-* **0.01%** error rate requires 14 hash functions and 20.16 bits per item.
+The required number of bits per item, given the desired `error_rate` and the optimal number of hash functions, is `-ln(error_rate) / ln(2)^2`. Hence, the required number of bits in the filter is `capacity * -ln(error_rate) / ln(2)^2`.
+
+* **1%**    error rate requires  7 hash functions and  9.585 bits per item.
+* **0.1%**  error rate requires 10 hash functions and 14.378 bits per item.
+* **0.01%** error rate requires 14 hash functions and 19.170 bits per item.
 
 ## Required arguments
 
@@ -86,7 +87,7 @@ Non-scaling filters requires slightly less memory than their scaling counterpart
 When `capacity` is reached, an additional sub-filter is created.
 The size of the new sub-filter is the size of the last sub-filter multiplied by `expansion`, specified as a positive integer.
 
-If the number of elements to be stored in the filter is unknown, you use an `expansion` of `2` or more to reduce the number of sub-filters.
+If the number of items to be stored in the filter is unknown, you use an `expansion` of `2` or more to reduce the number of sub-filters.
 Otherwise, you use an `expansion` of `1` to reduce memory consumption. The default value is `2`.
 </details>
 

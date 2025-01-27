@@ -108,7 +108,7 @@ def compare_and_swap(x):
 gb = GearsBuilder()
 gb.map(age) # Extract the 'age' field from each hash
 gb.foreach(compare_and_swap) # Compare the max age to the value stored at age:maximum
-gb.register('person:*') # Only process keys matching the pattern 'person:*'
+gb.register(prefix='person:*') # Only process keys matching the pattern 'person:*'
 ```
 
 You can see here that we define two methods: `age()` and `compare_and_swap()`. Even if you're not familiar with Python, you should be able to see what the methods do.

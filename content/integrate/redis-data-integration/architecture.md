@@ -89,17 +89,7 @@ the backpressure mechanism.
 
 RDI supports the following database sources using [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) connectors:
 
-| Database                    | Versions               |
-| --------------------------- | ---------------------- |
-| Oracle                      | 12c, 19c, 21c          |
-| MariaDB                     | >= 10.5                |
-| MySQL                       | 5.7, 8.0.x             |
-| Postgres                    | 10, 11, 12, 13, 14, 15 |
-| SQL Server                  | 2017, 2019             |
-| Google Cloud SQL MySQL      | 8.0                    |
-| Google Cloud SQL Postgres   | 15                     |
-| Google Cloud SQL SQL Server | 2019                   |
-| Google Cloud AlloyDB for PostgreSQL | |
+{{< embed-md "rdi-supported-source-versions.md" >}}
 
 ## How RDI is deployed
 

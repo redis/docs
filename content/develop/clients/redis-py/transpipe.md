@@ -41,31 +41,8 @@ Note that the command methods for a pipeline always return the original
 pipeline object, so you can "chain" several commands together, as the
 example below shows:
 
-<!-- Tested examples will replace the inline ones when they are approved.
-Markup removed to stop warnings.
-
-clients-example pipe_trans_tutorial basic_pipe Python
-/clients-example
--->
-```python
-import redis
-
-r = redis.Redis(decode_responses=True)
-
-pipe = r.pipeline()
-
-for i in range(5):
-    pipe.set(f"seat:{i}", f"#{i}")
-
-set_5_result = pipe.execute()
-print(set_5_result)  # >>> [True, True, True, True, True]
-
-pipe = r.pipeline()
-
-# "Chain" pipeline commands together.
-get_3_result = pipe.get("seat:0").get("seat:3").get("seat:4").execute()
-print(get_3_result)  # >>> ['#0', '#3', '#4']
-```
+{{< clients-example pipe_trans_tutorial basic_pipe Python >}}
+{{< /clients-example >}}
 
 ## Execute a transaction
 
@@ -96,43 +73,8 @@ key is modified by another client before writing, the transaction aborts
 with a `WatchError` exception, and the loop executes again for another attempt.
 Otherwise, the loop terminates successfully.
 
-<!--
-clients-example pipe_trans_tutorial trans_watch Python
-/clients-example
--->
-```python
-r.set("shellpath", "/usr/syscmds/")
-
-with r.pipeline() as pipe:
-    # Repeat until successful.
-    while True:
-        try:
-            # Watch the key we are about to change.
-            pipe.watch("shellpath")
-
-            # The pipeline executes commands directly (instead of
-            # buffering them) from immediately after the `watch()`
-            # call until we begin the transaction.
-            current_path = pipe.get("shellpath")
-            new_path = current_path + ":/usr/mycmds/"
-
-            # Start the transaction, which will enable buffering
-            # again for the remaining commands.
-            pipe.multi()
-
-            pipe.set("shellpath", new_path)
-
-            pipe.execute()
-
-            # The transaction succeeded, so break out of the loop.
-            break
-        except redis.WatchError:
-            # The transaction failed, so continue with the next attempt.
-            continue
-
-get_path_result = r.get("shellpath")
-print(get_path_result)  # >>> '/usr/syscmds/:/usr/mycmds/'
-```
+{{< clients-example pipe_trans_tutorial trans_watch Python >}}
+{{< /clients-example >}}
 
 Because this is a common pattern, the library includes a convenience
 method called `transaction()` that handles the code to watch keys,
@@ -144,26 +86,5 @@ using `transaction()`. Note that `transaction()` can't add the `multi()`
 call automatically, so you must still place this correctly in your
 transaction function.
 
-<!--
-clients-example pipe_trans_tutorial watch_conv_method Python 
-/clients-example 
-*-->
-```python
-r.set("shellpath", "/usr/syscmds/")
-
-
-def watched_sequence(pipe):
-    current_path = pipe.get("shellpath")
-    new_path = current_path + ":/usr/mycmds/"
-
-    pipe.multi()
-
-    pipe.set("shellpath", new_path)
-
-
-trans_result = r.transaction(watched_sequence, "shellpath")
-print(trans_result)  # True
-
-get_path_result = r.get("shellpath")
-print(get_path_result)  # >>> '/usr/syscmds/:/usr/mycmds/'
-```
+{{< clients-example pipe_trans_tutorial watch_conv_method Python >}}
+{{< /clients-example >}}

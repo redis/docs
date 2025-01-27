@@ -106,18 +106,7 @@ You should *not* use RDI when:
 
 RDI can capture data from any of the following sources:
 
-| Database                    | Versions               |
-| :-------------------------- | :--------------------- |
-| Oracle                      | 12c, 19c, 21c          |
-| MariaDB                     | >= 10.5                |
-| MySQL                       | 5.7, 8.0.x             |
-| Postgres                    | 10, 11, 12, 13, 14, 15 |
-| SQL Server                  | 2017, 2019             |
-| Google Cloud SQL MySQL      | 8.0                    |
-| Google Cloud SQL Postgres   | 15                     |
-| Google Cloud SQL SQL Server | 2019                   |
-| Google Cloud AlloyDB for PostgreSQL | |
-
+{{< embed-md "rdi-supported-source-versions.md" >}}
 
 ## Documentation
 

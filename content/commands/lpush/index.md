@@ -69,10 +69,20 @@ So for instance the command `LPUSH mylist a b c` will result into a list
 containing `c` as first element, `b` as second element and `a` as third element.
 
 ## Examples
+{{< clients-example cmds_list lpush >}}
+redis> LPUSH mylist "world"
+(integer) 1
+redis> LPUSH mylist "hello"
+(integer) 2
+redis> LRANGE mylist 0 -1
+1) "hello"
+2) "world"
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
 
 {{% redis-cli %}}
 LPUSH mylist "world"
 LPUSH mylist "hello"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
-

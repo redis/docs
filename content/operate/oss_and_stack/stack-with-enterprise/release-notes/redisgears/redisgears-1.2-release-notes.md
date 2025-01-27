@@ -16,10 +16,24 @@ weight: 99
 
 ## Requirements
 
-RedisGears v1.2.10 requires:
+RedisGears v1.2.12 requires:
 
 - Minimum Redis compatibility version (database): 6.0.0
 - Minimum Redis Enterprise Software version (cluster): 6.0.12
+
+## 1.2.12 (December 2024)
+
+This is a maintenance release for RedisGears 1.2
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Details
+
+- Bug fixes:
+  - [#1125](https://github.com/redisgears/redisgears/pull/1125) The same registration ID might be generated twice. This may lead to an RDB corruption.
+  - [#1121](https://github.com/redisgears/redisgears/pull/1121) Recreate the virtual environment on startup. Fixes an issue where the virtual environment might point to the old version of the Python interpreter.
+  - [#1122](https://github.com/redisgears/redisgears/pull/1122) Clear the last error after a successful run to avoid confusion if the error is relevant.
+  - [#1122](https://github.com/redisgears/redisgears/pull/1122) Clear not-yet-started executions after unregister, pause, or error on registration occcurs. (MOD-8184)
 
 ## 1.2.10 (October 2024)
 
