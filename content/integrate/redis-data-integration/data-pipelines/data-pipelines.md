@@ -95,12 +95,12 @@ sources:
 #     cacert: ${SOURCE_DB_CACERT}
 #     key_password: ${SOURCE_DB_KEY_PASSWORD}
     tables:
-          redislabscdc.emp:
-            snapshot_sql: "SELECT * from redislabscdc.emp WHERE empno < 1000"
-            columns:
-              - empno
-              - fname
-              - lname
+      redislabscdc.emp:
+        snapshot_sql: "SELECT * from redislabscdc.emp WHERE empno < 1000"
+        columns:
+          - empno
+          - fname
+          - lname
   # Advanced collector properties (optional):
   # advanced:
   # Sink collector properties - see the full list at https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream
