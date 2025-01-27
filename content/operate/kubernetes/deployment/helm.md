@@ -26,45 +26,43 @@ Helm charts provide a simple way to install the Redis Enterprise for Kubernetes 
 The steps below use the following placeholders to indicate values you must provide: 
 
 - `<repo-name>` is the name of repo holding your helm chart (example: `redis`).
-- `<release-name>` is the name you give a specific installation of the Helm chart (example: ``)
+- `<release-name>` is the name you give a specific installation of the Helm chart (example: `my-redis-enterprise-operator`)
 - `<chart-version>` is the version of the Helm chart you are installing (example: `7.8.2-2`)
 - `<namespace-name>` is the name of the new namespace the Redis operator will run in (example: `ns1`)
-- `<path-to-chart>` is the filepath to the Helm chart, if it is stored in a local directory (exmaple: ``)
+- `<path-to-chart>` is the filepath to the Helm chart, if it is stored in a local directory (exmaple: `/home/charts/redis-enterprise-operato`)
 
 ## Install
 
 1. Add the Redis repository.
 
-    ```sh
-    helm repo add <repo-name> https://helm.redis.io/
-    ```
+```sh
+helm repo add <repo-name> https://helm.redis.io/
+```
 
+2. Install the Helm chart into a new namespace.
 
-1. Install the Helm chart into a new namespace.
-
-    ```sh
-    helm install <release-name> redis/redis-enterprise-operator \
-        --version <chart-version> \
-        --namespace <namespace-name> \
-        --create-namespace
-    ```
+```sh
+helm install <release-name> redis/redis-enterprise-operator \
+    --version <chart-version> \
+    --namespace <namespace-name> \
+    --create-namespace
+```
 
 To install with Openshift, add `--set openshift.mode=true`.
 
 To monitor the installation add the `--debug` flag. The installation runs several jobs synchronously and may take afew minutes to complete.
 
-
 ### Install from local directory
 
 1. Find the latest release on the [redis-enterprise-k8s-docs](https://github.com/RedisLabs/redis-enterprise-k8s-docs/releases) repo and download the `tar.gz` source code into a local directory.
 
-1. Install the Helm chart from your local directory.
+2. Install the Helm chart from your local directory.
 
-    ```sh
-    helm install <release-name> <path-to-chart> \
-        --namespace <namespace-name> \
-        --create-namespace
-    ```
+```sh
+helm install <release-name> <path-to-chart> \
+    --namespace <namespace-name> \
+    --create-namespace
+```
 
 To install with Openshift, add `--set openshift.mode=true`.
 
@@ -72,45 +70,44 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 
 ### Specify values during install
 
-1. View configurable values with `helm show values redis/redis --version <release-name>`.
+1. View configurable values with `helm show values <repo-name>/<chart-name>`.
 
-1. Install the Helm chart, overriding specific value defaults using `--set`.
+2. Install the Helm chart, overriding specific value defaults using `--set`.
 
-    ```sh
-    helm install <operator-name> redis/redis-enterprise-operator \
-        --version <release-name> \
-        --namespace <namespace-name> \
-        --create-namespace
-        --set <key1>=<value1> \
-        --set <key2>=<value2>
-    ```
+```sh
+helm install <operator-name> redis/redis-enterprise-operator \
+    --version <release-name> \
+    --namespace <namespace-name> \
+    --create-namespace
+    --set <key1>=<value1> \
+    --set <key2>=<value2>
+```
 
 ### Install with values file
 
-1. View configurable values with `helm show values redis/redis-enterprise-operator --version <release-name>`.
+1. View configurable values with `helm show values <repo-name>/<chart-name>`.
 
-1. Create a YAML file to specify the values you want to configure.
+2. Create a YAML file to specify the values you want to configure.
 
-1. Install the chart with the `--values` option.
+3. Install the chart with the `--values` option.
 
-    ```sh
-    helm install <operator-name> redis/redis-enterprise-operator \
-        -- version <release-name> \
-        -- namespace <namespace-name> \
-        -- create-namespace \
-        -- values <path-to-values-file>
-    ```
-
+```sh
+helm install <operator-name> redis/redis-enterprise-operator \
+    -- version <release-name> \
+    -- namespace <namespace-name> \
+    -- create-namespace \
+    -- values <path-to-values-file>
+```
 
 ## Uninstall
 
 1. Delete any custom resources managed by the operator. See [Delete custom resources]({{<relref "content/operate/kubernetes/re-clusters/delete-custom-resources.md">}}) for detailed steps. Custom resources must be deleted in the correct order to avoid errors.
 
-1. Uninstall the helm chart.
+2. Uninstall the helm chart.
 
-    ```sh
-    helm uninstall <release-name>
-    ```
+```sh
+helm uninstall <release-name>
+```
 
 This removes all Kubernetes resources associated with the chart and deletes the release.
 
