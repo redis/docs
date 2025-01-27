@@ -231,7 +231,7 @@ message.
 | -- | -- | -- |
 | `on_failed_retry_interval` |`integer`, `string`| Interval (in seconds) between attempts to retry on failure.<br/>Default: `5`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`|
 | `read_batch_size` |`integer`, `string`| Batch size for reading data from the source database.<br/>Default: `2000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`|
-| `debezium_lob_encoded_placeholder` |`string`| Enable Debezium LOB placeholders.<br/>Default: `"X19kZWJleml1bV91bmF2YWlsYWJsZV92YWx1ZQ=="`|
+| `debezium_lob_encoded_placeholder` |`string`| Enable Debezium LOB placeholders.<br/>Default: `"__debezium_unavailable_value"`|
 | `dedup` |`boolean`| Enable deduplication mechanism.<br/>Default: `false`<br/>||
 | `dedup_max_size` |`integer`| Maximum number of items in the deduplication set.<br/> Default: `1024`<br/>Minimum: `1`<br/>|
 | `dedup_strategy` |`string`| Deduplication strategy: `reject` - reject messages (dlq), `ignore` \- ignore messages.<br/> (DEPRECATED)<br/>The property `dedup_strategy` is now deprecated. The only supported strategy is `ignore`. Please remove from the configuration.<br/>Default: `"ignore"`<br/>Enum: `"reject"`, `"ignore"`<br/>|
