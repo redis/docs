@@ -51,7 +51,11 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- TBA
+- RS134225: Fixed an issue where the server restart could fail during cluster upgrade due to a timeout.
+
+- RS133342: Fixed an issue where too many API requests in the queue could cause new API requests to fail.
+
+- RS125543: Changed slow log duration to milliseconds in the new Cluster Manager UI.
 
 ## Version changes
 
