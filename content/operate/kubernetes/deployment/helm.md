@@ -12,7 +12,7 @@ weight: 11
 
 Helm charts provide a simple way to install the Redis Enterprise for Kubernetes operator in just a few steps. For more information about Helm, go to [https://helm.sh/docs/](https://helm.sh/docs/).
 
-{{<note>}} This feature is currently in public preview and is not supported on production workloads. Only new installations of the Redis operator are supported at this time. The steps for [creating the RedisEnterpriseCluster (REC)]({{<relref "operate/kubernetes/deployment/quick-start/#create-a-redis-enterprise-cluster-rec">}}) and other custom resources remain the same.{{</note>}}
+{{<note>}} This feature is currently in public preview and is not supported on production workloads. Only new installations of the Redis operator are supported at this time. The steps for [creating the RedisEnterpriseCluster (REC)]({{<relref "operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec">}}) and other custom resources remain the same.{{</note>}}
 
 ## Prerequisites
 
@@ -101,7 +101,7 @@ helm install <operator-name> redis/redis-enterprise-operator \
 
 ## Uninstall
 
-1. Delete any custom resources managed by the operator. See [Delete custom resources]({{<relref "content/operate/kubernetes/re-clusters/delete-custom-resources.md">}}) for detailed steps. Custom resources must be deleted in the correct order to avoid errors.
+1. Delete any custom resources managed by the operator. See [Delete custom resources]({{<relref "operate/kubernetes/re-clusters/delete-custom-resources">}}) for detailed steps. Custom resources must be deleted in the correct order to avoid errors.
 
 2. Uninstall the helm chart.
 
@@ -115,7 +115,7 @@ This removes all Kubernetes resources associated with the chart and deletes the 
 
 ## Known limitations
 
-- Only new installations of the Redis operator are supported at this time. The steps for [creating the RedisEnterpriseCluster (REC)]({{<relref "operate/kubernetes/deployment/quick-start/#create-a-redis-enterprise-cluster-rec">}}) and other custom resources remain the same.
+- Only new installations of the Redis operator are supported at this time. The steps for [creating the RedisEnterpriseCluster (REC)]({{<relref "operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec">}}) and other custom resources remain the same.
 - Upgrades and migrations are not supported.
 - The chart doesn't include configuration options for multiple namespaces, rack-awareness, and Vault integration. The steps for configuring these options remains the same.
 - The chart has had limited testing in advanced setups, including Active-Active configurations, air-gapped deployments, and IPv6/dual-stack environments.
