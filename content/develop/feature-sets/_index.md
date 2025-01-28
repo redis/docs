@@ -19,4 +19,4 @@ Currently, the following Redis feature sets are supported and maintained:
 - Redis feature set 7.2
 - Redis feature set 6.2
 
-To use a new feature introduced in a later feature set, you must upgrade the corresponding components according to the following table.
+To use a new feature introduced in a later feature set, you must upgrade the corresponding components included in that feature set.
