@@ -31,3 +31,7 @@ All data written to disk on Azure-based Redis Cloud deployments is encrypted by 
 a Redis Cloud database on Azure, you don't need to take any actions to enable this encryption.
 
 To learn more, see the [Azure Data Encryption at rest](https://docs.microsoft.com/en-us/azure/security/fundamentals/encryption-atrest).
+
+## Continue learning with Redis University
+
+See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.

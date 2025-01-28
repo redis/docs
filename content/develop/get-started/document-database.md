@@ -176,3 +176,7 @@ Please see the [query documentation]({{< relref "/develop/interact/search-and-qu
 You can learn more about how to use Redis Stack as a vector database in the following quick start guide:
 
 * [Redis as a vector database]({{< relref "/develop/get-started/vector-database" >}})
+
+## Continue learning with Redis University
+
+See the [Get Started with Redis learning path](https://university.redis.io/learningpath/14q8m6gilfwltm) for courses.
