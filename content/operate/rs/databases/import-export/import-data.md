@@ -224,4 +224,4 @@ When you import data into an Active-Active database, there is a special prompt w
 
 ## Continue learning with Redis University
 
-See the [Import data into a database on Redis Software course](https://university.redis.io/course/jbl8tjp8niwskv) for modules.
+See the [Import data into a database on Redis Software course](https://university.redis.io/course/jbl8tjp8niwskv) to learn more.
