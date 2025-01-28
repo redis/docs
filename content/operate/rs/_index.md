@@ -63,4 +63,4 @@ Use command-line utilities and the REST API to manage the cluster and databases.
 
 ## Continue learning with Redis University
 
-See the [Get started with Redis Software learning path](https://university.redis.io/learningpath/an0mgw5bjpjfbe) for courses.
+See the [Get started with Redis Software learning path](https://university.redis.io/learningpath/an0mgw5bjpjfbe) to learn more.
