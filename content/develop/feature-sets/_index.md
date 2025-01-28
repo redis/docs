@@ -13,7 +13,7 @@ weight: 10
 
 A Redis feature set represents the complete set of features available in a specific Redis version.
 
-Currently, the following Redis feature sets are supported and maintained:
+The following Redis feature sets are supported and maintained:
 
 - Redis feature set [7.4]({{< relref "/develop/feature-sets/7-4" >}})
 - Redis feature set 7.2
