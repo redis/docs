@@ -40,4 +40,4 @@ Customers understand that Redis Cloud Essentials plans are deployed to a multi-t
 
 ## Continue learning with Redis University
 
-See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) for modules.
+See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.
