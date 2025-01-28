@@ -44,7 +44,7 @@ Behavior adjustments in Redis 7.4 include the use of jemalloc instead of libc fo
 
 Additionally, changes to the ACL LOAD command now ensure that only clients with affected user configurations are disconnected, minimizing unnecessary disruptions.
 
-### General changes
+### Other changes
 Redis Stack 7.4 no longer includes Triggers and Functions due to low adoption during public preview. We removed these to make Redis simpler.
 
 ## Component versions
