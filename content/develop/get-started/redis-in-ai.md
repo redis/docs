@@ -69,4 +69,4 @@ Check out the [Redis for AI]({{< relref "/develop/ai" >}}) documentation for get
 
 ## Continue learning with Redis University
 
-See the [Vector Advanced Topics course](https://university.redis.io/course/i3fv2hbhqnpni8) course for modules.
+See the [Vector Advanced Topics course](https://university.redis.io/course/i3fv2hbhqnpni8) to learn more.
