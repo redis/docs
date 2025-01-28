@@ -10,7 +10,7 @@ title: Redis Stack quick start
 weight: 1
 ---
 To quickly set up a database with Redis Stack features,
-you can sign up for a free [Redis Cloud](https://app.redislabs.com/#/sign-up) subscription and create a Redis Stack database.
+you can sign up for a free [Redis Cloud](https://cloud.redis.io/#/sign-up) subscription and create a Redis Stack database.
 
 Alternatively, you can use one of these methods:
 
@@ -34,7 +34,7 @@ For more details, see the Redis Cloud [quick start]({{< relref "/operate/rc/rc-q
 
 To create a new subscription:
 
-1. Sign in to the Redis Cloud [admin console](http://app.redislabs.com) or create a new account.
+1. Sign in to the Redis Cloud [admin console](http://cloud.redis.io) or create a new account.
 
 1. Select the **New subscription** button:
 
@@ -75,13 +75,13 @@ After creating the database, you can view its **Configuration** settings. You wi
 - **Public endpoint**: The host address of the database
 - **Redis password**/**Default user password**: The password used to authenticate with the database
 
-With this information, you can connect to your database with the [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) command-line tool, an application, or [RedisInsight](https://redislabs.com/redisinsight/).
+With this information, you can connect to your database with the [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) command-line tool, an application, or [Redis Insight](https://redislabs.com/redisinsight/).
 
 ## Try Redis Stack features
 
 To try out Redis Stack features, follow the examples provided by the corresponding guides:
 
-- [Search and query quick start]({{< relref "/develop/get-started/document-database" >}})
+- [Redis Query Engine quick start]({{< relref "/develop/get-started/document-database" >}})
 - [JSON quick start]({{< relref "/develop/data-types/json/" >}}#use-redisjson)
 - [Time series quick start]({{< relref "/develop/data-types/timeseries/quickstart" >}})
 - [Probabilistic data structures quick start]({{< relref "/develop/data-types/probabilistic/" >}})

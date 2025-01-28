@@ -15,23 +15,30 @@ title: Tags
 weight: 6
 ---
 
-# Tag fields
+Tag fields are similar to full-text fields but they interpret the text as a simple
+list of *tags* delimited by a
+[separator](#creating-a-tag-field) character (which is a comma "," by default).
+This limitation means that tag fields can use simpler
+[tokenization]({{< relref "/develop/interact/search-and-query/advanced-concepts/escaping" >}})
+and encoding in the index, which is more efficient than full-text indexing.
 
-Tag fields are similar to full-text fields but use simpler tokenization and encoding in the index. The values in these fields cannot be accessed by general field-less search and can be used only with a special syntax.
+The values in tag fields cannot be accessed by general field-less search and can be used only with a special syntax.
 
 The main differences between tag and full-text fields are:
 
-1. Stemming is not performed on tag indexes.
+1.  [Tokenization]({{< relref "/develop/interact/search-and-query/advanced-concepts/escaping#tokenization-rules-for-tag-fields" >}})
+    is very simple for tags.
 
-2. The tokenization is simpler: the user can determine a separator (defaults to a comma) for multiple tags. Whitespace trimming is only done at the end of tags. Thus, tags can contain spaces, punctuation marks, accents, etc.
+1.  Stemming is not performed on tag indexes.
 
-3. The only two transformations performed are lower-casing (for latin languages only as of now) and whitespace trimming. Lower-case transformation can be disabled by passing `CASESENSITIVE`.
+1.  Tags cannot be found from a general full-text search. If a document has a field called "tags"
+    with the values "foo" and "bar", searching for foo or bar without a special tag modifier (see below) will not return this document.
 
-4. Tags cannot be found from a general full-text search. If a document has a field called "tags" with the values "foo" and "bar", searching for foo or bar without a special tag modifier (see below) will not return this document.
+1.  The index is much simpler and more compressed: frequencies or offset vectors of field flags
+    are not stored. The index contains only document IDs encoded as deltas. This means that an entry in
+    a tag index is usually one or two bytes long. This makes them very memory-efficient and fast.
 
-5. The index is much simpler and more compressed: frequencies or offset vectors of field flags are not stored. The index contains only document IDs encoded as deltas. This means that an entry in a tag index is usually one or two bytes long. This makes them very memory efficient and fast.
-
-6. It's possible to create up to 1024 tag fields per index.
+1.  You can create up to 1024 tag fields per index.
 
 ## Creating a tag field
 
@@ -41,13 +48,22 @@ Tag fields can be added to the schema with the following syntax:
 FT.CREATE ... SCHEMA ... {field_name} TAG [SEPARATOR {sep}] [CASESENSITIVE]
 ```
 
-SEPARATOR defaults to a comma (`,`), and can be any printable ASCII character. For example:
+For hashes, SEPARATOR can be any printable ASCII character; the default is a comma (`,`). For JSON, there is no default separator; you must declare one explicitly if needed.
+
+For example:
+
+```
+JSON.SET key:1 $ '{"colors": "red, orange, yellow"}' 
+FT.CREATE idx on JSON PREFIX 1 key: SCHEMA $.colors AS colors TAG SEPARATOR ","
+
+> FT.SEARCH idx '@colors:{orange}'
+1) "1"
+2) "key:1"
+3) 1) "$"
+   2) "{\"colors\":\"red, orange, yellow\"}"
+```
 
 CASESENSITIVE can be specified to keep the original case.
-
-```
-FT.CREATE idx ON HASH PREFIX 1 test: SCHEMA tags TAG SEPARATOR ";"
-```
 
 ## Querying tag fields
 
@@ -110,9 +126,14 @@ But the next query will return all people who have visited all three cities:
 FT.SEARCH myIndex "@cities:{ New York } @cities:{Los Angeles} @cities:{ Barcelona }"
 ```
 
-## Including punctuation in tags
+## Including punctuation and spaces in tags
 
-A tag can include punctuation other than the field's separator. You do not need to escape punctuation when using the [`HSET`]({{< relref "/commands/hset" >}}) command to add the value to a Redis Hash.
+A tag field can contain any punctuation characters except for the field separator.
+You can use punctuation without escaping when you *define* a tag field,
+but you typically need to escape certain characters when you *query* the field
+because the query syntax itself uses the same characters.
+(See [Query syntax]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax#tag-filters" >}})
+for the full set of characters that require escaping.)
 
 For example, given the following index:
 
@@ -126,35 +147,21 @@ You can add tags that contain punctuation like this:
 HSET test:1 tags "Andrew's Top 5,Justin's Top 5"
 ```
 
-However, when you query for tags that contain punctuation, you must escape that punctuation with a backslash character (`\`). This is the case with most languages and also redis-cli.
-
-For example, querying for the tag `Andrew's Top 5` in the redis-cli looks like this:
+However, when you query for those tags, you must escape the punctuation characters
+with a backslash (`\`). So, querying for the tag `Andrew's Top 5` in
+[`redis-cli`]({{< relref "/develop/tools/cli" >}}) looks like this:
 
 ```
 FT.SEARCH punctuation "@tags:{ Andrew\\'s Top 5 }"
 ```
 
-## Tags that contain multiple words
+(Note that you need the double backslash here because the terminal app itself
+uses the backslash as an escape character.
+Programming languages commonly use this convention also.)
 
-As the examples in this document show, a single tag can include multiple words. It is recommended that you escape spaces when querying, though doing so is not required.
-
-You escape spaces the same way that you escape punctuation: by preceding the space with a backslash character (or two backslashes, depending on the programming language and environment).
-
-Thus, you would escape the tag "to be or not to be" like so when querying in the redis-cli:
-
-```
-FT.SEARCH idx "@tags:{ to\\ be\\ or\\ not\\ to\\ be }"
-```
-
-You should escape spaces because if a tag includes multiple words and some of them are stop words like "to" or "be," a query that includes these words without escaping spaces will create a syntax error.
-
-You can see what that looks like in the following example:
-
-```
-127.0.0.1:6379> FT.SEARCH idx "@tags:{ to be or not to be }"
-(error) Syntax error at offset 27 near be
-```
-
-Note: stop words are words that are so common that a search engine ignores them. To learn more, see [stop words]({{< relref "/develop/interact/search-and-query/advanced-concepts/stopwords" >}}).
-
-Given the potential for syntax errors,it is recommended that you escape all spaces within tag queries.
+You can include spaces in a tag filter without escaping *unless* you are
+using a version of RediSearch earlier than v2.4 or you are using
+[query dialect 1]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-1" >}}).
+See
+[Query syntax]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax#tag-filters" >}})
+for a full explanation.

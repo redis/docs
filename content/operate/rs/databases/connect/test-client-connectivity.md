@@ -40,9 +40,9 @@ database and store data using one of the following methods:
 
 - [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}), the built-in command-line tool
 
-- [RedisInsight](https://redis.com/redis-enterprise/redis-insight/), a free Redis GUI that is available for macOS, Windows, and Linux 
+- [Redis Insight](https://redis.com/redis-enterprise/redis-insight/), a free Redis GUI that is available for macOS, Windows, and Linux 
 
-- An application using a Redis client library, such as [`redis-py`](https://github.com/redis/redis-py) for Python. See the [client list]({{< relref "/develop/connect/clients/" >}}) to view all Redis clients by language.
+- An application using a Redis client library, such as [`redis-py`](https://github.com/redis/redis-py) for Python. See the [client list]({{< relref "/develop/clients" >}}) to view all Redis clients by language.
 
 ### Connect with redis-cli
 
@@ -58,13 +58,13 @@ OK
 
 For more `redis-cli` connection examples, see the [`redis-cli` reference]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}).
 
-### Connect with RedisInsight
+### Connect with Redis Insight
 
-RedisInsight is a free Redis GUI that is available for macOS, Windows, and Linux.
+Redis Insight is a free Redis GUI that is available for macOS, Windows, and Linux.
 
-1. [Install RedisInsight]({{< relref "/develop/connect/insight/" >}}).
+1. [Install Redis Insight]({{< relref "/develop/tools/insight" >}}).
 
-1. Open RedisInsight and select **Add Redis Database**.
+1. Open Redis Insight and select **Add Redis Database**.
 
 1. Enter the host and port in the **Host** and **Port** fields.
 
@@ -72,7 +72,7 @@ RedisInsight is a free Redis GUI that is available for macOS, Windows, and Linux
 
 1. Select **Add Redis Database** to connect to the database.
 
-See the [RedisInsight documentation]({{< relref "/develop/connect/insight/" >}}) for more information.
+See the [Redis Insight documentation]({{< relref "/develop/tools/insight" >}}) for more information.
 
 ### Connect with Python
 

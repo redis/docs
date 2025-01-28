@@ -72,7 +72,7 @@ linkTitle: XAUTOCLAIM
 since: 6.2.0
 summary: Changes, or acquires, ownership of messages in a consumer group, as if the
   messages were delivered to as consumer group member.
-syntax_fmt: "XAUTOCLAIM key group consumer min-idle-time start [COUNT\_count] [JUSTID]"
+syntax_fmt: "XAUTOCLAIM key group consumer min-idle-time start [COUNT\_count]\n  [JUSTID]"
 syntax_str: "group consumer min-idle-time start [COUNT\_count] [JUSTID]"
 title: XAUTOCLAIM
 ---

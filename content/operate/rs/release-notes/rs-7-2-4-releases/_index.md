@@ -17,7 +17,7 @@ toc: 'true'
 weight: 71
 ---
 
-​[​Redis Enterprise Software version 7.2.4](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Enterprise Software version 7.2.4](https://redis.io/downloads/#software) is now available!
 
 ## Highlights
 
@@ -69,11 +69,11 @@ To prevent potential application issues due to RESP3 breaking changes, see [Clie
 
 #### Command deprecations
 
-- [`CLUSTER SLOTS`]({{< relref "/commands" >}}/cluster-slots) is deprecated as of Redis 7.0
+- [`CLUSTER SLOTS`]({{< relref "/commands/cluster-slots" >}}) is deprecated as of Redis 7.0
 
-- [`JSON.RESP`]({{< relref "/commands" >}}/json.resp/) is deprecated as of Redis Stack 7.2.
+- [`JSON.RESP`]({{< baseurl >}}/commands/json.resp) is deprecated as of Redis Stack 7.2.
 
-- [`QUIT`]({{< relref "/commands" >}}/quit/) is deprecated as of Redis 7.2
+- [`QUIT`]({{< relref "/commands/quit" >}}) is deprecated as of Redis 7.2
 
 #### API deprecations
 
@@ -253,11 +253,16 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
     This issue was fixed in [Redis Enterprise Software version 7.2.4-92]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-92" >}}).
 
+
+- RS123142 - In an Active-Active setup with at least three participating clusters, removing and re-adding a cluster after removing older clusters without re-adding them can cause missing keys and potentially lead to data loss or data inconsistency.
+
+    This issue will be fixed in a future maintenance release. To prevent this issue, avoid adding clusters until you upgrade to the upcoming maintenance release when available.
+
 ## Known limitations
 
 #### Command limitations
 
-- [`CLIENT NO-TOUCH`]({{< relref "/commands" >}}/client-no-touch/) might not run correctly in the following cases:
+- [`CLIENT NO-TOUCH`]({{< relref "/commands/client-no-touch" >}}) might not run correctly in the following cases:
 
     - The Redis database version is earlier than 7.2.0.
 
@@ -265,9 +270,9 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
     Before sending this command, clients should verify the database version is 7.2.0 or later and that using this command is allowed. 
 
-- You cannot use [`SUNSUBSCRIBE`]({{< relref "/commands" >}}/sunsubscribe/) to unsubscribe from a shard channel if the regex changed while subscribed.
+- You cannot use [`SUNSUBSCRIBE`]({{< relref "/commands/sunsubscribe" >}}) to unsubscribe from a shard channel if the regex changed while subscribed.
 
-- Using [`XREADGROUP BLOCK`]({{< relref "/commands" >}}/xreadgroup/) with `>` to return all new streams will cause the Redis database to freeze until the shard is restarted. ([#12031](https://github.com/redis/redis/pull/12301))
+- Using [`XREADGROUP BLOCK`]({{< relref "/commands/xreadgroup" >}}) with `>` to return all new streams will cause the Redis database to freeze until the shard is restarted. ([#12031](https://github.com/redis/redis/pull/12301))
 
 - Because a rejected command does not record the duration for command stats, an error will appear after it is reprocessed that will cause the Redis database to freeze until the shard is restarted. ([#12247](https://github.com/redis/redis/pull/12247))
 
@@ -297,9 +302,9 @@ You cannot create Active-Active databases that use Redis version 6.0 or 6.2 with
 
 This limitation will be fixed in a maintenance release for Redis Enterprise version 7.4.2.
 
-#### Modules prevent nodes from joining upgraded clusters on certain operating systems
+#### Modules prevent nodes from joining upgraded clusters on RHEL clones
 
-If you upgrade an existing cluster to Redis Enterprise Software version 7.2.4 and any existing databases use earlier module versions, new nodes will fail to join the cluster on operating systems other than RHEL, Ubuntu, or Amazon Linux.
+If you upgrade an existing cluster to Redis Enterprise Software version 7.2.4 and any existing databases use earlier module versions, new nodes will fail to join the cluster on operating systems that are RHEL clones. RHEL, Ubuntu, and Amazon Linux are not affected by this issue.
 
 For a workaround for affected operating systems, [contact support](https://redis.io/support/).
 

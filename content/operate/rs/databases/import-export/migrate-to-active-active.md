@@ -101,9 +101,9 @@ To migrate a database to Active-Active in different Redis Enterprise clusters:
 
 1. Click **Save**.
 
-## Migrate from open source Redis
+## Migrate from Redis Community Edition
 
-To migrate an open source Redis database to Active-Active:
+To migrate a Redis Community Edition database to Active-Active:
 
 1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).
 

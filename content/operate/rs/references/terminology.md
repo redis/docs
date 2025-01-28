@@ -17,7 +17,7 @@ A _node_ is a physical machine, virtual machine, container or cloud
 instance on which the RS installation package was installed and the
 setup process was run in order to make the machine part of the cluster.
 
-Each node is a container for running multiple open source Redis
+Each node is a container for running multiple Redis
 instances, referred to as "shards".
 
 The recommended configuration for a production cluster is an uneven

@@ -4,21 +4,20 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Releases with support forRedis Enterprise Software 7.4.2.
+description: Releases with support for Redis Enterprise Software 7.4.2.
 hideListLinks: true
-linkTitle: 7.4.2 releases
-title: Redis Enterprise for Kubernetes 7.4.2 release notes
-weight: 7
+linkTitle: 7.4.2-2
+title: Redis Enterprise for Kubernetes 7.4.2-2 release notes
+weight: 54
 ---
-## Highlights
-
-The primary purpose of this release is to support [Redis Enterprise 7.4.2]({{< relref "/operate/rs/release-notes/rs-7-4-2-releases/rs-7-4-2-54" >}}), which is a major update to Redis Enterprise Software.
 
 ## Detailed release notes
 
 {{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
 ## Version changes
+
+For a list of fixes related to CVEs, see the [Redis Enterprise 7.4.6-22 release notes]({{<relref "operate/rs/release-notes/rs-7-4-2-releases/">}}).
 
 ### Breaking changes
 
@@ -50,7 +49,7 @@ The following table shows supported distributions at the time of this release. Y
 
 <span title="Check mark icon">&#x2705;</span> Supported – This distribution is supported for this version of Redis Enterprise Software for Kubernetes.
 
-<span title="Warning icon">&#x26A0;&#xFE0F;</span> Deprecated – This distribution is still supported for this version of Redis Enterprise Software for Kubernetes, but support will be removed in a future release.
+<span title="Deprecation warning" class="font-serif">:warning:</span> Deprecated – This distribution is still supported for this version of Redis Enterprise Software for Kubernetes, but support will be removed in a future release.
 
 <span title="X icon">&#x274c;</span> End of life – Support for this distribution ended.
 
@@ -58,16 +57,16 @@ Any distribution not listed below is not supported for production workloads.
 
 | **Kubernetes version** | **1.24** | **1.25** | **1.26** | **1.27** | **1.28** | **1.29** |
 |---|---|---|---|---|---|---|
-| **Community Kubernetes** | <span title="X icon">&#x274c;</span> | <span title="X icon">&#x274c;</span> | <span title="Deprecated">&#x26A0;&#xFE0F;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| **Amazon EKS** | <span title="Deprecated">&#x26A0;&#xFE0F;</span> | <span title="Deprecated">&#x26A0;&#xFE0F;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |
-| **Azure AKS** | <span title="X icon">&#x274c;</span> | <span title="X icon">&#x274c;</span> | <span title="Deprecated">&#x26A0;&#xFE0F;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |
-| **Google GKE** | <span title="X icon">&#x274c;</span> | <span title="Deprecated">&#x26A0;&#xFE0F;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |
-| **Rancher RKE2** | <span title="Deprecated">&#x26A0;&#xFE0F;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
-| **VMware TKG 2.2** | <span title="Deprecated">&#x26A0;&#xFE0F;</span> | <span title="Deprecated">&#x26A0;&#xFE0F;</span> |  |  |  |  |
+| **Community Kubernetes** | <span title="X icon">&#x274c;</span> | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| **Amazon EKS** | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |
+| **Azure AKS** | <span title="X icon">&#x274c;</span> | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |
+| **Google GKE** | <span title="X icon">&#x274c;</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |
+| **Rancher RKE2** | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
+| **VMware TKG 2.2** | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> |  |  |  |  |
 | **VMware TKG 2.3** | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |
 | **VMware TKG 2.4** |  | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
 | **OpenShift version** | **4.11** | **4.12** | **4.13** | **4.14** |  |  |
-|  | <span title="Deprecated">&#x26A0;&#xFE0F;</span> | <span title="Deprecated">&#x26A0;&#xFE0F;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
+|  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
 | **VMware TKGI version** | **1.15** | **1.16** | **1.17** | **1.18** |  |  |
 |  | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |
 
@@ -77,6 +76,7 @@ The limitations below are specific to the Redis Enterprise for Kubernetes produc
 
 ### New limitations
 
+- **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
 - **The REDB “redisVersion” field can’t be used for memcached databases(RED-119152)**
 
 ### Existing limitations

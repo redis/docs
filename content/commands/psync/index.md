@@ -42,6 +42,4 @@ The `PSYNC` command is called by Redis replicas for initiating a replication
 stream from the master.
 
 For more information about replication in Redis please check the
-[replication page][tr].
-
-[tr]: /operate/oss_and_stack/management/replication
+[replication page]({{< relref "/operate/oss_and_stack/management/replication" >}}).

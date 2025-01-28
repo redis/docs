@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - stack
-description: RedisBloom release notes for version 2.6 and earlier
+description: RedisBloom release notes for version 2.8 and earlier
 hideListLinks: true
 linkTitle: RedisBloom
 tags:

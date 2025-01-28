@@ -1,16 +1,17 @@
 ---
 Title: JMESPath custom functions
-aliases: null
+aliases: /integrate/redis-data-integration/ingest/reference/jmespath-custom-functions/
 alwaysopen: false
 categories:
-- docs
-- integrate
-- rs
-- rdi
+  - docs
+  - integrate
+  - rs
+  - rdi
 description: JMESPath custom function reference
 group: di
 linkTitle: JMESPath custom functions
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
+summary:
+  Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: 40

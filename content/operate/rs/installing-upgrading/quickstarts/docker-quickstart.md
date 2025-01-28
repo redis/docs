@@ -69,7 +69,7 @@ with `-p <host_port>:<container_port>` or use the `--network host` option to ope
 
 ## Create a database
 
-{{<embed-md "quick-db-setup.md">}}
+{{<embed-md "rs-quick-db-setup-7-8.md">}}
 
 {{< note >}}
 {{< embed-md "docker-memory-limitation.md" >}}

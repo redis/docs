@@ -73,9 +73,10 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Create a compaction rule
-syntax: 'TS.CREATERULE sourceKey destKey AGGREGATION aggregator bucketDuration  [alignTimestamp] '
-syntax_fmt: "TS.CREATERULE sourceKey destKey AGGREGATION\_<AVG | FIRST | LAST |  \
-  \ MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA> bucketDuration\
+syntax: "TS.CREATERULE sourceKey destKey \n  AGGREGATION aggregator bucketDuration\
+  \ \n  [alignTimestamp]\n"
+syntax_fmt: "TS.CREATERULE sourceKey destKey AGGREGATION\_<AVG | FIRST | LAST |\n\
+  \  MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S |\n  TWA> bucketDuration\
   \ [alignTimestamp]"
 syntax_str: "destKey AGGREGATION\_<AVG | FIRST | LAST | MIN | MAX | SUM | RANGE |\
   \ COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA> bucketDuration [alignTimestamp]"
@@ -130,7 +131,10 @@ aggregates results into time buckets.
 - If no samples are added to the source time series during a bucket period. no _compacted sample_ is added to the destination time series.
 - The timestamp of a compacted sample added to the destination time series is set to the start timestamp the appropriate compaction bucket. For example, for a 10-minute compaction bucket with no alignment, the compacted samples timestamps are `x:00`, `x:10`, `x:20`, and so on.
 - Deleting `destKey` will cause the compaction rule to be deleted as well.
-- On a clustered environment, hash tags should be used to force `sourceKey` and `destKey` to be stored in the same hash slot.
+
+{{% warning %}}
+On a clustered environment, you must use [hash tags]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags) to force `sourceKey` and `destKey` to be stored in the same hash slot.
+{{% /warning %}}
   
 </note>
 

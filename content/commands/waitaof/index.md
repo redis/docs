@@ -1,6 +1,7 @@
 ---
 acl_categories:
 - '@slow'
+- '@blocking'
 - '@connection'
 arguments:
 - display_text: numlocal
@@ -24,7 +25,7 @@ categories:
 - kubernetes
 - clients
 command_flags:
-- noscript
+- blocking
 complexity: O(1)
 description: Blocks until all of the preceding write commands sent by the connection
   are written to the append-only file of the master and/or replicas.

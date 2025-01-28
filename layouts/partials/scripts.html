@@ -1,0 +1,81 @@
+<!-- Code for version selectors -->
+
+<script>
+    window.onload = function(){
+        var currentUrl = window.location.href
+        const regex_kubernetes = new RegExp('/docs/(latest|staging\/.+)/operate/kubernetes/.*')
+        const regex_rs = new RegExp('/docs/(latest|staging\/.+)/operate/rs/.*')
+
+        if (regex_kubernetes.test(currentUrl)){
+            // unhide kubernetes version selector
+            document.getElementById( 'versionSelectorKubernetes' ).style.display = '';
+        }
+        else if (regex_rs.test(currentUrl)) {
+            // unhide rs version selector
+            document.getElementById( 'versionSelectorRs' ).style.display = '';
+        }
+    }
+
+    function _setSelectedVersion(product, ver) {
+        if (ver) {
+            var i = document.getElementById(product + '-version-select-' + ver);
+            if (i) {
+                i.classList.toggle('selected-version');
+            }
+        }
+    }
+
+    function _getVersion(product) {
+        return document.getElementById("versionSelector" + product + "Value").innerText
+    }
+
+    function _openVersionSelector(product) {
+        var productLowercase = product.toLowerCase()
+
+        document.getElementById("versionSelector" + product).classList.toggle('open');
+
+        // get currently selected version
+        var currentVersion = _getVersion(product)
+
+        if (currentVersion != "latest") {
+            currentVersion = currentVersion.substring(1)
+        }
+
+        // get current url
+        var currentUrl = window.location.href
+
+        // get version dropdown children
+        var versionsDropdown = document.getElementById("versionDropdown" + product).children
+        var versionsDropdownLength = versionsDropdown.length
+
+        const regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
+        const versionRegex = /^(\/\d+\.\d+(?:\.\d+)?(?:\-\d+)?)?/g;
+
+        // for each version in dropdown, edit its href link
+        for (var i= 0; i < versionsDropdownLength; i ++) {
+            if (versionsDropdown[i].innerText == "latest") {
+                url_start = versionsDropdown[i].href.match(regex)
+                url_end = currentUrl.replace(regex,"").replace(versionRegex,"")
+                versionsDropdown[i].href = url_start + url_end
+            }
+            else {
+                var versionDropdown = versionsDropdown[i].innerText.substring(1)
+                url_start = versionsDropdown[i].href.match(regex)
+                url_end = currentUrl.replace(regex,"").replace(versionRegex,("/" + versionDropdown))
+                versionsDropdown[i].href = url_start + url_end
+            }
+        }
+    }
+
+    window.onclick = function (e) {
+        if (!e.target.matches('.version-selector-control')) {
+            var d = document.getElementsByClassName('menu__version-selector');
+            var i;
+            for (i = 0; i < d.length; i++) {
+                if (d[i].classList.contains('open')) {
+                    d[i].classList.remove('open');
+                }
+            }
+        }
+    }
+</script>

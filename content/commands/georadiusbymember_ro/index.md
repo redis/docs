@@ -96,6 +96,11 @@ doc_flags:
 - deprecated
 group: geo
 hidden: false
+history:
+- - 6.2.0
+  - Added the `ANY` option for `COUNT`.
+- - 7.0.0
+  - Added support for uppercase unit names.
 key_specs:
 - RO: true
   access: true
@@ -110,12 +115,12 @@ key_specs:
       limit: 0
     type: range
 linkTitle: GEORADIUSBYMEMBER_RO
-replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) with the `BYRADIUS` and `FROMMEMBER`
-  arguments'
+replaced_by: '[`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) with the `BYRADIUS`
+  and `FROMMEMBER` arguments'
 since: 3.2.10
 summary: Returns members from a geospatial index that are within a distance from a
   member.
-syntax_fmt: "GEORADIUSBYMEMBER_RO key member radius <M | KM | FT | MI> [WITHCOORD]\
+syntax_fmt: "GEORADIUSBYMEMBER_RO key member radius <M | KM | FT | MI>\n  [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]"
 syntax_str: "member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT\_\
   count [ANY]] [ASC | DESC]"

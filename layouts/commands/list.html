@@ -14,9 +14,9 @@
 {{ define "main" }}
   {{ partial "path-scratch.html" }}
   {{ $basePath := .Scratch.Get "path" }}
-  <main class="docs w-full max-w-[1440px] mx-auto px-5 flex flex-col md:flex-row overflow-hidden">
+  <main class="docs w-full max-w-[1920px] mx-auto px-5 flex flex-col md:flex-row overflow-hidden">
     {{ partial "docs-nav-collapsed.html" . }}
-    <div class="py-12 md:px-4 xl:px-16 overflow-hidden">
+    <div class="w-full py-12 md:px-4 xl:px-16 overflow-hidden">
       {{ partial "breadcrumbs" . }}
       <section class="prose w-full py-12"> 
         <h1>Commands</h1>
@@ -50,7 +50,7 @@
             <option value="list" data-kind="core">List</option>
             <option value="pubsub" data-kind="core">Pub/Sub</option>
             <option value="scripting" data-kind="core">Scripting and functions</option>
-            <option value="server" data-kind="core">Server managment</option>
+            <option value="server" data-kind="core">Server management</option>
             <option value="set" data-kind="core">Set</option>
             <option value="sorted-set" data-kind="core">Sorted set</option>
             <option value="stream" data-kind="core">Stream</option>
@@ -62,8 +62,7 @@
             <option value="cf" data-kind="stack">Cuckoo filter</option>
             <option value="cms" data-kind="stack">Count-min sketch</option>
             <option value="json" data-kind="stack">JSON</option>
-            <option value="search" data-kind="stack">Search and query</option>
-            <option value="triggers_and_functions" data-kind="stack">Triggers and functions</option>
+            <option value="search" data-kind="stack">Redis Query Engine</option>
             <option value="suggestion" data-kind="stack">Auto-suggest</option>
             <option value="tdigest" data-kind="stack">T-digest</option>
             <option value="timeseries" data-kind="stack">Time series</option>
@@ -119,12 +118,13 @@
       {{ $pages = (where $pages "Type" "!=" "search") }}
       {{ $pages = (where $pages ".Params.hide_summary" "!=" true) }}
       {{ $pages = (where $pages ".Parent" "!=" nil) }}
-      {{ $pages = (where $pages "Parent.File.UniqueID" "==" $parent.File.UniqueID) }}
+      {{/* $pages = (where $pages "Parent.File.UniqueID" "==" $parent.File.UniqueID) */}}
       {{ $pages = (where $pages ".Params.hidden" "!=" true) }}
+      {{ $pages = (where $pages "Kind" "!=" "section") }}
       <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-redis-ink-900 mx-auto">
         {{ range $index, $page := $pages }}
           <article 
-            class="flex flex-col gap-2 transition relative h-full py-4 text-sm text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group" 
+            class="flex flex-col gap-2 transition relative h-full py-4 text-base text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group" 
             data-name="{{ .Title }}" 
             data-group="{{ .Params.group }}"
             data-version
@@ -137,7 +137,7 @@
               {{ .Params.summary }}
             </p>
             <div class="grow"></div>
-            <div class="text-xs font-mono group-hover:underline px-6">Learn more →</div>
+            <div class="text-sm font-mono group-hover:underline px-6">Learn more →</div>
             <a class="absolute inset-0 outline-0" href="{{ .RelPermalink }}">
               <span class="sr-only">Read more</span>
             </a>

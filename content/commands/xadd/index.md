@@ -115,8 +115,8 @@ key_specs:
 linkTitle: XADD
 since: 5.0.0
 summary: Appends a new message to a stream. Creates the key if it doesn't exist.
-syntax_fmt: "XADD key [NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]]\
-  \ <* | id> field value [field value ...]"
+syntax_fmt: "XADD key [NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold\n  [LIMIT\_\
+  count]] <* | id> field value [field value ...]"
 syntax_str: "[NOMKSTREAM] [<MAXLEN | MINID> [= | ~] threshold [LIMIT\_count]] <* |\
   \ id> field value [field value ...]"
 title: XADD

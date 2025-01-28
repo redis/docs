@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: Information about using sets with an Active-Active database.
 linkTitle: Sets
 weight: $weight

@@ -1,0 +1,16 @@
+{
+  "id": "lettuce_async",
+  "type": "client",
+  "name": "lettuce_async",
+  "language": "Java-Async",
+  "label": "Java-Async",
+  "repository": {
+      "git_uri": "https://github.com/redis/lettuce"
+  },
+  "examples": {
+      "git_uri": "https://github.com/redis/lettuce",
+      "dev_branch": "main",
+      "path": "src/test/java/io/redis/examples/async",
+      "pattern": "*.java"
+  }
+}

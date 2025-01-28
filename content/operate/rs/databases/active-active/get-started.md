@@ -41,7 +41,7 @@ docker run -d --cap-add sys_resource -h rs1_node1 --name rs1_node1 -p 8443:8443 
 docker run -d --cap-add sys_resource -h rs2_node1 --name rs2_node1 -p 8445:8443 -p 9445:9443 -p 12002:12000 redislabs/redis
 ```
 
-The **-p** options map the admin console port (8443), REST API port (9443), and
+The **-p** options map the Cluster Manager UI port (8443), REST API port (9443), and
 database access port differently for each container to make sure that all
 containers can be accessed from the host OS that is running the containers.
 
@@ -128,9 +128,9 @@ Each Active-Active instance must have a unique fully-qualified domain name (FQDN
 
 1. Configure additional settings:
 
-    1. In the **High availability & durability** section, turn off **Replication** since each cluster has only one node in this setup:
+    1. In the **High availability** section, turn off **Replication** since each cluster has only one node in this setup:
 
-        {{<image filename="images/rs/screenshots/databases/active-active-databases/quickstart-ha-turn-off-replication.png" alt="Turn off replication in the High availability & durability section.">}}
+        {{<image filename="images/rs/screenshots/databases/active-active-databases/quickstart-ha-turn-off-replication-7-8-2.png" alt="Turn off replication in the High availability section.">}}
 
 
     1. In the **Clustering** section, either:

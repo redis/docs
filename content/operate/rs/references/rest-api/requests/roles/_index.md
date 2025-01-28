@@ -32,7 +32,7 @@ Get all roles' details.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_roles_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_roles_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_all_roles_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_roles_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -114,7 +114,7 @@ Get the details of a single role.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_role_info]({{< relref "/operate/rs/references/rest-api/permissions#view_role_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_role_info]({{< relref "/operate/rs/references/rest-api/permissions#view_role_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -174,7 +174,7 @@ Update an existing role's details.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_role]({{< relref "/operate/rs/references/rest-api/permissions#update_role" >}}) | admin |
+| [update_role]({{< relref "/operate/rs/references/rest-api/permissions#update_role" >}}) | admin<br />user_manager |
 
 ### Request {#put-request}
 
@@ -249,7 +249,7 @@ Create a new role.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [create_role]({{< relref "/operate/rs/references/rest-api/permissions#create_role" >}}) | admin |
+| [create_role]({{< relref "/operate/rs/references/rest-api/permissions#create_role" >}}) | admin<br />user_manager |
 
 ### Request {#post-request}
 
@@ -359,7 +359,7 @@ Delete a role object.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [delete_role]({{< relref "/operate/rs/references/rest-api/permissions#delete_role" >}}) | admin |
+| [delete_role]({{< relref "/operate/rs/references/rest-api/permissions#delete_role" >}}) | admin<br />user_manager |
 
 ### Request {#delete-request}
 

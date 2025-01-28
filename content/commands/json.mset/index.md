@@ -43,6 +43,9 @@ Set or update one or more JSON values according to the specified `key`-`path`-`v
 
 A JSON value is a hierarchical structure. If you change a value in a specific path - nested values are affected.
 
+{{% warning %}}
+When cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).
+{{% /warning %}}
 
 [Examples](#examples)
 

@@ -25,7 +25,7 @@ Redis OM Spring provides a robust repository and custom object-mapping abstracti
 ## What you’ll need:
 
 * Redis Stack: See [{{< relref "/operate/oss_and_stack/install/install-stack/" >}}]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})
-* [RedisInsight]({{< relref "/develop/connect/insight/" >}})
+* [Redis Insight]({{< relref "/develop/tools/insight" >}})
 * Your favorite browser
 * Java 11 or greater
 
@@ -307,9 +307,9 @@ We create a `Person` object using the Lombok generated builder method and then s
 
 ### Keeping tabs with Redis Insight
 
-Let’s launch RedisInsight and connect to the localhost at port 6379. With a clean Redis Stack install, we can use the built-in CLI to check the keys in the system:
+Let’s launch Redis Insight and connect to the localhost at port 6379. With a clean Redis Stack install, we can use the built-in CLI to check the keys in the system:
 
-![RedisInsight](./images/002_stack_spring.png "RedisInsight")
+![Redis Insight](./images/002_stack_spring.png "Redis Insight")
 
 For a small amount of data, you can use the `keys` command (for any significant amount of data, use `scan`):
 
@@ -317,7 +317,7 @@ For a small amount of data, you can use the `keys` command (for any significant 
 keys *
 {{< / highlight >}}
 
-If you want to keep an eye on the commands issued against the server, RedisInsight provides a
+If you want to keep an eye on the commands issued against the server, Redis Insight provides a
 profiler. If you click the "profile" button at the bottom of the screen, it should reveal the profiler window, and there you can start the profiler by clicking on the “Start Profiler” arrow.
 
 Let's start our Spring Boot application by using the Maven command:
@@ -326,19 +326,19 @@ Let's start our Spring Boot application by using the Maven command:
 ./mvnw spring-boot:run
 {{< / highlight >}}
 
-On RedisInsight, if the application starts correctly, you should see a barrage of commands fly by on the profiler:
+On Redis Insight, if the application starts correctly, you should see a barrage of commands fly by on the profiler:
 
-![RedisInsight](./images/003_stack_spring.png "RedisInsight")
+![Redis Insight](./images/003_stack_spring.png "Redis Insight")
 
 Now we can inspect the newly loaded data by simply refreshing the "Keys" view:
 
-![RedisInsight](./images/004_stack_spring.png "RedisInsight")
+![Redis Insight](./images/004_stack_spring.png "Redis Insight")
 
 You should now see two keys; one for the JSON document for “Thor” and one for the Redis Set that Spring Data Redis (and Redis OM Spring) use to maintain the list of primary keys for an entity.
 
 You can select any of the keys on the key list to reveal their contents on the details panel. For JSON documents, we get a nice tree-view:
 
-![RedisInsight](./images/005_stack_spring.png "RedisInsight")
+![Redis Insight](./images/005_stack_spring.png "Redis Insight")
 
 Several Redis commands were executed on application startup. Let’s break them down so that we can understand what's transpired.
 
@@ -440,9 +440,9 @@ CommandLineRunner loadTestData(PeopleRepository repo) {
 }
 {{< / highlight >}}
 
-We have 6 People in the database now; since we’re using the devtools in Spring, the app should have reloaded, and the database reseeded with new data. Press enter the key pattern input box in RedisInsight to refresh the view. Notice that we used the repository’s `saveAll` to save several objects in bulk.
+We have 6 People in the database now; since we’re using the devtools in Spring, the app should have reloaded, and the database reseeded with new data. Press enter the key pattern input box in Redis Insight to refresh the view. Notice that we used the repository’s `saveAll` to save several objects in bulk.
 
-![RedisInsight](./images/006_stack_spring.png "RedisInsight")
+![Redis Insight](./images/006_stack_spring.png "Redis Insight")
 
 ## Web Service Endpoints
 
@@ -495,7 +495,7 @@ Optional<Person> byId(@PathVariable String id) {
 }
 {{< / highlight >}}
 
-Refreshing the Swagger UI, we should see the newly added endpoint. We can grab an id using the [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}) command on the RedisInsight CLI like this:
+Refreshing the Swagger UI, we should see the newly added endpoint. We can grab an id using the [`SRANDMEMBER`]({{< relref "/commands/srandmember" >}}) command on the Redis Insight CLI like this:
 
 {{< highlight bash >}}
 SRANDMEMBER com.redis.om.skeleton.models.Person
@@ -538,9 +538,9 @@ Invoke the endpoint with the value `30` for `min` and `37` for `max` we get two 
 
 ![SwaggerUI](./images/012_stack_spring.png "SwaggerUI")
 
-If we look at the RedisInsight Profiler, we can see the resulting query, which is a range query on the index numeric field `age`:
+If we look at the Redis Insight Profiler, we can see the resulting query, which is a range query on the index numeric field `age`:
 
-![RedisInsight](./images/013_stack_spring.png "RedisInsight Profiler")
+![Redis Insight](./images/013_stack_spring.png "Redis Insight Profiler")
 
 We can also create query methods with more than one property. For example, if we wanted to do a query by first and last names, we would declare a repository method like:
 
@@ -567,9 +567,9 @@ Executing the request with the first name `Robert` and last name `Downey`, we ge
 
 ![SwaggerUI](./images/015_stack_spring.png "SwaggerUI")
 
-And the resulting query on RedisInsight:
+And the resulting query on Redis Insight:
 
-![RedisInsight](./images/016_stack_spring.png "RedisInsight Profiler")
+![Redis Insight](./images/016_stack_spring.png "Redis Insight Profiler")
 
 Now let’s try a Geospatial query. The `homeLoc` property is a Geo Point, and by using the “Near” predicate in our method declaration, we can get a finder that takes a point and a radius around that point to search:
 
@@ -598,7 +598,7 @@ Executing the request, we get the record for Chris Hemsworth:
 
 and in Redis Insight we can see the backing query:
 
-![RedisInsight](./images/019_stack_spring.png "RedisInsight Profiler")
+![Redis Insight](./images/019_stack_spring.png "Redis Insight Profiler")
 
 Let’s try a full-text search query against the `personalStatement` property. To do so, we prefix our query method with the word `search` as shown below:
 
@@ -680,7 +680,7 @@ The search returns the records for Scarlett Johansson and Samuel L. Jackson:
 
 We can see the backing query using a tag search:
 
-![RedisInsight](./images/027_stack_spring.png "RedisInsight Profiler")
+![Redis Insight](./images/027_stack_spring.png "Redis Insight Profiler")
 
 ## Fluid Searching with Entity Streams
 

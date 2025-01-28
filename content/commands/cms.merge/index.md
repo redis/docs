@@ -36,8 +36,8 @@ module: Bloom
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Merges several sketches into one sketch
-syntax_fmt: CMS.MERGE destination numKeys source [source ...] [WEIGHTS weight  [weight
-  ...]]
+syntax_fmt: "CMS.MERGE destination numKeys source [source ...] [WEIGHTS weight\n \
+  \ [weight ...]]"
 syntax_str: numKeys source [source ...] [WEIGHTS weight [weight ...]]
 title: CMS.MERGE
 ---

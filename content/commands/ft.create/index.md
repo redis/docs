@@ -118,6 +118,10 @@ arguments:
     optional: true
     token: WITHSUFFIXTRIE
     type: pure-token
+  - name: indexempty
+    optional: true
+    token: INDEXEMPTY
+    type: pure-token
   - arguments:
     - name: sortable
       token: SORTABLE
@@ -162,21 +166,22 @@ module: Search
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Creates an index with the given spec
-syntax: 'FT.CREATE index [ON HASH | JSON] [PREFIX count prefix [prefix ...]]  [FILTER
-  {filter}] [LANGUAGE default_lang] [LANGUAGE_FIELD lang_attribute]  [SCORE default_score]
-  [SCORE_FIELD score_attribute] [PAYLOAD_FIELD payload_attribute] [MAXTEXTFIELDS]
-  [TEMPORARY seconds] [NOOFFSETS]  [NOHL] [NOFIELDS] [NOFREQS] [STOPWORDS count [stopword
-  ...]]   [SKIPINITIALSCAN] SCHEMA field_name [AS alias] TEXT | TAG | NUMERIC | GEO
-  | VECTOR | GEOSHAPE [ SORTABLE [UNF]] [NOINDEX] [ field_name [AS alias] TEXT | TAG
-  | NUMERIC | GEO | VECTOR | GEOSHAPE [ SORTABLE [UNF]] [NOINDEX] ...] '
-syntax_fmt: "FT.CREATE index [ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix  ...]]\
-  \ [FILTER\_filter] [LANGUAGE\_default_lang] [LANGUAGE_FIELD\_lang_attribute] [SCORE\_\
-  default_score] [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute]\
-  \   [MAXTEXTFIELDS] [TEMPORARY\_seconds] [NOOFFSETS] [NOHL] [NOFIELDS] [NOFREQS]\
-  \ [STOPWORDS\_count [stopword [stopword ...]]] [SKIPINITIALSCAN] SCHEMA field_name\
-  \ [AS\_alias] <TEXT | TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [SORTABLE [UNF]]\
-  \ [NOINDEX] [field_name [AS\_alias] <TEXT | TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE]\
-  \ [SORTABLE [UNF]] [NOINDEX] ...]"
+syntax: "FT.CREATE index \n  [ON HASH | JSON] \n  [PREFIX count prefix [prefix ...]]\
+  \ \n  [FILTER {filter}]\n  [LANGUAGE default_lang] \n  [LANGUAGE_FIELD lang_attribute]\
+  \ \n  [SCORE default_score] \n  [SCORE_FIELD score_attribute] \n  [PAYLOAD_FIELD\
+  \ payload_attribute] \n  [MAXTEXTFIELDS] \n  [TEMPORARY seconds] \n  [NOOFFSETS]\
+  \ \n  [NOHL] \n  [NOFIELDS] \n  [NOFREQS] \n  [STOPWORDS count [stopword ...]] \n\
+  \  [SKIPINITIALSCAN]\n  SCHEMA field_name [AS alias] TEXT | TAG | NUMERIC | GEO\
+  \ | VECTOR | GEOSHAPE [ SORTABLE [UNF]] \n  [NOINDEX] [ field_name [AS alias] TEXT\
+  \ | TAG | NUMERIC | GEO | VECTOR | GEOSHAPE [ SORTABLE [UNF]] [NOINDEX] ...]\n"
+syntax_fmt: "FT.CREATE index [ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix\n \
+  \ ...]] [FILTER\_filter] [LANGUAGE\_default_lang]\n  [LANGUAGE_FIELD\_lang_attribute]\
+  \ [SCORE\_default_score]\n  [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute]\n\
+  \  [MAXTEXTFIELDS] [TEMPORARY\_seconds] [NOOFFSETS] [NOHL] [NOFIELDS]\n  [NOFREQS]\
+  \ [STOPWORDS\_count [stopword [stopword ...]]]\n  [SKIPINITIALSCAN] SCHEMA field_name\
+  \ [AS\_alias] <TEXT | TAG |\n  NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [SORTABLE\
+  \ [UNF]]\n  [NOINDEX] [field_name [AS\_alias] <TEXT | TAG | NUMERIC | GEO |\n  VECTOR>\
+  \ [WITHSUFFIXTRIE] [SORTABLE [UNF]] [NOINDEX] ...]"
 syntax_str: "[ON\_<HASH | JSON>] [PREFIX\_count prefix [prefix ...]] [FILTER\_filter]\
   \ [LANGUAGE\_default_lang] [LANGUAGE_FIELD\_lang_attribute] [SCORE\_default_score]\
   \ [SCORE_FIELD\_score_attribute] [PAYLOAD_FIELD\_payload_attribute] [MAXTEXTFIELDS]\
@@ -221,7 +226,7 @@ after the SCHEMA keyword, declares which fields to index:
 
  - `GEO` - Allows radius range queries against the value (point) in this attribute. The value of the attribute must be a string containing a longitude (first) and latitude separated by a comma.
 
- - `VECTOR` - Allows vector queries against the value in this attribute. For more information, see [Vector Fields]({{< relref "/develop/get-started/vector-database" >}}).
+ - `VECTOR` - Allows vector queries against the value in this attribute. This requires [query dialect 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}) or above (introduced in [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3)). For more information, see [Vector Fields]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
 
  - `GEOSHAPE`- Allows polygon queries against the value in this attribute. The value of the attribute must follow a [WKT notation](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) list of 2D points representing the polygon edges `POLYGON((x1 y1, x2 y2, ...)` separated by a comma. A `GEOSHAPE` field type can be followed by one of the following coordinate systems:
    - `SPHERICAL` for Geographic longitude and latitude coordinates
@@ -257,6 +262,11 @@ after the SCHEMA keyword, declares which fields to index:
   - `CASESENSITIVE` for `TAG` attributes, keeps the original letter cases of the tags. If not specified, the characters are converted to lowercase.
 
   - `WITHSUFFIXTRIE` for `TEXT` and `TAG` attributes, keeps a suffix trie with all terms which match the suffix. It is used to optimize `contains` (*foo*) and `suffix` (*foo) queries. Otherwise, a brute-force search on the trie is performed. If suffix trie exists for some fields, these queries will be disabled for other fields.
+
+  - `INDEXEMPTY` for `TEXT` and `TAG` attributes, introduced in v2.10, allows you to index and search for empty strings. By default, empty strings are not indexed. 
+
+  - `INDEXMISSING` for all field types, introduced in v2.10, allows you to search for missing values, that is, documents that do not contain a specific field. Note the difference between a field with an empty value and a document with a missing value. By default, missing values are not indexed.
+
 </details>
 
 ## Optional arguments
@@ -288,7 +298,7 @@ if set, indicates the default language for documents in the index. Default is En
 <a name="LANGUAGE_FIELD"></a><details open>
 <summary><code>LANGUAGE_FIELD {lang_attribute}</code></summary> 
 
-is document attribute set as the document language.
+is a document attribute set as the document language.
 
 A stemmer is used for the supplied language during indexing. If an unsupported language is sent, the command returns an error. The supported languages are Arabic, Basque, Catalan, Danish, Dutch, English, Finnish, French, German, Greek, Hungarian,
 Indonesian, Irish, Italian, Lithuanian, Nepali, Norwegian, Portuguese, Romanian, Russian,
@@ -421,10 +431,6 @@ author_id TAG SORTABLE author_ids TAG title TEXT name TEXT
 {{< / highlight >}}
 
 In this example, keys for author data use the key pattern `author:details:<id>` while keys for book data use the pattern `book:details:<id>`.
-</details>
-
-<details open>
-<summary><b>Index a JSON document using a JSON Path expression</b></summary>
 
 Index authors whose names start with G.
 
@@ -441,10 +447,14 @@ Index only books that have a subtitle.
 Index books that have a "categories" attribute where each category is separated by a `;` character.
 
 {{< highlight bash >}}
-127.0.0.1:6379> FT.CREATE books-idx ON HASH PREFIX 1 book:details FILTER SCHEMA title TEXT categories TAG SEPARATOR ";"
+127.0.0.1:6379> FT.CREATE books-idx ON HASH PREFIX 1 book:details SCHEMA title TEXT categories TAG SEPARATOR ";"
 {{< / highlight >}}
+</details>
 
-Index a JSON document using a JSON Path expression.
+<details open>
+<summary><b>Index a JSON document using a JSON Path expression</b></summary>
+
+The following example uses data similar to the hash examples above but uses JSON instead.
 
 {{< highlight bash >}}
 127.0.0.1:6379> FT.CREATE idx ON JSON SCHEMA $.title AS title TEXT $.categories AS categories TAG

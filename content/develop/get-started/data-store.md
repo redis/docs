@@ -37,7 +37,7 @@ You can alternatively follow the [installation guides]({{< relref "/operate/oss_
 
 ## Connect
 
-The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [connection section]({{< relref "/develop/connect" >}}). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
+The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
 
 {{< clients-example search_quickstart connect >}}
 > redis-cli -h 127.0.0.1 -p 6379
@@ -84,9 +84,9 @@ You can get a complete overview of available data types in this documentation si
 
 Each item within Redis has a unique key. All items live within the Redis [keyspace]({{< relref "/develop/use/keyspace" >}}). You can scan the Redis keyspace via the [SCAN command]({{< relref "/commands/scan" >}}). Here is an example that scans for the first 100 keys that have the prefix `bike:`:
 
-{{< clients-example scan_example >}}
+```
 SCAN 0 MATCH "bike:*" COUNT 100
-{{< /clients-example >}}
+```
 
 [SCAN]({{< relref "/commands/scan" >}}) returns a cursor position, allowing you to scan iteratively for the next batch of keys until you reach the cursor value 0.
 

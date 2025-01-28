@@ -12,6 +12,10 @@ toc: 'true'
 weight: 35
 ---
 
+You can run self-managed Redis Enterprise Software in an on-premises data center or on your preferred cloud platform. 
+
+If you prefer a fully managed Redis database-as-a-service, available on major public cloud services, consider setting up a [Redis Cloud]({{<relref "/operate/rc">}}) subscription. You can [try Redis Cloud](https://redis.io/try-free/) for free.
+
 ## Quickstarts
 
 If you want to try out Redis Enterprise Software, see the following quickstarts:
@@ -63,7 +67,7 @@ More information is available to help with customization and related questions:
 
 After you install Redis Enterprise Software and set up your cluster, you can:
 
-- [Add users]({{< relref "/operate/rs/security/access-control/manage-users/add-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).
+- [Add users]({{< relref "/operate/rs/security/access-control/create-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).
 
 - [Create databases]({{< relref "/operate/rs/databases/create" >}}) to use with your applications.
 

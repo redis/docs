@@ -65,7 +65,7 @@ To configure cipher suites using the Cluster Manager UI:
 
 ### Control plane cipher suites {#control-plane-ciphers-tls-1-2}
 
-As of Redis Enterprise Software version 6.0.12, control plane cipher suites can use the BoringSSL library format for TLS connections to the admin console. See the BoringSSL documentation for a full list of available [BoringSSL configurations](https://github.com/google/boringssl/blob/master/ssl/test/runner/cipher_suites.go#L99-L131).
+As of Redis Enterprise Software version 6.0.12, control plane cipher suites can use the BoringSSL library format for TLS connections to the Cluster Manager UI. See the BoringSSL documentation for a full list of available [BoringSSL configurations](https://github.com/google/boringssl/blob/master/ssl/test/runner/cipher_suites.go#L99-L131).
 
 #### Configure TLS 1.2 control plane cipher suites
 

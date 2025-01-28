@@ -33,4 +33,4 @@ We strongly recommend enabling TLS for any application transmitting sensitive da
 
 ## Disk encryption
 
-Redis Cloud provides encryption for all data stored on disk in Redis databases. See our [encrpytion at rest documentation]({{< relref "/operate/rc/security/encryption-at-rest.md" >}}) for specific details.
+Redis Cloud provides encryption for all data stored on disk in Redis databases. See our [encryption at rest documentation]({{< relref "/operate/rc/security/encryption-at-rest.md" >}}) for specific details.

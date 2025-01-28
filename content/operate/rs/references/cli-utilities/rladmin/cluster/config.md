@@ -23,7 +23,7 @@ Updates the cluster configuration.
         [bigstore_driver {speedb | rocksdb} ]
         [ control_cipher_suites <BoringSSL cipher list> ]
         [ cm_port <number> ]
-        [ cm_session_timeout <minutes> ]
+        [ cm_session_timeout_minutes <minutes> ]
         [ cnm_http_port <number> ]
         [ cnm_https_port <number> ]
         [ crdb_coordinator_port <number> ]
@@ -43,6 +43,7 @@ Updates the cluster configuration.
         [ min_sentinel_TLS_version { 1.2 | 1.3 } ]
         [ reserved_ports <list of ports/port ranges> ]
         [ s3_url <URL> ]
+        [ s3_ca_cert <filepath> ]
         [ saslauthd_ldap_conf </tmp/ldap.conf> ]
         [ sentinel_tls_mode { allowed | required | disabled } ]
         [ sentinel_cipher_suites <golang cipher list> ]
@@ -59,9 +60,9 @@ Updates the cluster configuration.
 | audit_address | string | TCP/IP address where a listener can capture [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}}) |
 | audit_port | string | Port where a listener can capture [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}}) |
 | audit_protocol | `tcp`<br/>`local` | Protocol used for [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}})<br/>For production systems, only `tcp` is supported. |
-| control_cipher_suites | list of ciphers | Cipher suites used for TLS connections to the admin console (specified in the format understood by the BoringSSL library)<br />(previously named `cipher_suites`) |
+| control_cipher_suites | list of ciphers | Cipher suites used for TLS connections to the Cluster Manager UI (specified in the format understood by the BoringSSL library)<br />(previously named `cipher_suites`) |
 | cm_port | integer | UI server listening port |
-| cm_session_timeout | integer | Timeout in minutes for the CM session
+| cm_session_timeout_minutes | integer | Timeout in minutes for the CM session
 | cnm_http_port | integer | HTTP REST API server listening port |
 | cnm_https_port | integer | HTTPS REST API server listening port |
 | crdb_coordinator_port | integer, (range:&nbsp;1024-65535) (default:&nbsp;9081) | CRDB coordinator port |
@@ -75,12 +76,13 @@ Updates the cluster configuration.
 | handle_redirects | `enabled`<br />`disabled` | Enable or turn off handling DNS redirects when DNS is not configured and running behind a load balancer |
 | handle_metrics_redirects | `enabled`<br />`disabled` | Enable or turn off handling cluster redirects internally for Metrics API |
 | http_support | `enabled`<br />`disabled` | Enable or turn off using HTTP for REST API connections |
-| ipv6 | `enabled`<br />`disabled` | Enable or turn off IPv6 connections to the admin console |
+| ipv6 | `enabled`<br />`disabled` | Enable or turn off IPv6 connections to the Cluster Manager UI |
 | min_control_TLS_version | `1.2`<br />`1.3` | The minimum TLS protocol version that is supported for the control path |
 | min_data_TLS_version | `1.2`<br />`1.3` | The minimum TLS protocol version that is supported for the data path |
 | min_sentinel_TLS_version | `1.2`<br />`1.3` | The minimum TLS protocol version that is supported for the discovery service |
 | reserved_ports | list of ports/port ranges | List of reserved ports and/or port ranges to avoid using for database endpoints (for example `reserved_ports 11000 13000-13010`) |
 | s3_url | string | The URL of S3 export and import |
+| s3_ca_cert | string | The CA certificate filepath for S3 export and import |
 | saslauthd_ldap_conf | filepath | Updates LDAP authentication configuration for the cluster |
 | sentinel_cipher_suites | list of ciphers | Cipher suites used by the discovery service (supported ciphers are implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package) |
 | sentinel_tls_mode | `allowed`<br />`required`<br />`disabled` | Define the SSL policy for the discovery service<br />(previously named `sentinel_ssl_policy`) |

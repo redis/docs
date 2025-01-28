@@ -137,6 +137,29 @@ are now fixed.
 
 ## Examples
 
+{{< clients-example cmds_generic expire >}}
+> SET mykey "Hello"
+"OK"
+> EXPIRE mykey 10
+(integer) 1
+> TTL mykey
+(integer) 10
+> SET mykey "Hello World"
+"OK"
+> TTL mykey
+(integer) -1
+> EXPIRE mykey 10 XX
+(integer) 0
+> TTL mykey
+(integer) -1
+> EXPIRE mykey 10 NX
+(integer) 1
+> TTL mykey
+(integer) 10
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 SET mykey "Hello"
 EXPIRE mykey 10
@@ -177,9 +200,9 @@ recorded.
 This pattern is easily modified to use counters using [`INCR`]({{< relref "/commands/incr" >}}) instead of lists
 using [`RPUSH`]({{< relref "/commands/rpush" >}}).
 
-# Appendix: Redis expires
+## Appendix: Redis expires
 
-## Keys with an expire
+### Keys with an expire
 
 Normally Redis keys are created without an associated time to live.
 The key will simply live forever, unless it is removed by the user in an
@@ -193,14 +216,14 @@ specified amount of time elapsed.
 The key time to live can be updated or entirely removed using the `EXPIRE` and
 [`PERSIST`]({{< relref "/commands/persist" >}}) command (or other strictly related commands).
 
-## Expire accuracy
+### Expire accuracy
 
 In Redis 2.4 the expire might not be pin-point accurate, and it could be between
 zero to one seconds out.
 
 Since Redis 2.6 the expire error is from 0 to 1 milliseconds.
 
-## Expires and persistence
+### Expires and persistence
 
 Keys expiring information is stored as absolute Unix timestamps (in milliseconds
 in case of Redis version 2.6 or greater).
@@ -216,34 +239,20 @@ you set a key with a time to live of 1000 seconds, and then set your computer
 time 2000 seconds in the future, the key will be expired immediately, instead of
 lasting for 1000 seconds.
 
-## How Redis expires keys
+### How Redis expires keys
 
-Redis keys are expired in two ways: a passive way, and an active way.
+Redis keys are expired in two ways: a passive way and an active way.
 
-A key is passively expired simply when some client tries to access it, and the
-key is found to be timed out.
+A key is passively expired when a client tries to access it and the
+key is timed out.
 
-Of course this is not enough as there are expired keys that will never be
+However, this is not enough as there are expired keys that will never be
 accessed again.
-These keys should be expired anyway, so periodically Redis tests a few keys at
-random among keys with an expire set.
+These keys should be expired anyway, so periodically, Redis tests a few keys at
+random amongst the set of keys with an expiration.
 All the keys that are already expired are deleted from the keyspace.
 
-Specifically this is what Redis does 10 times per second:
-
-1. Test 20 random keys from the set of keys with an associated expire.
-2. Delete all the keys found expired.
-3. If more than 25% of keys were expired, start again from step 1.
-
-This is a trivial probabilistic algorithm, basically the assumption is that our
-sample is representative of the whole key space, and we continue to expire until
-the percentage of keys that are likely to be expired is under 25%
-
-This means that at any given moment the maximum amount of keys already expired
-that are using memory is at max equal to max amount of write operations per
-second divided by 4.
-
-## How expires are handled in the replication link and AOF file
+### How expires are handled in the replication link and AOF file
 
 In order to obtain a correct behavior without sacrificing consistency, when a
 key expires, a [`DEL`]({{< relref "/commands/del" >}}) operation is synthesized in both the AOF file and gains all

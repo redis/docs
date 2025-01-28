@@ -24,7 +24,7 @@ ACLs that are not marked with the Redis logo are user-defined ACL rules.
 
 To configure a Redis ACL that you can assign to a data access role:
 
-1. Go to **Data Access Control** from the [Redis Cloud console](https://app.redislabs.com/#/) menu.
+1. Go to **Data Access Control** from the [Redis Cloud console](https://cloud.redis.io/#/) menu.
 
     {{<image filename="images/rc/data-access-control-menu.png" width="200px" alt="Menu for database access control." >}}
 
@@ -62,7 +62,7 @@ The Redis Cloud console will validate your ACL syntax while you are typing.
 
 ### Command ACL rules
 
-A **command** can be any [Redis command]({{< relref "/commands" >}}/).
+A **command** can be any [Redis command]({{< relref "/commands" >}}).
 
 For example, this Redis ACL rule indicates that the `SET` command is permitted:
 
@@ -120,9 +120,9 @@ Pub/sub ACL rules determine which pub/sub channels a user can access. For more i
 
 For versions older than Redis 7.0, pub/sub is permissive and allows access to all channels by default.
 
-Redis 7.0 makes pub/sub restrictive and blocks access to all channels in open source (OSS) Redis. However, Redis Cloud still defaults to permissive pub/sub even for Redis 7.0 subscriptions.
+Redis 7.0 makes pub/sub restrictive and blocks access to all channels in Redis Software. However, Redis Cloud still defaults to permissive pub/sub even for Redis 7.0 subscriptions.
 
-| Redis<br />version | OSS Redis<br />pub/sub ACLs | Redis Cloud<br />pub/sub ACLs |
+| Redis<br />version | Redis Community Edition<br />pub/sub ACLs | Redis Cloud<br />pub/sub ACLs |
 |:-------------:|-----------|-------------|
 | 6.0 | Not supported | Not supported |
 | 6.2 | Permissive | Permissive |

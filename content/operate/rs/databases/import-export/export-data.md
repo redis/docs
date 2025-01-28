@@ -32,9 +32,9 @@ Export fails when there isn't enough space for either step.
 
 ## Export database data
 
-To export data from a database:
+To export data from a database using the Cluster Manager UI:
 
-1.  Select the database from the **Databases** list.
+1. On the **Databases** screen, select the database from the list, then select **Configuration**.
 
 1. Click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" class="inline" >}} to open a list of additional actions.
 
@@ -150,7 +150,7 @@ To export data to an [Amazon Web Services](https://aws.amazon.com/) (AWS) Simple
 
 1. [Create an access key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) for that user if you do not already have one.
 
-1. In the Redis Enterprise Software admin console, when you enter the export location details:
+1. In the Redis Enterprise Software Cluster Manager UI, when you enter the export location details:
 
     - Select **AWS S3**.
 
@@ -159,6 +159,14 @@ To export data to an [Amazon Web Services](https://aws.amazon.com/) (AWS) Simple
     - In the **Access key ID** field, enter the access key ID.
 
     - In the **Secret access key** field, enter the secret access key.
+
+You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+
+```sh
+rladmin cluster config s3_url <URL>
+```
+
+Replace `<URL>` with the hostname or IP address of the S3-compatible storage location.
 
 ### Google Cloud Storage
 
@@ -176,7 +184,7 @@ To export to a [Google Cloud](https://developers.google.com/console/) storage bu
 
     - Select "Storage Legacy Bucket Writer" from the **Role** list.
 
-1. In the Redis Enterprise Software admin console, when you enter the export location details:
+1. In the Redis Enterprise Software Cluster Manager UI, when you enter the export location details:
 
     - Select **Google Cloud Storage**.
 
@@ -202,7 +210,7 @@ To export to Microsoft Azure Blob Storage, sign in to the Azure portal and then:
 
 1. [Manage storage account access keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage) to find the storage account name and account keys.
 
-1. In the Redis Enterprise Software admin console, when you enter the export location details:
+1. In the Redis Enterprise Software Cluster Manager UI, when you enter the export location details:
 
     - Select **Azure Blob Storage**.
 

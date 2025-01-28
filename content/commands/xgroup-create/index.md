@@ -27,7 +27,7 @@ arguments:
   token: MKSTREAM
   type: pure-token
 - display_text: entries-read
-  name: entries-read
+  name: entriesread
   optional: true
   token: ENTRIESREAD
   type: integer
@@ -68,7 +68,7 @@ key_specs:
 linkTitle: XGROUP CREATE
 since: 5.0.0
 summary: Creates a consumer group.
-syntax_fmt: "XGROUP CREATE key group <id | $> [MKSTREAM] [ENTRIESREAD\_entries-read]"
+syntax_fmt: "XGROUP CREATE key group <id | $> [MKSTREAM]\n  [ENTRIESREAD\_entries-read]"
 syntax_str: "group <id | $> [MKSTREAM] [ENTRIESREAD\_entries-read]"
 title: XGROUP CREATE
 ---

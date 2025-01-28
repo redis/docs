@@ -185,7 +185,13 @@ Here is a sample authentication request for a database:
 }
 ```
 
-Status reports success or failure.  Values of `2` or `8` indicate success; other values indicate failure.
+The `status` field reports the following: 
+
+- Values of 2, 7, or 8 indicate success.
+
+- Values of 3 or 5 indicate that the client authentication is in progress and should conclude later.
+
+- Other values indicate failures.
 
 ### Database disconnect
 

@@ -10,7 +10,7 @@ linkTitle: redis_acl
 weight: $weight
 ---
 
-An API object that represents a Redis [access control list (ACL)]({{< relref "/operate/rs/security/access-control/rbac/configure-acl" >}})
+An API object that represents a Redis [access control list (ACL)]({{< relref "/operate/rs/security/access-control/create-db-roles" >}})
 
 | Name | Type/Value | Description |
 |------|------------|-------------|

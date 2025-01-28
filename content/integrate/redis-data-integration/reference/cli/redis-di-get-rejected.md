@@ -1,22 +1,12 @@
 ---
 Title: redis-di get-rejected
-aliases: null
-alwaysopen: false
-categories:
-- docs
-- integrate
-- rs
-- rdi
-description: Returns all the stored rejected entries
-group: di
 linkTitle: redis-di get-rejected
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
-  real time.
-type: integration
+description: Returns all the stored rejected entries 
 weight: 10
+alwaysopen: false
+categories: ["redis-di"]
+aliases:
 ---
-
-Returns all the stored rejected entries
 
 ## Usage
 
@@ -25,102 +15,112 @@ Usage: redis-di get-rejected [OPTIONS]
 ```
 
 ## Options
+* `log_level`: 
+  * Type: Choice(['DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL']) 
+  * Default: `info`
+  * Usage: `--log-level
+-l`
 
-- `loglevel`:
+  
 
-  - Type: Choice(['DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL'])
-  - Default: `info`
-  - Usage: `--loglevel
--log-level`
 
-- `rdi_host` (REQUIRED):
-
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-host`
+* `rdi_host` (REQUIRED): 
+  * Type: STRING 
+  * Default: `none`
+  * Usage: `--rdi-host`
 
   Host/IP of RDI Database
 
-- `rdi_port` (REQUIRED):
 
-  - Type: <IntRange 1000<=x<=65535>
-  - Default: `none`
-  - Usage: `--rdi-port`
+* `rdi_port` (REQUIRED): 
+  * Type: <IntRange 1<=x<=65535> 
+  * Default: `none`
+  * Usage: `--rdi-port`
 
   Port of RDI Database
 
-- `rdi_password`:
 
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-password`
+* `rdi_user`: 
+  * Type: STRING 
+  * Default: `none`
+  * Usage: `--rdi-user`
+
+  RDI Database Username
+
+
+* `rdi_password`: 
+  * Type: STRING 
+  * Default: `none`
+  * Usage: `--rdi-password`
 
   RDI Database Password
 
-- `rdi_key`:
 
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-key`
+* `rdi_key`: 
+  * Type: STRING 
+  * Default: `none`
+  * Usage: `--rdi-key`
 
   Private key file to authenticate with
 
-- `rdi_cert`:
 
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-cert`
+* `rdi_cert`: 
+  * Type: STRING 
+  * Default: `none`
+  * Usage: `--rdi-cert`
 
   Client certificate file to authenticate with
 
-- `rdi_cacert`:
 
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-cacert`
+* `rdi_cacert`: 
+  * Type: STRING 
+  * Default: `none`
+  * Usage: `--rdi-cacert`
 
   CA certificate file to verify with
 
-- `rdi_key_password`:
 
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--rdi-key-password`
+* `rdi_key_password`: 
+  * Type: STRING 
+  * Default: `none`
+  * Usage: `--rdi-key-password`
 
   Password for unlocking an encrypted private key
 
-- `max_records`:
 
-  - Type: <IntRange x>=1>
-  - Default: `none`
-  - Usage: `--max-records`
+* `max_records`: 
+  * Type: <IntRange x>=1> 
+  * Default: `none`
+  * Usage: `--max-records`
 
   Maximum rejected records per DLQ
 
-- `oldest`:
 
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--oldest
+* `oldest`: 
+  * Type: BOOL 
+  * Default: `false`
+  * Usage: `--oldest
 -o`
 
-  Displays the oldest rejected records. If omitted, most resent records will be retrieved
+  Displays the oldest rejected records. If omitted, most recent records will be retrieved
 
-- `dlq_name`:
 
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--dlq-name`
+* `dlq_name`: 
+  * Type: STRING 
+  * Default: `none`
+  * Usage: `--dlq-name`
 
   Only prints the rejected records for the specified DLQ (Dead Letter Queue) name
 
-- `help`:
 
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--help`
+* `help`: 
+  * Type: BOOL 
+  * Default: `false`
+  * Usage: `--help`
 
   Show this message and exit.
+
+
 
 ## CLI help
 
@@ -130,11 +130,12 @@ Usage: redis-di get-rejected [OPTIONS]
   Returns all the stored rejected entries
 
 Options:
-  -log-level, --loglevel [DEBUG|INFO|WARN|ERROR|CRITICAL]
+  -l, --log-level [DEBUG|INFO|WARN|ERROR|CRITICAL]
                                   [default: INFO]
   --rdi-host TEXT                 Host/IP of RDI Database  [required]
-  --rdi-port INTEGER RANGE        Port of RDI Database  [1000<=x<=65535;
+  --rdi-port INTEGER RANGE        Port of RDI Database  [1<=x<=65535;
                                   required]
+  --rdi-user TEXT                 RDI Database Username
   --rdi-password TEXT             RDI Database Password
   --rdi-key TEXT                  Private key file to authenticate with
   --rdi-cert TEXT                 Client certificate file to authenticate with

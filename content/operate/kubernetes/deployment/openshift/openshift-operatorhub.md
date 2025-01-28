@@ -29,7 +29,7 @@ To see which version of Redis Enterprise for Kubernetes supports your OpenShift 
 
     Only one namespace per operator is supported.
 
-4. Update the **channel** with the version you're installing. 
+4. Update the **channel** with the version you're installing.
 
     For more information about specific versions, see the [release notes]({{< relref "/operate/kubernetes/release-notes/" >}}).
 
@@ -66,11 +66,15 @@ You only need to install the SCC once, but you must not delete it.
 After the install, the OperatorHub automatically uses the constraint for Redis Enterprise node pods.
 
 {{< note >}}
-**Known Limitation** - The automatic use of the security constraint is limited. The
-Redis Enterprise must be named `rec` for the constraint to be used automatically.  **Use the cluster name `rec` when deploying with the OperatorHub.**
+If you are using the recommended RedisEnterpriseCluster name of `rec`, the SCC is automatically bound to the RedisEnterpriseCluster after install.
 
-If you require a different name, you must grant the SCC to the project
-namespace.
+If you choose a different name for the RedisEnterpriseCluster, or override the default service account name, you must manually bind the SCC to the RedisEnterpriseCluster’s service account:
+
+  ```sh
+  oc adm policy add-scc-to-user redis-enterprise-scc-v2 \
+  system:serviceaccount:<my-project>:<rec-service-account-name>
+  ```
+
 {{< /note >}}
 
 ## Create Redis Enterprise custom resources
@@ -78,6 +82,8 @@ namespace.
 The **Installed Operators**->**Operator details** page shows the provided APIs: **RedisEnterpriseCluster** and **RedisEnterpriseDatabase**. You can select **Create instance** to create custom resources using the OperatorHub interface.
 
 Use the YAML view to create a custom resource file or let OperatorHub generate the YAML file for you by specifying your configuration options in the form view.
+
+<note> The REC name cannot be changed after cluster creation.</note>
 
 {{<note>}} In versions 6.4.2-4 and 6.4.2-5, REC creation might fail when using the form view due to an error related to the cluster level LDAP. To avoid this, use the YAML view.
 {{</note>}}

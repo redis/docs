@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: General information to keep in mind while developing applications for
   an Active-Active database.
 hideListLinks: true
@@ -36,8 +37,7 @@ data between regions and simplify development of complex applications
 that can maintain correctness under geo-failovers and concurrent
 cross-region writes to the same data.
 
-![geo replication world
-map](/images/rs/crdbs.png)
+{{< image filename="/images/rs/crdbs.png" alt="Geo-replication world map">}}
 
 Active-Active databases replicate data between multiple Redis Enterprise Software
 clusters. Common uses for Active-Active databases include disaster recovery,

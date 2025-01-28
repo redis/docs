@@ -9,13 +9,11 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Notes on debugging, testing and documentation
+description: Notes on RediSearch debugging, testing, and documentation
 linkTitle: Developer notes
 title: Developer notes
 weight: 3
 ---
-
-# Developing RediSearch
 
 Developing RediSearch features involves setting up a development environment (which can be either Linux-based or macOS-based), building the module, running tests and benchmarks, and debugging both the module and its tests.
 
@@ -54,47 +52,49 @@ You can replace `debian:bullseye` with your choice of OS, with the host OS being
 
 ## Installing prerequisites
 
-To build and test RediSearch you need to install several packages, depending on the underlying OS. The following OSes are supported: Ubuntu/Debian, CentOS, Fedora, and macOS.
+To build and test RediSearch you need to install several packages, depending on the underlying OS. The following OSes are supported:
+- Ubuntu 18.04
+- Ubuntu 20.04
+- Ubuntu 22.04
+- Debian linux 11
+- Rocky linux 8
+- Rocky linux 9
+- Amazon linux 2
+- Mariner 2.0
+- MacOS
 
-First, enter the `RediSearch` directory and then run:
+To install the prerequisites on your system using a setup script, first enter the `RediSearch` directory and then run:
 
 ```
-./sbin/setup
-bash -l
+cd ./install
+./install_script.sh sudo
+./install_boost.sh 1.83.0
 ```
 
-Note that this will install various packages on your system using the native package manager and `pip`. It will invoke `sudo` on its own, prompting for permission.
+Note that this will install various packages on your system using the native package manager (`sudo` is not required in a Docker environment).
 
 If you prefer to avoid that, you can:
 
-* Review `sbin/system-setup.py` and install packages manually.
-* Use `./sbin/system-setup.py --nop` to display installation commands without executing them.
+* Review the relevant setup scripts under the `./install` directory and install packages manually.
 * Use an isolated environment as explained above.
-* Use a Python virtual environment, as Python installations are known to be sensitive when not used in isolation:
 
-    ```
-    python3 -m virtualenv venv; . ./venv/bin/activate
-    ```
 
 ## Installing Redis
-As a rule of thumb, you're run the latest Redis version.
+As a rule of thumb, you should run the latest Redis version.
 
-If your OS has a Redis 6.x or 7.x package, you can install it using the OS package manager.
+If your OS has a Redis 7.x package, you can install it using the OS package manager.
 
-Otherwise, you can invoke ```./deps/readies/bin/getredis```.
+Otherwise, you can build it from source and install it as described in [redis GitHub page](https://github.com/redis/redis).
 
 ## Getting help
 
-```make help``` provides a quick summary of the development features:
+```make help``` provides a quick summary of the development features. Following is a partial list that contains  the most common and relevant ones:
 
 ```
-make setup         # install prerequisited (CAUTION: THIS WILL MODIFY YOUR SYSTEM)
 make fetch         # download and prepare dependant modules
 
 make build          # compile and link
-  COORD=1|oss|rlec    # build coordinator (1|oss: Open Source, rlec: Enterprise)
-  STATIC=1            # build as static lib
-  LITE=1              # build RediSearchLight
+  COORD=1             # build coordinator
   DEBUG=1             # build for debugging
   NO_TESTS=1          # disable unit tests
   WHY=1               # explain CMake decisions (in /tmp/cmake-why)
@@ -106,18 +106,19 @@ make build          # compile and link
   GCC=1               # build with GCC (default unless Sanitizer)
   CLANG=1             # build with CLang
   STATIC_LIBSTDCXX=0  # link libstdc++ dynamically (default: 1)
-make parsers       # build parsers code
+make parsers       # build parsers code (required after chaging files under query_parser dir)
 make clean         # remove build artifacts
   ALL=1              # remove entire artifacts directory
 
 make run           # run redis with RediSearch
+  COORD=1            # run three local shards with coordinator (assuming the module was built with coordinator support)
   GDB=1              # invoke using gdb
 
 make test          # run all tests
-  COORD=1|oss|rlec   # test coordinator (1|oss: Open Source, rlec: Enterprise)
+  COORD=1            # test coordinator
   TEST=name          # run specified test
 make pytest        # run python tests (tests/pytests)
-  COORD=1|oss|rlec   # test coordinator (1|oss: Open Source, rlec: Enterprise)
+  COORD=1            # test coordinator 
   TEST=name          # e.g. TEST=test:testSearch
   RLTEST_ARGS=...    # pass args to RLTest
   REJSON=1|0|get     # also load JSON module (default: 1)
@@ -127,46 +128,24 @@ make pytest        # run python tests (tests/pytests)
   VG=1               # use Valgrind
   VG_LEAKS=0         # do not search leaks with Valgrind
   SAN=type           # use LLVM sanitizer (type=address|memory|leak|thread) 
-  ONLY_STABLE=1      # skip unstable tests
 make unit-tests    # run unit tests (C and C++)
   TEST=name          # e.g. TEST=FGCTest.testRemoveLastBlock
 make c_tests       # run C tests (from tests/ctests)
 make cpp_tests     # run C++ tests (from tests/cpptests)
-make vecsim-bench  # run VecSim micro-benchmark
 
 make callgrind     # produce a call graph
   REDIS_ARGS="args"
 
-make pack             # create installation packages (default: 'redisearch-oss' package)
-  COORD=rlec            # pack RLEC coordinator ('redisearch' package)
-  LITE=1                # pack RediSearchLight ('redisearch-light' package)
-
-make upload-artifacts   # copy snapshot packages to S3
-  OSNICK=nick             # copy snapshots for specific OSNICK
-make upload-release     # copy release packages to S3
-
-common options for upload operations:
-  STAGING=1             # copy to staging lab area (for validation)
-  FORCE=1               # allow operation outside CI environment
-  VERBOSE=1             # show more details
-  NOP=1                 # do not copy, just print commands
-
-make docker        # build for specified platform
-  OSNICK=nick        # platform to build for (default: host platform)
-  TEST=1             # run tests after build
-  PACK=1             # create package
-  ARTIFACTS=1        # copy artifacts to host
-
-make box           # create container with volumen mapping into /search
-  OSNICK=nick        # platform spec
 make sanbox        # create container with CLang Sanitizer
 ```
 
 ## Building from source
 
+Run the following from the project root dir:
+
 ```make build``` will build RediSearch.
 
-`make build COORD=oss` will build OSS RediSearch Coordinator.
+`make build COORD=1` will build Redis Community Edition RediSearch Coordinator.
 
 `make build STATIC=1` will build as a static library.
 
@@ -195,8 +174,8 @@ You can open ```redis-cli``` in another terminal to interact with it.
 ## Running tests
 
 There are several sets of unit tests:
-* C tests, located in ```tests/ctests```, run by ```make c_tests```.
-* C++ tests (enabled by GTest), located in ```tests/cpptests```, run by ```make cpp_tests```.
+* C tests, located in ```tests/ctests```, run by ```make c-tests```.
+* C++ tests (enabled by GTest), located in ```tests/cpptests```, run by ```make cpp-tests```.
 * Python tests (enabled by RLTest), located in ```tests/pytests```, run by ```make pytest```.
 
 You can run all tests by invoking ```make test```.

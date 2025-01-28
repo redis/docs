@@ -31,13 +31,13 @@ The TLS handshake fails and the client blocks the connection to the server if th
 
 ## Set up OCSP stapling
 
-You can configure and enable OCSP stapling for your Redis Enterprise cluster with the [admin console](#admin-console-method), the [REST API](#rest-api-method), or [`rladmin`](#rladmin-method).
+You can configure and enable OCSP stapling for your Redis Enterprise cluster with the [Cluster Manager UI](#cluster-manager-ui-method), the [REST API](#rest-api-method), or [`rladmin`](#rladmin-method).
 
 While OCSP is enabled, the server always staples the cached OCSP status when a client tries to connect. It is the client's responsibility to use the stapled OCSP status. Some Redis clients, such as [Jedis](https://github.com/redis/jedis) and [redis-py](https://github.com/redis/redis-py), already support OCSP stapling, but others might require additional configuration.
 
-### Admin console method
+### Cluster Manager UI method
 
-To set up OCSP stapling with the Redis Enterprise admin console:
+To set up OCSP stapling with the Redis Enterprise Cluster Manager UI:
 
 1. Go to **Cluster > Security > OCSP**.
 
@@ -60,7 +60,7 @@ To set up OCSP stapling with the Redis Enterprise admin console:
 
 To set up OCSP stapling with the [REST API]({{< relref "/operate/rs/references/rest-api" >}}):
 
-1. Use the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster/update-cert" >}}) to [replace the proxy certificate]({{< relref "/operate/rs/security/certificates/updating-certificates#use-the-rest-api" >}}) with a certificate signed by your third-party CA.
+1. Use the REST API to [replace the proxy certificate]({{< relref "/operate/rs/security/certificates/updating-certificates#use-the-rest-api" >}}) with a certificate signed by your third-party CA.
 
 1. To configure and enable OCSP, send a [`PUT` request to the `/v1/ocsp`]({{< relref "/operate/rs/references/rest-api/requests/ocsp#put-ocsp" >}}) endpoint and include an [OCSP JSON object]({{< relref "/operate/rs/references/rest-api/objects/ocsp" >}}) in the request body:
 

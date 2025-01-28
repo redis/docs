@@ -1,0 +1,16 @@
+{
+  "id": "lettuce_reactive",
+  "type": "client",
+  "name": "lettuce_reactive",
+  "language": "Java-Reactive",
+  "label": "Java-Reactive",
+  "repository": {
+      "git_uri": "https://github.com/redis/lettuce"
+  },
+  "examples": {
+      "git_uri": "https://github.com/redis/lettuce",
+      "dev_branch": "main",
+      "path": "src/test/java/io/redis/examples/reactive",
+      "pattern": "*.java"
+  }
+}

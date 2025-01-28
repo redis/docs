@@ -60,7 +60,7 @@ To run this application you'll need:
 * [Python 3.9 or higher](https://www.python.org/downloads/).
 * A [Redis Stack](https://redis.io) database, or Redis with the [Search and Query]({{< relref "/develop/interact/search-and-query/" >}}) and [JSON]({{< relref "/develop/data-types/json/" >}}) features installed. We've provided a `docker-compose.yml` for this. You can also [sign up for a free 30Mb database with Redis Cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users) - be sure to check the Redis Stack option when creating your cloud database.
 * [curl](https://curl.se/), or [Postman](https://www.postman.com/) - to send HTTP requests to the application.  We'll provide examples using curl in this document.
-* Optional: [RedisInsight](https://redis.com/redis-enterprise/redis-insight/), a free data visualization and database management tool for Redis.  When downloading RedisInsight, be sure to select version 2.x or use the version that comes with Redis Stack.
+* Optional: [Redis Insight](https://redis.com/redis-enterprise/redis-insight/), a free data visualization and database management tool for Redis.  When downloading Redis Insight, be sure to select version 2.x or use the version that comes with Redis Stack.
 
 ### Get the Source Code
 
@@ -266,18 +266,18 @@ Running the above curl command will return the unique ULID ID assigned to the ne
 
 ### Examining the data in Redis
 
-Let's take a look at what we just saved in Redis.  Using RedisInsight or redis-cli, connect to the database and look at the value stored at key `:person.Person:01FX8SSSDN7PT9T3N0JZZA758G`.  This is stored as a JSON document in Redis, so if using redis-cli you'll need the following command:
+Let's take a look at what we just saved in Redis.  Using Redis Insight or redis-cli, connect to the database and look at the value stored at key `:person.Person:01FX8SSSDN7PT9T3N0JZZA758G`.  This is stored as a JSON document in Redis, so if using redis-cli you'll need the following command:
 
 ```bash
 $ redis-cli
 127.0.0.1:6379> json.get :person.Person:01FX8SSSDN7PT9T3N0JZZA758G
 ```
 
-If you're using RedisInsight, the browser will render the key value for you when you click on the key name:
+If you're using Redis Insight, the browser will render the key value for you when you click on the key name:
 
-![Data in RedisInsight](./images/python_insight_explore_person.png)
+![Data in Redis Insight](./images/python_insight_explore_person.png)
 
-When storing data as JSON in Redis, we can update and retrieve the whole document, or just parts of it.  For example, to retrieve only the person's address and first skill, use the following command (RedisInsight users should use the built in redis-cli for this):
+When storing data as JSON in Redis, we can update and retrieve the whole document, or just parts of it.  For example, to retrieve only the person's address and first skill, use the following command (Redis Insight users should use the built in redis-cli for this):
 
 ```bash
 $ redis-cli
@@ -285,7 +285,7 @@ $ redis-cli
 "{\"$.skills[0]\":[\"synths\"],\"$.address\":[{\"pk\":\"01FX8SSSDNRDSRB3HMVH00NQTT\",\"street_number\":56,\"unit\":\"4A\",\"street_name\":\"The Rushes\",\"city\":\"Birmingham\",\"state\":\"West Midlands\",\"postal_code\":\"B91 6HG\",\"country\":\"United Kingdom\"}]}"
 ```
 
-For more information on the JSON Path syntax used to query JSON documents in Redis, see the [documentation](https://oss.redis.com/redisjson/path/).
+For more information on the JSON Path syntax used to query JSON documents in Redis, see the [documentation]({{<relref "/develop/data-types/json/path#jsonpath-syntax">}}).
 
 ### Find a Person by ID
 

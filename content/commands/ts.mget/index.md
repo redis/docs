@@ -58,13 +58,13 @@ since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Get the sample with the highest timestamp from each time series matching
   a specific filter
-syntax: 'TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label...] FILTER filterExpr...
+syntax: 'TS.MGET [LATEST] [WITHLABELS | <SELECTED_LABELS label...>] FILTER filterExpr...
 
   '
-syntax_fmt: "TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]] \
-  \  FILTER\_<l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v |\
-  \ l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>"
-syntax_str: "[WITHLABELS | SELECTED_LABELS label1 [label1 ...]] FILTER\_<l=v | l!=v\
+syntax_fmt: "TS.MGET [LATEST] [WITHLABELS | <SELECTED_LABELS label1 [label1 ...]>]\n\
+  \  FILTER\_<l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...)\n  [l=v | l!=v\
+  \ | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>"
+syntax_str: "[WITHLABELS | <SELECTED_LABELS label1 [label1 ...]>] FILTER\_<l=v | l!=v\
   \ | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v | l= | l!= | l=(v1,v2,...)\
   \ | l!=(v1,v2,...) ...]>"
 title: TS.MGET

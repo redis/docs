@@ -14,10 +14,36 @@ weight: 95
 ---
 ## Requirements
 
-RedisTimeSeries v1.10.11 requires:
+RedisTimeSeries v1.10.16 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v1.10.16 (January 2025)
+
+This is a maintenance release for RedisTimeSeries 1.10.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- **Security and privacy:**
+  - [#1673](https://github.com/redistimeseries/redistimeseries/pull/1673) (CVE-2024-51480) `TS.QUERYINDEX`, `TS.MGET`, `TS.MRANGE`, `TS.MREVRANGE` - potential integer overflow leading to an out-of-bounds write (MOD-7548)
+
+- Improvements:
+  - [#1663](https://github.com/redistimeseries/redistimeseries/pull/1663) Added support for Ubuntu 22 and macOS 13 and 14
+
+## v1.10.12 (March 2024)
+
+This is a maintenance release for RedisTimeSeries 1.10.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+- Improvements:
+
+  - [#1593](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1593) More detailed LibMR error messages
 
 ## v1.10.11 (October 2023)
 

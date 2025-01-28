@@ -10,7 +10,7 @@ linkTitle: Maintenance mode
 weight: 60
 ---
 
-Use maintenance mode to prevent data loss during hardware or operating system maintenance on Redis Enterprise servers. When maintenance mode is on, all shards move off of the node under maintenance and migrate to another available node.
+Use maintenance mode to prevent data loss during hardware patching or operating system maintenance on Redis Enterprise servers. When maintenance mode is on, all shards move off of the node under maintenance and migrate to another available node.
 
 ## Activate maintenance mode
 
@@ -50,9 +50,13 @@ You can start server maintenance if:
 
 If you do not have enough resources available to move all of the shards to other nodes, you can turn maintenance mode on without migrating the replica shards.
 
-If you prevent replica shard migration, the shards remain on the node during maintenance.
+Before you prevent replica shard migration during maintenance mode, consider the following effects:
 
-If the maintenance node fails in this case, the master shards do not have replica shards to maintain data redundancy and high availability.
+- Replica shards remain on the node during maintenance.
+
+- If the maintenance node fails, the master shards do not have replica shards to maintain data redundancy and high availability.
+
+- Replica shards that remain on the node can still be promoted during failover to preserve availability.
 
 To activate maintenance mode without replica shard migration, run:
 

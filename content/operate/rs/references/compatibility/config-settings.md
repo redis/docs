@@ -1,16 +1,17 @@
 ---
-Title: Compatibility with open source Redis configuration settings
+Title: Compatibility with Redis Community Edition configuration settings
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Open source Redis configuration settings supported by Redis Enterprise.
+- rc
+description: Redis Community Edition configuration settings supported by Redis Enterprise.
 linkTitle: Configuration settings
 weight: 50
 ---
 
-Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) only support a subset of [open source Redis configuration settings]({{<relref "/operate/oss_and_stack/management/config">}}). Using [`CONFIG GET`]({{< relref "/commands" >}}/config-get/) or [`CONFIG SET`]({{< relref "/commands" >}}/config-set/) with unsupported configuration settings returns an error.
+Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) only support a subset of [Redis Community Edition configuration settings]({{<relref "/operate/oss_and_stack/management/config">}}). Using [`CONFIG GET`]({{< relref "/commands/config-get" >}}) or [`CONFIG SET`]({{< relref "/commands/config-set" >}}) with unsupported configuration settings returns an error.
 
 | Setting | Redis<br />Enterprise | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
@@ -31,6 +32,7 @@ Redis Enterprise Software and [Redis Cloud]({{< relref "/operate/rc" >}}) only s
 | slowlog-max-len | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Value must be between 128 and 1024. |
 | stream-node-max-bytes | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | stream-node-max-entries | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+| tracking-table-max-keys | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | For Redis Software, use an [update database configuration]({{<relref "operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request or [`rladmin tune db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db">}}) to set `tracking_table_max_keys` instead. |
 | zset-max-listpack-entries | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | zset-max-listpack-value | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 | zset-max-ziplist-entries | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |

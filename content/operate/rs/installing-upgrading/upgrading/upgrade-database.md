@@ -19,15 +19,16 @@ As of version 7.2, Redis Enterprise Software includes three Redis database versi
 
 To view available Redis database versions:
 
-- In the admin console, see **Redis database versions** on the **Cluster > Configuration** screen.
+- In the Cluster Manager UI, see **Redis database versions** on the **Cluster > Configuration** screen.
 
 - Send a [`GET /nodes` REST API request]({{< relref "/operate/rs/references/rest-api/requests/nodes" >}}) and see `supported_database_versions` in the response.
 
 The default Redis database version differs between Redis Enterprise releases as follows:
 
-| Redis<br />Enterprise | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
+| Redis<br />Software | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
 |-------|----------|-----|
-| 7.4.2 | 6.0, 6.2, 7.2 | 7.2 |
+| 7.8.2 | 6.2, 7.2, 7.4 | 7.4 |
+| 7.4.x | 6.0, 6.2, 7.2 | 7.2 |
 | 7.2.4 | 6.0, 6.2, 7.2 | 7.2 |
 | 6.4.2 | 6.0, 6.2 | 6.2 |
 | 6.2.x | 6.0, 6.2 | 6.0 |
@@ -45,7 +46,7 @@ Before upgrading a database:
 
     To determine the database version:
 
-    - Use the admin console to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
+    - Use the Cluster Manager UI to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
 
     - _(Optional)_ Use the [`rladmin status extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}) command to display configuration details:
 
@@ -57,7 +58,7 @@ Before upgrading a database:
 
 - Verify the cluster is fully upgraded and operational.
 
-    Use the admin console to display the **Configuration** tab for the cluster. The tab displays the cluster version information and the Redis database compatibility version.
+    Use the Cluster Manager UI to display the **Configuration** tab for the cluster. The tab displays the cluster version information and the Redis database compatibility version.
 
 - Check client compatibility with the database version.
 
@@ -81,7 +82,7 @@ To upgrade a database:
 
 1.  Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/upgrade" >}}) to upgrade the database. During the upgrade process, the database will restart without losing any data.
 
-    - To upgrade a database without modules:
+    - To upgrade a database and its modules:
 
         ``` shell
         rladmin upgrade db <database name | database ID>
@@ -99,8 +100,6 @@ To upgrade a database:
         Done
         ```
 
-    - If the database has modules enabled and new module versions are available in the cluster, run `rladmin upgrade db` with additional parameters to upgrade the module versions when you upgrade the database. See [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) for more details.
-
     - To upgrade the database to a version other than the default version, use the `redis_version` parameter:
 
         ```sh
@@ -111,7 +110,7 @@ To upgrade a database:
 
     To do so:
 
-    - Use the admin console to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
+    - Use the Cluster Manager UI to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
 
     - Use [`rladmin status databases extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version:
 

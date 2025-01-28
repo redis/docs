@@ -47,6 +47,9 @@ rladmin tune cluster
         [ acl_pubsub_default { resetchannels | allchannels } ]
         [ resp3_default { enabled | disabled } ]
         [ automatic_node_offload { enabled | disabled } ]
+        [ default_tracking_table_max_keys_policy <value> ]
+        [ default_oss_sharding { enabled | disabled } ]
+ ]
 ```
 
 ### Parameters
@@ -58,17 +61,19 @@ rladmin tune cluster
 | data_internode_encryption              | `enabled`<br />`disabled`       | Activates or deactivates [internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) for new databases    |
 | db_conns_auditing                      | `enabled`<br /> `disabled`      | Activates or deactivates [connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) by default for new databases of a cluster                                                                  |
 | default_concurrent_restore_actions     | integer<br />`all`              | Default number of concurrent actions when restoring a node from a snapshot (positive integer or "all")                         |
-| default_non_sharded_proxy_policy | `single`<br /><nobr>`all-master-shards`</nobr><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created non-sharded databases' endpoints |
+| default_non_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created non-sharded databases' endpoints |
+| default_oss_sharding | `enabled`<br />`disabled` | Default hashing policy to use for new databases. Set to `disabled` by default. This field is for future use only and should not be changed. |
 | default_redis_version                  | version number                    | The default Redis database compatibility version used to create new databases.<br/><br/>  The value parameter should be a version number in the form of "x.y" where _x_ represents the major version number and _y_ represents the minor version number.  The final value corresponds to the desired version of Redis.<br/><br/>You cannot set _default_redis_version_ to a value higher than that supported by the current _redis_upgrade_policy_ value. |
-| default_sharded_proxy_policy | `single`<br />`all-master-shards`<br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created sharded databases' endpoints |
+| default_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created sharded databases' endpoints |
 | default_shards_placement | `dense`<br />`sparse` | New databases place shards according to the default [shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) |
+| default_tracking_table_max_keys_policy | integer (default: 1000000) | Defines the default value of the client-side caching invalidation table size for new databases. 0 makes the cache unlimited. |
 | expose_hostnames_for_all_suffixes      | `enabled`<br />`disabled`       | Exposes hostnames for all DNS suffixes                                                                                       |
 | failure_detection_sensitivity | `high`<br />`low` | Predefined thresholds and timeouts for failure detection (previously known as `watchdog_profile`)<br />• `high` (previously `local-network`) – high failure detection sensitivity, lower thresholds, faster failure detection and failover<br />• `low` (previously `cloud`) – low failure detection sensitivity, higher tolerance for latency variance (also called network jitter) |
 | login_lockout_counter_reset_after      | time in seconds                   | Time after failed login attempt before the counter resets to 0                                                                   |
 | login_lockout_duration                 | time in seconds                   | Time a locked account remains locked ( "0" means only an admin can unlock the account)                                   |
 | login_lockout_threshold                | integer                           | Number of failed sign-in attempts to trigger locking a user account ("0" means never lock the account)                   |
 | max_saved_events_per_type              | integer                           | Maximum number of events each type saved in CCS per object type                                                              |
-| max_simultaneous_backups               | integer <nobr>(default: 4)</nobr>                      | Number of database backups allowed to run at the same time. Combines with `max_redis_forks` (set by [`tune node`](#tune-node)) to determine the number of shard backups allowed to run simultaneously.                                                                                  |
+| max_simultaneous_backups               | integer (default: 4)                      | Number of database backups allowed to run at the same time. Combines with `max_redis_forks` (set by [`tune node`](#tune-node)) to determine the number of shard backups allowed to run simultaneously.                                                                                  |
 | parallel_shards_upgrade                | integer<br />`all`              | Number of shards upgraded in parallel during DB upgrade (positive integer or "all")                                          |
 | redis_migrate_node_threshold           | size in MB                        | Memory (in MBs by default or can be specified) needed to migrate a database between nodes                                   |
 | redis_migrate_node_threshold_percent   | percentage                | Memory (in percentage) needed to migrate a database between nodes                                                            |
@@ -79,10 +84,10 @@ rladmin tune cluster
 | resp3_default | `enabled` <br /> `disabled` | Determines the default value of the `resp3` option upon upgrading a database to version 7.2 (defaults to `enabled`) |
 | show_internals                         | `enabled`<br />`disabled`       | Controls the visibility of internal databases that are only used for the cluster's management                                |
 | slave_ha                               | `enabled` <br /> `disabled`   | Activates or deactivates [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) in the cluster<br />(enabled by default; use [`rladmin tune db`](#tune-db) to change `slave_ha` for a specific database)<br /><br />Deprecated as of Redis Enterprise Software v7.2.4. |
-| slave_ha_bdb_cooldown_period           | time in seconds (default:&nbsp;7200) | Time (in seconds) a database must wait after its shards are relocated by [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) before it can go through another shard migration if another node fails (default is 2 hours) |
-| slave_ha_cooldown_period               | time in seconds (default:&nbsp;3600) | Time (in seconds) [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) must wait after relocating shards due to node failure before performing another shard migration for any database in the cluster (default is 1 hour) |
-| slave_ha_grace_period                  | time in seconds (default:&nbsp;600) | Time (in seconds) between when a node fails and when [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) starts relocating shards to another node      |
-| watchdog_profile                       | `cloud` <br /> `local-network` | Watchdog profiles with preconfigured thresholds and timeouts (deprecated as of Redis Enterprise Software v6.4.2-69; use `failure_detection_sensitivity` instead)<br />• `cloud` is suitable for common cloud environments and has a higher tolerance for latency variance (also called network jitter).<br />• `local-network` is suitable for dedicated LANs and has better failure detection and failover times. |
+| slave_ha_bdb_cooldown_period           | time in seconds (default: 7200) | Time (in seconds) a database must wait after its shards are relocated by [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) before it can go through another shard migration if another node fails (default is 2 hours) |
+| slave_ha_cooldown_period               | time in seconds (default: 3600) | Time (in seconds) [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) must wait after relocating shards due to node failure before performing another shard migration for any database in the cluster (default is 1 hour) |
+| slave_ha_grace_period                  | time in seconds (default: 600) | Time (in seconds) between when a node fails and when [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) starts relocating shards to another node      |
+| watchdog_profile                       | `cloud` <br /> `local-network` | Watchdog profiles with preconfigured thresholds and timeouts (deprecated as of Redis Enterprise Software v6.4.2-69; use <span class="break-all">`failure_detection_sensitivity`</span> instead)<br />• `cloud` is suitable for common cloud environments and has a higher tolerance for latency variance (also called network jitter).<br />• `local-network` is suitable for dedicated LANs and has better failure detection and failover times. |
 
 ### Returns
 
@@ -105,7 +110,7 @@ Configures database parameters.
 
 ``` sh
 rladmin tune db { db:<id> | <name> }
-        [ slave_buffer <valueMG | hard:soft:time> ]
+        [ slave_buffer <auto | valueMB | hard:soft:time> ]
         [ client_buffer <value> ]
         [ repl_backlog <valueMB | auto> ]
         [ crdt_repl_backlog <valueMB | auto> ]
@@ -141,6 +146,7 @@ rladmin tune db { db:<id> | <name> }
         [ data_internode_encryption { enabled | disabled } ]
         [ db_conns_auditing { enabled | disabled } ]
         [ resp3 { enabled | disabled } ]
+        [ tracking_table_max_keys <size> ]
 ```
 
 ### Parameters
@@ -160,7 +166,7 @@ rladmin tune db { db:<id> | <name> }
 | gradual_src_mode                     | `enabled`<br /> `disabled`       | Activates or deactivates gradual sync of sources                                                                                      |
 | gradual_sync_max_shards_per_source   | integer                          | Number of shards per sync source that can be replicated in parallel (positive integer)                                                |
 | gradual_sync_mode                    | `enabled`<br /> `disabled`<br /> `auto` | Activates, deactivates, or automatically determines gradual sync of source shards                                              |
-| master_persistence                   | `enabled`<br /> `disabled`       | Activates or deactivates persistence of the primary shard                                                                             |
+| master_persistence                   | `enabled`<br /> `disabled`       | If enabled, persists the primary shard in addition to replica shards in a replicated and persistent database. |
 | max_aof_file_size                    | size in MB                       | Maximum size (in MB, if not specified) of [AoF]({{< relref "/glossary/_index.md#letter-a" >}}) file (minimum value is 10 GB)              |
 | max_aof_load_time | time in seconds | Time limit in seconds to load a shard from an append-only file (AOF). If exceeded, an AOF rewrite is initiated to decrease future load time.<br />Minimum: 2700 seconds (45 minutes) <br />Default: 3600 seconds (1 hour) |
 | max_client_pipeline                  | integer                          | Maximum commands in the proxy's pipeline per client connection (max value is 2047, default value is 200)                              |
@@ -181,11 +187,12 @@ rladmin tune db { db:<id> | <name> }
 | resp3 | `enabled`<br /> `disabled` | Enables or deactivates RESP3 support (defaults to `enabled`) |
 | schedpolicy                          | `cmp`<br /> `mru`<br /> `spread`<br /> `mnp` | Controls how server-side connections are used when forwarding traffic to shards                                           |
 | skip_import_analyze                  | `enabled`<br /> `disabled`       | Skips the analyzing step when importing a database                                                                                    |
-| slave_buffer                         | value in MB<br /> hard:soft:time | Redis replica output buffer limits                                                                                                    |
+| slave_buffer                         | `auto`<br />value in MB<br /> hard:soft:time | Redis replica output buffer limits<br />• `auto`: dynamically adjusts the buffer limit based on the shard’s current used memory<br />• value in MB: sets the buffer limit in MB<br />• hard:soft:time: sets the hard limit (maximum buffer size in MB), soft limit in MB, and the time in seconds that the soft limit can be exceeded |
 | slave_ha                             | `enabled`<br /> `disabled`       | Activates or deactivates replica high availability (defaults to the cluster setting)                                                      |
 | slave_ha_priority                    | integer                          | Priority of the database in the replica high-availability mechanism                                                                           |
 | syncer_mode                          | `distributed`<br /> `centralized`| Configures syncer to run in distributed or centralized mode. For distributed syncer, the DMC policy must be all-nodes or all-master-nodes |
 | syncer_monitoring                    | `enabled`<br /> `disabled`       | Activates syncer monitoring                                                                                                           |
+| tracking_table_max_keys | integer | The client-side caching invalidation table size. 0 makes the cache unlimited. |
 
 | XADD behavior mode | Description |
 | - | - |

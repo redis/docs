@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rs
+- rc
 description: When you set a database's memory limit, you define the maximum size the
   database can reach.
 linkTitle: Memory limits
@@ -68,7 +69,7 @@ You must maintain sufficient free memory to make sure that you have a healthy Re
 
 ## Memory metrics
 
-The admin console provides metrics that can help you evaluate your memory use.
+The Cluster Manager UI provides metrics that can help you evaluate your memory use.
 
 - Free RAM
 - RAM fragmentation

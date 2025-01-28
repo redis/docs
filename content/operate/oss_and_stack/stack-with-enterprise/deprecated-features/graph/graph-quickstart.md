@@ -213,11 +213,11 @@ Alex's original friend count: [[2]]
 Alex's updated friend count: [[1]]
 ```
 
-## Visualize graphs with RedisInsight
+## Visualize graphs with Redis Insight
 
-You can use the [RedisInsight]({{< relref "/develop/connect/insight/" >}}) workbench to visualize the relationships between the nodes of your graph.
+You can use the [Redis Insight]({{< relref "/develop/tools/insight" >}}) workbench to visualize the relationships between the nodes of your graph.
 
-1. Connect to your database with RedisInsight. You can [connect manually]({{< baseurl >}}/develop/connect/insight/#add-a-standalone-redis-database) or use the [auto-discovery]({{< baseurl >}}/develop/connect/insight/#auto-discovery-for-redis-cloud-databases) feature.
+1. Connect to your database with Redis Insight. You can [connect manually]({{< baseurl >}}/develop/connect/insight/#add-a-standalone-redis-database) or use the [auto-discovery]({{< baseurl >}}/develop/connect/insight/#auto-discovery-for-redis-cloud-databases) feature.
 
 1. Select the **Workbench** button:
 
@@ -237,7 +237,7 @@ You can use the [RedisInsight]({{< relref "/develop/connect/insight/" >}}) workb
 
 After you run a query, the output log displays a visual representation of your graph's nodes and relationships:
 
-{{<image filename="images/modules/visualize-graph.png" alt="Visualize a graph with RedisInsight workbench.">}}
+{{<image filename="images/modules/visualize-graph.png" alt="Visualize a graph with Redis Insight workbench.">}}
 
 ## More info
 

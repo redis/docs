@@ -25,7 +25,7 @@ More info: [redis.io/operate/oss_and_stack/management/security/acl]({{< relref "
 {{%definition "Active-Active database (CRDB)"%}}
 Geo-distributed databases that span multiple [Redis Enterprise Software]({{<relref "#redis-enterprise-software">}}) [clusters]({{<relref "#cluster">}}). Active-Active databases, also known as conflict-free replicated databases (CRDB), depend on [multi-master replication (MMR)]({{<relref "#multi-master-replication-mmr">}}) and [conflict-free replicated data types (CRDTs)]({{<relref "#conflict-free-replicated-data-types-crdt">}}) to power a simple development experience for geo-distributed applications.
 
-More info: [Active-Active geo-distributed Redis]({{<relref "/operate/rs/databases/active-active">}}), [Geo-distributed Active-Active Redis applications]({{<relref "/operate/rs/databases/active-active/" >}}), [Developing applications for Active-Active databases]({{<relref "rs/databases/active-active/develop/_index">}})
+More info: [Active-Active geo-distributed Redis]({{<relref "/operate/rs/databases/active-active">}}), [Geo-distributed Active-Active Redis applications]({{<relref "/operate/rs/databases/active-active/" >}}), [Developing applications for Active-Active databases]({{<relref "/operate/rs/databases/active-active/develop/">}})
 {{%/definition%}}
 
 {{%definition "Active-Active database instance"%}}
@@ -87,8 +87,8 @@ A Redis Enterprise cluster is composed of identical nodes that are deployed with
 More info: [Database clustering]({{<relref "/operate/rc/databases/configuration/clustering" >}})
 {{%/definition%}}
 
-{{%definition "Cluster Configuration Store (CSS)"%}}
-An internally managed Redis database that acts a single repository for all cluster meta-data.
+{{%definition "Cluster Configuration Store (CCS)"%}}
+An internally managed Redis database that acts as a single repository for all cluster metadata.
 {{%/definition%}}
 
 {{%definition "Cluster Node Manager (CNM)"%}}
@@ -149,7 +149,7 @@ More info: [FQDN wikipedia](https://en.wikipedia.org/wiki/Fully_qualified_domain
 {{%definition "`fysnc`"%}}
 Linux command to synchronize a file's in-core state with a storage device
 
-More info: [`fsync` man page]("https://man7.org/linux/man-pages/man2/fsync.2.html")
+More info: [`fsync` man page](https://man7.org/linux/man-pages/man2/fsync.2.html)
 {{%/definition%}}
 
 ## G - J {#letter-g}
@@ -190,7 +190,7 @@ More info: [Overview of kubectl](https://kubernetes.io/docs/reference/kubectl/ov
 {{%definition "Lightweight Directory Access Protocol (LDAP)"%}}
 A protocol for accessing and maintaining distributed directory services over an IP network, often used to authenticate users.
 
-More info: [LDAP wikipedia](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol/), [LDAP authentication]({{<relref "/operate/rs/security/access-control/ldap">}})
+More info: [LDAP wikipedia](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol), [LDAP authentication]({{<relref "/operate/rs/security/access-control/ldap">}})
 {{%/definition%}}
 
 ## M - O {#letter-m}
@@ -309,7 +309,7 @@ The on-premises version of Redis Enterprise.
 {{%/definition%}}
 
 {{%definition "Redis instance"%}}
-Single-threaded Redis OSS database.
+Single-threaded Redis Community Edition database. Redis OSS was renamed Redis Community Edition (CE) with the v7.4 release.
 {{%/definition%}}
 
 {{%definition "Auto Tiering "%}}

@@ -62,8 +62,12 @@ It is possible to use one of the following modifiers to dictate the flushing mod
 * `ASYNC`: flushes the database asynchronously
 * `SYNC`: flushes the database synchronously
 
-Note: an asynchronous `FLUSHDB` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.
+## Notes
+
+* An asynchronous `FLUSHDB` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.
+* This command does not delete functions.
+* When using Redis Cluster, this command is identical to `FLUSHALL` since a Redis Cluster supports only one database with an ID of zero.
 
 ## Behavior change history
 
-*   `>= 6.2.0`: Default flush behavior now configurable by the **lazyfree-lazy-user-flush** configuration directive. 
+*   `>= 6.2.0`: Default flush behavior now configurable by the **lazyfree-lazy-user-flush** configuration directive.

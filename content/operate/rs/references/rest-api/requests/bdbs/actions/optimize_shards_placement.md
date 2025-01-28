@@ -28,7 +28,7 @@ Get optimized shards placement for the given database.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_bdb_info]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_bdb_info]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -49,6 +49,7 @@ Include query parameters in a `GET` request to generate an optimized shard place
 | shards_count | integer, <nobr>(range: 1-512)</nobr> (default:&nbsp;1) | Number of database server-side shards |
 | shards_placement | `dense` <br />`sparse` | Control the density of shards <br /> `dense`: Shards reside on as few nodes as possible <br /> `sparse`: Shards reside on as many nodes as possible |
 | bigstore_ram_size | integer (default:&nbsp;0) | Memory size of bigstore RAM part, expressed in bytes |
+| replication | `enabled`<br />`disabled` | In-memory database replication mode |
 
 The following example request includes `shards_count` and `memory_size` as query parameters:
 

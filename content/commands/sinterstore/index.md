@@ -33,7 +33,7 @@ description: Stores the intersect of multiple sets in a key.
 group: set
 hidden: false
 key_specs:
-- RW: true
+- OW: true
   begin_search:
     spec:
       index: 1

@@ -84,7 +84,7 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
     # Create a subscription
     resource "rediscloud_subscription" "subscription-resource" {
             name = "subscription-name"
-            payment_method_id = data.rediscloud_payment_method.card.id
+            payment_method_id = data.rediscloud_payment_method.card.id # If you want to pay with a marketplace account, replace this line with payment_method = 'marketplace'.
             memory_storage = "ram"
 
             # Specify the cloud provider information here
@@ -112,7 +112,7 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
    ```text
    resource "rediscloud_subscription" "subscription-resource" {
         name = "redis-docs-sub"
-        payment_method_id = data.rediscloud_payment_method.card.id
+        payment_method_id = data.rediscloud_payment_method.card.id # If you want to pay with a marketplace account, replace this line with payment_method = 'marketplace'.
         memory_storage = "ram"
 
         cloud_provider {
@@ -226,7 +226,7 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
    Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
    ```
 
-   View the [Redis Cloud console](https://app.redislabs.com/) to verify your subscription and database creation.
+   View the [Redis Cloud console](https://cloud.redis.io/) to verify your subscription and database creation.
 
 4. If you want to remove these sample resources, run `terraform destroy`.
 

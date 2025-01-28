@@ -8,7 +8,7 @@ categories:
 linkTitle: Manage REC credentials
 weight: 93
 ---
-Redis Enterprise for Kubernetes uses a custom resource called [`RedisEnterpriseCluster`]({{< relref "/operate/kubernetes/reference/cluster-options.md" >}}) to create a Redis Enterprise cluster (REC). During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
+Redis Enterprise for Kubernetes uses a custom resource called [`RedisEnterpriseCluster`]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) to create a Redis Enterprise cluster (REC). During creation it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the name of the cluster.
 
 {{<note>}}
 This procedure is only supported for operator versions 6.0.20-12 and above.
@@ -110,7 +110,7 @@ The credentials can be used to access the Redis Enterprise admin console or the 
 
 1. [Connect to the admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-admin-console.md" >}})
 
-1. [Add another admin user]({{< relref "/operate/rs/security/access-control/manage-users/add-users" >}}) and choose a new password.
+1. [Add another admin user]({{< relref "/operate/rs/security/access-control/create-users" >}}) and choose a new password.
 
 1. Specify the new username in the `username` field of your REC custom resource spec.
 
@@ -154,4 +154,4 @@ If you store your secrets with Hashicorp Vault, update the secret for the REC cr
 username:<desired_username>, password:<desired_password>
 ```
 
-For more information about Vault integration with the Redis Enterprise Cluster see [Integrating Redis Enterprise for Kubernetes with Hashicorp Vault](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/65eba63a6aac69455a691652218e28b0873e4de3/vault/README.md).
+For more information about Vault integration with the Redis Enterprise Cluster see [Integrating Redis Enterprise for Kubernetes with Hashicorp Vault](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/vault/README.md).

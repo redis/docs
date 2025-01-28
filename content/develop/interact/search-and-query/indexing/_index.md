@@ -175,7 +175,7 @@ For more information about search queries, see [Search query syntax]({{< relref 
 
 ## Index JSON arrays as TAG
 
-If you want to index string or boolean values as TAG within a JSON array, use the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) wildcard operator.
+The preferred method for indexing a JSON field with multivalued terms is using JSON arrays. Each value of the array is indexed, and those values must be scalars. If you want to index string or boolean values as TAGs within a JSON array, use the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) wildcard operator.
 
 To index an item's list of available colors, specify the JSONPath `$.colors.*` in the `SCHEMA` definition during index creation:
 
@@ -246,7 +246,7 @@ Now you can do full text search for light colored headphones:
   - Any other value type will cause an indexing failure
 
 - `SORTBY` only sorts by the first value
-- No `HIGHLIGHT` support
+- No `HIGHLIGHT` and `SUMMARIZE` support
 - `RETURN` of a Schema attribute, whose JSONPath leads to multiple values, returns only the first value (as a JSON String)
 - If a JSONPath is specified by the `RETURN`, instead of a Schema attribute, all values are returned (as a JSON String)
 
@@ -311,86 +311,14 @@ When JSONPath leads to multiple numerical values:
   - `null` values are skipped
   - Any other value type will cause an indexing failure
 
-## Index JSON arrays as GEO
+## Index JSON arrays as GEO and GEOSHAPE
 
-Starting with RediSearch v2.6.1, search can be done on an array of geo (geographical) values or on a JSONPath leading to multiple geo values.
-
-Prior to RediSearch v2.6.1, only a single geo value was supported per GEO attribute. The geo value was specified using a comma delimited string in the form "longitude,latitude". For example, "15.447083,78.238306".
-
-With RediSearch v2.6.1, a JSON array of such geo values is also supported.
-
-In order to index multiple geo values, user either a JSONPath leading to a single array of geo values, or a JSONPath leading to multiple geo values, using JSONPath operators such as wildcard, filter, union, array slice, and/or recursive descent.
-
-   - `null` values are skipped
-   - Other values will cause an indexing failure (bool, number, object, array, wrongly formatted GEO string, invalid coordinates)
-
-For example, add to the item's list the `vendor_id`, that is, where an item can be physically purchased:
-
-```sql
-127.0.0.1:6379> JSON.SET item:1 $ '{"name":"Noise-cancelling Bluetooth headphones","description":"Wireless Bluetooth headphones with noise-cancelling technology","connection":{"wireless":true,"type":"Bluetooth"},"price":99.98,"stock":25,"colors":["black","silver"], "max_level":[60, 70, 80, 90, 100], "vendor_id": [100,300]}'
-OK
-
-127.0.0.1:6379> JSON.SET item:2 $ '{"name":"Wireless earbuds","description":"Wireless Bluetooth in-ear headphones","connection":{"wireless":true,"type":"Bluetooth"},"price":64.99,"stock":17,"colors":["black","white"], "max_level":[80, 100, 120], "vendor_id": [100,200]}'
-OK
-
-127.0.0.1:6379> JSON.SET item:3 $ '{"name":"True Wireless earbuds","description":"True Wireless Bluetooth in-ear headphones","connection":{"wireless":true,"type":"Bluetooth"},"price":74.99,"stock":20,"colors":["red","light blue"], "max_level":[90, 100, 110, 120], "vendor_id": [100]}'
-OK
-```
-
-Now add some vendors with their geographic locations:
-
-```sql
-127.0.0.1:6379> JSON.SET vendor:1 $ '{"id":100, "name":"Kwik-E-Mart", "location":["35.213,31.785", "35.178,31.768", "35.827,31.984"]}'
-OK
-
-127.0.0.1:6379> JSON.SET vendor:2 $ '{"id":200, "name":"Cypress Creek", "location":["34.638,31.79", "34.639,31.793"]}'
-OK
-
-127.0.0.1:6379> JSON.SET vendor:3 $ '{"id":300, "name":"Barneys", "location":["34.648,31.817", "34.638,31.806", "34.65,31.785"]}'
-OK
-```
-
-To index the `vendor_id` numeric array, specify the JSONPath `$.vendor_id` in the `SCHEMA` definition during index creation:
-
-
-```sql
-127.0.0.1:6379> FT.CREATE itemIdx5 ON JSON PREFIX 1 item: SCHEMA $.vendor_id AS vid NUMERIC
-OK
-```
-
-To index the `location` geo array, specify the JSONPath `$.location` in the `SCHEMA` definition during index creation:
-
-
-```sql
-127.0.0.1:6379> FT.CREATE vendorIdx ON JSON PREFIX 1 vendor: SCHEMA $.location AS loc GEO
-OK
-```
-
-Now search for a vendor close to a specific location. For example, a customer is located at geo coordinates 34.5,31.5 and you want to get the vendors that are within the range of 40 km from our location:
-
-```sql
-127.0.0.1:6379> FT.SEARCH vendorIdx '@loc:[34.5 31.5 40 km]' return 1 $.id
-1) (integer) 2
-2) "vendor:2"
-3) 1) "$.id"
-   1) "200"
-4) "vendor:3"
-5) 1) "$.id"
-   1) "300"
-```
-
-Now look for products offered by these vendors:
-
-```
-127.0.0.1:6379> FT.SEARCH itemIdx5 '@vid:[200 300]'
-1) (integer) 2
-2) "item:2"
-3) 1) "$"
-   2) "{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"],\"max_level\":[80,100,120],\"vendor_id\":[100,200]}"
-4) "item:1"
-5) 1) "$"
-   2) "{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"],\"max_level\":[60,70,80,90,100],\"vendor_id\":[100,300]}"
-```
+You can use `GEO` and `GEOSHAPE` fields to store geospatial data,
+such as geographical locations and geometric shapes. See
+[Geospatial indexing]({{< relref "/develop/interact/search-and-query/indexing/geoindex" >}})
+to learn how to use these schema types and see the
+[Geospatial]({{< relref "/develop/interact/search-and-query/advanced-concepts/geo" >}})
+reference page for an introduction to their format and usage.
 
 ## Index JSON arrays as VECTOR
 
@@ -632,6 +560,33 @@ This example uses aggregation to calculate a 10% price discount for each item an
 {{% alert title="Note" color="info" %}}
 [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) queries require `attribute` modifiers. Don't use JSONPath expressions in queries, except with the `LOAD` option, because the query parser doesn't fully support them.
 {{% /alert %}}
+
+## Index missing or empty values
+As of v2.10, you can search for missing properties, that is, properties that do not exist in a given document, using the `INDEXMISSING` option to `FT.CREATE` in conjunction with the `ismissing` query function with `FT.SEARCH`. You can also search for existing properties with no value (i.e., empty) using the `INDEXEMPTY` option with `FT.CREATE`. Both query types require DIALECT 2. Examples below:
+
+```
+JSON.SET key:1 $ '{"propA": "foo"}'
+JSON.SET key:2 $ '{"propA": "bar", "propB":"abc"}'
+FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.propA AS propA TAG $.propB AS propB TAG INDEXMISSING
+
+> FT.SEARCH idx 'ismissing(@propB)' DIALECT 2
+1) "1"
+2) "key:1"
+3) 1) "$"
+   2) "{\"propA\":\"foo\"}"
+```
+
+```
+JSON.SET key:1 $ '{"propA": "foo", "propB":""}'
+JSON.SET key:2 $ '{"propA": "bar", "propB":"abc"}'
+FT.CREATE idx ON JSON PREFIX 1 key: SCHEMA $.propA AS propA TAG $.propB AS propB TAG INDEXEMPTY
+
+> FT.SEARCH idx '@propB:{""}' DIALECT 2
+1) "1"
+2) "key:1"
+3) 1) "$"
+   2) "{\"propA\":\"foo\",\"propB\":\"\"}"
+```
 
 ## Index limitations
 

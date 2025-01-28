@@ -1,0 +1,148 @@
+name: k8s_apis_sync
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        type: string
+        required: true
+        description: ''
+      bucket_folder:
+        type: string
+        required: true
+        description: ''
+
+jobs:
+  k8s_apis_sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.DOCS_APP_ID }}
+          private-key: ${{ secrets.DOCS_APP_PRIVATE_KEY }}
+
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+
+      - name: 'Install crdoc'
+        run: |-
+          curl -LO https://github.com/fybrik/crdoc/releases/download/v0.6.3/crdoc_Linux_x86_64.tar.gz
+          tar -xvzf crdoc_Linux_x86_64.tar.gz
+          sudo mv crdoc /bin/crdoc
+
+      - name: 'Fetch release'
+        run: |-
+          RELEASE="${{ github.event.inputs.release }}"
+          BUCKET_FOLDER="${{ github.event.inputs.bucket_folder }}"
+          aws s3 cp "s3://redislabs-k8s/${BUCKET_FOLDER}/redis-enterprise-operator-${RELEASE}.tar.gz" --no-sign-request . --region us-east-1
+
+          tar xf "redis-enterprise-operator-${RELEASE}.tar.gz"
+
+      - name: 'Generate READMEs'
+        run: |-
+          mkdir artifacts
+          mkdir templates
+          cp content/operate/kubernetes/reference/kubernetes-api-reference-template.tmpl templates/template.tmpl
+
+          crdoc --resources crds/reaadb_crd.yaml --output artifacts/redis_enterprise_active_active_database_api.md --template templates/template.tmpl
+          sed -E -i 's/^### RedisEnterpriseActiveActiveDatabase\./### /g' artifacts/redis_enterprise_active_active_database_api.md
+          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterpriseactiveactivedatabase/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_active_active_database_api.md
+          sed -E -i 's/<td><a href="#redisenterpriseactiveactivedatabase/<td><a href="#/' artifacts/redis_enterprise_active_active_database_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_active_active_database_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_active_active_database_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_active_active_database_api.md
+
+          crdoc --resources crds/rec_crd.yaml --output artifacts/redis_enterprise_cluster_api.md --template templates/template.tmpl
+          sed -E -i 's/^### RedisEnterpriseCluster\./### /g' artifacts/redis_enterprise_cluster_api.md
+          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterprisecluster/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_cluster_api.md
+          sed -E -i 's/<td><a href="#redisenterprisecluster/<td><a href="#/' artifacts/redis_enterprise_cluster_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_cluster_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_cluster_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_cluster_api.md
+
+          crdoc --resources crds/redb_crd.yaml --output artifacts/redis_enterprise_database_api.md --template templates/template.tmpl
+          sed -E -i 's/^### RedisEnterpriseDatabase\./### /g' artifacts/redis_enterprise_database_api.md
+          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterprisedatabase/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_database_api.md
+          sed -E -i 's/<td><a href="#redisenterprisedatabase/<td><a href="#/' artifacts/redis_enterprise_database_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_database_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_database_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_database_api.md
+
+          crdoc --resources crds/rerc_crd.yaml --output artifacts/redis_enterprise_remote_cluster_api.md --template templates/template.tmpl
+          sed -E -i 's/^### RedisEnterpriseRemoteCluster\./### /g' artifacts/redis_enterprise_remote_cluster_api.md
+          sed -E -i 's/^<sup><sup>\[↩ Parent\]\(#redisenterpriseremotecluster/<sup><sup>\[↩ Parent\]\(#/g' artifacts/redis_enterprise_remote_cluster_api.md
+          sed -E -i 's/<td><a href="#redisenterpriseremotecluster/<td><a href="#/' artifacts/redis_enterprise_remote_cluster_api.md
+          sed -E -i 's/\[index\]/\[\]/g' artifacts/redis_enterprise_remote_cluster_api.md
+          awk '/(#[^")]+)index/ {gsub(/index/,"")}; {print}' artifacts/redis_enterprise_remote_cluster_api.md > _tmp.md && mv _tmp.md artifacts/redis_enterprise_remote_cluster_api.md
+
+      - name: 'Generate YAML snippets'
+        run: |-
+          function formatYamlSnippet() {
+          cat > "$2" << EOL
+          \`\`\`yaml
+          $(cat $1)
+          \`\`\`
+          EOL
+          }
+
+          formatYamlSnippet admission-service.yaml content/embeds/admission-service.md
+          formatYamlSnippet admission/webhook.yaml content/embeds/admission_webhook.md
+          formatYamlSnippet examples/v1/rec.yaml content/embeds/rec.md
+          formatYamlSnippet examples/v1alpha1/reaadb.yaml content/embeds/reaadb.md
+          formatYamlSnippet examples/v1alpha1/redb.yaml content/embeds/redb.md
+          formatYamlSnippet examples/v1alpha1/rerc.yaml content/embeds/rerc.md
+          formatYamlSnippet log_collector/log_collector_role_all_mode.yaml content/embeds/log_collector_role_all_mode.md
+          formatYamlSnippet log_collector/log_collector_role_restricted_mode.yaml content/embeds/log_collector_role_restricted_mode.md
+          formatYamlSnippet multi-namespace-redb/operator_cluster_role_binding.yaml content/embeds/multi-ns_operator_cluster_role_binding.md
+          formatYamlSnippet multi-namespace-redb/operator_cluster_role.yaml content/embeds/multi-ns_operator_cluster_role.md
+          formatYamlSnippet multi-namespace-redb/role_binding.yaml content/embeds/multi-ns_role_binding.md
+          formatYamlSnippet multi-namespace-redb/role.yaml content/embeds/multi-ns_role.md
+          formatYamlSnippet openshift/admission-service.yaml content/embeds/openshift_admission-service.md
+          formatYamlSnippet openshift/rec_rhel.yaml content/embeds/openshift_rec.md
+          formatYamlSnippet openshift/role_binding.yaml content/embeds/openshift_role_binding.md
+          formatYamlSnippet openshift/role.yaml content/embeds/openshift_role.md
+          formatYamlSnippet openshift/scc.yaml content/embeds/openshift_scc.md
+          formatYamlSnippet openshift/service_account.yaml content/embeds/openshift_service_account.md
+          formatYamlSnippet rack_awareness/rack_aware_cluster_role_binding.yaml content/embeds/rack_aware_cluster_role_binding.md
+          formatYamlSnippet rack_awareness/rack_aware_cluster_role.yaml content/embeds/rack_aware_cluster_role.md
+          formatYamlSnippet rack_awareness/rack_aware_rec.yaml content/embeds/rack_aware_rec.md
+          formatYamlSnippet role_binding.yaml content/embeds/role_binding.md
+          formatYamlSnippet role.yaml content/embeds/role.md
+          formatYamlSnippet service_account.yaml content/embeds/service_account.md
+
+      - name: 'Send pull request'
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |-
+          RELEASE="${{ github.event.inputs.release }}"
+          BRANCH="k8s_apis_docs_${RELEASE}"
+
+          # Setup git email and username
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
+          git checkout -b "${BRANCH}"
+
+          cp artifacts/redis_enterprise_active_active_database_api.md content/operate/kubernetes/reference/
+          cp artifacts/redis_enterprise_cluster_api.md content/operate/kubernetes/reference/
+          cp artifacts/redis_enterprise_database_api.md content/operate/kubernetes/reference/
+          cp artifacts/redis_enterprise_remote_cluster_api.md content/operate/kubernetes/reference/
+
+          git apply content/operate/kubernetes/reference/kubernetes-api-reference-frontmatter.patch
+
+          git add content/operate/kubernetes/reference/
+          git add content/embeds/
+
+          git commit -m "k8s api docs ${RELEASE}"
+          git push origin "${BRANCH}"
+
+          gh pr create \
+            --body "k8s api docs ${RELEASE}" \
+            --title "k8s api docs ${RELEASE}" \
+            --head "$BRANCH" \
+            --base "main"

@@ -107,7 +107,7 @@ linkTitle: SET
 since: 1.0.0
 summary: Sets the string value of a key, ignoring its type. The key is created if
   it doesn't exist.
-syntax_fmt: "SET key value [NX | XX] [GET] [EX\_seconds | PX\_milliseconds | EXAT\_\
+syntax_fmt: "SET key value [NX | XX] [GET] [EX\_seconds | PX\_milliseconds |\n  EXAT\_\
   unix-time-seconds | PXAT\_unix-time-milliseconds | KEEPTTL]"
 syntax_str: "value [NX | XX] [GET] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds\
   \ | PXAT\_unix-time-milliseconds | KEEPTTL]"

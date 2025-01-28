@@ -15,7 +15,7 @@ categories:
 - oss
 - kubernetes
 - clients
-complexity: O(1)
+complexity: O(N) where N is the number of values specified.
 description: Returns, for each input value, an estimation of the fraction (floating-point)
   of (observations smaller than the given value + half the observations equal to the
   given value)
@@ -34,7 +34,7 @@ title: TDIGEST.CDF
 ---
 Returns, for each input value, an estimation of the fraction (floating-point) of (observations smaller than the given value + half the observations equal to the given value).
 
-Multiple fractions can be retrieved in a signle call.
+Multiple fractions can be retrieved in a single call.
 
 ## Required arguments
 

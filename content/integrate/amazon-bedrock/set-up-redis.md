@@ -43,7 +43,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/aws-marketplace-account-setup-button.png" alt="Use the Set Up Your Account button after subscribing to Redis Cloud with your AWS Marketplace account." width="50%">}}
 
-1.  Sign in to the Redis Cloud [admin console](https://app.redislabs.com).
+1.  Sign in to the [Redis Cloud console](https://cloud.redis.io).
 
 1.  Select the Redis account to be mapped to your AWS Marketplace account and confirm that your payment method will change and that the connection cannot be undone.
 
@@ -59,7 +59,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
 ### Create a database {#create-sub} 
 
-1. In the [admin console](https://app.redislabs.com/), select **New database**. 
+1. In the [Redis Cloud console](https://cloud.redis.io/), select **New database**. 
 
     {{<image filename="images/rc/button-database-new.png" alt="The New Database button creates a new database." width="120px">}}
 
@@ -75,9 +75,9 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/subscription-new-flexible-setup-general.png" width="75%" alt="The General settings of the Setup tab." >}}
 
-1. In the **Version** section, select **Redis 7.2**.
+1. In the **Version** section, select **Redis 7.2** or **Redis 7.4**.
 
-    {{<image filename="images/rc/subscription-new-flexible-version-section.png"  alt="Version selection between Redis 6.2 and 7.2" >}}
+    {{<image filename="images/rc/subscription-new-flexible-version-section.png"  alt="Version selection between Redis 6.2, 7.2, and 7.4" >}}
 
 1. In the **Advanced options** section, select Multi-AZ to ensure [high-availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}). 
 
@@ -99,9 +99,9 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/flexible-add-database-basic.png" width="75%" alt="The New Database dialog with basic settings." >}}
 
-    We selected **Search and query** and **JSON** for you already. You can remove **JSON** if you want.
+    We selected **Search and query** and **JSON** for you already. **Search and query** enables vector database features for your database. You can remove **JSON** if you want.
 
-1. Set the Memory limit of your database based on the amount of data that will be pulled from your Simple Storage Service (S3) [bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). See [Find out the size of your S3 buckets](https://aws.amazon.com/blogs/storage/find-out-the-size-of-your-amazon-s3-buckets/) to find out how much training data is stored in your S3 bucket and pick the closest size, rounded up, from the table below. 
+1. Set the Memory limit of your database based on the amount of data that Bedrock will pull from your Simple Storage Service (S3) [bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). See [Find out the size of your S3 buckets](https://aws.amazon.com/blogs/storage/find-out-the-size-of-your-amazon-s3-buckets/) to find out how much knowledge base data is stored in your S3 bucket and pick the closest size, rounded up, from the table below. 
 
     | Total Size of Documents in S3 | Database size without replication | Database size with replication |
 |-------------------------------|-----------------------------------|--------------------------------|
@@ -110,7 +110,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 | 1,000,000 kb                  | 13.5 Gb                              | 27 Gb                          |
 | 10,000,000 kb                 | 135 Gb                             | 270 Gb                         |
 
-    For more information on sizing, see the [Bedrock integration blog post](https://redis.com/blog/amazon-bedrock-integration-with-redis-enterprise#right-size-your-database-for-amazon-bedrock).
+    For more information on sizing, see the [Bedrock integration blog post](https://redis.io/blog/amazon-bedrock-integration-with-redis-enterprise/#right-size-your-database-for-amazon-bedrock).
 
 1. When finished, select **Save database** to create your database.
 
@@ -132,7 +132,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
 For your database to be fully secure, you must enable [Transport Layer Security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl#enable-tls" >}}) for your database with client authentication.
 
-1. Select **Databases** from the [admin console](https://app.redislabs.com/) menu and then select your database from the list.
+1. Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your database from the list.
 
 1. From the database's **Configuration** screen, select the **Edit database** button:
 
@@ -192,37 +192,37 @@ After you store this secret, you can view and copy the [Amazon Resource Name (AR
 
 ## Create a vector index in your database {#create-vector-index}
 
-After your database is set up, create an index with a vector field using [FT.CREATE]({{< relref "/commands" >}}/ft.create/) as your knowledge base for Amazon Bedrock. You can accomplish this using **RedisInsight** or `redis-cli`.
+After your Redis Cloud database is set up, create a search index with a vector field using [FT.CREATE]({{< baseurl >}}/commands/ft.create) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
 
-### RedisInsight
+### Redis Insight
 
-[RedisInsight]({{< relref "/develop/connect/insight/" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
+[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
 
-To create your vector index in RedisInsight:
+To create your vector index in Redis Insight:
 
-1. [Download and install RedisInsight](https://redis.com/redis-enterprise/redis-insight/) if you don't have it already.
+1. [Download and install Redis Insight](https://redis.io/insight/) if you don't have it already.
 
-1. In the Redis Cloud [admin console](https://app.redislabs.com/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
+1. In the [Redis Cloud console](https://cloud.redis.io/), in your database's **Configuration** tab, select the **Connect** button next to your database to open the connection wizard.
 
     {{< image filename="/images/rc/connection-wizard-button.png#no-click" alt="Connect button." >}}
 
-1. In the connection wizard, under **RedisInsight Desktop**, select **Public Endpoint**. Select **Open with RedisInsight** to connect to the database with RedisInsight.
+1. In the connection wizard, under **Redis Insight Desktop**, select **Public Endpoint**. Select **Open with Redis Insight** to connect to the database with Redis Insight.
 
 1. Select **Use TLS**. In the **CA Certificate** section, select **Add new CA certificate**. Give the certificate a name in the **Name** field, and enter the contents of `redis_ca.pem` into the **Certificate** field.
 
-    {{<image filename="images/rc/ri-bedrock-add-ca-cert.png" width=80% alt="The RedisInsight Add CA Certificate section." >}}
+    {{<image filename="images/rc/ri-bedrock-add-ca-cert.png" width=80% alt="The Redis Insight Add CA Certificate section." >}}
 
 1. Select **Requires TLS Client Authentication**. In the **Client Certificate** section, select **Add new certificate**. Give the certificate a name in the **Name** field. Enter the contents of `redis_user.crt` into the **Certificate** field, and the contents of `redis_user_private.key` into the **Private Key** field.
 
-    {{<image filename="images/rc/ri-bedrock-add-client-cert.png" width=80% alt="The RedisInsight Add Client Certificate section." >}}
+    {{<image filename="images/rc/ri-bedrock-add-client-cert.png" width=80% alt="The Redis Insight Add Client Certificate section." >}}
 
 1. Select **Add Redis Database** to connect to the database.
 
 1. Select your database alias to connect to your database. Select the **Workbench** icon to go to the workbench.
 
-    {{<image filename="images/rc/ri-bedrock-workbench.png" width=50px alt="The RedisInsight workbench icon." >}}
+    {{<image filename="images/rc/ri-bedrock-workbench.png" width=50px alt="The Redis Insight workbench icon." >}}
 
-1. Enter the [FT.CREATE]({{< relref "/commands" >}}/ft.create/) command to create an index. 
+1. Enter the [FT.CREATE]({{< baseurl >}}/commands/ft.create) command to create an index. 
 
     ```text
     FT.CREATE <index_name>                    
@@ -246,11 +246,11 @@ To create your vector index in RedisInsight:
 
 1. Select **Run** to create the index.
 
-    {{<image filename="images/rc/ri-bedrock-run-button.png" width=50px alt="The RedisInsight run button." >}}
+    {{<image filename="images/rc/ri-bedrock-run-button.png" width=50px alt="The Redis Insight run button." >}}
 
 ### `redis-cli`
 
-The [`redis-cli`]({{< relref "/develop/connect/cli" >}}) command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}).
+The [`redis-cli`]({{< relref "/develop/tools/cli" >}}) command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}).
 
 Public endpoint and port details are available from the **Databases** list or the database's **Configuration** screen. Select **Connect** to view how to connect to your database with `redis-cli`.
 
@@ -259,7 +259,7 @@ redis-cli -h <endpoint> -p <port> --tls --cacert redis_ca.pem \
     --cert redis_user.crt --key redis_user_private.key
 ```
 
-After you are connected with `redis-cli`, create an index using [FT.CREATE]({{< relref "/commands" >}}/ft.create/). 
+After you are connected with `redis-cli`, create an index using [FT.CREATE]({{< baseurl >}}/commands/ft.create). 
 
 ```text
 FT.CREATE <index_name>                    

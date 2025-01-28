@@ -32,7 +32,7 @@ Get a list of all users.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_users_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_users_info" >}}) | admin |
+| [view_all_users_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_users_info" >}}) | admin<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -60,7 +60,7 @@ Returns a JSON array of [user objects]({{< relref "/operate/rs/references/rest-a
     {
         "uid": 1,
         "password_issue_date": "2017-03-02T09:43:34Z",
-        "email": "user@redislabs.com",
+        "email": "user@example.com",
         "name": "John Doe",
         "email_alerts": true,
         "bdbs_email_alerts": ["1","2"],
@@ -71,7 +71,7 @@ Returns a JSON array of [user objects]({{< relref "/operate/rs/references/rest-a
     {
         "uid": 2,
         "password_issue_date": "2017-03-02T09:43:34Z",
-        "email": "user2@redislabs.com",
+        "email": "user2@example.com",
         "name": "Jane Poe",
         "email_alerts": true,
         "role": "db_viewer",
@@ -99,7 +99,7 @@ Get a single user's details.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_user_info]({{< relref "/operate/rs/references/rest-api/permissions#view_user_info" >}}) | admin |
+| [view_user_info]({{< relref "/operate/rs/references/rest-api/permissions#view_user_info" >}}) | admin<br />user_manager |
 
 ### Request {#get-request}
 
@@ -135,7 +135,7 @@ Returns a [user object]({{< relref "/operate/rs/references/rest-api/objects/user
     "role": "db_viewer",
     "email_alerts": true,
     "bdbs_email_alerts": ["1","2"],
-    "email": "user@redislabs.com",
+    "email": "user@example.com",
     "name": "John Doe",
     "auth_method": "regular",
     "status": "active"
@@ -162,7 +162,7 @@ Update an existing user's configuration.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_user]({{< relref "/operate/rs/references/rest-api/permissions#update_user" >}}) | admin |
+| [update_user]({{< relref "/operate/rs/references/rest-api/permissions#update_user" >}}) | admin<br />user_manager |
 
 Any user can change their own name, password, or alert preferences.
 
@@ -178,8 +178,8 @@ PUT /users/1
 
 ```json
 {
-     "name": "Jane Poe",
-     "email_alerts": false
+     "email_alerts": false,
+     "role_uids": [ 2, 4 ]
 }
 ```
 
@@ -212,10 +212,11 @@ Returns the updated [user object]({{< relref "/operate/rs/references/rest-api/ob
 {
      "uid": 1,
      "password_issue_date": "2017-03-07T15:11:08Z",
-     "email": "user@redislabs.com",
+     "email": "user@example.com",
      "name": "Jane Poe",
      "email_alerts": false,
      "role": "db_viewer",
+     "role_uids": [ 2, 4 ],
      "auth_method": "regular"
 }
 ```
@@ -256,7 +257,7 @@ Create a new user.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [create_new_user]({{< relref "/operate/rs/references/rest-api/permissions#create_new_user" >}}) | admin |
+| [create_new_user]({{< relref "/operate/rs/references/rest-api/permissions#create_new_user" >}}) | admin<br />user_manager |
 
 ### Request {#post-request}
 
@@ -291,7 +292,7 @@ For [RBAC-enabled clusters]({{< relref "/operate/rs/security/access-control" >}}
 
 ```json
 {
-     "email": "newuser@redis.com",
+     "email": "newuser@example.com",
      "password": "my-password",
      "name": "Pat Doe",
      "email_alerts": true,
@@ -311,11 +312,12 @@ Returns the newly created [user object]({{< relref "/operate/rs/references/rest-
 {
      "uid": 1,
      "password_issue_date": "2017-03-07T15:11:08Z",
-     "email": "user@redislabs.com",
-     "name": "Jane Poe",
+     "email": "newuser@example.com",
+     "name": "Pat Doe",
      "email_alerts": true,
      "bdbs_email_alerts": ["1","2"],
      "role": "db_viewer",
+     "role_uids": [ 3, 4 ],
      "auth_method": "regular"
 }
 ```
@@ -347,7 +349,7 @@ The following are possible `error_code` values:
 ```sh
 $ curl -k -X POST -u '[username]:[password]' \
        -H 'Content-Type: application/json' \
-       -d '{ "email": "newuser@redis.com", \
+       -d '{ "email": "newuser@example.com", \
            "password": "my-password", \
            "name": "Pat Doe", \
            "email_alerts": true, \
@@ -367,7 +369,7 @@ url = "https://[host][:port]/v1/users"
 auth = ("[username]", "[password]")
 
 payload = json.dumps({
-  "email": "newuser@redis.com",
+  "email": "newuser@example.com",
   "password": "my-password",
   "name": "Pat Doe",
   "email_alerts": True,
@@ -403,7 +405,7 @@ Delete a user.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [delete_user]({{< relref "/operate/rs/references/rest-api/permissions#delete_user" >}}) | admin |
+| [delete_user]({{< relref "/operate/rs/references/rest-api/permissions#delete_user" >}}) | admin<br />user_manager |
 
 ### Request {#delete-request}
 

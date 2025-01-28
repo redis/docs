@@ -17,8 +17,6 @@ title: Count-min sketch
 weight: 60
 ---
 
-# Count-min sketch
-
 Count-Min Sketch is a probabilistic data structure in Redis Stack that can be used to estimate the frequency of events/elements in a stream of data.
 
 It uses a sub-linear space at the expense of over-counting some events due to collisions. It consumes a stream of events/elements and keeps estimated counters of their frequency.
@@ -83,7 +81,7 @@ threshold = error * total_count = 0.001 * 2M = 2000
 This threshold seems to be sitting comfortably between the 2 average counts 500 and 8000 so the initial chosen error rate should be working well for this case.
 
 
-# Sizing
+## Sizing
 
 Even though the Count-Min sketch is similar to Bloom filter in many ways, its sizing is considerably more complex. The initialisation command receives only two sizing parameters, but you have to understand them thoroughly if you want to have a usable sketch.
 

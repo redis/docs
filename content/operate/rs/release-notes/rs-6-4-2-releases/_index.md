@@ -15,7 +15,7 @@ toc: 'true'
 weight: 72
 ---
 
-​[​Redis Enterprise Software version 6.4.2](https://redis.com/redis-enterprise-software/download-center/software/) is now available!
+​[​Redis Enterprise Software version 6.4.2](https://redis.io/downloads/#software) is now available!
 
 This version offers:
 
@@ -75,6 +75,10 @@ Certain operating systems, such as RHEL 8, have already removed support for 3DES
 - RS40641 - API requests are redirected to an internal IP in case the request arrives from a node which is not the master. To avoid this issue, use [`rladmin cluster config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}) to configure `handle_redirects` or `handle_metrics_redirects`.
 
 - RS51144, RS102128 - Active-Active: To start successfully, the syncer (`crdt-syncer`) must connect to all sources. In multi-cluster configurations (more than 2 A-A clusters participating), in some cases, if one or more of the clusters is not available, A-A replication will be down.
+
+- RS123142 - In an Active-Active setup with at least three participating clusters, removing and re-adding a cluster after removing older clusters without re-adding them can cause missing keys and potentially lead to data loss or data inconsistency.
+
+    This issue will be fixed in a future maintenance release. To prevent this issue, avoid adding clusters until you upgrade to the upcoming maintenance release when available.
 
 #### Resharding fails for rack-aware databases with no replication
 

@@ -90,23 +90,23 @@ Furthermore, we also created direct integrations for [Grafana](https://github.co
 
 Redis streams allow you to add several field value pairs in a message for a given timestamp. For each device, we collected 10 metrics that were modeled as 10 separate fields in a single stream message.
 
-{{< image filename="/images/rs/TimeSeries-modeling1.jpg" >}}
+{{< image filename="/images/rs/TimeSeries-modeling1.png" >}}
 
 For sorted sets, we modeled the data in two different ways. For “Sorted set per device”, we concatenated the metrics and separated them out by colons, e.g. `“<timestamp>:<metric1>:<metric2>: … :<metric10>”`.
 
-{{< image filename="/images/rs/TimeSeries-modeling2.jpg" >}}
+{{< image filename="/images/rs/TimeSeries-modeling2.png" >}}
 
 Of course, this consumes less memory but needs more CPU cycles to get the correct metric at read time. It also implies that changing the number of metrics per device isn’t straightforward, which is why we also benchmarked a second sorted set approach. In “Sorted set per metric,” we kept each metric in its own sorted set and had 10 sorted sets per device. We logged values in the format `“<timestamp>:<metric>”`.
 
-{{< image filename="/images/rs/TimeSeries-modeling3.jpg" >}}
+{{< image filename="/images/rs/TimeSeries-modeling3.png" >}}
 
 Another alternative approach would be to normalize the data by creating a hash with a unique key to track all measurements for a given device for a given timestamp. This key would then be the value in the sorted set. However, having to access many hashes to read a time series would come at a huge cost during read time, so we abandoned this path.
 
 Each time series holds a single metric. We chose this design to maintain the Redis principle that a larger number of small keys is better than a fewer number of large keys.
 
-{{< image filename="/images/rs/TimeSeries-modeling4.jpg" >}}
+{{< image filename="/images/rs/TimeSeries-modeling4.png" >}}
 
-Our benchmark did not utilize the out-of-the-box secondary indexing capabilities of time series. Redis keeps a partial secondary index in each shard, and since the index inherits the same hash-slot of the key it indexes, it is always hosted on the same shard. This approach would make the setup for native data structures even more complex to model, so for the sake of simplicity, we decided not to include it in our benchmarks. Additionally, while Redis Enterprise can use the [proxy](https://redis.com/redis-enterprise/technology/redis-enterprise-cluster-architecture/) to fan out requests for commands like [TS.MGET]({{< relref "/commands" >}}/ts.mget) and [TS.MRANGE]({{< relref "/commands" >}}/ts.mrange) to all the shards and aggregate the results, we chose not to exploit this advantage in the benchmark either.
+Our benchmark did not utilize the out-of-the-box secondary indexing capabilities of time series. Redis keeps a partial secondary index in each shard, and since the index inherits the same hash-slot of the key it indexes, it is always hosted on the same shard. This approach would make the setup for native data structures even more complex to model, so for the sake of simplicity, we decided not to include it in our benchmarks. Additionally, while Redis Enterprise can use the [proxy](https://redis.com/redis-enterprise/technology/redis-enterprise-cluster-architecture/) to fan out requests for commands like [TS.MGET]({{< baseurl >}}/commands/ts.mget) and [TS.MRANGE]({{< baseurl >}}/commands/ts.mrange) to all the shards and aggregate the results, we chose not to exploit this advantage in the benchmark either.
 
 ### Data ingestion
 

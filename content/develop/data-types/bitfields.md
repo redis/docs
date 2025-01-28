@@ -29,12 +29,9 @@ Bitfields support atomic read, write and increment operations, making them a goo
 * [`BITFIELD`]({{< relref "/commands/bitfield" >}}) atomically sets, increments and reads one or more values.
 * [`BITFIELD_RO`]({{< relref "/commands/bitfield_ro" >}}) is a read-only variant of [`BITFIELD`]({{< relref "/commands/bitfield" >}}).
 
-
-## Examples
-
 ## Example
 
-Suppose you want to maintain two metrics for various bicycles: the current price and the number of owners over time. You can represent these counters with a 32-bit wide bitfield per for each bike.
+Suppose you want to maintain two metrics for various bicycles: the current price and the number of owners over time. You can represent these counters with a 32-bit wide bitfield for each bike.
 
 * Bike 1 initially costs 1,000 (counter in offset 0) and has never had an owner. After being sold, it's now considered used and the price instantly drops to reflect its new condition, and it now has an owner (offset 1). After quite some time, the bike becomes a classic. The original owner sells it for a profit, so the price goes up and the number of owners does as well.Finally, you can look at the bike's current price and number of owners.
 

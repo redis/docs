@@ -49,7 +49,7 @@ is JSONPath to specify. Default is root `$`, if not provided. Returns null if th
 
 ## Return
 
-JSON.STRLEN returns by recursive descent an array of integer replies for each path, the array's length, or `nil`, if the matching JSON value is not a string.
+JSON.STRLEN returns by recursive descent an array of integer replies for each path, the string's length, or `nil`, if the matching JSON value is not a string.
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples

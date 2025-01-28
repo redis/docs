@@ -101,7 +101,8 @@ linkTitle: ZADD
 since: 1.2.0
 summary: Adds one or more members to a sorted set, or updates their scores. Creates
   the key if it doesn't exist.
-syntax_fmt: ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member   ...]
+syntax_fmt: "ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member\n\
+  \  ...]"
 syntax_str: '[NX | XX] [GT | LT] [CH] [INCR] score member [score member ...]'
 title: ZADD
 ---
@@ -167,10 +168,29 @@ If the user inserts all the elements in a sorted set with the same score (for ex
 
 ## Examples
 
+{{< clients-example cmds_sorted_set zadd >}}
+> ZADD myzset 1 "one"
+(integer) 1
+> ZADD myzset 1 "uno"
+(integer) 1
+> ZADD myzset 2 "two" 3 "three"
+(integer) 2
+> ZRANGE myzset 0 -1 WITHSCORES
+1) "one"
+2) "1"
+3) "uno"
+4) "1"
+5) "two"
+6) "2"
+7) "three"
+8) "3"
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
 {{% redis-cli %}}
 ZADD myzset 1 "one"
 ZADD myzset 1 "uno"
 ZADD myzset 2 "two" 3 "three"
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
-

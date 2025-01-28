@@ -18,7 +18,7 @@ command_flags:
 - stale
 - fast
 complexity: O(1)
-description: Enables read-write queries for a connection to a Reids Cluster replica
+description: Enables read-write queries for a connection to a Redis Cluster replica
   node.
 group: cluster
 hidden: false

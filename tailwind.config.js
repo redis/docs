@@ -8,6 +8,8 @@ module.exports = {
       fontFamily: {
 				sans: [ 'Space Grotesk', ...defaultTheme.fontFamily.sans ],
 				mono: [ 'Space Mono', 'SF Mono', ...defaultTheme.fontFamily.mono ],
+				geist: [ 'Geist', ...defaultTheme.fontFamily.sans ],
+				monogeist: ['Geist Mono', ...defaultTheme.fontFamily.mono ],
 				trailers: [ 'TT Trailers', ...defaultTheme.fontFamily.sans ],
       },
 			colors: {
@@ -56,6 +58,8 @@ module.exports = {
 					900: '#091A23'
 				},
 				'redis-neutral': {
+					200: '#F9F9F9',
+					600: '#bfc2c4',
 					800: '#4E545B'
 				}
 			},
@@ -71,6 +75,7 @@ module.exports = {
             },
             code: {
               fontWeight: '500',
+							fontSize: '1em',
             },
             pre: {
               padding: '1.25rem',

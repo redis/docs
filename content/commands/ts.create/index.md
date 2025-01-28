@@ -73,14 +73,14 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Create a new time series
-syntax: 'TS.CREATE key [RETENTION retentionPeriod] [ENCODING [UNCOMPRESSED|COMPRESSED]]  [CHUNK_SIZE
-  size] [DUPLICATE_POLICY policy] [LABELS {label value}...] '
-syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED |\
-  \   COMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST | LAST | MIN\
-  \ | MAX | SUM>] [LABELS\_label value [label value ...]]"
-syntax_str: "[RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED | COMPRESSED>]\
+syntax: "TS.CREATE key \n  [RETENTION retentionPeriod] \n  [ENCODING <COMPRESSED|UNCOMPRESSED>]\
+  \ \n  [CHUNK_SIZE size] \n  [DUPLICATE_POLICY policy] \n  [IGNORE ignoreMaxTimediff ignoreMaxValDiff] \n  [LABELS [label value ...]]\n"
+syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED |\n\
+  \  UNCOMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST |\n  LAST |\
+  \ MIN | MAX | SUM>]\n\ \ [IGNORE\_ignoreMaxTimediff\_ignoreMaxValDiff]\n\ \ [LABELS\_[label value ...]]"
+syntax_str: "[RETENTION\_retentionPeriod] [ENCODING\_<COMPRESSED | UNCOMPRESSED>]\
   \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST | LAST | MIN | MAX | SUM>]\
-  \ [LABELS\_label value [label value ...]]"
+  \ [IGNORE\_ignoreMaxTimediff\_ignoreMaxValDiff] [LABELS\_[label value ...]]"
 title: TS.CREATE
 ---
 
@@ -149,6 +149,24 @@ is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) a
   - `SUM`: If a previous sample exists, add the new sample to it so that the updated value is equal to (previous + new). If no previous sample exists, set the updated value equal to the new value.
 
   When not specified: set to the global [DUPLICATE_POLICY]({{< baseurl >}}/develop/data-types/timeseries/configuration#duplicate_policy) configuration of the database (which, by default, is `BLOCK`).
+
+`BLOCK` is often used to avoid accidental changes. `FIRST` can be used as an optimization when duplicate reports are possible. `LAST` can be used when updates are being reported. `SUM` is used for counters (e.g., the number of cars entering a parking lot per minute when there are multiple reporting counting devices). `MIN` and `MAX` can be used, for example, to store the minimal/maximal stock price per minute (instead of storing all the samples and defining a compaction rule).
+
+</details>
+
+<details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> 
+
+is the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:
+
+  - The time series is not a compaction;
+  - The time series' `DUPLICATE_POLICY` IS `LAST`;
+  - The sample is added in-order (`timestamp ≥ max_timestamp`);
+  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `IGNORE_MAX_TIME_DIFF`;
+  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`.
+ 
+where `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.
+
+When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
 </details>
 
 <details open><summary><code>LABELS {label value}...</code></summary> 

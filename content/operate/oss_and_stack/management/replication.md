@@ -14,14 +14,14 @@ At the base of Redis replication (excluding the high availability features provi
 
 This system works using three main mechanisms:
 
-1. When a master and a replica instances are well-connected, the master keeps the replica updated by sending a stream of commands to the replica to replicate the effects on the dataset happening in the master side due to: client writes, keys expired or evicted, any other action changing the master dataset.
+1. When a master and a replica instance are well-connected, the master keeps the replica updated by sending a stream of commands to the replica to replicate the effects on the dataset happening on the master side due to: client writes, keys expired or evicted, any other action changing the master dataset.
 2. When the link between the master and the replica breaks, for network issues or because a timeout is sensed in the master or the replica, the replica reconnects and attempts to proceed with a partial resynchronization: it means that it will try to just obtain the part of the stream of commands it missed during the disconnection.
 3. When a partial resynchronization is not possible, the replica will ask for a full resynchronization. This will involve a more complex process in which the master needs to create a snapshot of all its data, send it to the replica, and then continue sending the stream of commands as the dataset changes.
 
 Redis uses by default asynchronous replication, which being low latency and
 high performance, is the natural replication mode for the vast majority of Redis
 use cases. However, Redis replicas asynchronously acknowledge the amount of data
-they received periodically with the master. So the master does not wait every time
+they receive periodically with the master. So the master does not wait every time
 for a command to be processed by the replicas, however it knows, if needed, what
 replica already processed what command. This allows having optional synchronous replication.
 
@@ -30,9 +30,7 @@ the [`WAIT`](/commands/wait) command. However [`WAIT`](/commands/wait) is only a
 specified number of acknowledged copies in the other Redis instances, it does not
 turn a set of Redis instances into a CP system with strong consistency: acknowledged
 writes can still be lost during a failover, depending on the exact configuration
-of the Redis persistence. However with [`WAIT`](/commands/wait) the probability of losing a write
-after a failure event is greatly reduced to certain hard to trigger failure
-modes.
+of the Redis persistence. However, [WAIT]({{< baseurl >}}/commands/wait) dramatically reduces the probability of losing a write after a failure event to specific hard-to-trigger failure modes.
 
 You can check the Redis Sentinel or Redis Cluster documentation for more information
 about high availability and failover. The rest of this document mainly describes the basic characteristics of Redis basic replication.
@@ -70,7 +68,7 @@ Every time data safety is important, and replication is used with master configu
 ## How Redis replication works
 
 Every Redis master has a replication ID: it is a large pseudo random string
-that marks a given story of the dataset. Each master also takes an offset that
+that marks a given history of the dataset. Each master also takes an offset that
 increments for every byte of replication stream that it is produced to be
 sent to replicas, to update the state of the replicas with the new changes
 modifying the dataset. The replication offset is incremented even if no replica

@@ -71,7 +71,7 @@ Details:
 
     - [#594](https://github.com/RedisGears/RedisGears/pull/594) Added RedisGears info section to Redis info command
 
-    - [#587](https://github.com/RedisGears/RedisGears/pull/587) `inorder` option for the [command reader](https://oss.redis.com/redisgears/1.0/readers.html#commandreader)
+    - [#587](https://github.com/RedisGears/RedisGears/pull/587) `inorder` option for the command reader
     
     - [#592](https://github.com/RedisGears/RedisGears/pull/592), [#586](https://github.com/RedisGears/RedisGears/pull/586) Background executions will now appear on Redis slowlog, available in Redis 6.2 and above.
 
@@ -148,7 +148,7 @@ This is a maintenance release for version 1.0.
 - Details:
 
     - Minor Features:
-        - #[368](https://github.com/RedisGears/RedisGears/pull/368) Support for buffer input on `createTensorFromBlob` when integrating with [RedisAI](https://github.com/RedisGears/RedisGears/blob/v1.0.2/redisai.io) API.
+        - #[368](https://github.com/RedisGears/RedisGears/pull/368) Support for buffer input on `createTensorFromBlob` when integrating with [RedisAI](https://github.com/RedisAI/RedisAI) API.
 
         - #[373](https://github.com/RedisGears/RedisGears/pull/373) Registered execution plans will not re-send their metadata when they are triggered (this feature reduces network overhead and improve performance of distributed registrations).
 
@@ -162,7 +162,7 @@ This is a maintenance release for version 1.0.
         
         - #[388](https://github.com/RedisGears/RedisGears/pull/388) Fix crash on hello request failure (internal protocol between shards), a retry will be triggered after 1 second.
 
-        - #[395](https://github.com/RedisGears/RedisGears/pull/395) Fix rare wrong results on [aggregate](https://oss.redislabs.com/redisgears/operations.html#aggregate) and [aggregateby](https://oss.redislabs.com/redisgears/operations.html#aggregateby). Use deep copy on the zero value to avoid those incorrect results.
+        - #[395](https://github.com/RedisGears/RedisGears/pull/395) Fix rare wrong results on `aggregate` and `aggregateby`. Use deep copy on the zero value to avoid those incorrect results.
 
 ## v1.0.1 (July 2020)
 
@@ -182,11 +182,11 @@ This is a maintenance release for version 1.0.
 
     - Features:
 
-        - #[330](https://github.com/RedisGears/RedisGears/pull/330) [SendMsgRetries](https://oss.redislabs.com/redisgears/configuration.html#sendmsgretries) configuration parameter indicating how many times RedisGears should try sending messages between shards.
+        - #[330](https://github.com/RedisGears/RedisGears/pull/330) `SendMsgRetries` configuration parameter indicating how many times RedisGears should try sending messages between shards.
 
-        - #[330](https://github.com/RedisGears/RedisGears/pull/330) [PythonInstallReqMaxIdleTime](https://oss.redislabs.com/redisgears/configuration.html#pythoninstallreqmaxidletime) configuration parameter for the maximum amount of time to wait for requirements to be installed.
+        - #[330](https://github.com/RedisGears/RedisGears/pull/330) `PythonInstallReqMaxIdleTime` configuration parameter for the maximum amount of time to wait for requirements to be installed.
 
-        - #[330](https://github.com/RedisGears/RedisGears/pull/330) RG.[PYDUMPREQ](https://oss.redislabs.com/redisgears/commands.html#rgpydumpreqs) command that output all the currently available python requirements.
+        - #[330](https://github.com/RedisGears/RedisGears/pull/330) `RG.PYDUMPREQ` command that output all the currently available python requirements.
 
         - Added the following API functionality to the RedisAI integration:
 
@@ -220,13 +220,11 @@ This is the first general availability (GA) release of RedisGears (v1.0.0).
 
     - Run your serverless engine where your data lives - RedisGears lets you process events and streams faster by running in memory next to your data in Redis.
 
-    To get started please check out [redisgears.io](https://oss.redislabs.com/redisgears/). We plan to release a blogpost soon and will cross link it here.
-
     Bug fixes (compared to RC1):
 
     - #[288](https://github.com/RedisGears/RedisGears/issues/288) dependencies with version will not crash the server.
 
-    - #[309](https://github.com/RedisGears/RedisGears/issues/309), #[313](https://github.com/RedisGears/RedisGears/issues/313) Prevent crashes on [RedisAI](https://oss.redislabs.com/redisai/) intergration and update the low level C api of RedisAI.
+    - #[309](https://github.com/RedisGears/RedisGears/issues/309), #[313](https://github.com/RedisGears/RedisGears/issues/313) Prevent crashes on RedisAI intergration and update the low level C api of RedisAI.
 
     - #[311](https://github.com/RedisGears/RedisGears/issues/311) Fix out-of-order reply in certain situations.
 

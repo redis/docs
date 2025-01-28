@@ -12,7 +12,7 @@ weight: 20
 
 To download the installation package for any of the supported platforms:
 
-1. Go to the [Redis download page](https://app.redislabs.com/#/rlec-downloads).
+1. Go to the [Redis download page](https://cloud.redis.io/#/rlec-downloads).
 1. Sign in with your Redis credentials or create a new account.
 1. In the **Downloads** section for Redis Enterprise Software, select the installation package for your platform then select **Go**.
 

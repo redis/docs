@@ -108,15 +108,15 @@ This is the General Availability release of RediSearch 2.2.
 
 #### Searching and indexing JSON documents
 
-This release introduces the ability to [index, query, and full-text search JSON documents](https://oss.redis.com/redisearch/master/Indexing_JSON/) using JSONPath queries.
+This release introduces the ability to [index, query, and full-text search JSON documents]({{<relref "/develop/interact/search-and-query/indexing">}}) using JSONPath queries.
 
-On the schema creation [FT.CREATE](https://oss.redis.com/redisearch/master/Commands/#ftcreate), it is now possible to map a JSONPath query with a field. When a JSON document is indexed, the value extracted by the JSONPath query is indexed in the given field.
+On the schema creation `FT.CREATE`, it is now possible to map a JSONPath query with a field. When a JSON document is indexed, the value extracted by the JSONPath query is indexed in the given field.
 
  _This features require the module [RedisJSON 2.0](https://www.redisjson.io) to be installed._ 
 
 #### Profiling queries
 
-With the new [FT.PROFILE](https://oss.redis.com/redisearch/master/Commands/#ftprofile) command, it is now possible to profile in detail the execution time of several internal steps involved in the execution of [FT.SEARCH](https://oss.redis.com/redisearch/master/Commands/#ftsearch) and [FT.AGGREGATE](https://oss.redis.com/redisearch/master/Commands/#ftaggregate).
+With the new `FT.PROFILE` command, it is now possible to profile in detail the execution time of several internal steps involved in the execution of `FT.SEARCH` and `FT.AGGREGATE`.
 That way, it is possible to understand which part of the query is taking most of the resources.
 
 #### Field aliasing
@@ -131,14 +131,14 @@ As of RediSearch v2.2, index `fields` are now known as `attributes` in order to 
 
 - Enhancements:
   - #[2337](https://github.com/redisearch/redisearch/issues/2337) Add support for Redis COPY command 
-  - #[2243](https://github.com/redisearch/redisearch/issues/2243) Add `LOAD *` for [FT.AGGREGATE](https://oss.redis.com/redisearch/master/Commands/#ftaggregate)
+  - #[2243](https://github.com/redisearch/redisearch/issues/2243) Add `LOAD *` for `FT.AGGREGATE`
   - #[2207](https://github.com/redisearch/redisearch/issues/2207) Add multi value recursive decent tag
-  - #[2188](https://github.com/redisearch/redisearch/issues/2188) Add [UNF flag for SORTABLE](https://oss.redis.com/redisearch/master/Sorting/#normalization_unf_option) fields
+  - #[2188](https://github.com/redisearch/redisearch/issues/2188) Add `UNF` flag for `SORTABLE` fields
   - #[2184](https://github.com/redisearch/redisearch/issues/2184) LLAPI getter functions for score, language, and stopwords list
   - #[2133](https://github.com/redisearch/redisearch/issues/2133) JSON array can be stored in a TAG field
-  - #[2153](https://github.com/redisearch/redisearch/issues/2153) Improve [FT.INFO](https://oss.redis.com/redisearch/master/Commands/#ftinfo) complexity to O(1) 
-  - #[2138](https://github.com/redisearch/redisearch/issues/2138) Add [CASESENSITIVE](https://oss.redis.com/redisearch/master/Tags/#creating_a_tag_field) to TAG fields
-  - #[2137](https://github.com/redisearch/redisearch/issues/2137) [FT.INFO](https://oss.redis.com/redisearch/master/Commands/#ftinfo) has identifier and attribute for fields
+  - #[2153](https://github.com/redisearch/redisearch/issues/2153) Improve FT.INFO complexity to O(1) 
+  - #[2138](https://github.com/redisearch/redisearch/issues/2138) Add `CASESENSITIVE` to `TAG` fields
+  - #[2137](https://github.com/redisearch/redisearch/issues/2137) `FT.INFO` has identifier and attribute for fields
 
 - Bug fixes:
   - #[2341](https://github.com/redisearch/redisearch/issues/2341) Fix score field for JSON

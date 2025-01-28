@@ -68,7 +68,7 @@ Details:
 
 - Improvements:
 
-  - [#632](https://github.com/RedisJSON/RedisJSON/pull/632), [#605](https://github.com/RedisJSON/RedisJSON/pull/605) Support [`JSON.CLEAR`](https://oss.redis.com/redisjson/commands/#jsonclear) for string, bool, and numeric scalars (MOD-2394)
+  - [#632](https://github.com/RedisJSON/RedisJSON/pull/632), [#605](https://github.com/RedisJSON/RedisJSON/pull/605) Support `JSON.CLEAR` for string, bool, and numeric scalars (MOD-2394)
   - [#637](https://github.com/RedisJSON/RedisJSON/pull/637) Add `intershard_tls_pass` support (MOD-2522)
   - [#594](https://github.com/RedisJSON/RedisJSON/pull/594) Support for `MEMORY USAGE` and memory info in `JSON.DEBUG` (MOD- 2079)
 
@@ -114,19 +114,19 @@ RedisJSON is a [high-performance JSON document store](https://redis.com/blog/red
 
 #### Indexing JSON documents
 
-Using [RediSearch](https://redisearch.io), it is now possible to [index, query, and search JSON documents](https://oss.redis.com/redisearch/master/Indexing_JSON/), gaining full-text search capabilities and document retrieving based on their content.
+Using [RediSearch](https://redisearch.io), it is now possible to [index, query, and search JSON documents]({{<relref "/develop/interact/search-and-query/indexing">}}), gaining full-text search capabilities and document retrieving based on their content.
 
 To do so, you must install both modules, `RedisJSON` and `RediSearch`, on the same database.
 
 #### Support of JSON Path
 
-The commands [support JSONPath](https://oss.redis.com/redisjson/2.0/path/#jsonpath-support-redisjson-v2) as specified in the [original specifications](https://goessner.net/articles/JsonPath).
+The commands [support JSONPath]({{<relref "/develop/data-types/json/path">}}) as specified in the [original specifications](https://goessner.net/articles/JsonPath).
 
 The legacy path syntax is still supported.
 
 #### Commands operate on multiple paths
 
-A `JSONPath` query may resolve to several paths. Every [command](https://oss.redis.com/redisjson/commands/) supports multiple paths and applies the operation to all the encountered paths.
+A `JSONPath` query may resolve to several paths. Every command supports multiple paths and applies the operation to all the encountered paths.
 
 Notice that the output of the commands evolved to provide multiple results according to the number of paths impacted. 
 
