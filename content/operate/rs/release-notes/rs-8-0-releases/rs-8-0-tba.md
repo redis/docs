@@ -57,6 +57,18 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS125543: Changed slow log duration to milliseconds in the new Cluster Manager UI.
 
+- RS142296: Fixed a REST API issue where updating an existing database with an empty module list removed modules from the database. Such requests now return an error instead.
+
+- RS94080: Fixed `PUT /v1/bdbs/<id>/<action>` requests to allow `flush` and `reset_admin_pass` actions without requiring a request body.
+
+- RS140649: Fixed an issue where database backups were not deleted at the expected time based on the configured retention period.
+
+- RS136409: Improved checks to determine if the cluster is in an unstable state.
+
+- RS122370: Changed Envoy concurrency to 4 by default to prevent an issue where Envoy on the primary node in a cluster with many nodes sometimes failed to receive API requests.
+
+- RS107325: Fixed an issue where database recovery could get stuck due to shard UID conflicts.
+
 ## Version changes
 
 - TBA
