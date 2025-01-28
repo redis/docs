@@ -33,7 +33,6 @@ Redis Query Engine now offers easier-to-use secondary indexing with the TAG inde
 
 Check the [release notes](https://github.com/redis-stack/redis-stack/releases/tag/v7.4.0-v0) for more details.
 
-
 ### Time Series Optimization with Insertion Filters
 Sensors that report small or negligible changes can now use insertion filters to ignore new measurements when differences between time or value are minimal. This reduces time series data size and improves efficiency.
 
