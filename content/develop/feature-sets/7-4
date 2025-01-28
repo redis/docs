@@ -1,0 +1,58 @@
+---
+title: Redis 7.4
+alwaysopen: false
+categories:
+- docs
+- operate
+- rs
+- rc
+description: Highlights of what's new for Redis 7.4
+linkTitle: Redis 7.4
+weight: 10
+---
+
+This page highlights the changes and new features introduced in Redis feature set 7.4.
+
+## Key Changes and New Features
+
+### Dual Licensing with RSALv2 and SSPLv1
+Redis 7.4 Community Edition is the first version to be dual-licensed under RSALv2 and SSPLv1. It remains free for the community and customers, maintaining permissive usage rights under the dual license. Versions prior to 7.4 are referred to as Redis open source software (OSS). Starting with Redis 7.4, the freely available versions are officially called Redis Community Edition.
+
+### Set Expiration for Hash Fields
+Redis 7.4 introduces the ability to set expiration times for individual hash fields. This long-requested feature enhances memory efficiency and performance for use cases like caching and session storage.
+
+### New Data Types for Memory-Efficient Vector Databases 
+To support AI applications and Retrieval Augmented Generation (RAG), Redis 7.4 adds `bfloat16` and `float16` data types, reducing memory usage by up to 47% and latency under load by up to 59%. These optimizations help maximize performance when working with vector data and AI workloads.
+
+### Simplified Secondary Indexing
+Redis Query Engine now offers easier-to-use secondary indexing with the TAG index type:
+
+- Querying tags with special characters (e.g., @, .) no longer requires escaping. Simply wrap query terms in double quotes.
+- Improved handling of empty and missing fields supports more dynamic data models.
+- Additional geospatial search capabilities include [INTERSECT](https://redis.io/docs/latest/develop/interact/search-and-query/query/geo-spatial/) and [DISJOIN](https://redis.io/docs/latest/develop/interact/search-and-query/query/geo-spatial/) operators, as well as better memory usage reporting for indexes.
+
+Check the [release notes](https://github.com/redis-stack/redis-stack/releases/tag/v7.4.0-v0) for more details.
+
+
+### Time Series Optimization with Insertion Filters
+Sensors that report small or negligible changes can now use insertion filters to ignore new measurements when differences between time or value are minimal. This reduces time series data size and improves efficiency.
+
+## Compatibility and Behavior Changes
+
+### Behavior Changes
+
+Behavior adjustments in Redis 7.4 include the use of jemalloc instead of libc for allocating Lua VM code, which optimizes memory fragmentation and enhances speed.
+
+Additionally, changes to the ACL LOAD command now ensure that only clients with affected user configurations are disconnected, minimizing unnecessary disruptions.
+
+### General changes
+Redis Stack 7.4 no longer includes Triggers and Functions due to low adoption during public preview. We removed these to make Redis simpler.
+
+## Component versions
+The Redis feature set 7.4 includes the following components:
+
+- [Redis 7.4](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisce-7.4-release-notes/)
+- [Search 2.10](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.10-release-notes/)
+- [JSON 2.8](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.8-release-notes/)
+- [Time series 1.12](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.12-release-notes/)
+- [Bloom 2.8](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.8-release-notes/)
