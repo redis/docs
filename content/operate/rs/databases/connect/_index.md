@@ -35,4 +35,4 @@ For examples, see [Test client connection]({{< relref "/operate/rs/databases/con
 
 ## Continue learning with Redis University
 
-See the [Connect to a database on Redis Software course](https://university.redis.io/course/zyxx6fdkcm5ahd) for modules.
+See the [Connect to a database on Redis Software course](https://university.redis.io/course/zyxx6fdkcm5ahd) to learn more.
