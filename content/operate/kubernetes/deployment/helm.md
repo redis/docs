@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Install the Redis Enterprise for Kubernetes version 7.8.Wisconsin using helm charts.
+description: Install the Redis Enterprise for Kubernetes version 7.8.Wisconsin using Helm charts.
 linkTitle: Helm
 weight: 11
 ---
@@ -23,13 +23,13 @@ Helm charts provide a simple way to install the Redis Enterprise for Kubernetes 
 
 ### Example values
 
-The steps below use the following placeholders to indicate values you must provide: 
+The steps below use the following placeholders to indicate command line parameters you must provide:
 
-- `<repo-name>` is the name of repo holding your helm chart (example: `redis`).
+- `<repo-name>` is the name of repo holding your Helm chart (example: `redis`).
 - `<release-name>` is the name you give a specific installation of the Helm chart (example: `my-redis-enterprise-operator`)
 - `<chart-version>` is the version of the Helm chart you are installing (example: `7.8.2-2`)
 - `<namespace-name>` is the name of the new namespace the Redis operator will run in (example: `ns1`)
-- `<path-to-chart>` is the filepath to the Helm chart, if it is stored in a local directory (exmaple: `/home/charts/redis-enterprise-operato`)
+- `<path-to-chart>` is the filepath to the Helm chart, if it is stored in a local directory (exmaple: `/home/charts/redis-enterprise-operator`)
 
 ## Install
 
@@ -50,7 +50,7 @@ helm install <release-name> redis/redis-enterprise-operator \
 
 To install with Openshift, add `--set openshift.mode=true`.
 
-To monitor the installation add the `--debug` flag. The installation runs several jobs synchronously and may take afew minutes to complete.
+To monitor the installation add the `--debug` flag. The installation runs several jobs synchronously and may take a few minutes to complete.
 
 ### Install from local directory
 
@@ -93,17 +93,17 @@ helm install <operator-name> redis/redis-enterprise-operator \
 
 ```sh
 helm install <operator-name> redis/redis-enterprise-operator \
-    -- version <release-name> \
-    -- namespace <namespace-name> \
-    -- create-namespace \
-    -- values <path-to-values-file>
+    --version <release-name> \
+    --namespace <namespace-name> \
+    --create-namespace \
+    --values <path-to-values-file>
 ```
 
 ## Uninstall
 
 1. Delete any custom resources managed by the operator. See [Delete custom resources]({{<relref "operate/kubernetes/re-clusters/delete-custom-resources">}}) for detailed steps. Custom resources must be deleted in the correct order to avoid errors.
 
-2. Uninstall the helm chart.
+2. Uninstall the Helm chart.
 
 ```sh
 helm uninstall <release-name>
