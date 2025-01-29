@@ -116,10 +116,10 @@ The credentials can be used to access the Redis Enterprise admin console or the 
 
 1. Update the REC credential secret:
 
-    1. Save the existing username to a text file.
+    1. Save the new username to a text file.
 
         ```bash
-        echo -n "<current_username>" > username
+        echo -n "<new_username>" > username
         ```
 
     1. Save the new password to a text file.
