@@ -80,7 +80,7 @@ You will need `kubectl`, `curl`, and `jq` installed for this procedure.
    ```js
    JQ='.[] | select(.name=="'
    JQ+="${SOURCE_DB}"
-   JQ+='") | ("redis://admin:" +  .authentication_admin_pass + "@"+.endpoints[0].dns_name+":"+(.endpoints[0].port|tostring))'
+   JQ+='") | ("redis://admin:" + .authentication_admin_pass + "@"+.name+":"+(.endpoints[0].port|tostring))'
    URI=`curl -sf -k -u "$CLUSTER_USER:$CLUSTER_PASSWORD" "https://localhost:9443/v1/bdbs?fields=uid,name,endpoints,authentication_admin_pass" | jq "$JQ" | sed 's/"//g'`
    ```
 
