@@ -114,4 +114,4 @@ If the operator logs show an event related to an incompatible database version, 
 curl -sfk -u <rec_username>:<rec_password> -X POST -H "Content-Type: application/json" -d '{"redis_version": <target redis version>}' https://localhost:9443/v1/bdbs/<BDB UID>/upgrade
 ```
 
-After updating the modules with the Redis Software API, update the REDB custom resource to reflect the change.
+After updating the database with the Redis Software API, update the REDB custom resource to reflect the change.
