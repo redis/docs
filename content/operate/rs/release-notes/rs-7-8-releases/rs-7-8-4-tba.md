@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Bug fixes for crashes, unexpected restarts, and incorrect type for the automatically calculated replica buffer.
+description: Ubuntu 22 support. Bug fixes for crashes, unexpected restarts, and incorrect type for the automatically calculated replica buffer.
 linkTitle: 7.8.4-tba (January 2025)
 weight: 87
 aliases: /operate/rs/release-notes/rs-7-8-releases/rs-7-8-4-tba/
@@ -18,9 +18,15 @@ This is a maintenance release for ​[​Redis Software version 7.8.4](https://r
 
 This version offers:
 
+- Ubuntu 22 support
+
 - Bug fixes for crashes, unexpected restarts, and incorrect type for the automatically calculated replica buffer
 
 ## New in this release
+
+### New features
+
+- Added support for Ubuntu 22.
 
 ### Redis database versions
 
@@ -50,6 +56,10 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS146282: Fixed a missing Prisma dependency for OpenSSL 1.0 that caused unexpected `cm_server` restarts on Ubuntu 20.
 
+- RS103760: Added a check that blocks upgrading Redis Enterprise Software on a node while there are running state machines to prevent data loss or unavailability.
+
+- RS148302: Fixed a dependency issue that can cause the installation of Redis Enterprise Software version 7.8.4 to fail.
+
 ## Version changes
 
 ### Supported platforms
@@ -69,6 +79,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 | RHEL 9<br />FIPS mode<sup>[5](#table-note-5)</sup> | <span title="Supported">&#x2705;</span> | – | – | – | – |
 | RHEL 8 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | RHEL 7 &<br />compatible distros<sup>[1](#table-note-1)</sup> | – | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| Ubuntu 22.04<sup>[2](#table-note-2)</sup> | <span title="Supported">&#x2705;</span> | – | – | – | – |
 | Ubuntu 20.04<sup>[2](#table-note-2)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – |
 | Ubuntu 18.04<sup>[2](#table-note-2)</sup> | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | Ubuntu 16.04<sup>[2](#table-note-2)</sup> | – | – | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
