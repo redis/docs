@@ -7,7 +7,7 @@ categories:
 - integrate
 - rs
 - rdi
-description: Learn how to install RDI
+description: Learn how to install and upgrade RDI
 group: di
 hideListLinks: false
 linkTitle: Install/upgrade

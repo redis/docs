@@ -41,8 +41,9 @@ of RDI:
 
 ### Recovering from failure during a VM upgrade
 
-If the previous version is v1.4.4 or later, go to the `rdi_install/<NEW_VERSION>` directory
-and run `sudo redis-di upgrade`.
+If the previous version is v1.4.4 or later, go to the `rdi_install/<PREVIOUS_VERSION>`
+directory and run `sudo ./upgrade.sh`, as described in the section
+[Upgrading a VM installation](#upgrading-a-vm-installation) above.
 
 If the version you are replacing is earlier than v1.4.4, follow these steps:
 
@@ -91,6 +92,7 @@ installation of RDI:
     docker pull redis/rdi-api:tagname
     docker pull redis/rdi-monitor:tagname
     docker pull redis/rdi-collector-initializer
+    docker pull redis/rdi-collector-api
     ```
 
 1.  Download the RDI helm chart tar file from the 
@@ -106,8 +108,6 @@ installation of RDI:
     [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
     again after this step.
 
-1.  Download the latest `redis-di`.
-
 ### Verifying the upgrade
 
 Check the upgrade with the following command:
@@ -118,6 +118,13 @@ Check the upgrade with the following command:
 
 You should find that all the pods are running (they will have `1/1` in the `READY` column of the
 command's output).
+Check for any pods that don't have `1/1` in the `READY` column (which is the second
+column). For example, the pod below has `0/1` in the second column, which indicates the
+deployment hasn't worked:
+
+```bash
+<pod_name>        0/1     CrashLoopBackOff   1881 (91s ago)   6d17h
+```
 
 You can also check that the latest version is running using the following command on one of
 the pods:
@@ -127,13 +134,13 @@ sudo k3s kubectl describe <pod_name> -n <namespace>
 ```
 
 Search for the image tag `Image: docker.io/redis/<pod_name>:<version/image_tag>`
-in the command's output to verify the version
+in the command's output to verify the version.
 
-### Recovering from failure during a Kubernetes upgrade
-
-If you get an error during the upgrade or some deployments are not OK, then
-run the `helm upgrade` command again, but with the previous version you were upgrading
-from.
+If you find that the upgrade hasn't worked for any reason, then run the `helm upgrade`
+command again (as described in the section
+[Upgrading a Kubernetes installation](#upgrading-a-kubernetes-installation) above),
+but this time with the previous version you were upgrading from. This will restore your
+previous working state.
 
 ## What happens during the upgrade?
 
