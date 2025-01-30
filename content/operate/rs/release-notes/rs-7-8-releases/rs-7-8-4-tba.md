@@ -1,5 +1,5 @@
 ---
-Title: Redis Software release notes 7.8.4-tba (January 2025)
+Title: Redis Software release notes 7.8.4-tba (February 2025)
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 compatibleOSSVersion: Redis 7.4.0
 description: Ubuntu 22 support. Bug fixes for crashes, unexpected restarts, and incorrect type for the automatically calculated replica buffer.
-linkTitle: 7.8.4-tba (January 2025)
+linkTitle: 7.8.4-tba (February 2025)
 weight: 87
 aliases: /operate/rs/release-notes/rs-7-8-releases/rs-7-8-4-tba/
 ---
@@ -102,9 +102,10 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (7.8.4-tba Jan release) |
+| Package | SHA256 checksum (7.8.4-tba Feb release) |
 |---------|---------------------------------------|
 | Ubuntu 20 | <span class="break-all"></span> |
+| Ubuntu 22 | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 9 | <span class="break-all"></span> |
 | Amazon Linux 2 | <span class="break-all"></span> |
