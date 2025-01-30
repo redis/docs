@@ -42,7 +42,7 @@ RDI encrypts all network connections with TLS. The pipeline will process data fr
 Before you can create a data pipeline, you must have:
 
 - A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) hosted on Amazon Web Services (AWS). This will be the target database.
-- One supported source database, also hosted on AWS and connected to [AWS PrivateLink](https://aws.amazon.com/privatelink/):
+- One supported source database, hosted on an AWS EC2 instance:
     - MySQL
     - Oracle
     - SQL Server
