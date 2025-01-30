@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - stack
-description: Redis Stack and modules release notes
+description: Release notes for Redis Community Edition, Redis Stack, and modules
 hideListLinks: true
 linkTitle: Release notes
 weight: 99

@@ -61,3 +61,6 @@ Use command-line utilities and the REST API to manage the cluster and databases.
 - [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}})
 - [Glossary]({{< relref "/glossary" >}})
 
+## Continue learning with Redis University
+
+See the [Get started with Redis Software learning path](https://university.redis.io/learningpath/an0mgw5bjpjfbe) to learn more.
