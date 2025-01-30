@@ -137,3 +137,7 @@ Once VPC peering is established, we recommend switching your application connect
 {{< note >}}
 {{< embed-md "rc-vpc-peering-cidr-list.md"  >}}
 {{< /note >}}
+
+## Continue learning with Redis University
+
+See the [Redis Cloud networking course](https://university.redis.io/course/xkz1coqj9tsqjr) to learn more.

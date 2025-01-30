@@ -15,7 +15,7 @@ aliases:
 ---
 For very large databases, Redis Cloud distributes database data to different cloud instances.  For example:
 
-- When data grows beyond the the RAM resources of a single server.
+- When data grows beyond the RAM resources of a single server.
 
     Multiple shards should be used when data grows to 25 GB (50 GB for Auto Tiering) to create multiple shards.
 
