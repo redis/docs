@@ -69,6 +69,16 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS107325: Fixed an issue where database recovery could get stuck due to shard UID conflicts.
 
+- RS139699: Fixed an issue where the Cluster Manager UI reported "invalid username or password" if the connection timed out during a sign-in attempt.
+
+- RS138625: Fixed an issue where `rlcheck` reported `verify_tcp_connectivity` as failed for optional services that were not enabled instead of skipping the check.
+
+- RS134742: Fixed an issue where the `virbr0` interface was automatically added to the external addresses when nodes joined the cluster, which could cause network conflicts and connectivity issues due to duplicated IP addresses.
+
+- RS138490: Reduced log entries for unbootstrapped nodes, which do not have log rotation scheduled yet, to prevent filling the disk with logs.
+
+- RS142248: Added module information to database creation log messages.
+
 ## Version changes
 
 - TBA
