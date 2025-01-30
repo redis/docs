@@ -8,6 +8,7 @@ categories:
 - rc
 description: High-level description of important updates to the Develop section
 linkTitle: What's new?
+hideListLinks: true
 weight: 10
 ---
 ## Q4 2024 (October - December) Updates

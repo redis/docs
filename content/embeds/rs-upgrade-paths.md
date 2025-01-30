@@ -7,8 +7,8 @@
 | Current Redis Software cluster version | Upgrade to Redis Software 6.2.x | Upgrade to Redis Software 6.4.x | Upgrade to Redis Software 7.2.x | Upgrade to Redis Software 7.4.x |  Upgrade to Redis Software 7.8.x |
 |:-----------------------:|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|
 | 6.0.x | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Not supported">:x:</span> | <span title="Not supported">:x:</span> |
-| 6.2.4<br />6.2.8 | – | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Not supported">:x:</span> |
-| 6.2.10<br />6.2.12<br />6.2.18 | – | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| 6.4.x | – | – | <span title="Supported">&#x2705;</span> |  <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| 7.2.x | – | – | – | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| 7.4.x | – | – | – | - | <span title="Supported">&#x2705;</span> |
+| 6.2.4<br />6.2.8 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Not supported">:x:</span> |
+| 6.2.10<br />6.2.12<br />6.2.18 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| 6.4.x | – | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| 7.2.x | – | – | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| 7.4.x | – | – | – | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
