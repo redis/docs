@@ -90,30 +90,30 @@ jobs:
           EOL
           }
 
-          formatYamlSnippet admission-service.yaml content/embeds/admission-service.md
-          formatYamlSnippet admission/webhook.yaml content/embeds/admission_webhook.md
-          formatYamlSnippet examples/v1/rec.yaml content/embeds/rec.md
-          formatYamlSnippet examples/v1alpha1/reaadb.yaml content/embeds/reaadb.md
-          formatYamlSnippet examples/v1alpha1/redb.yaml content/embeds/redb.md
-          formatYamlSnippet examples/v1alpha1/rerc.yaml content/embeds/rerc.md
-          formatYamlSnippet log_collector/log_collector_role_all_mode.yaml content/embeds/log_collector_role_all_mode.md
-          formatYamlSnippet log_collector/log_collector_role_restricted_mode.yaml content/embeds/log_collector_role_restricted_mode.md
-          formatYamlSnippet multi-namespace-redb/operator_cluster_role_binding.yaml content/embeds/multi-ns_operator_cluster_role_binding.md
-          formatYamlSnippet multi-namespace-redb/operator_cluster_role.yaml content/embeds/multi-ns_operator_cluster_role.md
-          formatYamlSnippet multi-namespace-redb/role_binding.yaml content/embeds/multi-ns_role_binding.md
-          formatYamlSnippet multi-namespace-redb/role.yaml content/embeds/multi-ns_role.md
-          formatYamlSnippet openshift/admission-service.yaml content/embeds/openshift_admission-service.md
-          formatYamlSnippet openshift/rec_rhel.yaml content/embeds/openshift_rec.md
-          formatYamlSnippet openshift/role_binding.yaml content/embeds/openshift_role_binding.md
-          formatYamlSnippet openshift/role.yaml content/embeds/openshift_role.md
-          formatYamlSnippet openshift/scc.yaml content/embeds/openshift_scc.md
-          formatYamlSnippet openshift/service_account.yaml content/embeds/openshift_service_account.md
-          formatYamlSnippet rack_awareness/rack_aware_cluster_role_binding.yaml content/embeds/rack_aware_cluster_role_binding.md
-          formatYamlSnippet rack_awareness/rack_aware_cluster_role.yaml content/embeds/rack_aware_cluster_role.md
-          formatYamlSnippet rack_awareness/rack_aware_rec.yaml content/embeds/rack_aware_rec.md
-          formatYamlSnippet role_binding.yaml content/embeds/role_binding.md
-          formatYamlSnippet role.yaml content/embeds/role.md
-          formatYamlSnippet service_account.yaml content/embeds/service_account.md
+          formatYamlSnippet admission-service.yaml content/embeds/k8s/admission-service.md
+          formatYamlSnippet admission/webhook.yaml content/embeds/k8s/admission_webhook.md
+          formatYamlSnippet examples/v1/rec.yaml content/embeds/k8s/rec.md
+          formatYamlSnippet examples/v1alpha1/reaadb.yaml content/embeds/k8s/reaadb.md
+          formatYamlSnippet examples/v1alpha1/redb.yaml content/embeds/k8s/redb.md
+          formatYamlSnippet examples/v1alpha1/rerc.yaml content/embeds/k8s/rerc.md
+          formatYamlSnippet log_collector/log_collector_role_all_mode.yaml content/embeds/k8s/log_collector_role_all_mode.md
+          formatYamlSnippet log_collector/log_collector_role_restricted_mode.yaml content/embeds/k8s/log_collector_role_restricted_mode.md
+          formatYamlSnippet multi-namespace-redb/operator_cluster_role_binding.yaml content/embeds/k8s/multi-ns_operator_cluster_role_binding.md
+          formatYamlSnippet multi-namespace-redb/operator_cluster_role.yaml content/embeds/k8s/multi-ns_operator_cluster_role.md
+          formatYamlSnippet multi-namespace-redb/role_binding.yaml content/embeds/k8s/multi-ns_role_binding.md
+          formatYamlSnippet multi-namespace-redb/role.yaml content/embeds/k8s/multi-ns_role.md
+          formatYamlSnippet openshift/admission-service.yaml content/embeds/k8s/openshift_admission-service.md
+          formatYamlSnippet openshift/rec_rhel.yaml content/embeds/k8s/openshift_rec.md
+          formatYamlSnippet openshift/role_binding.yaml content/embeds/k8s/openshift_role_binding.md
+          formatYamlSnippet openshift/role.yaml content/embeds/k8s/openshift_role.md
+          formatYamlSnippet openshift/scc.yaml content/embeds/k8s/openshift_scc.md
+          formatYamlSnippet openshift/service_account.yaml content/embeds/k8s/openshift_service_account.md
+          formatYamlSnippet rack_awareness/rack_aware_cluster_role_binding.yaml content/embeds/k8s/rack_aware_cluster_role_binding.md
+          formatYamlSnippet rack_awareness/rack_aware_cluster_role.yaml content/embeds/k8s/rack_aware_cluster_role.md
+          formatYamlSnippet rack_awareness/rack_aware_rec.yaml content/embeds/k8s/rack_aware_rec.md
+          formatYamlSnippet role_binding.yaml content/embeds/k8s/role_binding.md
+          formatYamlSnippet role.yaml content/embeds/k8s/role.md
+          formatYamlSnippet service_account.yaml content/embeds/k8s/service_account.md
 
       - name: 'Send pull request'
         env:
@@ -136,7 +136,7 @@ jobs:
           git apply content/operate/kubernetes/reference/kubernetes-api-reference-frontmatter.patch
 
           git add content/operate/kubernetes/reference/
-          git add content/embeds/
+          git add content/embeds/k8s/
 
           git commit -m "k8s api docs ${RELEASE}"
           git push origin "${BRANCH}"

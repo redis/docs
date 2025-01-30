@@ -27,7 +27,7 @@ The default Redis database version differs between Redis Enterprise releases as 
 
 | Redis<br />Software | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
 |-------|----------|-----|
-| 7.8.2 | 6.2, 7.2, 7.4 | 7.4 |
+| 7.8.x | 6.2, 7.2, 7.4 | 7.4 |
 | 7.4.x | 6.0, 6.2, 7.2 | 7.2 |
 | 7.2.4 | 6.0, 6.2, 7.2 | 7.2 |
 | 6.4.2 | 6.0, 6.2 | 6.2 |
