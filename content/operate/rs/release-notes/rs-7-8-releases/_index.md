@@ -234,6 +234,12 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 ## Known limitations
 
+#### Upload modules before OS upgrade
+
+If the cluster contains any databases that use modules, you must upload module packages for the target OS version to a node in the existing cluster before you upgrade the cluster's operating system.
+
+See [Upgrade a cluster's operating system]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-os">}}) for detailed upgrade instructions.
+
 #### New Cluster Manager UI limitations
 
 The following legacy UI features are not yet available in the new Cluster Manager UI:
