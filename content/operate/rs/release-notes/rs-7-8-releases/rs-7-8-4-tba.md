@@ -26,7 +26,7 @@ This version offers:
 
 ### New features
 
-- Added support for Ubuntu 22.
+- Added support for Ubuntu 22. See [Upgrade a cluster's operating system]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-os">}}) for detailed upgrade instructions.
 
 ### Redis database versions
 
@@ -56,9 +56,9 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS146282: Fixed a missing Prisma dependency for OpenSSL 1.0 that caused unexpected `cm_server` restarts on Ubuntu 20.
 
-- RS103760: Added a check that blocks upgrading Redis Enterprise Software on a node while there are running state machines to prevent data loss or unavailability.
+- RS103760: Added a check that blocks upgrading Redis Software on a node while there are running state machines to prevent data loss or unavailability.
 
-- RS148302: Fixed a dependency issue that can cause the installation of Redis Enterprise Software version 7.8.4 to fail.
+- RS148302: Fixed a dependency issue that can cause the installation of Redis Software version 7.8.4 to fail.
 
 ## Version changes
 
