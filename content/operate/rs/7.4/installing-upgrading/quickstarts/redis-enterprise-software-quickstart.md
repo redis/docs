@@ -37,7 +37,7 @@ For production environments, see the [install and setup]({{< relref "/operate/rs
 
 {{<embed-md "port-collision-avoidance.md">}}
 
-### Ubuntu conflicts with port 53
+### OS conflicts with port 53
 
 {{<embed-md "port-53.md">}}
 
