@@ -15,10 +15,20 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.24 requires:
+RediSearch v2.6.25 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.25 (January 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5484](https://github.com/redisearch/redisearch/pull/5484) NOSTEM option does not work on query just tokenising (MOD-7634)
+- [#5543](https://github.com/redisearch/redisearch/pull/5543) Querying for the latest document added to the index may result in a crash if the last block is not read (MOD-8561).
 
 ## v2.6.24 (January 2025)
 
