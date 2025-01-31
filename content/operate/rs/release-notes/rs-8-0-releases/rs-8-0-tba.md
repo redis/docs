@@ -79,6 +79,16 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS142248: Added module information to database creation log messages.
 
+- RS123576: Fixed an issue that prevented reconfiguring an existing ACL file with `rlutil`.
+
+- RS133679: Added a validation check to the optimize shards API to return quicker if the database cannot fit on the cluster.
+
+- RS134968: Improved the functionality around killing shards.
+
+- RS146096: Fixed an issue where the syncer could fail due to the RDB file parser incorrectly parsing least frequently used values larger than 127.
+
+- RS125845: Fixed an issue where outdated AOF persistence files were not rotated upon upgrading the Redis database version from 6 to 7.
+
 ## Version changes
 
 - TBA
