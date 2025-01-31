@@ -89,7 +89,7 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 | <span class="break-all">generation{cluster_wd=<node_uid>}</span> | gauge| Generation number of the specific cluster_wd|
 | <span class="break-all">has_qourum{cluster_wd=<node_uid>, has_witness_disk=BOOL}</span> | gauge| Has_qourum = 1<br />No quorum = 0 |
 | <span class="break-all">is_primary{cluster_wd=<node_uid>}</span> | gauge| primary = 1<br />secondary = 0 |
-| license_shards_limit | | Total shard limit by the license by shard type (ram / flash) |
+| <span class="break-all">license_shards_limit</span> | gauge | Total shard limit by the license by shard type (ram / flash) |
 | <span class="break-all">total_live_nodes_count{cluster_wd=<node_uid>}</span> | gauge| Number of live nodes|
 | <span class="break-all">total_node_count{cluster_wd=<node_uid>}</span> | gauge| Number of nodes |
 | <span class="break-all">total_primary_selection_ended{cluster_wd=<node_uid>}</span> | counter | Monotonic counter for each selection process that ended |
@@ -159,7 +159,7 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 | <span class="break-all">redis_server_mem_not_counted_for_evict</span> | Portion of used_memory (in bytes) that's not counted for eviction and OOM error |
 | <span class="break-all">redis_server_mem_replication_backlog</span> | Size of replication backlog |
 | <span class="break-all">redis_server_module_fork_in_progress</span> | A binary value that indicates if there is an active fork spawned by a module (1) or not (0) |
-| <span class="break-all">namedprocess_namegroup_cpu_seconds_total</span> | Shard process CPU usage percentage |
+| <span class="break-all">namedprocess_namegroup_cpu_seconds_total</span> | Shard process CPU usage in seconds |
 | <span class="break-all">namedprocess_namegroup_thread_cpu_seconds_total</span> | Shard main thread CPU time spent in seconds |
 | <span class="break-all">namedprocess_namegroup_open_filedesc</span> | Shard number of open file descriptors |
 | <span class="break-all">namedprocess_namegroup_memory_bytes</span> | Shard memory size in bytes |
