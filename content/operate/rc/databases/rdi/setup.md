@@ -44,7 +44,7 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 
 ## Set up connectivity
 
-To ensure that you can connect your Redis Cloud database to the source database hosted an AWS EC2 instance, you need to set up an endpoint service through AWS PrivateLink. To do this:
+To ensure that you can connect your Redis Cloud database to the source database hosted on an AWS EC2 instance, you need to set up an endpoint service through AWS PrivateLink. To do this:
 
 1. [Create a network load balancer](#create-network-load-balancer) that will route incoming HTTP requests to your database.
 1. [Create an endpoint service](#create-endpoint-service) through AWS PrivateLink.
