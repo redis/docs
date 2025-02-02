@@ -14,6 +14,8 @@ Most major Linux distributions provide packages for Redis.
 
 ## Install on Ubuntu/Debian
 
+> For security / supported versions information, please refer to our [Debian security policy](https://github.com/redis/redis-debian/security/policy).
+
 Add the repository to the APT index, update it, and install Redis:
 
 {{< highlight bash  >}}
