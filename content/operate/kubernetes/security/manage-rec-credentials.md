@@ -77,11 +77,12 @@ echo -n "<new_password>" > password
 ```
 
 3c. Update the REC credential secret.
+
 ```sh
 kubectl create secret generic <cluster_secret_name> \
   --from-file=./username \
   --from-file=./password --dry-run \
-  -o yaml
+  -o yaml | \
 kubectl apply -f 
 ```
 
