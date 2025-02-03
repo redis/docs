@@ -11,11 +11,11 @@ weight: 42
 ---
 
 You can configure a replica of a database by creating an item in
-the `replicaSources` section of the [Redis Enterprise database specification](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md#redisenterprisedatabasespec). The value of
-`replicaSourceType` must be 'SECRET'; `replicaSourceName`
-must be the name of a secret that contains the replica source url.
+the [`replicaSources`](/operate/kubernetes/reference/redis_enterprise_database_api#specreplicasources) section of the RedisEnterpriseDatabase (REDB) custom resource.
 
-A secret must be created using a `stringData` section containing the replica source URI as follows:
+A secret must be created with the `stringData` section containing the replica source URI as follows:
+
+Create a secret with the replica source URI listed in the `stringData` field as follows:
 
 ```yaml
 apiVersion: v1
@@ -23,7 +23,7 @@ kind: Secret
 metadata:
    name: my-replica-source
 stringData:
-   uri: replica-source-uri-goes-here
+   uri: <replica-source-uri-goes-here>
 ```
 
 The replica source URL can be retrieved by going to "UI > database > configuration > Press the button Get Replica of source URL"
