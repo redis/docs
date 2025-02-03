@@ -31,6 +31,8 @@ Connect to the database:
 {{< clients-example go_home_json connect >}}
 {{< /clients-example >}}
 
+Note the usage of [RESP2](https://github.com/redis/redis-specifications/blob/master/protocol/RESP2.md) during the connection creation. This is required if you intend to perform searches and aggregations in Redis. If your use case requires the usage of [RESP3](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md), then the way you are going to process the results from your queries will be different. See the section [Unstable RESP3 Structures for RediSearch Commands](https://github.com/redis/go-redis?tab=readme-ov-file#unstable-resp3-structures-for-redisearch-commands) from the [go-redis](https://github.com/redis/go-redis) README page.
+
 Create some test data to add to the database:
 
 {{< clients-example go_home_json create_data >}}
