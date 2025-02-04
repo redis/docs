@@ -11,9 +11,9 @@ linkTitle: Redis 7.4
 weight: 10
 ---
 
-This page highlights the changes and new features introduced in Redis feature set 7.4.
+This page highlights the new features and changes introduced in Redis feature set 7.4.
 
-## Key Changes and New Features
+## New Features
 
 ### Support for hash field expiration
 Redis 7.4 introduces the ability to set expiration times or adjust the remaining TTL for individual hash fields. This long-requested feature enhances memory efficiency and performance for use cases like caching and session storage.
@@ -33,17 +33,14 @@ Check the [release notes](https://github.com/redis-stack/redis-stack/releases/ta
 ### Time Series Optimization with Insertion Filters
 Sensors can now use insertion filters to ignore new measurements when differences between time or value are minimal. This reduces time series data size and improves efficiency.
 
-## Compatibility and Behavior Changes
+## Changes
 
 ### Behavior Changes
-
 Behavior adjustments in Redis 7.4 include the use of jemalloc instead of libc for allocating Lua VM code, which optimizes memory fragmentation and enhances speed.
 
 Additionally, changes to the ACL LOAD command now ensure that only clients with affected user configurations are disconnected, minimizing unnecessary disruptions.
 
-## Other changes
-
-### Removal of triggers and functions
+### Other changes
 Redis Stack 7.4 no longer includes Triggers and Functions due to low adoption during public preview. We removed these to make Redis simpler.
 
 ## Component versions
