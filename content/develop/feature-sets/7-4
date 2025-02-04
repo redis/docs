@@ -15,11 +15,8 @@ This page highlights the changes and new features introduced in Redis feature se
 
 ## Key Changes and New Features
 
-### Dual Licensing with RSALv2 and SSPLv1
-Redis 7.4 Community Edition is the first version to be dual-licensed under RSALv2 and SSPLv1. It remains free for the community and customers, maintaining permissive usage rights under the dual license. Versions prior to 7.4 are referred to as Redis open source software (OSS). Starting with Redis 7.4, the freely available versions are officially called Redis Community Edition.
-
-### Set Expiration for Hash Fields
-Redis 7.4 introduces the ability to set expiration times for individual hash fields. This long-requested feature enhances memory efficiency and performance for use cases like caching and session storage.
+### Support for hash field expiration
+Redis 7.4 introduces the ability to set expiration times or adjust the remaining TTL for individual hash fields. This long-requested feature enhances memory efficiency and performance for use cases like caching and session storage.
 
 ### New Data Types for Memory-Efficient Vector Databases 
 To support AI applications and Retrieval Augmented Generation (RAG), Redis 7.4 adds `bfloat16` and `float16` data types, reducing memory usage by up to 47% and latency under load by up to 59%. These optimizations help maximize performance when working with vector data and AI workloads.
@@ -34,7 +31,7 @@ Redis Query Engine now offers easier-to-use secondary indexing with the TAG inde
 Check the [release notes](https://github.com/redis-stack/redis-stack/releases/tag/v7.4.0-v0) for more details.
 
 ### Time Series Optimization with Insertion Filters
-Sensors that report small or negligible changes can now use insertion filters to ignore new measurements when differences between time or value are minimal. This reduces time series data size and improves efficiency.
+Sensors can now use insertion filters to ignore new measurements when differences between time or value are minimal. This reduces time series data size and improves efficiency.
 
 ## Compatibility and Behavior Changes
 
@@ -46,6 +43,9 @@ Additionally, changes to the ACL LOAD command now ensure that only clients with 
 
 ### Other changes
 Redis Stack 7.4 no longer includes Triggers and Functions due to low adoption during public preview. We removed these to make Redis simpler.
+
+### Dual Licensing with RSALv2 and SSPLv1
+Redis 7.4 Community Edition is the first version to be dual-licensed under RSALv2 and SSPLv1. It remains free for the community and customers, maintaining permissive usage rights under the dual license. Versions prior to 7.4 are referred to as Redis open source software (OSS). Starting with Redis 7.4, the freely available versions are officially called Redis Community Edition.
 
 ## Component versions
 The Redis feature set 7.4 includes the following components:
