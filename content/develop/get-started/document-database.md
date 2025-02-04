@@ -179,4 +179,4 @@ You can learn more about how to use Redis Stack as a vector database in the foll
 
 ## Continue learning with Redis University
 
-See the [Get Started with Redis learning path](https://university.redis.io/learningpath/14q8m6gilfwltm) for courses.
+{{< university-links >}}

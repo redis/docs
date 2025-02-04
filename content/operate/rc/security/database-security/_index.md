@@ -37,4 +37,4 @@ Redis Cloud provides encryption for all data stored on disk in Redis databases. 
 
 ## Continue learning with Redis University
 
-See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.
+{{< university-links >}}
