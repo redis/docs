@@ -57,10 +57,22 @@ Returns the task ID of the task that is updating the database.
 
 If `--no-wait` is specified, the command exits. Otherwise, it will wait for the database to be updated and then return "finished."
 
-### Example
+### Examples
+
+The following example changes the maximum database memory:
 
 ```sh
-$ crdb-cli crdb update --crdb-guid 968d586c-e12d-4b8f-8473-42eb88d0a3a2 --memory-size 2GBTask 7e98efc1-8233-4578-9e0c-cdc854b8af9e created
+$ crdb-cli crdb update --crdb-guid <crdb-guid> --memory-size 2GB
+Task <task-id> created
+  ---> Status changed: queued -> started
+  ---> Status changed: started -> finished
+```
+
+The following example shows how to change a default database configuration setting:
+
+```sh
+$ crdb-cli crdb update --crdb-guid <crdb-guid> --default-db-config '{"shards_count": <primary_shards_count>}'
+Task <task-id> created
   ---> Status changed: queued -> started
   ---> Status changed: started -> finished
 ```
