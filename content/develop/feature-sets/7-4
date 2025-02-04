@@ -41,11 +41,13 @@ Behavior adjustments in Redis 7.4 include the use of jemalloc instead of libc fo
 
 Additionally, changes to the ACL LOAD command now ensure that only clients with affected user configurations are disconnected, minimizing unnecessary disruptions.
 
-### Other changes
-Redis Stack 7.4 no longer includes Triggers and Functions due to low adoption during public preview. We removed these to make Redis simpler.
+## Other changes
 
 ### Dual Licensing with RSALv2 and SSPLv1
 Redis 7.4 Community Edition is the first version to be dual-licensed under RSALv2 and SSPLv1. It remains free for the community and customers, maintaining permissive usage rights under the dual license. Versions prior to 7.4 are referred to as Redis open source software (OSS). Starting with Redis 7.4, the freely available versions are officially called Redis Community Edition.
+
+### Removal of triggers and functions
+Redis Stack 7.4 no longer includes Triggers and Functions due to low adoption during public preview. We removed these to make Redis simpler.
 
 ## Component versions
 The Redis feature set 7.4 includes the following components:
