@@ -33,7 +33,7 @@ Connect to the database:
 
 {{< note >}}The connection options in the example specify
 [RESP2]({{< relref "/develop/reference/protocol-spec" >}}) in the `Protocol`
-field. We recommend that you use RESP2 for query operations in `go-redis`
+field. We recommend that you use RESP2 for Redis query engine operations in `go-redis`
 because some of the response structures for the default RESP3 are currently
 incomplete and so you must handle the "raw" responses in your own code.
 
