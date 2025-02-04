@@ -208,7 +208,7 @@ If the operator logs show an event related to an unsupported module, download th
 curl -sfk -u <rec_username>:<rec_password> -X POST -F 'module=@<full path to your module>' https://localhost:9443/v2/modules
 ```
 
-After updating the modules with the Redis Software API, update the REDB custom resource to reflect the change.
+After updating the database with the Redis Software API, update the REDB custom resource to reflect the change.
 
 ### Invalid database version
 
