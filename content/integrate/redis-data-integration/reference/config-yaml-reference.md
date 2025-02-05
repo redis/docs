@@ -14,8 +14,8 @@ for more information about the role `config.yaml` plays in defining a pipeline.
 
 ## Note about fully-qualified table names
 
-Throughout this document we use the format `<databaseName>.<tableName>` to refer to a fully-qualified table name. This format is actually the one used by MySQL/MariaDB, but for Oracle,
-SQLServer, and PostgreSQL, you should use `<schemaName>`.`<tableName>` instead.
+Throughout this document we use the format `<databaseName>.<tableName>` to refer to a fully-qualified table name. This format is actually the one used by MySQL and MariaDB,
+but for Oracle, SQL Server, and PostgreSQL, you should use `<schemaName>`.`<tableName>` instead.
 
 {{< note >}}You can specify the fully-qualified table name `<databaseName>.<tableName>` as
 a regular expression instead of providing the full name of the `databaseName` and `tableName`.
@@ -75,13 +75,12 @@ See the Debezium documentation for more information about the specific connector
 
 | Name | Type | Source Databases | Description |
 | -- | -- | -- | -- |
-| `host` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer| The IP address of the database instance. |
-| `port` | `integer` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | The port of the database instance. |
-| `database` | `string` | Oracle, PostgreSQL, SQLServer| The name of the database to capture changes from. For `SQL Server` you can define this as comma-separated list of database names. |
+| `host` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQL Server| The IP address of the database instance. |
+| `port` | `integer` | MariaDB, MySQL, Oracle, PostgreSQL, SQL Server | The port of the database instance. |
+| `database` | `string` | Oracle, PostgreSQL, SQL Server| The name of the database to capture changes from. For `SQL Server` you can define this as comma-separated list of database names. |
 | `database.encrypt` | `string` | SQL Server| If SSL is enabled for your SQL Server database, you should also enable SSL in RDI by setting the value of this property to `true`.<br/> Default: `false` |
 | `database.server.id` | `integer` | MariaDB, MySQL | Numeric ID of this database client, which must be unique across all currently-running database processes in the MySQL cluster.<br/> Default: 1|
 | `database.url` | `string` | Oracle | Specifies the raw database JDBC URL. Use this property to define a custom database connection. Valid values include raw TNS names and RAC connection strings.|
-| `topic.prefix` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | A prefix for all topic names that receive events emitted by this connector.<br/> Default: `"rdi"` |
 
 ### Advanced properties
 
@@ -104,20 +103,20 @@ See the Debezium documentation for more information about the specific connector
 
 | Name | Type | Source Databases | Description |
 |--|--|--|--|
-| `snapshot.mode` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | Specifies the mode that the connector uses to take snapshots of a captured table. See the [Debezium documentation](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) for more details about the available options and configuration.<br/> Default: `"initial"` |
-| `topic.prefix` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer| A prefix for all topic names that receive events emitted by this connector.<br/>Default: `"rdi"` |
+| `snapshot.mode` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQL Server | Specifies the mode that the connector uses to take snapshots of a captured table. See the [Debezium documentation](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) for more details about the available options and configuration.<br/> Default: `"initial"` |
+| `topic.prefix` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQL Server| A prefix for all topic names that receive events emitted by this connector.<br/>Default: `"rdi"` |
 | `database.exclude.list` | `string` | MariaDB, MySQL | An optional, comma-separated list of regular expressions that match the names of databases for which you do not want to capture changes. The connector captures changes in any database whose name is not included in `database.exclude.list`. Do not specify the `database` field in the `connection` configuration if you are using the `database.exclude.list` property to filter out databases. |
 | `database.pdb.name` | `string` | Oracle |The name of the [Oracle Pluggable Database](https://docs.oracle.com/en/database/oracle/oracle-database/19/riwin/about-pluggable-databases-in-oracle-rac.html) that the connector captures changes from. Do not specify this property for a non-CDB installation.<br/> Default: `"ORCLPDB1"` |
-| `schema.exclude.list` | `string` | Oracle, PostgreSQL, SQLServer | An optional, comma-separated list of regular expressions that match names of schemas for which you do not want to capture changes. The connector captures changes in any schema whose name is not included in `schema.exclude.list`. Do not specify the `schemas` section if you are using the `schema.exclude.list` property to filter out schemas. |
-| `table.exclude.list` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | An optional comma-separated list of regular expressions that match fully-qualified table identifiers for the tables that you want to exclude from being captured; The connector captures all tables that are not included in `table.exclude.list`. Do not specify the `tables` block in the configuration if you are using the `table.exclude.list` property to filter out tables. |
-| `column.exclude.list` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer | An optional comma-separated list of regular expressions that match the fully-qualified names of columns that should be excluded from change event message values. Fully-qualified names for columns are of the form `schemaName.tableName.columnName`. Do not specify the `columns` block in the configuration if you are using the `column.exclude.list` property to filter out columns. |
-| `snapshot.select.statement.overrides` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQLServer |Specifies the table rows to include in a snapshot. Use this property if you want a snapshot to include only a subset of the rows in a table. This property affects snapshots only. It does not apply to events that the connector reads from the log. See [Using custom queries in the initial snapshot](#custom-initial-query) below for more information. |
+| `schema.exclude.list` | `string` | Oracle, PostgreSQL, SQL Server | An optional, comma-separated list of regular expressions that match names of schemas for which you do not want to capture changes. The connector captures changes in any schema whose name is not included in `schema.exclude.list`. Do not specify the `schemas` section if you are using the `schema.exclude.list` property to filter out schemas. |
+| `table.exclude.list` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQL Server | An optional comma-separated list of regular expressions that match fully-qualified table identifiers for the tables that you want to exclude from being captured; The connector captures all tables that are not included in `table.exclude.list`. Do not specify the `tables` block in the configuration if you are using the `table.exclude.list` property to filter out tables. |
+| `column.exclude.list` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQL Server | An optional comma-separated list of regular expressions that match the fully-qualified names of columns that should be excluded from change event message values. Fully-qualified names for columns are of the form `schemaName.tableName.columnName`. Do not specify the `columns` block in the configuration if you are using the `column.exclude.list` property to filter out columns. |
+| `snapshot.select.statement.overrides` | `string` | MariaDB, MySQL, Oracle, PostgreSQL, SQL Server |Specifies the table rows to include in a snapshot. Use this property if you want a snapshot to include only a subset of the rows in a table. This property affects snapshots only. It does not apply to events that the connector reads from the log. See [Using custom queries in the initial snapshot](#custom-initial-query) below for more information. |
 | `lob.enabled` | `string` | Oracle | Enables capturing and serialization of large object (CLOB, NCLOB, and BLOB) column values in change events.<br/>Default: `false` |
 | `unavailable.value.placeholder` | Special | Oracle | Specifies the constant that the connector provides to indicate that the original value is unchanged and not provided by the database (this has the type `__debezium_unavailable_value`). |
 
 ### Using custom queries in the initial snapshot {#custom-initial-query}
 
-{{< note >}}This section is relevant only for MySQL/MariaDB, Oracle, PostgreSQL, and SQLServer.
+{{< note >}}This section is relevant only for MySQL, MariaDB, Oracle, PostgreSQL, and SQL Server.
 {{< /note >}}
 
 By default, the initial snapshot captures all rows from each table.
@@ -128,7 +127,7 @@ To do this, you must first specify the tables whose `SELECT` statement you want 
 After the `snapshot.select.statement.overrides` list, you must then add another configuration property for each table in the list to specify the custom `SELECT` statement for that table.
 The format of the property name depends on the database you are using:
 
-- For Oracle, SQLServer, and PostrgreSQL, use `snapshot.select.statement.overrides.<SCHEMA_NAME>.<TABLE_NAME>`
+- For Oracle, SQL Server, and PostrgreSQL, use `snapshot.select.statement.overrides.<SCHEMA_NAME>.<TABLE_NAME>`
 - For MySQL and MariaDB, use: `snapshot.select.statement.overrides<DATABASE_NAME>.<TABLE_NAME>`
 
 For example, with PostgreSQL, you would have a configuration like the following:
