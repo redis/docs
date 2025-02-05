@@ -54,20 +54,20 @@ See [these pages]({{< relref "/develop/interact/search-and-query/query" >}}) for
 
 Next, simulate queries on a sample dataset to identify potential bottlenecks.
 Use tools like [`FT.PROFILE`]({{< baseurl >}}/commands/ft.profile) to analyze query execution and refine your schema if needed.
-For example, assign weights to `TEXT` fields for prioritizing results or use the `PREFIX` option of [`FT.CREATE`]({{< baseurl >}}/commands/ft.create) to limit indexing to specific key patterns. Note: you can use multiple `PREFIX` clauses when you create an index.
+For example, assign weights to `TEXT` fields for prioritizing results or use the `PREFIX` option of [`FT.CREATE`]({{< baseurl >}}/commands/ft.create) to limit indexing to specific key patterns. Note that you can use multiple `PREFIX` clauses when you create an index (see [below](#index-creation))
 After creating the index, validate its performance with real queries and monitor usage with the available tools:
 
 - [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain) and [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli) allow you to see how Redis Query Engine parses a given search query. `FT.EXPLAIN` returns a structured breakdown of the query execution plan, while `FT.EXPLAINCLI` presents a more readable, tree-like format for easier interpretation. These commands are useful for diagnosing query structure and ensuring it aligns with the intended logic.
-- [`FT.INFO `]({{< baseurl >}}/commands/ft.info) provides detailed statistics about an index, including the number of indexed documents, memory usage, and configuration settings. It helps in monitoring index growth, assessing memory consumption, and verifying index structure to detect potential inefficiencies.
-- [`FT.PROFILE`]({{< baseurl >}}/commands/ft.profile) runs a query while capturing execution details, revealing query performance bottlenecks. It provides insights into processing time, key accesses, and filter application, making it a crucial tool for fine-tuning complex queries and optimizing search efficiency.
+- [`FT.INFO`]({{< baseurl >}}/commands/ft.info) provides detailed statistics about an index, including the number of indexed documents, memory usage, and configuration settings. It helps in monitoring index growth, assessing memory consumption, and verifying index structure to detect potential inefficiencies.
+- [`FT.PROFILE`]({{< baseurl >}}/commands/ft.profile) runs a query while capturing execution details, which helps to reveal query performance bottlenecks. It provides insights into processing time, key accesses, and filter application, making it a crucial tool for fine-tuning complex queries and optimizing search efficiency.
 
 Avoid over-indexing. Indexing every field increases memory usage and can slow down updates.
 Only index the fields that are essential for your planned queries.
 
-## Index creation
+## Index creation {#index-creation}
    - Use the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create) command to define an index schema.
    - Assign weights to `TEXT` fields to prioritize certain fields in full-text search results.
-   - Leverage the `PREFIX` option to restrict indexing to keys with specific patterns.
+   - Use the `PREFIX` option to restrict indexing to keys with specific patterns.
       Using multiple PREFIX clauses when creating an index allows you to index multiple key patterns under a single index. This is useful in several scenarios:
       - If your Redis database stores different types of entities under distinct key prefixes (e.g., `user:123`, `order:456`), a single index can cover both by specifying multiple prefixes. For example:
 
@@ -86,7 +86,7 @@ Only index the fields that are essential for your planned queries.
 
 ## Index aliasing
 
-Index aliasing allows you to assign an alias to an index. Aliases act as abstracted names for the underlying indexes, enabling applications to reference the alias instead of the actual index name. This approach simplifies schema updates and index management.
+Index aliases act as abstracted names for the underlying indexes, enabling applications to reference the alias instead of the actual index name. This approach simplifies schema updates and index management.
 
 There are several use cases for index aliasing, including:
 
@@ -96,9 +96,9 @@ There are several use cases for index aliasing, including:
 
 Best practices for aliasing:
 
-- Default aliases: always create an alias for your indexes during initial setup, even if you don’t anticipate immediate schema changes.
-- Consistent naming conventions: use clear and descriptive alias names to avoid confusion (e.g., `users_current` or `orders_live`).
-- Avoid overlapping aliases: ensure that an alias points to only one index at a time to maintain predictable query results.
+- Always create an alias for your indexes during initial setup, even if you don’t anticipate immediate schema changes.
+- Use clear and descriptive alias names to avoid confusion (e.g., `users_current` or `orders_live`).
+- Make sure that an alias points to only one index at a time to maintain predictable query results.
 - Use aliases to provide tenant-specific access. For example, assign tenant-specific aliases like `tenant1_products` and `tenant2_products` to different indexes for isolated query performance.
 
 Tools for managing aliases:
@@ -152,7 +152,7 @@ Monitoring and troubleshooting aliases:
 - If schema changes are required, create a new index with the updated schema and reassign the alias once the index is ready.
 - Use [Redis key expiration]({{< relref "/develop/use/keyspace#key-expiration" >}}) to automatically remove outdated records and keep indexes lean.
 
-When is it appropriate to use [`FT.ALTER`]({{< baseurl >}}/commands/ft.alter) and when is it best to use aliasing?
+### [`FT.ALTER`]({{< baseurl >}}/commands/ft.alter) vs. aliasing
 
 Use `FT.ALTER` when you need to add new fields to an existing index without rebuilding it, minimizing downtime and resource usage. However, `FT.ALTER` cannot remove or modify existing fields, limiting its flexibility.
 
