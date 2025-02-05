@@ -27,7 +27,7 @@ When you [replicate your database]({{<relref "/operate/rs/databases/durability-h
 
 ## Active-Active geo-distributed replication
 
-[Active-Active Redis Enterprise databases]({{<relref "/operate/rs/databases/active-active">}}) distribute your replicated data across multiple nodes and availability zones. This increases the durability of your database by reducing the likelihood of data or availability loss. It also reduces data access latency.
+[Active-Active Redis Enterprise databases]({{<relref "/operate/rs/databases/active-active">}}) allow reading and writing to the same dataset from multiple clusters in different geographic locations. This increases the durability of your database by reducing the likelihood of data or availability loss. It also reduces data access latency by serving requests from the nearest cluster.
 
 ## Rack-zone awareness
 
