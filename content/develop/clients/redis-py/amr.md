@@ -12,7 +12,7 @@ categories:
 description: Learn how to authenticate to an Azure Managed Redis (AMR) database
 linkTitle: Connect to AMR
 title: Connect to Azure Managed Redis
-weight: 5
+weight: 2
 ---
 
 The [`redis-entra-id`](https://github.com/redis/redis-py-entraid) package
