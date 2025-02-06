@@ -106,8 +106,7 @@ from redis import Redis
 from redis_entraid.cred_provider import *
 
 credential_provider = create_from_managed_identity(
-    identity_type=ManagedIdentityType.USER_ASSIGNED,
-    ...
+    identity_type=ManagedIdentityType.SYSTEM_ASSIGNED,
 )
 ```
 
@@ -116,7 +115,7 @@ configuration using the `token_manager_config` parameter:
 
 ```python
 credential_provider = create_from_managed_identity(
-    identity_type=ManagedIdentityType.USER_ASSIGNED, 
+    identity_type=ManagedIdentityType.SYSTEM_ASSIGNED, 
     ...
 
     token_manager_config=TokenManagerConfig(
