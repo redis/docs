@@ -15,7 +15,8 @@ title: Connect to Azure Managed Redis
 weight: 5
 ---
 
-The `redis-entra-id` package lets you authenticate your app to
+The [`redis-entra-id`](https://github.com/redis/redis-py-entraid) package
+lets you authenticate your app to
 [Azure Managed Redis (AMR)](https://azure.microsoft.com/en-us/products/managed-redis)
 using [Microsoft Entra ID](https://learn.microsoft.com/en-us/entra/identity/).
 You can authenticate using a system-assigned or user-assigned
