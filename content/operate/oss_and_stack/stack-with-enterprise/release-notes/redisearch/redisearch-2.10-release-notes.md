@@ -13,10 +13,19 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.11 requires:
+RediSearch v2.10.12 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+
+## v2.10.12 (February 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5596](https://github.com/redisearch/redisearch/pull/5596) Changes on the memory block reading logic could cause crash on `FT.SEARCH` with error "_Redis 7.4.2 crashed by signal: 11, si_code: 128"_
 
 ## v2.10.11 (January 2025)
 
