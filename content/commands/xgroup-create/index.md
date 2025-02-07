@@ -27,7 +27,7 @@ arguments:
   token: MKSTREAM
   type: pure-token
 - display_text: entries-read
-  name: entries-read
+  name: entriesread
   optional: true
   token: ENTRIESREAD
   type: integer

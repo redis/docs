@@ -67,12 +67,22 @@ representation of the integer.
 
 ## Examples
 
+{{< clients-example cmds_string incr >}}
+> SET mykey "10"
+"OK"
+> INCR mykey
+(integer) 11
+> GET mykey
+"11"
+{{< /clients-example >}}
+
+Give this command a try in the interactive console:
+
 {{% redis-cli %}}
 SET mykey "10"
 INCR mykey
 GET mykey
 {{% /redis-cli %}}
-
 
 ## Pattern: Counter
 
@@ -167,8 +177,8 @@ value greater than 10, otherwise it will expire and start again from 0.
 If for some reason the client performs the `INCR` command but does not perform
 the [`EXPIRE`]({{< relref "/commands/expire" >}}) the key will be leaked until we'll see the same IP address again.
 
-This can be fixed easily turning the `INCR` with optional [`EXPIRE`]({{< relref "/commands/expire" >}}) into a Lua
-script that is send using the [`EVAL`]({{< relref "/commands/eval" >}}) command (only available since Redis version
+This can be easily fixed by turning the `INCR` with optional [`EXPIRE`]({{< relref "/commands/expire" >}}) into a Lua
+script that is then sent using the [`EVAL`]({{< relref "/commands/eval" >}}) command (only available since Redis version
 2.6).
 
 ```

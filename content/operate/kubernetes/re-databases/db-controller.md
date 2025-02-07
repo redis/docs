@@ -26,9 +26,15 @@ the custom resource with default values to create a full specification. It then 
 database on the specified Redis Enterprise cluster (REC).
 
 Once the database is created, it is exposed with the same service mechanisms by the service rigger for the Redis Enterprise cluster.
-If the database [custom resource is deleted]({{< relref "/operate/kubernetes/delete-custom-resources.md" >}}), the database and its services are deleted from the cluster.
+If the database [custom resource is deleted]({{< relref "/operate/kubernetes/re-clusters/delete-custom-resources" >}}), the database and its services are deleted from the cluster.
 
-### Create a database
+### Flexible deployment options
+
+Databases in multiple namespaces can be managed by the same operator. To learn more, see [Manage databases in multiple namespaces]({{<relref "/operate/kubernetes/re-clusters/multi-namespace">}}).
+
+To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/architecture/deployment-options.md" >}}).
+
+## Create a database
 
 Your Redis Enterprise database custom resource must be of the `kind: RedisEnterpriseDatabase` and have values for `name` and `memorySize`. All other values are optional and will be defaults if not specified.
 
@@ -64,7 +70,7 @@ Your Redis Enterprise database custom resource must be of the `kind: RedisEnterp
 
     When the status is `active`, the database is ready to use.
 
-### Modify a database
+## Modify a database
 
 The custom resource defines the properties of the database.
 To change the database, you can edit your original specification and apply the change or use `kubectl edit`.
@@ -78,7 +84,7 @@ To modify the database:
     ```
 
 1. Change the specification (only properties in `spec` section) and save the changes.  
-    For more details, see [RedisEnterpriseDatabaseSpec](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md#redisenterprisedatabasespec) or [Options for Redis Enterprise databases]({{< relref "/operate/kubernetes/reference/db-options.md" >}}). 
+    For more details, see [RedisEnterpriseDatabaseSpec](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md#redisenterprisedatabasespec) or [Options for Redis Enterprise databases]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}). 
 
 1. Monitor the status to see when the changes take effect:
 
@@ -88,7 +94,7 @@ To modify the database:
 
     When the status is `active`, the database is ready for use.
 
-### Delete a database
+## Delete a database
 
 The database exists as long as the custom resource exists.
 If you delete the custom resource, the database controller deletes the database.

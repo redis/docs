@@ -35,9 +35,9 @@ RedisBloom v2.0.3 requires:
 We are proud to announce that we doubled the number of probabilistic data structures that are generally available in RedisBloom.  Full documentation is available on [redisbloom.io](https://redisbloom.io)
 
 - #[70](https://github.com/RedisBloom/RedisBloom/issues/70) Top-K
-    - [Commands](https://oss.redislabs.com/redisbloom/TopK_Commands/)
+    - [Commands]({{<relref "/develop/data-types/probabilistic/top-k">}})
     - [Algorithm](https://www.usenix.org/conference/atc18/presentation/gong)
 
 - #[65](https://github.com/RedisBloom/RedisBloom/issues/65) Count-min Sketch
-    - [Commands](https://oss.redislabs.com/redisbloom/CountMinSketch_Commands/)
+    - [Commands]({{<relref "/develop/data-types/probabilistic/count-min-sketch">}})
     - [Algorithm](https://en.wikipedia.org/wiki/Count%E2%80%93min_sketch)

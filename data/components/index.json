@@ -11,7 +11,10 @@
         "go_redis",
         "node_redis",
         "redis_py",
-        "jedis"
+        "jedis",
+        "lettuce_async",
+        "lettuce_reactive",
+        "redis_vl"
     ],
     "assets": [],
     "_assets": [

@@ -14,7 +14,7 @@ Use the **Databases** menu of the Redis Cloud console to manage your databases.
 
 To view the details of a database:
 
-1. Sign in to the [Redis Cloud console](https://app.redislabs.com/).  (Create an account if you don't already have one.)
+1. Sign in to the [Redis Cloud console](https://cloud.redis.io/).  (Create an account if you don't already have one.)
 
 2. Select the **Databases** menu to display a searchable list of all databases.
  
@@ -27,7 +27,7 @@ To view the details of a database:
 The **Database** screen lets you review:
 - Configuration details of a database
 - Graphs showing performance metrics
-- Recent activity via a "[slowlog]({{< relref "/commands" >}}/slowlog)," which lists queries that exceed a certain execution time.
+- Recent activity via a "[slowlog]({{< relref "/commands/slowlog" >}}," which lists queries that exceed a certain execution time.
 
 For help changing database settings, see [Edit database details](#edit-database-details).
 
@@ -56,23 +56,22 @@ The available settings vary according to your plan, cloud provider, and design c
 | **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 | **Advanced Capabilites**  | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database                                                  |
 
-### Scalability section
+### Performance section
 
-The **Scalability** section describes the memory size, throughput, and hashing policy for a database.
+The **Performance** section describes the memory size, throughput, and hashing policy for a database.
 
-{{<image filename="images/rc/database-details-configuration-tab-scalability-flexible.png" alt="Use the Scalability section to control the size, throughput, and hashing policy for a database." >}}
-
-The **Scalability** section is primarily for Redis Cloud Pro plans. Redis Cloud Essentials plans have options for memory limit and memory used.
+{{<image filename="images/rc/database-details-configuration-tab-scalability-flexible.png" alt="Use the Performance section to control the size, throughput, and hashing policy for a database." >}}
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Plan Memory limit** | Maximum size (in GB) for your database.  |
+| **Dataset size** | Maximum size (in GB) for your dataset. See [Dataset size]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}}).  |
+| **Throughput**        | Defines [throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) in terms of maximum operations per second for the database (_Redis Cloud Pro only_). |
 | **Memory used**       | Memory currently used for your database.  |
-| **Throughput**        | Defines throughput in terms of maximum operations per second for the database | |
-| **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
-| **OSS Cluster API**       | Enables the [Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) for a database.<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
+| **High availability**    | Replicates your data across multiple nodes; [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) depend on your plan type  |
+| **Hashing policy**    | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}) (_Redis Cloud Pro only_).  |
+| **OSS Cluster API**       | Enables the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database (_Redis Cloud Pro only_).<br/><br/>When this option is enabled, you cannot define a custom hashing policy.|
 
-To learn more about these settings and when to use them, see [Database clustering]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}).
+To learn more about these settings and when to use them, see [Sizing]({{< relref "/operate/rc/databases/configuration/sizing" >}}) and [Database clustering]({{< relref "/operate/rc/databases/configuration/clustering" >}}).
 
 ### Durability section
 
@@ -82,7 +81,6 @@ The Durability section helps protect your data when problems occur.  These setti
 
 | Setting name             | Description                                                                                                                                                     |
 |:-------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **High availability**    | Replicates your data across multiple nodes; [available options]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) depend on your plan type  |
 | **Data persistence**     | Defines whether (and how) data is saved to disk; [available options]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) depend on your plan type |
 | **Data eviction policy** | Configures which [policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies" >}}) is applied when your database reaches its memory limit        |
 | **Remote backup**        | When enabled, identifies a location and interval for [data backups]({{< relref "/operate/rc/databases/back-up-data" >}}). (_Paid plans only_)                |
@@ -182,7 +180,7 @@ The **View Database** screen also has tabs that let you view:
 
 - **Metrics**: a series of graphs showing database performance over time.  See [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance.md" >}})
 
-- **Slowlog**: a log showing recent [slow queries]({{< relref "/commands" >}}/slowlog) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
+- **Slowlog**: a log showing recent [slow queries]({{< relref "/commands/slowlog" >}}) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
 
 
 ## Edit database details
@@ -200,12 +198,12 @@ Here's what you can change:
 | General | Database name                  ||
 | | Supported protocol(s)                  ||
 | | Tags                                   ||
-| Scalability | Memory limit                   | |
+| Performance | Dataset size                   | |
+| | High-availability                     | _Paid plans only_ |
 | | Throughput                     | _Pro plans only_ |
 | | Hashing policy                 | _Pro plans only_ |
 | | OSS Cluster API                | _Pro plans only_ |
-| Durability | High-availability              | _Paid plans only_ |
-| | Data persistence               | _Paid plans only_ |
+| Durability | Data persistence                | _Paid plans only_ |
 | | Data eviction policy           | |
 | | Remote backup                  | _Paid plans only_ |
 | | Active-Passive Redis           | _Pro plans only_ |

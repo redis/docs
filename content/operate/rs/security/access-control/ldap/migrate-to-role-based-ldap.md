@@ -58,11 +58,11 @@ This checklist covers the basic process:
 
 To test your LDAP integration, you can:
 
-- Connect with `redis-cli` and use the [`AUTH` command]({{< relref "/commands" >}}/auth/) to test LDAP username/password credentials.
+- Connect with `redis-cli` and use the [`AUTH` command]({{< relref "/commands/auth" >}}) to test LDAP username/password credentials.
 
 - Sign in to the Cluster Manager UI using LDAP credentials authorized for admin access.
 
-- Use [Redis Insight]({{< relref "/develop/connect/insight/" >}}) to access a database using authorized LDAP credentials.
+- Use [Redis Insight]({{< relref "/develop/tools/insight" >}}) to access a database using authorized LDAP credentials.
 
 - Use the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to connect using authorized LDAP credentials.
 

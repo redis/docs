@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - stack
-description: RedisJSON release notes for version 2.6 and earlier
+description: RedisJSON release notes for version 2.8 and earlier
 hideListLinks: true
 linkTitle: RedisJSON
 tags:

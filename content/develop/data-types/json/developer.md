@@ -9,15 +9,11 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Notes on debugging, testing and documentation
-
-  '
+description: 'Notes on JSON debugging, testing and documentation.'
 linkTitle: Developer notes
 title: Developer notes
 weight: 7
 ---
-
-# Developing Redis JSON
 
 Developing Redis JSON involves setting up the development environment (which can be either Linux-based or macOS-based), building RedisJSON (the Redis module providing JSON), running tests and benchmarks, and debugging both the JSON module and its tests.
 
@@ -104,7 +100,7 @@ make pytest        # run flow tests using RLTest
   GEN=1              # run general tests on a standalone Redis topology
   AOF=1              # run AOF persistency tests on a standalone Redis topology
   SLAVES=1           # run replication tests on standalone Redis topology
-  CLUSTER=1          # run general tests on a OSS Redis Cluster topology
+  CLUSTER=1          # run general tests on a Redis Community Edition Cluster topology
   VALGRIND|VG=1      # run specified tests with Valgrind
   VERBOSE=1          # display more RLTest-related information
 

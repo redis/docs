@@ -17,8 +17,6 @@ title: Internal design
 weight: 1
 ---
 
-# Internal design
-
 Redis Stack implements inverted indexes on top of Redis, but unlike previous implementations of Redis inverted indexes, it uses a custom data encoding that allows more memory and CPU efficient searches, and more advanced search features.
 
 This document details some of the design choices and how these features are implemented.
@@ -65,7 +63,7 @@ To optimize searches, two additional auxiliary data structures are kept in diffe
 
 ## Document and result ranking
 
-Each document entered to the engine using `FT.ADD` has a user assigned rank between 0.0 and 1.0. This is used in combination with a [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) scoring of each word to rank the results.
+Each document entered to the engine has a [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) scoring of each word to rank the results.
 
 As an optimization, each inverted index hit is encoded with `TF * Document_rank` as its score, and only IDF is applied during searches. This may change in the future.
 
@@ -86,14 +84,6 @@ FT.CREATE my_index title 10.0 body 1.0 url 2.0
 will create an index on fields named title, body, and url, with scores of 10, 1, and 2 respectively.
 
 When documents are indexed, the weights are taken from the saved *index Spec* that is stored in a special Redis key, and only fields that appear in this spec are indexed.
-
-## Document data storage
-
-It is not mandatory to save the document data when indexing a document. Specifying `NOSAVE` for `FT.ADD` will cause the document to be indexed but not saved.
-
-If the user does save the document, a HASH key is created in Redis that contains all fields (including ones not indexed), and upon search, perform an [`HGETALL`]({{< relref "/commands/hgetall" >}}) query on each retrieved document to retrieve all of its data.
-
-**TODO**: Document snippets should be implemented down the road.
 
 ## Query execution engine
 

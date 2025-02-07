@@ -53,17 +53,27 @@ To upgrade a module enabled for a database:
     - `rladmin status modules` - Shows the latest modules available on the cluster and the modules used by databases.
     - `rladmin status modules all` - Shows all of the modules available on the cluster and the modules used by databases.
 
-1. To upgrade a database to the latest version of Redis and its modules to the latest version without changing the module arguments, run:
+1. To upgrade a database to the latest version of Redis and its modules to the latest version without changing the module arguments:
 
-    ```sh
-    rladmin upgrade db < database_name | database_ID > latest_with_modules
-    ```
+    - For clusters with Redis Enterprise Software versions 7.8.2 or later, run:
+
+        ```sh
+        rladmin upgrade db < database-name | database-ID >
+        ```
+
+    - For clusters with versions earlier than 7.8.2, include the `latest_with_modules` option:
+
+        ```sh
+        rladmin upgrade db < database-name | database-ID > latest_with_modules
+        ```
 
     {{<warning>}}
 The upgrade process does not validate the module upgrade arguments, and incorrect arguments can cause unexpected downtime. Test module upgrade commands in a test environment before you upgrade modules in production. 
     {{</warning>}}
 
     - Use `keep_redis_version` to upgrade the modules without upgrading the database to the latest Redis version.
+    
+        `keep_redis_version` is deprecated as of Redis Enterprise Software version 7.8.2. To upgrade modules without upgrading the Redis database version, set `redis_version` to the current Redis database version instead.
 
     - To specify the modules to upgrade, add the following for each module:
 
@@ -79,26 +89,42 @@ The upgrade process does not validate the module upgrade arguments, and incorrec
 
         - `module_args keep_args` to use the existing module arguments.
 
-## Examples
+## Examples for Redis Software v7.8.2 and later
 
-Here are some module upgrade examples:
+The following module upgrade examples are supported for Redis Enterprise Software versions 7.8.2 and later:
+
+- Keep the current Redis database version, which is 7.2 in this example, and upgrade to the latest version of the enabled modules:
+
+    ```sh
+    rladmin upgrade db shopping-cart redis_version 7.2
+    ```
+
+- Upgrade the database to use the latest version of Redis and the latest versions of the enabled modules:
+
+    ```sh
+    rladmin upgrade db shopping-cart
+    ```
+
+## Deprecated examples
+
+As of Redis Enterprise Software version 7.8.2, the following module upgrade examples are deprecated but still supported.
 
 - Keep the current version of Redis and upgrade to the latest version of the enabled modules:
 
     ```sh
-    rladmin upgrade db shopping_cart keep_redis_version latest_with_modules
+    rladmin upgrade db shopping-cart keep_redis_version latest_with_modules
     ```
 
 - Upgrade the database to the latest Redis version and upgrade RediSearch to 1.6.7 with the specified arguments:
 
     ```sh
-    rladmin upgrade db shopping_cart and module db_name shopping_cart module_name ft version 10607 module_args "PARTITIONS AUTO"
+    rladmin upgrade db shopping-cart and module db_name shopping-cart module_name ft version 10607 module_args "PARTITIONS AUTO"
     ```
 
 - Upgrade the database to the latest Redis version and upgrade RedisBloom to version 2.2.1 without arguments:
 
     ```sh
-    rladmin upgrade db db:3 and module db_name shopping_cart module_name bf version 20201 module_args ""
+    rladmin upgrade db db:3 and module db_name shopping-cart module_name bf version 20201 module_args ""
     ```
 
 - Upgrade RedisJSON to 1.0.4 with the existing arguments and RedisBloom to version 2.2.1 without arguments:
@@ -110,5 +136,5 @@ Here are some module upgrade examples:
 - Upgrade the database to use the latest version of Redis and use the latest version of the enabled modules:
 
     ```sh
-    rladmin upgrade db shopping_cart latest_with_modules
+    rladmin upgrade db shopping-cart latest_with_modules
     ```

@@ -87,7 +87,7 @@ Every instance of an Active-Active database can receive write operations, and al
         {{<image filename="images/rs/screenshots/databases/active-active-databases/create-db-add-participating-clusters.png" alt="Add cluster panel.">}}
 
         {{<note>}}
-You cannot add RAM-only clusters and [flash-enabled clusters]({{< relref "/operate/rs/databases/auto-tiering" >}}) to the same Active-Active configuration.
+If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
         {{</note>}}
 
     1. Click **Join cluster** to add the cluster to the list of participating clusters. 
@@ -132,6 +132,8 @@ If you create a database with Auto Tiering enabled, you also need to set the RAM
 for this database. Minimum RAM is 10%. Maximum RAM is 50%.
     {{< /note >}}
 
+- **Memory eviction** - The default [eviction policy]({{<relref "/operate/rs/databases/memory-performance/eviction-policy">}}) for Active-Active databases is `noeviction`. Redis Enterprise versions 6.0.20 and later support all eviction policies for Active-Active databases, unless [Auto Tiering]({{<relref "/operate/rs/databases/auto-tiering">}}) is enabled.
+
 - [**Capabilities**]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) (previously **Modules**) - When you create a new in-memory database, you can enable multiple Redis Stack capabilities in the database. For Auto Tiering databases, you can enable capabilities that support Auto Tiering. See [Redis Enterprise and Redis Stack feature compatibility 
 ]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities" >}}) for compatibility details.
         
@@ -154,50 +156,51 @@ If you enable TLS when you create the Active-Active database, the nodes use the 
         
 After you create the Active-Active database, you can set the TLS mode to **Require TLS for all communications** so client communication from applications are also authenticated and encryption.
 
-### High availability & durability
+### High availability
 
 - [**Replication**]({{< relref "/operate/rs/databases/durability-ha/replication" >}}) - We recommend that all Active-Active database use replication for best intercluster synchronization performance.
     
     When replication is enabled, every Active-Active database master shard is replicated to a corresponding replica shard. The replica shards are then used to synchronize data between the instances, and the master shards are dedicated to handling client requests.
     
-    We also recommend that you enable [replica HA]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) to ensure that the replica shards are highly-available for this synchronization.
-
-- [**Data persistence**]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}) - To protect against loss of data stored in RAM, you can enable data persistence to store a copy of the data on disk.
-        
-    Active-Active databases support append-only file (AOF) persistence only. Snapshot persistence is not supported for Active-Active databases.
-
-- **Eviction policy** - The default eviction policy for Active-Active databases is `noeviction`. Redis Enterprise version 6.0.20 and later support all eviction policies for Active-Active databases, unless [Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering" >}}) is enabled.
+- [**Replica high availability**]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) - We also recommend that you enable replica high availability to ensure replica shards are highly-available for this synchronization.
 
 ### Clustering
 
-- In the **Database clustering** option, you can either:
+- In the [**Clustering**]({{<relref "/operate/rs/databases/durability-ha/clustering">}}) section, you can either:
 
-    - Make sure the Database clustering is enabled and select the number of shards
-        that you want to have in the database. When database clustering is enabled,
-        databases are subject to limitations on [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}).
+    - **Enable sharding** and select the number of shards you want to have in the database. When database clustering is enabled, databases have limitations for [multi-key operations]({{<relref "/operate/rs/databases/durability-ha/clustering#multikey-operations">}}).
+    
         You can increase the number of shards in the database at any time.
         
-    - Clear the **Database clustering** option to use only one shard so that you
-        can use [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}})
-        without the limitations.
+    - Clear the **Enable sharding** option to use only one shard, which allows you to use [multi-key operations]({{<relref "/operate/rs/databases/durability-ha/clustering#multikey-operations">}}) without the limitations.
 
     {{<note>}}
 You cannot enable or turn off database clustering after the Active-Active database is created.
     {{</note>}}
 
-- [**OSS Cluster API**]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) - {{< embed-md "oss-cluster-api-intro.md"  >}}
+- [**OSS Cluster API**]({{< relref "/operate/rs/databases/configure/oss-cluster-api.md" >}}) - The OSS Cluster API configuration allows access to multiple endpoints for increased throughput. The OSS Cluster API setting applies to all instances of the Active-Active database across participating clusters.
+
+    This configuration requires clients to connect to the primary node to retrieve the cluster topology before they can connect directly to proxies on each node.
+    
+    When you enable the OSS Cluster API, shard placement changes to _Sparse_, and the database proxy policy changes to _All primary shards_ automatically.
+
+### Durability
+
+To protect against loss of data stored in RAM, you can enable [**Persistence**]({{<relref "/operate/rs/databases/configure/database-persistence">}}) to store a copy of the data on disk.
+        
+Active-Active databases support append-only file (AOF) persistence only. Snapshot persistence is not supported for Active-Active databases.
 
 ### Access control
 
 - **Unauthenticated access** - You can access the database as the default user without providing credentials.
 
-- **Password-only authentication** - When you configure a password for your database's default user, all connections to the database must authenticate with the [AUTH command]({{< relref "/commands" >}}/auth).
+- **Password-only authentication** - When you configure a password for your database's default user, all connections to the database must authenticate with the [AUTH command]({{< relref "/commands/auth" >}}.
 
     If you also configure an access control list, connections can specify other users for authentication, and requests are allowed according to the Redis ACLs specified for that user.
 
     Creating a database without ACLs enables a *default* user with full access to the database. You can secure default user access by requiring a password.
 
-- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/security/access-control/rbac/create-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/security/access-control/rbac/configure-acl" >}}) that apply to those connections.
+- **Access Control List** - You can specify the [user roles]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) that have access to the database and the [Redis ACLs]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}) that apply to those connections.
 
     You can only configure access control after the Active-Active database is created. In each participating cluster, add ACLs after database creation.
 
@@ -205,9 +208,9 @@ You cannot enable or turn off database clustering after the Active-Active databa
 
     1. In **Security > Access Control > Access Control List**, select **+ Add ACL**.
 
-    1. Select a [role]({{< relref "/operate/rs/security/access-control/rbac/create-roles" >}}) to grant database access.
+    1. Select a [role]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) to grant database access.
 
-    1. Associate a [Redis ACL]({{< relref "/operate/rs/security/access-control/rbac/configure-acl" >}}) with the role and database.
+    1. Associate a [Redis ACL]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) with the role and database.
 
     1. Select the check mark to add the ACL.
 

@@ -46,17 +46,19 @@ Port 9443 is the default [port configuration]({{< relref "/operate/rs/networking
 
 When you flush an Active-Active database (formerly known as CRDB), all of the replicas flush their data at the same time.
 
-To flush data from an Active-Active database:
+To flush data from an Active-Active database, use one of the following methods:
 
 - Cluster Manager UI
 
-    1. If you are using the new Cluster Manager UI, switch to the legacy admin console.
+    1. On the **Databases** screen, select the database from the list, then click **Configuration**.
 
-        {{<image filename="images/rs/screenshots/switch-to-legacy-ui.png"  width="300px" alt="Select switch to legacy admin console from the dropdown.">}}
+    1. Click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" class="inline" >}} to open a list of additional actions.
 
-    1. Go to **database** and select the Active-Active database that you want to flush.
-    1. Go to **configuration** and click **Flush** at the bottom of the page.
+    1. Select **Flush database**.
+
     1. Enter the name of the Active-Active database to confirm that you want to flush the data.
+
+    1. Click **Flush**.
 
 - Command line
 

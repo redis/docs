@@ -145,7 +145,7 @@ The following XML maps Redis hashes, which represent students, to a MySQL table:
 ```
 ## Commands
 
-Run rghibernate commands with [`RG.TRIGGER`](http://oss.redis.com/redisgears/commands.html#rgtrigger):
+Run rghibernate commands with `RG.TRIGGER`:
 
 ```sh
 redis-cli RG.TRIGGER SYNC.<COMMAND>

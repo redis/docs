@@ -54,15 +54,15 @@ FT.SEARCH index "@text_field:( value1 value2 ... )"
 
 The following example shows you a query that finds bicycles in new condition and in a price range from 500 USD to 1000 USD:
 
-```
+{{< clients-example query_combined combined1 >}}
 FT.SEARCH idx:bicycle "@price:[500 1000] @condition:{new}"
-```
+{{< /clients-example >}}
 
 You might also be interested in bicycles for kids. The query below shows you how to combine a full-text search with the criteria from the previous query:
 
-```
+{{< clients-example query_combined combined2 >}}
 FT.SEARCH idx:bicycle "kids (@price:[500 1000] @condition:{used})"
-```
+{{< /clients-example >}}
 
 ## OR
 
@@ -89,21 +89,21 @@ FT.SEARCH index "@tag_field:{ value1 | value2 | ... }"
 
 The following query shows you how to find used bicycles that contain either the word 'kids' or 'small':
 
-```
+{{< clients-example query_combined combined3 >}}
 FT.SEARCH idx:bicycle "(kids | small) @condition:{used}"
-```
+{{< /clients-example >}}
 
 The previous query searches across all text fields. The following example shows you how to limit the search to the description field:
 
-```
+{{< clients-example query_combined combined4 >}}
 FT.SEARCH idx:bicycle "@description:(kids | small) @condition:{used}"
-```
+{{< /clients-example >}}
 
 If you want to extend the search to new bicycles, then the below example shows you how to do that:
 
-```
+{{< clients-example query_combined combined5 >}}
 FT.SEARCH idx:bicycle "@description:(kids | small) @condition:{new | used}"
-```
+{{< /clients-example >}}
 
 ## NOT
 
@@ -115,13 +115,13 @@ FT.SEARCH index "-(expr)"
 
 If you want to exclude new bicycles from the search within the previous price range, you can use this query:
 
-```
+{{< clients-example query_combined combined6 >}}
 FT.SEARCH idx:bicycle "@price:[500 1000] -@condition:{new}"
-```
+{{< /clients-example >}}
 
 ## Numeric filter
 
-The [FT.SEARCH]({{< baseurl >}}/commands/ft.search//) command allows you to combine any query expression with a numeric filter.
+The [FT.SEARCH]({{< baseurl >}}/commands/ft.search) command allows you to combine any query expression with a numeric filter.
 
 ```
 FT.SEARCH index "expr" FILTER numeric_field start end
@@ -140,8 +140,8 @@ FT.SEARCH index "(filter_expr)=>[KNN num_neighbours @field $vector]" PARAMS 2 ve
 
 Here is an example:
 
-```
+{{< clients-example query_combined combined7 >}}
 FT.SEARCH idx:bikes_vss "(@price:[500 1000] @condition:{new})=>[KNN 3 @vector $query_vector]" PARAMS 2 "query_vector" "Z\xf8\x15:\xf23\xa1\xbfZ\x1dI>\r\xca9..." DIALECT 2
-```
+{{< /clients-example >}}
 
 The [vector search article]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) provides further details about vector queries in general.

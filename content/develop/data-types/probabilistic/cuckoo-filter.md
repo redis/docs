@@ -17,8 +17,6 @@ title: Cuckoo filter
 weight: 20
 ---
 
-# Cuckoo Filters
-
 A Cuckoo filter, just like a Bloom filter, is a probabilistic data structure in Redis Stack that enables you to check if an element is present in a set in a very fast and space efficient way, while also allowing for deletions and showing better performance than Bloom in some scenarios.
 
 While the Bloom filter is a bit array with flipped bits at positions decided by the hash function, a Cuckoo filter is an array of buckets, storing fingerprints of the values in one of the buckets at positions decided by the two hash functions. A membership query for item `x` searches the possible buckets for the fingerprint of `x`, and returns true if an identical fingerprint is found. A cuckoo filter's fingerprint size will directly determine the false positive rate.
@@ -113,7 +111,7 @@ Number of items in each bucket. A higher bucket size value improves the fill rat
 error_rate = (buckets * hash_functions)/2^fingerprint_size = (buckets*2)/256
 ```
 
-When bucket size of 1 is used the fill rate is 55% and false positive error rate is 2/256 ≈ 0.78% **which is the minimal false positive rate you can achieve**. Larger buckets increase the error rate linearly but improve the fill rate of the filter. For example, a bucket size of 3 yields a 2.34% error rate and 80% fill rate. Bucket size of 4 - a 3.12% error rate and a 95% fill rate. 
+When bucket size of 1 is used the fill rate is 55% and false positive error rate is 2/256 ≈ 0.78% **which is the minimal false positive rate you can achieve**. Larger buckets increase the error rate linearly but improve the fill rate of the filter. For example, a bucket size of 3 yields a 2.34% error rate and an 80% fill rate. Bucket size of 4 yields a 3.12% error rate and a 95% fill rate. 
 
 ### Choosing the scaling factor (`EXPANSION`)
 

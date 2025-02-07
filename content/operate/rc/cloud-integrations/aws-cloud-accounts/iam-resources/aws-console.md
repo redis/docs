@@ -24,90 +24,120 @@ First, create a policy to use for the new instance role:
 {
     "Version": "2012-10-17",
     "Statement": [
-    {
-        "Version": "2012-10-17",
-        "Statement": [
         {
-            "Sid": "EC2",
+            "Sid": "Ec2DescribeAll",
+            "Effect": "Allow",
+            "Action": "ec2:Describe*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "GetUserInfo",
             "Effect": "Allow",
             "Action": [
-            "ec2:DescribeAvailabilityZones",
-            "ec2:DescribeRegions",
-            "ec2:DescribeSecurityGroups",
-            "ec2:DescribeTags",
-            "ec2:DescribeVolumes"
+                "iam:GetUser",
+                "iam:GetUserPolicy"
+            ],
+            "Resource": "arn:aws:iam::*:user/${aws:username}"
+        },
+        {
+            "Sid": "RolePolicyUserReadActions",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole",
+                "iam:GetPolicy",
+                "iam:ListUsers",
+                "iam:ListPolicies",
+                "iam:ListRolePolicies",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListInstanceProfiles",
+                "iam:ListInstanceProfilesForRole",
+                "iam:SimulatePrincipalPolicy"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "EC2Tagged",
+            "Sid": "KeyPairActions",
             "Effect": "Allow",
             "Action": [
-            "ec2:AuthorizeSecurityGroupEgress",
-            "ec2:AuthorizeSecurityGroupIngress",
-            "ec2:DeleteSecurityGroup",
-            "ec2:RevokeSecurityGroupEgress",
-            "ec2:RevokeSecurityGroupIngress"
+                "ec2:CreateKeyPair",
+                "ec2:DeleteKeyPair",
+                "ec2:ImportKeyPair"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "CreateInstancesSnapshotsVolumesAndTags",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateVolume",
+                "ec2:AttachVolume",
+                "ec2:StartInstances",
+                "ec2:RunInstances",
+                "ec2:CreateSnapshot",
+                "ec2:CreateTags",
+                "ec2:ModifyInstanceAttribute"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "PassRlClusterNodeRole",
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::*:role/redislabs-cluster-node-role"
+        },
+        {
+            "Sid": "ResourceAccessManagerActions",
+            "Effect": "Allow",
+            "Action": [
+                "ram:AcceptResourceShareInvitation",
+                "ram:GetResourceShares",
+                "ram:RejectResourceShareInvitation",
+                "ram:GetResourceShareInvitations",
+                "ram:DisassociateResourceShare"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "NetworkAccess",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:*Vpc*",
+                "ec2:*VpcPeering*",
+                "ec2:*Subnet*",
+                "ec2:*Gateway*",
+                "ec2:*Vpn*",
+                "ec2:*Route*",
+                "ec2:*Address*",
+                "ec2:*SecurityGroup*",
+                "ec2:*NetworkAcl*",
+                "ec2:*DhcpOptions*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "DeleteInstancesVolumesSnapshotsAndTagsWithIdentiferTag",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:RebootInstances",
+                "ec2:StopInstances",
+                "ec2:TerminateInstances",
+                "ec2:DeleteSnapshot",
+                "ec2:DeleteVolume",
+                "ec2:DetachVolume",
+                "ec2:DeleteTags"
             ],
             "Resource": "*",
             "Condition": {
-            "StringEquals": {
-                "ec2:ResourceTag/RedisLabsIdentifier": "Redislabs-VPC"
+                "StringEquals": {
+                    "ec2:ResourceTag/RedisLabsIdentifier": "Redislabs-VPC"
+                }
             }
-            }
-        },
-        {
-            "Sid": "EBSVolumeActions",
-            "Effect": "Allow",
-            "Action": [
-            "ec2:AttachVolume",
-            "ec2:CreateVolume",
-            "ec2:CreateTags",
-            "ec2:DescribeTags"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "S3Object",
-            "Effect": "Allow",
-            "Action": [
-            "s3:PutObject",
-            "s3:PutObjectAcl",
-            "s3:GetObject",
-            "s3:GetObjectAcl",
-            "s3:DeleteObject",
-            "s3:ListBucket",
-            "s3:GetBucketLocation"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "IAM",
-            "Effect": "Allow",
-            "Action": [
-            "iam:GetPolicy",
-            "iam:ListPolicies"
-            ],
-            "Resource": "*"
-        }
-        {
-        "Sid": "ResourceAccessManagerActions",
-        "Effect": "Allow",
-        "Action": [
-            "ram:AcceptResourceShareInvitation",
-            "ram:GetResourceShares",
-            "ram:RejectResourceShareInvitation",
-            "ram:GetResourceShareInvitations",
-            "ram:DisassociateResourceShare"
-        ],
-        "Resource": "*"
         },
         {
             "Sid": "CreateAndChangeServiceLinkedRoleForTransitGateway",
             "Effect": "Allow",
             "Action": "iam:CreateServiceLinkedRole",
-            "Resource": "arn:aws:iam::*:role/"
-                        "aws-service-role/transitgateway.amazonaws.com/AWSServiceRoleForVPCTransitGateway*",
+            "Resource": "arn:aws:iam::*:role/aws-service-role/transitgateway.amazonaws.com/AWSServiceRoleForVPCTransitGateway*",
             "Condition": {"StringLike": {"iam:AWSServiceName": "transitgateway.amazonaws.com"}}
         },
         {
@@ -116,11 +146,8 @@ First, create a policy to use for the new instance role:
                 "iam:AttachRolePolicy",
                 "iam:PutRolePolicy"
             ],
-            "Resource": "arn:aws:iam::*:role/"
-                        "aws-service-role/transitgateway.amazonaws.com/AWSServiceRoleForVPCTransitGateway*"
+            "Resource": "arn:aws:iam::*:role/aws-service-role/transitgateway.amazonaws.com/AWSServiceRoleForVPCTransitGateway*"
         }
-        ]
-    }
     ]
 }
 ```

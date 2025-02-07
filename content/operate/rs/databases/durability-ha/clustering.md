@@ -61,7 +61,7 @@ is 3, you can increase the number of shards to 6, 9, or 12.
 
 ### Standard hashing policy
 
-When using the standard hashing policy, a clustered Redis Enterprise database behaves similarly to a standard [source available Redis cluster]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags), except when using multiple hash tags in a key's name. We recommend using only a single hash tag in a key name for hashing in Redis Enterprise.
+When using the standard hashing policy, a clustered Redis Enterprise database behaves similarly to a standard [Redis Community Edition cluster]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags), except when using multiple hash tags in a key's name. We recommend using only a single hash tag in a key name for hashing in Redis Enterprise.
 
 - **Keys with a hash tag**: a key's hash tag is any substring between
     `{` and `}` in the key's name. When a key's name
@@ -161,8 +161,8 @@ the command is distributed across multiple shards
 and the responses from all shards are combined into a single response.
     {{< /note >}}
 
-- **Geo commands**: For the [GEORADIUS]({{< relref "/commands" >}}/georadius) and
-    [GEORADIUSBYMEMBER]({{< relref "/commands" >}}/georadiusbymember) commands, the
+- **Geo commands**: For the [GEORADIUS]({{< relref "/commands/georadius" >}}) and
+    [GEORADIUSBYMEMBER]({{< relref "/commands/georadiusbymember" >}}) commands, the
     STORE and STOREDIST options can only be used when all affected keys
     reside in the same slot.
 - **Transactions**: All operations within a WATCH / MULTI / EXEC block

@@ -12,6 +12,10 @@ weight: 1
 
 This guide shows you how to install Redis on macOS using Homebrew. Homebrew is the easiest way to install Redis on macOS. If you'd prefer to build Redis from the source files on macOS, see [Installing Redis from Source]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}}).
 
+{{< note >}}
+The Homebrew distribution of Redis Community Edition is only supported on macOS.
+{{< /note >}}
+
 ## Prerequisites
 
 First, make sure you have Homebrew installed. From the terminal, run:
@@ -82,18 +86,22 @@ Once Redis is running, you can test it by running `redis-cli`:
 redis-cli
 {{< / highlight >}}
 
-This will open the Redis REPL. Try running some commands:
+Test the connection with the `ping` command:
 
-{{< highlight bash >}}
-127.0.0.1:6379> lpush demos redis-macOS-demo
-OK
-127.0.0.1:6379> rpop demos
-"redis-macOS-demo"
+{{< highlight bash  >}}
+127.0.0.1:6379> ping
+PONG
 {{< / highlight >}}
+
+You can also test that your Redis server is running using
+[Redis Insight]({{< relref "/develop/tools/insight" >}}).
 
 ## Next steps
 
 Once you have a running Redis instance, you may want to:
 
-* Try the Redis CLI tutorial
-* Connect using one of the Redis clients
+* Try the [Redis CLI tutorial]({{< relref "/develop/tools/cli" >}})
+* Connect using one of the [Redis clients]({{< relref "/develop/clients" >}})
+* [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/install-redis#install-redis-properly" >}})
+  for production use.
+  

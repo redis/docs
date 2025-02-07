@@ -17,7 +17,7 @@ The `CommandOverrider` allows you to override and customize Redis commands.
 1. Run `RG.JEXECUTE` to register your code.
 
 {{<note>}}
-If you register code that uses `CommandOverrider`, its `reader` value is `"CommandReader"` when you run the [`RG.DUMPREGISTRATIONS`](http://oss.redis.com/redisgears/commands.html#rgdumpregistrations) command, not `"CommandOverrider"`.
+If you register code that uses `CommandOverrider`, its `reader` value is `"CommandReader"` when you run the `RG.DUMPREGISTRATIONS` command, not `"CommandOverrider"`.
 {{</note>}}
 
 ## Parameters
@@ -51,26 +51,24 @@ CommandOverrider overrider = new CommandOverrider();
 overrider.setCommand("HSET");
 // Only override HSET for keys that start with "user:"
 overrider.setPrefix("user:");
-        
+
 // Create the data pipe builder
 GearsBuilder.CreateGearsBuilder(overrider).map(r-> {
-    // Extract the key from the command arguments
-    String keyName = new String((byte[]) r[1], StandardCharsets.UTF_8);
-        	
-    // Add a last_modified timestamp to the user's profile
-    GearsBuilder.execute("HSET", keyName, "last_modified", Long.toString(System.currentTimeMillis()));
-        	
-    // Get the original HSET arguments
-    ArrayList<String> commandArray = new ArrayList<String>();
-    for (int i=1; i < r.length; i++) {
-        commandArray.add(new String((byte[]) r[i], StandardCharsets.UTF_8));
+    // Get the operation arguments
+    ArrayList<String> operationArguments = new ArrayList<String>();
+    for (int i = 1; i < r.length; i++) {
+        operationArguments.add(new String((byte[]) r[i], StandardCharsets.UTF_8));
     }
-        	
-    // Run the original HSET command
-    GearsBuilder.callNext(commandArray.toArray(new String[0]));
-        	
-    return "OK";
-}).register();
+
+    // Add a last-modified field and a corresponding timestamp to the operation arguments
+    operationArguments.add("last-modified");
+    operationArguments.add(Long.toString(System.currentTimeMillis()));
+
+    // Run the enriched HSET operation
+    Object reply = GearsBuilder.callNext(operationArguments.toArray(new String[0]));
+    
+    return reply.toString();
+}).register(ExecutionMode.SYNC);
 ```
 
 After you register the previous code with the `RG.JEXECUTE` command, try to update the user's data with `HSET` to test it:

@@ -149,7 +149,7 @@ More info: [FQDN wikipedia](https://en.wikipedia.org/wiki/Fully_qualified_domain
 {{%definition "`fysnc`"%}}
 Linux command to synchronize a file's in-core state with a storage device
 
-More info: [`fsync` man page]("https://man7.org/linux/man-pages/man2/fsync.2.html")
+More info: [`fsync` man page](https://man7.org/linux/man-pages/man2/fsync.2.html)
 {{%/definition%}}
 
 ## G - J {#letter-g}
@@ -190,7 +190,7 @@ More info: [Overview of kubectl](https://kubernetes.io/docs/reference/kubectl/ov
 {{%definition "Lightweight Directory Access Protocol (LDAP)"%}}
 A protocol for accessing and maintaining distributed directory services over an IP network, often used to authenticate users.
 
-More info: [LDAP wikipedia](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol/), [LDAP authentication]({{<relref "/operate/rs/security/access-control/ldap">}})
+More info: [LDAP wikipedia](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol), [LDAP authentication]({{<relref "/operate/rs/security/access-control/ldap">}})
 {{%/definition%}}
 
 ## M - O {#letter-m}
@@ -309,7 +309,7 @@ The on-premises version of Redis Enterprise.
 {{%/definition%}}
 
 {{%definition "Redis instance"%}}
-Single-threaded Redis OSS database.
+Single-threaded Redis Community Edition database. Redis OSS was renamed Redis Community Edition (CE) with the v7.4 release.
 {{%/definition%}}
 
 {{%definition "Auto Tiering "%}}

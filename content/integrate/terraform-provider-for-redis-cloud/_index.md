@@ -21,10 +21,6 @@ hideListLinks: true
 
 Redis develops and maintains a [Terraform provider for Redis Cloud](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest). The Redis Cloud Terraform provider allows many of the same actions as found in the [Redis Cloud API]({{< relref "/operate/rc/api" >}}).
 
-{{< note >}}
-The Redis Cloud Terraform provider supports Redis Cloud Pro. It does not support Redis Cloud Essentials.
-{{< /note >}}
-
 See [Get started with Terraform]({{< relref "/integrate/terraform-provider-for-redis-cloud/get-started" >}}) for an example of how to use the Terraform provider.
 
 ## Data sources and Resources
@@ -33,27 +29,41 @@ The Terraform provider represents API actions as data sources and resources. Dat
 
 The Redis Cloud Terraform provider allows for the following data sources:
 
-- [Subscriptions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_subscription)
-- [Databases](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_database)
-- [Database capabilities](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_database_modules)
-- [Cloud accounts](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_cloud_account)
-- [Supported persistence options](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_data_persistence)
+- Redis Cloud Pro:
+  - [Subscriptions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_subscription)
+  - [Databases](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_database)
+  - [Database capabilities](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_database_modules)
+  - [VPC peering connections](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_subscription_peerings)
+  - [Cloud accounts](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_cloud_account)
+  - [Supported persistence options](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_data_persistence)
+- Redis Cloud Essentials:
+  - [Plans](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_essentials_plan)
+  - [Subscriptions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_essentials_subscription)
+  - [Databases](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_essentials_database)
+- Active-Active:
+  - [Subscriptions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_active_active_subscription)
+  - [Databases](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_active_active_subscription_database)
 - [Payment methods](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_payment_method)
 - [Supported cloud provider regions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_regions)
-- [VPC peering connections](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_subscription_peerings)
 - ACL [roles](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_acl_role), [rules](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_acl_rule), and [users](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_acl_user)
-- [Cloud provider regions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_regions)
 
 It also allows you to create and manage the following resources:
 
-- [Subscriptions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_subscription)
-- [Databases](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_subscription_database)
-- [VPC peering connections](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_subscription_peering)
-- [Cloud accounts](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_cloud_account)
-- [Active-Active subscriptions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_active_active_subscription)
-- [Active-Active databases](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_active_active_subscription_database)
-- [Active-Active regions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_active_active_subscription_regions)
-- [Active-Active VPC peering connections](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_active_active_subscription_peering)
+- Redis Cloud Pro:
+  - [Subscriptions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_subscription)
+  - [Databases](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_subscription_database)
+    - **NOTE**: Upgrade your Terraform provider to version 1.8.1 to create databases with Search and Query.
+  - [VPC peering connections](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_subscription_peering)
+  - [Cloud accounts](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_cloud_account)
+  - [Transit Gateway attachments](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_transit_gateway_attachment)
+- Redis Cloud Essentials:
+  - [Subscriptions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_essentials_subscription)
+  - [Databases](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_essentials_database)
+- Active-Active:
+  - [Subscriptions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_active_active_subscription)
+  - [Databases](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_active_active_subscription_database)
+  - [Regions](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_active_active_subscription_regions)
+  - [VPC peering connections](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_active_active_subscription_peering)
 - ACL [rules](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_acl_rule), [roles](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_acl_role), and [users](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_acl_user)
 
 

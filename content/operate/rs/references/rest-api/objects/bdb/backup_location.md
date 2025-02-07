@@ -56,6 +56,7 @@ Any additional required parameters may differ based on the backup/export locatio
 |----------|------|-------------|
 | access_key_id | string | The AWS Access Key ID with access to the bucket |
 | bucket_name | string | S3 bucket name |
+| region_name | string | Amazon S3 region name (optional) |
 | secret_access_key | string | The AWS Secret Access Key that matches the Access Key ID |
 | subdir | string | Path to the backup directory in the S3 bucket (optional) |
 

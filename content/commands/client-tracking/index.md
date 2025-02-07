@@ -75,7 +75,7 @@ syntax_str: "[REDIRECT\_client-id] [PREFIX\_prefix [PREFIX prefix ...]] [BCAST] 
 title: CLIENT TRACKING
 ---
 This command enables the tracking feature of the Redis server, that is used
-for [server assisted client side caching]({{< relref "/develop/use/client-side-caching" >}}).
+for [server assisted client side caching]({{< relref "/develop/clients/client-side-caching#tracking" >}}).
 
 When tracking is enabled Redis remembers the keys that the connection
 requested, in order to send later invalidation messages when such keys are
@@ -85,7 +85,7 @@ when the RESP3 protocol is used) or redirected in a different connection
 available where clients participating in this protocol receive every
 notification just subscribing to given key prefixes, regardless of the
 keys that they requested. Given the complexity of the argument please
-refer to [the main client side caching documentation]({{< relref "/develop/use/client-side-caching" >}}) for the details. This manual page is only a reference for the options of this subcommand.
+refer to [the main client side caching documentation]({{< relref "/develop/reference/client-side-caching" >}}) for the details. This manual page is only a reference for the options of this subcommand.
 
 In order to enable tracking, use:
 

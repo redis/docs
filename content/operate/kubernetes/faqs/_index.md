@@ -7,6 +7,7 @@ categories:
 - kubernetes
 description: null
 hideListLinks: true
+hidden: true
 linkTitle: FAQs
 weight: 100
 ---
@@ -14,7 +15,7 @@ Here are some frequently asked questions about Redis Enterprise on integration p
 
 ## What is an Operator?
 
-An operator is a [Kubernetes custom controller](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources#custom-controllers) which extends the native K8s API. Refer to the article [Redis Enterprise K8s Operator-based deployments – Overview]({{< relref "/operate/kubernetes/architecture/operator.md" >}}).
+An operator is a [Kubernetes custom controller](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources#custom-controllers) which extends the native K8s API. Refer to the article [Redis Enterprise K8s Operator-based deployments – Overview]({{< relref "/operate/kubernetes/architecture/" >}}).
 
 ## Does Redis Enterprise operator support multiple RECs per namespace?
 
@@ -155,7 +156,7 @@ seLinuxContext:
   type: RunAsAny
 ```
 
-([latest version on GitHub](https://raw.githubusercontent.com/RedisLabs/redis-enterprise-k8s-docs/master/scc.yaml))
+([latest version on GitHub](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/openshift/scc.yaml))
 
 ([latest version on GitHub](https://github.com/RedisLabs/redis-enterprise-k8s-docs/tags))
 

@@ -31,6 +31,8 @@ For installation on machines without an internet connection, see [Offline instal
 Do not reduce permissions to `700`. This configuration has not been tested and is not supported.
     {{</warning>}}
 
+- Redis Enterprise Software requires `umask` to be `0022` during installation to correctly set permissions for the installed directories and files.
+
 ## More info and options
 
 If you've already installed Redis Enterprise Software, you can also:
@@ -55,6 +57,6 @@ To learn more about customization and find answers to related questions, see:
 
 After your cluster is set up with nodes, you can:
 
-- [Add users]({{< relref "/operate/rs/security/access-control/manage-users/add-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).
+- [Add users]({{< relref "/operate/rs/security/access-control/create-users" >}}) to the cluster with specific permissions.  To begin, start with [Access control]({{< relref "/operate/rs/security/access-control" >}}).
 - [Create databases]({{< relref "/operate/rs/databases/create" >}}) to use with your applications.
 

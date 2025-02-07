@@ -103,6 +103,8 @@ hidden: false
 history:
 - - 6.2.0
   - Added the `ANY` option for `COUNT`.
+- - 7.0.0
+  - Added support for uppercase unit names.
 key_specs:
 - RO: true
   access: true

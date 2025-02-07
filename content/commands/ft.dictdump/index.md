@@ -12,6 +12,8 @@ categories:
 - oss
 - kubernetes
 - clients
+command_flags:
+- readonly
 complexity: O(N), where N is the size of the dictionary
 description: Dumps all terms in the given dictionary
 group: search

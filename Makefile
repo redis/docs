@@ -1,9 +1,10 @@
 HUGO_CONTENT=./content
-HUGO_DEBUG=--debug --log
+HUGO_DEBUG=--logLevel debug
 HUGO_BUILD=--gc
 
 all: clean deps components hugo
 serve: clean deps components serve_hugo
+localserve: clean deps components_local serve_hugo
 
 deps:
 	@npm install
@@ -12,6 +13,9 @@ deps:
 
 components:
 	@python3 build/make.py
+
+components_local:
+	@python3 build/make.py --stack ./data/components_local/index.json
 
 hugo:
 	@hugo $(HUGO_DEBUG) $(HUGO_BUILD)

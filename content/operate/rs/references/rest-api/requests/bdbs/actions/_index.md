@@ -37,3 +37,26 @@ weight: $weight
 | Method | Path | Description |
 |--------|------|-------------|
 | [GET]({{< relref "./optimize_shards_placement#get-bdbs-actions-optimize-shards-placement" >}}) | `/v1/bdbs/{uid}/actions/optimize_shards_placement` | Get optimized shards placement for a database  |
+
+## Rebalance
+
+| Method | Path | Description |
+|--------|------|-------------|
+| [PUT]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/rebalance#put-bdbs-actions-rebalance">}}) | `/v1/bdbs/{uid}/actions/rebalance` | Rebalance database shards |
+
+## Recover
+
+| Method | Path | Description |
+|--------|------|-------------|
+| [GET]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/recover#get-bdbs-actions-recover">}}) | `/v1/bdbs/{uid}/actions/recover` | Get database recovery plan  |
+| [POST]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/recover#post-bdbs-actions-recover">}}) | `/v1/bdbs/{uid}/actions/recover` | Recover database  |
+
+## Resume traffic
+| Method | Path | Description |
+|--------|------|-------------|
+| [POST]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/resume_traffic#post-bdbs-actions-resume-traffic">}}) | `/v1/bdbs/{uid}/actions/resume_traffic` | Resume database traffic |
+
+## Stop traffic
+| Method | Path | Description |
+|--------|------|-------------|
+| [POST]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/stop_traffic#post-bdbs-actions-stop-traffic">}}) | `/v1/bdbs/{uid}/actions/stop_traffic` | Stop database traffic |

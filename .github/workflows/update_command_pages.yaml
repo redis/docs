@@ -1,0 +1,74 @@
+name: update_command_pages
+
+on:
+  push:
+    branches: ['main']
+    paths:
+      - data/commands_core.json # run when data/commands_core.json is updated on main
+  workflow_dispatch: # or run on manual trigger
+
+jobs:
+  update_command_pages:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v3'
+      
+      - name: Install dependencies
+        run: make deps
+
+      - name: 'Run build/update_cmds.py script'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch="update_command_pages"
+          commands_change=false
+
+          # check if remote branch already exists
+          git fetch --all
+          set +e
+          git ls-remote --exit-code --heads origin "refs/heads/${branch}"
+          if [ "$?" -eq 0 ]; then
+            set -e
+            # if it does, create local branch off existing remote branch
+            git checkout -b "${branch}" "origin/${branch}"
+            git branch --set-upstream-to="origin/${branch}" "${branch}"
+            git pull
+          else
+            set -e
+            # otherwise, create local branch from main
+            git checkout -b "${branch}"
+          fi
+
+          python3 build/update_cmds.py
+          
+          commands_are_different=$(git diff "content/commands/")
+
+          if [[ ! -z $commands_are_different ]]; then
+            commands_change=true
+
+            git add "content/commands/"
+            git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
+            git config user.name "redisdocsapp[bot]"
+            git commit -m "Update content/commands/"
+          fi
+
+          if [ "$commands_change" = true ] ; then
+            git push origin "${branch}"
+
+            # If a pr is not already open, create one
+            set +e
+            gh search prs -R redis/docs --state open --match title "update command pages" | grep -q "update command pages"
+            if [ "$?" -eq 1 ]; then
+              set -e
+              gh pr create \
+                --body "update command pages" \
+                --title "update command pages" \
+                --head "$branch" \
+                --base "main"
+            fi
+          fi

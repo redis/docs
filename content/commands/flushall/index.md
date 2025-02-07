@@ -62,7 +62,15 @@ It is possible to use one of the following modifiers to dictate the flushing mod
 * `ASYNC`: flushes the databases asynchronously
 * `SYNC`: flushes the databases synchronously
 
-Note: an asynchronous `FLUSHALL` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.
+{{< clients-example cmds_servermgmt flushall >}}
+FLUSHALL SYNC
+{{< /clients-example >}}
+
+## Notes
+
+* An asynchronous `FLUSHALL` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.
+* This command does not delete functions.
+* Other than emptying all databases (similar to `FLUSHDB`), this command clears the RDB persistence file, aborts any snapshot that is in progress, and, if the `save` config is enabled, saves an empty RDB file.
 
 ## Behavior change history
 

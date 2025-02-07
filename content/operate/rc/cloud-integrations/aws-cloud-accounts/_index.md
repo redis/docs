@@ -41,7 +41,7 @@ Once an AWS account has been configured as a cloud account, you must _not_:
 
 To create or edit a cloud account in Redis Cloud:
 
-1. Sign in to the [Redis Cloud console](https://app.redislabs.com/) and then select the target subscription.
+1. Sign in to the [Redis Cloud console](https://cloud.redis.io/) and then select the target subscription.
 
 1. From the console menu, select **Account Settings** and then select the **Cloud Account** tab.
 

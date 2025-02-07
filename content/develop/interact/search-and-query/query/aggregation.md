@@ -21,7 +21,7 @@ An aggregation query allows you to perform the following actions:
 - Group data based on field values.
 - Apply aggregation functions on the grouped data.
 
-This article explains the basic usage of the [FT.AGGREGATE]({{< baseurl >}}/commands/ft.aggregate//) command. For further details, see the [command specification]({{< baseurl >}}/commands/ft.aggregate//) and the [aggregations reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}}).
+This article explains the basic usage of the [FT.AGGREGATE]({{< baseurl >}}/commands/ft.aggregate) command. For further details, see the [command specification]({{< baseurl >}}/commands/ft.aggregate) and the [aggregations reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}}).
 
 The examples in this article use a schema with the following fields:
 
@@ -46,9 +46,9 @@ Here is a more detailed explanation of the query syntax:
 
 The following example shows you how to calculate a discounted price for new bicycles:
 
-```
+{{< clients-example query_agg agg1 >}}
 FT.AGGREGATE idx:bicycle "@condition:{new}" LOAD 2 "__key" "price" APPLY "@price - (@price * 0.1)" AS "discounted"
-```
+{{< /clients-example >}}
 
 The field `__key` is a built-in field. 
 
@@ -92,9 +92,9 @@ Here is an explanation of the additional constructs:
 
 The following query shows you how to group by the field `condition` and apply a reduction based on the previously derived `price_category`. The expression `@price<1000` causes a bicycle to have the price category `1` if its price is lower than 1000 USD. Otherwise, it has the price category `0`. The output is the number of affordable bicycles grouped by price category.
 
-```
+{{< clients-example query_agg agg2 >}}
 FT.AGGREGATE idx:bicycle "*" LOAD 1 price APPLY "@price<1000" AS price_category GROUPBY 1 @condition REDUCE SUM 1 "@price_category" AS "num_affordable"
-```
+{{< /clients-example >}}
 
 ```
 1) "3"
@@ -113,7 +113,7 @@ FT.AGGREGATE idx:bicycle "*" LOAD 1 price APPLY "@price<1000" AS price_category 
 ```
 
 {{% alert title="Note" color="warning" %}}
-You can also create more complex aggregation pipelines with [FT.AGGREGATE]({{< baseurl >}}/commands/ft.aggregate//). Applying multiple reduction functions under one `GROUPBY` clause is possible. In addition, you can also chain groupings and mix in additional mapping steps (e.g., `GROUPBY ... REDUCE ... APPLY ... GROUPBY ... REDUCE`)
+You can also create more complex aggregation pipelines with [FT.AGGREGATE]({{< baseurl >}}/commands/ft.aggregate). Applying multiple reduction functions under one `GROUPBY` clause is possible. In addition, you can also chain groupings and mix in additional mapping steps (e.g., `GROUPBY ... REDUCE ... APPLY ... GROUPBY ... REDUCE`)
 {{% /alert  %}}
 
 
@@ -123,9 +123,9 @@ You can't use an aggregation function outside of a `GROUPBY` clause, but you can
 
 Here is an example that adds a type attribute `bicycle` to each document before counting all documents with that type:
 
-```
+{{< clients-example query_agg agg3 >}}
 FT.AGGREGATE idx:bicycle "*" APPLY "'bicycle'" AS type GROUPBY 1 @type REDUCE COUNT 0 AS num_total
-```
+{{< /clients-example >}}
 
 The result is:
 
@@ -143,9 +143,9 @@ It's sometimes necessary to group your data without applying a mathematical aggr
 
 The following example shows how to group all bicycles by `condition`:
 
-```
-FT.AGGREGATE idx:bicycle "*" LOAD 1 "__key" GROUPBY 1 "@condition" REDUCE TOLIST 1 "__key" AS bicylces
-```
+{{< clients-example query_agg agg4 >}}
+FT.AGGREGATE idx:bicycle "*" LOAD 1 "__key" GROUPBY 1 "@condition" REDUCE TOLIST 1 "__key" AS bicycles
+{{< /clients-example >}}
 
 The output of this query is:
 
@@ -153,18 +153,18 @@ The output of this query is:
 1) "3"
 2) 1) "condition"
    1) "refurbished"
-   2) "bicylces"
+   2) "bicycles"
    3) 1) "bicycle:9"
 3) 1) "condition"
    1) "used"
-   2) "bicylces"
+   2) "bicycles"
    3) 1) "bicycle:1"
       1) "bicycle:2"
       2) "bicycle:3"
       3) "bicycle:4"
 4) 1) "condition"
    1) "new"
-   2) "bicylces"
+   2) "bicycles"
    3) 1) "bicycle:0"
       1) "bicycle:5"
       2) "bicycle:6"

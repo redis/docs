@@ -7,10 +7,12 @@ categories:
 - kubernetes
 description: Expand your persistent volume claim by editing the REC.
 linkTitle: Expand PVC
-weight: 15
+weight: 82
 ---
 
 This article outlines steps to increase the size of the persistent volume claim for your Redis Enterprise cluster (REC).
+
+{{<note>}} This feature is only supported in versions 7.4.2-12 and above. {{</note>}}
 
 [PersistentVolumeClaims (PVC)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) are created by the Redis Enterprise operator and used by the RedisEnterpriseCluster (REC). PVCs are created with a specific size and [can be expanded](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims) with the following steps, if the underlying [storage class](https://kubernetes.io/docs/concepts/storage/storage-classes/) supports it.
 
@@ -45,7 +47,7 @@ This process involves deleting and recreating the REC StatefulSet with a larger 
       spec:
         persistentSpec:
           enablePersistentVolumeResize: true
-          volumeSize: <new-size>
+          volumeSize: <new-size>Gi
     ```
 
 1. Apply the changes to the REC, replacing `<your-rec.yaml>` with the name of your REC.
@@ -87,4 +89,17 @@ status:
 If an error occurs during this process:
 
 - Examine the status and events of the REC and PVC objects.
+
+  ```sh
+  kubectl describe pvc
+  ```
+
+  ```sh
+  kubectl get events
+  ```
+
 - Examine the logs of the operator pods.
+
+  ```sh
+  kubectl logs <operator_pod_name>
+  ```

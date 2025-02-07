@@ -19,7 +19,7 @@ To create an Active-Active database, make sure you've completed all the followin
 1. Configure the [admission controller and ValidatingWebhook]({{< relref "/operate/kubernetes/deployment/quick-start.md#enable-the-admission-controller/" >}}).
    {{<note>}}These are installed and enabled by default on clusters created via the OpenShift OperatorHub. {{</note>}}
 
-2. Create two or more [RedisEnterpriseCluster (REC) custom resources]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}}) with enough [memory resources]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}})).
+2. Create two or more [RedisEnterpriseCluster (REC) custom resources]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}}) with enough [memory resources]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
    * Name of each REC (`<rec-name>`)
    * Namespace for each REC (`<rec-namespace>`)
 
@@ -69,7 +69,7 @@ For a list of example values used throughout this article, see the [Example valu
       secretName: redis-enterprise-rerc-reagan
     ```
 
-    For more details on RERC fields, see the [RERC API reference](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_remote_cluster_api.md).
+    For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
 
 1. Create a Redis Enterprise remote cluster from each RERC custom resource file.
   
@@ -123,7 +123,7 @@ For a list of example values used throughout this article, see the [Example valu
 
      {{<note>}}Sharding is disabled on Active-Active databases created with a `shardCount` of 1. Sharding cannot be enabled after database creation. {{</note>}}
 
-    For more details on RERC fields, see the [RERC API reference](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_remote_cluster_api.md).
+    For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
 
 1. Create a Redis Enterprise Active-Active database from the REAADB custom resource file.
   

@@ -38,7 +38,7 @@ Details:
 
 - Bug fixes:
 
-    - [#1240](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1240) Compaction rules are not saved to [RoF](https://docs.redis.com/latest/rs/databases/redis-on-flash//) (Redis Enterprise)
+    - [#1240](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1240) Compaction rules are not saved to [RoF](https://docs.redis.com/latest/rs/databases/redis-on-flash) (Redis Enterprise)
 
 ## v1.6.16 (June 2022)
 
@@ -50,13 +50,13 @@ Details:
 
 - Features:
 
-    - [#1193](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1193) Commands that don’t execute on the main thread now appear in [SLOWLOG]({{< relref "/commands" >}}/slowlog/)
+    - [#1193](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1193) Commands that don’t execute on the main thread now appear in [SLOWLOG]({{< relref "/commands/slowlog" >}})
 
 - Bug fixes:
 
     - [#1203](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1203) Compaction rules are not replicated (Replica Of) on Redis Enterprise
-    - [#1204](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1204) When the last sample is deleted with [`TS.DEL`]({{< relref "/commands" >}}/ts.del/), it may still be accessible with [`TS.GET`]({{< relref "/commands" >}}/ts.get/)
-    - [#1226](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1226) [`TS.MRANGE`]({{< relref "/commands" >}}/ts.mrange/), [`TS.MREVRANGE`]({{< relref "/commands" >}}/ts.mrevrange/): on a multi-shard environment, some chunks may be skipped
+    - [#1204](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1204) When the last sample is deleted with [`TS.DEL`]({{< baseurl >}}/commands/ts.del), it may still be accessible with [`TS.GET`]({{< baseurl >}}/commands/ts.get)
+    - [#1226](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1226) [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange), [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange): on a multi-shard environment, some chunks may be skipped
 
 {{<note>}}
 New RDB version (v5). RDB files created with 1.6.16 are not backward compatible.
@@ -72,8 +72,8 @@ Details:
 
 - Bug fixes:
 
-    - [#1176](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1176), [#1187](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1187) When executing [`DEL`]({{< relref "/commands" >}}/ts.del/), chunk index could be set to a wrong value and cause some data to be inaccessible
-    - [#1180](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1180) When executing [`MADD`]({{< relref "/commands" >}}/ts.madd/), make sure that only successful insertions are replicated
+    - [#1176](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1176), [#1187](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1187) When executing [`DEL`]({{< baseurl >}}/commands/ts.del), chunk index could be set to a wrong value and cause some data to be inaccessible
+    - [#1180](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1180) When executing [`MADD`]({{< baseurl >}}/commands/ts.madd), make sure that only successful insertions are replicated
 
 ## v1.6.11 (May 2022)
 
@@ -99,10 +99,10 @@ Details:
 
 - Bug fixes:
 
-    - [#1074](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1074) [`RANGE`]({{< relref "/commands" >}}/ts.range/), [`REVRANGE`]({{< relref "/commands" >}}/ts.revrange/), [`MRANGE`]({{< relref "/commands" >}}/ts.mrange/), and [`MREVRANGE`]({{< relref "/commands" >}}/ts.mrevrange/): Possibly incorrect result when using `ALIGN` and aggregating a bucket with a timestamp close to 0
+    - [#1074](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1074) [`RANGE`]({{< baseurl >}}/commands/ts.range), [`REVRANGE`]({{< baseurl >}}/commands/ts.revrange), [`MRANGE`]({{< baseurl >}}/commands/ts.mrange), and [`MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange): Possibly incorrect result when using `ALIGN` and aggregating a bucket with a timestamp close to 0
     - [#1094](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1094) [LibMR](https://github.com/RedisGears/LibMR): Potential memory leak; memory release delay
-    - [#1127](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1127) Memory leak on [`RANGE`]({{< relref "/commands" >}}/ts.range/) and [`REVRANGE`]({{< relref "/commands" >}}/ts.revrange/) when argument parsing fails
-    - [#1096](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1096) [`RANGE`]({{< relref "/commands" >}}/ts.range/), [`REVRANGE`]({{< relref "/commands" >}}/ts.revrange/), [`MRANGE`]({{< relref "/commands" >}}/ts.mrange/), and [`MREVRANGE`]({{< relref "/commands" >}}/ts.mrevrange/): Using `FILTER_BY_TS` without specifying timestamps now returns an error as expected
+    - [#1127](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1127) Memory leak on [`RANGE`]({{< baseurl >}}/commands/ts.range) and [`REVRANGE`]({{< baseurl >}}/commands/ts.revrange) when argument parsing fails
+    - [#1096](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1096) [`RANGE`]({{< baseurl >}}/commands/ts.range), [`REVRANGE`]({{< baseurl >}}/commands/ts.revrange), [`MRANGE`]({{< baseurl >}}/commands/ts.mrange), and [`MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange): Using `FILTER_BY_TS` without specifying timestamps now returns an error as expected
 
 ## v1.6.9 (February 2022)
 
@@ -131,15 +131,15 @@ RedisTimeSeries 1.6 adds support for aggregating across multiple time series (mu
 
 ### What's new in 1.6
 
-- Introduction of `GROUPBY` and `REDUCE` in [TS.MRANGE and TS.MREVRANGE](https://oss.redis.com/redistimeseries/commands/#tsmrangetsmrevrange) to add support for "multi-key aggregation" and support for such aggregations spanning multiple shards, leveraging [LibMR](https://github.com/RedisGears/LibMR). Currently, we support `min`, `max`, and `sum` as reducers and grouping by a label.
+- Introduction of `GROUPBY` and `REDUCE` in `TS.MRANGE` and `TS.MREVRANGE` to add support for "multi-key aggregation" and support for such aggregations spanning multiple shards, leveraging [LibMR](https://github.com/RedisGears/LibMR). Currently, we support `min`, `max`, and `sum` as reducers and grouping by a label.
 
-- [#722](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/722), [#275](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/275) Filter results using `FILTER_BY_TS` by providing a list of timestamps and `FILTER_BY_VALUE` by providing a `min` and a `max` value ([TS.RANGE, TS.REVRANGE](https://oss.redis.com/redistimeseries/commands/#tsrangetsrevrange), [TS.MRANGE, and TS.MREVRANGE](https://oss.redis.com/redistimeseries/commands/#tsmrangetsmrevrange)).
+- [#722](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/722), [#275](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/275) Filter results using `FILTER_BY_TS` by providing a list of timestamps and `FILTER_BY_VALUE` by providing a `min` and a `max` value (`TS.RANGE`, `TS.REVRANGE`, `TS.MRANGE`, and `TS.MREVRANGE`).
 
-- [#603](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/603), [#611](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/611), [#841](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/841) Introduction of [TS.DEL](https://oss.redis.com/redistimeseries/commands/#tsdel) which allows deleting samples in a time series within two timestamps (inclusive).
+- [#603](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/603), [#611](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/611), [#841](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/841) Introduction of TS.DEL which allows deleting samples in a time series within two timestamps (inclusive).
 
-- [#762](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/762) Limit the number of returned labels in the response of read commands ([TS.MRANGE, TS.MREVRANGE](https://oss.redis.com/redistimeseries/commands/#tsmrangetsmrevrange), and [TS.MGET](https://oss.redis.com/redistimeseries/commands/#tsmget)) using `SELECTED_LABELS`. This can be a significant performance improvement when returning a large number of series.
+- [#762](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/762) Limit the number of returned labels in the response of read commands (`TS.MRANGE`, `TS.MREVRANGE`, and `TS.MGET`) using `SELECTED_LABELS`. This can be a significant performance improvement when returning a large number of series.
 
-- [#655](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/655), [#801](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/801) Ability to align the aggregation buckets with the requested start, end, or specific timestamp on aggregation queries using `ALIGN` ([TS.RANGE, TS.REVRANGE](https://oss.redis.com/redistimeseries/commands/#tsrangetsrevrange), [TS.MRANGE, and TS.MREVRANGE](https://oss.redis.com/redistimeseries/commands/#tsmrangetsmrevrange)).
+- [#655](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/655), [#801](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/801) Ability to align the aggregation buckets with the requested start, end, or specific timestamp on aggregation queries using `ALIGN` (`TS.RANGE`, `TS.REVRANGE`, `TS.MRANGE`, and `TS.MREVRANGE`).
 
 - [#675](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/675) Add keyspace notifications for all CRUD commands. Check out [this test](https://github.com/RedisTimeSeries/RedisTimeSeries/blob/master/tests/flow/test_ts_keyspace.py) for the details.
 

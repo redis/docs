@@ -19,7 +19,7 @@ weight: $weight
 
 	POST /v1/modules/upgrade/bdb/{string: uid}
 
-Upgrades the module version on a specific database.
+Upgrades the module version on a specific database. Deprecated as of Redis Enterprise Software v7.8.2. Use [`POST /v1/bdbs/<uid>/upgrade`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) instead.
 
 #### Required permissions
 

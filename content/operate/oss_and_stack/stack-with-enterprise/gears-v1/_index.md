@@ -24,11 +24,9 @@ Prior to v1.2, RedisGears only supported Python. However, an internal C API exis
 
 RedisGears is implemented by a Redis module. To use RedisGears, you'll need to make sure that your Redis deployment has the module installed. [Redis Enterprise Software](https://docs.redislabs.com/latest/rs/) supports the module natively.
 
-If you're running open source Redis, you'll also need to [install the RedisGears module]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears" >}}) before using it.
+If you're running Redis Community Edition, you'll also need to [install the RedisGears module]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/installing-redisgears" >}}) before using it.
 
 To get started with RedisGears, see the quick start tutorial for [Python]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/python/quickstart" >}}) or [Java]({{< relref "/operate/oss_and_stack/stack-with-enterprise/gears-v1/jvm/quickstart" >}}).
-
-To learn more about the RedisGears API and understand how it works under the hood, see the [RedisGears docs](https://oss.redislabs.com/redisgears/).
 
 ## Write-behind caching patterns
 
@@ -38,5 +36,4 @@ Redis publishes RedisGears recipes to support write-behind. You can learn how to
 
 ## More info
 
-- [RedisGears introduction](https://oss.redis.com/redisgears/intro.html)
 - [RedisGears source](https://github.com/RedisGears/RedisGears)

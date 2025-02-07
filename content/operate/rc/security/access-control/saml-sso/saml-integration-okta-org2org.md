@@ -17,6 +17,8 @@ This guide shows how to use the Org2Org application template. You can also use t
 
 To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 
+Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+
 ## Step 1: Set up your identity provider 
 
 ### Create the Okta SAML integration application
@@ -182,7 +184,7 @@ Now that you have a test IdP server and your user group ready, configure support
 
 ### Sign in to Redis Cloud
 
-Sign in to your account on the [Redis Cloud console](https://app.redislabs.com/#/login).
+Sign in to your account on the [Redis Cloud console](https://cloud.redis.io/#/login).
 
 ### Activate SAML in access management
 
@@ -190,13 +192,11 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
 1. Add the information you saved previously in the **setup** form (step 1), including:
 
-   * **Issuer (IdP Entity ID)**: _Required_
-   * **IdP server URL**: _Required_
+   * **Issuer (IdP Entity ID)**: IdP Issuer URI
+   * **IdP server URL**: IdP Single Sign-On Url
    * **Assertion signing certificate**: Drag and drop the file you downloaded to disk in the form text area.
 
     {{<image filename="images/rc/saml/sm_saml_1.png" alt="Use the Okta admin console to locate the Org2Org application template." >}}
-
-    {{<image filename="images/rc/saml/sm_saml_2.png" >}}
 
 1. Select **Enable** and wait a few seconds for the status to change. Then, download the service provider (SP) metadata. Save the file to your local hard disk.
 
@@ -229,7 +229,7 @@ Select **Save**.
 
 ### IdP-initiated SSO
 
-To use IdP-initiated SSO with identity providers, set the RelayState parameter to URL `https://app.redislabs.com/#/login/?idpId=<ID>`.
+To use IdP-initiated SSO with identity providers, set the RelayState parameter to URL `https://cloud.redis.io/#/login/?idpId=<ID>`.
 
 {{< note >}}
 Replace `<ID>` so it matches the AssertionConsumerService Location URL ID (the content after the last forward slash "/"). To learn more about configuring service provider applications, see your identity provider's documentation.
@@ -258,5 +258,3 @@ Replace `<ID>` so it matches the AssertionConsumerService Location URL ID (the c
     {{<image filename="images/rc/saml/sm_saml_12.png" >}}
 
 You have successfully configured SAML as an identity provider.
-
-{{<image filename="images/rc/saml/sm_saml_13.png" >}}

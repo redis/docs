@@ -8,7 +8,7 @@
   {{ $component := cond $isModule .Params.module "Redis" }}
   <main class="docs w-full max-w-[1920px] mx-auto px-5 flex flex-col md:flex-row overflow-hidden">
     {{ partial "docs-nav.html" . }}
-    <div class="py-12 md:pl-4 xl:px-16 overflow-hidden">
+    <div class="w-full py-12 md:pl-4 xl:px-16 overflow-hidden">
       {{ partial "breadcrumbs" . }}
       <section class="prose w-full py-12">
         <h1 class="command-name">
@@ -75,16 +75,16 @@
           {{ $complement := complement $resp2 $resp3 }}
           {{ if eq (len $complement) 0 }}
             {{ $same = true }}
-            {{ $responses = $responses | append (slice $resp2) }}
+            {{ $responses = $responses | append (dict "response" $resp2) }}
             {{ printf "## RESP2/RESP3 Reply" | markdownify }}
           {{ else }}
-            {{ $responses = $responses | append (slice $resp2) }}
-            {{ $responses = $responses | append (slice $resp3) }}
+            {{ $responses = $responses | append (dict "response" $resp2) }}
+            {{ $responses = $responses | append (dict "response" $resp3) }}
           {{ end }}
 
           {{ $respver := 2 }}
           {{ range $response := $responses }}
-            {{ with $response }}
+            {{ with $response.response }}
               {{ if eq $same false }}
                 {{ printf "## RESP%d Reply" $respver | markdownify }}
                 {{ $respver = add $respver 1 }}

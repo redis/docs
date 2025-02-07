@@ -131,6 +131,7 @@ The following table summarizes the RESP data types that Redis supports:
 | [Bulk errors](#bulk-errors) | RESP3 | Aggregate | `!` |
 | [Verbatim strings](#verbatim-strings) | RESP3 | Aggregate | `=` |
 | [Maps](#maps) | RESP3 | Aggregate | `%` |
+| [Attributes](#attributes) | RESP3 | Aggregate | `|` |
 | [Sets](#sets) | RESP3 | Aggregate | `~` |
 | [Pushes](#pushes) | RESP3 | Aggregate | `>` |
 
@@ -481,7 +482,7 @@ Example:
 (The raw RESP encoding is split into multiple lines for readability).
 
 Some client libraries may ignore the difference between this type and the string type and return a native string in both cases.
-However, interactive clients, such as command line interfaces (e.g., [`redis-cli`]({{< relref "/develop/connect/cli" >}})), can use this type and know that their output should be presented to the human user as is and without quoting the string.
+However, interactive clients, such as command line interfaces (e.g., [`redis-cli`]({{< relref "/develop/tools/cli" >}})), can use this type and know that their output should be presented to the human user as is and without quoting the string.
 
 For example, the Redis command [`INFO`]({{< relref "/commands/info" >}}) outputs a report that includes newlines.
 When using RESP3, `redis-cli` displays it correctly because it is sent as a Verbatim String reply (with its three bytes being "txt").
@@ -529,6 +530,56 @@ A map in RESP2 is represented by a flat array containing the keys and the values
 The first element is a key, followed by the corresponding value, then the next key and so on, like this:
 `key1, value1, key2, value2, ...`.
 {{% /alert %}}
+
+<a name="attribute-reply"></a>
+
+### Attributes
+
+The attribute type is exactly like the Map type, but instead of a `%` character as the first byte, the `|` character is used. Attributes describe a dictionary exactly like the Map type. However the client should not consider such a dictionary part of the reply, but as auxiliary data that augments the reply.
+
+Note: in the examples below, indentation is shown only for clarity; the additional whitespace would not be part of a real reply.
+
+For example, newer versions of Redis may include the ability to report the popularity of keys for every executed command. The reply to the command `MGET a b` may be the following:
+
+    |1\r\n
+        +key-popularity\r\n
+        %2\r\n
+            $1\r\n
+            a\r\n
+            ,0.1923\r\n
+            $1\r\n
+            b\r\n
+            ,0.0012\r\n
+    *2\r\n
+        :2039123\r\n
+        :9543892\r\n
+
+The actual reply to `MGET` is just the two item array `[2039123, 9543892]`. The returned attributes specify the popularity, or frequency of requests, given as floating point numbers ranging from `0.0` to `1.0`, of the keys mentioned in the original command. Note: the actual implementation in Redis may differ.
+
+When a client reads a reply and encounters an attribute type, it should read the attribute, and continue reading the reply. The attribute reply should be accumulated separately, and the user should have a way to access such attributes. For instance, if we imagine a session in an higher level language, something like this could happen:
+
+```python
+> r = Redis.new
+#<Redis client>
+> r.mget("a","b")
+#<Redis reply>
+> r
+[2039123,9543892]
+> r.attribs
+{:key-popularity => {:a => 0.1923, :b => 0.0012}}
+```
+
+Attributes can appear anywhere before a valid part of the protocol identifying a given type, and supply information only about the part of the reply that immediately follows. For example:
+
+    *3\r\n
+        :1\r\n
+        :2\r\n
+        |1\r\n
+            +ttl\r\n
+            :3600\r\n
+        :3\r\n
+
+In the above example the third element of the array has associated auxiliary information of `{ttl:3600}`. Note that it's not up to the client library to interpret the attributes, but it should pass them to the caller in a sensible way.
 
 <a name="set-reply"></a>
 
@@ -689,7 +740,7 @@ int main(void) {
         p++;
     }
 
-    /* Now p points at '\r', and the len is in bulk_len. */
+    /* Now p points at '\r', and the length is in len. */
     printf("%d\n", len);
     return 0;
 }

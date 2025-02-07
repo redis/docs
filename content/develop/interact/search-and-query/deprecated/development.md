@@ -9,13 +9,11 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Notes on debugging, testing and documentation
+description: Notes on RediSearch debugging, testing, and documentation
 linkTitle: Developer notes
 title: Developer notes
 weight: 3
 ---
-
-# Developing RediSearch
 
 Developing RediSearch features involves setting up a development environment (which can be either Linux-based or macOS-based), building the module, running tests and benchmarks, and debugging both the module and its tests.
 
@@ -147,7 +145,7 @@ Run the following from the project root dir:
 
 ```make build``` will build RediSearch.
 
-`make build COORD=1` will build OSS RediSearch Coordinator.
+`make build COORD=1` will build Redis Community Edition RediSearch Coordinator.
 
 `make build STATIC=1` will build as a static library.
 
@@ -176,8 +174,8 @@ You can open ```redis-cli``` in another terminal to interact with it.
 ## Running tests
 
 There are several sets of unit tests:
-* C tests, located in ```tests/ctests```, run by ```make c_tests```.
-* C++ tests (enabled by GTest), located in ```tests/cpptests```, run by ```make cpp_tests```.
+* C tests, located in ```tests/ctests```, run by ```make c-tests```.
+* C++ tests (enabled by GTest), located in ```tests/cpptests```, run by ```make cpp-tests```.
 * Python tests (enabled by RLTest), located in ```tests/pytests```, run by ```make pytest```.
 
 You can run all tests by invoking ```make test```.

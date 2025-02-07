@@ -15,14 +15,14 @@ The [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) [allow 
 
 
 {{< note >}}
-To use the CDIR allow list, you must be on either paid Redis Cloud Essentials or on Redis Cloud Pro.  This feature is not supported on free Redis Cloud Essentials plans.
+To use the CIDR allow list, you must be on either paid Redis Cloud Essentials or on Redis Cloud Pro.  This feature is not supported on free Redis Cloud Essentials plans.
 {{< /note >}}
 
 ## Define CIDR allow list
 
 To define the CIDR allow list for a database:
 
-1. Select **Databases** from the [Redis Cloud console](https://app.redislabs.com/) menu and then select your database from the list.
+1. Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your database from the list.
 
 1. From the database's **Configuration** screen, select the **Edit database** button.
 
@@ -45,3 +45,7 @@ To define the CIDR allow list for a database:
 {{< note >}}
 The database CIDR allow list applies to both the public endpoint and the private endpoint. If you use connectivity options such as [VPC Peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) to connect to your database via the private endpoint, you must also add those IPs to your database's CIDR allow list.
 {{< /note >}}
+
+## Continue learning with Redis University
+
+See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.

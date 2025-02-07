@@ -48,6 +48,8 @@ Returns tables of the status of all nodes, databases, and database endpoints on 
 
 If `issues_only` is specified, it only shows instances that do not have an `OK` status.
 
+In the `CLUSTER NODES` section, `*node` indicates which node you are connected to.
+
 ### Example
 
 ``` sh
@@ -189,7 +191,7 @@ Displays the current status of modules installed on the cluster and modules used
 ``` sh
 rladmin status modules
         [ db { db:<id1> | <name1> } ... { db:<idN> | <nameN> } ]
-        [ extra { all | min_redis_version | module_id } ]
+        [ extra { all | compatible_redis_version | min_redis_version | module_id } ]
 ```
 
 ### Parameters
@@ -199,6 +201,7 @@ rladmin status modules
 | db db:\<id\> | Provide a list of database IDs to show only modules used by the specified databases<br />(for example: `rladmin status modules db db:1 db:2`) |
 | db \<name\> | Provide a list of database names to show only modules used by the specified databases<br />(for example: `rladmin status modules db name1 name2`) |
 | extra all | Shows all extra information |
+| extra compatible_redis_version | Shows the compatible Redis database version for the module |
 | extra module_id | Shows module IDs |
 | extra&nbsp;min_redis_version | Shows the minimum compatible Redis database version for each module |
 
@@ -268,6 +271,8 @@ Returns a table of the status of all nodes on the cluster.
 If `sort <column_titles>` is specified, the result is sorted by the specified table columns.
 
 If `issues_only` is specified, it only shows nodes that do not have an `OK` status.
+
+`*node` indicates which node you are connected to.
 
 ### Example
 

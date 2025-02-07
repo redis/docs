@@ -23,10 +23,9 @@ Importing data erases all existing content in the database.
 
 ## Import data into a database
 
-To import data into a database:
+To import data into a database using the Cluster Manager UI:
 
-1.  Select the database from the **Databases** list.
-1. Select the target database from the list.
+1. On the **Databases** screen, select the database from the list, then select **Configuration**.
 1. Click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="Toggle actions button" width="22px" class="inline" >}} to open a list of additional actions.
 1. Select **Import**.
 1. Select the tab that corresponds to your storage location type and enter the location details.
@@ -156,7 +155,13 @@ In the Redis Enterprise Software Cluster Manager UI, when you enter the export l
 
 - In the **Secret access key** field, enter the secret access key.
 
-You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run: `rladmin cluster config s3_url [url]`
+You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+
+```sh
+rladmin cluster config s3_url <URL>
+```
+
+Replace `<URL>` with the hostname or IP address of the S3-compatible storage location.
 
 ### Google Cloud Storage
 
@@ -216,3 +221,7 @@ The import through the Redis Enterprise Cluster Manager UI handles these data ty
 
 You can import data into an Active-Active database [from the Cluster Manager UI](#import-data-into-a-database).
 When you import data into an Active-Active database, there is a special prompt warning that the imported data will be merged into the existing database.
+
+## Continue learning with Redis University
+
+See the [Import data into a database on Redis Software course](https://university.redis.io/course/jbl8tjp8niwskv) to learn more.

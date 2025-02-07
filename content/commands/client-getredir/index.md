@@ -31,7 +31,7 @@ syntax_str: ''
 title: CLIENT GETREDIR
 ---
 This command returns the client ID we are redirecting our
-[tracking]({{< relref "/develop/use/client-side-caching" >}}) notifications to. We set a client
+[tracking]({{< relref "/develop/clients/client-side-caching#tracking" >}}) notifications to. We set a client
 to redirect to when using [`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}) to enable tracking. However in
 order to avoid forcing client libraries implementations to remember the
 ID notifications are redirected to, this command exists in order to improve

@@ -76,7 +76,7 @@ SCAN is a cursor based iterator. This means that at every call of the command, t
 An iteration starts when the cursor is set to 0, and terminates when the cursor returned by the server is 0. The following is an example of SCAN iteration:
 
 ```
-redis 127.0.0.1:6379> scan 0
+> scan 0
 1) "17"
 2)  1) "key:12"
     2) "key:8"
@@ -89,7 +89,7 @@ redis 127.0.0.1:6379> scan 0
     9) "key:3"
    10) "key:7"
    11) "key:1"
-redis 127.0.0.1:6379> scan 17
+> scan 17
 1) "0"
 2) 1) "key:5"
    2) "key:18"
@@ -155,33 +155,32 @@ To do so, just append the `MATCH <pattern>` arguments at the end of the `SCAN` c
 
 This is an example of iteration using **MATCH**:
 
-```
-redis 127.0.0.1:6379> sadd myset 1 2 3 foo foobar feelsgood
+{{< clients-example cmds_generic scan1 >}}
+> sadd myset 1 2 3 foo foobar feelsgood
 (integer) 6
-redis 127.0.0.1:6379> sscan myset 0 match f*
+> sscan myset 0 match f*
 1) "0"
 2) 1) "foo"
    2) "feelsgood"
    3) "foobar"
-redis 127.0.0.1:6379>
-```
+{{< /clients-example >}}
 
 It is important to note that the **MATCH** filter is applied after elements are retrieved from the collection, just before returning data to the client. This means that if the pattern matches very little elements inside the collection, `SCAN` will likely return no elements in most iterations. An example is shown below:
 
-```
-redis 127.0.0.1:6379> scan 0 MATCH *11*
+{{< clients-example cmds_generic scan2 >}}
+> scan 0 MATCH *11*
 1) "288"
 2) 1) "key:911"
-redis 127.0.0.1:6379> scan 288 MATCH *11*
+> scan 288 MATCH *11*
 1) "224"
 2) (empty list or set)
-redis 127.0.0.1:6379> scan 224 MATCH *11*
+> scan 224 MATCH *11*
 1) "80"
 2) (empty list or set)
-redis 127.0.0.1:6379> scan 80 MATCH *11*
+> scan 80 MATCH *11*
 1) "176"
 2) (empty list or set)
-redis 127.0.0.1:6379> scan 176 MATCH *11* COUNT 1000
+> scan 176 MATCH *11* COUNT 1000
 1) "0"
 2)  1) "key:611"
     2) "key:711"
@@ -201,8 +200,7 @@ redis 127.0.0.1:6379> scan 176 MATCH *11* COUNT 1000
    16) "key:811"
    17) "key:511"
    18) "key:11"
-redis 127.0.0.1:6379>
-```
+{{< /clients-example >}}
 
 As you can see most of the calls returned zero elements, but the last call where a `COUNT` of 1000 was used in order to force the command to do more scanning for that iteration.
 
@@ -219,20 +217,20 @@ You can use the `TYPE` option to ask `SCAN` to only return objects that match a 
 
 The `type` argument is the same string name that the [`TYPE`]({{< relref "/commands/type" >}}) command returns. Note a quirk where some Redis types, such as GeoHashes, HyperLogLogs, Bitmaps, and Bitfields, may internally be implemented using other Redis types, such as a string or zset, so can't be distinguished from other keys of that same type by `SCAN`. For example, a ZSET and GEOHASH:
 
-```
-redis 127.0.0.1:6379> GEOADD geokey 0 0 value
+{{< clients-example cmds_generic scan3 >}}
+> GEOADD geokey 0 0 value
 (integer) 1
-redis 127.0.0.1:6379> ZADD zkey 1000 value
+> ZADD zkey 1000 value
 (integer) 1
-redis 127.0.0.1:6379> TYPE geokey
+> TYPE geokey
 zset
-redis 127.0.0.1:6379> TYPE zkey
+> TYPE zkey
 zset
-redis 127.0.0.1:6379> SCAN 0 TYPE zset
+> SCAN 0 TYPE zset
 1) "0"
 2) 1) "geokey"
    2) "zkey"
-```
+{{< /clients-example >}}
 
 It is important to note that the **TYPE** filter is also applied after elements are retrieved from the database, so the option does not reduce the amount of work the server has to do to complete a full iteration, and for rare types you may receive no elements in many iterations.
 
@@ -240,20 +238,20 @@ It is important to note that the **TYPE** filter is also applied after elements 
 
 When using [`HSCAN`]({{< relref "/commands/hscan" >}}), you can use the `NOVALUES` option to make Redis return only the keys in the hash table without their corresponding values.
 
-```
-redis 127.0.0.1:6379> HSET myhash a 1 b 2
+{{< clients-example cmds_generic scan4 >}}
+> HSET myhash a 1 b 2
 OK
-redis 127.0.0.1:6379> HSCAN myhash 0
+> HSCAN myhash 0
 1) "0"
 2) 1) "a"
    2) "1"
    3) "b"
    4) "2"
-redis 127.0.0.1:6379> HSCAN myhash 0 NOVALUES
+> HSCAN myhash 0 NOVALUES
 1) "0"
 2) 1) "a"
    2) "b"
-```
+{{< /clients-example >}}
 
 ## Multiple parallel iterations
 
@@ -292,15 +290,9 @@ For more information about managing keys, please refer to the [The Redis Keyspac
 
 ## Additional examples
 
-Iteration of a Hash value.
+Give the following commands, showing iteration of a hash key, a try in the interactive console:
 
-```
-redis 127.0.0.1:6379> hmset hash name Jack age 33
-OK
-redis 127.0.0.1:6379> hscan hash 0
-1) "0"
-2) 1) "name"
-   2) "Jack"
-   3) "age"
-   4) "33"
-```
+{{% redis-cli %}}
+HMSET hash name Jack age 33
+HSCAN hash 0
+{{% /redis-cli %}}

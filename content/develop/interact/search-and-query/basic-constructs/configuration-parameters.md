@@ -29,7 +29,7 @@ In [redis.conf]({{< relref "/operate/oss_and_stack/management/config" >}}):
 loadmodule ./redisearch.so [OPT VAL]...
 ```
 
-From the [Redis CLI]({{< relref "/develop/connect/cli" >}}), using the [MODULE LOAD]({{< relref "/commands/module-load" >}}) command:
+From the [Redis CLI]({{< relref "/develop/tools/cli" >}}), using the [MODULE LOAD]({{< relref "/commands/module-load" >}}) command:
 
 ```
 127.0.0.6379> MODULE LOAD redisearch.so [OPT VAL]...
@@ -72,6 +72,7 @@ The following table summarizes which configuration parameters can be set at modu
 | [CONCURRENT_WRITE_MODE](#concurrent_write_mode)     | :white_check_mark: | :white_check_mark:   |
 | [EXTLOAD](#extload)                                 | :white_check_mark: | :white_check_mark:   |
 | [MINPREFIX](#minprefix)                             | :white_check_mark: | :white_check_mark:   |
+| [MINSTEMLEN](#minstemlen)                           | :white_check_mark: | :white_check_mark:   |
 | [MAXPREFIXEXPANSIONS](#maxprefixexpansions)         | :white_check_mark: | :white_check_mark:   |
 | [MAXDOCTABLESIZE](#maxdoctablesize)                 | :white_check_mark: | :white_check_mark:   |
 | [MAXSEARCHRESULTS](#maxsearchresults)               | :white_check_mark: | :white_check_mark:   |
@@ -89,6 +90,7 @@ The following table summarizes which configuration parameters can be set at modu
 | [OSS_GLOBAL_PASSWORD](#oss_global_password)         | :white_check_mark: | :white_large_square: |
 | [DEFAULT_DIALECT](#default_dialect)                 | :white_check_mark: | :white_check_mark:   |
 | [VSS_MAX_RESIZE](#vss_max_resize)                   | :white_check_mark: | :white_check_mark:   |
+| [INDEX_CURSOR_LIMIT](#index_cursor_limit)           | :white_check_mark: | :white_check_mark:   |
 
 ---
 
@@ -208,6 +210,22 @@ The minimum number of characters allowed for prefix queries (e.g., `hel*`). Sett
 
 ```
 $ redis-server --loadmodule ./redisearch.so MINPREFIX 3
+```
+
+---
+
+### MINSTEMLEN
+
+The minimum word length to stem. The default value is `4`. Setting it lower than `4` can reduce performance.
+
+#### Default
+
+4
+
+#### Example
+
+```
+$ redis-server --loadmodule ./redisearch.so MINSTEMLEN 3
 ```
 
 ---
@@ -502,7 +520,7 @@ $ redis-server --loadmodule ./redisearch.so UPGRADE_INDEX idx PREFIX 1 tt LANGUA
 
 ### OSS_GLOBAL_PASSWORD
 
-Global oss cluster password that will be used to connect to other shards.
+Global Redis Community Edition cluster password that will be used to connect to other shards.
 
 #### Default
 
@@ -525,7 +543,11 @@ $ redis-server --loadmodule ./redisearch.so OSS_GLOBAL_PASSWORD password
 
 ### DEFAULT_DIALECT
 
-The default DIALECT to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain/), [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), and [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck/).
+The default
+[DIALECT]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain/), [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), and [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck/).
+See [Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
+for more information.
 
 #### Default
 
@@ -536,13 +558,6 @@ The default DIALECT to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.crea
 ```
 $ redis-server --loadmodule ./redisearch.so DEFAULT_DIALECT 2
 ```
-
-{{% alert title="Notes" color="info" %}}
-
-* Vector search, added in v2.4.3, requires `DIALECT 2` or greater.
-* Returning multiple values from [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) requires `DIALECT 3` or greater.
-
-{{% /alert %}}
 
 ---
 
@@ -565,3 +580,25 @@ $ redis-server --loadmodule ./redisearch.so VSS_MAX_RESIZE 52428800  # 50MB
 * Added in v2.4.8
 
 {{% /alert %}}
+### INDEX_CURSOR_LIMIT
+
+The maximum number of cursors that can be opened, per shard, at any given time.  Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< baseurl >}}/commands/ft.aggregate/).  Cursors are also opened internally by the Redis Query Engine for long-running queries.  Once `INDEX_CURSOR_LIMIT` is reached, any further attempts at opening a cursor will result in an error.
+
+{{% alert title="Notes" color="info" %}}
+
+* Caution should be used in modifying this parameter.  Every open cursor results in additional memory usage.
+* Cursor usage should be regulated first by use of [`FT.CURSOR DEL`]({{< baseurl >}}/commands/ft.cursor-del/) and/or [`MAXIDLE`]({{< baseurl >}}/commands/ft.aggregate/) prior to modifying `INDEX_CURSOR_LIMIT`
+* See [Cursor API]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api) for more details.
+
+* Added in 2.10.8
+{{% /alert %}}
+
+#### Default
+
+128
+
+#### Example
+
+```
+$ redis-server --loadmodule ./redisearch.so INDEX_CURSOR_LIMIT 180
+```
