@@ -1,5 +1,5 @@
 HUGO_CONTENT=./content
-HUGO_DEBUG=--debug --log
+HUGO_DEBUG=--logLevel debug
 HUGO_BUILD=--gc
 
 all: clean deps components hugo
