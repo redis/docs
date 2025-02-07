@@ -35,7 +35,7 @@ You will need the following tools to build the site locally:
 
 - `python3`: Python >= 3.8.
 - `node` and `npm`: Node.js >= 19.7.0, and the Node.js package manager >= 9.5.0.
-- `hugo`: Hugo site generator, v0.111.2; the extended edition.
+- `hugo`: Hugo site generator, v0.143.0; the extended edition.
 - `make`: To run the makefile.
 - `git`: To manage the source code of this repo.
 
