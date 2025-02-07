@@ -152,9 +152,9 @@ Monitoring and troubleshooting aliases:
 - If schema changes are required, create a new index with the updated schema and reassign the alias once the index is ready.
 - Use [Redis key expiration]({{< relref "/develop/use/keyspace#key-expiration" >}}) to automatically remove outdated records and keep indexes lean.
 
-### [`FT.ALTER`]({{< baseurl >}}/commands/ft.alter) vs. aliasing
+### FT.ALTER vs. aliasing
 
-Use `FT.ALTER` when you need to add new fields to an existing index without rebuilding it, minimizing downtime and resource usage. However, `FT.ALTER` cannot remove or modify existing fields, limiting its flexibility.
+Use [`FT.ALTER`]({{< baseurl >}}/commands/ft.alter) when you need to add new fields to an existing index without rebuilding it, minimizing downtime and resource usage. However, `FT.ALTER` cannot remove or modify existing fields, limiting its flexibility.
 
 Use index aliasing when making schema changes that require reindexing, such as modifying field types or removing fields. In this case, create a new index with the updated schema, populate it, and then use `FT.ALIASUPDATE` to seamlessly switch queries to the new index without disrupting application functionality.
 
