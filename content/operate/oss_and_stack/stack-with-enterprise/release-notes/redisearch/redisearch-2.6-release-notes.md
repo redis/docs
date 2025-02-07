@@ -15,10 +15,19 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.25 requires:
+RediSearch v2.6.26 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.26 (February 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5606](https://github.com/redisearch/redisearch/pull/5606) Changes on the memory block reading logic could cause crash on `FT.SEARCH` with error "_Redis 7.4.2 crashed by signal: 11, si_code: 128_"
 
 ## v2.6.25 (January 2025)
 
