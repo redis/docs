@@ -86,5 +86,5 @@ See [console metrics]({{< relref "/operate/rs/references/metrics" >}}) for more 
 - [Disk sizing for heavy write scenarios]({{< relref "/operate/rs/clusters/optimize/disk-sizing-heavy-write-scenarios.md" >}})
 - [Turn off services to free system memory]({{< relref "/operate/rs/clusters/optimize/turn-off-services.md" >}})
 - [Eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}})
-- [Shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy.md " >}})
+- [Shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy.md" >}})
 - [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}})

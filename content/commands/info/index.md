@@ -151,8 +151,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `used_memory_rss_human`: Human readable representation of previous value
 *   `used_memory_peak`: Peak memory consumed by Redis (in bytes)
 *   `used_memory_peak_human`: Human readable representation of previous value
-*   `used_memory_peak_perc`: The percentage of `used_memory_peak` out of
-     `used_memory`
+*   `used_memory_peak_perc`: The percentage of `used_memory` out of `used_memory_peak`
 *   `used_memory_overhead`: The sum in bytes of all overheads that the server
      allocated for managing its internal data structures
 *   `used_memory_startup`: Initial amount of memory consumed by Redis at startup
