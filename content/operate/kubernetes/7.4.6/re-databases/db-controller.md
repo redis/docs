@@ -27,13 +27,13 @@ the custom resource with default values to create a full specification. It then 
 database on the specified Redis Enterprise cluster (REC).
 
 Once the database is created, it is exposed with the same service mechanisms by the service rigger for the Redis Enterprise cluster.
-If the database [custom resource is deleted]({{< relref "/operate/kubernetes/7.4.6/delete-custom-resources" >}}), the database and its services are deleted from the cluster.
+If the database [custom resource is deleted]({{< relref "/operate/kubernetes/delete-custom-resources" >}}), the database and its services are deleted from the cluster.
 
 ### Flexible deployment options
 
 Databases in multiple namespaces can be managed by the same operator. To learn more, see [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}).
 
-To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/7.4.6/deployment/deployment-options" >}}).
+To learn more about designing a multi-namespace Redis Enterprise cluster, see [flexible deployment options]({{< relref "/operate/kubernetes/deployment/deployment-options" >}}).
 
 ## Create a database
 
