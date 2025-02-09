@@ -43,7 +43,7 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 | <span class="break-all">endpoint_failed_ldap_authentication</span> | counter | Number of clients that failed LDAP authentication |
 | <span class="break-all">endpoint_failed_user_password_authentication</span> | counter | Number of clients that failed user password authentication |
 | <span class="break-all">endpoint_ingress</span> | counter | Number of ingress bytes |
-| <span class="break-all">endpoint_longest_pipeline_histogram</span> | counter | Client connections with the longest pipeline lengths |
+| <span class="break-all">endpoint_longest_pipeline_histogram</span> | counter | Tracks the distribution of longest observed pipeline lengths, where a pipeline is a sequence of client commands sent without waiting for responses. |
 | <span class="break-all">endpoint_other_requests</span> | counter | Number of other requests |
 | <span class="break-all">endpoint_other_requests_latency_histogram</span> | histogram | Latency (in µs) histogram of other commands |
 | <span class="break-all">endpoint_other_requests_latency_histogram_bucket</span> | histogram | Latency histograms for commands other than read or write commands. Can be used to represent different latency percentiles.<br />p99.9 example:<br /><span class="break-all">`histogram_quantile(0.999, sum(rate(endpoint_other_requests_latency_histogram_bucket{cluster="$cluster", db="$db"}[$__rate_interval]) ) by (le, db))`</span> |
@@ -97,28 +97,28 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 
 ## Replication metrics
 
-| Metric | Description |
-| :-------- | :---------- |
-| <span class="break-all">database_syncer_config</span> | Used as a placeholder for configuration labels |
-| <span class="break-all">database_syncer_current_status</span> | Syncer status for traffic; 0 = in-sync, 2 = out of sync |
-| <span class="break-all">database_syncer_dst_connectivity_state</span> | Destination connectivity state |
-| <span class="break-all">database_syncer_dst_connectivity_state_ms</span> | Destination connectivity state duration |
-| <span class="break-all">database_syncer_dst_lag</span> | Lag in milliseconds between the syncer and the destination |
-| <span class="break-all">database_syncer_dst_repl_offset</span> | Offset of the last command acknowledged |
-| <span class="break-all">database_syncer_flush_counter</span> | Number of destination flushes |
-| <span class="break-all">database_syncer_ingress_bytes</span> | Number of bytes read from source shard |
-| <span class="break-all">database_syncer_ingress_bytes_decompressed</span> | Number of bytes read from source shard |
-| <span class="break-all">database_syncer_internal_state</span> | Internal state of the syncer |
-| <span class="break-all">database_syncer_lag_ms</span> | Lag time between the source and the destination for traffic in milliseconds |
-| <span class="break-all">database_syncer_rdb_size</span> | The source's RDB size in bytes to be transferred during the syncing phase |
-| <span class="break-all">database_syncer_rdb_transferred</span> | Number of bytes transferred from the source's RDB during the syncing phase |
-| <span class="break-all">database_syncer_src_connectivity_state</span> | Source connectivity state |
-| <span class="break-all">database_syncer_src_connectivity_state_ms</span> | Source connectivity state duration |
-| <span class="break-all">database_syncer_src_repl_offset</span> | Last known source offset |
-| <span class="break-all">database_syncer_state</span> | Internal state of the shard syncer |
-| <span class="break-all">database_syncer_syncer_repl_offset</span> | Offset of the last command handled by the syncer |
-| <span class="break-all">database_syncer_total_requests</span> | Number of destination writes |
-| <span class="break-all">database_syncer_total_responses</span> | Number of destination writes acknowledged |
+| Metric | Type | Description |
+| :-------- | :--- | :---------- |
+| <span class="break-all">database_syncer_config</span> | gauge | Used as a placeholder for configuration labels |
+| <span class="break-all">database_syncer_current_status</span> | gauge | Syncer status for traffic; 0 = in-sync, 2 = out of sync |
+| <span class="break-all">database_syncer_dst_connectivity_state</span> | gauge | Destination connectivity state |
+| <span class="break-all">database_syncer_dst_connectivity_state_ms</span> | gauge | Destination connectivity state duration |
+| <span class="break-all">database_syncer_dst_lag</span> | gauge | Lag in milliseconds between the syncer and the destination |
+| <span class="break-all">database_syncer_dst_repl_offset</span> | gauge | Offset of the last command acknowledged |
+| <span class="break-all">database_syncer_flush_counter</span> | gauge | Number of destination flushes |
+| <span class="break-all">database_syncer_ingress_bytes</span> | gauge | Number of bytes read from source shard |
+| <span class="break-all">database_syncer_ingress_bytes_decompressed</span> | gauge | Number of bytes read from source shard |
+| <span class="break-all">database_syncer_internal_state</span> | gauge | Internal state of the syncer |
+| <span class="break-all">database_syncer_lag_ms</span> | gauge | Lag time between the source and the destination for traffic in milliseconds |
+| <span class="break-all">database_syncer_rdb_size</span> | gauge | The source's RDB size in bytes to be transferred during the syncing phase |
+| <span class="break-all">database_syncer_rdb_transferred</span> | gauge | Number of bytes transferred from the source's RDB during the syncing phase |
+| <span class="break-all">database_syncer_src_connectivity_state</span> | gauge | Source connectivity state |
+| <span class="break-all">database_syncer_src_connectivity_state_ms</span> | gauge | Source connectivity state duration |
+| <span class="break-all">database_syncer_src_repl_offset</span> | gauge | Last known source offset |
+| <span class="break-all">database_syncer_state</span> | gauge | Internal state of the shard syncer |
+| <span class="break-all">database_syncer_syncer_repl_offset</span> | gauge | Offset of the last command handled by the syncer |
+| <span class="break-all">database_syncer_total_requests</span> | gauge | Number of destination writes |
+| <span class="break-all">database_syncer_total_responses</span> | gauge | Number of destination writes acknowledged |
 
 ## Shard metrics
 
