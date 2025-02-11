@@ -38,7 +38,7 @@ Redis server.
 An instance that belongs to a cluster can manage multiple hash
 slots. This division of the key space, known as _sharding_, is achieved by
 hashing the key names, or parts of these (key hash tags), in order to
-obtain the hash slot in which a key should reside. Redis Cloud supports several [hashing policies]().
+obtain the hash slot in which a key should reside. Redis Cloud supports several [hashing policies](#manage-the-hashing-policy).
 
 Even when using multiple Redis processes, the use of a Redis
 Enterprise Cloud cluster is nearly transparent to the application that
@@ -114,7 +114,7 @@ These changes include:
 ### Redis hashing policy
 
 {{< note >}}
-This policy is available for databases created after MONTH DAY, 2025.
+This policy is available for selected accounts and will be rolled out gradually to other accounts in the future.
 {{< /note >}}
 
 The Redis hashing policy is identical to the [hashing policy used by Redis Community Edition]({{< relref "/operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}). This policy is recommended for most users and should be selected if any of the following conditions apply:
