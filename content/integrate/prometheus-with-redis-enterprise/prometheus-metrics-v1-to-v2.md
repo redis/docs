@@ -10,7 +10,7 @@ group: observability
 linkTitle: Transition from Prometheus v1 to v2
 summary: Transition from v1 metrics to v2 PromQL equivalents.
 type: integration
-weight: 45
+weight: 49
 ---
 
 You can [integrate Redis Enterprise Software with Prometheus and Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise/">}}) to create dashboards for important metrics.
@@ -247,7 +247,7 @@ As of Redis Enterprise Software version 7.8.2, [PromQL (Prometheus Query Languag
 | <span class="break-all">redis_keyspace_write_misses</span> | <span class="break-all">`redis_server_keyspace_write_misses`</span> | Number of write operations accessing a non-existing keyspace |
 | <span class="break-all">redis_master_link_status</span> | <span class="break-all">`redis_server_master_link_status`</span> | Indicates if the replica is connected to its master |
 | <span class="break-all">redis_master_repl_offset</span> | <span class="break-all">`redis_server_master_repl_offset`</span> | Number of bytes sent to replicas by the shard; calculate the throughput for a time period by comparing the value at different times |
-| <span class="break-all">redis_master_sync_in_progress</span> | <span class="break-all">`redis_server_master_sync_in_progress`</span> | The master shard is synchronizing (1 true | 0 false) |
+| <span class="break-all">redis_master_sync_in_progress</span> | <span class="break-all">`redis_server_master_sync_in_progress`</span> | The master shard is synchronizing (1 true; 0 false) |
 | <span class="break-all">redis_max_process_mem</span> | <span class="break-all">`redis_server_max_process_mem`</span> | Current memory limit configured by redis_mgr according to node free memory |
 | <span class="break-all">redis_maxmemory</span> | <span class="break-all">`redis_server_maxmemory`</span> | Current memory limit configured by redis_mgr according to database memory limits |
 | <span class="break-all">redis_mem_aof_buffer</span> | <span class="break-all">`redis_server_mem_aof_buffer`</span> | Current size of AOF buffer |
