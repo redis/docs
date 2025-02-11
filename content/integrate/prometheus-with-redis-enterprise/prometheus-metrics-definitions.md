@@ -174,51 +174,46 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 | <span class="break-all">redis_server_total_net_output_bytes</span> | Number of bytes sent by the shard; calculate the throughput for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_up</span> | Shard is up and running |
 | <span class="break-all">redis_server_used_memory</span> | Memory used by shard (in BigRedis this includes flash) (bytes) |
-
-## Redis Query Engine metrics
-
-| Metric | Description |
-| :-------- | :---------- |
-| `search_number_of_indexes` | total number of indexes in the shard |
-| `search_number_of_active_indexes` | The total number of indexes running a background indexing and/or background query processing operation. Background indexing refers to vector ingestion process, or in-progress background indexer. |
-| `search_number_of_active_indexes_running_queries` | Total count of indexes currently running a background query process. |
-| `search_number_of_active_indexes_indexing` | Total count of indexes currently undergoing a background indexing process. Background indexing refers to vector ingestion process, or in-progress background indexer. This metric is Limited by the number of WORKER threads allocated for writing operations + the number of indexes. |
-| `search_total_active_write_threads` | Total count of background write (indexing) processes currently running in the shard. Background indexing refers to vector ingestion process, or in-progress background indexer. This metric is Limited by the number of threads allocated for writing operations. |
-| `search_fields_text_Text` | The total number of `TEXT` fields across all indexes in the shard. |
-| `search_fields_text_Sortable` | The total number of `SORTABLE TEXT` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
-| `search_fields_text_NoIndex` | The total number of `NOINDEX TEXT` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. |
-| `search_fields_numeric_Numeric` | The total number of `NUMERIC` fields across all indexes in the shard. |
-| `search_fields_numeric_Sortable` | The total number of `SORTABLE NUMERIC` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
-| `search_fields_numeric_NoIndex` | The total number of `NOINDEX NUMERIC` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. |
-| `search_fields_tag_Tag` | The total number of `TAG` fields across all indexes in the shard. |
-| `search_fields_tag_Sortable` | The total number of `SORTABLE TAG` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
-| `search_fields_tag_NoIndex` | The total number of `NOINDEX TAG` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. |
-| `search_fields_tag_CaseSensitive` | The total number of `CASESENSITIVE TAG` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
-| `search_fields_geo_Geo` | The total number of `GEO` fields across all indexes in the shard. |
-| `search_fields_geo_Sortable` | The total number of `SORTABLE GEO` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
-| `search_fields_geo_NoIndex` | The total number of `NOINDEX GEO` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. |
-| `search_fields_vector_Vector` | The total number of `VECTOR` fields across all indexes in the shard. |
-| `search_fields_vector_Flat` | The total number of `FLAT VECTOR` fields across all indexes in the shard. |
-| `search_fields_vector_HNSW` | The total number of `HNSW VECTOR` fields across all indexes in the shard. |
-| `search_fields_geoshape_Geoshape` | The total number of `GEOSHAPE` fields across all indexes in the shard. |
-| `search_fields_geoshape_Sortable` | The total number of `SORTABLE GEOSHAPE` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
-| `search_fields_geoshape_NoIndex` | The total number of `NOINDEX GEOSHAPE` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. |
-| `search_fields_<field>_IndexErrors` | The total number of indexing failures caused by attempts to index a document containing `<field>` field. |
-| `search_used_memory_indexes` | The total memory allocated by all indexes in the shard in bytes. |
-| `search_smallest_memory_index` | The memory usage of the index with the smallest memory usage in the shard in bytes. |
-| `search_largest_memory_index` | The memory usage of the index with the largest memory usage in the shard in bytes. |
-| `search_total_indexing_time` | The total time spent on indexing operations, excluding the background indexing of vectors in the `HNSW` graph. |
-| `search_used_memory_vector_index` | The total memory usage of all vector indexes in the shard. |
-| `search_global_idle` | The total number of user and internal cursors currently holding pending results in the shard. |
-| `search_global_total` | The total number of user and internal cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. |
-| `search_bytes_collected` | The total amount of memory freed by the garbage collectors from indexes in the shard memory in bytes. |
-| `search_total_cycles` | The total number of garbage collection cycles executed |
-| `search_total_ms_run` | The total duration of all garbage collection cycles in the shard, measured in milliseconds. |
-| `search_total_docs_not_collected_by_gc` | The number of documents marked as deleted whose memory has not yet been freed by the garbage collector. |
-| `search_marked_deleted_vectors` | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. |
-| `search_total_queries_processed` | The total number of successful query executions (When using cursors, not counting reading from existing cursors) in the shard. |
-| `search_total_query_commands` | The total number of successful query command executions (including `FT.SEARCH`, `FT.AGGREGATE`, and `FT.CURSOR READ`). |
-| `search_total_query_execution_time_ms` | The cumulative execution time of all query commands, including `FT.SEARCH`, `FT.AGGREGATE`, and `FT.CURSOR READ`, measured in ms. |
-| `search_total_active_queries` | The total number of background queries currently being executed in the shard, excluding `FT.CURSOR READ`. |
-| `search_errors_indexing_failures` | The total number of indexing failures recorded across all indexes in the shard. |
-| `search_errors_for_index_with_max_failures` | The number of indexing failures in the index with the highest count of failures. |
+| <span class="break-all">search_number_of_indexes</span> | total number of indexes in the shard |
+| <span class="break-all">search_number_of_active_indexes</span> | The total number of indexes running a background indexing and/or background query processing operation. Background indexing refers to vector ingestion process, or in-progress background indexer. |
+| <span class="break-all">search_number_of_active_indexes_running_queries</span> | Total count of indexes currently running a background query process. |
+| <span class="break-all">search_number_of_active_indexes_indexing</span> | Total count of indexes currently undergoing a background indexing process. Background indexing refers to vector ingestion process, or in-progress background indexer. This metric is Limited by the number of WORKER threads allocated for writing operations + the number of indexes. |
+| <span class="break-all">search_total_active_write_threads</span> | Total count of background write (indexing) processes currently running in the shard. Background indexing refers to vector ingestion process, or in-progress background indexer. This metric is Limited by the number of threads allocated for writing operations. |
+| <span class="break-all">search_fields_text_Text</span> | The total number of `TEXT` fields across all indexes in the shard. |
+| <span class="break-all">search_fields_text_Sortable</span> | The total number of `SORTABLE TEXT` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
+| <span class="break-all">search_fields_text_NoIndex</span> | The total number of `NOINDEX TEXT` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. |
+| <span class="break-all">search_fields_numeric_Numeric</span> | The total number of `NUMERIC` fields across all indexes in the shard. |
+| <span class="break-all">search_fields_numeric_Sortable</span> | The total number of `SORTABLE NUMERIC` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
+| <span class="break-all">search_fields_numeric_NoIndex</span> | The total number of `NOINDEX NUMERIC` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. |
+| <span class="break-all">search_fields_tag_Tag</span> | The total number of `TAG` fields across all indexes in the shard. |
+| <span class="break-all">search_fields_tag_Sortable</span> | The total number of `SORTABLE TAG` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
+| <span class="break-all">search_fields_tag_NoIndex</span> | The total number of `NOINDEX TAG` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. |
+| <span class="break-all">search_fields_tag_CaseSensitive</span> | The total number of `CASESENSITIVE TAG` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
+| <span class="break-all">search_fields_geo_Geo</span> | The total number of `GEO` fields across all indexes in the shard. |
+| <span class="break-all">search_fields_geo_Sortable</span> | The total number of `SORTABLE GEO` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
+| <span class="break-all">search_fields_geo_NoIndex</span> | The total number of `NOINDEX GEO` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. |
+| <span class="break-all">search_fields_vector_Vector</span> | The total number of `VECTOR` fields across all indexes in the shard. |
+| <span class="break-all">search_fields_vector_Flat</span> | The total number of `FLAT VECTOR` fields across all indexes in the shard. |
+| <span class="break-all">search_fields_vector_HNSW</span> | The total number of `HNSW VECTOR` fields across all indexes in the shard. |
+| <span class="break-all">search_fields_geoshape_Geoshape</span> | The total number of `GEOSHAPE` fields across all indexes in the shard. |
+| <span class="break-all">search_fields_geoshape_Sortable</span> | The total number of `SORTABLE GEOSHAPE` fields across all indexes in the shard. This field appears only if its value is larger than 0. |
+| <span class="break-all">search_fields_geoshape_NoIndex</span> | The total number of `NOINDEX GEOSHAPE` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. |
+| <span class="break-all">search_fields_<field>_IndexErrors</span> | The total number of indexing failures caused by attempts to index a document containing `<field>` field. |
+| <span class="break-all">search_used_memory_indexes</span> | The total memory allocated by all indexes in the shard in bytes. |
+| <span class="break-all">search_smallest_memory_index</span> | The memory usage of the index with the smallest memory usage in the shard in bytes. |
+| <span class="break-all">search_largest_memory_index</span> | The memory usage of the index with the largest memory usage in the shard in bytes. |
+| <span class="break-all">search_total_indexing_time</span> | The total time spent on indexing operations, excluding the background indexing of vectors in the `HNSW` graph. |
+| <span class="break-all">search_used_memory_vector_index</span> | The total memory usage of all vector indexes in the shard. |
+| <span class="break-all">search_global_idle</span> | The total number of user and internal cursors currently holding pending results in the shard. |
+| <span class="break-all">search_global_total</span> | The total number of user and internal cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. |
+| <span class="break-all">search_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard memory in bytes. |
+| <span class="break-all">search_total_cycles</span> | The total number of garbage collection cycles executed |
+| <span class="break-all">search_total_ms_run</span> | The total duration of all garbage collection cycles in the shard, measured in milliseconds. |
+| <span class="break-all">search_total_docs_not_collected_by_gc</span> | The number of documents marked as deleted whose memory has not yet been freed by the garbage collector. |
+| <span class="break-all">search_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. |
+| <span class="break-all">search_total_queries_processed</span> | The total number of successful query executions (When using cursors, not counting reading from existing cursors) in the shard. |
+| <span class="break-all">search_total_query_commands</span> | The total number of successful query command executions (including `FT.SEARCH`, `FT.AGGREGATE`, and `FT.CURSOR READ`). |
+| <span class="break-all">search_total_query_execution_time_ms</span> | The cumulative execution time of all query commands, including `FT.SEARCH`, `FT.AGGREGATE`, and `FT.CURSOR READ`, measured in ms. |
+| <span class="break-all">search_total_active_queries</span> | The total number of background queries currently being executed in the shard, excluding `FT.CURSOR READ`. |
+| <span class="break-all">search_errors_indexing_failures</span> | The total number of indexing failures recorded across all indexes in the shard. |
+| <span class="break-all">search_errors_for_index_with_max_failures</span> | The number of indexing failures in the index with the highest count of failures. |
