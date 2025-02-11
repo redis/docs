@@ -10,7 +10,7 @@ group: observability
 linkTitle: Prometheus metrics v2
 summary: V2 metrics available to Prometheus as of Redis Enterprise Software version 7.8.2.
 type: integration
-weight: 45
+weight: 50
 ---
 
 {{<banner-article>}}
@@ -149,7 +149,7 @@ The v2 metrics in the following tables are available as of Redis Enterprise Soft
 | <span class="break-all">redis_server_keyspace_write_misses</span> | Number of write operations accessing a non-existing keyspace |
 | <span class="break-all">redis_server_master_link_status</span> | Indicates if the replica is connected to its master |
 | <span class="break-all">redis_server_master_repl_offset</span> | Number of bytes sent to replicas by the shard; calculate the throughput for a time period by comparing the value at different times |
-| <span class="break-all">redis_server_master_sync_in_progress</span> | The master shard is synchronizing (1 true | 0 false) |
+| <span class="break-all">redis_server_master_sync_in_progress</span> | The primary shard is synchronizing (1 true; 0 false) |
 | <span class="break-all">redis_server_max_process_mem</span> | Current memory limit configured by redis_mgr according to node free memory |
 | <span class="break-all">redis_server_maxmemory</span> | Current memory limit configured by redis_mgr according to database memory limits |
 | <span class="break-all">redis_server_mem_aof_buffer</span> | Current size of AOF buffer |
