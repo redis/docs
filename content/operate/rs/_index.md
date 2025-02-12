@@ -78,4 +78,4 @@ To view documentation earlier than version 7.4, see the archived website:
 
 ## Continue learning with Redis University
 
-See the [Get started with Redis Software learning path](https://university.redis.io/learningpath/an0mgw5bjpjfbe) to learn more.
+{{< university-links >}}
