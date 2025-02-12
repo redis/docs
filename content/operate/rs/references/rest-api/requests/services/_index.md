@@ -89,8 +89,6 @@ Supported `operation_type` values:
 - start
 - stop
 - restart
-- kill
-- change_watchdog_profile: deprecated, use [`PUT /v1/cluster/policy`]({{<relref "operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) to set `failure_detection_sensitivity` to `high` or `low` instead instead.
 
 For cluster-wide changes that are not node-specific, use [`POST /v1/services`](#post-services) instead.
 
@@ -155,8 +153,6 @@ Supported `operation_type` values:
 - start
 - stop
 - restart
-- kill
-- change_watchdog_profile: deprecated, use [`PUT /v1/cluster/policy`]({{<relref "operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) to set `failure_detection_sensitivity` to `high` or `low` instead instead.
 
 For operations that directly interact with processes, use [`POST /v1/local/services`](#post-local-services) instead.
 
