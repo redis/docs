@@ -12,7 +12,7 @@ weight: 30
 
 Each release of Redis Enterprise for Kubernetes is thoroughly tested against a set of Kubernetes distributions. The table below lists Redis Enterprise for Kubernetes versions and the Kubernetes distributions they support.
 
-{{<note>}}Each platform is tested with the default configuration, including storage, network, security, and container runtime components.”{{</note>}}
+{{<note>}}Each platform is tested with its default configuration, including storage, network, security, and container runtime components.”{{</note>}}
 
 <span title="Check mark icon">&#x2705;</span> Supported – This distribution is supported for this version of Redis Enterprise Software for Kubernetes.
 
