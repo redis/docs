@@ -83,15 +83,19 @@ Possible `status` values:
 POST /v1/local/services
 ```
 
-Modify Redis Enterprise services or perform operations that directly interact with processes.
+Modify Redis Enterprise services or perform operations that directly interact with processes. For cluster-wide changes that are not node-specific, use [`POST /v1/services`](#post-services) instead.
 
-Supported `operation_type` values: 
-- start
+Supported `operation_type` values:
+
 - stop
+- start
 - restart
 
-For cluster-wide changes that are not node-specific, use [`POST /v1/services`](#post-services) instead.
+{{<warning>}}
+Stop, start, or restart optional services only. Changing the status of required services can affect cluster behavior.
 
+For a list of optional services, see the [services configuration object reference]({{<relref "/operate/rs/references/rest-api/objects/services_configuration">}}) or use a [`GET /v1/cluster/services_configuration`]({{<relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#get-cluster-services_config">}}) request.
+{{</warning>}}
 
 ### Request {#post-local-request}
 
@@ -115,8 +119,7 @@ POST /local/services
 {
   "operation_type": "restart",
   "services": [
-    "alert_mgr",
-    "metrics_exporter"
+    "alert_mgr"
   ]
 }
 ```
@@ -147,15 +150,19 @@ Returns a JSON object that shows whether the operation ran successfully or faile
 POST /v1/services
 ```
 
-Makes cluster-wide changes that are not node-specific on Redis Enterprise services. The master node handles these changes.
+Makes cluster-wide changes that are not node-specific on Redis Enterprise services. The master node handles these changes. For operations that directly interact with processes, use [`POST /v1/local/services`](#post-local-services) instead.
 
-Supported `operation_type` values: 
-- start
+Supported `operation_type` values:
+
 - stop
+- start
 - restart
 
-For operations that directly interact with processes, use [`POST /v1/local/services`](#post-local-services) instead.
+{{<warning>}}
+Stop, start, or restart optional services only. Changing the status of required services can affect cluster behavior.
 
+For a list of optional services, see the [services configuration object reference]({{<relref "/operate/rs/references/rest-api/objects/services_configuration">}}) or use a [`GET /v1/cluster/services_configuration`]({{<relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#get-cluster-services_config">}}) request.
+{{</warning>}}
 
 ### Request {#post-request}
 
@@ -179,8 +186,7 @@ POST /services
 {
   "operation_type": "restart",
   "services": [
-    "alert_mgr",
-    "metrics_exporter"
+    "alert_mgr"
   ]
 }
 ```
