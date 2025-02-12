@@ -27,6 +27,18 @@ Update urgency: `HIGH` : There is a critical bug that may affect a subset of use
 Bug fixes:
 - [#5596](https://github.com/redisearch/redisearch/pull/5596) Changes on the memory block reading logic could cause crash on `FT.SEARCH` with error "_Redis 7.4.2 crashed by signal: 11, si_code: 128"_
 
+Known limitations:
+- Only the first 128 characters of string fields are normalized to lowercase during ingestion (for example, on `HSET`).
+    Example:
+
+    ```
+    HSET doc __score 1.0 name "idx1S...S" mynum 1          # Assume "S...S" is a string of 252 capital S's
+    FT.CREATE "idx" SCHEMA "name" "TEXT" "mynum" "NUMERIC"
+    FT.SEARCH "idx" "@name:idx1S...S"                      # Assume "S...S" is a string of 252 capital S's
+    ```
+
+    The `FT.SEARCH` command will return no documents.
+
 ## v2.10.11 (January 2025)
 
 This is a maintenance release for RediSearch 2.10.
