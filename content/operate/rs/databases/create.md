@@ -101,4 +101,4 @@ For Active-Active databases, see [Create an Active-Active geo-replicated databas
 
 ## Continue learning with Redis University
 
-See the [Create a database on Redis Software course](https://university.redis.io/course/cvj3ntarrg8roa) to learn more.
+{{< university-links >}}
