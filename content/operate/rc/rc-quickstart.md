@@ -92,11 +92,40 @@ The connection wizard provides the following database connection methods:
 - [Redis client](#using-redis-client) for your preferred programming language
 
 
-{{<image filename="images/rc/connection-wizard.png" alt="The connection wizard." >}}
+{{<image filename="images/rc/connection-wizard.png" alt="The connection wizard." width=500px >}}
 
 ### Redis Insight{#using-redisinsight}
 
-[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that is available for macOS, Windows, and Linux.
+[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that lets you visualize your Redis data and learn more about Redis.
+
+You can connect to your database with Redis Insight in two ways:
+
+1. [Open your database in Redis Insight in your browser](#ri-browser).
+
+1. [Download and Install Redis Insight](#ri-app) on Windows, macOS, and Linux.
+
+#### Open in your browser {#ri-browser}
+
+{{< note >}}
+Opening your database with Redis Insight in your browser is available for Essentials databases hosted on AWS.
+{{< /note >}}
+
+To connect to your database with Redis Insight in your browser, select **Open with Redis Insight**. 
+
+{{<image filename="images/rc/rc-ri-open.png" alt="Open with Redis Insight" width=200px >}}
+
+Redis Insight will open in a new tab. 
+
+From there, you can:
+
+- Select **Load sample data** to add sample data into your database.
+    {{<image filename="images/rc/rc-ri-load-data.png" alt="Load Sample Data button" width=300px >}}
+- Select **Explore** to learn how to use Redis.
+    {{<image filename="images/rc/rc-ri-explore-icon.png" alt="The Explore icon" >}}
+
+For more info on how to use Redis Insight in your browser, see [Open with Redis Insight on Redis Cloud]({{< relref "/operate/rc/databases/connect/insight-cloud" >}}).
+
+#### Install and open on your computer {#ri-app}
 
 1. In the connection wizard, under **Redis Insight**, select **Download** to download Redis Insight.
 
@@ -122,7 +151,7 @@ The connection wizard provides code snippets to connect to your database with th
 - Go using [go-redis]({{< relref "/develop/clients/go" >}})
 - PHP using [Predis]({{< relref "/develop/clients/php" >}})
 
-{{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." >}}
+{{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." width=500px >}}
 
 See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
 
