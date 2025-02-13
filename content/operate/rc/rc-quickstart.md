@@ -146,4 +146,4 @@ See [Redis CLI]({{< relref "/develop/tools/cli" >}}) to learn how to use `redis-
 
 ## Continue learning with Redis University
 
-See the [Get started with Redis Cloud learning path](https://university.redis.io/learningpath/lwkfbjbbqetoqc) for courses.
+{{< university-links >}}

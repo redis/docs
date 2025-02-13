@@ -55,6 +55,21 @@ Use command-line utilities and the REST API to manage the cluster and databases.
 - [REST API reference]({{< relref "/operate/rs/references/rest-api" >}}) & [examples]({{< relref "/operate/rs/references/rest-api/quick-start" >}})
 - [Redis commands]({{< relref "/commands" >}})
 
+## Archive
+
+You can use the version selector in the navigation menu to view documentation for Redis Enterprise Software versions 7.4 and later.
+
+To view documentation earlier than version 7.4, see the archived website:
+
+- [Redis Enterprise Software v7.2 documentation archive](https://docs.redis.com/7.2/rs/) 
+
+- [Redis Enterprise Software v6.4 documentation archive](https://docs.redis.com/6.4/rs/) 
+
+- [Redis Enterprise Software v6.2 documentation archive](https://docs.redis.com/6.2/rs/) 
+
+- [Redis Enterprise Software v6.0 documentation archive](https://docs.redis.com/6.0/rs/)
+
+
 ## Related info
 - [Redis Cloud]({{< relref "/operate/rc" >}})
 - [Redis Community Edition]({{< relref "/operate/oss_and_stack" >}})
@@ -63,4 +78,4 @@ Use command-line utilities and the REST API to manage the cluster and databases.
 
 ## Continue learning with Redis University
 
-See the [Get started with Redis Software learning path](https://university.redis.io/learningpath/an0mgw5bjpjfbe) to learn more.
+{{< university-links >}}

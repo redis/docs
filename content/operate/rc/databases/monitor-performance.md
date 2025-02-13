@@ -79,4 +79,4 @@ If you subscribe to Redis Cloud through a Platform-as-a-Service (PaaS) provider 
 
 ## Continue learning with Redis University
 
-See the [Redis Cloud monitoring overview course](https://university.redis.io/course/sdm9uvjmd0iedp) to learn more.
+{{< university-links >}}
