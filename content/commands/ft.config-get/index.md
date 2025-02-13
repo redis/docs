@@ -1,5 +1,6 @@
 ---
 acl_categories:
+- '@admin'
 - '@search'
 arguments:
 - name: option

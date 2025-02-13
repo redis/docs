@@ -1,7 +1,7 @@
 ---
 acl_categories:
-- '@search'
 - '@admin'
+- '@search'
 - '@slow'
 categories:
 - docs
