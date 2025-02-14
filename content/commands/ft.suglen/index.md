@@ -1,8 +1,6 @@
 ---
 acl_categories:
 - '@search'
-- '@read'
-- '@fast'
 arguments:
 - name: key
   type: string

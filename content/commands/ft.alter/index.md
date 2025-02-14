@@ -1,7 +1,6 @@
 ---
 acl_categories:
 - '@search'
-- '@slow'
 arguments:
 - name: index
   type: string

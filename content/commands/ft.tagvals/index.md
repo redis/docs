@@ -1,9 +1,9 @@
 ---
 acl_categories:
-- '@search'
-- '@read'
-- '@admin'
 - '@dangerous'
+- '@read'
+- '@search'
+- '@slow'
 arguments:
 - name: index
   type: string
