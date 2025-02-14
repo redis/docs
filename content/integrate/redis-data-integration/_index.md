@@ -42,7 +42,7 @@ and fast data structures that match your app's requirements. You specify the
 transformations using a configuration system, so no coding is necessary.
 
 {{<note>}}
-RDI is supported with Redis database or [CRDB](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/) (Active Active Replication) targets.
+RDI is supported with Redis database or [CRDB](https://redis.io/active-active/) (Active Active Replication) targets.
 {{</note>}}
 
 ## Features

@@ -178,4 +178,4 @@ Private Service Connect has the following limitations in Redis Cloud:
 
 ## Continue learning with Redis University
 
-See the [Redis Cloud security overview course](https://university.redis.io/course/0b1hkhejlitg3x) to learn more.
+{{< university-links >}}
