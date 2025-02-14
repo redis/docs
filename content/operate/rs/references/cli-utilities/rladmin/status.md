@@ -120,6 +120,23 @@ If `sort <column_titles>` is specified, the result is sorted by the specified ta
 
 If `issues_only` is specified, it only shows databases that do not have an `OK` status.
 
+| Field | Description |
+|-------|-------------|
+| DB:ID | Database ID |
+| NAME | Database name |
+| TYPE | Databases type: Redis or Memcached |
+| STATUS | Databases status |
+| SHARDS | The number of primary shards in the database |
+| PLACEMENT | The database's shad placement: dense or sparse. It means how the shards will be spread between the nodes in the cluster. |
+| REPLICATION | Is replication enabled for the database |
+| PERSISTENCE | Is persistence enabled for the database |
+| ENDPOINT | Database endpoint |
+| EXEC_STATE |  The state of the state machine - the operation in which it is |
+| EXEC_STATE_MACHINE | The name of state machine being run |
+| BACKUP_PROGRESS | The database’s backup progress |
+| MISSING_BACKUP_TIME | How long ago a backup was done |
+| REDIS_VERSION | The database’s Redis version |
+
 ### Example
 
 ``` sh
@@ -173,6 +190,16 @@ Returns a table of the status of all endpoints on the cluster.
 If `sort <column_titles>` is specified, the result is sorted by the specified table columns.
 
 If `issues_only` is specified, it only shows endpoints that do not have an `OK` status.
+
+| Field | Description |
+|-------|-------------|
+| DB:ID | Database ID |
+| NAME | Database name |
+| ID | Endpoint ID |
+| NODE | The node that hosts the endpoint |
+| ROLE | The proxy policy of the database: single, all-master-shards, all-nodes |
+| SSL | Is SSL enabled |
+| WATCHDOG_STATUS | The shards related to that endpoint are monitored and are healthy |
 
 ### Example
 
@@ -274,6 +301,27 @@ If `issues_only` is specified, it only shows nodes that do not have an `OK` stat
 
 `*node` indicates which node you are connected to.
 
+| Field | Description |
+|-------|-------------|
+| NODE:ID | Node ID |
+| ROLE | Is the node a primary (`master`) or secondary (`slave`) node? Most management requests are handled by the primary node. |
+| ADDRESS | The node’s internal IP address |
+| EXTERNAL ADDRESS | The node’s external IP address |
+| HOSTNAME | Node name |
+| MASTERS | The number of primary shards on the node |
+| SLAVES | The number of replica shards on the node |
+| OVERBOOKING_DEPTH | Memory available to create new shards, accounting for the memory reserved for existing shards to grow, even if `shards_overbooking` is enabled. A negative value indicates how much memory is overbooked rather than just showing that no memory is available for new shards. |
+| SHARDS | The number of shards on the node |
+| CORES | The number of cores on the node |
+| FREE_RAM | free_memory/total_memory<br />**free_memory**: the amount of free memory reported by the OS.<br />**total_memory**: the total physical memory available on the node. |
+| PROVISIONAL_RAM | Memory available to create new shards, displayed as available_provisional_memory/total_provisional_memory.<br />**available_provisional_memory**: memory currently available for the creation of new shards.<br />**total_provisional_memory**: memory that would be available to create new shards if the used memory on the node was 0.<br />If the available provisional memory is 0, the node cannot create new shards because the node has reached its shards limit, is in maintenance mode, or is a quorum-only node. |
+| FLASH | Very similar to FREE_RAM |
+| AVAILABLE_FLASH | Very similar PROVISIONAL_RAM |
+| VERSION | The cluster version installed on the node |
+| SHA | The node’s SHA hash |
+| RACK-ID | The node’s rack-id |
+| STATUS | The node’s status |
+
 ### Example
 
 ``` sh
@@ -328,6 +376,21 @@ Returns a table of the status of all shards on the cluster.
 If `sort <column_titles>` is specified, the result is sorted by the specified table columns.
 
 If `issues_only` is specified, it only shows shards that do not have an `OK` status.
+
+| Field | Description |
+|-------|-------------|
+| DB:ID | Database ID |
+| NAME | Database name |
+| ID | Shard ID |
+| NODE | The node on which the shard resides |
+| ROLE | The shard’s role: primary (`master`) or replica (`slave`). |
+| SLOTS | Redis keys slot range of the shard |
+| USED_MEMORY | Memory used by the shard |
+| BACKUP_PROGRESS | Shard’s backup progress. |
+| RAM_FRAG | Shard’s RAM fragmentation caused by deleted data or expired keys. A large value can indicate inefficient memory allocation. |
+| FLASH_FRAG | For Auto Tiering databases, the shard’s FLASH fragmentation |
+| WATCHDOG_STATUS | The shard is being monitored by the node watchdog and the shard is healthy |
+| STATUS | The shard’s status |
 
 ### Example
 
