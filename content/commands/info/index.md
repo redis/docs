@@ -507,6 +507,15 @@ The **modules** section contains additional information about loaded modules if 
 
 **RediSearch fields**
 
+*   `search_gc_bytes_collected`: The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. <sup>[3](#tnote-3)</sup>
+*   `search_gc_marked_deleted_vectors`: The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. <sup>[3](#tnote-3)</sup>
+*   `search_gc_total_cycles`: The total number of garbage collection cycles executed. <sup>[3](#tnote-3)</sup>
+*   `search_gc_total_docs_not_collected_by_gc`: The number of documents marked as deleted, whose memory has not yet been freed by the garbage collector. <sup>[3](#tnote-3)</sup>
+*   `search_gc_total_ms_run`: The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[3](#tnote-3)</sup>
+*   `search_cursors_internal_active: The total number of coordinator cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup>
+*   `search_cursors_internal_idle`: The total number of coordinator cursors that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup>
+*   `search_cursors_user_active`: The total number of users cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup>
+*   `search_cursors_user_idle`: The total number of cursors that were explicitly requested by users, that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup>
 *   `search_number_of_indexes`: The total number of indexes in the shard. <sup>[1](#tnote-1)</sup>
 *   `search_number_of_active_indexes`: The total number of indexes running a background indexing and/or background query processing operation. Background indexing refers to vector ingestion process, or in-progress background indexer. <sup>[1](#tnote-1)</sup>
 *   `search_number_of_active_indexes_running_queries`: The total count of indexes currently running a background query process. <sup>[1](#tnote-1)</sup>
@@ -540,8 +549,6 @@ The **modules** section contains additional information about loaded modules if 
 *   `search_largest_memory_index_human`: The memory usage of the index with the largest memory usage in the shard in MB. <sup>[1](#tnote-1)</sup>
 *   `search_total_indexing_time`: The total time spent on indexing operations, excluding the background indexing of vectors in the HNSW graph. <sup>[1](#tnote-1)</sup>
 *   `search_used_memory_vector_index`: The total memory usage of all vector indexes in the shard. <sup>[1](#tnote-1)</sup>
-*   `search_global_idle`: The total number of user and internal cursors currently holding pending results in the shard. <sup>[1](#tnote-1)</sup>
-*   `search_global_total`: The total number of user and internal cursors in the shard, either holding pending results or actively executing FT.CURSOR READ. <sup>[1](#tnote-1)</sup>
 *   `search_bytes_collected`: The total amount of memory freed by the garbage collectors from indexes in the shard memory in bytes. <sup>[1](#tnote-1)</sup>
 *   `search_total_cycles`: The total number of garbage collection cycles executed. <sup>[1](#tnote-1)</sup>
 *   `search_total_ms_run`: The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[1](#tnote-1)</sup>
@@ -556,6 +563,7 @@ The **modules** section contains additional information about loaded modules if 
 
 1. <a name="tnote-1"></a> Available in RediSearch 2.6.
 2. <a name="tnote-2"></a> Available in RediSearch 2.8.
+3. <a name="tnote-3"></a> Available in RediSearch 8.0.
 
 The **keyspace** section provides statistics on the main dictionary of each database.
 The statistics are the number of keys, and the number of keys with an expiration.
