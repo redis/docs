@@ -512,7 +512,7 @@ The **modules** section contains additional information about loaded modules if 
 *   `search_gc_total_cycles`: The total number of garbage collection cycles executed. <sup>[3](#tnote-3)</sup>
 *   `search_gc_total_docs_not_collected_by_gc`: The number of documents marked as deleted, whose memory has not yet been freed by the garbage collector. <sup>[3](#tnote-3)</sup>
 *   `search_gc_total_ms_run`: The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[3](#tnote-3)</sup>
-*   `search_cursors_internal_active: The total number of coordinator cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup>
+*   `search_cursors_internal_active`: The total number of coordinator cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup>
 *   `search_cursors_internal_idle`: The total number of coordinator cursors that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup>
 *   `search_cursors_user_active`: The total number of users cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup>
 *   `search_cursors_user_idle`: The total number of cursors that were explicitly requested by users, that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup>
