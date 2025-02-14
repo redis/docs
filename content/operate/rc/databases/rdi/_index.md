@@ -59,6 +59,7 @@ Please be aware of the following limitations:
 - The target database cannot be in the same subscription as another database that has a data pipeline.
 - Source databases must also be hosted on AWS.
 - One source database can only be synced to one target database.
+- You must be able to set up AWS PrivateLink to connect your Source database to your target database. RDI only works with AWS PrivateLink and not VPC Peering or other private connectivity options.
 {{< /note >}} 
 
 ## Get started
