@@ -75,7 +75,7 @@ Possible `status` values:
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error |
 
 ## Modify local services {#post-local-services}
 
@@ -142,7 +142,7 @@ Returns a JSON object that shows whether the operation ran successfully or faile
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error. |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error. |
 
 ## Apply cluster-wide service changes {#post-services}
 
@@ -209,4 +209,4 @@ Returns a JSON object that shows whether the operation ran successfully or faile
 
 | Code | Description |
 |------|-------------|
-| [200 OK](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.1) | No error. |
+| [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error. |
