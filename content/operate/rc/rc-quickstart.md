@@ -123,7 +123,7 @@ From there, you can:
 - Select **Explore** to learn how to use Redis.
     {{<image filename="images/rc/rc-ri-explore-icon.png" alt="The Explore icon" >}}
 
-For more info on how to use Redis Insight in your browser, see [Open with Redis Insight on Redis Cloud]({{< relref "/operate/rc/databases/connect/insight-cloud" >}}).
+For more information on how to use Redis Insight in your browser, see [Open with Redis Insight on Redis Cloud]({{< relref "/operate/rc/databases/connect/insight-cloud" >}}).
 
 #### Install and open on your computer {#ri-app}
 
