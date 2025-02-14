@@ -1,0 +1,58 @@
+---
+title: Redis 6.2
+alwaysopen: false
+categories:
+- docs
+- operate
+- rs
+- rc
+description: Highlights of what's new for Redis 6.2
+linkTitle: Redis 6.2
+weight: 8
+---
+
+This page highlights the new features and changes introduced in Redis feature set 6.2.
+
+## New features
+
+### Multi-value indexing and querying
+Developers can now index and query multi-value attributes across all field types, including TEXT, TAG, NUMERIC, GEO, and VECTOR. This enhancement allows indexing attributes defined by a JSONPath that leads to an array or multiple scalar values, eliminating the previous limitation of indexing only single scalar attributes.
+
+### Wildcard query support
+Redis Query Engine now supports suffix and infix wildcard search queries for TEXT and TAG fields, improving flexibility in searching and filtering data.
+
+### T-digest: a new probabilistic data structure for quantile estimation
+Redis feature set 6.2 introduces t-digest, a probabilistic data structure designed to estimate quantiles from large datasets or continuous data streams. This is particularly useful for analytics and monitoring applications that require approximate quantile calculations.
+
+### Retrieve aggregation results for ongoing time series buckets
+A new option allows retrieving the latest, still-open time series bucket of compactions. This is useful for scenarios where data retention policies limit access to historical raw data, such as tracking event counts over extended periods. By specifying the `LATEST` option, users can now retrieve partially completed buckets.
+
+### Time-weighted average aggregator for time series
+A new time-weighted average aggregator has been added to provide more accurate average-over-time calculations. This is particularly useful when dealing with time series data with irregular sampling intervals.
+
+### Gap-filling for time series data
+Redis feature set 6.2 now supports gap-filling in time series data, allowing to interpolate missing values or repeat the last known value for empty time buckets. This feature enhances the continuity of time series analytics.
+
+### Enhanced graph algorithms
+Graph introduces new pathfinding algorithms to compute minimal-weight paths, with optional constraints on cost or length. Additionally, new query language constructs allow to add or remove node labels, modify node and edge properties, and delete paths.
+
+## Changes
+
+### Behavior changes
+
+The `SRANDMEMBER` command now returns a RESP3 array instead of a set, aligning with the updated protocol format. The `EXPIRE`, `EXPIREAT`, `SETEX`, and `GETEX` commands will now return an error if the provided expiration time exceeds valid limits, ensuring more reliable expiration handling. Additionally, ACL subcommand validation has been removed when a fully defined command already exists, streamlining access control management.
+
+### Other changes
+Redis feature set 6.2 introduces over 25 new commands, addressing long-standing feature requests. Among the most notable additions, the long-awaited `ZUNION` and `ZINTER` commands now allow direct result retrieval, unlike their counterparts, ZUNIONSTORE and ZINTERSTORE, which only store results.
+
+Redis streams have also been significantly enhanced. Exclusive range queries are now supported, giving users more precise control over data retrieval. The ability to filter pending messages by idle time improves message management, while a new mechanism simplifies message recovery in consumer groups, making it easier to reclaim lost messages.
+
+## Component versions
+The Redis feature set 6.2 includes the following components:
+
+- [Redis 6.2](https://github.com/redis/redis/blob/6.2/00-RELEASENOTES)
+- [Search 2.6](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.6-release-notes/)
+- [JSON 2.4](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.4-release-notes/)
+- [Time series 1.8](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.8-release-notes/)
+- [Bloom 2.4](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.4-release-notes/)
+- [Graph 2.10](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.10-release-notes/)

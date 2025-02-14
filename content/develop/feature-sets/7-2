@@ -1,0 +1,75 @@
+---
+title: Redis 7.2
+alwaysopen: false
+categories:
+- docs
+- operate
+- rs
+- rc
+description: Highlights of what's new for Redis 7.2
+linkTitle: Redis 7.2
+weight: 9
+---
+
+This page highlights the new features and changes introduced in Redis feature set 7.2.
+
+## New features
+
+### Geospatial queries with polygon search
+Redis Query Engine now provides improved support for querying geospatial data using polygon search. This enhancement allows developers to efficiently filter and retrieve data within complex geographic boundaries.
+
+For example, in a weather monitoring system, Redis can store geospatial data for extreme weather events such as hurricanes, wildfires, or thunderstorms. When a user defines a geographic area of interest, Redis Query Engine quickly retrieves relevant weather alerts within that region, enabling real-time notifications and faster emergency response.
+
+### Streamlined data manipulation in JSON
+JSON now includes two new commands designed to simplify data manipulation. The `JSON.MERGE` command allows merging a given JSON value into matching paths, enabling more flexible updates. The `JSON.MSET` command provides a way to set or update multiple JSON values simultaneously based on specified key-path-value triplets, improving efficiency when handling structured data.
+
+### Optional support for RESP3 protocol
+Redis 7.2 includes optional RESP3 support, improving response formatting and error handling.
+
+### Public preview: Triggers and Functions
+Redis feature set 7.2 introduces the public preview of Triggers and Functions, an event-driven engine for executing TypeScript/JavaScript code within Redis. This enables efficient in-database data processing, reducing the need for external computation. It also supports cross-shard read operations, which were not available with Lua scripts.
+
+## Changes
+
+### Memory and speed optimizations
+Redis feature set 7.2 includes significant performance improvements across Redis data types. For example, sorted sets, commonly used for gaming leaderboards, now see performance gains between [30% and 100%](https://redis.io/blog/introducing-redis-7-2/#:~:text=We%20made%20Redis%20more%20powerful%20for%20developers) due to optimizations in processing and memory efficiency.
+
+Redis Query Engine has also been enhanced with optimized `SORT BY` operations and a new response `FORMAT` in RESP3, improving efficiency and readability.
+
+### Behavior changes
+
+#### Script execution enhancemets
+Client-side tracking now monitors the actual keys read during script execution rather than relying on declared keys, improving accuracy in key usage tracking.
+Blocked commands now re-evaluate security checks before execution, ensuring compliance with updated permissions.
+Additionally, ACL failure messages and error codes have been standardized, providing clearer and more consistent error handling.
+
+#### Client & replication enhancements
+TLS-based replication now supports Server Name Indication (SNI), improving compatibility with secure deployments.
+Additionally, the `HELLO` command has been refined to modify client state only upon successful execution, ensuring more predictable behavior.
+
+#### Streams improvements
+Consumer tracking has been enhanced with seen-time and active-time metrics, providing better visibility into consumer activity. 
+The XREADGROUP and X[AUTO]CLAIM commands now create consumers even when no data is read, ensuring consistency in consumer group management.
+Additionally, blocked stream commands now return a distinct error when the target key no longer exists, improving error clarity.
+
+#### Module API changes (potentially breaking)
+The `RM_Call` function now enforces out-of-memory (OOM) checks for scripts only when the 'M' flag is set, refining memory management behavior.
+Module command names now restrict the use of certain special characters to prevent conflicts.
+Replication consistency has been improved for modules utilizing keyspace notifications, ensuring more reliable data synchronization.
+Additionally, commands, configurations, and data types can no longer be registered after the `onload` handler has executed. This change enforces a stricter initialization process, ensuring that all module definitions are finalized before execution begins.
+
+#### Expired keys are now deleted from replica indexes
+Expired keys are now deleted from Redis Query Engine replica indexes, ensuring queries return an empty array instead of nil.
+
+### Other changes
+Redis Stack 7.2 no longer includes Graph capabilities. For more details, refer to the [RedisGraph End-of-Life Announcement](https://redis.io/blog/redisgraph-eol/#:~:text=After%20January%2031%2C%202025%2C%20RedisGraph,subscriptions%20until%20January%2031%2C%202024.).
+
+## Component versions
+The Redis feature set 7.2 includes the following components:
+
+- [Redis 7.2](https://github.com/redis/redis/blob/7.2/00-RELEASENOTES)
+- [Search 2.8](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.8-release-notes/)
+- [JSON 2.6](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-2.6-release-notes/)
+- [Time series 1.10](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.10-release-notes/)
+- [Bloom 2.6](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.6-release-notes/)
+- [Gears 2.0](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/)
