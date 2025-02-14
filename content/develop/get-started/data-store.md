@@ -99,4 +99,5 @@ You can address more use cases with Redis by learning about Redis Stack. Here ar
 
 ## Continue learning with Redis University
 
-See the [Get Started with Redis learning path](https://university.redis.io/learningpath/14q8m6gilfwltm) for courses.
+{{< university-links >}}
+

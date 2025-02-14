@@ -275,4 +275,4 @@ From the description, this bike is an excellent match for younger children, and 
 
 ## Continue learning with Redis University
 
-See the [Redis vector database course](https://university.redis.io/course/7e2qbbeg963twz) for learning modules.
+{{< university-links >}}
