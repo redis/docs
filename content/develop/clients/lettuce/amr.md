@@ -26,7 +26,7 @@ letting `redis-authx-entraid` fetch and renew the authentication tokens for you 
 
 ## Install
 
-Install [`lettuce`]({{< relref "/develop/clients/lettuce" >}}) first,
+Install [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}) first,
 if you have not already done so.
 
 If you are using Maven, add
