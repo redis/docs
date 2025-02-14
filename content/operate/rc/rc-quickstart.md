@@ -126,7 +126,7 @@ The connection wizard provides code snippets to connect to your database with th
 
 See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
 
-See the following guides to get started with different Redis Use cases:
+See the following guides to get started with different Redis use cases:
 - [Data structure store]({{< relref "/develop/get-started/data-store" >}})
 - [Document database]({{< relref "/develop/get-started/document-database" >}})
 - [Vector database]({{< relref "/develop/get-started/vector-database" >}})
