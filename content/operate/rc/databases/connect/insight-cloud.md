@@ -1,5 +1,5 @@
 ---
-Title: Open with Redis Insight on Redis Cloud
+Title: Use Redis Insight on Redis Cloud
 alwaysopen: false
 categories:
 - docs
@@ -31,7 +31,7 @@ This browser-based version of Redis Insight has a subset of the features of Redi
 
 The **Browser** lets you browse, filter, and visualize your Redis data structures.
 
-- [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) support for lists, hashes, strings, sets, sorted sets, streams, and [JSON]({{< relref "/develop/data-types/json/" >}})
+- Create, read, update, and delete lists, hashes, strings, sets, sorted sets, streams, and [JSON]({{< relref "/develop/data-types/json/" >}})
 - Group keys according to their namespaces
     {{<image filename="images/rc/rc-ri-browser-group.png" alt="Keys in a database grouped by namespace." width=50% >}}
 - View, validate, and manage your key values in a human-readable format using formatters that prettify and highlight data in different formats (for example, Unicode, JSON, MessagePack, HEX, and ASCII)
@@ -47,7 +47,7 @@ The **CLI** lets you run Redis commands directly.
 
 {{<image filename="images/rc/rc-ri-cli.png" alt="The CLI and command helper" width=75% >}}
 
-The CLI integrates with a **Command Helper** that lets you search and read info about Redis commands.
+The CLI integrates with a **Command Helper** that lets you search and read information about Redis commands.
 
 ## Workbench
 
