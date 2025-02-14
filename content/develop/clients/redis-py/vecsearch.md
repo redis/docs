@@ -54,7 +54,7 @@ that uses the
 model for the embeddings. This model generates vectors with 384 dimensions, regardless
 of the length of the input text, but note that the input is truncated to 256
 tokens (see
-[Word piece tokenization](https://huggingface.co/learn/nlp-course/en/chapter6/6).
+[Word piece tokenization](https://huggingface.co/learn/nlp-course/en/chapter6/6)
 at the [Hugging Face](https://huggingface.co/) docs to learn more about how tokens
 are related to the original text).
 
@@ -99,8 +99,8 @@ index = SearchIndex.from_dict({
             "attrs": {
                 "algorithm": "HNSW",
                 "dims": 384,
-                "distance_metric": "l2",
-                "datatype": "float32",
+                "distance_metric": "L2",
+                "datatype": "FLOAT32",
             },
         },
     ],
@@ -112,7 +112,7 @@ server using the
 [`connect()`](https://docs.redisvl.com/en/stable/api/searchindex.html#redisvl.index.SearchIndex.connect)
 method and then use the
 [`create()`](https://docs.redisvl.com/en/stable/api/searchindex.html#redisvl.index.SearchIndex.create)
-method to actually create the index in the database. The `overwrite` parameter for `create()`
+method to create the index in the database. The `overwrite` parameter for `create()`
 ensures that the index you create replaces any existing index with
 the same name. The `drop` parameter deletes any objects that were
 indexed by the index you are replacing.
