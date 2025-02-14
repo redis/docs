@@ -137,3 +137,7 @@ Once VPC peering is established, we recommend switching your application connect
 {{< note >}}
 {{< embed-md "rc-vpc-peering-cidr-list.md"  >}}
 {{< /note >}}
+
+## Continue learning with Redis University
+
+{{< university-links >}}

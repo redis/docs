@@ -66,3 +66,7 @@ Redis is a powerful tool to elevate your GenAI applications, enabling them to de
 ## Resources
 
 Check out the [Redis for AI]({{< relref "/develop/ai" >}}) documentation for getting started guides, concepts, ecosystem integrations, examples, and Python notebooks.
+
+## Continue learning with Redis University
+
+{{< university-links >}}

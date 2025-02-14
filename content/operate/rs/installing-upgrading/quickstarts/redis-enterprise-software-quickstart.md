@@ -36,7 +36,7 @@ For production environments, see the [install and setup]({{< relref "/operate/rs
 
 {{<embed-md "port-collision-avoidance.md">}}
 
-### Ubuntu conflicts with port 53
+### OS conflicts with port 53
 
 {{<embed-md "port-53.md">}}
 
@@ -100,3 +100,8 @@ See [Test client connection]({{< relref "/operate/rs/databases/connect/test-clie
 To use the Redis Enterprise Software Cluster Manager UI, you need a modern browser with JavaScript enabled.
  
 The Cluster Manager UI is officially supported for the latest version of [Google Chrome](https://www.google.com/chrome/), as well as the three previous and three subsequent versions.
+
+## Continue learning with Redis University
+
+{{< university-links >}}
+

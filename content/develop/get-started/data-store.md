@@ -96,3 +96,8 @@ You can address more use cases with Redis by reading these additional quick star
 
 * [Redis as a document database]({{< relref "/develop/get-started/document-database" >}})
 * [Redis as a vector database]({{< relref "/develop/get-started/vector-database" >}})
+
+## Continue learning with Redis University
+
+{{< university-links >}}
+

@@ -88,8 +88,9 @@ All read-only commands (with the `@read`
 [ACL category]({{< relref "/operate/oss_and_stack/management/security/acl" >}}))
 will use cached data, except for the following:
 
--   Any commands for
-    [probabilistic data types]({{< relref "/develop/data-types/probabilistic" >}}).
+-   Any commands for the
+    [probabilistic]({{< relref "/develop/data-types/probabilistic" >}}) and
+    [time series]({{< relref "/develop/data-types/timeseries" >}}) data types.
     These types are designed to be updated frequently, which means that caching
     has little or no benefit.
 -   Non-deterministic commands such as [`HRANDFIELD`]({{< relref "/commands/hrandfield" >}}),

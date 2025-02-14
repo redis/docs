@@ -49,3 +49,7 @@ You have several options when it comes to securing your Redis Cloud databases. F
 ## API security
 
 The Redis Cloud API allows you to programmatically administer your subscriptions and database deployments. This API is disabled by default. When you [enable the API]({{< relref "/operate/rc/api/get-started/enable-the-api" >}}), you can then [manage the API keys]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}}) for all owners of your Redis Cloud account. For an overview of the security features of the API, see the [API authentication documentation]({{< relref "/operate/rc/api/get-started/" >}}).
+
+## Continue learning with Redis University
+
+{{< university-links >}}

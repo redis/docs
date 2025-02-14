@@ -32,3 +32,7 @@ Use one of the following connection methods to connect to your database:
 - [Redis client]({{< relref "/develop/clients" >}}) for your preferred programming language
 
 For examples, see [Test client connection]({{< relref "/operate/rs/databases/connect/test-client-connectivity" >}}).
+
+## Continue learning with Redis University
+
+{{< university-links >}}

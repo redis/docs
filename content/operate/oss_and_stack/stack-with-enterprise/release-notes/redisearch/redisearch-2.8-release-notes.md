@@ -13,10 +13,41 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.21 requires:
+RediSearch v2.8.23 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.23 (February 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5605](https://github.com/redisearch/redisearch/pull/5605) Changes on the memory block reading logic could cause crash on `FT.SEARCH` with error "_Redis 7.4.2 crashed by signal: 11, si_code: 128_"
+
+Known limitations:
+- Only the first 128 characters of string fields are normalized to lowercase during ingestion (for example, on `HSET`).
+    Example:
+
+    ```
+    HSET doc __score 1.0 name "idx1S...S" mynum 1          # Assume "S...S" is a string of 252 capital S's
+    FT.CREATE "idx" SCHEMA "name" "TEXT" "mynum" "NUMERIC"
+    FT.SEARCH "idx" "@name:idx1S...S"                      # Assume "S...S" is a string of 252 capital S's
+    ```
+
+    The `FT.SEARCH` command will return no documents.
+
+## v2.8.22 (January 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5475](https://github.com/redisearch/redisearch/pull/5475) NOSTEM option does not work on query, just tokenising (MOD-7634)
+- [#5542](https://github.com/redisearch/redisearch/pull/5542) Querying for the latest document added to the index may result in a crash if the last block is not read (MOD-8561).
 
 ## v2.8.21 (January 2025)
 
