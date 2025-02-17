@@ -24,15 +24,15 @@ For example, in a weather monitoring system, Redis can store geospatial data for
 JSON now includes two new commands designed to simplify data manipulation. The `JSON.MERGE` command allows merging a given JSON value into matching paths, enabling more flexible updates. The `JSON.MSET` command provides a way to set or update multiple JSON values simultaneously based on specified key-path-value triplets, improving efficiency when handling structured data.
 
 ### Optional support for RESP3 protocol
-Redis 7.2 includes optional RESP3 support, improving response formatting and error handling.
+Redis includes optional RESP3 support, improving response formatting and error handling.
 
 ### Public preview: Triggers and Functions
-Redis feature set 7.2 introduces the public preview of Triggers and Functions, an event-driven engine for executing TypeScript/JavaScript code within Redis. This enables efficient in-database data processing, reducing the need for external computation. It also supports cross-shard read operations, which were not available with Lua scripts.
+Redis introduces the public preview of Triggers and Functions, an event-driven engine for executing TypeScript/JavaScript code within Redis. This enables efficient in-database data processing, reducing the need for external computation. It also supports cross-shard read operations, which were not available with Lua scripts.
 
 ## Changes
 
 ### Memory and speed optimizations
-Redis feature set 7.2 includes significant performance improvements across Redis data types. For example, sorted sets, commonly used for gaming leaderboards, now see performance gains between [30% and 100%](https://redis.io/blog/introducing-redis-7-2/#:~:text=We%20made%20Redis%20more%20powerful%20for%20developers) due to optimizations in processing and memory efficiency.
+Redis includes significant performance improvements across Redis data types. For example, sorted sets, commonly used for gaming leaderboards, now see performance gains between [30% and 100%](https://redis.io/blog/introducing-redis-7-2/#:~:text=We%20made%20Redis%20more%20powerful%20for%20developers) due to optimizations in processing and memory efficiency.
 
 Redis Query Engine has also been enhanced with optimized `SORT BY` operations and a new response `FORMAT` in RESP3, improving efficiency and readability.
 
