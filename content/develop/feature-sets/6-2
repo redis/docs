@@ -34,12 +34,6 @@ A new time-weighted average aggregator has been added to provide more accurate a
 Redis now supports gap-filling in time series data, allowing to interpolate missing values or repeat the last known value for empty time buckets. This feature enhances the continuity of time series analytics.
 
 ## Changes
-
-### Behavior changes
-
-The `SRANDMEMBER` command now returns a RESP3 array instead of a set, aligning with the updated protocol format. The `EXPIRE`, `EXPIREAT`, `SETEX`, and `GETEX` commands will now return an error if the provided expiration time exceeds valid limits, ensuring more reliable expiration handling. Additionally, ACL subcommand validation has been removed when a fully defined command already exists, streamlining access control management.
-
-### Other changes
 Redis introduces over 25 new commands, addressing long-standing feature requests. Among the most notable additions, the long-awaited `ZUNION` and `ZINTER` commands now allow direct result retrieval, unlike their counterparts, ZUNIONSTORE and ZINTERSTORE, which only store results.
 
 Redis streams have also been significantly enhanced. Exclusive range queries are now supported, giving users more precise control over data retrieval. The ability to filter pending messages by idle time improves message management, while a new mechanism simplifies message recovery in consumer groups, making it easier to reclaim lost messages.
