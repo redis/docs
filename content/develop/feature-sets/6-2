@@ -21,7 +21,7 @@ Developers can now index and query multi-value attributes across all field types
 ### Wildcard query support
 Redis Query Engine now supports suffix and infix wildcard search queries for TEXT and TAG fields, improving flexibility in searching and filtering data.
 
-### T-digest: a new probabilistic data structure for quantile estimation
+### t-digest: a new probabilistic data structure for quantile estimation
 Redis feature set 6.2 introduces t-digest, a probabilistic data structure designed to estimate quantiles from large datasets or continuous data streams. This is particularly useful for analytics and monitoring applications that require approximate quantile calculations.
 
 ### Retrieve aggregation results for ongoing time series buckets
