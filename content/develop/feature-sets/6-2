@@ -22,7 +22,7 @@ Developers can now index and query multi-value attributes across all field types
 Redis Query Engine now supports suffix and infix wildcard search queries for TEXT and TAG fields, improving flexibility in searching and filtering data.
 
 ### t-digest: a new probabilistic data structure for quantile estimation
-Redis feature set 6.2 introduces t-digest, a probabilistic data structure designed to estimate quantiles from large datasets or continuous data streams. This is particularly useful for analytics and monitoring applications that require approximate quantile calculations.
+Redis introduces t-digest, a probabilistic data structure designed to estimate quantiles from large datasets or continuous data streams. This is particularly useful for analytics and monitoring applications that require approximate quantile calculations.
 
 ### Retrieve aggregation results for ongoing time series buckets
 A new option allows retrieving the latest, still-open time series bucket of compactions. This is useful for scenarios where data retention policies limit access to historical raw data, such as tracking event counts over extended periods. By specifying the `LATEST` option, users can now retrieve partially completed buckets.
@@ -31,7 +31,7 @@ A new option allows retrieving the latest, still-open time series bucket of comp
 A new time-weighted average aggregator has been added to provide more accurate average-over-time calculations. This is particularly useful when dealing with time series data with irregular sampling intervals.
 
 ### Gap-filling for time series data
-Redis feature set 6.2 now supports gap-filling in time series data, allowing to interpolate missing values or repeat the last known value for empty time buckets. This feature enhances the continuity of time series analytics.
+Redis now supports gap-filling in time series data, allowing to interpolate missing values or repeat the last known value for empty time buckets. This feature enhances the continuity of time series analytics.
 
 ### Enhanced graph algorithms
 Graph introduces new pathfinding algorithms to compute minimal-weight paths, with optional constraints on cost or length. Additionally, new query language constructs allow to add or remove node labels, modify node and edge properties, and delete paths.
@@ -43,7 +43,7 @@ Graph introduces new pathfinding algorithms to compute minimal-weight paths, wit
 The `SRANDMEMBER` command now returns a RESP3 array instead of a set, aligning with the updated protocol format. The `EXPIRE`, `EXPIREAT`, `SETEX`, and `GETEX` commands will now return an error if the provided expiration time exceeds valid limits, ensuring more reliable expiration handling. Additionally, ACL subcommand validation has been removed when a fully defined command already exists, streamlining access control management.
 
 ### Other changes
-Redis feature set 6.2 introduces over 25 new commands, addressing long-standing feature requests. Among the most notable additions, the long-awaited `ZUNION` and `ZINTER` commands now allow direct result retrieval, unlike their counterparts, ZUNIONSTORE and ZINTERSTORE, which only store results.
+Redis introduces over 25 new commands, addressing long-standing feature requests. Among the most notable additions, the long-awaited `ZUNION` and `ZINTER` commands now allow direct result retrieval, unlike their counterparts, ZUNIONSTORE and ZINTERSTORE, which only store results.
 
 Redis streams have also been significantly enhanced. Exclusive range queries are now supported, giving users more precise control over data retrieval. The ability to filter pending messages by idle time improves message management, while a new mechanism simplifies message recovery in consumer groups, making it easier to reclaim lost messages.
 
