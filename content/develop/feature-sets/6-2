@@ -33,9 +33,6 @@ A new time-weighted average aggregator has been added to provide more accurate a
 ### Gap-filling for time series data
 Redis now supports gap-filling in time series data, allowing to interpolate missing values or repeat the last known value for empty time buckets. This feature enhances the continuity of time series analytics.
 
-### Enhanced graph algorithms
-Graph introduces new pathfinding algorithms to compute minimal-weight paths, with optional constraints on cost or length. Additionally, new query language constructs allow to add or remove node labels, modify node and edge properties, and delete paths.
-
 ## Changes
 
 ### Behavior changes
