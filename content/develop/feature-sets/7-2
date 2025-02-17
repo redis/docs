@@ -23,9 +23,6 @@ For example, in a weather monitoring system, Redis can store geospatial data for
 ### Streamlined data manipulation in JSON
 JSON now includes two new commands designed to simplify data manipulation. The `JSON.MERGE` command allows merging a given JSON value into matching paths, enabling more flexible updates. The `JSON.MSET` command provides a way to set or update multiple JSON values simultaneously based on specified key-path-value triplets, improving efficiency when handling structured data.
 
-### Optional support for RESP3 protocol
-Redis includes optional RESP3 support, improving response formatting and error handling.
-
 ### Public preview: Triggers and Functions
 Redis introduces the public preview of Triggers and Functions, an event-driven engine for executing TypeScript/JavaScript code within Redis. This enables efficient in-database data processing, reducing the need for external computation. It also supports cross-shard read operations, which were not available with Lua scripts.
 
