@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Bug fixes for TBA.
+description: Bug fixes for server restart failures during upgrades, connectivity checks for optional services, swapped shard status and watchdog status values in `rladmin`, and process exporter crashes.
 linkTitle: 7.8.4-tba (February 2025)
 weight: 86
 ---
@@ -17,7 +17,7 @@ This is a maintenance release for ​[​Redis Software version 7.8.4](https://r
 
 This version offers:
 
-- Bug fixes for TBA
+- Bug fixes for server restart failures during upgrades, connectivity checks for optional services, swapped shard status and watchdog status values in `rladmin`, and process exporter crashes
 
 ## New in this release
 
@@ -45,9 +45,11 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS134225: Fixed an issue where the server restart could fail during cluster upgrade due to a timeout.
 
-- RS138625: Fixed an issue where `rlcheck` reported `verify_tcp_connectivity` as failed for optional services that were not enabled instead of skipping the check.
+- RS138625: Fixed an issue where `rlcheck` reported `verify_tcp_connectivity` as failed for optional services that were not enabled instead of skipping the checks.
 
-- RS:
+- RS146525: Fixed an `rladmin status` issue that swapped the shard `STATUS` and `WATCHDOG_STATUS` values.
+
+- RS143339: Fixed an issue where an ambiguous path could cause the process exporter to crash with the error: "`flag provided but not defined: -remove-empty-groups`".
 
 ## Version changes
 
