@@ -1,4 +1,4 @@
-{{ $fname := .Get "filename" }}
+{{ $fname := .Get "filename" | strings.TrimLeft "/" }}
 {{ if not (hasPrefix $fname "/") }}
 	{{ .Scratch.Set "file" (printf "/%s" $fname) }}
 {{ else }}
