@@ -24,6 +24,10 @@ You can authenticate using a system-assigned or user-assigned
 or a [service principal](https://learn.microsoft.com/en-us/entra/identity-platform/app-objects-and-service-principals),
 letting `redis-authx-entraid` fetch and renew the authentication tokens for you automatically.
 
+See
+[Use Microsoft Entra for cache authentication](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/cache-azure-active-directory-for-authentication)
+in the Microsoft docs to learn how to configure Azure to use Entra ID authentication.
+
 ## Install
 
 Install [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}) first,
@@ -47,19 +51,24 @@ If you are using Gradle, add the following dependency to your
 implementation 'redis.clients.authentication:redis-authx-entraid:0.1.1-beta1'
 ```
 
-## Create a `TokenAuthConfig` instance
+## Create a `TokenBasedRedisCredentialsProvider` instance
 
-The `TokenAuthConfig` class contains the authentication details that you
+The `TokenBasedRedisCredentialsProvider` class contains the authentication details that you
 must supply when you connect to Redis. Chain the methods of the
 `EntraIDTokenAuthConfigBuilder` class together (starting with the `builder()`
 method) to include the details you need, as shown in the following example:
 
 ```java
-TokenAuthConfig authConfig = EntraIDTokenAuthConfigBuilder.builder()
-        .secret("<secret>")
-        .authority("<authority>")
-        // Other options...
-        .build();
+TokenBasedRedisCredentialsProvider credentials;
+
+try ( EntraIDTokenAuthConfigBuilder builder = EntraIDTokenAuthConfigBuilder.builder()) {
+        builder.clientId(CLIENT_ID)
+                .secret(CLIENT_SECRET)
+                .authority(AUTHORITY) // "https://login.microsoftonline.com/{YOUR_TENANT_ID}";
+                .scopes(SCOPES);      // "https://redis.azure.com/.default";
+
+        credentials = TokenBasedRedisCredentialsProvider.create(builder.build());
+}
 ```
 
 Some of the details you can supply are common to different use cases:
@@ -68,10 +77,22 @@ Some of the details you can supply are common to different use cases:
 -   `authority()`: A string containing the [authority](https://learn.microsoft.com/en-us/entra/identity-platform/msal-client-application-configuration#authority)
     URL.
 -   `scopes()`: A set of strings defining the [scopes](https://learn.microsoft.com/en-us/entra/identity-platform/scopes-oidc)
-    you want to apply.
+    you want to apply. Configure your client application to acquire a Microsoft Entra token for scope, `https://redis.azure.com/.default` or `acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default`
+    with the
+    [Microsoft Authentication Library (MSAL)](https://learn.microsoft.com/en-us/entra/identity-platform/msal-overview)
 
 You can also add configuration to authenticate with a [service principal](#serv-principal)
 or a [managed identity](#mgd-identity) as described in the sections below.
+
+When you have created your `TokenBasedRedisCredentialsProvider` instance, you may want to
+test it by obtaining a token, as shown in the folowing example:
+
+```java
+// Test that the Entra ID credentials provider can resolve credentials.
+credentials.resolveCredentials()
+        .doOnNext(c-> System.out.println(c.getUsername()))
+        .block();
+```
 
 ### Configuration for a service principal {#serv-principal}
 
@@ -82,10 +103,16 @@ a parameter. (See the
 for more information about service principals.)
 
 ```java
-TokenAuthConfig authConfig = EntraIDTokenAuthConfigBuilder.builder()
-        .clientId("<CLIENT-ID>")
-         // ...
-        .build();
+TokenBasedRedisCredentialsProvider credentials;
+
+try ( EntraIDTokenAuthConfigBuilder builder = EntraIDTokenAuthConfigBuilder.builder()) {
+        builder.clientId(CLIENT_ID)
+                .secret(CLIENT_SECRET)
+                .authority(AUTHORITY) // "https://login.microsoftonline.com/{YOUR_TENANT_ID}";
+                .scopes(SCOPES);      // "https://redis.azure.com/.default";
+
+        credentials = TokenBasedRedisCredentialsProvider.create(builder.build());
+}
 ```
 
 ### Configuration for a managed identity {#mgd-identity}
@@ -97,10 +124,15 @@ For a system assigned managed identity, simply add the `systemAssignedManagedIde
 method to the `EntraIDTokenAuthConfigBuilder` chain:
 
 ```java
-TokenAuthConfig authConfig = EntraIDTokenAuthConfigBuilder.builder()
-        .systemAssignedManagedIdentity()
-         // ...
-        .build();
+TokenBasedRedisCredentialsProvider credentials;
+
+try ( EntraIDTokenAuthConfigBuilder builder = EntraIDTokenAuthConfigBuilder.builder()) {
+        builder.clientId(CLIENT_ID)
+                // ...
+                .systemAssignedManagedIdentity();
+
+        credentials = TokenBasedRedisCredentialsProvider.create(builder.build());
+}
 ```
 
 For a user assigned managed identity, add `userAssignedManagedIdentity()`. This
@@ -108,64 +140,80 @@ requires a member of the `UserManagedIdentityType` enum (to select a
 `CLIENT_ID`, `OBJECT_ID`, or `RESOURCE_ID`) as well as the `id` string itself:
 
 ```java
-TokenAuthConfig authConfig = EntraIDTokenAuthConfigBuilder.builder()
-        .userAssignedManagedIdentity(
-            UserManagedIdentityType.CLIENT_ID,
-            "<ID>"
-        )
-         // ...
-        .build();
+TokenBasedRedisCredentialsProvider credentials;
 
+try ( EntraIDTokenAuthConfigBuilder builder = EntraIDTokenAuthConfigBuilder.builder()) {
+        builder.clientId(CLIENT_ID)
+                // ...
+                .userAssignedManagedIdentity(
+                        UserManagedIdentityType.CLIENT_ID,
+                        "<ID>"
+                );
+
+        credentials = TokenBasedRedisCredentialsProvider.create(builder.build());
+}
 ```
 
 ## Connect using the `withAuthentication()` option
 
-When you have created your `TokenAuthConfig` instance, you are ready to
+When you have created your `TokenBasedRedisCredentialsProvider` instance, you are ready to
 connect to AMR.
-The example below shows how to include the `TokenAuthConfig` details in a
+The example below shows how to include the authentication details in a
 `TokenBasedRedisCredentialsProvider` instance and pass it to the `RedisURI.Builder`
-using the `withAuthentication()` option.
+using the `withAuthentication()` option. It also uses a `ClientOptions` object to
+enable automatic re-authentication.
 
-{{< note >}} Azure requires you to use
-[Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security)
-when you connect, as shown in the example.
+The connection uses
+[Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security),
+which is recommended and enabled by default for managed identities. See
+[TLS connection]({{< relref "/develop/clients/lettuce/connect#tls-connection" >}}) for more information.
+
+{{< note >}} The `Lettuce` client library doesn't manage the lifecycle of
+the `TokenBasedRedisCredentialsProvider` instance for you. You can reuse the
+same instance for as many clients and connections as you want. When you have
+finished using the credentials provider, call its `close()` method, as shown
+at the end of the example.
 {{< /note >}}
 
 ```java
-TokenAuthConfig authConfig = EntraIDTokenAuthConfigBuilder.builder()
-        // Chain of options...
-        .build();
+// Entra ID credentials provider for Service Principal Identity with Client Secret.
+TokenBasedRedisCredentialsProvider credentialsSP;
+try (EntraIDTokenAuthConfigBuilder builder = EntraIDTokenAuthConfigBuilder.builder()) {
+        builder
+                .clientId(CLIENT_ID)
+                .secret(CLIENT_SECRET).authority(AUTHORITY) // "https://login.microsoftonline.com/{YOUR_TENANT_ID}"
+                .scopes(SCOPES); // "https://redis.azure.com/.default"
 
-TokenBasedRedisCredentialsProvider credentialsProvider =
-        TokenBasedRedisCredentialsProvider.create(tokenAuthConfig);
+        credentialsSP = TokenBasedRedisCredentialsProvider.create(builder.build());
+}
 
-RedisURI uri = RedisURI.Builder.redis("<host>", <port>)
-        .withAuthentication(credentialsProvider)
+// Optionally test the credentials provider.
+// credentialsSP.resolveCredentials().doOnNext(c -> System.out.println("SPI ID :" + c.getUsername())).block();
+
+// Enable automatic re-authentication.
+ClientOptions clientOptions = ClientOptions.builder()
+        .reauthenticateBehavior(
+                ClientOptions.ReauthenticateBehavior.ON_NEW_CREDENTIALS
+        ).build();
+
+// Use the Entra ID credentials provider.
+RedisURI redisURI = RedisURI.builder()
+        .withHost(HOST)
+        .withPort(PORT)
+        .withAuthentication(credentialsSP)
         .withSsl(true)
         .build();
 
-RedisClient client = RedisClient.create(uri);
+// Create the RedisClient and set the re-authentication options.
+RedisClient redisClient = RedisClient.create(redisURI);
+redisClient.setOptions(clientOptions);
 
-SslOptions sslOptions = SslOptions.builder().jdkSslProvider()
-        .truststore(new File(
-            "<path_to_truststore.jks_file>"),
-            "<password_for_truststore.jks_file>"
-        )
-        .build();
-
-client.setOptions(ClientOptions.builder()
-        .sslOptions(sslOptions)
-        .build());
-
-StatefulRedisConnection<String, String> connection = client.connect();
-RedisAsyncCommands<String, String> asyncCommands = connection.async();
-
-// Test the connection.
-CompletableFuture<Void> testDBSize = asyncCommands.dbsize()
-        .thenAccept(r -> {
-            System.out.println(String.format("Database size: %d", r));
-        })
-        .toCompletableFuture();
-
-testDBSize.join();
+// Connect with the credentials provider.
+try (StatefulRedisConnection<String, String> user1 = redisClient.connect(StringCodec.UTF8)) {
+        System.out.println("Connected to redis as :" + user1.sync().aclWhoami());
+        System.out.println("Db size :" + user1.sync().dbsize());
+} finally {
+        redisClient.shutdown();  // Shutdown Redis client and close connections.
+        credentialsSP.close(); // Shutdown Entra ID Credentials provider.
+}
 ```
