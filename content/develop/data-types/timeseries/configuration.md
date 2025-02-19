@@ -124,20 +124,20 @@ Each rule is separated by a semicolon (`;`), the rule consists of multiple field
     * d - day
 
   Assure that there is a bucket that starts at exactly _alignTimestamp_ after the epoch and align all other buckets accordingly. Default value: 0 (aligned with the epoch). Example: if _bucketDuration_ is 24 hours, setting _alignTimestamp_ to `6h` (6 hours after the Epoch) will ensure that each bucket’s timeframe is [06:00 .. 06:00).
-  
+
 When a compaction policy is defined, compaction rules will be created automatically for newly created time series, and their key would be set to:
   
-* Before RedisTimeSeries v1.8:
+* If the time bucket alignment is 0:
 
-   _key_dur_agg_ where _key_ is the key of the source time series, _dur_ is the bucket duration, and _agg_ is the aggregator.
+   _key_agg_dur_ where _key_ is the key of the source time series, _agg_ is the aggregator (in uppercase), and _dur_ is the bucket duration in milliseconds. Example: `key_SUM_60000`.
      
-* Since RedisTimeSeries v1.8:
+* If the time bucket alignment is not 0:
 
-   _key_dur_agg_aln_ where _key_ is the key of the source time series, _dur_ is the bucket duration, _agg_ is the aggregator, and _aln_ is the alignment timestamp.
+   _key_agg_dur_aln_ where _key_ is the key of the source time series, _agg_ is the aggregator (in uppercase), _dur_ is the bucket duration in milliseconds, and _aln_ is the time bucket alignment in milliseconds. Example: `key_SUM_60000_1000`.
 
 Examples:
 
-- `max:1M:1h` - Aggregate using `max` over one minute and retain the last hour
+- `max:1M:1h` - Aggregate using `max` over one-minute windows and retain the last hour
 - `twa:1d:0m:360M` - Aggregate daily [06:00 .. 06:00) using `twa`; no expiration
 
 #### Default
