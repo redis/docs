@@ -29,7 +29,7 @@ The steps below use the following placeholders to indicate command line paramete
 - `<release-name>` is the name you give a specific installation of the Helm chart (example: `my-redis-enterprise-operator`)
 - `<chart-version>` is the version of the Helm chart you are installing (example: `7.8.2-2`)
 - `<namespace-name>` is the name of the new namespace the Redis operator will run in (example: `ns1`)
-- `<path-to-chart>` is the filepath to the Helm chart, if it is stored in a local directory (exmaple: `/home/charts/redis-enterprise-operator`)
+- `<path-to-chart>` is the filepath to the Helm chart, if it is stored in a local directory (example: `/home/charts/redis-enterprise-operator`)
 
 ## Install
 
@@ -117,5 +117,5 @@ This removes all Kubernetes resources associated with the chart and deletes the 
 
 - Only new installations of the Redis operator are supported at this time. The steps for [creating the RedisEnterpriseCluster (REC)]({{<relref "operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec">}}) and other custom resources remain the same.
 - Upgrades and migrations are not supported.
-- The chart doesn't include configuration options for multiple namespaces, rack-awareness, and Vault integration. The steps for configuring these options remains the same.
+- The chart doesn't include configuration options for multiple namespaces, rack-awareness, and Vault integration. The steps for configuring these options remain the same.
 - The chart has had limited testing in advanced setups, including Active-Active configurations, air-gapped deployments, and IPv6/dual-stack environments.
