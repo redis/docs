@@ -24,6 +24,10 @@ You can authenticate using a system-assigned or user-assigned
 or a [service principal](https://learn.microsoft.com/en-us/entra/identity-platform/app-objects-and-service-principals),
 letting `redis-authx-entraid` fetch and renew the authentication tokens for you automatically.
 
+See
+[Use Microsoft Entra for cache authentication](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/cache-azure-active-directory-for-authentication)
+in the Microsoft docs to learn how to configure Azure to use Entra ID authentication.
+
 ## Install
 
 Install [`jedis`]({{< relref "/develop/clients/jedis" >}}) first,
@@ -124,14 +128,12 @@ When you have created your `TokenAuthConfig` instance, you are ready to
 connect to AMR.
 The example below shows how to include the `TokenAuthConfig` details in a
 `JedisClientConfig` instance and use it with the `UnifiedJedis` connection.
-
-{{< note >}} Azure requires you to use
-[Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security)
-when you connect. See
+The connection uses
+[Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security),
+which is recommended and enabled by default for managed identities. See
 [Connect to your production Redis with TLS]({{< relref "/develop/clients/jedis/connect#connect-to-your-production-redis-with-tls" >}}) for more information about
 TLS connections, including the implementation of the `createSslSocketFactory()`
 method used in the example.
-{{< /note >}}
 
 ```java
 TokenAuthConfig authConfig = EntraIDTokenAuthConfigBuilder.builder()
