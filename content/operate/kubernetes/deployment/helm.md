@@ -101,7 +101,7 @@ helm install <operator-name> redis/redis-enterprise-operator \
 
 ## Uninstall
 
-1. Delete any custom resources managed by the operator. See [Delete custom resources]({{<relref "operate/kubernetes/re-clusters/delete-custom-resources">}}) for detailed steps. Custom resources must be deleted in the correct order to avoid errors.
+1. Delete any custom resources managed by the operator. See [Delete custom resources]({{<relref "operate/kubernetes/re-clusters/delete-custom-resources">}}) for detailed steps. You must delete custom resources in the correct order to avoid errors.
 
 2. Uninstall the Helm chart.
 
