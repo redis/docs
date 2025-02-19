@@ -125,11 +125,6 @@ Each rule is separated by a semicolon (`;`), the rule consists of multiple field
 
   Assure that there is a bucket that starts at exactly _alignTimestamp_ after the epoch and align all other buckets accordingly. Default value: 0 (aligned with the epoch). Example: if _bucketDuration_ is 24 hours, setting _alignTimestamp_ to `6h` (6 hours after the Epoch) will ensure that each bucket’s timeframe is [06:00 .. 06:00).
 
-Examples:
-
-- `max:1M:1h` - Aggregate using `max` over one minute and retain the last hour
-- `twa:1d:0m:360M` - Aggregate daily [06:00 .. 06:00) using `twa`; no expiration
-  
 When a compaction policy is defined, compaction rules will be created automatically for newly created time series, and their key would be set to:
   
 * If the time bucket alignment is 0:
@@ -139,6 +134,11 @@ When a compaction policy is defined, compaction rules will be created automatica
 * If the time bucket alignment is not 0:
 
    _key_agg_dur_aln_ where _key_ is the key of the source time series, _agg_ is the aggregator (in uppercase), _dur_ is the bucket duration in milliseconds, and _aln_ is the time bucket alignment in milliseconds. Example: `key_SUM_60000_1000`.
+
+Examples:
+
+- `max:1M:1h` - Aggregate using `max` over one minute and retain the last hour
+- `twa:1d:0m:360M` - Aggregate daily [06:00 .. 06:00) using `twa`; no expiration
 
 #### Default
 
