@@ -1,5 +1,5 @@
 ---
-Title: Upgrade Redis Enterprise 7.8.2-6 with OpenShift CLI 
+Title: Upgrade Redis Enterprise with OpenShift CLI 
 alwaysopen: false
 categories:
 - docs
@@ -19,25 +19,25 @@ Redis implements rolling updates for software upgrades in Kubernetes deployments
 
 ## Prerequisites
 
-The following steps ensure you have the minimum versions of all components necessary to upgrade to 7.8.2-6. **Without these minimum versions, the upgrade will freeze and require manual recovery.**
+The following steps ensure you have the minimum versions of all components necessary to upgrade to 7.8.2-6 or later. **Without these minimum versions, the upgrade will freeze and require manual recovery.**
 
 See the [troubleshooting](#troubleshooting) section for details on recovering a failed upgrade.
 
 ### Kubernetes version
 
-Check [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) to make sure your Kubernetes distribution is supported by 7.8.2-6. If not, upgrade your Kubernetes distribution before upgrading the Redis operator.
+Check [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) to make sure your Kubernetes distribution is supported. If not, upgrade your Kubernetes distribution before upgrading the Redis operator.
 
 ### Redis operator version
 
-Your Redis Enterprise clusters must be running version 7.4.2-2 or later before upgrading to 7.8.2-6. See the [7.4 upgrade](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/openshift-cli/) for detailed steps.
+Your Redis Enterprise clusters must be running version 7.4.2-2 or later before upgrading to 7.8.2-6 or later. See the [7.4 upgrade](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/openshift-cli/) for detailed steps.
 
 ### Redis database version
 
-Your Redis databases must be running version 7.2 or later before upgrading your cluster version to 7.8.2-6. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api#redisversion" >}}).
+Your Redis databases must be running version 7.2 or later before upgrading your cluster version. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api#redisversion" >}}).
 
 ### RHEL9-compatible modules
 
-Upgrading to Redis operator version 7.8.2-6 involves migrating your Redis Enterprise nodes to RHEL9 from either Ubuntu 18 or RHEL8. If your databases use modules, you need to manually install modules compatible with RHEL9.
+Upgrading to Redis operator versions 7.8.2-6 and later  involves migrating your Redis Enterprise nodes to RHEL9 from either Ubuntu 18 or RHEL8. If your databases use modules, you need to manually install modules compatible with RHEL9.
 
 To see which modules you have installed, run:
 
@@ -204,7 +204,7 @@ oc rollout status sts <REC_name>
 
 ### Upgrade databases
 
-After the cluster is upgraded, you can upgrade your databases. Specify your new database version in the `spec.redisVersion` field for your REDB and REAADB custom resources. Supported database versions for operator version 7.8.2-6 include `"7.2"` and `"7.4"` (note this value is a string).
+After the cluster is upgraded, you can upgrade your databases. Specify your new database version in the `spec.redisVersion` field for your REDB and REAADB custom resources. Supported database versions include `"7.2"` and `"7.4"` (note this value is a string).
 
 Note that if your cluster [`redisUpgradePolicy`]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api#redisupgradepolicy" >}}) or your database [`redisVersion`]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api#redisversion" >}}) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy]({{< relref "/operate/rs/installing-upgrading/upgrading#redis-upgrade-policy" >}}) for more details.
 
