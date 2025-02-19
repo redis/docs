@@ -96,15 +96,17 @@ If the key contains a `{...}` pattern, only the substring between `{` and `}` is
 
 You can use the `{...}` pattern to direct related keys to the same hash slot, so that multi-key operations are supported on them. On the other hand, not using a hashtag in the key's name results in a (statistically) even distribution of keys across the keyspace's shards, which improves resource utilization. If your application does not perform multi-key operations, you don't need to construct key names with hashtags.
 
-Redis Cloud offers 3 hashing policies, which differ in the way hash-tags are processed. Redis defaults to the [standard hashing policy](#standard-hashing-policy). 
+Redis Cloud offers 3 hashing policies, which differ in how hash tags are processed. These hashing policies are not always available.
+
+For accounts created after MONTH DAY, 2025, Redis defaults to the [Redis hashing policy](#redis-hashing-policy) **when creating a new database**. For all other accounts, Redis defaults to the [standard hashing policy](#standard-hashing-policy). 
 
 {{< warning >}}
-You can change the hashing policy after you create your database. However, hashing policy changes delete existing data 
+You can change the hashing policy between Standard and Custom after you create your database. However, hashing policy changes delete existing data 
 (FLUSHDB) before they're applied. 
 
 These changes include:
 
-1. Changing the hashing policy.
+1. Changing the hashing policy, either from standard to custom or vice versa.
 1. Changing the order of custom hashing policy rules.
 1. Adding rules before existing ones in the custom hashing policy.
 1. Deleting rules from the custom hashing policy.
@@ -146,7 +148,9 @@ In some cases, the Standard hashing policy behaves differently from the Redis ha
 ### Custom hashing policy
 
 {{< note >}}
-The custom hashing policy is not recommended and will be deprecated in the future. Select this option only if you are already using a custom hashing policy with your existing Redis Cloud databases.
+The custom hashing policy is not available for accounts created after MONTH DAY, 2025.
+
+For all other accounts, this policy is not recommended and will be deprecated in the future. Select this option only if you are already using a custom hashing policy with your existing Redis Cloud databases.
 {{< /note >}}
 
 A Redis Cloud  cluster can be configured to use a custom hashing
