@@ -520,3 +520,18 @@ you are ready to start using RDI. See the guides to
 [deploying]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 RDI pipelines for more information. You can also configure and deploy a pipeline
 using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
+
+## Uninstall RDI
+
+If you want to remove your RDI K8s installation, first run
+the following commands. (If you installed with a custom namespace then
+replace `rdi` with the name of your namespace.)
+
+```bash
+helm uninstall rdi
+kubectl delete namespace rdi
+```
+
+If you also want to delete the keys from your RDI database, connect to it with
+[`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run a
+[`flushall`]({{< relref "/commands/flushall" >}}) command.
