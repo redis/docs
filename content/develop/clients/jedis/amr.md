@@ -72,7 +72,9 @@ Some of the details you can supply are common to different use cases:
 -   `authority()`: A string containing the [authority](https://learn.microsoft.com/en-us/entra/identity-platform/msal-client-application-configuration#authority)
     URL.
 -   `scopes()`: A set of strings defining the [scopes](https://learn.microsoft.com/en-us/entra/identity-platform/scopes-oidc)
-    you want to apply.
+    you want to apply. Configure your client application to acquire a Microsoft Entra token for scope, `https://redis.azure.com/.default` or `acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default`
+    with the
+    [Microsoft Authentication Library (MSAL)](https://learn.microsoft.com/en-us/entra/identity-platform/msal-overview)
 
 You can also add configuration to authenticate with a [service principal](#serv-principal)
 or a [managed identity](#mgd-identity) as described in the sections below.
