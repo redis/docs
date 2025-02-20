@@ -50,6 +50,8 @@ If `issues_only` is specified, it only shows instances that do not have an `OK` 
 
 In the `CLUSTER NODES` section, `*node` indicates which node you are connected to.
 
+For descriptions of the fields returned by `rladmin status extra all`, see the output tables for [nodes](#returns-nodes), [databases](#returns-dbs), [endpoints](#returns-endpoints), and [shards](#returns-shards).
+
 ### Example
 
 ``` sh
@@ -112,7 +114,7 @@ rladmin status databases
 | extra state_machine | Shows execution of state machine information  |
 | extra watchdog | Shows watchdog status  |
 
-### Returns
+### Returns {#returns-dbs}
 
 Returns a table of the status of all databases on the cluster.
 
@@ -120,19 +122,21 @@ If `sort <column_titles>` is specified, the result is sorted by the specified ta
 
 If `issues_only` is specified, it only shows databases that do not have an `OK` status.
 
+The following table describes the fields returned by `rladmin status databases extra all`:
+
 | Field | Description |
 |-------|-------------|
 | DB:ID | Database ID |
 | NAME | Database name |
-| TYPE | Databases type: Redis or Memcached |
-| STATUS | Databases status |
+| TYPE | Database type: Redis or Memcached |
+| STATUS | Database status |
 | SHARDS | The number of primary shards in the database |
-| PLACEMENT | The database's shad placement: dense or sparse. It means how the shards will be spread between the nodes in the cluster. |
+| PLACEMENT | How the shards are spread across nodes in the cluster, densely or sparsely |
 | REPLICATION | Is replication enabled for the database |
 | PERSISTENCE | Is persistence enabled for the database |
 | ENDPOINT | Database endpoint |
-| EXEC_STATE |  The state of the state machine - the operation in which it is |
-| EXEC_STATE_MACHINE | The name of state machine being run |
+| EXEC_STATE |  The current state of the state machine |
+| EXEC_STATE_MACHINE | The name of the running state machine |
 | BACKUP_PROGRESS | The database’s backup progress |
 | MISSING_BACKUP_TIME | How long ago a backup was done |
 | REDIS_VERSION | The database’s Redis version |
@@ -183,7 +187,7 @@ rladmin status endpoints
 | extra state_machine | Shows execution of state machine information  |
 | extra watchdog | Shows watchdog status  |
 
-### Returns
+### Returns {#returns-endpoints}
 
 Returns a table of the status of all endpoints on the cluster.
 
@@ -191,15 +195,17 @@ If `sort <column_titles>` is specified, the result is sorted by the specified ta
 
 If `issues_only` is specified, it only shows endpoints that do not have an `OK` status.
 
+The following table describes the fields returned by `rladmin status endpoints extra all`:
+
 | Field | Description |
 |-------|-------------|
 | DB:ID | Database ID |
 | NAME | Database name |
 | ID | Endpoint ID |
 | NODE | The node that hosts the endpoint |
-| ROLE | The proxy policy of the database: single, all-master-shards, all-nodes |
+| ROLE | The proxy policy of the database: single, all-master-shards, or all-nodes |
 | SSL | Is SSL enabled |
-| WATCHDOG_STATUS | The shards related to that endpoint are monitored and are healthy |
+| WATCHDOG_STATUS | The shards related to the endpoint are monitored and healthy |
 
 ### Example
 
@@ -291,7 +297,7 @@ rladmin status nodes
 | extra state_machine | Shows execution of state machine information  |
 | extra watchdog | Shows watchdog status  |
 
-### Returns
+### Returns {#returns-nodes}
 
 Returns a table of the status of all nodes on the cluster.
 
@@ -301,10 +307,12 @@ If `issues_only` is specified, it only shows nodes that do not have an `OK` stat
 
 `*node` indicates which node you are connected to.
 
+The following table describes the fields returned by `rladmin status nodes extra all`:
+
 | Field | Description |
 |-------|-------------|
 | NODE:ID | Node ID |
-| ROLE | Is the node a primary (`master`) or secondary (`slave`) node? Most management requests are handled by the primary node. |
+| ROLE | Is the node a primary (`master`) or secondary (`slave`) node |
 | ADDRESS | The node’s internal IP address |
 | EXTERNAL ADDRESS | The node’s external IP address |
 | HOSTNAME | Node name |
@@ -314,12 +322,12 @@ If `issues_only` is specified, it only shows nodes that do not have an `OK` stat
 | SHARDS | The number of shards on the node |
 | CORES | The number of cores on the node |
 | FREE_RAM | free_memory/total_memory<br />**free_memory**: the amount of free memory reported by the OS.<br />**total_memory**: the total physical memory available on the node. |
-| PROVISIONAL_RAM | Memory available to create new shards, displayed as available_provisional_memory/total_provisional_memory.<br />**available_provisional_memory**: memory currently available for the creation of new shards.<br />**total_provisional_memory**: memory that would be available to create new shards if the used memory on the node was 0.<br />If the available provisional memory is 0, the node cannot create new shards because the node has reached its shards limit, is in maintenance mode, or is a quorum-only node. |
-| FLASH | Very similar to FREE_RAM |
-| AVAILABLE_FLASH | Very similar PROVISIONAL_RAM |
+| PROVISIONAL_RAM | Memory available to create new shards, displayed as available_provisional_memory/total_provisional_memory.<br />**available_provisional_memory**: memory currently available for the creation of new shards.<br />**total_provisional_memory**: memory that would be available to create new shards if the used memory on the node was 0.<br />If the available provisional memory is 0, the node cannot create new shards because the node has reached its shard limit, is in maintenance mode, or is a quorum-only node. |
+| FLASH | The amount of flash memory available on the node, similar to `FREE_RAM` |
+| AVAILABLE_FLASH | Flash memory available to create new shards, similar to `PROVISIONAL_RAM` |
 | VERSION | The cluster version installed on the node |
 | SHA | The node’s SHA hash |
-| RACK-ID | The node’s rack-id |
+| RACK-ID | The node’s rack ID |
 | STATUS | The node’s status |
 
 ### Example
@@ -369,7 +377,7 @@ rladmin status shards
 | extra state_machine | Shows execution of state machine information  |
 | extra watchdog | Shows watchdog status  |
 
-### Returns
+### Returns {#returns-shards}
 
 Returns a table of the status of all shards on the cluster.
 
@@ -377,18 +385,20 @@ If `sort <column_titles>` is specified, the result is sorted by the specified ta
 
 If `issues_only` is specified, it only shows shards that do not have an `OK` status.
 
+The following table describes the fields returned by `rladmin status shards extra all`:
+
 | Field | Description |
 |-------|-------------|
 | DB:ID | Database ID |
 | NAME | Database name |
 | ID | Shard ID |
 | NODE | The node on which the shard resides |
-| ROLE | The shard’s role: primary (`master`) or replica (`slave`). |
+| ROLE | The shard’s role: primary (`master`) or replica (`slave`) |
 | SLOTS | Redis keys slot range of the shard |
 | USED_MEMORY | Memory used by the shard |
-| BACKUP_PROGRESS | Shard’s backup progress. |
-| RAM_FRAG | Shard’s RAM fragmentation caused by deleted data or expired keys. A large value can indicate inefficient memory allocation. |
-| FLASH_FRAG | For Auto Tiering databases, the shard’s FLASH fragmentation |
+| BACKUP_PROGRESS | The shard’s backup progress |
+| RAM_FRAG | The shard’s RAM fragmentation caused by deleted data or expired keys. A large value can indicate inefficient memory allocation. |
+| FLASH_FRAG | For Auto Tiering databases, the shard’s flash fragmentation |
 | WATCHDOG_STATUS | The shard is being monitored by the node watchdog and the shard is healthy |
 | STATUS | The shard’s status |
 
