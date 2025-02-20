@@ -539,4 +539,4 @@ kubectl delete namespace rdi
 
 If you also want to delete the keys from your RDI database, connect to it with
 [`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run a
-[`flushall`]({{< relref "/commands/flushall" >}}) command.
+[`FLUSHALL`]({{< relref "/commands/flushall" >}}) command.
