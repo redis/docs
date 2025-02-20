@@ -533,7 +533,7 @@ the following commands. (If you installed with a custom namespace then
 replace `rdi` with the name of your namespace.)
 
 ```bash
-helm uninstall rdi
+helm uninstall rdi -n rdi
 kubectl delete namespace rdi
 ```
 
