@@ -76,6 +76,10 @@ Some of the details you can supply are common to different use cases:
     with the
     [Microsoft Authentication Library (MSAL)](https://learn.microsoft.com/en-us/entra/identity-platform/msal-overview)
 
+(See [Advanced configuration options](#advanced-configuration-options) below
+to learn more about the options for controlling token request retry and timeout
+behavior.)
+
 You can also add configuration to authenticate with a [service principal](#serv-principal)
 or a [managed identity](#mgd-identity) as described in the sections below.
 
@@ -163,3 +167,37 @@ UnifiedJedis jedis = new UnifiedJedis(
 // Test the connection.
 System.out.println(String.format("Database size is %d", jedis.dbSize()));
 ```
+
+## Advanced configuration options
+
+The `TokenAuthConfig` class has several other options that you can
+set with the `EntraIDTokenAuthConfigBuilder.builder()`. These give you
+more precise control over the way the token is renewed:
+
+```java
+TokenAuthConfig authConfig = EntraIDTokenAuthConfigBuilder.builder()
+        .expirationRefreshRatio(0.75)
+        .lowerRefreshBoundMillis(100)
+        .tokenRequestExecTimeoutInMs(100)
+        .maxAttemptsToRetry(10)
+        .delayInMsToRetry()
+         // ...
+        .build();
+```
+
+These options are explained below:
+
+-  `expirationRefreshRatio`: a `float` value representing the fraction
+   of a token's lifetime that should elapse before attempting to
+   refresh it. For example, a value of 0.75 means that you want to
+   refresh the token after 75% of its lifetime has passed.
+-  `lowerRefreshBoundMillis`: the minimum amount of the token's lifetime
+   (in milliseconds) remaining before attempting to refresh, regardless
+   of the `expirationRefreshRatio` value. Set this to zero if you want
+   the refresh time to depend only on `expirationRefreshRatio`.
+-  `tokenRequestExecTimeoutInMs`: the maximum time (in milliseconds) to
+   wait for a token request to complete before retrying.
+-  `maxAttemptsToRetry`: the maximum number of times to retry a token
+   request before aborting.
+-  `delayInMsToRetry`: the time (in milliseconds) to wait before
+    retrying a token request after a failed attempt.
