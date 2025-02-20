@@ -89,7 +89,7 @@ jobs:
           sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis for Kubernetes/' content/operate/kubernetes/_index.md
 
           # inject replace command in meta-links to make sure editURL and issuesURL point to right version
-          sed -i "11i \{\{ \$gh_file = replaceRE \`\^operate\/kubernetes\/\` \"operate\/kubernetes\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
+          sed -i "12i \{\{ \$gh_file = replaceRE \`\^operate\/kubernetes\/\` \"operate\/kubernetes\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
 
           hugo -d "kubernetes-${version}"
 
@@ -112,7 +112,7 @@ jobs:
           sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Software/' content/operate/rs/_index.md
 
           # inject replace command in meta-links to make sure editURL and issuesURL point to right version
-          sed -i "11i \{\{ \$gh_file = replaceRE \`\^operate\/rs\/\` \"operate\/rs\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
+          sed -i "12i \{\{ \$gh_file = replaceRE \`\^operate\/rs\/\` \"operate\/rs\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
 
           hugo -d "rs-${version}"
 
