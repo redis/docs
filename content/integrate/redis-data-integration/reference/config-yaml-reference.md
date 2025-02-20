@@ -114,6 +114,62 @@ See the Debezium documentation for more information about the specific connector
 | `lob.enabled` | `string` | Oracle | Enables capturing and serialization of large object (CLOB, NCLOB, and BLOB) column values in change events.<br/>Default: `false` |
 | `unavailable.value.placeholder` | Special | Oracle | Specifies the constant that the connector provides to indicate that the original value is unchanged and not provided by the database (this has the type `__debezium_unavailable_value`). |
 
+### Oracle heartbeat mechanism
+
+{{< note >}} This section is only relevant for Oracle installations where many hours
+or days may pass between changes to the source database.
+{{< /note >}}
+
+Oracle uses *system change numbers* (SCNs) to record the order in which events happen
+in a database. Any given event always has a higher SCN than any event that happened
+previously, so the SCNs form a logical "timeline". (See
+[Transactions](https://docs.oracle.com/cd/E11882_01/server.112/e40540/transact.htm#CNCPT016)
+in the Oracle docs for more information.)
+
+For an Oracle source database, the RDI collector records the SCN of the most recent
+transaction it has captured. If the collector gets stopped and later restarted, it
+uses this last recorded SCN to find all events that have happened in the meantime,
+and catch up with processing them. However, Oracle internally discards its SCN
+information after a certain period of time. If RDI's last recorded SCN has been
+discarded by the Oracle database, then there is no way to detect which
+events have happened since the collector was stopped, and change data may be
+lost. 
+
+If you are using Oracle as a source database and you expect updates to the
+data to be very infrequent, you should enable the *heartbeat mechanism* in
+the RDI collector. This writes data to a "dummy" table in the source on a
+regular basis purely to generate a new SCN. To enable the heartbeat,
+first create the dummy table with the following SQL:
+
+```sql
+CREATE TABLE rdi_heartbeat (
+    id NUMBER PRIMARY KEY,
+    last_heartbeat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+Then, give WRITE/UPDATE permission to RDI on this table:
+
+```sql
+GRANT INSERT, UPDATE ON rdi_heartbeat TO rdi_user;
+```
+
+Finally, add the following lines to `config.yaml` under `sources.oracle.advanced`:
+
+```yaml
+sources:
+  oracle:
+    advanced:
+      source:
+        heartbeat.interval.ms: 60000
+        heartbeat.action.query: "MERGE INTO rdi_heartbeat t USING (SELECT 1 AS id FROM dual) s 
+            ON (t.id = s.id) 
+            WHEN MATCHED THEN UPDATE SET t.last_heartbeat = CURRENT_TIMESTAMP 
+            WHEN NOT MATCHED THEN INSERT (id, last_heartbeat) VALUES (1, CURRENT_TIMESTAMP);"
+```
+
+This sets the appropriate heartbeat update to occur once every minute.
+
 ### Using custom queries in the initial snapshot {#custom-initial-query}
 
 {{< note >}}This section is relevant only for MySQL, MariaDB, Oracle, PostgreSQL, and SQL Server.
