@@ -115,6 +115,11 @@ To pull images from a local registry, you must provide the image pull secret and
     helm install rdi rdi-<rdi-tag>.tar.gz -f rdi-values.yaml
     ```
 
+    {{< note >}}By default, RDI will be installed in a namespace called
+    `rdi`. If you want to use a custom namespace, pass the option
+    `--namespace <custom-namespace>` to the `helm install` command.
+    {{< /note >}} 
+
 ### The `values.yaml` file
 
 The annotated [`values.yaml`](https://helm.sh/docs/topics/charts/#templates-and-values)
