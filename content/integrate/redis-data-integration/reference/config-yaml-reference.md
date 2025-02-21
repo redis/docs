@@ -127,13 +127,14 @@ previously, so the SCNs form a logical "timeline". (See
 in the Oracle docs for more information.)
 
 For an Oracle source database, the RDI collector records the SCN of the most recent
-transaction it has captured. If the collector gets stopped and later restarted, it
-uses this last recorded SCN to find all events that have happened in the meantime,
+transaction it has captured. When it checks the source for changes, it
+uses this last recorded SCN to find all events that have happened in the meantime
 and catch up with processing them. However, Oracle internally discards its SCN
-information after a certain period of time. If RDI's last recorded SCN has been
-discarded by the Oracle database, then there is no way to detect which
-events have happened since the collector was stopped, and change data may be
-lost. 
+information after a certain number of transactions have occurred. If these
+transactions are against tables that RDI is *not* capturing, the last SCN
+recorded by RDI might eventually be discarded by Oracle. When this happens,
+the collector is unable to use its last SCN to detect new changes and data
+may be lost as a result.
 
 If you are using Oracle as a source database and you expect updates to the
 data to be very infrequent, you should enable the *heartbeat mechanism* in
