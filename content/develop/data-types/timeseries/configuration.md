@@ -125,6 +125,10 @@ Each rule is separated by a semicolon (`;`), the rule consists of multiple field
 
   Assure that there is a bucket that starts at exactly _alignTimestamp_ after the epoch and align all other buckets accordingly. Default value: 0 (aligned with the epoch). Example: if _bucketDuration_ is 24 hours, setting _alignTimestamp_ to `6h` (6 hours after the Epoch) will ensure that each bucket’s timeframe is [06:00 .. 06:00).
 
+{{% warning %}}
+In a clustered environment, if you set `COMPACTION_POLICY`, you must use [hash tags]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags) for all time series key names. This ensures that Redis will create each compaction in the same hash slot as its source key. If you don't, the system may fail to compact the data without displaying any error messages.
+{{% /warning %}}
+
 When a compaction policy is defined, compaction rules will be created automatically for newly created time series, and their key would be set to:
   
 * If the time bucket alignment is 0:
