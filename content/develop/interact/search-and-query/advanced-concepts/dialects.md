@@ -15,10 +15,13 @@ title: Query dialects
 weight: 5
 ---
 
-Redis Community Edition currently supports four query dialects for use with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), and other Redis Query Engine commands.
+Redis Community Edition (CE) currently supports four query dialects for use with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), and other Redis Query Engine commands.
 Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.
 
-## `DIALECT 1`
+{{< note >}}Dialects 1, 3, and 4 are deprecated in CE version 8. However, DIALECT 1 remains the default.
+{{< /note >}}
+
+## `DIALECT 1` (Deprecated)
 
 Dialect version 1 was the default query syntax dialect from the first release of search and query until dialect version 2 was introduced with version [2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3).
 This dialect is also the default dialect. See below for information about changing the default dialect.
@@ -124,7 +127,7 @@ The Dialect version 2 enhancements also introduce simplified syntax for logical 
 
   `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} ~@tag{3d3586fe-0416-6758-4ri8})" DIALECT 2`
 
-## `DIALECT 3`
+## `DIALECT 3` (Deprecated)
 
 Dialect version 3 was introduced in the [2.6](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.3) release. This version introduced support for multi-value indexing and querying of attributes for any attribute type ( [TEXT]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-text), [TAG]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-tag), [NUMERIC]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-numeric), [GEO]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-geo) and [VECTOR]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-vector)) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or multiple scalar values. Support for [GEOSHAPE]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}}) queries was also introduced in this dialect.
 
@@ -190,7 +193,7 @@ Now search, with and without `DIALECT 3`.
 DIALECT 3 is required for shape-based (`POINT` or `POLYGON`) geospatial queries.
 {{% /alert %}}
 
-## `DIALECT 4`
+## `DIALECT 4` (Deprecated)
 
 Dialect version 4 was introduced in the [2.8](https://github.com/RediSearch/RediSearch/releases/tag/v2.8.4) release. It introduces performance optimizations for sorting operations on [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/). Apart from specifying `DIALECT 4` at the end of a [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 4, append `DIALECT 4` to your query command.
 

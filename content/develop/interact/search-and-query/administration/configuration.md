@@ -17,12 +17,12 @@ linkTitle: Configuration parameters
 title: Configuration parameters
 weight: 1
 ---
-{{{< note >}}
-As of Redis Community Edition 8.0, configuration parameters for the time series data structure are now set in the following ways:
+{{< note >}}
+As of Redis Community Edition (CE) 8.0, configuration parameters for the time series data structure are now set in the following ways:
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
-Also, Redis CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< baseurl >}}/commands/config-rewrite/) command).
+Also, CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< baseurl >}}/commands/config-rewrite/) command).
 {{< /note >}}
 
 ## Redis Query Engine configuration parameters
@@ -39,28 +39,27 @@ The following table summarizes which configuration parameters can be set at run-
 | CURSOR_REPLY_THRESHOLD            | [search-cursor-reply-threshold](#search-cursor-reply-threshold) | :white_check_mark:   |||
 | DEFAULT_DIALECT                   | [search-default-dialect](#search-default-dialect)               | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | EXTLOAD                           | [search-ext-load](#search-ext-load)                             | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| FORK_GC_CLEAN_NUMERIC_EMPTY_NODES | [search-fork-gc-clean-numeric-empty-nodes](#search-fork-gc-clean-numeric-empty-nodes) | :white_large_square: |||
 | FORK_GC_CLEAN_THRESHOLD           | [search-fork-gc-clean-threshold](#search-fork-gc-clean-threshold) | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | FORK_GC_RETRY_INTERVAL            | [search-fork-gc-retry-interval](#search-fork-gc-retry-interval) | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | FORK_GC_RUN_INTERVAL              | [search-fork-gc-run-interval](#search-fork-gc-run-interval)     | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| FORKGC_SLEEP_BEFORE_EXIT          | [search-forkgc-sleep-before-exit](#search-forkgc-sleep-before-exit) | :white_check_mark: |||
-| FRISOINI                          | [search-frisoini](#search-frisoini)                             | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| GC_POLICY                         | [search-gc-policy](#search-gc-policy)                           | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| GCSCANSIZE                        | [search-gc-scansize](#search-gc-scansize)                       | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| FORKGC_SLEEP_BEFORE_EXIT          | [search-fork-gc-sleep-before-exit](#search-fork-gc-sleep-before-exit) | :white_check_mark: |||
+| FRISOINI                          | [search-friso-ini](#search-friso-ini)                             | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| [GC_POLICY](#gc_policy)           | There is no matching `CONFIG` parameter.                        | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| GCSCANSIZE                        | [search-gc-scan-size](#search-gc-scan-size)                       | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | INDEX_CURSOR_LIMIT                | [search-index-cursor-limit](#search-index-cursor-limit)         | :white_large_square: |||
 | INDEX_THREADS                     | search-index-threads                                            | :white_large_square: |||
 | MAXAGGREGATERESULTS               | [search-max-aggregate-results](#search-max-aggregate-results)   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | MAXDOCTABLESIZE                   | [search-max-doctablesize](#search-max-doctablesize)             | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | MAXEXPANSIONS                     | [search-max-expansions](#search-max-expansions)                 | :white_check_mark:   |||
 | MAXPREFIXEXPANSIONS               | [search-max-prefix-expansions](#search-max-prefix-expansions)   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| MAXSEARCHRESULTS                  | [search-max-searchresults](#search-max-searchresults)           | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| MAXSEARCHRESULTS                  | [search-max-search-results](#search-max-search-results)           | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | MIN_OPERATION_WORKERS             | [search-min-operation-workers](#search-min-operation-workers)   | :white_check_mark:   |||
 | MIN_PHONETIC_TERM_LEN             | [search-min-phonetic-term-len](#search-min-phonetic-term-len)   | :white_check_mark:   |||
 | MINPREFIX                         | [search-min-prefix](#search-min-prefix)                         | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | MINSTEMLEN                        | [search-min-stem-len](#search-min-stem-len)                     | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | MULTI_TEXT_SLOP                   | [search-multi-text-slop](#search-multi-text-slop)               | :white_large_square: |||
 | NO_MEM_POOLS                      | [search-no-mem-pools](#search-no-mem-pools)                     | :white_large_square: |||
-| NOGC                              | [search-nogc](#search-nogc)                                     | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| NOGC                              | [search-no-gc](#search-no-gc)                                     | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | ON_TIMEOUT                        | [search-on-timeout](#search-on-timeout)                         | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | PARTIAL_INDEXED_DOCS              | [search-partial-indexed-docs](#search-partial-indexed-docs)     | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | RAW_DOCID_ENCODING                | [search-raw-docid-encoding](#search-raw-docid-encoding)         | :white_large_square: |||
@@ -74,10 +73,11 @@ The following table summarizes which configuration parameters can be set at run-
 | WORKERS_PRIORITY_BIAS_THRESHOLD   | [search-workers-priority-bias-threshold](#search-workers-priority-bias-threshold) | :white_large_square: |||
 | WORKERS                           | [search-workers](#search-workers)                               | :white_check_mark: |||
 | OSS_GLOBAL_PASSWORD               | Deprecated in v8.0.0. Replace with the `masterauth` password.   | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Not supported"><nobr>&#x274c; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| MT_MODE                           | Deprecated in v8.0.0.                                           | :white_large_square: |||
-| PRIVILEGED_THREADS_NUM            | Deprecated in v8.0.0.                                           | :white_large_square: |||
-| WORKER_THREADS                    | Deprecated in v8.0.0.                                           | :white_large_square: |||
-| SAFEMODE                          | Deprecated in v1.6.0. This is now the default setting           | :white_large_square: |||
+| MT_MODE                           | Deprecated in v8.0.0. Use search-workers.                       | :white_large_square: |||
+| PRIVILEGED_THREADS_NUM            | Deprecated in v8.0.0. Use search-workers-priority-bias-threshold.| :white_large_square: |||
+| WORKER_THREADS                    | Deprecated in v8.0.0. Use search-min-operation-workers.         | :white_large_square: |||
+| SAFEMODE                          | Deprecated in v1.6.0. This is now the default setting.          | :white_large_square: |||
+| FORK_GC_CLEAN_NUMERIC_EMPTY_NODES | Deprecated in v8.0.0.                                           | :white_large_square: |||
 
 {{< note >}}
 Parameter names for Redis CE versions < 8.0, while deprecated, will still be supported in version 8.0.
@@ -199,7 +199,7 @@ Valid range: `[1 .. 9,223,372,036,854,775,807]`
 
 Default: `30`
 
-### search-forkgc-sleep-before-exit
+### search-fork-gc-sleep-before-exit
 
 The number of seconds for the fork GC to sleep before exit. This value should always be set to 0 except when testing.
 
@@ -209,7 +209,7 @@ Valid range: `[1 .. 9,223,372,036,854,775,807]`
 
 Default: `0`
 
-### search-frisoini
+### search-friso-ini
 
 If present, load the custom Chinese dictionary from the specified path. See [Using custom dictionaries]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/chinese#using-custom-dictionaries) for more details.
 
@@ -217,13 +217,13 @@ Type: string
 
 Default: not set
 
-### search-gc-policy
+### GC_POLICY
 
 The garbage collection policy. The two supported policies are:
 * FORK: uses a forked thread for garbage collection (v1.4.1 and above). This is the default GC policy since v1.6.1 and is ideal for general purpose workloads.
 * LEGACY: uses a synchronous, in-process fork. This is ideal for read-heavy and append-heavy workloads with very few updates/deletes. Deprecated in v2.6.0.
 
-Note: When `search-gc-policy` is set to `FORK`, it can be combined with the `search-fork-gc-run-interval` and `search-fork-gc-retry-interval` settings. 
+Note: When `GC_POLICY` is set to `FORK`, it can be combined with the `search-fork-gc-run-interval` and `search-fork-gc-retry-interval` settings. 
 
 Type: string
 
@@ -231,7 +231,7 @@ Valid values: `FORK` or `DEFAULT`
 
 Default: `FORK`
 
-### search-gc-scansize
+### search-gc-scan-size
 
 The bulk size of the internal GC used for cleaning up indexes.
 
@@ -306,7 +306,7 @@ Valid range: `[1 .. 9,223,372,036,854,775,807]`
 
 Default: `200`
 
-### search-max-searchresults
+### search-max-search-results
 
 The maximum number of results to be returned by the `FT.SEARCH` command if `LIMIT` is used. Set it to `-1` to remove the limit.
 
@@ -383,7 +383,7 @@ Type: boolean
 
 Default: `FALSE`
 
-### search-nogc
+### search-no-gc
 
 If set to `TRUE`, garbage collection is disabled for all indexes.
 
