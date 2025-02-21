@@ -136,7 +136,7 @@ However, this policy is less recommended and should be selected only if any of t
 - Your application uses multiple curly brackets within a key’s name
 
 In some cases, the Standard hashing policy behaves differently from the Redis hashing policy:
-1. Using empty hashtags (“{}”): the Standard hashing policy does not ignore empty hashtags, so 2 keys which start with empty hashtags will be hashed to the same hashslot (while the Redis hashing policy would ignore them). 
+1. Using empty hashtags (“{}”): the Standard hashing policy does not ignore empty hashtags, so two keys that start with empty hashtags will be hashed to the same hashslot (while the Redis hashing policy would ignore them). 
     For example: given 2 keys {}foo and {}bar, hashing would be:
     - Standard hashing policy: to the same hash slot
     - Redis hashing policy: to different hash slots
