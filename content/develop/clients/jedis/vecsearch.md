@@ -35,25 +35,55 @@ Redis Query Engine.
 
 ## Initialize
 
-Install [`redis-py`]({{< relref "/develop/clients/redis-py" >}}) if you
-have not already done so. Also, install `sentence-transformers` with the
-following command:
+Install [`jedis`]({{< relref "/develop/clients/jedis" >}}) if you
+have not already done so.
+
+If you are using [Maven](https://maven.apache.org/), add the following
+dependencies to your `pom.xml` file:
+
+```xml
+<dependency>
+    <groupId>redis.clients</groupId>
+    <artifactId>jedis</artifactId>
+    <version>5.2.0</version>
+</dependency>
+<dependency>
+    <groupId>ai.djl.huggingface</groupId>
+    <artifactId>tokenizers</artifactId>
+    <version>0.24.0</version>
+</dependency>
+```
+
+If you are using [Gradle](https://gradle.org/), add the following
+dependencies to your `build.gradle` file:
 
 ```bash
-pip install sentence-transformers
+implementation 'redis.clients:jedis:5.2.0'
+implementation 'ai.djl.huggingface:tokenizers:0.24.0'
 ```
 
-In a new Python source file, start by importing the required classes:
+## Import dependencies
 
-```python
-from sentence_transformers import SentenceTransformer
-from redis.commands.search.query import Query
-from redis.commands.search.field import TextField, TagField, VectorField
-from redis.commands.search.indexDefinition import IndexDefinition, IndexType
+Import the following classes in your source file:
 
-import numpy as np
-import redis
+```java
+// Jedis client and query engine classes.
+import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.search.*;
+import redis.clients.jedis.search.schemafields.*;
+import redis.clients.jedis.search.schemafields.VectorField.VectorAlgorithm;
+import redis.clients.jedis.exceptions.JedisDataException;
+
+// Data manipulation.
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.Map;
+import java.util.List;
+
+// Tokenizer to generate the vector embeddings.
+import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
 ```
+
 
 The first of these imports is the
 `SentenceTransformer` class, which generates an embedding from a section of text.
