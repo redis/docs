@@ -144,6 +144,11 @@ To pull images from a local registry, you must provide the image pull secret and
     helm install rdi rdi-<rdi-tag>.tar.gz -f rdi-values.yaml
     ```
 
+    {{< note >}}By default, RDI will be installed in a namespace called
+    `rdi`. If you want to use a custom namespace, pass the option
+    `--namespace <custom-namespace>` to the `helm install` command.
+    {{< /note >}} 
+
 ### The `values.yaml` file
 
 The annotated [`values.yaml`](https://helm.sh/docs/topics/charts/#templates-and-values)
@@ -549,3 +554,18 @@ you are ready to start using RDI. See the guides to
 [deploying]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 RDI pipelines for more information. You can also configure and deploy a pipeline
 using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
+
+## Uninstall RDI
+
+If you want to remove your RDI K8s installation, first run
+the following commands. (If you installed with a custom namespace then
+replace `rdi` with the name of your namespace.)
+
+```bash
+helm uninstall rdi -n rdi
+kubectl delete namespace rdi
+```
+
+If you also want to delete the keys from your RDI database, connect to it with
+[`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run a
+[`FLUSHALL`]({{< relref "/commands/flushall" >}}) command.
