@@ -520,10 +520,11 @@ You can verify that the RDI API works by adding the server in
 
 ## Using ingress controllers
 
-If you want to expose the RDI API service via the K8s
+You must ensure that an appropriate
+[ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)
+is available in your K8s cluster to expose the RDI API service via the K8s
 [`Ingress`](https://kubernetes.io/docs/concepts/services-networking/ingress/)
-resource, you must ensure that an appropriate
-[ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) is available in your K8s cluster. Follow the documentation of your cloud provider or of
+resource,. Follow the documentation of your cloud provider or of
 the ingress controller to install the controller correctly.
 
 ### Using the `nginx` ingress controller on AKS
@@ -548,12 +549,12 @@ section to learn how to do this.
 
 ## Deploy a pipeline
 
-When the Helm installation is complete,  and you have prepared the source database for CDC,
-you are ready to start using RDI. See the guides to
-[configuring]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) and
-[deploying]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
-RDI pipelines for more information. You can also configure and deploy a pipeline
-using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
+When the Helm installation is complete and you have prepared the source database for CDC,
+you are ready to start using RDI.
+Use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}) to
+[configure]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) and
+[deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
+your pipeline.
 
 ## Uninstall RDI
 
