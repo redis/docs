@@ -84,41 +84,36 @@ import java.util.List;
 import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
 ```
 
+## Create a tokenizer instance
 
-The first of these imports is the
-`SentenceTransformer` class, which generates an embedding from a section of text.
-Here, we create an instance of `SentenceTransformer` that uses the
-[`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
-model for the embeddings. This model generates vectors with 384 dimensions, regardless
-of the length of the input text, but note that the input is truncated to 256
-tokens (see
-[Word piece tokenization](https://huggingface.co/learn/nlp-course/en/chapter6/6)
-at the [Hugging Face](https://huggingface.co/) docs to learn more about the way tokens
-are related to the original text).
+We will use the
+[`all-mpnet-base-v2`](https://huggingface.co/sentence-transformers/all-mpnet-base-v2)
+tokenizer to generate the embeddings. The vectors that represent the
+embeddings have 768 components, regardless of the length of the input
+text.
 
-```python
-model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+```java
+HuggingFaceTokenizer sentenceTokenizer = HuggingFaceTokenizer.newInstance(
+    "sentence-transformers/all-mpnet-base-v2",
+    Map.of("maxLength", "768",  "modelMaxLength", "768")
+);
 ```
 
 ## Create the index
 
 Connect to Redis and delete any index previously created with the
-name `vector_idx`. (The `dropindex()` call throws an exception if
+name `vector_idx`. (The `ftDropIndex()` call throws an exception if
 the index doesn't already exist, which is why you need the
-`try: except:` block.)
+`try...catch` block.)
 
-```python
-r = redis.Redis(decode_responses=True)
+```java
+UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
 
-try:
-    r.ft("vector_idx").dropindex(True)
-except redis.exceptions.ResponseError:
-    pass
+try {jedis.ftDropIndex("vector_idx");} catch (JedisDataException j){}
 ```
 
 Next, we create the index.
-The schema in the example below specifies hash objects for storage and includes
-three fields: the text content to index, a
+The schema in the example below includes three fields: the text content to index, a
 [tag]({{< relref "/develop/interact/search-and-query/advanced-concepts/tags" >}})
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
@@ -126,26 +121,40 @@ the original text content. The `embedding` field specifies
 indexing, the
 [L2]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#distance-metrics" >}})
 vector distance metric, `Float32` values to represent the vector's components,
-and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
+and 768 dimensions, as required by the `all-mpnet-base-v2` embedding model.
 
-```python
-schema = (
-    TextField("content"),
-    TagField("genre"),
-    VectorField("embedding", "HNSW", {
-        "TYPE": "FLOAT32",
-        "DIM": 384,
-        "DISTANCE_METRIC":"L2"
-    })
-)
+The `FTCreateParams` object specifies hash objects for storage and a
+prefix `doc:` that identifies the hash objects we want to index.
 
-r.ft("vector_idx").create_index(
-    schema,
-    definition=IndexDefinition(
-        prefix=["doc:"], index_type=IndexType.HASH
-    )
-)
+```java
+SchemaField[] schema = {
+    TextField.of("content"),
+    TagField.of("genre"),
+    VectorField.builder()
+        .fieldName("embedding")
+        .algorithm(VectorAlgorithm.HNSW)
+        .attributes(
+            Map.of(
+                "TYPE", "FLOAT32",
+                "DIM", 768,
+                "DISTANCE_METRIC", "L2",
+                "INITIAL_CAP", 3
+            )
+        )
+        .build()
+};
+
+jedis.ftCreate("vector_idx",
+    FTCreateParams.createParams()
+        .addPrefix("doc:")
+        .on(IndexDataType.HASH),
+        schema
+);
 ```
+
+## Define some helper methods
+
+
 
 ## Add data
 
@@ -162,30 +171,24 @@ default Python list of `float` values.
 Use the binary string representation when you are indexing hash objects
 (as we are here), but use the default list of `float` for JSON objects.
 
-```python
-content = "That is a very happy person"
+```java
+String sentence1 = "That is a very happy person";
+jedis.hset("doc:1", Map.of(  "content", sentence1, "genre", "persons"));
+jedis.hset(
+    "doc:1".getBytes(),
+    "embedding".getBytes(),
+    longArrayToByteArray(sentenceTokenizer.encode(sentence1).getIds())
+);
 
-r.hset("doc:0", mapping={
-    "content": content,
-    "genre": "persons",
-    "embedding": model.encode(content).astype(np.float32).tobytes(),
-})
+String sentence2 = "That is a happy dog";
+jedis.hset("doc:2", Map.of(  "content", sentence2, "genre", "pets"));
+jedis.hset("doc:2".getBytes(), "embedding".getBytes(), longArrayToByteArray(sentenceTokenizer.encode(sentence2).getIds()));
 
-content = "That is a happy dog"
+String sentence3 = "Today is a sunny day";
+Map<String, String> doc3 = Map.of(  "content", sentence3, "genre", "weather");
+jedis.hset("doc:3", doc3);
+jedis.hset("doc:3".getBytes(), "embedding".getBytes(), longArrayToByteArray(sentenceTokenizer.encode(sentence3).getIds()));
 
-r.hset("doc:1", mapping={
-    "content": content,
-    "genre": "pets",
-    "embedding": model.encode(content).astype(np.float32).tobytes(),
-})
-
-content = "Today is a sunny day"
-
-r.hset("doc:2", mapping={
-    "content": content,
-    "genre": "weather",
-    "embedding": model.encode(content).astype(np.float32).tobytes(),
-})
 ```
 
 ## Run a query
