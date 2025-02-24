@@ -1,5 +1,5 @@
 ---
-Title: Upgrade Redis Enterprise for Kubernetes 7.8.2-6
+Title: Upgrade Redis Enterprise for Kubernetes
 alwaysopen: false
 categories:
 - docs
@@ -27,11 +27,11 @@ For all other Kubernetes distributions, see [Upgrade Redis Enterprise for Kubern
 
 When upgrading, both your Kubernetes version and Redis operator version need to be supported at all times.
 
-{{<warning>}}If your current Kubernetes distribution is not [supported by 7.8.2-6]({{<relref "/operate/kubernetes/release-notes/7-8-2-releases/7-8-2-6-nov24#supported-distributions">}}), upgrade to a supported distribution before upgrading. {{</warning>}}
+{{<warning>}}If your current Kubernetes distribution is not [supported]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions.md">}}), upgrade to a supported distribution before upgrading. {{</warning>}}
 
 ## RHEL9-based image
 
-Redis Enterprise images are now based on Red Hat Enterprise Linux 9 (RHEL9). This means upgrades to 7.8.2-6 require:
+Redis Enterprise images are now based on Red Hat Enterprise Linux 9 (RHEL9). This means upgrades require:
 
 - [Cluster version of 7.4.2-2 or later](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/).
 - Database version 7.2 or later.
