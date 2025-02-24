@@ -72,7 +72,7 @@ Some of the details you can supply are common to different use cases:
 -   `authority()`: A string containing the [authority](https://learn.microsoft.com/en-us/entra/identity-platform/msal-client-application-configuration#authority)
     URL.
 -   `scopes()`: A set of strings defining the [scopes](https://learn.microsoft.com/en-us/entra/identity-platform/scopes-oidc)
-    you want to apply. Configure your client application to acquire a Microsoft Entra token for scope, `https://redis.azure.com/.default` or `acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default`
+    you want to apply. Configure your client application to acquire a Microsoft Entra token for scope, `https://redis.azure.com/.default` or `acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default` (as detailed at [Microsoft Entra ID for authentication](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/managed-redis/managed-redis-entra-for-authentication#microsoft-entra-client-workflow)) 
     with the
     [Microsoft Authentication Library (MSAL)](https://learn.microsoft.com/en-us/entra/identity-platform/msal-overview)
 
@@ -196,8 +196,8 @@ These options are explained below:
    of the `expirationRefreshRatio` value. Set this to zero if you want
    the refresh time to depend only on `expirationRefreshRatio`.
 -  `tokenRequestExecTimeoutInMs`: the maximum time (in milliseconds) to
-   wait for a token request to complete before retrying.
+   wait for a token request to receive a response. A timeout occurs if this limit is exceeded.
 -  `maxAttemptsToRetry`: the maximum number of times to retry a token
    request before aborting.
 -  `delayInMsToRetry`: the time (in milliseconds) to wait before
-    retrying a token request after a failed attempt.
+    retrying a token request after a failed attempt. This provides a mechanism to request throttling to prevent an excessive number of token requests.
