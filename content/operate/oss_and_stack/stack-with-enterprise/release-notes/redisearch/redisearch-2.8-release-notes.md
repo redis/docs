@@ -27,6 +27,18 @@ Update urgency: `HIGH` : There is a critical bug that may affect a subset of use
 Bug fixes:
 - [#5605](https://github.com/redisearch/redisearch/pull/5605) Changes on the memory block reading logic could cause crash on `FT.SEARCH` with error "_Redis 7.4.2 crashed by signal: 11, si_code: 128_"
 
+Known limitations:
+- Only the first 128 characters of string fields are normalized to lowercase during ingestion (for example, on `HSET`).
+    Example:
+
+    ```
+    HSET doc __score 1.0 name "idx1S...S" mynum 1          # Assume "S...S" is a string of 252 capital S's
+    FT.CREATE "idx" SCHEMA "name" "TEXT" "mynum" "NUMERIC"
+    FT.SEARCH "idx" "@name:idx1S...S"                      # Assume "S...S" is a string of 252 capital S's
+    ```
+
+    The `FT.SEARCH` command will return no documents.
+
 ## v2.8.22 (January 2025)
 
 This is a maintenance release for RediSearch 2.8.
@@ -277,11 +289,11 @@ Features:
 
 - Introduce support for geo polygon shapes and queries:
 
-  - Adding `GEOSHAPE` [field type]({{< baseurl >}}/commands/ft.create) to map polygons in the `SCHEMA` on `FT.CREATE` (MOD-4798)
+  - Adding `GEOSHAPE` [field type]({{< baseurl >}}commands/ft.create) to map polygons in the `SCHEMA` on `FT.CREATE` (MOD-4798)
 
   - Support for polygons `POLYGON` and `POINT` using [WKT notation](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry), for example `POLYGON((lon1 lat1, lon2 lat2, ...))`
 
-  - Adjust the [query syntax]({{< baseurl >}}/commands/ft.search#examples) on `FT.SEARCH` for polygons using the predicate `@geom:[OPERATOR $poly]` and defining polygon in WKT format as `PARAMS 2 poly "POLYGON((10 20, ...))"` using `DIALECT 3`
+  - Adjust the [query syntax]({{< baseurl >}}commands/ft.search#examples) on `FT.SEARCH` for polygons using the predicate `@geom:[OPERATOR $poly]` and defining polygon in WKT format as `PARAMS 2 poly "POLYGON((10 20, ...))"` using `DIALECT 3`
 
   - Initially `WITHIN` and `CONTAINS` operators with `GEOSHAPES` for now
 
