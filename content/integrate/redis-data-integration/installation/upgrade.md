@@ -33,10 +33,11 @@ of RDI:
     cd rdi_install/$RDI_VERSION
     ```
 
-1.  Run the `upgrade` script as a privileged user:
+1.  Run the `upgrade` script as a privileged user. Note that you must pass
+    your RDI password to the script unless the password is empty.
 
     ```bash
-    sudo ./upgrade.sh
+    sudo ./upgrade.sh --rdi-password <redis-rdi-password>
     ```
 
 ### Recovering from failure during a VM upgrade
