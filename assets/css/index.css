@@ -102,6 +102,11 @@ select {
   @apply relative block text-redis-pen-600 hover:text-redis-pen-300 -my-0.5 py-1 pl-6 transition-colors leading-6;
 }
 
+/* Increase indentation for deeper nested items */
+#TableOfContents ul ul a {
+  @apply pl-10; /* Second level */
+}
+
 #TableOfContents a:before {
   content: '';
   @apply w-1 h-full bg-redis-pencil-250 absolute left-0 top-0 rounded-sm transition;

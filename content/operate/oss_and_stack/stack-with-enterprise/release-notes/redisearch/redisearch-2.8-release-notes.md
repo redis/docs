@@ -289,11 +289,11 @@ Features:
 
 - Introduce support for geo polygon shapes and queries:
 
-  - Adding `GEOSHAPE` [field type]({{< baseurl >}}/commands/ft.create) to map polygons in the `SCHEMA` on `FT.CREATE` (MOD-4798)
+  - Adding `GEOSHAPE` [field type]({{< baseurl >}}commands/ft.create) to map polygons in the `SCHEMA` on `FT.CREATE` (MOD-4798)
 
   - Support for polygons `POLYGON` and `POINT` using [WKT notation](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry), for example `POLYGON((lon1 lat1, lon2 lat2, ...))`
 
-  - Adjust the [query syntax]({{< baseurl >}}/commands/ft.search#examples) on `FT.SEARCH` for polygons using the predicate `@geom:[OPERATOR $poly]` and defining polygon in WKT format as `PARAMS 2 poly "POLYGON((10 20, ...))"` using `DIALECT 3`
+  - Adjust the [query syntax]({{< baseurl >}}commands/ft.search#examples) on `FT.SEARCH` for polygons using the predicate `@geom:[OPERATOR $poly]` and defining polygon in WKT format as `PARAMS 2 poly "POLYGON((10 20, ...))"` using `DIALECT 3`
 
   - Initially `WITHIN` and `CONTAINS` operators with `GEOSHAPES` for now
 

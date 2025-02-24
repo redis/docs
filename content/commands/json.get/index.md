@@ -137,7 +137,7 @@ redis> JSON.GET doc ..a $..b
 
 ## See also
 
-[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.MGET`]({{< baseurl >}}/commands/json.mget/) 
+[`JSON.SET`]({{< baseurl >}}commands/json.set/) | [`JSON.MGET`]({{< baseurl >}}commands/json.mget/) 
 
 ## Related topics
 

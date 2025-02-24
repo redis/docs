@@ -62,9 +62,38 @@ information. *This requires Redis Enterprise v6.4 or greater*.
 - If you are deploying RDI for a production environment then secure this database with a password
   and [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security).
 - Set the database's
-  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
+  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction`. Note that you can't set this using
+  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
+  so you must either do it using the admin UI or with the following
+  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
+  command:
+
+  ```bash
+  curl -v -k -d '{"eviction_policy": "noeviction"}' \
+    -u '<USERNAME>:<PASSWORD>' \
+    -H "Content-Type: application/json" \
+    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
+  ```
+
+- Set the database's
   [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
-  to AOF - fsync every 1 sec.
+  to AOF - fsync every 1 sec. Note that you can't set this using
+  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
+  so you must either do it using the admin UI or with the following
+  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
+  commands:
+
+  ```bash
+  curl -v -k -d '{"data_persistence":"aof"}' \
+    -u '<USERNAME>:<PASSWORD>' \
+    -H "Content-Type: application/json" 
+    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
+  curl -v -k -d '{"aof_policy":"appendfsync-every-sec"}' \
+    -u '<USERNAME>:<PASSWORD>' \
+    -H "Content-Type: application/json" \
+    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
+  ```
+
 - **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
   RDI database is clustered, but it is OK for the target database to be clustered.
 
@@ -114,6 +143,11 @@ To pull images from a local registry, you must provide the image pull secret and
     ```bash
     helm install rdi rdi-<rdi-tag>.tar.gz -f rdi-values.yaml
     ```
+
+    {{< note >}}By default, RDI will be installed in a namespace called
+    `rdi`. If you want to use a custom namespace, pass the option
+    `--namespace <custom-namespace>` to the `helm install` command.
+    {{< /note >}} 
 
 ### The `values.yaml` file
 
@@ -520,3 +554,18 @@ you are ready to start using RDI. See the guides to
 [deploying]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 RDI pipelines for more information. You can also configure and deploy a pipeline
 using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
+
+## Uninstall RDI
+
+If you want to remove your RDI K8s installation, first run
+the following commands. (If you installed with a custom namespace then
+replace `rdi` with the name of your namespace.)
+
+```bash
+helm uninstall rdi -n rdi
+kubectl delete namespace rdi
+```
+
+If you also want to delete the keys from your RDI database, connect to it with
+[`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run a
+[`FLUSHALL`]({{< relref "/commands/flushall" >}}) command.
