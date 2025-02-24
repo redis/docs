@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Bug fixes for server restart failures during upgrades, connectivity checks for optional services, swapped shard status and watchdog status values in `rladmin`, and process exporter crashes.
+description: Bug fixes for server restart failures during upgrades, connectivity checks for optional services, swapped shard status and watchdog status values in `rladmin`, process exporter crashes, and a syncer issue for Active-Active databases that have the OSS Cluster API enabled.
 linkTitle: 7.8.4-tba (February 2025)
 weight: 86
 ---
@@ -17,7 +17,7 @@ This is a maintenance release for ​[​Redis Software version 7.8.4](https://r
 
 This version offers:
 
-- Bug fixes for server restart failures during upgrades, connectivity checks for optional services, swapped shard status and watchdog status values in `rladmin`, and process exporter crashes
+- Bug fixes for server restart failures during upgrades, connectivity checks for optional services, swapped shard status and watchdog status values in `rladmin`, process exporter crashes, and a syncer issue for Active-Active databases that have the OSS Cluster API enabled
 
 ## New in this release
 
@@ -50,6 +50,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 - RS146525: Fixed an `rladmin status` issue that swapped the shard `STATUS` and `WATCHDOG_STATUS` values.
 
 - RS143339: Fixed an issue where an ambiguous path could cause the process exporter to crash with the error: "`flag provided but not defined: -remove-empty-groups`".
+
+- RS150588: Fixed a syncer issue that could cause data inconsistency or loss in Active-Active databases when the OSS Cluster API is enabled.
 
 ## Version changes
 
