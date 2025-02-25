@@ -27,7 +27,7 @@ To create a database in an already existing Pro subscription:
 
     This displays the **Create database** screen.
 
-1. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Existing subscription**, and then select your existing pro subscription from the list.
+1. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Existing subscription**, and then select your existing Pro subscription from the list.
 
     {{<image filename="images/rc/create-database-subscription-pro-existing.png" alt="The Subscription selection panel with Pro selected and an existing subscription selected.">}}
 
