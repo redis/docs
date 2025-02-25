@@ -1,19 +1,19 @@
 ---
-Title: redis-di trace
-linkTitle: redis-di trace
-description: Starts a trace session for troubleshooting data transformation
+Title: redis-di upgrade
+linkTitle: redis-di upgrade
+description: Upgrades RDI without losing data or downtime
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Starts a trace session for troubleshooting data transformation
+Upgrades RDI without losing data or downtime
 
 ## Usage
 
 ```
-Usage: redis-di trace [OPTIONS]
+Usage: redis-di upgrade [OPTIONS]
 ```
 
 ## Options
@@ -24,6 +24,14 @@ Usage: redis-di trace [OPTIONS]
   - Default: `info`
   - Usage: `--log-level
 -l`
+
+- `rdi_namespace`:
+
+  - Type: STRING
+  - Default: `rdi`
+  - Usage: `--rdi-namespace`
+
+  RDI Kubernetes namespace
 
 - `rdi_host` (REQUIRED):
 
@@ -89,29 +97,14 @@ Usage: redis-di trace [OPTIONS]
 
   Password for unlocking an encrypted private key
 
-- `max_change_records`:
-
-  - Type: <IntRange x>=1>
-  - Default: `10`
-  - Usage: `--max-change-records`
-
-  Maximum traced change records
-
-- `timeout` (REQUIRED):
-
-  - Type: <IntRange 1<=x<=600>
-  - Default: `20`
-  - Usage: `--timeout`
-
-  Stops the trace after exceeding this timeout (in seconds)
-
-- `trace_only_rejected`:
+- `force`:
 
   - Type: BOOL
   - Default: `false`
-  - Usage: `--trace-only-rejected`
+  - Usage: `--force
+-f`
 
-  Trace only rejected change records
+  Force operation. skips verification prompts
 
 - `help`:
 
@@ -124,13 +117,14 @@ Usage: redis-di trace [OPTIONS]
 ## CLI help
 
 ```
-Usage: redis-di trace [OPTIONS]
+Usage: redis-di upgrade [OPTIONS]
 
-  Starts a trace session for troubleshooting data transformation
+  Upgrades RDI without losing data or downtime
 
 Options:
   -l, --log-level [TRACE|DEBUG|INFO|WARNING|ERROR|CRITICAL]
                                   [default: INFO]
+  --rdi-namespace TEXT            RDI Kubernetes namespace  [default: rdi]
   --rdi-host TEXT                 Host/IP of RDI Database  [required]
   --rdi-port INTEGER RANGE        Port of RDI Database  [1<=x<=65535;
                                   required]
@@ -141,11 +135,6 @@ Options:
   --rdi-cacert TEXT               CA certificate file to verify with
   --rdi-key-password TEXT         Password for unlocking an encrypted private
                                   key
-  --max-change-records INTEGER RANGE
-                                  Maximum traced change records  [x>=1]
-  --timeout INTEGER RANGE         Stops the trace after exceeding this timeout
-                                  (in seconds)  [default: 20; 1<=x<=600;
-                                  required]
-  --trace-only-rejected           Trace only rejected change records
+  -f, --force                     Force operation. skips verification prompts
   --help                          Show this message and exit.
 ```

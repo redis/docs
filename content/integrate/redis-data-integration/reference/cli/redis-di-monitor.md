@@ -1,19 +1,19 @@
 ---
-Title: redis-di trace
-linkTitle: redis-di trace
-description: Starts a trace session for troubleshooting data transformation
+Title: redis-di monitor
+linkTitle: redis-di monitor
+description: Monitors RDI by collecting metrics and exporting to Prometheus
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Starts a trace session for troubleshooting data transformation
+Monitors RDI by collecting metrics and exporting to Prometheus
 
 ## Usage
 
 ```
-Usage: redis-di trace [OPTIONS]
+Usage: redis-di monitor [OPTIONS]
 ```
 
 ## Options
@@ -24,6 +24,14 @@ Usage: redis-di trace [OPTIONS]
   - Default: `info`
   - Usage: `--log-level
 -l`
+
+- `rdi_namespace`:
+
+  - Type: STRING
+  - Default: `rdi`
+  - Usage: `--rdi-namespace`
+
+  RDI Kubernetes namespace
 
 - `rdi_host` (REQUIRED):
 
@@ -89,29 +97,21 @@ Usage: redis-di trace [OPTIONS]
 
   Password for unlocking an encrypted private key
 
-- `max_change_records`:
+- `exporter_port`:
 
-  - Type: <IntRange x>=1>
-  - Default: `10`
-  - Usage: `--max-change-records`
+  - Type: <IntRange 1<=x<=65535>
+  - Default: `9121`
+  - Usage: `--exporter-port`
 
-  Maximum traced change records
+  HTTP port to start the exporter on
 
-- `timeout` (REQUIRED):
+- `collect_interval`:
 
-  - Type: <IntRange 1<=x<=600>
-  - Default: `20`
-  - Usage: `--timeout`
+  - Type: <IntRange 1<=x<=60>
+  - Default: `5`
+  - Usage: `--collect-interval`
 
-  Stops the trace after exceeding this timeout (in seconds)
-
-- `trace_only_rejected`:
-
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--trace-only-rejected`
-
-  Trace only rejected change records
+  Metrics collection interval (seconds)
 
 - `help`:
 
@@ -124,13 +124,14 @@ Usage: redis-di trace [OPTIONS]
 ## CLI help
 
 ```
-Usage: redis-di trace [OPTIONS]
+Usage: redis-di monitor [OPTIONS]
 
-  Starts a trace session for troubleshooting data transformation
+  Monitors RDI by collecting metrics and exporting to Prometheus
 
 Options:
   -l, --log-level [TRACE|DEBUG|INFO|WARNING|ERROR|CRITICAL]
                                   [default: INFO]
+  --rdi-namespace TEXT            RDI Kubernetes namespace  [default: rdi]
   --rdi-host TEXT                 Host/IP of RDI Database  [required]
   --rdi-port INTEGER RANGE        Port of RDI Database  [1<=x<=65535;
                                   required]
@@ -141,11 +142,10 @@ Options:
   --rdi-cacert TEXT               CA certificate file to verify with
   --rdi-key-password TEXT         Password for unlocking an encrypted private
                                   key
-  --max-change-records INTEGER RANGE
-                                  Maximum traced change records  [x>=1]
-  --timeout INTEGER RANGE         Stops the trace after exceeding this timeout
-                                  (in seconds)  [default: 20; 1<=x<=600;
-                                  required]
-  --trace-only-rejected           Trace only rejected change records
+  --exporter-port INTEGER RANGE   HTTP port to start the exporter on
+                                  [1<=x<=65535]
+  --collect-interval INTEGER RANGE
+                                  Metrics collection interval (seconds)
+                                  [1<=x<=60]
   --help                          Show this message and exit.
 ```
