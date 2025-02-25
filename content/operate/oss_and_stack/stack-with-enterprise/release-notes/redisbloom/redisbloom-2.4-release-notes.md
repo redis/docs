@@ -14,10 +14,22 @@ weight: 96
 ---
 ## Requirements
 
-RedisBloom v2.4.13 requires:
+RedisBloom v2.4.14 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.4.14 (February 2025)
+
+This is a maintenance release for RedisBloom 2.4.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+  - [#828](https://github.com/redisbloom/redisbloom/pull/828) `CMS.INCRBY` does not notify `WATCH`ers or client-side caching (MOD-8193)
+  - [#827](https://github.com/redisbloom/redisbloom/pull/827) Top-K - suboptimal results after RDB load due to missing initialization (MOD-8194)
 
 ## v2.4.13 (January 2025)
 
