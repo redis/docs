@@ -28,7 +28,7 @@ Update urgency: `LOW` No need to upgrade unless there are new features you want 
 
 Bug fixes:
 
-- [#5648](https://github.com/redisearch/redisearch/pull/5648) `FT.SEARCH` using cyrillic characters and wildcards delivering no results (MOD-7944)
+- [#5648](https://github.com/redisearch/redisearch/pull/5648) `FT.SEARCH` using Cyrillic characters and wildcards delivering no results (MOD-7944)
 
 ## v2.6.26 (February 2025)
 

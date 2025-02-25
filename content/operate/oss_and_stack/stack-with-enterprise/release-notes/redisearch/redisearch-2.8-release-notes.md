@@ -25,7 +25,7 @@ This is a maintenance release for RediSearch 2.8.
 Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
 
 Bug fixes:
-- [#5647](https://github.com/redisearch/redisearch/pull/5647) `FT.SEARCH` using cyrillic characters and wildcards delivering no results (MOD-7944)
+- [#5647](https://github.com/redisearch/redisearch/pull/5647) `FT.SEARCH` using Cyrillic characters and wildcards delivering no results (MOD-7944)
 
 ## v2.8.23 (February 2025)
 
