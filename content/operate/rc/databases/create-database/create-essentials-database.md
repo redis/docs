@@ -15,12 +15,7 @@ tocEmbedHeaders: true
 
 {{< embed-md "rc-create-db-first-steps.md" >}} 
 
-{{< embed-md "rc-create-db-use-cases.md" >}}
-    {{< note >}}
-See [Use case settings](#use-case-settings) to view the default settings for each use case.
-    {{< /note >}}
-
-4. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Essentials**.
+3. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Essentials**.
 
     {{<image filename="images/rc/create-database-subscription-essentials.png" alt="The Subscription selection panel with Essentials selected.">}}
 
@@ -52,7 +47,7 @@ This guide shows how to create an Essentials database.
 
 1. In the **Durability settings** panel, choose your **High availability settings** and **Data persistence** settings from the list. 
 
-    {{<image filename="images/rc/create-database-essentials-durability.png" alt="The durability settings allow you to choose High availability and Data persistence.">}}
+    {{<image filename="images/rc/create-database-essentials-durability.png" alt="The durability settings allow you to choose High availability and Data persistence." width=75% >}}
 
 
     Redis Cloud supports the following high availability settings:
@@ -91,15 +86,4 @@ This guide shows how to create an Essentials database.
 
 When you create your database, there's a brief pause while your request is processed and then the **Database details** page appears.
 
-
-## Use case settings
-
-The following table shows the default use case settings for an Essentials database.
-
-| **Type** | High Availability | Data Persistence | Size | Eviction Policy |
-|---|---|---|---|---|
-| **Cache** | None | None | 30 MB - 12 GB | `volatile-lru` |
-| **Database** | Multi-zone | Append-only file every 1 sec | 250 MB - 12 GB | None |
-| **Vector Search** | Multi-zone | Append-only file every 1 sec | 250 MB - 12 GB | None |
-| **Custom** | Single-zone | Append-only file every 1 sec | 250 MB - 12 GB | None |
 
