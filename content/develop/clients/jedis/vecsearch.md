@@ -34,9 +34,6 @@ to generate the vector embeddings to store and index with Redis Query Engine.
 
 ## Initialize
 
-Install [`jedis`]({{< relref "/develop/clients/jedis" >}}) if you
-have not already done so.
-
 If you are using [Maven](https://maven.apache.org/), add the following
 dependencies to your `pom.xml` file:
 
@@ -81,6 +78,33 @@ import java.util.List;
 
 // Tokenizer to generate the vector embeddings.
 import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
+```
+
+## Define a helper method
+
+Our embedding model represents the vectors as an array of `long` integer values,
+but Redis Query Engine expects the vector components to be `float` values.
+Also, when you store vectors in a hash object, you must encode the vector
+array as a `byte` string. To simplify this situation, we declare a helper
+method `longsToFloatsByteString()` that takes the `long` array that the
+embedding model returns, converts it to an array of `float` values, and
+then encodes the `float` array as a `byte` string:
+
+```java
+public static byte[] longsToFloatsByteString(long[] input) {
+    float[] floats = new float[input.length];
+    for (int i = 0; i < input.length; i++) {
+        floats[i] = input[i];
+    }
+
+    byte[] bytes = new byte[Float.BYTES * floats.length];
+    ByteBuffer
+        .wrap(bytes)
+        .order(ByteOrder.LITTLE_ENDIAN)
+        .asFloatBuffer()
+        .put(floats);
+    return bytes;
+}
 ```
 
 ## Create a tokenizer instance
@@ -136,8 +160,7 @@ SchemaField[] schema = {
             Map.of(
                 "TYPE", "FLOAT32",
                 "DIM", 768,
-                "DISTANCE_METRIC", "L2",
-                "INITIAL_CAP", 3
+                "DISTANCE_METRIC", "L2"
             )
         )
         .build()
@@ -151,29 +174,6 @@ jedis.ftCreate("vector_idx",
 );
 ```
 
-## Define a helper method
-
-The embedding model represents the vectors as an array of `long` integer values,
-but Redis Query Engine expects the vector components to be `float` values.
-Also, when you store vectors in a hash object, you must encode the vector
-array as a `byte` string. To simplify this situation, we declare a helper
-method `longsToFloatsByteString()` that takes the `long` array that the
-embedding model returns, converts it to an array of `float` values, and
-then encodes the `float` array as a `byte` string:
-
-```java
-public static byte[] longsToFloatsByteString(long[] input) {
-    float[] floats = new float[input.length];
-    for (int i = 0; i < input.length; i++) {
-        floats[i] = input[i];
-    }
-
-    byte[] bytes = new byte[Float.BYTES * floats.length];
-    ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).asFloatBuffer().put(floats);
-    return bytes;
-}
-```
-
 ## Add data
 
 You can now supply the data objects, which will be indexed automatically
@@ -182,14 +182,17 @@ you use the `doc:` prefix specified in the index definition.
 
 Use the `encode()` method of the `sentenceTokenizer` object
 as shown below to create the embedding that represents the `content` field.
-The `getIds()` method that follows the `encode()` call obtains the vector
+The `getIds()` method that follows `encode()` obtains the vector
 of `long` values which we then convert to a `float` array stored as a `byte`
-string. Use the `byte` string representation when you are indexing hash
-objects (as we are here), but use the default list of `float` for JSON objects.
+string using our helper method. Use the `byte` string representation when you are
+indexing hash objects (as we are here), but use the default list of `float` for
+JSON objects. Note that when we set the `embedding` field, we must use an overload
+of `hset()` that requires `byte` arrays for each of the key, the field name, and
+the value, which is why we include the `getBytes()` calls on the strings.
 
 ```java
 String sentence1 = "That is a very happy person";
-jedis.hset("doc:1", Map.of(  "content", sentence1, "genre", "persons"));
+jedis.hset("doc:1", Map.of("content", sentence1, "genre", "persons"));
 jedis.hset(
     "doc:1".getBytes(),
     "embedding".getBytes(),
@@ -197,7 +200,7 @@ jedis.hset(
 );
 
 String sentence2 = "That is a happy dog";
-jedis.hset("doc:2", Map.of(  "content", sentence2, "genre", "pets"));
+jedis.hset("doc:2", Map.of("content", sentence2, "genre", "pets"));
 jedis.hset(
     "doc:2".getBytes(),
     "embedding".getBytes(),
@@ -205,8 +208,7 @@ jedis.hset(
 );
 
 String sentence3 = "Today is a sunny day";
-Map<String, String> doc3 = Map.of(  "content", sentence3, "genre", "weather");
-jedis.hset("doc:3", doc3);
+jedis.hset("doc:3", Map.of("content", sentence3, "genre", "weather"));
 jedis.hset(
     "doc:3".getBytes(),
     "embedding".getBytes(),
@@ -218,53 +220,65 @@ jedis.hset(
 
 After you have created the index and added the data, you are ready to run a query.
 To do this, you must create another embedding vector from your chosen query
-text. Redis calculates the similarity between the query vector and each
-embedding vector in the index as it runs the query. It then ranks the
-results in order of this numeric similarity value.
+text. Redis calculates the vector distance between the query vector and each
+embedding vector in the index as it runs the query. We can request the results to be
+sorted to rank them in order of ascending distance.
 
 The code below creates the query embedding using the `encode()` method, as with
 the indexing, and passes it as a parameter when the query executes (see
 [Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
 for more information about using query parameters with embeddings).
+The query is a
+[K nearest neighbors (KNN)]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors#knn-vector-search" >}})
+search that sorts the results in order of vector distance from the query vector.
 
 ```java
 String sentence = "That is a happy person";
 
 int K = 3;
-Query q = new Query("*=>[KNN $K @embedding $BLOB AS score]").
-                    returnFields("content", "score").
-                    addParam("K", K).
-                    addParam(
-                        "BLOB",
-                        longsToFloatsByteString(
-                            sentenceTokenizer.encode(sentence).getIds()
-                        )
-                    ).
-                    dialect(2);
+Query q = new Query("*=>[KNN $K @embedding $BLOB AS distance]")
+                .returnFields("content", "distance")
+                .addParam("K", K)
+                .addParam(
+                    "BLOB",
+                    longsToFloatsByteString(
+                        sentenceTokenizer.encode(sentence)..getIds()
+                    )
+                )
+                .setSortBy("distance", true)
+                .dialect(2);
 
 List<Document> docs = jedis.ftSearch("vector_idx", q).getDocuments();
 
 for (Document doc: docs) {
-    System.out.println(doc);
+    System.out.println(
+        String.format(
+            "ID: %s, Distance: %s, Content: %s",
+            doc.getId(),
+            doc.get("distance"),
+            doc.get("content")
+        )
+    );
 }
 ```
 
-The code is now ready to run, but note that it may take a while to complete when
+Assuming you have added the code from the steps above to your source file,
+it is now ready to run, but note that it may take a while to complete when
 you run it for the first time (which happens because the tokenizer must download the
 `all-mpnet-base-v2` model data before it can
-generate the embeddings). When you run the code, it outputs the following result
-objects:
+generate the embeddings). When you run the code, it outputs the following result text:
 
 ```
-id:doc:1, score: 1.0, properties:[score=9301635, content=That is a very happy person]
-id:doc:2, score: 1.0, properties:[score=1411344, content=That is a happy dog]
-id:doc:3, score: 1.0, properties:[score=67178800, content=Today is a sunny day]
+Results:
+ID: doc:2, Distance: 1411344, Content: That is a happy dog
+ID: doc:1, Distance: 9301635, Content: That is a very happy person
+ID: doc:3, Distance: 67178800, Content: Today is a sunny day
 ```
 
-Note that the results are ordered according to the value of the `vector_distance`
+Note that the results are ordered according to the value of the `distance`
 field, with the lowest distance indicating the greatest similarity to the query.
-As you would expect, the result for `doc:0` with the content text *"That is a very happy person"*
-is the result that is most similar in meaning to the query text
+For this model, the text *"That is a happy dog"*
+is the result judged to be most similar in meaning to the query text
 *"That is a happy person"*.
 
 ## Learn more
