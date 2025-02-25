@@ -106,6 +106,7 @@ syntax_str: "[FNX | FXX] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-secon
   \ value ...]"
 title: HSETEX
 ---
+
 Set the value of one or more fields of a given hash key, and optionally set their expiration time or time-to-live (TTL).
 
 ## Options
