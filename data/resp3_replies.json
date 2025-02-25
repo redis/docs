@@ -573,7 +573,15 @@
     "* [Null reply](../../develop/reference/protocol-spec#nulls): If the field is not present in the hash or key does not exist."
   ],
   "HGETALL": [
-    "[Map reply](../../develop/reference/protocol-spec#maps): a map of fields and their values stored in the hash, or an empty list when key does not exist."
+    "[Map reply](../../develop/reference/protocol-spec#maps): a map of fields and their values, or an empty list when key does not exist."
+  ],
+  "HGETDEL": [
+    "[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist."
+  ],
+  "HGETEX": [
+    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist, or if the field exists but has no associated expiration set.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration in seconds."
   ],
   "HGETDEL": [
     "[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist."
