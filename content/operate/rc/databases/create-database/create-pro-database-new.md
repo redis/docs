@@ -30,7 +30,7 @@ After you select **Pro**, the **Database settings** section will appear.
 
 You can choose to create your database in one of two ways:
 
-- [**Easy create**](#easy-create) selects the optimal settings for your use case for you. 
+- [**Easy create**](#easy-create) selects the optimal settings for you to get started faster.
 - [**Custom settings**](#custom-settings) lets you select all of the configuration options for your new database.
 
 ## Create database with Easy create {#easy-create}
@@ -53,7 +53,7 @@ If you choose to create your database with Easy create:
     | **Throughput** | Identifies maximum throughput for the database, which is specified in terms of operations per second (**Ops/sec**). See [Throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) for more information. <br/> Databases with Search and query have specific throughput requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
     | **High Availability** | Indicates whether a replica copy of the database is maintained in case the primary database becomes unavailable.  (Warning: doubles memory consumption). See [High Availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).  |
 
-1. Select **View all settings** to review the database settings that we selected for you based on your use case.
+1. Select **View all settings** to review the database settings that we selected for you.
 
     {{<image filename="images/rc/pro-easy-create-optimal-settings.png" alt="The optimal database settings.">}}
 

@@ -65,8 +65,6 @@ This guide shows how to create an Essentials database.
     - A **Snapshot** is a copy of the in-memory database, taken at periodic intervals (one, six, or twelve hours). You can restore data to the snapshot's point in time. 
     
     See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
-
-    These settings may already be set based on the use case you selected. You can change them now if you like.
     
 1. Select the desired memory limit. To create a free database, select the 30 MB memory limit. You can only have one free database at a time.
 

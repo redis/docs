@@ -91,8 +91,6 @@ This guide shows how to create a Redis Flex database on Redis Cloud Essentials.
     - A **Snapshot** is a copy of the in-memory database, taken at periodic intervals (one, six, or twelve hours). You can restore data to the snapshot's point in time. 
     
     See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
-
-    These settings may already be set based on the use case you selected. You can change them now if you like.
     
 1. Select the desired memory limit. 
 
