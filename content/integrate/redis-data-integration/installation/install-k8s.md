@@ -524,7 +524,7 @@ You must ensure that an appropriate
 [ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)
 is available in your K8s cluster to expose the RDI API service via the K8s
 [`Ingress`](https://kubernetes.io/docs/concepts/services-networking/ingress/)
-resource,. Follow the documentation of your cloud provider or of
+resource. Follow the documentation of your cloud provider or of
 the ingress controller to install the controller correctly.
 
 ### Using the `nginx` ingress controller on AKS
