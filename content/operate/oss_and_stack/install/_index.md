@@ -11,10 +11,10 @@ title: Install Redis CE
 weight: 30
 ---
 
-You can install [Redis Community Edition]({{< relref "/operate/oss_and_stack/" >}}) (CE) locally on your machine. Redis CE is available on Docker, Linux, macOS, and Windows (via Docker only). The latest version is Redis CE 8.0.0 RC1.
+You can install [Redis Community Edition]({{< relref "/operate/oss_and_stack/" >}}) (CE) locally on your machine. Redis CE is available on Docker, Linux, macOS, and Windows (via Docker only).
 
 Here are the installation instructions:
 
-* [Install Redis]({{< relref "/operate/oss_and_stack/install/install-redis" >}})
+* [Install Redis]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
 
 While you can install Redis CE locally, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users). Redis CE 8.0 is not yet available on Redis Cloud.

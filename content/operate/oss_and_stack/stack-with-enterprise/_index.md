@@ -7,7 +7,7 @@ categories:
 - stack
 description: null
 hideListLinks: false
-linkTitle: Redis Community Edition and Redis Enterprise
+linkTitle: Redis CE and Redis Enterprise
 weight: 70
 aliases:
     - /operate/modules
