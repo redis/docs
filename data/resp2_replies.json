@@ -575,6 +575,14 @@
   "HGETALL": [
     "[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields and their values stored in the hash, or an empty list when key does not exist."
   ],
+  "HGETDEL": [
+    "[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist."
+  ],
+  "HGETEX": [
+    "* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist, or if the field exists but has no associated expiration set.",
+    "    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration in seconds."
+  ],
   "HINCRBY": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation."
   ],
@@ -647,6 +655,11 @@
   ],
   "HSET": [
     "[Integer reply](../../develop/reference/protocol-spec#integers): the number of fields that were added."
+  ],
+  "HSETEX": [
+    "One of the following:",
+    "* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no fields were set.",
+    "* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the fields wereset."
   ],
   "HSETNX": [
     "One of the following:",
