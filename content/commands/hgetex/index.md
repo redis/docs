@@ -88,7 +88,7 @@ syntax_str: "[EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds | PXAT\_u
   \ | PERSIST] FIELDS\_numfields field [field ...]"
 title: HGETEX
 ---
-Get the value of one or more fields of a given hash key and optionally set their expirations (time-to-live or TTL).
+Get the value of one or more fields of a given hash key and optionally set their expiration time or time-to-live (TTL).
 
 ## Options
 
@@ -96,9 +96,9 @@ The `HGETEX` command supports a set of options:
 
 * `EX seconds` -- Set the specified expiration time, in seconds.
 * `PX milliseconds` -- Set the specified expiration time, in milliseconds.
-* `EXAT unix-time-seconds` -- Set the specified Unix time at which the field will expire, in seconds.
-* `PXAT unix-time-milliseconds` -- Set the specified Unix time at which the field will expire, in milliseconds.
-* `PERSIST` -- Remove the TTL associated with the field.
+* `EXAT unix-time-seconds` -- Set the specified Unix time at which the fields will expire, in seconds.
+* `PXAT unix-time-milliseconds` -- Set the specified Unix time at which the fields will expire, in milliseconds.
+* `PERSIST` -- Remove the TTL associated with the fields.
 
 The `EX`, `PX`, `EXAT`, `PXAT`, and `PERSIST` options are mutually exclusive.
 

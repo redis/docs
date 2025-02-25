@@ -573,7 +573,7 @@
     "* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): If the field is not present in the hash or key does not exist."
   ],
   "HGETALL": [
-    "[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields and their values stored in the hash, or an empty list when key does not exist."
+    "[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields and their values, or an empty list when key does not exist."
   ],
   "HGETDEL": [
     "[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist."

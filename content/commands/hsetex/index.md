@@ -106,7 +106,7 @@ syntax_str: "[FNX | FXX] [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-secon
   \ value ...]"
 title: HSETEX
 ---
-Set the value of one or more fields of a given hash key, and optionally set their expirations (time-to-live or TTL).
+Set the value of one or more fields of a given hash key, and optionally set their expiration time or time-to-live (TTL).
 
 ## Options
 
@@ -116,9 +116,9 @@ The `HGETEX` command supports a set of options:
 * `FXX` -- Only set the fields if all of them already exist.
 * `EX seconds` -- Set the specified expiration time in seconds.
 * `PX milliseconds` -- Set the specified expiration time in milliseconds.
-* `EXAT unix-time-seconds` -- Set the specified Unix time in seconds at which the field will expire.
-* `PXAT unix-time-milliseconds` -- Set the specified Unix time in milliseconds at which the field will expire.
-* `KEEPTTL` -- Retain the TTL associated with the field.
+* `EXAT unix-time-seconds` -- Set the specified Unix time in seconds at which the fields will expire.
+* `PXAT unix-time-milliseconds` -- Set the specified Unix time in milliseconds at which the fields will expire.
+* `KEEPTTL` -- Retain the TTL associated with the fields.
 
 The `EX`, `PX`, `EXAT`, `PXAT`, and `KEEPTTL` options are mutually exclusive.
 
@@ -140,4 +140,3 @@ redis> HTTL mykey FIELDS 2 field1 field2
 1) (integer) 55481
 2) (integer) 55481
 ```
-
