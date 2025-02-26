@@ -18,9 +18,9 @@ While you can install Redis on any of the platforms listed below, you might also
 
 How you install Redis depends on your operating system. See the guide below that best fits your needs:
 
-* [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
-* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os" >}})
-* [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-windows" >}})
+* [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-linux" >}})
+* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-mac-os" >}})
+* [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-windows" >}})
 
 Refer to [Redis Administration]({{< relref "/operate/oss_and_stack/management/admin" >}}) for detailed setup tips.
 
@@ -89,7 +89,7 @@ The available packages for supported Linux distributions already include the cap
 {{% /alert  %}}
 
 {{% alert title="Note" color="warning" %}}
-The remainder of this section assumes you've [installed Redis from its source code]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}}).
+The remainder of this section assumes you've [installed Redis from its source code]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-from-source" >}}).
 {{% /alert  %}}
 
 The following instructions can be used to perform a proper installation using the init script shipped with the Redis source code, `/path/to/redis-stable/utils/redis_init_script`.

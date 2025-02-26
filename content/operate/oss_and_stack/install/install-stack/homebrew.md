@@ -4,13 +4,18 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Stack on macOS
-linkTitle: MacOS
-title: Install Redis Stack on macOS
-weight: 2
+description: How to install Redis Community Edition on macOS via Homebrew
+linkTitle: Homebrew
+title: Install Redis Community Edition on macOS
+weight: 6
 ---
 
-To install Redis Stack on macOS, use [Homebrew](https://brew.sh/). Make sure that you have [Homebrew installed](https://docs.brew.sh/Installation) before starting on the installation instructions below.
+## Install Redis Community Edition (CE) on macOS via Homebrew
+
+{{< note >}}Installation using Homebrew is only supported on macOS.{{< /note >}}
+
+To install Redis CE on macOS, use [Homebrew](https://brew.sh/).
+Make sure that you have [Homebrew installed](https://docs.brew.sh/Installation) before starting on the installation instructions below.
 
 There are three brew casks available.
 
@@ -20,7 +25,7 @@ There are three brew casks available.
 
 ## Install using Homebrew
 
-First, tap the Redis Stack Homebrew tap:
+First, tap the Redis CE Homebrew tap:
 
 {{< highlight bash >}}
 brew tap redis-stack/redis-stack
@@ -74,51 +79,24 @@ In both cases, replace `<VERSION>` with your version of Redis Stack. For example
 export PATH=/opt/homebrew/Caskroom/redis-stack-server/6.2.0/bin:$PATH
 {{< / highlight >}}
 
-### Start Redis Stack Server
+### Start Redis server
 
-You can now start Redis Stack Server as follows:
+You can now start Redis server as follows:
 
 {{< highlight bash >}}
 redis-stack-server
 {{< / highlight >}}
 
-## Installing Redis after installing Redis Stack
+## Uninstall Redis CE
 
-If you've already installed Redis Stack with Homebrew and then try to install Redis with `brew install redis`, you may encounter errors like the following:
-
-{{< highlight bash >}}
-Error: The brew link step did not complete successfully
-The formula built, but is not symlinked into /usr/local
-Could not symlink bin/redis-benchmark
-Target /usr/local/bin/redis-benchmark
-already exists. You may want to remove it:
-rm '/usr/local/bin/redis-benchmark'
-
-To force the link and overwrite all conflicting files:
-brew link --overwrite redis
-
-To list all files that would be deleted:
-brew link --overwrite --dry-run redis
-{{< / highlight >}}
-
-In this case, you can overwrite the Redis binaries installed by Redis Stack by running:
-
-{{< highlight bash >}}
-brew link --overwrite redis
-{{< / highlight >}}
-
-However, Redis Stack Server will still be installed. To uninstall Redis Stack Server, see below.
-
-## Uninstall Redis Stack
-
-To uninstall Redis Stack, run:
+To uninstall Redis CE, run:
 
 {{< highlight bash >}}
 brew uninstall redis-stack-redisinsight redis-stack-server redis-stack
 brew untap redis-stack/redis-stack
 {{< / highlight >}}
 
-## Connect to Redis
+## Connect to Redis CE
 
 Once Redis is running, you can test it by running `redis-cli`:
 
@@ -142,5 +120,5 @@ Once you have a running Redis instance, you may want to:
 
 * Try the [Redis CLI tutorial]({{< relref "/develop/tools/cli" >}})
 * Connect using one of the [Redis clients]({{< relref "/develop/clients" >}})
-* [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/install-redis#install-redis-properly" >}})
+* [Install Redis properly]({{< relref "/operate/oss_and_stack/install/archive/install-redis#install-redis-properly" >}})
   for production use.

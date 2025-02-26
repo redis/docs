@@ -15,9 +15,6 @@
     <li>
       <a class="flex justify-between items-center truncate{{- if $rootDir}} font-semibold text-slate-900{{- else if and ($active) (not $rootDir) }} active text-indigo-600{{- else }} text-slate-600 hover:text-indigo-600{{- end }}" href="{{ $s.RelPermalink }}">
           <span>{{ $s.LinkTitle }}</span>
-          {{ if and (isset $s.Params "stack") (eq $s.Params.stack true)}}
-          {{ partial "icons/logo-stack.html" (dict "context" . "class" "stack-logo-inline") }}
-          {{ end }}
 
           {{ if and $ulNr $withChild }}
             {{ if or $active $activePath }}
