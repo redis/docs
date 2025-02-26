@@ -25,7 +25,7 @@ Also, Redis CE 8.0 persists probabilistic configuration parameters just like any
 
 ## Redis probabilistic data structure configuration parameters
 
-The following table summarizes which Bloom filter configuration parameters can be set at run-time, and compatibility with Redis Software and Redis Cloud
+The following table summarizes which Bloom filter configuration parameters can be set at run-time, and compatibility with Redis Software and Redis Cloud.
 
 | Parameter name<br />(version < 8.0) | Parameter name<br />(version &#8805; 8.0) | Run-time | Redis<br />Software | Redis<br />Cloud |
 | :------- | :------- | :------- | :------- | :------- |

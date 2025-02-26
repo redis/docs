@@ -520,7 +520,7 @@ The **modules** section contains additional information about loaded modules if 
 
 *   `search_cursors_internal_idle`: The total number of coordinator cursors that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup>
 *   `search_cursors_user_idle`: The total number of cursors that were explicitly requested by users, that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup>
-*   `search_global_idle`: The total number of user and internal cursors currently holding pending results in the shard.. Deprecated in 8.0 (split into `search_cursors_internal_idle` and `search_cursors_user_idle`) but still available in older versions. <sup>[1](#tnote-1)</sup>
+*   `search_global_idle`: The total number of user and internal cursors currently holding pending results in the shard. Deprecated in 8.0 (split into `search_cursors_internal_idle` and `search_cursors_user_idle`) but still available in older versions. <sup>[1](#tnote-1)</sup>
 *   `search_cursors_internal_active`: The total number of coordinator cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup>
 *   `search_cursors_user_active`: The total number of user cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup>
 *   `search_global_total`: The total number of user and internal cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. Deprecated in 8.0 (split into `search_cursors_internal_active` and `search_cursors_user_active`), but still available in older versions. <sup>[1](#tnote-1)</sup>

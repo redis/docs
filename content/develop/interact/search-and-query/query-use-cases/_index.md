@@ -29,7 +29,7 @@ In geo-distributed search, hashes and JSON documents are handled in the usual [a
 
 **Unified search**
 
-You can use Redis to search across several source systems, like file servers, content management systems (CMS), or customer relationship management (CRM) systems. You can process source data in batches using, for example, ETL tools, or as live streams (e.g., Kafka or Redis streams). 
+You can use Redis to search across several source systems, like file servers, content management systems (CMS), or customer relationship management (CRM) systems. You can process source data in batches using, for example, ETL tools, or as live streams (for example, Kafka or Redis streams). 
 
 **Analytics**
 

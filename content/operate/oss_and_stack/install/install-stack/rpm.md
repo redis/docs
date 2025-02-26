@@ -4,13 +4,13 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition via RPM
+description: How to install Redis Community Edition using RPM
 linkTitle: RPM
 title: Install Redis Community Edition on Linux
 weight: 3
 ---
 
-## Install Redis Community Edition (CE) on Red Hat, CentOS, or Rocky Linux via RPM
+## Install Redis Community Edition (CE) on Red Hat, CentOS, or Rocky Linux using RPM
 
 See [this page](https://redis.io/downloads/#redis-downloads) for a complete list of supported Red Hat/Rocky platforms.
 Follow these steps to install Redis CE.

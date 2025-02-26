@@ -4,7 +4,7 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition via APT
+description: How to install Redis Community Edition using APT
 linkTitle: APT
 title: Install Redis Community Edition on Linux
 weight: 2

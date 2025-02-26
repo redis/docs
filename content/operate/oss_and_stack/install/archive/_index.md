@@ -13,7 +13,7 @@ bannerText: These docs apply to versions of Redis Community Edition earlier than
 bannerChildren: true
 ---
 
-You can install [Redis Community Edition]({{< relref "/operate/oss_and_stack/" >}}) locally on your machine. Redis Community Edition is available on Linux, macOS, and Windows (via Docker only).
+You can install [Redis Community Edition]({{< relref "/operate/oss_and_stack/" >}}) locally on your machine. Redis Community Edition is available on Linux, macOS, and Windows (using Docker only).
 
 Here are the installation instructions:
 

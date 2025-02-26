@@ -4,13 +4,13 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition via AppImage
+description: How to install Redis Community Edition using AppImage
 linkTitle: AppImage
 title: Install Redis Community Edition on Linux
 weight: 5
 ---
 
-## Install Redis Community Edition (CE) on Ubuntu Linux via AppImage
+## Install Redis Community Edition (CE) on Ubuntu Linux using AppImage
 
 Fuse needs to be installed before proceeding. Install it as follows.
 

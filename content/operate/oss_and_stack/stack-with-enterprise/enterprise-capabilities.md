@@ -27,7 +27,6 @@ The following table shows which Redis CE features are supported by Redis Enterpr
 | [Triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 | [Graph]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 
-**DWD NOTE**: I think Graph, Triggers, and Gears should be removed from the above table.
 
 ## Feature compatibility
 

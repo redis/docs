@@ -4,13 +4,13 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition via Snap
+description: How to install Redis Community Edition using Snap
 linkTitle: Snap
 title: Install Redis Community Edition on Linux
 weight: 4
 ---
 
-## Install Redis Community Edition (CE) on Ubuntu Linux via Snap
+## Install Redis Community Edition (CE) on Ubuntu Linux using Snap
 
 First, download the latest Redis CE Snap package from [this page](https://redis.io/downloads/).
 

@@ -4,13 +4,13 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition on macOS via Homebrew
+description: How to install Redis Community Edition on macOS using Homebrew
 linkTitle: Homebrew
 title: Install Redis Community Edition on macOS
 weight: 6
 ---
 
-## Install Redis Community Edition (CE) on macOS via Homebrew
+## Install Redis Community Edition (CE) on macOS using Homebrew
 
 {{< note >}}Installation using Homebrew is only supported on macOS.{{< /note >}}
 
