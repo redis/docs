@@ -1,5 +1,5 @@
 ---
-LinkTitle: Prometheus & Grafana with Redis Software
+LinkTitle: Prometheus and Grafana
 Title: Prometheus and Grafana with Redis Enterprise Software
 alwaysopen: false
 categories:
@@ -12,7 +12,6 @@ summary: You can use Prometheus and Grafana to collect and visualize your Redis 
   Software metrics.
 type: integration
 weight: 5
-tocEmbedHeaders: true
 ---
 
 You can use Prometheus and Grafana to collect and visualize your Redis Enterprise Software metrics.

@@ -1,5 +1,5 @@
 ---
-LinkTitle: Prometheus & Grafana with Redis Software
+LinkTitle: Prometheus and Grafana
 Title: Prometheus and Grafana with Redis Enterprise Software
 alwaysopen: false
 categories:

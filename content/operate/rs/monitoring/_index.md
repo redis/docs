@@ -9,8 +9,10 @@ categories:
 description: Use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards to track the performance of your databases.
 hideListLinks: true
 linkTitle: Monitoring
-weight: 96
+weight: 70
+aliases: /operate/rs/clusters/monitoring/
 ---
+
 You can use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards
 to monitor the performance of your databases.
 In the Redis Enterprise Cluster Manager UI, you can view metrics, configure alerts, and send notifications based on alert parameters. You can also access metrics and configure alerts through the REST API.
