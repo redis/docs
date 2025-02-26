@@ -10,17 +10,17 @@ title: Install Redis Community Edition on Linux
 weight: 3
 ---
 
-## Install from the official Red Hat/Rocky RPM Feeds
+## Install Redis Community Edition (CE) on Red Hat, CentOS, or Rocky Linux via RPM
 
 See [this page](https://redis.io/downloads/#redis-downloads) for a complete list of supported Red Hat/Rocky platforms.
-Follow these steps to install Redis Community Edition (CE).
+Follow these steps to install Redis CE.
 
 1. Create the file `/etc/yum.repos.d/redis.repo` with the following contents.
 
     {{< highlight bash >}}
     [Redis]
     name=Redis
-    baseurl=http://packages.redis.io/rpm/rhel9 # replace rhel9 with the appropriate value for your platform
+    baseurl=http://packages.redis.io/rpm/rhel9 # replace rhel9 with the appropriate value for your platform and remove this comment
     enabled=1
     gpgcheck=1
     {{< /highlight >}}

@@ -4,13 +4,13 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition using tarballs
+description: How to install Redis Community Edition using binary images
 linkTitle: Binaries
-title: Install Redis Community Edition from binary tarballs
+title: Install Redis Community Edition on Linux
 weight: 8
 ---
 
-## Start Redis CE server
+## Start Redis Community Edition (CE) server from downloaded binary images
 
 Install the openssl libraries for your platform. For example, on a Debian or Ubuntu instance run:
 
@@ -34,13 +34,13 @@ Open the file `~/.bashrc` or `~/zshrc` (depending on your shell), and add the fo
 export PATH=/path/to/redis-server/bin:$PATH
 {{< / highlight >}}
 
-If you have an existing Redis installation on your system, then you can choose override those override those PATH variables as before, or you can choose to only add redis-server binary as follows:
+If you have an existing Redis installation on your system, then you can choose to override those PATH variables as before, or you can choose to only add redis-server binary as follows:
 
 {{< highlight bash >}}
 export PATH=/path/to/redis-server/bin/redis-server:$PATH
 {{< / highlight >}}
 
-If you're running redis-server on a mac, please ensure you have openssl installed, via [homebrew](https://brew.sh/).
+If you're running redis-server on macOS, please ensure you have openssl installed, via [homebrew](https://brew.sh/).
 
 Now you can start Redis CE as follows:
 
