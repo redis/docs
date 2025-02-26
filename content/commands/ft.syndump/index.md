@@ -68,7 +68,7 @@ FT.SYNDUMP returns an array reply, with a pair of `term` and an array of synonym
 
 ## See also
 
-[`FT.SYNUPDATE`]({{< baseurl >}}/commands/ft.synupdate/) 
+[`FT.SYNUPDATE`]({{< baseurl >}}commands/ft.synupdate/) 
 
 ## Related topics
 

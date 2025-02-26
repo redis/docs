@@ -21,11 +21,11 @@ The search and query engine indexes documents, which are objects that represent 
 As the documents in your database change, the index automatically processes these changes to keep the search results up to date.
 
 With indexes, you can do:
-- Language-aware [fuzzy matching]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax#fuzzy-matching)
-- Fast [auto-complete]({{< baseurl >}}/develop/interact/search-and-query/administration/overview#auto-complete)
-- [Exact phrase matching]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax)
-- [Numeric filtering]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax#numeric-filters-in-query)
-- [Geo-radius queries]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/query_syntax#geo-filters)
+- Language-aware [fuzzy matching]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/query_syntax#fuzzy-matching)
+- Fast [auto-complete]({{< baseurl >}}develop/interact/search-and-query/administration/overview#auto-complete)
+- [Exact phrase matching]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/query_syntax)
+- [Numeric filtering]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/query_syntax#numeric-filters-in-query)
+- [Geo-radius queries]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/query_syntax#geo-filters)
 
 ## Supported document types
 

@@ -119,7 +119,7 @@ To retrieve the keys of all time series representing sensors that measure temper
 
 ## See also
 
-[`TS.CREATE`]({{< baseurl >}}/commands/ts.create/) | [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/) | [`TS.MGET`]({{< baseurl >}}/commands/ts.mget/)
+[`TS.CREATE`]({{< baseurl >}}commands/ts.create/) | [`TS.MRANGE`]({{< baseurl >}}commands/ts.mrange/) | [`TS.MREVRANGE`]({{< baseurl >}}commands/ts.mrevrange/) | [`TS.MGET`]({{< baseurl >}}commands/ts.mget/)
 
 ## Related topics
 

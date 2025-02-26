@@ -69,7 +69,7 @@ if set, does not scan and index.
 after the SCHEMA keyword, declares which fields to add:
 
 - `attribute` is attribute to add.
-- `options` are attribute options. Refer to [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) for more information.
+- `options` are attribute options. Refer to [`FT.CREATE`]({{< baseurl >}}commands/ft.create/) for more information.
 
 <note><b>Note:</b>
 
@@ -98,7 +98,7 @@ OK
 
 ## See also
 
-[`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) 
+[`FT.CREATE`]({{< baseurl >}}commands/ft.create/) 
 
 ## Related topics
 

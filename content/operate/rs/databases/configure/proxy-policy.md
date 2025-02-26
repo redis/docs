@@ -63,7 +63,7 @@ You can change a database's proxy policy when you [create]({{<relref "/operate/r
 You can specify a proxy policy when you [create a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) using the REST API:
 
 ```sh
-POST /v1/bdbs/<database-id>
+POST /v1/bdbs
 { 
   "proxy_policy": "single | all-master-shards | all-nodes",
   // Other database configuration parameters

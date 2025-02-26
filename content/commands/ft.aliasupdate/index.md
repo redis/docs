@@ -64,7 +64,7 @@ OK
 
 ## See also
 
-[`FT.ALIASADD`]({{< baseurl >}}/commands/ft.aliasadd/) | [`FT.ALIASDEL`]({{< baseurl >}}/commands/ft.aliasdel/) 
+[`FT.ALIASADD`]({{< baseurl >}}commands/ft.aliasadd/) | [`FT.ALIASDEL`]({{< baseurl >}}commands/ft.aliasdel/) 
 
 ## Related topics
 

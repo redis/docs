@@ -46,8 +46,8 @@ Redis Community Edition supports the following Redis Query Engine features. This
 
 * [Prefix-based searches]({{< relref "/develop/interact/search-and-query/query/#prefix-matching" >}})
 * Field weights
-* [Auto-complete]({{< baseurl >}}/develop/interact/search-and-query/administration/overview#auto-complete) and fuzzy prefix suggestions
-* [Stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}})-based query expansion for [many languages]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/stemming#supported-languages) using [Snowball](http://snowballstem.org/)
+* [Auto-complete]({{< baseurl >}}develop/interact/search-and-query/administration/overview#auto-complete) and fuzzy prefix suggestions
+* [Stemming]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}})-based query expansion for [many languages]({{< baseurl >}}develop/interact/search-and-query/advanced-concepts/stemming#supported-languages) using [Snowball](http://snowballstem.org/)
 * Support for custom functions for query expansion and scoring (see [Extensions]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}))
 * Unicode support (UTF-8 input required)
 * Document ranking

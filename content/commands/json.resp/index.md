@@ -111,7 +111,7 @@ redis> JSON.RESP item:2
 
 ## See also
 
-[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.ARRLEN`]({{< baseurl >}}/commands/json.arrlen/) 
+[`JSON.SET`]({{< baseurl >}}commands/json.set/) | [`JSON.ARRLEN`]({{< baseurl >}}commands/json.arrlen/) 
 
 ## Related topics
 

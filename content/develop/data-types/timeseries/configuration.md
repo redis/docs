@@ -64,7 +64,21 @@ Default: No compaction rules.
 
 **Discussion**
 
+<<<<<<< HEAD
 `COMPACTION_POLICY` has no effect on keys created with [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/). To understand the motivation for this behavior, consider the following scenario: Suppose a `COMPACTION_POLICY` is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< baseurl >}}/commands/ts.createrule/)) which requires first creating an empty destination key (using [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/)). But now there is a problem: due to the `COMPACTION_POLICY`, automatic compactions would be undesirably created for that destination key.
+=======
+#### Example
+
+```
+$ redis-server --loadmodule ./redistimeseries.so NUM_THREADS 3
+```
+
+### COMPACTION_POLICY
+
+Default compaction rules for newly created key with [`TS.ADD`]({{< baseurl >}}commands/ts.add/), [`TS.INCRBY`]({{< baseurl >}}commands/ts.incrby/), and  [`TS.DECRBY`]({{< baseurl >}}commands/ts.decrby/).
+
+Note that `COMPACTION_POLICY` has no effect on keys created with [`TS.CREATE`]({{< baseurl >}}commands/ts.create/). To understand the motivation for this behavior, consider the following scenario: Suppose a `COMPACTION_POLICY` is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< baseurl >}}commands/ts.createrule/)) which requires first creating an empty destination key (using [`TS.CREATE`]({{< baseurl >}}commands/ts.create/)). But now there is a problem: due to the `COMPACTION_POLICY`, automatic compactions would be undesirably created for that destination key.
+>>>>>>> main
 
 Each rule is separated by a semicolon (`;`), the rule consists of multiple fields that are separated by a colon (`:`):
 
@@ -115,27 +129,63 @@ Each rule is separated by a semicolon (`;`), the rule consists of multiple field
     * d - day
 
   Assure that there is a bucket that starts at exactly _alignTimestamp_ after the epoch and align all other buckets accordingly. Default value: 0 (aligned with the epoch). Example: if _bucketDuration_ is 24 hours, setting _alignTimestamp_ to `6h` (6 hours after the Epoch) will ensure that each bucket’s timeframe is [06:00 .. 06:00).
-  
+
+{{% warning %}}
+In a clustered environment, if you set `COMPACTION_POLICY`, you must use [hash tags]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags) for all time series key names. This ensures that Redis will create each compaction in the same hash slot as its source key. If you don't, the system may fail to compact the data without displaying any error messages.
+{{% /warning %}}
+
 When a compaction policy is defined, compaction rules will be created automatically for newly created time series, and their key would be set to:
   
-* Before v1.8:
+* If the time bucket alignment is 0:
 
-   _key_dur_agg_ where _key_ is the key of the source time series, _dur_ is the bucket duration, and _agg_ is the aggregator.
+   _key_agg_dur_ where _key_ is the key of the source time series, _agg_ is the aggregator (in uppercase), and _dur_ is the bucket duration in milliseconds. Example: `key_SUM_60000`.
      
-* Since v1.8:
+* If the time bucket alignment is not 0:
 
-   _key_dur_agg_aln_ where _key_ is the key of the source time series, _dur_ is the bucket duration, _agg_ is the aggregator, and _aln_ is the alignment timestamp.
+   _key_agg_dur_aln_ where _key_ is the key of the source time series, _agg_ is the aggregator (in uppercase), _dur_ is the bucket duration in milliseconds, and _aln_ is the time bucket alignment in milliseconds. Example: `key_SUM_60000_1000`.
 
 **Examples**
 
-- `max:1M:1h` - Aggregate using `max` over one minute and retain the last hour.
-- `twa:1d:0m:360M` - Aggregate daily [06:00 .. 06:00) using `twa`; no expiration.
+- `max:1M:1h` - Aggregate using `max` over one-minute windows and retain the last hour
+- `twa:1d:0m:360M` - Aggregate daily [06:00 .. 06:00) using `twa`; no expiration
 
 ### ts-duplicate-policy
 
 The default policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) and [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/)) of multiple samples with identical timestamps, with one of the following values:
 
-  | Policy     | Description                                                      |
+#### Example
+
+```
+$ redis-server --loadmodule ./redistimeseries.so COMPACTION_POLICY max:1m:1h;min:10s:5d:10d;last:5M:10m;avg:2h:10d;avg:3d:100d
+```
+
+### RETENTION_POLICY
+
+Default retention period, in milliseconds, for newly created keys.
+
+Retention period is the maximum age of samples compared to highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`]({{< baseurl >}}commands/ts.add/), [`TS.MADD`]({{< baseurl >}}commands/ts.madd/), [`TS.INCRBY`]({{< baseurl >}}commands/ts.incrby/), and [`TS.DECRBY`]({{< baseurl >}}commands/ts.decrby/) calls.
+
+The value `0` means no expiration.
+
+When both `COMPACTION_POLICY` and `RETENTION_POLICY` are specified, the retention of newly created compactions is according to the retention time specified in `COMPACTION_POLICY`.
+
+#### Default
+
+0
+
+#### Example
+
+Setting the default retention to 300 days:
+
+```
+$ redis-server --loadmodule ./redistimeseries.so RETENTION_POLICY 25920000000
+```
+
+### DUPLICATE_POLICY
+
+Is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}commands/ts.add/) and [`TS.MADD`]({{< baseurl >}}commands/ts.madd/)) of multiple samples with identical timestamps, with one of the following values:
+
+  | policy     | description                                                      |
   | ---------- | ---------------------------------------------------------------- |
   | `BLOCK`    | Ignore any newly reported value and reply with an error          |
   | `FIRST`    | Ignore any newly reported value                                  |

@@ -1,14 +1,3 @@
-## Use case settings
-
-The following table shows the default use case settings for a Pro database.
-
-| **Type** | High Availability | Data Persistence | Eviction Policy |
-|---|---|---|---|
-| **Cache** | Single-zone | None | `volatile-lru` |
-| **Database** | Multi-zone | Append-only file every 1 sec | None |
-| **Vector Search** | Multi-zone | Append-only file every 1 sec | None |
-| **Custom** | Single-zone | Append-only file every 1 sec | None |
-
 ## Billing Unit types
 
 The Redis Billing Unit types associated with your Pro subscription depend on your database memory size and throughput requirements.  

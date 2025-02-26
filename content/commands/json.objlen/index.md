@@ -69,7 +69,7 @@ redis> JSON.OBJLEN doc $..a
 
 ## See also
 
-[`JSON.ARRINDEX`]({{< baseurl >}}/commands/json.arrindex/) | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
+[`JSON.ARRINDEX`]({{< baseurl >}}commands/json.arrindex/) | [`JSON.ARRINSERT`]({{< baseurl >}}commands/json.arrinsert/) 
 
 ## Related topics
 

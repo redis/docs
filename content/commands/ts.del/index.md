@@ -109,7 +109,7 @@ Delete the range of data points for temperature in Tel Aviv.
 
 ## See also
 
-[`TS.ADD`]({{< baseurl >}}/commands/ts.add/) 
+[`TS.ADD`]({{< baseurl >}}commands/ts.add/) 
 
 ## Related topics
 

@@ -31,7 +31,7 @@ Here is a short SQL comparison using the [bicycle dataset](./data/bicycles.txt):
 | Calculated projection| `SELECT id, price-price*0.1 AS discounted FROM bicycles`| `FT.AGGREGATE idx:bicycle "*" LOAD 2 __key price APPLY "@price-@price*0.1" AS discounted`| 
 | Aggregation | `SELECT condition, AVG(price) AS avg_price FROM bicycles GROUP BY condition` | `FT.AGGREGATE idx:bicycle "*" GROUPBY 1 @condition REDUCE AVG 1 @price AS avg_price` |
 
-The following articles provide an overview of how to query data with the [FT.SEARCH]({{< baseurl >}}/commands/ft.search) command:
+The following articles provide an overview of how to query data with the [FT.SEARCH]({{< baseurl >}}commands/ft.search) command:
 
 * [Exact match queries]({{< relref "/develop/interact/search-and-query/query/exact-match" >}})
 * [Range queries]({{< relref "/develop/interact/search-and-query/query/range" >}})
@@ -40,6 +40,6 @@ The following articles provide an overview of how to query data with the [FT.SEA
 * [Vector search]({{< relref "/develop/interact/search-and-query/query/vector-search" >}})
 * [Combined queries]({{< relref "/develop/interact/search-and-query/query/combined" >}})
 
-You can find further details about aggregation queries with [FT.AGGREGATE]({{< baseurl >}}/commands/ft.aggregate) in the following article:
+You can find further details about aggregation queries with [FT.AGGREGATE]({{< baseurl >}}commands/ft.aggregate) in the following article:
 
 * [Aggregation queries]({{< relref "/develop/interact/search-and-query/query/aggregation" >}})
