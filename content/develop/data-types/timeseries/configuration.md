@@ -64,9 +64,6 @@ Default: No compaction rules.
 
 **Discussion**
 
-<<<<<<< HEAD
-`COMPACTION_POLICY` has no effect on keys created with [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/). To understand the motivation for this behavior, consider the following scenario: Suppose a `COMPACTION_POLICY` is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< baseurl >}}/commands/ts.createrule/)) which requires first creating an empty destination key (using [`TS.CREATE`]({{< baseurl >}}/commands/ts.create/)). But now there is a problem: due to the `COMPACTION_POLICY`, automatic compactions would be undesirably created for that destination key.
-=======
 #### Example
 
 ```
@@ -78,7 +75,6 @@ $ redis-server --loadmodule ./redistimeseries.so NUM_THREADS 3
 Default compaction rules for newly created key with [`TS.ADD`]({{< baseurl >}}commands/ts.add/), [`TS.INCRBY`]({{< baseurl >}}commands/ts.incrby/), and  [`TS.DECRBY`]({{< baseurl >}}commands/ts.decrby/).
 
 Note that `COMPACTION_POLICY` has no effect on keys created with [`TS.CREATE`]({{< baseurl >}}commands/ts.create/). To understand the motivation for this behavior, consider the following scenario: Suppose a `COMPACTION_POLICY` is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< baseurl >}}commands/ts.createrule/)) which requires first creating an empty destination key (using [`TS.CREATE`]({{< baseurl >}}commands/ts.create/)). But now there is a problem: due to the `COMPACTION_POLICY`, automatic compactions would be undesirably created for that destination key.
->>>>>>> main
 
 Each rule is separated by a semicolon (`;`), the rule consists of multiple fields that are separated by a colon (`:`):
 
