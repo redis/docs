@@ -40,7 +40,7 @@ If you have an existing Redis installation on your system, then you can choose t
 export PATH=/path/to/redis-server/bin/redis-server:$PATH
 {{< / highlight >}}
 
-If you're running redis-server on macOS, please ensure you have openssl installed, via [homebrew](https://brew.sh/).
+If you're running redis-server on macOS, please ensure you have openssl installed using [homebrew](https://brew.sh/).
 
 Now you can start Redis CE as follows:
 

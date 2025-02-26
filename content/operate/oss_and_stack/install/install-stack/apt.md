@@ -10,7 +10,7 @@ title: Install Redis Community Edition on Linux
 weight: 2
 ---
 
-## Install Redis Community Edition (CE) on Ubuntu or Debian Linux via APT
+## Install Redis Community Edition (CE) on Ubuntu or Debian Linux using APT
 
 See [this page](https://redis.io/downloads/#redis-stack-downloads) for a complete list of supported Ubuntu and Debian platforms.
 Add the repository to the APT index, update it, and install Redis CE:

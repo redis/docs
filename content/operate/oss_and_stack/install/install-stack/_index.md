@@ -4,7 +4,7 @@ categories:
 - operate
 - stack
 - oss
-description: Install Redis Community Edition on Docker, Linux, macOS, and Windows (via Docker only)
+description: Install Redis Community Edition on Docker, Linux, macOS, and Windows (using Docker only)
 linkTitle: Install Redis CE
 stack: true
 title: Install Redis Community Edition
