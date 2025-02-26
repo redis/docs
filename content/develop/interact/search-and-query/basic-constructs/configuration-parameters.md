@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Querying and searching in Redis Stack can be tuned through multiple
+description: 'Querying and searching in Redis Community Edition can be tuned through multiple
   configuration parameters. Some of these parameters can only be set at load-time,
   while other parameters can be set either at load-time or at run-time.
 
