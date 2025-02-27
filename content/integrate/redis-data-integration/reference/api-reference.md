@@ -13,7 +13,7 @@ aliases:
 This is the REST API reference for Redis Data Integration services.
 The API provides endpoints to manage and monitor your Redis Data Integration deployments.
 
-[Open API Documentation](./api/index.html)
+[Open API Documentation]({{< relref "/integrate/redis-data-intrgration/reference/api/api-reference" >}})
 
 ## Authentication
 
