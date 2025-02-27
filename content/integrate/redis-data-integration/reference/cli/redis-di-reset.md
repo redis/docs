@@ -1,13 +1,3 @@
----
-Title: redis-di reset
-linkTitle: redis-di reset
-description: Resets the pipeline into initial full sync mode
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Resets the pipeline into initial full sync mode
 
 ## Usage

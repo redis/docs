@@ -1,13 +1,3 @@
----
-Title: redis-di deploy
-linkTitle: redis-di deploy
-description: Deploys the RDI configurations including target
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Deploys the RDI configurations including target
 
 ## Usage

@@ -1,13 +1,3 @@
----
-Title: redis-di monitor
-linkTitle: redis-di monitor
-description: Monitors RDI by collecting metrics and exporting to Prometheus
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Monitors RDI by collecting metrics and exporting to Prometheus
 
 ## Usage

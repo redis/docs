@@ -1,13 +1,3 @@
----
-Title: redis-di upgrade
-linkTitle: redis-di upgrade
-description: Upgrades RDI without losing data or downtime
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Upgrades RDI without losing data or downtime
 
 ## Usage

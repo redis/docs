@@ -1,13 +1,3 @@
----
-Title: redis-di start
-linkTitle: redis-di start
-description: Starts the pipeline
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Starts the pipeline
 
 ## Usage

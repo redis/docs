@@ -1,13 +1,3 @@
----
-Title: redis-di create
-linkTitle: redis-di create
-description: Creates the RDI Database instance
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Creates the RDI Database instance
 
 ## Usage

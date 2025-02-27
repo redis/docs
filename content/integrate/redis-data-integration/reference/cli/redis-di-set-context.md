@@ -1,13 +1,3 @@
----
-Title: redis-di set-context
-linkTitle: redis-di set-context
-description: Sets a context to be the active one
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Sets a context to be the active one
 
 ## Usage

@@ -1,13 +1,3 @@
----
-Title: redis-di dump-support-package
-linkTitle: redis-di dump-support-package
-description: Dumps RDI support package
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Dumps RDI support package
 
 ## Usage

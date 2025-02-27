@@ -1,13 +1,3 @@
----
-Title: redis-di list-contexts
-linkTitle: redis-di list-contexts
-description: Lists all saved contexts
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Lists all saved contexts
 
 ## Usage

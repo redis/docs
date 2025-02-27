@@ -1,13 +1,3 @@
----
-Title: redis-di scaffold
-linkTitle: redis-di scaffold
-description: Generates configuration files for RDI
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Generates configuration files for RDI
 
 ## Usage

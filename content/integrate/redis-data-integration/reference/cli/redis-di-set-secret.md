@@ -1,13 +1,3 @@
----
-Title: redis-di set-secret
-linkTitle: redis-di set-secret
-description: Creates a secret of a specified key
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Creates a secret of a specified key
 
 ## Usage

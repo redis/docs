@@ -1,13 +1,3 @@
----
-Title: redis-di stop
-linkTitle: redis-di stop
-description: Stops the pipeline
-weight: 10
-alwaysopen: false
-categories: ["redis-di"]
-aliases:
----
-
 Stops the pipeline
 
 ## Usage
