@@ -236,7 +236,7 @@ You can search for documents with specific text values using the `<term>` or the
 
 ## Unicode considerations
 
-Search and query only supports Unicode characters in the [basic multilingual plane](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane); U+0000 to U+FFFF. Unicode characters beyond U+FFFF, such as Emojis, are not supported and would not be retrieved by queries including such characters in the following use cases:
+Redis Query Engine only supports Unicode characters in the [basic multilingual plane](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane); U+0000 to U+FFFF. Unicode characters beyond U+FFFF, such as Emojis, are not supported and would not be retrieved by queries including such characters in the following use cases:
 
 * Querying TEXT fields with Prefix/Suffix/Infix
 * Querying TEXT fields with fuzzy
