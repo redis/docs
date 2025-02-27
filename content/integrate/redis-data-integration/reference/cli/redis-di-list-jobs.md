@@ -1,4 +1,12 @@
-Lists transformation engine's jobs
+---
+Title: redis-di list-jobs
+linkTitle: redis-di list-jobs
+description: Lists transformation engine's jobs
+weight: 10
+alwaysopen: false
+categories: ["redis-di"]
+aliases:
+---
 
 ## Usage
 

@@ -1,4 +1,12 @@
-Deletes all contexts
+---
+Title: redis-di delete-all-contexts
+linkTitle: redis-di delete-all-contexts
+description: Deletes all contexts
+weight: 10
+alwaysopen: false
+categories: ["redis-di"]
+aliases:
+---
 
 ## Usage
 

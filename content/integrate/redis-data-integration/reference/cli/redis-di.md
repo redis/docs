@@ -1,4 +1,12 @@
-A command line tool to manage & configure Redis Data Integration
+---
+Title: redis-di
+linkTitle: redis-di
+description: A command line tool to manage & configure Redis Data Integration
+weight: 10
+alwaysopen: false
+categories: ["redis-di"]
+aliases:
+---
 
 ## Usage
 

@@ -1,4 +1,12 @@
-Starts a trace session for troubleshooting data transformation
+---
+Title: redis-di trace
+linkTitle: redis-di trace
+description: Starts a trace session for troubleshooting data transformation
+weight: 10
+alwaysopen: false
+categories: ["redis-di"]
+aliases:
+---
 
 ## Usage
 

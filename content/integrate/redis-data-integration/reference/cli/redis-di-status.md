@@ -1,4 +1,12 @@
-Displays the status of the pipeline end to end
+---
+Title: redis-di status
+linkTitle: redis-di status
+description: Displays the status of the pipeline end to end
+weight: 10
+alwaysopen: false
+categories: ["redis-di"]
+aliases:
+---
 
 ## Usage
 

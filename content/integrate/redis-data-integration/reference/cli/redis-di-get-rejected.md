@@ -1,4 +1,12 @@
-Returns all the stored rejected entries
+---
+Title: redis-di get-rejected
+linkTitle: redis-di get-rejected
+description: Returns all the stored rejected entries
+weight: 10
+alwaysopen: false
+categories: ["redis-di"]
+aliases:
+---
 
 ## Usage
 

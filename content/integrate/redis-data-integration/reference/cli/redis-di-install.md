@@ -1,4 +1,12 @@
-Installs RDI
+---
+Title: redis-di install
+linkTitle: redis-di install
+description: Installs RDI
+weight: 10
+alwaysopen: false
+categories: ["redis-di"]
+aliases:
+---
 
 ## Usage
 

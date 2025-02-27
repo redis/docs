@@ -1,4 +1,12 @@
-Adds a new context
+---
+Title: redis-di add-context
+linkTitle: redis-di add-context
+description: Adds a new context
+weight: 10
+alwaysopen: false
+categories: ["redis-di"]
+aliases:
+---
 
 ## Usage
 

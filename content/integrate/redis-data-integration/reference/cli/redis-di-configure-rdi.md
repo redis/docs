@@ -1,4 +1,12 @@
-Configures RDI db connection credentials
+---
+Title: redis-di configure-rdi
+linkTitle: redis-di configure-rdi
+description: Configures RDI db connection credentials
+weight: 10
+alwaysopen: false
+categories: ["redis-di"]
+aliases:
+---
 
 ## Usage
 
