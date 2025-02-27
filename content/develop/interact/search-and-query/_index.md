@@ -57,6 +57,4 @@ The Redis Query Engine features of Redis are available under the Source Availabl
 
 Do you have questions? Feel free to ask at the [RediSearch forum](https://forum.redis.com/c/modules/redisearch/).
 
-Redis Ltd. provides commercial support for Redis. Please see the [Redis Ltd. website](https://redis.com/redis-enterprise/technology/redis-search/#sds) for more details and contact information.
-
 <br/>
