@@ -34,7 +34,7 @@ To create a new account with a free database:
 
 1. After you enter your information, you should receive an activation email from Redis. Select **Activate account** to go to the **Create your database** page in the [Redis Cloud console](https://cloud.redis.io).
 
-1. Select whether you want a **Essentials** or a **Pro** plan.
+1. Select whether you want an **Essentials** or a **Pro** plan.
 
     - A Redis Cloud Essentials plan contains a single database designed for low-throughput scenarios. Your free database will have 30 MB of space for you to learn Redis concepts and develop application prototypes.
 
@@ -50,7 +50,7 @@ If you would rather customize your database, select **See more plans** to go to 
 
         {{<image filename="images/rc/quickstart-database-overview.png" width="75%" alt="Configuration tab showing details of your new database." >}}
 
-    - A Redis Cloud Pro plan supports more databases, larger databases, greater throughput, and unlimited connections compared to Redis Cloud Essentials; as well as more security and connectivity options. You'll get started with a credit to set up your database. 
+    - A Redis Cloud Pro plan supports more databases, larger databases, greater throughput, and unlimited connections compared to Redis Cloud Essentials; as well as more security and connectivity options. You'll get started with a $400 credit to set up your database. 
 
         If you select **Pro**, you can choose your cloud provider and region, and then select **Start with $400 credit** to go to the **New database** page.
 
