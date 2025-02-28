@@ -18,8 +18,8 @@ tocEmbedHeaders: true
 While the metrics stream engine is in preview, this document provides only a partial list of v2 metrics. More metrics will be added.
 {{</banner-article>}}
 
-You can [integrate Redis Enterprise Software with Prometheus and Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise/">}}) to create dashboards for important metrics.
+You can [integrate Redis Enterprise Software with Prometheus and Grafana]({{<relref "/operate/rs/monitoring/prometheus_and_grafana">}}) to create dashboards for important metrics.
 
-The v2 metrics in the following tables are available as of Redis Enterprise Software version 7.8.0. For help transitioning from v1 metrics to v2 PromQL, see [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}).
+The v2 metrics in the following tables are available as of Redis Enterprise Software version 7.8.0. For help transitioning from v1 metrics to v2 PromQL, see [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}).
 
 {{<embed-md "rs-prometheus-metrics-v2.md">}}

@@ -22,17 +22,30 @@ See the following topics for metrics definitions:
 ## Prometheus metrics
 
 To collect and display metrics data from your databases and other cluster components,
-you can connect your [Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/) server to your Redis Enterprise Software cluster. See [Metrics in Prometheus]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}}) for a list of available metrics.
+you can connect your [Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/) server to your Redis Enterprise Software cluster. We recommend you use Prometheus and Grafana to view metrics history and trends.
 
-We recommend you use Prometheus and Grafana to view metrics history and trends.
+See [Prometheus integration]({{< relref "/operate/rs/monitoring/prometheus_and_grafana" >}}) to learn how to connect Prometheus and Grafana to your Redis Enterprise database.
 
-See [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) to learn how to connect Prometheus and Grafana to your Redis Enterprise database.
+Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2  Prometheus scraping endpoint at `https://<IP>:8070/v2`.
+This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
+
+The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations.
+
+If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
+
+For a list of available metrics, see the following references:
+
+- [Prometheus metrics v1]({{<relref "operate/rs/references/metrics/prometheus-metrics-v1">}})
+
+- [Prometheus metrics v2 preview]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v2">}})
+
+If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
 
 ## Limitations
 
 ### Shard limit
 
-Metrics information is not shown for clusters with more than 128 shards. For large clusters, we recommend you use [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) to view metrics.
+Metrics information is not shown for clusters with more than 128 shards. For large clusters, we recommend you use [Prometheus and Grafana]({{< relref "/operate/rs/monitoring/prometheus_and_grafana" >}}) to view metrics.
 
 ### Metrics not shown during shard migration
 

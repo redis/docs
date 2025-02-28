@@ -1,18 +1,3 @@
----
-LinkTitle: Prometheus and Grafana
-Title: Prometheus and Grafana with Redis Enterprise Software
-alwaysopen: false
-categories:
-- docs
-- integrate
-- rs
-description: Use Prometheus and Grafana to collect and visualize Redis Enterprise Software metrics.
-group: observability
-summary: You can use Prometheus and Grafana to collect and visualize your Redis Enterprise
-  Software metrics.
-type: integration
-weight: 5
----
 
 You can use Prometheus and Grafana to collect and visualize your Redis Enterprise Software metrics.
 
@@ -169,4 +154,3 @@ Redis publishes four preconfigured dashboards for Redis Enterprise and Grafana:
 These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Enterprise observability Github repository](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana).
 
 For more information about configuring Grafana dashboards, see the [Grafana documentation](https://grafana.com/docs/).
-

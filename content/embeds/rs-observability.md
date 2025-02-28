@@ -1,17 +1,3 @@
----
-Title: Redis Enterprise Software observability and monitoring guidance
-alwaysopen: false
-categories:
-- docs
-- integrate
-- rs
-description: Using monitoring and observability with Redis Enterprise 
-group: observability
-linkTitle: Observability and monitoring
-summary: Observe Redis Enterprise resources and database perfomance indicators.
-type: integration
-weight: 45
----
 
 ## Introduction
 
@@ -47,7 +33,7 @@ In addition to manually monitoring these resources and indicators, it is best pr
 
 ## Core cluster resource monitoring
 
-Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2 Prometheus scraping endpoint at https://<IP>:8070/v2. This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
+Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`. This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
 
 The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations. See [Monitoring with metrics and alerts]({{<relref "/operate/rs/clusters/monitoring/">}}) for more details.
 
@@ -135,7 +121,7 @@ An acceptable rate of key evictions depends on the total number of keys in the d
 and the measure of application-level latency. If application latency is high,
 check to see that key evictions have not increased.
 
-### Eviction Policies
+### Eviction policies
 
 | Name | Description |
 | ------ | :------ |
@@ -376,11 +362,11 @@ See [eviction policy]({{< relref "/operate/rs/databases/memory-performance/evict
 Dashboard displaying object evictions - [Database Dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/software/classic/database_dashboard_v9-11.json)
 {{< image filename="/images/playbook_eviction-expiration.png" alt="Dashboard displaying object evictions">}}
 
-## Proxy Performance
+## Proxy performance
 
-Redis Enterprise Software (RS) provides high-performance data access through a proxy process that manages and optimizes access to shards within the RS cluster. Each node contains a single proxy process. Each proxy can be active and take incoming traffic or it can be passive and wait for failovers.
+Redis Enterprise Software provides high-performance data access through a proxy process that manages and optimizes access to shards within the cluster. Each node contains a single proxy process. Each proxy can be active and take incoming traffic or it can be passive and wait for failovers.
 
-### Proxy Policies
+### Proxy policies
 
 
 | Policy | Description |
@@ -535,7 +521,7 @@ To use these alerts, install [Prometheus Alertmanager](https://prometheus.io/doc
 For a comprehensive guide to alerting with Prometheus and Grafana,
 see the [Grafana blog post on the subject](https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/).
 
-## Configuring Prometheus
+## Configure Prometheus
 
 To configure Prometheus for alerting, open the `prometheus.yml` configuration file.
 
