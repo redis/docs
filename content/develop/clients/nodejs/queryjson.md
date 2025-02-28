@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the Redis query engine with JSON
+description: Learn how to use the Redis Query Engine with JSON
 linkTitle: Index and query JSON
 title: Example - Index and query JSON documents
 weight: 2
@@ -162,5 +162,5 @@ await client.quit();
 ```
 
 
-See the [Redis query engine]({{< relref "/develop/interact/search-and-query" >}}) docs
+See the [Redis Query Engine]({{< relref "/develop/interact/search-and-query" >}}) docs
 for a full description of all query features with examples.
