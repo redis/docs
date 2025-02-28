@@ -8,8 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Describes a transformation engine's job
-
 ## Usage
 
 ```

@@ -8,8 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Generates configuration files for RDI
-
 ## Usage
 
 ```

@@ -8,8 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Displays the status of the pipeline end to end
-
 ## Usage
 
 ```

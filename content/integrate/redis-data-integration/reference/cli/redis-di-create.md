@@ -8,8 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Creates the RDI Database instance
-
 ## Usage
 
 ```

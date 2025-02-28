@@ -8,8 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Dumps RDI support package
-
 ## Usage
 
 ```

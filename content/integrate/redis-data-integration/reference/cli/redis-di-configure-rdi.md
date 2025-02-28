@@ -8,8 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Configures RDI db connection credentials
-
 ## Usage
 
 ```

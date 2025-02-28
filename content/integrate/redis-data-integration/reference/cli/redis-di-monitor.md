@@ -8,8 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Monitors RDI by collecting metrics and exporting to Prometheus
-
 ## Usage
 
 ```

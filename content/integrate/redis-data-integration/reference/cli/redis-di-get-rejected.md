@@ -8,8 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Returns all the stored rejected entries
-
 ## Usage
 
 ```

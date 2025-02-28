@@ -8,8 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Upgrades RDI without losing data or downtime
-
 ## Usage
 
 ```

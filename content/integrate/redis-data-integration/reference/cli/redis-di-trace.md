@@ -8,8 +8,6 @@ categories: ["redis-di"]
 aliases:
 ---
 
-Starts a trace session for troubleshooting data transformation
-
 ## Usage
 
 ```
