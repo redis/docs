@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn how to use the autocomplete feature of Redis for efficient prefix-based search and suggestions.
+description: Learn how to use the autocomplete feature of Redis for efficient prefix-based suggestion retrieval.
 linkTitle: Autocomplete
 title: Autocomplete with Redis
 weight: 1
@@ -17,14 +17,15 @@ weight: 1
 
 ## Overview
 
-Redis Query Engine provides an autocomplete feature using suggestions that are stored in a trie-based data structure.
+Redis Query Engine provides an autocomplete feature using suggestions that are stored in a [trie-based](https://en.wikipedia.org/wiki/Trie) data structure.
 This feature allows you to store and retrieve ranked suggestions based on user input prefixes, making it useful for applications like search boxes, command completion, and chatbot responses.
 
-This guide covers how to use the [`FT.SUGADD`]({{< baseurl >}}/commands/ft.sugadd), [`FT.SUGGET`]({{< baseurl >}}/commands/ft.sugget), [`FT.SUGDEL`]({{< baseurl >}}/commands/ft.sugdel), and [`FT.SUGLEN`]({{< baseurl >}}/commands/ft.suglen) commands to implement autocomplete, and some examples of how you can use suggestions with [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search).
+This guide covers how to use the [`FT.SUGADD`]({{< baseurl >}}/commands/ft.sugadd), [`FT.SUGGET`]({{< baseurl >}}/commands/ft.sugget), [`FT.SUGDEL`]({{< baseurl >}}/commands/ft.sugdel), and [`FT.SUGLEN`]({{< baseurl >}}/commands/ft.suglen) commands to implement autocomplete, and some examples of how you can use these commands with [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search).
 
 ## Add autocomplete suggestions
 
-To add phrases or words–suggestions–to an autocomplete dictionary, use [`FT.SUGADD`]({{< baseurl >}}/commands/ft.sugadd). You will assign a score to each entry, which determines its ranking in the results (higher scores rank first).
+To add phrases or words to a suggestions dictionary, use the [`FT.SUGADD`]({{< baseurl >}}/commands/ft.sugadd) command.
+You will assign a score to each entry, which determines its ranking in the results.
 
 ```
 FT.SUGADD autocomplete "hello world" 100
@@ -33,11 +34,20 @@ FT.SUGADD autocomplete "help me" 80
 FT.SUGADD autocomplete "hero" 70
 ```
 
-The use of "autocomplete" in the above examples is just the name of the key. You can use any key name you wish.
+Integer scores were used in the above examples, but the scores argument is described as being floating point.
+Integer scores are converted to floating point internally.
+Also, "`autocomplete`" in the above examples is just the name of the key; you can use any key name you wish.
+
+### Optional arguments
+
+The `FT.SUGADD` command can take two optional arguments:
+
+* `INCR`: increments the existing entry of the suggestion by the given score instead of replacing the score. This is useful for updating the dictionary based on user queries in real time.
+* `PAYLOAD`: saves a string with the suggestion, which can be fetched by adding the `WITHPAYLOADS` argument to `FT.SUGGET`.
 
 ## Retrieve suggestions
 
-To get autocomplete suggestions for a given prefix, use [`FT.SUGGET`]({{< baseurl >}}/commands/ft.sugget):
+To get autocomplete suggestions for a given prefix, use the [`FT.SUGGET`]({{< baseurl >}}/commands/ft.sugget) command.
 
 ```
 redis> FT.SUGGET autocomplete "he"
@@ -61,49 +71,89 @@ redis> FT.SUGGET autocomplete "he" WITHSCORES
 8) "28.460498809814453"
 ```
 
-The displayed scores will differ from what you used when you added the suggestions. This is because scores are normalized internally.
+### Enable fuzzy matching
 
-### Enabling Fuzzy Matching
+If you want to allow for small spelling mistakes or typos, use the `FUZZY` option. This option performs a fuzzy prefix search, including prefixes at a [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) of 1 from the provided prefix.
 
-If you want to allow small spelling mistakes or typos, use the `FUZZY` option:
-
-```sh
-FT.SUGGET autocomplete "hr" FUZZY
+```
+redis> FT.SUGGET autocomplete hell FUZZY
+1) "hello world"
+2) "hello there"
+3) "help me"
 ```
 
-**Response:**
-```sh
-1) "hero"
+### Optional arguments
+
+There are three additional arguments you can use wit `FT.SUGGET`:
+
+* `MAX num`: limits the results to a maximum of `num`. The default for `MAX` is 5.
+* `WITHSCORES`: returns the score of each suggestion.
+* `WITHPAYLOADS`: returns optional payloads saved with the suggestions. If no payload is present for an entry, a `nil` reply is returned.
+    ```
+    redis> FT.SUGADD autocomplete hero 70 PAYLOAD "you're no hero"
+    (integer) 4
+    redis> FT.SUGGET autocomplete "hr" FUZZY WITHPAYLOADS
+    1) "hero"
+    2) "you're no hero"
+    3) "help me"
+    4) (nil)
+    5) "hello world"
+    6) (nil)
+    7) "hello there"
+    8) (nil)
+    ```
+
+## Delete suggestions
+
+To remove a specific suggestion from the dictionary, use the `FT.SUGDEL` command.
+
+```
+redis> FT.SUGDEL autocomplete "help me"
+(integer 1)
 ```
 
-## Deleting a Suggestion
+After deletion, running `FT.SUGGET autocomplete hell FUZZY` will no longer return "help me".
 
-To remove a specific suggestion from the dictionary:
+## Check the number of suggestions
 
-```sh
-FT.SUGDEL autocomplete "hero"
+To get a count of the number of entries in a given suggestions dictionary, use the `FT.SUGLEN` command.
+
+```
+redis> FT.SUGLEN autocomplete
+(integer) 3
 ```
 
-After deletion, running `FT.SUGGET autocomplete "he"` will no longer return "hero."
+## Use autocomplete with search
 
-## Checking the Number of Suggestions
+A common approach is to:
 
-To count the number of entries in the autocomplete dictionary:
+1. Use FT.SUGGET to suggest query completions as users type in a text field.
+1. Once the user selects a suggestion, run FT.SEARCH using the selected term to get full search results.
 
-```sh
-FT.SUGLEN autocomplete
-```
+Example workflow
 
-## Use Cases
+1. Get suggestions for a given user input.
+
+    ```
+    FT.SUGGET autocomplete "hel"
+    ```
+1. Capture the user's selection.
+1. Use the selected suggestion in a full-text search.
+
+    ```
+    FT.SEARCH index "hello world"
+    ```
+
+### When to use autocomplete versus full-text search
+
+* Use `FT.SUGGET` when you need fast, real-time prefix-based suggestion retrieval.
+* Use `FT.SEARCH` when you need document retrieval, filtering, and ranking based on relevance.
+
+## Autocomplete use cases
 
 The autocomplete feature in Redis Query Engine is useful for:
 
-- **Search box suggestions**: Providing live suggestions as users type.
-- **Command completion**: Offering auto-completion for CLI tools.
-- **Product search**: Suggesting product names in e-commerce applications.
-- **Chatbot responses**: Recommending common phrases dynamically.
-
-## Summary
-
-The autocomplete feature of Redis Query Engine provides a fast and efficient way to implement prefix-based suggestions using a trie-based data structure. By using `FT.SUGADD`, `FT.SUGGET`, `FT.SUGDEL`, and `FT.SUGLEN`, you can build dynamic and ranked suggestion lists tailored to your application's needs.
-
+- **Search box suggestions**: providing live suggestions as users type.
+- **Command completion**: offering autocompletion for CLI tools.
+- **Product search**: suggesting product names in e-commerce applications.
+- **Chatbot responses**: recommending common phrases dynamically.
