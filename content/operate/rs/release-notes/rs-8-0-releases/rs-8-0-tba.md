@@ -51,43 +51,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- RS134225: Fixed an issue where the server restart could fail during cluster upgrade due to a timeout.
-
-- RS133342: Fixed an issue where too many API requests in the queue could cause new API requests to fail.
-
-- RS125543: Changed slow log duration to milliseconds in the new Cluster Manager UI.
-
-- RS142296: Fixed a REST API issue where updating an existing database with an empty module list removed modules from the database. Such requests now return an error instead.
-
-- RS94080: Fixed `PUT /v1/bdbs/<id>/<action>` requests to allow `flush` and `reset_admin_pass` actions without requiring a request body.
-
-- RS140649: Fixed an issue where database backups were not deleted at the expected time based on the configured retention period.
-
-- RS136409: Improved checks to determine if the cluster is in an unstable state.
-
-- RS122370: Changed Envoy concurrency to 4 by default to prevent an issue where Envoy on the primary node in a cluster with many nodes sometimes failed to receive API requests.
-
-- RS107325: Fixed an issue where database recovery could get stuck due to shard UID conflicts.
-
-- RS139699: Fixed an issue where the Cluster Manager UI reported "invalid username or password" if the connection timed out during a sign-in attempt.
-
-- RS138625: Fixed an issue where `rlcheck` reported `verify_tcp_connectivity` as failed for optional services that were not enabled instead of skipping the check.
-
-- RS134742: Fixed an issue where the `virbr0` interface was automatically added to the external addresses when nodes joined the cluster, which could cause network conflicts and connectivity issues due to duplicated IP addresses.
-
-- RS138490: Reduced log entries for unbootstrapped nodes, which do not have log rotation scheduled yet, to prevent filling the disk with logs.
-
-- RS142248: Added module information to database creation log messages.
-
-- RS123576: Fixed an issue that prevented reconfiguring an existing ACL file with `rlutil`.
-
-- RS133679: Added a validation check to the optimize shards API to return quicker if the database cannot fit on the cluster.
-
-- RS134968: Improved the functionality around killing shards.
-
-- RS146096: Fixed an issue where the syncer could fail due to the RDB file parser incorrectly parsing least frequently used values larger than 127.
-
-- RS125845: Fixed an issue where outdated AOF persistence files were not rotated upon upgrading the Redis database version from 6 to 7.
+- TBA
 
 ## Version changes
 
