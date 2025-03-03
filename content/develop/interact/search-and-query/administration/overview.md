@@ -46,7 +46,7 @@ All of this is done while taking advantage of Redis's robust architecture and in
     * Optional and negative queries
     * Tag filtering
     * Prefix matching
-* A powerful auto-complete engine with fuzzy matching.
+* A powerful autocomplete engine with fuzzy matching.
 * Multiple scoring models and sorting by values.
 * Concurrent, low-latency insertion and updates of documents.
 * Concurrent searches allowing long-running queries without blocking Redis.
@@ -153,9 +153,9 @@ The main differences between tag fields and full-text fields are:
 
 Geo indexes utilize Redis's own geo-indexing capabilities. At query time, the geographical part of the query (a radius filter) is sent to Redis, returning only the ids of documents that are within that radius. Longitude and latitude should be passed as a string `lon,lat`. For example, `1.23,4.56`.
 
-### Auto-complete
+### Autocomplete
 
-The auto-complete engine (see below for a fuller description) utilizes a compact trie or prefix tree to encode terms and search them by prefix.
+The autocomplete engine (see below for a fuller description) utilizes a compact trie or prefix tree to encode terms and search them by prefix.
 
 ## Query language
 
@@ -281,9 +281,9 @@ Summarization will fragment the text into smaller sized snippets. Each snippet w
 
 Highlighting will highlight the found term and its variants with a user-defined tag. This may be used to display the matched text in a different typeface using a markup language, or to otherwise make the text appear differently.
 
-## Auto-completion
+## Autocomplete
 
-Another important feature for Redis Stack is its auto-complete engine. This allows users to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix. Completions can have payloads, which are user-provided pieces of data that can be used for display. For example, completing the names of users, it is possible to add extra metadata about users to be displayed.
+Another important feature for Redis Stack is its autocomplete engine. This allows users to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix. Completions can have payloads, which are user-provided pieces of data that can be used for display. For example, completing the names of users, it is possible to add extra metadata about users to be displayed.
 
 For example, if a user starts to put the term “lcd tv” into a dictionary, sending the prefix “lc” will return the full term as a result. The dictionary is modeled as a compact trie (prefix tree) with weights, which is traversed to find the top suffixes of a prefix.
 
@@ -291,7 +291,9 @@ Redis Stack also allows fuzzy suggestions, meaning you can get suggestions to pr
 
 However, searching for fuzzy prefixes (especially very short ones) will traverse an enormous number of suggestions. In fact, fuzzy suggestions for any single letter will traverse the entire dictionary, so the recommendation is to use this feature carefully and in full consideration of the performance penalty it incurs. 
 
-Redis Stack's auto-completer supports Unicode, allowing for fuzzy matches in non-latin languages as well.
+Redis Stack's autocomplete engine supports Unicode, allowing for fuzzy matches in non-latin languages as well.
+
+See the [autocomplete page]({{< relref "/develop/interact/search-and-query/advanced-concepts/autocomplete" >}}) for more information and examples.
 
 ## Search engine internals
 
