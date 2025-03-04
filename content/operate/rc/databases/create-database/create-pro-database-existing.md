@@ -75,9 +75,7 @@ The **Performance** section lets you manage the maximum size, throughput, and ha
 | **Throughput**      | Defines throughput in terms of maximum operations per second for the database. See [Throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) for more info. <br/> Databases with Search and query have specific throughput requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **High availability**    | Replicates your data across multiple nodes, as allowed by your subscription plan. See [High availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) for more info|
 | **Hashing policy**  | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
-| **OSS Cluster API** | Enables the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database<br/><br/>When this option is enabled, you cannot define a custom hashing policy.  |
-
-To learn more about these settings and when to use them, see [Database clustering]({{< relref "/operate/rc/databases/configuration/clustering" >}}).
+| **OSS Cluster API** | Activates the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database. When this option is selected, you cannot define a custom hashing policy.<br/> After you select OSS Cluster API, you can select **Use external endpoint** if you want to use the external endpoint for the database. Selecting **Use external endpoint** will block the private endpoint for this database. |
 
 ## Durability section
 
