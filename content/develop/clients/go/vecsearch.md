@@ -43,7 +43,7 @@ go mod init vecexample
 ```
 
 Then, in your module folder, install
-[`go-redis`]({{< relref "/develop/clients/go-redis" >}})
+[`go-redis`]({{< relref "/develop/clients/go" >}})
 and the 
 [`huggingfaceembedder`](https://pkg.go.dev/github.com/henomis/lingoose@v0.3.0/embedder/huggingface)
 package:
