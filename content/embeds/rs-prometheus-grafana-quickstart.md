@@ -61,12 +61,12 @@ We recommend running Prometheus in Docker only for development and testing.
       - job_name: redis-enterprise
         scrape_interval: 30s
         scrape_timeout: 30s
-        metrics_path: /
+        metrics_path: /  # For v2, use /v2
         scheme: https
         tls_config:
           insecure_skip_verify: true
         static_configs:
-          - targets: ["<cluster_name>:8070"] # For v2, use ["<cluster_name>:8070/v2"]
+          - targets: ["<cluster_name>:8070"]
     ```
 
 1. Set up your Prometheus and Grafana servers.
