@@ -35,7 +35,7 @@ Initiate a manual import process.
 #### Example HTTP request
 
 ```sh
-POST /bdbs/1/actions/import
+POST /v1/bdbs/1/actions/import
 ```
 
 #### Headers

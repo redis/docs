@@ -35,7 +35,7 @@ Initiate a database export.
 #### Example HTTP request
 
 ```sh
-POST /bdbs/1/actions/export
+POST /v1/bdbs/1/actions/export
 ```
 
 #### Headers
