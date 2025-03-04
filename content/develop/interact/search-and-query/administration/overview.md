@@ -155,7 +155,7 @@ Geo indexes utilize Redis's own geo-indexing capabilities. At query time, the ge
 
 ### Autocomplete
 
-The autocomplete engine (see below for a fuller description) utilizes a compact trie or prefix tree to encode terms and search them by prefix.
+The autocomplete engine (see below for a fuller description) uses a compact trie or prefix tree to encode terms and search them by prefix.
 
 ## Query language
 
