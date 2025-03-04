@@ -37,7 +37,7 @@ Gets the status of all nodes. Includes each node's hostname and role in the clus
 
 #### Example HTTP request
 
-	GET /nodes/status
+	GET /v1/nodes/status
 
 #### Request headers
 
@@ -116,7 +116,7 @@ Gets the status of a node. Includes the node's hostname and role in the cluster:
 
 #### Example HTTP request
 
-	GET /nodes/1/status
+	GET /v1/nodes/1/status
 
 
 #### Request headers

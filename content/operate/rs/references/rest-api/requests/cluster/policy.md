@@ -32,7 +32,7 @@ Gets the cluster's current policy settings.
 
 #### Example HTTP request
 
-	GET /cluster/policy 
+	GET /v1/cluster/policy 
 
 
 #### Request headers
@@ -82,7 +82,7 @@ Update cluster policy settings.
 
 #### Example HTTP request
 
-	PUT /cluster/policy
+	PUT /v1/cluster/policy
 
 #### Example JSON body
 

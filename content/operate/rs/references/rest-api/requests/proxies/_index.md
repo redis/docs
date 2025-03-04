@@ -38,7 +38,7 @@ Get all the proxies in the cluster.
 #### Example HTTP request
 
 ```sh
-GET /proxies
+GET /v1/proxies
 ```
 
 #### Headers
@@ -109,7 +109,7 @@ Get a single proxy's info.
 #### Example HTTP request
 
 ```sh
-GET /proxies/1
+GET /v1/proxies/1
 ```
 
 #### Headers
@@ -184,7 +184,7 @@ However, if `allow_restart` is `false`, such changes only take effect after the 
 #### Example HTTP request
 
 ```sh
-PUT /proxies/1
+PUT /v1/proxies/1
 ```
 
 #### Example JSON body
@@ -253,7 +253,7 @@ However, if `allow_restart` is `false`, such changes only take effect after the 
 #### Example HTTP request
 
 ```sh
-PUT /proxies
+PUT /v1/proxies
 ```
 
 #### Example JSON body

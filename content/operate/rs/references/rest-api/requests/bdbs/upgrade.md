@@ -31,7 +31,7 @@ Upgrade a database.
 
 #### Example HTTP request
 
-	POST /bdbs/1/upgrade 
+	POST /v1/bdbs/1/upgrade 
 
 #### Example JSON body
 
