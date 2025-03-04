@@ -294,8 +294,8 @@ for _, doc := range results.Docs {
 ```
 
 The code is now ready to run, but note that it may take a while to complete when
-you run it for the first time (which happens because RedisVL must download the
-`all-MiniLM-L6-v2` model data before it can
+you run it for the first time (which happens because `huggingfacetransformer`
+must download the `all-MiniLM-L6-v2` model data before it can
 generate the embeddings). When you run the code, it outputs the following text:
 
 ```
