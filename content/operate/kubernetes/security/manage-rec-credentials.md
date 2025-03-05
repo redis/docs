@@ -68,10 +68,10 @@ curl -k --request POST \
 kubectl create secret generic <cluster_secret_name> \
   --save-config \
   --dry-run=client \
-  --from-literal=username=<username> \
-  --from-literal=password=<password> \
+  --from-literal=username=<current-username> \
+  --from-literal=password=<new-password> \
   -o yaml | \
-kubectl apply -f 
+kubectl apply -f -
 ```
 
 4. Wait five minutes for all the components to read the new password from the updated secret. If you proceed to the next step too soon, the account could get locked.
@@ -111,10 +111,10 @@ curl -k --request DELETE \
 kubectl create secret generic <cluster_secret_name> \
   --save-config \
   --dry-run=client \
-  --from-literal=username=<username> \
-  --from-literal=password=<password> \
+  --from-literal=username=<new-username> \
+  --from-literal=password=<new-password> \
   -o yaml | \
-kubectl apply -f 
+kubectl apply -f -
 ```
 
 5. Wait five minutes for all the components to read the new password from the updated secret. If you proceed to the next step too soon, the account could get locked.
