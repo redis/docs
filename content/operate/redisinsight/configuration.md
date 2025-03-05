@@ -21,14 +21,14 @@ weight: 5
 | RI_STDOUT_LOGGER | Logs to STDOUT. | `true` | |
 | RI_PROXY_PATH | Configures a subpath for a proxy. | n/a | Available only for Docker. |
 
-## Pre-setup database connections
-Redis Insight allows you to pre-setup database connections using environment variables or a JSON file, enabling centralized and efficient configuration.
-There are two ways to pre-setup database connections in Redis Insight Electron and Docker:
-1. Using environment variables
-2. Using a JSON file
+## Preconfigure database connections
+Redis Insight allows you to preconfigure database connections using environment variables or a JSON file, enabling centralized and efficient configuration.
+There are two ways to preconfigure database connections in Redis Insight Electron and Docker:
+1. Use environment variables.
+1. Use a JSON file.
 
-### Pre-setup database connections using environment variables
-Redis Insight allows you to pre-setup database connections using environment variables.
+### Preconfigure database connections using environment variables
+Redis Insight allows you to preconfigure database connections using environment variables.
 
 **NOTES**:
 - To configure multiple database connections, replace the asterisk (*) in each environment variable with a unique identifier for each database connection. If setting up only one connection, you can omit the asterisk, and Redis Insight will default to using 0 as the ID.
@@ -50,8 +50,8 @@ Redis Insight allows you to pre-setup database connections using environment var
 | RI_REDIS_TLS_KEY_BASE64* | Private key for the client certificate in base64 format. | N/A | Indicate a private key in this environment variable or use another variable to get it from a file. |
 | RI_REDIS_TLS_KEY_PATH* | Path to private key file. | N/A |  |
 
-### Pre-setup database connections using a JSON file
-Redis Insight also allows you to pre-setup database connections using a JSON file.
+### Preconfigure database connections using a JSON file
+Redis Insight also allows you to preconfigure database connections using a JSON file.
 
 **NOTES**
 - The JSON file format should match the one used when exporting database connections from Redis Insight.
@@ -61,7 +61,7 @@ Redis Insight also allows you to pre-setup database connections using a JSON fil
 
 | Variable | Purpose | Default | Additional info |
 | --- | --- | --- | --- |
-| RI_PRE_SETUP_DATABASES_PATH | Path to a JSON file containing the database connections to pre-setup  |  |
+| RI_PRE_SETUP_DATABASES_PATH | Path to a JSON file containing the database connections to preconfigure  |  |
 
 ## Use Redis Insight behind a reverse proxy
 
