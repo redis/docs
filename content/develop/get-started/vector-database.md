@@ -23,6 +23,17 @@ This quick start guide helps you to:
 3. Create vector embeddings and store vectors
 4. Query data and perform a vector search
 
+{{< note >}}This guide uses [RedisVL]({{< relref "/develop/clients/redis-vl" >}}),
+which is a Python client library for Redis that is highly specialized for
+vector processing. You may also be interested in the vector query examples
+for our other client libraries:
+
+- [`redis-py` (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
+- [`NRedisStack`(C#/.NET)]({{< relref "/develop/clients/dotnet/vecsearch" >}})
+- [`node-redis` (JavaScript/Node.js)]({{< relref "/develop/clients/nodejs/vecsearch" >}})
+- [`jedis` (Java)]({{< relref "/develop/clients/jedis/vecsearch" >}})
+- [`go-redis` (Go)]({{< relref "/develop/clients/go/vecsearch" >}})
+{{< /note >}}
 
 ## Understand vector databases
 
