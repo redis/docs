@@ -23,7 +23,7 @@ weight: $weight
 GET /v1/actions
 ```
 
-Get the status of all actions (executing, queued, or completed) on all entities (clusters, nodes, and databases). This API tracks long-lived API requests that return either a `task_id` or an `action_uid`.
+Get the status of all running, pending, or completed actions on all clusters, nodes, and databases. This API tracks long-lived API requests that return either a `task_id` or an `action_uid`.
 
 #### Required permissions
 
@@ -41,7 +41,18 @@ GET /actions
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [action objects]({{< relref "/operate/rs/references/rest-api/objects/action" >}}) and an array of [state-machine objects]({{< relref "/operate/rs/references/rest-api/objects/state-machine" >}}).
+Returns a JSON array of [action objects]({{< relref "/operate/rs/references/rest-api/objects/action" >}}), which represent tasks, and an array of [state-machine objects]({{< relref "/operate/rs/references/rest-api/objects/state-machine" >}}).
+
+| Field | Type/Value | Description |
+|-------|------------|-------------|
+| action_uid | string | The action's globally unique identifier |
+| name | string | Name of the running or failed state machine |
+| progress | float (range: 0-100) | Percent of completed steps for the action |
+| status | "pending"<br />"active"<br />"completed"<br />"failed" | The action's status |
+| node_uid | string | UID of the node where the operation runs (optional) |
+| object_name | string | The object that the action runs on (optional) |
+| state | string | The current state of the state machine (optional)  |
+| pending_ops | JSON object | List of operations that are waiting to run (optional) |
 
 Regardless of an action’s source, each action in the response contains the following attributes: `name`, `action_uid`, `status`, and `progress`.
 
@@ -93,7 +104,7 @@ Regardless of an action’s source, each action in the response contains the fol
 GET /v1/actions/{uid}
 ```
 
-Get the status of a currently executing, queued, or completed action.
+Get the status of a specific action.
 
 #### Required permissions
 
@@ -118,6 +129,17 @@ GET /actions/{uid}
 ### Response {#get-response}
 
 Returns an [action object]({{< relref "/operate/rs/references/rest-api/objects/action" >}}).
+
+| Field | Type/Value | Description |
+|-------|------------|-------------|
+| action_uid | string | The action's globally unique identifier |
+| name | string | Name of the running or failed state machine |
+| progress | float (range: 0-100) | Percent of completed steps for the action |
+| status | "pending"<br />"active"<br />"completed"<br />"failed" | The action's status |
+| node_uid | string | UID of the node where the operation runs (optional) |
+| object_name | string | The object that the action runs on (optional) |
+| state | string | The current state of the state machine (optional)  |
+| pending_ops | JSON object | List of operations that are waiting to run (optional) |
 
 Regardless of an action’s source, each action contains the following attributes: `name`, `action_uid`, `status`, and `progress`.
 
