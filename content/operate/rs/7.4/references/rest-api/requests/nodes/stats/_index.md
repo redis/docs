@@ -37,7 +37,7 @@ Get statistics for all nodes.
 #### Example HTTP request
 
 ```sh
-GET /nodes/stats?interval=1hour&stime=2014-08-28T10:00:00Z
+GET /v1/nodes/stats?interval=1hour&stime=2014-08-28T10:00:00Z
 ```
 
 #### Request headers
@@ -150,7 +150,7 @@ Get statistics for a node.
 #### Example HTTP request
 
 ```sh
-GET /nodes/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
+GET /v1/nodes/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
 ```
 
 #### Request headers

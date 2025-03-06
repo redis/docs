@@ -37,7 +37,7 @@ Get all LDAP mappings.
 
 #### Example HTTP request
 
-	GET /ldap_mappings 
+	GET /v1/ldap_mappings 
 
 #### Request headers
 
@@ -89,7 +89,7 @@ Get a specific LDAP mapping.
 
 #### Example HTTP request
 
-	GET /ldap_mappings/1 
+	GET /v1/ldap_mappings/1 
 
 #### Request headers
 
@@ -157,7 +157,7 @@ Update an existing ldap_mapping object.
 
 #### Example HTTP request
 
-	PUT /ldap_mappings/17 
+	PUT /v1/ldap_mappings/17 
 
 #### Example JSON body
 
@@ -239,7 +239,7 @@ Create a new LDAP mapping.
 
 #### Example HTTP request
 
-	POST /ldap_mappings 
+	POST /v1/ldap_mappings 
 
 #### Example JSON body
 
@@ -315,7 +315,7 @@ Delete an LDAP mapping object.
 
 #### Example HTTP request
 
-	DELETE /ldap_mappings/1 
+	DELETE /v1/ldap_mappings/1 
 
 #### Request headers
 

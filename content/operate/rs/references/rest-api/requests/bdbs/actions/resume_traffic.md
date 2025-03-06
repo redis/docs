@@ -36,7 +36,7 @@ Use this action to resume read and write traffic on a database, where traffic wa
 #### Example HTTP request
 
 ```sh
-POST /bdbs/1/actions/resume_traffic
+POST /v1/bdbs/1/actions/resume_traffic
 ```
 
 #### URL parameters

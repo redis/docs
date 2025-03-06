@@ -29,7 +29,7 @@ returns with a response.
 
 #### Example HTTP request
 
-    POST /bootstrap/validate/join_cluster
+    POST /v1/bootstrap/validate/join_cluster
 
 #### Request body
 

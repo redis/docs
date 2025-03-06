@@ -32,7 +32,7 @@ Upgrades the module version on a specific database.
 
 #### Example HTTP request
 
-	POST /modules/upgrade/bdb/1
+	POST /v1/modules/upgrade/bdb/1
 
 #### Example JSON body
 

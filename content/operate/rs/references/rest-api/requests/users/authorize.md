@@ -25,7 +25,7 @@ Generate a JSON Web Token (JWT) for a user to use as authorization to access the
 
 #### Example HTTP request
 
-    POST /users/authorize
+    POST /v1/users/authorize
 
 #### Example JSON body
 

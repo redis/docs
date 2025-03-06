@@ -31,7 +31,7 @@ Downloads a tar file that contains debug info from all nodes and databases.
 
 #### Example HTTP request
 
-	GET /cluster/debuginfo
+	GET /v1/cluster/debuginfo
 
 ### Response {#get-response} 
 

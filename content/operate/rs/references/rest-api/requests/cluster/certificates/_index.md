@@ -34,7 +34,7 @@ Get the cluster's certificates.
 
 #### Example HTTP request
 
-	GET /cluster/certificates 
+	GET /v1/cluster/certificates 
 
 
 #### Request headers
@@ -80,7 +80,7 @@ See the [certificates table]({{< relref "/operate/rs/security/certificates" >}})
 #### Example HTTP request
 
 ```sh
-PUT /cluster/update_cert
+PUT /v1/cluster/update_cert
 ```
 
 #### Example JSON body
@@ -125,7 +125,7 @@ this endpoint. See the [certificates table]({{< relref "/operate/rs/security/cer
 
 #### Example HTTP request
 
-	DELETE /cluster/certificates/<certificate_name>
+	DELETE /v1/cluster/certificates/<certificate_name>
 
 
 #### Request headers

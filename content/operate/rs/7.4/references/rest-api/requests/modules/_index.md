@@ -41,7 +41,7 @@ List available modules, i.e. modules stored within the CCS.
 #### Example HTTP request
 
 ```sh
-GET /modules
+GET /v1/modules
 ```
 
 #### Headers
@@ -80,7 +80,7 @@ Get specific available modules, i.e. modules stored within the CCS.
 #### Example HTTP request
 
 ```sh
-GET /modules/1
+GET /v1/modules/1
 ```
 
 #### Headers

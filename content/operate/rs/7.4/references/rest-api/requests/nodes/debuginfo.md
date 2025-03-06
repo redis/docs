@@ -33,7 +33,7 @@ Downloads a tar file that contains debug info from all nodes.
 
 #### Example HTTP request
 
-	GET /nodes/debuginfo
+	GET /v1/nodes/debuginfo
 
 ### Response {#get-all-response} 
 
@@ -70,7 +70,7 @@ Downloads a tar file that contains debug info from a specific node.
 
 #### Example HTTP request
 
-	GET /nodes/1/debuginfo
+	GET /v1/nodes/1/debuginfo
 
 ### Response {#get-response} 
 

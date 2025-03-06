@@ -39,7 +39,7 @@ Lists all Redis Enterprise services currently running on the local node and rele
 #### Example HTTP request
 
 ```sh
-GET /local/services
+GET /v1/local/services
 ```
 
 
@@ -112,7 +112,7 @@ For a list of optional services, see the [services configuration object referenc
 #### Example HTTP request
 
 ```sh
-POST /local/services
+POST /v1/local/services
 ```
 
 #### Headers
@@ -181,7 +181,7 @@ For a list of optional services, see the [services configuration object referenc
 #### Example HTTP request
 
 ```sh
-POST /services
+POST /v1/services
 ```
 
 #### Headers

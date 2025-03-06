@@ -29,7 +29,7 @@ The status of a completed task is kept for 500 seconds by default.
 
 #### Example HTTP request
 
-    GET /crdb_tasks/1
+    GET /v1/crdb_tasks/1
 
 #### Request headers
 

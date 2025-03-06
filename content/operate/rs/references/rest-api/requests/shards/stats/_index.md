@@ -33,7 +33,7 @@ Get statistics for all shards.
 
 #### Example HTTP request
 
-	GET /shards/stats?interval=1hour&stime=2014-08-28T10:00:00Z 
+	GET /v1/shards/stats?interval=1hour&stime=2014-08-28T10:00:00Z 
 
 
 #### Request headers
@@ -151,7 +151,7 @@ Get statistics for a specific shard.
 
 #### Example HTTP request
 
-	GET /shards/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z 
+	GET /v1/shards/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z 
 
 
 #### Request headers

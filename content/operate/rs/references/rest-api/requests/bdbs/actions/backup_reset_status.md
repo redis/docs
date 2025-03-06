@@ -34,7 +34,7 @@ Resets the database's `backup_status` to idle if a backup is not in progress and
 #### Example HTTP request
 
 ```sh
-PUT /bdbs/1/actions/backup_reset_status
+PUT /v1/bdbs/1/actions/backup_reset_status
 ```
 
 #### Headers

@@ -37,7 +37,7 @@ Downloads a tar file that contains debug info from all nodes.
 
 #### Example HTTP request
 
-	GET /debuginfo/all 
+	GET /v1/debuginfo/all 
 
 ### Response {#get-all-response} 
 

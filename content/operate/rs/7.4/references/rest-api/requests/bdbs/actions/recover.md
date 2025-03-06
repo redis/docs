@@ -36,7 +36,7 @@ Fetches the recovery plan for a database. The recovery plan provides information
 #### Example HTTP request
 
 ```sh
-GET /bdbs/1/actions/recover
+GET /v1/bdbs/1/actions/recover
 ```
 
 #### URL parameters
@@ -113,7 +113,7 @@ If the request body is empty, the database will be recovered automatically:
 #### Example HTTP request
 
 ```sh
-POST /bdbs/1/actions/recover
+POST /v1/bdbs/1/actions/recover
 ```
 
 #### Example request body

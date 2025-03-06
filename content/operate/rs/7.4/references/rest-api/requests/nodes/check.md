@@ -44,7 +44,7 @@ Runs the following checks on a cluster node:
 
 #### Example HTTP request
 
-	GET /nodes/check/1
+	GET /v1/nodes/check/1
 
 
 #### Request headers

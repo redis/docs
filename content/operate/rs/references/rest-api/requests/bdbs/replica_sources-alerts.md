@@ -34,7 +34,7 @@ Get all alert states for all replica sources of all BDBs.
 
 #### Example HTTP request
 
-	GET /bdbs/replica_sources/alerts 
+	GET /v1/bdbs/replica_sources/alerts 
 
 #### Request headers
 
@@ -94,7 +94,7 @@ Get all alert states for all replica sources of a specific bdb.
 
 #### Example HTTP request
 
-	GET /bdbs/replica_sources/alerts/1 
+	GET /v1/bdbs/replica_sources/alerts/1 
 
 #### Request headers
 
@@ -156,7 +156,7 @@ Get all alert states for a specific replica source of a bdb.
 
 #### Example HTTP request
 
-	GET /bdbs/replica_sources/alerts/1/2 
+	GET /v1/bdbs/replica_sources/alerts/1/2 
 
 #### Request headers
 
@@ -219,7 +219,7 @@ Get a replica source alert state of a specific bdb.
 
 #### Example HTTP request
 
-	GET /bdbs/replica_sources/alerts/1/2/replica_src_syncer_connection_error 
+	GET /v1/bdbs/replica_sources/alerts/1/2/replica_src_syncer_connection_error 
 
 #### Request headers
 

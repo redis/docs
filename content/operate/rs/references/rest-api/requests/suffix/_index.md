@@ -26,7 +26,7 @@ Get a single DNS suffix.
 
 #### Example HTTP request
 
-	GET /suffix/cluster.fqdn 
+	GET /v1/suffix/cluster.fqdn 
 
 
 #### Request headers

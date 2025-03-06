@@ -36,7 +36,7 @@ Get the status of all actions (executing, queued, or completed) on all entities 
 #### Example HTTP request
 
 ```
-GET /actions
+GET /v1/actions
 ```
 
 ### Response {#get-all-response}
@@ -106,7 +106,7 @@ Get the status of a currently executing, queued, or completed action.
 #### Example HTTP request
 
 ```
-GET /actions/{uid}
+GET /v1/actions/{uid}
 ```
 
 #### URL parameters

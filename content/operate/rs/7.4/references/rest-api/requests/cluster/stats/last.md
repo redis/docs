@@ -32,7 +32,7 @@ Get the most recent cluster statistics.
 
 #### Example HTTP request
 
-	GET /cluster/stats/last?interval=1sec&stime=2015-10-14T06:44:00Z 
+	GET /v1/cluster/stats/last?interval=1sec&stime=2015-10-14T06:44:00Z 
 
 
 #### Request headers

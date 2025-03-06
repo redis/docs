@@ -33,7 +33,7 @@ Downloads a tar file that contains debug info from all databases.
 
 #### Example HTTP request
 
-	GET /bdbs/debuginfo
+	GET /v1/bdbs/debuginfo
 
 ### Response {#get-all-response} 
 
@@ -71,7 +71,7 @@ Downloads a tar file that contains debug info from the database specified by `bd
 
 #### Example HTTP request
 
-	GET /bdbs/1/debuginfo
+	GET /v1/bdbs/1/debuginfo
 
 ### Response {#get-response} 
 

@@ -38,7 +38,7 @@ compatability.
 
 #### Example HTTP request
 
-	GET /endpoints/stats?interval=1hour&stime=2014-08-28T10:00:00Z 
+	GET /v1/endpoints/stats?interval=1hour&stime=2014-08-28T10:00:00Z 
 
 
 #### Request headers

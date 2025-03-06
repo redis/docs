@@ -29,7 +29,7 @@ The certificate rotation will be performed on all nodes within the cluster. If
 
 #### Example HTTP request
 
-	POST /cluster/certificates/rotate
+	POST /v1/cluster/certificates/rotate
 
 #### Request headers
 

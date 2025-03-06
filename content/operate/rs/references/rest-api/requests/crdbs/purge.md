@@ -34,7 +34,7 @@ removed instance).
 
 #### Example HTTP request
 
-    PUT /crdbs/1/purge
+    PUT /v1/crdbs/1/purge
 
 #### URL parameters
 

@@ -35,7 +35,7 @@ and supported features.
 
 #### Example HTTP request
 
-	GET /license 
+	GET /v1/license 
 
 
 #### Request headers
@@ -112,7 +112,7 @@ The request must be a JSON object with a single key named "license".
 
 #### Example HTTP request
 
-	PUT /license 
+	PUT /v1/license 
 
 #### Example JSON body
 

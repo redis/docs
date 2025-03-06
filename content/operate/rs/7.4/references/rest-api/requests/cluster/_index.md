@@ -34,7 +34,7 @@ Get cluster info.
 
 #### Example HTTP request
 
-	GET /cluster 
+	GET /v1/cluster 
 
 #### Request headers
 
@@ -91,7 +91,7 @@ changes.
 
 #### Example HTTP request
 
-	PUT /cluster 
+	PUT /v1/cluster 
 
 #### Example JSON body
 

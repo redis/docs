@@ -40,7 +40,7 @@ Get all roles' details.
 #### Example HTTP request
 
 ```sh
-GET /roles
+GET /v1/roles
 ```
 
 #### Headers
@@ -122,7 +122,7 @@ Get the details of a single role.
 #### Example HTTP request
 
 ```sh
-GET /roles/1
+GET /v1/roles/1
 ```
 
 
@@ -182,7 +182,7 @@ Update an existing role's details.
 #### Example HTTP request
 
 ```sh
-PUT /roles/17
+PUT /v1/roles/17
 ```
 
 #### Example JSON body
@@ -257,7 +257,7 @@ Create a new role.
 #### Example HTTP request
 
 ```sh
-POST /roles
+POST /v1/roles
 ```
 
 #### Example JSON body
@@ -367,7 +367,7 @@ Delete a role object.
 #### Example HTTP request
 
 ```sh
-DELETE /roles/1
+DELETE /v1/roles/1
 ```
 
 #### Headers

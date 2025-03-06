@@ -35,7 +35,7 @@ Verifies the local database endpoint is available. This request does not redirec
 #### Example HTTP request
 
 ```sh
-GET /local/bdbs/1/endpoint/availability
+GET /v1/local/bdbs/1/endpoint/availability
 ```
 
 #### Headers
@@ -100,7 +100,7 @@ Gets the availability status of a database.
 #### Example HTTP request
 
 ```sh
-GET /bdbs/1/availability
+GET /v1/bdbs/1/availability
 ```
 
 #### Headers

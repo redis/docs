@@ -37,12 +37,12 @@ Get the most recent statistics for all databases.
 
 1. Without metrics filter (returns all metrics by default)
     ```
-    GET /bdbs/stats/last
+    GET /v1/bdbs/stats/last
     ```
 
 2. With metrics filter
     ```
-    GET /bdbs/stats/last?metrics=no_of_keys,used_memory
+    GET /v1/bdbs/stats/last?metrics=no_of_keys,used_memory
     ```
 
 #### Request headers
@@ -154,7 +154,7 @@ Get the most recent statistics for a specific database.
 #### Example HTTP request
 
 ```sh
-GET /bdbs/stats/last/1?metrics=no_of_keys,used_memory
+GET /v1/bdbs/stats/last/1?metrics=no_of_keys,used_memory
 ```
 
 #### Request headers

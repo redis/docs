@@ -13,7 +13,7 @@ weight: 60
 
 Some Redis Enterprise [REST API requests]({{< relref "/operate/rs/references/rest-api/requests" >}}) may require the user to have specific permissions.
 
-Administrators can assign a predefined role to a user with the [Cluster Manager UI]({{< relref "/operate/rs/security/access-control/create-users" >}}) or a [<nobr>`PUT /users/{uid}`</nobr> API request]({{< relref "/operate/rs/references/rest-api/requests/users#put-user" >}}) to grant necessary permissions to them.
+Administrators can assign a predefined role to a user with the [Cluster Manager UI]({{< relref "/operate/rs/security/access-control/create-users" >}}) or a [<nobr>`PUT /v1/users/{uid}`</nobr> API request]({{< relref "/operate/rs/references/rest-api/requests/users#put-user" >}}) to grant necessary permissions to them.
 
 ## Roles
 

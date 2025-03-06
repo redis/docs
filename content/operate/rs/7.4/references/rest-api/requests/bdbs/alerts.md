@@ -35,7 +35,7 @@ Get all alert states for all databases.
 
 #### Example HTTP request
 
-	GET /bdbs/alerts 
+	GET /v1/bdbs/alerts 
 
 #### Request headers
 
@@ -93,7 +93,7 @@ Get all alert states for a database.
 
 #### Example HTTP request
 
-	GET /bdbs/alerts/1 
+	GET /v1/bdbs/alerts/1 
 
 #### Request headers
 
@@ -149,7 +149,7 @@ Get a database alert state.
 
 #### Example HTTP request
 
-	GET /bdbs/alerts/1/bdb_size 
+	GET /v1/bdbs/alerts/1/bdb_size 
 
 
 #### Request headers
@@ -214,7 +214,7 @@ If passed with the dry_run URL query string, the function will validate the aler
 
 #### Example HTTP request
 
-	POST /bdbs/alerts/1 
+	POST /v1/bdbs/alerts/1 
 
 #### Example JSON body
 
