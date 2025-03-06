@@ -100,6 +100,14 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS125845: Fixed an issue where outdated AOF persistence files were not rotated upon upgrading the Redis database version from 6 to 7.
 
+- RS147882: Fixed a "Failed to write PID file: Permission denied" error in `ccs-redis.log` by removing an unneeded CCS PID file.
+
+- RS146941: Fixed an issue where `crdb-cli crdb get` failed with a `KeyError` when `replication_endpoint` or `replication_tls_sni` were not set for the Active-Active database.
+
+- RS122668: Fixed an issue where new DMC workers created after a certificate update could still have the old certificate.
+
+- RS141853: Optimized connection pool handling to reduce memory and CPU usage by `node_wd`.
+
 ## Version changes
 
 ### Breaking changes
