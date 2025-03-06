@@ -53,8 +53,7 @@ redis.hSet("key", "field", "value");
 ## Command argument handling
 
 `ioredis` parses command arguments to strings and then passes them to
-the server in order, like [`redis-cli`]({{< relref "/develop/tools/cli" >}})
-commands.
+the server, in a similar way to [`redis-cli`]({{< relref "/develop/tools/cli" >}}).
 
 ```js
 // Equivalent to the command line `SET key 100 EX 10`.
