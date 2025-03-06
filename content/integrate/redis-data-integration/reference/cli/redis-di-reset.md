@@ -94,7 +94,7 @@ Usage: redis-di reset [OPTIONS]
   - Usage: `--force
 -f`
 
-  Force operation. skips verification prompts
+  Force operation. Skips verification prompts
 
 - `pause_for_confirmation`:
 
@@ -132,7 +132,7 @@ Options:
   --rdi-cacert TEXT               CA certificate file to verify with
   --rdi-key-password TEXT         Password for unlocking an encrypted private
                                   key
-  -f, --force                     Force operation. skips verification prompts
+  -f, --force                     Force operation. Skips verification prompts
   --pause-for-confirmation        Pause for user confirmation if manual
                                   shutdown of collector required
   --help                          Show this message and exit.
