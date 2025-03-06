@@ -39,7 +39,8 @@ This version offers:
 
     | Port | Process name | Usage | 
     |------|--------------|-------|
-    | TBA |  |  |
+    | 3351 | cluster_watchdog_grpc_api | Cluster watchdog now supports gRPC |
+    | 9082 | cluster_api_internal | Cluster API internal port |
 
 ### Redis database versions
 
