@@ -9,20 +9,157 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Learn the differences between ioredis and node-redis
+description: Learn the differences between `ioredis` and `node-redis`
 linkTitle: Migrate from ioredis
 title: Migrate from ioredis
 weight: 6
 ---
 
 Redis previously recommended the [`ioredis`](https://github.com/redis/ioredis)
-client library for development with [`Node.js`](https://nodejs.org/en),
+client library for development with [Node.js](https://nodejs.org/en),
 but this library is now deprecated in favor of
 [`node-redis`]({{< relref "/develop/clients/nodejs" >}}). This guide
-outlines the main similarities and differences between the two libraries that
-you should be aware of if you are an `ioredis` user and you want to start a new
-Node.js project or migrate an existing `ioredis` project to `node-redis`
+outlines the main similarities and differences between the two libraries.
+You may find this information useful if you are an `ioredis` user and you want to
+start a new Node.js project or migrate an existing `ioredis` project to `node-redis`
+
+The table below summarizes how `ioredis` and `node-redis` implement some
+key features of Redis. See the following sections for more information about
+each feature.
 
 | Feature | `ioredis` | `node-redis` |
 | :-- | :-- | :-- |
-| Handling asynchronous command results | Callbacks and Promises | Promises only |
+| [Command case](#command-case) | Lowercase only (eg, `hset`) | Uppercase or camel case (eg, `HSET` or `hSet`) |
+| [Command argument handling](#command-argument-handling) | Argument objects flattened and items passed directly | Argument objects parsed to generate correct argument list |
+| [Asynchronous command result handling](#async-result) | Callbacks and Promises | Promises only |
+| [Pipelining](#pipelining) | Automatic, or with `pipeline()` command | Automatic, or with `multi()` command |
+
+## Command case
+
+Command methods in `ioredis` are always lowercase. With `node-redis`, you can
+use uppercase or camel case versions of the method names.
+
+```js
+// ioredis
+redis.hset("key", "field", "value");
+
+// node-redis
+redis.HSET("key", "field", "value");
+
+// ...or
+redis.hSet("key", "field", "value");
+```
+
+## Command argument handling
+
+`ioredis` parses command arguments to strings and then passes them to
+the server in order, like [`redis-cli`]({{< relref "/develop/tools/cli" >}})
+commands.
+
+```js
+// Equivalent to the command line `SET key 100 EX 10`.
+redis.set("key", 100, "EX", 10);
+```
+
+Arrays passed as arguments are flattened into individual elements and
+objects are flattened into sequential key-value pairs:
+
+```js
+// These commands are all equivalent.
+redis.hset("user" {
+    name: "Bob",
+    age: 20,
+    description: "I am a programmer",
+});
+
+redis.hset("user", ["name", "Bob", "age", 20, "description", "I am a programmer"]);
+
+redis.hset("user", "name", "Bob", "age", 20, "description", "I am a programmer");
+```
+
+`node-redis` uses predefined formats for command arguments. These include specific
+classes for commmand options that generally don't correspond to the syntax
+of the CLI command. Internally, `node-redis` constructs the correct command using
+the method arguments you pass:
+
+```js
+// Equivalent to the command line `SET key 100 EX 10`.
+redis.set("bike:5", "bike", {EX: 10});
+```
+
+## Asynchronous command result handling {#async-result}
+
+All commands for both `ioredis` and `node-redis` are executed
+asynchronously. `ioredis` supports both callbacks and
+[`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+return values to respond to command results:
+
+```js
+// Callback
+redis.get("mykey", (err, result) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(result);
+  }
+});
+
+// Promise
+redis.get("mykey").then(
+    (result) => {
+        console.log(result);
+    },
+    (err) => {
+        console.error(err);
+    }
+);
+```
+
+`node-redis` supports only `Promise` objects for results, so
+you must always use a `then()` handler or the
+[`await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await)
+operator to receive them.
+
+## Pipelining
+
+Both `ioredis` and `node-redis` will pipeline commands automatically if
+they are executed in the same "tick" of the
+[event loop](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#what-is-the-event-loop)
+(see
+[Pipelines and transactions]({{< relref "/develop/clients/nodejs/transpipe" >}})
+for more information).
+
+You can also create a pipeline with explicit commands in both clients.
+For `ioredis`, you use the `pipeline()` command with a chain of
+commands, ending with `exec()` to run the pipeline:
+
+```js
+// ioredis example
+redis
+      .pipeline()
+      .set("foo", "1")
+      .get("foo")
+      .set("foo", "2")
+      .incr("foo")
+      .get("foo")
+      .exec(function (err, results) {
+        // Handle results or errors.
+      });
+```
+
+For `node-redis`, the approach is similar, except that you call the `multi()`
+command to start the pipeline and `execAsPipeline()` to run it:
+
+```js
+redis.multi()
+    .set('seat:3', '#3')
+    .set('seat:4', '#4')
+    .set('seat:5', '#5')
+    .execAsPipeline()
+    .then((results) => {
+        // Handle array of results.
+    },
+    (err) => {
+        // Handle errors.
+    });
+```
