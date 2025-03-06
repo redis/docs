@@ -39,7 +39,7 @@ Redis Insight allows you to preconfigure database connections using environment 
 | --- | --- | --- | --- |
 | RI_REDIS_HOST* | Host of a Redis database. | N/A |  |
 | RI_REDIS_PORT* | Port of a Redis database. | `6379` |  |
-| RI_REDIS_NAME* | Alias of a database connection. | `{host}:{port}` |  |
+| RI_REDIS_ALIAS* | Alias of a database connection. | `{host}:{port}` |  |
 | RI_REDIS_USERNAME* | Username to connect to a Redis database. | `default` |  |
 | RI_REDIS_PASSWORD* | Password to connect to a Redis database. | No password |  |
 | RI_REDIS_TLS* | Indicates whether TLS certificates should be used to connect. | `FALSE` | Accepts `TRUE` or `FALSE` |
