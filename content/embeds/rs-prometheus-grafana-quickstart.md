@@ -8,7 +8,7 @@ Metrics are exposed at the cluster, node, database, shard, and proxy levels.
 - [Grafana](https://grafana.com/) is an open source metrics visualization tool that processes Prometheus data.
 
 You can use Prometheus and Grafana to:
-- Collect and display metrics not available in the [admin console]({{< relref "/operate/rs/references/metrics" >}})
+- Collect and display metrics not available in the admin console
 
 - Set up automatic alerts for node or cluster events
 

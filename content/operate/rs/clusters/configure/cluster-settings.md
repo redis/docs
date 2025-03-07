@@ -43,7 +43,7 @@ You can change the **Time zone** field to ensure the date, time fields, and log 
 
 The **Alert Settings** tab lets you configure alerts that are relevant to the entire cluster, such as alerts for cluster utilization, nodes, node utilization, security, and database utilization.
 
-You can also configure email server settings and [send alerts by email]({{< relref "/operate/rs/clusters/monitoring#send-alerts-by-email" >}}) to relevant users.
+You can also configure email server settings and [send alerts by email]({{< relref "/operate/rs/monitoring/v1_monitoring#send-alerts-by-email" >}}) to relevant users.
 
 ### Configure email server settings
 
