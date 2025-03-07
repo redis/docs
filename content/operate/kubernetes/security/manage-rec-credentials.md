@@ -64,26 +64,14 @@ curl -k --request POST \
 
 3. From outside the pod, update the REC credential secret.
 
-3a. Save the existing username to a text file.
-
-```sh
-echo -n "<current_username>" > username 
-```
-
-3b. Save the new password to a text file.
-
-```sh
-echo -n "<new_password>" > password
-```
-
-3c. Update the REC credential secret.
-
 ```sh
 kubectl create secret generic <cluster_secret_name> \
-  --from-file=./username \
-  --from-file=./password --dry-run \
+  --save-config \
+  --dry-run=client \
+  --from-literal=username=<current-username> \
+  --from-literal=password=<new-password> \
   -o yaml | \
-kubectl apply -f 
+kubectl apply -f -
 ```
 
 4. Wait five minutes for all the components to read the new password from the updated secret. If you proceed to the next step too soon, the account could get locked.
@@ -119,27 +107,14 @@ curl -k --request DELETE \
 
 4. Update the REC credential secret:
 
-4a. Save the new username to a text file.
-
-```sh
-echo -n "<new_username>" > username
-```
-
-4b. Save the new password to a text file.
-
-```sh
-echo -n "<new_password>" > password
-```
-
-4c. Update the REC credential secret.
-
 ```sh
 kubectl create secret generic <cluster_secret_name> \
   --save-config \
   --dry-run=client \
-  --from-file=./username --from-file=./password \
+  --from-literal=username=<new-username> \
+  --from-literal=password=<new-password> \
   -o yaml | \
-kubectl apply -f
+kubectl apply -f -
 ```
 
 5. Wait five minutes for all the components to read the new password from the updated secret. If you proceed to the next step too soon, the account could get locked.
