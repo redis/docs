@@ -35,6 +35,8 @@ This version offers:
 
     - TBA
 
+- Added module information to database creation log messages.
+
 - Reserved the following ports:
 
     | Port | Process name | Usage | 
@@ -88,8 +90,6 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS138490: Reduced log entries for unbootstrapped nodes, which do not have log rotation scheduled yet, to prevent filling the disk with logs.
 
-- RS142248: Added module information to database creation log messages.
-
 - RS123576: Fixed an issue that prevented reconfiguring an existing ACL file with `rlutil`.
 
 - RS133679: Added a validation check to the optimize shards API to return quicker if the database cannot fit on the cluster.
@@ -100,13 +100,23 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS125845: Fixed an issue where outdated AOF persistence files were not rotated upon upgrading the Redis database version from 6 to 7.
 
-- RS147882: Fixed a "Failed to write PID file: Permission denied" error in `ccs-redis.log` by removing an unneeded CCS PID file.
+- RS147882: Fixed a `Failed to write PID file: Permission denied` error in `ccs-redis.log` by removing an unneeded CCS PID file.
 
 - RS146941: Fixed an issue where `crdb-cli crdb get` failed with a `KeyError` when `replication_endpoint` or `replication_tls_sni` were not set for the Active-Active database.
 
 - RS122668: Fixed an issue where new DMC workers created after a certificate update could still have the old certificate.
 
 - RS141853: Optimized connection pool handling to reduce memory and CPU usage by `node_wd`.
+
+- RS150853: Fixed an issue during RDB loading where replica shards sometimes terminated with the module error `no matching module type 'AAAAAAAAA'`.
+
+- RS149480: Fixed an issue where port 9091 was missing from the reserved ports list returned by `rladmin` and `ccs-cli`.
+
+- RS148075: Changed the default value of `gradual_sync_mode` to `enabled` for Replica Of databases to sync data from one shard at a time and reduce load on the destination.
+
+- RS147991: Fixed an issue where the creation of too many Replica Of workers could cause the DMC proxy to restart repeatedly.
+
+- RS135446: Added cleanup of temporary files after `debug_info` generation failures.
 
 ## Version changes
 
