@@ -30,8 +30,10 @@ There are two types of batch that you can use:
 
 ## Execute a pipeline
 
-There are two ways to execute commands in a pipeline. The first is
-to include the commands in a
+There are two ways to execute commands in a pipeline. Firstly, `node-redis` will
+automatically pipeline commands that execute within the same "tick" of the
+[event loop](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#what-is-the-event-loop).
+You can ensure that commands happen in the same tick very easily by including them in a
 [`Promise.all()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
 call, as shown in the following example. The chained `then(...)` callback is optional
 and you can often omit it for commands that write data and only return a

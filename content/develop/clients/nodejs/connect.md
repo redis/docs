@@ -67,7 +67,7 @@ createClient({
 ```
 To check if the client is connected and ready to send commands, use `client.isReady`, which returns a Boolean. `client.isOpen` is also available. This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example, when the client is still connecting or reconnecting after a network error).
 
-### Connect to a Redis cluster
+## Connect to a Redis cluster
 
 To connect to a Redis cluster, use `createCluster`.
 
@@ -97,7 +97,7 @@ console.log(value); // returns 'bar'
 await cluster.quit();
 ```
 
-### Connect to your production Redis with TLS
+## Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
 
@@ -127,3 +127,77 @@ await client.disconnect();
 ```
 
 You can also use discrete parameters and UNIX sockets. Details can be found in the [client configuration guide](https://github.com/redis/node-redis/blob/master/docs/client-configuration.md).
+
+## Reconnect after disconnection
+
+By default, `node-redis` doesn't attempt to reconnect automatically when
+the connection to the server is lost. However, you can set the
+`socket.reconnectionStrategy` field in the configuration to decide
+whether to try to reconnect and how to approach it. Choose one of the following values for
+`socket.reconnectionStrategy`:
+
+-   `false`: (Default) Don't attempt to reconnect.
+-   `number`: Wait for this number of milliseconds and then attempt to reconnect.
+-   `<function>`: Use a custom
+    function to decide how to handle reconnection.
+
+The custom function has the following signature:
+
+```js
+(retries: number, cause: Error) => false | number | Error
+```
+
+It is called before each attempt to reconnect, with the `retries`
+indicating how many attempts have been made so far. The `cause` parameter is an
+[`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+object with information about how the connection was lost. The return value
+from the function can be any of the following:
+
+-   `false`: Don't attempt to reconnect.
+-   `number`: Wait this number of milliseconds and then try again.
+-   `Error`: Same as `false`, but lets you supply extra information about why
+    no attempt was made to reconnect.
+
+The example below shows a `reconnectionStrategy` function that implements a
+custom [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff)
+strategy:
+
+```js
+createClient({
+  socket: {
+    reconnectStrategy: retries => {
+        // Generate a random jitter between 0 – 200 ms:
+        const jitter = Math.floor(Math.random() * 200);
+
+        // Delay is an exponential back off, (times^2) * 50 ms, with a
+        // maximum value of 2000 ms:
+        const delay = Math.min(Math.pow(2, retries) * 50, 2000);
+
+        return delay + jitter;
+    }
+  }
+});
+```
+
+## Connection events
+
+The client object emits the following
+[events](https://developer.mozilla.org/en-US/docs/Web/API/Event) that are
+related to connection:
+
+-   `connect`: (No parameters) The client is about to start connecting to the server.
+-   `ready`: (No parameters) The client has connected and is ready to use.
+-   `end`: (No parameters) The client has been intentionally closed using `client.quit()`.
+-   `error`: An error has occurred, which is described by the
+    [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+    parameter. This is usually a network issue such as "Socket closed unexpectedly".
+-   `reconnecting`: (No parameters) The client is about to try reconnecting after the
+    connection was lost due to an error.
+
+Use code like the following to respond to these events:
+
+```js
+client.on('error', error => {
+    console.error(`Redis client error:`, error);
+});
+```
