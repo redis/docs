@@ -12,7 +12,7 @@ categories:
 description: Learn how to use Redis pipelines and transactions
 linkTitle: Pipelines/transactions
 title: Pipelines and transactions
-weight: 2
+weight: 4
 ---
 
 Redis lets you send a sequence of commands to the server together in a batch.
