@@ -1,6 +1,6 @@
 ---
-LinkTitle: Prometheus & Grafana with Redis Software
-Title: Prometheus and Grafana with Redis Enterprise Software
+LinkTitle: Prometheus and Grafana quick start
+Title: Prometheus and Grafana with Redis Enterprise Software quick start
 alwaysopen: false
 categories:
 - docs
