@@ -102,7 +102,7 @@ Usage: redis-di get-rejected [OPTIONS]
   - Usage: `--oldest
 -o`
 
-  Displays the oldest rejected records. If omitted, most resent records will be retrieved
+  Displays the oldest rejected records. If omitted, most recent records will be retrieved
 
 - `dlq_name`:
 
@@ -142,7 +142,7 @@ Options:
                                   key
   --max-records INTEGER RANGE     Maximum rejected records per DLQ  [x>=1]
   -o, --oldest                    Displays the oldest rejected records. If
-                                  omitted, most resent records will be
+                                  omitted, most recent records will be
                                   retrieved
   --dlq-name TEXT                 Only prints the rejected records for the
                                   specified DLQ (Dead Letter Queue) name
