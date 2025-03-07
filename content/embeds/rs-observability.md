@@ -37,7 +37,7 @@ Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream en
 
 The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations. See [Monitoring with metrics and alerts]({{<relref "/operate/rs/monitoring/">}}) for more details.
 
-If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. You can scrape both existing and new endpoints simultaneously, which lets you create advanced dashboards and transition smoothly.
+If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. You can scrape both existing and new endpoints simultaneously, which lets you create advanced dashboards and transition smoothly.
 
 ### Memory
 

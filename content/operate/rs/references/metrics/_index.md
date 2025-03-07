@@ -12,6 +12,8 @@ linkTitle: Metrics
 weight: $weight
 ---
 
+## Cluster Manager metrics
+
 In the Redis Enterprise Cluster Manager UI, you can see real-time performance metrics for clusters, nodes, databases, and shards, and configure alerts that send notifications based on alert parameters. Select the **Metrics** tab to view the metrics for each component. For more information, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/monitoring" >}}).
 
 See the following topics for metrics definitions:
@@ -30,8 +32,6 @@ Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream en
 This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
 
 The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations.
-
-If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
 
 For a list of available metrics, see the following references:
 
