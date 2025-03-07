@@ -58,7 +58,7 @@ FT.SUGLEN returns an integer reply, which is the current size of the suggestion 
 
 ## See also
 
-[`FT.SUGADD`]({{< baseurl >}}commands/ft.sugadd/) | [`FT.SUGDEL`]({{< baseurl >}}commands/ft.sugdel/) | [`FT.SUGGET`]({{< baseurl >}}commands/ft.sugget/) 
+[`FT.SUGADD`]({{< relref "commands/ft.sugadd/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}) 
 
 ## Related topics
 

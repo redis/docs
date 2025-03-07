@@ -66,15 +66,15 @@ is numeric data value of the sample (double). The double number should follow <a
 
 <note><b>Notes:</b>
 - If `timestamp` is older than the retention period compared to the maximum existing timestamp, the sample is discarded and an error is returned.
-- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< baseurl >}}commands/ts.add/), `TS.MADD`, [`TS.INCRBY`]({{< baseurl >}}commands/ts.incrby/), or [`TS.DECRBY`]({{< baseurl >}}commands/ts.decrby/)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
-- `ignoreMaxTimeDiff` and `ignoreMaxValDiff` cannot be specified as is the case with `TS.ADD`. However, the same logic still applies based on the values of the per-key configuration parameters. See the [`TS.ADD`]({{< baseurl >}}commands/ts.add/) command page for more information.
+- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< relref "commands/ts.add/" >}}), `TS.MADD`, [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), or [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}})) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
+- `ignoreMaxTimeDiff` and `ignoreMaxValDiff` cannot be specified as is the case with `TS.ADD`. However, the same logic still applies based on the values of the per-key configuration parameters. See the [`TS.ADD`]({{< relref "commands/ts.add/" >}}) command page for more information.
 </note>
 
 ## Return value
 
 Returns one of these replies:
 
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the timestamp of a upserted sample or an [] (when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp). For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< baseurl >}}commands/ts.create/)), the reply element value will be the largest timestamp in the time series.
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing the timestamp of a upserted sample or an [] (when duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp). For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply element value will be the largest timestamp in the time series.
 - [] (invalid arguments, wrong key type, etc.)
 
 ## Complexity
@@ -106,7 +106,7 @@ OK
 
 ## See also
 
-[`TS.MRANGE`]({{< baseurl >}}commands/ts.mrange/) | [`TS.RANGE`]({{< baseurl >}}commands/ts.range/) | [`TS.MREVRANGE`]({{< baseurl >}}commands/ts.mrevrange/) | [`TS.REVRANGE`]({{< baseurl >}}commands/ts.revrange/)
+[`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) | [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}})
 
 ## Related topics
 
