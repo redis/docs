@@ -18,13 +18,13 @@ weight: 10
 
 **Properties**
 
-|Name|Type|Description|Required|
-|----|----|-----------|--------|
-| **connection** |`string`| Connection name |yes|
-| **cmd** | `string` |The command to execute |yes|
-| [**args**](#args) | `string[]` | Redis command arguments | yes |
-| **language** | `string` |Language<br/>Enum: `"jmespath"`, `"sql"`<br/>| yes |
-| **field** | `string` |The target field to write the result to<br/>| yes |
+| Name              | Type       | Description                                   | Required |
+| ----------------- | ---------- | --------------------------------------------- | -------- |
+| **connection**    | `string`   | Connection name                               | yes      |
+| **cmd**           | `string`   | The command to execute                        | yes      |
+| [**args**](#args) | `string[]` | Redis command arguments                       | yes      |
+| **language**      | `string`   | Language<br/>Enum: `"jmespath"`, `"sql"`<br/> | yes      |
+| **field**         | `string`   | The target field to write the result to<br/>  | yes      |
 
 **Additional Properties:** not allowed
 
@@ -32,7 +32,6 @@ weight: 10
 
 The list of expressions that produce arguments.
 
-
 **Items**
 
-**Item Type:** `string`  
+**Item Type:** `string`

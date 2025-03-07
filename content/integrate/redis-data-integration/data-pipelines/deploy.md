@@ -156,12 +156,16 @@ kubectl create secret generic target-db-ssl --namespace=rdi \
 
 ## Deploy a pipeline
 
-When you have created your configuration, including the [jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#job-files" >}}), use the
+When you have created your configuration, including the [jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#job-files" >}}), they are
+ready to deploy. Use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+to configure and deploy pipelines for both VM and K8s installations.
+
+For VM installations, you can also use the
 [`redis-di deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}})
-command to deploy them:
+command to deploy a pipeline:
 
 ```bash
 redis-di deploy --dir <path to pipeline folder>
 ```
 
-You can also deploy a pipeline using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
+

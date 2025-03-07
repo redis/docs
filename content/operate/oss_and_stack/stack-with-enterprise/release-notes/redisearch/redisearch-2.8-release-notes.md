@@ -13,10 +13,19 @@ weight: 91
 ---
 ## Requirements
 
-RediSearch v2.8.23 requires:
+RediSearch v2.8.24 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v2.8.24 (February 2025)
+
+This is a maintenance release for RediSearch 2.8.
+
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
+
+Bug fixes:
+- [#5647](https://github.com/redisearch/redisearch/pull/5647) `FT.SEARCH` using Cyrillic characters and wildcards delivering no results (MOD-7944)
 
 ## v2.8.23 (February 2025)
 

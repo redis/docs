@@ -12,7 +12,7 @@ categories:
 description: Get your Jedis app ready for production
 linkTitle: Production usage
 title: Production usage
-weight: 3
+weight: 6
 ---
 
 The following sections explain how to handle situations that may occur
