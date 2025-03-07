@@ -23,18 +23,85 @@ outlines the main similarities and differences between the two libraries.
 You may find this information useful if you are an `ioredis` user and you want to
 start a new Node.js project or migrate an existing `ioredis` project to `node-redis`
 
+## Comparison of `ioredis` and `node-redis`
+
 The table below summarizes how `ioredis` and `node-redis` implement some
 key features of Redis. See the following sections for more information about
 each feature.
+
+### Connection
+
+| Feature | `ioredis` | `node-redis` |
+| :-- | :-- | :-- |
+| [Initial connection](#initial-connection) | Happens when you create a client instance | Requires you to call a method on the client instance |
+| [Reconnection after a connection is lost](#reconnection) | Automatic by default | Manual by default |
+| [Connection events](#connection-events) | Emits `connect`, `ready`, `error`, and `close` events. | Emits `connect`, `ready`, `error`, `end`, and `reconnecting` events. |
+
+### Command handling
 
 | Feature | `ioredis` | `node-redis` |
 | :-- | :-- | :-- |
 | [Command case](#command-case) | Lowercase only (eg, `hset`) | Uppercase or camel case (eg, `HSET` or `hSet`) |
 | [Command argument handling](#command-argument-handling) | Argument objects flattened and items passed directly | Argument objects parsed to generate correct argument list |
 | [Asynchronous command result handling](#async-result) | Callbacks and Promises | Promises only |
+
+### Specific commands
+
+| Feature | `ioredis` | `node-redis` |
+| :-- | :-- | :-- |
+
+
+### Techniques
+
+| Feature | `ioredis` | `node-redis` |
+| :-- | :-- | :-- |
 | [Pipelining](#pipelining) | Automatic, or with `pipeline()` command | Automatic, or with `multi()` command |
 
-## Command case
+## Details
+
+The sections below explain the points of comparison between `ioredis` and
+`node-redis` in more detail.
+
+### Initial connection
+
+`ioredis` makes the connection to the Redis server when you create an instance
+of the client object:
+
+```js
+const Redis = require('ioredis');
+
+// Connects to localhost:6379 on instantiation.
+const redis = new Redis();
+```
+
+`node-redis` requires you to call the `connect()` method on the client object
+to make the connection:
+
+```js
+import { createClient } from 'redis';
+
+const client = await createClient();
+await client.connect(); // Requires explicit connection.
+```
+
+### Reconnection after a connection is lost {#reconnection}
+
+`ioredis` automatically attempts to reconnect if the connection
+was lost due to an error. By default, `node-redis` doesn't attempt
+to reconnect, but you can enable a custom reconnection strategy
+when you create the client object. See
+[Reconnect after disconnection]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
+for more information.
+
+### Connection events
+
+The `connect`, `ready`, `error`, and `close` events that `ioredis` emits
+are equivalent to the `connect`, `ready`, `error`, and `end` events
+in `node-redis`, but `node-redis` also emits a `reconnecting` event.
+See []({{< relref "/develop/clients/nodejs/connect#connection-events" >}})
+for more information.
+
+### Command case
 
 Command methods in `ioredis` are always lowercase. With `node-redis`, you can
 use uppercase or camel case versions of the method names.
@@ -50,7 +117,7 @@ redis.HSET("key", "field", "value");
 redis.hSet("key", "field", "value");
 ```
 
-## Command argument handling
+### Command argument handling
 
 `ioredis` parses command arguments to strings and then passes them to
 the server, in a similar way to [`redis-cli`]({{< relref "/develop/tools/cli" >}}).
@@ -86,7 +153,7 @@ the method arguments you pass:
 redis.set("bike:5", "bike", {EX: 10});
 ```
 
-## Asynchronous command result handling {#async-result}
+### Asynchronous command result handling {#async-result}
 
 All commands for both `ioredis` and `node-redis` are executed
 asynchronously. `ioredis` supports both callbacks and
@@ -119,7 +186,7 @@ you must always use a `then()` handler or the
 [`await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await)
 operator to receive them.
 
-## Pipelining
+### Pipelining
 
 Both `ioredis` and `node-redis` will pipeline commands automatically if
 they are executed in the same "tick" of the
