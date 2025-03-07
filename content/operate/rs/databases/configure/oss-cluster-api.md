@@ -30,7 +30,7 @@ The OSS Cluster API setting applies to individual databases instead of the entir
 
 ## Enable OSS Cluster API support
 
-You can use the Cluster Manager UI or the `rladmin` utility to enable OSS Cluster API support for a database.
+You can use the Cluster Manager UI, the `rladmin` utility, or the REST API to enable OSS Cluster API support for a database.
 
 When you enable OSS Cluster API support for an existing database, the change applies to new connections but does not affect existing connections. Clients must close existing connections and reconnect to apply the change.
 
