@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 - kubernetes
-description: Use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards to track the performance of your databases.
+description: Preview the new metrics stream engine for monitoring Redis Enterprise Software.
 hideListLinks: true
 linkTitle: Metrics stream engine preview for monitoring v2
 weight: 60

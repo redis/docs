@@ -6,21 +6,21 @@ categories:
 - operate
 - rs
 - kubernetes
-description: Use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards to track the performance of your databases.
+description: Monitor Redis Enterprise Software clusters and databases using internal monitoring systems and external monitoring tools.
 hideListLinks: true
 linkTitle: Monitoring v1
 weight: 50
 ---
 
-The current approach to monitoring Redis Enterprise Software clusters, nodes, databases, and shards includes:
+The current approach to monitoring Redis Enterprise Software includes:
 
 - Internal monitoring systems:
 
-    - All stats-api
+    - [Statistics APIs]({{<relref "/operate/rs/references/rest-api/objects/statistics">}}), which collect various statistics at regular time intervals for clusters, nodes, databases, shards, and endpoints.
 
-    - Cluster Manager metrics and alerts
+    - Cluster manager metrics and alerts.
 
-- The v1 Prometheus scraping endpoint to integrate with external monitoring tools such as Prometheus and Grafana.
+- The v1 Prometheus scraping endpoint to integrate with external monitoring tools such as [Prometheus and Grafana]({{<relref "/operate/rs/monitoring/prometheus_and_grafana">}}).
 
 ## Cluster manager metrics
 
@@ -38,6 +38,11 @@ To choose which metrics to display in the two large graphs at the top of the pag
 1. Click on the right or left arrow to choose which side to show the graph.
 
 We recommend that you show two similar metrics in the top graphs so you can compare them side-by-side.
+
+See the following topics for metrics definitions:
+- [Database operations]({{< relref "/operate/rs/references/metrics/database-operations" >}}) for database metrics
+- [Resource usage]({{< relref "/operate/rs/references/metrics/resource-usage" >}}) for resource and database usage metrics
+- [Auto Tiering]({{< relref "/operate/rs/references/metrics/auto-tiering" >}}) for additional metrics for [Auto Tiering ]({{< relref "/operate/rs/databases/auto-tiering" >}}) databases
 
 ## Cluster alerts
 
