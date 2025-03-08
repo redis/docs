@@ -30,4 +30,4 @@ syntax_fmt: JSON.FORGET key [path]
 syntax_str: '[path]'
 title: JSON.FORGET
 ---
-See [`JSON.DEL`]({{< baseurl >}}commands/json.del/).
+See [`JSON.DEL`]({{< relref "commands/json.del/" >}}).

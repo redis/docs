@@ -173,7 +173,7 @@ After you store this secret, you can view and copy the [Amazon Resource Name (AR
 
 ## Create a vector index in your database {#create-vector-index}
 
-After your Redis Cloud database is set up, create a search index with a vector field using [FT.CREATE]({{< baseurl >}}commands/ft.create) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
+After your Redis Cloud database is set up, create a search index with a vector field using [FT.CREATE]({{< relref "commands/ft.create" >}}) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
 
 ### Redis Insight
 
@@ -203,7 +203,7 @@ To create your vector index in Redis Insight:
 
     {{<image filename="images/rc/ri-bedrock-workbench.png" width=50px alt="The Redis Insight workbench icon." >}}
 
-1. Enter the [FT.CREATE]({{< baseurl >}}commands/ft.create) command to create an index. 
+1. Enter the [FT.CREATE]({{< relref "commands/ft.create" >}}) command to create an index. 
 
     ```text
     FT.CREATE <index_name>                    
@@ -240,7 +240,7 @@ redis-cli -h <endpoint> -p <port> --tls --cacert redis_ca.pem \
     --cert redis_user.crt --key redis_user_private.key
 ```
 
-After you are connected with `redis-cli`, create an index using [FT.CREATE]({{< baseurl >}}commands/ft.create). 
+After you are connected with `redis-cli`, create an index using [FT.CREATE]({{< relref "commands/ft.create" >}}). 
 
 ```text
 FT.CREATE <index_name>                    

@@ -73,7 +73,7 @@ Check that the cursor is deleted.
 
 ## See also
 
-[`FT.CURSOR READ`]({{< baseurl >}}commands/ft.cursor-read/) 
+[`FT.CURSOR READ`]({{< relref "commands/ft.cursor-read/" >}}) 
 
 ## Related topics
 

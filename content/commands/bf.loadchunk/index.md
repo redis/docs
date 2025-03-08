@@ -29,9 +29,9 @@ syntax_fmt: BF.LOADCHUNK key iterator data
 syntax_str: iterator data
 title: BF.LOADCHUNK
 ---
-Restores a Bloom filter previously saved using [`BF.SCANDUMP`]({{< baseurl >}}commands/bf.scandump/).
+Restores a Bloom filter previously saved using [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}).
 
-See the [`BF.SCANDUMP`]({{< baseurl >}}commands/bf.scandump/) command for example usage.
+See the [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}) command for example usage.
 
 <note><b>Notes</b>
 
@@ -49,12 +49,12 @@ is key name for a Bloom filter to restore.
 
 <details open><summary><code>iterator</code></summary>
 
-Iterator value associated with `data` (returned by [`BF.SCANDUMP`]({{< baseurl >}}commands/bf.scandump/))
+Iterator value associated with `data` (returned by [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}))
 </details>
 
 <details open><summary><code>data</code></summary>
 
-Current data chunk (returned by [`BF.SCANDUMP`]({{< baseurl >}}commands/bf.scandump/))
+Current data chunk (returned by [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}))
 </details>
 
 ## Return value
@@ -66,4 +66,4 @@ Returns one of these replies:
 
 ## Examples
 
-See [`BF.SCANDUMP`]({{< baseurl >}}commands/bf.scandump/) for an example.
+See [`BF.SCANDUMP`]({{< relref "commands/bf.scandump/" >}}) for an example.

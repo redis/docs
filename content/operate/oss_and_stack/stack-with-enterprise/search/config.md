@@ -11,7 +11,7 @@ toc: 'false'
 weight: 15
 ---
 
-To configure RediSearch in [Redis Enterprise Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}), use one of the following methods instead of [`FT.CONFIG SET`]({{< baseurl >}}commands/ft.config-set).
+To configure RediSearch in [Redis Enterprise Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}), use one of the following methods instead of [`FT.CONFIG SET`]({{< relref "commands/ft.config-set" >}}).
 
 ## Configure search in Redis Cloud
 
