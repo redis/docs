@@ -1,6 +1,6 @@
 ---
-LinkTitle: Prometheus & Grafana with Redis Software
-Title: Prometheus and Grafana with Redis Enterprise Software
+LinkTitle: Get started
+Title: Get started with monitoring Redis Enterprise Software
 alwaysopen: false
 categories:
 - docs

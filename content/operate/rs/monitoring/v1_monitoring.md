@@ -1,31 +1,26 @@
 ---
-Title: Monitoring with metrics and alerts
+Title: Metrics and alerts for monitoring v1
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 - kubernetes
-description: Use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards to track the performance of your databases.
+description: Monitor Redis Enterprise Software clusters and databases using internal monitoring systems and external monitoring tools.
 hideListLinks: true
-linkTitle: Monitoring
-weight: 96
+linkTitle: Monitoring v1
+weight: 50
 ---
-You can use the metrics that measure the performance of your Redis Enterprise Software clusters, nodes, databases, and shards
-to monitor the performance of your databases.
-In the Redis Enterprise Cluster Manager UI, you can view metrics, configure alerts, and send notifications based on alert parameters. You can also access metrics and configure alerts through the REST API.
 
-Redis Enterprise version 7.8.2 introduces a preview of the new metrics stream engine that exposes the v2  Prometheus scraping endpoint at `https://<IP>:8070/v2`.
-This new engine exports all time-series metrics to external monitoring tools such as Grafana, DataDog, NewRelic, and Dynatrace using Prometheus.
+The current approach to monitoring Redis Enterprise Software includes:
 
-The new engine enables real-time monitoring, including full monitoring during maintenance operations, providing full visibility into performance during events such as shards' failovers and scaling operations.
+- Internal monitoring systems:
 
-If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
+    - [Statistics APIs]({{<relref "/operate/rs/references/rest-api/objects/statistics">}}), which collect various statistics at regular time intervals for clusters, nodes, databases, shards, and endpoints.
 
-To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) or [Uptrace]({{< relref "/integrate/uptrace-with-redis-enterprise/" >}}).
+    - Cluster manager metrics and alerts.
 
-Make sure you read the [definition of each metric]({{< relref "/operate/rs/references/metrics/" >}})
-so that you understand exactly what it represents.
+- The v1 Prometheus scraping endpoint to integrate with external monitoring tools such as [Prometheus and Grafana]({{<relref "/operate/rs/monitoring/prometheus_and_grafana">}}).
 
 ## Cluster manager metrics
 
@@ -43,6 +38,11 @@ To choose which metrics to display in the two large graphs at the top of the pag
 1. Click on the right or left arrow to choose which side to show the graph.
 
 We recommend that you show two similar metrics in the top graphs so you can compare them side-by-side.
+
+See the following topics for metrics definitions:
+- [Database operations]({{< relref "/operate/rs/references/metrics/database-operations" >}}) for database metrics
+- [Resource usage]({{< relref "/operate/rs/references/metrics/resource-usage" >}}) for resource and database usage metrics
+- [Auto Tiering]({{< relref "/operate/rs/references/metrics/auto-tiering" >}}) for additional metrics for [Auto Tiering ]({{< relref "/operate/rs/databases/auto-tiering" >}}) databases
 
 ## Cluster alerts
 
