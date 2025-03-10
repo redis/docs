@@ -3,7 +3,7 @@
   "info": {
     "title": "Redis Data Integration API",
     "description": "API for Redis Data Integration services",
-    "version": "1.6.0"
+    "version": "1.6.1"
   },
   "paths": {
     "/": {
@@ -3114,6 +3114,7 @@
         "enum": [
           "on_failed_retry_interval",
           "read_batch_size",
+          "debezium_lob_encoded_placeholder",
           "dedup",
           "dedup_max_size",
           "dedup_strategy",

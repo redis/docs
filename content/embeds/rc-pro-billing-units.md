@@ -17,4 +17,4 @@ The Redis Billing Unit types associated with your Pro subscription depend on you
 
 2. <a name="table-note-2" style="display: block; height: 80px; margin-top: -80px;"></a>Used for hosted databases with Auto Tiering for Redis 7.2 and later.
 
-Prices vary according to the cloud provider and region.  Minimum prices apply.  To learn more, see [Cloud pricing](https://redis.com/redis-enterprise-cloud/pricing/).
+Prices vary according to the cloud provider and region.  Minimum prices apply.

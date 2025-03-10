@@ -30,7 +30,7 @@ Usage: redis-di delete-all-contexts [OPTIONS]
   - Usage: `--force
 -f`
 
-  Force operation. skips verification prompts
+  Force operation. Skips verification prompts
 
 - `help`:
 
@@ -50,6 +50,6 @@ Usage: redis-di delete-all-contexts [OPTIONS]
 Options:
   -l, --log-level [TRACE|DEBUG|INFO|WARNING|ERROR|CRITICAL]
                                   [default: INFO]
-  -f, --force                     Force operation. skips verification prompts
+  -f, --force                     Force operation. Skips verification prompts
   --help                          Show this message and exit.
 ```
