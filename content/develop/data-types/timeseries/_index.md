@@ -21,11 +21,9 @@ weight: 150
 
 The Redis time series structure lets you store and query timestamped data points.
 
-Redis time series is not available by default in the basic Redis server, so you
-should install Redis Stack or Redis Enterprise,
-both of which include time series and other useful modules.
+Redis time series is available in Redis Community Edition, Redis Software, and Redis Cloud.
 See
-[Install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
+[Install Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
 [Install Redis Enterprise]({{< relref "/operate/rs/installing-upgrading/install" >}})
 for full installation instructions.
 

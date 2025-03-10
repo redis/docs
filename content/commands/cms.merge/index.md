@@ -1,4 +1,7 @@
 ---
+acl_categories:
+- '@cms'
+- '@write'
 arguments:
 - name: destination
   type: key

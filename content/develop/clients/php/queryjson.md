@@ -17,7 +17,7 @@ weight: 2
 
 This example shows how to index and query Redis JSON data using `predis`.
 
-Make sure that you have Redis Stack and `predis` installed, as described
+Make sure that you have Redis Community Edition and `predis` installed, as described
 in the [Install](#install) section above.
 
 Start by importing dependencies:

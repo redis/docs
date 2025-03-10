@@ -9,12 +9,12 @@ Redis is an [in-memory data store]({{< relref "/develop/get-started/data-store" 
 
 You can install Redis from source, from an executable for your OS, or bundled with Redis Stack and Redis Insight which include popular features and monitoring.
 
-* [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
-* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os" >}})
-* [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-windows" >}})
-* [Install Redis with Redis Stack and Redis Insight]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
+* [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-linux" >}})
+* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-mac-os" >}})
+* [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-windows" >}})
+* [Install Redis with Redis Stack and Redis Insight]({{< relref "/operate/oss_and_stack/install/archive/install-stack" >}})
 * [Run Redis Stack on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}})
-* [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}})
+* [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-from-source" >}})
 
 ## Use cases
 

@@ -4,13 +4,13 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Stack using tarballs
+description: How to install Redis Community Edition using binary images
 linkTitle: Binaries
-title: Install Redis Stack from binaries
-weight: 5
+title: Install Redis Community Edition on Linux
+weight: 8
 ---
 
-## Start Redis Stack Server
+## Start Redis Community Edition (CE) server from downloaded binary images
 
 Install the openssl libraries for your platform. For example, on a Debian or Ubuntu instance run:
 
@@ -18,32 +18,32 @@ Install the openssl libraries for your platform. For example, on a Debian or Ubu
 sudo apt install libssl-dev
 {{< / highlight >}}
 
-After untarring or unzipping your redis-stack-server download, you can start Redis Stack Server as follows:
+After untarring or unzipping your redis-server download, you can start Redis CE server as follows:
 
 {{< highlight bash >}}
-/path/to/redis-stack-server/bin/redis-stack-server
+/path/to/redis-server/bin/redis-server
 {{< / highlight >}}
 
 ### Add the binaries to your PATH
 
-You can add the redis-stack-server binaries to your `$PATH` as follows:
+You can add the redis-server binaries to your `$PATH` as follows:
 
 Open the file `~/.bashrc` or `~/zshrc` (depending on your shell), and add the following lines.
 
 {{< highlight bash >}}
-export PATH=/path/to/redis-stack-server/bin:$PATH
+export PATH=/path/to/redis-server/bin:$PATH
 {{< / highlight >}}
 
-If you have an existing Redis installation on your system, then you can choose override those override those PATH variables as before, or you can choose to only add redis-stack-server binary as follows:
+If you have an existing Redis installation on your system, then you can choose to override those PATH variables as before, or you can choose to only add redis-server binary as follows:
 
 {{< highlight bash >}}
-export PATH=/path/to/redis-stack-server/bin/redis-stack-server:$PATH
+export PATH=/path/to/redis-server/bin/redis-server:$PATH
 {{< / highlight >}}
 
-If you're running redis-stack-server on a mac, please ensure you have openssl installed, via [homebrew](https://brew.sh/).
+If you're running redis-server on macOS, please ensure you have openssl installed using [homebrew](https://brew.sh/).
 
-Now you can start Redis Stack Server as follows:
+Now you can start Redis CE as follows:
 
 {{< highlight bash >}}
-redis-stack-server
+redis-server
 {{< / highlight >}}

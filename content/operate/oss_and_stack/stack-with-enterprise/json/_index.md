@@ -5,14 +5,14 @@ categories:
 - docs
 - operate
 - stack
-description: Redis Stack adds support for JSON to Redis databases.
+description: Redis Community Edition adds support for JSON to Redis databases.
 hideListLinks: true
 linkTitle: JSON
 toc: 'true'
 weight: 30
 ---
 
-Redis Stack adds support for the [JSON data structure](http://www.json.org/) to Redis databases.
+Redis Community Edition (CE) adds support for the [JSON data structure](http://www.json.org/) to Redis databases.
 
 Applications developed with the [source available version of RedisJSON](https://github.com/RedisJSON/RedisJSON) are 100%
 compatible with Redis Enterprise databases with JSON enabled.
@@ -21,7 +21,7 @@ compatible with Redis Enterprise databases with JSON enabled.
 
 [Paths]({{< relref "/develop/data-types/json/path" >}}) let you traverse the structure of a JSON document, starting from the root, and interact only with the data you want. You can also use paths to perform operations on specific JSON elements.
 
-Since there is no standard for JSON path syntax, Redis Stack implements its own.
+Since there is no standard for JSON path syntax, Redis CE implements its own.
 
 ### JSONPath syntax
 

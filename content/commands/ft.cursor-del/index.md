@@ -1,4 +1,7 @@
 ---
+acl_categories:
+- '@read'
+- '@search'
 arguments:
 - name: index
   type: string
