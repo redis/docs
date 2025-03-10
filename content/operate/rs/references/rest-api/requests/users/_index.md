@@ -190,6 +190,11 @@ PUT /v1/users/1
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
 
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the updated [user object]({{< relref "/operate/rs/references/rest-api/objects/user" >}}) but don't apply the update. |
 
 #### URL parameters
 
@@ -273,6 +278,12 @@ POST /v1/users
 |-----|-------|-------------|
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
+
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the new [user object]({{< relref "/operate/rs/references/rest-api/objects/user" >}}) but don't apply the update. |
 
 #### Body
 
