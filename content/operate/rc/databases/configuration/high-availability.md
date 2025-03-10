@@ -62,7 +62,7 @@ You can reduce network transfer costs and network latency by ensuring your Redis
 
 To specify the availability zone for your cluster, select *Manual Selection* under **Allowed Availability Zones**. 
 
-For Google Cloud clusters and [self-managed AWS cloud accounts]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/" >}}), select an availability zone from the **Zone name** list.
+For Google Cloud clusters and [self-managed AWS cloud accounts]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/" >}}), select an availability zone from the **Zone name** list.
 
 {{<image filename="images/rc/availability-zones-no-multi-az.png" width="95%" alt="Select one availability zone when Multi-AZ is turned off." >}}
 

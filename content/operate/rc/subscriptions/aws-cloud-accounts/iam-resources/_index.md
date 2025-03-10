@@ -7,7 +7,7 @@ categories:
 description: null
 hideListLinks: true
 linkTitle: Create IAM resources
-weight: $weight
+weight: 1
 ---
 For most Redis Cloud Pro databases deployed to Amazon Web Services (AWS), we manage the supporting infrastructure for you in dedicated AWS accounts.
 
@@ -22,7 +22,7 @@ In the new AWS account, you need to create:
 - A user with an **access key**
 - A role that grants **AWS console access**
 
-Save the access key in a secure location so that you can enter it when you [register the cloud account]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/" >}}) with your the Redis Cloud subscription.
+Save the access key in a secure location so that you can enter it when you [register the cloud account]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/" >}}) with your the Redis Cloud subscription.
 
 {{< warning >}}
 We use the provided credentials to configure your AWS environment and provision required resources.
@@ -37,6 +37,6 @@ For help creating an AWS user, see the [AWS IAM documentation](https://docs.aws.
 
 You can use one of the following tools to create IAM resources:
 
-- [CloudFormation]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources/cloudformation.md" >}}) - The AWS automation tool
-- [Terraform]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources/terraform.md" >}}) - Widely supported in the Redis community for additional automation
-- The [AWS Console]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/iam-resources/aws-console.md" >}})
+- [CloudFormation]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/iam-resources/cloudformation" >}})
+- [Terraform]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/iam-resources/terraform" >}})
+- The [AWS Console]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/iam-resources/aws-console" >}})
