@@ -10,6 +10,10 @@
     },
     "version": "Version 1"
   },
+  "externalDocs": {
+    "description": "Redis Cloud API Documentation",
+    "url": "https://docs.redislabs.com/latest/rc/api/"
+  },
   "servers": [
     {
       "url": "https://api.redislabs.com/v1"
@@ -17,9 +21,7 @@
   ],
   "security": [
     {
-      "x-api-key": []
-    },
-    {
+      "x-api-key": [],
       "x-api-secret-key": []
     }
   ],
@@ -32,42 +34,47 @@
     {
       "name": "Subscriptions - Pro",
       "description": "All operations related to Pro subscriptions lifecycle",
-      "x-order": "1"
+      "x-order": "10"
+    },
+    {
+      "name": "Subscriptions - Pro - Connectivity",
+      "description": "All operations related to Pro subscriptions connectivity",
+      "x-order": "11"
     },
     {
       "name": "Databases - Pro",
       "description": "All operations related to Pro databases lifecycle",
-      "x-order": "2"
+      "x-order": "20"
     },
     {
       "name": "Subscriptions - Essentials",
       "description": "All operations related to Essentials subscriptions lifecycle",
-      "x-order": "3"
+      "x-order": "30"
     },
     {
       "name": "Databases - Essentials",
       "description": "All operations related to Essentials databases lifecycle",
-      "x-order": "4"
+      "x-order": "40"
     },
     {
       "name": "Access Control List",
       "description": "Data and operations related to access control list",
-      "x-order": "5"
+      "x-order": "50"
     },
     {
       "name": "Cloud Accounts",
       "description": "All operations related to cloud accounts (AWS only)",
-      "x-order": "6"
+      "x-order": "60"
     },
     {
       "name": "Users",
       "description": "Data and operations related to account's users",
-      "x-order": "7"
+      "x-order": "70"
     },
     {
       "name": "Tasks",
       "description": "Displays information on long running operations",
-      "x-order": "8"
+      "x-order": "80"
     }
   ],
   "paths": {
@@ -92,11 +99,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -158,11 +165,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -220,11 +227,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -284,11 +291,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -350,11 +357,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -412,11 +419,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -458,7 +465,7 @@
     "/subscriptions/{subscriptionId}/transitGateways/{TgwId}/attachment": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update a transit gateway attachment",
         "description": "Update an AWS transit gateway attachment",
@@ -496,11 +503,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -540,7 +547,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create a transit gateway attachment",
         "description": "Create an AWS transit gateway attachment",
@@ -568,11 +575,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -615,7 +622,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete a transit gateway attachment",
         "description": "Delete an AWS transit gateway attachment",
@@ -643,11 +650,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -689,7 +696,7 @@
     "/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Reject a transit gateway resource share",
         "description": "Reject an AWS transit gateway resource share",
@@ -717,11 +724,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -763,7 +770,7 @@
     "/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Accept a transit gateway resource share",
         "description": "Accept an AWS transit gateway resource share",
@@ -791,11 +798,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -837,7 +844,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/{TgwId}/attachment": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update a specific region transit gateway attachment",
         "description": "Update an active active specific region AWS transit gateway attachment",
@@ -886,11 +893,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -930,7 +937,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create a specific region transit gateway attachment",
         "description": "Create an active active specific region AWS transit gateway attachment",
@@ -969,11 +976,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1016,7 +1023,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete a specific region transit gateway attachment",
         "description": "Delete an active active specific region AWS transit gateway attachment",
@@ -1055,11 +1062,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1101,7 +1108,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Accept a specific region transit gateway resource share",
         "description": "Accept an active active specific region AWS transit gateway resource share",
@@ -1140,11 +1147,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1186,7 +1193,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update an existing active-active subscription Private Service Connect endpoint",
         "description": "Update an existing Private Service Connect endpoint in an existing active-active subscription.",
@@ -1244,11 +1251,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1288,7 +1295,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete an existing active-active subscription Private Service Connect endpoint",
         "description": "Delete an existing Private Service Connect endpoint in an existing active-active subscription.",
@@ -1336,11 +1343,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1382,7 +1389,7 @@
     "/subscriptions/{subscriptionId}/regions/peerings/{peeringId}": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update an active-active subscription VPC peering",
         "description": "Update an existing VPC peering in an existing active-active subscription.",
@@ -1426,11 +1433,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -1470,7 +1477,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete an active-active subscription VPC peering",
         "description": "Delete a VPC peering from an existing active-active subscription.",
@@ -1498,11 +1505,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -1544,7 +1551,7 @@
     "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update an existing subscription Private Service Connect endpoint",
         "description": "Update an existing Private Service Connect endpoint in an existing subscription.",
@@ -1592,11 +1599,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1636,7 +1643,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete an existing subscription Private Service Connect endpoint",
         "description": "Delete an existing Private Service Connect endpoint in an existing subscription.",
@@ -1674,11 +1681,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1720,7 +1727,7 @@
     "/subscriptions/{subscriptionId}/peerings/{peeringId}": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update subscription peering",
         "description": "Update an existing VPC peering in an existing subscription.",
@@ -1764,11 +1771,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1808,7 +1815,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete subscription peering",
         "description": "Deletes a VPC peering identified by an id",
@@ -1836,11 +1843,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -1900,11 +1907,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -1966,11 +1973,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2042,11 +2049,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2135,11 +2142,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2207,11 +2214,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2281,11 +2288,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2357,11 +2364,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2439,11 +2446,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2535,11 +2542,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2617,11 +2624,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2721,11 +2728,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2805,11 +2812,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -2869,11 +2876,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -2935,11 +2942,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -2981,7 +2988,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Reject a specific region transit gateway resource share",
         "description": "Reject an active active specific region AWS transit gateway resource share",
@@ -3020,11 +3027,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -3084,11 +3091,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3149,11 +3156,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -3211,11 +3218,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3287,11 +3294,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3376,11 +3383,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3448,11 +3455,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3522,11 +3529,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3598,11 +3605,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3680,11 +3687,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3776,11 +3783,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3858,11 +3865,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3923,11 +3930,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -3990,11 +3997,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -4053,11 +4060,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4118,11 +4125,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4184,11 +4191,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4246,11 +4253,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4320,11 +4327,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -4382,11 +4389,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4456,11 +4463,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -4518,11 +4525,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -4570,11 +4577,11 @@
         "description": "Information on current account's subscriptions",
         "operationId": "getAllSubscriptions",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4667,11 +4674,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -4734,11 +4741,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4800,11 +4807,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4872,11 +4879,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -4918,7 +4925,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get an active-active Subscription private service connect",
         "description": "Get an active-active private service connect details",
@@ -4946,11 +4953,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -4984,7 +4991,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create an active-active subscription Private Service Connect",
         "description": "Create a new Private Service Connect in an existing active-active subscription.",
@@ -5012,11 +5019,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5059,7 +5066,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete an active-active subscription Private Service Connect",
         "description": "Delete a Private Service Connect in an existing active-active subscription.",
@@ -5087,11 +5094,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5133,7 +5140,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get an active-active subscription private service connect endpoints",
         "description": "Get an active-active private service connect endpoints details",
@@ -5171,11 +5178,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5209,7 +5216,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create an active-active subscription Private Service Connect endpoint",
         "description": "Create a new Private Service Connect endpoint in an existing active-active subscription.",
@@ -5257,11 +5264,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5306,7 +5313,7 @@
     "/subscriptions/{subscriptionId}/regions/peerings": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get an active-active subscription VPC peering",
         "description": "Get VPC peering details for an active-active subscription.",
@@ -5324,11 +5331,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -5362,7 +5369,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create an active-active subscription VPC peering",
         "description": "Create a new VPC peering in an existing active-active subscription. For details, see [documentation](https://docs.redis.com/latest/rc/security/vpc-peering)",
@@ -5400,11 +5407,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -5449,7 +5456,7 @@
     "/subscriptions/{subscriptionId}/private-service-connect": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Subscription private service connect",
         "description": "Get private service connect details",
@@ -5467,11 +5474,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5505,7 +5512,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create a subscription Private Service Connect",
         "description": "Create a new Private Service Connect in an existing subscription.",
@@ -5523,11 +5530,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5570,7 +5577,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete a subscription Private Service Connect",
         "description": "Delete a Private Service Connect in an existing subscription.",
@@ -5588,11 +5595,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5634,7 +5641,7 @@
     "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Subscription private service connect endpoints",
         "description": "Get private service connect endpoints details",
@@ -5662,11 +5669,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5700,7 +5707,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create a subscription Private Service Connect endpoint",
         "description": "Create a new Private Service Connect endpoint in an existing subscription.",
@@ -5738,11 +5745,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5787,7 +5794,7 @@
     "/subscriptions/{subscriptionId}/peerings": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Subscription peering",
         "description": "Get VPC peering details",
@@ -5805,11 +5812,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5843,7 +5850,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create subscription peering",
         "description": "Create a new VPC peering in an existing subscription. VPC peering for Google Cloud Provider must be enabled using the GCloud command line. For details, see [documentation](https://docs.redis.com/latest/rc/security/vpc-peering)",
@@ -5882,11 +5889,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -5972,11 +5979,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6056,11 +6063,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -6133,11 +6140,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6209,11 +6216,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6292,11 +6299,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6367,11 +6374,11 @@
           }
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6419,11 +6426,11 @@
         "description": "Information on current account's Essentials subscriptions",
         "operationId": "getAllSubscriptions_1",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6473,11 +6480,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -6563,11 +6570,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6642,11 +6649,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6719,11 +6726,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6795,11 +6802,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6869,11 +6876,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6944,11 +6951,11 @@
           }
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -6996,11 +7003,11 @@
         "description": "List all configured cloud accounts",
         "operationId": "getCloudAccounts",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7050,11 +7057,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -7105,11 +7112,11 @@
         "description": "Information on current account's ACL users",
         "operationId": "getAllUsers_1",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7159,11 +7166,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -7214,11 +7221,11 @@
         "description": "Information on current account's ACL roles",
         "operationId": "getRoles",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7268,11 +7275,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -7323,11 +7330,11 @@
         "description": "Information on current account's ACL users",
         "operationId": "getAllRedisRules",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7377,11 +7384,11 @@
           "required": true
         },
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -7432,11 +7439,11 @@
         "description": "Information on current account's users",
         "operationId": "getAllUsers",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7478,11 +7485,11 @@
         "description": "Currently active long running operations",
         "operationId": "getAllTasks",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7535,11 +7542,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7575,7 +7582,7 @@
     "/subscriptions/{subscriptionId}/transitGateways": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Subscription tgws",
         "description": "Get tgws details",
@@ -7593,11 +7600,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7633,7 +7640,7 @@
     "/subscriptions/{subscriptionId}/transitGateways/invitations": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Subscription tgw invitations",
         "description": "Get tgw invitations details",
@@ -7651,11 +7658,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7691,7 +7698,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Active Active Subscription tgws",
         "description": "Get Active Active tgws details",
@@ -7720,11 +7727,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7760,7 +7767,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Active Active Subscription tgw invitations",
         "description": "Get Active Active tgw invitations details",
@@ -7789,11 +7796,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -7829,7 +7836,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get an active-active subscription private service connect endpoint deletion script ",
         "description": "Get an active-active subscription private service connect endpoint deletion script details for the deletion of a gcp user's endpoint.",
@@ -7877,11 +7884,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -7917,7 +7924,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get an active-active subscription private service connect endpoint creation script ",
         "description": "Get an active-active subscription private service connect endpoint creation script details for the creation of a gcp user's endpoint.",
@@ -7965,11 +7972,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -8005,7 +8012,7 @@
     "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Subscription private service connect endpoint deletion script ",
         "description": "Get Subscription private service connect endpoint deletion script details for the deletion of a gcp user's endpoint.",
@@ -8043,11 +8050,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -8083,7 +8090,7 @@
     "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Subscription private service connect endpoint creation script ",
         "description": "Get Subscription private service connect endpoint creation script details for the creation of a gcp user's endpoint.",
@@ -8121,11 +8128,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "202": {
             "description": "Accepted",
@@ -8179,11 +8186,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8249,11 +8256,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8295,11 +8302,11 @@
         "description": "Get the available Redis database versions",
         "operationId": "getRedisVersions",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8356,11 +8363,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8402,11 +8409,11 @@
         "description": "Lookup list of supported Query performance factors",
         "operationId": "getSupportedSearchScalingFactors",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8448,11 +8455,11 @@
         "description": "Lookup list of current Account's payment methods",
         "operationId": "getAccountPaymentMethods",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8520,11 +8527,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8591,11 +8598,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8649,11 +8656,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8707,11 +8714,11 @@
           }
         ],
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8753,11 +8760,11 @@
         "description": "Lookup list of database modules supported in current account (support may differ based on subscription and database settings)",
         "operationId": "getSupportedDatabaseModules",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8799,11 +8806,11 @@
         "description": "Lookup list of data persistence values",
         "operationId": "getDataPersistenceOptions",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -8845,11 +8852,11 @@
         "description": "Current account and related information",
         "operationId": "getCurrentAccount",
         "responses": {
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
           },
           "200": {
             "description": "OK",
@@ -9415,7 +9422,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -9481,6 +9489,15 @@
             "enum": [
               "resp2",
               "resp3"
+            ]
+          },
+          "shardingType": {
+            "type": "string",
+            "description": "Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy). Default depends on your account creation date. See [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy) for more information.",
+            "enum": [
+              "default-regex-rules",
+              "custom-regex-rules",
+              "redis-oss-hashing"
             ]
           },
           "queryPerformanceFactor": {
@@ -9652,7 +9669,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead. Supported only for 'Pay-As-You-Go' subscriptions",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -9757,7 +9775,8 @@
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\""
+            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
@@ -9824,7 +9843,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -9931,7 +9951,8 @@
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\""
+            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
@@ -9951,7 +9972,8 @@
           "periodicBackupPath": {
             "type": "string",
             "description": "Deprecated - If specified, automatic backups will be every 24 hours or database will be able to perform immediate backups to this path. If empty string is received, backup path will be removed. Optional.",
-            "example": "s3://<backup-path>"
+            "example": "s3://<backup-path>",
+            "deprecated": true
           },
           "remoteBackup": {
             "$ref": "#/components/schemas/DatabaseBackupConfig"
@@ -11878,7 +11900,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead. Supported only for 'Pay-As-You-Go' subscriptions",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -11983,7 +12006,8 @@
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\""
+            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
@@ -13102,7 +13126,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -13123,7 +13148,8 @@
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\""
+            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
@@ -13329,7 +13355,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -13418,7 +13445,8 @@
           "periodicBackupPath": {
             "type": "string",
             "description": "Deprecated - If specified, automatic backups will be every 24 hours or database will be able to perform immediate backups to this path. If empty string is received, backup path will be removed. Optional.",
-            "example": "s3://<backup-path>"
+            "example": "s3://<backup-path>",
+            "deprecated": true
           },
           "remoteBackup": {
             "$ref": "#/components/schemas/DatabaseBackupConfig"
@@ -13433,7 +13461,8 @@
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\""
+            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
@@ -13471,6 +13500,15 @@
             "items": {
               "$ref": "#/components/schemas/DatabaseModuleSpec"
             }
+          },
+          "shardingType": {
+            "type": "string",
+            "description": "Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy). \nDefault depends on your account creation date. See [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy) for more information.",
+            "enum": [
+              "default-regex-rules",
+              "custom-regex-rules",
+              "redis-oss-hashing"
+            ]
           },
           "commandType": {
             "type": "string",
@@ -13671,6 +13709,8 @@
               "DATABASE_INVALID_MODULE_PARAMETER",
               "DATABASE_INVALID_MODULE_PARAMETER_VALUE",
               "DATABASE_INVALID_ALERT_VALUE",
+              "DATABASE_SHARDING_TYPE_IS_IMMUTABLE",
+              "DATABASE_SHARDING_TYPE_IS_NOT_SUPPORTED",
               "DATABASE_REGEX_RULES_NO_CLUSTERING",
               "DATABASE_REGEX_RULES_CHANGES_BLOCKED",
               "DATABASE_OSS_CLUSTER_NOT_SUPPORTED",
@@ -14039,7 +14079,17 @@
               "MAINTENANCE_WINDOW_INVALID_DAYS",
               "MAINTENANCE_WINDOW_DUPLICATE_DAYS",
               "MAINTENANCE_WINDOW_INVALID_DURATION_FOR_ROF_SUBSCRIPTION",
-              "MAINTENANCE_WINDOW_UNKNOWN_MEMORY_STORAGE_TYPE"
+              "MAINTENANCE_WINDOW_UNKNOWN_MEMORY_STORAGE_TYPE",
+              "DATABASE_UPGRADE_IS_ALREADY_RUNNING",
+              "DATABASE_CLUSTER_IS_IN_MAINTENANCE",
+              "DATABASE_IS_NOT_ACTIVE",
+              "DATABASE_UPGRADE_WORKFLOW_NOT_FOUND",
+              "DATABASE_UPGRADE_INVALID_REDIS_VERSION",
+              "DATABASE_UPGRADE_OF_MEMCACHED_IS_NOT_SUPPORTED",
+              "DATABASE_REPLICA_OF_INCOMPATIBLE_VERSION",
+              "DATABASE_UPGRADE_FAILED",
+              "DATABASE_INVALID_PLAN_TYPE",
+              "DATABASE_UPGRADE_IS_NOT_SUPPORTED"
             ]
           },
           "additionalInfo": {
@@ -14929,7 +14979,7 @@
           },
           "respVersion": {
             "type": "string",
-            "description": "Optional. RESP version must be compatible with Redis version.",
+            "description": "Deprecated - Optional. RESP version must be compatible with Redis version.",
             "example": "resp3",
             "deprecated": true,
             "enum": [
