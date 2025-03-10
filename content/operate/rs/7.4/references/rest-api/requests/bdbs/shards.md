@@ -26,7 +26,7 @@ Gets the status for all shards that belong to the specified database.
 
 #### Example HTTP request
 
-	GET /bdbs/1/shards?extra_info_keys=used_memory_rss&extra_info_keys=connected_clients
+	GET /v1/bdbs/1/shards?extra_info_keys=used_memory_rss&extra_info_keys=connected_clients
 
 #### Request headers
 

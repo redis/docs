@@ -31,7 +31,7 @@ Gets the latest cached status of the proxy certificate’s OCSP response.
 
 #### Example HTTP request
 
-	GET /ocsp/status 
+	GET /v1/ocsp/status 
 
 
 #### Request headers

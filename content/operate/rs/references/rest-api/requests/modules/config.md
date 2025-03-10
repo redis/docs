@@ -31,7 +31,7 @@ Use the module runtime configuration command (if defined) to configure new argum
 
 #### Example HTTP request
 
-	POST /modules/config/bdb/1
+	POST /v1/modules/config/bdb/1
 
 #### Example JSON body
 

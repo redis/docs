@@ -33,7 +33,7 @@ Get all alert states for the cluster object.
 
 #### Example HTTP request
 
-	GET /cluster/alerts 
+	GET /v1/cluster/alerts 
 
 #### Request headers
 
@@ -91,7 +91,7 @@ Get a cluster alert state.
 
 #### Example HTTP request
 
-	GET /cluster/alerts/cluster_too_few_nodes_for_replication 
+	GET /v1/cluster/alerts/cluster_too_few_nodes_for_replication 
 
 #### Request headers
 

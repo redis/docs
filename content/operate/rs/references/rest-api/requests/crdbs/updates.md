@@ -35,7 +35,7 @@ When you update db_config, it changes the configuration of the database that you
 
 #### Example HTTP request
 
-    POST /crdbs/1/updates
+    POST /v1/crdbs/1/updates
 
 #### Request headers
 
