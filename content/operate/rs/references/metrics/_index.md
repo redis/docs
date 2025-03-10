@@ -49,7 +49,7 @@ Metrics information is not shown for clusters with more than 128 shards. For lar
 
 ### Metrics not shown during shard migration
 
-The following metrics are not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}). If you view these metrics while resharding, the graph will be blank.
+The following metrics are not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) when using the [internal monitoring systems]({{<relref "/operate/rs/monitoring/v1_monitoring">}}). If you view these metrics while resharding, the graph will be blank.
 
 - [Evicted objects/sec]({{< relref "/operate/rs/references/metrics/database-operations#evicted-objectssec" >}})
 - [Expired objects/sec]({{< relref "/operate/rs/references/metrics/database-operations#expired-objectssec" >}})
@@ -59,3 +59,5 @@ The following metrics are not measured during [shard migration]({{< relref "/ope
 - [Incoming traffic]({{< relref "/operate/rs/references/metrics/resource-usage#incoming-traffic" >}})
 - [Outgoing traffic]({{< relref "/operate/rs/references/metrics/resource-usage#outgoing-traffic" >}})
 - [Used memory]({{< relref "/operate/rs/references/metrics/resource-usage#used-memory" >}})
+
+This limitation does not apply to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}).
