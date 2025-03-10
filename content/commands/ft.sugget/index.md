@@ -38,9 +38,6 @@ complexity: O(1)
 description: Gets completion suggestions for a prefix
 group: suggestion
 hidden: false
-history:
-- - 2.0.0
-  - Deprecated `WITHPAYLOADS` argument
 linkTitle: FT.SUGGET
 module: Search
 since: 1.0.0

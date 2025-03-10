@@ -34,9 +34,6 @@ complexity: O(1)
 description: Adds a suggestion string to an auto-complete suggestion dictionary
 group: suggestion
 hidden: false
-history:
-- - 2.0.0
-  - Deprecated `PAYLOAD` argument
 linkTitle: FT.SUGADD
 module: Search
 since: 1.0.0

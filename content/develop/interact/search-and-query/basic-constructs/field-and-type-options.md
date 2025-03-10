@@ -233,3 +233,30 @@ You can search for documents with specific text values using the `<term>` or the
     ```
     FT.SEARCH books-idx "@title:dogs"
     ```
+
+## Unicode considerations
+
+Redis Query Engine only supports Unicode characters in the [basic multilingual plane](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane); U+0000 to U+FFFF. Unicode characters beyond U+FFFF, such as Emojis, are not supported and would not be retrieved by queries including such characters in the following use cases:
+
+* Querying TEXT fields with Prefix/Suffix/Infix
+* Querying TEXT fields with fuzzy
+
+Examples:
+
+```
+redis> FT.CREATE idx SCHEMA tag TAG text TEXT
+OK
+redis> HSET doc:1 tag '😀😁🙂' text '😀😁🙂'
+(integer) 2
+redis> HSET doc:2 tag '😀😁🙂abc' text '😀😁🙂abc'
+(integer) 2
+redis> FT.SEARCH idx '@text:(*😀😁🙂)' NOCONTENT
+1) (integer) 0
+redis> FT.SEARCH idx '@text:(*😀😁🙂*)' NOCONTENT
+1) (integer) 0
+redis> FT.SEARCH idx '@text:(😀😁🙂*)' NOCONTENT
+1) (integer) 0
+
+redis> FT.SEARCH idx '@text:(%😀😁🙃%)' NOCONTENT
+1) (integer) 0
+```
