@@ -131,7 +131,7 @@ Get a single database.
 #### Example HTTP request
 
 ```sh
-GET /bdbs/1
+GET /v1/bdbs/1
 ```
 
 #### Headers
@@ -200,7 +200,7 @@ To track this request's progress, poll the [`/actions/<action_uid>` endpoint]({{
 #### Example HTTP request
 
 ```sh
-PUT /bdbs/1
+PUT /v1/bdbs/1
 ```
 
 #### Headers
@@ -308,7 +308,7 @@ If called with the `dry_run` URL query string, the function will validate the [B
 #### Example HTTP request
 
 ```sh
-PUT /bdbs/1/reset_admin_pass
+PUT /v1/bdbs/1/reset_admin_pass
 ```
 The above request resets the admin password after updating the database.
 
@@ -425,7 +425,7 @@ The cluster will use default configuration for any missing database field. The c
 #### Example HTTP request
 
 ```sh
-POST /bdbs
+POST /v1/bdbs
 ```
 
 #### Headers
@@ -627,7 +627,7 @@ Delete an active database.
 #### Example HTTP request
 
 ```sh
-DELETE /bdbs/1
+DELETE /v1/bdbs/1
 ```
 #### Headers
 
