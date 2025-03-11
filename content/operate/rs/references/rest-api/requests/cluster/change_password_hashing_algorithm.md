@@ -19,7 +19,7 @@ weight: $weight
 
 	PATCH /v1/cluster/change_password_hashing_algorithm
 
-Changes the password hashing algorithm for the entire cluster. When you change the hashing algorithm, it rehashes the administrator password and all user passwords, including default users.
+Changes the password hashing algorithm for the entire cluster. When you change the hashing algorithm, it rehashes the administrator password and passwords for all users, including default users.
 
 The hashing algorithm options are `SHA-256` or `PBKDF2`. The default hashing algorithm is `SHA-256`.
 
