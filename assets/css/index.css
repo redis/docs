@@ -48,7 +48,7 @@ section.prose {
 }
 
 .prose h1 {
-  @apply text-4xl;
+  @apply text-4xl break-words;
 }
 
 .prose h1[id],
