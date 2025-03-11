@@ -6,20 +6,43 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Dry run option to validate REST API requests for users and roles.
+description: Configurable hashing algorithm for user passwords. Dry run option to validate REST API requests for users and roles.
 linkTitle: 7.8.6-tba (March 2025)
 weight: 85
 ---
 
-​[​Redis Enterprise Software version 7.8.6](https://redis.io/downloads/#software) is now available! This release includes API enhancements that warranted a new minor version instead of a maintenance release for version 7.8.4. However, you can upgrade from 7.8.4 to 7.8.6 without issue.
+​[​Redis Enterprise Software version 7.8.6](https://redis.io/downloads/#software) is now available! This release includes API enhancements that warranted a new minor version instead of a maintenance release for version 7.8.4. However, you can upgrade from 7.8.2 or 7.8.4 to 7.8.6 without issue.
 
 ## Highlights
 
 This version offers:
 
+- Configurable hashing algorithm for user passwords
+
 - Dry run option to validate REST API requests for users and roles
 
 ## New in this release
+
+### New features
+
+- The hashing algorithm for user passwords is now configurable using [`rladmin`]({{<relref "/operate/rs/references/cli-utilities/rladmin">}}) or the [REST API]({{<relref "/operate/rs/references/rest-api">}}). When you change the hashing algorithm, it rehashes the administrator password and passwords for all users, including default users.
+
+    The hashing algorithm options are `SHA-256` or `PBKDF2`. The default hashing algorithm is `SHA-256`.
+
+    To change the password hashing algorithm, use one of the following methods:
+
+    - [`rladmin cluster change_password_hashing_algorithm`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/change_password_hashing_algorithm">}}):
+
+        ```sh
+        rladmin cluster change_password_hashing_algorithm PBKDF2
+        ```
+
+    - [Change password hashing algorithm REST API request]({{<relref "/operate/rs/references/rest-api/requests/cluster/change_password_hashing_algorithm#patch-change-password-hashing-algorithm">}}):
+
+        ```sh
+        PATCH /v1/cluster/change_password_hashing_algorithm
+        { "algorithm": "PBKDF2" }
+        ```
 
 ### Enhancements
 
@@ -71,7 +94,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- TBA
+- TBA?
 
 ## Version changes
 
