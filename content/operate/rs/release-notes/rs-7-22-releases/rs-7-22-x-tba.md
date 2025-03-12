@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: New pricing and packaging. TBA
+description: New pricing and packaging. Revamp database API.
 linkTitle: 7.22.x-tba (April 2025)
 weight: 90
 ---
@@ -19,7 +19,7 @@ This version offers:
 
 - New pricing and packaging
 
-- TBA
+- Revamp database API
 
 ## New in this release
 
@@ -27,13 +27,25 @@ This version offers:
 
 - New pricing and packaging
 
-- TBA
+- Revamp database REST API request:
+
+    - Updates topology-related configurations of an active database and optimises the shards placement for the new configuration. Example configuration parameters include `memory_size`, `shards_count`, `avoid_nodes`, `shards_placement`, `bigstore_ram_size`, and `replication`.
+
+    - Replaces the deprecated request to [optimize shards placement]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement">}}).
 
 ### Enhancements
 
 - New Cluster Manager UI enhancements:
 
     - TBA
+
+- REST API enhancements:
+
+    - Adjusted the API to [get the database recovery plan]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/recover#get-bdbs-actions-recover">}}) to only return the best persistence file per slot range for databases with `master_persistence` enabled.
+
+    - A database's `maxclients` can now be configured with an [update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) request.
+
+    - Added `bigstore_version` to database configuration and `default_bigstore_version` to cluster settings.
 
 - Added module information to database creation log messages.
 
