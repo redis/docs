@@ -28,6 +28,7 @@ Cluster resources management policy
 | default_fork_evict_ram | boolean | If true, the bdbs should evict data from RAM to ensure successful replication or persistence |
 | default_non_sharded_proxy_policy | `single`<br /><br />`all-master-shards`</nobr><br /><br />`all-nodes` | Default proxy_policy for newly created non-sharded databases' endpoints |
 | default_oss_sharding | boolean (default: false) | Default hashing policy to use for new databases. This field is for future use only and should not be changed. |
+| default_oss_cluster | boolean (default: false) | Default `oss_cluster` setting for new databases. Enables the OSS Cluster API if `true`, or turns it off if `false`. |
 | default_provisioned_redis_version | string | Default Redis version |
 | default_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default proxy_policy for newly created sharded databases' endpoints |
 | default_shards_placement | `dense`<br />`sparse` | Default shards_placement for a newly created databases |
