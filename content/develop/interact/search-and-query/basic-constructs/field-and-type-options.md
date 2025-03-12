@@ -131,7 +131,7 @@ and `<shape>` is the shape of interest, specified in the
 format. For example, the query below finds shapes that contain the point (2, 2):
 
 ```
-FT.SEARCH idx "(@geom:[CONTAINS $qshape])" PARAMS 2 qshape "POINT (2 2)" RETURN 1 name DIALECT 4
+FT.SEARCH idx "(@geom:[CONTAINS $qshape])" PARAMS 2 qshape "POINT (2 2)" RETURN 1 name DIALECT 2
 ```
 
 See
