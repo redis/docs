@@ -41,6 +41,7 @@ An API object that represents a managed database in the cluster.
 | bigstore | boolean (default:&nbsp;false);  Database bigstore option |
 | bigstore_ram_size | integer (default:&nbsp;0);  Memory size of bigstore RAM part. |
 | bigstore_ram_weights | {{<code>}}[{<br />  "shard_uid": integer,<br />  "weight": number<br />}, ...]{{</code>}} List of shard UIDs and their bigstore RAM weights;<br /> **shard_uid**: Shard UID;<br /> **weight**: Relative weight of RAM distribution |
+| bigstore_version | The database's `bigstore_version`:<br />• `1` for Auto Tiering (Redis on Flash version 1). Default version.<br/>• `2` for Redis Flex (Redis on Flash version 2) on databases that support it. Can only be used with the `speedb` driver. |
 | client_cert_subject_validation_type | Enables additional certificate validations that further limit connections to clients with valid certificates during TLS client authentication.<br />Values:<br />**disabled**: Authenticates clients with valid certificates. No additional validations are enforced.<br />**san_cn**: A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other Subject attributes.<br />**full_subject**: A client certificate is valid only if its Subject attributes match an entry in the list of valid subjects. |
 | conns | integer (default&nbsp;5);  Number of internal proxy connections |
 | conns_type | Connections limit type<br />Values:<br />**‘per-thread’**<br />‘per-shard’ |
@@ -98,6 +99,7 @@ An API object that represents a managed database in the cluster.
 | max_client_pipeline | integer (default:&nbsp;200); Maximum number of pipelined commands per connection. Maximum value is 2047. |
 | max_connections | integer (default:&nbsp;0); Maximum number of client connections allowed (0 unlimited) |
 | max_pipelined | integer (default:&nbsp;2000); Determines the maximum number of commands in the proxy’s pipeline per shard connection. |
+| maxclients | integer (default: 10000); The maximum number of connected clients at the same time. By default the limit is 10000 clients. |
 | master_persistence | boolean (default:&nbsp;false); If true, persists the primary shard in addition to replica shards in a replicated and persistent database. |
 | memory_size | integer (default:&nbsp;0); Database memory limit (0 is unlimited), expressed in bytes. |
 | metrics_export_all | boolean; Enable/disable exposing all shard metrics through the metrics exporter |
