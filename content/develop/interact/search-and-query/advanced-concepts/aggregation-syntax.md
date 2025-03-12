@@ -17,7 +17,9 @@ weight: 2
 
 ## Overview
 
-[`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) is a powerful command in RQE module for performing advanced data aggregation, filtering, sorting, and transformations on indexed documents. This reference page provides a structured breakdown of syntax, ordering rules, and best practices.
+[`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) is a powerful Redis Query Engine (RQE) command for performing advanced data aggregation, filtering, sorting, and transformations on indexed documents. This reference page provides a structured breakdown of syntax, ordering rules, and best practices.
+
+The [main aggregations page]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations" >}}) has a simple diagram showing how `FT.AGGREGATE` pipelines are constructed, but it's a bit too simplistic. For example, it's possible to create more complex aggregation pipelines by applying multiple `REDUCE` functions under a single GROUPBY clause, or you can chain groupings and mix in additional mapping steps: `GROUPBY` ... `REDUCE` ... `APPLY` ... `GROUPBY` ... `REDUCE`.
 
 ## Syntax and expression ordering
 
