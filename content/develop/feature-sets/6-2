@@ -11,35 +11,41 @@ linkTitle: Redis 6.2
 weight: 8
 ---
 
-This page highlights the new features and changes introduced in Redis feature set 6.2.
+Redis version 6.2 introduces new capabilities designed to improve data indexing, querying, and analytics. This update brings multi-value indexing, expanded wildcard query support, and a new probabilistic data structure for quantile estimation. Additionally, significant enhancements to Redis Streams and time series data processing offer greater flexibility for developers working with real-time and historical datasets. Over 25 new commands have been added, addressing key feature requests and further extending Redis' functionality.
+Below is a detailed breakdown of these improvements.
 
 ## New features
 
 ### Multi-value indexing and querying
-Developers can now index and query multi-value attributes across all field types, including TEXT, TAG, NUMERIC, GEO, and VECTOR. This enhancement allows indexing attributes defined by a JSONPath that leads to an array or multiple scalar values, eliminating the previous limitation of indexing only single scalar attributes.
+Redis now supports indexing and querying multi-value attributes across all field types, including `TEXT`, `TAG`, `NUMERIC`, `GEO`, and `VECTOR`. Developers can define JSONPath expressions leading to arrays or multiple scalar values, overcoming the previous limitation of indexing only single scalar attributes.
 
 ### Wildcard query support
-Redis Query Engine now supports suffix and infix wildcard search queries for TEXT and TAG fields, improving flexibility in searching and filtering data.
+The Redis Query Engine now enables suffix and infix wildcard searches for `TEXT` and `TAG` fields. This enhancement provides greater flexibility in data retrieval and filtering.
 
 ### t-digest: a new probabilistic data structure for quantile estimation
-Redis introduces t-digest, a probabilistic data structure designed to estimate quantiles from large datasets or continuous data streams. This is particularly useful for analytics and monitoring applications that require approximate quantile calculations.
+Redis introduces t-digest, an advanced probabilistic data structure that efficiently estimates quantiles in large datasets or continuous data streams. This is particularly beneficial for analytics and monitoring applications where precise quantile calculations are required.
 
 ### Retrieve aggregation results for ongoing time series buckets
-A new option allows retrieving the latest, still-open time series bucket of compactions. This is useful for scenarios where data retention policies limit access to historical raw data, such as tracking event counts over extended periods. By specifying the `LATEST` option, users can now retrieve partially completed buckets.
+A new feature allows users to retrieve the latest, still-open time series buckets during compaction. This is particularly useful when dealing with retention policies that limit access to raw historical data, enabling real-time insights into event counts over extended periods.
 
 ### Time-weighted average aggregator for time series
-A new time-weighted average aggregator has been added to provide more accurate average-over-time calculations. This is particularly useful when dealing with time series data with irregular sampling intervals.
+Redis now includes a time-weighted average aggregator, improving accuracy in average-over-time calculations. This feature is especially valuable for time series data with irregular sampling intervals.
 
 ### Gap-filling for time series data
-Redis now supports gap-filling in time series data, allowing to interpolate missing values or repeat the last known value for empty time buckets. This feature enhances the continuity of time series analytics.
+To improve time series analytics, Redis introduces gap-filling capabilities. This feature allows interpolation of missing values or repetition of the last known value for empty time buckets, ensuring continuity in time series analysis.
 
-## Changes
-Redis introduces over 25 new commands, addressing long-standing feature requests. Among the most notable additions, the long-awaited `ZUNION` and `ZINTER` commands now allow direct result retrieval, unlike their counterparts, ZUNIONSTORE and ZINTERSTORE, which only store results.
+## Improvements
+### Existing data structures
+Redis 6.2 introduces over 25 new commands, fulfilling long-standing community requests. Notably:
 
-Redis streams have also been significantly enhanced. Exclusive range queries are now supported, giving users more precise control over data retrieval. The ability to filter pending messages by idle time improves message management, while a new mechanism simplifies message recovery in consumer groups, making it easier to reclaim lost messages.
+- The long-awaited `ZUNION` and `ZINTER` commands now allow direct retrieval of results, unlike `ZUNIONSTORE` and `ZINTERSTORE`, which store results in a key.
+- Redis Streams enhancements include:
+  - Support for exclusive range queries, providing finer control over data retrieval.
+  - The ability to filter pending messages based on idle time, improving message management.
+  - A simplified mechanism for recovering lost messages in consumer groups, making message reclamation more efficient.
 
 ## Component versions
-The Redis feature set 6.2 includes the following components:
+The Redis version 6.2 is built upon the following component versions:
 
 - [Redis 6.2](https://github.com/redis/redis/blob/6.2/00-RELEASENOTES)
 - [Search 2.6](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.6-release-notes/)

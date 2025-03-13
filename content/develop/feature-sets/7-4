@@ -11,40 +11,35 @@ linkTitle: Redis 7.4
 weight: 10
 ---
 
-This page highlights the new features and changes introduced in Redis feature set 7.4.
+Redis 7.4 introduces several new features and improvements aimed at enhancing memory efficiency, performance, and ease of use for various applications. These updates include support for hash field expiration, new memory-efficient data types for AI workloads, simplified secondary indexing, and time series optimizations. Additionally, Redis 7.4 brings several behavior and component changes.
 
 ## New features
 
-### Support for hash field expiration
-Redis 7.4 introduces the ability to set expiration times or adjust the remaining TTL for individual hash fields. This long-requested feature enhances memory efficiency and performance for use cases like caching and session storage.
+### Hash field expiration support
 
-### New data types formemory-efficient vector databases 
-To support AI applications and Retrieval Augmented Generation (RAG), Redis 7.4 adds `bfloat16` and `float16` data types, reducing memory usage by up to 47% and latency under load by up to 59%. These optimizations help maximize performance when working with vector data and AI workloads.
+Redis 7.4 adds the ability to set expiration times for individual hash fields or adjust their remaining TTL. This feature, long-requested by users, improves memory efficiency and performance, especially in caching and session storage scenarios.
 
-### Simplified secondary indexing
-Redis Query Engine now offers easier-to-use secondary indexing with the TAG index type:
-
-- Querying tags with special characters (e.g., @, .) no longer requires escaping. Simply wrap query terms in double quotes.
-- Improved handling of empty and missing fields supports more dynamic data models.
-- Additional geospatial search capabilities include [INTERSECT](https://redis.io/docs/latest/develop/interact/search-and-query/query/geo-spatial/) and [DISJOIN](https://redis.io/docs/latest/develop/interact/search-and-query/query/geo-spatial/) operators, as well as better memory usage reporting for indexes.
-
-Check the [release notes](https://github.com/redis-stack/redis-stack/releases/tag/v7.4.0-v0) for more details.
+### New memory-efficient data types for AI workloads
+With the growing demand for AI applications, Redis 7.4 introduces `bfloat16` and `float16` data types. These new types reduce memory usage by up to 47% and lower latency by as much as 59% under load, making them ideal for vector databases and Retrieval Augmented Generation (RAG) applications.
 
 ### Time series optimization with insertion filters
-Sensors can now use insertion filters to ignore new measurements when differences between time or value are minimal. This reduces time series data size and improves efficiency.
+Redis 7.4 introduces insertion filters for time series data, allowing sensors to ignore new measurements when the differences in time or value are minimal. This feature helps reduce the size of time series data and boosts efficiency.
+
+## Improvements
+
+### Simplified secondary indexing
+The Redis Query Engine now offers a more straightforward approach to secondary indexing with the addition of the `TAG` index type. Querying tags with special characters (like `@` and `.`) is easier, as it no longer requires escaping; simply wrap query terms in double quotes. The update also includes improved handling of empty and missing fields, making the data model more flexible. Geospatial search has been enhanced with new operators, such as `INTERSECT` and `DISJOIN`, and memory usage reporting for indexes has been improved.
 
 ## Changes
 
 ### Behavior changes
-Behavior adjustments in Redis 7.4 include the use of jemalloc instead of libc for allocating Lua VM code, which optimizes memory fragmentation and enhances speed.
-
-Additionally, changes to the ACL LOAD command now ensure that only clients with affected user configurations are disconnected, minimizing unnecessary disruptions.
+Redis 7.4 includes behavior changes such as using jemalloc instead of libc for allocating Lua VM code. This adjustment reduces memory fragmentation and improves performance. Additionally, the `ACL LOAD` command has been modified to ensure that only clients with affected user configurations are disconnected, reducing unnecessary disruptions.
 
 ### Other changes
-Redis Stack 7.4 no longer includes Triggers and Functions due to low adoption during public preview. We removed these to make Redis simpler.
+Redis Stack 7.4 no longer includes Triggers and Functions due to low adoption during its public preview. This removal simplifies Redis and ensures that resources are focused on the most widely used features.
 
 ## Component versions
-The Redis feature set 7.4 includes the following components:
+The Redis version 7.4 includes the following components:
 
 - [Redis 7.4](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisce-7.4-release-notes/)
 - [Search 2.10](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.10-release-notes/)
