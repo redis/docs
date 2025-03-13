@@ -40,7 +40,7 @@ Get a list of all users.
 #### Example HTTP request
 
 ```sh
-GET /users
+GET /v1/users
 ```
 
 #### Headers
@@ -107,7 +107,7 @@ Get a single user's details.
 #### Example HTTP request
 
 ```sh
-GET /users/1
+GET /v1/users/1
 ```
 
 #### Headers
@@ -172,7 +172,7 @@ Any user can change their own name, password, or alert preferences.
 #### Example HTTP request
 
 ```sh
-PUT /users/1
+PUT /v1/users/1
 ```
 
 #### Example JSON body
@@ -265,7 +265,7 @@ Create a new user.
 #### Example HTTP request
 
 ```sh
-POST /users
+POST /v1/users
 ```
 
 #### Headers
@@ -413,7 +413,7 @@ Delete a user.
 #### Example HTTP request
 
 ```sh
-DELETE /users/1
+DELETE /v1/users/1
 ```
 
 #### Headers

@@ -40,7 +40,7 @@ actions on all nodes.
 #### Example HTTP request
 
 ```sh
-GET /nodes/actions
+GET /v1/nodes/actions
 ```
 
 #### Request headers
@@ -79,7 +79,7 @@ Get the status of all actions on a specific node.
 #### Example HTTP request
 
 ```sh
-GET /nodes/1/actions
+GET /v1/nodes/1/actions
 ```
 
 #### Request headers
@@ -143,7 +143,7 @@ Get the status of a currently executing, queued, or completed action on a specif
 #### Example HTTP request
 
 ```sh
-GET /nodes/1/actions/remove
+GET /v1/nodes/1/actions/remove
 ```
 
 #### Headers
@@ -198,7 +198,7 @@ removed as soon as the new one is submitted.
 #### Example HTTP request
 
 ```sh
-POST /nodes/1/actions/remove
+POST /v1/nodes/1/actions/remove
 ```
 
 #### Headers
@@ -330,7 +330,7 @@ previously executed and completed action.
 #### Example HTTP request
 
 ```sh
-DELETE /nodes/1/actions/remove
+DELETE /v1/nodes/1/actions/remove
 ```
 
 #### Headers

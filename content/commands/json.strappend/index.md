@@ -78,7 +78,7 @@ redis> JSON.GET doc $
 
 ## See also
 
-`JSON.ARRAPEND` | [`JSON.ARRINSERT`]({{< baseurl >}}/commands/json.arrinsert/) 
+`JSON.ARRAPEND` | [`JSON.ARRINSERT`]({{< baseurl >}}commands/json.arrinsert/) 
 
 ## Related topics
 
