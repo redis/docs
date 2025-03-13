@@ -37,6 +37,8 @@ Details:
   - [#843](https://github.com/redisbloom/redisbloom/pull/843) `CF.RESERVE` crashes (OOM) on huge initialization values (MOD-7058)
   - [#843](https://github.com/redisbloom/redisbloom/pull/843) `TOPK.RESERVE` crashes (OOM) on huge initialization values (MOD-7059)
   - [#843](https://github.com/redisbloom/redisbloom/pull/843) `CMS.INITBYDIM` and `CMS.INITBYPROB` crash (OOM) on huge initialization values (MOD-7060)
+  - [#828](https://github.com/redisbloom/redisbloom/pull/828) `CMS.INCRBY` does not notify `WATCH`ers or client-side caching (MOD-8193)
+  - [#827](https://github.com/redisbloom/redisbloom/pull/827) Top-K - suboptimal results after RDB load due to missing initialization (MOD-8194)
 
 - Improvements:
   - [#801](https://github.com/redisbloom/redisbloom/pull/801) Support active memory defragmentation (MOD-7890)

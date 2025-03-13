@@ -51,9 +51,9 @@ Before you follow this guide, be aware of the following limitations:
 
 1. Select the database you want to migrate your data to. This will be your target database.
 
-1. From the **Configuration** tab of the target database, select **Edit database**.
+1. From the **Configuration** tab of the target database, select **Edit**.
 
-    {{<image filename="images/rc/button-database-edit.png" alt="The Edit database button lets you change selected database properties." >}}
+    {{<image filename="images/rc/button-database-edit.png" alt="The Edit database button lets you change selected database properties." width=100px >}}
 
 1. In the **Durability** section, enable **Active-Passive Redis** and then select **Add Source**.
 

@@ -31,7 +31,7 @@ Upgrades the module version on a specific database. Deprecated as of Redis Enter
 
 #### Example HTTP request
 
-	POST /modules/upgrade/bdb/1
+	POST /v1/modules/upgrade/bdb/1
 
 #### Example JSON body
 

@@ -45,9 +45,9 @@ To enable TLS for a Redis Cloud database:
 
 1. Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your database from the list.
 
-1. From the database's **Configuration** screen, select the **Edit database** button:
+1. From the database's **Configuration** screen, select **Edit**:
 
-    {{<image filename="images/rc/button-database-edit.png" width="140px" alt="The Edit database button lets you change selected database properties." >}}
+    {{<image filename="images/rc/button-database-edit.png" width="100px" alt="The Edit database button lets you change selected database properties." >}}
 
 1. In the **Security** section, use the **Transport layer security (TLS)** toggle to enable TLS:
 

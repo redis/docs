@@ -34,7 +34,7 @@ The cluster automatically manages failover to ensure high availability. Use this
 
 #### Example HTTP request
 
-	POST /shards/actions/failover
+	POST /v1/shards/actions/failover
 
 #### Example JSON body
 
@@ -116,7 +116,7 @@ The cluster automatically manages failover to ensure high availability. Use this
 
 #### Example HTTP request
 
-	POST /shards/1/actions/failover
+	POST /v1/shards/1/actions/failover
 
 #### Example JSON body
 

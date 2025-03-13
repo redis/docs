@@ -34,7 +34,7 @@ Get all alert states for all nodes.
 
 #### Example HTTP request
 
-	GET /nodes/alerts 
+	GET /v1/nodes/alerts 
 
 #### Request headers
 
@@ -97,7 +97,7 @@ Get all alert states for a node.
 
 #### Example HTTP request
 
-	GET /nodes/alerts/1 
+	GET /v1/nodes/alerts/1 
 
 
 #### Request headers
@@ -160,7 +160,7 @@ Get a node alert state.
 
 #### Example HTTP request
 
-	GET /nodes/alerts/1/node_cpu_utilization 
+	GET /v1/nodes/alerts/1/node_cpu_utilization 
 
 
 #### Request headers
