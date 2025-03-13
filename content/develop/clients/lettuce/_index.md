@@ -24,7 +24,7 @@ If you only need synchronous connections then you may find the other Java client
 The sections below explain how to install `Lettuce` and connect your application
 to a Redis database.
 
-`Lettuce` requires a running Redis or [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
+`Lettuce` requires a running [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) server. See [Getting started]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis installation instructions.
 
 ## Install
 

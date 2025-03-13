@@ -1,4 +1,7 @@
 ---
+acl_categories:
+- '@tdigest'
+- '@write'
 arguments:
 - name: key
   type: key

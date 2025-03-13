@@ -1,4 +1,6 @@
 ---
+acl_categories:
+- '@search'
 arguments:
 - name: index
   type: string

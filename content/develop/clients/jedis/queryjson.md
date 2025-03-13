@@ -20,7 +20,7 @@ This example shows how to create a
 for [JSON]({{< relref "/develop/data-types/json" >}}) data and
 run queries against the index.
 
-Make sure that you have Redis Stack and `Jedis` installed. 
+Make sure that you have Redis Community Edition and `Jedis` installed. 
 
 Start by importing dependencies:
 

@@ -382,7 +382,7 @@ redis-server --loadmodule ./redisearch.so GC_POLICY FORK
 
 ### Runtime configuration
 
-RediSearch's [configuration]({{<relref "/develop/interact/search-and-query/basic-constructs/configuration-parameters">}}) is applied via arguments passed to the module at load time. This release introduces the new `FT.CONFIG` command that allows to retrieve the current configuration as well as change it during runtime.
+RediSearch's [configuration]({{<relref "/develop/interact/search-and-query/administration/configuration">}}) is applied via arguments passed to the module at load time. This release introduces the new `FT.CONFIG` command that allows to retrieve the current configuration as well as change it during runtime.
 
 ### Unlimited autocomplete results
 
