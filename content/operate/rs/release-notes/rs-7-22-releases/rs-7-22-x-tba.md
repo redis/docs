@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: New pricing and packaging. Revamp database API.
+description: New pricing and packaging. Revamp database API. Migration status API. Usage report API.
 linkTitle: 7.22.x-tba (April 2025)
 weight: 90
 ---
@@ -21,6 +21,10 @@ This version offers:
 
 - Revamp database API
 
+- Migration status API
+
+- Usage report API
+
 ## New in this release
 
 ### New features
@@ -32,6 +36,10 @@ This version offers:
     - Updates topology-related configurations of an active database and optimises the shards placement for the new configuration. Example configuration parameters include `memory_size`, `shards_count`, `avoid_nodes`, `shards_placement`, `bigstore_ram_size`, and `replication`.
 
     - Replaces the deprecated request to [optimize shards placement]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement">}}).
+
+- Migration status REST API request, which reports the migration status of a database in the cluster.
+
+- Usage report API request
 
 ### Enhancements
 
@@ -46,6 +54,12 @@ This version offers:
     - A database's `maxclients` can now be configured with an [update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) request.
 
     - Added `bigstore_version` to database configuration and `default_bigstore_version` to cluster settings.
+
+    - Added `default_oss_cluster` to cluster settings.
+
+    - Added `sentinel_service` as an optional service that can be enabled or turned off with an [update cluster services configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#put-cluster-services_config">}}) request.
+
+    - Added `replica_read_only` to database configuration. If set to `true`, it enables an Active-Passive setup where Replica Of databases only allow read operations. `replica_read_only` is only configurable during [database creation]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) and cannot be changed later.
 
 - Added module information to database creation log messages.
 
