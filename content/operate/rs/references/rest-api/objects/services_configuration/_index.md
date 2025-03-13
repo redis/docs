@@ -23,4 +23,5 @@ Optional cluster services settings
 | ldap_agent_mgr | [ldap_agent_mgr]({{< relref "/operate/rs/references/rest-api/objects/services_configuration/ldap_agent_mgr" >}}) object | Whether to enable/disable the LDAP agent manager processes |
 | mdns_server | [mdns_server]({{< relref "/operate/rs/references/rest-api/objects/services_configuration/mdns_server" >}}) object | Whether to enable/disable the multicast DNS server |
 | pdns_server | [pdns_server]({{< relref "/operate/rs/references/rest-api/objects/services_configuration/pdns_server" >}}) object | Whether to enable/disable the PDNS server |
+| sentinel_service | [sentinel_service]({{< relref "/operate/rs/references/rest-api/objects/services_configuration/sentinel_service" >}}) object | Whether to enable/disable the Sentinel service process |
 | stats_archiver | [stats_archiver]({{< relref "/operate/rs/references/rest-api/objects/services_configuration/stats_archiver" >}}) object | Whether to enable/disable the stats archiver service |
