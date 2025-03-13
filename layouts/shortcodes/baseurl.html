@@ -1,1 +1,0 @@
-{{ $base := .Site.BaseURL }}{{ $parsed := urls.Parse $base }}{{ $path := $parsed.Path }}{{ if not (eq $path "/") }}{{- $path -}}{{ end }}

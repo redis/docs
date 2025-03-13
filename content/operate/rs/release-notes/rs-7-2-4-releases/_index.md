@@ -71,7 +71,7 @@ To prevent potential application issues due to RESP3 breaking changes, see [Clie
 
 - [`CLUSTER SLOTS`]({{< relref "/commands/cluster-slots" >}}) is deprecated as of Redis 7.0
 
-- [`JSON.RESP`]({{< baseurl >}}commands/json.resp) is deprecated as of Redis Stack 7.2.
+- [`JSON.RESP`]({{< relref "commands/json.resp" >}}) is deprecated as of Redis Stack 7.2.
 
 - [`QUIT`]({{< relref "/commands/quit" >}}) is deprecated as of Redis 7.2
 

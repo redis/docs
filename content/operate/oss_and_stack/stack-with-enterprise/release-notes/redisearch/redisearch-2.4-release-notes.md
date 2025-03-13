@@ -227,21 +227,21 @@ All VSS queries or any query using the `PARAMS` option must use Dialect version 
   Hybrid queries are often used in modern ecommerce search applications featuring “visual” similarity plus metadata similarity.
   For example, you can use a single hybrid query to find products that are visually similar to a given image within a price range and/or geo-location.
 
-- Use [`FT.CONFIG SET`]({{< baseurl >}}commands/ft.config-set) to set `DEFAULT_DIALECT` at the module level. By default, `DEFAULT_DIALECT` is set to 1.
+- Use [`FT.CONFIG SET`]({{< relref "commands/ft.config-set" >}}) to set `DEFAULT_DIALECT` at the module level. By default, `DEFAULT_DIALECT` is set to 1.
 
 - Override `DIALECT`:
 
   It is possible to override the module-level dialect for a specific command at runtime. You can specify the dialect when executing any of the following commands:
 
-    - [`FT.SEARCH`]({{< baseurl >}}commands/ft.search)
+    - [`FT.SEARCH`]({{< relref "commands/ft.search" >}})
 
-    - [`FT.AGGREGATE`]({{< baseurl >}}commands/ft.aggregate)
+    - [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate" >}})
 
-    - [`FT.EXPLAIN`]({{< baseurl >}}commands/ft.explain)
+    - [`FT.EXPLAIN`]({{< relref "commands/ft.explain" >}})
 
-    - [`FT.EXPLAINCLI`]({{< baseurl >}}commands/ft.explaincli)
+    - [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli" >}})
 
-    - [`FT.SPELLCHECK`]({{< baseurl >}}commands/ft.spellcheck)
+    - [`FT.SPELLCHECK`]({{< relref "commands/ft.spellcheck" >}})
 
   If you do not specify dialect when running any of these commands, they will use the default module-level dialect value.
 

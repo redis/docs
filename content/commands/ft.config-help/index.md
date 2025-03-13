@@ -64,7 +64,7 @@ FT.CONFIG HELP returns an array reply of the configuration name and value.
 
 ## See also
 
-[`FT.CONFIG SET`]({{< baseurl >}}commands/ft.config-set/) | [`FT.CONFIG GET`]({{< baseurl >}}commands/ft.config-get/) 
+[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG GET`]({{< relref "commands/ft.config-get/" >}}) 
 
 ## Related topics
 

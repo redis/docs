@@ -110,7 +110,7 @@ FT.SUGGET returns an array reply, which is a list of the top suggestions matchin
 
 ## See also
 
-[`FT.SUGADD`]({{< baseurl >}}commands/ft.sugadd/) | [`FT.SUGDEL`]({{< baseurl >}}commands/ft.sugdel/) | [`FT.SUGLEN`]({{< baseurl >}}commands/ft.suglen/) 
+[`FT.SUGADD`]({{< relref "commands/ft.sugadd/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGLEN`]({{< relref "commands/ft.suglen/" >}}) 
 
 ## Related topics
 

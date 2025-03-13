@@ -69,7 +69,7 @@ redis> JSON.TYPE doc $..dummy
 
 ## See also
 
-[`JSON.SET`]({{< baseurl >}}commands/json.set/) | [`JSON.ARRLEN`]({{< baseurl >}}commands/json.arrlen/) 
+[`JSON.SET`]({{< relref "commands/json.set/" >}}) | [`JSON.ARRLEN`]({{< relref "commands/json.arrlen/" >}}) 
 
 ## Related topics
 
