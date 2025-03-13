@@ -10,14 +10,16 @@ hideListLinks: true
 weight: 2
 ---
 
-To do so, you associate your existing AWS account as a _cloud account_ for your subscription.  This requires setting up and entering credentials that enable monitoring, maintenance, and technical support of your subscription.
+Redis Cloud Bring your own Cloud (BYOC) allows organizations to use their own cloud infrastructure to deploy Redis Cloud.
+
+You can associate your existing AWS account as a _cloud account_ for your subscription.  This requires setting up and entering credentials that enable monitoring, maintenance, and technical support of your subscription.
 
 To do this, you need:
 
 1. A programmatic user with an access key and a secret access key for that user.
 1. A console role that allows administrative access to the cloud account.
 
-These resources need to exist before adding the cloud account to your subscription.  To learn more, see [Create IAM resources]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/iam-resources" >}}).
+You need to create these resources before adding the cloud account to your subscription.  To learn more, see [Create IAM resources]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources" >}}).
 
 {{<note>}}
 Once an AWS account has been configured as a cloud account, you must _not_:
@@ -76,7 +78,7 @@ If the **Add account** button is inactive, verify that:
 - The resources exist in your AWS account
 - Each resource provides the required level of access
 
-For help, see [Create IAM resources]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/iam-resources" >}}).
+For help, see [Create IAM resources]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources" >}}).
 
 ## Edit cloud account details
 
@@ -100,7 +102,7 @@ Use the **Update account** button to save your changes.
 
 {{<image filename="images/rc/button-cloud-account-update.png" alt="Use the Update account button to save the updated cloud account details." width="140px">}}
 
-## Delete cloud account details
+## Delete cloud account
 
 To remove a cloud account from your Redis cloud subscription, select the cloud account from the **Cloud account** tab and then select the **Delete** button.
 
@@ -110,4 +112,4 @@ To remove a cloud account from your Redis cloud subscription, select the cloud a
 
 We strongly recommend using dedicated identity and access management (IAM) resources to manage your AWS cloud accounts.  These resources should not be shared with any other task, account, or process.
 
-To learn more, see [Create IAM resources for AWS cloud accounts]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/iam-resources" >}}).
+To learn more, see [Create IAM resources for AWS cloud accounts]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources" >}}).

@@ -53,7 +53,7 @@ Before you can set up Transit Gateway:
 1. [Share the transit gateway](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-transit-gateways.html#tgw-sharing) from the [AWS resource access manager](https://console.aws.amazon.com/ram/).
 
 {{< note >}}
-If you use Redis Cloud Bring your own Cloud, you will need to set its IAM Instance Policy to include Transit Gateway. See [Create IAM resources using the AWS console]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/iam-resources/aws-console.md" >}}) for more information.
+If you use Redis Cloud Bring your own Cloud, you will need to set its IAM Instance Policy to include Transit Gateway. See [Create IAM resources using the AWS console]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/aws-console.md" >}}) for more information.
 {{< /note >}}
 
 ## AWS Transit Gateway

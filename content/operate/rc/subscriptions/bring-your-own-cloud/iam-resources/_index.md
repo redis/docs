@@ -9,7 +9,7 @@ hideListLinks: true
 linkTitle: Create IAM resources
 weight: 1
 ---
-For most Redis Cloud Pro databases deployed to Amazon Web Services (AWS), we manage the supporting infrastructure for you in dedicated AWS accounts.
+For Redis Cloud Bring your Own Cloud (BYOC) on Amazon Web Services (AWS), we manage the supporting infrastructure for you in dedicated AWS accounts.
 
 You can manage this infrastructure with your own AWS accounts.  
 
@@ -22,7 +22,7 @@ In the new AWS account, you need to create:
 - A user with an **access key**
 - A role that grants **AWS console access**
 
-Save the access key in a secure location so that you can enter it when you [register the cloud account]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/" >}}) with your the Redis Cloud subscription.
+Save the access key in a secure location so that you can enter it when you [register the cloud account]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings" >}}) with your Redis Cloud subscription.
 
 {{< warning >}}
 We use the provided credentials to configure your AWS environment and provision required resources.
@@ -37,6 +37,6 @@ For help creating an AWS user, see the [AWS IAM documentation](https://docs.aws.
 
 You can use one of the following tools to create IAM resources:
 
-- [CloudFormation]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/iam-resources/cloudformation" >}})
-- [Terraform]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/iam-resources/terraform" >}})
-- The [AWS Console]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts/iam-resources/aws-console" >}})
+- [CloudFormation]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/cloudformation" >}})
+- [Terraform]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/terraform" >}})
+- The [AWS Console]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/aws-console" >}})

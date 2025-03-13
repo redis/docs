@@ -13,7 +13,7 @@ weight: $weight
 
 The [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) [allow list](https://en.wikipedia.org/wiki/Whitelist) lets you restrict traffic to your Redis Cloud database. When you configure an allow list, only the [IP addresses](https://en.wikipedia.org/wiki/IP_address) defined in the list can connect to the database. Traffic from all other IP addresses is blocked.
 
-If you use [Redis Cloud Bring your Own Cloud]({{< relref "/operate/rc/subscriptions/aws-cloud-accounts" >}}) to host your Redis Cloud deployment, you can configure a subscription-wide allow list
+If you use [Redis Cloud Bring your Own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) to host your Redis Cloud deployment, you can configure a subscription-wide allow list
 to restrict traffic to all databases associated with the subscription.
 
 The subscription CIDR allow list defines a range of IP addresses and [AWS security groups](https://docs.aws.amazon.com/managedservices/latest/userguide/about-security-groups.html) that control inbound and outbound traffic to the Redis Cloud [VPC](https://en.wikipedia.org/wiki/Virtual_private_cloud). When you add security groups to the allow list, you can also use the same security groups to manage access to your application.
