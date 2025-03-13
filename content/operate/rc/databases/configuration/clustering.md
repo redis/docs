@@ -98,20 +98,7 @@ You can use the `{...}` pattern to direct related keys to the same hash slot, so
 
 Redis Cloud offers 3 hashing policies, which differ in how hash tags are processed. These hashing policies are not always available.
 
-For accounts created after February 23, 2025, Redis defaults to the [Redis hashing policy](#redis-hashing-policy) **when creating a new database**. For all other accounts, Redis defaults to the [standard hashing policy](#standard-hashing-policy). 
-
-{{< warning >}}
-You can change the hashing policy between Standard and Custom after you create your database. However, hashing policy changes delete existing data 
-(FLUSHDB) before they're applied. 
-
-These changes include:
-
-1. Changing the hashing policy, either from standard to custom or vice versa.
-1. Changing the order of custom hashing policy rules.
-1. Adding rules before existing ones in the custom hashing policy.
-1. Deleting rules from the custom hashing policy.
-1. Disabling clustering for the database.
-{{< /warning >}}
+For accounts created after March 23, 2025, Redis defaults to the [Redis hashing policy](#redis-hashing-policy) **when creating a new database**. For all other accounts, Redis defaults to the [standard hashing policy](#standard-hashing-policy). 
 
 ### Redis hashing policy
 
@@ -148,7 +135,7 @@ In some cases, the Standard hashing policy behaves differently from the Redis ha
 ### Custom hashing policy
 
 {{< note >}}
-The custom hashing policy is not available for accounts created after February 23, 2025.
+The custom hashing policy is not available for accounts created after March 23, 2025.
 
 For all other accounts, this policy is not recommended and will be deprecated in the future. Select this option only if you are already using a custom hashing policy with your existing Redis Cloud databases.
 {{< /note >}}
@@ -176,6 +163,19 @@ default RegEx rules that implement the standard hashing policy are:
 
 You can modify existing rules, add new ones, delete rules, or change
 their order to suit your application's requirements.
+
+{{< warning >}}
+If the Custom hashing policy is available, you can change the hashing policy between Standard and Custom after you create your database. However, hashing policy changes delete existing data 
+(FLUSHDB) before they're applied. 
+
+These changes include:
+
+1. Changing the hashing policy, either from standard to custom or vice versa.
+1. Changing the order of custom hashing policy rules.
+1. Adding rules before existing ones in the custom hashing policy.
+1. Deleting rules from the custom hashing policy.
+1. Disabling clustering for the database.
+{{< /warning >}}
 
 ### Custom hashing policy notes and limitations
 
