@@ -5,6 +5,7 @@ categories:
 - docs
 - operate
 - rc
+- redisinsight
 description: Shows how to open your database in a browser-based version of Redis Insight and lists the features that are available.
 hideListLinks: true
 linkTitle: Redis Insight on Redis Cloud
@@ -16,7 +17,7 @@ weight: 1
 You can either [install Redis Insight]({{< relref "/develop/tools/insight" >}}) on your computer, or you can open your database in Redis Insight directly on Redis Cloud.
 
 {{< note >}}
-Opening your database with Redis Insight on Redis Cloud is only available for Essentials databases hosted on AWS. For all other databases, [install Redis Insight]({{< relref "/develop/tools/insight" >}}) on your computer and [open Redis Insight]({{< relref "/operate/rc/databases/connect#ri-app" >}}) from the database page.
+Opening your database with Redis Insight in your browser is currently available for some Essentials databases, and will be available to more Essentials databases over time. For all other databases, [install Redis Insight]({{< relref "/develop/tools/insight" >}}) on your computer and [open Redis Insight]({{< relref "/operate/rc/databases/connect#ri-app" >}}) from the database page.
 {{< /note >}}
 
 To open your database with Redis Insight on Redis Cloud, select **Open with Redis Insight** on the [database screen]({{< relref "/operate/rc/databases/view-edit-database" >}}).

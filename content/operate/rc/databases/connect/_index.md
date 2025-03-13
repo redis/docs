@@ -46,12 +46,16 @@ You can connect to your database with Redis Insight in two ways:
 ### Open in your browser {#ri-browser}
 
 {{< note >}}
-Opening your database with Redis Insight in your browser is available for Essentials databases hosted on AWS.
+Opening your database with Redis Insight in your browser is currently available for some Essentials databases, and will be available to more Essentials databases over time. 
 {{< /note >}}
 
-To connect to your database with Redis Insight in your browser, select **Open with Redis Insight**. 
+If Redis Insight on Redis Cloud is available for your database, select **Launch Redis Insight web** from the connection wizard to open it.
 
-{{<image filename="images/rc/rc-ri-open.png" alt="Open with Redis Insight" width=200px >}}
+{{<image filename="images/rc/rc-ri-wizard-launch.png" alt="Launch Redis Insight web from the Connection Wizard." width=500px >}}
+
+You can also select **Launch** from the database page under **View and manage data with Redis Insight** to open Redis Insight in your browser.
+
+{{<image filename="images/rc/rc-ri-open.png" alt="Launch Redis Insight web from the database page." width=500px >}}
 
 Redis Insight will open in a new tab. 
 
