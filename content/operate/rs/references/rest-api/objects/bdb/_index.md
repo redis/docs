@@ -118,6 +118,7 @@ An API object that represents a managed database in the cluster.
 | recovery_wait_time | integer (default:&nbsp;-1); Defines how many seconds to wait for the persistence file to become available during auto recovery. After the wait time expires, auto recovery completes with potential data loss. The default `-1` means to wait forever. |
 | redis_version | string; Version of the redis-server processes: e.g. 6.0, 5.0-big |
 | repl_backlog_size | string; Redis replication backlog size ('auto' or size in bytes) |
+| replica_read_only | boolean (default: false); If `true`, enables an Active-Passive setup where Replica Of databases only allow read operations. Only configurable during database creation and cannot be changed later. |
 | replica_sources | array of [syncer_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/syncer_sources" >}}) objects; Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section |
 | [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) | Enable, disable, or pause syncing from specified replica_sources<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
 | <span class="break-all">replica_sync_connection_alarm_timeout_seconds</span> | integer (default: 0); If the syncer takes longer than the specified number of seconds to connect to a replica, raise a connection alarm |
