@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: New pricing and packaging. Revamp database API. Migration status API. Usage report API.
+description: New pricing and packaging. Revamp database API. Migration status API. Usage report API. Two-dimensional rack awareness. v2 actions API.
 linkTitle: 7.22.x-tba (April 2025)
 weight: 90
 ---
@@ -25,6 +25,10 @@ This version offers:
 
 - Usage report API
 
+- Two-dimensional rack awareness
+
+- v2 actions API
+
 ## New in this release
 
 ### New features
@@ -40,6 +44,10 @@ This version offers:
 - Migration status REST API request, which reports the migration status of a database in the cluster.
 
 - Usage report API request
+
+- Added `secondary_rack_id` to boostrap and node configuration to support two-dimensional rack awareness.
+
+- A new version of the actions API is available at `GET /v2/actions`
 
 ### Enhancements
 
@@ -60,6 +68,8 @@ This version offers:
     - Added `sentinel_service` as an optional service that can be enabled or turned off with an [update cluster services configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster/services_configuration#put-cluster-services_config">}}) request.
 
     - Added `replica_read_only` to database configuration. If set to `true`, it enables an Active-Passive setup where Replica Of databases only allow read operations. `replica_read_only` is only configurable during [database creation]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) and cannot be changed later.
+
+    - Added `robust_crdt_syncer` to enable or turn off the robust syncer for Active-Active databases.
 
 - Added module information to database creation log messages.
 
