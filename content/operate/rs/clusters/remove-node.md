@@ -15,7 +15,7 @@ You might want to remove a node from a Redis Enterprise cluster for one of the f
 - To [replace a faulty node](#replace-a-faulty-node) with a healthy node.
 - To [replace a healthy node](#replace-a-healthy-node) with a different node.
 
-You can configure [email alerts from the cluster]({{< relref "/operate/rs/clusters/monitoring#cluster-alerts" >}}) to notify you of cluster changes, including when a node is removed.
+You can configure [email alerts from the cluster]({{< relref "/operate/rs/monitoring/v1_monitoring#cluster-alerts" >}}) to notify you of cluster changes, including when a node is removed.
 
 {{<warning>}}
 Read through these explanations thoroughly before taking
