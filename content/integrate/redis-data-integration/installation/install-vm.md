@@ -72,7 +72,7 @@ known to work correctly with RDI.
 The supported OS versions for RDI are:
 
 - RHEL 8 & 9
-- Ubuntu 18.04 & 20.04
+- Ubuntu 20.04, 22.04, and 24.04
 
 You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
