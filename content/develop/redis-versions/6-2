@@ -42,7 +42,7 @@ Redis 6.2 introduces over 25 new commands, fulfilling long-standing community re
 - Redis Streams enhancements include:
   - Support for exclusive range queries, providing finer control over data retrieval.
   - The ability to filter pending messages based on idle time, improving message management.
-  - A simplified mechanism for recovering lost messages in consumer groups, making message reclamation more efficient.
+  - A new mechanism to automatically claim pending messages from a stream consumer group, transferring ownership of messages that have exceeded their idle timeout to a new consumer without requiring manual acknowledgment.
 
 ## Component versions
 The Redis version 6.2 is built upon the following component versions:
