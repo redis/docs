@@ -11,7 +11,7 @@ linkTitle: Redis 7.2
 weight: 9
 ---
 
-Redis version 7.2 introduces new capabilities, including improved geospatial queries, streamlined JSON data manipulation, and the public preview of Triggers and Functions for event-driven processing. Performance optimizations, client-side enhancements, and behavioral refinements further improve Redis' efficiency, security, and usability.
+Redis version 7.2 introduces new capabilities, including improved geospatial queries, streamlined JSON data manipulation, and the public preview of Triggers and Functions for event-driven processing (not included in 7.4 and later). Performance optimizations, client-side enhancements, and behavioral refinements further improve Redis' efficiency, security, and usability.
 Below is a detailed breakdown of these updates.
 
 ## New features
@@ -19,15 +19,13 @@ Below is a detailed breakdown of these updates.
 ### Geospatial queries with polygon search
 Redis Query Engine now supports querying geospatial data using polygon search, enabling developers to efficiently filter and retrieve data within complex geographic boundaries.
 
-For example, in a weather monitoring system, Redis can store geospatial data for extreme weather events such as hurricanes, wildfires, or thunderstorms. When a user defines a geographic area of interest, Redis Query Engine quickly retrieves relevant weather alerts within that region, enabling real-time notifications and faster emergency response.
-
 ### Streamlined data manipulation in JSON
 JSON now includes two new commands for improved data handling:
 
 - `JSON.MERGE`: Merges a given JSON value into matching paths, allowing more flexible updates.
 - `JSON.MSET`: Sets or updates multiple JSON values simultaneously based on specified key-path-value triplets, improving efficiency when handling structured data.
 
-### Public preview: Triggers and Functions
+### Public preview: Triggers and Functions (not included in 7.4 and later)
 Redis introduces the public preview of Triggers and Functions, an event-driven engine for executing TypeScript/JavaScript code within Redis. This feature enables efficient in-database data processing, reducing reliance on external computation. It also supports cross-shard read operations, which were previously unavailable with Lua scripts.
 
 ## Improvements
@@ -48,7 +46,7 @@ TLS-based replication now supports Server Name Indication (SNI) to improve compa
 
 ## Changes
 
-### Backward-incompatible changes
+### Breaking changes
 Redis 7.2 introduces several backward-incompatible changes. Lua scripts no longer support the print() function, blocking of `PFCOUNT` and `PUBLISH` in read-only scripts, and time sampling freezing during command execution. Error handling updates include case changes in error responses, new behavior for `ZPOPMIN/ZPOPMAX` with count 0, and adjustments to `XCLAIM/XAUTOCLAIM`. ACL changes affect command categorization and key access permissions, while command introspection now includes per-subcommand stats. Redis now allows certain CONFIG commands during loading and tracks stats only when commands execute.
 
 For more details, see [Redis 7.2 Breaking Changes](https://redis.io/docs/latest/embeds/r7.2-breaking-changes/).

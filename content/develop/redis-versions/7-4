@@ -20,7 +20,7 @@ Redis 7.4 introduces several new features and improvements aimed at enhancing me
 Redis 7.4 adds the ability to set expiration times for individual hash fields or adjust their remaining TTL. This feature, long-requested by users, improves memory efficiency and performance, especially in caching and session storage scenarios.
 
 ### New memory-efficient data types for AI workloads
-With the growing demand for AI applications, Redis 7.4 introduces `bfloat16` and `float16` data types. These new types reduce memory usage by up to 47% and lower latency by as much as 59% under load, making them ideal for vector databases and Retrieval Augmented Generation (RAG) applications.
+With the growing demand for AI applications, Redis 7.4 introduces `bfloat16` and `float16` data types. These new types reduce memory usage by up to 47% and lower latency by as much as 59% under load, making them ideal for storing and processing vector embeddings in AI-powered applications, including vector databases and Retrieval Augmented Generation (RAG) systems.
 
 ### Time series optimization with insertion filters
 Redis 7.4 introduces insertion filters for time series data, allowing sensors to ignore new measurements when the differences in time or value are minimal. This feature helps reduce the size of time series data and boosts efficiency.

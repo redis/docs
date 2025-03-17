@@ -23,10 +23,10 @@ Redis now supports indexing and querying multi-value attributes across all field
 The Redis Query Engine now enables suffix and infix wildcard searches for `TEXT` and `TAG` fields. This enhancement provides greater flexibility in data retrieval and filtering.
 
 ### t-digest: a new probabilistic data structure for quantile estimation
-Redis introduces t-digest, an advanced probabilistic data structure that efficiently estimates quantiles in large datasets or continuous data streams. This is particularly beneficial for analytics and monitoring applications where precise quantile calculations are required.
+Redis introduces t-digest, an advanced probabilistic data structure that efficiently estimates quantiles in large datasets or continuous data streams. This is particularly beneficial for analytics and monitoring applications where quantile calculations are required.
 
 ### Retrieve aggregation results for ongoing time series buckets
-A new feature allows users to retrieve the latest, still-open time series buckets during compaction. This is particularly useful when dealing with retention policies that limit access to raw historical data, enabling real-time insights into event counts over extended periods.
+A new feature allows users to retrieve the latest, still-open time series buckets during compaction.
 
 ### Time-weighted average aggregator for time series
 Redis now includes a time-weighted average aggregator, improving accuracy in average-over-time calculations. This feature is especially valuable for time series data with irregular sampling intervals.
