@@ -23,7 +23,7 @@ This is the General Availability (GA) release of Redis Insight 2.68.
 - Added the ability to download a file containing all keys deleted via bulk actions.
 - [#4335](https://github.com/RedisInsight/RedisInsight/pull/4335) [Redis Data Integration](https://redis.io/docs/latest/integrate/redis-data-integration/) deployment errors are now stored in a file instead of being displayed in error messages to optimize space usage.
 - [#4374](https://github.com/RedisInsight/RedisInsight/pull/4374) Connection errors for clustered databases now include more detailed information to improve troubleshooting.
-- [#4358](https://github.com/RedisInsight/RedisInsight/pull/4358) A new setting allows to manually force standalone mode instead of automatic clustered mode when adding or editing a clustered database connection.
+- [#4358](https://github.com/RedisInsight/RedisInsight/pull/4358) A new setting provides for manually forcing standalone mode instead of automatic clustered mode when adding or editing a clustered database connection.
 - [#4418](https://github.com/RedisInsight/RedisInsight/pull/4418) An ability to see key names in HEX format. To switch from Unicode to HEX, open the "Decompression & Formatters" tab while adding or editing a database connection.
 - [#4401](https://github.com/RedisInsight/RedisInsight/pull/4401) Added an option to close key details for unsupported data types in the Browser to free up space.
 - [#4296](https://github.com/RedisInsight/RedisInsight/pull/4296) When working with JSON data types, Redis Insight now uses [JSONPath ($) syntax](https://redis.io/docs/latest/develop/data-types/json/path/).
