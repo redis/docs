@@ -18,7 +18,7 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 - [Redis Insight]({{< relref "/develop/tools/insight" >}})
   to edit your pipeline
 - A virtual machine (VM) with one of the following operating systems:  
-  - Ubuntu 20.04 or 22.04
+  - Ubuntu 20.04, 22.04, or 24.04
   - RHEL 8 or 9
 
 ## Overview
