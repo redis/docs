@@ -17,7 +17,7 @@ This is the General Availability (GA) release of Redis Insight 2.68.
 ### Details
 
 **Features and improvements**
-- [#308](https://github.com/redislabsdev/RedisInsight-Cloud/pull/308) Preconfigure database connections using environment variables or a JSON file, enabling centralized and efficient configuration. Details are about environment variables and a JSON file format are provided [here](https://redis.io/docs/latest/operate/redisinsight/configuration/).
+- [#308](https://github.com/redislabsdev/RedisInsight-Cloud/pull/308) Preconfigure database connections using environment variables or a JSON file, enabling centralized and efficient configuration. See [here](https://redis.io/docs/latest/operate/redisinsight/configuration/) for more details.
 - [#4368](https://github.com/RedisInsight/RedisInsight/pull/4368), [#4389](https://github.com/RedisInsight/RedisInsight/pull/4389) Test source database connections for your Redis Data Integration](https://redis.io/docs/latest/integrate/redis-data-integration/) (RDI) pipeline to ensure that RDI can connect to the source database and keep your Redis cache updated with changes.
 - [#4377](https://github.com/RedisInsight/RedisInsight/pull/4377), [#4383](https://github.com/RedisInsight/RedisInsight/pull/4383) Connect to databases without requiring the `INFO` command. If your Redis user lacks permission for this command, database statistics will be hidden.
 - Added the ability to download a file containing all keys deleted via bulk actions.
