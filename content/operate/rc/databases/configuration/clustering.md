@@ -106,7 +106,7 @@ For accounts created after March 23, 2025, Redis defaults to the [Redis hashing 
 This policy is available for selected accounts and will be rolled out gradually to other accounts in the future.
 {{< /note >}}
 
-The Redis hashing policy is identical to the [hashing policy used by Redis Community Edition]({{< relref "/operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}). This policy is recommended for most users and should be selected if any of the following conditions apply:
+The Redis hashing policy is identical to the [hashing policy used by Redis Community Edition]({{< relref "/operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}). This policy is recommended for most users and you should select it if any of the following conditions apply:
 - This is your first Redis Cloud account, and you are starting fresh.
 - You are migrating data from Redis Community Edition or other Redis-managed platforms.
 - Your application does not use hashtags in database key names.
@@ -118,7 +118,7 @@ The Standard hashing policy is mostly consistent with the Redis hashing policy, 
 1. Keys with a single hashtag: a key's hashtag is any substring between '{' and '}' in the key's name. That means that when a key's name includes the pattern '{...}', the hashtag is used as input for the hashing function. For example, the following key names have the same hashtag and are mapped to the same slot: foo{bar}, {bar}baz & foo{bar}baz.
 1. Keys without a hashtag: when a key doesn't contain the '{...}' pattern, the entire key's name is used for hashing
 
-However, this policy is less recommended and should be selected only if any of the following conditions apply:
+However, this policy is less recommended and you should select it only if any of the following conditions apply:
 - Your application uses empty hashtags to hash different keys to the same hashslot
 - Your application uses multiple curly brackets within a key’s name
 
@@ -166,7 +166,7 @@ their order to suit your application's requirements.
 
 {{< warning >}}
 If the Custom hashing policy is available, you can change the hashing policy between Standard and Custom after you create your database. However, hashing policy changes delete existing data 
-(FLUSHDB) before they're applied. 
+(using [`FLUSHDB`]({{< relref "/commands/flushdb" >}})) before they're applied. 
 
 These changes include:
 
