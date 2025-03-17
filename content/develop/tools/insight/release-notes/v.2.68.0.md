@@ -17,10 +17,10 @@ This is the General Availability (GA) release of Redis Insight 2.68.
 ### Details
 
 **Features and improvements**
-- [#308](https://github.com/redislabsdev/RedisInsight-Cloud/pull/308) Preconfigure database connections using environment variables or a JSON file, enabling centralized and efficient configuration. Details are about environment variables and a JSON file format are provided [here]().
+- [#308](https://github.com/redislabsdev/RedisInsight-Cloud/pull/308) Preconfigure database connections using environment variables or a JSON file, enabling centralized and efficient configuration. Details are about environment variables and a JSON file format are provided [here](https://redis.io/docs/latest/operate/redisinsight/configuration/).
 - [#4368](https://github.com/RedisInsight/RedisInsight/pull/4368), [#4389](https://github.com/RedisInsight/RedisInsight/pull/4389) Test source database connections for your Redis Data Integration](https://redis.io/docs/latest/integrate/redis-data-integration/) (RDI) pipeline to ensure that RDI can connect to the source database and keep your Redis cache updated with changes.
 - [#4377](https://github.com/RedisInsight/RedisInsight/pull/4377), [#4383](https://github.com/RedisInsight/RedisInsight/pull/4383) Connect to databases without requiring the `INFO` command. If your Redis user lacks permission for this command, database statistics will be hidden.
-- []() Added the ability to download a file containing all keys deleted via bulk actions.
+- Added the ability to download a file containing all keys deleted via bulk actions.
 - [#4335](https://github.com/RedisInsight/RedisInsight/pull/4335) [Redis Data Integration](https://redis.io/docs/latest/integrate/redis-data-integration/) deployment errors are now stored in a file instead of being displayed in error messages to optimize space usage.
 - [#4374](https://github.com/RedisInsight/RedisInsight/pull/4374) Connection errors for clustered databases now include more detailed information to improve troubleshooting.
 - [#4358](https://github.com/RedisInsight/RedisInsight/pull/4358) A new setting allows to manually force standalone mode instead of automatic clustered mode when adding or editing a clustered database connection.
