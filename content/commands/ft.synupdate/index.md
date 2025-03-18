@@ -90,7 +90,7 @@ OK
 
 ## See also
 
-[`FT.SYNDUMP`]({{< baseurl >}}commands/ft.syndump/) 
+[`FT.SYNDUMP`]({{< relref "commands/ft.syndump/" >}}) 
 
 ## Related topics
 

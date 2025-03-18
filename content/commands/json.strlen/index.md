@@ -69,7 +69,7 @@ redis> JSON.STRLEN doc $..a
 
 ## See also
 
-[`JSON.ARRLEN`]({{< baseurl >}}commands/json.arrlen/) | [`JSON.ARRINSERT`]({{< baseurl >}}commands/json.arrinsert/) 
+[`JSON.ARRLEN`]({{< relref "commands/json.arrlen/" >}}) | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
 
 ## Related topics
 
