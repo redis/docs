@@ -22,7 +22,7 @@ As of Redis Community Edition (CE) 8.0, configuration parameters for the time se
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
-Also, CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< baseurl >}}/commands/config-rewrite/) command).
+Also, CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
 {{< /note >}}
 
 ## Redis Query Engine configuration parameters
@@ -116,7 +116,7 @@ Default: `0`
 
 ### search-cursor-max-idle
 
-The maximum idle time (in ms) that can be set to the [cursor api]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api).
+The maximum idle time (in ms) that can be set to the [cursor api]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api" >}}).
 
 Type: integer
 
@@ -144,7 +144,7 @@ Default: `1`
 
 The default
 [DIALECT]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
-to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain/), [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), and [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck/).
+to be used by [`FT.CREATE`]({{< relref "/commands/ft.create/" >}}), [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}), [`FT.EXPLAIN`]({{< relref "/commands/ft.explain/" >}}), [`FT.EXPLAINCLI`]({{< relref "/commands/ft.explaincli/" >}}), and [`FT.SPELLCHECK`]({{< relref "/commands/ft.spellcheck/" >}}).
 See [Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
 for more information.
 
@@ -211,7 +211,7 @@ Default: `0`
 
 ### search-friso-ini
 
-If present, load the custom Chinese dictionary from the specified path. See [Using custom dictionaries]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/chinese#using-custom-dictionaries) for more details.
+If present, load the custom Chinese dictionary from the specified path. See [Using custom dictionaries]({{< relref "/develop/interact/search-and-query/advanced-concepts/chinese#using-custom-dictionaries" >}}) for more details.
 
 Type: string
 
@@ -251,12 +251,12 @@ Redis Cloud defaults:
 
 Added in v2.10.8.
 
-The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< baseurl >}}/commands/ft.aggregate/). Cursors are also opened internally by the Redis Query Engine for long-running queries. Once `INDEX_CURSOR_LIMIT` is reached, any further attempts to open a cursor will result in an error.
+The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< relref "/commands/ft.aggregate/" >}}). Cursors are also opened internally by the Redis Query Engine for long-running queries. Once `INDEX_CURSOR_LIMIT` is reached, any further attempts to open a cursor will result in an error.
 
 {{% alert title="Notes" color="info" %}}
 * Caution should be used in modifying this parameter.  Every open cursor results in additional memory usage.
-* Cursor usage should be regulated first by use of [`FT.CURSOR DEL`]({{< baseurl >}}/commands/ft.cursor-del/) and/or [`MAXIDLE`]({{< baseurl >}}/commands/ft.aggregate/) prior to modifying `INDEX_CURSOR_LIMIT`
-* See [Cursor API]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api) for more details.
+* Cursor usage should be regulated first by use of [`FT.CURSOR DEL`]({{< relref "/commands/ft.cursor-del/" >}}) and/or [`MAXIDLE`]({{< relref "/commands/ft.aggregate/" >}}) prior to modifying `INDEX_CURSOR_LIMIT`
+* See [Cursor API]({{< relref "/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api" >}}) for more details.
 {{% /alert %}}
 
 Type: integer
@@ -490,11 +490,11 @@ Default: `20`
 ### search-upgrade-index
 
 Relevant only when loading an v1.x RDB file. Specify the argument for upgrading the index.
-This configuration setting is a special configuration option introduced to upgrade indexes from v1.x Redis Query Engine versions, otherwise known as legacy indexes. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [FT.CREATE]({{< baseurl >}}/commands/ft.create/) command page. 
+This configuration setting is a special configuration option introduced to upgrade indexes from v1.x Redis Query Engine versions, otherwise known as legacy indexes. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [FT.CREATE]({{< relref "/commands/ft.create/" >}}) command page. 
 
 Type: string
 
-Default: there is no default for index name, and the other arguments have the same defaults as with the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) command.
+Default: there is no default for index name, and the other arguments have the same defaults as with the [`FT.CREATE`]({{< relref "/commands/ft.create/" >}}) command.
 
 **Example**
 
@@ -513,7 +513,7 @@ search-upgrade-index idx PREFIX 1 tt LANGUAGE french LANGUAGE_FIELD MyLang SCORE
 Added in v2.4.8.
 
 The maximum memory resize (in bytes) for vector indexes.
-The maximum memory resize (in bytes) for vector indexes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors/#creation-attributes-per-algorithm).
+The maximum memory resize (in bytes) for vector indexes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors/#creation-attributes-per-algorithm" >}}).
 
 Type: integer
 
@@ -584,4 +584,4 @@ FT.CONFIG GET OPT1
 FT.CONFIG GET *
 ```
 
-Values set using [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) are not persisted after server restart.
+Values set using [`FT.CONFIG SET`]({{< relref "/commands/ft.config-set/" >}}) are not persisted after server restart.

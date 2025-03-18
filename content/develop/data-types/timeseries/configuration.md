@@ -19,7 +19,7 @@ As of Redis Community Edition 8.0, configuration parameters for the time series 
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
-Also, Redis CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< baseurl >}}/commands/config-rewrite/) command).
+Also, Redis CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
 {{< /note >}}
 
 ## Time series configuration parameters
@@ -56,7 +56,7 @@ Default: `4096`
 
 ### ts-compaction-policy
 
-Default compaction rules for newly created keys with [`TS.ADD`]({{< baseurl >}}/commands/ts.add/), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby/), and  [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby/).
+Default compaction rules for newly created keys with [`TS.ADD`]({{< relref "/commands/ts.add/" >}}), [`TS.INCRBY`]({{< relref "/commands/ts.incrby/" >}}), and  [`TS.DECRBY`]({{< relref "/commands/ts.decrby/" >}}).
 
 Type: string
 
@@ -147,7 +147,7 @@ When a compaction policy is defined, compaction rules will be created automatica
 
 ### ts-duplicate-policy
 
-The default policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) and [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/)) of multiple samples with identical timestamps, with one of the following values:
+The default policy for handling insertion ([`TS.ADD`]({{< relref "/commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "/commands/ts.madd/" >}})) of multiple samples with identical timestamps, with one of the following values:
 
 #### Example
 
@@ -249,7 +249,7 @@ where `max_timestamp` is the timestamp of the sample with the largest timestamp 
 
 ### ts-num-threads
 
-The maximum number of per-shard threads for cross-key queries when using cluster mode ([`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/), [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/), [`TS.MGET`]({{< baseurl >}}/commands/ts.mget/), and [`TS.QUERYINDEX`]({{< baseurl >}}/commands/ts.queryindex/)). The value must be equal to or greater than `1`. Note that increasing this value may either increase or decrease the performance!
+The maximum number of per-shard threads for cross-key queries when using cluster mode ([`TS.MRANGE`]({{< relref "/commands/ts.mrange/" >}}), [`TS.MREVRANGE`]({{< relref "/commands/ts.mrevrange/" >}}), [`TS.MGET`]({{< relref "/commands/ts.mget/" >}}), and [`TS.QUERYINDEX`]({{< relref "/commands/ts.queryindex/" >}})). The value must be equal to or greater than `1`. Note that increasing this value may either increase or decrease the performance!
 
 Type: integer
 
@@ -273,7 +273,7 @@ Valid range: `[0 .. 9,223,372,036,854,775,807]`
 
 Default: `0`
 
-Retention period is the maximum age of samples compared to highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamps and the timestamps passed to subsequent [`TS.ADD`]({{< baseurl >}}/commands/ts.add/), [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby/), and [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby/) calls.
+Retention period is the maximum age of samples compared to highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamps and the timestamps passed to subsequent [`TS.ADD`]({{< relref "/commands/ts.add/" >}}), [`TS.MADD`]({{< relref "/commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "/commands/ts.incrby/" >}}), and [`TS.DECRBY`]({{< relref "/commands/ts.decrby/" >}}) calls.
 
 The value `0` means no expiration.
 
