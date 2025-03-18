@@ -216,7 +216,7 @@ you might want to prevent the Debezium user from creating tables, or
 selecting or locking any table.
 
 The Debezium user needs the `CREATE TABLE` privilege to create the
-`LOG_MINING_FLUSH` and `signals` tables when it connects for the first
+`LOG_MINING_FLUSH` table when it connects for the first
 time. After this point, it doesn't need to create any more tables,
 so you can safely revoke this privilege with the following command:
 
@@ -225,8 +225,8 @@ REVOKE CREATE TABLE FROM c##dbzuser container=all;
 ```
 
 [The example above](#create-dbz-user) grants the `SELECT ANY TABLE` and
-`FLASHBACK ANY TABLE` privileges for convenience, but only the tables synced to RDI,
-the `signals` table, and the `V_$XXX` tables strictly need these privileges.
+`FLASHBACK ANY TABLE` privileges for convenience, but only the tables synced to RDI
+and the `V_$XXX` tables strictly need these privileges.
 You can replace the `GRANT SELECT ANY TABLE` command with explicit
 commands for each table. For example, you would use commands like the
 following for the tables in our sample
@@ -235,7 +235,6 @@ database. (Note that Oracle 19c requires you to run a separate `GRANT`
 command for each table individually.)
 
 ```sql
-GRANT SELECT ON signals TO c##dbzuser;
 GRANT SELECT ON chinook.album TO c##dbzuser;
 GRANT SELECT ON chinook.artist TO c##dbzuser;
 GRANT SELECT ON chinook.customer TO c##dbzuser;
@@ -246,7 +245,6 @@ Similarly, instead of `GRANT FLASHBACK ANY TABLE`, you would use the following
 commands:
 
 ```sql
-GRANT FLASHBACK ON signals TO c##dbzuser;
 GRANT FLASHBACK ON chinook.album TO c##dbzuser;
 GRANT FLASHBACK ON chinook.artist TO c##dbzuser;
 GRANT FLASHBACK ON chinook.customer TO c##dbzuser;
