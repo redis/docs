@@ -182,7 +182,7 @@ Finally, there's new [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) syntax 
 
 Here's an example using two stacked polygons that represent a box contained within a house.
 
-![two stacked polygons]({{< relref "develop/interact/search-and-query/img/polygons.png" >}})
+{{< image filename="develop/interact/search-and-query/img/polygons.png" >}}
 
 First, create an index using a `FLAT` `GEOSHAPE`, representing a 2D X Y coordinate system.
 
