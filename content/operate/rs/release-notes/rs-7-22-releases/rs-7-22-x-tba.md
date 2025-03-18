@@ -71,6 +71,12 @@ This version offers:
 
     - Added `robust_crdt_syncer` to enable or turn off the robust syncer for Active-Active databases.
 
+    - Added `incoming_connections_rate_limit`, `incoming_connections_capacity`, and `incoming_connections_min_capacity` to proxy configuration.
+
+    - Added `client_eviction` to proxy configuration. If set to `true`, it enables client eviction based on `maxmemory_clients`.
+
+    - The cluster's `logrotate_settings` can now be configured with an [update cluster configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) request.
+
 - Added module information to database creation log messages.
 
 - Reserved the following ports:
