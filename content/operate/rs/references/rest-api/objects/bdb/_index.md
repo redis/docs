@@ -18,6 +18,13 @@ An API object that represents a managed database in the cluster.
 | uid | integer; Cluster unique ID of database. Can be set during creation but cannot be updated. |
 | account_id | integer; SM account ID |
 | action_uid | string; Currently running action's UID (read-only) |
+| active_defrag_cycle_max | integer, (range: 1-99); Maximum CPU percentage used for defragmentation when the upper threshold is reached |
+| active_defrag_cycle_min | integer, (range: 1-99) (default: 1); Minimal CPU percentage used for defragmentation when the lower threshold is reached |
+| active_defrag_ignore_bytes | string (default: 100mb); Minimum amount of fragmentation waste to start active defragmentation |
+| active_defrag_max_scan_fields | integer (default: 1000); Maximum number of set/hash/zset/list fields that will be processed from the main dictionary scan |
+| active_defrag_threshold_lower | integer, (range: 0-1000) (default: 10); Minimum percentage of fragmentation to start active defragmentation |
+| active_defrag_threshold_upper | integer, (range: 0-1000) (default: 100); Maximum percentage of fragmentation at which maximum effort is used |
+| activedefrag | Enable or turn off active defragmentation functionality.<br />Values:<br />'yes'<br />**'no'** |
 | aof_policy | Policy for Append-Only File data persistence<br />Values:<br />**'appendfsync-every-sec'** <br />'appendfsync-always' |
 | authentication_admin_pass | string; Password for administrative access to the BDB (used for SYNC from the BDB) |
 | authentication_redis_pass | string; Redis AUTH password authentication.  <br/>Use for Redis databases only.  Ignored for memcached databases. (deprecated as of Redis Enterprise v7.2, replaced with multiple passwords feature in version 6.0.X) |
@@ -107,6 +114,7 @@ An API object that represents a managed database in the cluster.
 | module_list | {{<code>}}[{<br />  "module_id": string,<br />  "module_args": [<br />    u'string',<br />    u'null'],<br />  "module_name": string,<br />  "semantic_version": string<br />}, ...]{{</code>}} List of modules associated with the database<br /><br />**module_id**: Module UID (deprecated; use `module_name` instead)<br />**module_args**: Module command-line arguments (pattern does not allow special characters &,\<,>,")<br />**module_name**: Module's name<br />**semantic_version**: Module's semantic version (deprecated; use `module_args` instead)<br /><br />**module_id** and **semantic_version** are optional as of Redis Enterprise Software v7.4.2 and deprecated as of v7.8.2. |
 | mtls_allow_outdated_certs | boolean; An optional mTLS relaxation flag for certs verification |
 | mtls_allow_weak_hashing | boolean; An optional mTLS relaxation flag for certs verification |
+| multi_commands_opt | If set to `batch`, it reduces the overhead of transaction management by batching multiple commands into a single transaction.<br />Values:<br />**disabled**: Turns off the optimization.<br />**batch**: Enables the optimization.<br />**auto**: Uses the [cluster's `multi_commands_opt` setting]({{<relref "/operate/rs/references/rest-api/objects/cluster">}}). |
 | name | string; Database name. Only letters, numbers, or hyphens are valid characters. The name must start and end with a letter or number. |
 | oss_cluster | boolean (default:&nbsp;false); OSS Cluster mode option. Cannot be enabled with `'hash_slots_policy': 'legacy'` |
 | <span class="break-all">oss_cluster_api_preferred_endpoint_type</span> | Endpoint type in the OSS cluster API<br />Values:<br />**‘ip’**<br />‘hostname’ |
