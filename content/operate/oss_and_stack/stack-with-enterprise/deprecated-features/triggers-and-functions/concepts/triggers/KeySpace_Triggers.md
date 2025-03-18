@@ -22,7 +22,7 @@ Keyspace triggers allow you to register a function that will be executed wheneve
 1. Expired: This event is fired when a key expires from the database.
 2. Evicted: This event is fired when a key is evicted from the database.
 
-For a complete list of supported events, please refer to the [Redis keyspace notifications page]({{< baseurl >}}/develop/use/keyspace-notifications#events-generated-by-different-commands).
+For a complete list of supported events, please refer to the [Redis keyspace notifications page]({{< relref "develop/use/keyspace-notifications#events-generated-by-different-commands" >}}).
 
 To register a keyspace trigger, you need to use the `redis.registerKeySpaceTrigger` API when loading your library. The following example demonstrates how to register a database trigger that adds a "last updated" field whenever a hash key is modified:
 

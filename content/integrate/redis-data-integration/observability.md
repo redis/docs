@@ -96,7 +96,7 @@ The logs are recorded at the minimum `INFO` level and get rotated when they reac
 RDI retains the last five log rotated files by default.
 Logs are in a straightforward text format, which lets you analyze them with several different observability tools.
 You can change the default log settings using the
-[`redis-di config-rdi`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-config-rdi" >}})
+[`redis-di configure-rdi`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-configure-rdi" >}})
 command.
 
 ## Dump support package

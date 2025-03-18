@@ -16,7 +16,7 @@ To view the details of a database:
 
 1. Sign in to the [Redis Cloud console](https://cloud.redis.io/).  (Create an account if you don't already have one.)
 
-2. Select the **Databases** menu to display a searchable list of all databases.
+2. Select the **Databases** menu to display a [searchable list of all databases](#manage-the-database-list).
  
 3. Locate the database in the list.
 
@@ -185,9 +185,9 @@ The **View Database** screen also has tabs that let you view:
 
 ## Edit database details
 
-Use the **Edit database** button to edit database details.
+Use the **Edit** button to edit database details.
 
-{{<image filename="images/rc/button-database-edit.png" alt="The Edit database button lets you change selected database properties." >}}
+{{<image filename="images/rc/button-database-edit.png" alt="The Edit button lets you change selected database properties." width=100px >}}
 
 Because databases exist within the context of a deployment, certain fields cannot be updated, especially those that might lead to data loss.
 

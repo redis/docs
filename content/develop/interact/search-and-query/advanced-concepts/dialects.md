@@ -15,7 +15,7 @@ title: Query dialects
 weight: 5
 ---
 
-Redis Stack currently supports four query dialects for use with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), and other Redis Query Engine commands.
+Redis Stack currently supports four query dialects for use with the [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}), [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}), and other Redis Query Engine commands.
 Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.
 
 ## `DIALECT 1`
@@ -126,9 +126,9 @@ The Dialect version 2 enhancements also introduce simplified syntax for logical 
 
 ## `DIALECT 3`
 
-Dialect version 3 was introduced in the [2.6](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.3) release. This version introduced support for multi-value indexing and querying of attributes for any attribute type ( [TEXT]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-text), [TAG]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-tag), [NUMERIC]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-numeric), [GEO]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-geo) and [VECTOR]({{< baseurl >}}/develop/interact/search-and-query/indexing/#index-json-arrays-as-vector)) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or multiple scalar values. Support for [GEOSHAPE]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}}) queries was also introduced in this dialect.
+Dialect version 3 was introduced in the [2.6](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.3) release. This version introduced support for multi-value indexing and querying of attributes for any attribute type ( [TEXT]({{< relref "develop/interact/search-and-query/indexing/#index-json-arrays-as-text" >}}), [TAG]({{< relref "develop/interact/search-and-query/indexing/#index-json-arrays-as-tag" >}}), [NUMERIC]({{< relref "develop/interact/search-and-query/indexing/#index-json-arrays-as-numeric" >}}), [GEO]({{< relref "develop/interact/search-and-query/indexing/#index-json-arrays-as-geo" >}}) and [VECTOR]({{< relref "develop/interact/search-and-query/indexing/#index-json-arrays-as-vector" >}})) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or multiple scalar values. Support for [GEOSHAPE]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}}) queries was also introduced in this dialect.
 
-The primary difference between dialects version 2 and version 3 is that JSON is returned rather than scalars for multi-value attributes. Apart from specifying `DIALECT 3` at the end of a [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 3, append `DIALECT 3` to your query command.
+The primary difference between dialects version 2 and version 3 is that JSON is returned rather than scalars for multi-value attributes. Apart from specifying `DIALECT 3` at the end of a [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 3, append `DIALECT 3` to your query command.
 
 `FT.SEARCH ... DIALECT 3`
 
@@ -192,7 +192,7 @@ DIALECT 3 is required for shape-based (`POINT` or `POLYGON`) geospatial queries.
 
 ## `DIALECT 4`
 
-Dialect version 4 was introduced in the [2.8](https://github.com/RediSearch/RediSearch/releases/tag/v2.8.4) release. It introduces performance optimizations for sorting operations on [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/). Apart from specifying `DIALECT 4` at the end of a [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 4, append `DIALECT 4` to your query command.
+Dialect version 4 was introduced in the [2.8](https://github.com/RediSearch/RediSearch/releases/tag/v2.8.4) release. It introduces performance optimizations for sorting operations on [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) and [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}). Apart from specifying `DIALECT 4` at the end of a [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 4, append `DIALECT 4` to your query command.
 
 `FT.SEARCH ... DIALECT 4`
 
@@ -205,15 +205,15 @@ Dialect version 4 will improve performance in four different scenarios:
 
 ## Use `FT.EXPLAINCLI` to compare dialects
 	
-The [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/) command is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.
+The [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}) command is a powerful tool that provides a window into the inner workings of your queries. It's like a roadmap that details your query's journey from start to finish.
 
-When you run [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), it returns an array representing the execution plan of a complex query. This plan is a step-by-step guide of how Redis interprets your query and how it plans to fetch results. It's a behind-the-scenes look at the process, giving you insights into how the search engine works.
+When you run [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}), it returns an array representing the execution plan of a complex query. This plan is a step-by-step guide of how Redis interprets your query and how it plans to fetch results. It's a behind-the-scenes look at the process, giving you insights into how the search engine works.
 
-The [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/) accepts a `DIALECT` argument, allowing you to execute the query using different dialect versions, allowing you to compare the resulting query plans.
+The [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}) accepts a `DIALECT` argument, allowing you to execute the query using different dialect versions, allowing you to compare the resulting query plans.
 
-To use [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), you need to provide an index and a query predicate. The index is the name of the index you created using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), and the query predicate is the same as if you were sending it to [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) or [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/).
+To use [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}), you need to provide an index and a query predicate. The index is the name of the index you created using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}), and the query predicate is the same as if you were sending it to [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) or [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
 
-Here's an example of how to use [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/) to understand differences in dialect versions 1 and 2.
+Here's an example of how to use [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}) to understand differences in dialect versions 1 and 2.
 
 Negation of the intersection between tokens `hello` and `world`:
 
@@ -257,7 +257,7 @@ FT.EXPLAINCLI idx:dialects "-(hello world)" DIALECT 2
 ```
 
 {{% alert title=Note %}}
-[`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain/) doesn't execute the query. It only explains the plan. It's a way to understand how your query is interpreted by the query engine, which can be invaluable when you're trying to optimize your searches.
+[`FT.EXPLAIN`]({{< relref "commands/ft.explain/" >}}) doesn't execute the query. It only explains the plan. It's a way to understand how your query is interpreted by the query engine, which can be invaluable when you're trying to optimize your searches.
 {{% /alert %}}
 
 ## Change the default dialect

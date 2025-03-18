@@ -32,7 +32,7 @@ Resets the database's `export_status` to idle if an export is not in progress an
 #### Example HTTP request
 
 ```sh
-PUT /bdbs/1/actions/export_reset_status
+PUT /v1/bdbs/1/actions/export_reset_status
 ```
 
 #### Request headers

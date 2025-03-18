@@ -16,7 +16,7 @@ You can run search operations on any instance of an Active-Active database.
 ## How it works
 
 1. Create an Active-Active database with RediSearch 2.x enabled.
-1. [Create the index]({{< baseurl >}}/commands/ft.create) on each instance of the database.
+1. [Create the index]({{< relref "commands/ft.create" >}}) on each instance of the database.
 1. If you are using [synonyms]({{< relref "/develop/interact/search-and-query/advanced-concepts/synonyms" >}}), you need to add them to each replica.
 1. The index is maintained by each instance outside of the database keyspace, so only updates to the hashes in the databases are synchronized.
 
@@ -24,11 +24,11 @@ You can run search operations on any instance of an Active-Active database.
 
 Active-Active databases do not support the following search and query commands: 
 
-- [`FT.DROPINDEX` ]({{< baseurl >}}/commands/ft.dropindex)
-- [`FT.SUGADD`]({{< baseurl >}}/commands/ft.sugadd)
-- [`FT.SUGGET`]({{< baseurl >}}/commands/ft.sugget)
-- [`FT.SUGDEL`]({{< baseurl >}}/commands/ft.sugdel)
-- [`FT.SUGLEN`]({{< baseurl >}}/commands/ft.suglen)
+- [`FT.DROPINDEX` ]({{< relref "commands/ft.dropindex" >}})
+- [`FT.SUGADD`]({{< relref "commands/ft.sugadd" >}})
+- [`FT.SUGGET`]({{< relref "commands/ft.sugget" >}})
+- [`FT.SUGDEL`]({{< relref "commands/ft.sugdel" >}})
+- [`FT.SUGLEN`]({{< relref "commands/ft.suglen" >}})
 
 ## Example
 

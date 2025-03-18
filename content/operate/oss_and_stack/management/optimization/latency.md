@@ -30,7 +30,7 @@ return here to read the full documentation.
 2. For EC2 users, make sure you use HVM based modern EC2 instances, like m3.medium. Otherwise fork() is too slow.
 3. Transparent huge pages must be disabled from your kernel. Use `echo never > /sys/kernel/mm/transparent_hugepage/enabled` to disable them, and restart your Redis process.
 4. If you are using a virtual machine, it is possible that you have an intrinsic latency that has nothing to do with Redis. Check the minimum latency you can expect from your runtime environment using `./redis-cli --intrinsic-latency 100`. Note: you need to run this command in *the server* not in the client.
-5. Enable and use the [Latency monitor]({{< baseurl >}}/operate/oss_and_stack/management/optimization/latency-monitor) feature of Redis in order to get a human readable description of the latency events and causes in your Redis instance.
+5. Enable and use the [Latency monitor]({{< relref "operate/oss_and_stack/management/optimization/latency-monitor" >}}) feature of Redis in order to get a human readable description of the latency events and causes in your Redis instance.
 
 In general, use the following table for durability VS latency/performance tradeoffs, ordered from stronger safety to better latency.
 
@@ -59,7 +59,7 @@ Since Redis 2.8.13, Redis provides latency monitoring capabilities that
 are able to sample different execution paths to understand where the
 server is blocking. This makes debugging of the problems illustrated in
 this documentation much simpler, so we suggest enabling latency monitoring
-ASAP. Please refer to the [Latency monitor documentation]({{< baseurl >}}/operate/oss_and_stack/management/optimization/latency-monitor).
+ASAP. Please refer to the [Latency monitor documentation]({{< relref "operate/oss_and_stack/management/optimization/latency-monitor" >}}).
 
 While the latency monitoring sampling and reporting capabilities will make
 it simpler to understand the source of latency in your Redis system, it is still

@@ -63,4 +63,4 @@ If successful, you'll see the startup logs for Redis, and Redis will be running 
 
 To stop Redis, enter `Ctrl-C`.
 
-For a more complete installation, continue with [these instructions]({{< baseurl >}}/operate/oss_and_stack/install/install-redis/#install-redis-properly).
+For a more complete installation, continue with [these instructions]({{< relref "operate/oss_and_stack/install/install-redis/#install-redis-properly" >}}).

@@ -36,9 +36,6 @@ complexity: O(1)
 description: Gets completion suggestions for a prefix
 group: suggestion
 hidden: false
-history:
-- - 2.0.0
-  - Deprecated `WITHPAYLOADS` argument
 linkTitle: FT.SUGGET
 module: Search
 since: 1.0.0
@@ -113,7 +110,7 @@ FT.SUGGET returns an array reply, which is a list of the top suggestions matchin
 
 ## See also
 
-[`FT.SUGADD`]({{< baseurl >}}/commands/ft.sugadd/) | [`FT.SUGDEL`]({{< baseurl >}}/commands/ft.sugdel/) | [`FT.SUGLEN`]({{< baseurl >}}/commands/ft.suglen/) 
+[`FT.SUGADD`]({{< relref "commands/ft.sugadd/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGLEN`]({{< relref "commands/ft.suglen/" >}}) 
 
 ## Related topics
 

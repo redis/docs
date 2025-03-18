@@ -35,7 +35,7 @@ You will need the following tools to build the site locally:
 
 - `python3`: Python >= 3.8.
 - `node` and `npm`: Node.js >= 19.7.0, and the Node.js package manager >= 9.5.0.
-- `hugo`: Hugo site generator, v0.111.2; the extended edition.
+- `hugo`: Hugo site generator, v0.143.0; the extended edition.
 - `make`: To run the makefile.
 - `git`: To manage the source code of this repo.
 
@@ -92,13 +92,6 @@ It's strongly advised to use `relref` because it provides the following advantag
 
 
 The following needs to be taken into account when using `relref`: The reference `/develop/get-started/data-store` and `/develop/get-started/data-store/` aren't the same. You must use the trailing slash if the referenced article is an `_index.md` file within a folder (e.g., `.../data-store/` for `.../data-store/_index.md`). Otherwise, you should not use the trailing slash (e.g., `.../get-started/data-store.md`).
-
-RelRefs with dots (`.`) and hashtags (`#`) in the reference name, such as `/commands/ft.create` or `/develop/data-types/timeseries/configuration#compaction_policy`, don't seem to work. Please use the `{{< baseurl >}}` as a workaround in that case. Here are a couple of examples:
-
-```
-[compaction]({{< baseurl >}}/develop/data-types/timeseries/configuration#compaction_policy)
-[FT.CREATE]({{< baseurl >}}/commands/ft.create)
-```
 
 ### Images
 

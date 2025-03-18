@@ -5,68 +5,132 @@ description: Redis Data Integration configuration file reference
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
-aliases: /integrate/redis-data-integration/ingest/reference/config-yaml-reference/
+aliases:
 ---
 
+Configuration file for Redis Data Integration (RDI) source collectors and target connections
+
 **Properties**
 
-|Name|Type|Description|Required|
-|----|----|-----------|--------|
-|[**sources**](#sources)<br/>(Source collectors)|`object`|||
-|[**processors**](#processors)<br/>(Configuration details of Redis Data Integration Processors)|`object`, `null`|||
-|[**targets**](#targets)<br/>(Target connections)|`object`|||
+| Name                                                              | Type             | Description                                                                                                                                                               | Required |
+| ----------------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| [**sources**](#sources)<br/>(Source collectors)                   | `object`         | Defines source collectors and their configurations. Each key represents a unique source identifier, and its value contains specific configuration for that collector<br/> |          |
+| [**processors**](#processors)<br/>(Data processing configuration) | `object`, `null` | Configuration settings that control how data is processed, including batch sizes, error handling, and performance tuning<br/>                                             |          |
+| [**targets**](#targets)<br/>(Target connections)                  | `object`         | Configuration for target Redis databases where processed data will be written<br/>                                                                                        |          |
+| [**secret\-providers**](#secret-providers)<br/>(Secret providers) | `object`         |                                                                                                                                                                           |          |
 
 <a name="sources"></a>
+
 ## sources: Source collectors
 
-**Additional Properties**
-
-|Name|Type|Description|Required|
-|----|----|-----------|--------|
-
-<a name="processors"></a>
-## processors: Configuration details of Redis Data Integration Processors
-
-**Properties**
-
-|Name|Type|Description|Required|
-|----|----|-----------|--------|
-|**on\_failed\_retry\_interval**<br/>(Interval \(in seconds\) on which to perform retry on failure)|`integer`, `string`|Default: `5`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**read\_batch\_size**<br/>(The batch size for reading data from source database)|`integer`, `string`|Default: `2000`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**debezium\_lob\_encoded\_placeholder**<br/>(Enable Debezium LOB placeholders)|`string`|Default: `"X19kZWJleml1bV91bmF2YWlsYWJsZV92YWx1ZQ=="`<br/>||
-|**dedup**<br/>(Enable deduplication mechanism)|`boolean`|Default: `false`<br/>||
-|**dedup\_max\_size**<br/>(Max size of the deduplication set)|`integer`|Default: `1024`<br/>Minimum: `1`<br/>||
-|**dedup\_strategy**<br/>(Deduplication strategy: reject \- reject messages\(dlq\), ignore \- ignore messages)|`string`|(DEPRECATED)<br/>Property 'dedup_strategy' is now deprecated. The only supported strategy is 'ignore'. Please remove from the configuration.<br/>Default: `"ignore"`<br/>Enum: `"reject"`, `"ignore"`<br/>||
-|**duration**<br/>(Time \(in ms\) after which data will be read from stream even if read\_batch\_size was not reached)|`integer`, `string`|Default: `100`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**write\_batch\_size**<br/>(The batch size for writing data to target Redis database\. Should be less or equal to the read\_batch\_size)|`integer`, `string`|Default: `200`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**error\_handling**<br/>(Error handling strategy: ignore \- skip, dlq \- store rejected messages in a dead letter queue)|`string`|Default: `"dlq"`<br/>Pattern: ``^\${.*}$|ignore|dlq``<br/>||
-|**dlq\_max\_messages**<br/>(Dead letter queue max messages per stream)|`integer`, `string`|Default: `1000`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**target\_data\_type**<br/>(Target data type: hash/json \- RedisJSON module must be in use in the target DB)|`string`|Default: `"hash"`<br/>Pattern: ``^\${.*}$|hash|json``<br/>||
-|**json\_update\_strategy**<br/>(Target update strategy: replace/merge \- RedisJSON module must be in use in the target DB)|`string`|(DEPRECATED)<br/>Property 'json_update_strategy' will be deprecated in future releases. Use 'on_update' job-level property to define the json update strategy.<br/>Default: `"replace"`<br/>Pattern: ``^\${.*}$|replace|merge``<br/>||
-|**initial\_sync\_processes**<br/>(Number of processes RDI Engine creates to process the initial sync with the source)|`integer`, `string`|Default: `4`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>Maximum: `32`<br/>||
-|**idle\_sleep\_time\_ms**<br/>(Idle sleep time \(in milliseconds\) between batches)|`integer`, `string`|Default: `200`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>Maximum: `999999`<br/>||
-|**idle\_streams\_check\_interval\_ms**<br/>(Interval \(in milliseconds\) for checking new streams when the stream processor is idling)|`integer`, `string`|Default: `1000`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>Maximum: `999999`<br/>||
-|**busy\_streams\_check\_interval\_ms**<br/>(Interval \(in milliseconds\) for checking new streams when the stream processor is busy)|`integer`, `string`|Default: `5000`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>Maximum: `999999`<br/>||
-|**wait\_enabled**<br/>(Checks if the data has been written to the replica shard)|`boolean`|Default: `false`<br/>||
-|**wait\_timeout**<br/>(Timeout in milliseconds when checking write to the replica shard)|`integer`, `string`|Default: `1000`<br/>Pattern: ``^\${.*}$``<br/>Minimum: `1`<br/>||
-|**retry\_on\_replica\_failure**<br/>(Ensures that the data has been written to the replica shard and keeps retrying if not)|`boolean`|Default: `true`<br/>||
-
-**Additional Properties:** not allowed  
-<a name="targets"></a>
-## targets: Target connections
-
-**Properties**
-
-|Name|Type|Description|Required|
-|----|----|-----------|--------|
-|[**connection**](#targetsconnection)<br/>(Connection details)|`object`|||
-
-<a name="targetsconnection"></a>
-### targets\.connection: Connection details
+Defines source collectors and their configurations. Each key represents a unique source identifier, and its value contains specific configuration for that collector
 
 **Properties (Pattern)**
 
-|Name|Type|Description|Required|
-|----|----|-----------|--------|
-|**\.\***||||
-|**additionalProperties**||||
+| Name     | Type | Description | Required |
+| -------- | ---- | ----------- | -------- |
+| **\.\*** |      |             |          |
+
+<a name="processors"></a>
+
+## processors: Data processing configuration
+
+Configuration settings that control how data is processed, including batch sizes, error handling, and performance tuning
+
+**Properties**
+
+| Name                                                                 | Type                | Description                                                                                                                                                                                                                          | Required |
+| -------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| **on_failed_retry_interval**<br/>(Retry interval on failure)         | `integer`, `string` | Number of seconds to wait before retrying a failed operation<br/>Default: `5`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>                                                                                                          |          |
+| **read_batch_size**                                                  | `integer`, `string` | Maximum number of records to process in a single batch<br/>Default: `2000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>                                                                                                             |          |
+| **debezium_lob_encoded_placeholder**<br/>(Debezium LOB placeholder)  | `string`            | Placeholder value for LOB fields in Debezium<br/>Default: `"__debezium_unavailable_value"`<br/>                                                                                                                                      |          |
+| **dedup**<br/>(Enable deduplication)                                 | `boolean`           | Enable the deduplication mechanism to handle duplicate records<br/>Default: `false`<br/>                                                                                                                                             |          |
+| **dedup_max_size**<br/>(Deduplication set size)                      | `integer`           | Maximum number of entries to store in the deduplication set<br/>Default: `1024`<br/>Minimum: `1`<br/>                                                                                                                                |          |
+| **dedup_strategy**<br/>(Deduplication strategy)                      | `string`            | (DEPRECATED)<br/>Property 'dedup_strategy' is now deprecated. The only supported strategy is 'ignore'. Please remove from the configuration.<br/>Default: `"ignore"`<br/>Enum: `"reject"`, `"ignore"`<br/>                           |          |
+| **duration**<br/>(Batch duration limit)                              | `integer`, `string` | Maximum time in milliseconds to wait for a batch to fill before processing<br/>Default: `100`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>                                                                                          |          |
+| **write_batch_size**                                                 | `integer`, `string` | Maximum number of records to write to target Redis database in a single batch<br/>Default: `200`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>                                                                                       |          |
+| **error_handling**<br/>(Error handling strategy)                     | `string`            | Strategy for handling errors: ignore to skip errors, dlq to store rejected messages in dead letter queue<br/>Default: `"dlq"`<br/>Pattern: `^\${.*}$\|ignore\|dlq`<br/>                                                              |          |
+| **dlq_max_messages**<br/>(DLQ message limit)                         | `integer`, `string` | Maximum number of messages to store in dead letter queue per stream<br/>Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>                                                                                                |          |
+| **target_data_type**<br/>(Target Redis data type)                    | `string`            | Data type to use in Redis: hash for Redis Hash, json for RedisJSON (requires RedisJSON module)<br/>Default: `"hash"`<br/>Pattern: `^\${.*}$\|hash\|json`<br/>                                                                        |          |
+| **json_update_strategy**                                             | `string`            | (DEPRECATED)<br/>Property 'json_update_strategy' will be deprecated in future releases. Use 'on_update' job-level property to define the json update strategy.<br/>Default: `"replace"`<br/>Pattern: `^\${.*}$\|replace\|merge`<br/> |          |
+| **initial_sync_processes**                                           | `integer`, `string` | Number of parallel processes for performing initial data synchronization<br/>Default: `4`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `32`<br/>                                                                            |          |
+| **idle_sleep_time_ms**<br/>(Idle sleep interval)                     | `integer`, `string` | Time in milliseconds to sleep between processing batches when idle<br/>Default: `200`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>                                                                            |          |
+| **idle_streams_check_interval_ms**<br/>(Idle streams check interval) | `integer`, `string` | Time in milliseconds between checking for new streams when processor is idle<br/>Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>                                                                 |          |
+| **busy_streams_check_interval_ms**<br/>(Busy streams check interval) | `integer`, `string` | Time in milliseconds between checking for new streams when processor is busy<br/>Default: `5000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>                                                                 |          |
+| **wait_enabled**<br/>(Enable replica wait)                           | `boolean`           | Enable verification that data has been written to replica shards<br/>Default: `false`<br/>                                                                                                                                           |          |
+| **wait_timeout**<br/>(Replica wait timeout)                          | `integer`, `string` | Maximum time in milliseconds to wait for replica write verification<br/>Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>                                                                                                |          |
+| **retry_on_replica_failure**                                         | `boolean`           | Continue retrying writes until successful replication to replica shards is confirmed<br/>Default: `true`<br/>                                                                                                                        |          |
+
+**Additional Properties:** not allowed  
+<a name="targets"></a>
+
+## targets: Target connections
+
+Configuration for target Redis databases where processed data will be written
+
+**Properties (Pattern)**
+
+| Name     | Type | Description | Required |
+| -------- | ---- | ----------- | -------- |
+| **\.\*** |      |             |          |
+
+<a name="secret-providers"></a>
+
+## secret\-providers: Secret providers
+
+**Properties (Pattern)**
+
+| Name                                                      | Type     | Description | Required |
+| --------------------------------------------------------- | -------- | ----------- | -------- |
+| [**\.\***](#secret-providers)<br/>(Secret provider entry) | `object` |             | yes      |
+
+<a name="secret-providers"></a>
+
+#### secret\-providers\.\.\*: Secret provider entry
+
+**Properties**
+
+| Name                                                                    | Type     | Description                   | Required |
+| ----------------------------------------------------------------------- | -------- | ----------------------------- | -------- |
+| **type**<br/>(Provider type)                                            | `string` | Enum: `"aws"`, `"vault"`<br/> | yes      |
+| [**parameters**](#secret-providersparameters)<br/>(Provider parameters) | `object` |                               | yes      |
+
+**Additional Properties:** not allowed  
+**Example**
+
+```yaml
+parameters:
+  objects:
+    - {}
+```
+
+<a name="secret-providersparameters"></a>
+
+##### secret\-providers\.\.\*\.parameters: Provider parameters
+
+**Properties**
+
+| Name                                                                          | Type       | Description | Required |
+| ----------------------------------------------------------------------------- | ---------- | ----------- | -------- |
+| [**objects**](#secret-providersparametersobjects)<br/>(Secrets objects array) | `object[]` |             | yes      |
+
+**Example**
+
+```yaml
+objects:
+  - {}
+```
+
+<a name="secret-providersparametersobjects"></a>
+
+###### secret\-providers\.\.\*\.parameters\.objects\[\]: Secrets objects array
+
+**Items: Secret object**
+
+**No properties.**
+
+**Example**
+
+```yaml
+- {}
+```

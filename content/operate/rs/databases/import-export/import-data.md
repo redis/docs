@@ -221,3 +221,7 @@ The import through the Redis Enterprise Cluster Manager UI handles these data ty
 
 You can import data into an Active-Active database [from the Cluster Manager UI](#import-data-into-a-database).
 When you import data into an Active-Active database, there is a special prompt warning that the imported data will be merged into the existing database.
+
+## Continue learning with Redis University
+
+{{< university-links >}}

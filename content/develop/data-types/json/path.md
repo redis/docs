@@ -118,7 +118,7 @@ JSON.SET bikes:inventory $ '{ "inventory": { "mountain_bikes": [ { "id": "bike:1
 
 ### Access examples
 
-The following examples use the [`JSON.GET`]({{< baseurl >}}/commands/json.get/) command to retrieve data from various paths in the JSON document.
+The following examples use the [`JSON.GET`]({{< relref "commands/json.get/" >}}) command to retrieve data from various paths in the JSON document.
 
 You can use the wildcard operator `*` to return a list of all items in the inventory:
 
@@ -213,7 +213,7 @@ OK
 
 You can also use JSONPath queries when you want to update specific sections of a JSON document.
 
-For example, you can pass a JSONPath to the [`JSON.SET`]({{< baseurl >}}/commands/json.set/) command to update a specific field. This example changes the price of the first item in the headphones list:
+For example, you can pass a JSONPath to the [`JSON.SET`]({{< relref "commands/json.set/" >}}) command to update a specific field. This example changes the price of the first item in the headphones list:
 
 {{< clients-example json_tutorial update_bikes >}}
 > JSON.GET bikes:inventory $..price
@@ -233,7 +233,7 @@ OK
 "[1500,2072,3264,1500,3941]"
 {{< /clients-example >}}
 
-JSONPath queries also work with other JSON commands that accept a path as an argument. For example, you can add a new color option for a set of headphones with [`JSON.ARRAPPEND`]({{< baseurl >}}/commands/json.arrappend/):
+JSONPath queries also work with other JSON commands that accept a path as an argument. For example, you can add a new color option for a set of headphones with [`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}):
 
 {{< clients-example json_tutorial update_filters2 >}}
 > JSON.ARRAPPEND bikes:inventory '$.inventory.*[?(@.price<2000)].colors' '"pink"'

@@ -23,6 +23,17 @@ This quick start guide helps you to:
 3. Create vector embeddings and store vectors
 4. Query data and perform a vector search
 
+{{< note >}}This guide uses [RedisVL]({{< relref "/develop/clients/redis-vl" >}}),
+which is a Python client library for Redis that is highly specialized for
+vector processing. You may also be interested in the vector query examples
+for our other client libraries:
+
+- [`redis-py` (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
+- [`NRedisStack`(C#/.NET)]({{< relref "/develop/clients/dotnet/vecsearch" >}})
+- [`node-redis` (JavaScript/Node.js)]({{< relref "/develop/clients/nodejs/vecsearch" >}})
+- [`jedis` (Java)]({{< relref "/develop/clients/jedis/vecsearch" >}})
+- [`go-redis` (Go)]({{< relref "/develop/clients/go/vecsearch" >}})
+{{< /note >}}
 
 ## Understand vector databases
 
@@ -111,7 +122,7 @@ Inspect the structure of one of the bike JSON documents:
 {{< clients-example search_vss dump_data />}}
 
 ### 2. Store the demo data in Redis
-Now iterate over the `bikes`  array to store the data as [JSON]({{< relref "/develop/data-types/json/" >}}) documents in Redis by using the [JSON.SET]({{< baseurl >}}/commands/json.set//) command. The below code uses a [pipeline]({{< relref "/develop/use/pipelining" >}}) to minimize the network round-trip times:
+Now iterate over the `bikes`  array to store the data as [JSON]({{< relref "/develop/data-types/json/" >}}) documents in Redis by using the [JSON.SET]({{< relref "commands/json.set/" >}}) command. The below code uses a [pipeline]({{< relref "/develop/use/pipelining" >}}) to minimize the network round-trip times:
 
 {{< clients-example search_vss load_data />}}
 
@@ -134,15 +145,15 @@ Iterate over all the Redis keys with the prefix `bikes:`:
 
 {{< clients-example search_vss get_keys />}}
 
-Use the keys as input to the [JSON.MGET]({{< baseurl >}}/commands/json.mget/) command, along with the `$.description` field, to collect the descriptions in a list. Then, pass the list of descriptions to the `.encode()` method:
+Use the keys as input to the [JSON.MGET]({{< relref "commands/json.mget/" >}}) command, along with the `$.description` field, to collect the descriptions in a list. Then, pass the list of descriptions to the `.encode()` method:
 
 {{< clients-example search_vss generate_embeddings />}}
 
-Insert the vectorized descriptions to the bike documents in Redis using the [JSON.SET]({{< baseurl >}}/commands/json.set) command. The following command inserts a new field into each of the documents under the JSONPath `$.description_embeddings`. Once again, do this using a pipeline to avoid unnecessary network round-trips:
+Insert the vectorized descriptions to the bike documents in Redis using the [JSON.SET]({{< relref "commands/json.set" >}}) command. The following command inserts a new field into each of the documents under the JSONPath `$.description_embeddings`. Once again, do this using a pipeline to avoid unnecessary network round-trips:
 
 {{< clients-example search_vss load_embeddings />}}
 
-Inspect one of the updated bike documents using the [JSON.GET]({{< baseurl >}}/commands/json.get) command:
+Inspect one of the updated bike documents using the [JSON.GET]({{< relref "commands/json.get" >}}) command:
 
 {{< clients-example search_vss dump_example />}}
 
@@ -155,7 +166,7 @@ When storing a vector embedding within a JSON document, the embedding is stored 
 
 ### 1. Create an index with a vector field
 
-You must create an index to query document metadata or to perform vector searches. Use the [FT.CREATE]({{< baseurl >}}/commands/ft.create) command:
+You must create an index to query document metadata or to perform vector searches. Use the [FT.CREATE]({{< relref "commands/ft.create" >}}) command:
 
 {{< clients-example search_vss create_index >}}
 FT.CREATE idx:bikes_vss ON JSON
@@ -181,7 +192,7 @@ You can find further details about all these options in the [vector reference do
 
 ### 2. Check the state of the index
 
-As soon as you execute the [FT.CREATE]({{< baseurl >}}/commands/ft.create) command, the indexing process runs in the background. In a short time, all JSON documents should be indexed and ready to be queried. To validate that, you can use the [FT.INFO]({{< baseurl >}}/commands/ft.info) command, which provides details and statistics about the index. Of particular interest are the number of documents successfully indexed and the number of failures:
+As soon as you execute the [FT.CREATE]({{< relref "commands/ft.create" >}}) command, the indexing process runs in the background. In a short time, all JSON documents should be indexed and ready to be queried. To validate that, you can use the [FT.INFO]({{< relref "commands/ft.info" >}}) command, which provides details and statistics about the index. Of particular interest are the number of documents successfully indexed and the number of failures:
 
 {{< clients-example search_vss validate_index >}}
 FT.INFO idx:bikes_vss
@@ -229,7 +240,7 @@ Let's break down the above query template:
 - Finally, it returns the fields `vector_score`,  `id`, `brand`, `model`, and `description` for each result.
 
 {{% alert title="Note" color="warning" %}}
-To utilize a vector query with the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command, you must specify DIALECT 2 or greater.
+To utilize a vector query with the [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command, you must specify DIALECT 2 or greater.
 {{% /alert  %}}
 
 You must pass the vectorized query as a byte array with the param name `query_vector`. The following code creates a Python NumPy array from the query vector and converts it into a compact, byte-level representation that can be passed as a parameter to the query:
@@ -272,3 +283,7 @@ From the description, this bike is an excellent match for younger children, and 
 2. The complete [Redis Query Engine documentation]({{< relref "/develop/interact/search-and-query/" >}}) might be interesting for you.
 3. If you want to follow the code examples more interactively, then you can use the [Jupyter notebook](https://github.com/RedisVentures/redis-vss-getting-started/blob/main/vector_similarity_with_redis.ipynb) that inspired this quick start guide.
 4. If you want to see more advanced examples of a Redis vector database in action, visit the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) page on GitHub.
+
+## Continue learning with Redis University
+
+{{< university-links >}}

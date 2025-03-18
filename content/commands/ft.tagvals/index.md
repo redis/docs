@@ -42,7 +42,7 @@ Return a distinct set of values indexed in a Tag field
 <details open>
 <summary><code>index</code></summary>
 
-is full-text index name. You must first create the index using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/).
+is full-text index name. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
 </details>
 
 <details open>
@@ -76,7 +76,7 @@ FT.TAGVALS returns an array reply of all distinct tags in the tag index.
 
 ## See also
 
-[`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) 
+[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) 
 
 ## Related topics
 

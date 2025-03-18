@@ -31,7 +31,7 @@ title: BF.MEXISTS
 ---
 Determines whether one or more items were added to a Bloom filter.
 
-This command is similar to [`BF.EXISTS`]({{< baseurl >}}/commands/bf.exists/), except that more than one item can be checked.
+This command is similar to [`BF.EXISTS`]({{< relref "commands/bf.exists/" >}}), except that more than one item can be checked.
 
 ## Required arguments
 

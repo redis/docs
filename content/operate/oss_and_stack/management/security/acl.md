@@ -448,7 +448,7 @@ The example set of ACL rules is unable to handle a request copying data from `ap
 However, using key selectors you can define a set of ACL rules that can handle this request `+@all ~app1:* %R~app2:*`.
 The first pattern is able to match `app1:user` and the second pattern is able to match `app2:user`.
 
-Which type of permission is required for a command is documented through [key specifications]({{< baseurl >}}/develop/reference/key-specs#logical-operation-flags).
+Which type of permission is required for a command is documented through [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}).
 The type of permission is based off the keys logical operation flags. 
 The insert, update, and delete flags map to the write key permission. 
 The access flag maps to the read key permission.

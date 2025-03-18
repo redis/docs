@@ -34,7 +34,7 @@ SCHEMA
 In this example, a schema is defined for an index named `idx` that will index all hash documents whose keyname starts with `blog:post:`. 
 The schema includes the fields `title`, `content`, `author`, `created_date`, and `views`. The `TEXT` type indicates that the `title` and `content` fields are text-based, the `TAG` type is used for the `author` field, and the `NUMERIC` type is used for the `created_date` and `views` fields. Additionally, a weight of 5.0 is assigned to the `title` field to give it more relevance in search results, and `created_date` is marked as `SORTABLE` to enable sorting based on this field.
 
-You can learn more about the available field types and options on the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) page.
+You can learn more about the available field types and options on the [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) page.
 
 ## More schema definition examples
 
@@ -116,4 +116,4 @@ SCHEMA
 ```
 
 
-You can learn more about the available field types and options on the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) page.
+You can learn more about the available field types and options on the [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) page.

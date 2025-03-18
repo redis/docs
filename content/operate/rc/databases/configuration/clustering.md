@@ -15,7 +15,7 @@ aliases:
 ---
 For very large databases, Redis Cloud distributes database data to different cloud instances.  For example:
 
-- When data grows beyond the the RAM resources of a single server.
+- When data grows beyond the RAM resources of a single server.
 
     Multiple shards should be used when data grows to 25 GB (50 GB for Auto Tiering) to create multiple shards.
 
@@ -170,6 +170,8 @@ their order to suit your application's requirements.
 {{< embed-md "oss-cluster-api-intro.md"  >}}
 
 The Cluster API is only supported on Redis Cloud Pro databases. You can enable it in the Performance section of the configuration screen.
+
+After you select OSS Cluster API, you can select **Use external endpoint** if you want to use the external endpoint for the database. Selecting **Use external endpoint** will block the private endpoint for this database.
 
 The Redis Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy) and does not use Search and Query or Time Series advanced capabilities.
 

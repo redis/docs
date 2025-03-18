@@ -90,7 +90,7 @@ See [Spellchecking]({{< relref "/develop/interact/search-and-query/advanced-conc
 <details open>
 <summary><code>TERMS</code></summary>
 
-specifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary. To learn more about managing custom dictionaries, see [`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd/), [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel/), and [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump/).
+specifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary. To learn more about managing custom dictionaries, see [`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}), [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}}), and [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}}).
 
 You can specify multiple inclusion and exclusion `TERMS`.
 </details>
@@ -104,7 +104,7 @@ is maximum Levenshtein distance for spelling suggestions (default: 1, max: 4).
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary> 
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) command.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) command.
 </details>
 
 ## Return
@@ -132,7 +132,7 @@ The score is calculated by dividing the number of documents in which the suggest
 
 ## See also
 
-[`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) | [`FT.DICTADD`]({{< baseurl >}}/commands/ft.dictadd/) | [`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel/) | [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump/)
+[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}}) | [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}})
 
 ## Related topics
 

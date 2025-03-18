@@ -27,7 +27,7 @@ Get all DNS suffixes in the cluster.
 
 #### Example HTTP request
 
-	GET /suffixes 
+	GET /v1/suffixes 
 
 
 #### Request headers

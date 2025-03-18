@@ -321,7 +321,7 @@ Search the index with a textual query, returning either documents or just ids
 <details open>
 <summary><code>index</code></summary>
 
-is index name. You must first create the index using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/).
+is index name. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
 </details>
 
 <details open>
@@ -360,7 +360,7 @@ also returns the relative internal score of each document. This can be used to m
 <details open>
 <summary><code>WITHPAYLOADS</code></summary>
 
-retrieves optional document payloads. See [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/). The payloads follow the document id and, if `WITHSCORES` is set, the scores.
+retrieves optional document payloads. See [`FT.CREATE`]({{< relref "commands/ft.create/" >}}). The payloads follow the document id and, if `WITHSCORES` is set, the scores.
 </details>
 
 <details open>
@@ -372,7 +372,7 @@ returns the value of the sorting key, right after the id and score and/or payloa
 <details open>
 <summary><code>FILTER numeric_attribute min max</code></summary>
 
-limits results to those having numeric values ranging between `min` and `max`, if numeric_attribute is defined as a numeric attribute in [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/). 
+limits results to those having numeric values ranging between `min` and `max`, if numeric_attribute is defined as a numeric attribute in [`FT.CREATE`]({{< relref "commands/ft.create/" >}}). 
   `min` and `max` follow [`ZRANGE`]({{< relref "/commands/zrange" >}}) syntax, and can be `-inf`, `+inf`, and use `(` for exclusive ranges. Multiple numeric filters for different attributes are supported in one query.
 **Deprecated since v2.10**: [Query dialect 2]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-2" >}}) explains the query syntax for numeric fields that replaces this argument.
 </details>
@@ -437,7 +437,7 @@ requires the terms in the document to have the same order as the terms in the qu
 
 use a stemmer for the supplied language during search for query expansion. If querying documents in Chinese, set to `chinese` to
   properly tokenize the query terms. Defaults to English. If an unsupported language is sent, the command returns an error.
-  See [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) for the list of languages. If `LANGUAGE` was specified as part of index
+  See [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) for the list of languages. If `LANGUAGE` was specified as part of index
   creation, it doesn't need to specified with `FT.SEARCH`.
 </details>
 
@@ -508,7 +508,7 @@ to `2` or greater than `2` (this requires [RediSearch v2.4](https://github.com/R
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary>
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) command. See [Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}) for more information.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) command. See [Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}) for more information.
 </details>
 
 ## Return
@@ -533,7 +533,7 @@ In order to maintain backward compatibility, the default behavior with RediSearc
 
 To return all the values, use `DIALECT` 3 (or greater, when available).
 
-The `DIALECT` can be specified as a parameter in the FT.SEARCH command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) or by passing it as an argument to the `redisearch` module when it is loaded.
+The `DIALECT` can be specified as a parameter in the FT.SEARCH command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) or by passing it as an argument to the `redisearch` module when it is loaded.
 
 For example, with the following document and index:
 
@@ -847,7 +847,7 @@ Query with `CONTAINS` operator:
 
 ## See also
 
-[`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) | [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) 
+[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) 
 
 ## Related topics
 

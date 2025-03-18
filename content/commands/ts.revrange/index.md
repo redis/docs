@@ -391,7 +391,7 @@ Similarly, when the end timestamp for the range query is explicitly stated, you 
 
 ## See also
 
-[`TS.RANGE`]({{< baseurl >}}/commands/ts.range/) | [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/)
+[`TS.RANGE`]({{< relref "commands/ts.range/" >}}) | [`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}})
 
 ## Related topics
 

@@ -52,7 +52,7 @@ The following information is provided for each of the libraries in the response:
   Each function has the following fields:
   * **name:** the name of the function.
   * **description:** the function's description.
-  * **flags:** an array of [function flags]({{< baseurl >}}/develop/interact/programmability/functions-intro#function-flags).
+  * **flags:** an array of [function flags]({{< relref "develop/interact/programmability/functions-intro#function-flags" >}}).
 * **library_code:** the library's source code (when given the `WITHCODE` modifier).
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).

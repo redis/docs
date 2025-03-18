@@ -74,7 +74,7 @@ OK
 
 ## See also
 
-[`FT.CONFIG GET`]({{< baseurl >}}/commands/ft.config-get/) | [`FT.CONFIG HELP`]({{< baseurl >}}/commands/ft.config-help/) 
+[`FT.CONFIG GET`]({{< relref "commands/ft.config-get/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}}) 
 
 ## Related topics
 

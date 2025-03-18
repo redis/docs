@@ -7,7 +7,7 @@ jobs:
     name: Build the production documentation site
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: 0.111.2
+      HUGO_VERSION: 0.143.1
       GCLOUD_VERSION: 458.0.1-linux-x86_64
       BUCKET: docs-prod-learn-redis-com
       BUCKET_SERVICE_ACCOUNT: ${{ secrets.BUCKET_DOCUMENTATION_SA_PROD }}
@@ -60,6 +60,7 @@ jobs:
         setBaseUrl
         kubernetes_versions=($(find content/operate/kubernetes/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
         rs_versions=($(find content/operate/rs/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
+        rdi_versions=($(find content/integrate/redis-data-integration/ -maxdepth 1 -type d -regex ".*[0-9-]" | awk -F/ '{print $NF}'))
 
         # build latest
         for version in "${kubernetes_versions[@]}"; do
@@ -67,6 +68,9 @@ jobs:
         done
         for version in "${rs_versions[@]}"; do
           rm -r "content/operate/rs/${version}"
+        done
+        for version in "${rdi_versions[@]}"; do
+          rm -r "content/integrate/redis-data-integration/${version}"
         done
         make all
 
@@ -89,7 +93,7 @@ jobs:
           sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis for Kubernetes/' content/operate/kubernetes/_index.md
 
           # inject replace command in meta-links to make sure editURL and issuesURL point to right version
-          sed -i "11i \{\{ \$gh_file = replaceRE \`\^operate\/kubernetes\/\` \"operate\/kubernetes\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
+          sed -i "12i \{\{ \$gh_file = replaceRE \`\^operate\/kubernetes\/\` \"operate\/kubernetes\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
 
           hugo -d "kubernetes-${version}"
 
@@ -112,9 +116,32 @@ jobs:
           sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Software/' content/operate/rs/_index.md
 
           # inject replace command in meta-links to make sure editURL and issuesURL point to right version
-          sed -i "11i \{\{ \$gh_file = replaceRE \`\^operate\/rs\/\` \"operate\/rs\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
+          sed -i "12i \{\{ \$gh_file = replaceRE \`\^operate\/rs\/\` \"operate\/rs\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
 
           hugo -d "rs-${version}"
+
+          git checkout .
+        done
+
+        for version in "${rdi_versions[@]}"; do
+
+          setBaseUrl
+
+          # for each version, remove all other versions before building
+          versions_to_remove=($(echo "${rdi_versions[@]}" "${version}" | tr ' ' '\n' | sort | uniq -u))
+          for version_to_remove in "${versions_to_remove[@]}"; do
+            rm -r "content/integrate/redis-data-integration/${version_to_remove}"
+          done
+
+          cp -r "content/integrate/redis-data-integration/${version}"/* content/integrate/redis-data-integration/
+          rm -r "content/integrate/redis-data-integration/${version}"
+          sed -i 's/id="versionSelectorRedis-Data-IntegrationValue" class="version-selector-control">latest/id="versionSelectorRedis-Data-IntegrationValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
+          sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Data Integration/' content/integrate/redis-data-integration/_index.md
+
+          # inject replace command in meta-links to make sure editURL and issuesURL point to right version
+          sed -i "12i \{\{ \$gh_file = replaceRE \`\^integrate\/redis-data-integration\/\` \"integrate\/redis-data-integration\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
+
+          hugo -d "redis-data-integration-${version}"
 
           git checkout .
         done
@@ -154,8 +181,12 @@ jobs:
           then
             versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
             for versioned_build in "${versioned_builds[@]}"; do
-              product=$(grep -Eo '[a-zA-Z]+' <<< $versioned_build)
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${versioned_build}/operate/${product}"
+              product=$(awk 'BEGIN{FS=OFS="-"}{NF--; print}' <<< $versioned_build)
+              if [[ "${product}" == "redis-data-integration" ]]; then
+                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}" "gs://${BUCKET}/${versioned_build}/integrate/${product}"
+              else
+                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${versioned_build}/operate/${product}"
+              fi
             done
           fi
 
@@ -163,8 +194,12 @@ jobs:
           then
             versioned_builds=($(find . -type d -regex ".*[0-9-]" -maxdepth 1 | sed -E 's/^.\///'))
             for versioned_build in "${versioned_builds[@]}"; do
-              product=$(grep -Eo '[a-zA-Z]+' <<< $versioned_build)
-              gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/operate/${product}"
+              product=$(awk 'BEGIN{FS=OFS="-"}{NF--; print}' <<< $versioned_build)
+              if [[ "${product}" == "redis-data-integration" ]]; then
+                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/integrate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/integrate/${product}"
+              else
+                gsutil -m rsync -r -c -j html -d "${{ github.workspace }}/${versioned_build}/operate/${product}" "gs://${BUCKET}/${bucket_path}/${versioned_build}/operate/${product}"
+              fi
             done
           fi
 

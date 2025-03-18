@@ -37,25 +37,25 @@ This application answers these questions:
 
 Data flow is the incoming social media posts from which you parse out the different hashtags. 
 
-The [`TOPK.LIST`]({{< baseurl >}}/commands/topk.list/) command has a time complexity of `O(K*log(k))` so if `K` is small, there is no need to keep a separate set or sorted set of all the hashtags. You can query directly from the Top K itself. 
+The [`TOPK.LIST`]({{< relref "commands/topk.list/" >}}) command has a time complexity of `O(K*log(k))` so if `K` is small, there is no need to keep a separate set or sorted set of all the hashtags. You can query directly from the Top K itself. 
 
 ## Example
 
 This example will show you how to track key words used "bike" when shopping online; e.g., "bike store" and "bike handlebars". Proceed as follows.
 ​
-* Use [`TOPK.RESERVE`]({{< baseurl >}}/commands/topk.reserve/) to initialize a top K sketch with specific parameters. Note: the `width`, `depth`, and `decay_constant` parameters can be omitted, as they will be set to the default values 7, 8, and 0.9, respectively, if not present.
+* Use [`TOPK.RESERVE`]({{< relref "commands/topk.reserve/" >}}) to initialize a top K sketch with specific parameters. Note: the `width`, `depth`, and `decay_constant` parameters can be omitted, as they will be set to the default values 7, 8, and 0.9, respectively, if not present.
 ​
  ```
  > TOPK.RESERVE key k width depth decay_constant
  ```
  
- * Use [`TOPK.ADD`]({{< baseurl >}}/commands/topk.add/) to add items to the sketch. As you can see, multiple items can be added at the same time. If an item is returned when adding additional items, it means that item was demoted out of the min heap of the top items, below it will mean the returned item is no longer in the top 5, otherwise `nil` is returned. This allows dynamic heavy-hitter detection of items being entered or expelled from top K list.
+ * Use [`TOPK.ADD`]({{< relref "commands/topk.add/" >}}) to add items to the sketch. As you can see, multiple items can be added at the same time. If an item is returned when adding additional items, it means that item was demoted out of the min heap of the top items, below it will mean the returned item is no longer in the top 5, otherwise `nil` is returned. This allows dynamic heavy-hitter detection of items being entered or expelled from top K list.
 ​
 In the example below, "pedals" displaces "handlebars", which is returned after "pedals" is added. Also note that the addition of both "store" and "seat" a second time don't return anything, as they're already in the top K.
  
- * Use [`TOPK.LIST`]({{< baseurl >}}/commands/topk.list/) to list the items entered thus far.
+ * Use [`TOPK.LIST`]({{< relref "commands/topk.list/" >}}) to list the items entered thus far.
 ​
- * Use [`TOPK.QUERY`]({{< baseurl >}}/commands/topk.query/) to see if an item is on the top K list. Just like [`TOPK.ADD`]({{< baseurl >}}/commands/topk.add/) multiple items can be queried at the same time.
+ * Use [`TOPK.QUERY`]({{< relref "commands/topk.query/" >}}) to see if an item is on the top K list. Just like [`TOPK.ADD`]({{< relref "commands/topk.add/" >}}) multiple items can be queried at the same time.
 {{< clients-example topk_tutorial topk >}}
 > TOPK.RESERVE bikes:keywords 5 2000 7 0.925
 OK

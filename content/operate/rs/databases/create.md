@@ -98,3 +98,7 @@ For Active-Active databases, see [Create an Active-Active geo-replicated databas
     See [Configuration settings]({{< relref "/operate/rs/databases/configure#config-settings" >}}) for more information about each setting.
 
 1. Select **Create**.
+
+## Continue learning with Redis University
+
+{{< university-links >}}
