@@ -43,12 +43,8 @@ Before you can create a data pipeline, you must have:
 
 - A [Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) hosted on Amazon Web Services (AWS). This will be the target database.
 - One supported source database, hosted on an AWS EC2 instance:
-    - MySQL
-    - Oracle
-    - SQL Server
-    - PostgreSQL
-    - mariaDB
-    - Amazon Aurora
+
+{{< embed-md "rdi-supported-source-versions.md" >}}
 
 {{< note >}}
 Please be aware of the following limitations:
