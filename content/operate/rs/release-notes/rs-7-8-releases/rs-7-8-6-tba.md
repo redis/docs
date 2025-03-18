@@ -94,7 +94,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- TBA?
+- RS147991: Fixed an issue where the creation of too many Replica Of workers could cause the DMC proxy to restart repeatedly.
 
 ## Version changes
 
