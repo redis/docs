@@ -38,7 +38,7 @@ This approach suits many light-weight scripting use cases, but introduces severa
 1. All client application instances must maintain a copy of all scripts. That means having some mechanism that applies script updates to all of the application's instances.
 1. Calling cached scripts within the context of a [transaction]({{< relref "/develop/interact/transactions" >}}) increases the probability of the transaction failing because of a missing script. Being more likely to fail makes using cached scripts as building blocks of workflows less attractive.
 1. SHA1 digests are meaningless, making debugging the system extremely hard (e.g., in a [`MONITOR`]({{< relref "/commands/monitor" >}}) session).
-1. When used naively, [`EVAL`]({{< relref "/commands/eval" >}}) promotes an anti-pattern in which scripts the client application renders verbatim scripts instead of responsibly using the [`KEYS` and `ARGV` Lua APIs]({{< baseurl >}}develop/interact/programmability/lua-api#runtime-globals).
+1. When used naively, [`EVAL`]({{< relref "/commands/eval" >}}) promotes an anti-pattern in which scripts the client application renders verbatim scripts instead of responsibly using the [`KEYS` and `ARGV` Lua APIs]({{< relref "develop/interact/programmability/lua-api#runtime-globals" >}}).
 1. Because they are ephemeral, a script can't call another script. This makes sharing and reusing code between scripts nearly impossible, short of client-side preprocessing (see the first point).
 
 To address these needs while avoiding breaking changes to already-established and well-liked ephemeral scripts, Redis v7.0 introduces Redis Functions.
@@ -64,7 +64,7 @@ The Redis Functions feature makes no assumptions about the implementation's lang
 An execution engine that is part of the definition of the function handles running it.
 An engine can theoretically execute functions in any language as long as it respects several rules (such as the ability to terminate an executing function).
 
-Presently, as noted above, Redis ships with a single embedded [Lua 5.1]({{< baseurl >}}develop/interact/programmability/lua-api) engine.
+Presently, as noted above, Redis ships with a single embedded [Lua 5.1]({{< relref "develop/interact/programmability/lua-api" >}}) engine.
 There are plans to support additional engines in the future.
 Redis functions can use all of Lua's available capabilities to ephemeral scripts,
 with the only exception being the [Redis Lua scripts debugger]({{< relref "/develop/interact/programmability/lua-debugging" >}}).
@@ -90,7 +90,7 @@ Because running a function blocks the Redis server, functions are meant to finis
 
 Let's explore Redis Functions via some tangible examples and Lua snippets.
 
-At this point, if you're unfamiliar with Lua in general and specifically in Redis, you may benefit from reviewing some of the examples in [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}) and [Lua API]({{< baseurl >}}develop/interact/programmability/lua-api) pages for a better grasp of the language.
+At this point, if you're unfamiliar with Lua in general and specifically in Redis, you may benefit from reviewing some of the examples in [Introduction to Eval Scripts]({{< relref "/develop/interact/programmability/eval-intro" >}}) and [Lua API]({{< relref "develop/interact/programmability/lua-api" >}}) pages for a better grasp of the language.
 
 Every Redis function belongs to a single library that's loaded to Redis.
 Loading a library to the database is done with the [`FUNCTION LOAD`]({{< relref "/commands/function-load" >}}) command.
@@ -245,7 +245,7 @@ redis.register_function('my_hgetall', my_hgetall)
 redis.register_function('my_hlastmodified', my_hlastmodified)
 ```
 
-While all of the above should be straightforward, note that the `my_hgetall` also calls [`redis.setresp(3)`]({{< baseurl >}}develop/interact/programmability/lua-api#redis.setresp).
+While all of the above should be straightforward, note that the `my_hgetall` also calls [`redis.setresp(3)`]({{< relref "develop/interact/programmability/lua-api#redis.setresp" >}}).
 That means that the function expects [RESP3](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md) replies after calling `redis.call()`, which, unlike the default RESP2 protocol, provides dictionary (associative arrays) replies.
 Doing so allows the function to delete (or set to `nil` as is the case with Lua tables) specific fields from the reply, and in our case, the `_last_modified_` field.
 
@@ -303,7 +303,7 @@ You can see that it is easy to update our library with new capabilities.
 On top of bundling functions together into database-managed software artifacts, libraries also facilitate code sharing.
 We can add to our library an error handling helper function called from other functions.
 The helper function `check_keys()` verifies that the input _keys_ table has a single key.
-Upon success it returns `nil`, otherwise it returns an [error reply]({{< baseurl >}}develop/interact/programmability/lua-api#redis.error_reply).
+Upon success it returns `nil`, otherwise it returns an [error reply]({{< relref "develop/interact/programmability/lua-api#redis.error_reply" >}}).
 
 The updated library's source code would be:
 
@@ -426,7 +426,7 @@ The server will reply with this error in the following cases:
 3. A disk error was detected (Redis is unable to persist so it rejects writes).
 
 In these cases, you can add the `no-writes` flag to the function's registration, disable the safeguard and allow them to run.
-To register a function with flags use the [named arguments]({{< baseurl >}}develop/interact/programmability/lua-api#redis.register_function_named_args) variant of `redis.register_function`.
+To register a function with flags use the [named arguments]({{< relref "develop/interact/programmability/lua-api#redis.register_function_named_args" >}}) variant of `redis.register_function`.
 
 The updated registration code snippet from the library looks like this:
 
@@ -456,4 +456,4 @@ redis> FCALL_RO my_hlastmodified 1 myhash
 "1640772721"
 ```
 
-For the complete documentation flags, please refer to [Script flags]({{< baseurl >}}develop/interact/programmability/lua-api#script_flags).
+For the complete documentation flags, please refer to [Script flags]({{< relref "develop/interact/programmability/lua-api#script_flags" >}}).
