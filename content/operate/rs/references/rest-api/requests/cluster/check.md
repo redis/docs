@@ -43,7 +43,7 @@ Runs the following checks on all cluster nodes:
 
 #### Example HTTP request
 
-	GET /cluster/check
+	GET /v1/cluster/check
 
 
 #### Request headers

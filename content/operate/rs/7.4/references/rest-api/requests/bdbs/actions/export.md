@@ -35,7 +35,7 @@ Initiate a database export.
 #### Example HTTP request
 
 ```sh
-POST /bdbs/1/actions/export
+POST /v1/bdbs/1/actions/export
 ```
 
 #### Headers
@@ -59,7 +59,7 @@ The request body should contain a JSON object with the following export paramete
 
 | Field | Type | Description |
 |-------|------|-------------|
-| export_location | [backup_location/export_location]({{< relref "/operate/rs/references/rest-api/objects/bdb/backup_location" >}}) object | Details for the export destination. Call [`GET /jsonschema`]({{< relref "/operate/rs/references/rest-api/requests/jsonschema#get-jsonschema" >}}) on the bdb object and review the `backup_location` field to retrieve the object's structure.  |
+| export_location | [backup_location/export_location]({{< relref "/operate/rs/references/rest-api/objects/bdb/backup_location" >}}) object | Details for the export destination. Call [`GET /v1/jsonschema`]({{< relref "/operate/rs/references/rest-api/requests/jsonschema#get-jsonschema" >}}) on the bdb object and review the `backup_location` field to retrieve the object's structure.  |
 | email_notification | boolean | Enable/disable an email notification on export failure/ completion. (optional) |
 
 ##### Example JSON body

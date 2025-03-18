@@ -268,6 +268,13 @@ The Active-Active database global configurations, contains the global properties
         </td>
         <td>false</td>
       </tr><tr>
+        <td>redisVersion</td>
+        <td>string</td>
+        <td>
+          Redis OSS version. Version can be specified via <major.minor> prefix, or via channels - for existing databases - Upgrade Redis OSS version. For new databases - the version which the database will be created with. If set to 'major' - will always upgrade to the most recent major Redis version. If set to 'latest' - will always upgrade to the most recent Redis version. Depends on 'redisUpgradePolicy' - if you want to set the value to 'latest' for some databases, you must set redisUpgradePolicy on the cluster before. Possible values are 'major' or 'latest' When using upgrade - make sure to backup the database before. This value is used only for database type 'redis'. Note - Specifying Redis version is currently not supported for Active-Active database.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specglobalconfigurationsreplicasources">replicaSources</a></td>
         <td>[]object</td>
         <td>
@@ -382,7 +389,6 @@ Connection/ association to the Active-Active database.
         <td>true</td>
       </tr></tbody>
 </table>
-
 
 ### spec.globalConfigurations.backup
 <sup><sup>[↩ Parent](#specglobalconfigurations)</sup></sup>
@@ -891,7 +897,7 @@ Specifications for DB upgrade.
         <td>upgradeModulesToLatest</td>
         <td>boolean</td>
         <td>
-          Upgrades the modules to the latest version that supports the DB version during a DB upgrade action, to upgrade the DB version view the 'redisVersion' field. Note - This field is currently not supported for Active-Active databases.<br/>
+          Upgrades the modules to the latest version that supportes the DB version during a DB upgrade action, to upgrade the DB version view the 'redisVersion' field. Note - This field is currently not supported for Active-Active databases.<br/>
         </td>
         <td>true</td>
       </tr></tbody>
