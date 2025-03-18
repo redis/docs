@@ -275,6 +275,10 @@ rladmin tune proxy { <id> | all }
 |-----------------|----------------------------|-------------------------------------------------------------------------------------|
 | id              | integer                    | ID of the specified proxy                                                           |
 | all             |                            | Configures settings for all proxies                                                 |
+| client_eviction | boolean (default: false) | If `true,`, enables client eviction based on `maxmemory_clients`. |
+| incoming_connections_capacity | integer (default: 0) | The maximum number of concurrent incoming connections, also known as the maximum burst size. The default is 0, which means no limit. |
+| incoming_connections_min_capacity | integer (default: 10) | The minimum number of free slots required before accepting new connections after an overflow. |
+| incoming_connections_rate_limit | integer (default: 0) | The maximum number of incoming connections per second. The default is 0, which means no limit. |
 | max_threads     | integer, (range:&nbsp;1-255) | Maximum number of threads allowed                                                   |
 | mode            | `static`<br /> `dynamic` | Determines if the proxy automatically adjusts the number of threads based on load size  |
 | scale_duration  | time in seconds, (range:&nbsp;10-300) | Time of scale_threshold CPU utilization before the automatic proxy automatically scales |

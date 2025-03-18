@@ -16,6 +16,7 @@ An API object that represents a [proxy](https://en.wikipedia.org/wiki/Proxy_serv
 |------|------------|-------------|
 | uid | integer | Unique ID of the proxy (read-only) |
 | backlog | integer | TCP listen queue backlog |
+| client_eviction | boolean (default: false) | If `true,`, enables client eviction based on `maxmemory_clients`. |
 | client_keepcnt | integer | Client TCP keepalive count |
 | client_keepidle | integer | Client TCP keepalive idle |
 | client_keepintvl | integer | Client TCP keepalive interval |
@@ -24,6 +25,9 @@ An API object that represents a [proxy](https://en.wikipedia.org/wiki/Proxy_serv
 | dynamic_threads_scaling | boolean | Automatically adjust the number of threads|
 | ignore_bdb_cconn_limit | boolean | Ignore client connection limits |
 | ignore_bdb_cconn_output_buff_limits | boolean | Ignore buffer limit |
+| incoming_connections_capacity | integer (default: 0) | The maximum number of concurrent incoming connections, also known as the maximum burst size. The default is 0, which means no limit. |
+| incoming_connections_min_capacity | integer (default: 10) | The minimum number of free slots required before accepting new connections after an overflow. |
+| incoming_connections_rate_limit | integer (default: 0) | The maximum number of incoming connections per second. The default is 0, which means no limit. |
 | log_level | `crit`<br />`error`<br />`warn`<br />`info`<br />`trace`<br />`debug` | Minimum log level to log. Only logs with this level or greater will be logged. |
 | max_listeners | integer | Max number of listeners |
 | max_servers | integer | Max number of Redis servers |
@@ -31,5 +35,6 @@ An API object that represents a [proxy](https://en.wikipedia.org/wiki/Proxy_serv
 | max_worker_client_conns | integer | Max client connections per thread |
 | max_worker_server_conns | integer | Max server connections per thread |
 | max_worker_txns | integer | Max in-flight transactions per thread |
+| maxmemory_clients | integer (default: 4294967296) | Maximum total memory, in bytes, used by clients |
 | threads | integer, <nobr>(range: 1-256)</nobr> | Number of threads |
 | threads_usage_threshold | integer, <nobr>(range: 50-99)</nobr> | Max number of threads |

@@ -44,6 +44,7 @@ An API object that represents the cluster.
 | gossip_envoy_admin_port | integer, (range:&nbsp;1024-65535) | Gossip envoy admin port|
 | handle_redirects | boolean (default:&nbsp;false) | Handle API HTTPS requests and redirect to the master node internally |
 | http_support | boolean (default:&nbsp;false) | Enable or turn off HTTP support |
+| logrotate_settings | [logrotate_settings]({{<relref "/operate/rs/references/rest-api/objects/cluster/logrotate_settings">}}) object | Settings for logrotate configuration |
 | min_control_TLS_version | '1.2'<br />'1.3' | The minimum version of TLS protocol which is supported at the control path |
 | min_data_TLS_version | '1.2'<br />'1.3' | The minimum version of TLS protocol which is supported at the data path |
 | min_sentinel_TLS_version | '1.2'<br />'1.3' | The minimum version of TLS protocol which is supported at the data path |
