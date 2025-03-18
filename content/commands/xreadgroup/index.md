@@ -126,7 +126,7 @@ The group name is just the name of a consumer group associated to the stream.
 The group is created using the [`XGROUP`]({{< relref "/commands/xgroup" >}}) command. The consumer name is the
 string that is used by the client to identify itself inside the group.
 The consumer is auto created inside the consumer group the first time it
-is saw. Different clients should select a different consumer name.
+is seen. Different clients should select a different consumer name.
 
 When you read with `XREADGROUP`, the server will *remember* that a given
 message was delivered to you: the message will be stored inside the
