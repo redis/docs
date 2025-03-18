@@ -77,6 +77,10 @@ This version offers:
 
     - The cluster's `logrotate_settings` can now be configured with an [update cluster configuration]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) request.
 
+    - Added `multi_commands_opt` to cluster configuration and database configuration. If set to `batch`, it reduces the overhead of transaction management by batching multiple commands into a single transaction.
+
+    - Added the following active defragmentation parameters to database configuration: `activedefrag`, `active_defrag_cycle_max`, `active_defrag_cycle_min`, `active_defrag_ignore_bytes`, `active_defrag_max_scan_fields`, `active_defrag_threshold_lower`, and `active_defrag_threshold_upper`.
+
 - Added module information to database creation log messages.
 
 - Reserved the following ports:
