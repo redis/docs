@@ -157,8 +157,6 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS148075: Changed the default value of `gradual_sync_mode` to `enabled` for Replica Of databases to sync data from one shard at a time and reduce load on the destination.
 
-- RS147991: Fixed an issue where the creation of too many Replica Of workers could cause the DMC proxy to restart repeatedly.
-
 - RS135446: Added cleanup of temporary files after `debug_info` generation failures.
 
 ## Version changes
