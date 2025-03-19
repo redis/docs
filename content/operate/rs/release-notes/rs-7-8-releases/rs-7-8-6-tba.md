@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Configurable hashing algorithm for user passwords. Dry run option to validate REST API requests for users and roles.
+description: Configurable hashing algorithm for user passwords. Metrics stream engine GA. Dry run option to validate REST API requests for users and roles.
 linkTitle: 7.8.6-tba (March 2025)
 weight: 85
 ---
@@ -19,13 +19,15 @@ This version offers:
 
 - Configurable hashing algorithm for user passwords
 
+- Metrics stream engine GA
+
 - Dry run option to validate REST API requests for users and roles
 
 ## New in this release
 
 ### New features
 
-- The hashing algorithm for user passwords is now configurable using [`rladmin`]({{<relref "/operate/rs/references/cli-utilities/rladmin">}}) or the [REST API]({{<relref "/operate/rs/references/rest-api">}}). When you change the hashing algorithm, it rehashes the administrator password and passwords for all users, including default users.
+- The hashing algorithm for user passwords is now configurable using [`rladmin`]({{<relref "/operate/rs/references/cli-utilities/rladmin">}}) or the [REST API]({{<relref "/operate/rs/references/rest-api">}}). When you [change the hashing algorithm]({{<relref "/operate/rs/security/access-control/manage-passwords/password-hashing-algorithm">}}), it rehashes the administrator password and passwords for all users, including default users.
 
     The hashing algorithm options are `SHA-256` or `PBKDF2`. The default hashing algorithm is `SHA-256`.
 
@@ -44,9 +46,11 @@ This version offers:
         { "algorithm": "PBKDF2" }
         ```
 
+- The metrics stream engine is now generally available.
+
 ### Enhancements
 
-- If you create or update users or roles using the REST API, you can use the `dry_run` query parameter to validate the request without actually applying the update.
+- If you create or update users or roles using the [REST API]({{<relref "/operate/rs/references/rest-api">}}), you can use the `dry_run` query parameter to validate the request without actually applying the update.
 
     - [Create role]({{<relref "/operate/rs/references/rest-api/requests/roles#post-role">}}) example request:
 
