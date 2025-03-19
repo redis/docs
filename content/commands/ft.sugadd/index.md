@@ -79,7 +79,7 @@ increments the existing entry of the suggestion by the given score, instead of r
 <details open>
 <summary><code>PAYLOAD {payload}</code></summary> 
 
-saves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]({{< baseurl >}}commands/ft.sugget/).
+saves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}).
 </details>
 
 ## Return
@@ -99,7 +99,7 @@ FT.SUGADD returns an integer reply, which is the current size of the suggestion 
 
 ## See also
 
-[`FT.SUGGET`]({{< baseurl >}}commands/ft.sugget/) | [`FT.SUGDEL`]({{< baseurl >}}commands/ft.sugdel/) | [`FT.SUGLEN`]({{< baseurl >}}commands/ft.suglen/) 
+[`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}) | [`FT.SUGDEL`]({{< relref "commands/ft.sugdel/" >}}) | [`FT.SUGLEN`]({{< relref "commands/ft.suglen/" >}}) 
 
 ## Related topics
 

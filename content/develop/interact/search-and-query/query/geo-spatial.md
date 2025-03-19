@@ -31,7 +31,7 @@ Redis Stack version 7.2.0 or higher is required to use the `GEOSHAPE` field type
 
 ## Radius
 
-You can construct a radius query by passing the center coordinates (longitude, latitude), the radius, and the distance unit to the [FT.SEARCH]({{< baseurl >}}commands/ft.search) command.
+You can construct a radius query by passing the center coordinates (longitude, latitude), the radius, and the distance unit to the [FT.SEARCH]({{< relref "commands/ft.search" >}}) command.
 
 ```
 FT.SEARCH index "@geo_field:[lon lat radius unit]"

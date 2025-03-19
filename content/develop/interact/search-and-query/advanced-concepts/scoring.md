@@ -21,7 +21,7 @@ Redis Stack comes with a few very basic scoring functions to evaluate document r
 
 If you prefer a custom scoring function, it is possible to add more functions using the [extension API]({{< relref "/develop/interact/search-and-query/administration/extensions" >}}).
 
-The following is a list of the pre-bundled scoring functions available in Redis Stack and a short explanation about how they work. Each function is mentioned by registered name, which can be passed as a `SCORER` argument in [`FT.SEARCH`]({{< baseurl >}}commands/ft.search/).
+The following is a list of the pre-bundled scoring functions available in Redis Stack and a short explanation about how they work. Each function is mentioned by registered name, which can be passed as a `SCORER` argument in [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}).
 
 ## TFIDF (default)
 
