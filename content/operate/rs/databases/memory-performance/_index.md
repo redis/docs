@@ -67,7 +67,7 @@ From the Redis Enterprise Software Cluster Manager UI, you can monitor the perfo
 
 With the Redis Enterprise Software API, you can also integrate Redis Enterprise metrics into other monitoring environments, such as Prometheus.
 
-For more info about monitoring with Redis Enterprise Software, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/clusters/monitoring/_index.md" >}}), and [Memory statistics]({{< relref "/operate/rs/databases/memory-performance/memory-limit#memory-metrics" >}}).
+For more info about monitoring with Redis Enterprise Software, see [Monitoring with metrics and alerts]({{< relref "/operate/rs/monitoring" >}}), and [Memory statistics]({{< relref "/operate/rs/databases/memory-performance/memory-limit#memory-metrics" >}}).
 
 ## Scaling databases
 
