@@ -46,7 +46,7 @@ This version offers:
         { "algorithm": "PBKDF2" }
         ```
 
-- The metrics stream engine is now generally available.
+- The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) is now generally available.
 
 ### Enhancements
 
