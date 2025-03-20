@@ -46,6 +46,26 @@ public class ConnectBasicTest {
 }
 ```
 
+## Connect to a Redis cluster
+
+To connect to a Redis cluster, use `RedisClusterClient`. 
+
+```java
+import io.lettuce.core.cluster.RedisClusterClient;
+import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
+
+//...
+try (RedisClusterClient clusterClient = RedisClusterClient.create(redisURI)) {    
+    StatefulRedisClusterConnection<String, String> connection = clusterClient.connect();
+        
+    //...
+    
+    connection.close();    
+}
+```
+
+Learn more about Cluster connections and how to configure them in [the reference guide](https://redis.github.io/lettuce/ha-sharding/#redis-cluster).
+
 ## Asynchronous connection
 
 ```java
