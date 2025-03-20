@@ -69,7 +69,7 @@ Get the values' memory usage in bytes.
 
 {{< highlight bash >}}
 redis> JSON.DEBUG MEMORY item:2
-(integer) 253
+(integer) 685
 {{< / highlight >}}
 </details>
 
