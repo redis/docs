@@ -1,18 +1,18 @@
 ---
-Title: Metrics stream engine preview for monitoring v2
+Title: Metrics stream engine for monitoring v2
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
 - kubernetes
-description: Preview the new metrics stream engine for monitoring Redis Enterprise Software.
+description: The new metrics stream engine for monitoring Redis Enterprise Software.
 hideListLinks: true
-linkTitle: Metrics stream engine preview for monitoring v2
+linkTitle: Metrics stream engine for monitoring v2
 weight: 60
 ---
 
-A preview of the new metrics stream engine is available as of [Redis Enterprise Software version 7.8.2]({{<relref "/operate/rs/release-notes/rs-7-8-releases">}}).
+The new metrics stream engine is generally available as of [Redis Enterprise Software version 7.8.6]({{<relref "/operate/rs/release-notes/rs-7-8-releases">}}).
 
 The new metrics stream engine:
 
@@ -36,4 +36,4 @@ The v2 scraping endpoint also exposes metrics for `node_exporter` version 1.8.1.
 
 ## Transition from Prometheus v1 to Prometheus v2
 
-If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
+If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.

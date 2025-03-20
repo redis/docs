@@ -25,5 +25,5 @@ You can also manage a user's ability to [sign in]({{< relref "/operate/rs/securi
 To enforce more advanced password policies, we recommend using [LDAP integration]({{< relref "/operate/rs/security/access-control/ldap" >}}) with an external identity provider, such as Active Directory.
 
 {{<note>}}
-Redis Enterprise Software stores all user passwords using the SHA-256 cryptographic hash function.
+Redis Enterprise Software securely stores all user passwords using a cryptographic hash function. The default password hashing algorithm is `SHA-256`, but you can [change the password hashing algorithm]({{<relref "/operate/rs/security/access-control/manage-passwords/password-hashing-algorithm">}}) to `PBKDF2` as of Redis Enterprise Software version 7.8.6-13.
 {{</note>}}

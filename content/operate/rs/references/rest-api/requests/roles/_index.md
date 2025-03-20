@@ -199,6 +199,17 @@ PUT /v1/roles/17
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
 
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the updated [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) but don't apply the update. |
+
+#### URL parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| uid | integer | The role's unique ID. |
 
 #### Body
 
@@ -275,6 +286,11 @@ POST /v1/roles
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
 
+#### Query parameters
+
+| Field   | Type | Description |
+|---------|------|---------------|
+| dry_run |  | Validate the new [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) but don't apply the update. |
 
 #### Body
 
