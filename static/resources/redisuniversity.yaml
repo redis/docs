@@ -64,5 +64,5 @@ links:
 
   # Redis Develop links
   - page: /develop/interact/search-and-query/advanced-concepts/vectors
-    text: See the [Introduction to Vector search course](https://university.redis.io/course/yz1lretjfpdlew?tab=details) to learn more.
+    text: See the [Introduction to vector search course](https://university.redis.io/course/yz1lretjfpdlew?tab=details) to learn more.
     
