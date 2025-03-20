@@ -44,7 +44,7 @@ Initialize the RedisVL search index with a schema, Redis client
 kwargs.
 
 * **Parameters:**
-  * **schema** ([*IndexSchema*](schema.md#redisvl.schema.IndexSchema)) – Index schema object.
+  * **schema** ([*IndexSchema*]({{< relref "schema/#indexschema" >}})) – Index schema object.
   * **redis_client** (*Optional* *[**redis.Redis* *]*) – An
     instantiated redis client.
   * **redis_url** (*Optional* *[**str* *]*) – The URL of the Redis server to
@@ -183,7 +183,7 @@ Create a SearchIndex from a dictionary.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [SearchIndex](#redisvl.index.SearchIndex)
+  [SearchIndex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex
@@ -220,7 +220,7 @@ Create a SearchIndex from a YAML schema file.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [SearchIndex](#redisvl.index.SearchIndex)
+  [SearchIndex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex
@@ -467,7 +467,7 @@ await index.delete(drop=True)
 Initialize the RedisVL async search index with a schema.
 
 * **Parameters:**
-  * **schema** ([*IndexSchema*](schema.md#redisvl.schema.IndexSchema)) – Index schema object.
+  * **schema** ([*IndexSchema*]({{< relref "schema/#indexschema" >}})) – Index schema object.
   * **connection_args** (*Dict* *[**str* *,* *Any* *]* *,* *optional*) – Redis client connection
     args.
 
@@ -600,7 +600,7 @@ Create a SearchIndex from a dictionary.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [SearchIndex](#redisvl.index.SearchIndex)
+  [SearchIndex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex
@@ -637,7 +637,7 @@ Create a SearchIndex from a YAML schema file.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [SearchIndex](#redisvl.index.SearchIndex)
+  [SearchIndex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex

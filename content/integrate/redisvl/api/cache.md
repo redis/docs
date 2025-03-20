@@ -61,7 +61,7 @@ LLM responses.
   * **return_fields** (*Optional* *[**List* *[**str* *]* *]* *,* *optional*) – The fields to include
     in each returned result. If None, defaults to all available
     fields in the cached entry.
-  * **filter_expression** (*Optional* *[*[*FilterExpression*](filter.md#redisvl.query.filter.FilterExpression) *]*) – Optional filter expression
+  * **filter_expression** (*Optional* *[*[*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]*) – Optional filter expression
     that can be used to filter cache results. Defaults to None and
     the full cache will be searched.
   * **distance_threshold** (*Optional* *[**float* *]*) – The threshold for semantic
@@ -167,7 +167,7 @@ LLM responses.
   * **return_fields** (*Optional* *[**List* *[**str* *]* *]* *,* *optional*) – The fields to include
     in each returned result. If None, defaults to all available
     fields in the cached entry.
-  * **filter_expression** (*Optional* *[*[*FilterExpression*](filter.md#redisvl.query.filter.FilterExpression) *]*) – Optional filter expression
+  * **filter_expression** (*Optional* *[*[*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]*) – Optional filter expression
     that can be used to filter cache results. Defaults to None and
     the full cache will be searched.
   * **distance_threshold** (*Optional* *[**float* *]*) – The threshold for semantic
@@ -288,14 +288,14 @@ cache.update(key, metadata={"hit_count": 1, "model_name": "Llama-2-7b"})
 )
 ```
 
-#### *property* aindex *: [AsyncSearchIndex](searchindex.md#redisvl.index.AsyncSearchIndex) | None*
+#### *property* aindex *: [AsyncSearchIndex]({{< relref "searchindex/#asyncsearchindex" >}}) | None*
 
 The underlying AsyncSearchIndex for the cache.
 
 * **Returns:**
   The async search index.
 * **Return type:**
-  [AsyncSearchIndex](searchindex.md#redisvl.index.AsyncSearchIndex)
+  [AsyncSearchIndex]({{< relref "searchindex/#asyncsearchindex" >}})
 
 #### *property* distance_threshold *: float*
 
@@ -306,14 +306,14 @@ The semantic distance threshold for the cache.
 * **Return type:**
   float
 
-#### *property* index *: [SearchIndex](searchindex.md#redisvl.index.SearchIndex)*
+#### *property* index *: [SearchIndex]({{< relref "searchindex/#searchindex" >}})*
 
 The underlying SearchIndex for the cache.
 
 * **Returns:**
   The search index.
 * **Return type:**
-  [SearchIndex](searchindex.md#redisvl.index.SearchIndex)
+  [SearchIndex]({{< relref "searchindex/#searchindex" >}})
 
 #### *property* ttl *: int | None*
 

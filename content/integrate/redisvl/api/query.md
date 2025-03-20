@@ -24,7 +24,7 @@ expression.
     against in the database.
   * **return_fields** (*List* *[**str* *]*) – The declared fields to return with search
     results.
-  * **filter_expression** (*Union* *[**str* *,* [*FilterExpression*](filter.md#redisvl.query.filter.FilterExpression) *]* *,* *optional*) – A filter to apply
+  * **filter_expression** (*Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
     along with the vector search. Defaults to None.
   * **dtype** (*str* *,* *optional*) – The dtype of the vector. Defaults to
     “float32”.
@@ -165,7 +165,7 @@ Default is TFIDF.
 Set the filter expression for the query.
 
 * **Parameters:**
-  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*](filter.md#redisvl.query.filter.FilterExpression) *]* *]* *,* *optional*) – The filter
+  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
   expression or query string to use on the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
@@ -224,7 +224,7 @@ Ask the engine to return document search scores.
 * **Return type:**
   *Query*
 
-#### *property* filter *: str | [FilterExpression](filter.md#redisvl.query.filter.FilterExpression)*
+#### *property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*
 
 The filter expression for the query.
 
@@ -256,7 +256,7 @@ distance threshold.
     against in the database.
   * **return_fields** (*List* *[**str* *]*) – The declared fields to return with search
     results.
-  * **filter_expression** (*Union* *[**str* *,* [*FilterExpression*](filter.md#redisvl.query.filter.FilterExpression) *]* *,* *optional*) – A filter to apply
+  * **filter_expression** (*Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
     along with the range query. Defaults to None.
   * **dtype** (*str* *,* *optional*) – The dtype of the vector. Defaults to
     “float32”.
@@ -407,7 +407,7 @@ Set the distance threshold for the query.
 Set the filter expression for the query.
 
 * **Parameters:**
-  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*](filter.md#redisvl.query.filter.FilterExpression) *]* *]* *,* *optional*) – The filter
+  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
   expression or query string to use on the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
@@ -475,7 +475,7 @@ Return the distance threshold for the query.
 * **Return type:**
   float
 
-#### *property* filter *: str | [FilterExpression](filter.md#redisvl.query.filter.FilterExpression)*
+#### *property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*
 
 The filter expression for the query.
 
@@ -501,7 +501,7 @@ Bases: `BaseQuery`
 A query for running a filtered search with a filter expression.
 
 * **Parameters:**
-  * **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*](filter.md#redisvl.query.filter.FilterExpression) *]* *]*) – The optional filter
+  * **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]*) – The optional filter
     expression to query with. Defaults to ‘\*’.
   * **return_fields** (*Optional* *[**List* *[**str* *]* *]* *,* *optional*) – The fields to return.
   * **num_results** (*Optional* *[**int* *]* *,* *optional*) – The number of results to return. Defaults to 10.
@@ -632,7 +632,7 @@ Default is TFIDF.
 Set the filter expression for the query.
 
 * **Parameters:**
-  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*](filter.md#redisvl.query.filter.FilterExpression) *]* *]* *,* *optional*) – The filter
+  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
   expression or query string to use on the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
@@ -691,7 +691,7 @@ Ask the engine to return document search scores.
 * **Return type:**
   *Query*
 
-#### *property* filter *: str | [FilterExpression](filter.md#redisvl.query.filter.FilterExpression)*
+#### *property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*
 
 The filter expression for the query.
 
@@ -712,7 +712,7 @@ Bases: `BaseQuery`
 A query for a simple count operation provided some filter expression.
 
 * **Parameters:**
-  * **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*](filter.md#redisvl.query.filter.FilterExpression) *]* *]*) – The filter expression to query with. Defaults to None.
+  * **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]*) – The filter expression to query with. Defaults to None.
   * **params** (*Optional* *[**Dict* *[**str* *,* *Any* *]* *]* *,* *optional*) – The parameters for the query. Defaults to None.
   * **dialect** (*int*)
 * **Raises:**
@@ -848,7 +848,7 @@ Default is TFIDF.
 Set the filter expression for the query.
 
 * **Parameters:**
-  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*](filter.md#redisvl.query.filter.FilterExpression) *]* *]* *,* *optional*) – The filter
+  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
   expression or query string to use on the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
@@ -907,7 +907,7 @@ Ask the engine to return document search scores.
 * **Return type:**
   *Query*
 
-#### *property* filter *: str | [FilterExpression](filter.md#redisvl.query.filter.FilterExpression)*
+#### *property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*
 
 The filter expression for the query.
 
