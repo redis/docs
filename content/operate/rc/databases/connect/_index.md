@@ -31,11 +31,37 @@ The connection wizard provides the following database connection methods:
 
 - [Redis client](#using-redis-client) for your preferred programming language
 
-{{<image filename="images/rc/connection-wizard.png" alt="The connection wizard." >}}
+{{<image filename="images/rc/connection-wizard.png" alt="The connection wizard." width=500px >}}
 
 ## Redis Insight {#using-redisinsight}
 
-[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that is available for macOS, Windows, and Linux.
+[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that lets you visualize your Redis data and learn more about Redis.
+
+You can connect to your database with Redis Insight in two ways:
+
+1. [Open your database in Redis Insight in your browser](#ri-browser).
+
+1. [Download and Install Redis Insight](#ri-app) on Windows, macOS, and Linux.
+
+### Open in your browser {#ri-browser}
+
+{{< note >}}
+Opening your database with Redis Insight in your browser is currently available for some Essentials databases, and will be available to more Essentials databases over time. 
+{{< /note >}}
+
+If Redis Insight on Redis Cloud is available for your database, select **Launch Redis Insight web** from the connection wizard to open it.
+
+{{<image filename="images/rc/rc-ri-wizard-launch.png" alt="Launch Redis Insight web from the Connection Wizard." width=500px >}}
+
+You can also select **Launch** from the database page under **View and manage data with Redis Insight** to open Redis Insight in your browser.
+
+{{<image filename="images/rc/rc-ri-open.png" alt="Launch Redis Insight web from the database page." width=500px >}}
+
+Redis Insight will open in a new tab. 
+
+This browser-based version of Redis Insight has a subset of the features of Redis Insight. For more information, see [Open with Redis Insight on Redis Cloud]({{< relref "/operate/rc/databases/connect/insight-cloud" >}}).
+
+### Install and open on your computer {#ri-app}
 
 1. If you haven't downloaded Redis Insight, select **Download** under **Redis Insight** in the Connection wizard to download it. 
 
@@ -62,7 +88,7 @@ The connection wizard provides code snippets to connect to your database with th
 - Go using [go-redis]({{< relref "/develop/clients/go" >}})
 - PHP using [Predis]({{< relref "/develop/clients/php" >}})
 
-{{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." >}}
+{{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." width=500px >}}
 
 If the username and password are not already filled in, replace `<username>` and `<password>` with your username and password.
 

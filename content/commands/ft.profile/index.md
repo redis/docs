@@ -51,20 +51,20 @@ syntax_str: <SEARCH | AGGREGATE> [LIMITED] QUERY query
 title: FT.PROFILE
 ---
 
-Apply [`FT.SEARCH`]({{< baseurl >}}commands/ft.search/) or [`FT.AGGREGATE`]({{< baseurl >}}commands/ft.aggregate/) command to collect performance details. For usage, see [Examples](#examples).
+Apply [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) or [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) command to collect performance details. For usage, see [Examples](#examples).
 
 ## Required arguments
 
 <details open>
 <summary><code>index</code></summary>
 
-is the name of an index created using [`FT.CREATE`]({{< baseurl >}}commands/ft.create/).
+is the name of an index created using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
 </details>
 
 <details open>
 <summary><code>SEARCH | AGGREGATE</code></summary>
 
-represents the profile type, either [`FT.SEARCH`]({{< baseurl >}}commands/ft.search/) or [`FT.AGGREGATE`]({{< baseurl >}}commands/ft.aggregate/).
+represents the profile type, either [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) or [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
 </details>
 
 <details open>
@@ -398,7 +398,7 @@ Here's an example of running the `FT.PROFILE` command for a vector query.
 
 ## See also
 
-[`FT.SEARCH`]({{< baseurl >}}commands/ft.search/) | [`FT.AGGREGATE`]({{< baseurl >}}commands/ft.aggregate/) 
+[`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) 
 
 ## Related topics
 

@@ -13,7 +13,7 @@ url: '/operate/rs/7.4/databases/import-export/schedule-backups/'
 
 Periodic backups provide a way to restore data with minimal data loss.  With Redis Enterprise Software, you can schedule periodic backups to occur once a day (every 24 hours), twice a day (every twelve hours), every four hours, or every hour.
 
-As of v6.2.8, you can specify the start time for 24-hour or 12-hour backups.
+As of v6.2.8, you can specify the start time in UTC for 24-hour or 12-hour backups.
 
 To make an on-demand backup, [export your data]({{< relref "/operate/rs/databases/import-export/export-data.md" >}}).
 
@@ -71,7 +71,7 @@ To schedule periodic backups for a database:
     | Setting | Description |
     |--------------|-------------|
     | **Interval** | Specifies the frequency of the backup; that is, the time between each backup snapshot.<br/><br/>Supported values include _Every 24 hours_, _Every 12 hours_, _Every 4 hours_, and _Every hour_. |
-    | **Starting time** | _v6.2.8 or later:&nbsp;_ Specifies the start time for the backup; available when **Interval** is set to _Every 24 hours_ or _Every 12 hours_.<br/><br/>If not specified, defaults to a time selected by Redis Enterprise Software. |
+    | **Starting time** | _v6.2.8 or later:&nbsp;_ Specifies the start time in UTC for the backup; available when **Interval** is set to _Every 24 hours_ or _Every 12 hours_.<br/><br/>If not specified, defaults to a time selected by Redis Enterprise Software. |
 
 7. Select **Save**.
 
@@ -79,7 +79,7 @@ Access to the storage location is verified when you apply your updates.  This me
 
 ## Default backup start time
 
-If you do _not_ specify a start time for twenty-four or twelve hour backups, Redis Enterprise Software chooses a random starting time for you.
+If you do _not_ specify a start time for twenty-four or twelve hour backups, Redis Enterprise Software chooses a random starting time in UTC for you.
 
 This choice assumes that your database is deployed to a multi-tenant cluster containing multiple databases.  This means that default start times are staggered (offset) to ensure availability.  This is done by calculating a random offset which specifies a number of seconds added to the start time.  
 

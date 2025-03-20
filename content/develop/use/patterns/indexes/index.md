@@ -42,7 +42,7 @@ The Redis query engine provides capabilities to index and query both hash and JS
 * `VECTOR`
 * `GEOSHAPE`
 
-Once hash or JSON keys have been indexed using the [`FT.CREATE`]({{< baseurl >}}commands/ft.create) command, all keys that use the prefix defined in the index can be queried using the [`FT.SEARCH`]({{< baseurl >}}commands/ft.search) and [`FT.AGGREGATE`]({{< baseurl >}}commands/ft.aggregate) commands.
+Once hash or JSON keys have been indexed using the [`FT.CREATE`]({{< relref "commands/ft.create" >}}) command, all keys that use the prefix defined in the index can be queried using the [`FT.SEARCH`]({{< relref "commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate" >}}) commands.
 
 For more information on creating hash and JSON indexes, see the following pages.
 
@@ -180,11 +180,11 @@ index.
 
 ## Time series indexes
 
-When you create a new time series using the [`TS.CREATE`]({{< baseurl >}}commands/ts.create) command, you can associate one or more `LABELS` with it. Each label is a name-value pair, where the both name and value are text. Labels serve as a secondary index that allows you to execute queries on groups of time series keys using various time series commands.
+When you create a new time series using the [`TS.CREATE`]({{< relref "commands/ts.create" >}}) command, you can associate one or more `LABELS` with it. Each label is a name-value pair, where the both name and value are text. Labels serve as a secondary index that allows you to execute queries on groups of time series keys using various time series commands.
 
 See the [time series quickstart guide]({{< relref "/develop/data-types/timeseries/quickstart#labels" >}}) for an example of creating a time series with a label.
 
-The [`TS.MGET`]({{< baseurl >}}commands/ts.mget), [`TS.MRANGE`]({{< baseurl >}}commands/ts.mrange), and [`TS.MREVRANGE`]({{< baseurl >}}commands/ts.mrevrange) commands operate on multiple time series based on specified labels or using a label-related filter expression. The [`TS.QUERYINDEX`]({{< baseurl >}}commands/ts.queryindex) command returns all time series keys matching a given label-related filter expression.
+The [`TS.MGET`]({{< relref "commands/ts.mget" >}}), [`TS.MRANGE`]({{< relref "commands/ts.mrange" >}}), and [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange" >}}) commands operate on multiple time series based on specified labels or using a label-related filter expression. The [`TS.QUERYINDEX`]({{< relref "commands/ts.queryindex" >}}) command returns all time series keys matching a given label-related filter expression.
 
 ## Lexicographical indexes
 

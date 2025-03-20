@@ -11,7 +11,7 @@ toc: 'true'
 weight: $weight
 ---
 
-Advanced capabilities extend Redis database functionality by adding new data types and options.  
+Advanced capabilities extend Redis database functionality by adding new features and data types.  
 
 Available options depend on your database plan and **Type**.
 

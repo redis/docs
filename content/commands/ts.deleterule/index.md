@@ -56,7 +56,7 @@ Returns one of these replies:
 
 ## See also
 
-[`TS.CREATERULE`]({{< baseurl >}}commands/ts.createrule/) 
+[`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}}) 
 
 ## Related topics
 

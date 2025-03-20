@@ -12,7 +12,7 @@ categories:
 description: Get your Node.js app ready for production
 linkTitle: Production usage
 title: Production usage
-weight: 3
+weight: 5
 ---
 
 The following sections explain how to handle situations that may occur

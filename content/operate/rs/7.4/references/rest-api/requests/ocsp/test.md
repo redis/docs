@@ -32,7 +32,7 @@ Queries the OCSP server for the proxy certificate’s latest status and returns 
 
 #### Example HTTP request
 
-	POST /ocsp/test 
+	POST /v1/ocsp/test 
 
 #### Request headers
 

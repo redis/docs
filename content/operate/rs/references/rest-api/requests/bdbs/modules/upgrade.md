@@ -31,7 +31,7 @@ Upgrades module version on a specific BDB.
 
 #### Example HTTP request
 
-	POST /bdbs/1/modules/upgrade
+	POST /v1/bdbs/1/modules/upgrade
 
 #### Example JSON body
 
