@@ -71,7 +71,7 @@ try (RedisClient client = RedisClient.create(redisURI)) {
 ## Cluster topology refresh
 The Redis Cluster configuration is dynamic and can change at runtime. 
 New nodes may be added, and the primary node for a specific slot can shift.
-Lettuce automatically handles MOVED and ASK redirects, but to enhance your application's resilience, you should enable adaptive topology refreshing:
+Lettuce automatically handles [MOVED]({{< relref "/operate/oss_and_stack/reference/cluster-spec#moved-redirection" >}}) and [ASK]({{< relref "/operate/oss_and_stack/reference/cluster-spec#ask-redirection" >}}) redirects, but to enhance your application's resilience, you should enable adaptive topology refreshing:
 
 ```java
 RedisURI redisURI = RedisURI.Builder
