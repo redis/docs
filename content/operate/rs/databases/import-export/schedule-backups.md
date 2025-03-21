@@ -25,7 +25,7 @@ You can schedule backups to a variety of locations, including:
 - Azure Blob Storage
 - Google Cloud Storage
 
-The backup process creates compressed (.gz) RDB files that you can [import into a database]({{< relref "/operate/rs/databases/import-export/import-data.md" >}}).
+The backup process creates compressed (.gz) RDB files that you can [import into a database]({{< relref "/operate/rs/databases/import-export/import-data.md" >}}). If the database name is longer than 30 characters, only the first 30 are used in backup file names.
 
 When you back up a database configured for database clustering,
 Redis Enterprise Software creates a backup file for each shard in the configuration.  All backup files are copied to the storage location.
