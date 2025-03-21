@@ -10,9 +10,9 @@ categories:
 - kubernetes
 - clients
 description: Understand how to use Redis for RAG use cases
-linkTitle: RAG with Redis
+linkTitle: Overview of RAG with Redis
 stack: true
-title: RAG with Redis
+title: Overview of RAG with Redis
 weight: 4
 aliases: /develop/get-started/rag
 ---
