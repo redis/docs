@@ -11,7 +11,7 @@ title: Install Redis or Redis Stack
 weight: 30
 ---
 
-You can install [Redis]({{< relref "/operate/oss_and_stack/" >}}) or [Redis Stack]({{< relref "/operate/oss_and_stack/" >}}) locally on your machine. Redis and Redis Stack are available on Linux, macOS, and Windows.
+You can install [Redis](https://redis.io/about/) or [Redis Stack](https://redis.io/about/about-stack/) locally on your machine. Redis and Redis Stack are available on Linux, macOS, and Windows.
 
 Here are the installation instructions:
 
