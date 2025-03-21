@@ -12,7 +12,7 @@ categories:
 description: Learn how to use vector fields and perform vector searches in Redis
 linkTitle: Advanced vector queries guide
 math: true
-title: Create a vector index for advanced queries with vector fields
+title: Perform advanced queries with vector fields
 weight: 3
 aliases: /develop/interact/search-and-query/advanced-concepts/vectors
 ---
