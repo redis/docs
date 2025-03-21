@@ -8,7 +8,7 @@ categories:
 - rc
 description: Highlights of what's new for Redis feature sets
 linkTitle: Redis feature sets
-weight: 10
+weight: 40
 ---
 
 A Redis feature set includes a specific Redis database version along with the advanced capabilities and data structures provided by compatible module versions.

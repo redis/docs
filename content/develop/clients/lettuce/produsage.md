@@ -68,6 +68,58 @@ try (RedisClient client = RedisClient.create(redisURI)) {
 }
 ```
 
+## Cluster topology refresh
+The Redis Cluster configuration is dynamic and can change at runtime. 
+New nodes may be added, and the primary node for a specific slot can shift.
+Lettuce automatically handles [MOVED]({{< relref "/operate/oss_and_stack/reference/cluster-spec#moved-redirection" >}}) and [ASK]({{< relref "/operate/oss_and_stack/reference/cluster-spec#ask-redirection" >}}) redirects, but to enhance your application's resilience, you should enable adaptive topology refreshing:
+
+```java
+RedisURI redisURI = RedisURI.Builder
+        .redis("localhost")
+        // set the global default from the default 60 seconds to 30 seconds
+        .withTimeout(Duration.ofSeconds(30)) 
+        .build();
+        
+// Create a RedisClusterClient with adaptive topology refresh
+try (RedisClusterClient clusterClient = RedisClusterClient.create(redisURI)) {
+    // Enable TCP keep-alive and TCP user timeout just like in the standalone example
+    SocketOptions.TcpUserTimeoutOptions tcpUserTimeout = SocketOptions.TcpUserTimeoutOptions.builder()
+            .tcpUserTimeout(Duration.ofSeconds(20))
+            .enable()
+            .build();
+
+    SocketOptions.KeepAliveOptions keepAliveOptions = SocketOptions.KeepAliveOptions.builder()
+            .interval(Duration.ofSeconds(5))
+            .idle(Duration.ofSeconds(5))
+            .count(3)
+            .enable()
+            .build();
+
+    SocketOptions socketOptions = SocketOptions.builder()
+            .tcpUserTimeout(tcpUserTimeout)
+            .keepAlive(keepAliveOptions)
+            .build();
+
+    // Enable adaptive topology refresh
+    // Configure adaptive topology refresh options
+    ClusterTopologyRefreshOptions topologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
+            .enableAllAdaptiveRefreshTriggers()
+            .adaptiveRefreshTriggersTimeout(Duration.ofSeconds(30))
+            .build();
+    
+    ClusterClientOptions options = ClusterClientOptions.builder()
+            .topologyRefreshOptions(topologyRefreshOptions)
+            .socketOptions(socketOptions).build();
+
+    clusterClient.setOptions(options);
+
+    StatefulRedisClusterConnection<String, String> connection = clusterClient.connect();
+    System.out.println(connection.sync().ping());
+    connection.close();
+}
+```
+Learn more about topology refresh configuration settings in [the reference guide](https://redis.github.io/lettuce/ha-sharding/#redis-cluster).
+
 
 ## DNS cache and Redis
 
