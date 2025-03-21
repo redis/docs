@@ -83,7 +83,7 @@ kubectl create secret generic <DB>-ssl \
 --from-file=<FILE-NAME>=<FILE-PATH>
 ```
 
-All certificates and keys used when creating the above secrets must be in PEM format, with one exception: for PostgreSQL, the private key in the `source-db-ssl` secret (the `client.key` file) must be in DER format. Only in this case, if you have a key in PEM format, first convert it to DER before creating the `source-db-ssl` secret using the command:
+When you create these secrets, ensure that all certificates and keys are in `PEM` format. The only exception to this is that for PostgreSQL, the private key in the `source-db-ssl` secret (the `client.key` file) must be in `DER` format. If you have a key in `PEM` format, you must convert it to `DER` before creating the `source-db-ssl` secret using the command:
 
 ```bash
 openssl pkcs8 -topk8 -inform PEM -outform DER -in /path/to/myclient.key -out /path/to/myclient.pk8 -nocrypt
