@@ -9,7 +9,7 @@ type: integration
 
 ## FilterExpression
 
-### *class* FilterExpression(\_filter=None, operator=None, left=None, right=None)
+### `*class* FilterExpression(_filter=None, operator=None, left=None, right=None)`
 
 A FilterExpression is a logical combination of filters in RedisVL.
 
@@ -44,7 +44,7 @@ v = VectorQuery(
 )
 ```
 
-#### NOTE
+#### `NOTE`
 Filter expressions are typically not called directly. Instead they are
 built by combining filter statements using the & and | operators.
 
@@ -56,14 +56,14 @@ built by combining filter statements using the & and | operators.
 
 ## Tag
 
-### *class* Tag(field)
+### `*class* Tag(field)`
 
 A Tag filter can be applied to Tag fields
 
 * **Parameters:**
   **field** (*str*)
 
-#### \_\_eq_\_(other)
+#### `__eq__(other)`
 
 Create a Tag equality filter expression.
 
@@ -78,7 +78,7 @@ from redisvl.query.filter import Tag
 f = Tag("brand") == "nike"
 ```
 
-#### \_\_ne_\_(other)
+#### `__ne__(other)`
 
 Create a Tag inequality filter expression.
 
@@ -92,7 +92,7 @@ from redisvl.query.filter import Tag
 f = Tag("brand") != "nike"
 ```
 
-#### \_\_str_\_()
+#### `__str__()`
 
 Return the Redis Query string for the Tag filter
 
@@ -101,14 +101,14 @@ Return the Redis Query string for the Tag filter
 
 ## Text
 
-### *class* Text(field)
+### `*class* Text(field)`
 
 A Text is a FilterField representing a text field in a Redis index.
 
 * **Parameters:**
   **field** (*str*)
 
-#### \_\_eq_\_(other)
+#### `__eq__(other)`
 
 Create a Text equality filter expression. These expressions yield
 filters that enforce an exact match on the supplied term(s).
@@ -124,7 +124,7 @@ from redisvl.query.filter import Text
 f = Text("job") == "engineer"
 ```
 
-#### \_\_mod_\_(other)
+#### `__mod__(other)`
 
 Create a Text “LIKE” filter expression. A flexible expression that
 yields filters that can use a variety of additional operators like
@@ -145,7 +145,7 @@ f = Text("job") % "engineer|doctor" # contains either term in field
 f = Text("job") % "engineer doctor" # contains both terms in field
 ```
 
-#### \_\_ne_\_(other)
+#### `__ne__(other)`
 
 Create a Text inequality filter expression. These expressions yield
 negated filters on exact matches on the supplied term(s). Opposite of an
@@ -162,7 +162,7 @@ from redisvl.query.filter import Text
 f = Text("job") != "engineer"
 ```
 
-#### \_\_str_\_()
+#### `__str__()`
 
 Return the Redis Query string for the Text filter
 
@@ -171,14 +171,14 @@ Return the Redis Query string for the Text filter
 
 ## Num
 
-### *class* Num(field)
+### `*class* Num(field)`
 
 A Num is a FilterField representing a numeric field in a Redis index.
 
 * **Parameters:**
   **field** (*str*)
 
-#### \_\_eq_\_(other)
+#### `__eq__(other)`
 
 Create a Numeric equality filter expression.
 
@@ -192,7 +192,7 @@ from redisvl.query.filter import Num
 f = Num("zipcode") == 90210
 ```
 
-#### \_\_ge_\_(other)
+#### `__ge__(other)`
 
 Create a Numeric greater than or equal to filter expression.
 
@@ -207,7 +207,7 @@ from redisvl.query.filter import Num
 f = Num("age") >= 18
 ```
 
-#### \_\_gt_\_(other)
+#### `__gt__(other)`
 
 Create a Numeric greater than filter expression.
 
@@ -222,7 +222,7 @@ from redisvl.query.filter import Num
 f = Num("age") > 18
 ```
 
-#### \_\_le_\_(other)
+#### `__le__(other)`
 
 Create a Numeric less than or equal to filter expression.
 
@@ -237,7 +237,7 @@ from redisvl.query.filter import Num
 f = Num("age") <= 18
 ```
 
-#### \_\_lt_\_(other)
+#### `__lt__(other)`
 
 Create a Numeric less than filter expression.
 
@@ -252,7 +252,7 @@ from redisvl.query.filter import Num
 f = Num("age") < 18
 ```
 
-#### \_\_ne_\_(other)
+#### `__ne__(other)`
 
 Create a Numeric inequality filter expression.
 
@@ -267,7 +267,7 @@ from redisvl.query.filter import Num
 f = Num("zipcode") != 90210
 ```
 
-#### \_\_str_\_()
+#### `__str__()`
 
 Return the Redis Query string for the Numeric filter
 
@@ -276,7 +276,7 @@ Return the Redis Query string for the Numeric filter
 
 ## Geo
 
-### *class* Geo(field)
+### `*class* Geo(field)`
 
 A Geo is a FilterField representing a geographic (lat/lon) field in a
 Redis index.
@@ -284,7 +284,7 @@ Redis index.
 * **Parameters:**
   **field** (*str*)
 
-#### \_\_eq_\_(other)
+#### `__eq__(other)`
 
 Create a geographic filter within a specified GeoRadius.
 
@@ -299,7 +299,7 @@ from redisvl.query.filter import Geo, GeoRadius
 f = Geo("location") == GeoRadius(-122.4194, 37.7749, 1, unit="m")
 ```
 
-#### \_\_ne_\_(other)
+#### `__ne__(other)`
 
 Create a geographic filter outside of a specified GeoRadius.
 
@@ -314,7 +314,7 @@ from redisvl.query.filter import Geo, GeoRadius
 f = Geo("location") != GeoRadius(-122.4194, 37.7749, 1, unit="m")
 ```
 
-#### \_\_str_\_()
+#### `__str__()`
 
 Return the Redis Query string for the Geo filter
 
@@ -323,7 +323,7 @@ Return the Redis Query string for the Geo filter
 
 ## GeoRadius
 
-### *class* GeoRadius(longitude, latitude, radius=1, unit='km')
+### `*class* GeoRadius(longitude, latitude, radius=1, unit='km')`
 
 A GeoRadius is a GeoSpec representing a geographic radius.
 
@@ -337,7 +337,7 @@ Create a GeoRadius specification (GeoSpec)
 * **Raises:**
   **ValueError** – If the unit is not one of “m”, “km”, “mi”, or “ft”.
 
-#### \_\_init_\_(longitude, latitude, radius=1, unit='km')
+#### `__init__(longitude, latitude, radius=1, unit='km')`
 
 Create a GeoRadius specification (GeoSpec)
 

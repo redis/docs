@@ -9,7 +9,7 @@ type: integration
 
 <a id="semantic-cache-api"></a>
 
-### *class* SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, \*\*kwargs)
+### `*class* SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, **kwargs)`
 
 Bases: `BaseLLMCache`
 
@@ -41,7 +41,7 @@ Semantic Cache for Large Language Models.
   * **ValueError** – If the threshold is not between 0 and 1.
   * **ValueError** – If existing schema does not match new schema and overwrite is False.
 
-#### *async* acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)
+#### `*async* acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)`
 
 Async check the semantic cache for results similar to the specified prompt
 or vector.
@@ -82,7 +82,7 @@ response = await cache.acheck(
 )
 ```
 
-#### *async* adrop(ids=None, keys=None)
+#### `*async* adrop(ids=None, keys=None)`
 
 Async expire specific entries from the cache by id or specific
 Redis key.
@@ -93,7 +93,7 @@ Redis key.
 * **Return type:**
   None
 
-#### *async* astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)
+#### `*async* astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
 
 Async stores the specified key-value pair in the cache along with metadata.
 
@@ -126,7 +126,7 @@ key = await cache.astore(
 )
 ```
 
-#### *async* aupdate(key, \*\*kwargs)
+#### `*async* aupdate(key, **kwargs)`
 
 Async update specific fields within an existing cache entry. If no fields
 are passed, then only the document TTL is refreshed.
@@ -147,7 +147,7 @@ await cache.aupdate(
 )
 ```
 
-#### check(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)
+#### `check(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)`
 
 Checks the semantic cache for results similar to the specified prompt
 or vector.
@@ -188,14 +188,14 @@ response = cache.check(
 )
 ```
 
-#### clear()
+#### `clear()`
 
 Clear the cache of all keys while preserving the index.
 
 * **Return type:**
   None
 
-#### delete()
+#### `delete()`
 
 Clear the semantic cache of all keys and remove the underlying search
 index.
@@ -203,7 +203,7 @@ index.
 * **Return type:**
   None
 
-#### drop(ids=None, keys=None)
+#### `drop(ids=None, keys=None)`
 
 Manually expire specific entries from the cache by id or specific
 Redis key.
@@ -214,7 +214,7 @@ Redis key.
 * **Return type:**
   None
 
-#### set_threshold(distance_threshold)
+#### `set_threshold(distance_threshold)`
 
 Sets the semantic distance threshold for the cache.
 
@@ -226,7 +226,7 @@ Sets the semantic distance threshold for the cache.
 * **Return type:**
   None
 
-#### set_ttl(ttl=None)
+#### `set_ttl(ttl=None)`
 
 Set the default TTL, in seconds, for entries in the cache.
 
@@ -236,7 +236,7 @@ Set the default TTL, in seconds, for entries in the cache.
 * **Raises:**
   **ValueError** – If the time-to-live value is not an integer.
 
-#### store(prompt, response, vector=None, metadata=None, filters=None, ttl=None)
+#### `store(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
 
 Stores the specified key-value pair in the cache along with metadata.
 
@@ -269,7 +269,7 @@ key = cache.store(
 )
 ```
 
-#### update(key, \*\*kwargs)
+#### `update(key, **kwargs)`
 
 Update specific fields within an existing cache entry. If no fields
 are passed, then only the document TTL is refreshed.
@@ -288,7 +288,7 @@ cache.update(key, metadata={"hit_count": 1, "model_name": "Llama-2-7b"})
 )
 ```
 
-#### *property* aindex *: [AsyncSearchIndex]({{< relref "searchindex/#asyncsearchindex" >}}) | None*
+#### `*property* aindex *: [AsyncSearchIndex]({{< relref "searchindex/#asyncsearchindex" >}}) | None*`
 
 The underlying AsyncSearchIndex for the cache.
 
@@ -297,7 +297,7 @@ The underlying AsyncSearchIndex for the cache.
 * **Return type:**
   [AsyncSearchIndex]({{< relref "searchindex/#asyncsearchindex" >}})
 
-#### *property* distance_threshold *: float*
+#### `*property* distance_threshold *: float*`
 
 The semantic distance threshold for the cache.
 
@@ -306,7 +306,7 @@ The semantic distance threshold for the cache.
 * **Return type:**
   float
 
-#### *property* index *: [SearchIndex]({{< relref "searchindex/#searchindex" >}})*
+#### `*property* index *: [SearchIndex]({{< relref "searchindex/#searchindex" >}})*`
 
 The underlying SearchIndex for the cache.
 
@@ -315,6 +315,6 @@ The underlying SearchIndex for the cache.
 * **Return type:**
   [SearchIndex]({{< relref "searchindex/#searchindex" >}})
 
-#### *property* ttl *: int | None*
+#### `*property* ttl *: int | None*`
 
 The default TTL, in seconds, for entries in the cache.

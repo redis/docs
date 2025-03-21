@@ -9,7 +9,7 @@ type: integration
 
 <a id="coherereranker-api"></a>
 
-### *class* CohereReranker(model='rerank-english-v3.0', rank_by=None, limit=5, return_score=True, api_config=None)
+### `*class* CohereReranker(model='rerank-english-v3.0', rank_by=None, limit=5, return_score=True, api_config=None)`
 
 Bases: `BaseReranker`
 
@@ -59,7 +59,7 @@ and API configuration.
   * **ImportError** – If the cohere library is not installed.
   * **ValueError** – If the API key is not provided.
 
-#### *async* arank(query, docs, \*\*kwargs)
+#### `*async* arank(query, docs, **kwargs)`
 
 Rerank documents based on the provided query using the Cohere rerank API.
 
@@ -76,7 +76,7 @@ query’s context.
 * **Return type:**
   Union[Tuple[Union[List[Dict[str, Any]], List[str]], float], List[Dict[str, Any]]]
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -88,7 +88,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### rank(query, docs, \*\*kwargs)
+#### `rank(query, docs, **kwargs)`
 
 Rerank documents based on the provided query using the Cohere rerank API.
 
@@ -105,7 +105,7 @@ query’s context.
 * **Return type:**
   Union[Tuple[Union[List[Dict[str, Any]], List[str]], float], List[Dict[str, Any]]]
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -113,7 +113,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="hfcrossencoderreranker-api"></a>
 
-### *class* HFCrossEncoderReranker(model='cross-encoder/ms-marco-MiniLM-L-6-v2', limit=3, return_score=True, \*, rank_by=None)
+### `*class* HFCrossEncoderReranker(model='cross-encoder/ms-marco-MiniLM-L-6-v2', limit=3, return_score=True, *, rank_by=None)`
 
 Bases: `BaseReranker`
 
@@ -149,7 +149,7 @@ Initialize the HFCrossEncoderReranker with a specified model and ranking criteri
   * **return_score** (*bool*) – Whether to return scores alongside the reranked results.
   * **rank_by** (*List* *[**str* *]*  *|* *None*)
 
-#### *async* arank(query, docs, \*\*kwargs)
+#### `*async* arank(query, docs, **kwargs)`
 
 Asynchronously rerank documents based on the provided query using the loaded cross-encoder model.
 
@@ -165,7 +165,7 @@ in a manner that is potentially more relevant to the query’s context.
 * **Return type:**
   Union[Tuple[List[Dict[str, Any]], List[float]], List[Dict[str, Any]]]
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -177,7 +177,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### rank(query, docs, \*\*kwargs)
+#### `rank(query, docs, **kwargs)`
 
 Rerank documents based on the provided query using the loaded cross-encoder model.
 
@@ -193,7 +193,7 @@ in a manner that is potentially more relevant to the query’s context.
 * **Return type:**
   Union[Tuple[List[Dict[str, Any]], List[float]], List[Dict[str, Any]]]
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -201,7 +201,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="voyageaireranker-api"></a>
 
-### *class* VoyageAIReranker(model, rank_by=None, limit=5, return_score=True, api_config=None)
+### `*class* VoyageAIReranker(model, rank_by=None, limit=5, return_score=True, api_config=None)`
 
 Bases: `BaseReranker`
 
@@ -250,7 +250,7 @@ and API configuration.
   * **ImportError** – If the voyageai library is not installed.
   * **ValueError** – If the API key is not provided.
 
-#### *async* arank(query, docs, \*\*kwargs)
+#### `*async* arank(query, docs, **kwargs)`
 
 Rerank documents based on the provided query using the VoyageAI rerank API.
 
@@ -267,7 +267,7 @@ query’s context.
 * **Return type:**
   Union[Tuple[Union[List[Dict[str, Any]], List[str]], float], List[Dict[str, Any]]]
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -279,7 +279,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### rank(query, docs, \*\*kwargs)
+#### `rank(query, docs, **kwargs)`
 
 Rerank documents based on the provided query using the VoyageAI rerank API.
 
@@ -296,6 +296,6 @@ query’s context.
 * **Return type:**
   Union[Tuple[Union[List[Dict[str, Any]], List[str]], float], List[Dict[str, Any]]]
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].

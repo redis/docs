@@ -9,7 +9,7 @@ type: integration
 
 <a id="semantic-session-manager-api"></a>
 
-### *class* SemanticSessionManager(name, session_tag=None, prefix=None, vectorizer=None, distance_threshold=0.3, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, \*\*kwargs)
+### `*class* SemanticSessionManager(name, session_tag=None, prefix=None, vectorizer=None, distance_threshold=0.3, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, **kwargs)`
 
 Bases: `BaseSessionManager`
 
@@ -40,7 +40,7 @@ responses.
 The proposed schema will support a single vector embedding constructed
 from either the prompt or response in a single string.
 
-#### add_message(message, session_tag=None)
+#### `add_message(message, session_tag=None)`
 
 Insert a single prompt or response into the session memory.
 A timestamp is associated with it so that it can be later sorted
@@ -53,7 +53,7 @@ in sequential ordering after retrieval.
 * **Return type:**
   None
 
-#### add_messages(messages, session_tag=None)
+#### `add_messages(messages, session_tag=None)`
 
 Insert a list of prompts and responses into the session memory.
 A timestamp is associated with each so that they can be later sorted
@@ -66,21 +66,21 @@ in sequential ordering after retrieval.
 * **Return type:**
   None
 
-#### clear()
+#### `clear()`
 
 Clears the chat session history.
 
 * **Return type:**
   None
 
-#### delete()
+#### `delete()`
 
 Clear all conversation keys and remove the search index.
 
 * **Return type:**
   None
 
-#### drop(id=None)
+#### `drop(id=None)`
 
 Remove a specific exchange from the conversation history.
 
@@ -90,7 +90,7 @@ Remove a specific exchange from the conversation history.
 * **Return type:**
   None
 
-#### get_recent(top_k=5, as_text=False, raw=False, session_tag=None)
+#### `get_recent(top_k=5, as_text=False, raw=False, session_tag=None)`
 
 Retreive the recent conversation history in sequential order.
 
@@ -110,7 +110,7 @@ Retreive the recent conversation history in sequential order.
 * **Raises:**
   **ValueError** – if top_k is not an integer greater than or equal to 0.
 
-#### get_relevant(prompt, as_text=False, top_k=5, fall_back=False, session_tag=None, raw=False, distance_threshold=None)
+#### `get_relevant(prompt, as_text=False, top_k=5, fall_back=False, session_tag=None, raw=False, distance_threshold=None)`
 
 Searches the chat history for information semantically related to
 the specified prompt.
@@ -141,7 +141,7 @@ context to the next LLM call.
 
 Raises ValueError: if top_k is not an integer greater or equal to 0.
 
-#### store(prompt, response, session_tag=None)
+#### `store(prompt, response, session_tag=None)`
 
 Insert a prompt:response pair into the session memory. A timestamp
 is associated with each message so that they can be later sorted
@@ -155,7 +155,7 @@ in sequential ordering after retrieval.
 * **Return type:**
   None
 
-#### *property* messages *: List[str] | List[Dict[str, str]]*
+#### `*property* messages *: List[str] | List[Dict[str, str]]*`
 
 Returns the full chat history.
 
@@ -163,7 +163,7 @@ Returns the full chat history.
 
 <a id="standard-session-manager-api"></a>
 
-### *class* StandardSessionManager(name, session_tag=None, prefix=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, \*\*kwargs)
+### `*class* StandardSessionManager(name, session_tag=None, prefix=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, **kwargs)`
 
 Bases: `BaseSessionManager`
 
@@ -189,7 +189,7 @@ responses.
 The proposed schema will support a single combined vector embedding
 constructed from the prompt & response in a single string.
 
-#### add_message(message, session_tag=None)
+#### `add_message(message, session_tag=None)`
 
 Insert a single prompt or response into the session memory.
 A timestamp is associated with it so that it can be later sorted
@@ -202,7 +202,7 @@ in sequential ordering after retrieval.
 * **Return type:**
   None
 
-#### add_messages(messages, session_tag=None)
+#### `add_messages(messages, session_tag=None)`
 
 Insert a list of prompts and responses into the session memory.
 A timestamp is associated with each so that they can be later sorted
@@ -215,21 +215,21 @@ in sequential ordering after retrieval.
 * **Return type:**
   None
 
-#### clear()
+#### `clear()`
 
 Clears the chat session history.
 
 * **Return type:**
   None
 
-#### delete()
+#### `delete()`
 
 Clear all conversation keys and remove the search index.
 
 * **Return type:**
   None
 
-#### drop(id=None)
+#### `drop(id=None)`
 
 Remove a specific exchange from the conversation history.
 
@@ -239,7 +239,7 @@ Remove a specific exchange from the conversation history.
 * **Return type:**
   None
 
-#### get_recent(top_k=5, as_text=False, raw=False, session_tag=None)
+#### `get_recent(top_k=5, as_text=False, raw=False, session_tag=None)`
 
 Retrieve the recent conversation history in sequential order.
 
@@ -259,7 +259,7 @@ Retrieve the recent conversation history in sequential order.
 * **Raises:**
   **ValueError** – if top_k is not an integer greater than or equal to 0.
 
-#### store(prompt, response, session_tag=None)
+#### `store(prompt, response, session_tag=None)`
 
 Insert a prompt:response pair into the session memory. A timestamp
 is associated with each exchange so that they can be later sorted
@@ -273,6 +273,6 @@ in sequential ordering after retrieval.
 * **Return type:**
   None
 
-#### *property* messages *: List[str] | List[Dict[str, str]]*
+#### `*property* messages *: List[str] | List[Dict[str, str]]*`
 
 Returns the full chat history.

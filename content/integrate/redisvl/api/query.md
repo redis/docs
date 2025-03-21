@@ -11,7 +11,7 @@ queries for different use cases. Each query class wraps the `redis-py` Query mod
 
 ## VectorQuery
 
-### *class* VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False)
+### `*class* VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False)`
 
 Bases: `BaseVectorQuery`, `BaseQuery`
 
@@ -42,10 +42,10 @@ expression.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-#### NOTE
+#### `NOTE`
 Learn more about vector queries in Redis: [https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search](https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search)
 
-#### dialect(dialect)
+#### `dialect(dialect)`
 
 Add a dialect field to the query.
 
@@ -56,7 +56,7 @@ Add a dialect field to the query.
 * **Return type:**
   *Query*
 
-#### expander(expander)
+#### `expander(expander)`
 
 Add a expander field to the query.
 
@@ -67,7 +67,7 @@ Add a expander field to the query.
 * **Return type:**
   *Query*
 
-#### in_order()
+#### `in_order()`
 
 Match only documents where the query terms appear in
 the same order in the document.
@@ -76,7 +76,7 @@ i.e. for the query “hello world”, we do not match “world hello”
 * **Return type:**
   *Query*
 
-#### language(language)
+#### `language(language)`
 
 Analyze the query as being in the specified language.
 
@@ -85,7 +85,7 @@ Analyze the query as being in the specified language.
 * **Return type:**
   *Query*
 
-#### limit_fields(\*fields)
+#### `limit_fields(*fields)`
 
 Limit the search to specific TEXT fields only.
 
@@ -98,7 +98,7 @@ from the defined schema.
 * **Return type:**
   *Query*
 
-#### limit_ids(\*ids)
+#### `limit_ids(*ids)`
 
 Limit the results to a specific set of pre-known document
 ids of any length.
@@ -106,14 +106,14 @@ ids of any length.
 * **Return type:**
   *Query*
 
-#### no_content()
+#### `no_content()`
 
 Set the query to only return ids and not the document content.
 
 * **Return type:**
   *Query*
 
-#### no_stopwords()
+#### `no_stopwords()`
 
 Prevent the query from being filtered for stopwords.
 Only useful in very big queries that you are certain contain
@@ -122,7 +122,7 @@ no stopwords.
 * **Return type:**
   *Query*
 
-#### paging(offset, num)
+#### `paging(offset, num)`
 
 Set the paging for the query (defaults to 0..10).
 
@@ -135,21 +135,21 @@ Set the paging for the query (defaults to 0..10).
 * **Return type:**
   *Query*
 
-#### query_string()
+#### `query_string()`
 
 Return the query string of this query only.
 
 * **Return type:**
   str
 
-#### return_fields(\*fields)
+#### `return_fields(*fields)`
 
 Add fields to return fields.
 
 * **Return type:**
   *Query*
 
-#### scorer(scorer)
+#### `scorer(scorer)`
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
@@ -160,7 +160,7 @@ Default is TFIDF.
 * **Return type:**
   *Query*
 
-#### set_filter(filter_expression=None)
+#### `set_filter(filter_expression=None)`
 
 Set the filter expression for the query.
 
@@ -170,7 +170,7 @@ Set the filter expression for the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
 
-#### slop(slop)
+#### `slop(slop)`
 
 Allow a maximum of N intervening non matched terms between
 phrase terms (0 means exact phrase).
@@ -180,7 +180,7 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### sort_by(field, asc=True)
+#### `sort_by(field, asc=True)`
 
 Add a sortby field to the query.
 
@@ -193,7 +193,7 @@ Add a sortby field to the query.
 * **Return type:**
   *Query*
 
-#### timeout(timeout)
+#### `timeout(timeout)`
 
 overrides the timeout parameter of the module
 
@@ -202,7 +202,7 @@ overrides the timeout parameter of the module
 * **Return type:**
   *Query*
 
-#### verbatim()
+#### `verbatim()`
 
 Set the query to be verbatim, i.e. use no query expansion
 or stemming.
@@ -210,25 +210,25 @@ or stemming.
 * **Return type:**
   *Query*
 
-#### with_payloads()
+#### `with_payloads()`
 
 Ask the engine to return document payloads.
 
 * **Return type:**
   *Query*
 
-#### with_scores()
+#### `with_scores()`
 
 Ask the engine to return document search scores.
 
 * **Return type:**
   *Query*
 
-#### *property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*
+#### `*property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*`
 
 The filter expression for the query.
 
-#### *property* params *: Dict[str, Any]*
+#### `*property* params *: Dict[str, Any]*`
 
 Return the parameters for the query.
 
@@ -237,13 +237,13 @@ Return the parameters for the query.
 * **Return type:**
   Dict[str, Any]
 
-#### *property* query *: BaseQuery*
+#### `*property* query *: BaseQuery*`
 
 Return self as the query object.
 
 ## VectorRangeQuery
 
-### *class* VectorRangeQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', distance_threshold=0.2, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False)
+### `*class* VectorRangeQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', distance_threshold=0.2, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False)`
 
 Bases: `BaseVectorQuery`, `BaseQuery`
 
@@ -277,10 +277,10 @@ distance threshold.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-#### NOTE
+#### `NOTE`
 Learn more about vector range queries: [https://redis.io/docs/interact/search-and-query/search/vectors/#range-query](https://redis.io/docs/interact/search-and-query/search/vectors/#range-query)
 
-#### dialect(dialect)
+#### `dialect(dialect)`
 
 Add a dialect field to the query.
 
@@ -291,7 +291,7 @@ Add a dialect field to the query.
 * **Return type:**
   *Query*
 
-#### expander(expander)
+#### `expander(expander)`
 
 Add a expander field to the query.
 
@@ -302,7 +302,7 @@ Add a expander field to the query.
 * **Return type:**
   *Query*
 
-#### in_order()
+#### `in_order()`
 
 Match only documents where the query terms appear in
 the same order in the document.
@@ -311,7 +311,7 @@ i.e. for the query “hello world”, we do not match “world hello”
 * **Return type:**
   *Query*
 
-#### language(language)
+#### `language(language)`
 
 Analyze the query as being in the specified language.
 
@@ -320,7 +320,7 @@ Analyze the query as being in the specified language.
 * **Return type:**
   *Query*
 
-#### limit_fields(\*fields)
+#### `limit_fields(*fields)`
 
 Limit the search to specific TEXT fields only.
 
@@ -333,7 +333,7 @@ from the defined schema.
 * **Return type:**
   *Query*
 
-#### limit_ids(\*ids)
+#### `limit_ids(*ids)`
 
 Limit the results to a specific set of pre-known document
 ids of any length.
@@ -341,14 +341,14 @@ ids of any length.
 * **Return type:**
   *Query*
 
-#### no_content()
+#### `no_content()`
 
 Set the query to only return ids and not the document content.
 
 * **Return type:**
   *Query*
 
-#### no_stopwords()
+#### `no_stopwords()`
 
 Prevent the query from being filtered for stopwords.
 Only useful in very big queries that you are certain contain
@@ -357,7 +357,7 @@ no stopwords.
 * **Return type:**
   *Query*
 
-#### paging(offset, num)
+#### `paging(offset, num)`
 
 Set the paging for the query (defaults to 0..10).
 
@@ -370,21 +370,21 @@ Set the paging for the query (defaults to 0..10).
 * **Return type:**
   *Query*
 
-#### query_string()
+#### `query_string()`
 
 Return the query string of this query only.
 
 * **Return type:**
   str
 
-#### return_fields(\*fields)
+#### `return_fields(*fields)`
 
 Add fields to return fields.
 
 * **Return type:**
   *Query*
 
-#### scorer(scorer)
+#### `scorer(scorer)`
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
@@ -395,14 +395,14 @@ Default is TFIDF.
 * **Return type:**
   *Query*
 
-#### set_distance_threshold(distance_threshold)
+#### `set_distance_threshold(distance_threshold)`
 
 Set the distance threshold for the query.
 
 * **Parameters:**
   **distance_threshold** (*float*) – vector distance
 
-#### set_filter(filter_expression=None)
+#### `set_filter(filter_expression=None)`
 
 Set the filter expression for the query.
 
@@ -412,7 +412,7 @@ Set the filter expression for the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
 
-#### slop(slop)
+#### `slop(slop)`
 
 Allow a maximum of N intervening non matched terms between
 phrase terms (0 means exact phrase).
@@ -422,7 +422,7 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### sort_by(field, asc=True)
+#### `sort_by(field, asc=True)`
 
 Add a sortby field to the query.
 
@@ -435,7 +435,7 @@ Add a sortby field to the query.
 * **Return type:**
   *Query*
 
-#### timeout(timeout)
+#### `timeout(timeout)`
 
 overrides the timeout parameter of the module
 
@@ -444,7 +444,7 @@ overrides the timeout parameter of the module
 * **Return type:**
   *Query*
 
-#### verbatim()
+#### `verbatim()`
 
 Set the query to be verbatim, i.e. use no query expansion
 or stemming.
@@ -452,21 +452,21 @@ or stemming.
 * **Return type:**
   *Query*
 
-#### with_payloads()
+#### `with_payloads()`
 
 Ask the engine to return document payloads.
 
 * **Return type:**
   *Query*
 
-#### with_scores()
+#### `with_scores()`
 
 Ask the engine to return document search scores.
 
 * **Return type:**
   *Query*
 
-#### *property* distance_threshold *: float*
+#### `*property* distance_threshold *: float*`
 
 Return the distance threshold for the query.
 
@@ -475,11 +475,11 @@ Return the distance threshold for the query.
 * **Return type:**
   float
 
-#### *property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*
+#### `*property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*`
 
 The filter expression for the query.
 
-#### *property* params *: Dict[str, Any]*
+#### `*property* params *: Dict[str, Any]*`
 
 Return the parameters for the query.
 
@@ -488,13 +488,13 @@ Return the parameters for the query.
 * **Return type:**
   Dict[str, Any]
 
-#### *property* query *: BaseQuery*
+#### `*property* query *: BaseQuery*`
 
 Return self as the query object.
 
 ## FilterQuery
 
-### *class* FilterQuery(filter_expression=None, return_fields=None, num_results=10, dialect=2, sort_by=None, in_order=False, params=None)
+### `*class* FilterQuery(filter_expression=None, return_fields=None, num_results=10, dialect=2, sort_by=None, in_order=False, params=None)`
 
 Bases: `BaseQuery`
 
@@ -512,7 +512,7 @@ A query for running a filtered search with a filter expression.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-#### dialect(dialect)
+#### `dialect(dialect)`
 
 Add a dialect field to the query.
 
@@ -523,7 +523,7 @@ Add a dialect field to the query.
 * **Return type:**
   *Query*
 
-#### expander(expander)
+#### `expander(expander)`
 
 Add a expander field to the query.
 
@@ -534,7 +534,7 @@ Add a expander field to the query.
 * **Return type:**
   *Query*
 
-#### in_order()
+#### `in_order()`
 
 Match only documents where the query terms appear in
 the same order in the document.
@@ -543,7 +543,7 @@ i.e. for the query “hello world”, we do not match “world hello”
 * **Return type:**
   *Query*
 
-#### language(language)
+#### `language(language)`
 
 Analyze the query as being in the specified language.
 
@@ -552,7 +552,7 @@ Analyze the query as being in the specified language.
 * **Return type:**
   *Query*
 
-#### limit_fields(\*fields)
+#### `limit_fields(*fields)`
 
 Limit the search to specific TEXT fields only.
 
@@ -565,7 +565,7 @@ from the defined schema.
 * **Return type:**
   *Query*
 
-#### limit_ids(\*ids)
+#### `limit_ids(*ids)`
 
 Limit the results to a specific set of pre-known document
 ids of any length.
@@ -573,14 +573,14 @@ ids of any length.
 * **Return type:**
   *Query*
 
-#### no_content()
+#### `no_content()`
 
 Set the query to only return ids and not the document content.
 
 * **Return type:**
   *Query*
 
-#### no_stopwords()
+#### `no_stopwords()`
 
 Prevent the query from being filtered for stopwords.
 Only useful in very big queries that you are certain contain
@@ -589,7 +589,7 @@ no stopwords.
 * **Return type:**
   *Query*
 
-#### paging(offset, num)
+#### `paging(offset, num)`
 
 Set the paging for the query (defaults to 0..10).
 
@@ -602,21 +602,21 @@ Set the paging for the query (defaults to 0..10).
 * **Return type:**
   *Query*
 
-#### query_string()
+#### `query_string()`
 
 Return the query string of this query only.
 
 * **Return type:**
   str
 
-#### return_fields(\*fields)
+#### `return_fields(*fields)`
 
 Add fields to return fields.
 
 * **Return type:**
   *Query*
 
-#### scorer(scorer)
+#### `scorer(scorer)`
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
@@ -627,7 +627,7 @@ Default is TFIDF.
 * **Return type:**
   *Query*
 
-#### set_filter(filter_expression=None)
+#### `set_filter(filter_expression=None)`
 
 Set the filter expression for the query.
 
@@ -637,7 +637,7 @@ Set the filter expression for the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
 
-#### slop(slop)
+#### `slop(slop)`
 
 Allow a maximum of N intervening non matched terms between
 phrase terms (0 means exact phrase).
@@ -647,7 +647,7 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### sort_by(field, asc=True)
+#### `sort_by(field, asc=True)`
 
 Add a sortby field to the query.
 
@@ -660,7 +660,7 @@ Add a sortby field to the query.
 * **Return type:**
   *Query*
 
-#### timeout(timeout)
+#### `timeout(timeout)`
 
 overrides the timeout parameter of the module
 
@@ -669,7 +669,7 @@ overrides the timeout parameter of the module
 * **Return type:**
   *Query*
 
-#### verbatim()
+#### `verbatim()`
 
 Set the query to be verbatim, i.e. use no query expansion
 or stemming.
@@ -677,35 +677,35 @@ or stemming.
 * **Return type:**
   *Query*
 
-#### with_payloads()
+#### `with_payloads()`
 
 Ask the engine to return document payloads.
 
 * **Return type:**
   *Query*
 
-#### with_scores()
+#### `with_scores()`
 
 Ask the engine to return document search scores.
 
 * **Return type:**
   *Query*
 
-#### *property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*
+#### `*property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*`
 
 The filter expression for the query.
 
-#### *property* params *: Dict[str, Any]*
+#### `*property* params *: Dict[str, Any]*`
 
 Return the query parameters.
 
-#### *property* query *: BaseQuery*
+#### `*property* query *: BaseQuery*`
 
 Return self as the query object.
 
 ## CountQuery
 
-### *class* CountQuery(filter_expression=None, dialect=2, params=None)
+### `*class* CountQuery(filter_expression=None, dialect=2, params=None)`
 
 Bases: `BaseQuery`
 
@@ -728,7 +728,7 @@ query = CountQuery(filter_expression=t)
 count = index.query(query)
 ```
 
-#### dialect(dialect)
+#### `dialect(dialect)`
 
 Add a dialect field to the query.
 
@@ -739,7 +739,7 @@ Add a dialect field to the query.
 * **Return type:**
   *Query*
 
-#### expander(expander)
+#### `expander(expander)`
 
 Add a expander field to the query.
 
@@ -750,7 +750,7 @@ Add a expander field to the query.
 * **Return type:**
   *Query*
 
-#### in_order()
+#### `in_order()`
 
 Match only documents where the query terms appear in
 the same order in the document.
@@ -759,7 +759,7 @@ i.e. for the query “hello world”, we do not match “world hello”
 * **Return type:**
   *Query*
 
-#### language(language)
+#### `language(language)`
 
 Analyze the query as being in the specified language.
 
@@ -768,7 +768,7 @@ Analyze the query as being in the specified language.
 * **Return type:**
   *Query*
 
-#### limit_fields(\*fields)
+#### `limit_fields(*fields)`
 
 Limit the search to specific TEXT fields only.
 
@@ -781,7 +781,7 @@ from the defined schema.
 * **Return type:**
   *Query*
 
-#### limit_ids(\*ids)
+#### `limit_ids(*ids)`
 
 Limit the results to a specific set of pre-known document
 ids of any length.
@@ -789,14 +789,14 @@ ids of any length.
 * **Return type:**
   *Query*
 
-#### no_content()
+#### `no_content()`
 
 Set the query to only return ids and not the document content.
 
 * **Return type:**
   *Query*
 
-#### no_stopwords()
+#### `no_stopwords()`
 
 Prevent the query from being filtered for stopwords.
 Only useful in very big queries that you are certain contain
@@ -805,7 +805,7 @@ no stopwords.
 * **Return type:**
   *Query*
 
-#### paging(offset, num)
+#### `paging(offset, num)`
 
 Set the paging for the query (defaults to 0..10).
 
@@ -818,21 +818,21 @@ Set the paging for the query (defaults to 0..10).
 * **Return type:**
   *Query*
 
-#### query_string()
+#### `query_string()`
 
 Return the query string of this query only.
 
 * **Return type:**
   str
 
-#### return_fields(\*fields)
+#### `return_fields(*fields)`
 
 Add fields to return fields.
 
 * **Return type:**
   *Query*
 
-#### scorer(scorer)
+#### `scorer(scorer)`
 
 Use a different scoring function to evaluate document relevance.
 Default is TFIDF.
@@ -843,7 +843,7 @@ Default is TFIDF.
 * **Return type:**
   *Query*
 
-#### set_filter(filter_expression=None)
+#### `set_filter(filter_expression=None)`
 
 Set the filter expression for the query.
 
@@ -853,7 +853,7 @@ Set the filter expression for the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
 
-#### slop(slop)
+#### `slop(slop)`
 
 Allow a maximum of N intervening non matched terms between
 phrase terms (0 means exact phrase).
@@ -863,7 +863,7 @@ phrase terms (0 means exact phrase).
 * **Return type:**
   *Query*
 
-#### sort_by(field, asc=True)
+#### `sort_by(field, asc=True)`
 
 Add a sortby field to the query.
 
@@ -876,7 +876,7 @@ Add a sortby field to the query.
 * **Return type:**
   *Query*
 
-#### timeout(timeout)
+#### `timeout(timeout)`
 
 overrides the timeout parameter of the module
 
@@ -885,7 +885,7 @@ overrides the timeout parameter of the module
 * **Return type:**
   *Query*
 
-#### verbatim()
+#### `verbatim()`
 
 Set the query to be verbatim, i.e. use no query expansion
 or stemming.
@@ -893,28 +893,28 @@ or stemming.
 * **Return type:**
   *Query*
 
-#### with_payloads()
+#### `with_payloads()`
 
 Ask the engine to return document payloads.
 
 * **Return type:**
   *Query*
 
-#### with_scores()
+#### `with_scores()`
 
 Ask the engine to return document search scores.
 
 * **Return type:**
   *Query*
 
-#### *property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*
+#### `*property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*`
 
 The filter expression for the query.
 
-#### *property* params *: Dict[str, Any]*
+#### `*property* params *: Dict[str, Any]*`
 
 Return the query parameters.
 
-#### *property* query *: BaseQuery*
+#### `*property* query *: BaseQuery*`
 
 Return self as the query object.

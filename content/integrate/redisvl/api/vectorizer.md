@@ -9,7 +9,7 @@ type: integration
 
 <a id="hftextvectorizer-api"></a>
 
-### *class* HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2', dtype='float32', \*, dims=None)
+### `*class* HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2', dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -50,7 +50,7 @@ Initialize the Hugging Face text vectorizer.
   * **ValueError** – If there is an error setting the embedding model dimensions.
   * **ValueError** – If an invalid dtype is provided.
 
-#### embed(text, preprocess=None, as_buffer=False, \*\*kwargs)
+#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Embed a chunk of text using the Hugging Face sentence transformer.
 
@@ -67,7 +67,7 @@ Embed a chunk of text using the Hugging Face sentence transformer.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the text.
 
-#### embed_many(texts, preprocess=None, batch_size=1000, as_buffer=False, \*\*kwargs)
+#### `embed_many(texts, preprocess=None, batch_size=1000, as_buffer=False, **kwargs)`
 
 Asynchronously embed many chunks of texts using the Hugging Face
 sentence transformer.
@@ -87,7 +87,7 @@ sentence transformer.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -99,7 +99,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -107,7 +107,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="openaitextvectorizer-api"></a>
 
-### *class* OpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', \*, dims=None)
+### `*class* OpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -156,7 +156,7 @@ Initialize the OpenAI vectorizer.
   * **ValueError** – If the OpenAI API key is not provided.
   * **ValueError** – If an invalid dtype is provided.
 
-#### aembed(text, preprocess=None, as_buffer=False, \*\*kwargs)
+#### `aembed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Asynchronously embed a chunk of text using the OpenAI API.
 
@@ -173,7 +173,7 @@ Asynchronously embed a chunk of text using the OpenAI API.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the text.
 
-#### aembed_many(texts, preprocess=None, batch_size=1000, as_buffer=False, \*\*kwargs)
+#### `aembed_many(texts, preprocess=None, batch_size=1000, as_buffer=False, **kwargs)`
 
 Asynchronously embed many chunks of texts using the OpenAI API.
 
@@ -192,7 +192,7 @@ Asynchronously embed many chunks of texts using the OpenAI API.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the text.
 
-#### embed(text, preprocess=None, as_buffer=False, \*\*kwargs)
+#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Embed a chunk of text using the OpenAI API.
 
@@ -209,7 +209,7 @@ Embed a chunk of text using the OpenAI API.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the text.
 
-#### embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, \*\*kwargs)
+#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
 
 Embed many chunks of texts using the OpenAI API.
 
@@ -228,7 +228,7 @@ Embed many chunks of texts using the OpenAI API.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the text.
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -240,7 +240,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -248,7 +248,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="azureopenaitextvectorizer-api"></a>
 
-### *class* AzureOpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', \*, dims=None)
+### `*class* AzureOpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -304,7 +304,7 @@ Initialize the AzureOpenAI vectorizer.
   * **ValueError** – If the AzureOpenAI API key, version, or endpoint are not provided.
   * **ValueError** – If an invalid dtype is provided.
 
-#### aembed(text, preprocess=None, as_buffer=False, \*\*kwargs)
+#### `aembed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Asynchronously embed a chunk of text using the OpenAI API.
 
@@ -321,7 +321,7 @@ Asynchronously embed a chunk of text using the OpenAI API.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
-#### aembed_many(texts, preprocess=None, batch_size=1000, as_buffer=False, \*\*kwargs)
+#### `aembed_many(texts, preprocess=None, batch_size=1000, as_buffer=False, **kwargs)`
 
 Asynchronously embed many chunks of texts using the AzureOpenAI API.
 
@@ -340,7 +340,7 @@ Asynchronously embed many chunks of texts using the AzureOpenAI API.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
-#### embed(text, preprocess=None, as_buffer=False, \*\*kwargs)
+#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Embed a chunk of text using the AzureOpenAI API.
 
@@ -357,7 +357,7 @@ Embed a chunk of text using the AzureOpenAI API.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
-#### embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, \*\*kwargs)
+#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
 
 Embed many chunks of texts using the AzureOpenAI API.
 
@@ -376,7 +376,7 @@ Embed many chunks of texts using the AzureOpenAI API.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -388,7 +388,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -396,7 +396,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="vertexaitextvectorizer-api"></a>
 
-### *class* VertexAITextVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', \*, dims=None)
+### `*class* VertexAITextVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -446,7 +446,7 @@ Initialize the VertexAI vectorizer.
   * **ValueError** – If the API key is not provided.
   * **ValueError** – If an invalid dtype is provided.
 
-#### embed(text, preprocess=None, as_buffer=False, \*\*kwargs)
+#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Embed a chunk of text using the VertexAI API.
 
@@ -463,7 +463,7 @@ Embed a chunk of text using the VertexAI API.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
-#### embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, \*\*kwargs)
+#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
 
 Embed many chunks of texts using the VertexAI API.
 
@@ -482,7 +482,7 @@ Embed many chunks of texts using the VertexAI API.
 * **Raises:**
   **TypeError** – If the wrong input type is passed in for the test.
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -494,7 +494,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -502,7 +502,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="coheretextvectorizer-api"></a>
 
-### *class* CohereTextVectorizer(model='embed-english-v3.0', api_config=None, dtype='float32', \*, dims=None)
+### `*class* CohereTextVectorizer(model='embed-english-v3.0', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -553,7 +553,7 @@ Visit [https://cohere.ai/embed](https://cohere.ai/embed) to learn about embeddin
   * **ValueError** – If the API key is not provided.
   * **ValueError** – If an invalid dtype is provided.
 
-#### embed(text, preprocess=None, as_buffer=False, \*\*kwargs)
+#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Embed a chunk of text using the Cohere Embeddings API.
 
@@ -588,7 +588,7 @@ task downstream, you should set input_type= “classification” or
 * **Raises:**
   **TypeError** – In an invalid input_type is provided.
 
-#### embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, \*\*kwargs)
+#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
 
 Embed many chunks of text using the Cohere Embeddings API.
 
@@ -625,7 +625,7 @@ task downstream, you should set input_type= “classification” or
 * **Raises:**
   **TypeError** – In an invalid input_type is provided.
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -637,7 +637,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -645,7 +645,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="bedrocktextvectorizer-api"></a>
 
-### *class* BedrockTextVectorizer(model='amazon.titan-embed-text-v2:0', api_config=None, dtype='float32', \*, dims=None)
+### `*class* BedrockTextVectorizer(model='amazon.titan-embed-text-v2:0', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -697,7 +697,7 @@ Initialize the AWS Bedrock Vectorizer.
   * **ImportError** – If boto3 is not installed.
   * **ValueError** – If an invalid dtype is provided.
 
-#### embed(text, preprocess=None, as_buffer=False, \*\*kwargs)
+#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Embed a chunk of text using Amazon Bedrock.
 
@@ -712,7 +712,7 @@ Embed a chunk of text using Amazon Bedrock.
 * **Raises:**
   **TypeError** – If text is not a string.
 
-#### embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, \*\*kwargs)
+#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
 
 Embed multiple texts using Amazon Bedrock.
 
@@ -728,7 +728,7 @@ Embed multiple texts using Amazon Bedrock.
 * **Raises:**
   **TypeError** – If texts is not a list of strings.
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -740,7 +740,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -748,7 +748,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="customtextvectorizer-api"></a>
 
-### *class* CustomTextVectorizer(embed, embed_many=None, aembed=None, aembed_many=None, dtype='float32')
+### `*class* CustomTextVectorizer(embed, embed_many=None, aembed=None, aembed_many=None, dtype='float32')`
 
 Bases: `BaseVectorizer`
 
@@ -788,7 +788,7 @@ Initialize the Custom vectorizer.
 * **Raises:**
   **ValueError** – if embedding validation fails.
 
-#### embed(text, preprocess=None, as_buffer=False, \*\*kwargs)
+#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Generate an embedding for a single piece of text using your sync embed function.
 
@@ -803,7 +803,7 @@ Generate an embedding for a single piece of text using your sync embed function.
 * **Raises:**
   **TypeError** – If the input is not a string.
 
-#### embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, \*\*kwargs)
+#### `embed_many(texts, preprocess=None, batch_size=10, as_buffer=False, **kwargs)`
 
 Generate embeddings for multiple pieces of text in batches using your sync embed_many function.
 
@@ -820,7 +820,7 @@ Generate embeddings for multiple pieces of text in batches using your sync embed
   * **TypeError** – If the input is not a list of strings.
   * **NotImplementedError** – If no embed_many function was provided.
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -832,7 +832,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -840,7 +840,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="voyageaitextvectorizer-api"></a>
 
-### *class* VoyageAITextVectorizer(model='voyage-large-2', api_config=None, dtype='float32', \*, dims=None)
+### `*class* VoyageAITextVectorizer(model='voyage-large-2', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -890,7 +890,7 @@ Visit [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs
   * **ImportError** – If the voyageai library is not installed.
   * **ValueError** – If the API key is not provided.
 
-#### aembed(text, preprocess=None, as_buffer=False, \*\*kwargs)
+#### `aembed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Embed a chunk of text using the VoyageAI Embeddings API.
 
@@ -921,7 +921,7 @@ querying the database, you should set the input_type=”query”.
 * **Raises:**
   **TypeError** – In an invalid input_type is provided.
 
-#### aembed_many(texts, preprocess=None, batch_size=None, as_buffer=False, \*\*kwargs)
+#### `aembed_many(texts, preprocess=None, batch_size=None, as_buffer=False, **kwargs)`
 
 Embed many chunks of text using the VoyageAI Embeddings API.
 
@@ -954,7 +954,7 @@ querying the database, you should set the input_type=”query”.
 * **Raises:**
   **TypeError** – In an invalid input_type is provided.
 
-#### embed(text, preprocess=None, as_buffer=False, \*\*kwargs)
+#### `embed(text, preprocess=None, as_buffer=False, **kwargs)`
 
 Embed a chunk of text using the VoyageAI Embeddings API.
 
@@ -985,7 +985,7 @@ querying the database, you should set the input_type=”query”.
 * **Raises:**
   **TypeError** – If an invalid input_type is provided.
 
-#### embed_many(texts, preprocess=None, batch_size=None, as_buffer=False, \*\*kwargs)
+#### `embed_many(texts, preprocess=None, batch_size=None, as_buffer=False, **kwargs)`
 
 Embed many chunks of text using the VoyageAI Embeddings API.
 
@@ -1018,7 +1018,7 @@ querying the database, you should set the input_type=”query”.
 * **Raises:**
   **TypeError** – If an invalid input_type is provided.
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -1030,6 +1030,6 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].

@@ -18,7 +18,7 @@ field configurations using the following three components:
 
 <a id="indexschema-api"></a>
 
-### *class* IndexSchema(\*, index, fields={}, version='0.1.0')
+### `*class* IndexSchema(*, index, fields={}, version='0.1.0')`
 
 A schema definition for a search index in Redis, used in RedisVL for
 configuring index settings and organizing vector and metadata fields.
@@ -89,7 +89,7 @@ schema = IndexSchema.from_dict({
 })
 ```
 
-#### NOTE
+#### `NOTE`
 The fields attribute in the schema must contain unique field names to ensure
 correct and unambiguous field references.
 
@@ -105,7 +105,7 @@ self is explicitly positional-only to allow self as a field name.
   * **fields** (*Dict* *[**str* *,* *BaseField* *]*)
   * **version** (*Literal* *[* *'0.1.0'* *]*)
 
-#### add_field(field_inputs)
+#### `add_field(field_inputs)`
 
 Adds a single field to the index schema based on the specified field
 type and attributes.
@@ -135,7 +135,7 @@ schema.add_field({
 })
 ```
 
-#### add_fields(fields)
+#### `add_fields(fields)`
 
 Extends the schema with additional fields.
 
@@ -164,7 +164,7 @@ schema.add_fields([
 ])
 ```
 
-#### *classmethod* from_dict(data)
+#### `*classmethod* from_dict(data)`
 
 Create an IndexSchema from a dictionary.
 
@@ -201,7 +201,7 @@ schema = IndexSchema.from_dict({
 })
 ```
 
-#### *classmethod* from_yaml(file_path)
+#### `*classmethod* from_yaml(file_path)`
 
 Create an IndexSchema from a YAML file.
 
@@ -217,7 +217,7 @@ from redisvl.schema import IndexSchema
 schema = IndexSchema.from_yaml("schema.yaml")
 ```
 
-#### remove_field(field_name)
+#### `remove_field(field_name)`
 
 Removes a field from the schema based on the specified name.
 
@@ -227,7 +227,7 @@ existing fields.
 * **Parameters:**
   **field_name** (*str*) – The name of the field to be removed.
 
-#### to_dict()
+#### `to_dict()`
 
 Serialize the index schema model to a dictionary, handling Enums
 and other special cases properly.
@@ -237,7 +237,7 @@ and other special cases properly.
 * **Return type:**
   Dict[str, Any]
 
-#### to_yaml(file_path, overwrite=True)
+#### `to_yaml(file_path, overwrite=True)`
 
 Write the index schema to a YAML file.
 
@@ -249,7 +249,7 @@ Write the index schema to a YAML file.
 * **Return type:**
   None
 
-#### *property* field_names *: List[str]*
+#### `*property* field_names *: List[str]*`
 
 A list of field names associated with the index schema.
 
@@ -258,19 +258,19 @@ A list of field names associated with the index schema.
 * **Return type:**
   List[str]
 
-#### fields *: Dict[str, BaseField]*
+#### `fields *: Dict[str, BaseField]*`
 
 Fields associated with the search index and their properties
 
-#### index *: IndexInfo*
+#### `index *: IndexInfo*`
 
 Details of the basic index configurations.
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
-#### version *: Literal['0.1.0']*
+#### `version *: Literal['0.1.0']*`
 
 Version of the underlying index schema.
 

@@ -9,7 +9,7 @@ type: integration
 
 ## Semantic Router
 
-### *class* SemanticRouter(name, routes, vectorizer=None, routing_config=None, redis_client=None, redis_url='redis://localhost:6379', overwrite=False, connection_kwargs={})
+### `*class* SemanticRouter(name, routes, vectorizer=None, routing_config=None, redis_client=None, redis_url='redis://localhost:6379', overwrite=False, connection_kwargs={})`
 
 Semantic Router for managing and querying route vectors.
 
@@ -26,21 +26,21 @@ Initialize the SemanticRouter.
   * **connection_kwargs** (*Dict* *[**str* *,* *Any* *]*) – The connection arguments
     for the redis client. Defaults to empty {}.
 
-#### clear()
+#### `clear()`
 
 Flush all routes from the semantic router index.
 
 * **Return type:**
   None
 
-#### delete()
+#### `delete()`
 
 Delete the semantic router index.
 
 * **Return type:**
   None
 
-#### *classmethod* from_dict(data, \*\*kwargs)
+#### `*classmethod* from_dict(data, **kwargs)`
 
 Create a SemanticRouter from a dictionary.
 
@@ -63,7 +63,7 @@ router_data = {
 router = SemanticRouter.from_dict(router_data)
 ```
 
-#### *classmethod* from_yaml(file_path, \*\*kwargs)
+#### `*classmethod* from_yaml(file_path, **kwargs)`
 
 Create a SemanticRouter from a YAML file.
 
@@ -82,7 +82,7 @@ from redisvl.extensions.router import SemanticRouter
 router = SemanticRouter.from_yaml("router.yaml", redis_url="redis://localhost:6379")
 ```
 
-#### get(route_name)
+#### `get(route_name)`
 
 Get a route by its name.
 
@@ -93,7 +93,7 @@ Get a route by its name.
 * **Return type:**
   Optional[[Route](#route)]
 
-#### model_post_init(context, /)
+#### `model_post_init(context, /)`
 
 This function is meant to behave like a BaseModel method to initialise private attributes.
 
@@ -105,7 +105,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### remove_route(route_name)
+#### `remove_route(route_name)`
 
 Remove a route and all references from the semantic router.
 
@@ -114,7 +114,7 @@ Remove a route and all references from the semantic router.
 * **Return type:**
   None
 
-#### route_many(statement=None, vector=None, max_k=None, distance_threshold=None, aggregation_method=None)
+#### `route_many(statement=None, vector=None, max_k=None, distance_threshold=None, aggregation_method=None)`
 
 Query the semantic router with a given statement or vector for multiple matches.
 
@@ -129,7 +129,7 @@ Query the semantic router with a given statement or vector for multiple matches.
 * **Return type:**
   List[[RouteMatch](#routematch)]
 
-#### to_dict()
+#### `to_dict()`
 
 Convert the SemanticRouter instance to a dictionary.
 
@@ -144,7 +144,7 @@ router = SemanticRouter(name="example_router", routes=[], redis_url="redis://loc
 router_dict = router.to_dict()
 ```
 
-#### to_yaml(file_path, overwrite=True)
+#### `to_yaml(file_path, overwrite=True)`
 
 Write the semantic router to a YAML file.
 
@@ -166,22 +166,22 @@ router = SemanticRouter(
 router.to_yaml("router.yaml")
 ```
 
-#### update_routing_config(routing_config)
+#### `update_routing_config(routing_config)`
 
 Update the routing configuration.
 
 * **Parameters:**
   **routing_config** ([*RoutingConfig*](#routingconfig)) – The new routing configuration.
 
-#### model_config *: ClassVar[ConfigDict]* *= {'arbitrary_types_allowed': True}*
+#### `model_config *: ClassVar[ConfigDict]* *= {'arbitrary_types_allowed': True}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
-#### name *: str*
+#### `name *: str*`
 
 The name of the semantic router.
 
-#### *property* route_names *: List[str]*
+#### `*property* route_names *: List[str]*`
 
 Get the list of route names.
 
@@ -190,7 +190,7 @@ Get the list of route names.
 * **Return type:**
   List[str]
 
-#### *property* route_thresholds *: Dict[str, float | None]*
+#### `*property* route_thresholds *: Dict[str, float | None]*`
 
 Get the distance thresholds for each route.
 
@@ -199,21 +199,21 @@ Get the distance thresholds for each route.
 * **Return type:**
   Dict[str, float]
 
-#### routes *: List[[Route](#route)]*
+#### `routes *: List[[Route](#route)]*`
 
 List of Route objects.
 
-#### routing_config *: [RoutingConfig](#routingconfig)*
+#### `routing_config *: [RoutingConfig](#routingconfig)*`
 
 Configuration for routing behavior.
 
-#### vectorizer *: BaseVectorizer*
+#### `vectorizer *: BaseVectorizer*`
 
 The vectorizer used to embed route references.
 
 ## Routing Config
 
-### *class* RoutingConfig(\*, max_k=1, aggregation_method=DistanceAggregationMethod.avg)
+### `*class* RoutingConfig(*, max_k=1, aggregation_method=DistanceAggregationMethod.avg)`
 
 Configuration for routing behavior.
 
@@ -228,17 +228,17 @@ self is explicitly positional-only to allow self as a field name.
   * **max_k** (*Annotated* *[**int* *,* *FieldInfo* *(**annotation=NoneType* *,* *required=False* *,* *default=1* *,* *metadata=* *[**Strict* *(**strict=True* *)* *,* *Gt* *(**gt=0* *)* *]* *)* *]*)
   * **aggregation_method** ([*DistanceAggregationMethod*](#distanceaggregationmethod))
 
-#### max_k *: Annotated[int, FieldInfo(annotation=NoneType, required=False, default=1, metadata=[Strict(strict=True), Gt(gt=0)])]*
+#### `max_k *: Annotated[int, FieldInfo(annotation=NoneType, required=False, default=1, metadata=[Strict(strict=True), Gt(gt=0)])]*`
 
 Aggregation method to use to classify queries.
 
-#### model_config *: ClassVar[ConfigDict]* *= {'extra': 'ignore'}*
+#### `model_config *: ClassVar[ConfigDict]* *= {'extra': 'ignore'}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
 ## Route
 
-### *class* Route(\*, name, references, metadata={}, distance_threshold=0.5)
+### `*class* Route(*, name, references, metadata={}, distance_threshold=0.5)`
 
 Model representing a routing path with associated metadata and thresholds.
 
@@ -255,29 +255,29 @@ self is explicitly positional-only to allow self as a field name.
   * **metadata** (*Dict* *[**str* *,* *Any* *]*)
   * **distance_threshold** (*Annotated* *[**float* *,* *FieldInfo* *(**annotation=NoneType* *,* *required=True* *,* *metadata=* *[**Strict* *(**strict=True* *)* *,* *Gt* *(**gt=0* *)* *,* *Le* *(**le=1* *)* *]* *)* *]*)
 
-#### distance_threshold *: Annotated[float, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), Gt(gt=0), Le(le=1)])]*
+#### `distance_threshold *: Annotated[float, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), Gt(gt=0), Le(le=1)])]*`
 
 Distance threshold for matching the route.
 
-#### metadata *: Dict[str, Any]*
+#### `metadata *: Dict[str, Any]*`
 
 Metadata associated with the route.
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
-#### name *: str*
+#### `name *: str*`
 
 The name of the route.
 
-#### references *: List[str]*
+#### `references *: List[str]*`
 
 List of reference phrases for the route.
 
 ## Route Match
 
-### *class* RouteMatch(\*, name=None, distance=None)
+### `*class* RouteMatch(*, name=None, distance=None)`
 
 Model representing a matched route with distance information.
 
@@ -292,32 +292,32 @@ self is explicitly positional-only to allow self as a field name.
   * **name** (*str* *|* *None*)
   * **distance** (*float* *|* *None*)
 
-#### distance *: float | None*
+#### `distance *: float | None*`
 
 The vector distance between the statement and the matched route.
 
-#### model_config *: ClassVar[ConfigDict]* *= {}*
+#### `model_config *: ClassVar[ConfigDict]* *= {}*`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
-#### name *: str | None*
+#### `name *: str | None*`
 
 The matched route name.
 
 ## Distance Aggregation Method
 
-### *class* DistanceAggregationMethod(value, names=<not given>, \*values, module=None, qualname=None, type=None, start=1, boundary=None)
+### `*class* DistanceAggregationMethod(value, names=<not given>, *values, module=None, qualname=None, type=None, start=1, boundary=None)`
 
 Enumeration for distance aggregation methods.
 
-#### avg *= 'avg'*
+#### `avg *= 'avg'*`
 
 Compute the average of the vector distances.
 
-#### min *= 'min'*
+#### `min *= 'min'*`
 
 Compute the minimum of the vector distances.
 
-#### sum *= 'sum'*
+#### `sum *= 'sum'*`
 
 Compute the sum of the vector distances.
