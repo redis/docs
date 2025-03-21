@@ -171,7 +171,7 @@ kubectl create secret generic target-db-ssl --namespace=rdi \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-Note that the certificate paths contained in the secrets `SOURCE_DB_CACERT`, `SOURCE_DB_CERT`, and `SOURCE_DB_KEY` (for the source database) and `TARGET_DB_CACERT`, `TARGET_DB_CERT`, and `TARGET_DB_KEY` (for the target database) are internal to RDI and therefore their values specified in the above commands **must not be changed**. Only change the certificate paths when creating the `source-db-ssl` and `target-db-ssl` secrets.
+Note that the certificate paths contained in the secrets `SOURCE_DB_CACERT`, `SOURCE_DB_CERT`, and `SOURCE_DB_KEY` (for the source database) and `TARGET_DB_CACERT`, `TARGET_DB_CERT`, and `TARGET_DB_KEY` (for the target database) are internal to RDI, so you *must* use the values shown in the example above. You should only change the certificate paths when you create the `source-db-ssl` and `target-db-ssl` secrets.
 
 ## Deploy a pipeline
 
