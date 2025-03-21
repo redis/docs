@@ -10,9 +10,9 @@ categories:
 - kubernetes
 - clients
 description: Query for data based on vector embeddings
-linkTitle: Vector
+linkTitle: Vector search examples
 title: Vector search
-weight: 5
+weight: 6
 aliases: /develop/interact/search-and-query/query/vector-search
 ---
 
