@@ -89,7 +89,7 @@ When you create these secrets, ensure that all certificates and keys are in `PEM
 openssl pkcs8 -topk8 -inform PEM -outform DER -in /path/to/myclient.key -out /path/to/myclient.pk8 -nocrypt
 ```
 
-The above command assumes that the private key is not encrypted. For converting an encrypted private key, refer to the `openssl` documentation.
+This command assumes that the private key is not encrypted.  See the [`openssl` documentation](https://docs.openssl.org/master/) to learn how to convert an encrypted private key.
 
 The specific command lines for source secrets are as follows:
 
