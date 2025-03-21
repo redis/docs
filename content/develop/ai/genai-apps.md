@@ -6,7 +6,7 @@ categories:
 - docs
 - develop
 description: Understand key benefits of using Redis for AI.
-linktitle: GenAI apps
+linktitle: GenAI tutorials and demos
 weight: 20
 ---
 
