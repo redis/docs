@@ -45,17 +45,17 @@ each feature.
 | [Command argument handling](#command-argument-handling) | Argument objects flattened and items passed directly | Argument objects parsed to generate correct argument list |
 | [Asynchronous command result handling](#async-result) | Callbacks and Promises | Promises only |
 
-### Specific commands
-
-| Feature | `ioredis` | `node-redis` |
-| :-- | :-- | :-- |
-
-
 ### Techniques
 
 | Feature | `ioredis` | `node-redis` |
 | :-- | :-- | :-- |
 | [Pipelining](#pipelining) | Automatic, or with `pipeline()` command | Automatic, or with `multi()` command |
+
+### Specific commands
+
+| Command | `ioredis` | `node-redis` |
+| :-- | :-- | :-- |
+| [`SETNX`](#setnx-command) | Supported explicitly | Supported as an option for `SET` |
 
 ## Details
 
@@ -228,4 +228,21 @@ redis.multi()
     (err) => {
         // Handle errors.
     });
+```
+
+### `SETNX` command
+
+`ioredis` implements the  [`SETNX`]({{< relref "/commands/setnx" >}})
+command with an explicit method:
+
+```js
+client.setnx("bike:1", "bike");
+```
+
+`node-redis` doesn't provide a `SETNX` method but implements the same
+functionality with the `NX` option to the [`SET`]({{< relref "/commands/set" >}})
+command:
+
+```js
+await client.set("bike:1", "bike", {'NX': true});
 ```
