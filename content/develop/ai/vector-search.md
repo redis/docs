@@ -12,7 +12,7 @@ categories:
 description: Query for data based on vector embeddings
 linkTitle: Vector search examples
 title: Vector search
-weight: 6
+weight: 2
 aliases: /develop/interact/search-and-query/query/vector-search
 ---
 
