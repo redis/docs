@@ -9,7 +9,7 @@ type: integration
 
 <a id="semantic-session-manager-api"></a>
 
-### `*class* SemanticSessionManager(name, session_tag=None, prefix=None, vectorizer=None, distance_threshold=0.3, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, **kwargs)`
+### `class SemanticSessionManager(name, session_tag=None, prefix=None, vectorizer=None, distance_threshold=0.3, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, **kwargs)`
 
 Bases: `BaseSessionManager`
 
@@ -22,17 +22,17 @@ responses.
 
 * **Parameters:**
   * **name** (*str*) – The name of the session manager index.
-  * **session_tag** (*Optional* *[**str* *]*) – Tag to be added to entries to link to a specific
+  * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     session. Defaults to instance ULID.
-  * **prefix** (*Optional* *[**str* *]*) – Prefix for the keys for this session data.
+  * **prefix** (*Optional* *[* *str* *]*) – Prefix for the keys for this session data.
     Defaults to None and will be replaced with the index name.
-  * **vectorizer** (*Optional* *[**BaseVectorizer* *]*) – The vectorizer used to create embeddings.
+  * **vectorizer** (*Optional* *[* *BaseVectorizer* *]*) – The vectorizer used to create embeddings.
   * **distance_threshold** (*float*) – The maximum semantic distance to be
     included in the context. Defaults to 0.3.
-  * **redis_client** (*Optional* *[**Redis* *]*) – A Redis client instance. Defaults to
+  * **redis_client** (*Optional* *[* *Redis* *]*) – A Redis client instance. Defaults to
     None.
   * **redis_url** (*str* *,* *optional*) – The redis url. Defaults to redis://localhost:6379.
-  * **connection_kwargs** (*Dict* *[**str* *,* *Any* *]*) – The connection arguments
+  * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – The connection arguments
     for the redis client. Defaults to empty {}.
   * **overwrite** (*bool*) – Whether or not to force overwrite the schema for
     the semantic session index. Defaults to false.
@@ -47,8 +47,8 @@ A timestamp is associated with it so that it can be later sorted
 in sequential ordering after retrieval.
 
 * **Parameters:**
-  * **message** (*Dict* *[**str* *,**str* *]*) – The user prompt or LLM response.
-  * **session_tag** (*Optional* *[**str* *]*) – Tag to be added to entries to link to a specific
+  * **message** (*Dict* *[* *str* *,**str* *]*) – The user prompt or LLM response.
+  * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     session. Defaults to instance ULID.
 * **Return type:**
   None
@@ -60,8 +60,8 @@ A timestamp is associated with each so that they can be later sorted
 in sequential ordering after retrieval.
 
 * **Parameters:**
-  * **messages** (*List* *[**Dict* *[**str* *,* *str* *]* *]*) – The list of user prompts and LLM responses.
-  * **session_tag** (*Optional* *[**str* *]*) – Tag to be added to entries to link to a specific
+  * **messages** (*List* *[* *Dict* *[* *str* *,* *str* *]* *]*) – The list of user prompts and LLM responses.
+  * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     session. Defaults to instance ULID.
 * **Return type:**
   None
@@ -85,7 +85,7 @@ Clear all conversation keys and remove the search index.
 Remove a specific exchange from the conversation history.
 
 * **Parameters:**
-  **id** (*Optional* *[**str* *]*) – The id of the session entry to delete.
+  **id** (*Optional* *[* *str* *]*) – The id of the session entry to delete.
   If None then the last entry is deleted.
 * **Return type:**
   None
@@ -100,7 +100,7 @@ Retreive the recent conversation history in sequential order.
     or list of alternating prompts and responses.
   * **raw** (*bool*) – Whether to return the full Redis hash entry or just the
     prompt and response
-  * **session_tag** (*Optional* *[**str* *]*) – Tag to be added to entries to link to a specific
+  * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     session. Defaults to instance ULID.
 * **Returns:**
   A single string transcription of the session
@@ -125,9 +125,9 @@ context to the next LLM call.
   * **as_text** (*bool*) – Whether to return the prompts and responses as text
   * **JSON** (*or as*)
   * **top_k** (*int*) – The number of previous messages to return. Default is 5.
-  * **session_tag** (*Optional* *[**str* *]*) – Tag to be added to entries to link to a specific
+  * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     session. Defaults to instance ULID.
-  * **distance_threshold** (*Optional* *[**float* *]*) – The threshold for semantic
+  * **distance_threshold** (*Optional* *[* *float* *]*) – The threshold for semantic
     vector distance.
   * **fall_back** (*bool*) – Whether to drop back to recent conversation history
     if no relevant context is found.
@@ -150,12 +150,12 @@ in sequential ordering after retrieval.
 * **Parameters:**
   * **prompt** (*str*) – The user prompt to the LLM.
   * **response** (*str*) – The corresponding LLM response.
-  * **session_tag** (*Optional* *[**str* *]*) – Tag to be added to entries to link to a specific
+  * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     session. Defaults to instance ULID.
 * **Return type:**
   None
 
-#### `*property* messages *: List[str] | List[Dict[str, str]]*`
+#### `property messages: List[str] | List[Dict[str, str]]`
 
 Returns the full chat history.
 
@@ -163,7 +163,7 @@ Returns the full chat history.
 
 <a id="standard-session-manager-api"></a>
 
-### `*class* StandardSessionManager(name, session_tag=None, prefix=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, **kwargs)`
+### `class StandardSessionManager(name, session_tag=None, prefix=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, **kwargs)`
 
 Bases: `BaseSessionManager`
 
@@ -176,14 +176,14 @@ responses.
 
 * **Parameters:**
   * **name** (*str*) – The name of the session manager index.
-  * **session_tag** (*Optional* *[**str* *]*) – Tag to be added to entries to link to a specific
+  * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     session. Defaults to instance ULID.
-  * **prefix** (*Optional* *[**str* *]*) – Prefix for the keys for this session data.
+  * **prefix** (*Optional* *[* *str* *]*) – Prefix for the keys for this session data.
     Defaults to None and will be replaced with the index name.
-  * **redis_client** (*Optional* *[**Redis* *]*) – A Redis client instance. Defaults to
+  * **redis_client** (*Optional* *[* *Redis* *]*) – A Redis client instance. Defaults to
     None.
   * **redis_url** (*str* *,* *optional*) – The redis url. Defaults to redis://localhost:6379.
-  * **connection_kwargs** (*Dict* *[**str* *,* *Any* *]*) – The connection arguments
+  * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – The connection arguments
     for the redis client. Defaults to empty {}.
 
 The proposed schema will support a single combined vector embedding
@@ -196,8 +196,8 @@ A timestamp is associated with it so that it can be later sorted
 in sequential ordering after retrieval.
 
 * **Parameters:**
-  * **message** (*Dict* *[**str* *,**str* *]*) – The user prompt or LLM response.
-  * **session_tag** (*Optional* *[**str* *]*) – Tag to be added to entries to link to a specific
+  * **message** (*Dict* *[* *str* *,**str* *]*) – The user prompt or LLM response.
+  * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     session. Defaults to instance ULID.
 * **Return type:**
   None
@@ -209,8 +209,8 @@ A timestamp is associated with each so that they can be later sorted
 in sequential ordering after retrieval.
 
 * **Parameters:**
-  * **messages** (*List* *[**Dict* *[**str* *,* *str* *]* *]*) – The list of user prompts and LLM responses.
-  * **session_tag** (*Optional* *[**str* *]*) – Tag to be added to entries to link to a specific
+  * **messages** (*List* *[* *Dict* *[* *str* *,* *str* *]* *]*) – The list of user prompts and LLM responses.
+  * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     session. Defaults to instance ULID.
 * **Return type:**
   None
@@ -234,7 +234,7 @@ Clear all conversation keys and remove the search index.
 Remove a specific exchange from the conversation history.
 
 * **Parameters:**
-  **id** (*Optional* *[**str* *]*) – The id of the session entry to delete.
+  **id** (*Optional* *[* *str* *]*) – The id of the session entry to delete.
   If None then the last entry is deleted.
 * **Return type:**
   None
@@ -249,7 +249,7 @@ Retrieve the recent conversation history in sequential order.
     or list of alternating prompts and responses.
   * **raw** (*bool*) – Whether to return the full Redis hash entry or just the
     prompt and response
-  * **session_tag** (*Optional* *[**str* *]*) – Tag to be added to entries to link to a specific
+  * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     session. Defaults to instance ULID.
 * **Returns:**
   A single string transcription of the session
@@ -268,11 +268,11 @@ in sequential ordering after retrieval.
 * **Parameters:**
   * **prompt** (*str*) – The user prompt to the LLM.
   * **response** (*str*) – The corresponding LLM response.
-  * **session_tag** (*Optional* *[**str* *]*) – Tag to be added to entries to link to a specific
+  * **session_tag** (*Optional* *[* *str* *]*) – Tag to be added to entries to link to a specific
     session. Defaults to instance ULID.
 * **Return type:**
   None
 
-#### `*property* messages *: List[str] | List[Dict[str, str]]*`
+#### `property messages: List[str] | List[Dict[str, str]]`
 
 Returns the full chat history.

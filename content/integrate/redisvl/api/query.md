@@ -11,7 +11,7 @@ queries for different use cases. Each query class wraps the `redis-py` Query mod
 
 ## VectorQuery
 
-### `*class* VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False)`
+### `class VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False)`
 
 Bases: `BaseVectorQuery`, `BaseQuery`
 
@@ -19,12 +19,12 @@ A query for running a vector search along with an optional filter
 expression.
 
 * **Parameters:**
-  * **vector** (*List* *[**float* *]*) – The vector to perform the vector search with.
+  * **vector** (*List* *[* *float* *]*) – The vector to perform the vector search with.
   * **vector_field_name** (*str*) – The name of the vector field to search
     against in the database.
-  * **return_fields** (*List* *[**str* *]*) – The declared fields to return with search
+  * **return_fields** (*List* *[* *str* *]*) – The declared fields to return with search
     results.
-  * **filter_expression** (*Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
+  * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
     along with the vector search. Defaults to None.
   * **dtype** (*str* *,* *optional*) – The dtype of the vector. Defaults to
     “float32”.
@@ -34,7 +34,7 @@ expression.
     distance. Defaults to True.
   * **dialect** (*int* *,* *optional*) – The RediSearch query dialect.
     Defaults to 2.
-  * **sort_by** (*Optional* *[**str* *]*) – The field to order the results by. Defaults
+  * **sort_by** (*Optional* *[* *str* *]*) – The field to order the results by. Defaults
     to None. Results will be ordered by vector distance.
   * **in_order** (*bool*) – Requires the terms in the field to have
     the same order as the terms in the query filter, regardless of
@@ -94,7 +94,7 @@ Limit the search to specific TEXT fields only.
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[**str* *]*)
+  **fields** (*List* *[* *str* *]*)
 * **Return type:**
   *Query*
 
@@ -165,7 +165,7 @@ Default is TFIDF.
 Set the filter expression for the query.
 
 * **Parameters:**
-  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
+  **filter_expression** (*Optional* *[* *Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
   expression or query string to use on the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
@@ -224,11 +224,11 @@ Ask the engine to return document search scores.
 * **Return type:**
   *Query*
 
-#### `*property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*`
+#### `property filter: str | `[`FilterExpression`]({{< relref "filter/#filterexpression" >}})` `
 
 The filter expression for the query.
 
-#### `*property* params *: Dict[str, Any]*`
+#### `property params: Dict[str, Any]`
 
 Return the parameters for the query.
 
@@ -237,13 +237,13 @@ Return the parameters for the query.
 * **Return type:**
   Dict[str, Any]
 
-#### `*property* query *: BaseQuery*`
+#### `property query: BaseQuery`
 
 Return self as the query object.
 
 ## VectorRangeQuery
 
-### `*class* VectorRangeQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', distance_threshold=0.2, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False)`
+### `class VectorRangeQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', distance_threshold=0.2, num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False)`
 
 Bases: `BaseVectorQuery`, `BaseQuery`
 
@@ -251,12 +251,12 @@ A query for running a filtered vector search based on semantic
 distance threshold.
 
 * **Parameters:**
-  * **vector** (*List* *[**float* *]*) – The vector to perform the range query with.
+  * **vector** (*List* *[* *float* *]*) – The vector to perform the range query with.
   * **vector_field_name** (*str*) – The name of the vector field to search
     against in the database.
-  * **return_fields** (*List* *[**str* *]*) – The declared fields to return with search
+  * **return_fields** (*List* *[* *str* *]*) – The declared fields to return with search
     results.
-  * **filter_expression** (*Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
+  * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *,* *optional*) – A filter to apply
     along with the range query. Defaults to None.
   * **dtype** (*str* *,* *optional*) – The dtype of the vector. Defaults to
     “float32”.
@@ -269,7 +269,7 @@ distance threshold.
     distance. Defaults to True.
   * **dialect** (*int* *,* *optional*) – The RediSearch query dialect.
     Defaults to 2.
-  * **sort_by** (*Optional* *[**str* *]*) – The field to order the results by. Defaults
+  * **sort_by** (*Optional* *[* *str* *]*) – The field to order the results by. Defaults
     to None. Results will be ordered by vector distance.
   * **in_order** (*bool*) – Requires the terms in the field to have
     the same order as the terms in the query filter, regardless of
@@ -329,7 +329,7 @@ Limit the search to specific TEXT fields only.
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[**str* *]*)
+  **fields** (*List* *[* *str* *]*)
 * **Return type:**
   *Query*
 
@@ -407,7 +407,7 @@ Set the distance threshold for the query.
 Set the filter expression for the query.
 
 * **Parameters:**
-  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
+  **filter_expression** (*Optional* *[* *Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
   expression or query string to use on the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
@@ -466,7 +466,7 @@ Ask the engine to return document search scores.
 * **Return type:**
   *Query*
 
-#### `*property* distance_threshold *: float*`
+#### `property distance_threshold: float`
 
 Return the distance threshold for the query.
 
@@ -475,11 +475,11 @@ Return the distance threshold for the query.
 * **Return type:**
   float
 
-#### `*property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*`
+#### `property filter: str | `[`FilterExpression`]({{< relref "filter/#filterexpression" >}})` `
 
 The filter expression for the query.
 
-#### `*property* params *: Dict[str, Any]*`
+#### `property params: Dict[str, Any]`
 
 Return the parameters for the query.
 
@@ -488,27 +488,27 @@ Return the parameters for the query.
 * **Return type:**
   Dict[str, Any]
 
-#### `*property* query *: BaseQuery*`
+#### `property query: BaseQuery`
 
 Return self as the query object.
 
 ## FilterQuery
 
-### `*class* FilterQuery(filter_expression=None, return_fields=None, num_results=10, dialect=2, sort_by=None, in_order=False, params=None)`
+### `class FilterQuery(filter_expression=None, return_fields=None, num_results=10, dialect=2, sort_by=None, in_order=False, params=None)`
 
 Bases: `BaseQuery`
 
 A query for running a filtered search with a filter expression.
 
 * **Parameters:**
-  * **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]*) – The optional filter
+  * **filter_expression** (*Optional* *[* *Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]*) – The optional filter
     expression to query with. Defaults to ‘\*’.
-  * **return_fields** (*Optional* *[**List* *[**str* *]* *]* *,* *optional*) – The fields to return.
-  * **num_results** (*Optional* *[**int* *]* *,* *optional*) – The number of results to return. Defaults to 10.
+  * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]* *,* *optional*) – The fields to return.
+  * **num_results** (*Optional* *[* *int* *]* *,* *optional*) – The number of results to return. Defaults to 10.
   * **dialect** (*int* *,* *optional*) – The query dialect. Defaults to 2.
-  * **sort_by** (*Optional* *[**str* *]* *,* *optional*) – The field to order the results by. Defaults to None.
+  * **sort_by** (*Optional* *[* *str* *]* *,* *optional*) – The field to order the results by. Defaults to None.
   * **in_order** (*bool* *,* *optional*) – Requires the terms in the field to have the same order as the terms in the query filter. Defaults to False.
-  * **params** (*Optional* *[**Dict* *[**str* *,* *Any* *]* *]* *,* *optional*) – The parameters for the query. Defaults to None.
+  * **params** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]* *,* *optional*) – The parameters for the query. Defaults to None.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
@@ -561,7 +561,7 @@ Limit the search to specific TEXT fields only.
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[**str* *]*)
+  **fields** (*List* *[* *str* *]*)
 * **Return type:**
   *Query*
 
@@ -632,7 +632,7 @@ Default is TFIDF.
 Set the filter expression for the query.
 
 * **Parameters:**
-  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
+  **filter_expression** (*Optional* *[* *Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
   expression or query string to use on the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
@@ -691,29 +691,29 @@ Ask the engine to return document search scores.
 * **Return type:**
   *Query*
 
-#### `*property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*`
+#### `property filter: str | `[`FilterExpression`]({{< relref "filter/#filterexpression" >}})` `
 
 The filter expression for the query.
 
-#### `*property* params *: Dict[str, Any]*`
+#### `property params: Dict[str, Any]`
 
 Return the query parameters.
 
-#### `*property* query *: BaseQuery*`
+#### `property query: BaseQuery`
 
 Return self as the query object.
 
 ## CountQuery
 
-### `*class* CountQuery(filter_expression=None, dialect=2, params=None)`
+### `class CountQuery(filter_expression=None, dialect=2, params=None)`
 
 Bases: `BaseQuery`
 
 A query for a simple count operation provided some filter expression.
 
 * **Parameters:**
-  * **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]*) – The filter expression to query with. Defaults to None.
-  * **params** (*Optional* *[**Dict* *[**str* *,* *Any* *]* *]* *,* *optional*) – The parameters for the query. Defaults to None.
+  * **filter_expression** (*Optional* *[* *Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]*) – The filter expression to query with. Defaults to None.
+  * **params** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]* *,* *optional*) – The parameters for the query. Defaults to None.
   * **dialect** (*int*)
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
@@ -777,7 +777,7 @@ Limit the search to specific TEXT fields only.
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[**str* *]*)
+  **fields** (*List* *[* *str* *]*)
 * **Return type:**
   *Query*
 
@@ -848,7 +848,7 @@ Default is TFIDF.
 Set the filter expression for the query.
 
 * **Parameters:**
-  **filter_expression** (*Optional* *[**Union* *[**str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
+  **filter_expression** (*Optional* *[* *Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]* *]* *,* *optional*) – The filter
   expression or query string to use on the query.
 * **Raises:**
   **TypeError** – If filter_expression is not a valid FilterExpression or string.
@@ -907,14 +907,14 @@ Ask the engine to return document search scores.
 * **Return type:**
   *Query*
 
-#### `*property* filter *: str | [FilterExpression]({{< relref "filter/#filterexpression" >}})*`
+#### `property filter: str | `[`FilterExpression`]({{< relref "filter/#filterexpression" >}})` `
 
 The filter expression for the query.
 
-#### `*property* params *: Dict[str, Any]*`
+#### `property params: Dict[str, Any]`
 
 Return the query parameters.
 
-#### `*property* query *: BaseQuery*`
+#### `property query: BaseQuery`
 
 Return self as the query object.

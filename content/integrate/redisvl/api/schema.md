@@ -18,7 +18,7 @@ field configurations using the following three components:
 
 <a id="indexschema-api"></a>
 
-### `*class* IndexSchema(*, index, fields={}, version='0.1.0')`
+### `class IndexSchema(*, index, fields={}, version='0.1.0')`
 
 A schema definition for a search index in Redis, used in RedisVL for
 configuring index settings and organizing vector and metadata fields.
@@ -102,7 +102,7 @@ self is explicitly positional-only to allow self as a field name.
 
 * **Parameters:**
   * **index** (*IndexInfo*)
-  * **fields** (*Dict* *[**str* *,* *BaseField* *]*)
+  * **fields** (*Dict* *[* *str* *,* *BaseField* *]*)
   * **version** (*Literal* *[* *'0.1.0'* *]*)
 
 #### `add_field(field_inputs)`
@@ -114,7 +114,7 @@ This method allows for the addition of individual fields to the schema,
 providing flexibility in defining the structure of the index.
 
 * **Parameters:**
-  **field_inputs** (*Dict* *[**str* *,* *Any* *]*) – A field to add.
+  **field_inputs** (*Dict* *[* *str* *,* *Any* *]*) – A field to add.
 * **Raises:**
   **ValueError** – If the field name or type are not provided or if the name
       already exists within the schema.
@@ -143,7 +143,7 @@ This method allows dynamically adding new fields to the index schema. It
 processes a list of field definitions.
 
 * **Parameters:**
-  **fields** (*List* *[**Dict* *[**str* *,* *Any* *]* *]*) – A list of fields to add.
+  **fields** (*List* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – A list of fields to add.
 * **Raises:**
   **ValueError** – If a field with the same name already exists in the
       schema.
@@ -164,16 +164,16 @@ schema.add_fields([
 ])
 ```
 
-#### `*classmethod* from_dict(data)`
+#### `classmethod from_dict(data)`
 
 Create an IndexSchema from a dictionary.
 
 * **Parameters:**
-  **data** (*Dict* *[**str* *,* *Any* *]*) – The index schema data.
+  **data** (*Dict* *[* *str* *,* *Any* *]*) – The index schema data.
 * **Returns:**
   The index schema.
 * **Return type:**
-  [IndexSchema](#indexschema)
+  [indexschema](#indexschema)
 
 ```python
 from redisvl.schema import IndexSchema
@@ -201,7 +201,7 @@ schema = IndexSchema.from_dict({
 })
 ```
 
-#### `*classmethod* from_yaml(file_path)`
+#### `classmethod from_yaml(file_path)`
 
 Create an IndexSchema from a YAML file.
 
@@ -210,7 +210,7 @@ Create an IndexSchema from a YAML file.
 * **Returns:**
   The index schema.
 * **Return type:**
-  [IndexSchema](#indexschema)
+  [indexschema](#indexschema)
 
 ```python
 from redisvl.schema import IndexSchema
@@ -249,7 +249,7 @@ Write the index schema to a YAML file.
 * **Return type:**
   None
 
-#### `*property* field_names *: List[str]*`
+#### `property field_names: List[str]`
 
 A list of field names associated with the index schema.
 
@@ -258,19 +258,19 @@ A list of field names associated with the index schema.
 * **Return type:**
   List[str]
 
-#### `fields *: Dict[str, BaseField]*`
+#### `fields: Dict[str, BaseField]`
 
 Fields associated with the search index and their properties
 
-#### `index *: IndexInfo*`
+#### `index: IndexInfo`
 
 Details of the basic index configurations.
 
-#### `model_config *: ClassVar[ConfigDict]* *= {}*`
+#### `model_config: ClassVar[ConfigDict] = {}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
-#### `version *: Literal['0.1.0']*`
+#### `version: Literal['0.1.0']`
 
 Version of the underlying index schema.
 

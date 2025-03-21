@@ -9,7 +9,7 @@ type: integration
 
 ## FilterExpression
 
-### `*class* FilterExpression(_filter=None, operator=None, left=None, right=None)`
+### `class FilterExpression(_filter=None, operator=None, left=None, right=None)`
 
 A FilterExpression is a logical combination of filters in RedisVL.
 
@@ -51,12 +51,12 @@ built by combining filter statements using the & and | operators.
 * **Parameters:**
   * **\_filter** (*str* *|* *None*)
   * **operator** (*FilterOperator* *|* *None*)
-  * **left** ([*FilterExpression*](#filterexpression) *|* *None*)
-  * **right** ([*FilterExpression*](#filterexpression) *|* *None*)
+  * **left** ([filterexpression](#filterexpression) *|* *None*)
+  * **right** ([filterexpression](#filterexpression) *|* *None*)
 
 ## Tag
 
-### `*class* Tag(field)`
+### `class Tag(field)`
 
 A Tag filter can be applied to Tag fields
 
@@ -68,9 +68,9 @@ A Tag filter can be applied to Tag fields
 Create a Tag equality filter expression.
 
 * **Parameters:**
-  **other** (*Union* *[**List* *[**str* *]* *,* *str* *]*) – The tag(s) to filter on.
+  **other** (*Union* *[* *List* *[* *str* *]* *,* *str* *]*) – The tag(s) to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Tag
@@ -83,9 +83,9 @@ f = Tag("brand") == "nike"
 Create a Tag inequality filter expression.
 
 * **Parameters:**
-  **other** (*Union* *[**List* *[**str* *]* *,* *str* *]*) – The tag(s) to filter on.
+  **other** (*Union* *[* *List* *[* *str* *]* *,* *str* *]*) – The tag(s) to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Tag
@@ -101,7 +101,7 @@ Return the Redis Query string for the Tag filter
 
 ## Text
 
-### `*class* Text(field)`
+### `class Text(field)`
 
 A Text is a FilterField representing a text field in a Redis index.
 
@@ -116,7 +116,7 @@ filters that enforce an exact match on the supplied term(s).
 * **Parameters:**
   **other** (*str*) – The text value to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Text
@@ -134,7 +134,7 @@ term(s).
 * **Parameters:**
   **other** (*str*) – The text value to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Text
@@ -154,7 +154,7 @@ equality filter expression.
 * **Parameters:**
   **other** (*str*) – The text value to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Text
@@ -171,7 +171,7 @@ Return the Redis Query string for the Text filter
 
 ## Num
 
-### `*class* Num(field)`
+### `class Num(field)`
 
 A Num is a FilterField representing a numeric field in a Redis index.
 
@@ -185,7 +185,7 @@ Create a Numeric equality filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -199,7 +199,7 @@ Create a Numeric greater than or equal to filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -214,7 +214,7 @@ Create a Numeric greater than filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -229,7 +229,7 @@ Create a Numeric less than or equal to filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -244,7 +244,7 @@ Create a Numeric less than filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -259,7 +259,7 @@ Create a Numeric inequality filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -276,7 +276,7 @@ Return the Redis Query string for the Numeric filter
 
 ## Geo
 
-### `*class* Geo(field)`
+### `class Geo(field)`
 
 A Geo is a FilterField representing a geographic (lat/lon) field in a
 Redis index.
@@ -289,9 +289,9 @@ Redis index.
 Create a geographic filter within a specified GeoRadius.
 
 * **Parameters:**
-  **other** ([*GeoRadius*](#georadius)) – The geographic spec to filter on.
+  **other** ([georadius](#georadius)) – The geographic spec to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Geo, GeoRadius
@@ -304,9 +304,9 @@ f = Geo("location") == GeoRadius(-122.4194, 37.7749, 1, unit="m")
 Create a geographic filter outside of a specified GeoRadius.
 
 * **Parameters:**
-  **other** ([*GeoRadius*](#georadius)) – The geographic spec to filter on.
+  **other** ([georadius](#georadius)) – The geographic spec to filter on.
 * **Return type:**
-  [*FilterExpression*](#filterexpression)
+  [filterexpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Geo, GeoRadius
@@ -323,7 +323,7 @@ Return the Redis Query string for the Geo filter
 
 ## GeoRadius
 
-### `*class* GeoRadius(longitude, latitude, radius=1, unit='km')`
+### `class GeoRadius(longitude, latitude, radius=1, unit='km')`
 
 A GeoRadius is a GeoSpec representing a geographic radius.
 

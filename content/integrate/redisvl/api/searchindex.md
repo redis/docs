@@ -14,7 +14,7 @@ type: integration
 
 ## SearchIndex
 
-### `*class* SearchIndex(schema, redis_client=None, redis_url=None, connection_args={}, **kwargs)`
+### `class SearchIndex(schema, redis_client=None, redis_url=None, connection_args={}, **kwargs)`
 
 A search index class for interacting with Redis as a vector database.
 
@@ -45,11 +45,11 @@ kwargs.
 
 * **Parameters:**
   * **schema** ([*IndexSchema*]({{< relref "schema/#indexschema" >}})) – Index schema object.
-  * **redis_client** (*Optional* *[**redis.Redis* *]*) – An
+  * **redis_client** (*Optional* *[* *redis.Redis* *]*) – An
     instantiated redis client.
-  * **redis_url** (*Optional* *[**str* *]*) – The URL of the Redis server to
+  * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
-  * **connection_args** (*Dict* *[**str* *,* *Any* *]* *,* *optional*) – Redis client connection
+  * **connection_args** (*Dict* *[* *str* *,* *Any* *]* *,* *optional*) – Redis client connection
     args.
 
 #### `aggregate(*args, **kwargs)`
@@ -84,7 +84,7 @@ Note: Additional keyword arguments (\*\*kwargs) can be used to provide
 extra options specific to the Redis connection.
 
 * **Parameters:**
-  **redis_url** (*Optional* *[**str* *]* *,* *optional*) – The URL of the Redis server to
+  **redis_url** (*Optional* *[* *str* *]* *,* *optional*) – The URL of the Redis server to
   connect to. If not provided, the method defaults to using the
   REDIS_URL environment variable.
 * **Raises:**
@@ -143,7 +143,7 @@ Disconnect from the Redis database.
 Remove a specific entry or entries from the index by it’s key ID.
 
 * **Parameters:**
-  **keys** (*Union* *[**str* *,* *List* *[**str* *]* *]*) – The document ID or IDs to remove from the index.
+  **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
 * **Returns:**
   Count of records deleted from Redis.
 * **Return type:**
@@ -174,16 +174,16 @@ or derived from some domain-specific metadata combination
 * **Return type:**
   Dict[str, Any]
 
-#### `*classmethod* from_dict(schema_dict, **kwargs)`
+#### `classmethod from_dict(schema_dict, **kwargs)`
 
 Create a SearchIndex from a dictionary.
 
 * **Parameters:**
-  **schema_dict** (*Dict* *[**str* *,* *Any* *]*) – A dictionary containing the schema.
+  **schema_dict** (*Dict* *[* *str* *,* *Any* *]*) – A dictionary containing the schema.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [SearchIndex](#searchindex)
+  [searchindex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex
@@ -200,18 +200,18 @@ index = SearchIndex.from_dict({
 })
 ```
 
-#### `*classmethod* from_existing(name, redis_client=None, redis_url=None, **kwargs)`
+#### `classmethod from_existing(name, redis_client=None, redis_url=None, **kwargs)`
 
 Initialize from an existing search index in Redis by index name.
 
 * **Parameters:**
   * **name** (*str*) – Name of the search index in Redis.
-  * **redis_client** (*Optional* *[**redis.Redis* *]*) – An
+  * **redis_client** (*Optional* *[* *redis.Redis* *]*) – An
     instantiated redis client.
-  * **redis_url** (*Optional* *[**str* *]*) – The URL of the Redis server to
+  * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
 
-#### `*classmethod* from_yaml(schema_path, **kwargs)`
+#### `classmethod from_yaml(schema_path, **kwargs)`
 
 Create a SearchIndex from a YAML schema file.
 
@@ -220,7 +220,7 @@ Create a SearchIndex from a YAML schema file.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [SearchIndex](#searchindex)
+  [searchindex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex
@@ -276,17 +276,17 @@ optional preprocessing steps, and setting optional expiration
 (TTL policies) on keys.
 
 * **Parameters:**
-  * **data** (*Iterable* *[**Any* *]*) – An iterable of objects to store.
-  * **id_field** (*Optional* *[**str* *]* *,* *optional*) – Specified field used as the id
+  * **data** (*Iterable* *[* *Any* *]*) – An iterable of objects to store.
+  * **id_field** (*Optional* *[* *str* *]* *,* *optional*) – Specified field used as the id
     portion of the redis key (after the prefix) for each
     object. Defaults to None.
-  * **keys** (*Optional* *[**Iterable* *[**str* *]* *]* *,* *optional*) – Optional iterable of keys.
+  * **keys** (*Optional* *[* *Iterable* *[* *str* *]* *]* *,* *optional*) – Optional iterable of keys.
     Must match the length of objects if provided. Defaults to None.
-  * **ttl** (*Optional* *[**int* *]* *,* *optional*) – Time-to-live in seconds for each key.
+  * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – Time-to-live in seconds for each key.
     Defaults to None.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – A function to preprocess
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – A function to preprocess
     objects before storage. Defaults to None.
-  * **batch_size** (*Optional* *[**int* *]* *,* *optional*) – Number of objects to write in
+  * **batch_size** (*Optional* *[* *int* *]* *,* *optional*) – Number of objects to write in
     a single Redis pipeline execution. Defaults to class’s
     default batch size.
 * **Returns:**
@@ -411,25 +411,25 @@ index = SearchIndex.from_yaml("schemas/schema.yaml")
 index.set_client(client)
 ```
 
-#### `*property* client *: Redis | None*`
+#### `property client: Redis | None`
 
 The underlying redis-py client object.
 
-#### `*property* key_separator *: str*`
+#### `property key_separator: str`
 
 The optional separator between a defined prefix and key value in
 forming a Redis key.
 
-#### `*property* name *: str*`
+#### `property name: str`
 
 The name of the Redis search index.
 
-#### `*property* prefix *: str*`
+#### `property prefix: str`
 
 The optional key prefix that comes before a unique key value in
 forming a Redis key.
 
-#### `*property* storage_type *: StorageType*`
+#### `property storage_type: StorageType`
 
 The underlying storage type for the search index; either
 hash or json.
@@ -438,7 +438,7 @@ hash or json.
 
 ## AsyncSearchIndex
 
-### `*class* AsyncSearchIndex(schema, **kwargs)`
+### `class AsyncSearchIndex(schema, **kwargs)`
 
 A search index class for interacting with Redis as a vector database in
 async-mode.
@@ -468,10 +468,10 @@ Initialize the RedisVL async search index with a schema.
 
 * **Parameters:**
   * **schema** ([*IndexSchema*]({{< relref "schema/#indexschema" >}})) – Index schema object.
-  * **connection_args** (*Dict* *[**str* *,* *Any* *]* *,* *optional*) – Redis client connection
+  * **connection_args** (*Dict* *[* *str* *,* *Any* *]* *,* *optional*) – Redis client connection
     args.
 
-#### `*async* aggregate(*args, **kwargs)`
+#### `async aggregate(*args, **kwargs)`
 
 Perform an aggregation operation against the index.
 
@@ -484,7 +484,7 @@ to the redis-py ft().aggregate() method.
 * **Return type:**
   Result
 
-#### `*async* clear()`
+#### `async clear()`
 
 Clear all keys in Redis associated with the index, leaving the index
 available and in-place for future insertions or updates.
@@ -494,7 +494,7 @@ available and in-place for future insertions or updates.
 * **Return type:**
   int
 
-#### `*async* connect(redis_url=None, **kwargs)`
+#### `async connect(redis_url=None, **kwargs)`
 
 Connect to a Redis instance using the provided redis_url, falling
 back to the REDIS_URL environment variable (if available).
@@ -503,7 +503,7 @@ Note: Additional keyword arguments (\*\*kwargs) can be used to provide
 extra options specific to the Redis connection.
 
 * **Parameters:**
-  **redis_url** (*Optional* *[**str* *]* *,* *optional*) – The URL of the Redis server to
+  **redis_url** (*Optional* *[* *str* *]* *,* *optional*) – The URL of the Redis server to
   connect to. If not provided, the method defaults to using the
   REDIS_URL environment variable.
 * **Raises:**
@@ -516,7 +516,7 @@ extra options specific to the Redis connection.
 index.connect(redis_url="redis://localhost:6379")
 ```
 
-#### `*async* create(overwrite=False, drop=False)`
+#### `async create(overwrite=False, drop=False)`
 
 Asynchronously create an index in Redis with the current schema
 : and properties.
@@ -543,7 +543,7 @@ await index.create(overwrite=True)
 await index.create(overwrite=True, drop=True)
 ```
 
-#### `*async* delete(drop=True)`
+#### `async delete(drop=True)`
 
 Delete the search index.
 
@@ -557,18 +557,18 @@ Delete the search index.
 
 Disconnect and cleanup the underlying async redis connection.
 
-#### `*async* drop_keys(keys)`
+#### `async drop_keys(keys)`
 
 Remove a specific entry or entries from the index by it’s key ID.
 
 * **Parameters:**
-  **keys** (*Union* *[**str* *,* *List* *[**str* *]* *]*) – The document ID or IDs to remove from the index.
+  **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
 * **Returns:**
   Count of records deleted from Redis.
 * **Return type:**
   int
 
-#### `*async* exists()`
+#### `async exists()`
 
 Check if the index exists in Redis.
 
@@ -577,7 +577,7 @@ Check if the index exists in Redis.
 * **Return type:**
   bool
 
-#### `*async* fetch(id)`
+#### `async fetch(id)`
 
 Asynchronously etch an object from Redis by id. The id is typically
 either a unique identifier, or derived from some domain-specific
@@ -591,16 +591,16 @@ metadata combination (like a document id or chunk id).
 * **Return type:**
   Dict[str, Any]
 
-#### `*classmethod* from_dict(schema_dict, **kwargs)`
+#### `classmethod from_dict(schema_dict, **kwargs)`
 
 Create a SearchIndex from a dictionary.
 
 * **Parameters:**
-  **schema_dict** (*Dict* *[**str* *,* *Any* *]*) – A dictionary containing the schema.
+  **schema_dict** (*Dict* *[* *str* *,* *Any* *]*) – A dictionary containing the schema.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [SearchIndex](#searchindex)
+  [searchindex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex
@@ -617,18 +617,18 @@ index = SearchIndex.from_dict({
 })
 ```
 
-#### `*async classmethod* from_existing(name, redis_client=None, redis_url=None, **kwargs)`
+#### `async classmethod* from_existing(name, redis_client=None, redis_url=None, **kwargs)`
 
 Initialize from an existing search index in Redis by index name.
 
 * **Parameters:**
   * **name** (*str*) – Name of the search index in Redis.
-  * **redis_client** (*Optional* *[**redis.Redis* *]*) – An
+  * **redis_client** (*Optional* *[* *redis.Redis* *]*) – An
     instantiated redis client.
-  * **redis_url** (*Optional* *[**str* *]*) – The URL of the Redis server to
+  * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
 
-#### `*classmethod* from_yaml(schema_path, **kwargs)`
+#### `classmethod from_yaml(schema_path, **kwargs)`
 
 Create a SearchIndex from a YAML schema file.
 
@@ -637,7 +637,7 @@ Create a SearchIndex from a YAML schema file.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [SearchIndex](#searchindex)
+  [searchindex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex
@@ -645,7 +645,7 @@ from redisvl.index import SearchIndex
 index = SearchIndex.from_yaml("schemas/schema.yaml")
 ```
 
-#### `*async* info(name=None)`
+#### `async info(name=None)`
 
 Get information about the index.
 
@@ -674,7 +674,7 @@ id or chunk id).
 * **Return type:**
   str
 
-#### `*async* listall()`
+#### `async listall()`
 
 List all search indices in Redis database.
 
@@ -683,7 +683,7 @@ List all search indices in Redis database.
 * **Return type:**
   List[str]
 
-#### `*async* load(data, id_field=None, keys=None, ttl=None, preprocess=None, concurrency=None)`
+#### `async load(data, id_field=None, keys=None, ttl=None, preprocess=None, concurrency=None)`
 
 Asynchronously load objects to Redis with concurrency control.
 Returns the list of keys loaded to Redis.
@@ -693,17 +693,17 @@ optional preprocessing steps, and setting optional expiration
 (TTL policies) on keys.
 
 * **Parameters:**
-  * **data** (*Iterable* *[**Any* *]*) – An iterable of objects to store.
-  * **id_field** (*Optional* *[**str* *]* *,* *optional*) – Specified field used as the id
+  * **data** (*Iterable* *[* *Any* *]*) – An iterable of objects to store.
+  * **id_field** (*Optional* *[* *str* *]* *,* *optional*) – Specified field used as the id
     portion of the redis key (after the prefix) for each
     object. Defaults to None.
-  * **keys** (*Optional* *[**Iterable* *[**str* *]* *]* *,* *optional*) – Optional iterable of keys.
+  * **keys** (*Optional* *[* *Iterable* *[* *str* *]* *]* *,* *optional*) – Optional iterable of keys.
     Must match the length of objects if provided. Defaults to None.
-  * **ttl** (*Optional* *[**int* *]* *,* *optional*) – Time-to-live in seconds for each key.
+  * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – Time-to-live in seconds for each key.
     Defaults to None.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – An async function to
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – An async function to
     preprocess objects before storage. Defaults to None.
-  * **concurrency** (*Optional* *[**int* *]* *,* *optional*) – The maximum number of
+  * **concurrency** (*Optional* *[* *int* *]* *,* *optional*) – The maximum number of
     concurrent write operations. Defaults to class’s default
     concurrency level.
 * **Returns:**
@@ -733,7 +733,7 @@ async def add_field(d):
 keys = await index.load(data, preprocess=add_field)
 ```
 
-#### `*async* paginate(query, page_size=30)`
+#### `async paginate(query, page_size=30)`
 
 Execute a given query against the index and return results in
 paginated batches.
@@ -766,7 +766,7 @@ The page_size parameter controls the number of items each result
 batch contains. Adjust this value based on performance
 considerations and the expected volume of search results.
 
-#### `*async* query(query)`
+#### `async query(query)`
 
 Asynchronously execute a query on the index.
 
@@ -792,7 +792,7 @@ query = VectorQuery(
 results = await index.query(query)
 ```
 
-#### `*async* search(*args, **kwargs)`
+#### `async search(*args, **kwargs)`
 
 Perform a search on this index.
 
@@ -805,7 +805,7 @@ to the redis-py ft.search() method.
 * **Return type:**
   Result
 
-#### `*async* set_client(redis_client)`
+#### `async set_client(redis_client)`
 
 Manually set the Redis client to use with the search index.
 
@@ -829,25 +829,25 @@ index = AsyncSearchIndex.from_yaml("schemas/schema.yaml")
 await index.set_client(client)
 ```
 
-#### `*property* client *: Redis | None*`
+#### `property client: Redis | None`
 
 The underlying redis-py client object.
 
-#### `*property* key_separator *: str*`
+#### `property key_separator: str`
 
 The optional separator between a defined prefix and key value in
 forming a Redis key.
 
-#### `*property* name *: str*`
+#### `property name: str`
 
 The name of the Redis search index.
 
-#### `*property* prefix *: str*`
+#### `property prefix: str`
 
 The optional key prefix that comes before a unique key value in
 forming a Redis key.
 
-#### `*property* storage_type *: StorageType*`
+#### `property storage_type: StorageType`
 
 The underlying storage type for the search index; either
 hash or json.

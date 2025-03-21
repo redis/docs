@@ -9,7 +9,7 @@ type: integration
 
 <a id="semantic-cache-api"></a>
 
-### `*class* SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, **kwargs)`
+### `class SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, **kwargs)`
 
 Bases: `BaseLLMCache`
 
@@ -22,16 +22,16 @@ Semantic Cache for Large Language Models.
     Defaults to “llmcache”.
   * **distance_threshold** (*float* *,* *optional*) – Semantic threshold for the
     cache. Defaults to 0.1.
-  * **ttl** (*Optional* *[**int* *]* *,* *optional*) – The time-to-live for records cached
+  * **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The time-to-live for records cached
     in Redis. Defaults to None.
-  * **vectorizer** (*Optional* *[**BaseVectorizer* *]* *,* *optional*) – The vectorizer for the cache.
+  * **vectorizer** (*Optional* *[* *BaseVectorizer* *]* *,* *optional*) – The vectorizer for the cache.
     Defaults to HFTextVectorizer.
-  * **filterable_fields** (*Optional* *[**List* *[**Dict* *[**str* *,* *Any* *]* *]* *]*) – An optional list of RedisVL fields
+  * **filterable_fields** (*Optional* *[* *List* *[* *Dict* *[* *str* *,* *Any* *]* *]* *]*) – An optional list of RedisVL fields
     that can be used to customize cache retrieval with filters.
-  * **redis_client** (*Optional* *[**Redis* *]* *,* *optional*) – A redis client connection instance.
+  * **redis_client** (*Optional* *[* *Redis* *]* *,* *optional*) – A redis client connection instance.
     Defaults to None.
   * **redis_url** (*str* *,* *optional*) – The redis url. Defaults to redis://localhost:6379.
-  * **connection_kwargs** (*Dict* *[**str* *,* *Any* *]*) – The connection arguments
+  * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – The connection arguments
     for the redis client. Defaults to empty {}.
   * **overwrite** (*bool*) – Whether or not to force overwrite the schema for
     the semantic cache index. Defaults to false.
@@ -41,7 +41,7 @@ Semantic Cache for Large Language Models.
   * **ValueError** – If the threshold is not between 0 and 1.
   * **ValueError** – If existing schema does not match new schema and overwrite is False.
 
-#### `*async* acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)`
+#### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)`
 
 Async check the semantic cache for results similar to the specified prompt
 or vector.
@@ -52,19 +52,19 @@ input. It checks for semantically similar prompts and fetches the cached
 LLM responses.
 
 * **Parameters:**
-  * **prompt** (*Optional* *[**str* *]* *,* *optional*) – The text prompt to search for in
+  * **prompt** (*Optional* *[* *str* *]* *,* *optional*) – The text prompt to search for in
     the cache.
-  * **vector** (*Optional* *[**List* *[**float* *]* *]* *,* *optional*) – The vector representation
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]* *,* *optional*) – The vector representation
     of the prompt to search for in the cache.
   * **num_results** (*int* *,* *optional*) – The number of cached results to return.
     Defaults to 1.
-  * **return_fields** (*Optional* *[**List* *[**str* *]* *]* *,* *optional*) – The fields to include
+  * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]* *,* *optional*) – The fields to include
     in each returned result. If None, defaults to all available
     fields in the cached entry.
   * **filter_expression** (*Optional* *[*[*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]*) – Optional filter expression
     that can be used to filter cache results. Defaults to None and
     the full cache will be searched.
-  * **distance_threshold** (*Optional* *[**float* *]*) – The threshold for semantic
+  * **distance_threshold** (*Optional* *[* *float* *]*) – The threshold for semantic
     vector distance.
 * **Returns:**
   A list of dicts containing the requested
@@ -82,32 +82,32 @@ response = await cache.acheck(
 )
 ```
 
-#### `*async* adrop(ids=None, keys=None)`
+#### `async adrop(ids=None, keys=None)`
 
 Async expire specific entries from the cache by id or specific
 Redis key.
 
 * **Parameters:**
-  * **ids** (*Optional* *[**str* *]*) – The document ID or IDs to remove from the cache.
-  * **keys** (*Optional* *[**str* *]*) – The Redis keys to remove from the cache.
+  * **ids** (*Optional* *[* *str* *]*) – The document ID or IDs to remove from the cache.
+  * **keys** (*Optional* *[* *str* *]*) – The Redis keys to remove from the cache.
 * **Return type:**
   None
 
-#### `*async* astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
+#### `async astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
 
 Async stores the specified key-value pair in the cache along with metadata.
 
 * **Parameters:**
   * **prompt** (*str*) – The user prompt to cache.
   * **response** (*str*) – The LLM response to cache.
-  * **vector** (*Optional* *[**List* *[**float* *]* *]* *,* *optional*) – The prompt vector to
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]* *,* *optional*) – The prompt vector to
     cache. Defaults to None, and the prompt vector is generated on
     demand.
-  * **metadata** (*Optional* *[**Dict* *[**str* *,* *Any* *]* *]* *,* *optional*) – The optional metadata to cache
+  * **metadata** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]* *,* *optional*) – The optional metadata to cache
     alongside the prompt and response. Defaults to None.
-  * **filters** (*Optional* *[**Dict* *[**str* *,* *Any* *]* *]*) – The optional tag to assign to the cache entry.
+  * **filters** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – The optional tag to assign to the cache entry.
     Defaults to None.
-  * **ttl** (*Optional* *[**int* *]*) – The optional TTL override to use on this individual cache
+  * **ttl** (*Optional* *[* *int* *]*) – The optional TTL override to use on this individual cache
     entry. Defaults to the global TTL setting.
 * **Returns:**
   The Redis key for the entries added to the semantic cache.
@@ -126,7 +126,7 @@ key = await cache.astore(
 )
 ```
 
-#### `*async* aupdate(key, **kwargs)`
+#### `async aupdate(key, **kwargs)`
 
 Async update specific fields within an existing cache entry. If no fields
 are passed, then only the document TTL is refreshed.
@@ -158,19 +158,19 @@ input. It checks for semantically similar prompts and fetches the cached
 LLM responses.
 
 * **Parameters:**
-  * **prompt** (*Optional* *[**str* *]* *,* *optional*) – The text prompt to search for in
+  * **prompt** (*Optional* *[* *str* *]* *,* *optional*) – The text prompt to search for in
     the cache.
-  * **vector** (*Optional* *[**List* *[**float* *]* *]* *,* *optional*) – The vector representation
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]* *,* *optional*) – The vector representation
     of the prompt to search for in the cache.
   * **num_results** (*int* *,* *optional*) – The number of cached results to return.
     Defaults to 1.
-  * **return_fields** (*Optional* *[**List* *[**str* *]* *]* *,* *optional*) – The fields to include
+  * **return_fields** (*Optional* *[* *List* *[* *str* *]* *]* *,* *optional*) – The fields to include
     in each returned result. If None, defaults to all available
     fields in the cached entry.
   * **filter_expression** (*Optional* *[*[*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]*) – Optional filter expression
     that can be used to filter cache results. Defaults to None and
     the full cache will be searched.
-  * **distance_threshold** (*Optional* *[**float* *]*) – The threshold for semantic
+  * **distance_threshold** (*Optional* *[* *float* *]*) – The threshold for semantic
     vector distance.
 * **Returns:**
   A list of dicts containing the requested
@@ -209,8 +209,8 @@ Manually expire specific entries from the cache by id or specific
 Redis key.
 
 * **Parameters:**
-  * **ids** (*Optional* *[**str* *]*) – The document ID or IDs to remove from the cache.
-  * **keys** (*Optional* *[**str* *]*) – The Redis keys to remove from the cache.
+  * **ids** (*Optional* *[* *str* *]*) – The document ID or IDs to remove from the cache.
+  * **keys** (*Optional* *[* *str* *]*) – The Redis keys to remove from the cache.
 * **Return type:**
   None
 
@@ -231,7 +231,7 @@ Sets the semantic distance threshold for the cache.
 Set the default TTL, in seconds, for entries in the cache.
 
 * **Parameters:**
-  **ttl** (*Optional* *[**int* *]* *,* *optional*) – The optional time-to-live expiration
+  **ttl** (*Optional* *[* *int* *]* *,* *optional*) – The optional time-to-live expiration
   for the cache, in seconds.
 * **Raises:**
   **ValueError** – If the time-to-live value is not an integer.
@@ -243,14 +243,14 @@ Stores the specified key-value pair in the cache along with metadata.
 * **Parameters:**
   * **prompt** (*str*) – The user prompt to cache.
   * **response** (*str*) – The LLM response to cache.
-  * **vector** (*Optional* *[**List* *[**float* *]* *]* *,* *optional*) – The prompt vector to
+  * **vector** (*Optional* *[* *List* *[* *float* *]* *]* *,* *optional*) – The prompt vector to
     cache. Defaults to None, and the prompt vector is generated on
     demand.
-  * **metadata** (*Optional* *[**Dict* *[**str* *,* *Any* *]* *]* *,* *optional*) – The optional metadata to cache
+  * **metadata** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]* *,* *optional*) – The optional metadata to cache
     alongside the prompt and response. Defaults to None.
-  * **filters** (*Optional* *[**Dict* *[**str* *,* *Any* *]* *]*) – The optional tag to assign to the cache entry.
+  * **filters** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – The optional tag to assign to the cache entry.
     Defaults to None.
-  * **ttl** (*Optional* *[**int* *]*) – The optional TTL override to use on this individual cache
+  * **ttl** (*Optional* *[* *int* *]*) – The optional TTL override to use on this individual cache
     entry. Defaults to the global TTL setting.
 * **Returns:**
   The Redis key for the entries added to the semantic cache.
@@ -288,7 +288,7 @@ cache.update(key, metadata={"hit_count": 1, "model_name": "Llama-2-7b"})
 )
 ```
 
-#### `*property* aindex *: [AsyncSearchIndex]({{< relref "searchindex/#asyncsearchindex" >}}) | None*`
+#### `property aindex: `[`AsyncSearchIndex`]({{< relref "searchindex/#asyncsearchindex" >}})`  | None`
 
 The underlying AsyncSearchIndex for the cache.
 
@@ -297,7 +297,7 @@ The underlying AsyncSearchIndex for the cache.
 * **Return type:**
   [AsyncSearchIndex]({{< relref "searchindex/#asyncsearchindex" >}})
 
-#### `*property* distance_threshold *: float*`
+#### `property distance_threshold: float`
 
 The semantic distance threshold for the cache.
 
@@ -306,7 +306,7 @@ The semantic distance threshold for the cache.
 * **Return type:**
   float
 
-#### `*property* index *: [SearchIndex]({{< relref "searchindex/#searchindex" >}})*`
+#### `property index: `[`SearchIndex`]({{< relref "searchindex/#searchindex" >}})` `
 
 The underlying SearchIndex for the cache.
 
@@ -315,6 +315,6 @@ The underlying SearchIndex for the cache.
 * **Return type:**
   [SearchIndex]({{< relref "searchindex/#searchindex" >}})
 
-#### `*property* ttl *: int | None*`
+#### `property ttl: int | None`
 
 The default TTL, in seconds, for entries in the cache.

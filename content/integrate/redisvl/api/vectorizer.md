@@ -9,7 +9,7 @@ type: integration
 
 <a id="hftextvectorizer-api"></a>
 
-### `*class* HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2', dtype='float32', *, dims=None)`
+### `class HFTextVectorizer(model='sentence-transformers/all-mpnet-base-v2', dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -56,7 +56,7 @@ Embed a chunk of text using the Hugging Face sentence transformer.
 
 * **Parameters:**
   * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing
     callable to perform before vectorization. Defaults to None.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
@@ -73,8 +73,8 @@ Asynchronously embed many chunks of texts using the Hugging Face
 sentence transformer.
 
 * **Parameters:**
-  * **texts** (*List* *[**str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing
+  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing
     callable to perform before vectorization. Defaults to None.
   * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
     embeddings. Defaults to 10.
@@ -99,7 +99,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### `model_config *: ClassVar[ConfigDict]* *= {}*`
+#### `model_config: ClassVar[ConfigDict] = {}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -107,7 +107,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="openaitextvectorizer-api"></a>
 
-### `*class* OpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', *, dims=None)`
+### `class OpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -145,7 +145,7 @@ Initialize the OpenAI vectorizer.
 * **Parameters:**
   * **model** (*str*) – Model to use for embedding. Defaults to
     ‘text-embedding-ada-002’.
-  * **api_config** (*Optional* *[**Dict* *]* *,* *optional*) – Dictionary containing the
+  * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the
     API key and any additional OpenAI API options. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
@@ -162,7 +162,7 @@ Asynchronously embed a chunk of text using the OpenAI API.
 
 * **Parameters:**
   * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
@@ -178,8 +178,8 @@ Asynchronously embed a chunk of text using the OpenAI API.
 Asynchronously embed many chunks of texts using the OpenAI API.
 
 * **Parameters:**
-  * **texts** (*List* *[**str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
     embeddings. Defaults to 10.
@@ -198,7 +198,7 @@ Embed a chunk of text using the OpenAI API.
 
 * **Parameters:**
   * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
@@ -214,8 +214,8 @@ Embed a chunk of text using the OpenAI API.
 Embed many chunks of texts using the OpenAI API.
 
 * **Parameters:**
-  * **texts** (*List* *[**str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing
+  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing
     callable to perform before vectorization. Defaults to None.
   * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
     embeddings. Defaults to 10.
@@ -240,7 +240,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### `model_config *: ClassVar[ConfigDict]* *= {}*`
+#### `model_config: ClassVar[ConfigDict] = {}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -248,7 +248,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="azureopenaitextvectorizer-api"></a>
 
-### `*class* AzureOpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', *, dims=None)`
+### `class AzureOpenAITextVectorizer(model='text-embedding-ada-002', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -292,7 +292,7 @@ Initialize the AzureOpenAI vectorizer.
   * **model** (*str*) – Deployment to use for embedding. Must be the
     ‘Deployment name’ not the ‘Model name’. Defaults to
     ‘text-embedding-ada-002’.
-  * **api_config** (*Optional* *[**Dict* *]* *,* *optional*) – Dictionary containing the
+  * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the
     API key, API version, Azure endpoint, and any other API options.
     Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
@@ -310,7 +310,7 @@ Asynchronously embed a chunk of text using the OpenAI API.
 
 * **Parameters:**
   * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
@@ -326,8 +326,8 @@ Asynchronously embed a chunk of text using the OpenAI API.
 Asynchronously embed many chunks of texts using the AzureOpenAI API.
 
 * **Parameters:**
-  * **texts** (*List* *[**str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
     embeddings. Defaults to 10.
@@ -346,7 +346,7 @@ Embed a chunk of text using the AzureOpenAI API.
 
 * **Parameters:**
   * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
@@ -362,8 +362,8 @@ Embed a chunk of text using the AzureOpenAI API.
 Embed many chunks of texts using the AzureOpenAI API.
 
 * **Parameters:**
-  * **texts** (*List* *[**str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing
+  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing
     callable to perform before vectorization. Defaults to None.
   * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
     embeddings. Defaults to 10.
@@ -388,7 +388,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### `model_config *: ClassVar[ConfigDict]* *= {}*`
+#### `model_config: ClassVar[ConfigDict] = {}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -396,7 +396,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="vertexaitextvectorizer-api"></a>
 
-### `*class* VertexAITextVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', *, dims=None)`
+### `class VertexAITextVectorizer(model='textembedding-gecko', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -435,7 +435,7 @@ Initialize the VertexAI vectorizer.
 * **Parameters:**
   * **model** (*str*) – Model to use for embedding. Defaults to
     ‘textembedding-gecko’.
-  * **api_config** (*Optional* *[**Dict* *]* *,* *optional*) – Dictionary containing the
+  * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the
     API config details. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
@@ -452,7 +452,7 @@ Embed a chunk of text using the VertexAI API.
 
 * **Parameters:**
   * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
@@ -468,8 +468,8 @@ Embed a chunk of text using the VertexAI API.
 Embed many chunks of texts using the VertexAI API.
 
 * **Parameters:**
-  * **texts** (*List* *[**str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
     embeddings. Defaults to 10.
@@ -494,7 +494,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### `model_config *: ClassVar[ConfigDict]* *= {}*`
+#### `model_config: ClassVar[ConfigDict] = {}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -502,7 +502,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="coheretextvectorizer-api"></a>
 
-### `*class* CohereTextVectorizer(model='embed-english-v3.0', api_config=None, dtype='float32', *, dims=None)`
+### `class CohereTextVectorizer(model='embed-english-v3.0', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -542,7 +542,7 @@ Visit [https://cohere.ai/embed](https://cohere.ai/embed) to learn about embeddin
 
 * **Parameters:**
   * **model** (*str*) – Model to use for embedding. Defaults to ‘embed-english-v3.0’.
-  * **api_config** (*Optional* *[**Dict* *]* *,* *optional*) – Dictionary containing the API key.
+  * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the API key.
     Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
@@ -575,7 +575,7 @@ task downstream, you should set input_type= “classification” or
 
 * **Parameters:**
   * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
@@ -609,8 +609,8 @@ task downstream, you should set input_type= “classification” or
 “clustering”.
 
 * **Parameters:**
-  * **texts** (*List* *[**str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
     embeddings. Defaults to 10.
@@ -637,7 +637,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### `model_config *: ClassVar[ConfigDict]* *= {}*`
+#### `model_config: ClassVar[ConfigDict] = {}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -645,7 +645,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="bedrocktextvectorizer-api"></a>
 
-### `*class* BedrockTextVectorizer(model='amazon.titan-embed-text-v2:0', api_config=None, dtype='float32', *, dims=None)`
+### `class BedrockTextVectorizer(model='amazon.titan-embed-text-v2:0', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -685,7 +685,7 @@ Initialize the AWS Bedrock Vectorizer.
 
 * **Parameters:**
   * **model** (*str*) – The Bedrock model ID to use. Defaults to amazon.titan-embed-text-v2:0
-  * **api_config** (*Optional* *[**Dict* *[**str* *,* *str* *]* *]*) – AWS credentials and config.
+  * **api_config** (*Optional* *[* *Dict* *[* *str* *,* *str* *]* *]*) – AWS credentials and config.
     Can include: aws_access_key_id, aws_secret_access_key, aws_region
     If not provided, will use environment variables.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
@@ -703,7 +703,7 @@ Embed a chunk of text using Amazon Bedrock.
 
 * **Parameters:**
   * **text** (*str*) – Text to embed.
-  * **preprocess** (*Optional* *[**Callable* *]*) – Optional preprocessing function.
+  * **preprocess** (*Optional* *[* *Callable* *]*) – Optional preprocessing function.
   * **as_buffer** (*bool*) – Whether to return as byte buffer.
 * **Returns:**
   The embedding vector.
@@ -717,8 +717,8 @@ Embed a chunk of text using Amazon Bedrock.
 Embed multiple texts using Amazon Bedrock.
 
 * **Parameters:**
-  * **texts** (*List* *[**str* *]*) – List of texts to embed.
-  * **preprocess** (*Optional* *[**Callable* *]*) – Optional preprocessing function.
+  * **texts** (*List* *[* *str* *]*) – List of texts to embed.
+  * **preprocess** (*Optional* *[* *Callable* *]*) – Optional preprocessing function.
   * **batch_size** (*int*) – Size of batches for processing.
   * **as_buffer** (*bool*) – Whether to return as byte buffers.
 * **Returns:**
@@ -740,7 +740,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### `model_config *: ClassVar[ConfigDict]* *= {}*`
+#### `model_config: ClassVar[ConfigDict] = {}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -748,7 +748,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="customtextvectorizer-api"></a>
 
-### `*class* CustomTextVectorizer(embed, embed_many=None, aembed=None, aembed_many=None, dtype='float32')`
+### `class CustomTextVectorizer(embed, embed_many=None, aembed=None, aembed_many=None, dtype='float32')`
 
 Bases: `BaseVectorizer`
 
@@ -779,9 +779,9 @@ Initialize the Custom vectorizer.
 
 * **Parameters:**
   * **embed** (*Callable*) – a Callable function that accepts a string object and returns a list of floats.
-  * **embed_many** (*Optional* *[**Callable*) – a Callable function that accepts a list of string objects and returns a list containing lists of floats. Defaults to None.
-  * **aembed** (*Optional* *[**Callable* *]*) – an asyncronous Callable function that accepts a string object and returns a lists of floats. Defaults to None.
-  * **aembed_many** (*Optional* *[**Callable* *]*) – an asyncronous Callable function that accepts a list of string objects and returns a list containing lists of floats. Defaults to None.
+  * **embed_many** (*Optional* *[* *Callable*) – a Callable function that accepts a list of string objects and returns a list containing lists of floats. Defaults to None.
+  * **aembed** (*Optional* *[* *Callable* *]*) – an asyncronous Callable function that accepts a string object and returns a lists of floats. Defaults to None.
+  * **aembed_many** (*Optional* *[* *Callable* *]*) – an asyncronous Callable function that accepts a list of string objects and returns a list containing lists of floats. Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
     Defaults to ‘float32’.
@@ -794,7 +794,7 @@ Generate an embedding for a single piece of text using your sync embed function.
 
 * **Parameters:**
   * **text** (*str*) – The text to embed.
-  * **preprocess** (*Optional* *[**Callable* *]*) – An optional callable to preprocess the text.
+  * **preprocess** (*Optional* *[* *Callable* *]*) – An optional callable to preprocess the text.
   * **as_buffer** (*bool*) – If True, return the embedding as a byte buffer.
 * **Returns:**
   The embedding of the input text.
@@ -808,8 +808,8 @@ Generate an embedding for a single piece of text using your sync embed function.
 Generate embeddings for multiple pieces of text in batches using your sync embed_many function.
 
 * **Parameters:**
-  * **texts** (*List* *[**str* *]*) – A list of texts to embed.
-  * **preprocess** (*Optional* *[**Callable* *]*) – Optional preprocessing for each text.
+  * **texts** (*List* *[* *str* *]*) – A list of texts to embed.
+  * **preprocess** (*Optional* *[* *Callable* *]*) – Optional preprocessing for each text.
   * **batch_size** (*int*) – Number of texts per batch.
   * **as_buffer** (*bool*) – If True, convert each embedding to a byte buffer.
 * **Returns:**
@@ -832,7 +832,7 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### `model_config *: ClassVar[ConfigDict]* *= {}*`
+#### `model_config: ClassVar[ConfigDict] = {}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
 
@@ -840,7 +840,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 <a id="voyageaitextvectorizer-api"></a>
 
-### `*class* VoyageAITextVectorizer(model='voyage-large-2', api_config=None, dtype='float32', *, dims=None)`
+### `class VoyageAITextVectorizer(model='voyage-large-2', api_config=None, dtype='float32', *, dims=None)`
 
 Bases: `BaseVectorizer`
 
@@ -880,7 +880,7 @@ Visit [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs
 
 * **Parameters:**
   * **model** (*str*) – Model to use for embedding. Defaults to “voyage-large-2”.
-  * **api_config** (*Optional* *[**Dict* *]* *,* *optional*) – Dictionary containing the API key.
+  * **api_config** (*Optional* *[* *Dict* *]* *,* *optional*) – Dictionary containing the API key.
     Defaults to None.
   * **dtype** (*str*) – the default datatype to use when embedding text as byte arrays.
     Used when setting as_buffer=True in calls to embed() and embed_many().
@@ -907,7 +907,7 @@ querying the database, you should set the input_type=”query”.
 
 * **Parameters:**
   * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
@@ -937,8 +937,8 @@ should be embedded with input_type=”document” and when you are
 querying the database, you should set the input_type=”query”.
 
 * **Parameters:**
-  * **texts** (*List* *[**str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
     embeddings. .
@@ -971,7 +971,7 @@ querying the database, you should set the input_type=”query”.
 
 * **Parameters:**
   * **text** (*str*) – Chunk of text to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **as_buffer** (*bool* *,* *optional*) – Whether to convert the raw embedding
     to a byte string. Defaults to False.
@@ -1001,8 +1001,8 @@ should be embedded with input_type=”document” and when you are
 querying the database, you should set the input_type=”query”.
 
 * **Parameters:**
-  * **texts** (*List* *[**str* *]*) – List of text chunks to embed.
-  * **preprocess** (*Optional* *[**Callable* *]* *,* *optional*) – Optional preprocessing callable to
+  * **texts** (*List* *[* *str* *]*) – List of text chunks to embed.
+  * **preprocess** (*Optional* *[* *Callable* *]* *,* *optional*) – Optional preprocessing callable to
     perform before vectorization. Defaults to None.
   * **batch_size** (*int* *,* *optional*) – Batch size of texts to use when creating
     embeddings. .
@@ -1030,6 +1030,6 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 * **Return type:**
   None
 
-#### `model_config *: ClassVar[ConfigDict]* *= {}*`
+#### `model_config: ClassVar[ConfigDict] = {}`
 
 Configuration for the model, should be a dictionary conforming to [ConfigDict][pydantic.config.ConfigDict].
