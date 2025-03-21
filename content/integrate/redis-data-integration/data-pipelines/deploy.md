@@ -75,7 +75,7 @@ kubectl create secret generic <DB> \
 
 Where `<DB>` is either `source-db` for source secrets or `target-db` for target secrets.
 
-If you use TLS or mTLS for either the source or target databases, you also need to create the `source-db-ssl` and / or `target-db-ssl` K8s secrets that contain the actual certificates used to establish secure connections. The general pattern of the commands is:
+If you use TLS or mTLS for either the source or target databases, you also need to create the `source-db-ssl` and/or `target-db-ssl` K8s secrets that contain the certificates used to establish secure connections. The general pattern of the commands is:
 
 ```bash
 kubectl create secret generic <DB>-ssl \
