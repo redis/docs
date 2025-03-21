@@ -13,7 +13,7 @@ description: Understand how to use Redis as a vector database
 linkTitle: Vector database quick start
 stack: true
 title: Redis as a vector database quick start guide
-weight: 3
+weight: 1
 aliases: /develop/get-started/vector-database
 ---
 
