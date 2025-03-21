@@ -179,9 +179,9 @@ You can require [**TLS**]({{< relref "/operate/rs/security/encryption/tls/" >}})
 
 ### Alerts
 
-Select [alerts]({{<relref "/operate/rs/clusters/monitoring#database-alerts">}}) to show in the database status and configure their thresholds.
+Select [alerts]({{<relref "/operate/rs/monitoring/v1_monitoring#database-alerts">}}) to show in the database status and configure their thresholds.
 
-You can also choose to [send alerts by email]({{<relref "/operate/rs/clusters/monitoring#send-alerts-by-email">}}) to relevant users.
+You can also choose to [send alerts by email]({{<relref "/operate/rs/monitoring/v1_monitoring#send-alerts-by-email">}}) to relevant users.
 
 ### Replica Of
 

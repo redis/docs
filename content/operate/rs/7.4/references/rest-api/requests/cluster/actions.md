@@ -35,7 +35,7 @@ Get the status of all currently executing, queued, or completed cluster actions.
 
 #### Example HTTP request
 
-    GET /cluster/actions
+    GET /v1/cluster/actions
 
 ### Response {#get-all-response} 
 
@@ -78,7 +78,7 @@ Get the status of a currently executing, queued, or completed cluster action.
 
 #### Example HTTP request
 
-    GET /cluster/actions/action_name
+    GET /v1/cluster/actions/action_name
 
 #### URL parameters
 
@@ -131,7 +131,7 @@ removed as soon as the new one is submitted.
 
 #### Example HTTP request
 
-    POST /cluster/actions/action_name
+    POST /v1/cluster/actions/action_name
 
 #### URL parameters
 

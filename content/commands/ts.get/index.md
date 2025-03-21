@@ -134,7 +134,7 @@ Get the latest maximum daily temperature (the temperature with the highest times
   
 ## See also
 
-[`TS.MGET`]({{< baseurl >}}commands/ts.mget/)  
+[`TS.MGET`]({{< relref "commands/ts.mget/" >}})  
 
 ## Related topics
 

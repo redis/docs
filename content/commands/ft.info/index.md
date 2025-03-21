@@ -35,7 +35,7 @@ Returns information and statistics about a given index.
 
 `index`
 <br />
-is the name of the given index. You must first create the index using [`FT.CREATE`]({{< baseurl >}}commands/ft.create/).
+is the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
 
 ## RESP reply
 
@@ -354,7 +354,7 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 
 ## See also
 
-[`FT.CREATE`]({{< baseurl >}}commands/ft.create/) | [`FT.SEARCH`]({{< baseurl >}}commands/ft.search/)
+[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
 
 ## Related topics
 

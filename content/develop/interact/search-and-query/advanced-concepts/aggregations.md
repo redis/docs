@@ -482,12 +482,12 @@ FT.CURSOR READ {idx} {cid} [COUNT {read size}]
 FT.CURSOR DEL {idx} {cid}
 ```
 
-You can use cursors with [`FT.AGGREGATE`]({{< baseurl >}}commands/ft.aggregate/), with the `WITHCURSOR` keyword. Cursors allow you to
+You can use cursors with [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}), with the `WITHCURSOR` keyword. Cursors allow you to
 consume only part of the response, allowing you to fetch additional results as needed.
 This is much quicker than using `LIMIT` with offset, since the query is executed only
 once, and its state is stored on the server.
 
-To use cursors, specify the `WITHCURSOR` keyword in [`FT.AGGREGATE`]({{< baseurl >}}commands/ft.aggregate/). For example:
+To use cursors, specify the `WITHCURSOR` keyword in [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}). For example:
 
 ```
 FT.AGGREGATE idx * WITHCURSOR
@@ -495,16 +495,16 @@ FT.AGGREGATE idx * WITHCURSOR
 
 This will return a response of an array with two elements. The first element is
 the actual (partial) result, and the second is the cursor ID. The cursor ID
-can then be fed to [`FT.CURSOR READ`]({{< baseurl >}}commands/ft.cursor-read/) repeatedly until the cursor ID is 0, in
+can then be fed to [`FT.CURSOR READ`]({{< relref "commands/ft.cursor-read/" >}}) repeatedly until the cursor ID is 0, in
 which case all results have been returned.
 
-To read from an existing cursor, use [`FT.CURSOR READ`]({{< baseurl >}}commands/ft.cursor-read/). For example:
+To read from an existing cursor, use [`FT.CURSOR READ`]({{< relref "commands/ft.cursor-read/" >}}). For example:
 
 ```
 FT.CURSOR READ idx 342459320
 ```
 
-Assuming `342459320` is the cursor ID returned from the [`FT.AGGREGATE`]({{< baseurl >}}commands/ft.aggregate/) request, here is an example in pseudo-code:
+Assuming `342459320` is the cursor ID returned from the [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) request, here is an example in pseudo-code:
 
 ```
 response, cursor = FT.AGGREGATE "idx" "redis" "WITHCURSOR";
@@ -524,8 +524,8 @@ Note that even if the cursor is 0, a partial result may still be returned.
 #### Read size
 
 You can control how many rows are read for each cursor fetch by using the
-`COUNT` parameter. This parameter can be specified both in [`FT.AGGREGATE`]({{< baseurl >}}commands/ft.aggregate/)
-(immediately after `WITHCURSOR`) or in [`FT.CURSOR READ`]({{< baseurl >}}commands/ft.cursor-read/).
+`COUNT` parameter. This parameter can be specified both in [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}})
+(immediately after `WITHCURSOR`) or in [`FT.CURSOR READ`]({{< relref "commands/ft.cursor-read/" >}}).
 
 The following example will read 10 rows at a time:
 ```

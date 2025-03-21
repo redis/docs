@@ -36,7 +36,7 @@ Get statistics for all peer instances of a local CRDB instance.
 #### Example HTTP request
 
 ```sh
-GET /bdbs/1/peer_stats?interval=5min
+GET /v1/bdbs/1/peer_stats?interval=5min
 ```
 
 #### Headers
@@ -128,7 +128,7 @@ Get statistics for a specific CRDB peer instance.
 #### Example HTTP request
 
 ```sh
-GET /bdbs/1/peer_stats/3?interval=5min
+GET /v1/bdbs/1/peer_stats/3?interval=5min
 ```
 
 #### Headers

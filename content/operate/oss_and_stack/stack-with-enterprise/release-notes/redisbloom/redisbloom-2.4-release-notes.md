@@ -123,11 +123,11 @@ Details:
 
 - Bug fixes:
 
-  - [#609](https://github.com/RedisBloom/RedisBloom/issues/609) [CF.INFO]({{< baseurl >}}commands/cf.info) - incorrect information for large filters
+  - [#609](https://github.com/RedisBloom/RedisBloom/issues/609) [CF.INFO]({{< relref "commands/cf.info" >}}) - incorrect information for large filters
 
 - Improvements:
 
-  - [#389](https://github.com/RedisBloom/RedisBloom/issues/389) Introduce [BF.CARD]({{< baseurl >}}commands/bf.card) to retrieve the cardinality of a Bloom filter or 0 when such key does not exist
+  - [#389](https://github.com/RedisBloom/RedisBloom/issues/389) Introduce [BF.CARD]({{< relref "commands/bf.card" >}}) to retrieve the cardinality of a Bloom filter or 0 when such key does not exist
 
 ## v2.4 GA (v2.4.3) (November 2022)
 
@@ -155,15 +155,15 @@ Using t-digest is simple and straightforward:
 
   `TDIGEST.CREATE key [COMPRESSION compression]` initializes a new t-digest sketch (and errors if the key already exists). The `COMPRESSION` argument is used to specify the tradeoff between accuracy and memory consumption. The default is 100. Higher values mean more accuracy.
 
-  `TDIGEST.ADD key value...` adds new observations (floating-point values) to the sketch. You can repeat calling [TDIGEST.ADD]({{< baseurl >}}commands/tdigest.add) whenever new observations are available.
+  `TDIGEST.ADD key value...` adds new observations (floating-point values) to the sketch. You can repeat calling [TDIGEST.ADD]({{< relref "commands/tdigest.add" >}}) whenever new observations are available.
 
 * **Estimating fractions or ranks by values**
 
   Use `TDIGEST.CDF key value...` to retrieve, for each input **value**, an estimation of the **fraction** of (observations **smaller** than the given value + half the observations equal to the given value).
 
-  `TDIGEST.RANK key value...` is similar to [TDIGEST.CDF]({{< baseurl >}}commands/tdigest.cdf), but used for estimating the number of observations instead of the fraction of observations. More accurately it returns, for each input **value**, an estimation of the **number** of (observations **smaller** than a given value + half the observations equal to the given value).
+  `TDIGEST.RANK key value...` is similar to [TDIGEST.CDF]({{< relref "commands/tdigest.cdf" >}}), but used for estimating the number of observations instead of the fraction of observations. More accurately it returns, for each input **value**, an estimation of the **number** of (observations **smaller** than a given value + half the observations equal to the given value).
 
-  And lastly, `TDIGEST.REVRANK key value...` is similar to [TDIGEST.RANK]({{< baseurl >}}commands/tdigest.rank), but returns, for each input **value**, an estimation of the **number** of (observations **larger** than a given value + half the observations equal to the given value).
+  And lastly, `TDIGEST.REVRANK key value...` is similar to [TDIGEST.RANK]({{< relref "commands/tdigest.rank" >}}), but returns, for each input **value**, an estimation of the **number** of (observations **larger** than a given value + half the observations equal to the given value).
 
 * **Estimating values by fractions or ranks**
 

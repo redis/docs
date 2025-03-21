@@ -36,7 +36,7 @@ Get statistics for all databases.
 #### Example HTTP request
 
 ```sh
-GET /bdbs/stats?interval=1hour&stime=2014-08-28T10:00:00Z
+GET /v1/bdbs/stats?interval=1hour&stime=2014-08-28T10:00:00Z
 ```
 
 #### Headers
@@ -177,7 +177,7 @@ Get statistics for a specific database.
 #### Example HTTP request
 
 ```sh
-GET /bdbs/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
+GET /v1/bdbs/stats/1?interval=1hour&stime=2014-08-28T10:00:00Z
 ```
 
 #### Headers

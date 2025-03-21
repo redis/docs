@@ -35,7 +35,7 @@ Get the status of all currently executing, pending, or completed state-machine-r
 #### Example HTTP request
 
 ```
-GET /actions/bdb/1
+GET /v1/actions/bdb/1
 ```
 
 #### URL parameters

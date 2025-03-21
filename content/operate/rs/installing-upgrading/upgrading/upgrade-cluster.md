@@ -110,6 +110,8 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
 
 1. [Add the new node]({{< relref "/operate/rs/clusters/add-node" >}}) to the cluster.
 
+1. [Promote the first new node]({{<relref "/operate/rs/clusters/change-node-role/#promote-secondary-node">}}) to become the primary node.
+
 1. [Remove one node]({{< relref "/operate/rs/clusters/remove-node#remove-a-node" >}}) running the earlier Redis Software version from the cluster.
 
 1. Repeat the previous steps until all nodes with the earlier Redis Software version are removed. If the final node to remove from the cluster is the primary node, [demote it]({{<relref "/operate/rs/clusters/change-node-role#demote-primary-node">}}) to a secondary node before you remove it.
@@ -133,6 +135,8 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
     ```sh
     rladmin cluster join nodes <cluster_member_ip_address> username <username> password <password> replace_node <node_id>
     ```
+
+1. [Promote the first new node]({{<relref "/operate/rs/clusters/change-node-role/#promote-secondary-node">}}) to become the primary node.
 
 1. Verify node health:
 

@@ -32,7 +32,7 @@ Reset the database’s `import_status` to idle if a backup is not in progress an
 #### Example HTTP request
 
 ```sh
-PUT /bdbs/1/actions/import_reset_status
+PUT /v1/bdbs/1/actions/import_reset_status
 ```
 
 

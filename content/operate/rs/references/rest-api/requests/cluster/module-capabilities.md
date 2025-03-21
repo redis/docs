@@ -31,7 +31,7 @@ List possible Redis module capabilities.
 
 #### Example HTTP request
 
-	GET /cluster/module-capabilities 
+	GET /v1/cluster/module-capabilities 
 
 #### Request headers
 

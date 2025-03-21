@@ -44,7 +44,7 @@ Delete an index
 <details open>
 <summary><code>index</code></summary>
 
-is full-text index name. You must first create the index using [`FT.CREATE`]({{< baseurl >}}commands/ft.create/).
+is full-text index name. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
 </details>
 
 ## Optional arguments
@@ -55,9 +55,9 @@ is full-text index name. You must first create the index using [`FT.CREATE`]({{<
 drop index operation that, if set, deletes the actual document keys. `FT.DROPINDEX index DD` is an asynchronous operation.
 
 By default, FT.DROPINDEX does not delete the documents associated with the index. Adding the `DD` option deletes the documents as well. 
-If an index creation is still running ([`FT.CREATE`]({{< baseurl >}}commands/ft.create/) is running asynchronously), only the document hashes that have already been indexed are deleted. 
+If an index creation is still running ([`FT.CREATE`]({{< relref "commands/ft.create/" >}}) is running asynchronously), only the document hashes that have already been indexed are deleted. 
 The document hashes left to be indexed remain in the database.
-To check the completion of the indexing, use [`FT.INFO`]({{< baseurl >}}commands/ft.info/).
+To check the completion of the indexing, use [`FT.INFO`]({{< relref "commands/ft.info/" >}}).
 
 </details>
 
@@ -78,7 +78,7 @@ OK
 
 ## See also
 
-[`FT.CREATE`]({{< baseurl >}}commands/ft.create/) | [`FT.INFO`]({{< baseurl >}}commands/ft.info/)
+[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.INFO`]({{< relref "commands/ft.info/" >}})
 
 ## Related topics
 
