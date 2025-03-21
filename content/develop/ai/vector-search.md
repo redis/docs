@@ -11,7 +11,7 @@ categories:
 - clients
 description: Query for data based on vector embeddings
 linkTitle: Vector search examples
-title: Vector search
+title: Vector search examples
 weight: 2
 aliases: /develop/interact/search-and-query/query/vector-search
 ---
