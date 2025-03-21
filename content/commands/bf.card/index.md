@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@bloom'
+- '@read'
+- '@fast'
 arguments:
 - name: key
   type: key

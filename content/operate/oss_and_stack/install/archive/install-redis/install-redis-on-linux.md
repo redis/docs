@@ -105,6 +105,6 @@ Once you have a running Redis instance, you may want to:
 
 * Try the [Redis CLI tutorial]({{< relref "/develop/tools/cli" >}})
 * Connect using one of the [Redis clients]({{< relref "/develop/clients" >}})
-* [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/install-redis#install-redis-properly" >}})
+* [Install Redis "properly"]({{< relref "/operate/oss_and_stack/install/archive/install-redis#install-redis-properly" >}})
   for production use.
   
