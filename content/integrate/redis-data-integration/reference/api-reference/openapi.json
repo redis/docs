@@ -3,7 +3,7 @@
   "info": {
     "title": "Redis Data Integration API",
     "description": "API for Redis Data Integration services",
-    "version": "1.6.1"
+    "version": "1.6.2"
   },
   "paths": {
     "/": {
@@ -1773,7 +1773,9 @@
             "description": "Unprocessable Entity",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error-Input" }
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                }
               }
             }
           }
@@ -1985,7 +1987,9 @@
             "description": "Unprocessable Entity",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error-Input" }
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                }
               }
             }
           }
@@ -2819,26 +2823,6 @@
         "type": "object",
         "required": ["status"],
         "title": "Entity"
-      },
-      "Error-Input": {
-        "properties": {
-          "status": {
-            "type": "string",
-            "const": "error",
-            "title": "The status of the run.",
-            "default": "error",
-            "examples": ["error"]
-          },
-          "error": {
-            "type": "string",
-            "title": "The error message.",
-            "examples": ["Job is malformed"]
-          }
-        },
-        "type": "object",
-        "required": ["error"],
-        "title": "Error",
-        "description": "Model representing an error status."
       },
       "HTTPValidationError": {
         "properties": {
