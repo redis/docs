@@ -10,7 +10,7 @@ categories:
 - kubernetes
 - clients
 description: Learn how to use vector fields and perform vector searches in Redis
-linkTitle: Vectors
+linkTitle: Advanced vector queries guide
 math: true
 title: Create a vector index for advanced queries with vector fields
 weight: 3
