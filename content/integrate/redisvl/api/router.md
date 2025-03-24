@@ -225,7 +225,7 @@ validated to form a valid model.
 self is explicitly positional-only to allow self as a field name.
 
 * **Parameters:**
-  * **max_k** (*Annotated* *[* *int* *,* *FieldInfo* *(**annotation=NoneType* *,* *required=False* *,* *default=1* *,* *metadata=* *[* *Strict* *(**strict=True* *)* *,* *Gt* *(**gt=0* *)* *]* *)* *]*)
+  * **max_k** (*Annotated* *[* *int* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=False* *,* *default=1* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *]* *)* *]*)
   * **aggregation_method** ([DistanceAggregationMethod](#distanceaggregationmethod))
 
 #### `max_k: Annotated[int, FieldInfo(annotation=NoneType, required=False, default=1, metadata=[Strict(strict=True), Gt(gt=0)])]`
@@ -253,7 +253,7 @@ self is explicitly positional-only to allow self as a field name.
   * **name** (*str*)
   * **references** (*List* *[* *str* *]*)
   * **metadata** (*Dict* *[* *str* *,* *Any* *]*)
-  * **distance_threshold** (*Annotated* *[* *float* *,* *FieldInfo* *(**annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(**strict=True* *)* *,* *Gt* *(**gt=0* *)* *,* *Le* *(**le=1* *)* *]* *)* *]*)
+  * **distance_threshold** (*Annotated* *[* *float* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *,* *Le* *(* *le=1* *)* *]* *)* *]*)
 
 #### `distance_threshold: Annotated[float, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), Gt(gt=0), Le(le=1)])]`
 
