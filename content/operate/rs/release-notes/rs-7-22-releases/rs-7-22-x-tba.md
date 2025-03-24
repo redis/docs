@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: New pricing and packaging. Revamp database API. Migration status API. Usage report API. Two-dimensional rack awareness. v2 actions API.
+description: New pricing and packaging. Metrics stream engine GA. Revamp database API. Migration status API. Usage report API. Two-dimensional rack awareness. v2 actions API.
 linkTitle: 7.22.x-tba (April 2025)
 weight: 90
 ---
@@ -18,6 +18,8 @@ weight: 90
 This version offers:
 
 - New pricing and packaging
+
+- Metrics stream engine GA
 
 - Revamp database API
 
@@ -40,6 +42,8 @@ This version offers:
     - Updates topology-related configurations of an active database and optimises the shards placement for the new configuration. Example configuration parameters include `memory_size`, `shards_count`, `avoid_nodes`, `shards_placement`, `bigstore_ram_size`, and `replication`.
 
     - Replaces the deprecated request to [optimize shards placement]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement">}}).
+
+- The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) is now generally available.
 
 - Migration status REST API request, which reports the migration status of a database in the cluster.
 
