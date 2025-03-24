@@ -19,7 +19,7 @@ weight: $weight
 | [GET](#get-action) | `/v1/actions/{uid}` | Get a single action |
 | [GET](#get-action-v2) | `/v2/actions/{uid}` | Get a single action |
 
-## Get all actions {#get-all-actions}
+## Get all actions v1 {#get-all-actions}
 
 ```
 GET /v1/actions
@@ -102,7 +102,7 @@ Regardless of an action’s source, each action in the response contains the fol
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error, response provides info about an ongoing action |
 | [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (i.e. not currently running and no available status of last run).|
 
-## Get all actions {#get-all-actions-v2}
+## Get all actions v2 {#get-all-actions-v2}
 
 ```
 GET /v2/actions
@@ -138,7 +138,7 @@ The v2 action object includes the following fields:
 | name | string | Name of the running or failed state machine |
 | progress | float (range: 0-100) | Percent of completed steps for the action |
 | status | "pending"<br />"active"<br />"completed"<br />"failed" | The action's status |
-| additional_info | JSON object | A dictionary that can include additional information about the action |
+| additional_info | JSON object | A dictionary that can include additional information about the action; only included in the response if it contains at least one key-value pair |
 
 The `additional_info` object can contain any of the following fields:
 
@@ -148,9 +148,9 @@ The `additional_info` object can contain any of the following fields:
 | error | string | A message that describes what error occurred if the action failed |
 | object_type | string | The type of object that was processed in the action, such as BDB or node |
 | object_uid | string | The unique ID of the object processed in the action |
-| pending_ops | JSON object | List of operations that are waiting to run (optional)<br />{{<code>}}"pending_ops": {<br />  "3": {<br />    "heartbeat": integer,<br />    "snapshot": { ... },<br />    "last_sample_time": integer,<br />    "op_name": string,<br />    "status_code": string,<br />    "status_description": string,<br />    "progress": float<br />  }<br />}{{</code>}}<br />`pending_ops` is a map where the key is the `shard_id`, and the value is a map that can include the following optional fields:<br />**heartbeat**: The last time in seconds since the epoch when a snapshot of the operation was saved.<br />**snapshot**: A map of properties stored by the operation that are needed to run.<br />**last_sample_time**: The last time in seconds since the epoch when a snapshot of the operation was saved.<br />**op_name**: The name of the operation from the state machine that is running.<br />**status_code**: The code for the operation's current status.<br />**status_description**: The operation's current status.<br />**progress**: The operation's progress in percentage (1 to 100). |
+| pending_ops | JSON object | List of operations that are waiting to run (optional)<br />{{<code>}}"pending_ops": {<br />  "3": {<br />    "heartbeat": integer,<br />    "snapshot": { ... },<br />    "last_sample_time": integer,<br />    "op_name": string,<br />    "status_code": string,<br />    "status_description": string,<br />    "progress": float<br />  }<br />}{{</code>}}<br />`pending_ops` is a map where the key is the `shard_id`, and the value is a map that can include the following optional fields:<br />**heartbeat**: The time, in seconds since the Unix epoch, since the last change in the progress of the operation.<br />**snapshot**: A map of properties stored by the operation that are needed to run.<br />**last_sample_time**: **last_sample_time**: The time, in seconds since the Unix epoch, when the last snapshot of the operation was taken.<br />**op_name**: The name of the operation from the state machine that is running.<br />**status_code**: The code for the operation's current status.<br />**status_description**: The operation's current status.<br />**progress**: The operation's progress in percentage (1 to 100). |
 
-Regardless of an action’s source, each action in the response contains the following attributes: `name`, `action_uid`, `status`, and `progress`.
+Regardless of an action’s source, each action in the response contains the following attributes: `name`, `action_uid`, `creation_time`, `status`, and `progress`.
 
 #### Example JSON body
 
@@ -178,7 +178,7 @@ Regardless of an action’s source, each action in the response contains the fol
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error, response provides info about an ongoing action |
 
-## Get a specific action {#get-action}
+## Get a specific action v1 {#get-action}
 
 ```
 GET /v1/actions/{uid}
@@ -245,7 +245,7 @@ Regardless of an action’s source, each action contains the following attribute
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error, response provides info about an ongoing action |
 | [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (i.e. not currently running and no available status of last run) |
 
-## Get a specific action {#get-action-v2}
+## Get a specific action v2 {#get-action-v2}
 
 ```
 GET /v2/actions/{uid}
@@ -287,7 +287,7 @@ The v2 action object includes the following fields:
 | name | string | Name of the running or failed state machine |
 | progress | float (range: 0-100) | Percent of completed steps for the action |
 | status | "pending"<br />"active"<br />"completed"<br />"failed" | The action's status |
-| additional_info | JSON object | A dictionary that can include additional information about the action |
+| additional_info | JSON object | A dictionary that can include additional information about the action; only included in the response if it contains at least one key-value pair |
 
 The `additional_info` object can contain any of the following fields:
 
@@ -297,9 +297,9 @@ The `additional_info` object can contain any of the following fields:
 | error | string | A message that describes what error occurred if the action failed |
 | object_type | string | The type of object that was processed in the action, such as BDB or node |
 | object_uid | string | The unique ID of the object processed in the action |
-| pending_ops | JSON object | List of operations that are waiting to run (optional)<br />{{<code>}}"pending_ops": {<br />  "3": {<br />    "heartbeat": integer,<br />    "snapshot": { ... },<br />    "last_sample_time": integer,<br />    "op_name": string,<br />    "status_code": string,<br />    "status_description": string,<br />    "progress": float<br />  }<br />}{{</code>}}<br />`pending_ops` is a map where the key is the `shard_id`, and the value is a map that can include the following optional fields:<br />**heartbeat**: The last time in seconds since the epoch when a snapshot of the operation was saved.<br />**snapshot**: A map of properties stored by the operation that are needed to run.<br />**last_sample_time**: The last time in seconds since the epoch when a snapshot of the operation was saved.<br />**op_name**: The name of the operation from the state machine that is running.<br />**status_code**: The code for the operation's current status.<br />**status_description**: The operation's current status.<br />**progress**: The operation's progress in percentage (1 to 100). |
+| pending_ops | JSON object | List of operations that are waiting to run (optional)<br />{{<code>}}"pending_ops": {<br />  "3": {<br />    "heartbeat": integer,<br />    "snapshot": { ... },<br />    "last_sample_time": integer,<br />    "op_name": string,<br />    "status_code": string,<br />    "status_description": string,<br />    "progress": float<br />  }<br />}{{</code>}}<br />`pending_ops` is a map where the key is the `shard_id`, and the value is a map that can include the following optional fields:<br />**heartbeat**: The time, in seconds since the Unix epoch, since the last change in the progress of the operation.<br />**snapshot**: A map of properties stored by the operation that are needed to run.<br />**last_sample_time**: The time, in seconds since the Unix epoch, when the last snapshot of the operation was taken.<br />**op_name**: The name of the operation from the state machine that is running.<br />**status_code**: The code for the operation's current status.<br />**status_description**: The operation's current status.<br />**progress**: The operation's progress in percentage (1 to 100). |
 
-Regardless of an action’s source, each action contains the following attributes: `name`, `action_uid`, `status`, and `progress`.
+Regardless of an action’s source, each action contains the following attributes: `name`, `action_uid`, `creation_time`, `status`, and `progress`.
 
 #### Example JSON body
 
