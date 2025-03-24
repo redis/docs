@@ -50,9 +50,6 @@ command page for examples).
 import redis
 
 r = redis.Redis(decode_responses=True)
-# REMOVE_START
-r.flushall()
-# REMOVE_END
 
 r.set("key:1", "a")
 r.set("key:2", "b")
