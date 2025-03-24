@@ -99,7 +99,7 @@ below:
 -   `expirationRefreshRatio`: This is the fraction of the token's lifetime that should
     elapse before a refresh is triggered. For example, a value of 0.75 means the token
     should be refreshed when 75% of its lifetime has elapsed.
--   `retry`: This object specifies the policy to retry refreshing the token if the
+-   `retry`: This object specifies the policy to retry refreshing the token if
     an error occurs. It has the following fields:
     -   `maxAttempts`: The maximum number of times to attempt a refresh before
         aborting.
