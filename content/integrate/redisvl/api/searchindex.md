@@ -183,7 +183,7 @@ Create a SearchIndex from a dictionary.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [searchindex](#searchindex)
+  [SearchIndex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex
@@ -220,7 +220,7 @@ Create a SearchIndex from a YAML schema file.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [searchindex](#searchindex)
+  [SearchIndex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex
@@ -600,7 +600,7 @@ Create a SearchIndex from a dictionary.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [searchindex](#searchindex)
+  [SearchIndex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex
@@ -637,7 +637,7 @@ Create a SearchIndex from a YAML schema file.
 * **Returns:**
   A RedisVL SearchIndex object.
 * **Return type:**
-  [searchindex](#searchindex)
+  [SearchIndex](#searchindex)
 
 ```python
 from redisvl.index import SearchIndex

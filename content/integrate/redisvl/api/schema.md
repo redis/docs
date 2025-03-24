@@ -173,7 +173,7 @@ Create an IndexSchema from a dictionary.
 * **Returns:**
   The index schema.
 * **Return type:**
-  [indexschema](#indexschema)
+  [IndexSchema](#indexschema)
 
 ```python
 from redisvl.schema import IndexSchema
@@ -210,7 +210,7 @@ Create an IndexSchema from a YAML file.
 * **Returns:**
   The index schema.
 * **Return type:**
-  [indexschema](#indexschema)
+  [IndexSchema](#indexschema)
 
 ```python
 from redisvl.schema import IndexSchema

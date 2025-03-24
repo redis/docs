@@ -51,8 +51,8 @@ built by combining filter statements using the & and | operators.
 * **Parameters:**
   * **\_filter** (*str* *|* *None*)
   * **operator** (*FilterOperator* *|* *None*)
-  * **left** ([filterexpression](#filterexpression) *|* *None*)
-  * **right** ([filterexpression](#filterexpression) *|* *None*)
+  * **left** ([FilterExpression](#filterexpression) *|* *None*)
+  * **right** ([FilterExpression](#filterexpression) *|* *None*)
 
 ## Tag
 
@@ -70,7 +70,7 @@ Create a Tag equality filter expression.
 * **Parameters:**
   **other** (*Union* *[* *List* *[* *str* *]* *,* *str* *]*) – The tag(s) to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Tag
@@ -85,7 +85,7 @@ Create a Tag inequality filter expression.
 * **Parameters:**
   **other** (*Union* *[* *List* *[* *str* *]* *,* *str* *]*) – The tag(s) to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Tag
@@ -116,7 +116,7 @@ filters that enforce an exact match on the supplied term(s).
 * **Parameters:**
   **other** (*str*) – The text value to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Text
@@ -134,7 +134,7 @@ term(s).
 * **Parameters:**
   **other** (*str*) – The text value to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Text
@@ -154,7 +154,7 @@ equality filter expression.
 * **Parameters:**
   **other** (*str*) – The text value to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Text
@@ -185,7 +185,7 @@ Create a Numeric equality filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -199,7 +199,7 @@ Create a Numeric greater than or equal to filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -214,7 +214,7 @@ Create a Numeric greater than filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -229,7 +229,7 @@ Create a Numeric less than or equal to filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -244,7 +244,7 @@ Create a Numeric less than filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -259,7 +259,7 @@ Create a Numeric inequality filter expression.
 * **Parameters:**
   **other** (*int*) – The value to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Num
@@ -289,9 +289,9 @@ Redis index.
 Create a geographic filter within a specified GeoRadius.
 
 * **Parameters:**
-  **other** ([georadius](#georadius)) – The geographic spec to filter on.
+  **other** ([GeoRadius](#georadius)) – The geographic spec to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Geo, GeoRadius
@@ -304,9 +304,9 @@ f = Geo("location") == GeoRadius(-122.4194, 37.7749, 1, unit="m")
 Create a geographic filter outside of a specified GeoRadius.
 
 * **Parameters:**
-  **other** ([georadius](#georadius)) – The geographic spec to filter on.
+  **other** ([GeoRadius](#georadius)) – The geographic spec to filter on.
 * **Return type:**
-  [filterexpression](#filterexpression)
+  [FilterExpression](#filterexpression)
 
 ```python
 from redisvl.query.filter import Geo, GeoRadius

@@ -17,9 +17,9 @@ Initialize the SemanticRouter.
 
 * **Parameters:**
   * **name** (*str*) – The name of the semantic router.
-  * **routes** (*List* *[*[route](#route) *]*) – List of Route objects.
+  * **routes** (*List* *[*[Route](#route) *]*) – List of Route objects.
   * **vectorizer** (*BaseVectorizer* *,* *optional*) – The vectorizer used to embed route references. Defaults to default HFTextVectorizer.
-  * **routing_config** ([routingconfig](#routingconfig) *,* *optional*) – Configuration for routing behavior. Defaults to the default RoutingConfig.
+  * **routing_config** ([RoutingConfig](#routingconfig) *,* *optional*) – Configuration for routing behavior. Defaults to the default RoutingConfig.
   * **redis_client** (*Optional* *[* *Redis* *]* *,* *optional*) – Redis client for connection. Defaults to None.
   * **redis_url** (*str* *,* *optional*) – The redis url. Defaults to redis://localhost:6379.
   * **overwrite** (*bool* *,* *optional*) – Whether to overwrite existing index. Defaults to False.
@@ -49,7 +49,7 @@ Create a SemanticRouter from a dictionary.
 * **Returns:**
   The semantic router instance.
 * **Return type:**
-  [semanticrouter](#semanticrouter)
+  [SemanticRouter](#semanticrouter)
 * **Raises:**
   **ValueError** – If required data is missing or invalid.
 
@@ -72,7 +72,7 @@ Create a SemanticRouter from a YAML file.
 * **Returns:**
   The semantic router instance.
 * **Return type:**
-  [semanticrouter](#semanticrouter)
+  [SemanticRouter](#semanticrouter)
 * **Raises:**
   * **ValueError** – If the file path is invalid.
   * **FileNotFoundError** – If the file does not exist.
@@ -91,7 +91,7 @@ Get a route by its name.
 * **Returns:**
   The selected Route object or None if not found.
 * **Return type:**
-  Optional[[route](#route)]
+  Optional[[Route](#route)]
 
 #### `model_post_init(context, /)`
 
@@ -123,11 +123,11 @@ Query the semantic router with a given statement or vector for multiple matches.
   * **vector** (*Optional* *[* *List* *[* *float* *]* *]*) – The input vector to be queried.
   * **max_k** (*Optional* *[* *int* *]*) – The maximum number of top matches to return.
   * **distance_threshold** (*Optional* *[* *float* *]*) – The threshold for semantic distance.
-  * **aggregation_method** (*Optional* *[*[distanceaggregationmethod](#distanceaggregationmethod) *]*) – The aggregation method used for vector distances.
+  * **aggregation_method** (*Optional* *[*[DistanceAggregationMethod](#distanceaggregationmethod) *]*) – The aggregation method used for vector distances.
 * **Returns:**
   The matching routes and their details.
 * **Return type:**
-  List[[routematch](#routematch)]
+  List[[RouteMatch](#routematch)]
 
 #### `to_dict()`
 
@@ -171,7 +171,7 @@ router.to_yaml("router.yaml")
 Update the routing configuration.
 
 * **Parameters:**
-  **routing_config** ([routingconfig](#routingconfig)) – The new routing configuration.
+  **routing_config** ([RoutingConfig](#routingconfig)) – The new routing configuration.
 
 #### `model_config: ClassVar[ConfigDict] = {'arbitrary_types_allowed': True}`
 
@@ -199,11 +199,11 @@ Get the distance thresholds for each route.
 * **Return type:**
   Dict[str, float]
 
-#### `routes: `List[[route](#route)]
+#### `routes: `List[[Route](#route)]
 
 List of Route objects.
 
-#### `routing_config: `[routingconfig](#routingconfig)
+#### `routing_config: `[RoutingConfig](#routingconfig)
 
 Configuration for routing behavior.
 
@@ -226,7 +226,7 @@ self is explicitly positional-only to allow self as a field name.
 
 * **Parameters:**
   * **max_k** (*Annotated* *[* *int* *,* *FieldInfo* *(**annotation=NoneType* *,* *required=False* *,* *default=1* *,* *metadata=* *[* *Strict* *(**strict=True* *)* *,* *Gt* *(**gt=0* *)* *]* *)* *]*)
-  * **aggregation_method** ([distanceaggregationmethod](#distanceaggregationmethod))
+  * **aggregation_method** ([DistanceAggregationMethod](#distanceaggregationmethod))
 
 #### `max_k: Annotated[int, FieldInfo(annotation=NoneType, required=False, default=1, metadata=[Strict(strict=True), Gt(gt=0)])]`
 
