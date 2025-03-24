@@ -635,7 +635,7 @@ result_print(index.query(range_query))
 
 ## Advanced Query Modifiers
 
-See all modifier options available on the query API docs: https://docs.redisvl.com/en/latest/api/query.html
+See all modifier options available on the query API docs: https://redis.io/docs/latest/integrate/redisvl/api/query
 
 
 ```python
