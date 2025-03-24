@@ -50,6 +50,8 @@ each feature.
 | Feature | `ioredis` | `node-redis` |
 | :-- | :-- | :-- |
 | [Pipelining](#pipelining) | Automatic, or with `pipeline()` command | Automatic, or with `multi()` command |
+| [Scan iteration](#scan-iteration) | Uses `scanStream()`, etc. | Uses `scanIterator()`, etc |
+| [Subscribing to channels](#subscribing-to-channels) | Uses `client.on('message', ...)` event | Uses `subscribe(...)` command |
 
 ### Specific commands
 
@@ -201,16 +203,15 @@ commands, ending with `exec()` to run the pipeline:
 
 ```js
 // ioredis example
-redis
-      .pipeline()
-      .set("foo", "1")
-      .get("foo")
-      .set("foo", "2")
-      .incr("foo")
-      .get("foo")
-      .exec(function (err, results) {
-        // Handle results or errors.
-      });
+redis.pipeline()
+    .set("foo", "1")
+    .get("foo")
+    .set("foo", "2")
+    .incr("foo")
+    .get("foo")
+    .exec(function (err, results) {
+      // Handle results or errors.
+    });
 ```
 
 For `node-redis`, the approach is similar, except that you call the `multi()`
@@ -228,6 +229,74 @@ redis.multi()
     (err) => {
         // Handle errors.
     });
+```
+
+### Scan iteration
+
+`ioredis` supports the `scanStream()` method to create a readable stream
+from the set of keys returned by the [`SCAN`]({{< relref "/commands/scan" >}})
+command:
+
+```js
+const redis = new Redis();
+// Create a readable stream (object mode)
+const stream = redis.scanStream();
+stream.on("data", (resultKeys) => {
+  // `resultKeys` is an array of strings representing key names.
+  // Note that resultKeys may contain 0 keys, and that it will sometimes
+  // contain duplicates due to SCAN's implementation in Redis.
+  for (let i = 0; i < resultKeys.length; i++) {
+    console.log(resultKeys[i]);
+  }
+});
+stream.on("end", () => {
+  console.log("all keys have been visited");
+});
+```
+
+You can also use the similar `hscanStream()`, `sscanStream()`, and
+`zscanStream()` to iterate over the items of a hash, set, or sorted set,
+respectively.
+
+`node-redis` handles scan iteration using the `scanIterator()` method
+(and the corresponding `hscanIterator()`, `sscanIterator()`, and
+`zscanIterator()` methods). These return a collection object for
+each page scanned by the cursor (this can be helpful to improve
+efficiency using [`MGET`]({{< relref "/commands/mget" >}}) and
+other multi-key commands):
+
+```js
+for await (const keys of client.scanIterator()) {
+  const values = await client.mGet(keys);
+}
+```
+
+### Subscribing to channels
+
+`ioredis` reports incoming pub/sub messages with a `message`
+event on the client object (see
+[Publish/subscribe]({{< relref "/develop/interact/pubsub" >}}) for more
+information about messages):
+
+```js
+client.on('message', (channel, message) => {
+   console.log(Received message from ${channel}: ${message});
+});
+```
+
+With `node-redis`, you use the `subscribe()` command to register the
+message callback. Also, when you use a connection to subscribe, the
+connection can't issue any other commands, so you must create a
+dedicated connection for the subscription. Use the `client.duplicate()`
+method to create a new connection with the same settings as the original:
+
+```js
+const subscriber = client.duplicate();
+await subscriber.connect();
+
+await subscriber.subscribe('channel', (message) => {
+   console.log(Received message: ${message});
+});
 ```
 
 ### `SETNX` command
