@@ -1,5 +1,5 @@
 ---
-linkTitle: User Guides
+linkTitle: User guides
 title: User Guides
 type: integration
 weight: 4
