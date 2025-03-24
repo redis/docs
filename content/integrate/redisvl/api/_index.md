@@ -2,6 +2,7 @@
 linkTitle: RedisVL API
 title: RedisVL API
 type: integration
+weight: 5
 ---
 
 
