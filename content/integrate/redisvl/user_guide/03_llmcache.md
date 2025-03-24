@@ -1,7 +1,8 @@
 ---
-linkTitle: Semantic Caching for LLMs
+linkTitle: Semantic caching for LLMs
 title: Semantic Caching for LLMs
 type: integration
+weight: 03
 ---
 
 

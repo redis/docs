@@ -1,5 +1,5 @@
 ---
-linkTitle: LLM Cache
+linkTitle: LLM cache
 title: LLM Cache
 type: integration
 ---

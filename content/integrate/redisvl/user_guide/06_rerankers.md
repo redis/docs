@@ -2,6 +2,7 @@
 linkTitle: Rerankers
 title: Rerankers
 type: integration
+weight: 06
 ---
 
 

@@ -1,7 +1,8 @@
 ---
-linkTitle: LLM Session Memory
+linkTitle: LLM session memory
 title: LLM Session Memory
 type: integration
+weight: 07
 ---
 
 

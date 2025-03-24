@@ -2,6 +2,7 @@
 linkTitle: Querying with RedisVL
 title: Querying with RedisVL
 type: integration
+weight: 02
 ---
 
 

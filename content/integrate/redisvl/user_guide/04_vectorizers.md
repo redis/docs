@@ -2,6 +2,7 @@
 linkTitle: Vectorizers
 title: Vectorizers
 type: integration
+weight: 04
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-linkTitle: LLM Session Manager
+linkTitle: LLM session manager
 title: LLM Session Manager
 type: integration
 ---

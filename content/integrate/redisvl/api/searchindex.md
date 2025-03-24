@@ -1,5 +1,5 @@
 ---
-linkTitle: Search Index Classes
+linkTitle: Search index classes
 title: Search Index Classes
 type: integration
 ---
