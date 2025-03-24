@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Iterate through results from `SCAN`, `HSCAN`, etc
+description: Iterate through results from `SCAN`, `HSCAN`, etc.
 linkTitle: Scan iteration
 title: Scan iteration
 weight: 5
