@@ -32,8 +32,8 @@ Install [`node-redis`]({{< relref "/develop/clients/nodejs" >}}) and
 `@redis/entraid` with the following commands:
 
 ```bash
-npm install "@redis/client@5.0.0-next.6"
-npm install "@redis/entraid@5.0.0-next.6"
+npm install "@redis/client"
+npm install "@redis/entraid"
 ```
 
 ## Create a credentials provider instance
@@ -46,7 +46,7 @@ Import `EntraIdCredentialsProviderFactory` with the following code:
 
 ```js
 import { EntraIdCredentialsProviderFactory }
-    from '@redis/entraid/dist/lib/entra-id-credentials-provider-factory';
+    from '@redis/entraid';
 ```
 
 Then, use the appropriate factory method to create your credentials provider:
@@ -100,7 +100,7 @@ below:
     elapse before a refresh is triggered. For example, a value of 0.75 means the token
     should be refreshed when 75% of its lifetime has elapsed.
 -   `retry`: This object specifies the policy to retry refreshing the token if the
-    first attempt fails. It has the following fields:
+    an error occurs. It has the following fields:
     -   `maxAttempts`: The maximum number of times to attempt a refresh before
         aborting.
     -   `initialDelayMs`: The delay (in milliseconds) before retrying after the
@@ -120,11 +120,13 @@ below:
         `(error, attempt) => boolean`<br/><br/>
         where `error` is the error object from
         a failed attempt and `attempt` is the number of attempts previously made.
-        The `boolean` return value is `true` if another attempt should be made
-        to refresh the token and `false` otherwise. Implement your own custom
-        logic in this function to determine when to abort retrying. For example,
-        you might detect when a particular error is fatal, or vary the number of
-        attempts depending on the error type.
+        This function classifies errors from the identity provider as 
+        retryable (returning `true`) or non-retryable (returning `false`).
+        Implement your own custom logic here to determine if a token refresh failure
+        should be retried, based on the type of error. For example, a refresh failure
+        caused by a transient network error would probably succeed eventually if you retry
+        it, but an invalid certificate is generally a fatal error. If you don't supply a custom
+        function in this parameter, the default behavior is to retry all types of errors.
 
 #### **authorityConfig**
 
@@ -278,7 +280,7 @@ The example below shows how to use `createForDefaultAzureCredential()`:
 ```js
 import { DefaultAzureCredential } from '@azure/identity';
 import { EntraIdCredentialsProviderFactory, REDIS_SCOPE_DEFAULT }
-    from '@redis/entraid/dist/lib/entra-id-credentials-provider-factory';
+    from '@redis/entraid';
 
 // ...
 
@@ -318,7 +320,7 @@ The example below shows how to pass the instance as a parameter to the standard
 ```js
 import { createClient } from '@redis/client';
 import { EntraIdCredentialsProviderFactory }
-    from '@redis/entraid/dist/lib/entra-id-credentials-provider-factory';
+    from '@redis/entraid';
     
 // Create credentials provider instance...
 
@@ -352,7 +354,7 @@ You must reconnect with fresh tokens when this happens.
 If you use
 [transactions](https://redis.io/docs/latest/develop/clients/nodejs/transpipe)
 in code that also uses token-based authentication, ensure that you use
-the `node-js` transaction API rather than explicit commands to create
+the `node-redis` client multi/exec API rather than explicit commands to create
 each transaction (see
 [Execute a transaction](https://redis.io/docs/latest/develop/clients/nodejs/transpipe/#execute-a-transaction)
 for an example of correct usage).
