@@ -131,9 +131,16 @@ use to access the reply value:
 
 | Constant | Type | Relevant fields of `redisReply` | RESP protocol |
 | :- | :- |:- | :- |
-| `REDIS_REPLY_STATUS` | [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) | `reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2 |
-| `REDIS_REPLY_ERROR` | [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) | `reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2 |
-| `REDIS_REPLY_INTEGER` | [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) | `reply->integer`: the integer value (`long long`)| 2 |
-| `REDIS_REPLY_NIL` | [Null]({{< relref "/develop/reference/protocol-spec#nulls" >}}) | No data | 2 |
-| `REDIS_REPLY_STRING` | [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) |`reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2 |
-| `REDIS_REPLY_ARRAY` | [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 2 |
+| `REDIS_REPLY_STATUS` | [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) | `reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2, 3 |
+| `REDIS_REPLY_ERROR` | [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) | `reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2, 3 |
+| `REDIS_REPLY_INTEGER` | [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) | `reply->integer`: the integer value (`long long`)| 2, 3 |
+| `REDIS_REPLY_NIL` | [Null]({{< relref "/develop/reference/protocol-spec#nulls" >}}) | No data | 2, 3 |
+| `REDIS_REPLY_STRING` | [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) |`reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2, 3 |
+| `REDIS_REPLY_ARRAY` | [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 2, 3 |
+| `REDIS_REPLY_DOUBLE` | [Double]({{< relref "/develop/reference/protocol-spec#doubles" >}}) | `reply->str`: double value as string (`char*`)<br/> `reply->len`: the string length (`size_t`) | 3 |
+| `REDIS_REPLY_BOOL` | [Boolean]({{< relref "/develop/reference/protocol-spec#booleans" >}}) | `reply->integer`: the boolean value, 0 or 1 (`long long`) | 3 |
+| `REDIS_REPLY_MAP` | [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 3 |
+| `REDIS_REPLY_SET` | [Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 3 |
+| `REDIS_REPLY_PUSH` | [Push]({{< relref "/develop/reference/protocol-spec#pushes" >}}) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 3 |
+| `REDIS_REPLY_BIGNUM` | [Big number]({{< relref "/develop/reference/protocol-spec#big-numbers" >}}) | `reply->str`: number value as string (`char*`)<br/> `reply->len`: the string length (`size_t`) | 3 |
+| `REDIS_REPLY_VERB` | [Verbatim string]({{< relref "/develop/reference/protocol-spec#verbatim-strings" >}}) |`reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`)<br/> `reply->vtype`: content type (`char[3]`) | 3 |
