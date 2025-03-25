@@ -102,10 +102,7 @@ hash_schema = {
 
 ```python
 # construct a search index from the hash schema
-hindex = SearchIndex.from_dict(hash_schema)
-
-# connect to local redis instance
-hindex.connect("redis://localhost:6379")
+hindex = SearchIndex.from_dict(hash_schema, redis_url="redis://localhost:6379")
 
 # create the index (no data yet)
 hindex.create(overwrite=True)
@@ -193,10 +190,12 @@ from redisvl.query.filter import Tag, Text, Num
 
 t = (Tag("credit_score") == "high") & (Text("job") % "enginee*") & (Num("age") > 17)
 
-v = VectorQuery([0.1, 0.1, 0.5],
-                "user_embedding",
-                return_fields=["user", "credit_score", "age", "job", "office_location"],
-                filter_expression=t)
+v = VectorQuery(
+    vector=[0.1, 0.1, 0.5],
+    vector_field_name="user_embedding",
+    return_fields=["user", "credit_score", "age", "job", "office_location"],
+    filter_expression=t
+)
 
 
 results = hindex.query(v)
@@ -216,29 +215,11 @@ hindex.delete()
 ```
 
 ### Working with JSON
-Redis also supports native **JSON** objects. These can be multi-level (nested) objects, with full JSONPath support for updating/retrieving sub elements:
-
-```python
-{
-    "name": "bike",
-    "metadata": {
-        "model": "Deimos",
-        "brand": "Ergonom",
-        "type": "Enduro bikes",
-        "price": 4972,
-    }
-}
-```
 
 JSON is best suited for use cases with the following characteristics:
 - Ease of use and data model flexibility are top concerns
 - Application data is already native JSON
 - Replacing another document storage/db solution
-
-#### Full JSON Path support
-Because Redis enables full JSON path support, when creating an index schema, elements need to be indexed and selected by their path with the desired `name` AND `path` that points to where the data is located within the objects.
-
-By default, RedisVL will assume the path as `$.{name}` if not provided in JSON fields schema.
 
 
 ```python
@@ -273,10 +254,7 @@ json_schema = {
 
 ```python
 # construct a search index from the json schema
-jindex = SearchIndex.from_dict(json_schema)
-
-# connect to local redis instance
-jindex.connect("redis://localhost:6379")
+jindex = SearchIndex.from_dict(json_schema, redis_url="redis://localhost:6379")
 
 # create the index (no data yet)
 jindex.create(overwrite=True)
@@ -297,8 +275,6 @@ Vectorized data stored in JSON must be stored as a pure array (python list) of f
 
 
 ```python
-import numpy as np
-
 json_data = data.copy()
 
 for d in json_data:
@@ -343,4 +319,169 @@ result_print(jindex.query(v))
 
 ```python
 jindex.delete()
+```
+
+# Working with nested data in JSON
+
+Redis also supports native **JSON** objects. These can be multi-level (nested) objects, with full JSONPath support for updating/retrieving sub elements:
+
+```json
+{
+    "name": "Specialized Stump jumper",
+    "metadata": {
+        "model": "Stumpjumper",
+        "brand": "Specialized",
+        "type": "Enduro bikes",
+        "price": 3000
+    },
+}
+```
+
+#### Full JSON Path support
+Because Redis enables full JSON path support, when creating an index schema, elements need to be indexed and selected by their path with the desired `name` AND `path` that points to where the data is located within the objects.
+
+By default, RedisVL will assume the path as `$.{name}` if not provided in JSON fields schema. If nested provide path as `$.object.attribute`
+
+### As an example:
+
+
+```python
+from redisvl.utils.vectorize import HFTextVectorizer
+
+emb_model = HFTextVectorizer()
+
+bike_data = [
+    {
+        "name": "Specialized Stump jumper",
+        "metadata": {
+            "model": "Stumpjumper",
+            "brand": "Specialized",
+            "type": "Enduro bikes",
+            "price": 3000
+        },
+        "description": "The Specialized Stumpjumper is a versatile enduro bike that dominates both climbs and descents. Features a FACT 11m carbon fiber frame, FOX FLOAT suspension with 160mm travel, and SRAM X01 Eagle drivetrain. The asymmetric frame design and internal storage compartment make it a practical choice for all-day adventures."
+    },
+    {
+        "name": "bike_2",
+        "metadata": {
+            "model": "Slash",
+            "brand": "Trek",
+            "type": "Enduro bikes",
+            "price": 5000
+        },
+        "description": "Trek's Slash is built for aggressive enduro riding and racing. Featuring Trek's Alpha Aluminum frame with RE:aktiv suspension technology, 160mm travel, and Knock Block frame protection. Equipped with Bontrager components and a Shimano XT drivetrain, this bike excels on technical trails and enduro race courses."
+    }
+]
+
+bike_data = [{**d, "bike_embedding": emb_model.embed(d["description"])} for d in bike_data]
+
+bike_schema = {
+    "index": {
+        "name": "bike-json",
+        "prefix": "bike-json",
+        "storage_type": "json", # JSON storage type
+    },
+    "fields": [
+        {
+            "name": "model",
+            "type": "tag",
+            "path": "$.metadata.model" # note the '$'
+        },
+        {
+            "name": "brand",
+            "type": "tag",
+            "path": "$.metadata.brand"
+        },
+        {
+            "name": "price",
+            "type": "numeric",
+            "path": "$.metadata.price"
+        },
+        {
+            "name": "bike_embedding",
+            "type": "vector",
+            "attrs": {
+                "dims": len(bike_data[0]["bike_embedding"]),
+                "distance_metric": "cosine",
+                "algorithm": "flat",
+                "datatype": "float32"
+            }
+
+        }
+    ],
+}
+```
+
+    /Users/robert.shelton/.pyenv/versions/3.11.9/lib/python3.11/site-packages/huggingface_hub/file_download.py:1142: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+      warnings.warn(
+
+
+
+```python
+# construct a search index from the json schema
+bike_index = SearchIndex.from_dict(bike_schema, redis_url="redis://localhost:6379")
+
+# create the index (no data yet)
+bike_index.create(overwrite=True)
+```
+
+
+```python
+bike_index.load(bike_data)
+```
+
+
+
+
+    ['bike-json:de92cb9955434575b20f4e87a30b03d5',
+     'bike-json:054ab3718b984532b924946fa5ce00c6']
+
+
+
+
+```python
+from redisvl.query import VectorQuery
+
+vec = emb_model.embed("I'd like a bike for aggressive riding")
+
+v = VectorQuery(
+    vector=vec,
+    vector_field_name="bike_embedding",
+    return_fields=[
+        "brand",
+        "name",
+        "$.metadata.type"
+    ]
+)
+
+
+results = bike_index.query(v)
+```
+
+**Note:** As shown in the example if you want to retrieve a field from json object that was not indexed you will also need to supply the full path as with `$.metadata.type`.
+
+
+```python
+results
+```
+
+
+
+
+    [{'id': 'bike-json:054ab3718b984532b924946fa5ce00c6',
+      'vector_distance': '0.519989073277',
+      'brand': 'Trek',
+      '$.metadata.type': 'Enduro bikes'},
+     {'id': 'bike-json:de92cb9955434575b20f4e87a30b03d5',
+      'vector_distance': '0.657624483109',
+      'brand': 'Specialized',
+      '$.metadata.type': 'Enduro bikes'}]
+
+
+
+# Cleanup
+
+
+```python
+bike_index.delete()
 ```

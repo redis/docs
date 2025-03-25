@@ -14,7 +14,7 @@ type: integration
 
 ## SearchIndex
 
-### `class SearchIndex(schema, redis_client=None, redis_url=None, connection_args={}, **kwargs)`
+### `class SearchIndex(schema, redis_client=None, redis_url=None, connection_kwargs=None, **kwargs)`
 
 A search index class for interacting with Redis as a vector database.
 
@@ -26,8 +26,7 @@ settings and field configurations.
 from redisvl.index import SearchIndex
 
 # initialize the index object with schema from file
-index = SearchIndex.from_yaml("schemas/schema.yaml")
-index.connect(redis_url="redis://localhost:6379")
+index = SearchIndex.from_yaml("schemas/schema.yaml", redis_url="redis://localhost:6379")
 
 # create the index
 index.create(overwrite=True)
@@ -49,7 +48,7 @@ kwargs.
     instantiated redis client.
   * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
-  * **connection_args** (*Dict* *[* *str* *,* *Any* *]* *,* *optional*) – Redis client connection
+  * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]* *,* *optional*) – Redis client connection
     args.
 
 #### `aggregate(*args, **kwargs)`
@@ -85,13 +84,13 @@ extra options specific to the Redis connection.
 
 * **Parameters:**
   **redis_url** (*Optional* *[* *str* *]* *,* *optional*) – The URL of the Redis server to
-  connect to. If not provided, the method defaults to using the
-  REDIS_URL environment variable.
+  connect to.
 * **Raises:**
   * **redis.exceptions.ConnectionError** – If the connection to the Redis
         server fails.
   * **ValueError** – If the Redis URL is not provided nor accessible
         through the REDIS_URL environment variable.
+  * **ModuleNotFoundError** – If required Redis modules are not installed.
 
 ```python
 index.connect(redis_url="redis://localhost:6379")
@@ -158,6 +157,16 @@ Check if the index exists in Redis.
 * **Return type:**
   bool
 
+#### `expire_keys(keys, ttl)`
+
+Set the expiration time for a specific entry or entries in Redis.
+
+* **Parameters:**
+  * **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The entry ID or IDs to set the expiration for.
+  * **ttl** (*int*) – The time-to-live in seconds.
+* **Return type:**
+  int | *List*[int]
+
 #### `fetch(id)`
 
 Fetch an object from Redis by id.
@@ -210,6 +219,9 @@ Initialize from an existing search index in Redis by index name.
     instantiated redis client.
   * **redis_url** (*Optional* *[* *str* *]*) – The URL of the Redis server to
     connect to.
+* **Raises:**
+  * **ValueError** – If redis_url or redis_client is not provided.
+  * **RedisModuleVersionError** – If required Redis modules are not installed.
 
 #### `classmethod from_yaml(schema_path, **kwargs)`
 
@@ -438,7 +450,7 @@ hash or json.
 
 ## AsyncSearchIndex
 
-### `class AsyncSearchIndex(schema, **kwargs)`
+### `class AsyncSearchIndex(schema, *, redis_url=None, redis_client=None, connection_kwargs=None, **kwargs)`
 
 A search index class for interacting with Redis as a vector database in
 async-mode.
@@ -451,8 +463,10 @@ various settings and field configurations.
 from redisvl.index import AsyncSearchIndex
 
 # initialize the index object with schema from file
-index = AsyncSearchIndex.from_yaml("schemas/schema.yaml")
-await index.connect(redis_url="redis://localhost:6379")
+index = AsyncSearchIndex.from_yaml(
+    "schemas/schema.yaml",
+    redis_url="redis://localhost:6379"
+)
 
 # create the index
 await index.create(overwrite=True)
@@ -468,7 +482,11 @@ Initialize the RedisVL async search index with a schema.
 
 * **Parameters:**
   * **schema** ([*IndexSchema*]({{< relref "schema/#indexschema" >}})) – Index schema object.
-  * **connection_args** (*Dict* *[* *str* *,* *Any* *]* *,* *optional*) – Redis client connection
+  * **redis_url** (*Optional* *[* *str* *]* *,* *optional*) – The URL of the Redis server to
+    connect to.
+  * **redis_client** (*Optional* *[* *aredis.Redis* *]*) – An
+    instantiated redis client.
+  * **connection_kwargs** (*Optional* *[* *Dict* *[* *str* *,* *Any* *]* *]*) – Redis client connection
     args.
 
 #### `async aggregate(*args, **kwargs)`
@@ -494,27 +512,12 @@ available and in-place for future insertions or updates.
 * **Return type:**
   int
 
-#### `async connect(redis_url=None, **kwargs)`
+#### `connect(redis_url=None, **kwargs)`
 
-Connect to a Redis instance using the provided redis_url, falling
-back to the REDIS_URL environment variable (if available).
-
-Note: Additional keyword arguments (\*\*kwargs) can be used to provide
-extra options specific to the Redis connection.
+[DEPRECATED] Connect to a Redis instance. Use connection parameters in \_\_init_\_.
 
 * **Parameters:**
-  **redis_url** (*Optional* *[* *str* *]* *,* *optional*) – The URL of the Redis server to
-  connect to. If not provided, the method defaults to using the
-  REDIS_URL environment variable.
-* **Raises:**
-  * **redis.exceptions.ConnectionError** – If the connection to the Redis
-        server fails.
-  * **ValueError** – If the Redis URL is not provided nor accessible
-        through the REDIS_URL environment variable.
-
-```python
-index.connect(redis_url="redis://localhost:6379")
-```
+  **redis_url** (*str* *|* *None*)
 
 #### `async create(overwrite=False, drop=False)`
 
@@ -553,9 +556,9 @@ Delete the search index.
 * **Raises:**
   **redis.exceptions.ResponseError** – If the index does not exist.
 
-#### `disconnect()`
+#### `async disconnect()`
 
-Disconnect and cleanup the underlying async redis connection.
+Disconnect from the Redis database.
 
 #### `async drop_keys(keys)`
 
@@ -576,6 +579,16 @@ Check if the index exists in Redis.
   True if the index exists, False otherwise.
 * **Return type:**
   bool
+
+#### `async expire_keys(keys, ttl)`
+
+Set the expiration time for a specific entry or entries in Redis.
+
+* **Parameters:**
+  * **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The entry ID or IDs to set the expiration for.
+  * **ttl** (*int*) – The time-to-live in seconds.
+* **Return type:**
+  int | *List*[int]
 
 #### `async fetch(id)`
 
@@ -805,29 +818,13 @@ to the redis-py ft.search() method.
 * **Return type:**
   Result
 
-#### `async set_client(redis_client)`
+#### `set_client(redis_client)`
 
-Manually set the Redis client to use with the search index.
-
-This method configures the search index to use a specific
-Async Redis client. It is useful for cases where an external,
-custom-configured client is preferred instead of creating a new one.
+[DEPRECATED] Manually set the Redis client to use with the search index.
+This method is deprecated; please provide connection parameters in \_\_init_\_.
 
 * **Parameters:**
-  **redis_client** (*aredis.Redis*) – An Async Redis
-  client instance to be used for the connection.
-* **Raises:**
-  **TypeError** – If the provided client is not valid.
-
-```python
-import redis.asyncio as aredis
-from redisvl.index import AsyncSearchIndex
-
-# async Redis client and index
-client = aredis.Redis.from_url("redis://localhost:6379")
-index = AsyncSearchIndex.from_yaml("schemas/schema.yaml")
-await index.set_client(client)
-```
+  **redis_client** (*Redis* *|* *Redis*)
 
 #### `property client: Redis | None`
 

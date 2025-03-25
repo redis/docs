@@ -75,6 +75,25 @@ print("Vector dimensions: ", len(test))
 test[:10]
 ```
 
+    Vector dimensions:  1536
+
+
+
+
+
+    [-0.0011391325388103724,
+     -0.003206387162208557,
+     0.002380132209509611,
+     -0.004501554183661938,
+     -0.010328996926546097,
+     0.012922565452754498,
+     -0.005491119809448719,
+     -0.0029864837415516376,
+     -0.007327961269766092,
+     -0.03365817293524742]
+
+
+
 
 ```python
 # Create many embeddings at once
@@ -89,12 +108,31 @@ embeddings[0][:10]
 ```
 
 
+
+
+    [-0.017466850578784943,
+     1.8471690054866485e-05,
+     0.00129731057677418,
+     -0.02555876597762108,
+     -0.019842341542243958,
+     0.01603139191865921,
+     -0.0037347301840782166,
+     0.0009670283179730177,
+     0.006618348415941,
+     -0.02497442066669464]
+
+
+
+
 ```python
 # openai also supports asyncronous requests, which we can use to speed up the vectorization process.
 embeddings = await oai.aembed_many(sentences)
 print("Number of Embeddings:", len(embeddings))
 
 ```
+
+    Number of Embeddings: 3
+
 
 ### Azure OpenAI
 
@@ -130,6 +168,66 @@ test = az_oai.embed("This is a test sentence.")
 print("Vector dimensions: ", len(test))
 test[:10]
 ```
+
+
+    ---------------------------------------------------------------------------
+
+    ValueError                                Traceback (most recent call last)
+
+    Cell In[7], line 4
+          1 from redisvl.utils.vectorize import AzureOpenAITextVectorizer
+          3 # create a vectorizer
+    ----> 4 az_oai = AzureOpenAITextVectorizer(
+          5     model=deployment_name, # Must be your CUSTOM deployment name
+          6     api_config={
+          7         "api_key": api_key,
+          8         "api_version": api_version,
+          9         "azure_endpoint": azure_endpoint
+         10     },
+         11 )
+         13 test = az_oai.embed("This is a test sentence.")
+         14 print("Vector dimensions: ", len(test))
+
+
+    File ~/src/redis-vl-python/redisvl/utils/vectorize/text/azureopenai.py:78, in AzureOpenAITextVectorizer.__init__(self, model, api_config, dtype)
+         54 def __init__(
+         55     self,
+         56     model: str = "text-embedding-ada-002",
+         57     api_config: Optional[Dict] = None,
+         58     dtype: str = "float32",
+         59 ):
+         60     """Initialize the AzureOpenAI vectorizer.
+         61 
+         62     Args:
+       (...)
+         76         ValueError: If an invalid dtype is provided.
+         77     """
+    ---> 78     self._initialize_clients(api_config)
+         79     super().__init__(model=model, dims=self._set_model_dims(model), dtype=dtype)
+
+
+    File ~/src/redis-vl-python/redisvl/utils/vectorize/text/azureopenai.py:106, in AzureOpenAITextVectorizer._initialize_clients(self, api_config)
+         99 azure_endpoint = (
+        100     api_config.pop("azure_endpoint")
+        101     if api_config
+        102     else os.getenv("AZURE_OPENAI_ENDPOINT")
+        103 )
+        105 if not azure_endpoint:
+    --> 106     raise ValueError(
+        107         "AzureOpenAI API endpoint is required. "
+        108         "Provide it in api_config or set the AZURE_OPENAI_ENDPOINT\
+        109             environment variable."
+        110     )
+        112 api_version = (
+        113     api_config.pop("api_version")
+        114     if api_config
+        115     else os.getenv("OPENAI_API_VERSION")
+        116 )
+        118 if not api_version:
+
+
+    ValueError: AzureOpenAI API endpoint is required. Provide it in api_config or set the AZURE_OPENAI_ENDPOINT                    environment variable.
+
 
 
 ```python
@@ -423,10 +521,7 @@ fields:
 from redisvl.index import SearchIndex
 
 # construct a search index from the schema
-index = SearchIndex.from_yaml("./schema.yaml")
-
-# connect to local redis instance
-index.connect("redis://localhost:6379")
+index = SearchIndex.from_yaml("./schema.yaml", redis_url="redis://localhost:6379")
 
 # create the index (no data yet)
 index.create(overwrite=True)
