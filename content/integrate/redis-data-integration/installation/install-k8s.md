@@ -49,7 +49,8 @@ Complete the following steps before running Helm:
     for the RDI database if you prefer not to use the default password (see
     [Access control]({{< relref "/operate/rs/security/access-control" >}}) for
     more information).
--   Download the RDI helm chart tar file from the [download center](https://cloud.redis.io/#rlec-downloads).
+-   Download the RDI helm chart tar file from the
+    [download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.2.tgz).
 -   If you want to use a private image registry,
     [prepare it with the RDI images](#using-a-private-image-registry).
 
