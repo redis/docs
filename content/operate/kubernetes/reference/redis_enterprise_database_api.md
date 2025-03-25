@@ -171,7 +171,7 @@ RedisEnterpriseDatabaseSpec defines the desired state of RedisEnterpriseDatabase
         <td><a href="#specmoduleslist">modulesList</a></td>
         <td>[]object</td>
         <td>
-          List of modules associated with database. Note - For Active-Active databases this feature is currently in preview. For this feature to take effect for Active-Active databases, set a boolean environment variable with the name "ENABLE_ALPHA_FEATURES" to True. This variable can be set via the redis-enterprise-operator pod spec, or through the operator-environment-config Config Map. Note - if you do not want to upgrade to the latest version you must set upgradeSpec -> upgradeModulesToLatest to false. if you specify a version and do not set the upgradeModulesToLatest it can result errors in the operator. in addition, the option to specify specific version is Deprecated and will be deleted in next releases.<br/>
+          List of modules associated with the database. The list of valid modules for the specific cluster can be retrieved from the status of the REC object. Use the "name" and "versions" fields for the specific module configuration. If specifying an explicit version for a module, automatic modules versions upgrade must be disabled by setting the '.upgradeSpec.upgradeModulesToLatest' field in the REC to 'false'. Note that the option to specify module versions is deprecated, and will be removed in future releases.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1125,7 +1125,7 @@ MountPointStorage
 ### spec.modulesList[]
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-Redis Enterprise Module: https://redislabs.com/redis-enterprise/modules/
+Redis Enterprise module (see https://redis.io/docs/latest/develop/reference/modules/)
 
 <table>
     <thead>
@@ -1140,21 +1140,21 @@ Redis Enterprise Module: https://redislabs.com/redis-enterprise/modules/
         <td>name</td>
         <td>string</td>
         <td>
-          The module's name e.g "ft" for redissearch<br/>
+          The name of the module, e.g. "search" or "ReJSON". The complete list of modules available in the cluster can be retrieved from the '.status.modules' field in the REC.<br/>
         </td>
         <td>true</td>
       </tr><tr>
         <td>config</td>
         <td>string</td>
         <td>
-          Module command line arguments e.g. VKEY_MAX_ENTITY_COUNT 30<br/>
+          Module command line arguments e.g. VKEY_MAX_ENTITY_COUNT 30 30<br/>
         </td>
         <td>false</td>
       </tr><tr>
         <td>version</td>
         <td>string</td>
         <td>
-          DEPRECATED - Module's semantic version e.g "1.6.12" - optional only in REDB, must be set in REAADB<br/>
+          The semantic version of the module, e.g. '1.6.12'. Optional for REDB, must be set for REAADB. Note that this field is deprecated, and will be removed in future releases.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
