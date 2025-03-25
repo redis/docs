@@ -148,7 +148,7 @@ index = SearchIndex.from_dict(schema)
 Now we also need to facilitate a Redis connection. There are a few ways to do this:
 
 - Create & manage your own client connection (recommended)
-- Provide a simple Redis URL and let RedisVL connect on your behalf
+- Provide a Redis URL and let RedisVL connect on your behalf (by default, it will connect to "redis://localhost:6379")
 
 ### Bring your own Redis connection instance
 
@@ -159,9 +159,14 @@ This is ideal in scenarios where you have custom settings on the connection inst
 from redis import Redis
 
 client = Redis.from_url("redis://localhost:6379")
+index = SearchIndex.from_dict(schema, redis_client=client)
 
-index.set_client(client)
-# optionally provide an async Redis client object to enable async index operations
+# alternatively, provide an async Redis client object to enable async index operations
+# from redis.asyncio import Redis
+# from redisvl.index import AsyncSearchIndex
+# client = Redis.from_url("redis://localhost:6379")
+# index = AsyncSearchIndex.from_dict(schema, redis_client=client)
+
 ```
 
 
@@ -177,8 +182,10 @@ This is ideal for simple cases:
 
 
 ```python
-index.connect("redis://localhost:6379")
-# optionally use an async client by passing use_async=True
+index = SearchIndex.from_dict(schema, redis_url="redis://localhost:6379")
+
+# If you don't specify a client or Redis URL, the index will attempt to
+# connect to Redis at the default address ("redis://localhost:6379").
 ```
 
 
@@ -299,8 +306,11 @@ results = index.query(query)
 result_print(results)
 ```
 
+    *=>[KNN 3 @user_embedding $vector AS vector_distance] RETURN 6 user age job credit_score vector_distance vector_distance SORTBY vector_distance ASC DIALECT 2 LIMIT 0 3
 
-<table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0.0566299557686</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
+
+
+table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0.0566299557686</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
 
 
 ## Using an Asynchronous Redis Client
@@ -337,8 +347,7 @@ from redis.asyncio import Redis
 
 client = Redis.from_url("redis://localhost:6379")
 
-index = AsyncSearchIndex.from_dict(schema)
-await index.set_client(client)
+index = AsyncSearchIndex.from_dict(schema, redis_client=client)
 ```
 
 
@@ -393,7 +402,7 @@ index.schema.add_fields([
 await index.create(overwrite=True, drop=False)
 ```
 
-    11:53:25 redisvl.index.index INFO   Index already exists, overwriting.
+    11:28:32 redisvl.index.index INFO   Index already exists, overwriting.
 
 
 
@@ -404,7 +413,7 @@ result_print(results)
 ```
 
 
-<table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0.0566299557686</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
+<table><tr><th>vector_distance</th><th>user</th><th>age</th><th>job</th><th>credit_score</th></tr><tr><td>0</td><td>mary</td><td>2</td><td>doctor</td><td>low</td></tr><tr><td>0</td><td>john</td><td>1</td><td>engineer</td><td>high</td></tr><tr><td>0.0566299557686</td><td>tyler</td><td>9</td><td>engineer</td><td>high</td></tr></table>
 
 
 ## Check Index Stats
@@ -426,19 +435,19 @@ Use the `rvl` CLI to check the stats for the index:
     │ num_records                 │ 22          │
     │ percent_indexed             │ 1           │
     │ hash_indexing_failures      │ 0           │
-    │ number_of_uses              │ 5           │
-    │ bytes_per_record_avg        │ 50.9091     │
+    │ number_of_uses              │ 2           │
+    │ bytes_per_record_avg        │ 47.8        │
     │ doc_table_size_mb           │ 0.000423431 │
-    │ inverted_sz_mb              │ 0.00106812  │
+    │ inverted_sz_mb              │ 0.000911713 │
     │ key_table_size_mb           │ 0.000165939 │
-    │ offset_bits_per_record_avg  │ 8           │
-    │ offset_vectors_sz_mb        │ 5.72205e-06 │
-    │ offsets_per_term_avg        │ 0.272727    │
-    │ records_per_doc_avg         │ 5.5         │
+    │ offset_bits_per_record_avg  │ nan         │
+    │ offset_vectors_sz_mb        │ 0           │
+    │ offsets_per_term_avg        │ 0           │
+    │ records_per_doc_avg         │ 5           │
     │ sortable_values_size_mb     │ 0           │
-    │ total_indexing_time         │ 0.197       │
-    │ total_inverted_index_blocks │ 12          │
-    │ vector_index_sz_mb          │ 0.0201416   │
+    │ total_indexing_time         │ 0.239       │
+    │ total_inverted_index_blocks │ 11          │
+    │ vector_index_sz_mb          │ 0.235603    │
     ╰─────────────────────────────┴─────────────╯
 
 
