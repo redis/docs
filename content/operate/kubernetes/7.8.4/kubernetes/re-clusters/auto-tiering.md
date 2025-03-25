@@ -8,6 +8,7 @@ categories:
 description: Deploy a cluster with Auto Tiering on Kubernetes.
 linkTitle: Auto Tiering
 weight: 16
+url: '/operate/kubernetes/7.8.4/kubernetes/re-clusters/auto-tiering/'
 ---
 
 ## Prerequisites

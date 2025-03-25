@@ -10,6 +10,7 @@ hideListLinks: true
 linkTitle: Architecture
 weight: 1
 aliases: [operate/platforms/kubernetes/kubernetes-architecture/]
+url: '/operate/kubernetes/7.8.4/kubernetes/architecture/'
 ---
 
 Redis Enterprise for Kubernetes gives you the speed and durability of [Redis Enterprise](https://redis.io/redis-enterprise/advantages/), with the flexibility and ease of [Kubernetes (K8s)](https://kubernetes.io/). Redis Enterprise for Kubernetes uses the Kubernetes operator pattern and custom controllers to bring the best of Redis Enterprise to the Kubernetes platform.

@@ -9,6 +9,7 @@ description: This section covers details about how persistent volumes are sized 
   specified for Redis Enterprise cluster deployments.
 linkTitle: Persistent volumes
 weight: 40
+url: '/operate/kubernetes/7.8.4/kubernetes/recommendations/persistent-volumes/'
 ---
 ## Storage types
 

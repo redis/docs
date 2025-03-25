@@ -9,6 +9,7 @@ description: OpenShift provides the OperatorHub where you can install the Redis 
   operator from the administrator user interface.
 linkTitle: OpenShift OperatorHub
 weight: 70
+url: '/operate/kubernetes/7.8.4/kubernetes/deployment/openshift/openshift-operatorhub/'
 ---
 
 You can deploy Redis Enterprise for Kubernetes from the Red Hat OpenShift CLI. You can also use a UI, [OperatorHub](https://docs.openshift.com/container-platform/4.11/operators/index.html) (Red Hat) to install operators and create custom resources.

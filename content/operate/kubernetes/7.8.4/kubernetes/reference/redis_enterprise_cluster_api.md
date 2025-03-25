@@ -8,6 +8,7 @@ categories:
 linkTitle: REC API
 weight: 30
 aliases: [ /operate/kubernetes/reference/cluster-options, ]
+url: '/operate/kubernetes/7.8.4/kubernetes/reference/redis_enterprise_cluster_api/'
 ---
 
 apiVersion:

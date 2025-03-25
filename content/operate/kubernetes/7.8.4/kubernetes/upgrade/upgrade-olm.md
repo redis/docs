@@ -9,6 +9,7 @@ description: This task describes how to upgrade a Redis Enterprise cluster via O
   OperatorHub.
 linkTitle: OpenShift OperatorHub
 weight: 40
+url: '/operate/kubernetes/7.8.4/kubernetes/upgrade/upgrade-olm/'
 ---
 
 Redis implements rolling updates for software upgrades in Kubernetes deployments. The upgrade process includes updating three components:

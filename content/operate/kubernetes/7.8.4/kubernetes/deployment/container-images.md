@@ -11,6 +11,7 @@ description: This section details how the Redis Enterprise Software and Kubernet
   techniques for handling public repositories with rate limiting.
 linktitle: Use a private container registry
 weight: 92
+url: '/operate/kubernetes/7.8.4/kubernetes/deployment/container-images/'
 ---
 
 Redis Enterprise Software, its Kubernetes operator, and the Service Rigger

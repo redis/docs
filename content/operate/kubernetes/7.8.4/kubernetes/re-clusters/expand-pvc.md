@@ -8,6 +8,7 @@ categories:
 description: Expand your persistent volume claim by editing the REC.
 linkTitle: Expand PVC
 weight: 82
+url: '/operate/kubernetes/7.8.4/kubernetes/re-clusters/expand-pvc/'
 ---
 
 This article outlines steps to increase the size of the persistent volume claim for your Redis Enterprise cluster (REC).

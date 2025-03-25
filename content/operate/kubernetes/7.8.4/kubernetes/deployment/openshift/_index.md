@@ -10,6 +10,7 @@ description: A quick introduction to the steps necessary to get a Redis Enterpri
 hideListLinks: true
 linkTitle: OpenShift
 weight: 11
+url: '/operate/kubernetes/7.8.4/kubernetes/deployment/openshift/'
 ---
 The deployment of Redis Enterprise clusters is managed with the Redis Enterprise operator that you deploy in the namespace for your project.
 To create a database that your application

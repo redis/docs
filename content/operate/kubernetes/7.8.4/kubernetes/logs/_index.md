@@ -9,6 +9,7 @@ description: This section provides information about how logs are stored and acc
 hideListLinks: true
 linkTitle: Logs
 weight: 60
+url: '/operate/kubernetes/7.8.4/kubernetes/logs/'
 ---
 
 ## Logs

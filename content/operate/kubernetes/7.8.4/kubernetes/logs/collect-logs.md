@@ -9,6 +9,7 @@ description: Run the log collector script to package relevant logs into a tar.gz
   to send to Redis Support for help troubleshooting your Kubernetes environment.
 linkTitle: Collect logs
 weight: 89
+url: '/operate/kubernetes/7.8.4/kubernetes/logs/collect-logs/'
 ---
 
 The Redis Enterprise cluster (REC) log collector script ([`log_collector.py`](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/log_collector/log_collector.py)) creates and fills a directory with the relevant logs for your environment. These logs will help the support team with troubleshooting.

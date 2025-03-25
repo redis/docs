@@ -9,6 +9,7 @@ description: This task describes how to upgrade a Redis Enterprise cluster via O
   CLI.
 linkTitle: OpenShift CLI
 weight: 20
+url: '/operate/kubernetes/7.8.4/kubernetes/upgrade/openshift-cli/'
 ---
 
 Redis implements rolling updates for software upgrades in Kubernetes deployments. The upgrade process includes updating three components:

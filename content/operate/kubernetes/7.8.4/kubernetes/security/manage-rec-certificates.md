@@ -9,6 +9,7 @@ description: Install your own certificates to be used by the Redis Enterprise cl
   operator.
 linkTitle: Manage REC certificates
 weight: 94
+url: '/operate/kubernetes/7.8.4/kubernetes/security/manage-rec-certificates/'
 ---
 
 By default, Redis Enterprise Software for Kubernetes generates TLS certificates for the cluster during creation. These self-signed certificates are generated on the first node of each Redis Enterprise cluster (REC) and are copied to all other nodes added to the cluster. For the list of of certificates used by Redis Enterprise Software and the traffic they encrypt, see the [certificates table]({{< relref "/operate/rs/security/certificates" >}}).

@@ -9,6 +9,7 @@ description: Configure Istio as an ingress controller for access to your Redis E
   databases from outside the Kubernetes cluster.
 linkTitle: Istio ingress routing
 weight: 20
+url: '/operate/kubernetes/7.8.4/kubernetes/networking/istio-ingress/'
 ---
 
 Redis Enterprise for Kubernetes has the ability to use an Istio Ingress gateway as an alternative to NGINX or HaProxy Ingress controllers.

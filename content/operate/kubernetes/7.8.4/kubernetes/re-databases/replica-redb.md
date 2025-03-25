@@ -8,6 +8,7 @@ categories:
 description: How to create and automate database replicas using the database controller
 linkTitle: Create replica databases
 weight: 42
+url: '/operate/kubernetes/7.8.4/kubernetes/re-databases/replica-redb/'
 ---
 
 You can configure a replica of a database by creating an item in

@@ -9,6 +9,7 @@ description: Articles to help you manage your Redis Enterprise clusters (REC).
 hideListLinks: false
 linkTitle: Redis Enterprise clusters (REC)
 weight: 30
+url: '/operate/kubernetes/7.8.4/kubernetes/re-clusters/'
 ---
 
 This section contains articles to help you manage your Redis Enterprise clusters (REC).

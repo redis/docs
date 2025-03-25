@@ -9,6 +9,7 @@ description: Redis Enterprise for Kubernetes and cluster can be installed via CL
   tools OpenShift
 linkTitle: OpenShift CLI
 weight: 60
+url: '/operate/kubernetes/7.8.4/kubernetes/deployment/openshift/openshift-cli/'
 ---
 Use these steps to set up a Redis Enterprise Software cluster with OpenShift.
 

@@ -8,6 +8,7 @@ categories:
 description: How to install Redis Enterprise Software for Kubernetes.
 linkTitle: Kubernetes
 weight: 10
+url: '/operate/kubernetes/7.8.4/kubernetes/deployment/quick-start/'
 ---
 
 To deploy Redis Enterprise Software for Kubernetes and start your Redis Enterprise cluster (REC), you need to do the following:

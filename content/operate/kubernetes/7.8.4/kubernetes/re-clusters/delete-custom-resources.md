@@ -12,6 +12,7 @@ weight: 70
 aliases: [
   /operate/kubernetes/delete-custom-resources/,
 ]
+url: '/operate/kubernetes/7.8.4/kubernetes/re-clusters/delete-custom-resources/'
 ---
 
 ## Multi-namespace management

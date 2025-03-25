@@ -8,6 +8,7 @@ categories:
 description: null
 linkTitle: OpenShift routes
 weight: 15
+url: '/operate/kubernetes/7.8.4/kubernetes/networking/routes/'
 ---
 
 OpenShift routes allow requests to be routed to the database or cluster API from outside the cluster. For more information about routes, see [OpenShift documentation](https://docs.openshift.com/container-platform/4.13/networking/routes/route-configuration.html).
