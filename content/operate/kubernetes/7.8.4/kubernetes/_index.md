@@ -8,7 +8,7 @@ categories:
 description: The Redis Enterprise operators allows you to use Redis Enterprise for
   Kubernetes.
 hideListLinks: false
-linkTitle: Redis for Kubernetes
+linkTitle: 7.8.4
 weight: 50
 url: '/operate/kubernetes/7.8.4/kubernetes/'
 ---
