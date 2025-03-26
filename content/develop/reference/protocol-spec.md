@@ -74,7 +74,7 @@ This is the simplest model possible; however, there are some exceptions:
 * The [`MONITOR`]({{< relref "/commands/monitor" >}}) command.
   Invoking the [`MONITOR`]({{< relref "/commands/monitor" >}}) command switches the connection to an ad-hoc push mode.
   The protocol of this mode is not specified but is obvious to parse.
-* [Protected mode]({{< baseurl >}}/operate/oss_and_stack/management/security/#protected-mode).
+* [Protected mode]({{< relref "operate/oss_and_stack/management/security/#protected-mode" >}}).
   Connections opened from a non-loopback address to a Redis while in protected mode are denied and terminated by the server.
   Before terminating the connection, Redis unconditionally sends a `-DENIED` reply, regardless of whether the client writes to the socket.
 * The [RESP3 Push type](#resp3-pushes).
@@ -754,7 +754,7 @@ While comparable in performance to a binary protocol, the Redis protocol is sign
 
 ## Tips for Redis client authors
 
-* For testing purposes, use [Lua's type conversions]({{< baseurl >}}/develop/interact/programmability/lua-api#lua-to-resp3-type-conversion) to have Redis reply with any RESP2/RESP3 needed.
+* For testing purposes, use [Lua's type conversions]({{< relref "develop/interact/programmability/lua-api#lua-to-resp3-type-conversion" >}}) to have Redis reply with any RESP2/RESP3 needed.
   As an example, a RESP3 double can be generated like so:
   ```
   EVAL "return { double = tonumber(ARGV[1]) }" 0 1e0

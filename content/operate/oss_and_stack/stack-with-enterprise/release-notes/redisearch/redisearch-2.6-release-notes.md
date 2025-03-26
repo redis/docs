@@ -15,10 +15,60 @@ weight: 92
 ---
 ## Requirements
 
-RediSearch v2.6.24 requires:
+RediSearch v2.6.28 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v2.6.28 (March 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
+
+Bug fixes:
+- [#5712](https://github.com/redisearch/redisearch/pull/5712) Weights in the query string are ignored if using `SCORER BM25` (MOD-7896)
+
+## v2.6.27 (February 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
+
+Bug fixes:
+
+- [#5648](https://github.com/redisearch/redisearch/pull/5648) `FT.SEARCH` using Cyrillic characters and wildcards delivering no results (MOD-7944)
+
+## v2.6.26 (February 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5606](https://github.com/redisearch/redisearch/pull/5606) Changes on the memory block reading logic could cause crash on `FT.SEARCH` with error "_Redis 7.4.2 crashed by signal: 11, si_code: 128_"
+
+Known limitations:
+- Only the first 128 characters of string fields are normalized to lowercase during ingestion (for example, on `HSET`).
+    Example:
+
+    ```
+    HSET doc __score 1.0 name "idx1S...S" mynum 1          # Assume "S...S" is a string of 252 capital S's
+    FT.CREATE "idx" SCHEMA "name" "TEXT" "mynum" "NUMERIC"
+    FT.SEARCH "idx" "@name:idx1S...S"                      # Assume "S...S" is a string of 252 capital S's
+    ```
+
+    The `FT.SEARCH` command will return no documents.
+
+## v2.6.25 (January 2025)
+
+This is a maintenance release for RediSearch 2.6.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5484](https://github.com/redisearch/redisearch/pull/5484) NOSTEM option does not work on query, just tokenising (MOD-7634)
+- [#5543](https://github.com/redisearch/redisearch/pull/5543) Querying for the latest document added to the index may result in a crash if the last block is not read (MOD-8561).
 
 ## v2.6.24 (January 2025)
 

@@ -22,7 +22,7 @@ Before you upgrade a cluster's operating system:
 
     To learn which versions of Redis Enterprise Software support specific OS versions, see [Supported platforms]({{< relref "/operate/rs/references/supported-platforms#supported-platforms" >}}).
 
-1. If the cluster contains databases that use modules:
+1. If the cluster contains any databases that use modules:
 
     1. Update all nodes in the cluster to [Redis Enterprise Software version 7.2.4-52]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases" >}}) or later before you upgrade the OS.
 
@@ -50,12 +50,12 @@ Before you upgrade a cluster's operating system:
         db:1     db1        RedisJSON           2.4.7                                OK, OLD MODULE VERSION  
         ```
 
-    1. If any databases use custom modules, manually uploaded modules, or modules marked with `OLD MODULE VERSION`, upload module packages for the OS upgrade version to a cluster node. See [Install a module on a cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster" >}}) for instructions.
+    1. Upload module packages for the target OS version to a node in the existing cluster. See [Install a module on a cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster" >}}) for instructions.
 
         {{<note>}}
 The uploaded module packages have the following requirements:
 
-- The module is compiled for the OS upgrade version.
+- The module is compiled for the target OS version.
     
 - The module version matches the version currently used by databases.
         {{</note>}}

@@ -33,7 +33,7 @@ Get cluster services settings.
 
 #### Example HTTP request
 
-	GET /cluster/services_configuration 
+	GET /v1/cluster/services_configuration 
 
 #### Request headers
 
@@ -82,7 +82,7 @@ Update the cluster services settings.
 
 #### Example HTTP request
 
-	PUT /cluster/services_configuration 
+	PUT /v1/cluster/services_configuration 
 
 #### Example JSON body
 

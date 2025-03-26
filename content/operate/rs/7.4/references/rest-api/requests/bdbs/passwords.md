@@ -34,7 +34,7 @@ Set a single password for the bdb's default user (i.e., for `AUTH`&nbsp;`<passwo
 
 #### Example HTTP request
 
-	PUT /bdbs/1/passwords 
+	PUT /v1/bdbs/1/passwords 
 
 #### Example JSON body
 
@@ -95,7 +95,7 @@ Add a password to the bdb's default user (i.e., for `AUTH`&nbsp;`<password>` aut
 
 #### Example HTTP request
 
-	POST /bdbs/1/passwords 
+	POST /v1/bdbs/1/passwords 
 
 #### Example JSON body
 
@@ -154,7 +154,7 @@ Delete a password from the bdb's default user (i.e., for `AUTH`&nbsp;`<password>
 
 #### Example HTTP request
 
-	DELETE /bdbs/1/passwords 
+	DELETE /v1/bdbs/1/passwords 
 
 #### Example JSON body
 

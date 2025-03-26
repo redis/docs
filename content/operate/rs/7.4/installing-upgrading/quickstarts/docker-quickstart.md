@@ -9,7 +9,6 @@ description: Set up a development or test deployment of Redis Enterprise Softwar
   using Docker.
 linkTitle: Docker quickstart
 weight: 2
-aliases: /operate/rs/installing-upgrading/get-started-docker/
 url: '/operate/rs/7.4/installing-upgrading/quickstarts/docker-quickstart/'
 ---
 {{< warning >}}

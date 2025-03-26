@@ -42,7 +42,7 @@ and fast data structures that match your app's requirements. You specify the
 transformations using a configuration system, so no coding is necessary.
 
 {{<note>}}
-RDI is supported with Redis database or [CRDB](https://redis.com/redis-enterprise/technology/active-active-geo-distribution/) (Active Active Replication) targets.
+RDI is supported with Redis database or [CRDB](https://redis.io/active-active/) (Active Active Replication) targets.
 {{</note>}}
 
 ## Features
@@ -69,7 +69,7 @@ RDI provides enterprise-grade streaming data pipelines with the following featur
 - **Backpressure mechanism** - RDI is designed to backoff writing data when the cache gets
   disconnected, which prevents cascading failure. Since the change data is persisted in the source
   database and Redis is very fast, RDI can easily catch up with missed changes after a short period of
-  disconnection. See [Backpressure mechanism]({{< relref "/integrate/redis-data-integration/architecture #backpressure-mechanism">}}) for more information.
+  disconnection. See [Backpressure mechanism]({{< relref "/integrate/redis-data-integration/architecture#backpressure-mechanism">}}) for more information.
 - **Recovering from full failure** - If the cache fails or gets disconnected for a long time,
   RDI can reconstruct the cache data in Redis using a full snapshot of the defined dataset.
 - **High throughput** - Because RDI uses Redis for staging and writes to Redis as a target,

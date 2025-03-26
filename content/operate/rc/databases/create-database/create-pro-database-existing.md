@@ -11,23 +11,31 @@ weight: 15
 tocEmbedHeaders: true
 ---
 
-{{< embed-md "rc-create-db-first-steps.md" >}}
-
-{{< embed-md "rc-create-db-use-cases.md" >}}
-
-{{< note >}}See [Use case settings](#use-case-settings) to view the default settings for each use case.{{< /note >}}
-
-4. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Pro**, select **Existing subscription**, and then select your existing pro subscription from the list.
-
-    {{<image filename="images/rc/create-database-subscription-pro-existing.png" alt="The Subscription selection panel with Pro selected and an existing subscription selected.">}}
-
-    {{< note >}}
+{{< note >}}
 This guide shows how to create a Pro database in an existing subscription.
 - If you don't yet have a Pro subscription, see [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}).
 - If you'd rather create an Essentials database, see [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}).
-    {{< /note >}}
+{{< /note >}}
 
-After you select **Pro** and select your existing subscription from the list, select **Continue** to go to the **New database** page. 
+To create a database in an already existing Pro subscription: 
+
+1. Sign in to the [Redis Cloud console](https://cloud.redis.io).
+
+2. Select the **New database** button.
+
+    {{<image filename="images/rc/button-database-new.png" alt="The New Database button creates a new database." width="120px">}}
+
+    This displays the **Create database** screen.
+
+1. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Existing subscription**, and then select your existing Pro subscription from the list.
+
+    {{<image filename="images/rc/create-database-subscription-pro-existing.png" alt="The Subscription selection panel with Pro selected and an existing subscription selected.">}}
+
+After you select your existing subscription from the list, select **Continue** to go to the **New database** page.
+
+You can also select your subscription from the [subscription list]({{< relref "/operate/rc/subscriptions/view-pro-subscription" >}}) and select **Create database in this subscription**.
+
+{{<image filename="images/rc/button-add-new-to-pro.png" alt="The Create database in this subscription button." width=400px >}}
 
 The **New database** page is divided into sections, each dedicated to a specific category of settings. The following sections provide more details.
 
@@ -67,9 +75,7 @@ The **Performance** section lets you manage the maximum size, throughput, and ha
 | **Throughput**      | Defines throughput in terms of maximum operations per second for the database. See [Throughput]({{< relref "/operate/rc/databases/configuration/sizing#throughput" >}}) for more info. <br/> Databases with Search and query have specific throughput requirements, see [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more information. |
 | **High availability**    | Replicates your data across multiple nodes, as allowed by your subscription plan. See [High availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) for more info|
 | **Hashing policy**  | Defines the [hashing policy]({{< relref "/operate/rc/databases/configuration/clustering#manage-the-hashing-policy" >}}).  |
-| **OSS Cluster API** | Enables the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database<br/><br/>When this option is enabled, you cannot define a custom hashing policy.  |
-
-To learn more about these settings and when to use them, see [Database clustering]({{< relref "/operate/rc/databases/configuration/clustering" >}}).
+| **OSS Cluster API** | Activates the [Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) for a database. When this option is selected, you cannot define a custom hashing policy.<br/> After you select OSS Cluster API, you can select **Use external endpoint** if you want to use the external endpoint for the database. Selecting **Use external endpoint** will block the private endpoint for this database. |
 
 ## Durability section
 
@@ -129,4 +135,4 @@ The available alerts vary according to the subscription type.
 | **Throughput is higher than** | When enabled, sends an email when the operations per second exceed the defined threshold                   |
 | **Throughput is lower than** | When enabled, sends an email when the operations per second falls below the defined threshold             |
 
-{{< embed-md "rc-pro-use-cases-billing-units.md" >}}
+{{< embed-md "rc-pro-billing-units.md" >}}

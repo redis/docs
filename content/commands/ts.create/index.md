@@ -98,16 +98,16 @@ is key name for the time series.
 <note><b>Notes:</b>
 
 - If a key already exists, you get a Redis error reply, `TSDB: key already exists`. You can check for the existence of a key with the [`EXISTS`]({{< relref "/commands/exists" >}}) command.
-- Other commands that also create a new time series when called with a key that does not exist are [`TS.ADD`]({{< baseurl >}}/commands/ts.add/), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby/), and [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby/).
+- Other commands that also create a new time series when called with a key that does not exist are [`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}).
 </note>
 
 ## Optional arguments
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary> 
 
-is maximum age for samples compared to the highest reported timestamp, in milliseconds. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`]({{< baseurl >}}/commands/ts.add/), [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/), [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby/), and [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby/) calls with this key.
+is maximum age for samples compared to the highest reported timestamp, in milliseconds. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) calls with this key.
 
-When set to 0, samples never expire. When not specified, the option is set to the global [RETENTION_POLICY]({{< baseurl >}}/develop/data-types/timeseries/configuration#retention_policy) configuration of the database, which by default is 0.
+When set to 0, samples never expire. When not specified, the option is set to the global [RETENTION_POLICY]({{< relref "develop/data-types/timeseries/configuration#retention_policy" >}}) configuration of the database, which by default is 0.
 </details>
 
 <details open><summary><code>ENCODING enc</code></summary> 
@@ -123,9 +123,9 @@ When not specified, the option is set to `COMPRESSED`.
 
 <details open><summary><code>CHUNK_SIZE size</code></summary> 
 
-is initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. Changing chunkSize (using [`TS.ALTER`]({{< baseurl >}}/commands/ts.alter/)) does not affect existing chunks.
+is initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. Changing chunkSize (using [`TS.ALTER`]({{< relref "commands/ts.alter/" >}})) does not affect existing chunks.
 
-Must be a multiple of 8 in the range [48 .. 1048576]. When not specified, it is set to the global [CHUNK_SIZE_BYTES]({{< baseurl >}}/develop/data-types/timeseries/configuration#chunk_size_bytes) configuration of the database, which by default is 4096 (a single memory page).
+Must be a multiple of 8 in the range [48 .. 1048576]. When not specified, it is set to the global [CHUNK_SIZE_BYTES]({{< relref "develop/data-types/timeseries/configuration#chunk_size_bytes" >}}) configuration of the database, which by default is 4096 (a single memory page).
 
 Note: Before v1.6.10 no minimum was enforced. Between v1.6.10 and v1.6.17 and in v1.8.0 the minimum value was 128. Since v1.8.1 the minimum value is 48.
 
@@ -140,7 +140,7 @@ The data in each key is stored in chunks. Each chunk contains header and data fo
 
 <details open><summary><code>DUPLICATE_POLICY policy</code></summary> 
 
-is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) and [`TS.MADD`]({{< baseurl >}}/commands/ts.madd/)) of multiple samples with identical timestamps, with one of the following values:
+is policy for handling insertion ([`TS.ADD`]({{< relref "commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "commands/ts.madd/" >}})) of multiple samples with identical timestamps, with one of the following values:
   - `BLOCK`: ignore any newly reported value and reply with an error
   - `FIRST`: ignore any newly reported value
   - `LAST`: override with the newly reported value
@@ -148,7 +148,7 @@ is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}/commands/ts.add/) a
   - `MAX`: only override if the value is higher than the existing value
   - `SUM`: If a previous sample exists, add the new sample to it so that the updated value is equal to (previous + new). If no previous sample exists, set the updated value equal to the new value.
 
-  When not specified: set to the global [DUPLICATE_POLICY]({{< baseurl >}}/develop/data-types/timeseries/configuration#duplicate_policy) configuration of the database (which, by default, is `BLOCK`).
+  When not specified: set to the global [DUPLICATE_POLICY]({{< relref "develop/data-types/timeseries/configuration#duplicate_policy" >}}) configuration of the database (which, by default, is `BLOCK`).
 
 `BLOCK` is often used to avoid accidental changes. `FIRST` can be used as an optimization when duplicate reports are possible. `LAST` can be used when updates are being reported. `SUM` is used for counters (e.g., the number of cars entering a parking lot per minute when there are multiple reporting counting devices). `MIN` and `MAX` can be used, for example, to store the minimal/maximal stock price per minute (instead of storing all the samples and defining a compaction rule).
 
@@ -166,14 +166,14 @@ is the policy for handling duplicate samples. A new sample is considered a dupli
  
 where `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.
 
-When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF]({{< baseurl >}}/develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
+When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< relref "develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff" >}}) and [IGNORE_MAX_VAL_DIFF]({{< relref "develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff" >}}), which are, by default, both set to 0.
 </details>
 
 <details open><summary><code>LABELS {label value}...</code></summary> 
 
 is set of label-value pairs that represent metadata labels of the key and serve as a secondary index.
 
-The [`TS.MGET`]({{< baseurl >}}/commands/ts.mget/), [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/), and [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/) commands operate on multiple time series based on their labels. The [`TS.QUERYINDEX`]({{< baseurl >}}/commands/ts.queryindex/) command returns all time series keys matching a given filter based on their labels.
+The [`TS.MGET`]({{< relref "commands/ts.mget/" >}}), [`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}), and [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) commands operate on multiple time series based on their labels. The [`TS.QUERYINDEX`]({{< relref "commands/ts.queryindex/" >}}) command returns all time series keys matching a given filter based on their labels.
 </details>
 
 ## Return value
@@ -195,7 +195,7 @@ OK
 
 ## See also
 
-[`TS.ADD`]({{< baseurl >}}/commands/ts.add/) | [`TS.INCRBY`]({{< baseurl >}}/commands/ts.incrby/) | [`TS.DECRBY`]({{< baseurl >}}/commands/ts.decrby/) | [`TS.MGET`]({{< baseurl >}}/commands/ts.mget/) | [`TS.MRANGE`]({{< baseurl >}}/commands/ts.mrange/) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/) | [`TS.QUERYINDEX`]({{< baseurl >}}/commands/ts.queryindex/)
+[`TS.ADD`]({{< relref "commands/ts.add/" >}}) | [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}) | [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) | [`TS.MGET`]({{< relref "commands/ts.mget/" >}}) | [`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) | [`TS.QUERYINDEX`]({{< relref "commands/ts.queryindex/" >}})
 
 ## Related topics
 

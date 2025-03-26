@@ -229,7 +229,7 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
     apiVersion: app.redislabs.com/v1alpha1
     kind: RedisEnterpriseDatabase
     metadata:
-    name: redis-enterprise-database
+      name: redis-enterprise-database
     spec:
       memorySize: 100MB
     EOF

@@ -15,7 +15,7 @@ To view the details of a Redis Cloud Pro subscription:
 
 1.  If you have more than one subscription, select the target subscription from the subscription list.
 
-    {{<image filename="images/rc/subscription-list-select.png" alt="The Subscription list shows your current subscriptions." >}}
+    {{<image filename="images/rc/subscription-list-select.png" alt="The Subscription list shows your current subscriptions." width=50% >}}
 
 1.  Your subscription details appear, along with a summary of your database details.
 
@@ -23,9 +23,9 @@ To view the details of a Redis Cloud Pro subscription:
 
 From here, you can:
 
-- Select the **New database** button to add a database to your subscription.
+- Select **Create database in this subscription** to [add a database to your subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}).
 
-    {{<image filename="images/rc/button-database-new.png" alt="Use the **New database** button to create a new database for your subscription." >}}
+    {{<image filename="images/rc/button-add-new-to-pro.png" alt="The Create database in this subscription button." width=400px >}}
 
 - View the Status icon to learn the status of your subscription.  Active subscriptions display a green circle with a check mark. Pending subscriptions display an animated, grey circle.
 

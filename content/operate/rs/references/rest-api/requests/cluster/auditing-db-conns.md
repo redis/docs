@@ -33,7 +33,7 @@ Gets the configuration settings for [auditing database connections]({{< relref "
 
 #### Example HTTP request
 
-	GET /cluster/auditing/db_conns 
+	GET /v1/cluster/auditing/db_conns 
 
 
 #### Request headers
@@ -90,7 +90,7 @@ Updates the configuration settings for [auditing database connections]({{< relre
 
 #### Example HTTP request
 
-	PUT /cluster/auditing/db_conns
+	PUT /v1/cluster/auditing/db_conns
 
 #### Example JSON body
 
@@ -162,7 +162,7 @@ Resets the configuration settings for [auditing database connections]({{< relref
 
 #### Example HTTP request
 
-	DELETE /cluster/auditing/db_conns 
+	DELETE /v1/cluster/auditing/db_conns 
 
 
 #### Request headers

@@ -36,7 +36,7 @@ Get stats for all syncer sources of a local database.
 #### Example HTTP request
 
 ```sh
-GET /bdbs/1/sync_source_stats?interval=5min
+GET /v1/bdbs/1/sync_source_stats?interval=5min
 ```
 
 #### Headers
@@ -119,7 +119,7 @@ Get stats for a specific syncer (Replica Of) instance.
 #### Example HTTP request
 
 ```sh
-GET /bdbs/1/sync_source_stats/1?interval=5min
+GET /v1/bdbs/1/sync_source_stats/1?interval=5min
 ```
 
 #### Headers

@@ -25,9 +25,10 @@ To view available Redis database versions:
 
 The default Redis database version differs between Redis Enterprise releases as follows:
 
+<a name="db-versions-table"></a>
 | Redis<br />Software | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
 |-------|----------|-----|
-| 7.8.2 | 6.2, 7.2, 7.4 | 7.4 |
+| 7.8.x | 6.2, 7.2, 7.4 | 7.4 |
 | 7.4.x | 6.0, 6.2, 7.2 | 7.2 |
 | 7.2.4 | 6.0, 6.2, 7.2 | 7.2 |
 | 6.4.2 | 6.0, 6.2 | 6.2 |
@@ -42,9 +43,9 @@ Before upgrading a database:
 
 - Review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
 
-- Verify that the database version meets the minimums specified earlier.
+- Verify that both the [current database version and the target database version are supported](#db-versions-table) by the cluster's Redis Enterprise Software version.
 
-    To determine the database version:
+    To determine the current database version:
 
     - Use the Cluster Manager UI to open the **Configuration** tab for the database and select {{< image filename="/images/rs/icons/info-icon.png#no-click" alt="The About database button" width="18px" class="inline" >}} **About**.
 

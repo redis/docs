@@ -52,7 +52,8 @@ select **Save Changes**.
 
 ## 3. Select the new parameter group
 
-Scroll down to **Additional Configuration**. Set the **DB Cluster Parameter Group**
-to the value `rdi-aurora-pg` that you have just added:
+Go back to your target database on the RDS console, select **Modify** and then
+scroll down to **Additional Configuration**. Set
+the **DB Cluster Parameter Group** to the value `rdi-aurora-pg` that you have just added:
 
 {{<image filename="images/rdi/ingest/prepsrc/aurora-pgsql/CreateDB6.jpg" alt="Additional Configuration panel" >}}

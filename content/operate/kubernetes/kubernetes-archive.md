@@ -4,7 +4,7 @@ alwaysopen: false
 categories:
 - docs
 - operate
-- rc
+- kubernetes
 description: Describes where to view the archive of Redis Enterprise for Kubernetes
   documentation.
 linkTitle: Archive

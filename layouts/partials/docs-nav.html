@@ -53,34 +53,25 @@
 {{- end }}
 
 
-{{ $base := .Site.BaseURL }}
-{{ $parsed := urls.Parse $base }}
-{{ $path := $parsed.Path }}
-{{ if (eq $path "/") }}
-  {{ .Scratch.Set "path" ""}}
-{{ else }}
-  {{ .Scratch.Set "path" $path}}
-{{ end }}
-
 <div class="md:block w-full md:w-96 h-fit md:h-full shrink-0 text-base font-mono font-normal py-6">
   <nav id="sidebar" class="max-h-[calc(100vh-7rem)] min-h-96 flex flex-col gap-4 w-full md:w-96 z-40 bg-white md:fixed md:pt-6 h-fit md:h-full leading-7">
     {{ $navRoot := cond (eq .Site.Home.Type "docs") .Site.Home .FirstSection -}}
     {{ $ulNr := 0 -}}
     {{ $ulShow := 1 -}}
       <div class='min-h-0  border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col {{ if not (in (slice "Develop" "Integrate" "Operate") $navRoot.LinkTitle) }} shrink-0 {{ end }}'>
-        <a class='px-6 py-4 rounded-t-md hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "Develop" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/develop'>Develop with Redis</a>
+        <a class='px-6 py-4 rounded-t-md hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "Develop" }} font-bold {{ end }}' href='{{ relURL "develop" }}'>Develop with Redis</a>
         {{ if eq $navRoot.LinkTitle "Develop" }}
           <ul class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
             {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
           </ul>
         {{ end }}
-        <a class='px-6 py-4 hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50 {{ if eq $navRoot.LinkTitle "Integrate" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/integrate'>Libraries and tools</a>
+        <a class='px-6 py-4 hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50 {{ if eq $navRoot.LinkTitle "Integrate" }} font-bold {{ end }}' href='{{ relURL "integrate" }}'>Libraries and tools</a>
         {{ if eq $navRoot.LinkTitle "Integrate" }}
           <ul class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
             {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
           </ul>
         {{ end }}
-        <a class='px-6 py-4 rounded-b-md hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50 {{ if eq $navRoot.LinkTitle "Operate" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/operate'>Redis products</a>
+        <a class='px-6 py-4 rounded-b-md hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50 {{ if eq $navRoot.LinkTitle "Operate" }} font-bold {{ end }}' href='{{ relURL "operate" }}'>Redis products</a>
         {{ if eq $navRoot.LinkTitle "Operate" }}
           <ul class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
             {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}
@@ -88,7 +79,7 @@
         {{ end }}
       </div>
       <div class='min-h-0 border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col {{ if not (eq $navRoot.LinkTitle "Commands") }} shrink-0 {{ end }}'>
-        <a class='px-6 py-4 hover:bg-redis-pen-200 text-redis-red-600 {{ if eq $navRoot.LinkTitle "Commands" }} font-bold {{ end }}' href='{{ .Scratch.Get "path" }}/commands'>Commands</a>
+        <a class='px-6 py-4 hover:bg-redis-pen-200 text-redis-red-600 {{ if eq $navRoot.LinkTitle "Commands" }} font-bold {{ end }}' href='{{ relURL "commands" }}'>Commands</a>
         {{ if eq $navRoot.LinkTitle "Commands" }}
           <ul class="md:block overflow-y-auto grow pr-6 border-t border-opacity-50 border-redis-ink-900">
             {{ template "li" (dict "page" . "pages" (union $navRoot.Pages $navRoot.Sections).ByWeight) }}

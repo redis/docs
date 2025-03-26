@@ -64,7 +64,7 @@ out of memory (OOM) messages.
 4. If shards can't free memory, Redis Enterprise relies on the OS processes to stop replicas,
 but tries to avoid stopping primary shards.
 
-We recommend that you have a [monitoring platform]({{< relref "/operate/rs/clusters/monitoring/" >}}) that alerts you before a system gets low on RAM.
+We recommend that you have a [monitoring platform]({{< relref "/operate/rs/monitoring/" >}}) that alerts you before a system gets low on RAM.
 You must maintain sufficient free memory to make sure that you have a healthy Redis Enterprise installation.
 
 ## Memory metrics
@@ -85,5 +85,5 @@ See [console metrics]({{< relref "/operate/rs/references/metrics" >}}) for more 
 - [Disk sizing for heavy write scenarios]({{< relref "/operate/rs/clusters/optimize/disk-sizing-heavy-write-scenarios.md" >}})
 - [Turn off services to free system memory]({{< relref "/operate/rs/clusters/optimize/turn-off-services.md" >}})
 - [Eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}})
-- [Shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy.md " >}})
+- [Shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy.md" >}})
 - [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}})

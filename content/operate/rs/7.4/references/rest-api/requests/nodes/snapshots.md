@@ -36,7 +36,7 @@ Get all cluster node snapshots of the specified node.
 #### Example HTTP request
 
 ```sh
-GET /nodes/1/snapshots
+GET /v1/nodes/1/snapshots
 ```
 
 #### Headers
@@ -99,7 +99,7 @@ Delete a cluster node snapshot. Snapshots created by maintenance mode are not de
 #### Example HTTP request
 
 ```sh
-DELETE /nodes/1/snapshots/nightly_snapshot_19
+DELETE /v1/nodes/1/snapshots/nightly_snapshot_19
 ```
 
 #### Request headers

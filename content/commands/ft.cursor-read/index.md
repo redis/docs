@@ -39,7 +39,7 @@ Read next results from an existing cursor
 
 [Examples](#examples)
 
-See [Cursor API]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api) for more details.
+See [Cursor API]({{< relref "develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api" >}}) for more details.
 
 ## Required arguments
 
@@ -58,7 +58,7 @@ is id of the cursor.
 <details open>
 <summary><code>[COUNT read_size]</code></summary>
 
-is number of results to read. This parameter overrides `COUNT` specified in [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/).
+is number of results to read. This parameter overrides `COUNT` specified in [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
 </details>
 
 ## Return
@@ -77,7 +77,7 @@ FT.CURSOR READ returns an array reply where each row is an array reply and repre
 
 ## See also
 
-[`FT.CURSOR DEL`]({{< baseurl >}}/commands/ft.cursor-del/) | [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/)
+[`FT.CURSOR DEL`]({{< relref "commands/ft.cursor-del/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}})
 
 ## Related topics
 

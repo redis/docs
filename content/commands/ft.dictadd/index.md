@@ -67,7 +67,7 @@ FT.DICTADD returns an integer reply, the number of new terms that were added.
 
 ## See also
 
-[`FT.DICTDEL`]({{< baseurl >}}/commands/ft.dictdel/) | [`FT.DICTDUMP`]({{< baseurl >}}/commands/ft.dictdump/)
+[`FT.DICTDEL`]({{< relref "commands/ft.dictdel/" >}}) | [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}})
 
 ## Related topics
 

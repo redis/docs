@@ -58,7 +58,7 @@ FT.CONFIG GET OPT1
 FT.CONFIG GET *
 ```
 
-Values set using [`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) are not persisted after server restart.
+Values set using [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) are not persisted after server restart.
 
 ## RediSearch configuration parameters
 
@@ -266,7 +266,7 @@ $ redis-server --loadmodule ./redisearch.so MAXDOCTABLESIZE 3000000
 
 ### MAXSEARCHRESULTS
 
-The maximum number of results to be returned by the [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search/) command if LIMIT is used.
+The maximum number of results to be returned by the [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command if LIMIT is used.
 Setting value to `-1` will remove the limit. 
 
 #### Default
@@ -283,7 +283,7 @@ $ redis-server --loadmodule ./redisearch.so MAXSEARCHRESULTS 3000000
 
 ### MAXAGGREGATERESULTS
 
-The maximum number of results to be returned by the [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/) command if LIMIT is used.
+The maximum number of results to be returned by the [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) command if LIMIT is used.
 Setting value to `-1` will remove the limit. 
 
 #### Default
@@ -300,7 +300,7 @@ $ redis-server --loadmodule ./redisearch.so MAXAGGREGATERESULTS 3000000
 
 ### FRISOINI
 
-If present, load the custom Chinese dictionary from the specified path. See [Using custom dictionaries]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/chinese#using-custom-dictionaries) for more details.
+If present, load the custom Chinese dictionary from the specified path. See [Using custom dictionaries]({{< relref "develop/interact/search-and-query/advanced-concepts/chinese#using-custom-dictionaries" >}}) for more details.
 
 #### Default
 
@@ -316,7 +316,7 @@ $ redis-server --loadmodule ./redisearch.so FRISOINI /opt/dict/friso.ini
 
 ### CURSOR_MAX_IDLE
 
-The maximum idle time (in ms) that can be set to the [cursor api]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api).
+The maximum idle time (in ms) that can be set to the [cursor api]({{< relref "develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api" >}}).
 
 #### Default
 
@@ -497,11 +497,11 @@ $ redis-server --loadmodule ./redisearch.so GC_POLICY FORK FORK_GC_CLEAN_THRESHO
 
 ### UPGRADE_INDEX
 
-This configuration is a special configuration option introduced to upgrade indices from v1.x RediSearch versions, otherwise known as legacy indices. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [ft.create api]({{< baseurl >}}/commands/ft.create/). 
+This configuration is a special configuration option introduced to upgrade indices from v1.x RediSearch versions, otherwise known as legacy indices. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [ft.create api]({{< relref "commands/ft.create/" >}}). 
 
 #### Default
 
-There is no default for index name, and the other arguments have the same defaults as with the [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/) API.
+There is no default for index name, and the other arguments have the same defaults as with the [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) API.
 
 #### Example
 
@@ -545,7 +545,7 @@ $ redis-server --loadmodule ./redisearch.so OSS_GLOBAL_PASSWORD password
 
 The default
 [DIALECT]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
-to be used by [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate/), [`FT.EXPLAIN`]({{< baseurl >}}/commands/ft.explain/), [`FT.EXPLAINCLI`]({{< baseurl >}}/commands/ft.explaincli/), and [`FT.SPELLCHECK`]({{< baseurl >}}/commands/ft.spellcheck/).
+to be used by [`FT.CREATE`]({{< relref "commands/ft.create/" >}}), [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}), [`FT.EXPLAIN`]({{< relref "commands/ft.explain/" >}}), [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli/" >}}), and [`FT.SPELLCHECK`]({{< relref "commands/ft.spellcheck/" >}}).
 See [Query dialects]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}})
 for more information.
 
@@ -563,7 +563,7 @@ $ redis-server --loadmodule ./redisearch.so DEFAULT_DIALECT 2
 
 ### VSS_MAX_RESIZE
 
-The maximum memory resize for vector similarity indexes in bytes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/vectors/#creation-attributes-per-algorithm).
+The maximum memory resize for vector similarity indexes in bytes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors/#creation-attributes-per-algorithm" >}}).
 
 #### Default
 
@@ -582,13 +582,13 @@ $ redis-server --loadmodule ./redisearch.so VSS_MAX_RESIZE 52428800  # 50MB
 {{% /alert %}}
 ### INDEX_CURSOR_LIMIT
 
-The maximum number of cursors that can be opened, per shard, at any given time.  Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< baseurl >}}/commands/ft.aggregate/).  Cursors are also opened internally by the Redis Query Engine for long-running queries.  Once `INDEX_CURSOR_LIMIT` is reached, any further attempts at opening a cursor will result in an error.
+The maximum number of cursors that can be opened, per shard, at any given time.  Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< relref "commands/ft.aggregate/" >}}).  Cursors are also opened internally by the Redis Query Engine for long-running queries.  Once `INDEX_CURSOR_LIMIT` is reached, any further attempts at opening a cursor will result in an error.
 
 {{% alert title="Notes" color="info" %}}
 
 * Caution should be used in modifying this parameter.  Every open cursor results in additional memory usage.
-* Cursor usage should be regulated first by use of [`FT.CURSOR DEL`]({{< baseurl >}}/commands/ft.cursor-del/) and/or [`MAXIDLE`]({{< baseurl >}}/commands/ft.aggregate/) prior to modifying `INDEX_CURSOR_LIMIT`
-* See [Cursor API]({{< baseurl >}}/develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api) for more details.
+* Cursor usage should be regulated first by use of [`FT.CURSOR DEL`]({{< relref "commands/ft.cursor-del/" >}}) and/or [`MAXIDLE`]({{< relref "commands/ft.aggregate/" >}}) prior to modifying `INDEX_CURSOR_LIMIT`
+* See [Cursor API]({{< relref "develop/interact/search-and-query/advanced-concepts/aggregations#cursor-api" >}}) for more details.
 
 * Added in 2.10.8
 {{% /alert %}}

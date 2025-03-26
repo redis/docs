@@ -20,8 +20,7 @@ This guide explains how to install Redis Data Integration (RDI) on one or more V
 your source database. You can also
 [Install RDI on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
 
-{{< note >}}We recommend you use RDI v1.4.2 or above. The previous version, RDI v1.2.8,
-will not work on VMs where IPv6 is disabled. This problem is solved with version 1.4.0.
+{{< note >}}We recommend you always use the latest version, which is RDI {{< field "rdi_current_version" >}}.
 {{< /note >}}
 
 ## Hardware sizing
@@ -73,7 +72,7 @@ known to work correctly with RDI.
 The supported OS versions for RDI are:
 
 - RHEL 8 & 9
-- Ubuntu 18.04 & 20.04
+- Ubuntu 20.04, 22.04, and 24.04
 
 You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
@@ -133,7 +132,7 @@ We recommend you turn off
 before installation with the command:
 
 ```bash
-ufw disable
+sudo ufw disable
 ```
 
 However, if you do need to use `ufw`, you must add the following rules:
@@ -162,9 +161,10 @@ ufw allow 9121/tcp  # rdi-metric-exporter
 
 Follow the steps below for each of your VMs:
 
-1.  Download the RDI installer from the [Redis download center](https://cloud.redis.io/#/rlec-downloads)
-    (under the *Modules, Tools & Integration* dropdown)
-    and extract it to your preferred installation folder.
+1.  Download the RDI installer from the
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-1.6.2.tar.gz)
+    (from the *Modules, Tools & Integration* category) and extract it to your preferred installation
+    folder.
 
 1. Go to the installation folder:
 
@@ -204,9 +204,38 @@ Use the Redis console to create the RDI database with the following requirements
   and TLS.
 - Provide the installation with the required RDI database details.
 - Set the database's
-  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
+  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction`. Note that you can't set this using
+  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
+  so you must either do it using the admin UI or with the following
+  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
+  command:
+
+  ```bash
+  curl -v -k -d '{"eviction_policy": "noeviction"}' \
+    -u '<USERNAME>:<PASSWORD>' \
+    -H "Content-Type: application/json" \
+    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
+  ```
+
+- Set the database's
   [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
-  to AOF - fsync every 1 sec.
+  to AOF - fsync every 1 sec. Note that you can't set this using
+  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
+  so you must either do it using the admin UI or with the following
+  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
+  commands:
+
+  ```bash
+  curl -v -k -d '{"data_persistence":"aof"}' \
+    -u '<USERNAME>:<PASSWORD>' \
+    -H "Content-Type: application/json" 
+    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
+  curl -v -k -d '{"aof_policy":"appendfsync-every-sec"}' \
+    -u '<USERNAME>:<PASSWORD>' \
+    -H "Content-Type: application/json" \
+    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
+  ```
+
 - **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
   RDI database is clustered, but it is OK for the target database to be clustered.
 

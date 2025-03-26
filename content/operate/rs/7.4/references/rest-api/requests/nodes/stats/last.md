@@ -36,7 +36,7 @@ Get latest statistics for all nodes.
 #### Example HTTP request
 
 ```sh
-GET /nodes/stats/last?interval=1sec&stime=2015-10-14T06:29:43Z
+GET /v1/nodes/stats/last?interval=1sec&stime=2015-10-14T06:29:43Z
 ```
 
 
@@ -116,7 +116,7 @@ Get the latest statistics of a node.
 #### Example HTTP request
 
 ```sh
-GET /nodes/stats/last/1?interval=1sec&stime=2015-10-13T09:01:54Z
+GET /v1/nodes/stats/last/1?interval=1sec&stime=2015-10-13T09:01:54Z
 ```
 
 

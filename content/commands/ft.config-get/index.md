@@ -137,7 +137,7 @@ FT.CONFIG GET returns an array reply of the configuration name and value.
 
 ## See also
 
-[`FT.CONFIG SET`]({{< baseurl >}}/commands/ft.config-set/) | [`FT.CONFIG HELP`]({{< baseurl >}}/commands/ft.config-help/) 
+[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}}) 
 
 ## Related topics
 

@@ -30,11 +30,11 @@ The OSS Cluster API setting applies to individual databases instead of the entir
 
 ## Enable OSS Cluster API support
 
-You can use the Cluster Manager UI or the `rladmin` utility to enable OSS Cluster API support for a database.
+You can use the Cluster Manager UI, the `rladmin` utility, or the REST API to enable OSS Cluster API support for a database.
 
 When you enable OSS Cluster API support for an existing database, the change applies to new connections but does not affect existing connections. Clients must close existing connections and reconnect to apply the change.
 
-### Cluster Manager UI
+### Cluster Manager UI method
 
 When you use the Cluster Manager UI to enable the OSS Cluster API, it automatically configures the [prerequisites]({{< relref "/operate/rs/databases/configure/oss-cluster-api#prerequisites" >}}).
 
@@ -54,7 +54,7 @@ To enable the OSS Cluster API for an existing database in the Cluster Manager UI
 
 You can also use the Cluster Manager UI to enable the setting when creating a new database.
 
-### Command line (`rladmin`)
+### Command-line method
 
 You can use the [`rladmin` utility]({{< relref "/operate/rs/references/cli-utilities/rladmin/" >}}) to enable the OSS Cluster API for Redis Enterprise Software databases, including Replica Of databases.
 
@@ -74,6 +74,25 @@ $ rladmin info db test | grep oss_cluster:
 ```
 
 The OSS Cluster API setting applies to the specified database only; it does not apply to the cluster.
+
+### REST API method
+
+You can enable the OSS Cluster API when you [create a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) using the REST API:
+
+```sh
+POST /v1/bdbs
+{ 
+  "oss_cluster": true,
+  // Other database configuration parameters
+}
+```
+
+To enable the OSS Cluster API for an existing database, you can use an [update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+
+```sh
+PUT /v1/bdbs/<database-id>
+{ "oss_cluster": true }
+```
 
 ### Active-Active databases
 
@@ -109,6 +128,16 @@ To enable the OSS Cluster API for an existing Active-Active database with `crdb-
     $ crdb-cli crdb update --crdb-guid <CRDB-GUID> \
         --oss-cluster true
     ```
+
+## Change preferred IP type
+
+By default, using [`CLUSTER SLOTS`]({{<relref "/commands/cluster-slots">}}) and [`CLUSTER SHARDS`]({{<relref "/commands/cluster-shards">}}) in a Redis Enterprise Software cluster exposes the internal IP addresses for databases with the OSS Cluster API enabled.
+
+To use external IP addresses instead of internal IP addresses, run the following [`rladmin tune db`]({{<relref "operate/rs/references/cli-utilities/rladmin/tune#tune-db">}}) command for each affected database:
+
+```sh
+$ rladmin tune db db:<database-id> oss_cluster_api_preferred_ip_type external
+```
 
 ## Turn off OSS Cluster API support
 

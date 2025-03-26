@@ -593,7 +593,7 @@ Query all time series with the metric label equal to `cpu`, but only return the 
 
 ## See also
 
-[`TS.RANGE`]({{< baseurl >}}/commands/ts.range/) | [`TS.MREVRANGE`]({{< baseurl >}}/commands/ts.mrevrange/) | [`TS.REVRANGE`]({{< baseurl >}}/commands/ts.revrange/)
+[`TS.RANGE`]({{< relref "commands/ts.range/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}})
 
 ## Related topics
 

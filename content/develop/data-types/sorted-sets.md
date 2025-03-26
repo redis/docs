@@ -58,7 +58,7 @@ As you can see [`ZADD`]({{< relref "/commands/zadd" >}}) is similar to [`SADD`](
 pairs, as shown in the example above.
 
 With sorted sets it is trivial to return a list of racers sorted by their
-birth year because actually *they are already sorted*.
+score because actually *they are already sorted*.
 
 Implementation note: Sorted sets are implemented via a
 dual-ported data structure containing both a skip list and a hash table, so

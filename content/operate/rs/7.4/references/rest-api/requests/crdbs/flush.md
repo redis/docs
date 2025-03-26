@@ -29,7 +29,7 @@ Flush an Active-Active database.
 #### Example HTTP request
 
 ```sh
-PUT /crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79/flush
+PUT /v1/crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79/flush
 ```
 
 #### Headers

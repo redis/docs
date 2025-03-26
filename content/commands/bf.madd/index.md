@@ -33,9 +33,9 @@ title: BF.MADD
 ---
 Adds one or more items to a Bloom filter.
 
-This command is similar to [`BF.ADD`]({{< baseurl >}}/commands/bf.add/), except that you can add more than one item.
+This command is similar to [`BF.ADD`]({{< relref "commands/bf.add/" >}}), except that you can add more than one item.
 
-This command is similar to [`BF.INSERT`]({{< baseurl >}}/commands/bf.insert/), except that the error rate, capacity, and expansion cannot be specified.
+This command is similar to [`BF.INSERT`]({{< relref "commands/bf.insert/" >}}), except that the error rate, capacity, and expansion cannot be specified.
 
 ## Required arguments
 
@@ -43,7 +43,7 @@ This command is similar to [`BF.INSERT`]({{< baseurl >}}/commands/bf.insert/), e
 
 is key name for a Bloom filter to add the items to.
 
-If `key` does not exist - a new Bloom filter is created with default error rate, capacity, and expansion (see [`BF.RESERVE`]({{< baseurl >}}/commands/bf.reserve/)).
+If `key` does not exist - a new Bloom filter is created with default error rate, capacity, and expansion (see [`BF.RESERVE`]({{< relref "commands/bf.reserve/" >}})).
 </details>
 
 <details open><summary><code>item...</code></summary>

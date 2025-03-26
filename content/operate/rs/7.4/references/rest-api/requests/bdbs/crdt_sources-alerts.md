@@ -35,7 +35,7 @@ Get all alert states for all CRDT sources of all CRDBs.
 
 #### Example HTTP request
 
-	GET /bdbs/crdt_sources/alerts 
+	GET /v1/bdbs/crdt_sources/alerts 
 
 #### Request headers
 
@@ -93,7 +93,7 @@ Get all alert states for all crdt sources for a specific local bdb of a CRDB.
 
 #### Example HTTP request
 
-	GET /bdbs/crdt_sources/alerts/1 
+	GET /v1/bdbs/crdt_sources/alerts/1 
 
 #### Request headers
 
@@ -156,7 +156,7 @@ of a CRDB.
 
 #### Example HTTP request
 
-	GET /bdbs/crdt_sources/alerts/1/2 
+	GET /v1/bdbs/crdt_sources/alerts/1/2 
 
 #### Request headers
 
@@ -219,7 +219,7 @@ Get a BDB alert state.
 
 #### Example HTTP request
 
-	GET /bdbs/crdt_sources/alerts/1/2/crdt_src_syncer_connection_error 
+	GET /v1/bdbs/crdt_sources/alerts/1/2/crdt_src_syncer_connection_error 
 
 #### Request headers
 

@@ -73,7 +73,7 @@ When searching, priority queue of the top N results requested is maintained, whi
 
 ## Index ppecs and field weights
 
-When creating an "index" using [`FT.CREATE`]({{< baseurl >}}/commands/ft.create/), the user specifies the fields to be indexed and their respective weights. This can be used to give some document fields, like a title, more weight in ranking results.
+When creating an "index" using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}), the user specifies the fields to be indexed and their respective weights. This can be used to give some document fields, like a title, more weight in ranking results.
 
 For example:
 

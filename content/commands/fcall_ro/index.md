@@ -65,6 +65,6 @@ title: FCALL_RO
 ---
 This is a read-only variant of the [`FCALL`]({{< relref "/commands/fcall" >}}) command that cannot execute commands that modify data.
 
-For more information about when to use this command vs [`FCALL`]({{< relref "/commands/fcall" >}}), please refer to [Read-only scripts]({{< baseurl >}}/develop/interact/programmability/#read-only_scripts).
+For more information about when to use this command vs [`FCALL`]({{< relref "/commands/fcall" >}}), please refer to [Read-only scripts]({{< relref "develop/interact/programmability/#read-only_scripts" >}}).
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).

@@ -105,23 +105,23 @@ This capability is comparable to [key expiration]({{< relref "/develop/use/keysp
 
 Use the following commands to set either an exact expiration time or a TTL value for specific fields:
 
-* [`HEXPIRE`]({{< relref "/commands/hexpire " >}}): set the remaining TTL in seconds.
-* [`HPEXPIRE`]({{< relref "/commands/hpexpire " >}}): set the remaining TTL in milliseconds.
-* [`HEXPIREAT`]({{< relref "/commands/hexpireat " >}}): set the expiration time to a timestamp[^1] specified in seconds.
-* [`HPEXPIREAT`]({{< relref "/commands/hpexpireat " >}}): set the expiration time to a timestamp specified in milliseconds.
+* [`HEXPIRE`]({{< relref "/commands/hexpire" >}}): set the remaining TTL in seconds.
+* [`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}): set the remaining TTL in milliseconds.
+* [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}}): set the expiration time to a timestamp[^1] specified in seconds.
+* [`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}): set the expiration time to a timestamp specified in milliseconds.
 
 [^1]: all timestamps are specified in seconds or milliseconds since the [Unix epoch](https://en.wikipedia.org/wiki/Unix_time).
 
 Use the following commands to retrieve either the exact time when or the remaining TTL until specific fields will expire:
 
-* [`HEXPIRETIME`]({{< relref "/commands/hexpiretime " >}}): get the expiration time as a timestamp in seconds.
-* [`HPEXPIRETIME`]({{< relref "/commands/hpexpiretime " >}}): get the expiration time as a timestamp in milliseconds.
-* [`HTTL`]({{< relref "/commands/httl " >}}): get the remaining TTL in seconds.
-* [`HPTTL`]({{< relref "/commands/hpttl " >}}): get the remaining TTL in milliseconds.
+* [`HEXPIRETIME`]({{< relref "/commands/hexpiretime" >}}): get the expiration time as a timestamp in seconds.
+* [`HPEXPIRETIME`]({{< relref "/commands/hpexpiretime" >}}): get the expiration time as a timestamp in milliseconds.
+* [`HTTL`]({{< relref "/commands/httl" >}}): get the remaining TTL in seconds.
+* [`HPTTL`]({{< relref "/commands/hpttl" >}}): get the remaining TTL in milliseconds.
 
 Use the following command to remove the expiration of specific fields:
 
-* [`HPERSIST`]({{< relref "/commands/hpersist " >}}): remove the expiration.
+* [`HPERSIST`]({{< relref "/commands/hpersist" >}}): remove the expiration.
 
 ### Common field expiration use cases
 

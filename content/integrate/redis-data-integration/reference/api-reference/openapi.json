@@ -1,0 +1,3643 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Redis Data Integration API",
+    "description": "API for Redis Data Integration services",
+    "version": "1.6.1"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Redirect To Doc",
+        "description": "Redirects to the API documentation page.",
+        "operationId": "redirect_to_doc__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "tags": ["login"],
+        "summary": "Login",
+        "description": "Login route.\n\nArgs:\n    credentials (CredentialsInfo): User credentials.\n\nReturns:\n    TokenInfo: Token information.",
+        "operationId": "login_api_v1_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CredentialsInfo" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TokenInfo" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines/start": {
+      "post": {
+        "tags": ["secure"],
+        "summary": "Start Pipeline",
+        "description": "Starts a pipeline.",
+        "operationId": "start_pipeline_api_v1_pipelines_start_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ActionIdResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/stop": {
+      "post": {
+        "tags": ["secure"],
+        "summary": "Stop Pipeline",
+        "description": "Stops a pipeline.",
+        "operationId": "stop_pipeline_api_v1_pipelines_stop_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ActionIdResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/reset": {
+      "post": {
+        "tags": ["secure"],
+        "summary": "Reset Pipeline",
+        "description": "Reset pipeline.",
+        "operationId": "reset_pipeline_api_v1_pipelines_reset_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ActionIdResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/actions/{action_id}": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Get Action",
+        "description": "Gets an action status by ID.",
+        "operationId": "get_action_api_v1_actions__action_id__get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "action_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Action Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ActionResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Protected Route",
+        "description": "Protected route.\n\nArgs:\n    token_data (dict): Token data.\n\nReturns:\n    Dict[str, Any]: Token data.",
+        "operationId": "protected_route_api_v1_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Protected Route Api V1 Me Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }, { "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/sources": {
+      "put": {
+        "tags": ["secure", "sources"],
+        "summary": "Update Sources",
+        "description": "Updates the sources in RDI settings.",
+        "operationId": "update_sources_api_v1_pipelines_sources_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Body",
+                "examples": [
+                  {
+                    "psql": {
+                      "type": "cdc",
+                      "logging": { "level": "debug" },
+                      "connection": {
+                        "type": "mysql",
+                        "host": "${HOST_IP}",
+                        "port": 3306,
+                        "database": "new_schema",
+                        "user": "${secret:local-vault:credentials:user}",
+                        "password": "${secret:local-vault:credentials:password}"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Update Sources Api V1 Pipelines Sources Put"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/sources/{name}": {
+      "put": {
+        "tags": ["secure", "sources"],
+        "summary": "Upsert Source By Name",
+        "description": "Upserts a source in RDI settings by its name.",
+        "operationId": "upsert_source_by_name_api_v1_pipelines_sources__name__put",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Name" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "examples": [
+                  {
+                    "type": "cdc",
+                    "logging": { "level": "debug" },
+                    "connection": {
+                      "type": "mysql",
+                      "host": "${HOST_IP}",
+                      "port": 3306,
+                      "database": "new_schema",
+                      "user": "${secret:local-vault:credentials:user}",
+                      "password": "${secret:local-vault:credentials:password}"
+                    }
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Upsert Source By Name Api V1 Pipelines Sources  Name  Put"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["secure", "sources"],
+        "summary": "Partial Update Source By Name",
+        "description": "Partially updates a source in RDI settings by name.",
+        "operationId": "partial_update_source_by_name_api_v1_pipelines_sources__name__patch",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Name" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "examples": [
+                  {
+                    "active": true,
+                    "tables": { "my_table": { "columns": ["id", "name"] } }
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Partial Update Source By Name Api V1 Pipelines Sources  Name  Patch"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["secure", "sources"],
+        "summary": "Delete Source By Name",
+        "description": "Deletes a source from RDI settings by its name.",
+        "operationId": "delete_source_by_name_api_v1_pipelines_sources__name__delete",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Delete Source By Name Api V1 Pipelines Sources  Name  Delete"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines/targets": {
+      "put": {
+        "tags": ["secure", "targets"],
+        "summary": "Update Targets",
+        "description": "Updates the targets in RDI settings.",
+        "operationId": "update_targets_api_v1_pipelines_targets_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Body",
+                "examples": [
+                  {
+                    "target": {
+                      "connection": {
+                        "type": "redis",
+                        "host": "${HOST_IP}",
+                        "port": 12002
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Update Targets Api V1 Pipelines Targets Put"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/targets/{name}": {
+      "put": {
+        "tags": ["secure", "targets"],
+        "summary": "Upsert Target By Name",
+        "description": "Upserts a target in RDI settings by its name.",
+        "operationId": "upsert_target_by_name_api_v1_pipelines_targets__name__put",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Name" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "examples": [
+                  {
+                    "connection": {
+                      "type": "redis",
+                      "host": "${HOST_IP}",
+                      "port": 12002
+                    }
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Upsert Target By Name Api V1 Pipelines Targets  Name  Put"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["secure", "targets"],
+        "summary": "Partial Update Target By Name",
+        "description": "Partially updates a target in RDI settings by name.",
+        "operationId": "partial_update_target_by_name_api_v1_pipelines_targets__name__patch",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Name" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "examples": [{ "connection": { "port": 12001 } }],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Partial Update Target By Name Api V1 Pipelines Targets  Name  Patch"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["secure", "targets"],
+        "summary": "Delete Target By Name",
+        "description": "Deletes a target from RDI settings by its name.",
+        "operationId": "delete_target_by_name_api_v1_pipelines_targets__name__delete",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Delete Target By Name Api V1 Pipelines Targets  Name  Delete"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines/secret-providers/{name}": {
+      "put": {
+        "tags": ["secure", "secret-providers"],
+        "summary": "Upsert Secret Provider By Name",
+        "description": "Upserts a secret-provider in RDI settings by its name.",
+        "operationId": "upsert_secret_provider_by_name_api_v1_pipelines_secret_providers__name__put",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Name" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "examples": [
+                  {
+                    "type": "vault",
+                    "parameters": {
+                      "vaultAddress": "http://vault.default:8200",
+                      "roleName": "database",
+                      "someField": "abc",
+                      "objects": [
+                        {
+                          "objectName": "password",
+                          "secretPath": "secret/data/db-pass",
+                          "secretKey": "password"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Upsert Secret Provider By Name Api V1 Pipelines Secret Providers  Name  Put"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["secure", "secret-providers"],
+        "summary": "Partial Update Secret Provider By Name",
+        "description": "Partially updates a secret provider in RDI settings by name.",
+        "operationId": "partial_update_secret_provider_by_name_api_v1_pipelines_secret_providers__name__patch",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Name" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "examples": [{ "type": "aws" }],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Partial Update Secret Provider By Name Api V1 Pipelines Secret Providers  Name  Patch"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["secure", "secret-providers"],
+        "summary": "Delete Secret Provider By Name",
+        "description": "Deletes a secret-provider from RDI settings by its name.",
+        "operationId": "delete_secret_provider_by_name_api_v1_pipelines_secret_providers__name__delete",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Delete Secret Provider By Name Api V1 Pipelines Secret Providers  Name  Delete"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines/sources/dry-run": {
+      "post": {
+        "tags": ["secure", "connection"],
+        "summary": "Sources Dry Run",
+        "description": "Tests the connection to the source database.\n\nArgs:\n    body: The connection details according to the OpenAPI Scheme.\n\nReturns:\n    Union[ConnectionStatusSingleConnection, Error]: The connection status.",
+        "operationId": "sources_dry_run_api_v1_pipelines_sources_dry_run_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Body",
+                "examples": [
+                  {
+                    "type": "cdc",
+                    "logging": { "level": "debug" },
+                    "connection": {
+                      "type": "mysql",
+                      "host": "${HOST_IP}",
+                      "port": 3306,
+                      "database": "new_schema",
+                      "user": "${secret:local-vault:credentials:user}",
+                      "password": "${secret:local-vault:credentials:password}"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ConnectionStatusSingleConnection"
+                    },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Sources Dry Run Api V1 Pipelines Sources Dry Run Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/targets/dry-run": {
+      "post": {
+        "tags": ["secure"],
+        "summary": "Multiple Targets Dry Run",
+        "description": "Tests connection to the target database(s).",
+        "operationId": "multiple_targets_dry_run_api_v1_pipelines_targets_dry_run_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Body",
+                "examples": [
+                  {
+                    "targets": {
+                      "target-one": {
+                        "type": "redis",
+                        "host": "${HOST_IP}",
+                        "port": 12000
+                      },
+                      "target-two": {
+                        "type": "redis",
+                        "host": "${HOST_IP}",
+                        "port": 12002,
+                        "password": "${TARGET_DB_PASSWORD}"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TargetsOutput" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/target/dry-run": {
+      "post": {
+        "tags": ["secure"],
+        "summary": "Single Target Dry Run",
+        "description": "Tests connection by name to the target database.",
+        "operationId": "single_target_dry_run_api_v1_pipelines_target_dry_run_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Body",
+                "examples": [
+                  { "type": "redis", "host": "${HOST_IP}", "port": 12002 }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionStatusSingleConnection"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/sources/{source_name}/columns": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Get Columns",
+        "description": "Fetches column metadata for specified tables in a source.\n\nArgs:\n    source_name (str): Source name.\n    schema (Optional[str]): Schema name. Defaults to None.\n    tables (str): Table names.\n\nReturns:\n    MetadataResponse: Column metadata information for the specified tables.",
+        "operationId": "get_columns_api_v1_pipelines_sources__source_name__columns_get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "source_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Source Name" }
+          },
+          {
+            "name": "schema",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "description": "Optional schema name",
+              "title": "Schema"
+            },
+            "description": "Optional schema name"
+          },
+          {
+            "name": "tables",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Table names",
+              "title": "Tables"
+            },
+            "description": "Table names"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/MetadataResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines/sources/{source_name}/schemas": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Get Schemas For Sources",
+        "description": "Fetches available schemas for the specified source.\n\nArgs:\n    source_name (str): The name of the source.\n\nReturns:\n    SchemaResponse: List of available schema names for the source.",
+        "operationId": "get_schemas_for_sources_api_v1_pipelines_sources__source_name__schemas_get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "source_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Source Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SchemaResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines/sources/{source_name}/databases": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Get Databases For Sources",
+        "description": "Fetches available databases for the specified source.\n\nArgs:\n    source_name (str): The name of the source.\n\nReturns:\n    DatabaseResponse: List of available databases for the source.",
+        "operationId": "get_databases_for_sources_api_v1_pipelines_sources__source_name__databases_get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "source_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Source Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DatabaseResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines/sources/{source_name}/metadata": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Get Metadata Per Schema",
+        "description": "Fetches metadata for specified schema from a source.\n\nArgs:\n    source_name (str): Source name.\n    schema (Optional[str]): Schema name. Defaults to None.\n\nReturns:\n    MetadataResponse: Detailed metadata information for the specified schema, or all schemas if none specified.",
+        "operationId": "get_metadata_per_schema_api_v1_pipelines_sources__source_name__metadata_get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "source_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Source Name" }
+          },
+          {
+            "name": "schema",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "title": "Schema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/MetadataResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines/sources/{source_name}/tables": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Get Tables For Sources",
+        "description": "Fetches available tables for the specified schema in a source.\n\nArgs:\n    source_name (str): The name of the source.\n    schema (str): The schema to fetch tables from.\n\nRaises:\n    HTTPException: Raised when no sources are provided in the connection details.\n\nReturns:\n    TableResponse: List of tables available in the specified schema.",
+        "operationId": "get_tables_for_sources_api_v1_pipelines_sources__source_name__tables_get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "source_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Source Name" }
+          },
+          {
+            "name": "schema",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Schema" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TableResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines": {
+      "get": {
+        "tags": ["secure", "deploy"],
+        "summary": "Retrieve Pipelines",
+        "description": "Retrieves a pipeline.",
+        "operationId": "retrieve_pipelines_api_v1_pipelines_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Retrieve Pipelines Api V1 Pipelines Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      },
+      "post": {
+        "tags": ["secure", "deploy"],
+        "summary": "Pipelines",
+        "description": "Deploys a pipeline.",
+        "operationId": "pipelines_api_v1_pipelines_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Body",
+                "examples": [
+                  {
+                    "sources": {
+                      "psql": {
+                        "type": "cdc",
+                        "logging": { "level": "debug" },
+                        "connection": {
+                          "type": "postgresql",
+                          "host": "host.docker.internal",
+                          "port": 5432,
+                          "database": "chinook",
+                          "user": "postgres",
+                          "password": "postgres"
+                        },
+                        "tables": {
+                          "public.invoice": {
+                            "columns": [
+                              "billingaddress",
+                              "billingcity",
+                              "billingcountry",
+                              "billingpostalcode",
+                              "total",
+                              "customerid",
+                              "billingstate",
+                              "invoiceid",
+                              "invoicedate"
+                            ],
+                            "keys": ["invoiceid"]
+                          },
+                          "public.track": {
+                            "columns": [
+                              "genreid",
+                              "milliseconds",
+                              "mediatypeid",
+                              "trackid",
+                              "composer",
+                              "bytes",
+                              "name",
+                              "albumid",
+                              "unitprice"
+                            ],
+                            "keys": ["trackid"]
+                          },
+                          "public.mediatype": {
+                            "columns": ["mediatypeid", "name"],
+                            "keys": ["mediatypeid"]
+                          },
+                          "public.customer": {
+                            "columns": [
+                              "country",
+                              "firstname",
+                              "address",
+                              "city",
+                              "lastname",
+                              "phone",
+                              "postalcode",
+                              "customerid",
+                              "company",
+                              "state",
+                              "fax",
+                              "email",
+                              "supportrepid"
+                            ],
+                            "keys": ["customerid"]
+                          },
+                          "public.genre": {
+                            "columns": ["genreid", "name"],
+                            "keys": ["genreid"]
+                          },
+                          "public.invoiceline": {
+                            "columns": [
+                              "quantity",
+                              "trackid",
+                              "invoicelineid",
+                              "invoiceid",
+                              "unitprice"
+                            ],
+                            "keys": ["invoicelineid"]
+                          },
+                          "public.playlist": {
+                            "columns": ["playlistid", "name"],
+                            "keys": ["playlistid"]
+                          },
+                          "public.employee": {
+                            "columns": [
+                              "country",
+                              "firstname",
+                              "birthdate",
+                              "address",
+                              "city",
+                              "reportsto",
+                              "title",
+                              "employeeid",
+                              "hiredate",
+                              "lastname",
+                              "phone",
+                              "postalcode",
+                              "state",
+                              "fax",
+                              "email"
+                            ],
+                            "keys": ["employeeid"]
+                          },
+                          "public.album": {
+                            "columns": ["albumid", "artistid", "title"],
+                            "keys": ["albumid"]
+                          },
+                          "public.artist": {
+                            "columns": ["name", "artistid"],
+                            "keys": ["artistid"]
+                          },
+                          "public.playlisttrack": {
+                            "columns": ["playlistid", "trackid"],
+                            "keys": ["playlistid", "trackid"]
+                          }
+                        }
+                      }
+                    },
+                    "targets": {
+                      "target": {
+                        "type": "redis",
+                        "host": "host.docker.internal",
+                        "port": 12002,
+                        "password": "test"
+                      }
+                    },
+                    "processors": { "target_data_type": "hash" },
+                    "jobs": [
+                      {
+                        "name": "chinook_customer",
+                        "source": {
+                          "server_name": "chinook",
+                          "schema": "public",
+                          "table": "Customer"
+                        },
+                        "output": [
+                          {
+                            "uses": "redis.write",
+                            "with": {
+                              "connection": "target",
+                              "key": {
+                                "expression": "concat(['CustomerId:', CustomerId])",
+                                "language": "jmespath"
+                              },
+                              "expire": 100
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Pipelines Api V1 Pipelines Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error-Input" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/jobs/functions": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Pipelines Jobs Functions",
+        "description": "Retrieves a list of all supported JMESPath functions (builtin and custom) that can be used in JMESPath.",
+        "operationId": "pipelines_jobs_functions_api_v1_pipelines_jobs_functions_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelinesFunctionsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/config/templates/ingest/{db_type}": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Pipelines Config Templates",
+        "description": "Returns the YAML template describing the config for the specifieddb type.",
+        "operationId": "pipelines_config_templates_api_v1_pipelines_config_templates_ingest__db_type__get",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "db_type",
+            "in": "path",
+            "required": true,
+            "schema": { "$ref": "#/components/schemas/DbType" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/TemplateResponse" },
+                    { "$ref": "#/components/schemas/ApiErrorDetail" }
+                  ],
+                  "title": "Response Pipelines Config Templates Api V1 Pipelines Config Templates Ingest  Db Type  Get",
+                  "$ref": "#/components/schemas/TemplateResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pipelines/jobs/templates/ingest": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Pipelines Jobs Templates",
+        "description": "Returns the YAML templates describing how to create a job",
+        "operationId": "pipelines_jobs_templates_api_v1_pipelines_jobs_templates_ingest_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateResponse",
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/TemplateResponse" },
+                    { "$ref": "#/components/schemas/ApiErrorDetail" }
+                  ],
+                  "title": "Response Pipelines Jobs Templates Api V1 Pipelines Jobs Templates Ingest Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/jobs/dry-run": {
+      "post": {
+        "tags": ["secure"],
+        "summary": "Job Dry Run",
+        "description": "Executes a job using input data in a dry-run mode.",
+        "operationId": "job_dry_run_api_v1_pipelines_jobs_dry_run_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/JobDryRunBody" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/JobDryRunSuccessResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Job Dry Run Api V1 Pipelines Jobs Dry Run Post"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error-Input" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/config/schemas": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Pipelines Config Schemas",
+        "description": "Retrieves config schema.",
+        "operationId": "pipelines_config_schemas_api_v1_pipelines_config_schemas_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Pipelines Config Schemas Api V1 Pipelines Config Schemas Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/jobs/schemas": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Pipelines Jobs Schemas",
+        "description": "Retrieves job schemas.",
+        "operationId": "pipelines_jobs_schemas_api_v1_pipelines_jobs_schemas_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Pipelines Jobs Schemas Api V1 Pipelines Jobs Schemas Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/processors": {
+      "put": {
+        "tags": ["secure", "processors"],
+        "summary": "Update Processors",
+        "description": "Updates multiple processor properties in RDI settings.\nThe request body should be a dictionary with property names as keys and new values as values.",
+        "operationId": "update_processors_api_v1_pipelines_processors_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "title": "Body" },
+              "examples": {
+                "multi_update": {
+                  "summary": "Update multiple processor properties",
+                  "description": "Example of updating read_batch_size, write_batch_size, and target_data_type.",
+                  "value": {
+                    "read_batch_size": 1000,
+                    "write_batch_size": 500,
+                    "target_data_type": "hash"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Update Processors Api V1 Pipelines Processors Put"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/pipelines/processors/{prop}": {
+      "put": {
+        "tags": ["secure", "processors"],
+        "summary": "Upsert Processors Property",
+        "description": "Upserts a single processor property by property name.\nThe request body should contain a single 'value' field with the new value for the property.\nThe property name is specified in the URL path.",
+        "operationId": "upsert_processors_property_api_v1_pipelines_processors__prop__put",
+        "security": [{ "JWTBearer": [] }],
+        "parameters": [
+          {
+            "name": "prop",
+            "in": "path",
+            "required": true,
+            "schema": { "$ref": "#/components/schemas/ProcessorPropertyName" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProcessorProperty" },
+              "examples": {
+                "read_batch_size": {
+                  "summary": "Update read_batch_size",
+                  "description": "Example of updating the read_batch_size property.",
+                  "value": { "value": 1000 }
+                },
+                "target_data_type": {
+                  "summary": "Update target_data_type",
+                  "description": "Example of updating the target_data_type property.",
+                  "value": { "value": "hash" }
+                },
+                "write_batch_size": {
+                  "summary": "Update write_batch_size",
+                  "description": "Example of updating the write_batch_size property.",
+                  "value": { "value": 500 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    { "$ref": "#/components/schemas/ActionIdResponse" },
+                    {
+                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                    }
+                  ],
+                  "title": "Response Upsert Processors Property Api V1 Pipelines Processors  Prop  Put"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/secrets/{secret_name}": {
+      "put": {
+        "tags": ["secure", "secrets"],
+        "summary": "Set Multi Key Secret",
+        "description": "Stores multiple key-value pairs under a single secret name in the key store.\nNOTE: {secret_name} is legacy and is not used - calculated automatically\n\nArgs:\n    secret_keys (SecretKeyModel): The secret key/value pairs to set.\n\nReturns:\n    OperationResponse: The operation response.",
+        "operationId": "set_multi_key_secret_api_v1_secrets__secret_name__put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SecretKeyModel" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Secrets were set successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OperationResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/secrets": {
+      "put": {
+        "tags": ["secure", "secrets"],
+        "summary": "Set Secrets",
+        "description": "Sets multiple secret values in the key store for multiple secret names.\n\nArgs:\n    secrets (SecretsModel): Collection of secrets to store.\n\nReturns:\n    OperationResponse: The operation response.",
+        "operationId": "set_secrets_api_v1_secrets_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SecretsModel" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Secrets were set successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OperationResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/monitoring/statistics": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Statistics",
+        "description": "Retrieves RDI statistics.",
+        "operationId": "statistics_api_v1_monitoring_statistics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/StatisticsResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/status": {
+      "get": {
+        "tags": ["secure"],
+        "summary": "Get Status",
+        "description": "Retrieves RDI status.",
+        "operationId": "get_status_api_v1_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/StatusResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    },
+    "/api/v1/trace/start": {
+      "post": {
+        "tags": ["secure"],
+        "summary": "Start Trace",
+        "description": "Starts a trace session for troubleshooting data transformation.",
+        "operationId": "start_trace_api_v1_trace_start_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TraceRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ActionIdResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "JWTBearer": [] }]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActionIdResponse": {
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "title": "Action Id",
+            "examples": ["1234567890"]
+          }
+        },
+        "type": "object",
+        "required": ["action_id"],
+        "title": "ActionIdResponse",
+        "description": "Response model containing an action ID."
+      },
+      "ActionResponse": {
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "title": "Action ID",
+            "examples": ["1715254593439-0"]
+          },
+          "status": {
+            "$ref": "#/components/schemas/TaskStatus",
+            "title": "Action status",
+            "examples": ["completed", "failed"]
+          },
+          "output": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/SourcesOutput" },
+              { "type": "null" }
+            ],
+            "title": "Action output"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__sources__Error"
+              },
+              { "type": "null" }
+            ],
+            "title": "Error object",
+            "examples": [{ "message": "Unknown error occurred" }]
+          }
+        },
+        "type": "object",
+        "required": ["action_id", "status"],
+        "title": "ActionResponse"
+      },
+      "ApiErrorDetail": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "Detail",
+            "examples": ["Incorrect username or password"]
+          }
+        },
+        "type": "object",
+        "required": ["detail"],
+        "title": "ApiErrorDetail",
+        "description": "Model representing detailed API error information."
+      },
+      "Client": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "examples": ["975820001001"]
+          },
+          "addr": {
+            "type": "string",
+            "title": "Addr",
+            "examples": ["172.17.0.1:56982"]
+          },
+          "age_sec": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "$ref": "#/components/schemas/NotApplicable" }
+            ],
+            "title": "Age Sec",
+            "examples": [1111, "N/A"]
+          },
+          "idle_sec": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "$ref": "#/components/schemas/NotApplicable" }
+            ],
+            "title": "Idle Sec",
+            "examples": [1111, "N/A"]
+          },
+          "user": { "type": "string", "title": "User", "examples": ["default"] }
+        },
+        "type": "object",
+        "required": ["id", "addr", "age_sec", "idle_sec", "user"],
+        "title": "Client"
+      },
+      "ConnectionStatus": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/Result",
+            "examples": ["success", "failed"]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__sources__Error"
+              },
+              { "type": "null" }
+            ]
+          }
+        },
+        "type": "object",
+        "required": ["status"],
+        "title": "ConnectionStatus"
+      },
+      "ConnectionStatusSingleConnection": {
+        "properties": {
+          "connected": { "type": "boolean", "title": "Connected" },
+          "error": { "type": "string", "title": "Error" }
+        },
+        "type": "object",
+        "required": ["connected", "error"],
+        "title": "ConnectionStatusSingleConnection"
+      },
+      "CredentialsInfo": {
+        "properties": {
+          "user": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "User",
+            "description": "RDI database user",
+            "examples": ["admin"]
+          },
+          "password": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Password",
+            "description": "RDI database password",
+            "examples": ["secret-password"]
+          }
+        },
+        "type": "object",
+        "title": "CredentialsInfo",
+        "description": "Credentials information"
+      },
+      "DataStreams": {
+        "properties": {
+          "totals": {
+            "$ref": "#/components/schemas/DataStreamsStatisticsTotal"
+          },
+          "streams": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DataStreamsStatistics"
+            },
+            "type": "object",
+            "title": "Streams"
+          }
+        },
+        "type": "object",
+        "required": ["totals", "streams"],
+        "title": "DataStreams"
+      },
+      "DataStreamsStatistics": {
+        "properties": {
+          "total": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Total",
+            "default": 0,
+            "examples": [0]
+          },
+          "pending": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Pending",
+            "default": 0,
+            "examples": [0]
+          },
+          "inserted": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Inserted",
+            "default": 0,
+            "examples": [0]
+          },
+          "updated": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Updated",
+            "default": 0,
+            "examples": [0]
+          },
+          "deleted": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Deleted",
+            "default": 0,
+            "examples": [0]
+          },
+          "filtered": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Filtered",
+            "default": 0,
+            "examples": [0]
+          },
+          "rejected": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Rejected",
+            "default": 0,
+            "examples": [0]
+          },
+          "deduplicated": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Deduplicated",
+            "default": 0,
+            "examples": [0]
+          },
+          "last_arrival": { "type": "string", "title": "Last Arrival" }
+        },
+        "type": "object",
+        "required": ["last_arrival"],
+        "title": "DataStreamsStatistics"
+      },
+      "DataStreamsStatisticsTotal": {
+        "properties": {
+          "total": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Total",
+            "default": 0,
+            "examples": [0]
+          },
+          "pending": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Pending",
+            "default": 0,
+            "examples": [0]
+          },
+          "inserted": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Inserted",
+            "default": 0,
+            "examples": [0]
+          },
+          "updated": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Updated",
+            "default": 0,
+            "examples": [0]
+          },
+          "deleted": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Deleted",
+            "default": 0,
+            "examples": [0]
+          },
+          "filtered": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Filtered",
+            "default": 0,
+            "examples": [0]
+          },
+          "rejected": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Rejected",
+            "default": 0,
+            "examples": [0]
+          },
+          "deduplicated": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0.0 },
+              { "type": "null" }
+            ],
+            "title": "Deduplicated",
+            "default": 0,
+            "examples": [0]
+          }
+        },
+        "type": "object",
+        "title": "DataStreamsStatisticsTotal"
+      },
+      "DatabaseResponse": {
+        "properties": {
+          "databases": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Databases",
+            "examples": ["database1", "database2"]
+          }
+        },
+        "type": "object",
+        "required": ["databases"],
+        "title": "DatabaseResponse",
+        "description": "Database response class."
+      },
+      "DbType": {
+        "type": "string",
+        "enum": [
+          "cassandra",
+          "mariadb",
+          "mongodb",
+          "mysql",
+          "oracle",
+          "postgresql",
+          "sqlserver",
+          "redis"
+        ],
+        "title": "DbType",
+        "description": "Defines supported databases."
+      },
+      "Entity": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/RdiStatus",
+            "examples": ["ready"]
+          },
+          "connected": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Connected",
+            "examples": [true]
+          },
+          "version": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Version",
+            "examples": ["1.2.3", "1.2.0b17"]
+          },
+          "error": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Error",
+            "examples": ["Error message"]
+          }
+        },
+        "type": "object",
+        "required": ["status"],
+        "title": "Entity"
+      },
+      "Error-Input": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "error",
+            "title": "The status of the run.",
+            "default": "error",
+            "examples": ["error"]
+          },
+          "error": {
+            "type": "string",
+            "title": "The error message.",
+            "examples": ["Job is malformed"]
+          }
+        },
+        "type": "object",
+        "required": ["error"],
+        "title": "Error",
+        "description": "Model representing an error status."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Job": {
+        "properties": {
+          "source": { "$ref": "#/components/schemas/Source" },
+          "transform": {
+            "anyOf": [
+              {
+                "items": { "$ref": "#/components/schemas/Transform" },
+                "type": "array"
+              },
+              { "type": "null" }
+            ],
+            "title": "Transform"
+          },
+          "output": {
+            "items": { "$ref": "#/components/schemas/Output" },
+            "type": "array",
+            "title": "Output"
+          },
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name",
+            "examples": ["Alex"]
+          }
+        },
+        "type": "object",
+        "required": ["source", "output"],
+        "title": "Job"
+      },
+      "JobDryRunBody": {
+        "properties": {
+          "job": {
+            "$ref": "#/components/schemas/Job",
+            "title": "Job settings to dry run with."
+          },
+          "input_data": {
+            "items": { "type": "object" },
+            "type": "array",
+            "title": "Input Data",
+            "examples": [
+              [
+                { "COUNTRY": "IL", "FNAME": "John", "LAST_NAME": "Lennon" },
+                { "COUNTRY": "US", "FNAME": "John", "LAST_NAME": "Doe" }
+              ]
+            ]
+          }
+        },
+        "type": "object",
+        "required": ["job", "input_data"],
+        "title": "JobDryRunBody"
+      },
+      "JobDryRunSuccessResponse": {
+        "properties": {
+          "transformation": {
+            "items": { "type": "object" },
+            "type": "array",
+            "title": "Transformation",
+            "examples": [
+              [{ "COUNTRY": "IL", "FIRST_NAME": "John", "LAST_NAME": "Lennon" }]
+            ]
+          },
+          "output": { "items": {}, "type": "array", "title": "Output" }
+        },
+        "type": "object",
+        "required": ["transformation", "output"],
+        "title": "JobDryRunSuccessResponse"
+      },
+      "MetadataResponse": {
+        "properties": {
+          "tables": {
+            "additionalProperties": { "$ref": "#/components/schemas/Table" },
+            "type": "object",
+            "title": "Tables",
+            "examples": [{ "table1": { "cdc_ready": true, "columns": {} } }]
+          }
+        },
+        "type": "object",
+        "required": ["tables"],
+        "title": "MetadataResponse",
+        "description": "Metadata response class."
+      },
+      "NotApplicable": {
+        "type": "string",
+        "title": "NotApplicable",
+        "default": "N/A"
+      },
+      "OperationResponse": {
+        "properties": { "status": { "type": "boolean", "title": "Status" } },
+        "type": "object",
+        "required": ["status"],
+        "title": "OperationResponse",
+        "description": "Represents the response of an operation."
+      },
+      "Output": {
+        "properties": {
+          "uses": {
+            "type": "string",
+            "title": "Uses",
+            "examples": ["redis.write"]
+          },
+          "with": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/WithInput" },
+              { "$ref": "#/components/schemas/WithFields" },
+              { "$ref": "#/components/schemas/WithConnection" }
+            ],
+            "title": "With"
+          }
+        },
+        "type": "object",
+        "required": ["uses", "with"],
+        "title": "Output"
+      },
+      "Pipeline": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/RdiStatus",
+            "examples": ["ready"]
+          },
+          "state": {
+            "$ref": "#/components/schemas/State",
+            "examples": ["cdc"]
+          },
+          "last_error": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Last Error",
+            "examples": ["Error message"]
+          },
+          "tasks": {
+            "items": { "$ref": "#/components/schemas/Task" },
+            "type": "array",
+            "title": "Tasks"
+          }
+        },
+        "type": "object",
+        "required": ["status", "state", "tasks"],
+        "title": "Pipeline"
+      },
+      "PipelineFunction": {
+        "properties": {
+          "summary": {
+            "type": "string",
+            "title": "Summary",
+            "examples": ["Decodes a base64(RFC 4648) encoded string"]
+          },
+          "arguments": {
+            "items": {
+              "$ref": "#/components/schemas/PipelineFunctionArgument"
+            },
+            "type": "array",
+            "title": "Arguments"
+          }
+        },
+        "type": "object",
+        "required": ["summary", "arguments"],
+        "title": "PipelineFunction"
+      },
+      "PipelineFunctionArgument": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "number",
+              "string",
+              "boolean",
+              "object",
+              "array",
+              "null",
+              "any"
+            ],
+            "title": "Type",
+            "default": "string",
+            "examples": ["string"]
+          },
+          "display_text": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Display Text"
+          },
+          "optional": {
+            "type": "boolean",
+            "title": "Optional",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": ["name"],
+        "title": "PipelineFunctionArgument"
+      },
+      "PipelinesFunctionsResponse": {
+        "additionalProperties": {
+          "$ref": "#/components/schemas/PipelineFunction"
+        },
+        "type": "object",
+        "title": "PipelinesFunctionsResponse"
+      },
+      "ProcessingPerformance": {
+        "properties": {
+          "total_batches": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Batches",
+            "examples": [100]
+          },
+          "batch_size_avg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Batch Size Avg",
+            "examples": [50.2]
+          },
+          "read_time_avg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Read Time Avg",
+            "examples": [10.5]
+          },
+          "process_time_avg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Process Time Avg",
+            "examples": [20.3]
+          },
+          "ack_time_avg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Ack Time Avg",
+            "examples": [5.2]
+          },
+          "total_time_avg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Total Time Avg",
+            "examples": [35.5]
+          },
+          "rec_per_sec_avg": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Rec Per Sec Avg",
+            "examples": [100.1]
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_batches",
+          "batch_size_avg",
+          "read_time_avg",
+          "process_time_avg",
+          "ack_time_avg",
+          "total_time_avg",
+          "rec_per_sec_avg"
+        ],
+        "title": "ProcessingPerformance"
+      },
+      "ProcessorProperty": {
+        "properties": { "value": { "title": "Value", "examples": ["hash"] } },
+        "type": "object",
+        "required": ["value"],
+        "title": "ProcessorProperty"
+      },
+      "ProcessorPropertyName": {
+        "type": "string",
+        "enum": [
+          "on_failed_retry_interval",
+          "read_batch_size",
+          "debezium_lob_encoded_placeholder",
+          "dedup",
+          "dedup_max_size",
+          "dedup_strategy",
+          "duration",
+          "write_batch_size",
+          "error_handling",
+          "dlq_max_messages",
+          "target_data_type",
+          "json_update_strategy",
+          "initial_sync_processes",
+          "idle_sleep_time_ms",
+          "idle_streams_check_interval_ms",
+          "busy_streams_check_interval_ms",
+          "wait_enabled",
+          "wait_timeout",
+          "retry_on_replica_failure"
+        ],
+        "title": "ProcessorPropertyName"
+      },
+      "ProcessorState": {
+        "type": "string",
+        "enum": ["unknown", "running", "idling", "stopped"],
+        "title": "ProcessorState",
+        "description": "Enum for the state of the stream processor."
+      },
+      "RdiPipelineStatus": {
+        "properties": {
+          "rdi_version": {
+            "type": "string",
+            "title": "Rdi Version",
+            "examples": ["N/A"]
+          },
+          "address": {
+            "type": "string",
+            "title": "Address",
+            "examples": ["172.17.0.2:12006"]
+          },
+          "run_status": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/ProcessorState" },
+              { "$ref": "#/components/schemas/RdiStatus" }
+            ],
+            "title": "Run Status",
+            "examples": ["stopped"]
+          },
+          "sync_mode": {
+            "type": "string",
+            "title": "Sync Mode",
+            "examples": ["N/A"]
+          }
+        },
+        "type": "object",
+        "required": ["rdi_version", "address", "run_status", "sync_mode"],
+        "title": "RdiPipelineStatus"
+      },
+      "RdiStatus": {
+        "type": "string",
+        "enum": ["stopped", "ready", "not-ready"],
+        "title": "RdiStatus",
+        "description": "RDI component status."
+      },
+      "Result": {
+        "type": "string",
+        "enum": ["success", "failed"],
+        "title": "Result",
+        "description": "Represents the result of an operation."
+      },
+      "SchemaResponse": {
+        "properties": {
+          "schemas": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Schemas",
+            "examples": ["schema1", "schema2"]
+          }
+        },
+        "type": "object",
+        "required": ["schemas"],
+        "title": "SchemaResponse",
+        "description": "Schema response class."
+      },
+      "SecretKeyModel": {
+        "additionalProperties": { "type": "string" },
+        "type": "object",
+        "title": "SecretKeyModel",
+        "examples": [
+          { "TARGET_DB_PASSWORD": "password", "TARGET_DB_USERNAME": "admin" }
+        ]
+      },
+      "SecretName": {
+        "type": "string",
+        "enum": [
+          "source-db",
+          "target-db",
+          "rdi-sys-config",
+          "rdi-db-ssl",
+          "source-db-ssl",
+          "target-db-ssl"
+        ],
+        "title": "SecretName",
+        "description": "Defines supported secret names."
+      },
+      "SecretsModel": {
+        "additionalProperties": {
+          "$ref": "#/components/schemas/SecretKeyModel"
+        },
+        "propertyNames": { "$ref": "#/components/schemas/SecretName" },
+        "type": "object",
+        "title": "SecretsModel",
+        "examples": [
+          {
+            "target-db": {
+              "TARGET_DB_PASSWORD": "password",
+              "TARGET_DB_USERNAME": "admin"
+            }
+          }
+        ]
+      },
+      "SnapshotStatus": {
+        "type": "string",
+        "enum": ["running", "failed", "paused", "completed", "N/A"],
+        "title": "SnapshotStatus"
+      },
+      "Source": {
+        "properties": {
+          "server_name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Server Name",
+            "examples": ["localhost"]
+          },
+          "schema": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Schema",
+            "examples": ["public"]
+          },
+          "table": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Table",
+            "examples": ["employee"]
+          },
+          "row_format": {
+            "anyOf": [
+              { "type": "string", "enum": ["full", "partial"] },
+              { "type": "null" }
+            ],
+            "title": "Row Format",
+            "examples": ["full"]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "Source"
+      },
+      "SourcesOutput": {
+        "properties": {
+          "sources": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConnectionStatus"
+            },
+            "type": "object",
+            "title": "Sources"
+          }
+        },
+        "type": "object",
+        "required": ["sources"],
+        "title": "SourcesOutput"
+      },
+      "State": {
+        "type": "string",
+        "enum": ["cdc", "initial-sync", "not-running"],
+        "title": "State",
+        "description": "Represents the state of a pipeline."
+      },
+      "StatisticsConnection": {
+        "properties": {
+          "key": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Key"
+          },
+          "cert": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Cert"
+          },
+          "cacert": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Cacert"
+          },
+          "key_password": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Key Password"
+          },
+          "type": {
+            "$ref": "#/components/schemas/DbType",
+            "default": "redis",
+            "examples": ["redis"]
+          },
+          "host": {
+            "type": "string",
+            "title": "Host",
+            "default": "localhost",
+            "examples": ["localhost"]
+          },
+          "port": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Port",
+            "default": 5432,
+            "examples": [5432]
+          },
+          "database": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Database",
+            "examples": ["rdi"]
+          },
+          "user": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "User",
+            "examples": ["rdi"]
+          },
+          "password": {
+            "type": "string",
+            "title": "Password",
+            "examples": ["********"]
+          },
+          "status": { "type": "string", "title": "Status" }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["password", "status"],
+        "title": "StatisticsConnection"
+      },
+      "StatisticsResponse": {
+        "properties": {
+          "connections": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/StatisticsConnection"
+            },
+            "type": "object",
+            "title": "Connections"
+          },
+          "data_streams": { "$ref": "#/components/schemas/DataStreams" },
+          "processing_performance": {
+            "$ref": "#/components/schemas/ProcessingPerformance"
+          },
+          "rdi_pipeline_status": {
+            "$ref": "#/components/schemas/RdiPipelineStatus"
+          },
+          "clients": {
+            "additionalProperties": { "$ref": "#/components/schemas/Client" },
+            "type": "object",
+            "title": "Clients"
+          },
+          "offsets": { "type": "object", "title": "Offsets" },
+          "snapshot_status": {
+            "$ref": "#/components/schemas/SnapshotStatus",
+            "examples": ["running"]
+          }
+        },
+        "type": "object",
+        "required": [
+          "connections",
+          "data_streams",
+          "processing_performance",
+          "rdi_pipeline_status",
+          "clients",
+          "offsets",
+          "snapshot_status"
+        ],
+        "title": "StatisticsResponse"
+      },
+      "StatusResponse": {
+        "properties": {
+          "components": {
+            "additionalProperties": { "$ref": "#/components/schemas/Entity" },
+            "type": "object",
+            "title": "Components"
+          },
+          "pipelines": {
+            "additionalProperties": { "$ref": "#/components/schemas/Pipeline" },
+            "type": "object",
+            "title": "Pipelines"
+          }
+        },
+        "type": "object",
+        "required": ["components", "pipelines"],
+        "title": "StatusResponse"
+      },
+      "Table": {
+        "properties": {
+          "cdc_ready": {
+            "type": "boolean",
+            "title": "Cdc Ready",
+            "examples": [true]
+          },
+          "columns": { "type": "object", "title": "Columns" }
+        },
+        "type": "object",
+        "required": ["cdc_ready", "columns"],
+        "title": "Table"
+      },
+      "TableResponse": {
+        "properties": {
+          "tables": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Tables",
+            "examples": ["table1", "table2"]
+          }
+        },
+        "type": "object",
+        "required": ["tables"],
+        "title": "TableResponse",
+        "description": "Table response class."
+      },
+      "TargetsOutput": {
+        "properties": {
+          "targets": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ConnectionStatus"
+            },
+            "type": "object",
+            "title": "Targets"
+          }
+        },
+        "type": "object",
+        "required": ["targets"],
+        "title": "TargetsOutput"
+      },
+      "Task": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "status": { "$ref": "#/components/schemas/TaskStatus" },
+          "error": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Error",
+            "examples": ["Error message"]
+          },
+          "created_at": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$",
+            "title": "Created At",
+            "examples": ["2024-03-03T10:23:12"]
+          }
+        },
+        "type": "object",
+        "required": ["name", "status", "created_at"],
+        "title": "Task"
+      },
+      "TaskStatus": {
+        "type": "string",
+        "enum": ["pending", "processing", "failed", "completed"],
+        "title": "TaskStatus",
+        "description": "Defines task statuses for Operator"
+      },
+      "TemplateResponse": {
+        "properties": {
+          "template": {
+            "type": "string",
+            "title": "Template",
+            "examples": ["template1"]
+          }
+        },
+        "type": "object",
+        "required": ["template"],
+        "title": "TemplateResponse"
+      },
+      "TokenInfo": {
+        "properties": {
+          "access_token": { "type": "string", "title": "Access Token" },
+          "token_type": { "type": "string", "title": "Token Type" }
+        },
+        "type": "object",
+        "required": ["access_token", "token_type"],
+        "title": "TokenInfo",
+        "description": "Token information"
+      },
+      "TraceRequest": {
+        "properties": {
+          "max_change_records": {
+            "type": "integer",
+            "title": "The maximum number of traced change records.",
+            "default": 10,
+            "examples": [10]
+          },
+          "rejected_only": {
+            "type": "boolean",
+            "title": "Indicating whether to trace only rejected change records.",
+            "default": false,
+            "examples": [false]
+          },
+          "timeout": {
+            "type": "integer",
+            "title": "The maximum duration of the trace in seconds.",
+            "default": 20,
+            "examples": [20]
+          }
+        },
+        "type": "object",
+        "title": "TraceRequest",
+        "description": "Request model for the trace endpoint."
+      },
+      "Transform": {
+        "properties": {
+          "uses": { "type": "string", "title": "Uses", "examples": ["filter"] },
+          "with": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/WithInput" },
+              { "$ref": "#/components/schemas/WithFields" },
+              { "$ref": "#/components/schemas/WithConnection" }
+            ],
+            "title": "With"
+          }
+        },
+        "type": "object",
+        "required": ["uses", "with"],
+        "title": "Transform"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      },
+      "WithConnection": {
+        "properties": {
+          "connection": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Connection",
+            "examples": ["target"]
+          },
+          "data_type": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Data Type",
+            "examples": ["hash"]
+          },
+          "args": {
+            "anyOf": [{ "type": "object" }, { "type": "null" }],
+            "title": "Args",
+            "examples": [{ "member": "value" }]
+          },
+          "key": { "$ref": "#/components/schemas/WithInput" }
+        },
+        "type": "object",
+        "required": ["key"],
+        "title": "WithConnection"
+      },
+      "WithFields": {
+        "properties": {
+          "fields": {
+            "items": { "$ref": "#/components/schemas/WithInput" },
+            "type": "array",
+            "title": "Fields"
+          }
+        },
+        "type": "object",
+        "required": ["fields"],
+        "title": "WithFields"
+      },
+      "WithInput": {
+        "properties": {
+          "expression": {
+            "type": "string",
+            "title": "Expression",
+            "examples": ["InvoiceLineId = 999"]
+          },
+          "field": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Field",
+            "examples": ["InvoiceLineId"]
+          },
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "examples": ["sql"]
+          }
+        },
+        "type": "object",
+        "required": ["expression", "language"],
+        "title": "WithInput"
+      },
+      "redis_di_api__v1__modules__shared__response__Error": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "error",
+            "title": "The status of the run.",
+            "default": "error",
+            "examples": ["error"]
+          },
+          "error": {
+            "type": "string",
+            "title": "The error message.",
+            "examples": ["Job is malformed"]
+          }
+        },
+        "type": "object",
+        "required": ["error"],
+        "title": "Error",
+        "description": "Model representing an error status."
+      },
+      "redis_di_api__v1__modules__shared__sources__Error": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Error message",
+            "examples": [
+              "Failed to establish connection to the PostgreSQL database. Invalid credentials"
+            ]
+          }
+        },
+        "type": "object",
+        "required": ["message"],
+        "title": "Error"
+      }
+    },
+    "securitySchemes": { "JWTBearer": { "type": "http", "scheme": "bearer" } }
+  }
+}

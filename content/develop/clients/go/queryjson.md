@@ -31,6 +31,36 @@ Connect to the database:
 {{< clients-example go_home_json connect >}}
 {{< /clients-example >}}
 
+{{< note >}}The connection options in the example specify
+[RESP2]({{< relref "/develop/reference/protocol-spec" >}}) in the `Protocol`
+field. We recommend that you use RESP2 for Redis query engine operations in `go-redis`
+because some of the response structures for the default RESP3 are currently
+incomplete and so you must handle the "raw" responses in your own code.
+
+If you do want to use RESP3, you should set the `UnstableResp3` option when
+you connect:
+
+```go
+rdb := redis.NewClient(&redis.Options{
+    UnstableResp3: true,
+    // Other options...
+})
+```
+
+You must also access command results using the `RawResult()` and `RawVal()` methods
+rather than the usual `Result()` and `Val()`:
+
+```go
+res1, err := client.FTSearchWithArgs(
+    ctx, "txt", "foo bar", &redis.FTSearchOptions{},
+).RawResult()
+val1 := client.FTSearchWithArgs(
+    ctx, "txt", "foo bar", &redis.FTSearchOptions{},
+).RawVal()
+```
+{{< /note >}}
+
+
 Create some test data to add to the database:
 
 {{< clients-example go_home_json create_data >}}

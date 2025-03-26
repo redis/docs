@@ -55,7 +55,7 @@ Returns one of these replies:
 
   The Iterator is passed as input to the next invocation of `CF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.
 
-  The iterator-data pair should also be passed to [`CF.LOADCHUNK`]({{< baseurl >}}/commands/cf.loadchunk/) when restoring the filter.
+  The iterator-data pair should also be passed to [`CF.LOADCHUNK`]({{< relref "commands/cf.loadchunk/" >}}) when restoring the filter.
 
 - [] on error (invalid arguments, key not found, wrong key type, etc.)
 

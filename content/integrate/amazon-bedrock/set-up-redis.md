@@ -63,64 +63,45 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/button-database-new.png" alt="The New Database button creates a new database." width="120px">}}
 
-1. When the **New database** page appears, select **Vector search** from the use case panel.
-
-    {{<image filename="images/rc/create-database-redis-use-cases.png" alt="The Redis Use case panel">}}
-
-1. Select **Pro** to create a Pro plan.
+1. When the **New database** page appears, select **Pro** to create a Pro plan.
 
     {{<image filename="images/rc/create-database-subscription-pro-new.png" alt="The Subscription selection panel with Pro selected.">}}
 
-1. Select **Amazon Web Services** as the cloud vendor, select a region, and enter a name for your subscription.
+1. After you select **Pro**, the **Database settings** section will appear. For this guide, continue with **Easy create** to get started faster.
 
-    {{<image filename="images/rc/subscription-new-flexible-setup-general.png" width="75%" alt="The General settings of the Setup tab." >}}
+    {{<image filename="images/rc/create-pro-db-settings.png" alt="The database settings section.">}}
 
-1. In the **Version** section, select **Redis 7.2** or **Redis 7.4**.
+    If you'd like to select all of the configuration options yourself, select **Custom settings**. See [Create a Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#custom-settings" >}}) for more details.
 
-    {{<image filename="images/rc/subscription-new-flexible-version-section.png"  alt="Version selection between Redis 6.2, 7.2, and 7.4" >}}
+1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.
 
-1. In the **Advanced options** section, select Multi-AZ to ensure [high-availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}). 
+    {{<image filename="images/rc/pro-easy-create-vendor.png" alt="The database name, cloud vendor and region settings." width=75% >}}
 
-    {{<image filename="images/rc/subscription-new-flexible-advanced-multi-az.png" width="75%" alt="The Multi-AZ toggle set to on." >}}
+1. Select **Amazon Web Services** as the cloud vendor and select a region.
 
-1. When finished, select **Continue**.
+1. In the **Optimal database settings** section:
 
-    {{<image filename="images/rc/button-subscription-continue.png" width="100px" alt="Select the Continue button to continue to the next step." >}}
+    {{<image filename="images/rc/pro-easy-create-size-throughput.png" alt="The Dataset size, throughput, and High availability settings.">}}
+ 
+    - Turn on [**High-availability**]({{< relref "/operate/rc/databases/configuration/high-availability" >}}).
+    - Set the Dataset size of your database based on the amount of data that Bedrock will pull from your Simple Storage Service (S3) [bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). See [Find out the size of your S3 buckets](https://aws.amazon.com/blogs/storage/find-out-the-size-of-your-amazon-s3-buckets/) to find out how much knowledge base data is stored in your S3 bucket and pick the closest size, rounded up, from the table below. 
 
-1. The **Sizing** tab helps you specify the database requirements for your subscription.
-
-    {{<image filename="images/rc/subscription-new-flexible-sizing-tab.png" width="75%" alt="The Sizing tab when creating a new Flexible subscription." >}}
-
-    Select the **Add** button to create a database.
-
-    {{<image filename="images/rc/icon-add-database.png" width="30px" alt="Use the Add button to define a new database for your subscription." >}}
-
-1. In the **New Database** dialog, name your database.
-
-    {{<image filename="images/rc/flexible-add-database-basic.png" width="75%" alt="The New Database dialog with basic settings." >}}
-
-    We selected **Search and query** and **JSON** for you already. **Search and query** enables vector database features for your database. You can remove **JSON** if you want.
-
-1. Set the Memory limit of your database based on the amount of data that Bedrock will pull from your Simple Storage Service (S3) [bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). See [Find out the size of your S3 buckets](https://aws.amazon.com/blogs/storage/find-out-the-size-of-your-amazon-s3-buckets/) to find out how much knowledge base data is stored in your S3 bucket and pick the closest size, rounded up, from the table below. 
-
-    | Total Size of Documents in S3 | Database size without replication | Database size with replication |
+        | Total Size of Documents in S3 | Database size without replication | Database size with replication |
 |-------------------------------|-----------------------------------|--------------------------------|
 | 10,000 kb                     | 135 Mb                             | 270 Mb                         |
 | 100,000 kb                    | 1.35 Gb                            | 2.7 Gb                         |
 | 1,000,000 kb                  | 13.5 Gb                              | 27 Gb                          |
 | 10,000,000 kb                 | 135 Gb                             | 270 Gb                         |
 
-    For more information on sizing, see the [Bedrock integration blog post](https://redis.io/blog/amazon-bedrock-integration-with-redis-enterprise/#right-size-your-database-for-amazon-bedrock).
+        For more information on sizing, see the [Bedrock integration blog post](https://redis.io/blog/amazon-bedrock-integration-with-redis-enterprise/#right-size-your-database-for-amazon-bedrock).
 
-1. When finished, select **Save database** to create your database.
+1. Select **View all settings** to review the database settings that we selected for you.
 
-    {{<image filename="images/rc/button-database-save.png" width="140px" alt="Select the Save Database button to define your new database." >}}
+    {{<image filename="images/rc/pro-easy-create-optimal-settings.png" alt="The optimal database settings.">}}
 
-1. Select **Continue** to move to the **Review and Create** tab.
+    If you want to change these settings, select [**Switch to custom settings**]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#custom-settings" >}}).
 
-1. Review your subscription. You will not need to enter a payment method, as it's automatically assigned to your AWS Marketplace account. 
-
-1. Select **Confirm & pay** to create your new database.
+1. You will not need to enter a payment method, as it's automatically assigned to your AWS Marketplace account. Select **Confirm & pay** to create your new database.
 
     {{<image filename="images/rc/button-create-db-confirm-pay.png" width="140px" alt="Select Confirm & pay to create your new database." >}}
 
@@ -134,9 +115,9 @@ For your database to be fully secure, you must enable [Transport Layer Security 
 
 1. Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your database from the list.
 
-1. From the database's **Configuration** screen, select the **Edit database** button:
+1. From the database's **Configuration** screen, select the **Edit** button:
 
-    {{<image filename="images/rc/button-database-edit.png" width="140px" alt="The Edit database button lets you change selected database properties." >}}
+    {{<image filename="images/rc/button-database-edit.png" width="100px" alt="The Edit database button lets you change selected database properties." >}}
 
 1. In the **Security** section, use the **Transport layer security (TLS)** toggle to enable TLS:
 
@@ -192,7 +173,7 @@ After you store this secret, you can view and copy the [Amazon Resource Name (AR
 
 ## Create a vector index in your database {#create-vector-index}
 
-After your Redis Cloud database is set up, create a search index with a vector field using [FT.CREATE]({{< baseurl >}}/commands/ft.create) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
+After your Redis Cloud database is set up, create a search index with a vector field using [FT.CREATE]({{< relref "commands/ft.create" >}}) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
 
 ### Redis Insight
 
@@ -222,7 +203,7 @@ To create your vector index in Redis Insight:
 
     {{<image filename="images/rc/ri-bedrock-workbench.png" width=50px alt="The Redis Insight workbench icon." >}}
 
-1. Enter the [FT.CREATE]({{< baseurl >}}/commands/ft.create) command to create an index. 
+1. Enter the [FT.CREATE]({{< relref "commands/ft.create" >}}) command to create an index. 
 
     ```text
     FT.CREATE <index_name>                    
@@ -259,7 +240,7 @@ redis-cli -h <endpoint> -p <port> --tls --cacert redis_ca.pem \
     --cert redis_user.crt --key redis_user_private.key
 ```
 
-After you are connected with `redis-cli`, create an index using [FT.CREATE]({{< baseurl >}}/commands/ft.create). 
+After you are connected with `redis-cli`, create an index using [FT.CREATE]({{< relref "commands/ft.create" >}}). 
 
 ```text
 FT.CREATE <index_name>                    

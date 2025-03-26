@@ -40,7 +40,7 @@ Get all Redis ACL objects.
 #### Example HTTP request
 
 ```sh
-GET /redis_acls
+GET /v1/redis_acls
 ```
 
 #### Headers
@@ -107,7 +107,7 @@ Get a single Redis ACL object.
 #### Example HTTP request
 
 ```sh
-GET /redis_acls/1
+GET /v1/redis_acls/1
 ```
 
 #### Headers
@@ -166,7 +166,7 @@ Update an existing Redis ACL object.
 #### Example HTTP request
 
 ```sh
-PUT /redis_acls/17
+PUT /v1/redis_acls/17
 ```
 
 #### Example JSON body
@@ -240,7 +240,7 @@ Create a new Redis ACL object.
 #### Example HTTP request
 
 ```sh
-POST /redis_acls
+POST /v1/redis_acls
 ```
 
 #### Example JSON body
@@ -351,7 +351,7 @@ Delete a Redis ACL object.
 #### Example HTTP request
 
 ```sh
-DELETE /redis_acls/1
+DELETE /v1/redis_acls/1
 ```
 
 #### Headers

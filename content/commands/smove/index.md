@@ -78,8 +78,6 @@ destination set.
 When the specified element already exists in the destination set, it is only
 removed from the source set.
 
-An error is returned if `source` or `destination` does not hold a set value.
-
 ## Examples
 
 {{% redis-cli %}}

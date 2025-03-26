@@ -37,8 +37,9 @@ The installation creates the following K8s objects:
 You can use this installation on [OpenShift](https://docs.openshift.com/) and other K8s distributions
 including cloud providers' K8s managed clusters.
 
-You can pull the RDI images from
-[Docker Hub](https://hub.docker.com/) or from your own [private image registry](#using-a-private-image-registry).
+You can pull the RDI images from the 
+[download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.2.tgz)
+or from your own [private image registry](#using-a-private-image-registry).
 
 ## Before you install
 
@@ -49,7 +50,8 @@ Complete the following steps before running Helm:
     for the RDI database if you prefer not to use the default password (see
     [Access control]({{< relref "/operate/rs/security/access-control" >}}) for
     more information).
--   Download the RDI helm chart tar file from the [download center](https://cloud.redis.io/#rlec-downloads).
+-   Download the RDI helm chart tar file from the
+    [download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.2.tgz).
 -   If you want to use a private image registry,
     [prepare it with the RDI images](#using-a-private-image-registry).
 
@@ -62,9 +64,38 @@ information. *This requires Redis Enterprise v6.4 or greater*.
 - If you are deploying RDI for a production environment then secure this database with a password
   and [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security).
 - Set the database's
-  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction` and set
+  [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) to `noeviction`. Note that you can't set this using
+  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
+  so you must either do it using the admin UI or with the following
+  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
+  command:
+
+  ```bash
+  curl -v -k -d '{"eviction_policy": "noeviction"}' \
+    -u '<USERNAME>:<PASSWORD>' \
+    -H "Content-Type: application/json" \
+    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
+  ```
+
+- Set the database's
   [data persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
-  to AOF - fsync every 1 sec.
+  to AOF - fsync every 1 sec. Note that you can't set this using
+  [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}),
+  so you must either do it using the admin UI or with the following
+  [REST API]({{< relref "/operate/rs/references/rest-api" >}})
+  commands:
+
+  ```bash
+  curl -v -k -d '{"data_persistence":"aof"}' \
+    -u '<USERNAME>:<PASSWORD>' \
+    -H "Content-Type: application/json" 
+    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
+  curl -v -k -d '{"aof_policy":"appendfsync-every-sec"}' \
+    -u '<USERNAME>:<PASSWORD>' \
+    -H "Content-Type: application/json" \
+    -X PUT https://<CLUSTER_FQDN>:9443/v1/bdbs/<BDB_UID>
+  ```
+
 - **Ensure that the RDI database is not clustered.** RDI will not work correctly if the
   RDI database is clustered, but it is OK for the target database to be clustered.
 
@@ -73,7 +104,9 @@ file as described below.
 
 ### Using a private image registry
 
-Add the RDI images from [Docker Hub](https://hub.docker.com/) to your local registry.
+Add the RDI images from the
+[download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.2.tgz)
+to your local registry.
 The example below shows how to specify the registry and image pull secret in the
 [`values.yaml`](#the-valuesyaml-file) file for the Helm chart:
 
@@ -114,6 +147,11 @@ To pull images from a local registry, you must provide the image pull secret and
     ```bash
     helm install rdi rdi-<rdi-tag>.tar.gz -f rdi-values.yaml
     ```
+
+    {{< note >}}By default, RDI will be installed in a namespace called
+    `rdi`. If you want to use a custom namespace, pass the option
+    `--namespace <custom-namespace>` to the `helm install` command.
+    {{< /note >}} 
 
 ### The `values.yaml` file
 
@@ -486,10 +524,11 @@ You can verify that the RDI API works by adding the server in
 
 ## Using ingress controllers
 
-If you want to expose the RDI API service via the K8s
+You must ensure that an appropriate
+[ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)
+is available in your K8s cluster to expose the RDI API service via the K8s
 [`Ingress`](https://kubernetes.io/docs/concepts/services-networking/ingress/)
-resource, you must ensure that an appropriate
-[ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) is available in your K8s cluster. Follow the documentation of your cloud provider or of
+resource. Follow the documentation of your cloud provider or of
 the ingress controller to install the controller correctly.
 
 ### Using the `nginx` ingress controller on AKS
@@ -514,9 +553,24 @@ section to learn how to do this.
 
 ## Deploy a pipeline
 
-When the Helm installation is complete,  and you have prepared the source database for CDC,
-you are ready to start using RDI. See the guides to
-[configuring]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) and
-[deploying]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
-RDI pipelines for more information. You can also configure and deploy a pipeline
-using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
+When the Helm installation is complete and you have prepared the source database for CDC,
+you are ready to start using RDI.
+Use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}) to
+[configure]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) and
+[deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
+your pipeline.
+
+## Uninstall RDI
+
+If you want to remove your RDI K8s installation, first run
+the following commands. (If you installed with a custom namespace then
+replace `rdi` with the name of your namespace.)
+
+```bash
+helm uninstall rdi -n rdi
+kubectl delete namespace rdi
+```
+
+If you also want to delete the keys from your RDI database, connect to it with
+[`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run a
+[`FLUSHALL`]({{< relref "/commands/flushall" >}}) command.

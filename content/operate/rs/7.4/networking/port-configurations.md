@@ -134,7 +134,7 @@ rladmin cluster config cnm_http_port <new-port>
 rladmin cluster config cnm_https_port <new-port>
 ```
 
-### Ubuntu conflicts with port 53
+### OS conflicts with port 53
 
 {{<embed-md "port-53.md">}}
 

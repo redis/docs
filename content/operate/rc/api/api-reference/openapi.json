@@ -10,6 +10,10 @@
     },
     "version": "Version 1"
   },
+  "externalDocs": {
+    "description": "Redis Cloud API Documentation",
+    "url": "https://docs.redislabs.com/latest/rc/api/"
+  },
   "servers": [
     {
       "url": "https://api.redislabs.com/v1"
@@ -17,9 +21,7 @@
   ],
   "security": [
     {
-      "x-api-key": []
-    },
-    {
+      "x-api-key": [],
       "x-api-secret-key": []
     }
   ],
@@ -32,42 +34,47 @@
     {
       "name": "Subscriptions - Pro",
       "description": "All operations related to Pro subscriptions lifecycle",
-      "x-order": "1"
+      "x-order": "10"
+    },
+    {
+      "name": "Subscriptions - Pro - Connectivity",
+      "description": "All operations related to Pro subscriptions connectivity",
+      "x-order": "11"
     },
     {
       "name": "Databases - Pro",
       "description": "All operations related to Pro databases lifecycle",
-      "x-order": "2"
+      "x-order": "20"
     },
     {
       "name": "Subscriptions - Essentials",
       "description": "All operations related to Essentials subscriptions lifecycle",
-      "x-order": "3"
+      "x-order": "30"
     },
     {
       "name": "Databases - Essentials",
       "description": "All operations related to Essentials databases lifecycle",
-      "x-order": "4"
+      "x-order": "40"
     },
     {
       "name": "Access Control List",
       "description": "Data and operations related to access control list",
-      "x-order": "5"
+      "x-order": "50"
     },
     {
       "name": "Cloud Accounts",
       "description": "All operations related to cloud accounts (AWS only)",
-      "x-order": "6"
+      "x-order": "60"
     },
     {
       "name": "Users",
       "description": "Data and operations related to account's users",
-      "x-order": "7"
+      "x-order": "70"
     },
     {
       "name": "Tasks",
       "description": "Displays information on long running operations",
-      "x-order": "8"
+      "x-order": "80"
     }
   ],
   "paths": {
@@ -458,7 +465,7 @@
     "/subscriptions/{subscriptionId}/transitGateways/{TgwId}/attachment": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update a transit gateway attachment",
         "description": "Update an AWS transit gateway attachment",
@@ -540,7 +547,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create a transit gateway attachment",
         "description": "Create an AWS transit gateway attachment",
@@ -615,7 +622,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete a transit gateway attachment",
         "description": "Delete an AWS transit gateway attachment",
@@ -689,7 +696,7 @@
     "/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Reject a transit gateway resource share",
         "description": "Reject an AWS transit gateway resource share",
@@ -763,7 +770,7 @@
     "/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Accept a transit gateway resource share",
         "description": "Accept an AWS transit gateway resource share",
@@ -837,7 +844,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/{TgwId}/attachment": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update a specific region transit gateway attachment",
         "description": "Update an active active specific region AWS transit gateway attachment",
@@ -930,7 +937,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create a specific region transit gateway attachment",
         "description": "Create an active active specific region AWS transit gateway attachment",
@@ -1016,7 +1023,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete a specific region transit gateway attachment",
         "description": "Delete an active active specific region AWS transit gateway attachment",
@@ -1098,95 +1105,10 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
-      "put": {
-        "tags": [
-          "Subscriptions - Pro"
-        ],
-        "summary": "Reject a specific region transit gateway resource share",
-        "description": "Reject an active active specific region AWS transit gateway resource share",
-        "operationId": "rejectActiveActiveTgwResourceShare",
-        "parameters": [
-          {
-            "name": "subscriptionId",
-            "in": "path",
-            "description": "Subscription Id",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "regionId",
-            "in": "path",
-            "description": "Region id (required for active-active subscription)",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "example": 1
-          },
-          {
-            "name": "tgwInvitationId",
-            "in": "path",
-            "description": "TgwInvitation Id",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
-          "412": {
-            "description": "Precondition Failed - Feature flag for this flow is off"
-          },
-          "202": {
-            "description": "Accepted",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TaskStateUpdate"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Authentication failed for requested resource"
-          },
-          "403": {
-            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
-          },
-          "404": {
-            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
-          },
-          "408": {
-            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
-          },
-          "409": {
-            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
-          },
-          "429": {
-            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
-          },
-          "500": {
-            "description": "Internal system error - If this error persists, please contact customer support"
-          },
-          "503": {
-            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
-          }
-        }
-      }
-    },
     "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Accept a specific region transit gateway resource share",
         "description": "Accept an active active specific region AWS transit gateway resource share",
@@ -1268,10 +1190,206 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
+      "put": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Update an existing active-active subscription Private Service Connect endpoint",
+        "description": "Update an existing Private Service Connect endpoint in an existing active-active subscription.",
+        "operationId": "updateActiveActivePscServiceEndpoint",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region id (required for active-active subscription)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "endpointId",
+            "in": "path",
+            "description": "Private service connect endpoint Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActiveActivePscEndpointUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Delete an existing active-active subscription Private Service Connect endpoint",
+        "description": "Delete an existing Private Service Connect endpoint in an existing active-active subscription.",
+        "operationId": "deleteActiveActivePscServiceEndpoint",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region id (required for active-active subscription)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "endpointId",
+            "in": "path",
+            "description": "Private service connect endpoint Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/regions/peerings/{peeringId}": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update an active-active subscription VPC peering",
         "description": "Update an existing VPC peering in an existing active-active subscription.",
@@ -1359,7 +1477,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete an active-active subscription VPC peering",
         "description": "Delete a VPC peering from an existing active-active subscription.",
@@ -1430,10 +1548,186 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
+      "put": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Update an existing subscription Private Service Connect endpoint",
+        "description": "Update an existing Private Service Connect endpoint in an existing subscription.",
+        "operationId": "updatePscServiceEndpoint",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "endpointId",
+            "in": "path",
+            "description": "Private service connect endpoint Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PscEndpointUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Delete an existing subscription Private Service Connect endpoint",
+        "description": "Delete an existing Private Service Connect endpoint in an existing subscription.",
+        "operationId": "deletePscServiceEndpoint",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "endpointId",
+            "in": "path",
+            "description": "Private service connect endpoint Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/peerings/{peeringId}": {
       "put": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update subscription peering",
         "description": "Update an existing VPC peering in an existing subscription.",
@@ -1521,7 +1815,7 @@
       },
       "delete": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete subscription peering",
         "description": "Deletes a VPC peering identified by an id",
@@ -2647,6 +2941,91 @@
           },
           "required": true
         },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
+      "put": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Reject a specific region transit gateway resource share",
+        "description": "Reject an active active specific region AWS transit gateway resource share",
+        "operationId": "rejectActiveActiveTgwResourceShare",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region id (required for active-active subscription)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          },
+          {
+            "name": "tgwInvitationId",
+            "in": "path",
+            "description": "TgwInvitation Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "400": {
             "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
@@ -4543,10 +4922,398 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get an active-active Subscription private service connect",
+        "description": "Get an active-active private service connect details",
+        "operationId": "getActiveActivePscService",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region id (required for active-active subscription)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Create an active-active subscription Private Service Connect",
+        "description": "Create a new Private Service Connect in an existing active-active subscription.",
+        "operationId": "createActiveActivePscService",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region id (required for active-active subscription)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Delete an active-active subscription Private Service Connect",
+        "description": "Delete a Private Service Connect in an existing active-active subscription.",
+        "operationId": "deleteActiveActivePscService",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region id (required for active-active subscription)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get an active-active subscription private service connect endpoints",
+        "description": "Get an active-active private service connect endpoints details",
+        "operationId": "getActiveActivePscServiceEndpoints",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region id (required for active-active subscription)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Create an active-active subscription Private Service Connect endpoint",
+        "description": "Create a new Private Service Connect endpoint in an existing active-active subscription.",
+        "operationId": "createActiveActivePscServiceEndpoint",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region id (required for active-active subscription)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActiveActivePscEndpointCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/regions/peerings": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get an active-active subscription VPC peering",
         "description": "Get VPC peering details for an active-active subscription.",
@@ -4602,7 +5369,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create an active-active subscription VPC peering",
         "description": "Create a new VPC peering in an existing active-active subscription. For details, see [documentation](https://docs.redis.com/latest/rc/security/vpc-peering)",
@@ -4686,10 +5453,348 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/private-service-connect": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get Subscription private service connect",
+        "description": "Get private service connect details",
+        "operationId": "getPscService",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Create a subscription Private Service Connect",
+        "description": "Create a new Private Service Connect in an existing subscription.",
+        "operationId": "createPscService",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Delete a subscription Private Service Connect",
+        "description": "Delete a Private Service Connect in an existing subscription.",
+        "operationId": "deletePscService",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get Subscription private service connect endpoints",
+        "description": "Get private service connect endpoints details",
+        "operationId": "getPscServiceEndpoints",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Create a subscription Private Service Connect endpoint",
+        "description": "Create a new Private Service Connect endpoint in an existing subscription.",
+        "operationId": "createPscServiceEndpoint",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PscEndpointCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/peerings": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Subscription peering",
         "description": "Get VPC peering details",
@@ -4745,7 +5850,7 @@
       },
       "post": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create subscription peering",
         "description": "Create a new VPC peering in an existing subscription. VPC peering for Google Cloud Provider must be enabled using the GCloud command line. For details, see [documentation](https://docs.redis.com/latest/rc/security/vpc-peering)",
@@ -6477,7 +7582,7 @@
     "/subscriptions/{subscriptionId}/transitGateways": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Subscription tgws",
         "description": "Get tgws details",
@@ -6535,7 +7640,7 @@
     "/subscriptions/{subscriptionId}/transitGateways/invitations": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Subscription tgw invitations",
         "description": "Get tgw invitations details",
@@ -6593,7 +7698,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Active Active Subscription tgws",
         "description": "Get Active Active tgws details",
@@ -6662,7 +7767,7 @@
     "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations": {
       "get": {
         "tags": [
-          "Subscriptions - Pro"
+          "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Get Active Active Subscription tgw invitations",
         "description": "Get Active Active tgw invitations details",
@@ -6699,6 +7804,338 @@
           },
           "200": {
             "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get an active-active subscription private service connect endpoint deletion script ",
+        "description": "Get an active-active subscription private service connect endpoint deletion script details for the deletion of a gcp user's endpoint.",
+        "operationId": "getActiveActivPscServiceEndpointDeletionScript",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region id (required for active-active subscription)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "endpointId",
+            "in": "path",
+            "description": "Private service connect endpoint Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get an active-active subscription private service connect endpoint creation script ",
+        "description": "Get an active-active subscription private service connect endpoint creation script details for the creation of a gcp user's endpoint.",
+        "operationId": "getActiveActivPscServiceEndpointCreationScript",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region id (required for active-active subscription)",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "endpointId",
+            "in": "path",
+            "description": "Private service connect endpoint Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get Subscription private service connect endpoint deletion script ",
+        "description": "Get Subscription private service connect endpoint deletion script details for the deletion of a gcp user's endpoint.",
+        "operationId": "getPscServiceEndpointDeletionScript",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "endpointId",
+            "in": "path",
+            "description": "Private service connect endpoint Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
+      "get": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Get Subscription private service connect endpoint creation script ",
+        "description": "Get Subscription private service connect endpoint creation script details for the creation of a gcp user's endpoint.",
+        "operationId": "getPscServiceEndpointCreationScript",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pscServiceId",
+            "in": "path",
+            "description": "Private service connect service Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "endpointId",
+            "in": "path",
+            "description": "Private service connect endpoint Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
             "content": {
               "application/json": {
                 "schema": {
@@ -7767,6 +9204,62 @@
         },
         "description": "Database tag update request message"
       },
+      "ActiveActivePscEndpointCreateRequest": {
+        "required": [
+          "endpointConnectionName",
+          "gcpProjectId",
+          "gcpVpcName",
+          "gcpVpcSubnetName",
+          "pscServiceId",
+          "regionId",
+          "subscriptionId"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "pscServiceId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "regionId": {
+            "type": "integer",
+            "description": "Deployment region id as defined by cloud provider",
+            "format": "int32",
+            "readOnly": true,
+            "example": 27
+          },
+          "gcpProjectId": {
+            "type": "string",
+            "description": "The google cloud project ID",
+            "example": "my-gcp-project"
+          },
+          "gcpVpcName": {
+            "type": "string",
+            "description": "Name of the VPC that hosts your application",
+            "example": "my-vpc"
+          },
+          "gcpVpcSubnetName": {
+            "type": "string",
+            "description": "Name of your VPC's subnet of IP address ranges",
+            "example": "my-vpc-subnet"
+          },
+          "endpointConnectionName": {
+            "type": "string",
+            "description": "Prefix used to create PSC endpoints in the consumer application VPC, so endpoint names appear in Google Cloud as endpoint name prefix + endpoint number",
+            "example": "my-endpoint-connection"
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Private Service Connect endpoint create request"
+      },
       "TaskStateUpdate": {
         "type": "object",
         "properties": {
@@ -7929,7 +9422,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -7995,6 +9489,15 @@
             "enum": [
               "resp2",
               "resp3"
+            ]
+          },
+          "shardingType": {
+            "type": "string",
+            "description": "Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy). Default depends on your account creation date. See [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy) for more information.",
+            "enum": [
+              "default-regex-rules",
+              "custom-regex-rules",
+              "redis-oss-hashing"
             ]
           },
           "queryPerformanceFactor": {
@@ -8166,7 +9669,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead. Supported only for 'Pay-As-You-Go' subscriptions",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -8271,7 +9775,8 @@
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\""
+            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
@@ -8338,7 +9843,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -8445,7 +9951,8 @@
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\""
+            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
@@ -8465,7 +9972,8 @@
           "periodicBackupPath": {
             "type": "string",
             "description": "Deprecated - If specified, automatic backups will be every 24 hours or database will be able to perform immediate backups to this path. If empty string is received, backup path will be removed. Optional.",
-            "example": "s3://<backup-path>"
+            "example": "s3://<backup-path>",
+            "deprecated": true
           },
           "remoteBackup": {
             "$ref": "#/components/schemas/DatabaseBackupConfig"
@@ -8545,6 +10053,54 @@
           }
         },
         "description": "Optional. List or regions to update"
+      },
+      "PscEndpointCreateRequest": {
+        "required": [
+          "endpointConnectionName",
+          "gcpProjectId",
+          "gcpVpcName",
+          "gcpVpcSubnetName",
+          "pscServiceId",
+          "subscriptionId"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "pscServiceId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "gcpProjectId": {
+            "type": "string",
+            "description": "The google cloud project ID",
+            "example": "my-gcp-project"
+          },
+          "gcpVpcName": {
+            "type": "string",
+            "description": "Name of the VPC that hosts your application",
+            "example": "my-vpc"
+          },
+          "gcpVpcSubnetName": {
+            "type": "string",
+            "description": "Name of your VPC's subnet of IP address ranges",
+            "example": "my-vpc-subnet"
+          },
+          "endpointConnectionName": {
+            "type": "string",
+            "description": "Prefix used to create PSC endpoints in the consumer application VPC, so endpoint names appear in Google Cloud as endpoint name prefix + endpoint number",
+            "example": "my-endpoint-connection"
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Private Service Connect endpoint create request"
       },
       "ActiveActiveVpcPeeringCreateBaseRequest": {
         "type": "object",
@@ -9232,6 +10788,14 @@
             "type": "integer",
             "description": "Optional. A predefined Essentials plan Id (see lookup API '/fixed/plans'). The plan defines the billing, deployment and configuration for the created subscription based on specific plan details",
             "format": "int32"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Optional. The payment method for the requested subscription. If ‘credit-card’ is specified, ‘paymentMethodId’ must be defined. Default: 'credit-card'",
+            "enum": [
+              "credit-card",
+              "marketplace"
+            ]
           },
           "paymentMethodId": {
             "type": "integer",
@@ -10336,7 +11900,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead. Supported only for 'Pay-As-You-Go' subscriptions",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -10441,7 +12006,8 @@
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\""
+            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
@@ -10994,6 +12560,130 @@
         },
         "description": "Local throughput for the regional instance of an Active-Active database"
       },
+      "PscEndpointUpdateRequest": {
+        "required": [
+          "endpointId",
+          "pscServiceId",
+          "subscriptionId"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "pscServiceId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "endpointId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "gcpProjectId": {
+            "type": "string",
+            "description": "The google cloud project ID",
+            "example": "my-gcp-project"
+          },
+          "gcpVpcName": {
+            "type": "string",
+            "description": "Name of the VPC that hosts your application",
+            "example": "my-vpc"
+          },
+          "gcpVpcSubnetName": {
+            "type": "string",
+            "description": "Name of your VPC's subnet of IP address ranges",
+            "example": "my-vpc-subnet"
+          },
+          "endpointConnectionName": {
+            "type": "string",
+            "description": "Prefix used to update PSC endpoints in the consumer application VPC, so endpoint names appear in Google Cloud as endpoint name prefix + endpoint number",
+            "example": "my-endpoint-connection"
+          },
+          "action": {
+            "type": "string",
+            "description": "The action to perform on the endpoint",
+            "enum": [
+              "accept",
+              "reject"
+            ]
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Private Service Connect endpoint update request"
+      },
+      "ActiveActivePscEndpointUpdateRequest": {
+        "required": [
+          "endpointId",
+          "pscServiceId",
+          "regionId",
+          "subscriptionId"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "pscServiceId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "endpointId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "regionId": {
+            "type": "integer",
+            "description": "Deployment region id as defined by cloud provider",
+            "format": "int32",
+            "readOnly": true,
+            "example": 27
+          },
+          "gcpProjectId": {
+            "type": "string",
+            "description": "The google cloud project ID",
+            "example": "my-gcp-project"
+          },
+          "gcpVpcName": {
+            "type": "string",
+            "description": "Name of the VPC that hosts your application",
+            "example": "my-vpc"
+          },
+          "gcpVpcSubnetName": {
+            "type": "string",
+            "description": "Name of your VPC's subnet of IP address ranges",
+            "example": "my-vpc-subnet"
+          },
+          "endpointConnectionName": {
+            "type": "string",
+            "description": "Prefix used to update PSC endpoints in the consumer application VPC, so endpoint names appear in Google Cloud as endpoint name prefix + endpoint number",
+            "example": "my-endpoint-connection"
+          },
+          "action": {
+            "type": "string",
+            "description": "The action to perform on the endpoint",
+            "enum": [
+              "accept",
+              "reject"
+            ]
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Private Service Connect endpoint update request"
+      },
       "SubscriptionMaintenanceWindows": {
         "type": "object",
         "properties": {
@@ -11309,6 +12999,14 @@
             "description": "A predefined Essentials plan Id (see lookup API '/fixed/plans'). The plan defines the billing, deployment and configuration for the created subscription based on specific plan details",
             "format": "int32"
           },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Optional. The payment method for the requested subscription. If ‘credit-card’ is specified, ‘paymentMethodId’ must be defined. Default: 'credit-card'",
+            "enum": [
+              "credit-card",
+              "marketplace"
+            ]
+          },
           "paymentMethodId": {
             "type": "integer",
             "description": "Optional. A valid payment method (credit card, wire transfer etc) pre-defined in the current account. It will be billed for any charges related to the created subscription.",
@@ -11428,7 +13126,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -11449,7 +13148,8 @@
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\""
+            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
@@ -11655,7 +13355,8 @@
             "type": "number",
             "description": "Deprecated - Optional. Total memory including replication and other overhead",
             "format": "double",
-            "example": 1
+            "example": 1,
+            "deprecated": true
           },
           "datasetSizeInGb": {
             "minimum": 0.1,
@@ -11744,7 +13445,8 @@
           "periodicBackupPath": {
             "type": "string",
             "description": "Deprecated - If specified, automatic backups will be every 24 hours or database will be able to perform immediate backups to this path. If empty string is received, backup path will be removed. Optional.",
-            "example": "s3://<backup-path>"
+            "example": "s3://<backup-path>",
+            "deprecated": true
           },
           "remoteBackup": {
             "$ref": "#/components/schemas/DatabaseBackupConfig"
@@ -11759,7 +13461,8 @@
           },
           "clientSslCertificate": {
             "type": "string",
-            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\""
+            "description": "Deprecated - Optional. A string containing TLS/SSL certificate (public key) with new line characters replaced by \\n. If specified, mTLS authentication (with enableTls not specified or set to true) will be required to authenticate user connections. If empty string is received, SSL certificate will be removed and mTLS will not be required (note that TLS connection may still apply, depending on the value of the enableTls property). Default: 'null'\"",
+            "deprecated": true
           },
           "clientTlsCertificates": {
             "type": "array",
@@ -11797,6 +13500,15 @@
             "items": {
               "$ref": "#/components/schemas/DatabaseModuleSpec"
             }
+          },
+          "shardingType": {
+            "type": "string",
+            "description": "Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy). \nDefault depends on your account creation date. See [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy) for more information.",
+            "enum": [
+              "default-regex-rules",
+              "custom-regex-rules",
+              "redis-oss-hashing"
+            ]
           },
           "commandType": {
             "type": "string",
@@ -11900,7 +13612,8 @@
               "SUBSCRIPTION_NETWORKING_CIDR_MISSING",
               "SUBSCRIPTION_INVALID_CIDR",
               "SUBSCRIPTION_PI_NOT_FOUND",
-              "SUBSCRIPTION_INVALID_REGION",
+              "SUBSCRIPTION_INVALID_REGION_NAME",
+              "SUBSCRIPTION_INVALID_REGION_ID",
               "SUBSCRIPTION_BAD_PREFERRED_AZ_SIZE",
               "SUBSCRIPTION_PREFERRED_AZ_INVALID_VALUE",
               "SUBSCRIPTION_PREFERRED_AZ_MUST_BE_DEFINED_ONCE",
@@ -11966,7 +13679,6 @@
               "DATABASE_SIZE_TOO_SMALL",
               "DATABASE_SIZE_TOO_BIG",
               "DATABASE_SIZE_LIMIT_NOT_DEFINED",
-              "DATABASE_SET_DATA_SET_SIZE_LIMIT_IS_DISABLED",
               "DATABASE_SIZE_LIMIT_INVALID_TOO_MANY_MEMORY_SPECIFICATIONS",
               "DATABASE_PASSWORD_IS_BLANK",
               "DATABASE_PASSWORD_IS_TOO_LONG",
@@ -11997,6 +13709,8 @@
               "DATABASE_INVALID_MODULE_PARAMETER",
               "DATABASE_INVALID_MODULE_PARAMETER_VALUE",
               "DATABASE_INVALID_ALERT_VALUE",
+              "DATABASE_SHARDING_TYPE_IS_IMMUTABLE",
+              "DATABASE_SHARDING_TYPE_IS_NOT_SUPPORTED",
               "DATABASE_REGEX_RULES_NO_CLUSTERING",
               "DATABASE_REGEX_RULES_CHANGES_BLOCKED",
               "DATABASE_OSS_CLUSTER_NOT_SUPPORTED",
@@ -12091,6 +13805,37 @@
               "TGW_GETTING_ACTIVE_ACTIVE_SUBSCRIPTION_TGW_INVITATIONS_IS_NOT_ALLOWED_WITH_SINGLE_REGION_SUBSCRIPTION",
               "TGW_GETTING_SINGLE_REGION_TGWS_IS_NOT_ALLOWED_WITH_ACTIVE_ACTIVE_SUBSCRIPTION",
               "TGW_GETTING_SINGLE_REGION_TGW_INVITATIONS_IS_NOT_ALLOWED_WITH_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PSC_ENDPOINT_INVALID_GCP_PROJECT_ID",
+              "PSC_ENDPOINT_INVALID_VPC_NAME",
+              "PSC_ENDPOINT_INVALID_VPC_SUBNET_NAME",
+              "PSC_ENDPOINT_INVALID_CONNECTION_NAME",
+              "PSC_SERVICE_ALREADY_EXISTS",
+              "PSC_ENDPOINT_ALREADY_EXISTS",
+              "PSC_CLOUD_PROVIDER_IS_NOT_SUPPORTED",
+              "PSC_GET_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_ENDPOINTS_IS_NOT_ALLOWED_WITH_A_FLEXIBLE_SUBSCRIPTION",
+              "PSC_GET_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_ENDPOINT_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PSC_CREATING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_IS_NOT_ALLOWED_WITH_A_FLEXIBLE_SUBSCRIPTION",
+              "PSC_CREATING_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PSC_DELETING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_IS_NOT_ALLOWED_WITH_A_FLEXIBLE_SUBSCRIPTION",
+              "PSC_DELETING_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PSC_CREATING_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_ENDPOINT_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PSC_CREATING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_ENDPOINT_IS_NOT_ALLOWED_WITH_A_FLEXIBLE_SUBSCRIPTION",
+              "PSC_CREATING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_IS_NOT_SUPPORTED",
+              "PSC_UPDATING_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_ENDPOINT_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PSC_UPDATING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_ENDPOINT_IS_NOT_ALLOWED_WITH_A_FLEXIBLE_SUBSCRIPTION",
+              "PSC_DELETING_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_ENDPOINT_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PSC_DELETING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_SERVICE_CONNECT_ENDPOINT_IS_NOT_ALLOWED_WITH_A_FLEXIBLE_SUBSCRIPTION",
+              "PSC_UPDATE_ENDPOINT_REQUEST_ACTION_INVALID_VALUE",
+              "PSC_UPDATE_ENDPOINT_REQUEST_CANNOT_HAVE_BOTH_ACTION_AND_OTHER_FIELDS",
+              "PSC_UPDATE_ENDPOINT_REQUEST_CANNOT_UPDATE_INITIALIZED_ENDPOINT",
+              "PSC_SERVICE_NOT_FOUND",
+              "PSC_ENDPOINT_NOT_FOUND",
+              "PSC_ENDPOINT_NOT_ACTIVE",
+              "PSC_ENDPOINT_NOT_CREATED_OR_DELETED",
+              "PSC_ENDPOINT_CANNOT_BE_DELETED_WITHOUT_DELETION_SCRIPT",
+              "PSC_SERVICE_CANNOT_DELETE_SERVICE_WITH_ACTIVE_ENDPOINTS",
+              "PSC_SERVICE_NOT_ACTIVE",
+              "PSC_ENDPOINT_SCRIPT_FAILED_TO_PARSE",
               "CIDR_WHITELIST_GENERAL_ERROR",
               "CIDR_WHITELIST_INVALID_CIDRS",
               "CIDR_WHITELIST_INVALID_SG",
@@ -12178,7 +13923,6 @@
               "CREATING_FIXED_DATABASE_NOT_ALLOWED_WITH_A_FLEXIBLE_SUBSCRIPTION",
               "UPDATING_FIXED_DATABASE_NOT_ALLOWED_WITH_A_FLEXIBLE_SUBSCRIPTION",
               "DELETING_FIXED_DATABASE_NOT_ALLOWED_WITH_A_FLEXIBLE_SUBSCRIPTION",
-              "FIXED_DATABASE_MEMORY_LIMIT_IN_GB_SUPPORTED_ONLY_FOR_PAY_AS_YOU_GO",
               "FIXED_DATABASE_MEMORY_LIMIT_IN_GB_AND_DATA_SET_SIZE_SUPPORTED_ONLY_FOR_PAY_AS_YOU_GO",
               "FIXED_DATABASE_FIXED_SUBSCRIPTION_REACHED_MAX_DATABASES_COUNT",
               "FIXED_DATABASE_SOURCE_IPS_LIST_IS_GREATER_THAN_PLAN_MAX_COUNT_ALLOWED_SOURCE_IPS",
@@ -12335,7 +14079,17 @@
               "MAINTENANCE_WINDOW_INVALID_DAYS",
               "MAINTENANCE_WINDOW_DUPLICATE_DAYS",
               "MAINTENANCE_WINDOW_INVALID_DURATION_FOR_ROF_SUBSCRIPTION",
-              "MAINTENANCE_WINDOW_UNKNOWN_MEMORY_STORAGE_TYPE"
+              "MAINTENANCE_WINDOW_UNKNOWN_MEMORY_STORAGE_TYPE",
+              "DATABASE_UPGRADE_IS_ALREADY_RUNNING",
+              "DATABASE_CLUSTER_IS_IN_MAINTENANCE",
+              "DATABASE_IS_NOT_ACTIVE",
+              "DATABASE_UPGRADE_WORKFLOW_NOT_FOUND",
+              "DATABASE_UPGRADE_INVALID_REDIS_VERSION",
+              "DATABASE_UPGRADE_OF_MEMCACHED_IS_NOT_SUPPORTED",
+              "DATABASE_REPLICA_OF_INCOMPATIBLE_VERSION",
+              "DATABASE_UPGRADE_FAILED",
+              "DATABASE_INVALID_PLAN_TYPE",
+              "DATABASE_UPGRADE_IS_NOT_SUPPORTED"
             ]
           },
           "additionalInfo": {
@@ -13225,7 +14979,7 @@
           },
           "respVersion": {
             "type": "string",
-            "description": "Optional. RESP version must be compatible with Redis version.",
+            "description": "Deprecated - Optional. RESP version must be compatible with Redis version.",
             "example": "resp3",
             "deprecated": true,
             "enum": [

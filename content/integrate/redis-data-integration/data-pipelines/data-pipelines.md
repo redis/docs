@@ -73,7 +73,7 @@ form "`${name}`" refer to environment variables that you should set with the
 [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
 command. In particular, you should normally use environment variables as shown to set the source
 and target username and password rather than storing them in plain text in this
-file (see [Set secrets](#set-secrets) below for more information).
+file (see [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}) for more information).
 
 ```yaml
 sources:
@@ -83,67 +83,123 @@ sources:
       level: info
     connection:
       type: mysql
-      host: ${RDI_REDIS_HOST}
-      port: 13000
-      database: redislabscdc
+      host: <DB_HOST> # e.g. localhost
+      port: 3306
+      # User and password are injected from the secrets.
       user: ${SOURCE_DB_USERNAME}
       password: ${SOURCE_DB_PASSWORD}
-# The names of the following properties should match the ones you used
-# when setting the TLS/mTLS secrets. Set only `cacert` if you are using
-# TLS, but set all of them if you are using mTLS:
-#     key: ${SOURCE_DB_KEY}
-#     cert: ${SOURCE_DB_CERT}
-#     cacert: ${SOURCE_DB_CACERT}
-#     key_password: ${SOURCE_DB_KEY_PASSWORD}
-    tables:
-          emp:
-            snapshot_sql: "SELECT * from redislabscdc.emp WHERE empno < 1000"
-            columns:
-              - empno
-              - fname
-              - lname
-            keys:
-              - empno
-  # Advanced collector properties (optional):
-  # advanced:
-  # Sink collector properties - see the full list at https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream
-  #   sink:
-  #     redis.memory.limit.mb: 100
-  #     redis.memory.threshold.percentage: 85
-  #  Uncomment the lines below for production usage with high availability (HA). When writing data 
-  #  to the state database or the target with HA enabled, RDI should wait briefly for an
-  #  acknowledgment from the replica database. It should also retry a write operation after a 
-  #  certain delay if the original operation times out.
-  #     redis.wait.enabled:true
-  #     redis.wait.timeout.ms:2
-  #     redis.wait.retry.enabled:true
-  #     redis.wait.retry.delay.ms: 
-  # Source specific properties - see the full list at https://debezium.io/documentation/reference/stable/connectors/
-  #   source:
-  #     snapshot.mode: initial
-  # Quarkus framework properties - see the full list at https://quarkus.io/guides/all-config
-  #   quarkus:
-  #     banner.enabled: "false"
+    # Additional properties for the source collector:
+    # List of databases to include (optional).
+    # databases:
+    #   - database1
+    #   - database2
+
+    # List of tables to be synced (optional).
+    # tables:
+    #   If only one database is specified in the databases property above,
+    #   then tables can be defined without the database prefix.
+    #   <DATABASE_NAME>.<TABLE_NAME>:
+    #     List of columns to be synced (optional).
+    #     columns:
+    #       - <COLUMN_NAME>
+    #       - <COLUMN_NAME>
+    #     List of columns to be used as keys (optional).
+    #     keys:
+    #       - <COLUMN_NAME>
+
+    # Example: Sync specific tables.
+    # tables:
+    #   Sync a specific table with all its columns:
+    #   redislabscdc.account: {}
+    #   Sync a specific table with selected columns:
+    #   redislabscdc.emp:
+    #     columns:
+    #       - empno
+    #       - fname
+    #       - lname
+
+    # Advanced collector properties (optional):
+    # advanced:
+    #   Sink collector properties - see the full list at
+    #     https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream
+    #   sink:
+    #     Optional hard limits on memory usage of RDI streams.
+    #     redis.memory.limit.mb: 300
+    #     redis.memory.threshold.percentage: 85
+
+    #     Uncomment for production so RDI Collector will wait on replica
+    #     when writing entries.
+    #     redis.wait.enabled: true
+    #     redis.wait.timeout.ms: 1000
+    #     redis.wait.retry.enabled: true
+    #     redis.wait.retry.delay.ms: 1000
+
+    #   Source specific properties - see the full list at
+    #     https://debezium.io/documentation/reference/stable/connectors/
+    #   source:
+    #     snapshot.mode: initial
+    #     Uncomment if you want a snapshot to include only a subset of the rows
+    #     in a table. This property affects snapshots only.
+    #     snapshot.select.statement.overrides: <DATABASE_NAME>.<TABLE_NAME>
+    #     The specified SELECT statement determines the subset of table rows to
+    #     include in the snapshot.
+    #     snapshot.select.statement.overrides.<DATABASE_NAME>.<TABLE_NAME>: <SELECT_STATEMENT>
+
+    #     Example: Snapshot filtering by order status.
+    #     To include only orders with non-pending status from customers.orders
+    #     table:
+    #     snapshot.select.statement.overrides: customer.orders
+    #     snapshot.select.statement.overrides.customer.orders: SELECT * FROM customers.orders WHERE status != 'pending' ORDER BY order_id DESC
+
+    #   Quarkus framework properties - see the full list at
+    #     https://quarkus.io/guides/all-config
+    #   quarkus:
+    #     banner.enabled: "false"
+
 targets:
-  my-redis:
+  # Redis target database connections.
+  # The default connection must be named 'target' and is used when no
+  # connection is specified in jobs or no jobs
+  # are deployed. However multiple connections can be defined here and used
+  # in the job definition output blocks:
+  # (e.g. target1, my-cloud-redis-db2, etc.)
+  target:
     connection:
       type: redis
-      host: localhost
-      port: 12000
-      user: ${TARGET_DB_USERNAME}
+      # Host of the Redis database to which RDI will
+      # write the processed data.
+      host: <REDIS_TARGET_DB_HOST> # e.g. localhost
+      # Port for the Redis database to which RDI will
+      # write the processed data.
+      port: <REDIS_TARGET_DB_PORT> # e.g. 12000
+      # User of the Redis database to which RDI will write the processed data.
+      # Uncomment if you are not using the default user.
+      # user: ${TARGET_DB_USERNAME}
+      # Password for Redis target database.
       password: ${TARGET_DB_PASSWORD}
-# The names of the following properties should match the ones you used
-# when setting the TLS/mTLS secrets. Set only `cacert` if you are using
-# TLS, but set all of them if you are using mTLS:
-#     key: ${TARGET_DB_KEY}
-#     cert: ${TARGET_DB_CERT}
-#     cacert: ${TARGET_DB_CACERT}
-#     key_password: ${TARGET_DB_KEY_PASSWORD}
+      # SSL/TLS configuration: Uncomment to enable secure connections.
+      # key: ${TARGET_DB_KEY}
+      # key_password: ${TARGET_DB_KEY_PASSWORD}
+      # cert: ${TARGET_DB_CERT}
+      # cacert: ${TARGET_DB_CACERT}
 processors:
-# Enable Debezium LOB placeholders for tables that contain large objects.
-# Uncomment this property (and the `processors:` section) if your tables include
-# Oracle large objects (BLOB, CLOB, NCLOB).
-#  debezium_lob_encoded_placeholder: X19kZWJleml1bV91bmF2YWlsYWJsZV92YWx1ZQ==
+  # Interval (in seconds) on which to perform retry on failure.
+  # on_failed_retry_interval: 5
+  # The batch size for reading data from the source database.
+  # read_batch_size: 2000
+  # Time (in ms) after which data will be read from stream even if
+  # read_batch_size was not reached.
+  # duration: 100
+  # The batch size for writing data to the target Redis database. Should be
+  # less than or equal to the read_batch_size.
+  # write_batch_size: 200
+  # Enable deduplication mechanism (default: false).
+  # dedup: <DEDUP_ENABLED>
+  # Max size of the deduplication set (default: 1024).
+  # dedup_max_size: <DEDUP_MAX_SIZE>
+  # Error handling strategy: ignore - skip, dlq - store rejected messages
+  # in a dead letter queue
+  # error_handling: dlq
 ```
 
 The main sections of the file configure [`sources`](#sources) and [`targets`](#targets).

@@ -34,9 +34,11 @@ Before upgrading a cluster:
 
 - Verify access to [rlcheck]({{< relref "/operate/rs/references/cli-utilities/rlcheck/" >}}) and [rladmin]({{< relref "/operate/rs/references/cli-utilities/rladmin/#use-the-rladmin-shell" >}}) commands
 
-- Verify that you meet the upgrade path requirements for your desired cluster version and review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
+- Verify that you meet the upgrade path requirements for the target cluster version and review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
 
-- Avoid changing the database configuration or performing other cluster management operations during the upgrade process, as this might cause unexpected results.
+- [Upgrade your databases]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) to a version that is supported by the target Redis Enterprise Software version before upgrading the cluster. We recommend you upgrade the databases to the latest supported version if possible. Make sure to test the upgrade in a non-production environment to determine any impact.
+
+- Avoid changing the database configuration or performing other cluster management operations during the cluster upgrade process, as this might cause unexpected results.
 
 - Upgrade the cluster's primary (master) node first. To identify the primary node, use one of the following methods:
 
@@ -108,6 +110,8 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
 
 1. [Add the new node]({{< relref "/operate/rs/clusters/add-node" >}}) to the cluster.
 
+1. [Promote the first new node]({{<relref "/operate/rs/clusters/change-node-role/#promote-secondary-node">}}) to become the primary node.
+
 1. [Remove one node]({{< relref "/operate/rs/clusters/remove-node#remove-a-node" >}}) running the earlier Redis Software version from the cluster.
 
 1. Repeat the previous steps until all nodes with the earlier Redis Software version are removed. If the final node to remove from the cluster is the primary node, [demote it]({{<relref "/operate/rs/clusters/change-node-role#demote-primary-node">}}) to a secondary node before you remove it.
@@ -131,6 +135,8 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
     ```sh
     rladmin cluster join nodes <cluster_member_ip_address> username <username> password <password> replace_node <node_id>
     ```
+
+1. [Promote the first new node]({{<relref "/operate/rs/clusters/change-node-role/#promote-secondary-node">}}) to become the primary node.
 
 1. Verify node health:
 

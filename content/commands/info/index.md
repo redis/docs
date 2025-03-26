@@ -151,8 +151,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `used_memory_rss_human`: Human readable representation of previous value
 *   `used_memory_peak`: Peak memory consumed by Redis (in bytes)
 *   `used_memory_peak_human`: Human readable representation of previous value
-*   `used_memory_peak_perc`: The percentage of `used_memory_peak` out of
-     `used_memory`
+*   `used_memory_peak_perc`: The percentage of `used_memory` out of `used_memory_peak`
 *   `used_memory_overhead`: The sum in bytes of all overheads that the server
      allocated for managing its internal data structures
 *   `used_memory_startup`: Initial amount of memory consumed by Redis at startup
@@ -494,10 +493,61 @@ The **cluster** section currently only contains a unique field:
 
 *   `cluster_enabled`: Indicate Redis cluster is enabled
 
-The **modules** section contains additional information about loaded modules if the modules provide it. The field part of properties lines in this section is always prefixed with the module's name.
+The **modules** section contains additional information about loaded modules if the modules provide it. The field part of property lines in this section are always prefixed with the module's name.
 
-The **keyspace** section provides statistics on the main dictionary of each
-database.
+**RediSearch fields**
+
+*   `search_number_of_indexes`: The total number of indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_number_of_active_indexes`: The total number of indexes running a background indexing and/or background query processing operation. Background indexing refers to vector ingestion process, or in-progress background indexer. <sup>[1](#tnote-1)</sup>
+*   `search_number_of_active_indexes_running_queries`: The total count of indexes currently running a background query process. <sup>[1](#tnote-1)</sup>
+*   `search_number_of_active_indexes_indexing`: The total count of indexes currently undergoing a background indexing process. Background indexing refers to a vector ingestion process, or an in-progress background indexer. This metric is limited by the number of WORKER threads allocated for writing operations plus the number of indexes. <sup>[1](#tnote-1)</sup>
+*   `search_total_active_write_threads`: The total count of background write (indexing) processes currently running in the shard. Background indexing refers to a vector ingestion process, or an in-progress background indexer. This metric is limited by the number of threads allocated for writing operations. <sup>[1](#tnote-1)</sup>
+*   `search_fields_text_Text`: The total number of `TEXT` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_fields_text_Sortable`: The total number of `SORTABLE TEXT` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup>
+*   `search_fields_text_NoIndex`: The total number of `NOINDEX TEXT` fields across all indexes in the shard, which are used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup>
+*   `search_fields_numeric_Numeric`: The total number of `NUMERIC` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_fields_numeric_Sortable`: The total number of `SORTABLE NUMERIC` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup>
+*   `search_fields_numeric_NoIndex`: The total number of `NOINDEX NUMERIC` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup>
+*   `search_fields_tag_Tag`: The total number of `TAG` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_fields_tag_Sortable`: The total number of `SORTABLE TAG` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup>
+*   `search_fields_tag_NoIndex`: The total number of `NOINDEX TAG` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup>
+*   `search_fields_tag_CaseSensitive`: The total number of `CASESENSITIVE TAG` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup>
+*   `search_fields_geo_Geo`: The total number of `GEO` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_fields_geo_Sortable`: The total number of `SORTABLE GEO` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup>
+*   `search_fields_geo_NoIndex`: The total number of `NOINDEX GEO` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[1](#tnote-1)</sup>
+*   `search_fields_vector_Vector`: The total number of `VECTOR` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_fields_vector_Flat`: The total number of `FLAT VECTOR` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_fields_vector_HNSW`: The total number of `HNSW VECTOR` fields across all indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_fields_geoshape_Geoshape`: The total number of `GEOSHAPE` fields across all indexes in the shard. <sup>[2](#tnote-2)</sup>
+*   `search_fields_geoshape_Sortable`: The total number of `SORTABLE GEOSHAPE` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup>
+*   `search_fields_geoshape_NoIndex`: The total number of `NOINDEX GEOSHAPE` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup>
+*   `search_fields_<field>_IndexErrors`: The total number of indexing failures caused by attempts to index a document containing <field> field. <sup>[1](#tnote-1)</sup>
+*   `search_used_memory_indexes`: The total memory allocated by all indexes in the shard in bytes. <sup>[1](#tnote-1)</sup>
+*   `search_used_memory_indexes_human`: The total memory allocated by all indexes in the shard in MB. <sup>[1](#tnote-1)</sup>
+*   `search_smallest_memory_index`: The memory usage of the index with the smallest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup>
+*   `search_smallest_memory_index_human`: The memory usage of the index with the smallest memory usage in the shard in MB. <sup>[1](#tnote-1)</sup>
+*   `search_largest_memory_index`: The memory usage of the index with the largest memory usage in the shard in bytes. <sup>[1](#tnote-1)</sup>
+*   `search_largest_memory_index_human`: The memory usage of the index with the largest memory usage in the shard in MB. <sup>[1](#tnote-1)</sup>
+*   `search_total_indexing_time`: The total time spent on indexing operations, excluding the background indexing of vectors in the HNSW graph. <sup>[1](#tnote-1)</sup>
+*   `search_used_memory_vector_index`: The total memory usage of all vector indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_global_idle`: The total number of user and internal cursors currently holding pending results in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_global_total`: The total number of user and internal cursors in the shard, either holding pending results or actively executing FT.CURSOR READ. <sup>[1](#tnote-1)</sup>
+*   `search_bytes_collected`: The total amount of memory freed by the garbage collectors from indexes in the shard memory in bytes. <sup>[1](#tnote-1)</sup>
+*   `search_total_cycles`: The total number of garbage collection cycles executed. <sup>[1](#tnote-1)</sup>
+*   `search_total_ms_run`: The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[1](#tnote-1)</sup>
+*   `search_total_docs_not_collected_by_gc`: The number of documents marked as deleted whose memory has not yet been freed by the garbage collector. <sup>[1](#tnote-1)</sup>
+*   `search_marked_deleted_vectors`: The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. <sup>[1](#tnote-1)</sup>
+*   `search_total_queries_processed`: The total number of successful query executions (When using cursors, not counting reading from existing cursors) in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_total_query_commands`: The total number of successful query command executions (including `FT.SEARCH`, `FT.AGGREGATE`, and `FT.CURSOR READ`). <sup>[1](#tnote-1)</sup>
+*   `search_total_query_execution_time_ms`: The cumulative execution time of all query commands, including `FT.SEARCH`, `FT.AGGREGATE`, and `FT.CURSOR` READ, measured in ms. <sup>[1](#tnote-1)</sup>
+*   `search_total_active_queries`: The total number of background queries currently being executed in the shard, excluding `FT.CURSOR READ`. <sup>[1](#tnote-1)</sup>
+*   `search_errors_indexing_failures`: The total number of indexing failures recorded across all indexes in the shard. <sup>[1](#tnote-1)</sup>
+*   `search_errors_for_index_with_max_failures`: The number of indexing failures in the index with the highest count of failures. <sup>[1](#tnote-1)</sup>
+
+1. <a name="tnote-1"></a> Available in RediSearch 2.6.
+2. <a name="tnote-2"></a> Available in RediSearch 2.8.
+
+The **keyspace** section provides statistics on the main dictionary of each database.
 The statistics are the number of keys, and the number of keys with an expiration.
 
 For each database, the following line is added:

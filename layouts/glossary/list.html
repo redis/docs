@@ -1,5 +1,5 @@
 {{ define "head" }}
-  <script src='{{ relURL "" }}/js/codetabs.js' defer></script>
+  <script src='{{ relURL "js/codetabs.js" }}' defer></script>
 {{ end }}
 
 {{ define "main" }}
@@ -26,7 +26,7 @@
             section-wide banner is enabled by a parent page's front matter -->
           {{ $ancestorDirs := slice }}
           {{ with .File }}
-            {{ $ancestorDirs = split .File.Dir "/" }}
+            {{ $ancestorDirs = split .Dir "/" }}
           {{ end }}
           {{ $currPage := .Page }}
           {{ range $i, $page := $ancestorDirs }}

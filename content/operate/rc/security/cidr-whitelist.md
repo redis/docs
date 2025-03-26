@@ -45,3 +45,7 @@ To define the CIDR allow list for a database:
 {{< note >}}
 The database CIDR allow list applies to both the public endpoint and the private endpoint. If you use connectivity options such as [VPC Peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) to connect to your database via the private endpoint, you must also add those IPs to your database's CIDR allow list.
 {{< /note >}}
+
+## Continue learning with Redis University
+
+{{< university-links >}}

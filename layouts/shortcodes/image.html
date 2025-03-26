@@ -1,20 +1,12 @@
-{{ $base := .Site.BaseURL }}
-{{ $parsed := urls.Parse $base }}
-{{ $path := $parsed.Path }}
-{{ if (eq $path "/") }}
-	{{ .Scratch.Set "path" ""}}
-{{ else }}
-    {{ .Scratch.Set "path" $path}}
-{{ end }}
-{{ $fname := .Get "filename" }}
+{{ $fname := .Get "filename" | strings.TrimLeft "/" }}
 {{ if not (hasPrefix $fname "/") }}
 	{{ .Scratch.Set "file" (printf "/%s" $fname) }}
 {{ else }}
 	{{ .Scratch.Set "file" $fname }}
 {{ end }}
 {{- $width :=  .Get "width" | default "75%" }}
-<a href='{{- .Scratch.Get "path" -}}{{.Page.Params.id}}{{- .Scratch.Get "file" -}}' sdata-lightbox="{{- .Scratch.Get "file" -}}">
-	<img src='{{- .Scratch.Get "path" -}}{{.Page.Params.id}}{{- .Scratch.Get "file" -}}'
+<a href='{{ relURL $fname }}' sdata-lightbox="{{- .Scratch.Get "file" -}}">
+	<img src='{{ relURL $fname }}'
 		 {{ with .Get "width" }} width="{{.}}"{{ end }} 
 		 {{ with .Get "align"}} align="{{.}}"{{ end }}
 		 {{ with .Get "alt"}} alt="{{.}}"{{ end }} 

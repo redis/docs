@@ -34,7 +34,7 @@ Get the LDAP configuration.
 
 #### Example HTTP request
 
-	GET /cluster/ldap 
+	GET /v1/cluster/ldap 
 
 #### Request headers
 
@@ -87,7 +87,7 @@ Set or update the cluster LDAP configuration.
 
 #### Example HTTP request
 
-	POST /cluster/ldap 
+	POST /v1/cluster/ldap 
 
 #### Example JSON body
 
@@ -151,7 +151,7 @@ Clear the LDAP configuration.
 
 #### Example HTTP request
 
-	DELETE /cluster/ldap 
+	DELETE /v1/cluster/ldap 
 
 #### Request headers
 

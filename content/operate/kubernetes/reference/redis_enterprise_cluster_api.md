@@ -424,6 +424,13 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
+        <td><a href="#specsecuritycontext">securityContext</a></td>
+        <td>object</td>
+        <td>
+          the security configuration that will be applied to RS pods.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>serviceAccountName</td>
         <td>string</td>
         <td>
@@ -12026,6 +12033,56 @@ Stores configurations specific to redis on flash. If provided, the cluster will 
             <i>Enum</i>: rocksdb<br/>
         </td>
         <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.securityContext
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+the security configuration that will be applied to RS pods.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#specsecuritycontextreadonlyrootfilesystempolicy">readOnlyRootFilesystemPolicy</a></td>
+        <td>object</td>
+        <td>
+          Whether RS containers has a read-only root filesystem and what is the policy. some mandatory paths are still writable so RS can work properly.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.securityContext.readOnlyRootFilesystemPolicy
+<sup><sup>[↩ Parent](#specsecuritycontext)</sup></sup>
+
+Whether RS containers has a read-only root filesystem and what is the policy. some mandatory paths are still writable so RS can work properly.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Whether RS containers has a read-only root filesystem. Default is false.<br/>
+        </td>
+        <td>true</td>
       </tr></tbody>
 </table>
 

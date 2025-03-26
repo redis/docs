@@ -54,7 +54,7 @@ RQE offers several configurable parameters that influence query results and perf
 
 ### 4. `DEFAULT_DIALECT`
 
-- Purpose: specifies the default query dialect used by [`FT.SEARCH`]({{< baseurl >}}/commands/ft.search) and [`FT.AGGREGATE`]({{< baseurl >}}/commands/ft.aggregate) commands.
+- Purpose: specifies the default query dialect used by [`FT.SEARCH`]({{< relref "commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate" >}}) commands.
 - Default: [Dialect 1]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects" >}}).
 - Recommendations:
   - Update the default to [**Dialect 4**]({{< relref "/develop/interact/search-and-query/advanced-concepts/dialects#dialect-4" >}}) for better performance and access to advanced features.
@@ -65,8 +65,8 @@ RQE offers several configurable parameters that influence query results and perf
 ### 1. Correctness
 - Run a few test queries and check the results are what you expect.
 - Use the following tools to validate and debug:
-  - Redis CLI: use the [`MONITOR`]({{< baseurl >}}/commands/monitor) command or [profiling features]({{< relref "/develop/tools/insight#profiler" >}}) in Redis Insight to analyze commands.
-  - [`FT.PROFILE`]({{< baseurl >}}/commands/ft.profile): Provides detailed insights into individual query execution paths, helping identify bottlenecks and inefficiencies.
+  - Redis CLI: use the [`MONITOR`]({{< relref "commands/monitor" >}}) command or [profiling features]({{< relref "/develop/tools/insight#profiler" >}}) in Redis Insight to analyze commands.
+  - [`FT.PROFILE`]({{< relref "commands/ft.profile" >}}): Provides detailed insights into individual query execution paths, helping identify bottlenecks and inefficiencies.
 
 ### 2. Performance
 - Test query performance in a controlled test environment that mirrors production as closely as possible.

@@ -35,7 +35,7 @@ Once the node is part of an active cluster, authentication is required.
 #### Example HTTP request
 
 ```sh
-GET /bootstrap
+GET /v1/bootstrap
 ```
 
 #### Headers
@@ -156,7 +156,7 @@ complete.
 #### Example HTTP request
 
 ```sh
-POST /bootstrap/create_cluster
+POST /v1/bootstrap/create_cluster
 ```
 
 #### Example JSON body

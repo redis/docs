@@ -162,4 +162,6 @@ After Transit gateway is established, we recommend switching your application co
 If you've enabled the database's [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}}), you must also [add the Transit Gateway's IP address to the CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist#define-cidr-allow-list" >}}) to connect to the database via the private endpoint.
 {{< /note >}}
 
+## Continue learning with Redis University
 
+{{< university-links >}}
