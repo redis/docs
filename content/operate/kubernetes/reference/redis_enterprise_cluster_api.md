@@ -283,14 +283,6 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
-        <td>podSecurityPolicyName</td>
-        <td>string</td>
-        <td>
-          DEPRECATED PodSecurityPolicy support is removed in Kubernetes v1.25 and the use of this field is invalid for use when running on Kubernetes v1.25+. Future versions of the RedisEnterpriseCluster API will remove support for this field altogether. For migration instructions, see https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/ 
- Name of pod security policy to use on pods<br/>
-        </td>
-        <td>false</td>
-      </tr><tr>
         <td><a href="#specpodstartingpolicy">podStartingPolicy</a></td>
         <td>object</td>
         <td>
@@ -12160,6 +12152,15 @@ Specification for service rigger
         </tr>
     </thead>
     <tbody><tr>
+        <td>databaseServicePortPolicy</td>
+        <td>enum</td>
+        <td>
+          databaseServicePortPolicy instructs how to determine the service ports for REDB services. Defaults to DatabasePortForward, if not specified otherwise. DatabasePortForward - The service port will be the same as the database port. RedisDefaultPort - The service port will be the default Redis port (6379).<br/>
+          <br/>
+            <i>Enum</i>: DatabasePortForward, RedisDefaultPort<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>databaseServiceType</td>
         <td>string</td>
         <td>
@@ -26642,6 +26643,31 @@ Stores information about cluster certificates and their update process. In Activ
         </td>
         <td>false</td>
       </tr><tr>
+        <td>features</td>
+        <td>[]string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>flashShards</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int32<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>flashShardsLimit</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int32<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>licenseState</td>
         <td>string</td>
         <td>
@@ -26649,8 +26675,40 @@ Stores information about cluster certificates and their update process. In Activ
         </td>
         <td>false</td>
       </tr><tr>
+        <td>owner</td>
+        <td>string</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>ramShards</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int32<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>ramShardsLimit</td>
+        <td>integer</td>
+        <td>
+          <br/>
+          <br/>
+            <i>Format</i>: int32<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>shardsLimit</td>
         <td>integer</td>
+        <td>
+          <br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>shardsUsage</td>
+        <td>string</td>
         <td>
           <br/>
         </td>
