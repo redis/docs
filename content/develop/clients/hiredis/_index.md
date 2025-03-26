@@ -66,7 +66,7 @@ int main() {
 
     // Check and free the reply.
     if (reply != NULL) {
-        printf("Reply: %s\n", reply->str);
+        printf("Reply: %s\n", reply->str); // >>> Reply: OK
         freeReplyObject(reply);
     }
 
@@ -75,7 +75,7 @@ int main() {
 
     // Check and free the reply.
     if (reply != NULL) {
-        printf("Reply: %s\n", reply->str);
+        printf("Reply: %s\n", reply->str); // >>> Reply: bar
         freeReplyObject(reply);
     }
 
