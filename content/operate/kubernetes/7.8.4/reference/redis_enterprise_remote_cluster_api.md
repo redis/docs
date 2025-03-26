@@ -7,7 +7,7 @@ categories:
 - kubernetes
 linkTitle: RERC API
 weight: 30
-url: '/operate/kubernetes/7.8.4/edis_enterprise_remote_cluster_api/'
+url: '/operate/kubernetes/7.8.4/reference/redis_enterprise_remote_cluster_api/'
 ---
 
 apiVersion:
