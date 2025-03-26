@@ -5,18 +5,25 @@ categories:
 - stack
 - oss
 linkTitle: Debian 12 (Bookworm)
-title: Build Redis Community Edition from source on Debian
+title: Build Redis Community Edition from source on Debian 12 (Bookworm)
 weight: 5
 ---
 
-Follow the steps below to build Redis from source on a system running Debian 12 ("bookworm"):
+Follow the steps below to build Redis from source on a system running Debian 12 (Bookworm).
+
+{{< note >}}
+Docker was used to produce these build notes. The tested "pulls" are:
+- Debian:bookworm
+- Debian:bookworm-slim
+{{< /note >}}
 
 ## 1. Install required dependencies
 
 First, update your package lists and install the development tools and libraries needed to build Redis:
 
 ```bash
-sudo apt-get update
+apt-get update
+apt-get install -y sudo
 sudo apt-get install -y --no-install-recommends \
     ca-certificates \
     wget \
@@ -42,16 +49,18 @@ sudo apt-get install -y --no-install-recommends \
 
 ## 2. Download the Redis source code
 
-Download the Redis source code archive from GitHub. For example, to download version `8.0-m04`:
+The Redis source code is available from the [Download](https://redis.io/downloads) page. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes git repository](https://github.com/redis/redis-hashes).
+
+Download a specific version of the Redis source code zip archive from GitHub. For example, to download version `8.0`:
 
 ```bash
-wget -O redis.tar.gz https://github.com/redis/redis/archive/refs/tags/8.0-m04.tar.gz
+wget -O redis.tar.gz https://github.com/redis/redis/archive/refs/tags/8.0.tar.gz
 ```
 
-Verify the SHA-256 checksum of the archive to ensure integrity:
+To download the latest stable Redis release, run the following:
 
 ```bash
-echo "6902a938c629a33f14d49881b1b60e6621c29e445554f882ce7ec48f2743d516 *redis.tar.gz" | sha256sum -c -
+wget -O redis.tar.gz https://download.redis.io/redis-stable.tar.gz
 ```
 
 ## 3. Extract the source archive
@@ -89,14 +98,10 @@ redis-server --version
 redis-cli --version
 ```
 
-## 6. Starting Redis with modules
+## 6. Start Redis
 
-To start Redis with modules like RediSearch, RedisJSON, RedisTimeSeries, and RedisBloom, use the `--loadmodule` option for each module:
+To start Redis, use the following command:
 
 ```bash
-redis-server \
-  --loadmodule /usr/local/lib/redis/modules/redisearch.so \
-  --loadmodule /usr/local/lib/redis/modules/rejson.so \
-  --loadmodule /usr/local/lib/redis/modules/redistimeseries.so \
-  --loadmodule /usr/local/lib/redis/modules/redisbloom.so
+redis-server /path/to/redis.conf
 ```

@@ -5,11 +5,16 @@ categories:
 - stack
 - oss
 linkTitle: Ubuntu 24.04 (Noble)
-title: Build Redis Community Edition from source on Ubuntu
+title: Build Redis Community Edition from source on Ubuntu 24.04 (Noble)
 weight: 5
 ---
 
-Follow the steps below to build Redis from source on a system running Ubuntu 24.04 ("noble"):
+Follow the steps below to build Redis from source on a system running Ubuntu 24.04 (Noble).
+
+{{< note >}}
+Docker was used to produce these build notes. The tested “pulls” are:
+- ubuntu:24.04
+{{< /note >}}
 
 ## 1. Install required dependencies
 
@@ -42,16 +47,18 @@ sudo apt-get install -y --no-install-recommends \
 
 ## 2. Download the Redis source code
 
-Download the Redis source code archive from GitHub. For example, to download version `8.0-m04`:
+The Redis source code is available from the [Download](https://redis.io/downloads) page. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes git repository](https://github.com/redis/redis-hashes).
+
+Download a specific version of the Redis source code zip archive from GitHub. For example, to download version `8.0`:
 
 ```bash
-wget -O redis.tar.gz https://github.com/redis/redis/archive/refs/tags/8.0-m04.tar.gz
+wget -O redis.tar.gz https://github.com/redis/redis/archive/refs/tags/8.0.tar.gz
 ```
 
-Verify the SHA-256 checksum of the archive to ensure integrity:
+To download the latest stable Redis release, run the following:
 
 ```bash
-echo "6902a938c629a33f14d49881b1b60e6621c29e445554f882ce7ec48f2743d516 *redis.tar.gz" | sha256sum -c -
+wget -O redis.tar.gz https://download.redis.io/redis-stable.tar.gz
 ```
 
 ## 3. Extract the source archive
@@ -89,14 +96,10 @@ redis-server --version
 redis-cli --version
 ```
 
-## 6. Starting Redis with modules
+## 6. Start Redis
 
-To start Redis with modules like RediSearch, RedisJSON, RedisTimeSeries, and RedisBloom, use the `--loadmodule` option for each module:
+To start Redis, use the following command:
 
 ```bash
-redis-server \
-  --loadmodule /usr/local/lib/redis/modules/redisearch.so \
-  --loadmodule /usr/local/lib/redis/modules/rejson.so \
-  --loadmodule /usr/local/lib/redis/modules/redistimeseries.so \
-  --loadmodule /usr/local/lib/redis/modules/redisbloom.so
+redis-server /path/to/redis.conf
 ```

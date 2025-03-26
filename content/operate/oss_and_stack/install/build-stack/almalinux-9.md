@@ -4,17 +4,17 @@ categories:
 - operate
 - stack
 - oss
-linkTitle: Rocky Linux 9.5
-title: Build Redis Community Edition from source on Rocky Linux 9.5
+linkTitle: AlmaLinux 9.5
+title: Build Redis Community Edition from source on AlmaLinux 9.5
 weight: 5
 ---
 
-Follow the steps below to build Redis from source on a system running Rocky Linux 9.5.
+Follow the steps below to build Redis from source on a system running AlmaLinux 9.5.
 
 {{< note >}}
 Docker was used to produce these build notes. The tested “pulls” are:
-- rockylinux/rockylinux:9.5
-- rockylinux/rockylinux:9.5-minimal
+- almalinux:9.5
+- almalinux:9.5-minimal
 {{< /note >}}
 
 ## 1. Prepare the system

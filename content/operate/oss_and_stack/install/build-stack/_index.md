@@ -13,4 +13,4 @@ bannerText: These build instructions are not yet complete for Redis CE 8.0 GA. F
 bannerChildren: true
 ---
 
-Build instruction are provided for the following platforms:
+Build instructions are provided for the following platforms:

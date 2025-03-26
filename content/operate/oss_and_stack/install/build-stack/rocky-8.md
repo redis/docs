@@ -4,12 +4,18 @@ categories:
 - operate
 - stack
 - oss
-linkTitle: Rocky Linux 8
-title: Build Redis Community Edition from source on Rocky Linux
+linkTitle: Rocky Linux 8.10
+title: Build Redis Community Edition from source on Rocky Linux 8.10
 weight: 5
 ---
 
-Follow the steps below to build Redis from source on a system running Rocky Linux 8:
+Follow the steps below to build Redis from source on a system running Rocky Linux 8.10.
+
+{{< note >}}
+Docker was used to produce these build notes. The tested “pulls” are:
+- rockylinux/rockylinux:8.10
+- rockylinux/rockylinux:8.10-minimal
+{{< /note >}}
 
 ## 1. Prepare the system
 
@@ -98,15 +104,18 @@ cmake --version
 
 ## 4. Download and extract the Redis source
 
-Download Redis 8.0-m04 and verify its checksum:
+The Redis source code is available from the [Download](https://redis.io/downloads) page. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes git repository](https://github.com/redis/redis-hashes).
+
+Download a specific version of the Redis source code zip archive from GitHub. For example, to download version `8.0`:
 
 ```bash
-wget -O redis.tar.gz https://github.com/redis/redis/archive/refs/tags/8.0-m04.tar.gz
-echo "6902a938c629a33f14d49881b1b60e6621c29e445554f882ce7ec48f2743d516 *redis.tar.gz" | sha256sum -c -
+wget -O redis.tar.gz https://github.com/redis/redis/archive/refs/tags/8.0.tar.gz
+```
 
-mkdir -p /usr/src/redis
-tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1
-rm redis.tar.gz
+To download the latest stable Redis release, run the following:
+
+```bash
+wget -O redis.tar.gz https://download.redis.io/redis-stable.tar.gz
 ```
 
 ## 5. Build Redis
@@ -135,14 +144,10 @@ redis-server --version
 redis-cli --version
 ```
 
-## 7. Starting Redis with modules
+## 7. Start Redis
 
-To start Redis with RediSearch, RedisJSON, RedisTimeSeries, and RedisBloom modules, use the following command:
+To start Redis, use the following command:
 
 ```bash
-redis-server \
-  --loadmodule /usr/local/lib/redis/modules/redisearch.so \
-  --loadmodule /usr/local/lib/redis/modules/rejson.so \
-  --loadmodule /usr/local/lib/redis/modules/redistimeseries.so \
-  --loadmodule /usr/local/lib/redis/modules/redisbloom.so
+redis-server /path/to/redis.conf
 ```
