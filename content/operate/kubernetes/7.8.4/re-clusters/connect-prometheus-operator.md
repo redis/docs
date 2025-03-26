@@ -9,7 +9,7 @@ description: This article describes how to configure a Prometheus operator custo
   resource to allow it to export metrics from Redis Enterprise for Kubernetes.
 linkTitle: Export metrics to Prometheus
 weight: 92
-url: '/operate/kubernetes/7.8.4/kubernetes/re-clusters/connect-prometheus-operator/'
+url: '/operate/kubernetes/7.8.4/re-clusters/connect-prometheus-operator/'
 ---
 
 To collect  metrics data from your databases and Redis Enterprise cluster (REC), you can connect your [Prometheus](https://prometheus.io/) server to an endpoint exposed on your REC. Redis Enterprise for Kubernetes creates a dedicated service to expose the `prometheus` port (8070) for data collection. A custom resource called `ServiceMonitor` allows the [Prometheus operator](https://github.com/prometheus-operator/prometheus-operator/tree/main/Documentation) to connect to this port and collect data from Redis Enterprise.

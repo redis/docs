@@ -9,7 +9,7 @@ description: Content related to Active-Active Redis Enterprise databases for Kub
 hideListLinks: true
 linkTitle: Active-Active databases
 weight: 40
-url: '/operate/kubernetes/7.8.4/kubernetes/active-active/'
+url: '/operate/kubernetes/7.8.4/active-active/'
 ---
 
 On Kubernetes, Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases provide read and write access to the same dataset from different Kubernetes clusters.

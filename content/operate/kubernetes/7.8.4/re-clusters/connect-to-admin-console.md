@@ -9,7 +9,7 @@ description: Connect to the Redis Enterprise admin console to manage your Redis 
   cluster.
 linkTitle: Connect to the admin console
 weight: 10
-url: '/operate/kubernetes/7.8.4/kubernetes/re-clusters/connect-to-admin-console/'
+url: '/operate/kubernetes/7.8.4/re-clusters/connect-to-admin-console/'
 ---
 
 The username and password for the Redis Enterprise Software [admin console]({{< relref "/operate/rs/" >}}) are stored in a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/secret/). After retrieving your credentials, you can use port forwarding to connect to the admin console.

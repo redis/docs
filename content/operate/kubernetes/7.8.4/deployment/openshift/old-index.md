@@ -11,7 +11,7 @@ draft: true
 hidden: true
 hideListLinks: false
 weight: 60
-url: '/operate/kubernetes/7.8.4/kubernetes/deployment/openshift/old-index/'
+url: '/operate/kubernetes/7.8.4/deployment/openshift/old-index/'
 ---
 
 Redis Enterprise is supported on OpenShift Kubernetes cluster deployments via

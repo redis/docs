@@ -7,7 +7,7 @@ categories:
 description: Enable encryption for communication between REC nodes in your K8s cluster.
 linkTitle: Internode encryption
 weight: 99
-url: '/operate/kubernetes/7.8.4/kubernetes/security/internode-encryption/'
+url: '/operate/kubernetes/7.8.4/security/internode-encryption/'
 ---
 
 Internode encryption provides added security by encrypting communication between nodes in your Redis Enterprise cluster (REC).

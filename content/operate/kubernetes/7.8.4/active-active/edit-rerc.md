@@ -9,7 +9,7 @@ description: Edit the configuration details of an existing RERC with Redis Enter
   for Kubernetes.
 linkTitle: Edit RERC
 weight: 60
-url: '/operate/kubernetes/7.8.4/kubernetes/active-active/edit-rerc/'
+url: '/operate/kubernetes/7.8.4/active-active/edit-rerc/'
 ---
 {{<note>}}This feature is supported for general availability in releases 6.4.2-6 and later. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Please upgrade to 6.4.2-6 for the full set of general availability features and bug fixes. and later.{{</note>}}
 

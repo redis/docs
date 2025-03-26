@@ -9,7 +9,7 @@ description: null
 draft: true
 hidden: true
 weight: $weight
-url: '/operate/kubernetes/7.8.4/kubernetes/deployment/openshift/old-getting-started-openshift-crdb/'
+url: '/operate/kubernetes/7.8.4/deployment/openshift/old-getting-started-openshift-crdb/'
 ---
 In this guide, we'll set up an [Active-Active database]({{< relref "/operate/rs/databases/active-active/_index.md" >}})
 (formerly known as CRDB) deployment with Active-Active replication

@@ -9,7 +9,7 @@ description: Security settings and configuration for Redis Enterprise for Kubern
 hideListLinks: false
 linkTitle: Security
 weight: 50
-url: '/operate/kubernetes/7.8.4/kubernetes/security/'
+url: '/operate/kubernetes/7.8.4/
 ---
 
 This section contains security settings and configuration for Redis Enterprise for Kubernetes.

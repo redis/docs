@@ -9,7 +9,7 @@ description: null
 hideListLinks: true
 linkTitle: Networking
 weight: 40
-url: '/operate/kubernetes/7.8.4/kubernetes/networking/'
+url: '/operate/kubernetes/7.8.4/networking/'
 ---
 
 Redis Enterprise for Kubernetes supports several ways to route external traffic to your RedisEnterpriseCluster:

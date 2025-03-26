@@ -8,7 +8,7 @@ categories:
 description: Enable LDAP authentication for Redis Enterprise for Kubernetes.
 linkTitle: Enable LDAP
 weight: 95
-url: '/operate/kubernetes/7.8.4/kubernetes/security/ldap/'
+url: '/operate/kubernetes/7.8.4/security/ldap/'
 ---
 
 ## LDAP support for Redis Enterprise Software

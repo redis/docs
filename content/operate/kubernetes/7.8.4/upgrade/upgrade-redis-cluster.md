@@ -12,7 +12,7 @@ weight: 10
 aliases: [
   operate/kubernetes/re-clusters/upgrade-redis-cluster/,
 ]
-url: '/operate/kubernetes/7.8.4/kubernetes/upgrade/upgrade-redis-cluster/'
+url: '/operate/kubernetes/7.8.4/upgrade/upgrade-redis-cluster/'
 ---
 
 Redis implements rolling updates for software upgrades in Kubernetes deployments. The upgrade process includes updating three components:

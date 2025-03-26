@@ -8,7 +8,7 @@ categories:
 description: null
 linkTitle: REC external routing
 weight: 30
-url: '/operate/kubernetes/7.8.4/kubernetes/networking/ingressorroutespec/'
+url: '/operate/kubernetes/7.8.4/networking/ingressorroutespec/'
 ---
 An Ingress is an API resource that provides a standardized and flexible way to manage external access to services running within a Kubernetes cluster.
 

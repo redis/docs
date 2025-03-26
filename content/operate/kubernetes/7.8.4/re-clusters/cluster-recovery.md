@@ -8,7 +8,7 @@ categories:
 description: This task describes how to recover a Redis Enterprise cluster on Kubernetes.
 linkTitle: Recover a Redis cluster
 weight: 20
-url: '/operate/kubernetes/7.8.4/kubernetes/re-clusters/cluster-recovery/'
+url: '/operate/kubernetes/7.8.4/re-clusters/cluster-recovery/'
 ---
 When a Redis Enterprise cluster loses contact with more than half of its nodes either because of failed nodes or network split,
 the cluster stops responding to client connections.

@@ -10,7 +10,7 @@ description: This section provides information about how you can use quality of 
   node pod stability.
 linkTitle: Pod stability
 weight: 90
-url: '/operate/kubernetes/7.8.4/kubernetes/recommendations/pod-stability/'
+url: '/operate/kubernetes/7.8.4/recommendations/pod-stability/'
 ---
 
 Kubernetes clusters manage the allocation of system resources and can evict pods to release system resources.
