@@ -23,8 +23,8 @@ Follow the steps below to upgrade an existing
 of RDI:
 
 1.  Download the RDI installer from the
-    [Redis download center](https://cloud.redis.io/#/rlec-downloads)
-    (under the *Modules, Tools & Integration* dropdown) and extract it to your
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-1.6.3.tar.gz)
+    (in the *Modules, Tools & Integration* category) and extract it to your
     preferred installation folder.
 
 1.  Go to the installation folder:
@@ -97,7 +97,7 @@ installation of RDI:
     ```
 
 1.  Download the RDI helm chart tar file from the 
-    [Redis download center](https://cloud.redis.io/#/rlec-downloads).
+    [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-1.6.3.tgz).
 
 1.  Run the `helm upgrade` command:
     
