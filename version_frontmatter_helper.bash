@@ -11,10 +11,11 @@ for page in $pages; do
   else
     url=$(sed "s/.md$/\/'/; s/^content/'/"<<< $page)
   fi
-  
-  sed -i '' '/url:/d' $page
-  awk -v url="$url" '$1 == "---" {delim++; if (delim==2){printf "%s\n", "url: "url}} {print}' $page > tmp.md
-  mv tmp.md $page
+  # skip if url property is already present
+  if ! grep -q "$url" $page; then
+    awk -v url="$url" '$1 == "---" {delim++; if (delim==2){printf "%s\n", "url: "url}} {print}' $page > tmp.md
+    mv tmp.md $page
+  fi
 done
 
 latest_dir="${dir%/*}"
