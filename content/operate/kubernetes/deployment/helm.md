@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - kubernetes
-description: Install Redis Enterprise for Kubernetes version 7.8.Wisconsin using Helm charts.
+description: Install Redis Enterprise for Kubernetes version 7.8.6 using Helm charts.
 linkTitle: Helm
 weight: 11
 ---
