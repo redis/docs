@@ -87,7 +87,7 @@ Out-of-range indexes round to the array's start and end. An inverse index range 
 
 ## Return value 
 
-`JSON.ARRINDEX` returns an [array]({{< baseurl >}}develop/reference/protocol-spec#resp-arrays) of integer replies for each path, the first position in the array of each JSON value that matches the path, `-1` if unfound in the array, or `nil`, if the matching JSON value is not an array.
+`JSON.ARRINDEX` returns an [array]({{< relref "develop/reference/protocol-spec#resp-arrays" >}}) of integer replies for each path, the first position in the array of each JSON value that matches the path, `-1` if unfound in the array, or `nil`, if the matching JSON value is not an array.
 For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}). 
 
 ## Examples
@@ -147,7 +147,7 @@ redis> JSON.ARRINDEX item:1 $..colors '"silver"'
 
 ## See also
 
-[`JSON.ARRAPPEND`]({{< baseurl >}}commands/json.arrappend/) | [`JSON.ARRINSERT`]({{< baseurl >}}commands/json.arrinsert/) 
+[`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}) | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
 
 ## Related topics
 

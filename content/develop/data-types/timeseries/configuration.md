@@ -72,9 +72,9 @@ $ redis-server --loadmodule ./redistimeseries.so NUM_THREADS 3
 
 ### COMPACTION_POLICY
 
-Default compaction rules for newly created key with [`TS.ADD`]({{< baseurl >}}commands/ts.add/), [`TS.INCRBY`]({{< baseurl >}}commands/ts.incrby/), and  [`TS.DECRBY`]({{< baseurl >}}commands/ts.decrby/).
+Default compaction rules for newly created key with [`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), and  [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}).
 
-Note that `COMPACTION_POLICY` has no effect on keys created with [`TS.CREATE`]({{< baseurl >}}commands/ts.create/). To understand the motivation for this behavior, consider the following scenario: Suppose a `COMPACTION_POLICY` is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< baseurl >}}commands/ts.createrule/)) which requires first creating an empty destination key (using [`TS.CREATE`]({{< baseurl >}}commands/ts.create/)). But now there is a problem: due to the `COMPACTION_POLICY`, automatic compactions would be undesirably created for that destination key.
+Note that `COMPACTION_POLICY` has no effect on keys created with [`TS.CREATE`]({{< relref "commands/ts.create/" >}}). To understand the motivation for this behavior, consider the following scenario: Suppose a `COMPACTION_POLICY` is defined, but then one wants to manually create an additional compaction rule (using [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}})) which requires first creating an empty destination key (using [`TS.CREATE`]({{< relref "commands/ts.create/" >}})). But now there is a problem: due to the `COMPACTION_POLICY`, automatic compactions would be undesirably created for that destination key.
 
 Each rule is separated by a semicolon (`;`), the rule consists of multiple fields that are separated by a colon (`:`):
 
@@ -158,7 +158,7 @@ $ redis-server --loadmodule ./redistimeseries.so COMPACTION_POLICY max:1m:1h;min
 
 Default retention period, in milliseconds, for newly created keys.
 
-Retention period is the maximum age of samples compared to highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`]({{< baseurl >}}commands/ts.add/), [`TS.MADD`]({{< baseurl >}}commands/ts.madd/), [`TS.INCRBY`]({{< baseurl >}}commands/ts.incrby/), and [`TS.DECRBY`]({{< baseurl >}}commands/ts.decrby/) calls.
+Retention period is the maximum age of samples compared to highest reported timestamp, per key. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) calls.
 
 The value `0` means no expiration.
 
@@ -178,7 +178,7 @@ $ redis-server --loadmodule ./redistimeseries.so RETENTION_POLICY 25920000000
 
 ### DUPLICATE_POLICY
 
-Is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}commands/ts.add/) and [`TS.MADD`]({{< baseurl >}}commands/ts.madd/)) of multiple samples with identical timestamps, with one of the following values:
+Is policy for handling insertion ([`TS.ADD`]({{< relref "commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "commands/ts.madd/" >}})) of multiple samples with identical timestamps, with one of the following values:
 
   | policy     | description                                                      |
   | ---------- | ---------------------------------------------------------------- |
@@ -192,8 +192,8 @@ Is policy for handling insertion ([`TS.ADD`]({{< baseurl >}}commands/ts.add/) an
 #### Precedence order
 Since the duplication policy can be provided at different levels, the actual precedence of the used policy will be:
 
-1. [`TS.ADD`]({{< baseurl >}}commands/ts.add/)'s `ON_DUPLICATE_policy` optional argument
-2. Key-level policy (as set with [`TS.CREATE`]({{< baseurl >}}commands/ts.create/)'s and [`TS.ALTER`]({{< baseurl >}}commands/ts.alter/)'s `DUPLICATE_POLICY` optional argument)
+1. [`TS.ADD`]({{< relref "commands/ts.add/" >}})'s `ON_DUPLICATE_policy` optional argument
+2. Key-level policy (as set with [`TS.CREATE`]({{< relref "commands/ts.create/" >}})'s and [`TS.ALTER`]({{< relref "commands/ts.alter/" >}})'s `DUPLICATE_POLICY` optional argument)
 3. The `DUPLICATE_POLICY` module configuration parameter
 4. The default policy
 

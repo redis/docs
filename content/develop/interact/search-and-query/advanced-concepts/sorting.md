@@ -19,7 +19,7 @@ As of RediSearch 0.15, you can bypass the scoring function mechanism and order s
 
 ## Declaring sortable fields
 
-When creating an index with [`FT.CREATE`]({{< baseurl >}}commands/ft.create/), you can declare `TEXT`, `TAG`, `NUMERIC`, and `GEO` attributes as `SORTABLE`. When an attribute is sortable, you can order the results by its values with relatively low latency. When an attribute is not sortable, it can still be sorted by its values, but with increased latency. For example, in the following schema:
+When creating an index with [`FT.CREATE`]({{< relref "commands/ft.create/" >}}), you can declare `TEXT`, `TAG`, `NUMERIC`, and `GEO` attributes as `SORTABLE`. When an attribute is sortable, you can order the results by its values with relatively low latency. When an attribute is not sortable, it can still be sorted by its values, but with increased latency. For example, in the following schema:
 
 ```
 FT.CREATE users SCHEMA first_name TEXT last_name TEXT SORTABLE age NUMERIC SORTABLE

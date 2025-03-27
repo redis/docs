@@ -197,7 +197,7 @@ To get only the `location` label for each last sample, use `SELECTED_LABELS`.
 
 ## See also
 
-[`TS.MRANGE`]({{< baseurl >}}commands/ts.mrange/) | [`TS.RANGE`]({{< baseurl >}}commands/ts.range/) | [`TS.MREVRANGE`]({{< baseurl >}}commands/ts.mrevrange/) | [`TS.REVRANGE`]({{< baseurl >}}commands/ts.revrange/)
+[`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) | [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) | [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}})
 
 ## Related topics
 

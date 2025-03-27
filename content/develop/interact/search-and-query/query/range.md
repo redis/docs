@@ -37,13 +37,13 @@ The values `-inf`, `inf`, and `+inf` are valid values that allow you to define o
 
 An open-range query can lead to a large result set. 
 
-By default, [`FT.SEARCH`]({{< baseurl >}}commands/ft.search/) returns only the first ten results. The `LIMIT` argument helps you to scroll through the result set. The `SORTBY` argument ensures that the documents in the result set are returned in the specified order.
+By default, [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) returns only the first ten results. The `LIMIT` argument helps you to scroll through the result set. The `SORTBY` argument ensures that the documents in the result set are returned in the specified order.
 
 ```
 FT.SEARCH index "@field:[start end]" SORTBY field LIMIT page_start page_end
 ```
 
-You can find further details about using the `LIMIT` and `SORTBY` in the [[`FT.SEARCH`]({{< baseurl >}}commands/ft.search/) command reference](/commands/ft.search/).
+You can find further details about using the `LIMIT` and `SORTBY` in the [[`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command reference](/commands/ft.search/).
 
 ## Examples
 

@@ -109,7 +109,7 @@ The remote function arguments and results are serialized in the following way:
 
 ## Execution timeout
 
-Remote functions will not be permitted to run forever and will timeout. The timeout period can be configured using [remote-task-default-timeout]({{< baseurl >}}develop/interact/programmability/triggers-and-functions/configuration/#remote-task-default-timeout).
+Remote functions will not be permitted to run forever and will timeout. The timeout period can be configured using [remote-task-default-timeout]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/Configuration#remote-task-default-timeout" >}}).
 When using `async_client.runOnShards` API, the timeout will be added as error to the error array. When using `async_client.runOnKey`, a timeout will cause an exception to be raised.
 
 ## Remote function limitations

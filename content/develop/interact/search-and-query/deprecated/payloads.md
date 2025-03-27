@@ -52,7 +52,7 @@ If no payload was set to the document, it is simply NULL. If it is not, you can 
 
 When searching, it is possible to request the document payloads from the engine. 
 
-This is done by adding the keyword `WITHPAYLOADS` to [`FT.SEARCH`]({{< baseurl >}}commands/ft.search/). 
+This is done by adding the keyword `WITHPAYLOADS` to [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}). 
 
 If `WITHPAYLOADS` is set, the payloads follow the document id in the returned result. 
 If `WITHSCORES` is set as well, the payloads follow the scores.

@@ -72,7 +72,7 @@ redis> JSON.NUMMULTBY doc $..a 2
 
 ## See also
 
-[`JSON.NUMINCRBY`]({{< baseurl >}}commands/json.numincrby/) | [`JSON.ARRINSERT`]({{< baseurl >}}commands/json.arrinsert/) 
+[`JSON.NUMINCRBY`]({{< relref "commands/json.numincrby/" >}}) | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
 
 ## Related topics
 
