@@ -84,6 +84,95 @@ If you did not configure rack-zone awareness during cluster creation, you can co
     { "rack_aware": true }
     ```
 
+## Set up two-dimensional rack-zone awareness 
+
+### New clusters
+
+To set up two-dimensional rack-zone awareness during cluster creation, assign a `second_rack_id` to each node in the cluster in addition to the `rack_id` using the [REST API]({{<relref "/operate/rs/references/rest-api">}}) or [rladmin]({{<relref "/operate/rs/references/cli-utilities/rladmin">}}).
+
+#### REST API method
+
+To create a new cluster with two-dimensional rack-zone awareness using the [REST API]({{<relref "/operate/rs/references/rest-api">}}):
+
+1. Create the new cluster on a node:
+
+    ```sh
+    POST /v1/bootstrap/create_cluster
+    {
+      "action": "create_cluster",
+      "cluster": {
+         "nodes": [],
+         "name": "<cluster.name>"
+      },
+      "node": { 
+        "rack_id": "<AZ1>",
+	    "second_rack_id": "<RackID1>"
+      },
+      "license": "----- LICENSE START -----\n...\n----- LICENSE END -----\n",
+      "credentials": {
+        "username": "<admin-email>",
+        "password": "<admin-password>"
+      }
+    }
+    ```
+
+1. Join each new node you want to add to the cluster:
+
+    ```sh
+    POST /v1/bootstrap/join_cluster
+    {
+      "action": "join_cluster",
+      "cluster": {
+         "nodes": [],
+         "name": "<cluster.name>"
+      },
+      "node": {
+	    "rack_id": "<AZ1>",
+	    "second_rack_id": "<RackID2>"
+      }
+      "credentials": {
+        "username": "<admin-email>",
+        "password": "<admin-password>"
+      }
+    }
+    ```
+
+#### Command-line method
+
+To create a new cluster with two-dimensional rack-zone awareness using the command line:
+
+1. Run [`rladmin cluster create`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/create">}}) to create the initial cluster on one node, enable rack-zone awareness, and assign a `rack_id` and `second_rack_id`:
+
+    ```sh
+    $ rladmin cluster create name <cluster-name> \
+        username <admin-email> \
+        password <admin-password> \
+        rack_aware \
+        rack_id <node-rack-ID> \
+        second_rack_id <second-node rack-ID>
+    ```
+
+1. Run [`rladmin cluster join`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/join">}}) for each new node you want to add to the cluster and assign a different `rack_id` and `second_rack_id`:
+
+    ```sh
+    $ rladmin cluster join nodes <node-IP-address> \
+        username <admin-email> \
+        password <admin-password> \
+        rack_id <node-rack ID> \
+        second_rack_id <second-node-rack-ID>
+    ```
+
+### Existing clusters
+
+You can configure two-dimensional rack-zone awareness for existing clusters using the [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
+
+For each node in the cluster, assign a different `second_rack_id` using the REST API to [update the node]({{< relref "/operate/rs/references/rest-api/requests/nodes#put-node" >}}):
+
+```sh
+PUT /v1/nodes/<node-ID>
+{ "second_rack_id": "rack-zone-ID2" }
+```
+
 ## Enable database rack-zone awareness
 
 Before you can enable rack-zone awareness for a database, you must configure rack-zone awareness for the cluster and its nodes. For more information, see [set up rack-zone awareness](#set-up-rack-zone-awareness).
