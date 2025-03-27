@@ -26,7 +26,7 @@ A combined query is a combination of several query types, such as:
 You can use logical query operators to combine query expressions for numeric, tag, and text fields. For vector fields, you can combine a KNN query with a pre-filter.
 
 {{% alert title="Note" color="warning" %}}
-The operators are interpreted slightly differently depending on the query dialect used. The default dialect is `DIALECT 1`; see [this article]({{< relref "develop/interact/search-and-query/basic-constructs/configuration-parameters#default_dialect" >}}) for information on how to change the dialect version. This article uses the second version of the query dialect, `DIALECT 2`, and uses additional brackets (`(...)`) to help clarify the examples. Further details can be found in the [query syntax documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}). 
+The operators are interpreted slightly differently depending on the query dialect used. The default dialect is `DIALECT 1`; see [this article]({{< relref "/develop/interact/search-and-query/administration/configuration#search-default-dialect" >}}) for information on how to change the dialect version. This article uses the second version of the query dialect, `DIALECT 2`, and uses additional brackets (`(...)`) to help clarify the examples. Further details can be found in the [query syntax documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/query_syntax" >}}). 
 {{% /alert  %}}
 
 The examples in this article use the following schema:

@@ -151,6 +151,22 @@
 | <span class="break-all">redis_server_total_net_output_bytes</span> | Number of bytes sent by the shard; calculate the throughput for a time period by comparing the value at different times |
 | <span class="break-all">redis_server_up</span> | Shard is up and running |
 | <span class="break-all">redis_server_used_memory</span> | Memory used by shard (in BigRedis this includes flash) (bytes) |
+| <span class="break-all">redis_server_search_gc_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_bytes_collected</span> | The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. Deprecated in 8.0 (renamed redis_server_search_gc_bytes_collected), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_gc_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_marked_deleted_vectors</span> | The number of vectors marked as deleted in the vector indexes that have not yet been cleaned. Deprecated in 8.0 (renamed redis_server_search_gc_marked_deleted_vectors), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_gc_total_cycles</span> | The total number of garbage collection cycles executed. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_total_cycles</span> | The total number of garbage collection cycles executed. Deprecated in 8.0 (renamed redis_server_search_gc_total_cycles), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_gc_total_docs_not_collected_by_gc</span> | The number of documents marked as deleted, whose memory has not yet been freed by the garbage collector. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_total_docs_not_collected_by_gc</span> | The number of documents marked as deleted, whose memory has not yet been freed by the garbage collector. Deprecated in 8.0 (renamed redis_server_search_gc_total_docs_not_collected_by_gc), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_gc_total_ms_run</span> | The total duration of all garbage collection cycles in the shard, measured in milliseconds. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_total_ms_run</span> | The total duration of all garbage collection cycles in the shard, measured in milliseconds. Deprecated in 8.0 (renamed redis_server_search_gc_total_ms_run), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_cursors_internal_idle</span> | The total number of coordinator cursors that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_cursors_user_idle</span> | The total number of cursors that were explicitly requested by users, that are currently holding pending results in the shard. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_global_idle</span> | The total number of user and internal cursors currently holding pending results in the shard. Deprecated in 8.0 (split into redis_server_search_cursors_internal_idle and redis_server_search_cursors_user_idle), but still available in older versions. <sup>[1](#tnote-1)</sup> |
+| <span class="break-all">redis_server_search_cursors_internal_active</span> | The total number of coordinator cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_cursors_user_active</span> | The total number of user cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. <sup>[3](#tnote-3)</sup> |
+| <span class="break-all">redis_server_search_global_total</span> | The total number of user and internal cursors in the shard, either holding pending results or actively executing `FT.CURSOR READ`. Deprecated in 8.0 (split into redis_server_search_cursors_internal_active and redis_server_search_cursors_user_active), but still available in older versions. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_number_of_indexes</span> | Total number of indexes in the shard <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_number_of_active_indexes</span> | The total number of indexes running a background indexing and/or background query processing operation. Background indexing refers to vector ingestion process, or in-progress background indexer. <sup>[1](#tnote-1)</sup> |
 | <span class="break-all">redis_server_search_number_of_active_indexes_running_queries</span> | Total count of indexes currently running a background query process. <sup>[1](#tnote-1)</sup> |
@@ -197,3 +213,4 @@
 
 1. <a name="tnote-1"></a> Available since RediSearch 2.6.
 2. <a name="tnote-2"></a> Available since RediSearch 2.8.
+3. <a name="tnote-3"></a> Available since RediSearch 8.0.

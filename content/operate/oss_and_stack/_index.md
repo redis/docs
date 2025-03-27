@@ -1,13 +1,5 @@
 ---
-title: Redis Community Edition and Stack
-description: Operate Redis Community Edition and Redis Stack. Redis OSS was renamed Redis Community Edition (CE) with the v7.4 release.
-linkTitle: Redis Community Edition and Stack
-
-categories:
-- docs
-- operate
-- oss
-- stack
+title: Redis Community Edition
+description: Operate Redis Community Edition. Redis Community Edition (CE) v8.0 replaces Redis Stack.
+linkTitle: Redis Community Edition
 ---
-
-

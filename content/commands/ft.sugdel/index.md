@@ -1,4 +1,7 @@
 ---
+acl_categories:
+- '@search'
+- '@write'
 arguments:
 - name: key
   type: string

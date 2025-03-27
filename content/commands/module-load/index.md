@@ -47,3 +47,7 @@ unmodified to the module.
 
 **Note**: modules can also be loaded at server startup with `loadmodule`
 configuration directive in `redis.conf`.
+
+{{< note >}}
+As of Redis CE v8.0.0, loading a module using the Redis CLI with configuration parameters is deprecated.
+{{< /note >}}

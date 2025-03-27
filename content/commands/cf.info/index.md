@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@cuckoo'
+- '@read'
+- '@fast'
 arguments:
 - name: key
   type: key

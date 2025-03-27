@@ -1,4 +1,7 @@
 ---
+acl_categories:
+- '@json'
+- '@read'
 arguments:
 - name: key
   type: key

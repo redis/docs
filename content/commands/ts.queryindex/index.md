@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@timeseries'
+- '@read'
+- '@slow'
 arguments:
 - arguments:
   - name: l=v
@@ -44,7 +48,7 @@ syntax_str: ''
 title: TS.QUERYINDEX
 ---
 
-Get all time series keys matching a filter list
+Get all time series keys matching a filter list. Note: all matching keys will be listed, whether or not the user has read access.
 
 [Examples](#examples)
 
