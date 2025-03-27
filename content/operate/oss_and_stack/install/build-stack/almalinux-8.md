@@ -4,17 +4,21 @@ categories:
 - operate
 - stack
 - oss
-linkTitle: AlmaLinux 8.10
-title: Build Redis Community Edition from source on AlmaLinux 8.10
+linkTitle: AlmaLinux/Rocky 8.10
+title: Build Redis Community Edition from source on AlmaLinux/Rocky Linux 8.10
 weight: 5
 ---
 
-Follow the steps below to build Redis from source on a system running AlmaLinux 8.10.
+Follow the steps below to build Redis from source on a system running AlmaLinux and Rocky Linux 8.10.
 
 {{< note >}}
-Docker was used to produce these build notes. The tested “pulls” are:
-- almalinux:8.10
-- almalinux:8.10-minimal
+Docker images used to produce these build notes:
+- AlmaLinux:
+    - almalinux:8.10
+    - almalinux:8.10-minimal
+- Rocky Linux:
+    - rockylinux/rockylinux:8.10
+    - rockylinux/rockylinux:8.10-minimal
 {{< /note >}}
 
 ## 1. Prepare the system

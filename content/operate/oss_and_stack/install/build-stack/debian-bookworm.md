@@ -6,13 +6,13 @@ categories:
 - oss
 linkTitle: Debian 12 (Bookworm)
 title: Build Redis Community Edition from source on Debian 12 (Bookworm)
-weight: 5
+weight: 15
 ---
 
 Follow the steps below to build Redis from source on a system running Debian 12 (Bookworm).
 
 {{< note >}}
-Docker was used to produce these build notes. The tested "pulls" are:
+Docker images used to produce these build notes:
 - Debian:bookworm
 - Debian:bookworm-slim
 {{< /note >}}

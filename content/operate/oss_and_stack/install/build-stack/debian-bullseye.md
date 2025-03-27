@@ -6,13 +6,13 @@ categories:
 - oss
 linkTitle: Debian 11 (Bullseye)
 title: Build Redis Community Edition from source on Debian 11 (Bullseye)
-weight: 5
+weight: 20
 ---
 
 Follow the steps below to build Redis from source on a system running Debian 11 (Bullseye).
 
 {{< note >}}
-Docker was used to produce these build notes. The tested "pulls" are:
+Docker images used to produce these build notes:
 - Debian:bullseye
 - Debian:bullseye-slim
 {{< /note >}}

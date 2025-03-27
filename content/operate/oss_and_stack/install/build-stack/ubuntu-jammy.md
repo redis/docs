@@ -6,13 +6,13 @@ categories:
 - oss
 linkTitle: Ubuntu 22.04 (Jammy)
 title: Build Redis Community Edition from source on Ubuntu 22.04 (Jammy)
-weight: 5
+weight: 30
 ---
 
 Follow the steps below to build Redis from source on a system running Ubuntu 22.04 (Jammy).
 
 {{< note >}}
-Docker was used to produce these build notes. The tested “pulls” are:
+Docker images used to produce these build notes:
 - ubuntu:22.04
 {{< /note >}}
 

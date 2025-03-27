@@ -6,13 +6,13 @@ categories:
 - oss
 linkTitle: Ubuntu 20.04 (Focal)
 title: Build Redis Community Edition from source on Ubuntu 20.04 (Focal)
-weight: 5
+weight: 25
 ---
 
 Follow the steps below to build Redis from source on a system running Ubuntu 20.04 (Focal).
 
 {{< note >}}
-Docker was used to produce these build notes. The tested “pulls” are:
+Docker images used to produce these build notes:
 - ubuntu:20.04
 {{< /note >}}
 
