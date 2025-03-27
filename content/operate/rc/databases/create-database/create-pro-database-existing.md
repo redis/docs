@@ -112,8 +112,8 @@ The **Security** section helps you control access to your database.
 
 | Setting name                       | Description                                                                                                                                                                           |
 |:-----------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Default user**                   | When enabled, permits access using a simple password                                                                                                                                  |
-| **Redis password**                 | Password assigned to the database when created                                                                                                                                        |  
+| **Default user**                   | When enabled, permits access using the `default` username and a simple password (see [Default User]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}})). Turn on [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to turn off this setting.              |
+| **Default user password**                 | Password assigned to the database when created                                                                                                                                        |  
 | **CIDR allow list**                | [Allow list]({{< relref "/operate/rc/security/cidr-whitelist.md" >}}) of IP addresses/security groups permitted to access the database |
 | **Transport layer security (TLS)** | Enables [transport layer security]({{< relref "/operate/rc/security/database-security/tls-ssl.md" >}}) (TLS) encryption for database access          |
 
