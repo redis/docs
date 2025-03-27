@@ -39,10 +39,11 @@ Cluster resources management policy
 | login_lockout_counter_reset_after | integer | Number of seconds that must elapse between failed sign in attempts before the lockout counter is reset to 0. |
 | login_lockout_duration | integer | Duration (in secs) of account lockout. If set to 0, the account lockout will persist until released by an admin. |
 | login_lockout_threshold | integer | Number of failed sign in attempts allowed before locking a user account |
+| max_redis_forks | integer (default: 0) | Maximum number of background processes forked from shards that can exist on the node at any given time. 0 means unlimited. |
 | max_saved_events_per_type | integer | Maximum saved events per event type |
 | max_simultaneous_backups | integer (default: 4) | Maximum number of backup processes allowed at the same time |
 | parallel_shards_upgrade | integer | Maximum number of shards to upgrade in parallel |
-| max_slave_full_syncs | integer (default: 0) | Maximum number of simultaneous replica full-syncs that may be running at any given time |
+| max_slave_full_syncs | integer (default: 0) | Maximum number of simultaneous replica full syncs that can run at any given time. 0 means unlimited. |
 | persistence_cleanup_scan_interval | string | [CRON expression](https://en.wikipedia.org/wiki/Cron#CRON_expression) that defines the Redis cleanup schedule |
 | persistent_node_removal | boolean | When removing a node, wait for persistence files to be created for all migrated shards |
 | rack_aware | boolean | Cluster operates in a rack-aware mode |
