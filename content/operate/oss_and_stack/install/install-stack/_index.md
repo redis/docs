@@ -8,7 +8,7 @@ description: Install Redis Community Edition on Docker, Linux, macOS, and Window
 linkTitle: Install Redis CE
 stack: true
 title: Install Redis Community Edition
-weight: 2
+weight: 10
 bannerText: These installation instructions are not yet complete for Redis CE 8.0 RC1. For installation instructions prior to Redis CE 8.0, see [these pages]({{< relref "/operate/oss_and_stack/install/archive" >}}).
 bannerChildren: true
 ---
