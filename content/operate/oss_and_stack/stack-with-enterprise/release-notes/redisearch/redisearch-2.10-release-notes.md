@@ -13,10 +13,26 @@ weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.14 requires:
+RediSearch v2.10.15 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+
+## v2.10.15 (March 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Cursor with `SORTBY` is never depleted, blocking queries if the cursor limit is reached (MOD-8483)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Empty results with RESP3 due to the `TIMEOUT`, even if `ON_TIMEOUT` is set to `RETURN`(MOD-8482)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Cursor with RESP3 on `FT.AGGREGATE` is never depleted, blocking queries if cursor the limit is achieved (MOD-8515)
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Using `FT.CURSOR READ` on queries that timed out led to fewer results than expected (MOD-8606)
+- [#5810](https://github.com/redisearch/redisearch/pull/5810) The `total_results` field of the `FT.AGGREGATE` command is not correct in RESP3 (MOD-9054)
+
+Improvements:
+- [#5788](https://github.com/redisearch/redisearch/pull/5788) Corrected a coordinator race condition that prevented premature release, avoiding errors and inconsistencies during query executions (MOD-8794)
 
 ## v2.10.14 (March 2025)
 
