@@ -36,6 +36,7 @@ An API object that represents a node in the cluster.
 | public_addr | string | Public IP address of node (deprecated as of Redis Enterprise v4.3.3, use external_addr instead) |
 | rack_id | string | Rack ID where node is installed |
 | recovery_path | string | Recovery files path |
+| second_rack_id | string | Second rack ID where node is installed |
 | shard_count | integer | Number of shards on the node (read-only) |
 | shard_list | array of integers | Cluster unique IDs of all node shards |
 | software_version | string | Installed Redis Enterprise cluster software version (read-only) |
