@@ -20,6 +20,7 @@ weight: 5
 | RI_FILES_LOGGER | Logs to file. | `true` | By default, you can find log files in the following folders: <ul> <li> Docker: `/data/logs` <li> desktop: `<user-home-dir>/.redisinsight-app/logs` </ul>|
 | RI_STDOUT_LOGGER | Logs to STDOUT. | `true` | |
 | RI_PROXY_PATH | Configures a subpath for a proxy. | n/a | Available only for Docker. |
+| RI_DATABASE_MANAGEMENT | When set to `false`, this disables the ability to manage database connections (adding, editing, or deleting). | `true` | | 
 
 ## Preconfigure database connections
 Redis Insight allows you to preconfigure database connections using environment variables or a JSON file, enabling centralized and efficient configuration.
