@@ -11,4 +11,4 @@ weight: 40
 
 Follow the steps below to build Redis from source on a system running macOS 15 (Sequoia).
 
-Steps TBP.
+To be provided at a later date.

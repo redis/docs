@@ -4,28 +4,31 @@ categories:
 - operate
 - stack
 - oss
-linkTitle: AlmaLinux/Rocky 9.5
-title: Build Redis Community Edition from source on AlmaLinux/Rocky Linux 9.5
-weight: 10
+linkTitle: AlmaLinux/Rocky 8.10
+title: Build Redis Community Edition from source on AlmaLinux/Rocky Linux 8.10
+weight: 5
 ---
 
-Follow the steps below to build Redis from source on a system running AlmaLinux and Rocky Linux 9.5.
+Follow the steps below to build Redis from source on a system running AlmaLinux and Rocky Linux 8.10.
 
 {{< note >}}
 Docker images used to produce these build notes:
 - AlmaLinux:
-    - almalinux:9.5
-    - almalinux:9.5-minimal
+    - almalinux:8.10
+    - almalinux:8.10-minimal
 - Rocky Linux:
-    - rockylinux/rockylinux:9.5
-    - rockylinux/rockylinux:9.5-minimal
+    - rockylinux/rockylinux:8.10
+    - rockylinux/rockylinux:8.10-minimal
 {{< /note >}}
 
 ## 1. Prepare the system
 
-Enable the GoReleaser repository and install required packages:
+Clean the package metadata, enable required repositories, and install development tools:
 
 ```bash
+sudo dnf clean all
+
+# Add GoReleaser repo
 sudo tee /etc/yum.repos.d/goreleaser.repo > /dev/null <<EOF
 [goreleaser]
 name=GoReleaser
@@ -34,30 +37,29 @@ enabled=1
 gpgcheck=0
 EOF
 
-sudo dnf clean all
-sudo dnf makecache
 sudo dnf update -y
+sudo dnf groupinstall "Development Tools" -y
+sudo dnf config-manager --set-enabled powertools
+sudo dnf install -y epel-release
 ```
 
 ## 2. Install required packages
 
-Install build dependencies, GCC toolset, Python, and utilities:
+Install the build dependencies, Python 3.11, and supporting tools:
 
 ```bash
 sudo dnf install -y --nobest --skip-broken \
     pkg-config \
-    xz \
     wget \
-    which \
     gcc-toolset-13-gcc \
     gcc-toolset-13-gcc-c++ \
     git \
     make \
     openssl \
     openssl-devel \
-    python3 \
-    python3-pip \
-    python3-devel \
+    python3.11 \
+    python3.11-pip \
+    python3.11-devel \
     unzip \
     rsync \
     clang \
@@ -72,7 +74,7 @@ sudo dnf install -y --nobest --skip-broken \
 Create a Python virtual environment:
 
 ```bash
-python3 -m venv /opt/venv
+python3.11 -m venv /opt/venv
 ```
 
 Enable the GCC toolset:
@@ -84,7 +86,7 @@ echo "source /etc/profile.d/gcc-toolset-13.sh" | sudo tee -a /etc/bashrc
 
 ## 3. Install CMake
 
-Install CMake version 3.25.1 manually:
+Install CMake 3.25.1 manually:
 
 ```bash
 CMAKE_VERSION=3.25.1
@@ -120,9 +122,15 @@ To download the latest stable Redis release, run the following:
 wget -O redis.tar.gz https://download.redis.io/redis-stable.tar.gz
 ```
 
+Extract the source:
+
+```bash
+tar xvf redis.tar.gz
+```
+
 ## 5. Build Redis
 
-Enable the GCC toolset and compile Redis with TLS and module support:
+Enable the GCC toolset and build Redis with support for TLS and modules:
 
 ```bash
 source /etc/profile.d/gcc-toolset-13.sh
@@ -139,7 +147,7 @@ sudo make install
 
 ## 6. (Optional) Verify the installation
 
-Check that Redis was installed successfully:
+Check the installed Redis server and CLI versions:
 
 ```bash
 redis-server --version
