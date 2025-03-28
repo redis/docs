@@ -15,8 +15,9 @@ title: hiredis guide (C)
 weight: 9
 ---
 
-[`hiredis`](https://github.com/redis/hiredis) is the client for the
-[C language](https://en.wikipedia.org/wiki/C_(programming_language)).
+[`hiredis`](https://github.com/redis/hiredis) is the
+[C language](https://en.wikipedia.org/wiki/C_(programming_language))
+client for Redis.
 The sections below explain how to install `hiredis` and connect your application
 to a Redis database.
 
@@ -102,8 +103,10 @@ Reply: OK
 Reply: bar
 ```
 
-The code first uses `redisConnect()` to create the connection to
-use for all subsequent commands.
+The code first uses `redisConnect()` to open the connection for
+all subsequent commands to use. See
+[Connect]({{< relref "/develop/clients/hiredis/connect" >}}) for
+more information about connecting to Redis.
 
 The `redisCommand()` function
 issues commands to the server, each of which returns a
@@ -111,8 +114,9 @@ issues commands to the server, each of which returns a
 access using the `str` field of the reply. The `redisCommand()`
 call allocates memory for the reply, so you should free this
 with `freeReplyObject()` when you have finished using it.
-See [Issue commands]({{< relref "/develop/clients/hiredis/issue-commands" >}}) for more information about 
-handling commands and their replies.
+See [Issue commands]({{< relref "/develop/clients/hiredis/issue-commands" >}})
+and [Handle replies]({{< relref "/develop/clients/hiredis/handle-replies" >}})
+for more information.
 
 Finally, you should close the connection to Redis with a
 call to `redisFree()`. This is not strictly necessary
@@ -121,5 +125,9 @@ open and use many connections. You must free them after using them
 to prevent errors.
 
 ## More information
+
+The [`hiredis`](https://github.com/redis/hiredis) Github repository contains
+examples and details that may be useful if you are using `hiredis` to
+implement a higher-level client for another programming language.
 
 See the other pages in this section for more information and examples.

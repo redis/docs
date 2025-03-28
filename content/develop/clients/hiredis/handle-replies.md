@@ -9,9 +9,9 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Handle replies with `hiredis`.
-linkTitle: Handle replies
-title: Handle replies
+description: Handle command replies with `hiredis`.
+linkTitle: Handle command replies
+title: Handle command replies
 weight: 10
 ---
 
@@ -23,7 +23,7 @@ reply formats defined in the
 [RESP2 and RESP3]({{< relref "/develop/reference/protocol-spec#resp-protocol-description" >}})
 protocols, so its content varies greatly between calls.
 
-A simple example is the status response returned by the `SET`
+A simple example is the status response returned by the [`SET`]({{< relref "/commands/set" >}})
 command. The code below shows how to get this from the `redisReply`
 object:
 
@@ -40,7 +40,7 @@ if (reply != NULL) {
 
 A null reply indicates an error, so you should always check for this.
 If an error does occur, then the `redisContext` object will have a
-non-zero error number in its integer `err` field and sometimes a textual
+non-zero error number in its integer `err` field and a textual
 description of the error in its `errstr` field.
 
 For `SET`, a successful call will simply return an "OK" string that you
@@ -58,15 +58,15 @@ the stale pointer later.
 
 The Redis
 [`RESP`]({{< relref "/develop/reference/protocol-spec#resp-protocol-description" >}})
-protocols support several different types of reply format for commands.
+protocols support several different reply formats for commands.
 
 You can find the reply format for a command at the end of its
 reference page in the RESP2/RESP3 Reply section (for example, the
 [`INCRBY`]({{< relref "/commands/incrby" >}}) page shows that the
 command has an integer result). You can also determine the format
 using the `type` field of the reply object. This contains a
-different integer value for each type, and `hiredis.h` defines
-constants for each type (for example `REDIS_REPLY_STRING`).
+different integer value for each type. The `hiredis.h` header file
+defines constants for all of these integer values (for example `REDIS_REPLY_STRING`).
 
 The `redisReply` struct has several fields to contain different
 types of replies, with different fields being set depending on
@@ -307,3 +307,23 @@ if (reply->type == REDIS_REPLY_ARRAY) {
     // >>> Key: hobbies, value: Cosplay
 }
 ```
+
+## Handling errors
+
+When a command executes successfully, the `err` field of the context
+object will be set to zero. If a command fails, it will return either
+`NULL` or `REDIS_ERR`, depending on which function and command you used. When
+this happens, `context->err` will contain an error code
+
+-   `REDIS_ERR_IO`: There was an I/O error while creating the connection,
+    or while trying to write or read data. Whenever `context->err` contains
+    `REDIS_ERR_IO`, you can use the features of the standard library file
+    [`errno.h`](https://en.wikipedia.org/wiki/Errno.h) to find out more
+    information about the error.
+-   `REDIS_ERR_EOF`: The server closed the connection which resulted in an empty read.
+-   `REDIS_ERR_PROTOCOL`: There was an error while parsing the
+    [RESP protocol]({{< relref "/develop/reference/protocol-spec" >}}).
+-   `REDIS_ERR_OTHER`: Any other error. Currently, it is only used when the connection
+    hostname can't be resolved.
+
+The context object also has an `errstr` field that contains a descriptive error message.

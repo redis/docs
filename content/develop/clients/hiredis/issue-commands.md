@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Handle commands and replies with `hiredis`.
+description: Construct commands and send them to the Redis server.
 linkTitle: Issue commands
 title: Issue commands
 weight: 5
@@ -33,7 +33,9 @@ void *redisCommand(redisContext *c, const char *format, ...);
 ```
 
 This function receives a `redisContext` pointer and a pointer
-to a string containing the command. The command text is the
+to a string containing the command (see
+[Connect]({{< relref "/develop/clients/hiredis/connect" >}})
+to learn how to obtain the context pointer). The command text is the
 same as the equivalent [`redis-cli`]({{< relref "/develop/tools/cli" >}})
 command. For example, to issue the command:
 
@@ -46,6 +48,11 @@ you would use the following command with an existing `redisContext* c`:
 ```c
 redisReply *reply = redisCommand(c, "SET foo bar");
 ```
+
+See the [Command reference]({{< relref "/commands" >}}) for examples
+of CLI commands that you can use with `hiredis`. Most code examples
+in other sections of the docs also have a CLI tab showing
+command sequences that are equivalent to the code.
 
 The command string is interpreted in a similar way to the format
 string for `printf()`, so you can easily interpolate string values from
@@ -65,7 +72,9 @@ in fields of a [hash]({{< relref "/develop/data-types/hashes" >}})) object.
 To do this, use the `%b` format specifier and pass a pointer to the
 data buffer, followed by a `size_t` value indicating its length in bytes.
 As the example below shows, you can freely mix `%s` and `%b` specifiers
-in the same format string.
+in the same format string. Also, you can use the sequence `%%` to
+denote a literal percent sign, but the other `printf()` specifiers,
+such as `%d`, are not supported.
 
 ```c
 char *entryNumber = "1";
@@ -81,7 +90,7 @@ redisReply *reply = redisCommand(c,
 );
 ```
 
-The `redisCommand()` function has a variant `redisCommandArgv()`:
+The `redisCommand()` function has a variant called `redisCommandArgv()`:
 
 ```c
 void *redisCommandArgv(redisContext *c, int argc, const char **argv, const size_t *argvlen);
@@ -106,3 +115,11 @@ const size_t argvlen[] = {3, 8, 5};
 
 redisReply *reply = redisCommandArgv(c, argc, argv, argvlen);
 ```
+
+## Command replies
+
+The information in the `redisReply` object has several formats,
+and the format for a particular reply depends on the command that generated it.
+See
+[Handle replies]({{< relref "/develop/clients/hiredis/handle-replies" >}})
+to learn about the different reply formats and how to use them.

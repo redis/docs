@@ -17,6 +17,11 @@ weight: 1
 
 ## Basic synchronous connection
 
+The example below creates a simple synchronous connection to a local
+Redis server and tests the connection, before closing it with
+`redisFree()`. The `redisConnect()` function takes just a hostname
+and port as its arguments, and returns a context object.
+
 ```c
 #include <stdio.h>
 
@@ -59,3 +64,5 @@ if (reply != NULL) {
 // Close the connection.
 redisFree(c);
 ```
+
+
