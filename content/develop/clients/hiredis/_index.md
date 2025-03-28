@@ -60,6 +60,7 @@ int main() {
         } else {
             printf("Can't allocate redis context\n");
         }
+        exit(1);
     }
 
     // Set a string key.
