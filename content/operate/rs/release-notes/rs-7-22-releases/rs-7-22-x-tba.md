@@ -49,7 +49,7 @@ This version offers:
 
 - Usage report API request
 
-- Added `secondary_rack_id` to boostrap and node configuration to support two-dimensional rack awareness.
+- Added `secondary_rack_id` to boostrap and node configuration to support [two-dimensional rack awareness]({{<relref "/operate/rs/clusters/configure/rack-zone-awareness#set-up-two-dimensional-rack-zone-awareness">}}).
 
 - A new version of the actions API is available at `GET /v2/actions`
 
@@ -169,14 +169,6 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ## Version changes
 
-### Breaking changes
-
-- TBA
-
-### Product lifecycle updates
-
-- TBA
-
 ### Deprecations
 
 #### API deprecations
@@ -188,10 +180,6 @@ The following table shows which Redis modules are compatible with each Redis dat
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
 
 V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) now, or wait to use new preconfigured dashboards when they become available in a future release.
-
-### Upcoming changes
-
-- TBA
 
 ### Supported platforms
 
