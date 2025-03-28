@@ -106,39 +106,35 @@ the reply is usually reported as an integer.
 // Add some values to a set.
 redisReply *reply = redisCommand(c, "SADD items bread milk peas");
 
-if (reply != NULL) {
-    // This gives an integer reply.
-    if (reply->type == REDIS_REPLY_INTEGER) {
-        // Report status.
-        printf("Integer reply\n");
-        printf("Number added: %lld\n", reply->integer);
-        // >>> Number added: 3
-    }
-
-    freeReplyObject(reply);
-    reply = NULL;
+if (reply->type == REDIS_REPLY_INTEGER) {
+    // Report status.
+    printf("Integer reply\n");
+    printf("Number added: %lld\n", reply->integer);
+    // >>> Number added: 3
 }
+
+freeReplyObject(reply);
+reply = NULL;
+
 
 reply = redisCommand(c, "SISMEMBER items bread");
 
-if (reply != NULL) {
-    // This also gives an integer reply but you should interpret
-    // it as a boolean value.
-    if (reply->type == REDIS_REPLY_INTEGER) {
-        // Respond to boolean integer value.
-        printf("Integer reply\n");
-        
-        if (reply->integer == 0) {
-            printf("Items set has no member 'bread'\n");
-        } else {
-            printf("'Bread' is a member of items set\n");
-        }
-        // >>> 'Bread' is a member of items set
+// This also gives an integer reply but you should interpret
+// it as a boolean value.
+if (reply->type == REDIS_REPLY_INTEGER) {
+    // Respond to boolean integer value.
+    printf("Integer reply\n");
+    
+    if (reply->integer == 0) {
+        printf("Items set has no member 'bread'\n");
+    } else {
+        printf("'Bread' is a member of items set\n");
     }
-
-    freeReplyObject(reply);
-    reply = NULL;
+    // >>> 'Bread' is a member of items set
 }
+
+freeReplyObject(reply);
+reply = NULL;
 ```
 
 ### Strings
@@ -154,81 +150,75 @@ returned in `reply->str` and the length of the string is in
 // Set a numeric value in a string.
 reply = redisCommand(c, "SET number 1.5");
 
-if (reply != NULL) {
-    // This gives a status reply.
-    if (reply->type == REDIS_REPLY_STATUS) {
-        // Report status.
-        printf("Status reply\n");
-        printf("Reply: %s\n", reply->str); // >>> Reply: OK
-    }
-
-    freeReplyObject(reply);
-    reply = NULL;
+// This gives a status reply.
+if (reply->type == REDIS_REPLY_STATUS) {
+    // Report status.
+    printf("Status reply\n");
+    printf("Reply: %s\n", reply->str); // >>> Reply: OK
 }
+
+freeReplyObject(reply);
+reply = NULL;
+
 
 // Attempt to interpret the key as a hash.
 reply = redisCommand(c, "HGET number field1");
 
-if (reply != NULL) {
-    // This gives an error reply.
-    if (reply->type == REDIS_REPLY_ERROR) {
-        // Report the error.
-        printf("Error reply\n");
-        printf("Reply: %s\n", reply->str);
-        // >>> Reply: WRONGTYPE Operation against a key holding the wrong kind of value
-    }
-
-    freeReplyObject(reply);
-    reply = NULL;
+// This gives an error reply.
+if (reply->type == REDIS_REPLY_ERROR) {
+    // Report the error.
+    printf("Error reply\n");
+    printf("Reply: %s\n", reply->str);
+    // >>> Reply: WRONGTYPE Operation against a key holding the wrong kind of value
 }
+
+freeReplyObject(reply);
+reply = NULL;
+
 
 reply = redisCommand(c, "GET number");
 
-if (reply != NULL) {
-    // This gives a simple string reply.
-    if (reply->type == REDIS_REPLY_STRING) {
-        // Display the string.
-        printf("Simple string reply\n");
-        printf("Reply: %s\n", reply->str); // >>> Reply: 1.5
-    }
-
-    freeReplyObject(reply);
-    reply = NULL;
+// This gives a simple string reply.
+if (reply->type == REDIS_REPLY_STRING) {
+    // Display the string.
+    printf("Simple string reply\n");
+    printf("Reply: %s\n", reply->str); // >>> Reply: 1.5
 }
+
+freeReplyObject(reply);
+reply = NULL;
+
 
 reply = redisCommand(c, "ZADD prices 1.75 bread 5.99 beer");
 
-if (reply != NULL) {
-    // This gives an integer reply.
-    if (reply->type == REDIS_REPLY_INTEGER) {
-        // Display the integer.
-        printf("Integer reply\n");
-        printf("Number added: %lld\n", reply->integer);
-        // >>> Number added: 2
-    }
-
-    freeReplyObject(reply);
-    reply = NULL;
+// This gives an integer reply.
+if (reply->type == REDIS_REPLY_INTEGER) {
+    // Display the integer.
+    printf("Integer reply\n");
+    printf("Number added: %lld\n", reply->integer);
+    // >>> Number added: 2
 }
+
+freeReplyObject(reply);
+reply = NULL;
+
 
 reply = redisCommand(c, "ZSCORE prices bread");
 
-if (reply != NULL) {
-    // This gives a string reply with RESP2 and a double reply
-    // with RESP3, but you handle it the same way in either case.
-    if (reply->type == REDIS_REPLY_STRING) {
-        printf("String reply\n");
-        
-        char *endptr; // Not used.
-        double price = strtod(reply->str, &endptr);
-        double discounted = price * 0.75;
-        printf("Discounted price: %.2f\n", discounted);
-        // >>> Discounted price: 1.31
-    }
-
-    freeReplyObject(reply);
-    reply = NULL;
+// This gives a string reply with RESP2 and a double reply
+// with RESP3, but you handle it the same way in either case.
+if (reply->type == REDIS_REPLY_STRING) {
+    printf("String reply\n");
+    
+    char *endptr; // Not used.
+    double price = strtod(reply->str, &endptr);
+    double discounted = price * 0.75;
+    printf("Discounted price: %.2f\n", discounted);
+    // >>> Discounted price: 1.31
 }
+
+freeReplyObject(reply);
+reply = NULL;
 ```
 
 ### Arrays and maps
@@ -246,26 +236,23 @@ The example below shows how to get the items from a
 ```c
 reply = redisCommand(c, "RPUSH things thing0 thing1 thing2 thing3");
 
-if (reply != NULL) {
-    printf("Added %lld items\n", reply->integer);
-    // >>> Added 4 items
-    freeReplyObject(reply);
-    reply = NULL;
-}
+printf("Added %lld items\n", reply->integer);
+// >>> Added 4 items
+freeReplyObject(reply);
+reply = NULL;
+
 
 reply = redisCommand(c, "LRANGE things 0 -1");
 
-if (reply != NULL) {    
-    for (int i = 0; i < reply->elements; ++i) {
-        if (reply->element[i]->type == REDIS_REPLY_STRING) {
-            printf("List item %d: %s\n", i, reply->element[i]->str);
-        }
+for (int i = 0; i < reply->elements; ++i) {
+    if (reply->element[i]->type == REDIS_REPLY_STRING) {
+        printf("List item %d: %s\n", i, reply->element[i]->str);
     }
-    // >>> List item 0: thing0
-    // >>> List item 1: thing1
-    // >>> List item 2: thing2
-    // >>> List item 3: thing3
 }
+// >>> List item 0: thing0
+// >>> List item 1: thing1
+// >>> List item 2: thing2
+// >>> List item 3: thing3
 ```
 
 A map is essentially the same as an array but it has the extra
@@ -284,13 +271,12 @@ const char *hashCommand[] = {
 
 reply = redisCommandArgv(c, 8, hashCommand, NULL);
 
-if (reply != NULL) {
-    printf("Added %lld fields\n", reply->integer);
-    // >>> Added 3 fields
+printf("Added %lld fields\n", reply->integer);
+// >>> Added 3 fields
 
-    freeReplyObject(reply);
-    reply = NULL;
-}
+freeReplyObject(reply);
+reply = NULL;
+
 
 reply = redisCommand(c, "HGETALL details");
 

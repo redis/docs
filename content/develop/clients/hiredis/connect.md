@@ -26,6 +26,9 @@ and port as its arguments, and returns a context object.
 #include <stdio.h>
 
 #include "hiredis.h"
+    .
+    .
+    .
 
 // The `redisContext` type represents the connection
 // to the Redis server. Here, we connect to the
@@ -41,25 +44,19 @@ if (c == NULL || c->err) {
     } else {
         printf("Can't allocate redis context\n");
     }
+
+    exit(1);
 }
 
 // Set a string key.
 redisReply *reply = redisCommand(c, "SET foo bar");
-
-// Check and free the reply.
-if (reply != NULL) {
-    printf("Reply: %s\n", reply->str); // >>> Reply: OK
-    freeReplyObject(reply);
-}
+printf("Reply: %s\n", reply->str); // >>> Reply: OK
+freeReplyObject(reply);
 
 // Get the key we have just stored.
 reply = redisCommand(c, "GET foo");
-
-// Check and free the reply.
-if (reply != NULL) {
-    printf("Reply: %s\n", reply->str); // >>> Reply: bar
-    freeReplyObject(reply);
-}
+printf("Reply: %s\n", reply->str); // >>> Reply: bar
+freeReplyObject(reply);
 
 // Close the connection.
 redisFree(c);
