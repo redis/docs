@@ -138,8 +138,7 @@ When the network on a single active proxy becomes the bottleneck,
 you might also look into enabling the multiple NIC support in RS. With
 nodes that have multiple physical NICs (Network Interface Cards), you
 can configure RS to separate internal and external traffic onto
-independent physical NICs. For more details, refer to [Multi-IP &
-IPv6]({{< relref "/operate/rs/networking/multi-ip-ipv6.md" >}}).
+independent physical NICs. For more details, refer to [Manage IP addresses]({{< relref "/operate/rs/7.4/networking/multi-ip-ipv6" >}}).
 {{< /note >}}
 
 Having multiple proxies for a database can improve RS's ability for fast
