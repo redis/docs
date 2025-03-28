@@ -25,7 +25,7 @@ Vector sets also provide for optional [filtered search]({{< relref "/develop/dat
 
 The following commands are available for vector sets:
 
-- [VADD]({{< relref "/commands/vadd" >}}) - create or update vector set.
+- [VADD]({{< relref "/commands/vadd" >}}) - add an element to a vector set, creating a new set if it didn't already exist.
 - [VCARD]({{< relref "/commands/vcard" >}}) - retrieve the number of elements in a vector set.
 - [VDIM]({{< relref "/commands/vdim" >}}) - retrieve the dimension of the vectors in a vector set.
 - [VEMB]({{< relref "/commands/vemb" >}}) - retrieve the approximate vector associated with a vector set element.
@@ -34,5 +34,5 @@ The following commands are available for vector sets:
 - [VLINKS]({{< relref "/commands/vlinks" >}}) - retrieve the neighbors of a specified element in a vector set; the connections for each layer of the HNSW graph.
 - [VRANDMEMBER]({{< relref "/commands/vrandmember" >}}) - retrieve random elements of a vector set.
 - [VREM]({{< relref "/commands/vrem" >}}) - remove an element from a vector set.
-- [VSETATTR]({{< relref "/commands/vsetattr" >}}) - set attributes on a vector set element.
+- [VSETATTR]({{< relref "/commands/vsetattr" >}}) - set or replace attributes on a vector set element.
 - [VSIM]({{< relref "/commands/vsim" >}}) - retrieve elements similar to a given vector or element with optional filtering.
