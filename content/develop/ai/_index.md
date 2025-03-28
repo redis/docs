@@ -8,6 +8,7 @@ categories:
 - rc
 description: An overview of Redis for AI documentation
 linkTitle: Redis for AI
+hideListLinks: true
 weight: 40
 ---
 Redis stores and indexes vector embeddings that semantically represent unstructured data including text passages, images, videos, or audio. Store vectors and the associated metadata within [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json" >}}) documents for [indexing]({{< relref "/develop/interact/search-and-query/indexing" >}}) and [querying]({{< relref "/develop/interact/search-and-query/query" >}}).
