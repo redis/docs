@@ -53,7 +53,7 @@ For more detailed release notes, select a build version from the following table
 
 #### API deprecations
 
-- TBA
+- Deprecated [`GET /v1/bdbs/<uid>/actions/optimize_shards_placement`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement/#get-bdbs-actions-optimize-shards-placement">}}) REST API request. Use [`PUT /v1/bdbs/<uid>/actions/revamp?dry_run=true`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/revamp/#put-bdbs-actions-revamp">}}) to get an optimized shard placement blueprint for a database instead.
 
 #### Internal monitoring and v1 Prometheus metrics deprecation
 
