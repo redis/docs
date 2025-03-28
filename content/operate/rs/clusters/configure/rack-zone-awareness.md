@@ -84,7 +84,9 @@ If you did not configure rack-zone awareness during cluster creation, you can co
     { "rack_aware": true }
     ```
 
-## Set up two-dimensional rack-zone awareness 
+## Set up two-dimensional rack-zone awareness
+
+As of Redis Enterprise Software version 7.22, you can assign a `second_rack_id` to set up two-dimensional rack-zone awareness.
 
 ### New clusters
 
@@ -92,31 +94,35 @@ To set up two-dimensional rack-zone awareness during cluster creation, assign a 
 
 #### REST API method
 
-To create a new cluster with two-dimensional rack-zone awareness using the [REST API]({{<relref "/operate/rs/references/rest-api">}}):
+To create a new cluster with two-dimensional rack-zone awareness, you can use [bootstrap REST API requests]({{<relref "/operate/rs/references/rest-api/requests/bootstrap#post-bootstrap">}}):
 
-1. Create the new cluster on a node:
+1. Create the new cluster on the first node, set `rack_aware` to `true`, and assign a `rack_id` and `second_rack_id` to the first node:
 
     ```sh
     POST /v1/bootstrap/create_cluster
     {
       "action": "create_cluster",
       "cluster": {
-         "nodes": [],
-         "name": "<cluster.name>"
+        "nodes": [],
+        "name": "<cluster.fqdn>"
       },
-      "node": { 
-        "rack_id": "<AZ1>",
-	    "second_rack_id": "<RackID1>"
-      },
-      "license": "----- LICENSE START -----\n...\n----- LICENSE END -----\n",
       "credentials": {
         "username": "<admin-email>",
         "password": "<admin-password>"
+      },
+      "node": {
+        "identity": {
+            "rack_id": "<availability-zone-ID>",
+            "second_rack_id": "<rack-ID>"
+        }
+      },
+      "policy": {
+        "rack_aware": true
       }
     }
     ```
 
-1. Join each new node you want to add to the cluster:
+1. Join each new node you want to add to the cluster and assign a different `rack_id` and `second_rack_id` to it:
 
     ```sh
     POST /v1/bootstrap/join_cluster
@@ -124,15 +130,17 @@ To create a new cluster with two-dimensional rack-zone awareness using the [REST
       "action": "join_cluster",
       "cluster": {
          "nodes": [],
-         "name": "<cluster.name>"
+         "name": "<cluster.fqdn>"
       },
-      "node": {
-	    "rack_id": "<AZ1>",
-	    "second_rack_id": "<RackID2>"
-      }
       "credentials": {
         "username": "<admin-email>",
         "password": "<admin-password>"
+      },
+      "node": {
+        "identity": {
+            "rack_id": "<availability-zone-ID>",
+            "second_rack_id": "<rack-ID>"
+        }
       }
     }
     ```
@@ -170,7 +178,7 @@ For each node in the cluster, assign a different `second_rack_id` using the REST
 
 ```sh
 PUT /v1/nodes/<node-ID>
-{ "second_rack_id": "rack-zone-ID2" }
+{ "second_rack_id": "rack-ID" }
 ```
 
 ## Enable database rack-zone awareness
