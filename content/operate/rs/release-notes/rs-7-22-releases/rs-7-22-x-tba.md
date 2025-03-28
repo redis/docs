@@ -253,6 +253,10 @@ You cannot upgrade from a prior RHEL version to RHEL 9 if the Redis Enterprise S
 
 If one or more fields of a hash key expire after an `FT.SEARCH` or `FT.AGGREGATE` query begins, Redis does not account for these lazily expired fields. As a result, keys with expired fields might still be included in the query results, leading to potentially incorrect or inconsistent results.
 
+#### Active defragmentation does not stop mid-key for JSON
+
+Active defragmentation does not stop mid-key for JSON data. Large keys are defragmented in full, which might cause latency spikes.
+
 ## Security
 
 #### Open source Redis security fixes compatibility
