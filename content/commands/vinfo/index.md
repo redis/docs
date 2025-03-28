@@ -24,9 +24,6 @@ Return metadata and internal details about a vector set, including size, dimensi
 
 ```shell
 VINFO word_embeddings
-```
-
-```text
 1) quant-type
 2) int8
 3) vector-dim

@@ -24,9 +24,6 @@ Return the approximate vector associated with a given element in the vector set.
 
 ```shell
 VEMB word_embeddings SQL
-```
-
-```text
 1) "0.18208661675453186"
 2) "0.08535309880971909"
 3) "0.1365649551153183"
@@ -41,17 +38,11 @@ To retrieve the raw internal representation, use the `RAW` option:
 
 ```shell
 VEMB word_embeddings apple RAW
+1) int8
+2) "\xf1\xdc\xfd\x1e\xcc%E...\xde\x1f\xfbN" # artificially shortened for this example
+3) "3.1426539421081543"
+4) "0.17898885905742645"
 ```
-
-This returns an array with the following:
-
-1. The quantization type: `fp32`, `bin`, or `q8`.
-2. A string blob with raw data:
-   - 4-byte floats for `fp32`
-   - A bitmap for binary quantization
-   - A byte array for `q8`
-3. The L2 norm of the vector before normalization.
-4. *(Only for `q8`)*: The quantization range. Multiply this by integer components to recover normalized values.
 
 ## Required arguments
 

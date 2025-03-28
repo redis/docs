@@ -26,12 +26,6 @@ Return the JSON attributes associated with an element in a vector set.
 VGETATTR key element
 ```
 
-The command returns:
-
-- the JSON string if the element exists and has attributes,
-- `null` if the element has no attributes,
-- or `null` if the key or element does not exist.
-
 ## Required arguments
 
 <details open>

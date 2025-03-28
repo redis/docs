@@ -34,8 +34,6 @@ To remove attributes, pass an empty JSON string:
 VSETATTR key element ""
 ```
 
-The command returns `1` if the element exists and the attributes were set or updated, or `0` if the key or element does not exist.
-
 ## Required arguments
 
 <details open>
