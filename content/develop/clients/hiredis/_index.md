@@ -122,6 +122,12 @@ to prevent errors.
 
 The [`hiredis`](https://github.com/redis/hiredis) Github repository contains
 examples and details that may be useful if you are using `hiredis` to
-implement a higher-level client for another programming language.
+implement a higher-level client for another programming language. There are
+also examples showing how to use `hiredis` from a
+[C++ application](https://github.com/redis/hiredis/blob/master/examples/example-qt.cpp)
+created with [Qt](https://www.qt.io/) and how to use the
+[asynchronous API](https://github.com/redis/hiredis?tab=readme-ov-file#asynchronous-api)
+with the [libev](https://software.schmorp.de/pkg/libev.html) and
+[libevent](https://libevent.org/) libraries.
 
 See the other pages in this section for more information and examples.
