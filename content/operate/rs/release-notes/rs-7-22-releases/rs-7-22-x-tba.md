@@ -37,19 +37,19 @@ This version offers:
 
 - The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) is now generally available.
 
-- Revamp database REST API request:
+- [Revamp database REST API requests]({{<relref "operate/rs/references/rest-api/requests/bdbs/actions/revamp">}}):
 
     - Updates topology-related configurations of an active database and optimises the shards placement for the new configuration. Example configuration parameters include `memory_size`, `shards_count`, `avoid_nodes`, `shards_placement`, `bigstore_ram_size`, and `replication`.
 
-    - Replaces the deprecated request to [optimize shards placement]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement">}}).
+    - `PUT /v1/bdbs/<uid>/actions/revamp?dry_run=true` replaces the deprecated request to [optimize shards placement]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement">}}).
 
-- Migration status REST API request, which reports the migration status of a database in the cluster.
+- [Migration status REST API request]({{<relref "/operate/rs/references/rest-api/requests/migrations">}}), which reports the migration status of a database in the cluster.
 
-- Support packages now include usage reports.
+- [Support packages]({{<relref "/operate/rs/installing-upgrading/creating-support-package">}}) now include [usage reports]({{<relref "/operate/rs/references/rest-api/requests/usage_report">}}).
 
 - Added `secondary_rack_id` to boostrap and node configuration to support [two-dimensional rack awareness]({{<relref "/operate/rs/clusters/configure/rack-zone-awareness#set-up-two-dimensional-rack-zone-awareness">}}).
 
-- A new version of the actions API is available at `GET /v2/actions`.
+- A new version of the [actions API]({{<relref "/operate/rs/references/rest-api/requests/actions">}}) is available at `GET /v2/actions`.
 
 ### Enhancements
 
