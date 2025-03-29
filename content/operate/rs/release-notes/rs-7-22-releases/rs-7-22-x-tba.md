@@ -161,6 +161,12 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS135446: Added cleanup of temporary files after `debug_info` generation failures.
 
+- RS151534: Fixed a permissions issue for `crdb-cli.log` that caused `crdb-cli crdb list` to fail for users in the `redislabs` group.
+
+- RS150746: Added a retry mechanism in case the DMC fails to create a listener on a database port.
+
+- RS145047: Fixed an issue where repeated error messages were excessively logged when the auditing server was no longer reachable.
+
 ## Version changes
 
 ### Deprecations
