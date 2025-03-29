@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: New pricing and packaging. Metrics stream engine GA. Revamp database API. Migration status API. Usage report API. Two-dimensional rack awareness. v2 actions API.
+description: Metrics stream engine GA. Revamp database API. Migration status API. Usage reports in support packages. Two-dimensional rack awareness. v2 actions API. Additional REST API enhancements.
 linkTitle: 7.22.x-tba (April 2025)
 weight: 90
 ---
@@ -17,25 +17,25 @@ weight: 90
 
 This version offers:
 
-- New pricing and packaging
-
 - Metrics stream engine GA
 
 - Revamp database API
 
 - Migration status API
 
-- Usage report API
+- Usage reports in support packages
 
 - Two-dimensional rack awareness
 
 - v2 actions API
 
+- Additional REST API enhancements
+
 ## New in this release
 
 ### New features
 
-- New pricing and packaging
+- The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) is now generally available.
 
 - Revamp database REST API request:
 
@@ -43,21 +43,15 @@ This version offers:
 
     - Replaces the deprecated request to [optimize shards placement]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement">}}).
 
-- The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) is now generally available.
-
 - Migration status REST API request, which reports the migration status of a database in the cluster.
 
-- Usage report API request
+- Support packages now include usage reports.
 
 - Added `secondary_rack_id` to boostrap and node configuration to support [two-dimensional rack awareness]({{<relref "/operate/rs/clusters/configure/rack-zone-awareness#set-up-two-dimensional-rack-zone-awareness">}}).
 
-- A new version of the actions API is available at `GET /v2/actions`
+- A new version of the actions API is available at `GET /v2/actions`.
 
 ### Enhancements
-
-- New Cluster Manager UI enhancements:
-
-    - TBA
 
 - REST API enhancements:
 
@@ -234,6 +228,12 @@ The following table shows the SHA256 checksums for the available packages:
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
 ## Known limitations
+
+#### Upload modules before OS upgrade
+
+If the cluster contains any databases that use modules, you must upload module packages for the target OS version to a node in the existing cluster before you upgrade the cluster's operating system.
+
+See [Upgrade a cluster's operating system]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-os">}}) for detailed upgrade instructions.
 
 #### New Cluster Manager UI limitations
 

@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: New pricing and packaging. Metrics stream engine GA. Revamp database API. Migration status API. Usage report API. Two-dimensional rack awareness. v2 actions API.
+description: Metrics stream engine GA. Revamp database API. Migration status API. Usage reports in support packages. Two-dimensional rack awareness. v2 actions API. Additional REST API enhancements.
 hideListLinks: true
 linkTitle: 7.22.x releases
 toc: 'true'
@@ -19,19 +19,19 @@ weight: 68
 
 This version offers:
 
-- New pricing and packaging
-
 - Metrics stream engine GA
 
 - Revamp database API
 
 - Migration status API
 
-- Usage report API
+- Usage reports in support packages
 
 - Two-dimensional rack awareness
 
 - v2 actions API
+
+- Additional REST API enhancements
 
 ## Detailed release notes
 
