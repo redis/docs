@@ -61,7 +61,7 @@ Example: A 3M vector set with 300 components loads in ~15 seconds.
 
 | Factor     | Effect on performance               | Tip                                            |
 |------------|-------------------------------------|------------------------------------------------|
-| `EF`       | Slower queries but higher recall    | Start low (e.g. 200) and tune upward           |
+| `EF`       | Slower queries but higher recall    | Start low (for example, 200) and tune upward           |
 | `M`        | More memory per node, better recall | Use defaults unless recall is too low          |
 | Quant type | Binary is fastest, `FP32` is slowest| Use `Q8` or `BIN` unless full precision needed |
 | `CAS`      | Faster insertions with threading    | Use when high write throughput is needed       |

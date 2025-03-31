@@ -64,9 +64,9 @@ Expressions support familiar JavaScript-like syntax:
 - Containment: `in`
 - Grouping: Parentheses `()`
 
-Use dot notation to access attribute fields, e.g. `.year`, `.rating`.
+Use dot notation to access attribute fields, for example, `.year`, `.rating`.
 
-> Only top-level fields are supported (e.g., `.genre`, but not `.movie.genre`).
+> Only top-level fields are supported (for example, `.genre`, but not `.movie.genre`).
 
 ## Supported data types
 

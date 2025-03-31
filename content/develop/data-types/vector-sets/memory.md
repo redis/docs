@@ -16,7 +16,7 @@ weight: 25
 
 ## Overview
 
-Redis vector sets are efficient, but vector similarity indexing and graph traversal come with memory tradeoffs. This guide helps you manage memory use through quantization, graph tuning, and attribute choices.
+Redis vector sets are efficient, but vector similarity indexing and graph traversal require memory tradeoffs. This guide helps you manage memory use through quantization, graph tuning, and attribute choices.
 
 ## Quantization modes
 

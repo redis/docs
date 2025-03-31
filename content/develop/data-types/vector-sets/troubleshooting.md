@@ -43,7 +43,7 @@ Filters silently exclude items if:
 
 - A field is missing from the element’s attributes
 - The JSON is invalid
-- A type doesn’t match the expression (e.g., `.rating > 8` when `.rating` is a string)
+- A type doesn’t match the expression (for example, `.rating > 8` when `.rating` is a string)
 
 Try retrieving the attributes with [`VGETATTR`]({{< relref "/commands/vgetattr" >}}):
 
@@ -77,7 +77,7 @@ VLINKS myset myelement WITHSCORES
 
 ## Deletion spikes
 
-Large sets deleted via the `DEL` command can briefly spike latency as Redis reclaims memory and rebuilds HNSW linkages.
+Large sets deleted using the `DEL` command can briefly spike latency as Redis reclaims memory and rebuilds HNSW linkages.
 
 ## Replication quirks
 

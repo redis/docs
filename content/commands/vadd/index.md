@@ -79,7 +79,7 @@ forces the vector to use binary quantization instead of int8. This is much faste
 <details open>
 <summary><code>Q8</code></summary>
 
-forces the vector to use signed 8-bit quantization. This is the default, and the option only exists in order to make sure to check at insertion time that the vector set is of the same format.
+forces the vector to use signed 8-bit quantization. This is the default, and the option only exists to make sure to check at insertion time that the vector set is of the same format.
 </details>
 
 {{< note >}}
@@ -110,7 +110,7 @@ is the maximum number of connections that each node of the graph will have with 
 
 So, the additional amount of memory is approximately `0.33 × 64 × 8 ≈ 169.6` bytes per node, bringing the total memory to ~1193 bytes.
 
-If you don't have a recall quality problem, the default is fine, and uses a minimal amount of memory.
+If you don't have a recall quality problem, the default is acceptable, and uses a minimal amount of memory.
 </details>
 
 ## Related topics
