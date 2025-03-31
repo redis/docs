@@ -13,8 +13,8 @@ Follow the steps below to build Redis from source on a system running Debian 12 
 
 {{< note >}}
 Docker images used to produce these build notes:
-- Debian:bookworm
-- Debian:bookworm-slim
+- debian:bookworm
+- debian:bookworm-slim
 {{< /note >}}
 
 ## 1. Install required dependencies
@@ -51,25 +51,15 @@ sudo apt-get install -y --no-install-recommends \
 
 The Redis source code is available from the [Download](https://redis.io/downloads) page. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes git repository](https://github.com/redis/redis-hashes).
 
-Download a specific version of the Redis source code zip archive from GitHub. For example, to download version `8.0`:
-
-```bash
-wget -O redis.tar.gz https://github.com/redis/redis/archive/refs/tags/8.0.tar.gz
-```
-
-To download the latest stable Redis release, run the following:
-
-```bash
-wget -O redis.tar.gz https://download.redis.io/redis-stable.tar.gz
-```
+Copy the tar(1) file to `/usr/src`.
 
 ## 3. Extract the source archive
 
 Create a directory for the source code and extract the contents into it:
 
 ```bash
-mkdir -p /usr/src/redis
-tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1
+cd /usr/src
+tar xvf redis.tar.gz
 rm redis.tar.gz
 ```
 
@@ -78,13 +68,14 @@ rm redis.tar.gz
 Set the appropriate environment variables to enable TLS, modules, and other build options, then compile and install Redis:
 
 ```bash
+cd /usr/src/redis
 export BUILD_TLS=yes
 export BUILD_WITH_MODULES=yes
 export INSTALL_RUST_TOOLCHAIN=yes
 export DISABLE_WERRORS=yes
 
-make -C /usr/src/redis -j "$(nproc)" all
-sudo make -C /usr/src/redis install
+make -j "$(nproc)" all
+sudo make install
 ```
 
 This builds the Redis server, CLI, and any included modules.
@@ -104,4 +95,19 @@ To start Redis, use the following command:
 
 ```bash
 redis-server /path/to/redis.conf
+```
+
+To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
+
+```
+redis-cli INFO
+...
+# Modules
+module:name=ReJSON,ver=20803,api=1,filters=0,usedby=[search],using=[],options=[handle-io-errors]
+module:name=search,ver=21005,api=1,filters=0,usedby=[],using=[ReJSON],options=[handle-io-errors]
+module:name=bf,ver=20802,api=1,filters=0,usedby=[],using=[],options=[]
+module:name=timeseries,ver=11202,api=1,filters=0,usedby=[],using=[],options=[handle-io-errors]
+module:name=RedisCompat,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
+module:name=vectorset,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
+...
 ```

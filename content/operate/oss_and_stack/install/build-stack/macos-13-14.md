@@ -46,18 +46,6 @@ tar -xf ${RUST_INSTALLER}.tar.xz
 
 The Redis source code is available from the [Download](https://redis.io/downloads) page. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes git repository](https://github.com/redis/redis-hashes).
 
-Download a specific version of the Redis source code from GitHub. For example, to download version `8.0`:
-
-```bash
-wget -O redis.tar.gz https://github.com/redis/redis/archive/refs/tags/8.0.tar.gz
-```
-
-To download the latest stable Redis release, run the following:
-
-```bash
-wget -O redis.tar.gz https://download.redis.io/redis-stable.tar.gz
-```
-
 Extract the source:
 
 ```bash
@@ -97,4 +85,19 @@ To start Redis, use the following command:
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 build_dir/bin/redis-server /path/to/redis.conf
+```
+
+To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
+
+```
+redis-cli INFO
+...
+# Modules
+module:name=ReJSON,ver=20803,api=1,filters=0,usedby=[search],using=[],options=[handle-io-errors]
+module:name=search,ver=21005,api=1,filters=0,usedby=[],using=[ReJSON],options=[handle-io-errors]
+module:name=bf,ver=20802,api=1,filters=0,usedby=[],using=[],options=[]
+module:name=timeseries,ver=11202,api=1,filters=0,usedby=[],using=[],options=[handle-io-errors]
+module:name=RedisCompat,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
+module:name=vectorset,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
+...
 ```

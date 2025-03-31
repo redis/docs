@@ -23,6 +23,20 @@ Docker images used to produce these build notes:
 
 ## 1. Prepare the system
 
+{{< note >}}
+For 8.10-minimal, you'll need to install `sudo` and `dnf` as follows:
+
+```bash
+microdnf install bash dnf sudo -y
+```
+
+For 8.10 (regular), you'll need to install `sudo` as follows:
+
+```bash
+dnf install sudo -y
+```
+{{< /note >}}
+
 Clean the package metadata, enable required repositories, and install development tools:
 
 ```bash
@@ -110,22 +124,14 @@ cmake --version
 
 The Redis source code is available from the [Download](https://redis.io/downloads) page. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes git repository](https://github.com/redis/redis-hashes).
 
-Download a specific version of the Redis source code zip archive from GitHub. For example, to download version `8.0`:
-
-```bash
-wget -O redis.tar.gz https://github.com/redis/redis/archive/refs/tags/8.0.tar.gz
-```
-
-To download the latest stable Redis release, run the following:
-
-```bash
-wget -O redis.tar.gz https://download.redis.io/redis-stable.tar.gz
-```
+Copy the tar(1) file to `/usr/src`.
 
 Extract the source:
 
 ```bash
+cd /usr/src
 tar xvf redis.tar.gz
+rm redis.tar.gz
 ```
 
 ## 5. Build Redis
@@ -160,4 +166,19 @@ To start Redis, use the following command:
 
 ```bash
 redis-server /path/to/redis.conf
+```
+
+To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
+
+```
+redis-cli INFO
+...
+# Modules
+module:name=ReJSON,ver=20803,api=1,filters=0,usedby=[search],using=[],options=[handle-io-errors]
+module:name=search,ver=21005,api=1,filters=0,usedby=[],using=[ReJSON],options=[handle-io-errors]
+module:name=bf,ver=20802,api=1,filters=0,usedby=[],using=[],options=[]
+module:name=timeseries,ver=11202,api=1,filters=0,usedby=[],using=[],options=[handle-io-errors]
+module:name=RedisCompat,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
+module:name=vectorset,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
+...
 ```
