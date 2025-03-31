@@ -23,8 +23,6 @@ Docker images used to produce these build notes:
 
 ## 1. Prepare the system
 
-## 1. Prepare the system
-
 {{< note >}}
 For 9.5-minimal, you'll need to install `sudo` and `dnf` as follows:
 
@@ -37,6 +35,7 @@ For 9.5 (regular), you'll need to install `sudo` as follows:
 ```bash
 dnf install sudo -y
 ```
+{{< /note >}}
 
 Enable the GoReleaser repository and install required packages:
 
