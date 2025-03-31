@@ -15,7 +15,7 @@ Rack-zone awareness helps ensure high availability in the event of a rack or zon
 
 When you enable rack-zone awareness in a Redis Enterprise Software cluster, you assign
 a [rack-zone ID](#rack-zone-id-rules) to each node. This ID is used to map the node to a
-physical rack or logical zone. The cluster can then ensure that master shards, corresponding replica shards, and associated endpoints are placed on [nodes in different racks or zones](#node-layout-guidelines).
+physical rack or logical zone. The cluster can then ensure that primary shards, corresponding replica shards, and associated endpoints are placed on [nodes in different racks or zones](#node-layout-guidelines).
 
 In the event of a rack or zone failure, the replicas and endpoints in the remaining racks and zones are promoted. This ensures high availability when a rack or zone fails.
 
@@ -87,6 +87,8 @@ If you did not configure rack-zone awareness during cluster creation, you can co
 ## Set up two-dimensional rack-zone awareness
 
 As of Redis Enterprise Software version 7.22, you can assign a `second_rack_id` to set up two-dimensional rack-zone awareness.
+
+You can use two-dimensional rack-zone awareness to create logical zones within a zone or rack. The primary and replica node placement and failovers within the `second_rack_id` follow the same rules as `rack_id`.
 
 ### New clusters
 
@@ -250,4 +252,4 @@ After you enable rack-zone awareness for an existing database, you should genera
 
 ## Shard placement without rack-zone awareness
 
-Even if a database has rack-zone awareness turned off, the cluster still ensures that master and replica shards are placed on distinct nodes.
+Even if a database has rack-zone awareness turned off, the cluster still ensures that primary and replica shards are placed on distinct nodes.
