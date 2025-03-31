@@ -45,7 +45,7 @@ When you modify your cipher suites, make sure:
 {{<note>}}
 - Redis Enterprise Software doesn't support static [Diffie–Hellman (`DH`) key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) ciphers.
 
-- It does support Ephemeral Diffie–Hellman (`DHE` or `ECDHE`) key exchange ciphers on Red Hat Enterprise Linux (RHEL) 8 and Bionic OS.  
+- Support for Ephemeral Diffie–Hellman (ECDHE) key exchange ciphers depends on the operating system version and security policy.
 {{</note>}}
 
 ### Edit cipher suites in the UI {#edit-ciphers-ui}
