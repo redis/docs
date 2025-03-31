@@ -5,14 +5,13 @@ categories:
 - stack
 - oss
 description: A description of the Redis virtual memory system that was deprecated
-  in 2.6. This document exists for historical interest.
+  in 2.4 and removed in 2.6. This document exists for historical interest.
 linkTitle: Virtual memory
 title: Virtual memory (deprecated)
 weight: 1
 ---
 
-**Note: this document was written by the creator of Redis, Salvatore Sanfilippo, early in the development of Redis (c. 2010). Virtual Memory has been deprecated since Redis 2.6, so this documentation
-is here only for historical interest.**
+**Note: This document was written by the creator of Redis, Salvatore Sanfilippo, early in the development of Redis (c. 2010). Virtual Memory was deprecated in Redis 2.4 and removed in Redis 2.6, so this documentation exists only for historical interest.**
 
 This document details the internals of the Redis Virtual Memory subsystem prior to Redis 2.6. The intended audience is not the final user but programmers willing to understand or modify the Virtual Memory implementation.
 
