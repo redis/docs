@@ -27,7 +27,7 @@ Docker images used to produce these build notes:
 For 8.10-minimal, you'll need to install `sudo` and `dnf` as follows:
 
 ```bash
-microdnf install bash dnf sudo -y
+microdnf install dnf sudo -y
 ```
 
 For 8.10 (regular), you'll need to install `sudo` as follows:

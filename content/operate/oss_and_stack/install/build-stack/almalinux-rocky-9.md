@@ -27,7 +27,7 @@ Docker images used to produce these build notes:
 For 9.5-minimal, you'll need to install `sudo` and `dnf` as follows:
 
 ```bash
-microdnf install bash dnf sudo -y
+microdnf install dnf sudo -y
 ```
 
 For 9.5 (regular), you'll need to install `sudo` as follows:
