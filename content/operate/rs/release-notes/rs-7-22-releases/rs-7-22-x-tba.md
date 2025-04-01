@@ -247,6 +247,18 @@ The following table shows the SHA256 checksums for the available packages:
 
 - RS131972: Creating an ACL that contains a line break in the Cluster Manager UI can cause shard migration to fail due to ACL errors.
 
+- RS155734: Endpoint availability metrics do not work as expected due to a calculation error. As a workaround, use this query to measure availability:
+
+    ```sh
+    endpoint_server_became_unavailable{cluster="$cluster", db="$db"} 
+    - 
+    endpoint_server_available_again{cluster="$cluster", db="$db"}
+    ```
+
+    For up: 0-2
+
+    For down: 2-1000000
+
 ## Known limitations
 
 #### Upload modules before OS upgrade
