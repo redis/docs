@@ -10,7 +10,6 @@ description: Use the metrics that measure the performance of your Redis Enterpri
 hideListLinks: true
 linkTitle: Monitoring
 weight: 70
-aliases: /operate/rs/clusters/monitoring/
 url: '/operate/rs/7.8/monitoring/'
 ---
 

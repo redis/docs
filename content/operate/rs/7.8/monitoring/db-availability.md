@@ -10,7 +10,6 @@ linkTitle: Check database availability
 title: Check database availability for monitoring and load balancers
 toc: 'true'
 weight: 80
-aliases: /operate/rs/databases/durability-ha/db-availability/
 url: '/operate/rs/7.8/monitoring/db-availability/'
 ---
 
