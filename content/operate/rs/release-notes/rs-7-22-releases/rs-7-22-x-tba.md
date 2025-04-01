@@ -195,6 +195,8 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ## Version changes
 
+- The fully qualified domain name is now validated using the FQDN library instead of a regex during cluster creation.
+
 ### Deprecations
 
 #### API deprecations

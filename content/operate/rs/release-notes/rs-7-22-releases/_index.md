@@ -43,6 +43,8 @@ For more detailed release notes, select a build version from the following table
 
 ## Version changes
 
+- The fully qualified domain name is now validated using the FQDN library instead of a regex during cluster creation.
+
 ### Deprecations
 
 #### API deprecations
