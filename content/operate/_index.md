@@ -44,11 +44,11 @@ hideListLinks: true
 <!-- | Feature | RC        | RS         | CE       | K8s          | -->
 | | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #80DBFF"></div> Redis</nobr> Cloud | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #DCFF1E"></div> Redis</nobr> Software | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #C795E3"></div> Redis</nobr> Community Edition | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #8A99A0"></div> Redis for</nobr> Kubernetes |
 |:-----------|:--------------|:-----------|:--------------|:--------------|
-| Transport Layer Security (TLS) | [TLS]({{<relref "/operate/rc/security/database-security/tls-ssl">}}) | RS Link | [TLS]({{< relref "/operate/oss_and_stack/management/security/encryption" >}}) | K8s Link |
-| Role-based access control (RBAC) | [Role-based access control]({{<relref "/operate/rc/security/access-control/data-access-control/role-based-access-control">}}) | RS Link | [Access control list]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) | K8s Link |
-| Lightweight Directory Access Protocol (LDAP) |  | RS Link |  | K8s Link |
+| Transport Layer Security (TLS) | [TLS]({{<relref "/operate/rc/security/database-security/tls-ssl">}}) | RS Link | [TLS]({{< relref "/operate/oss_and_stack/management/security/encryption" >}}) | [REDB tlsMode]({{<relref "https://redis.io/docs/latest/operate/kubernetes/reference/redis_enterprise_database_api/#spec">}}) |
+| Role-based access control (RBAC) | [Role-based access control]({{<relref "/operate/rc/security/access-control/data-access-control/role-based-access-control">}}) | RS Link | [Access control list]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) | [REC credentials]({{<relref "/operate/kubernetes/security/manage-rec-credentials/">}}) |
+| Lightweight Directory Access Protocol (LDAP) |  | RS Link |  | [Enable LDAP]({{<relref "/operate/kubernetes/security/ldap/">}}) |
 | Single sign-on (SSO) | [SAML SSO]({{< relref "/operate/rc/security/access-control/saml-sso" >}}) |  |  |  |
-| Self-signed certificates |  | RS Link | [Certificate configuration]({{< relref "/operate/oss_and_stack/management/security/encryption" >}}) | K8s Link |
-| Internode encryption | [Encryption at rest]({{< relref "/operate/rc/security/encryption-at-rest" >}}) | RS Link |  | K8s Link |
+| Self-signed certificates |  | RS Link | [Certificate configuration]({{< relref "/operate/oss_and_stack/management/security/encryption" >}}) | [REC certificates]({{<relref "operate/kubernetes/security/manage-rec-certificates/">}}) |
+| Internode encryption | [Encryption at rest]({{< relref "/operate/rc/security/encryption-at-rest" >}}) | RS Link |  | [Enable internode encryption]({{<relref "operate/kubernetes/security/internode-encryption/">}}) |
 | Auditing |  | RS Link | [Keyspace notifications]({{< relref "/develop/use/keyspace-notifications" >}}) | K8s Link |
 
