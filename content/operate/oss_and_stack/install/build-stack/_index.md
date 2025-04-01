@@ -4,12 +4,12 @@ categories:
 - operate
 - stack
 - oss
-description: Build Redis Community Edition on Linux and macOS
-linkTitle: Build Redis CE from source
+description: Build and run Redis Open Source on Linux and macOS
+linkTitle: Build and run Redis Open Source
 stack: true
-title: Build Redis Community Edition
+title: Build and run Redis Open Source
 weight: 20
-bannerText: These build instructions are not yet complete for Redis CE 8.0 GA. For build instructions prior to Redis CE 8.0, see [this page]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-from-source" >}}).
+bannerText: These build instructions are not yet complete for Redis 8 GA. For build instructions prior to Redis 8, see [this page]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-from-source" >}}).
 bannerChildren: true
 ---
 

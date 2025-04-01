@@ -5,11 +5,11 @@ categories:
 - stack
 - oss
 linkTitle: Ubuntu 24.04 (Noble)
-title: Build Redis Community Edition from source on Ubuntu 24.04 (Noble)
+title: Build and run Redis Open Source on Ubuntu 24.04 (Noble)
 weight: 35
 ---
 
-Follow the steps below to build Redis from source on a system running Ubuntu 24.04 (Noble).
+Follow the steps below to build and run Redis Open Source from its source code on a system running Ubuntu 24.04 (Noble).
 
 {{< note >}}
 Docker images used to produce these build notes:
