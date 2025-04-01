@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Metrics stream engine GA. Revamp database API. Migration status API. Usage reports in support packages. Two-dimensional rack awareness. v2 actions API. Additional REST API enhancements.
+description: Metrics stream engine GA. Diagnostic logging service. Revamp database API. Migration status API. Usage reports in support packages. Two-dimensional rack awareness. v2 actions API. Additional REST API enhancements.
 linkTitle: 7.22.x-tba (April 2025)
 weight: 90
 ---
@@ -18,6 +18,8 @@ weight: 90
 This version offers:
 
 - Metrics stream engine GA
+
+- Diagnostic logging service
 
 - Revamp database API
 
@@ -36,6 +38,18 @@ This version offers:
 ### New features
 
 - The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) is now generally available.
+
+- Diagnostic logging service:
+
+    - New diagnostic logs for improved troubleshooting.
+
+    - Diagnostic logs are enabled by default.
+
+    - Logs are configurable using [REST API requests]({{<relref "/operate/rs/references/rest-api/requests/diagnostics">}}).
+
+    - Logs have a predefined rotation and retention policy, which can be updated as needed.
+
+    - JSON response format for easy integration with external logging tools.
 
 - [Revamp database REST API requests]({{<relref "operate/rs/references/rest-api/requests/bdbs/actions/revamp">}}):
 
