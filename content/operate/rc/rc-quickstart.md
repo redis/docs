@@ -62,7 +62,7 @@ If you would rather customize your database, select **See more plans** to go to 
 
 1.  In the upper corner, an icon shows the current status of the database.  If the icon shows an orange clock, this means your database is still being created and its status is _pending_.
 
-       <nobr>{{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" >}} {{< image filename="/images/rc/icon-database-update-status-active.png#no-click" alt="Active database status" >}}</nobr>
+       {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" >}} {{< image filename="/images/rc/icon-database-update-status-active.png#no-click" alt="Active database status" class="inline">}}</nobr>
 
        Once the database has been created, it becomes _active_ and the status indicator switches to a green circle containing a checkmark.  
 
