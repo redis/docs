@@ -47,6 +47,8 @@ For more detailed release notes, select a build version from the following table
 
 - Deprecated [`GET /v1/bdbs/<uid>/actions/optimize_shards_placement`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement/#get-bdbs-actions-optimize-shards-placement">}}) REST API request. Use [`PUT /v1/bdbs/<uid>/actions/revamp?dry_run=true`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/revamp/#put-bdbs-actions-revamp">}}) to get an optimized shard placement blueprint for a database instead.
 
+- Deprecated the `data_files` option for the `recovery_plan` specified in [`POST /v2/bdbs`]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v2">}}) requests. Use the new `original_bdb_shards` option to recover a database from the provided list of shards instead.
+
 #### Internal monitoring and v1 Prometheus metrics deprecation
 
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
