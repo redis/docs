@@ -88,7 +88,7 @@ If you did not configure rack-zone awareness during cluster creation, you can co
 
 As of Redis Enterprise Software version 7.22, you can assign a `second_rack_id` to set up two-dimensional rack-zone awareness.
 
-You can use two-dimensional rack-zone awareness to create logical zones within a zone or rack. The primary and replica node placement and failovers within the `second_rack_id` follow the same rules as `rack_id`.
+You can use two-dimensional rack-zone awareness to create logical zones within a zone or rack.
 
 ### New clusters
 
