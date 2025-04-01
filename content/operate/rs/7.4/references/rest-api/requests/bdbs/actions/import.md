@@ -28,7 +28,7 @@ Initiate a manual import process.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [start_bdb_import]({{< relref "/operate/rs/references/rest-api/permissions#start_bdb_import" >}}) | admin<br />cluster_member<br />db_member |
+| [start_bdb_import]({{< relref "/operate/rs/7.4/references/rest-api/permissions#start_bdb_import" >}}) | admin<br />cluster_member<br />db_member |
 
 ### Request {#post-request}
 
@@ -54,11 +54,11 @@ POST /v1/bdbs/1/actions/import
 
 #### Body
 
-The request _may_ contain a subset of the [BDB JSON object]({{< relref "/operate/rs/references/rest-api/objects/bdb" >}}), which includes the following import-related attributes:
+The request _may_ contain a subset of the [BDB JSON object]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb" >}}), which includes the following import-related attributes:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| dataset_import_sources | array of [dataset_import_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/dataset_import_sources" >}}) objects | Details for the import sources. Call [`GET /v1/jsonschema`]({{< relref "/operate/rs/references/rest-api/requests/jsonschema#get-jsonschema" >}}) on the bdb object and review the `dataset_import_sources` field to retrieve the object's structure.  |
+| dataset_import_sources | array of [dataset_import_sources]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/dataset_import_sources" >}}) objects | Details for the import sources. Call [`GET /v1/jsonschema`]({{< relref "/operate/rs/7.4/references/rest-api/requests/jsonschema#get-jsonschema" >}}) on the bdb object and review the `dataset_import_sources` field to retrieve the object's structure.  |
 | email_notification | boolean | Enable/disable an email notification on import failure/ completion. (optional) |
 
 {{<note>}}

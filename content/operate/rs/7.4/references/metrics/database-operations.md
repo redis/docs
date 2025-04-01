@@ -16,9 +16,9 @@ url: '/operate/rs/7.4/references/metrics/database-operations/'
 
 Number of objects evicted from the database per second.
 
-Objects are evicted from the database according to the [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}).
+Objects are evicted from the database according to the [eviction policy]({{< relref "/operate/rs/7.4/databases/memory-performance/eviction-policy" >}}).
 
-Object information is not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}).
+Object information is not measured during [shard migration]({{< relref "/operate/rs/7.4/databases/configure/replica-ha" >}}).
 
 **Components measured**: Database and Shard
 
@@ -26,7 +26,7 @@ Object information is not measured during [shard migration]({{< relref "/operate
 
 Number of expired objects per second.
 
-Object information is not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}).
+Object information is not measured during [shard migration]({{< relref "/operate/rs/7.4/databases/configure/replica-ha" >}}).
 
 **Components measured**: Database and Shard
 
@@ -40,7 +40,7 @@ Ratio of the number of operations on existing keys out of the total number of op
 
 The number of [read operations](#readssec) per second on keys that do not exist.
 
-Read misses are not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}).
+Read misses are not measured during [shard migration]({{< relref "/operate/rs/7.4/databases/configure/replica-ha" >}}).
 
 **Components measured**: Database
 
@@ -48,7 +48,7 @@ Read misses are not measured during [shard migration]({{< relref "/operate/rs/da
 
 Number of [write operations](#writessec) per second on keys that do not exist.
 
-Write misses are not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}).
+Write misses are not measured during [shard migration]({{< relref "/operate/rs/7.4/databases/configure/replica-ha" >}}).
 
 **Components measured**: Database and Shard
 
@@ -88,7 +88,7 @@ Number of total operations per second, which includes [read operations](#readsse
 
 Number of total read operations per second.
 
-To find out which commands are read operations, run the following command with [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}):
+To find out which commands are read operations, run the following command with [`redis-cli`]({{< relref "/operate/rs/7.4/references/cli-utilities/redis-cli" >}}):
 
 ```sh
 ACL CAT read
@@ -100,7 +100,7 @@ ACL CAT read
 
 Number of total write operations per second.
 
-To find out which commands are write operations, run the following command with [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}):
+To find out which commands are write operations, run the following command with [`redis-cli`]({{< relref "/operate/rs/7.4/references/cli-utilities/redis-cli" >}}):
 
 ```sh
 ACL CAT write
@@ -110,11 +110,11 @@ ACL CAT write
 
 #### Pending writes min
 
-Minimum number of write operations queued per [Active-Active]({{< relref "/operate/rs/databases/active-active" >}}) replica database. 
+Minimum number of write operations queued per [Active-Active]({{< relref "/operate/rs/7.4/databases/active-active" >}}) replica database. 
 
 #### Pending writes max
 
-Maximum number of write operations queued per [Active-Active]({{< relref "/operate/rs/databases/active-active" >}}) replica database. 
+Maximum number of write operations queued per [Active-Active]({{< relref "/operate/rs/7.4/databases/active-active" >}}) replica database. 
 
 ### Other commands/sec 
 
@@ -128,9 +128,9 @@ Examples of other operations include [PING]({{< relref "/commands/ping" >}}), [A
 
 Total number of keys in the dataset.
  
-Does not include replicated keys, even if [replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}}) is enabled.
+Does not include replicated keys, even if [replication]({{< relref "/operate/rs/7.4/databases/durability-ha/replication" >}}) is enabled.
 
-Total keys is not measured during [shard migration]({{< relref "/operate/rs/databases/configure/replica-ha" >}}). 
+Total keys is not measured during [shard migration]({{< relref "/operate/rs/7.4/databases/configure/replica-ha" >}}). 
 
 **Components measured**: Database
 

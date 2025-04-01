@@ -18,7 +18,7 @@ Use these steps to set up a Redis Enterprise Software cluster with OpenShift.
 - [OpenShift cluster](https://docs.openshift.com/container-platform/4.8/installing/index.html) with at least 3 nodes (each meeting the [minimum requirements for a development installation]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}))
 - [OpenShift CLI](https://docs.openshift.com/container-platform/latest/cli_reference/openshift_cli/getting-started-cli.html)
 
-To see which version of Redis Enterprise for Kubernetes supports your OpenShift version, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
+To see which version of Redis Enterprise for Kubernetes supports your OpenShift version, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/7.8.4/reference/supported_k8s_distributions" >}}).
 
 ## Deploy the operator
 
@@ -113,7 +113,7 @@ system:serviceaccount:<my-project>:redis-enterprise-operator
 
 1. Apply the `RedisEnterpriseCluster` resource file ([rec_rhel.yaml](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/openshift/rec_rhel.yaml)).
 
-    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/reference/redis_enterprise_cluster_api" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}}) for a full list of options.
+    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_cluster_api" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_cluster_api">}}) for a full list of options.
 
     The REC name cannot be changed after cluster creation.
 
@@ -223,7 +223,7 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
 1. Create a `RedisEnterpriseDatabase` custom resource.
 
-    This example creates a test database. For production databases, see [create a database]({{< relref "/operate/kubernetes/re-databases/db-controller.md#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api" >}}).
+    This example creates a test database. For production databases, see [create a database]({{< relref "/operate/kubernetes/7.8.4/re-databases/db-controller.md#create-a-database" >}}) and [RedisEnterpriseDatabase API reference]({{< relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_database_api" >}}).
 
     ```sh
     cat << EOF > /tmp/redis-enterprise-database.yml
@@ -244,5 +244,5 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
 ## More info
 
-- [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api">}})
-- [Redis Enterprise database API]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api">}})
+- [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_cluster_api">}})
+- [Redis Enterprise database API]({{<relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_database_api">}})
