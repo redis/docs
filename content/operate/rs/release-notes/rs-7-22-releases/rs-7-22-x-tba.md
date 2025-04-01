@@ -85,6 +85,14 @@ This version offers:
 
 - Performance improvements for full-sync replication flows.
 
+- Additional performance improvements:
+
+    - Introduced proxy optimizations for single-sharded databases when a user sends a pipeline of commands. 
+
+    - Enabled deeper default optimization levels on the proxy, namely O3 and link time optimization (LTO).
+
+    - Introduced `redis-last` shard optimizations that improved overall baseline performance for `@fast` commands.
+
 - Reserved the following ports:
 
     | Port | Process name | Usage | 
