@@ -14,7 +14,7 @@ weight: 40
 
 | Notebook | Category | Description |  |
 |----------|----------|-------------|--|
-| The place to start if you are brand new to Redis | Introduction | Great for Redis beginners looking for a guided Colab experience. | [<button>Get Started</button>](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/redis-intro/00_redis_intro.ipynb) |
+| The place to start if you are brand new to Redis | Introduction | Great for Redis beginners looking for a guided Colab experience. | [Open colab](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/redis-intro/00_redis_intro.ipynb) |
 | Implementing hybrid search with Redis | Hybrid and Vector Search | Combines vector similarity with keyword filters. | [<button>Get Started</button>](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/02_hybrid_search.ipynb) |
 | Vector search with Redis Python client | Hybrid and Vector Search | Demonstrates pure vector search using the Redis Python client. | [<button>Get Started</button>](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/00_redispy.ipynb) |
 | Vector search with Redis Vector Library | Hybrid and Vector Search | Uses RedisVL for advanced vector indexing and querying. | [<button>Get Started</button>](https://colab.research.google.com/github/redis-developer/redis-ai-resources/blob/main/python-recipes/vector-search/01_redisvl.ipynb) |
