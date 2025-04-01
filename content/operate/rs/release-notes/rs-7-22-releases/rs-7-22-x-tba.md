@@ -85,8 +85,8 @@ This version offers:
 
     | Port | Process name | Usage | 
     |------|--------------|-------|
+    | 3346 | authentication_service | Authentication service internal port |
     | 3351 | cluster_watchdog_grpc_api | Cluster watchdog now supports gRPC |
-    | 3355 | authenticator | Authentication service internal port |
     | 9082 | cluster_api_internal | Cluster API internal port |
 
 ### Redis database versions
