@@ -33,7 +33,7 @@
     },
     {
       "name": "Subscriptions - Pro",
-      "description": "All operations related to Pro subscriptions lifecycle",
+      "description": "All operations for Pro subscriptions.",
       "x-order": "10"
     },
     {
@@ -275,14 +275,14 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Get subscription by id",
-        "description": "Information on subscription identified by subscription Id",
+        "summary": "Get a single Pro subscription",
+        "description": "Gets information on the specified Pro subscription.",
         "operationId": "getSubscriptionById",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -331,14 +331,14 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Update subscription",
-        "description": "Update an existing subscription by Id",
+        "summary": "Update Pro subscription",
+        "description": "Updates the specified Pro subscription.",
         "operationId": "updateSubscription",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -403,14 +403,14 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Delete subscription",
-        "description": "Delete a subscription identified by subscription Id (subscription must be empty, i.e. cannot contain databases)",
+        "summary": "Delete Pro subscription",
+        "description": "Delete the specified Pro subscription. All databases in the subscription must be deleted before deleting it.",
         "operationId": "deleteSubscriptionById",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -468,13 +468,13 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update a transit gateway attachment",
-        "description": "Update an AWS transit gateway attachment",
+        "description": "Updates the specified AWS transit gateway attachment.",
         "operationId": "updateTgwAttachmentCidrs",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -484,7 +484,7 @@
           {
             "name": "TgwId",
             "in": "path",
-            "description": "Tgw Id",
+            "description": "AWS transit gateway ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -550,13 +550,13 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Create a transit gateway attachment",
-        "description": "Create an AWS transit gateway attachment",
+        "description": "Creates an AWS transit gateway attachment.",
         "operationId": "createTgwAttachment",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -566,7 +566,7 @@
           {
             "name": "TgwId",
             "in": "path",
-            "description": "Tgw Id",
+            "description": "AWS transit gateway ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -625,13 +625,13 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Delete a transit gateway attachment",
-        "description": "Delete an AWS transit gateway attachment",
+        "description": "Deletes the specified AWS transit gateway attachment.",
         "operationId": "deleteTgwAttachment",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -641,7 +641,7 @@
           {
             "name": "TgwId",
             "in": "path",
-            "description": "Tgw Id",
+            "description": "AWS transit gateway ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -699,13 +699,13 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Reject a transit gateway resource share",
-        "description": "Reject an AWS transit gateway resource share",
+        "description": "Rejects the specified AWS transit gateway resource share.",
         "operationId": "rejectTgwResourceShare",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -715,7 +715,7 @@
           {
             "name": "tgwInvitationId",
             "in": "path",
-            "description": "TgwInvitation Id",
+            "description": "AWS transit gateway invitation ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -773,13 +773,13 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Accept a transit gateway resource share",
-        "description": "Accept an AWS transit gateway resource share",
+        "description": "Accepts the specified AWS transit gateway resource share.",
         "operationId": "acceptTgwResourceShare",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -789,7 +789,7 @@
           {
             "name": "tgwInvitationId",
             "in": "path",
-            "description": "TgwInvitation Id",
+            "description": "AWS transit gateway invitation ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -847,13 +847,13 @@
           "Subscriptions - Pro - Connectivity"
         ],
         "summary": "Update a specific region transit gateway attachment",
-        "description": "Update an active active specific region AWS transit gateway attachment",
+        "description": "(Active-Active subscriptions only) Updates the specified AWS transit gateway attachment for one region in an Active-Active subscription.",
         "operationId": "updateActiveActiveTgwAttachmentCidrs",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -863,7 +863,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -874,7 +874,7 @@
           {
             "name": "TgwId",
             "in": "path",
-            "description": "Tgw Id",
+            "description": "AWS transit gateway ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -939,14 +939,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Create a specific region transit gateway attachment",
-        "description": "Create an active active specific region AWS transit gateway attachment",
+        "summary": "Create a transit gateway attachment for a specific region",
+        "description": "(Active-Active subscriptions only) Creates an AWS transit gateway attachment for one region in an Active-Active subscription.",
         "operationId": "createActiveActiveTgwAttachment",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -956,7 +956,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -967,7 +967,7 @@
           {
             "name": "TgwId",
             "in": "path",
-            "description": "Tgw Id",
+            "description": "AWS transit gateway ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1025,14 +1025,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Delete a specific region transit gateway attachment",
-        "description": "Delete an active active specific region AWS transit gateway attachment",
+        "summary": "Delete a transit gateway attachment for a specific region",
+        "description": "(Active-Active subscriptions only) Deletes the specified AWS transit gateway attachment for one region in an Active-Active subscription.",
         "operationId": "deleteActiveActiveTgwAttachment",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1042,7 +1042,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1053,7 +1053,7 @@
           {
             "name": "TgwId",
             "in": "path",
-            "description": "Tgw Id",
+            "description": "AWS transit gateway ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1110,14 +1110,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Accept a specific region transit gateway resource share",
-        "description": "Accept an active active specific region AWS transit gateway resource share",
+        "summary": "Accept a transit gateway resource share for a specific region",
+        "description": "(Active-Active subscriptions only) Accepts the specified AWS transit gateway resource share for one region in an Active-Active subscription.",
         "operationId": "acceptActiveActiveTgwResourceShare",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1127,7 +1127,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1138,7 +1138,7 @@
           {
             "name": "tgwInvitationId",
             "in": "path",
-            "description": "TgwInvitation Id",
+            "description": "AWS transit gateway invitation ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1195,14 +1195,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Update an existing active-active subscription Private Service Connect endpoint",
-        "description": "Update an existing Private Service Connect endpoint in an existing active-active subscription.",
+        "summary": "Update a Private Service Connect endpoint for a single region",
+        "description": "(Active-Active subscriptions only) Updates a Private Service Connect endpoint for a single region in an Active-Active subscription.",
         "operationId": "updateActiveActivePscServiceEndpoint",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1212,7 +1212,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1222,7 +1222,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1232,7 +1232,7 @@
           {
             "name": "endpointId",
             "in": "path",
-            "description": "Private service connect endpoint Id",
+            "description": "Private Service Connect endpoint ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1297,14 +1297,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Delete an existing active-active subscription Private Service Connect endpoint",
-        "description": "Delete an existing Private Service Connect endpoint in an existing active-active subscription.",
+        "summary": "Delete a Private Service Connect endpoint for a single region",
+        "description": "(Active-Active subscriptions only) Deletes the specified Private Service Connect endpoint for a single region in an Active-Active subscription.",
         "operationId": "deleteActiveActivePscServiceEndpoint",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1314,7 +1314,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1324,7 +1324,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1334,7 +1334,7 @@
           {
             "name": "endpointId",
             "in": "path",
-            "description": "Private service connect endpoint Id",
+            "description": "Private Service Connect endpoint ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1391,14 +1391,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Update an active-active subscription VPC peering",
-        "description": "Update an existing VPC peering in an existing active-active subscription.",
+        "summary": "Update Active-Active VPC peering",
+        "description": "(Active-Active subscriptions only) Updates VPC peering for Active-Active subscription.",
         "operationId": "updateActiveActiveVpcPeering",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1408,7 +1408,7 @@
           {
             "name": "peeringId",
             "in": "path",
-            "description": "VpcPeering Id",
+            "description": "VPC Peering ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1479,14 +1479,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Delete an active-active subscription VPC peering",
-        "description": "Delete a VPC peering from an existing active-active subscription.",
+        "summary": "Delete Active-Active VPC peering",
+        "description": "(Active-Active subscriptions only) Deletes VPC peering for an Active-Active subscription.",
         "operationId": "deleteActiveActiveVpcPeering",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1496,7 +1496,7 @@
           {
             "name": "peeringId",
             "in": "path",
-            "description": "VpcPeering Id",
+            "description": "VPC Peering ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1553,14 +1553,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Update an existing subscription Private Service Connect endpoint",
-        "description": "Update an existing Private Service Connect endpoint in an existing subscription.",
+        "summary": "Update a Private Service Connect endpoint",
+        "description": "Updates the specified Private Service Connect endpoint.",
         "operationId": "updatePscServiceEndpoint",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1570,7 +1570,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1580,7 +1580,7 @@
           {
             "name": "endpointId",
             "in": "path",
-            "description": "Private service connect endpoint Id",
+            "description": "Private Service Connect endpoint ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1645,14 +1645,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Delete an existing subscription Private Service Connect endpoint",
-        "description": "Delete an existing Private Service Connect endpoint in an existing subscription.",
+        "summary": "Delete a Private Service Connect endpoint",
+        "description": "Deletes the specified Private Service Connect endpoint.",
         "operationId": "deletePscServiceEndpoint",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1662,7 +1662,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1672,7 +1672,7 @@
           {
             "name": "endpointId",
             "in": "path",
-            "description": "Private service connect endpoint Id",
+            "description": "Private Service Connect endpoint ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1729,14 +1729,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Update subscription peering",
-        "description": "Update an existing VPC peering in an existing subscription.",
+        "summary": "Update VPC peering",
+        "description": "Updates VPC peering for the specified subscription.",
         "operationId": "updateVpcPeering",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1746,7 +1746,7 @@
           {
             "name": "peeringId",
             "in": "path",
-            "description": "VpcPeering Id",
+            "description": "VPC Peering ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1817,14 +1817,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Delete subscription peering",
-        "description": "Deletes a VPC peering identified by an id",
+        "summary": "Delete VPC peering",
+        "description": "Deletes the specified VPC peering.",
         "operationId": "deleteVpcPeering",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1834,7 +1834,7 @@
           {
             "name": "peeringId",
             "in": "path",
-            "description": "VpcPeering Id",
+            "description": "VPC Peering ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1891,14 +1891,14 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Get subscription maintenance windows",
-        "description": "Get maintenance windows for subscription",
+        "summary": "Get Pro subscription maintenance windows",
+        "description": "Gets maintenance windows for the specified Pro subscription.",
         "operationId": "getSubscriptionMaintenanceWindows",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1947,14 +1947,14 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Update subscription maintenance windows",
-        "description": "Update maintenance windows for subscription",
+        "summary": "Update Pro subscription maintenance windows",
+        "description": "Updates maintenance windows for the specified Pro subscription.",
         "operationId": "updateSubscriptionMaintenanceWindows",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2028,7 +2028,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "minimum": 0,
@@ -2039,7 +2039,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "minimum": 0,
@@ -2096,7 +2096,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2106,7 +2106,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2195,7 +2195,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2205,7 +2205,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2269,7 +2269,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2279,7 +2279,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2335,7 +2335,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2345,7 +2345,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2417,7 +2417,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2427,7 +2427,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2504,7 +2504,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2514,7 +2514,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2595,7 +2595,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2605,7 +2605,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2679,7 +2679,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2689,7 +2689,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2783,7 +2783,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2793,7 +2793,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2860,14 +2860,14 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Get subscription CIDR",
-        "description": "Get CIDR  whitelist",
+        "summary": "Get Pro subscription CIDR whitelist",
+        "description": "(Self-hosted AWS subscriptions only) Gets a Pro subscription's CIDR whitelist.",
         "operationId": "getCidrWhiteList",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2916,14 +2916,14 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Update subscription CIDR",
-        "description": "Update subscription CIDR whitelist",
+        "summary": "Update Pro subscription CIDR whitelist",
+        "description": "(Self-hosted AWS subscriptions only) Updates a Pro subscription's CIDR whitelist.",
         "operationId": "updateSubscriptionCidrWhiteList",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -2990,14 +2990,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Reject a specific region transit gateway resource share",
-        "description": "Reject an active active specific region AWS transit gateway resource share",
+        "summary": "Reject transit gateway resource share for a specific region",
+        "description": "(Active-Active subscriptions only) Rejects the specified AWS transit gateway resource share for one region in an Active-Active subscription.",
         "operationId": "rejectActiveActiveTgwResourceShare",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3007,7 +3007,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3018,7 +3018,7 @@
           {
             "name": "tgwInvitationId",
             "in": "path",
-            "description": "TgwInvitation Id",
+            "description": "AWS transit gateway invitation ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3082,7 +3082,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3209,7 +3209,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3273,7 +3273,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "minimum": 0,
@@ -3284,7 +3284,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "minimum": 0,
@@ -3341,7 +3341,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3351,7 +3351,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3436,7 +3436,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3446,7 +3446,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3510,7 +3510,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3520,7 +3520,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3576,7 +3576,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3586,7 +3586,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3658,7 +3658,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3668,7 +3668,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3745,7 +3745,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3755,7 +3755,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3836,7 +3836,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -3846,7 +3846,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -4573,8 +4573,8 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Get subscriptions",
-        "description": "Information on current account's subscriptions",
+        "summary": "Get Pro subscriptions",
+        "description": "Gets a list of all Pro subscriptions in the current account.",
         "operationId": "getAllSubscriptions",
         "responses": {
           "400": {
@@ -4617,8 +4617,8 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Create subscription",
-        "description": "Create a new subscription",
+        "summary": "Create Pro subscription",
+        "description": "Creates a new Redis Cloud Pro subscription.",
         "operationId": "createSubscription",
         "requestBody": {
           "content": {
@@ -4725,14 +4725,14 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Get active-active subscription regions",
-        "description": "Get all regions of an active-active subscription",
+        "summary": "Get regions in an Active-Active subscription",
+        "description": "(Active-Active subscriptions only) Gets a list of regions in the specified Active-Active subscription.",
         "operationId": "getRegionsFromActiveActiveSubscription",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -4781,14 +4781,14 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Create active-active subscription region",
-        "description": "Create a new region in an active-active subscription",
+        "summary": "Add region to Active-Active subscription",
+        "description": "Adds a new region to an Active-Active subscription.",
         "operationId": "addNewRegionToActiveActiveSubscription",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -4853,14 +4853,14 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Delete active-active subscription regions",
-        "description": "Delete one or more regions from an active-active subscription",
+        "summary": "Delete regions from an Active-Active subscription",
+        "description": "(Active-Active subscriptions only) Deletes one or more regions from the specified Active-Active subscription.",
         "operationId": "deleteRegionsFromActiveActiveSubscription",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -4927,14 +4927,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get an active-active Subscription private service connect",
-        "description": "Get an active-active private service connect details",
+        "summary": "Get Private Service Connect for a single region",
+        "description": "(Active-Active subscriptions only) Gets Private Service Connect details for a single region in an Active-Active subscription.",
         "operationId": "getActiveActivePscService",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -4944,7 +4944,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -4993,14 +4993,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Create an active-active subscription Private Service Connect",
-        "description": "Create a new Private Service Connect in an existing active-active subscription.",
+        "summary": "Set up a single region Private Service Connect",
+        "description": "(Active-Active subscriptions only) Sets up Google Cloud Private Service Connect for a single region in an existing Active-Active subscription hosted on Google Cloud.",
         "operationId": "createActiveActivePscService",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5010,7 +5010,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5068,14 +5068,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Delete an active-active subscription Private Service Connect",
-        "description": "Delete a Private Service Connect in an existing active-active subscription.",
+        "summary": "Remove Private Service Connect for a single region",
+        "description": "(Active-Active subscriptions only) Deletes a Private Service Connect for a single region in an existing Active-Active subscription hosted on Google Cloud.",
         "operationId": "deleteActiveActivePscService",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5085,7 +5085,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5142,14 +5142,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get an active-active subscription private service connect endpoints",
-        "description": "Get an active-active private service connect endpoints details",
+        "summary": "Get Private Service Connect endpoints for a single region",
+        "description": "(Active-Active subscriptions only) Gets endpoint details for the specified Private Service Connect in a single region in an Active-Active subscription.",
         "operationId": "getActiveActivePscServiceEndpoints",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5159,7 +5159,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5169,7 +5169,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5218,14 +5218,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Create an active-active subscription Private Service Connect endpoint",
-        "description": "Create a new Private Service Connect endpoint in an existing active-active subscription.",
+        "summary": "Create an Private Service Connect endpoint for a single region",
+        "description": "(Active-Active subscriptions only) Creates a new Private Service Connect endpoint for a single region in an Active-Active subscription.",
         "operationId": "createActiveActivePscServiceEndpoint",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5235,7 +5235,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5245,7 +5245,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5315,14 +5315,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get an active-active subscription VPC peering",
-        "description": "Get VPC peering details for an active-active subscription.",
+        "summary": "Get Active-Active VPC peering details",
+        "description": "(Active-Active subscriptions only) Gets VPC peering details for an Active-Active subscription.",
         "operationId": "getActiveActiveVpcPeerings",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5371,14 +5371,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Create an active-active subscription VPC peering",
-        "description": "Create a new VPC peering in an existing active-active subscription. For details, see [documentation](https://docs.redis.com/latest/rc/security/vpc-peering)",
+        "summary": "Create Active-Active VPC peering",
+        "description": "(Active-Active subscriptions only) Sets up VPC peering for an Active-Active subscription. \nEnsure your cloud provider is also set up for VPC Peering with Redis Cloud. See [VPC Peering](https://docs.redis.com/latest/rc/security/vpc-peering) to learn how to set up VPC Peering with AWS and Google Cloud.",
         "operationId": "createActiveActiveVpcPeering",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5458,14 +5458,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get Subscription private service connect",
-        "description": "Get private service connect details",
+        "summary": "Get Private Service Connect",
+        "description": "Gets Private Service Connect details for a subscription.",
         "operationId": "getPscService",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5514,14 +5514,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Create a subscription Private Service Connect",
-        "description": "Create a new Private Service Connect in an existing subscription.",
+        "summary": "Set up Private Service Connect for a subscription",
+        "description": "Sets up Google Cloud Private Service Connect for an existing subscription hosted on Google Cloud.",
         "operationId": "createPscService",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5579,14 +5579,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Delete a subscription Private Service Connect",
-        "description": "Delete a Private Service Connect in an existing subscription.",
+        "summary": "Remove Private Service Connect for a subscription",
+        "description": "Deletes Private Service Connect for a subscription.",
         "operationId": "deletePscService",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5643,14 +5643,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get Subscription private service connect endpoints",
-        "description": "Get private service connect endpoints details",
+        "summary": "Get Private Service Connect endpoints",
+        "description": "Gets endpoint details for the specified Private Service Connect.",
         "operationId": "getPscServiceEndpoints",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5660,7 +5660,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5709,14 +5709,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Create a subscription Private Service Connect endpoint",
-        "description": "Create a new Private Service Connect endpoint in an existing subscription.",
+        "summary": "Create a Private Service Connect endpoint",
+        "description": "Creates a new Private Service Connect endpoint.",
         "operationId": "createPscServiceEndpoint",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5726,7 +5726,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5796,14 +5796,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get Subscription peering",
-        "description": "Get VPC peering details",
+        "summary": "Get VPC peering details",
+        "description": "Gets VPC peering details for the specified subscription.",
         "operationId": "getVpcPeering",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5852,14 +5852,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Create subscription peering",
-        "description": "Create a new VPC peering in an existing subscription. VPC peering for Google Cloud Provider must be enabled using the GCloud command line. For details, see [documentation](https://docs.redis.com/latest/rc/security/vpc-peering)",
+        "summary": "Create VPC peering",
+        "description": "Sets up VPC peering for the specified subscription. \nEnsure your cloud provider is also set up for VPC Peering with Redis Cloud. See [VPC Peering](https://docs.redis.com/latest/rc/security/vpc-peering) to learn how to set up VPC Peering with AWS and Google Cloud.",
         "operationId": "createVpcPeering",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -5947,7 +5947,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "minimum": 0,
@@ -6026,7 +6026,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6121,7 +6121,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6131,7 +6131,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6187,7 +6187,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6197,7 +6197,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6271,7 +6271,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6281,7 +6281,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6291,7 +6291,7 @@
           {
             "name": "regionName",
             "in": "query",
-            "description": "Region name (required for active-active subscription)",
+            "description": "Region name - required for Active-Active subscription",
             "required": false,
             "schema": {
               "type": "string"
@@ -6346,7 +6346,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6356,7 +6356,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6538,7 +6538,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "minimum": 0,
@@ -6617,7 +6617,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6707,7 +6707,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6717,7 +6717,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6773,7 +6773,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6783,7 +6783,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6857,7 +6857,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6867,7 +6867,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6923,7 +6923,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6933,7 +6933,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7584,14 +7584,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get Subscription tgws",
-        "description": "Get tgws details",
+        "summary": "Get transit gateways for a subscription",
+        "description": "Gets all AWS transit gateway details for the specified subscription.",
         "operationId": "getTgws",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7642,14 +7642,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get Subscription tgw invitations",
-        "description": "Get tgw invitations details",
+        "summary": "Get transit gateway invitations for a subscription",
+        "description": "Gets all AWS transit gateway invitations for the specified subscription.",
         "operationId": "getTgwSharedInvitations",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7700,14 +7700,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get Active Active Subscription tgws",
-        "description": "Get Active Active tgws details",
+        "summary": "Get transit gateways for a single region",
+        "description": "(Active-Active subscriptions only) Gets all AWS transit gateway details for the specified region in an Active-Active subscription.",
         "operationId": "getActiveActiveTgws",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7717,7 +7717,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7769,14 +7769,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get Active Active Subscription tgw invitations",
-        "description": "Get Active Active tgw invitations details",
+        "summary": "Get transit gateway invitations for a single region",
+        "description": "(Active-Active subscriptions only) Gets AWS transit gateway invitations for the specified region in an Active-Active subscription.",
         "operationId": "getActiveActiveTgwSharedInvitations",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7786,7 +7786,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7838,14 +7838,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get an active-active subscription private service connect endpoint deletion script ",
-        "description": "Get an active-active subscription private service connect endpoint deletion script details for the deletion of a gcp user's endpoint.",
+        "summary": "Get Private Service Connect endpoint deletion script for a single region",
+        "description": "(Active-Active subscriptions only) Gets the gcloud script to delete the specified Private Service Connect endpoint on Google Cloud.",
         "operationId": "getActiveActivPscServiceEndpointDeletionScript",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7855,7 +7855,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7865,7 +7865,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7875,7 +7875,7 @@
           {
             "name": "endpointId",
             "in": "path",
-            "description": "Private service connect endpoint Id",
+            "description": "Private Service Connect endpoint ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7926,14 +7926,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get an active-active subscription private service connect endpoint creation script ",
-        "description": "Get an active-active subscription private service connect endpoint creation script details for the creation of a gcp user's endpoint.",
+        "summary": "Get Private Service Connect endpoint creation script for a single region",
+        "description": "(Active-Active subscriptions only) Gets the gcloud script to create the specified Private Service Connect endpoint on Google Cloud.",
         "operationId": "getActiveActivPscServiceEndpointCreationScript",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7943,7 +7943,7 @@
           {
             "name": "regionId",
             "in": "path",
-            "description": "Region id (required for active-active subscription)",
+            "description": "Region ID - required for Active-Active subscription",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7953,7 +7953,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -7963,7 +7963,7 @@
           {
             "name": "endpointId",
             "in": "path",
-            "description": "Private service connect endpoint Id",
+            "description": "Private Service Connect endpoint ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -8014,14 +8014,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get Subscription private service connect endpoint deletion script ",
-        "description": "Get Subscription private service connect endpoint deletion script details for the deletion of a gcp user's endpoint.",
+        "summary": "Get Private Service Connect endpoint deletion script",
+        "description": "Gets the gcloud script to delete the specified Private Service Connect endpoint on Google Cloud.",
         "operationId": "getPscServiceEndpointDeletionScript",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -8031,7 +8031,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -8041,7 +8041,7 @@
           {
             "name": "endpointId",
             "in": "path",
-            "description": "Private service connect endpoint Id",
+            "description": "Private Service Connect endpoint ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -8092,14 +8092,14 @@
         "tags": [
           "Subscriptions - Pro - Connectivity"
         ],
-        "summary": "Get Subscription private service connect endpoint creation script ",
-        "description": "Get Subscription private service connect endpoint creation script details for the creation of a gcp user's endpoint.",
+        "summary": "Get Private Service Connect endpoint creation script",
+        "description": "Gets the gcloud script to create the specified Private Service Connect endpoint on Google Cloud.",
         "operationId": "getPscServiceEndpointCreationScript",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -8109,7 +8109,7 @@
           {
             "name": "pscServiceId",
             "in": "path",
-            "description": "Private service connect service Id",
+            "description": "Private Service Connect service ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -8119,7 +8119,7 @@
           {
             "name": "endpointId",
             "in": "path",
-            "description": "Private service connect endpoint Id",
+            "description": "Private Service Connect endpoint ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -8170,14 +8170,14 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Get subscription pricing",
-        "description": "Get subscription pricing by by subscription Id",
+        "summary": "Get Pro subscription pricing",
+        "description": "Gets pricing details for the specified Pro subscription.",
         "operationId": "getSubscriptionPricing",
         "parameters": [
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -8235,7 +8235,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "minimum": 0,
@@ -8246,7 +8246,7 @@
           {
             "name": "databaseId",
             "in": "path",
-            "description": "Database Id",
+            "description": "Database ID",
             "required": true,
             "schema": {
               "minimum": 0,
@@ -8298,8 +8298,8 @@
         "tags": [
           "Subscriptions - Pro"
         ],
-        "summary": "Get the available Redis database versions",
-        "description": "Get the available Redis database versions",
+        "summary": "Get available Redis database versions",
+        "description": "Gets a list of all available Redis database versions for Pro subscriptions.",
         "operationId": "getRedisVersions",
         "responses": {
           "400": {
@@ -8314,6 +8314,78 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RedisVersions"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/session-logs": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get session log",
+        "description": "Session log information for current account",
+        "operationId": "getAccountSessionLogs",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Number of items to skip",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 0
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of items to return, but not more than 100",
+            "required": false,
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 100
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountSessionLogEntries"
                 }
               }
             }
@@ -8705,7 +8777,7 @@
           {
             "name": "subscriptionId",
             "in": "path",
-            "description": "Subscription Id",
+            "description": "Subscription ID.",
             "required": true,
             "schema": {
               "type": "integer",
@@ -9025,7 +9097,7 @@
         "properties": {
           "cidrs": {
             "type": "array",
-            "description": "Optional. List of attachment CIDRs",
+            "description": "Optional. List of transit gateway attachment CIDRs.",
             "example": [
               "10.10.10.0/24",
               "10.10.20.0/24"
@@ -9084,6 +9156,7 @@
         "required": [
           "awsAccountId",
           "destinationRegion",
+          "sourceRegion",
           "vpcId"
         ],
         "type": "object",
@@ -9098,38 +9171,38 @@
           },
           "sourceRegion": {
             "type": "string",
-            "description": "Name of region to create a VPC peering from"
+            "description": "Name of region to create a VPC peering from."
           },
           "destinationRegion": {
             "type": "string",
-            "description": "Name of region to create a VPC peering to",
+            "description": "Name of region to create a VPC peering to.",
             "example": "us-east-1"
           },
           "awsAccountId": {
             "type": "string",
-            "description": "AWS Account uid",
+            "description": "AWS Account ID.",
             "example": "<aws-account-id>"
           },
           "vpcId": {
             "type": "string",
-            "description": "VPC Id",
+            "description": "VPC ID.",
             "example": "<vpc-identifier>"
           },
           "vpcCidr": {
             "type": "string",
-            "description": "Optional. VPC CIDR",
+            "description": "Optional. VPC CIDR.",
             "example": "<10.10.10.0/24>"
           },
           "vpcCidrs": {
             "type": "array",
-            "description": "Optional. List of VPC CIDRs",
+            "description": "Optional. List of VPC CIDRs.",
             "example": [
               "<10.10.10.0/24>",
               "<10.10.20.0/24>"
             ],
             "items": {
               "type": "string",
-              "description": "Optional. List of VPC CIDRs",
+              "description": "Optional. List of VPC CIDRs.",
               "example": "[\"<10.10.10.0/24>\",\"<10.10.20.0/24>\"]"
             }
           },
@@ -9150,17 +9223,17 @@
           },
           "name": {
             "type": "string",
-            "description": "Subscription name",
+            "description": "Optional. Updated subscription name.",
             "example": "My new subscription name"
           },
           "paymentMethodId": {
             "type": "integer",
-            "description": "Optional. A valid payment method that was pre-defined in the current account. This value is Optional if ‘paymentMethod’ is ‘marketplace’, but Required for all other account types.",
+            "description": "Optional. The payment method ID you'd like to use for this subscription. Must be a valid payment method ID for this account. Use GET /payment-methods to view all payment methods for your account. \nThis value is optional if ‘paymentMethod’ is ‘marketplace’, but required if 'paymentMethod' is 'credit-card'.",
             "format": "int32"
           },
           "paymentMethod": {
             "type": "string",
-            "description": "Optional. The payment method for the requested subscription. If ‘credit-card’ is specified, ‘paymentMethodId’ must be defined. Default: 'credit-card",
+            "description": "Optional. The payment method for the subscription. If set to ‘credit-card’ , ‘paymentMethodId’ must be defined.",
             "enum": [
               "credit-card",
               "marketplace"
@@ -9235,22 +9308,22 @@
           },
           "gcpProjectId": {
             "type": "string",
-            "description": "The google cloud project ID",
+            "description": "Google Cloud project ID.",
             "example": "my-gcp-project"
           },
           "gcpVpcName": {
             "type": "string",
-            "description": "Name of the VPC that hosts your application",
+            "description": "Name of the Google Cloud VPC that hosts your application.",
             "example": "my-vpc"
           },
           "gcpVpcSubnetName": {
             "type": "string",
-            "description": "Name of your VPC's subnet of IP address ranges",
+            "description": "Name of your VPC's subnet of IP address ranges.",
             "example": "my-vpc-subnet"
           },
           "endpointConnectionName": {
             "type": "string",
-            "description": "Prefix used to create PSC endpoints in the consumer application VPC, so endpoint names appear in Google Cloud as endpoint name prefix + endpoint number",
+            "description": "Prefix used to create PSC endpoints in the consumer application VPC. Endpoint names appear in Google Cloud as endpoint name prefix + endpoint number.",
             "example": "my-endpoint-connection"
           },
           "commandType": {
@@ -9405,12 +9478,12 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Required. Database name (Database name must be up to 40 characters long, include only letters, digits, or hyphen ('-'), start with a letter, and end with a letter or digit)",
+            "description": "Name of the database. \nDatabase name is limited to 40 characters or less and must include only letters, digits, and hyphens ('-'). It must start with a letter and end with a letter or digit.",
             "example": "Redis-database-example"
           },
           "protocol": {
             "type": "string",
-            "description": "Optional. Database protocol: either 'redis' or 'memcached'. Default: 'redis'",
+            "description": "Optional. Database protocol. Only set to 'memcached' if you have a legacy application. Default: 'redis'",
             "enum": [
               "redis",
               "memcached"
@@ -9420,7 +9493,7 @@
             "minimum": 0.1,
             "exclusiveMinimum": false,
             "type": "number",
-            "description": "Deprecated - Optional. Total memory including replication and other overhead",
+            "description": "Deprecated - Optional. Total memory in GB, including replication and other overhead. You cannot set both datasetSizeInGb and totalMemoryInGb.",
             "format": "double",
             "example": 1,
             "deprecated": true
@@ -9429,18 +9502,18 @@
             "minimum": 0.1,
             "exclusiveMinimum": false,
             "type": "number",
-            "description": "Optional. The maximum amount of data in the dataset for this specific database is in GB. You can not set both datasetSizeInGb and totalMemoryInGb. if ‘replication’ is true, the database’s total memory will be twice as large as the datasetSizeInGb.if ‘replication’ is false, the database’s total memory of the database will be the datasetSizeInGb value.",
+            "description": "Optional. The maximum amount of data in the dataset for this database in GB. You cannot set both datasetSizeInGb and totalMemoryInGb. \nIf ‘replication’ is 'true', the database’s total memory will be twice as large as the datasetSizeInGb.If ‘replication’ is false, the database’s total memory will be the datasetSizeInGb value.",
             "format": "double",
             "example": 1
           },
           "supportOSSClusterApi": {
             "type": "boolean",
-            "description": "Optional. Support Redis open-source (OSS) Cluster API. Default: 'false'",
+            "description": "Optional. Support Redis [OSS Cluster API](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#oss-cluster-api). Default: 'false'",
             "example": false
           },
           "dataPersistence": {
             "type": "string",
-            "description": "Optional. Rate of database data persistence (in persistent storage). Default: 'none'",
+            "description": "Optional. Type and rate of data persistence in persistent storage. Default: 'none'",
             "enum": [
               "none",
               "aof-every-1-second",
@@ -9459,32 +9532,32 @@
           },
           "localThroughputMeasurement": {
             "type": "array",
-            "description": "Optional. Throughput measurement for an active-active subscription",
+            "description": "Optional. Expected throughput per region for an Active-Active database. Default: 1000 read and write ops/sec for each region",
             "items": {
               "$ref": "#/components/schemas/LocalThroughput"
             }
           },
           "modules": {
             "type": "array",
-            "description": "Optional. Redis modules to be provisioned in the database",
+            "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. \nUse GET /database-modules to view a list of available advanced capabilities.",
             "items": {
               "$ref": "#/components/schemas/DatabaseModuleSpec"
             }
           },
           "quantity": {
             "type": "integer",
-            "description": "Optional. Number of databases (of this type) that will be created. Default: 1",
+            "description": "Optional. Number of databases that will be created with these settings. Default: 1",
             "format": "int32",
             "example": 1
           },
           "averageItemSizeInBytes": {
             "type": "integer",
-            "description": "Optional. Relevant only to ram-and-flash clusters. Estimated average size (measured in bytes) of the items stored in the database. Default: 1000",
+            "description": "Optional. Relevant only to ram-and-flash (also known as Auto Tiering) subscriptions. Estimated average size in bytes of the items stored in the database. Default: 1000",
             "format": "int64"
           },
           "respVersion": {
             "type": "string",
-            "description": "Optional. RESP version must be compatible with Redis version.",
+            "description": "Optional. Redis Serialization Protocol version. Must be compatible with Redis version.",
             "example": "resp3",
             "enum": [
               "resp2",
@@ -9493,7 +9566,7 @@
           },
           "shardingType": {
             "type": "string",
-            "description": "Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy). Default depends on your account creation date. See [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy) for more information.",
+            "description": "Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy).",
             "enum": [
               "default-regex-rules",
               "custom-regex-rules",
@@ -9502,11 +9575,11 @@
           },
           "queryPerformanceFactor": {
             "type": "string",
-            "description": "Optional. The query performance factor adds extra compute power specifically for search and query. For databases with search and query, you can increase your search queries per second by the selected factor.",
+            "description": "Optional. The query performance factor adds extra compute power specifically for search and query databases. You can increase your queries per second by the selected factor.",
             "example": "2x"
           }
         },
-        "description": "Required. Databases specifications for each planned database"
+        "description": "One or more database specification(s) to create in this subscription."
       },
       "Subscription": {
         "type": "object",
@@ -9617,18 +9690,18 @@
           },
           "cidrIps": {
             "type": "array",
-            "description": "CIDR values in an array format (example: ['10.1.1.0/32'])",
+            "description": "List of CIDR values. Example: ['10.1.1.0/32']",
             "items": {
               "type": "string",
-              "description": "CIDR values in an array format (example: ['10.1.1.0/32'])"
+              "description": "List of CIDR values. Example: ['10.1.1.0/32']"
             }
           },
           "securityGroupIds": {
             "type": "array",
-            "description": "AWS Security group identifier",
+            "description": "List of AWS Security group IDs.",
             "items": {
               "type": "string",
-              "description": "AWS Security group identifier"
+              "description": "List of AWS Security group IDs."
             }
           },
           "commandType": {
@@ -9636,7 +9709,7 @@
             "readOnly": true
           }
         },
-        "description": "Update subscription"
+        "description": "Update Pro subscription"
       },
       "FixedDatabaseCreateRequest": {
         "required": [
@@ -9651,7 +9724,7 @@
           },
           "name": {
             "type": "string",
-            "description": "Required. Database name (Database name must be up to 40 characters long, include only letters, digits, or hyphen ('-'), start with a letter, and end with a letter or digit)",
+            "description": "Required. Name of the database. \nDatabase name is limited to 40 characters or less and must include only letters, digits, and hyphens ('-'). It must start with a letter and end with a letter or digit.",
             "example": "Redis-Essentials-database-example"
           },
           "protocol": {
@@ -10077,22 +10150,22 @@
           },
           "gcpProjectId": {
             "type": "string",
-            "description": "The google cloud project ID",
+            "description": "Google Cloud project ID.",
             "example": "my-gcp-project"
           },
           "gcpVpcName": {
             "type": "string",
-            "description": "Name of the VPC that hosts your application",
+            "description": "Name of the Google Cloud VPC that hosts your application.",
             "example": "my-vpc"
           },
           "gcpVpcSubnetName": {
             "type": "string",
-            "description": "Name of your VPC's subnet of IP address ranges",
+            "description": "Name of your VPC's subnet of IP address ranges.",
             "example": "my-vpc-subnet"
           },
           "endpointConnectionName": {
             "type": "string",
-            "description": "Prefix used to create PSC endpoints in the consumer application VPC, so endpoint names appear in Google Cloud as endpoint name prefix + endpoint number",
+            "description": "Prefix used to create PSC endpoints in the consumer application VPC. Endpoint names appear in Google Cloud as endpoint name prefix + endpoint number.",
             "example": "my-endpoint-connection"
           },
           "commandType": {
@@ -10103,6 +10176,9 @@
         "description": "Private Service Connect endpoint create request"
       },
       "ActiveActiveVpcPeeringCreateBaseRequest": {
+        "required": [
+          "sourceRegion"
+        ],
         "type": "object",
         "properties": {
           "provider": {
@@ -10115,7 +10191,7 @@
           },
           "sourceRegion": {
             "type": "string",
-            "description": "Name of region to create a VPC peering from"
+            "description": "Name of region to create a VPC peering from."
           },
           "commandType": {
             "type": "string",
@@ -10395,25 +10471,25 @@
           },
           "vpcPeeringId": {
             "type": "integer",
-            "description": "VPC Peering id to update",
+            "description": "VPC Peering id to update.",
             "format": "int32",
             "readOnly": true
           },
           "vpcCidr": {
             "type": "string",
-            "description": "Optional. VPC CIDR",
+            "description": "Optional. VPC CIDR.",
             "example": "<10.10.10.0/24>"
           },
           "vpcCidrs": {
             "type": "array",
-            "description": "Optional. List of VPC CIDRs",
+            "description": "Optional. List of VPC CIDRs.",
             "example": [
               "<10.10.10.0/24>",
               "<10.10.22.0/24>"
             ],
             "items": {
               "type": "string",
-              "description": "Optional. List of VPC CIDRs",
+              "description": "Optional. List of VPC CIDRs.",
               "example": "[\"<10.10.10.0/24>\",\"<10.10.22.0/24>\"]"
             }
           },
@@ -10500,25 +10576,25 @@
           },
           "vpcPeeringId": {
             "type": "integer",
-            "description": "VPC Peering ID to update",
+            "description": "VPC Peering ID to update.",
             "format": "int32",
             "readOnly": true
           },
           "vpcCidr": {
             "type": "string",
-            "description": "Optional. VPC CIDR",
+            "description": "Optional. VPC CIDR.",
             "example": "<10.10.10.0/24>"
           },
           "vpcCidrs": {
             "type": "array",
-            "description": "Optional. List of VPC CIDRs",
+            "description": "Optional. List of VPC CIDRs.",
             "example": [
               "<10.10.10.0/24>",
               "<10.10.20.0/24>"
             ],
             "items": {
               "type": "string",
-              "description": "Optional. List of VPC CIDRs",
+              "description": "Optional. List of VPC CIDRs.",
               "example": "[\"<10.10.10.0/24>\",\"<10.10.20.0/24>\"]"
             }
           },
@@ -10703,10 +10779,10 @@
         "properties": {
           "region": {
             "type": "string",
-            "description": "Name of region to delete"
+            "description": "Name of the cloud provider region to delete."
           }
         },
-        "description": "List of names of regions to delete"
+        "description": "The names of the regions to delete."
       },
       "MaintenanceWindowSkipStatus": {
         "type": "object",
@@ -11613,7 +11689,7 @@
         "properties": {
           "cidrs": {
             "type": "array",
-            "description": "Optional. List of attachment CIDRs",
+            "description": "Optional. List of transit gateway attachment CIDRs.",
             "example": [
               "10.10.10.0/24",
               "10.10.20.0/24"
@@ -11628,6 +11704,37 @@
           }
         },
         "description": "Transit Gateway update attachment cidr/s request message"
+      },
+      "AccountSessionLogEntry": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "type": "string"
+          },
+          "userAgent": {
+            "type": "string"
+          },
+          "ipAddress": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          }
+        },
+        "description": "Account session log entry"
       },
       "AccountUser": {
         "type": "object",
@@ -11682,7 +11789,7 @@
         "properties": {
           "mode": {
             "type": "string",
-            "description": "Required. Maintenance window mode: either 'manual' or 'automatic'. Must provide windows property if manual. Default: 'automatic'",
+            "description": "Maintenance window mode: either 'manual' or 'automatic'. Must provide 'windows' if manual.",
             "example": "manual",
             "enum": [
               "manual",
@@ -11691,7 +11798,7 @@
           },
           "windows": {
             "type": "array",
-            "description": "Maintenance window specifications if mode is set to 'manual'. Up to 7 windows can be provided.",
+            "description": "Maintenance window timeframes if mode is set to 'manual'. Up to 7 maintenance windows can be provided.",
             "items": {
               "$ref": "#/components/schemas/MaintenanceWindowSpec"
             }
@@ -11741,6 +11848,26 @@
           }
         },
         "description": "Database certificate"
+      },
+      "AccountSessionLogEntries": {
+        "type": "object",
+        "properties": {
+          "entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountSessionLogEntry"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
       },
       "AccountSubscriptions": {
         "type": "object",
@@ -11817,13 +11944,13 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of database"
+            "description": "Database name."
           },
           "localThroughputMeasurement": {
             "$ref": "#/components/schemas/LocalThroughput"
           }
         },
-        "description": "List of databases with local throughput for the new region"
+        "description": "List of databases in the subscription with local throughput details. Default: 1000 read and write ops/sec for each database"
       },
       "VpcPeeringCreateAwsRequest": {
         "required": [
@@ -11838,34 +11965,34 @@
           },
           "region": {
             "type": "string",
-            "description": "Deployment region as defined by cloud provider",
+            "description": "Deployment region as defined by the cloud provider.",
             "example": "us-east-1"
           },
           "awsAccountId": {
             "type": "string",
-            "description": "AWS Account uid",
+            "description": "AWS Account ID.",
             "example": "<aws-account-id>"
           },
           "vpcId": {
             "type": "string",
-            "description": "VPC uid",
+            "description": "VPC ID.",
             "example": "<vpc-identifier>"
           },
           "vpcCidr": {
             "type": "string",
-            "description": "Optional. VPC CIDR",
+            "description": "Optional. VPC CIDR.",
             "example": "<10.10.10.0/24>"
           },
           "vpcCidrs": {
             "type": "array",
-            "description": "Optional. List of VPC CIDRs",
+            "description": "Optional. List of VPC CIDRs.",
             "example": [
               "<10.10.10.0/24>",
               "<10.10.20.0/24>"
             ],
             "items": {
               "type": "string",
-              "description": "Optional. List of VPC CIDRs",
+              "description": "Optional. List of VPC CIDRs.",
               "example": "[\"<10.10.10.0/24>\",\"<10.10.20.0/24>\"]"
             }
           },
@@ -12165,14 +12292,14 @@
           },
           "regions": {
             "type": "array",
-            "description": "List of names of regions to delete",
+            "description": "The names of the regions to delete.",
             "items": {
               "$ref": "#/components/schemas/ActiveActiveRegionToDelete"
             }
           },
           "dryRun": {
             "type": "boolean",
-            "description": "Optional. When 'false': Creates a deployment plan and deploys it (creating any resources required by the plan). When 'true': creates a read-only deployment plan without any resource creation. Default: 'false'",
+            "description": "Optional. When 'false': Creates a deployment plan and deploys it, deleting any resources required by the plan. When 'true': creates a read-only deployment plan and does not delete or modify any resources. Default: 'false'",
             "example": false
           },
           "commandType": {
@@ -12543,17 +12670,18 @@
         "type": "object",
         "properties": {
           "region": {
-            "type": "string"
+            "type": "string",
+            "description": "Specify one of the selected cloud provider regions for the subscription."
           },
           "writeOperationsPerSecond": {
             "type": "integer",
-            "description": "Default: 1000 ops/sec",
+            "description": "Write operations for this region per second. Default: 1000 ops/sec",
             "format": "int64",
             "example": 1000
           },
           "readOperationsPerSecond": {
             "type": "integer",
-            "description": "Default: 1000 ops/sec",
+            "description": "Read operations for this region per second. Default: 1000 ops/sec",
             "format": "int64",
             "example": 1000
           }
@@ -12585,27 +12713,27 @@
           },
           "gcpProjectId": {
             "type": "string",
-            "description": "The google cloud project ID",
+            "description": "Google Cloud project ID.",
             "example": "my-gcp-project"
           },
           "gcpVpcName": {
             "type": "string",
-            "description": "Name of the VPC that hosts your application",
+            "description": "Name of the Google Cloud VPC that hosts your application.",
             "example": "my-vpc"
           },
           "gcpVpcSubnetName": {
             "type": "string",
-            "description": "Name of your VPC's subnet of IP address ranges",
+            "description": "Name of your VPC's subnet of IP address ranges.",
             "example": "my-vpc-subnet"
           },
           "endpointConnectionName": {
             "type": "string",
-            "description": "Prefix used to update PSC endpoints in the consumer application VPC, so endpoint names appear in Google Cloud as endpoint name prefix + endpoint number",
+            "description": "Prefix used to create PSC endpoints in the consumer application VPC. Endpoint names appear in Google Cloud as endpoint name prefix + endpoint number.",
             "example": "my-endpoint-connection"
           },
           "action": {
             "type": "string",
-            "description": "The action to perform on the endpoint",
+            "description": "Action to perform on the endpoint.",
             "enum": [
               "accept",
               "reject"
@@ -12651,27 +12779,27 @@
           },
           "gcpProjectId": {
             "type": "string",
-            "description": "The google cloud project ID",
+            "description": "Google Cloud project ID.",
             "example": "my-gcp-project"
           },
           "gcpVpcName": {
             "type": "string",
-            "description": "Name of the VPC that hosts your application",
+            "description": "Name of the Google Cloud VPC that hosts your application.",
             "example": "my-vpc"
           },
           "gcpVpcSubnetName": {
             "type": "string",
-            "description": "Name of your VPC's subnet of IP address ranges",
+            "description": "Name of your VPC's subnet of IP address ranges.",
             "example": "my-vpc-subnet"
           },
           "endpointConnectionName": {
             "type": "string",
-            "description": "Prefix used to update PSC endpoints in the consumer application VPC, so endpoint names appear in Google Cloud as endpoint name prefix + endpoint number",
+            "description": "Prefix used to create PSC endpoints in the consumer application VPC. Endpoint names appear in Google Cloud as endpoint name prefix + endpoint number.",
             "example": "my-endpoint-connection"
           },
           "action": {
             "type": "string",
-            "description": "The action to perform on the endpoint",
+            "description": "Action to perform on the endpoint.",
             "enum": [
               "accept",
               "reject"
@@ -12920,19 +13048,19 @@
           },
           "cloudAccountId": {
             "type": "integer",
-            "description": "Optional. Cloud account identifier. Default: Redis internal cloud account (using Cloud Account Id = 1 implies using Redis internal cloud account). Note that a GCP subscription can be created only with Redis internal cloud account.",
+            "description": "Optional. Cloud account identifier. Default: Redis internal cloud account (Cloud Account ID = 1). Use GET /cloud-accounts to list all available cloud accounts. Note: A subscription on Google Cloud can be created only with Redis internal cloud account.",
             "format": "int32",
             "example": 1
           },
           "regions": {
             "type": "array",
-            "description": "Required. Cloud networking details, per region (single region or multiple regions for Active-Active cluster only)",
+            "description": "Required. The cloud provider region or list of regions (Active-Active only) and networking details.",
             "items": {
               "$ref": "#/components/schemas/SubscriptionRegionSpec"
             }
           }
         },
-        "description": "Required. Cloud hosting & networking details"
+        "description": "Required. Cloud provider, region, and networking details."
       },
       "FixedDatabaseBackupRequest": {
         "type": "object",
@@ -12967,20 +13095,20 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Required. Redis module Id"
+            "description": "Required. Redis advanced capability name. \nUse GET /database-modules for a list of available capabilities."
           },
           "parameters": {
             "type": "object",
             "additionalProperties": {
               "type": "object",
-              "description": "Optional. Redis database module parameters (name and value), as relevant to the specific module (see modules parameters specification) ",
+              "description": "Optional. Redis advanced capability parameters. Use GET /database-modules to view the available capabilities and their parameters.",
               "example": {}
             },
-            "description": "Optional. Redis database module parameters (name and value), as relevant to the specific module (see modules parameters specification) ",
+            "description": "Optional. Redis advanced capability parameters. Use GET /database-modules to view the available capabilities and their parameters.",
             "example": {}
           }
         },
-        "description": "Optional. Redis modules to be provisioned in the database"
+        "description": "Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. \nUse GET /database-modules to view a list of available advanced capabilities."
       },
       "FixedSubscriptionCreateRequest": {
         "required": [
@@ -13027,16 +13155,16 @@
         "properties": {
           "deploymentCIDR": {
             "type": "string",
-            "description": "Optional. Deployment CIDR mask. \nDefault: If using Redis internal cloud account, 192.168.0.0/24",
+            "description": "Required for Active-Active subscriptions. Deployment CIDR mask. Must be a valid CIDR format with a range of 256 IP addresses. \nDefault for single-region subscriptions: If using Redis internal cloud account, 192.168.0.0/24",
             "example": "10.0.0.0/24"
           },
           "vpcId": {
             "type": "string",
-            "description": "Optional. Either an existing VPC Id (already exists in the specific region) or create a new VPC (if no VPC is specified). VPC Identifier must be in a valid format (for example: 'vpc-0125be68a4625884ad') and existing within the hosting account",
+            "description": "Optional. Enter a VPC identifier that exists in the hosted AWS account. Creates a new VPC if not set. \nVPC Identifier must be in a valid format (for example: 'vpc-0125be68a4625884ad') and must exist within the hosting account.",
             "example": "<vpc-identifier>"
           }
         },
-        "description": "Optional. Cloud networking details, per region (single region or multiple regions for Active-Active cluster only). Default: if using Redis internal cloud account, 192.168.0.0/24"
+        "description": "Optional. Cloud networking details, per region. Required if creating an Active-Active subscription."
       },
       "DatabaseTagsUpdateRequest": {
         "required": [
@@ -13251,7 +13379,7 @@
             "type": "string"
           }
         },
-        "description": "Optional. List of attachment CIDRs",
+        "description": "Optional. List of transit gateway attachment CIDRs.",
         "example": [
           "10.10.10.0/24",
           "10.10.20.0/24"
@@ -13265,7 +13393,7 @@
         "properties": {
           "region": {
             "type": "string",
-            "description": "Required. Deployment region as defined by cloud provider",
+            "description": "Required. Deployment region as defined by the cloud provider.",
             "example": "us-east-1"
           },
           "multipleAvailabilityZones": {
@@ -13275,17 +13403,17 @@
           },
           "preferredAvailabilityZones": {
             "type": "array",
-            "description": "Optional. Availability zones deployment preferences (for the selected provider & region). If ‘multipleAvailabilityZones’ is set to 'true', you must specify three availability zones. In AWS Redis internal cloud account, set the zone IDs (for example: [\"use-az2\", \"use-az3\", \"use-az5\"]).",
+            "description": "Optional. List the zone ID(s) for your preferred availability zone(s) for the cloud provider and region. If ‘multipleAvailabilityZones’ is set to 'true', you must list three availability zones. Otherwise, list one availability zone.",
             "items": {
               "type": "string",
-              "description": "Optional. Availability zones deployment preferences (for the selected provider & region). If ‘multipleAvailabilityZones’ is set to 'true', you must specify three availability zones. In AWS Redis internal cloud account, set the zone IDs (for example: [\"use-az2\", \"use-az3\", \"use-az5\"])."
+              "description": "Optional. List the zone ID(s) for your preferred availability zone(s) for the cloud provider and region. If ‘multipleAvailabilityZones’ is set to 'true', you must list three availability zones. Otherwise, list one availability zone."
             }
           },
           "networking": {
             "$ref": "#/components/schemas/SubscriptionRegionNetworkingSpec"
           }
         },
-        "description": "Required. Cloud networking details, per region (single region or multiple regions for Active-Active cluster only)"
+        "description": "Required. The cloud provider region or list of regions (Active-Active only) and networking details."
       },
       "VpcPeeringCreateGcpRequest": {
         "required": [
@@ -13299,12 +13427,12 @@
           },
           "vpcProjectUid": {
             "type": "string",
-            "description": "VPC project uid",
+            "description": "VPC project ID.",
             "example": "<vpc-identifer>"
           },
           "vpcNetworkName": {
             "type": "string",
-            "description": "VPC network name",
+            "description": "VPC network name.",
             "example": "<name>"
           },
           "commandType": {
@@ -13332,7 +13460,7 @@
           },
           "name": {
             "type": "string",
-            "description": "Required. Database name (Database name must be up to 40 characters long, include only letters, digits, or hyphen ('-'), start with a letter, and end with a letter or digit)",
+            "description": "Required. Name of the database. \nDatabase name is limited to 40 characters or less and must include only letters, digits, and hyphens ('-'). It must start with a letter and end with a letter or digit.",
             "example": "Redis-database-example"
           },
           "protocol": {
@@ -13503,7 +13631,7 @@
           },
           "shardingType": {
             "type": "string",
-            "description": "Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy). \nDefault depends on your account creation date. See [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy) for more information.",
+            "description": "Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy).",
             "enum": [
               "default-regex-rules",
               "custom-regex-rules",
@@ -13902,6 +14030,7 @@
               "ACTIVE_ACTIVE_VPC_PEERING_INVALID_AWS_ACCOUNT",
               "ACTIVE_ACTIVE_DATABASE_RESP_VERSION_IS_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_DATABASE_PREVIEW_REDIS_VERSION_IS_NOT_SUPPORTED",
+              "ACTIVE_ACTIVE_DATABASE_UPGRADE_IS_NOT_SUPPORTED",
               "LOCAL_THROUGHPUT_MEASUREMENT_NOT_ALLOWED_WITH_SINGLE_REGION_SUBSCRIPTION",
               "BACKUP_REGION_NAME_IS_NOT_ALLOWED_WITH_SINGLE_REGION_SUBSCRIPTION",
               "BACKUP_STATUS_REGION_NAME_IS_NOT_ALLOWED_WITH_SINGLE_REGION_SUBSCRIPTION",
@@ -14402,34 +14531,35 @@
         "properties": {
           "startHour": {
             "type": "integer",
-            "description": "Required. Hour of the day that is the start of the maintenance window. Valid input is in range 0-23.",
+            "description": "Starting hour of the maintenance window. Can be between '0' (12 AM in the deployment region's local time) and '23' (11 PM in the deployment region's local time).",
             "format": "int32",
             "example": 12
           },
           "durationInHours": {
             "type": "integer",
-            "description": "Required. The duration for which the maintenance window lasts in hours. Valid input is in range 4-24 (or 8-24 if using flash memory).",
+            "description": "The duration of the maintenance window in hours. Can be between 4-24 hours (or 8-24 hours if using 'ram-and-flash').",
             "format": "int32",
             "example": 8
           },
           "days": {
             "type": "array",
-            "description": "Required. The days for which the maintenance window applies. Valid input is array containing: \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\".",
+            "description": "Days where this maintenance window applies. Can contain one or more of: \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", or \"Sunday\".",
             "example": [
               "Monday",
               "Wednesday"
             ],
             "items": {
               "type": "string",
-              "description": "Required. The days for which the maintenance window applies. Valid input is array containing: \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\".",
+              "description": "Days where this maintenance window applies. Can contain one or more of: \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", or \"Sunday\".",
               "example": "[\"Monday\",\"Wednesday\"]"
             }
           }
         },
-        "description": "Maintenance window specifications if mode is set to 'manual'. Up to 7 windows can be provided."
+        "description": "Maintenance window timeframes if mode is set to 'manual'. Up to 7 maintenance windows can be provided."
       },
       "ActiveActiveVpcPeeringCreateGcpRequest": {
         "required": [
+          "sourceRegion",
           "vpcNetworkName",
           "vpcProjectUid"
         ],
@@ -14445,16 +14575,16 @@
           },
           "sourceRegion": {
             "type": "string",
-            "description": "Name of region to create a VPC peering from"
+            "description": "Name of region to create a VPC peering from."
           },
           "vpcProjectUid": {
             "type": "string",
-            "description": "VPC project uid",
+            "description": "VPC project ID.",
             "example": "<vpc-identifer>"
           },
           "vpcNetworkName": {
             "type": "string",
-            "description": "VPC network name",
+            "description": "VPC network name.",
             "example": "<name>"
           },
           "commandType": {
@@ -14473,17 +14603,17 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Optional. Subscription name",
+            "description": "Optional. New subscription name.",
             "example": "My new subscription"
           },
           "dryRun": {
             "type": "boolean",
-            "description": "Optional. When 'false': Creates a deployment plan and deploys it (creating any resources required by the plan). When 'true': creates a read-only deployment plan without any resource creation. Default: 'false'",
+            "description": "Optional. When 'false': Creates a deployment plan and deploys it, creating any resources required by the plan. When 'true': creates a read-only deployment plan and does not create any resources. Default: 'false'",
             "example": false
           },
           "deploymentType": {
             "type": "string",
-            "description": "Optional. When 'single-region' or null: Creates a single region subscription. When 'active-active': creates an active-active (multi-region) subscription",
+            "description": "Optional. When 'single-region' or not set: Creates a single region subscription. When 'active-active': creates an Active-Active (multi-region) subscription.",
             "example": "single-region",
             "enum": [
               "single-region",
@@ -14492,7 +14622,7 @@
           },
           "paymentMethod": {
             "type": "string",
-            "description": "Optional. The payment method for the requested subscription. If ‘credit-card’ is specified, ‘paymentMethodId’ must be defined. Default: 'credit-card",
+            "description": "Optional. The payment method for the subscription. If set to ‘credit-card’, ‘paymentMethodId’ must be defined. Default: 'credit-card'",
             "enum": [
               "credit-card",
               "marketplace"
@@ -14500,12 +14630,12 @@
           },
           "paymentMethodId": {
             "type": "integer",
-            "description": "Optional. A valid payment method that was pre-defined in the current account. This value is Optional if ‘paymentMethod’ is ‘marketplace’, but Required for all other account types.",
+            "description": "Optional. A valid payment method ID for this account. Use GET /payment-methods to view all payment methods for your account. This value is optional if ‘paymentMethod’ is ‘marketplace’, but required for all other account types.",
             "format": "int32"
           },
           "memoryStorage": {
             "type": "string",
-            "description": "Optional. Memory storage preference: either 'ram' or a combination of 'ram-and-flash'. Default: 'ram'",
+            "description": "Optional. Memory storage preference: either 'ram' or a combination of 'ram-and-flash' (also known as Auto Tiering). Default: 'ram'",
             "example": "ram",
             "enum": [
               "ram",
@@ -14514,21 +14644,21 @@
           },
           "cloudProviders": {
             "type": "array",
-            "description": "Required. Cloud hosting & networking details",
+            "description": "Required. Cloud provider, region, and networking details.",
             "items": {
               "$ref": "#/components/schemas/SubscriptionSpec"
             }
           },
           "databases": {
             "type": "array",
-            "description": "Required. Databases specifications for each planned database",
+            "description": "One or more database specification(s) to create in this subscription.",
             "items": {
               "$ref": "#/components/schemas/SubscriptionDatabaseSpec"
             }
           },
           "redisVersion": {
             "type": "string",
-            "description": "Optional. If specified, the redisVersion defines the Redis version of the databases in the subscription. If omitted, the Redis version will be the default (available in 'GET /subscriptions/redis-versions')",
+            "description": "Optional. Defines the Redis version of the databases in the subscription. If not set, the Redis version for your databases will be the default version. \nUse GET /subscriptions/redis-versions to view a list of available Redis versions.",
             "example": "7.2"
           },
           "commandType": {
@@ -14667,7 +14797,7 @@
         "properties": {
           "by": {
             "type": "string",
-            "description": "Required. Throughput measurement method. Either 'number-of-shards' or 'operations-per-second'",
+            "description": "Required. Throughput measurement method. Use 'operations-per-second' for all new databases.",
             "enum": [
               "operations-per-second",
               "number-of-shards"
@@ -14675,7 +14805,7 @@
           },
           "value": {
             "type": "integer",
-            "description": "Required. Throughput value (as applies to selected measurement method)",
+            "description": "Required. Throughput value in the selected measurement method.",
             "format": "int64",
             "example": 10000
           }
@@ -14958,21 +15088,21 @@
           },
           "region": {
             "type": "string",
-            "description": "Name of region to add as defined by cloud provider"
+            "description": "Name of region to add as defined by the cloud provider."
           },
           "deploymentCIDR": {
             "type": "string",
-            "description": "Deployment CIDR mask. \nDefault: 192.168.0.0/24",
+            "description": "Deployment CIDR mask. Must be a valid CIDR format with a range of 256 IP addresses.",
             "example": "10.0.0.0/24"
           },
           "dryRun": {
             "type": "boolean",
-            "description": "Optional. When 'false': Creates a deployment plan and deploys it (creating any resources required by the plan). When 'true': creates a read-only deployment plan without any resource creation. Default: 'false'",
+            "description": "Optional. When 'false': Creates a deployment plan and deploys it, creating any resources required by the plan. When 'true': creates a read-only deployment plan, and does not create any resources. Default: 'false'",
             "example": false
           },
           "databases": {
             "type": "array",
-            "description": "List of databases with local throughput for the new region",
+            "description": "List of databases in the subscription with local throughput details. Default: 1000 read and write ops/sec for each database",
             "items": {
               "$ref": "#/components/schemas/CrdbRegionSpec"
             }
