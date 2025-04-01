@@ -20,14 +20,14 @@ hideListLinks: true
 <!-- | Feature | RC        | RS         | CE       | K8s          | -->
 | | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #80DBFF"></div> Redis</nobr> Cloud | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #DCFF1E"></div> Redis</nobr> Software | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #C795E3"></div> Redis</nobr> Community Edition | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #8A99A0"></div> Redis for</nobr> Kubernetes |
 |:-----------|:--------------|:-----------|:--------------|:--------------|
-| Clustering | [Clustering]({{< relref "/operate/rc/databases/configuration/clustering" >}}) | RS Link | [Scale with Redis Cluster]({{< relref "/operate/oss_and_stack/management/scaling" >}}) | K8s Link |
-| Replication | [Replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) | RS Link | [Replication]({{< relref "/operate/oss_and_stack/management/replication" >}}) | K8s Link |
-| Active-Active geo-distribution | [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) | RS Link |  | K8s Link |
-| Rolling upgrades | | RS Link |  | K8s Link |
-| Redis Flex/Auto tiering | [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) | RS Link |  | K8s Link |
-| Persistence | [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) | RS Link | [Persistence]({{< relref "/operate/oss_and_stack/management/replication" >}}) | K8s Link |
-| Recovery | Automatic | RS Link | [Manual failover]({{< relref "/operate/oss_and_stack/management/scaling#manual-failover" >}}) | K8s Link |
-| Backups | [Back up a database]({{< relref "/operate/rc/databases/back-up-data" >}}) | RS Link | [Persistence]({{< relref "/operate/oss_and_stack/management/replication" >}}) | K8s Link |
+| Clustering | [Clustering]({{< relref "/operate/rc/databases/configuration/clustering" >}}) | RS Link | [Scale with Redis Cluster]({{< relref "/operate/oss_and_stack/management/scaling" >}}) | [Redis Enterprise clusters (REC)]({{<relref "/operate/kubernetes/re-clusters">}}) |
+| Replication | [Replication]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) | RS Link | [Replication]({{< relref "/operate/oss_and_stack/management/replication" >}}) | [Create replica databases]({{<relref "/operate/kubernetes/re-databases/replica-redb/">}})|
+| Active-Active geo-distribution | [Active-Active Redis]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) | RS Link |  | [Active-Active databases]({{<relref "/operate/kubernetes/active-active/">}}) |
+| Rolling upgrades | | RS Link |  | [Upgrade Redis for K8s]({{<relref "/operate/kubernetes/upgrade/">}}) |
+| Redis Flex/Auto tiering | [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) | RS Link |  | [Auto Tiering]({{<relref "/operate/kubernetes/re-clusters/auto-tiering/">}}) |
+| Persistence | [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) | RS Link | [Persistence]({{< relref "/operate/oss_and_stack/management/replication" >}}) | [Persistence volumes]({{<relref "/operate/kubernetes/recommendations/persistent-volumes/">}})|
+| Recovery | Automatic | RS Link | [Manual failover]({{< relref "/operate/oss_and_stack/management/scaling#manual-failover" >}}) | [Cluster recovery]({{<relref "/operate/kubernetes/re-clusters/cluster-recovery/">}}) |
+| Backups | [Back up a database]({{< relref "/operate/rc/databases/back-up-data" >}}) | RS Link | [Persistence]({{< relref "/operate/oss_and_stack/management/replication" >}}) | [REDB spec.backup]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api/#specbackup">}}) |
 
 
 ### Logging and Monitoring
