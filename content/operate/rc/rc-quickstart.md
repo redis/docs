@@ -62,7 +62,7 @@ If you would rather customize your database, select **See more plans** to go to 
 
 1.  In the upper corner, an icon shows the current status of the database.  If the icon shows an orange clock, this means your database is still being created and its status is _pending_.
 
-       {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" >}} &nbsp; {{< image filename="/images/rc/icon-database-update-status-active.png#no-click" alt="Active database status" >}}
+       <nobr>{{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" >}} {{< image filename="/images/rc/icon-database-update-status-active.png#no-click" alt="Active database status" >}}</nobr>
 
        Once the database has been created, it becomes _active_ and the status indicator switches to a green circle containing a checkmark.  
 
@@ -134,7 +134,7 @@ For more information on how to use Redis Insight in your browser, see [Open with
 
 1. [Install Redis Insight]({{< relref "/develop/tools/insight" >}}).
 
-1. Once installed, select **Open with Redis Insight**.
+1. Once installed, select **Open in desktop**.
 
 1. A pop-up asks if you wish to open the link with Redis Insight. Select **Open Redis Insight** to connect to your database with Redis Insight.
 
