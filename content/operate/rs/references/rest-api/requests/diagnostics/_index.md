@@ -48,14 +48,52 @@ GET /v1/diagnostics
 
 ### Response {#get-response}
 
-Returns a JSON object that represents the diagnostic logging service configuration.
+Returns a JSON object that represents the diagnostic logging service configuration. Each target includes a `cron_expression` that defines the log collection time interval. `slowlog_target` also includes `max_entries`, which specifies the maximum number of entries recorded in the slow log.
 
 #### Example response body
 
 ```json
 {
- "slowlog_target":{"cron_expression": "", "max_entries":50},
- "rladmin_status_target":{"cron_expression": "* * * * * *"}
+    "bdb_client_list_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "bdb_info_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "bdb_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "command_stats_target": {
+        "cron_expression": "*/30 * * * *"
+    },
+    "network_stats_target": {
+        "cron_expression": "*/30 * * * *"
+    },
+    "persistent_files_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "rladmin_status_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "shard_info_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "shard_latency_histogram_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "shard_latency_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "shard_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "slowlog_target": {
+        "cron_expression": "*/10 * * * *",
+        "max_entries": 100
+    },
+    "socket_files_target": {
+        "cron_expression": "*/10 * * * *"
+    }
 }
 ```
 
@@ -80,6 +118,8 @@ Updates the diagnostic logging service configuration.
 | [update_cluster]({{< relref "/operate/rs/references/rest-api/permissions#update_cluster" >}}) | admin |
 
 ### Request {#put-request}
+
+Provide a JSON object in the request body to update a diagnostic logging service target's configuration. Each target can include a `cron_expression` that defines the log collection time interval for that target. For `slowlog_target`, you can also change `max_entries`, which specifies the maximum number of entries recorded in the slow log.
 
 #### Example HTTP request
 
@@ -106,18 +146,53 @@ PUT /v1/diagnostics
 
 ### Response {#put-response}
 
-Returns a JSON object that represents the updated diagnostic logging service configuration.
+Returns a JSON object that represents the updated diagnostic logging service configuration. Each target includes a `cron_expression` that defines the log collection time interval. `slowlog_target` also includes `max_entries`, which specifies the maximum number of entries recorded in the slow log.
+
 
 #### Example response body
 
 ```json
 {
-   "rladmin_status_target": {
-     "cron_expression": "5 * * * *"
-   },
-   "slowlog_target": {
-     "cron_expression": ""
-   }
+    "bdb_client_list_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "bdb_info_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "bdb_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "command_stats_target": {
+        "cron_expression": "*/30 * * * *"
+    },
+    "network_stats_target": {
+        "cron_expression": "*/30 * * * *"
+    },
+    "persistent_files_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "rladmin_status_target": {
+        "cron_expression": "5 * * * *"
+    },
+    "shard_info_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "shard_latency_histogram_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "shard_latency_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "shard_target": {
+        "cron_expression": "*/10 * * * *"
+    },
+    "slowlog_target": {
+        "cron_expression": "*/10 * * * *",
+        "max_entries": 100
+    },
+    "socket_files_target": {
+        "cron_expression": "*/10 * * * *"
+    }
 }
 ```
 
