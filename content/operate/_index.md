@@ -29,16 +29,15 @@ hideListLinks: true
 | Recovery | Automatic | RS Link | [Manual failover]({{< relref "/operate/oss_and_stack/management/scaling#manual-failover" >}}) | [Cluster recovery]({{<relref "/operate/kubernetes/re-clusters/cluster-recovery/">}}) |
 | Backups | [Back up a database]({{< relref "/operate/rc/databases/back-up-data" >}}) | RS Link | [Persistence]({{< relref "/operate/oss_and_stack/management/replication" >}}) | [REDB spec.backup]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api/#specbackup">}}) |
 
-
 ### Logging and Monitoring
 
 <!-- | Feature | RC        | RS         | CE       | K8s          | -->
 | | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #80DBFF"></div> Redis</nobr> Cloud | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #DCFF1E"></div> Redis</nobr> Software | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #C795E3"></div> Redis</nobr> Community Edition | <nobr><div class="h-3 w-3 rounded-md border border-redis-pen-600 inline-block mr-1" style="background-color: #8A99A0"></div> Redis for</nobr> Kubernetes |
 |:-----------|:--------------|:-----------|:--------------|:--------------|
-| Monitoring | [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance" >}}) | RS Link | [INFO]({{< relref "/commands/info" >}}), [MONITOR]({{< relref "/commands/monitor" >}}), and [LATENCY DOCTOR]({{< relref "/commands/latency-doctor" >}})<br/>[Analysis with Redis Insight]({{< relref "/develop/tools/insight#database-analysis" >}}) | K8s Link |
-| Logging | [System logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}) | RS Link | `/var/log/redis/redis.log`<br/>[SLOWLOG]({{< relref "/commands/slowlog" >}})<br/>[Keyspace notifications]({{< relref "/develop/use/keyspace-notifications" >}}) | K8s Link |
-| Alerts | [Alerts]({{< relref "/operate/rc/databases/view-edit-database#alerts-section" >}}) | RS Link | [Pub/sub with Redis Sentinel]({{< relref "/operate/oss_and_stack/management/sentinel#pubsub-messages" >}}) | K8s Link |
-| Support | [Contact support](https://redis.io/support/) | RS Link |  | K8s Link |
+| Monitoring | [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance" >}}) | RS Link | [INFO]({{< relref "/commands/info" >}}), [MONITOR]({{< relref "/commands/monitor" >}}), and [LATENCY DOCTOR]({{< relref "/commands/latency-doctor" >}})<br/>[Analysis with Redis Insight]({{< relref "/develop/tools/insight#database-analysis" >}}) | [Export metrics to Prometheus]({{<relref "/operate/kubernetes/re-clusters/connect-prometheus-operator/">}}) |
+| Logging | [System logs]({{< relref "/operate/rc/logs-reports/system-logs" >}}) | RS Link | `/var/log/redis/redis.log`<br/>[SLOWLOG]({{< relref "/commands/slowlog" >}})<br/>[Keyspace notifications]({{< relref "/develop/use/keyspace-notifications" >}}) | [Logs]({{<relref "/operate/kubernetes/logs/">}}) |
+| Alerts | [Alerts]({{< relref "/operate/rc/databases/view-edit-database#alerts-section" >}}) | RS Link | [Pub/sub with Redis Sentinel]({{< relref "/operate/oss_and_stack/management/sentinel#pubsub-messages" >}}) | [REDB alertSettings]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api/#specalertsettings">}}) |
+| Support | [Contact support](https://redis.io/support/) | RS Link |  | [Contact support](https://redis.io/support/) |
 
 ### Security
 
