@@ -54,7 +54,7 @@ weight: 10
 
 - Pages updated for format and accuracy:
   - [ACL SETUSER]({{< relref "/commands/acl-setuser/index.md" >}})
-  - [JSON GET]({{< relref "/commands/json.get/index.md" >}})
+  - [JSON.GET]({{< relref "/commands/json.get/index.md" >}})
   - [TS.ADD]({{< relref "/commands/ts.add/index.md" >}})
   - [SCAN]({{< relref "/commands/scan/index.md" >}})
   - [SORT]({{< relref "/commands/sort/index.md" >}})
