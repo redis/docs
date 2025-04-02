@@ -32,8 +32,8 @@ This is the General Availability (GA) release of Redis Insight 2.68.
 **SHA-256 Checksums**
 | Package | SHA-256 |
 |--|--|
-| Windows |  |
-| Linux AppImage |  |
-| Linux Debian|  |
-| MacOS Intel |  |
-| MacOS Apple silicon |  |
+| Windows | 50YAPT59n2cLQu+P7kvc+kT+FxnW67pV53F1xz/C1IfgjmycgWpemycosbooQdLvXWPK4GLgk/NOnoZMI/15Lg== |
+| Linux AppImage | QbI7V8jCCVPum4jdd1W8CEOqT+iFzwUTrt9tVbu9Kpv81Pub27aIJve3kWDdXWyvxHPUlUOsBHIo/uHIzdFJPw== |
+| Linux Debian| V0/W8RclF6q0uT6uBR/lDNMt+OXqm7xmkSYf9vd8xCe4mGWUQBHiACX/aIgWs8l3Na5AQCNSJLrHnDXWiDD9Fw== |
+| MacOS Intel | j3bdEX0rvxPGBUMZ6hD9aD+C/WTR1bOZT+lekJqujkDnRSPMZS5syGfkd1cQfx8QSnM10qYBO4RCH0Ew0m3g0A== |
+| MacOS Apple silicon | iKOsvtOLOMcAvlbxL1LJI+45DgJxc+VIe9mVdoJZaNtMPCTAdxBX07GcvVVGfJOE8MdomsKrN8S2yYek7L6YLQ== |
