@@ -69,28 +69,35 @@ sudo ln -sf /usr/local/bin/cmake /usr/bin/cmake
 cmake --version
 ```
 
-## 4. Download the Redis source
+## 4. Download and extract the Redis source
 
-The Redis source code is available from the [Download](https://redis.io/downloads) page. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes git repository](https://github.com/redis/redis-hashes).
+The Redis source code is available from [the Redis GitHub site](https://github.com/redis/redis/releases). Select the release you want to build and then select the .tar.gz file from the **Assets** drop down menu. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes GitHub repository](https://github.com/redis/redis-hashes).
 
-Copy the tar(1) file to /usr/src.
+Copy the tar(1) file to `/usr/src`.
 
-## 5. Extract the source archive
+Alternatively, you can download the file directly using the `wget` command, as shown below.
 
-Create a directory for the source code and extract the contents into it:
+```
+cd /usr/src
+wget -O redis-<version>.tar.gz https://github.com/redis/redis/archive/refs/tags/<version>.tar.gz
+```
+
+Replace `<version>` with the three-digit Redis release number, for example `8.0.0`.
+
+Extract the source:
 
 ```bash
 cd /usr/src
-tar xvf redis.tar.gz
-rm redis.tar.gz
+tar xvf redis-<version>.tar.gz
+rm redis-<version>.tar.gz
 ```
 
-## 6. Build Redis
+## 5. Build Redis
 
 Set the necessary environment variables and compile Redis:
 
 ```bash
-cd /usr/src/redis
+cd /usr/src/redis-<version>
 export BUILD_TLS=yes
 export BUILD_WITH_MODULES=yes
 export INSTALL_RUST_TOOLCHAIN=yes
@@ -100,7 +107,7 @@ make -j "$(nproc)" all
 sudo make install
 ```
 
-## 7. (Optional) Verify the installation
+## 6. (Optional) Verify the installation
 
 Confirm the Redis installation:
 
@@ -109,7 +116,7 @@ redis-server --version
 redis-cli --version
 ```
 
-## 8. Start Redis
+## 7. Start Redis
 
 To start Redis, use the following command:
 

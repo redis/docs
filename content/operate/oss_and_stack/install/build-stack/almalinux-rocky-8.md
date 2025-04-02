@@ -122,7 +122,7 @@ cmake --version
 
 ## 4. Download and extract the Redis source
 
-The Redis source code is available from [the Redis GitHub site](https://github.com/redis/redis/releases). Select the release you want to build and select the .tar.gz file from the **Assets** drop down menu. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes GitHub repository](https://github.com/redis/redis-hashes).
+The Redis source code is available from [the Redis GitHub site](https://github.com/redis/redis/releases). Select the release you want to build and then select the .tar.gz file from the **Assets** drop down menu. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes GitHub repository](https://github.com/redis/redis-hashes).
 
 Copy the tar(1) file to `/usr/src`.
 
