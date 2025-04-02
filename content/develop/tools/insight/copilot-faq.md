@@ -15,15 +15,15 @@ weight: 3
 Redis Copilot is an AI-powered developer assistant that helps you learn about Redis, explore your Redis data, and build search queries in a conversational manner.  It is available in our flagship visual GUI developer tool, Redis Insight, as well as within the Redis public documentation (general chatbot). 
 
 ### How does Redis Copilot work?
-Redis Copilot is powered by the [OpenAI API](https://platform.openai.com/docs/overview) platform. When it needs to provide context-aware assistance, such as within the **my data** chat in Redis Insight, Redis Copilot will use data from your connected database. Some of that data, such as indexing schemas and sample keys, may be transmitted to the Redis Copilot backend and OpenAI for processing.
+Redis Copilot is powered by the [OpenAI API](https://platform.openai.com/docs/overview) platform. When it needs to provide context-aware assistance, such as within the **Query builder** chat in Redis Insight, Redis Copilot will use data from your connected database. Some of that data, such as indexing schemas and sample keys, may be transmitted to the Redis Copilot backend and OpenAI for processing.
 
 ### What kind of tasks can Redis Copilot perform?
 
-Currently, Redis Copilot provides two primary features: a general chatbot and a context-aware data chatbot.
+Currently, Redis Copilot provides two primary features: general Redis and a context-aware query builder.
 
-**General chatbot**: the knowledge-based chatbot serves as an interactive and dynamic documentation interface to simplify the learning process. You can ask specific questions about Redis commands, concepts, and products, and get responses on the fly. The general chatbot is also available in our public docs.
+**General Redis**: the knowledge-based chatbot serves as an interactive and dynamic documentation interface to simplify the learning process. You can ask specific questions about Redis commands, concepts, and products, and get responses on the fly. The general chatbot is also available in our public docs.
 
-**My data chatbot**: the context-aware chatbot available in Redis Insight lets you construct search queries using everyday language rather than requiring specific programming syntax. This feature lets you query and explore data easily and interactively without extensive technical knowledge.
+**Query builder**: the context-aware chatbot available in Redis Insight lets you construct search queries using everyday language rather than requiring specific programming syntax. This feature lets you query and explore data easily and interactively without extensive technical knowledge.
 
 ### How do I get started with Redis Copilot in Redis Insight?
 
@@ -36,7 +36,7 @@ The Redis Copilot instance that is embedded in Redis Insight is gradually being 
 ### What data does Redis Copilot have access to in my database?
 
 Redis Copilot will have access to any relevant data stored in your database to provide context-aware assistance.
-However, this only impacts the **my data** chat in Redis Insight.
+However, this only impacts the **query builder** chat in Redis Insight.
 
 ### Will OpenAI use my data to train their models? 
 
@@ -50,6 +50,6 @@ Redis Copilot terms apply to your use of or access to Redis Copilot. They set ou
 
 ### How can I provide feedback or report a bug?
 
-Redis Copilot is released as Beta in Redis Insight. We welcome your feedback and bug reports. You can submit them through the feedback form available in the [Redis Insight GitHub repository](https://github.com/RedisInsight/RedisInsight).
+Redis Copilot is available in Redis Insight. We welcome your feedback and bug reports. You can submit them through the feedback form available in the [Redis Insight GitHub repository](https://github.com/RedisInsight/RedisInsight).
 
 
