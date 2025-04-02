@@ -122,16 +122,25 @@ cmake --version
 
 ## 4. Download and extract the Redis source
 
-The Redis source code is available from the [Download](https://redis.io/downloads) page. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes git repository](https://github.com/redis/redis-hashes).
+The Redis source code is available from [the Redis GitHub site](https://github.com/redis/redis/releases). Select the release you want to build and select the .tar.gz file from the **Assets** drop down menu. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes GitHub repository](https://github.com/redis/redis-hashes).
 
 Copy the tar(1) file to `/usr/src`.
+
+Alternatively, you can download the file directly using the `wget` command, as shown below.
+
+```
+cd /usr/src
+wget -O redis-<version>.tar.gz https://github.com/redis/redis/archive/refs/tags/<version>.tar.gz
+```
+
+Replace `<version>` with the three-digit Redis release number, for example `8.0.0`.
 
 Extract the source:
 
 ```bash
 cd /usr/src
-tar xvf redis.tar.gz
-rm redis.tar.gz
+tar xvf redis-<version>.tar.gz
+rm redis-<version>.tar.gz
 ```
 
 ## 5. Build Redis
@@ -140,7 +149,7 @@ Enable the GCC toolset and build Redis with support for TLS and modules:
 
 ```bash
 source /etc/profile.d/gcc-toolset-13.sh
-cd /usr/src/redis
+cd /usr/src/redis-<version>
 
 export BUILD_TLS=yes
 export BUILD_WITH_MODULES=yes
