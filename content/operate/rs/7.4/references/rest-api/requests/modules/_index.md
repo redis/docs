@@ -34,7 +34,7 @@ List available modules, i.e. modules stored within the CCS.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_modules]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_cluster_modules]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#list-request}
 
@@ -53,7 +53,7 @@ GET /v1/modules
 
 ### Response {#list-response}
 
-Returns a JSON array of [module objects]({{< relref "/operate/rs/references/rest-api/objects/module" >}}).
+Returns a JSON array of [module objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/module" >}}).
 
 #### Status codes {#list-status-codes}
 
@@ -73,7 +73,7 @@ Get specific available modules, i.e. modules stored within the CCS.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_modules]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_cluster_modules]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-request}
 
@@ -98,7 +98,7 @@ GET /v1/modules/1
 
 ### Response {#get-response}
 
-Returns a [module object]({{< relref "/operate/rs/references/rest-api/objects/module" >}}).
+Returns a [module object]({{< relref "/operate/rs/7.4/references/rest-api/objects/module" >}}).
 
 ### Status codes {#get-status-codes}
 
@@ -128,7 +128,7 @@ See [Install a module on a cluster]({{< relref "/operate/oss_and_stack/stack-wit
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_cluster]({{< relref "/operate/rs/references/rest-api/permissions#update_cluster" >}}) | admin |
+| [update_cluster]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_cluster" >}}) | admin |
 
 ### Request {#post-request}
 
@@ -220,7 +220,7 @@ For modules in Redis Stack, download the module from the [download center](https
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_cluster]({{< relref "/operate/rs/references/rest-api/permissions#update_cluster" >}}) | admin |
+| [update_cluster]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_cluster" >}}) | admin |
 
 ### Request {#post-request-v2}
 
@@ -242,7 +242,7 @@ POST /v2/modules
 
 ### Response {#post-response-v2}
 
-Returns a [module object]({{< relref "/operate/rs/references/rest-api/objects/module" >}}) with an additional `action_uid` field.
+Returns a [module object]({{< relref "/operate/rs/7.4/references/rest-api/objects/module" >}}) with an additional `action_uid` field.
 
 You can use the `action_uid` to track the progress of the module upload.
 
@@ -324,7 +324,7 @@ Delete a module.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_cluster]({{< relref "/operate/rs/references/rest-api/permissions#update_cluster" >}}) | admin |
+| [update_cluster]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_cluster" >}}) | admin |
 
 ### Request {#delete-request}
 
@@ -377,7 +377,7 @@ Delete a module.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_cluster]({{< relref "/operate/rs/references/rest-api/permissions#update_cluster" >}}) | admin |
+| [update_cluster]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_cluster" >}}) | admin |
 
 ### Request {#delete-request-v2}
 

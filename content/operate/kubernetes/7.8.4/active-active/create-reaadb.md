@@ -17,18 +17,18 @@ url: '/operate/kubernetes/7.8.4/active-active/create-reaadb/'
 
 To create an Active-Active database, make sure you've completed all the following steps and have gathered the information listed below each step.
 
-1. Configure the [admission controller and ValidatingWebhook]({{< relref "/operate/kubernetes/deployment/quick-start.md#enable-the-admission-controller/" >}}).
+1. Configure the [admission controller and ValidatingWebhook]({{< relref "/operate/kubernetes/7.8.4/deployment/quick-start.md#enable-the-admission-controller/" >}}).
    {{<note>}}These are installed and enabled by default on clusters created via the OpenShift OperatorHub. {{</note>}}
 
-2. Create two or more [RedisEnterpriseCluster (REC) custom resources]({{< relref "/operate/kubernetes/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}}) with enough [memory resources]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
+2. Create two or more [RedisEnterpriseCluster (REC) custom resources]({{< relref "/operate/kubernetes/7.8.4/deployment/quick-start#create-a-redis-enterprise-cluster-rec" >}}) with enough [memory resources]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
    * Name of each REC (`<rec-name>`)
    * Namespace for each REC (`<rec-namespace>`)
 
-3. Configure the REC [`ingressOrRoutes` field]({{< relref "/operate/kubernetes/networking/ingressorroutespec.md" >}}) and [create DNS records]({{< relref "/operate/kubernetes/networking/ingressorroutespec#configure-dns/" >}}).
+3. Configure the REC [`ingressOrRoutes` field]({{< relref "/operate/kubernetes/7.8.4/networking/ingressorroutespec.md" >}}) and [create DNS records]({{< relref "/operate/kubernetes/7.8.4/networking/ingressorroutespec#configure-dns/" >}}).
    * REC API hostname (`api-<rec-name>-<rec-namespace>.<subdomain>`)
    * Database hostname suffix (`-db-<rec-name>-<rec-namespace>.<subdomain>`)
 
-4. [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters.md" >}})
+4. [Prepare participating clusters]({{< relref "/operate/kubernetes/7.8.4/active-active/prepare-clusters.md" >}})
    * RERC name (`<rerc-name`>)
    * RERC secret name (`redis-enterprise-<rerc-name>`)
 
@@ -70,7 +70,7 @@ For a list of example values used throughout this article, see the [Example valu
       secretName: redis-enterprise-rerc-reagan
     ```
 
-    For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
+    For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_remote_cluster_api">}}).
 
 1. Create a Redis Enterprise remote cluster from each RERC custom resource file.
   
@@ -124,7 +124,7 @@ For a list of example values used throughout this article, see the [Example valu
 
      {{<note>}}Sharding is disabled on Active-Active databases created with a `shardCount` of 1. Sharding cannot be enabled after database creation. {{</note>}}
 
-    For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/reference/redis_enterprise_remote_cluster_api">}}).
+    For more details on RERC fields, see the [RERC API reference]({{<relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_remote_cluster_api">}}).
 
 1. Create a Redis Enterprise Active-Active database from the REAADB custom resource file.
   

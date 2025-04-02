@@ -30,7 +30,7 @@ Get the status of all actions (executing, queued, or completed) on all entities 
 
 | Permission name |
 |-----------------|
-| [view_status_of_cluster_action]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
+| [view_status_of_cluster_action]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
 
 ### Request {#get-all-request}
 
@@ -42,7 +42,7 @@ GET /v1/actions
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [action objects]({{< relref "/operate/rs/references/rest-api/objects/action" >}}) and an array of [state-machine objects]({{< relref "/operate/rs/references/rest-api/objects/state-machine" >}}).
+Returns a JSON array of [action objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/action" >}}) and an array of [state-machine objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/state-machine" >}}).
 
 Regardless of an action’s source, each action in the response contains the following attributes: `name`, `action_uid`, `status`, and `progress`.
 
@@ -100,7 +100,7 @@ Get the status of a currently executing, queued, or completed action.
 
 | Permission name |
 |-----------------|
-| [view_status_of_cluster_action]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
+| [view_status_of_cluster_action]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
 
 ### Request {#get-request}
 
@@ -118,7 +118,7 @@ GET /v1/actions/{uid}
 
 ### Response {#get-response}
 
-Returns an [action object]({{< relref "/operate/rs/references/rest-api/objects/action" >}}).
+Returns an [action object]({{< relref "/operate/rs/7.4/references/rest-api/objects/action" >}}).
 
 Regardless of an action’s source, each action contains the following attributes: `name`, `action_uid`, `status`, and `progress`.
 

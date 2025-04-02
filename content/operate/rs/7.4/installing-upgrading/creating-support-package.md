@@ -39,7 +39,7 @@ The following table describes the included files:
 | database_<bdb_uid>_ccs_info.txt | Database information from the cluster configuration store (CCS). Includes settings for databases, endpoints, shards, replicas, and CRDB. |
 | database_<bdb_uid>.clientlist | List of clients connected to the database when the support package was created. |
 | database_<bdb_uid>.info | Redis information and statistics for the database. See [`INFO`]({{<relref "/commands/info">}}) for details about the collected fields. |
-| database_<bdb_uid>.rladmin | Database information. See [`rladmin info db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/info#info-db">}}) for an example of collected fields. Also includes creation time, last changed time, Redis version, memory limit, persistence type, eviction policy, hashing policy, and whether SSL, backups, and email alerts are enabled. |
+| database_<bdb_uid>.rladmin | Database information. See [`rladmin info db`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/info#info-db">}}) for an example of collected fields. Also includes creation time, last changed time, Redis version, memory limit, persistence type, eviction policy, hashing policy, and whether SSL, backups, and email alerts are enabled. |
 | database_<bdb_uid>.slowlog | Contains slowlog output, which includes commands that took longer than 10 milliseconds. Only included if `slowlog_in_sanitized_support` is `true` in cluster settings. |
 | /node_<node_uid>/redis_<shard_uid>.txt | For each shard of the specified database only. Includes shard configuration and [information]({{<relref "/commands/info">}}), slowlog information, and latency information. |
 
@@ -56,7 +56,7 @@ The following table describes the included files:
 | /logs/ | Directory that includes logs. |
 | node_<node_uid>.ccs | Includes cluster configuration, node configuration, and DMC proxy configuration. |
 | node_<node_uid>_envoy_config.json | Envoy configuration. |
-| node_<node_uid>.rladmin | Information about the cluster's nodes, databases, endpoints, and shards. See [`rladmin status`]({{<relref "/operate/rs/references/cli-utilities/rladmin/status">}}) for example output. |
+| node_<node_uid>.rladmin | Information about the cluster's nodes, databases, endpoints, and shards. See [`rladmin status`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/status">}}) for example output. |
 | node_<node_uid>_sys_info.txt | Node's system information including:<br />• Socket files list<br />• Log files list<br />• Processes running on the node<br />• Disk usage<br />• Persistent files list<br />• Memory usage<br />• Network interfaces<br />• Installed packages<br />• Active iptables<br />• OS and platform<br />• Network connection<br />• Status of Redis processes |
 | redis_<shard_uid>.txt | For each shard of the specified database only. Includes shard configuration and [information]({{<relref "/commands/info">}}), slowlog information, and latency information. |
 
@@ -120,7 +120,7 @@ To create a support package from the Cluster Manager UI:
 
 ### Command-line method
 
-If package creation fails with `internal error` or if you cannot access the UI, create a support package for the cluster from the command line on any node in the cluster using the [`rladmin cluster debug_info`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/debug_info" >}}) command: 
+If package creation fails with `internal error` or if you cannot access the UI, create a support package for the cluster from the command line on any node in the cluster using the [`rladmin cluster debug_info`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/debug_info" >}}) command: 
 
 ```sh
 /opt/redislabs/bin/rladmin cluster debug_info
@@ -152,7 +152,7 @@ Upload the tar file to [Redis support](https://redis.com/company/support/). The 
 
 ### REST API method
 
-You can also use `debuginfo` [REST API]({{< relref "/operate/rs/references/rest-api" >}}) requests to create and download support packages.
+You can also use `debuginfo` [REST API]({{< relref "/operate/rs/7.4/references/rest-api" >}}) requests to create and download support packages.
 
 To download debug info from all nodes and databases:
 
