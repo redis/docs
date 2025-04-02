@@ -10,6 +10,8 @@ hideListLinks: true
 weight: 10
 linkTitle: 7.8
 url: '/operate/rs/7.8/'
+bannerText: This documentation applies to Redis Software versions 7.8.x.
+bannerChildren: true
 ---
 
 [Redis Enterprise](https://redis.io/enterprise/) is a self-managed, enterprise-grade version of Redis.
