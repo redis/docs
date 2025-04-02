@@ -46,6 +46,7 @@ for more information). Copy the following files from the `hiredis` folder into
 the Header files section of your Qt project:
 
 - `hiredis.h`
+- `async.h`
 - `alloc.h`
 - `read.h`
 - `sds.h`
@@ -235,7 +236,10 @@ The code that accesses Redis is in the `run()` method (recall that this
 implements a Qt slot that will be called in response to a signal). The
 code connects to Redis and stores the connection context pointer in the
 `m_ctx` attribute of the class instance. The call to `m_adapter.setContext()`
-initializes the Qt support for the context.
+initializes the Qt support for the context. Note that we need an
+asynchronous connection for Qt. See
+[Asynchronous connection]({{< relref "/develop/clients/hiredis/connect#asynchronous-connection" >}})
+for more information.
 
 The code then issues two Redis commands to [`SET`]({{< relref "/commands/set" >}})
 the string key and value that were supplied using the class's constructor. We are
@@ -245,7 +249,9 @@ Because the commands are asynchronous, we need to set a callback to handle
 the `GET` response when it arrives. In the `redisAsyncCommand()` call, we pass
 a pointer to our `getCallback()` function and also pass a pointer to the
 `RedisExample` instance. This is a custom data field that will simply
-be passed on to the callback when it executes.
+be passed on to the callback when it executes (see 
+[Construct asynchronous commands]({{< relref "/develop/clients/hiredis/issue-commands#construct-asynchronous-commands" >}})
+for more information).
 
 The code in the `getCallback()` function starts by casting the reply pointer
 parameter to [`redisReply`]({{< relref "/develop/clients/hiredis/handle-replies" >}})
