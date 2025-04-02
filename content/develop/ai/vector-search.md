@@ -13,7 +13,6 @@ description: Query for data based on vector embeddings
 linkTitle: Vector search examples
 title: Vector search examples
 weight: 2
-aliases: /develop/interact/search-and-query/query/vector-search
 ---
 
 This article gives you a good overview of how to perform vector search queries with Redis Stack. See the [Redis as a vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) for more information about Redis as a vector database. You can also find more detailed information about all the parameters in the [vector reference documentation]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
