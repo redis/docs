@@ -11,7 +11,7 @@ linkTitle: Redis for AI
 hideListLinks: true
 weight: 40
 ---
-Redis stores and indexes vector embeddings that semantically represent unstructured data including text passages, images, videos, or audio. Store vectors and the associated metadata within [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json" >}}) documents for [indexing]({{< relref "/develop/interact/search-and-query/indexing" >}}) and [querying]({{< relref "/develop/interact/search-and-query/query" >}}).
+Redis stores and indexes vector embeddings that semantically represent unstructured data including text passages, images, videos, or audio. Store vectors and the associated metadata within [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json" >}}) documents for [indexing]({{< relref "/develop/interact/search-and-query/indexing" >}}) and [querying]({{< relref "/develop/interact/search-and-query/query" >}}). Use the [vector sets]({{< relref "/develop/data-types/vector-sets" >}}) preview data type to add items to a set, and retrieve a subset of items that are the most similar to a specified vector. 
 
 | Vector | RAG | RedisVL |
 | :-- | :-- | :-- |
