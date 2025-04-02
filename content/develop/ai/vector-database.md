@@ -59,7 +59,7 @@ The easiest way to get started is to use Redis Cloud:
 
 1. Create a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 
-   <img src="/images/rc/quickstart-essentials.png" width="500px">
+   {{<image filename="images/rc/quickstart-essentials.png" width="75%" alt="Create your database with Essentials selected." >}} 
 2. Follow the instructions to create a free database.
 
 This free Redis Cloud database comes out of the box with all the Redis Stack features.
