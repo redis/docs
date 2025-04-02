@@ -11,7 +11,7 @@ weight: $weight
 url: '/operate/rs/7.4/networking/cluster-dns/'
 ---
 
-By default, Redis Enterprise Software deployments use DNS to communicate between nodes.  You can also use the [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}), which uses IP addresses to connect and complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) supported by Redis Community Edition.
+By default, Redis Enterprise Software deployments use DNS to communicate between nodes.  You can also use the [Discovery Service]({{< relref "/operate/rs/7.4/databases/durability-ha/discovery-service.md" >}}), which uses IP addresses to connect and complies with the [Redis Sentinel API]({{< relref "/operate/oss_and_stack/management/sentinel" >}}) supported by Redis Community Edition.
 
 Each node in a Redis Enterprise cluster includes a small DNS server to manage internal functions, such as high availability, automatic failover, automatic migration, and so on.
 Nodes should only run the DNS server included with the software.  Running additional DNS servers can lead to unexpected behavior.
@@ -106,9 +106,9 @@ However, as the topology of the cluster changes and node with the given IP addre
 you need to remember the IP address of another node participating in this cluster to connect to the Cluster Manager UI and manage the cluster.
 
 Applications connecting to Redis Software databases have the same constraints.
-When using the IP-based connection method, you can use the [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}})
+When using the IP-based connection method, you can use the [Discovery Service]({{< relref "/operate/rs/7.4/databases/durability-ha/discovery-service.md" >}})
 to discover the database endpoint for a given database name as long as you have an IP address for at least one of the nodes in the cluster.
 The API used for discovery service is compliant with the Redis Sentinel API.
 
-To test your connection, try pinging the service.  For help, see [Connect to your database]({{< relref "/operate/rs/databases/connect/test-client-connectivity" >}}).
+To test your connection, try pinging the service.  For help, see [Connect to your database]({{< relref "/operate/rs/7.4/databases/connect/test-client-connectivity" >}}).
 

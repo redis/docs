@@ -28,11 +28,11 @@ workloads can use:
 
 ## For OpenShift via the OperatorHub
 
-To [create a database on an OpenShift 4.x cluster via the OperatorHub]({{< relref "/operate/kubernetes/deployment/openshift/openshift-operatorhub" >}}) you only need to have the [OpenShift 4.x cluster installed](https://docs.openshift.com/container-platform/4.3/welcome/index.html) with at least three nodes that each meet the [minimum requirements for a development installation]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
+To [create a database on an OpenShift 4.x cluster via the OperatorHub]({{< relref "/operate/kubernetes/7.8.4/deployment/openshift/openshift-operatorhub" >}}) you only need to have the [OpenShift 4.x cluster installed](https://docs.openshift.com/container-platform/4.3/welcome/index.html) with at least three nodes that each meet the [minimum requirements for a development installation]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
 
 ## For OpenShift via the CLI
 
-To [create a database on an OpenShift cluster via the CLI]({{< relref "/operate/kubernetes/deployment/openshift/openshift-cli.md" >}}), you need:
+To [create a database on an OpenShift cluster via the CLI]({{< relref "/operate/kubernetes/7.8.4/deployment/openshift/openshift-cli.md" >}}), you need:
 
 1. An [OpenShift cluster installed](https://docs.openshift.com/container-platform/4.3/welcome/index.html) with at least three nodes that each meet the [minimum requirements for a development installation]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
 1. The [kubectl package installed](https://kubernetes.io/docs/tasks/tools/install-kubectl/) at version 1.9 or higher
@@ -40,4 +40,4 @@ To [create a database on an OpenShift cluster via the CLI]({{< relref "/operate/
 
 ## Version compatibility
 
-To see which version of Redis Enterprise for Kubernetes supports your OpenShift version, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
+To see which version of Redis Enterprise for Kubernetes supports your OpenShift version, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/7.8.4/reference/supported_k8s_distributions" >}}).

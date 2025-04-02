@@ -127,7 +127,7 @@ require authentication. If you do need authentication, add a [pull secret](https
 The operator bundle contains the operator deployment and the reference to the operator image (`redislabs/operator`). To use a private container registry, you must
 change this image reference in your operator deployment file **before** you deploy the operator. If you apply this change to modify an existing operator deployment, the operator's pod will restart.
 
-In the operator deployment file, 'containers:image' should point to the same repository and tag you used when [pushing]({{< relref "/operate/kubernetes/deployment/container-images.md#push-images-to-a-private-container-registry" >}}) to the private container registry:
+In the operator deployment file, 'containers:image' should point to the same repository and tag you used when [pushing]({{< relref "/operate/kubernetes/7.8.4/deployment/container-images.md#push-images-to-a-private-container-registry" >}}) to the private container registry:
 
 ```sh
 ${PRIVATE_REPO}/redislabs/operator:${OPERATOR_VERSION}

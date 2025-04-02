@@ -28,7 +28,7 @@ Get most recent statistics for all shards.
 
 | Permission name |
 |-----------------|
-| [view_all_shard_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_all_shard_stats" >}}) |
+| [view_all_shard_stats]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_all_shard_stats" >}}) |
 
 ### Request {#get-all-request} 
 
@@ -55,7 +55,7 @@ Get most recent statistics for all shards.
 
 ### Response {#get-all-response} 
 
-Returns most recent [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for all shards.
+Returns most recent [statistics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics" >}}) for all shards.
 
 #### Example JSON body
 
@@ -116,7 +116,7 @@ Get most recent statistics for a specific shard.
 
 | Permission name |
 |-----------------|
-| [view_shard_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_shard_stats" >}}) |
+| [view_shard_stats]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_shard_stats" >}}) |
 
 ### Request {#get-request} 
 
@@ -150,7 +150,7 @@ Get most recent statistics for a specific shard.
 
 ### Response {#get-response} 
 
-Returns the most recent [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for the specified shard.
+Returns the most recent [statistics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics" >}}) for the specified shard.
 
 #### Example JSON body
 
