@@ -27,7 +27,7 @@ Redis Enterprise Software's port usage falls into three general categories:
 
 | Protocol | Port | Configurable | Connection source | Description |
 |----------|------|--------------|-------------------|-------------|
-| TCP | 8001 | <span title="Not configurable">&#x274c; No</span> | Internal, External | Traffic from application to Redis Enterprise Software [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) |
+| TCP | 8001 | <span title="Not configurable">&#x274c; No</span> | Internal, External | Traffic from application to Redis Enterprise Software [Discovery Service]({{< relref "/operate/rs/7.4/databases/durability-ha/discovery-service.md" >}}) |
 | TCP | 8000, 8070, 8071, 9090, 9125 | <span title="Not configurable">&#x274c; No</span> | Internal, External | Metrics exported and managed by the web proxy |
 | TCP | 8443 | <span title="Configurable">&#x2705; Yes</span> | Internal, External | Secure (HTTPS) access to the management web UI |
 | TCP | 9081 | <span title="Configurable">&#x2705; Yes</span> | Internal | CRDB coordinator for Active-Active management (internal) |
@@ -48,7 +48,7 @@ Redis Enterprise Software's port usage falls into three general categories:
 
 Redis Enterprise Software reserves some ports by default (`system_reserved_ports`). To reserve other ports or port ranges and prevent the cluster from assigning them to database endpoints, configure `reserved_ports` using one of the following methods:
 
-- [rladmin cluster config]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}})
+- [rladmin cluster config]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/config" >}})
 
     ```sh
     rladmin cluster config reserved_ports <list of ports/port ranges>
@@ -60,7 +60,7 @@ Redis Enterprise Software reserves some ports by default (`system_reserved_ports
     rladmin cluster config reserved_ports 11000 13000-13010
     ```
 
-- [Update cluster settings]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}) REST API request
+- [Update cluster settings]({{< relref "/operate/rs/7.4/references/rest-api/requests/cluster#put-cluster" >}}) REST API request
 
     ```sh
     PUT /v1/cluster
@@ -97,7 +97,7 @@ For system health monitoring, Redis uses the following ports by default:
 
 - Port 8006 for gossip envoy admin
 
-You can change each envoy port to a custom port using the [`rladmin cluster config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}) command as long as the new port is not in use by another process. When you change `envoy_admin_port`, expect a restart of envoy.
+You can change each envoy port to a custom port using the [`rladmin cluster config`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/config" >}}) command as long as the new port is not in use by another process. When you change `envoy_admin_port`, expect a restart of envoy.
 
 To change the envoy admin port, run:
 
@@ -168,4 +168,4 @@ To poll metrics from the `metrics_exporter` or to access the Cluster Manager UI,
 ## Nodes on different VLANs
 
 Nodes in the same cluster must reside on the same VLAN. If you can't
-host the nodes on the same VLAN, then you must open [all ports]({{< relref "/operate/rs/networking/port-configurations.md" >}}) between them.
+host the nodes on the same VLAN, then you must open [all ports]({{< relref "/operate/rs/7.4/networking/port-configurations.md" >}}) between them.

@@ -11,7 +11,7 @@ weight: $weight
 url: '/operate/rs/7.4/references/rest-api/objects/redis_acl/'
 ---
 
-An API object that represents a Redis [access control list (ACL)]({{< relref "/operate/rs/security/access-control/create-db-roles" >}})
+An API object that represents a Redis [access control list (ACL)]({{< relref "/operate/rs/7.4/security/access-control/create-db-roles" >}})
 
 | Name | Type/Value | Description |
 |------|------------|-------------|

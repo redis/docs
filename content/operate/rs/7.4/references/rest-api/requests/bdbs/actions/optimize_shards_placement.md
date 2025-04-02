@@ -29,7 +29,7 @@ Get optimized shards placement for the given database.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_bdb_info]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_bdb_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_bdb_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-request}
 
@@ -125,9 +125,9 @@ To rearrange the database shards, you can submit the blueprint returned in this 
 
 ## Rearrange database shards {#put-bdbs-rearrange-shards}
 
-Use the blueprint returned by the [`GET`&nbsp;`/v1/bdbs/{uid}/actions/optimize_shards_placement`]({{< relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement#get-bdbs-actions-optimize-shards-placement" >}}) request as the value of the `shards_blueprint` field to rearrange the database shards.
+Use the blueprint returned by the [`GET`&nbsp;`/v1/bdbs/{uid}/actions/optimize_shards_placement`]({{< relref "/operate/rs/7.4/references/rest-api/requests/bdbs/actions/optimize_shards_placement#get-bdbs-actions-optimize-shards-placement" >}}) request as the value of the `shards_blueprint` field to rearrange the database shards.
 
-To ensure that the optimized shard placement is relevant for the current cluster state, pass the `cluster-state-id`, taken from the response header of the `GET` request, in the [`PUT`&nbsp;`/v1/bdbs/{uid}`]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) request headers.
+To ensure that the optimized shard placement is relevant for the current cluster state, pass the `cluster-state-id`, taken from the response header of the `GET` request, in the [`PUT`&nbsp;`/v1/bdbs/{uid}`]({{< relref "/operate/rs/7.4/references/rest-api/requests/bdbs#put-bdbs" >}}) request headers.
 
 The cluster will reject the update if its state was changed since the optimal shards placement was obtained.
 

@@ -42,7 +42,7 @@ To enable internode encryption for a database (also called _data internode encry
 
 - Use the Cluster Manager UI to enable the **Internode Encryption** setting from the database **Security** screen.
 
--  Use the `rladmin` command-line utility to set the [data_internode_encryption]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db" >}}) setting for the database:
+-  Use the `rladmin` command-line utility to set the [data_internode_encryption]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-db" >}}) setting for the database:
 
     ``` shell
     rladmin tune db <database_id> data_internode_encryption enabled
@@ -75,13 +75,13 @@ To enable internode encryption for new databases by default, use one of the foll
 
     1. Select **Save**.
 
-- [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
+- [rladmin tune cluster]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
     
     ```sh
     rladmin tune cluster data_internode_encryption enabled
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy]({{< relref "/operate/rs/7.4/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 

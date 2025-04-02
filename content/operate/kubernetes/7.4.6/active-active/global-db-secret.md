@@ -17,7 +17,7 @@ url: '/operate/kubernetes/7.4.6/active-active/global-db-secret/'
 
 One of the fields available for `globalConfigurations` is `databaseSecretName` which can point to a secret containing the database password. To set the database secret name and sync the data to all participating clusters, follow the steps below.
 
-To edit other global configruations, see [global configuration]({{< relref "/operate/kubernetes/active-active/global-config.md" >}})
+To edit other global configruations, see [global configuration]({{< relref "/operate/kubernetes/7.4.6/active-active/global-config.md" >}})
 
 1. On an existing participating cluster, generate a YAML file containing the database secret with the database password.
 

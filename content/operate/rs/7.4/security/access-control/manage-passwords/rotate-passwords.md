@@ -12,18 +12,18 @@ weight: 70
 url: '/operate/rs/7.4/security/access-control/manage-passwords/rotate-passwords/'
 ---
 
-Redis Enterprise Software lets you implement password rotation policies using the [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
+Redis Enterprise Software lets you implement password rotation policies using the [REST API]({{< relref "/operate/rs/7.4/references/rest-api" >}}).
 
 You can add a new password for a database user without immediately invalidating the old one (which might cause authentication errors in production).
 
 {{< note >}}
-Password rotation does not work for the default user. [Add additional users]({{< relref "/operate/rs/security/access-control/create-users" >}}) to enable password rotation.
+Password rotation does not work for the default user. [Add additional users]({{< relref "/operate/rs/7.4/security/access-control/create-users" >}}) to enable password rotation.
 {{< /note >}}
 
 ## Password rotation policies
 
 For user access to the Redis Enterprise Software Cluster Manager UI,
-you can set a [password expiration policy]({{< relref "/operate/rs/security/access-control/manage-passwords/password-expiration" >}}) to prompt the user to change their password.
+you can set a [password expiration policy]({{< relref "/operate/rs/7.4/security/access-control/manage-passwords/password-expiration" >}}) to prompt the user to change their password.
 
 However, for database connections that rely on password authentication,
 you need to allow for authentication with the existing password while you roll out the new password to your systems.
@@ -38,13 +38,13 @@ If you reset the password for a user in the Cluster Manager UI,
 the new password replaces all other passwords for that user.
 {{< /warning >}}
 
-The new password cannot already exist as a password for the user and must meet the [password complexity]({{< relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules" >}}) requirements, if enabled.
+The new password cannot already exist as a password for the user and must meet the [password complexity]({{< relref "/operate/rs/7.4/security/access-control/manage-passwords/password-complexity-rules" >}}) requirements, if enabled.
 
 ## Rotate password
 
 To rotate the password of a user account:
 
-1. Add an additional password to a user account with [`POST /v1/users/password`]({{< relref "/operate/rs/references/rest-api/requests/users/password#add-password" >}}):
+1. Add an additional password to a user account with [`POST /v1/users/password`]({{< relref "/operate/rs/7.4/references/rest-api/requests/users/password#add-password" >}}):
 
     ```sh
     POST https://[host][:port]/v1/users/password
@@ -54,7 +54,7 @@ To rotate the password of a user account:
     After you send this request, you can authenticate with both the old and the new password.
 
 1. Update the password in all database connections that connect with the user account.
-1. Delete the original password with [`DELETE /v1/users/password`]({{< relref "/operate/rs/references/rest-api/requests/users/password#update-password" >}}):
+1. Delete the original password with [`DELETE /v1/users/password`]({{< relref "/operate/rs/7.4/references/rest-api/requests/users/password#update-password" >}}):
 
     ```sh
     DELETE https://[host][:port]/v1/users/password
@@ -68,7 +68,7 @@ To rotate the password of a user account:
 You can also replace all existing passwords for a user account with a single password that does not match any existing passwords.
 This can be helpful if you suspect that your passwords are compromised and you want to quickly resecure the account.
 
-To replace all existing passwords for a user account with a single new password, use [`PUT /v1/users/password`]({{< relref "/operate/rs/references/rest-api/requests/users/password#delete-password" >}}):
+To replace all existing passwords for a user account with a single new password, use [`PUT /v1/users/password`]({{< relref "/operate/rs/7.4/references/rest-api/requests/users/password#delete-password" >}}):
 
 ```sh
 PUT https://[host][:port]/v1/users/password
