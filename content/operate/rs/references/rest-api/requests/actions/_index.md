@@ -100,7 +100,7 @@ Regardless of an action’s source, each action in the response contains the fol
 | Code | Description |
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error, response provides info about an ongoing action |
-| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (i.e. not currently running and no available status of last run).|
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (for example, not currently running and no available status of last run).|
 
 ## Get all actions v2 {#get-all-actions-v2}
 
@@ -243,7 +243,7 @@ Regardless of an action’s source, each action contains the following attribute
 | Code | Description |
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error, response provides info about an ongoing action |
-| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (i.e. not currently running and no available status of last run) |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (that is, not currently running and no available status of last run) |
 
 ## Get a specific action v2 {#get-action-v2}
 
@@ -323,4 +323,4 @@ Regardless of an action’s source, each action contains the following attribute
 | Code | Description |
 |------|-------------|
 | [200 OK](https://www.rfc-editor.org/rfc/rfc9110.html#name-200-ok) | No error, response provides info about an ongoing action |
-| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (i.e. not currently running and no available status of last run) |
+| [404 Not Found](https://www.rfc-editor.org/rfc/rfc9110.html#name-404-not-found) | Action does not exist (that is, not currently running and no available status of last run) |
