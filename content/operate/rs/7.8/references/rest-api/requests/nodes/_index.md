@@ -31,7 +31,7 @@ Get all cluster nodes.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_nodes_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_nodes_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_all_nodes_info]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_all_nodes_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -50,7 +50,7 @@ GET /v1/nodes
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [node objects]({{< relref "/operate/rs/references/rest-api/objects/node" >}}).
+Returns a JSON array of [node objects]({{< relref "/operate/rs/7.8/references/rest-api/objects/node" >}}).
 
 #### Example JSON body
 
@@ -115,7 +115,7 @@ Get a single cluster node.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_node_info]({{< relref "/operate/rs/references/rest-api/permissions#view_node_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_node_info]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_node_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -140,7 +140,7 @@ GET /v1/nodes/1
 
 ### Response {#get-response}
 
-Returns a [node object]({{< relref "/operate/rs/references/rest-api/objects/node" >}}).
+Returns a [node object]({{< relref "/operate/rs/7.8/references/rest-api/objects/node" >}}).
 
 #### Example JSON body
 
@@ -165,7 +165,7 @@ Returns a [node object]({{< relref "/operate/rs/references/rest-api/objects/node
 PUT /v1/nodes/{int: uid}
 ```
 
-Update a [node object]({{< relref "/operate/rs/references/rest-api/objects/node" >}}).
+Update a [node object]({{< relref "/operate/rs/7.8/references/rest-api/objects/node" >}}).
 
 Currently, you can edit the following attributes:
 
@@ -185,7 +185,7 @@ You can only update the `addr` attribute for offline nodes. Otherwise, the reque
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_node]({{< relref "/operate/rs/references/rest-api/permissions#update_node" >}}) | admin |
+| [update_node]({{< relref "/operate/rs/7.8/references/rest-api/permissions#update_node" >}}) | admin |
 
 ### Request {#put-request}
 

@@ -23,14 +23,14 @@ A database can have one of the following proxy policies:
 | Proxy policy | Description | Recommended use cases | Advantages | Disadvantages |
 |--------------|-------------|-----------------------|-----------|-----------------|
 | Single | Only a single proxy is bound to the database. This is the default database configuration. | Most use cases without high traffic or load | Lower resource usage, fewer application-to-cluster connections | Higher latency, more network hops |
-| All primary shards | Multiple proxies are bound to the database, one on each node that hosts a database primary shard. | Most use cases that require multiple endpoints, such as when using the [OSS Cluster API]({{<relref "/operate/rs/clusters/optimize/oss-cluster-api">}}) | Lower latency, fewer network hops, higher throughput | Higher resource usage, more application-to-proxy connections |
-| All nodes | Multiple proxies are bound to the database, one on each node in the cluster, regardless of whether or not there is a shard from this database on the node. | When using [load balancers]({{<relref "/operate/rs/networking/cluster-lba-setup">}}) for environments without DNS | Higher throughput | Highest resource usage |
+| All primary shards | Multiple proxies are bound to the database, one on each node that hosts a database primary shard. | Most use cases that require multiple endpoints, such as when using the [OSS Cluster API]({{<relref "/operate/rs/7.8/clusters/optimize/oss-cluster-api">}}) | Lower latency, fewer network hops, higher throughput | Higher resource usage, more application-to-proxy connections |
+| All nodes | Multiple proxies are bound to the database, one on each node in the cluster, regardless of whether or not there is a shard from this database on the node. | When using [load balancers]({{<relref "/operate/rs/7.8/networking/cluster-lba-setup">}}) for environments without DNS | Higher throughput | Highest resource usage |
 
 ## View proxy policy
 
-You can use the Cluster Manager UI, [`rladmin`]({{<relref "/operate/rs/references/cli-utilities/rladmin">}}), or the [REST API]({{<relref "/operate/rs/references/rest-api">}}) to view proxy configuration settings.
+You can use the Cluster Manager UI, [`rladmin`]({{<relref "/operate/rs/7.8/references/cli-utilities/rladmin">}}), or the [REST API]({{<relref "/operate/rs/7.8/references/rest-api">}}) to view proxy configuration settings.
 
-The [`rladmin info cluster`]({{<relref "/operate/rs/references/cli-utilities/rladmin/info#info-cluster">}}) command returns the current proxy policy for sharded and non-sharded (single shard) databases.
+The [`rladmin info cluster`]({{<relref "/operate/rs/7.8/references/cli-utilities/rladmin/info#info-cluster">}}) command returns the current proxy policy for sharded and non-sharded (single shard) databases.
 
 ```sh
 $ rladmin info cluster
@@ -51,7 +51,7 @@ Any configuration update that unbinds existing proxies can disconnect existing c
 
 ### Cluster Manager UI method
 
-You can change a database's proxy policy when you [create]({{<relref "/operate/rs/databases/create">}}) or [edit]({{<relref "/operate/rs/databases/configure#edit-database-settings">}}) a database using the Cluster Manager UI:
+You can change a database's proxy policy when you [create]({{<relref "/operate/rs/7.8/databases/create">}}) or [edit]({{<relref "/operate/rs/7.8/databases/configure#edit-database-settings">}}) a database using the Cluster Manager UI:
 
 1. While in edit mode on the database's configuration screen, expand the **Clustering** section.
 
@@ -61,7 +61,7 @@ You can change a database's proxy policy when you [create]({{<relref "/operate/r
 
 ### REST API method
 
-You can specify a proxy policy when you [create a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) using the REST API:
+You can specify a proxy policy when you [create a database]({{<relref "/operate/rs/7.8/references/rest-api/requests/bdbs#post-bdbs-v1">}}) using the REST API:
 
 ```sh
 POST /v1/bdbs
@@ -71,7 +71,7 @@ POST /v1/bdbs
 }
 ```
 
-To change an existing database's proxy policy, you can use an [update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+To change an existing database's proxy policy, you can use an [update database configuration]({{<relref "/operate/rs/7.8/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
 
 ```sh
 PUT /v1/bdbs/<database-id>
@@ -80,7 +80,7 @@ PUT /v1/bdbs/<database-id>
 
 ### Command-line method
 
-You can configure a database's proxy policy using [`rladmin bind`]({{<relref "/operate/rs/references/cli-utilities/rladmin/bind">}}).
+You can configure a database's proxy policy using [`rladmin bind`]({{<relref "/operate/rs/7.8/references/cli-utilities/rladmin/bind">}}).
 
 The following example changes the bind policy for a database named "db1" with an endpoint ID "1:1" to "All primary shards" proxy policy:
 
@@ -140,7 +140,7 @@ latency in operations as the shards and proxies are spread across
 multiple nodes in the cluster.
 
 {{< note >}}
-When the network on a single active proxy becomes the bottleneck, consider enabling multiple NIC support in Redis Software. With nodes that have multiple physical NICs (Network Interface Cards), you can configure Redis Software to separate internal and external traffic onto independent physical NICs. For more details, refer to [Multi-IP & IPv6]({{< relref "/operate/rs/networking/multi-ip-ipv6.md" >}}).
+When the network on a single active proxy becomes the bottleneck, consider enabling multiple NIC support in Redis Software. With nodes that have multiple physical NICs (Network Interface Cards), you can configure Redis Software to separate internal and external traffic onto independent physical NICs. For more details, refer to [Multi-IP & IPv6]({{< relref "/operate/rs/7.8/networking/multi-ip-ipv6.md" >}}).
 {{< /note >}}
 
 Having multiple proxies for a database can improve Redis Software's ability for fast failover in case of proxy or node failure. With multiple proxies for a database, a client doesn't need to wait for the cluster to spin up another proxy and a DNS change in most cases. Instead, the client uses the next IP address in the list to connect to another proxy.

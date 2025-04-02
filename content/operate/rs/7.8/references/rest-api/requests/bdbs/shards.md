@@ -43,7 +43,7 @@ Gets the status for all shards that belong to the specified database.
 
 ### Response {#get-response} 
 
-The response body contains a JSON array with all shards, represented as [shard objects]({{<relref "/operate/rs/references/rest-api/objects/shard">}}).
+The response body contains a JSON array with all shards, represented as [shard objects]({{<relref "/operate/rs/7.8/references/rest-api/objects/shard">}}).
 
 #### Example JSON body
 

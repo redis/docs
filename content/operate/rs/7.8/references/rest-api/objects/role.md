@@ -18,5 +18,5 @@ An API object that represents a role.
 | uid | integer | Role's unique ID |
 | account_id | integer | SM account ID |
 | action_uid | string | Action UID. If it exists, progress can be tracked by the GET /actions/{uid} API (read-only) |
-| management | 'admin'<br />'db_member'<br />'db_viewer'<br />'cluster_member'<br />'cluster_viewer'<br />'user_manager'<br />'none' | [Management role]({{< relref "/operate/rs/references/rest-api/permissions#roles" >}}) |
+| management | 'admin'<br />'db_member'<br />'db_viewer'<br />'cluster_member'<br />'cluster_viewer'<br />'user_manager'<br />'none' | [Management role]({{< relref "/operate/rs/7.8/references/rest-api/permissions#roles" >}}) |
 | name | string | Role's name |

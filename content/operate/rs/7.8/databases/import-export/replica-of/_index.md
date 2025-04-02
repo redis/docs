@@ -21,9 +21,9 @@ all write commands are synchronized from the sources to the destination.
 Replica Of lets you distribute the read load of your application across multiple databases or
 synchronize the database, either within Redis Enterprise or external to Redis Enterprise, to another database.
 
-You can [create Active-Passive]({{< relref "/operate/rs/databases/import-export/replica-of/create.md" >}}) databases on Redis Enterprise Software or Redis Cloud.
+You can [create Active-Passive]({{< relref "/operate/rs/7.8/databases/import-export/replica-of/create.md" >}}) databases on Redis Enterprise Software or Redis Cloud.
 
-[Active-Active Geo-Distribution (CRDB)]({{< relref "/operate/rs/databases/active-active" >}})
+[Active-Active Geo-Distribution (CRDB)]({{< relref "/operate/rs/7.8/databases/active-active" >}})
 provides these benefits and also provides write access to all of the database replicas.
 
 {{< warning >}}
@@ -48,7 +48,7 @@ destination database.
 {{< note >}}
 The Replica Of feature should not be confused with the
 in-memory [Database
-replication]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}})
+replication]({{< relref "/operate/rs/7.8/databases/durability-ha/replication.md" >}})
 feature, which is used for creating a master / replica configuration that
 enables ensuring database high-availability.
 {{< /note >}}
@@ -103,7 +103,7 @@ of the statuses of all the sources.
 {{< note >}}
 If you encounter issues with the Replica Of process, refer
 to the troubleshooting section [Replica Of repeatedly
-fails]({{< relref "/operate/rs/databases/import-export/replica-of/replicaof-repeatedly-fails.md" >}}).
+fails]({{< relref "/operate/rs/7.8/databases/import-export/replica-of/replicaof-repeatedly-fails.md" >}}).
 {{< /note >}}
 
 ### Synchronization errors
@@ -208,9 +208,9 @@ This avoids a full sync that can overwrite your data.
 
 ## Active-Passive replication backlog
 
-In addition to the [database replication backlog]({{< relref "/operate/rs/databases/durability-ha/replication#database-replication-backlog" >}}), active-passive databases maintain a replication backlog (per shard) to synchronize the database instances between clusters.
+In addition to the [database replication backlog]({{< relref "/operate/rs/7.8/databases/durability-ha/replication#database-replication-backlog" >}}), active-passive databases maintain a replication backlog (per shard) to synchronize the database instances between clusters.
 By default, the replication backlog is set to one percent (1%) of the database size divided by the database number of shards and ranges between 1MB to 250MB per shard.
-Use the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) utility to control the size of the replication backlog. You can set it to `auto` or set a specific size.  
+Use the [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin" >}}) utility to control the size of the replication backlog. You can set it to `auto` or set a specific size.  
 
 For an Active-Passive database:
 ```text

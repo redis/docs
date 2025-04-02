@@ -22,6 +22,6 @@ Some requests may also require:
 - URL parameters
 - [Query parameters](https://en.wikipedia.org/wiki/Query_string)
 - [JSON](http://www.json.org) request body
-- [Permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}})
+- [Permissions]({{< relref "/operate/rs/7.8/references/rest-api/permissions" >}})
 
 {{< table-children columnNames="Request,Description" columnSources="LinkTitle,Description" enableLinks="LinkTitle" >}}

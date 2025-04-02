@@ -13,16 +13,16 @@ url: '/operate/rs/7.8/databases/recover/'
 ---
 When a cluster fails or a database is corrupted, you must:
 
-1. [Restore the cluster configuration]({{< relref "/operate/rs/clusters/cluster-recovery.md" >}}) from the CCS files
+1. [Restore the cluster configuration]({{< relref "/operate/rs/7.8/clusters/cluster-recovery.md" >}}) from the CCS files
 1. Recover the databases with their previous configuration and data
 
 To restore data to databases in the new cluster,
 you must restore the database persistence files (backup, AOF, or snapshot files) to the databases.
-These files are stored in the [persistence storage location]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}).
+These files are stored in the [persistence storage location]({{< relref "/operate/rs/7.8/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}).
 
 The database recovery process includes:
 
-1. If the cluster failed, [recover the cluster]({{< relref "/operate/rs/clusters/cluster-recovery.md" >}}).
+1. If the cluster failed, [recover the cluster]({{< relref "/operate/rs/7.8/clusters/cluster-recovery.md" >}}).
 1. Identify recoverable databases.
 1. Restore the database data.
 1. Verify that the databases are active.
@@ -31,7 +31,7 @@ The database recovery process includes:
 
 - Before you start database recovery, make sure that the cluster that hosts the database is healthy.
     In the case of a cluster failure,
-    you must [recover the cluster]({{< relref "/operate/rs/clusters/cluster-recovery.md" >}}) before you recover the databases.
+    you must [recover the cluster]({{< relref "/operate/rs/7.8/clusters/cluster-recovery.md" >}}) before you recover the databases.
 
 - We recommend that you allocate new persistent storage drives for the new cluster nodes.
     If you use the original storage drives,
@@ -40,7 +40,7 @@ The database recovery process includes:
 ## Recover databases
 
 After you prepare the cluster that hosts the database,
-you can run the recovery process from the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}})
+you can run the recovery process from the [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin" >}})
 command-line interface (CLI).
 
 To recover the database:
@@ -71,7 +71,7 @@ of the configuration and persistence files on each of the nodes.
 
     If you cannot resolve the issues, contact [Redis support](https://redis.com/company/support/).
 
-1. Recover the database using one of the following [`rladmin recover`]({{< relref "/operate/rs/references/cli-utilities/rladmin/recover" >}}) commands:
+1. Recover the database using one of the following [`rladmin recover`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/recover" >}}) commands:
 
     - Recover all databases from the persistence files located in the persistent storage drives:
     
@@ -122,7 +122,7 @@ After the databases are recovered, make sure your Redis clients can successfully
 
 If you enable the automatic recovery cluster policy, Redis Enterprise tries to quickly recover as much data as possible from before the disaster.
 
-To enable automatic recovery, [update the cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) using the REST API:
+To enable automatic recovery, [update the cluster policy]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) using the REST API:
 
 ```sh
 PUT /v1/cluster/policy
@@ -144,4 +144,4 @@ PUT /v1/bdbs/<bdb_uid>
 }
 ```
 
-You can also set `recovery_wait_time` when you [create a database]({{< relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1" >}}) using the REST API.
+You can also set `recovery_wait_time` when you [create a database]({{< relref "/operate/rs/7.8/references/rest-api/requests/bdbs#post-bdbs-v1" >}}) using the REST API.

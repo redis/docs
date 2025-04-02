@@ -22,11 +22,11 @@ Here, you learn how to configure the relevant settings.
 
 ## User login lockout
 
-By default, after 5 failed login attempts within 15 minutes, the user account is locked for 30 minutes. You can change the user login lockout settings in the Cluster Manager UI or with [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}).
+By default, after 5 failed login attempts within 15 minutes, the user account is locked for 30 minutes. You can change the user login lockout settings in the Cluster Manager UI or with [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin" >}}).
 
 ### View login lockout settings
 
-You can view the cluster's user login lockout settings from **Cluster > Security > Preferences > Lockout threshold** in the Cluster Manager UI or with [`rladmin info cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/info#info-cluster" >}}):
+You can view the cluster's user login lockout settings from **Cluster > Security > Preferences > Lockout threshold** in the Cluster Manager UI or with [`rladmin info cluster`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/info#info-cluster" >}}):
 
 ```sh
 $ rladmin info cluster | grep login_lockout
@@ -65,7 +65,7 @@ To change the number of failed login attempts allowed before the user account is
 
 - [Cluster Manager UI](#configure-user-login-lockout)
 
-- [`rladmin tune cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+- [`rladmin tune cluster`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
 
     ```sh
     rladmin tune cluster login_lockout_threshold <integer>
@@ -89,7 +89,7 @@ To change the amount of time during which failed login attempts are counted, use
 
 - [Cluster Manager UI](#configure-user-login-lockout)
 
-- [`rladmin tune cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+- [`rladmin tune cluster`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
 
     ```sh
     rladmin tune cluster login_lockout_counter_reset_after <seconds>
@@ -107,7 +107,7 @@ To change the amount of time that the user account is locked after excessive fai
 
 - [Cluster Manager UI](#configure-user-login-lockout)
 
-- [`rladmin tune cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+- [`rladmin tune cluster`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
 
     ```sh
     rladmin tune cluster login_lockout_duration <login_lockout_duration>
@@ -151,7 +151,7 @@ To unlock a user account or reset a user password with `rladmin`, run:
 rladmin cluster reset_password <user_email>
 ```
 
-To unlock a user account or reset a user password with the REST API, use [`PUT /v1/users`]({{< relref "/operate/rs/references/rest-api/requests/users#put-user" >}}):
+To unlock a user account or reset a user password with the REST API, use [`PUT /v1/users`]({{< relref "/operate/rs/7.8/references/rest-api/requests/users#put-user" >}}):
 
 ```sh
 PUT /v1/users
@@ -170,7 +170,7 @@ To turn off user login lockout and allow unlimited login attempts, use one of th
 
     1. Select **Save**.
 
-- [`rladmin tune cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+- [`rladmin tune cluster`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
 
     ```sh
     rladmin tune cluster login_lockout_threshold 0
@@ -192,7 +192,7 @@ To customize the session timeout, use one of the following methods:
 
     1. Select **Save**.
 
-- [`rladmin cluster config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}):
+- [`rladmin cluster config`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/cluster/config" >}}):
 
     ```sh
     rladmin cluster config cm_session_timeout_minutes <number_of_min>

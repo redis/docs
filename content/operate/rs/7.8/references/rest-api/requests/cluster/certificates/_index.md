@@ -29,7 +29,7 @@ Get the cluster's certificates.
 
 | Permission name |
 |-----------------|
-| [view_cluster_info]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_info" >}}) |
+| [view_cluster_info]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_cluster_info" >}}) |
 
 ### Request {#get-request} 
 
@@ -74,7 +74,7 @@ PUT /v1/cluster/update_cert
 
 Replaces an existing certificate on all nodes within the cluster with a new certificate. The new certificate must pass validation before it can replace the old certificate.
 
-See the [certificates table]({{< relref "/operate/rs/security/certificates" >}}) for the list of cluster certificates and their descriptions.
+See the [certificates table]({{< relref "/operate/rs/7.8/security/certificates" >}}) for the list of cluster certificates and their descriptions.
 
 ### Request {#put-request}
 
@@ -120,7 +120,7 @@ Otherwise, retry the certificate update in case the failure was due to a tempora
 
 Removes the specified cluster certificate from both CCS and disk
 across all nodes. Only optional certificates can be deleted through
-this endpoint. See the [certificates table]({{< relref "/operate/rs/security/certificates" >}}) for the list of cluster certificates and their descriptions.
+this endpoint. See the [certificates table]({{< relref "/operate/rs/7.8/security/certificates" >}}) for the list of cluster certificates and their descriptions.
 
 ### Request {#delete-request} 
 

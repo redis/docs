@@ -53,7 +53,7 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 
 {{<embed-md "rs-upgrade-paths.md">}}
 
-For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software cluster]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster">}}).
+For detailed upgrade instructions, see [Upgrade a Redis Enterprise Software cluster]({{<relref "/operate/rs/7.8/installing-upgrading/upgrading/upgrade-cluster">}}).
 
 {{<note>}}
 Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}).

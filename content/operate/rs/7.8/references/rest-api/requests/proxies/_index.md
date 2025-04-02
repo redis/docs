@@ -32,7 +32,7 @@ Get all the proxies in the cluster.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_proxies_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_proxies_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_all_proxies_info]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_all_proxies_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -51,7 +51,7 @@ GET /v1/proxies
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [proxy objects]({{< relref "/operate/rs/references/rest-api/objects/proxy" >}}).
+Returns a JSON array of [proxy objects]({{< relref "/operate/rs/7.8/references/rest-api/objects/proxy" >}}).
 
 #### Example JSON body
 
@@ -103,7 +103,7 @@ Get a single proxy's info.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_proxy_info]({{< relref "/operate/rs/references/rest-api/permissions#view_proxy_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_proxy_info]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_proxy_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -128,7 +128,7 @@ GET /v1/proxies/1
 
 ### Response {#get-response}
 
-Returns a [proxy object]({{< relref "/operate/rs/references/rest-api/objects/proxy" >}}).
+Returns a [proxy object]({{< relref "/operate/rs/7.8/references/rest-api/objects/proxy" >}}).
 
 #### Example JSON body
 
@@ -178,7 +178,7 @@ However, if `allow_restart` is `false`, such changes only take effect after the 
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_proxy]({{< relref "/operate/rs/references/rest-api/permissions#update_proxy" >}}) | admin<br />user_manager |
+| [update_proxy]({{< relref "/operate/rs/7.8/references/rest-api/permissions#update_proxy" >}}) | admin<br />user_manager |
 
 ### Request {#put-request}
 
@@ -215,7 +215,7 @@ PUT /v1/proxies/1
 
 #### Request body
 
-Include a JSON object in the request body. The JSON object can contain the boolean field `allow_restart` and a [proxy object]({{< relref "/operate/rs/references/rest-api/objects/proxy" >}}) with updated fields.
+Include a JSON object in the request body. The JSON object can contain the boolean field `allow_restart` and a [proxy object]({{< relref "/operate/rs/7.8/references/rest-api/objects/proxy" >}}) with updated fields.
 
 ### Response {#put-response}
 
@@ -247,7 +247,7 @@ However, if `allow_restart` is `false`, such changes only take effect after the 
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_proxy]({{< relref "/operate/rs/references/rest-api/permissions#update_proxy" >}}) | admin<br />user_manager |
+| [update_proxy]({{< relref "/operate/rs/7.8/references/rest-api/permissions#update_proxy" >}}) | admin<br />user_manager |
 
 ### Request {#put-all-request}
 
@@ -279,7 +279,7 @@ PUT /v1/proxies
 
 #### Request body
 
-Include a JSON object in the request body. The JSON object can contain the boolean field `allow_restart` and a [proxy object]({{< relref "/operate/rs/references/rest-api/objects/proxy" >}}) with updated fields.
+Include a JSON object in the request body. The JSON object can contain the boolean field `allow_restart` and a [proxy object]({{< relref "/operate/rs/7.8/references/rest-api/objects/proxy" >}}) with updated fields.
 
 ### Response {#put-all-response}
 

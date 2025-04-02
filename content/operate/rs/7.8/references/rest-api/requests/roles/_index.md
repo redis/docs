@@ -33,7 +33,7 @@ Get all roles' details.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_roles_info]({{< relref "/operate/rs/references/rest-api/permissions#view_all_roles_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_all_roles_info]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_all_roles_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -52,7 +52,7 @@ GET /v1/roles
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [role objects]({{< relref "/operate/rs/references/rest-api/objects/role" >}}).
+Returns a JSON array of [role objects]({{< relref "/operate/rs/7.8/references/rest-api/objects/role" >}}).
 
 #### Example JSON body
 
@@ -115,7 +115,7 @@ Get the details of a single role.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_role_info]({{< relref "/operate/rs/references/rest-api/permissions#view_role_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_role_info]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_role_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -142,7 +142,7 @@ GET /v1/roles/1
 
 ### Response {#get-response}
 
-Returns a [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}).
+Returns a [role object]({{< relref "/operate/rs/7.8/references/rest-api/objects/role" >}}).
 
 #### Example JSON body
 
@@ -175,7 +175,7 @@ Update an existing role's details.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_role]({{< relref "/operate/rs/references/rest-api/permissions#update_role" >}}) | admin<br />user_manager |
+| [update_role]({{< relref "/operate/rs/7.8/references/rest-api/permissions#update_role" >}}) | admin<br />user_manager |
 
 ### Request {#put-request}
 
@@ -204,7 +204,7 @@ PUT /v1/roles/17
 
 | Field   | Type | Description |
 |---------|------|---------------|
-| dry_run |  | Validate the updated [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) but don't apply the update. |
+| dry_run |  | Validate the updated [role object]({{< relref "/operate/rs/7.8/references/rest-api/objects/role" >}}) but don't apply the update. |
 
 #### URL parameters
 
@@ -214,11 +214,11 @@ PUT /v1/roles/17
 
 #### Body
 
-Include a [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) with updated fields in the request body.
+Include a [role object]({{< relref "/operate/rs/7.8/references/rest-api/objects/role" >}}) with updated fields in the request body.
 
 ### Response {#put-response}
 
-Returns a [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) with the updated fields.
+Returns a [role object]({{< relref "/operate/rs/7.8/references/rest-api/objects/role" >}}) with the updated fields.
 
 #### Example JSON body
 
@@ -261,7 +261,7 @@ Create a new role.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [create_role]({{< relref "/operate/rs/references/rest-api/permissions#create_role" >}}) | admin<br />user_manager |
+| [create_role]({{< relref "/operate/rs/7.8/references/rest-api/permissions#create_role" >}}) | admin<br />user_manager |
 
 ### Request {#post-request}
 
@@ -291,15 +291,15 @@ POST /v1/roles
 
 | Field   | Type | Description |
 |---------|------|---------------|
-| dry_run |  | Validate the new [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) but don't apply the update. |
+| dry_run |  | Validate the new [role object]({{< relref "/operate/rs/7.8/references/rest-api/objects/role" >}}) but don't apply the update. |
 
 #### Body
 
-Include a [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}) in the request body.
+Include a [role object]({{< relref "/operate/rs/7.8/references/rest-api/objects/role" >}}) in the request body.
 
 ### Response {#post-response}
 
-Returns the newly created [role object]({{< relref "/operate/rs/references/rest-api/objects/role" >}}).
+Returns the newly created [role object]({{< relref "/operate/rs/7.8/references/rest-api/objects/role" >}}).
 
 #### Example JSON body
 
@@ -376,7 +376,7 @@ Delete a role object.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [delete_role]({{< relref "/operate/rs/references/rest-api/permissions#delete_role" >}}) | admin<br />user_manager |
+| [delete_role]({{< relref "/operate/rs/7.8/references/rest-api/permissions#delete_role" >}}) | admin<br />user_manager |
 
 ### Request {#delete-request}
 

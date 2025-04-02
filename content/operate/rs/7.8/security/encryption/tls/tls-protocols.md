@@ -19,9 +19,9 @@ The communications for which you can modify TLS protocols are:
 
 - Control plane - The TLS configuration for cluster administration.
 - Data plane - The TLS configuration for the communication between applications and databases.
-- Discovery service (Sentinel) - The TLS configuration for the [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}).
+- Discovery service (Sentinel) - The TLS configuration for the [discovery service]({{< relref "/operate/rs/7.8/databases/durability-ha/discovery-service.md" >}}).
 
-You can configure TLS protocols with the [Cluster Manager UI](#edit-tls-ui), [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}), or the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}).
+You can configure TLS protocols with the [Cluster Manager UI](#edit-tls-ui), [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/cluster/config" >}}), or the [REST API]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster#put-cluster" >}}).
 
 {{<warning>}}
 - After you set the minimum TLS version, Redis Enterprise Software does not accept communications with TLS versions older than the specified version.

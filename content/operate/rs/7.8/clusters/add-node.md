@@ -17,12 +17,12 @@ After you install the first node, you can add more nodes to the cluster.
 
 Before you add a node to the cluster:
 
-- The clocks on all nodes must always be [synchronized]({{< relref "/operate/rs/clusters/configure/sync-clocks.md" >}}).
+- The clocks on all nodes must always be [synchronized]({{< relref "/operate/rs/7.8/clusters/configure/sync-clocks.md" >}}).
 
     If the clock in the node you are trying to join to the cluster is not synchronized with the nodes already in the cluster,
     the action fails and an error message is shown indicating that you must synchronize the clocks first.
 
-- You must [update the DNS records]({{< relref "/operate/rs/networking/cluster-dns" >}})
+- You must [update the DNS records]({{< relref "/operate/rs/7.8/networking/cluster-dns" >}})
     each time a node is added or replaced.
 
 - We recommend that you add nodes one after the other rather than in parallel
@@ -32,8 +32,8 @@ Before you add a node to the cluster:
 
 To add a node to an existing cluster:
 
-1. [Install the Redis Enterprise Software installation package]({{< relref "/operate/rs/installing-upgrading" >}}) on a clean installation
-    of a [supported operating system]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/supported-platforms.md" >}}).
+1. [Install the Redis Enterprise Software installation package]({{< relref "/operate/rs/7.8/installing-upgrading" >}}) on a clean installation
+    of a [supported operating system]({{< relref "/operate/rs/7.8/installing-upgrading/install/plan-deployment/supported-platforms.md" >}}).
 
 1. To connect to the Cluster Manager UI of the new Redis Enterprise Software installation, go to: <https://URL or IP address:8443>
 
@@ -41,7 +41,7 @@ To add a node to an existing cluster:
 
     {{< tip >}}
 The management UI uses TLS encryption with a default certificate.
-You can also [replace the TLS certificate]({{< relref "/operate/rs/security/certificates/updating-certificates" >}})
+You can also [replace the TLS certificate]({{< relref "/operate/rs/7.8/security/certificates/updating-certificates" >}})
 with a custom certificate.
     {{< /tip >}}
 
@@ -59,15 +59,15 @@ with a custom certificate.
 
 1. Configure storage and network settings:
 
-    1. Enter a path for [*Ephemeral storage*]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}), or leave the default path.
+    1. Enter a path for [*Ephemeral storage*]({{< relref "/operate/rs/7.8/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}), or leave the default path.
 
-    1. Enter a path for [*Persistent storage*]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}),
+    1. Enter a path for [*Persistent storage*]({{< relref "/operate/rs/7.8/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}),
         or leave the default path.
 
-    1. To enable [*Auto Tiering*]({{< relref "/operate/rs/databases/auto-tiering/" >}}),
+    1. To enable [*Auto Tiering*]({{< relref "/operate/rs/7.8/databases/auto-tiering/" >}}),
         select **Enable flash storage** and enter the path to the flash storage.
 
-    1. If the cluster is configured to support [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}), set the **Rack-zone ID** for the new node.
+    1. If the cluster is configured to support [rack-zone awareness]({{< relref "/operate/rs/7.8/clusters/configure/rack-zone-awareness.md" >}}), set the **Rack-zone ID** for the new node.
 
     1. If your machine has multiple IP addresses, assign a single IPv4 type address for **Node-to-node communication (internal traffic)** and multiple IPv4/IPv6 type addresses for **External traffic**.
 
@@ -92,4 +92,4 @@ We recommend that you verify the node is functioning properly using one of the f
 
 - Command-line method:
 
-    Run the [`rlcheck`]({{< relref "/operate/rs/references/cli-utilities/rlcheck" >}}) utility from the node's command line.
+    Run the [`rlcheck`]({{< relref "/operate/rs/7.8/references/cli-utilities/rlcheck" >}}) utility from the node's command line.

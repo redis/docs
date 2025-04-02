@@ -29,7 +29,7 @@ Get the most recent statistics for all databases.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_bdb_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_all_bdb_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_all_bdb_stats]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_all_bdb_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -60,7 +60,7 @@ Get the most recent statistics for all databases.
 
 ### Response {#get-all-response}
 
-Returns [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for all databases.
+Returns [statistics]({{< relref "/operate/rs/7.8/references/rest-api/objects/statistics" >}}) for all databases.
 
 #### Example JSON body
 
@@ -147,7 +147,7 @@ Get the most recent statistics for a specific database.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_bdb_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_bdb_stats]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_bdb_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -178,7 +178,7 @@ GET /v1/bdbs/stats/last/1?metrics=no_of_keys,used_memory
 
 ### Response {#get-response}
 
-Returns the most recent [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for a specific database.
+Returns the most recent [statistics]({{< relref "/operate/rs/7.8/references/rest-api/objects/statistics" >}}) for a specific database.
 
 #### Example JSON body
 

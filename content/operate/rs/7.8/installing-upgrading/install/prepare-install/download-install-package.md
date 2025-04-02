@@ -19,5 +19,5 @@ To download the installation package for any of the supported platforms:
 
 {{< note >}}
 Before you install the Linux package or AWS AMI on an AWS EC2 instance,
-review the [configuration requirements for AWS EC2 instances]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/configuring-aws-instances" >}}).
+review the [configuration requirements for AWS EC2 instances]({{< relref "/operate/rs/7.8/installing-upgrading/install/plan-deployment/configuring-aws-instances" >}}).
 {{< /note >}}

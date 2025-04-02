@@ -47,7 +47,7 @@ PUT /v1/crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79/flush
 
 ### Response {#put-response}
 
-Returns a [CRDB task object]({{< relref "/operate/rs/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object]({{< relref "/operate/rs/7.8/references/rest-api/objects/crdb_task" >}}).
 
 #### Status codes {#put-status-codes}
 

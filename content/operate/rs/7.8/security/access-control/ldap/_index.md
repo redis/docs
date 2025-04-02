@@ -14,9 +14,9 @@ weight: 50
 url: '/operate/rs/7.8/security/access-control/ldap/'
 ---
 
-Redis Enterprise Software supports [Lightweight Directory Access Protocol](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) (LDAP) authentication and authorization through its [role-based access controls]({{< relref "/operate/rs/security/access-control" >}}) (RBAC).  You can use LDAP to authorize access to the Cluster Manager UI and to control database access.
+Redis Enterprise Software supports [Lightweight Directory Access Protocol](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) (LDAP) authentication and authorization through its [role-based access controls]({{< relref "/operate/rs/7.8/security/access-control" >}}) (RBAC).  You can use LDAP to authorize access to the Cluster Manager UI and to control database access.
 
-You can configure LDAP roles using the Redis Enterprise Cluster Manager UI or [REST API]({{< relref "/operate/rs/references/rest-api/requests/ldap_mappings/" >}}).
+You can configure LDAP roles using the Redis Enterprise Cluster Manager UI or [REST API]({{< relref "/operate/rs/7.8/references/rest-api/requests/ldap_mappings/" >}}).
 
 ## How it works
 
@@ -57,26 +57,26 @@ Before you enable LDAP in Redis Enterprise, you need:
 
 1. The LDAP groups that correspond to the levels of access you wish to authorize.  Each LDAP group will be mapped to a Redis Enterprise access control role.
 
-1. A Redis Enterprise access control role for each LDAP group. Before you enable LDAP, you need to set up [role-based access controls]({{< relref "/operate/rs/security/access-control" >}}) (RBAC).
+1. A Redis Enterprise access control role for each LDAP group. Before you enable LDAP, you need to set up [role-based access controls]({{< relref "/operate/rs/7.8/security/access-control" >}}) (RBAC).
 
 ## Enable LDAP
 
 To enable LDAP:
 
-1.  From **Access Control > LDAP** in the Cluster Manager UI, select the **Configuration** tab and [enable LDAP access]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}}).
+1.  From **Access Control > LDAP** in the Cluster Manager UI, select the **Configuration** tab and [enable LDAP access]({{< relref "/operate/rs/7.8/security/access-control/ldap/enable-role-based-ldap" >}}).
 
     {{<image filename="images/rs/access-control-ldap-panel.png" alt="Enable LDAP Panel" >}}
 
-2.  Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}}).
+2.  Map LDAP groups to [access control roles]({{< relref "/operate/rs/7.8/security/access-control/ldap/map-ldap-groups-to-roles" >}}).
 
-3.  Update database access control lists (ACLs) to [authorize role access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}}).  
+3.  Update database access control lists (ACLs) to [authorize role access]({{< relref "/operate/rs/7.8/security/access-control/ldap/update-database-acls" >}}).  
 
 If you already have appropriate roles, you can update them to include LDAP groups.
 
 ## More info
 
-- Enable and configure [role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}})
-- Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}})
-- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Enterprise Software [security and practices]({{< relref "/operate/rs/security/" >}})
+- Enable and configure [role-based LDAP]({{< relref "/operate/rs/7.8/security/access-control/ldap/enable-role-based-ldap" >}})
+- Map LDAP groups to [access control roles]({{< relref "/operate/rs/7.8/security/access-control/ldap/map-ldap-groups-to-roles" >}})
+- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/7.8/security/access-control/ldap/update-database-acls" >}})
+- Learn more about Redis Enterprise Software [security and practices]({{< relref "/operate/rs/7.8/security/" >}})
 

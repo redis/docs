@@ -27,7 +27,7 @@ node_cert_expiration_seconds{cluster="mycluster.local",logical_name="metrics_exp
 node_cert_expiration_seconds{cluster="mycluster.local",logical_name="syncer",node="1",path="/etc/opt/redislabs/syncer_cert.pem"} 31104000.0
 ```
 
-The following certificates relate to [internode communication TLS encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) and are automatically rotated by Redis Enterprise Software:
+The following certificates relate to [internode communication TLS encryption]({{< relref "/operate/rs/7.8/security/encryption/internode-encryption" >}}) and are automatically rotated by Redis Enterprise Software:
 
 ```sh
 node_cert_expiration_seconds{cluster="mycluster.local",logical_name="ccs_internode_encryption",node="1",path="/etc/opt/redislabs/ccs_internode_encryption_cert.pem"} 2592000.0

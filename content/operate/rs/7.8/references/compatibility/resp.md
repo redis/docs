@@ -39,7 +39,7 @@ To use RESP3 with a Redis Enterprise Software database:
 
 1. Enable RESP3 support for your database (`enabled` by default):
 
-    - [`rladmin tune db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db" >}}):
+    - [`rladmin tune db`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-db" >}}):
 
         ```sh
         rladmin tune db db:<ID> resp3 enabled
@@ -47,7 +47,7 @@ To use RESP3 with a Redis Enterprise Software database:
 
         You can use the database name in place of `db:<ID>` in the preceding command.
 
-    - [Update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
+    - [Update database configuration]({{< relref "/operate/rs/7.8/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
 
         ```sh
         PUT /v1/bdbs/<uid> 
@@ -58,7 +58,7 @@ To use RESP3 with a Redis Enterprise Software database:
 
  To deactivate RESP3 support for a database:
 
-- [`rladmin tune db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db" >}}):
+- [`rladmin tune db`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-db" >}}):
 
      ```sh
     rladmin tune db db:<ID> resp3 disabled
@@ -66,7 +66,7 @@ To use RESP3 with a Redis Enterprise Software database:
 
     You can use the database name in place of `db:<ID>` in the preceding command.
 
-- [Update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
+- [Update database configuration]({{< relref "/operate/rs/7.8/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
 
     ```sh
     PUT /v1/bdbs/<uid> 
@@ -95,13 +95,13 @@ To change `resp3_default` to `disabled`, use one of the following methods:
 
     1. Click **Save**.
 
-- [`rladmin tune cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}})
+- [`rladmin tune cluster`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster" >}})
 
     ```sh
     rladmin tune cluster resp3_default disabled
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 

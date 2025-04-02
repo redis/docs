@@ -28,7 +28,7 @@ Get the status of all currently executing, pending, or completed state-machine-r
 
 | Permission name |
 |-----------------|
-| [view_status_of_cluster_action]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
+| [view_status_of_cluster_action]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
 
 ### Request {#get-request}
 
@@ -46,7 +46,7 @@ GET /v1/actions/bdb/1
 
 ### Response {#get-response}
 
-Returns an array of JSON objects with attributes from [actions]({{< relref "/operate/rs/references/rest-api/objects/action" >}}) and [state machines]({{< relref "/operate/rs/references/rest-api/objects/state-machine" >}}).
+Returns an array of JSON objects with attributes from [actions]({{< relref "/operate/rs/7.8/references/rest-api/objects/action" >}}) and [state machines]({{< relref "/operate/rs/7.8/references/rest-api/objects/state-machine" >}}).
 
 Each action contains the following attributes: `name`, `action_uid`, `status`, and `progress`.
 

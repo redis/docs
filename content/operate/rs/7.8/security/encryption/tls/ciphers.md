@@ -19,7 +19,7 @@ Ciphers are algorithms that help secure connections between clients and servers.
 |------------|--------------|-------------|
 | control_cipher_suites | <span title="Yes">&#x2705; Yes</span> | Cipher list for TLS 1.2 communications for cluster administration (control plane) |
 | data_cipher_list | <span title="Yes">&#x2705; Yes</span> | Cipher list for TLS 1.2 communications between applications and databases (data plane) |
-| sentinel_cipher_suites | <span title="Yes">&#x2705; Yes</span> | Cipher list for [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service" >}}) (Sentinel) TLS 1.2 communications |
+| sentinel_cipher_suites | <span title="Yes">&#x2705; Yes</span> | Cipher list for [discovery service]({{< relref "/operate/rs/7.8/databases/durability-ha/discovery-service" >}}) (Sentinel) TLS 1.2 communications |
 
 ## TLS 1.3 cipher suites
 
@@ -27,11 +27,11 @@ Ciphers are algorithms that help secure connections between clients and servers.
 |------------|--------------|-------------|
 | control_cipher_suites_tls_1_3 | <span title="No">&#x274c; No</span> | Cipher list for TLS 1.3 communications for cluster administration (control plane) |
 | data_cipher_suites_tls_1_3 | <span title="Yes">&#x2705; Yes</span> | Cipher list for TLS 1.3 communications between applications and databases (data plane) |
-| sentinel_cipher_suites_tls_1_3 | <span title="No">&#x274c; No</span> | Cipher list for [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service" >}}) (Sentinel) TLS 1.3 communications |
+| sentinel_cipher_suites_tls_1_3 | <span title="No">&#x274c; No</span> | Cipher list for [discovery service]({{< relref "/operate/rs/7.8/databases/durability-ha/discovery-service" >}}) (Sentinel) TLS 1.3 communications |
 
 ## Configure cipher suites
 
-You can configure ciphers with the [Cluster Manager UI](#edit-ciphers-ui), [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}), or the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}).
+You can configure ciphers with the [Cluster Manager UI](#edit-ciphers-ui), [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/cluster/config" >}}), or the [REST API]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster#put-cluster" >}}).
 
 {{<warning>}}
 Configuring cipher suites overwrites existing ciphers rather than appending new ciphers to the list.
@@ -70,7 +70,7 @@ As of Redis Enterprise Software version 6.0.12, control plane cipher suites can 
 
 #### Configure TLS 1.2 control plane cipher suites
 
-To configure TLS 1.2 cipher suites for cluster communication, use the following [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) command syntax:
+To configure TLS 1.2 cipher suites for cluster communication, use the following [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin" >}}) command syntax:
 
 ```sh
 rladmin cluster config control_cipher_suites <BoringSSL cipher list>
@@ -92,7 +92,7 @@ Data plane cipher suites use the OpenSSL library format in Redis Enterprise Soft
 
 #### Configure TLS 1.2 data plane cipher suites
 
-To configure TLS 1.2 cipher suites for communications between applications and databases, use the following [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) command syntax:
+To configure TLS 1.2 cipher suites for communications between applications and databases, use the following [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin" >}}) command syntax:
 
 ```sh
 rladmin cluster config  data_cipher_list <OpenSSL cipher list>
@@ -109,7 +109,7 @@ rladmin cluster config data_cipher_list AES128-SHA:AES256-SHA
 
 #### Configure TLS 1.3 data plane cipher suites
 
-To configure TLS 1.3 cipher suites for communications between applications and databases, use the following [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) command syntax:
+To configure TLS 1.3 cipher suites for communications between applications and databases, use the following [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin" >}}) command syntax:
 
 ```sh
 rladmin cluster config data_cipher_suites_tls_1_3 <OpenSSL cipher list>
@@ -123,11 +123,11 @@ rladmin cluster config data_cipher_suites_tls_1_3 TLS_AES_256_GCM_SHA384:TLS_CHA
 
 ### Discovery service cipher suites {#discovery-service-ciphers-tls-1-2}
 
-Sentinel service cipher suites use the golang.org OpenSSL format for [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service" >}}) TLS connections in Redis Enterprise Software version 6.0.20 or later. See their documentation for a list of [available configurations](https://golang.org/src/crypto/tls/cipher_suites.go).
+Sentinel service cipher suites use the golang.org OpenSSL format for [discovery service]({{< relref "/operate/rs/7.8/databases/durability-ha/discovery-service" >}}) TLS connections in Redis Enterprise Software version 6.0.20 or later. See their documentation for a list of [available configurations](https://golang.org/src/crypto/tls/cipher_suites.go).
 
 #### Configure TLS 1.2 discovery service cipher suites
 
-To configure TLS 1.2 cipher suites for the discovery service cipher suites, use the following [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) command syntax:
+To configure TLS 1.2 cipher suites for the discovery service cipher suites, use the following [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin" >}}) command syntax:
 
 ```sh
 rladmin cluster config  sentinel_cipher_suites <golang cipher list> 

@@ -30,7 +30,7 @@ rladmin node <ID> remove [ wait_for_persistence { enabled | disabled } ]
 
 Returns `OK` if the node was removed successfully. Otherwise, it returns an error.
 
-Use [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify that the node was removed.
+Use [`rladmin status nodes`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify that the node was removed.
 
 ### Example
 

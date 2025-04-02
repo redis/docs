@@ -50,7 +50,7 @@ The configuration setting `tracking-table-max-keys` determines the maximum numbe
 
 To change `tracking_table_max_keys` for a database in a Redis Software cluster:
 
-- [`rladmin tune db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db">}}):
+- [`rladmin tune db`]({{<relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-db">}}):
 
     ```sh
     rladmin tune db db:<ID> tracking_table_max_keys 2000000
@@ -58,7 +58,7 @@ To change `tracking_table_max_keys` for a database in a Redis Software cluster:
 
     You can use the database name in place of `db:<ID>` in the preceding command.
 
-- [Update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+- [Update database configuration]({{<relref "/operate/rs/7.8/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
 
     ```sh
     PUT /v1/bdbs/<uid> 
@@ -71,13 +71,13 @@ The cluster-wide option `default_tracking_table_max_keys_policy` determines the 
 
 To change `default_tracking_table_max_keys_policy`, use one of the following methods:
 
-- [`rladmin tune cluster`]({{<relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster">}})
+- [`rladmin tune cluster`]({{<relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster">}})
 
     ```sh
     rladmin tune cluster default_tracking_table_max_keys_policy 2000000
     ```
 
-- [Update cluster policy]({{<relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) REST API request:
+- [Update cluster policy]({{<relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 

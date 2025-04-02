@@ -45,7 +45,7 @@ The status of a completed task is kept for 500 seconds by default.
 
 ### Response {#get-response} 
 
-Returns a [CRDB task object]({{< relref "/operate/rs/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object]({{< relref "/operate/rs/7.8/references/rest-api/objects/crdb_task" >}}).
 
 ### Status codes {#get-status-codes} 
 

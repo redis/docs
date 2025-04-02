@@ -20,13 +20,13 @@ url: '/operate/rs/7.8/references/rest-api/requests/modules/upgrade/'
 
 	POST /v1/modules/upgrade/bdb/{string: uid}
 
-Upgrades the module version on a specific database. Deprecated as of Redis Enterprise Software v7.8.2. Use [`POST /v1/bdbs/<uid>/upgrade`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) instead.
+Upgrades the module version on a specific database. Deprecated as of Redis Enterprise Software v7.8.2. Use [`POST /v1/bdbs/<uid>/upgrade`]({{<relref "/operate/rs/7.8/references/rest-api/requests/bdbs/upgrade#post-bdbs-upgrade">}}) instead.
 
 #### Required permissions
 
 | Permission name |
 |-----------------|
-| [edit_bdb_module]({{< relref "/operate/rs/references/rest-api/permissions#edit_bdb_module" >}}) |
+| [edit_bdb_module]({{< relref "/operate/rs/7.8/references/rest-api/permissions#edit_bdb_module" >}}) |
 
 ### Request {#post-request} 
 
@@ -67,7 +67,7 @@ Upgrades the module version on a specific database. Deprecated as of Redis Enter
 
 ### Response {#post-response} 
 
-Returns the upgraded [module object]({{< relref "/operate/rs/references/rest-api/objects/module" >}}).
+Returns the upgraded [module object]({{< relref "/operate/rs/7.8/references/rest-api/objects/module" >}}).
 
 #### Example JSON body
 

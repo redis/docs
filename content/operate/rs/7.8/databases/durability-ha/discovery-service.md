@@ -31,7 +31,7 @@ connecting to databases.
 The Discovery Service is available for querying on each node of the
 cluster, listening on port 8001. To employ it, your application utilizes
 a [Redis Sentinel enabled client
-library]({{< relref "/operate/rs/databases/connect/supported-clients-browsers.md" >}})
+library]({{< relref "/operate/rs/7.8/databases/connect/supported-clients-browsers.md" >}})
 to connect to the Discovery Service and request the endpoint for the
 given database. The Discovery Service replies with the database's
 endpoint for that database. In case of a node failure, the Discovery
@@ -95,7 +95,7 @@ To use Redis Sentinel, every database name must be unique across the cluster.
 
 ## Redis client support
 
-We recommend these clients that are tested for use with the [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) that uses the Redis Sentinel API:
+We recommend these clients that are tested for use with the [Discovery Service]({{< relref "/operate/rs/7.8/databases/durability-ha/discovery-service.md" >}}) that uses the Redis Sentinel API:
 
 {{< embed-md "discovery-clients.md" >}}
 

@@ -29,7 +29,7 @@ Get all alert states for all replica sources of all BDBs.
 
 | Permission name |
 |-----------------|
-| [view_all_bdbs_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_all_bdbs_alerts" >}}) |
+| [view_all_bdbs_alerts]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_all_bdbs_alerts" >}}) |
 
 ### Request {#get-all-request} 
 
@@ -48,7 +48,7 @@ Get all alert states for all replica sources of all BDBs.
 
 Returns a hash of alert UIDs and the alerts states for each BDB.
 
-See [REST API alerts overview]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}) for a description of the alert state object.
+See [REST API alerts overview]({{< relref "/operate/rs/7.8/references/rest-api/objects/alert" >}}) for a description of the alert state object.
 
 #### Example JSON body
 
@@ -89,7 +89,7 @@ Get all alert states for all replica sources of a specific bdb.
 
 | Permission name |
 |-----------------|
-| [view_bdb_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_alerts" >}}) |
+| [view_bdb_alerts]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_bdb_alerts" >}}) |
 
 ### Request {#get-request-all-replica-alerts} 
 
@@ -112,7 +112,7 @@ Get all alert states for all replica sources of a specific bdb.
 
 ### Response {#get-response-all-replica-alerts} 
 
-Returns a hash of [alert objects]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}) and their states.
+Returns a hash of [alert objects]({{< relref "/operate/rs/7.8/references/rest-api/objects/alert" >}}) and their states.
 
 #### Example JSON body
 
@@ -151,7 +151,7 @@ Get all alert states for a specific replica source of a bdb.
 
 | Permission name |
 |-----------------|
-| [view_bdb_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_alerts" >}}) |
+| [view_bdb_alerts]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_bdb_alerts" >}}) |
 
 ### Request {#get-request-replica-alerts} 
 
@@ -175,7 +175,7 @@ Get all alert states for a specific replica source of a bdb.
 
 ### Response {#get-response-replica-alerts} 
 
-Returns a hash of [alert objects]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}) and their states.
+Returns a hash of [alert objects]({{< relref "/operate/rs/7.8/references/rest-api/objects/alert" >}}) and their states.
 
 #### Example JSON body
 
@@ -214,7 +214,7 @@ Get a replica source alert state of a specific bdb.
 
 | Permission name |
 |-----------------|
-| [view_bdb_alerts]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_alerts" >}}) |
+| [view_bdb_alerts]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_bdb_alerts" >}}) |
 
 ### Request {#get-request-alert} 
 
@@ -240,7 +240,7 @@ Get a replica source alert state of a specific bdb.
 
 ### Response {#get-response-alert} 
 
-Returns an [alert state object]({{< relref "/operate/rs/references/rest-api/objects/alert" >}}).
+Returns an [alert state object]({{< relref "/operate/rs/7.8/references/rest-api/objects/alert" >}}).
 
 #### Example JSON body
 

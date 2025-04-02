@@ -13,9 +13,9 @@ url: '/operate/rs/7.8/databases/active-active/manage/'
 
 You can configure and manage your Active-Active database from either the Cluster Manager UI or the command line.
 
-To change the global configuration of the Active-Active database, use [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}).
+To change the global configuration of the Active-Active database, use [`crdb-cli`]({{< relref "/operate/rs/7.8/references/cli-utilities/crdb-cli" >}}).
 
-If you need to apply changes locally to one database instance, you use the Cluster Manager UI or [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}).
+If you need to apply changes locally to one database instance, you use the Cluster Manager UI or [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin" >}}).
 
 ## Database settings
 
@@ -24,7 +24,7 @@ Many Active-Active database settings can be changed after database creation. One
 ## Participating clusters
 
 You can add and remove participating clusters of an Active-Active database to change the topology.
-To manage the changes to Active-Active topology, use [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/" >}}) or the participating clusters list in the Cluster Manager UI.
+To manage the changes to Active-Active topology, use [`crdb-cli`]({{< relref "/operate/rs/7.8/references/cli-utilities/crdb-cli/" >}}) or the participating clusters list in the Cluster Manager UI.
 
 ### Add participating clusters
 
@@ -36,7 +36,7 @@ the new database instance can accept connections and read operations.
 The new instance does not accept write operations until it is in the syncing state.
 
 {{<note>}}
-If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
+If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/7.8/databases/auto-tiering">}}), you cannot add participating clusters that run on RAM only.
 {{</note>}}
 
 To add a new participating cluster to an existing Active-Active configuration using the Cluster Manager UI:
@@ -81,13 +81,13 @@ To remove a participating cluster using the Cluster Manager UI:
 
 ## Replication backlog
 
-Redis databases that use [replication for high availability]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}) maintain a replication backlog (per shard) to synchronize the primary and replica shards of a database. In addition to the database replication backlog, Active-Active databases maintain a backlog (per shard) to synchronize the database instances between clusters.
+Redis databases that use [replication for high availability]({{< relref "/operate/rs/7.8/databases/durability-ha/replication.md" >}}) maintain a replication backlog (per shard) to synchronize the primary and replica shards of a database. In addition to the database replication backlog, Active-Active databases maintain a backlog (per shard) to synchronize the database instances between clusters.
 
 By default, both the database and Active-Active replication backlogs are set to one percent (1%) of the database size divided by the number of shards. This can range between 1MB to 250MB per shard for each backlog.
 
 ### Change the replication backlog size
 
-Use the [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) utility to control the size of the replication backlogs. You can set it to `auto` or set a specific size.  
+Use the [`crdb-cli`]({{< relref "/operate/rs/7.8/references/cli-utilities/crdb-cli" >}}) utility to control the size of the replication backlogs. You can set it to `auto` or set a specific size.  
 
 Update the database replication backlog configuration with the `crdb-cli` command shown below.
 

@@ -37,5 +37,5 @@ disk space they would require in this scenario:
 
 For disk size requirements in standard usage scenarios, refer to the
 [Hardware
-requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}})
+requirements]({{< relref "/operate/rs/7.8/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}})
 section.

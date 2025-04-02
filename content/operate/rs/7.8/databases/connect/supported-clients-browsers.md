@@ -17,17 +17,17 @@ To connect an application to a Redis database hosted by Redis Enterprise Softwar
 
 You can also use the `redis-cli` utility to connect to a database from the command line.
 
-For examples of each approach, see the [Redis Enterprise Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}).
+For examples of each approach, see the [Redis Enterprise Software quickstart]({{< relref "/operate/rs/7.8/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}).
 
 Note: You cannot use client libraries to configure Redis Enterprise Software.  Instead, use:
 
-- The Redis Enterprise Software [Cluster Manager UI]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
-- The [REST API]({{< relref "/operate/rs/references/rest-api" >}})
-- Command-line utilities, such as [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}})
+- The Redis Enterprise Software [Cluster Manager UI]({{< relref "/operate/rs/7.8/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
+- The [REST API]({{< relref "/operate/rs/7.8/references/rest-api" >}})
+- Command-line utilities, such as [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin" >}})
 
 ### Discovery service
 
-We recommend the following clients when using a [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) based on the Redis Sentinel API:
+We recommend the following clients when using a [discovery service]({{< relref "/operate/rs/7.8/databases/durability-ha/discovery-service.md" >}}) based on the Redis Sentinel API:
 
 - [redis-py]({{< relref "/develop/clients/redis-py" >}}) (Python client)
 - [NRedisStack]({{< relref "/develop/clients/dotnet" >}}) (.NET client)

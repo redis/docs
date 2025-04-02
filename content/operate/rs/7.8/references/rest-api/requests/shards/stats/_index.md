@@ -28,7 +28,7 @@ Get statistics for all shards.
 
 | Permission name |
 |-----------------|
-| [view_all_shard_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_all_shard_stats" >}}) |
+| [view_all_shard_stats]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_all_shard_stats" >}}) |
 
 ### Request {#get-all-request} 
 
@@ -53,11 +53,11 @@ Get statistics for all shards.
 | interval | string | Time interval for which we want stats: 1sec/10sec/5min/15min/1hour/12hour/1week (optional) |
 | stime | ISO_8601 | Start time from which we want the stats. Should comply with the [ISO_8601](https://en.wikipedia.org/wiki/ISO_8601) format (optional) |
 | etime | ISO_8601 | End time after which we don't want the stats. Should comply with the [ISO_8601](https://en.wikipedia.org/wiki/ISO_8601) format (optional) |
-| metrics | list | Comma-separated list of [metric names]({{< relref "/operate/rs/references/rest-api/objects/statistics/shard-metrics" >}}) for which we want statistics (default is all) (optional) |
+| metrics | list | Comma-separated list of [metric names]({{< relref "/operate/rs/7.8/references/rest-api/objects/statistics/shard-metrics" >}}) for which we want statistics (default is all) (optional) |
 
 ### Response {#get-all-response} 
 
-Returns a JSON array of [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for all shards.
+Returns a JSON array of [statistics]({{< relref "/operate/rs/7.8/references/rest-api/objects/statistics" >}}) for all shards.
 
 #### Example JSON body
 
@@ -146,7 +146,7 @@ Get statistics for a specific shard.
 
 | Permission name |
 |-----------------|
-| [view_shard_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_shard_stats" >}}) |
+| [view_shard_stats]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_shard_stats" >}}) |
 
 ### Request {#get-request} 
 
@@ -180,7 +180,7 @@ Get statistics for a specific shard.
 
 ### Response {#get-response} 
 
-Returns [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for the specified shard.
+Returns [statistics]({{< relref "/operate/rs/7.8/references/rest-api/objects/statistics" >}}) for the specified shard.
 
 #### Example JSON body
 

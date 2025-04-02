@@ -29,7 +29,7 @@ The cluster automatically manages failover to ensure high availability. Use this
 
 | Permission name | Roles |
 |-----------------|-------|
-| [failover_shard]({{< relref "/operate/rs/references/rest-api/permissions#failover_shard" >}}) | admin<br />cluster_member<br />db_member |
+| [failover_shard]({{< relref "/operate/rs/7.8/references/rest-api/permissions#failover_shard" >}}) | admin<br />cluster_member<br />db_member |
 
 ### Request {#post-multi-request} 
 
@@ -67,7 +67,7 @@ The request body is a JSON object that can contain the following fields:
 
 ### Response {#post-multi-response} 
 
-Returns a JSON object with an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions#get-action">}}) request.
+Returns a JSON object with an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/7.8/references/rest-api/requests/actions#get-action">}}) request.
 
 #### Example JSON body
 
@@ -111,7 +111,7 @@ The cluster automatically manages failover to ensure high availability. Use this
 
 | Permission name | Roles |
 |-----------------|-------|
-| [failover_shard]({{< relref "/operate/rs/references/rest-api/permissions#failover_shard" >}}) | admin<br />cluster_member<br />db_member |
+| [failover_shard]({{< relref "/operate/rs/7.8/references/rest-api/permissions#failover_shard" >}}) | admin<br />cluster_member<br />db_member |
 
 ### Request {#post-request} 
 
@@ -156,7 +156,7 @@ The request body is a JSON object that can contain the following fields:
 
 ### Response {#post-response} 
 
-Returns a JSON object with an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions#get-action">}}) request.
+Returns a JSON object with an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/7.8/references/rest-api/requests/actions#get-action">}}) request.
 
 #### Example JSON body
 

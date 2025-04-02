@@ -22,13 +22,13 @@ url: '/operate/rs/7.8/references/rest-api/requests/bdbs/actions/rebalance/'
 PUT /v1/bdbs/{int: uid}/actions/rebalance
 ```
 
-Distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
+Distributes the database's shards across nodes based on the database's shard placement policy. See [Shard placement policy]({{<relref "/operate/rs/7.8/databases/memory-performance/shard-placement-policy">}}) for more information about shard placement and available policies.
 
 #### Required permissions
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_bdb_info]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_bdb_info]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_bdb_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#put-request}
 
@@ -60,11 +60,11 @@ PUT /v1/bdbs/1/actions/rebalance?only_failovers=true&dry_run=true
 
 ### Response {#put-response}
 
-- If `dry_run` is `false`, returns an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions#get-action">}}) request.
+- If `dry_run` is `false`, returns an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/7.8/references/rest-api/requests/actions#get-action">}}) request.
 
 - If `dry_run` is `true`, returns the balanced shards' blueprint.
 
-  You can rearrange shards according to this blueprint if you use it in the `shards_blueprint` field of a [rearrange database shards]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/optimize_shards_placement#put-bdbs-rearrange-shards">}}) request.
+  You can rearrange shards according to this blueprint if you use it in the `shards_blueprint` field of a [rearrange database shards]({{<relref "/operate/rs/7.8/references/rest-api/requests/bdbs/actions/optimize_shards_placement#put-bdbs-rearrange-shards">}}) request.
   
   You should also pass the rebalance shards' `cluster-state-id` response header as a request header of the rearrange database shards request to make sure the optimized shard placement is relevant for the current cluster state. The cluster will reject the update if its state changed since the optimal shards placement blueprint was generated.
 

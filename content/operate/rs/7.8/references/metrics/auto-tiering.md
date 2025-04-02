@@ -11,7 +11,7 @@ weight: $weight
 url: '/operate/rs/7.8/references/metrics/auto-tiering/'
 ---
 
-These metrics are additional metrics for [Auto Tiering ]({{< relref "/operate/rs/databases/auto-tiering" >}}) databases.
+These metrics are additional metrics for [Auto Tiering ]({{< relref "/operate/rs/7.8/databases/auto-tiering" >}}) databases.
 
 #### % Values in RAM
 
@@ -25,13 +25,13 @@ If the percent of values in RAM is low for a subset of the database's shards, it
 
 #### Values in flash
 
-Number of keys with values stored in flash, not including [replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}}).
+Number of keys with values stored in flash, not including [replication]({{< relref "/operate/rs/7.8/databases/durability-ha/replication" >}}).
 
 **Components measured**: Database and Shard
 
 #### Values in RAM
 
-Number of keys with values stored in RAM, not including [replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}}).
+Number of keys with values stored in RAM, not including [replication]({{< relref "/operate/rs/7.8/databases/durability-ha/replication" >}}).
 
 **Components measured**: Database and Shard 
 
@@ -85,7 +85,7 @@ Ratio between the used logical flash memory and the physical flash memory that i
 
 #### Used RAM
 
-Total size of data stored in RAM, including keys, values, overheads, and [replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}}) (if enabled).
+Total size of data stored in RAM, including keys, values, overheads, and [replication]({{< relref "/operate/rs/7.8/databases/durability-ha/replication" >}}) (if enabled).
 
 **Components measured**: Database and Shard
 
@@ -122,7 +122,7 @@ These RoF statistics can be calculated from other metrics.
 - RoF average key size with overhead
 
     ([ram_dataset_overhead](#ram-dataset-overhead) * [used_ram](#used-ram))
-                    / ([total_keys]({{< relref "/operate/rs/references/metrics/database-operations#total-keys" >}}) * 2)
+                    / ([total_keys]({{< relref "/operate/rs/7.8/references/metrics/database-operations#total-keys" >}}) * 2)
 
 - RoF average value size in RAM
 

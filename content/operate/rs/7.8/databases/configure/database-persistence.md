@@ -12,13 +12,13 @@ weight: 30
 url: '/operate/rs/7.8/databases/configure/database-persistence/'
 ---
 
-Data is stored in RAM or a combination of RAM and flash memory ([Auto Tiering]({{< relref "/operate/rs/databases/auto-tiering/" >}})), which risks data loss during process or server failures. Redis Enterprise Software supports multiple methods to persist data to disk on a per-database basis to ensure data durability.
+Data is stored in RAM or a combination of RAM and flash memory ([Auto Tiering]({{< relref "/operate/rs/7.8/databases/auto-tiering/" >}})), which risks data loss during process or server failures. Redis Enterprise Software supports multiple methods to persist data to disk on a per-database basis to ensure data durability.
 
 You can configure [persistence](https://redis.com/redis-enterprise/technology/durable-redis/) during database creation or by editing an existing database. Although the persistence model can be changed dynamically, the switch can take time depending on the database size and the models being switched.
 
 ## Configure database persistence
 
-You can configure persistence when you [create a database]({{< relref "/operate/rs/databases/create" >}}), or you can edit an existing database's configuration:
+You can configure persistence when you [create a database]({{< relref "/operate/rs/7.8/databases/create" >}}), or you can edit an existing database's configuration:
 
 1. From the **Databases** list, select the database, then select **Configuration**.
 

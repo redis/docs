@@ -16,7 +16,7 @@ An object that represents Active-Active instance info.
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | id | integer | Unique instance ID |
-| cluster | [CRDB cluster_info]({{< relref "/operate/rs/references/rest-api/objects/crdb/cluster_info" >}}) object | |
+| cluster | [CRDB cluster_info]({{< relref "/operate/rs/7.8/references/rest-api/objects/crdb/cluster_info" >}}) object | |
 | compression | integer | Compression level when syncing from this source |
-| db_config | [CRDB database_config]({{< relref "/operate/rs/references/rest-api/objects/crdb/database_config" >}}) object | Database configuration |
+| db_config | [CRDB database_config]({{< relref "/operate/rs/7.8/references/rest-api/objects/crdb/database_config" >}}) object | Database configuration |
 | db_uid | string | ID of local database instance. This field is likely to be empty for instances other than the local one. |

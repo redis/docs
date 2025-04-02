@@ -26,9 +26,9 @@ To learn how to install Redis and `redis-cli`, see the following installation gu
 
 - [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-redis/" >}})
 
-- [Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
+- [Redis Enterprise Software]({{< relref "/operate/rs/7.8/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 
-- [Redis Enterprise Software with Docker]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
+- [Redis Enterprise Software with Docker]({{< relref "/operate/rs/7.8/installing-upgrading/quickstarts/docker-quickstart" >}})
 
 ## Connect to a database
 

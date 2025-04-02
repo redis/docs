@@ -19,7 +19,7 @@ Redis Enterprise Software uses encryption to secure communications between clust
 
 ### TLS
 
-Redis Enterprise Software uses [Transport Layer Security (TLS)]({{<relref "/operate/rs/security/encryption/tls">}}) to encrypt communications for the following:
+Redis Enterprise Software uses [Transport Layer Security (TLS)]({{<relref "/operate/rs/7.8/security/encryption/tls">}}) to encrypt communications for the following:
 
 - Cluster Manager UI
 
@@ -29,23 +29,23 @@ Redis Enterprise Software uses [Transport Layer Security (TLS)]({{<relref "/oper
 
 - Internode communication
 
-You can also [enable TLS authentication]({{< relref "/operate/rs/security/encryption/tls/enable-tls" >}}) for the following:
+You can also [enable TLS authentication]({{< relref "/operate/rs/7.8/security/encryption/tls/enable-tls" >}}) for the following:
 
 - Communication from clients or applications to your database
 
-- Communication from your database to other clusters for replication using [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}})
+- Communication from your database to other clusters for replication using [Replica Of]({{< relref "/operate/rs/7.8/databases/import-export/replica-of/" >}})
 
-- Communication to and from your database to other clusters for [Active-Active]({{< relref "/operate/rs/databases/active-active/_index.md" >}}) synchronization
+- Communication to and from your database to other clusters for [Active-Active]({{< relref "/operate/rs/7.8/databases/active-active/_index.md" >}}) synchronization
 
 ### Internode encryption
 
-[Internode encryption]({{<relref "/operate/rs/security/encryption/internode-encryption">}}) uses TLS to encrypt data in transit between cluster nodes.
+[Internode encryption]({{<relref "/operate/rs/7.8/security/encryption/internode-encryption">}}) uses TLS to encrypt data in transit between cluster nodes.
 
-By default, internode encryption is enabled for the control plane, which manages the cluster and databases. If you also want to encrypt replication and proxy communications between database shards on different nodes, [enable data internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption#enable-data-internode-encryption" >}}).
+By default, internode encryption is enabled for the control plane, which manages the cluster and databases. If you also want to encrypt replication and proxy communications between database shards on different nodes, [enable data internode encryption]({{< relref "/operate/rs/7.8/security/encryption/internode-encryption#enable-data-internode-encryption" >}}).
 
 ### Require HTTPS for REST API endpoints
 
-By default, the Redis Enterprise Software API supports communication over HTTP and HTTPS. However, you can [turn off HTTP support]({{< relref "/operate/rs/references/rest-api/encryption" >}}) to ensure that API requests are encrypted.
+By default, the Redis Enterprise Software API supports communication over HTTP and HTTPS. However, you can [turn off HTTP support]({{< relref "/operate/rs/7.8/references/rest-api/encryption" >}}) to ensure that API requests are encrypted.
 
 ## Encrypt data at rest
 
@@ -55,7 +55,7 @@ To encrypt data stored on disk, use file system-based encryption capabilities av
 
 ### Private key encryption
 
-Enable PEM encryption to [encrypt all private keys]({{< relref "/operate/rs/security/encryption/pem-encryption" >}}) on disk.
+Enable PEM encryption to [encrypt all private keys]({{< relref "/operate/rs/7.8/security/encryption/pem-encryption" >}}) on disk.
 
 ## Encrypt data in use
 

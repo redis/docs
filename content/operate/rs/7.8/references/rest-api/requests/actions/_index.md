@@ -30,7 +30,7 @@ Get the status of all running, pending, or completed actions on all clusters, no
 
 | Permission name |
 |-----------------|
-| [view_status_of_cluster_action]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
+| [view_status_of_cluster_action]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
 
 ### Request {#get-all-request}
 
@@ -42,7 +42,7 @@ GET /v1/actions
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [action objects]({{< relref "/operate/rs/references/rest-api/objects/action" >}}), which represent tasks, and an array of [state-machine objects]({{< relref "/operate/rs/references/rest-api/objects/state-machine" >}}).
+Returns a JSON array of [action objects]({{< relref "/operate/rs/7.8/references/rest-api/objects/action" >}}), which represent tasks, and an array of [state-machine objects]({{< relref "/operate/rs/7.8/references/rest-api/objects/state-machine" >}}).
 
 | Field | Type/Value | Description |
 |-------|------------|-------------|
@@ -111,7 +111,7 @@ Get the status of a specific action.
 
 | Permission name |
 |-----------------|
-| [view_status_of_cluster_action]({{< relref "/operate/rs/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
+| [view_status_of_cluster_action]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_status_of_cluster_action" >}}) |
 
 ### Request {#get-request}
 
@@ -129,7 +129,7 @@ GET /v1/actions/{uid}
 
 ### Response {#get-response}
 
-Returns an [action object]({{< relref "/operate/rs/references/rest-api/objects/action" >}}).
+Returns an [action object]({{< relref "/operate/rs/7.8/references/rest-api/objects/action" >}}).
 
 | Field | Type/Value | Description |
 |-------|------------|-------------|

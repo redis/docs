@@ -71,7 +71,7 @@ To enable auditing for your cluster, use:
 
     The output file (and path) must be accessible by the user and group running Redis Enterprise Software.
 
-- the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster/auditing-db-conns#put-cluster-audit-db-conns" >}})
+- the [REST API]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/auditing-db-conns#put-cluster-audit-db-conns" >}})
 
     ```
     PUT /v1/cluster/auditing/db_conns
@@ -107,7 +107,7 @@ Once auditing is enabled for your cluster, you can audit individual databases.  
     rladmin info cluster
     ```
 
-- the [REST API]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}})
+- the [REST API]({{< relref "/operate/rs/7.8/references/rest-api/requests/bdbs#put-bdbs" >}})
 
     ```
     PUT /v1/bdbs/1
@@ -135,7 +135,7 @@ To audit connections for new databases by default, use:
 
     To deactivate this policy, set `db_conns_auditing` to `disabled`.
 
-- the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}})
+- the [REST API]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy" >}})
 
     ```
     PUT /v1/cluster/policy

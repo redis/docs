@@ -34,7 +34,7 @@ To prevent this from happening, make sure your database is large enough to hold 
 
 `volatile-lru` is the default eviction policy for most databases.
 
-The default policy for [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}) is _noeviction_ policy.
+The default policy for [Active-Active databases]({{< relref "/operate/rs/7.8/databases/active-active" >}}) is _noeviction_ policy.
 
 ## Active-Active database eviction
 
@@ -53,7 +53,7 @@ Data eviction policies are not supported for Active-Active databases with Auto T
 
 To avoid data eviction, make sure your database is large enough to hold required values.  
 
-For larger databases, consider using [Auto Tiering ]({{< relref "/operate/rs/databases/auto-tiering/" >}}).
+For larger databases, consider using [Auto Tiering ]({{< relref "/operate/rs/7.8/databases/auto-tiering/" >}}).
 
 Auto Tiering stores actively-used data (also known as _hot data_) in RAM and the remaining data in flash memory (SSD).
 This lets you retain more data while ensuring the fastest access to the most critical data.

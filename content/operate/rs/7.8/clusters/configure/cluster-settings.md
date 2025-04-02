@@ -23,7 +23,7 @@ you can upload the cluster license key, either during initial
 cluster creation or at any time afterward. The license key defines various
 cluster settings, such as the maximum number of shards you can have in
 the cluster. For more detailed information see [Cluster license
-keys]({{< relref "/operate/rs/clusters/configure/license-keys.md" >}}).
+keys]({{< relref "/operate/rs/7.8/clusters/configure/license-keys.md" >}}).
 
 ### View max number of allowed shards
 
@@ -44,7 +44,7 @@ You can change the **Time zone** field to ensure the date, time fields, and log 
 
 The **Alert Settings** tab lets you configure alerts that are relevant to the entire cluster, such as alerts for cluster utilization, nodes, node utilization, security, and database utilization.
 
-You can also configure email server settings and [send alerts by email]({{< relref "/operate/rs/monitoring/v1_monitoring#send-alerts-by-email" >}}) to relevant users.
+You can also configure email server settings and [send alerts by email]({{< relref "/operate/rs/7.8/monitoring/v1_monitoring#send-alerts-by-email" >}}) to relevant users.
 
 ### Configure email server settings
 

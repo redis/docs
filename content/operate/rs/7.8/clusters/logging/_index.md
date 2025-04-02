@@ -32,8 +32,8 @@ events regarding alerts, notifications, and configuration.
 You can use the **Logs** screen to review what actions a user has performed, such as editing a database's configuration.
 
 - [Redis slow
-    log]({{< relref "/operate/rs/clusters/logging/redis-slow-log.md" >}})
-- [rsyslog logging]({{< relref "/operate/rs/clusters/logging/rsyslog-logging/" >}})
+    log]({{< relref "/operate/rs/7.8/clusters/logging/redis-slow-log.md" >}})
+- [rsyslog logging]({{< relref "/operate/rs/7.8/clusters/logging/rsyslog-logging/" >}})
 
 ## View logs in the UI
 

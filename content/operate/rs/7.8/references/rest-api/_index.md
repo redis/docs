@@ -16,10 +16,10 @@ Here, you'll find the details of the API and how to use it.
 
 For more info, see:
 
-- Supported [request endpoints]({{< relref "/operate/rs/references/rest-api/requests" >}}), organized by path
-- Supported [objects]({{< relref "/operate/rs/references/rest-api/objects" >}}), both request and response
-- Built-in roles and associated [permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}})
-- [Redis Enterprise Software REST API quick start]({{< relref "/operate/rs/references/rest-api/quick-start" >}}) with examples
+- Supported [request endpoints]({{< relref "/operate/rs/7.8/references/rest-api/requests" >}}), organized by path
+- Supported [objects]({{< relref "/operate/rs/7.8/references/rest-api/objects" >}}), both request and response
+- Built-in roles and associated [permissions]({{< relref "/operate/rs/7.8/references/rest-api/permissions" >}})
+- [Redis Enterprise Software REST API quick start]({{< relref "/operate/rs/7.8/references/rest-api/quick-start" >}}) with examples
 
 ## Authentication
 
@@ -34,23 +34,23 @@ curl -u "demo@redislabs.com:password" \
     https://localhost:9443/v1/bdbs
 ```
 
-For more examples, see the [Redis Enterprise Software REST API quick start]({{< relref "/operate/rs/references/rest-api/quick-start" >}}).
+For more examples, see the [Redis Enterprise Software REST API quick start]({{< relref "/operate/rs/7.8/references/rest-api/quick-start" >}}).
 
 ### Permissions
 
-By default, the admin user is authorized for access to all endpoints. Use [role-based access controls]({{< relref "/operate/rs/security/access-control" >}}) and [role permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}}) to manage access.
+By default, the admin user is authorized for access to all endpoints. Use [role-based access controls]({{< relref "/operate/rs/7.8/security/access-control" >}}) and [role permissions]({{< relref "/operate/rs/7.8/references/rest-api/permissions" >}}) to manage access.
 
-If a user attempts to access an endpoint that is not allowed in their role, the request will fail with a [`403 Forbidden`](https://www.rfc-editor.org/rfc/rfc9110.html#name-403-forbidden) status code. For more details on which user roles can access certain endpoints, see [Permissions]({{< relref "/operate/rs/references/rest-api/permissions" >}}).
+If a user attempts to access an endpoint that is not allowed in their role, the request will fail with a [`403 Forbidden`](https://www.rfc-editor.org/rfc/rfc9110.html#name-403-forbidden) status code. For more details on which user roles can access certain endpoints, see [Permissions]({{< relref "/operate/rs/7.8/references/rest-api/permissions" >}}).
 
 ### Certificates
 
-The Redis Enterprise Software REST API uses [Self-signed certificates]({{< relref "/operate/rs/security/certificates" >}}) to ensure the product is secure. When you use the default self-signed certificates, the HTTPS requests will fail with `SSL certificate problem: self signed certificate` unless you turn off SSL certificate verification.
+The Redis Enterprise Software REST API uses [Self-signed certificates]({{< relref "/operate/rs/7.8/security/certificates" >}}) to ensure the product is secure. When you use the default self-signed certificates, the HTTPS requests will fail with `SSL certificate problem: self signed certificate` unless you turn off SSL certificate verification.
 
 ## Ports
 
 All calls must be made over SSL to port 9443. For the API to work, port 9443 must be exposed to incoming traffic or mapped to a different port.
 
-If you are using a [Redis Enterprise Software Docker image]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}), run the following command to start the Docker image with port 9443 exposed:
+If you are using a [Redis Enterprise Software Docker image]({{< relref "/operate/rs/7.8/installing-upgrading/quickstarts/docker-quickstart" >}}), run the following command to start the Docker image with port 9443 exposed:
 
 ```sh
 docker run -p 9443:9443 redislabs/redis
@@ -67,7 +67,7 @@ Specify the version in the request [URI](https://en.wikipedia.org/wiki/Uniform_R
 | POST `/v1/bdbs` | A version 1 request for the `/bdbs` endpoint. |
 | POST `/v2/bdbs` | A version 2 request for the `/bdbs` endpoint. |
 
-When an endpoint supports multiple versions, each version is documented on the corresponding endpoint.  For example, the [bdbs request]({{< relref "/operate/rs/references/rest-api/requests/bdbs/" >}}) page documents POST requests for [version 1]({{< relref "/operate/rs/references/rest-api/requests/bdbs/#post-bdbs-v1" >}}) and [version 2]({{< relref "/operate/rs/references/rest-api/requests/bdbs/#post-bdbs-v2" >}}).
+When an endpoint supports multiple versions, each version is documented on the corresponding endpoint.  For example, the [bdbs request]({{< relref "/operate/rs/7.8/references/rest-api/requests/bdbs/" >}}) page documents POST requests for [version 1]({{< relref "/operate/rs/7.8/references/rest-api/requests/bdbs/#post-bdbs-v1" >}}) and [version 2]({{< relref "/operate/rs/7.8/references/rest-api/requests/bdbs/#post-bdbs-v2" >}}).
 
 ## Headers
 

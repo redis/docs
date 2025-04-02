@@ -20,7 +20,7 @@ The **Databases** screen shows tags for each database in the list.
 
 ## Add database tags
 
-You can add tags when you [create a database]({{<relref "/operate/rs/databases/create">}}) or [edit an existing database's configuration]({{<relref "/operate/rs/databases/configure#edit-database-settings">}}).
+You can add tags when you [create a database]({{<relref "/operate/rs/7.8/databases/create">}}) or [edit an existing database's configuration]({{<relref "/operate/rs/7.8/databases/configure#edit-database-settings">}}).
 
 To add tags to a database using the Cluster Manager UI:
 

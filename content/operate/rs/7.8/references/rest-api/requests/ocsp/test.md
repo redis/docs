@@ -26,7 +26,7 @@ Queries the OCSP server for the proxy certificate’s latest status and returns 
 
 | Permission name |
 |-----------------|
-| [test_ocsp_status]({{< relref "/operate/rs/references/rest-api/permissions#test_ocsp_status" >}}) |
+| [test_ocsp_status]({{< relref "/operate/rs/7.8/references/rest-api/permissions#test_ocsp_status" >}}) |
 
 ### Request {#post-request} 
 
@@ -43,7 +43,7 @@ Queries the OCSP server for the proxy certificate’s latest status and returns 
 
 ### Response {#post-response} 
 
-Returns an [OCSP status object]({{< relref "/operate/rs/references/rest-api/objects/ocsp_status" >}}).
+Returns an [OCSP status object]({{< relref "/operate/rs/7.8/references/rest-api/objects/ocsp_status" >}}).
 
 #### Example JSON body
 

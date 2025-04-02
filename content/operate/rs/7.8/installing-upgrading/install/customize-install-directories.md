@@ -55,7 +55,7 @@ These files are not in the custom directories:
     - /etc/opt/redislabs/redislabs_custom_install_version
     - /etc/opt/redislabs/redislabs_env_config.sh
 
-To specify directories during [installation]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}), include installer flags as [command-line options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) when you run the `install.sh` script. For example:
+To specify directories during [installation]({{< relref "/operate/rs/7.8/installing-upgrading/install/install-on-linux" >}}), include installer flags as [command-line options]({{< relref "/operate/rs/7.8/installing-upgrading/install/install-script" >}}) when you run the `install.sh` script. For example:
 
 ```sh
 sudo ./install.sh --install-dir <path> --config-dir <path> --var-dir <path>

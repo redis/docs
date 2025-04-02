@@ -29,7 +29,7 @@ Get stats for all syncer sources of a local database.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_bdb_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_bdb_stats]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_bdb_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-all-request}
 
@@ -62,7 +62,7 @@ GET /v1/bdbs/1/sync_source_stats?interval=5min
 
 ### Response {#get-all-response}
 
-Returns [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for all syncer sources.
+Returns [statistics]({{< relref "/operate/rs/7.8/references/rest-api/objects/statistics" >}}) for all syncer sources.
 
 #### Example JSON body
 
@@ -112,7 +112,7 @@ Get stats for a specific syncer (Replica Of) instance.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_bdb_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_bdb_stats]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_bdb_stats" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-request}
 
@@ -146,7 +146,7 @@ GET /v1/bdbs/1/sync_source_stats/1?interval=5min
 
 ### Response {#get-response}
 
-Returns [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for a specific syncer instance.
+Returns [statistics]({{< relref "/operate/rs/7.8/references/rest-api/objects/statistics" >}}) for a specific syncer instance.
 
 #### Example JSON body
 

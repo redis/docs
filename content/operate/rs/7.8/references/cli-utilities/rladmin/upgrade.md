@@ -19,7 +19,7 @@ Upgrades the version of a module or Redis Enterprise Software for a database.
 
 Schedules a restart of the primary and replica processes of a database and then upgrades the database to the latest version of Redis Enterprise Software.
 
-For more information, see [Upgrade an existing Redis Software Deployment]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}).
+For more information, see [Upgrade an existing Redis Software Deployment]({{< relref "/operate/rs/7.8/installing-upgrading/upgrading" >}}).
 
 ```sh
 rladmin upgrade db { db:<id> | <name> }
@@ -34,7 +34,7 @@ rladmin upgrade db { db:<id> | <name> }
                 [ { latest_with_modules | and module module_name <module name> version <version> module_args <arguments string> } ]
 ```
 
-As of v6.2.4, the default behavior for `upgrade db` has changed.  It is now controlled by a new parameter that sets the default upgrade policy used to create new databases and to upgrade ones already in the cluster.  To learn more, see [`tune cluster default_redis_version`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}).
+As of v6.2.4, the default behavior for `upgrade db` has changed.  It is now controlled by a new parameter that sets the default upgrade policy used to create new databases and to upgrade ones already in the cluster.  To learn more, see [`tune cluster default_redis_version`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster" >}}).
 
 As of Redis Enterprise Software version 7.8.2, `upgrade db` will always upgrade modules.
 

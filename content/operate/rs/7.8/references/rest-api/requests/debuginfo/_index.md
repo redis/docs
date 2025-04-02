@@ -13,7 +13,7 @@ url: '/operate/rs/7.8/references/rest-api/requests/debuginfo/'
 ---
 
 {{<banner-article>}}
-These REST API paths are deprecated as of Redis Enterprise Software version 7.4.2. Use the new paths [`/v1/cluster/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/cluster/debuginfo" >}}), [`/v1/nodes/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/nodes/debuginfo" >}}), and [`/v1/bdbs/debuginfo`]({{< relref "/operate/rs/references/rest-api/requests/bdbs/debuginfo" >}}) instead.
+These REST API paths are deprecated as of Redis Enterprise Software version 7.4.2. Use the new paths [`/v1/cluster/debuginfo`]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/debuginfo" >}}), [`/v1/nodes/debuginfo`]({{< relref "/operate/rs/7.8/references/rest-api/requests/nodes/debuginfo" >}}), and [`/v1/bdbs/debuginfo`]({{< relref "/operate/rs/7.8/references/rest-api/requests/bdbs/debuginfo" >}}) instead.
 {{</banner-article>}}
 
 Downloads a support package, which includes logs and information about the cluster, nodes, databases, and shards, as a tar file called `filename.tar.gz`. Extract the files from the tar file to access the debug info.

@@ -19,7 +19,7 @@ You can use the Cluster Manager UI to flush data from Active-Active databases.
 
 {{< warning title="Data Loss Warning" >}}
 The flush command deletes ALL in-memory and persistence data in the database.
-We recommend that you [back up your database]({{< relref "/operate/rs/databases/import-export/schedule-backups.md" >}}) before you flush the data.
+We recommend that you [back up your database]({{< relref "/operate/rs/7.8/databases/import-export/schedule-backups.md" >}}) before you flush the data.
 {{< /warning >}}
 
 ## Flush data from a database
@@ -39,7 +39,7 @@ redis-cli -h redis-12345.cluster.local -p 9443 -a xyz flushall
 ```
 
 {{< note >}}
-Port 9443 is the default [port configuration]({{< relref "/operate/rs/networking/port-configurations#https://docs.redis.com/latest/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software" >}}).
+Port 9443 is the default [port configuration]({{< relref "/operate/rs/7.8/networking/port-configurations#https://docs.redis.com/latest/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software" >}}).
 {{< /note >}}
 
 
@@ -110,13 +110,13 @@ To flush data from an Active-Active database, use one of the following methods:
 
 - REST API
 
-    1. To find the ID of the Active-Active database, use [`GET /v1/crdbs`]({{< relref "/operate/rs/references/rest-api/requests/crdbs#get-all-crdbs" >}}):
+    1. To find the ID of the Active-Active database, use [`GET /v1/crdbs`]({{< relref "/operate/rs/7.8/references/rest-api/requests/crdbs#get-all-crdbs" >}}):
 
         ```sh
         GET https://[host][:port]/v1/crdbs
         ```
 
-    1. To flush the Active-Active database, use [`PUT /v1/crdbs/{guid}/flush`]({{< relref "/operate/rs/references/rest-api/requests/crdbs/flush#put-crdbs-flush" >}}):
+    1. To flush the Active-Active database, use [`PUT /v1/crdbs/{guid}/flush`]({{< relref "/operate/rs/7.8/references/rest-api/requests/crdbs/flush#put-crdbs-flush" >}}):
 
         ```sh
         PUT https://[host][:port]/v1/crdbs/<guid>/flush
@@ -124,7 +124,7 @@ To flush data from an Active-Active database, use one of the following methods:
 
         The command output contains the task ID of the flush task.
 
-    1. To check the status of the flush task, use [`GET /v1/crdb_tasks`]({{< relref "/operate/rs/references/rest-api/requests/crdb_tasks#get-crdb_task" >}}):
+    1. To check the status of the flush task, use [`GET /v1/crdb_tasks`]({{< relref "/operate/rs/7.8/references/rest-api/requests/crdb_tasks#get-crdb_task" >}}):
 
         ```sh
         GET https://[host][:port]/v1/crdb_tasks/<task-id>

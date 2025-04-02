@@ -26,7 +26,7 @@ Gets the latest cached status of the proxy certificate’s OCSP response.
 
 | Permission name |
 |-----------------|
-| [view_ocsp_status]({{< relref "/operate/rs/references/rest-api/permissions#view_ocsp_status" >}}) |
+| [view_ocsp_status]({{< relref "/operate/rs/7.8/references/rest-api/permissions#view_ocsp_status" >}}) |
 
 ### Request {#get-request} 
 
@@ -44,7 +44,7 @@ Gets the latest cached status of the proxy certificate’s OCSP response.
 
 ### Response {#get-response} 
 
-Returns an [OCSP status object]({{< relref "/operate/rs/references/rest-api/objects/ocsp_status" >}}).
+Returns an [OCSP status object]({{< relref "/operate/rs/7.8/references/rest-api/objects/ocsp_status" >}}).
 
 #### Example JSON body
 

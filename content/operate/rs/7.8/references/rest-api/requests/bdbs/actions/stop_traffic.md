@@ -24,13 +24,13 @@ POST /v1/bdbs/{int: uid}/actions/stop_traffic
 
 Stop handling traffic for the database.
 
-Use this action to stop read and write traffic on a database. To resume traffic afterward, use the [`resume_traffic`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/resume_traffic">}}) action.
+Use this action to stop read and write traffic on a database. To resume traffic afterward, use the [`resume_traffic`]({{<relref "/operate/rs/7.8/references/rest-api/requests/bdbs/actions/resume_traffic">}}) action.
 
 #### Required permissions
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_bdb_with_action]({{< relref "/operate/rs/references/rest-api/permissions#update_bdb_with_action" >}}) | admin<br />cluster_member<br />db_member |
+| [update_bdb_with_action]({{< relref "/operate/rs/7.8/references/rest-api/permissions#update_bdb_with_action" >}}) | admin<br />cluster_member<br />db_member |
 
 ### Request {#post-request}
 
@@ -48,7 +48,7 @@ POST /v1/bdbs/1/actions/stop_traffic
 
 ### Response {#post-response}
 
-Returns a JSON object with an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions#get-action">}}) request.
+Returns a JSON object with an `action_uid`. You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/7.8/references/rest-api/requests/actions#get-action">}}) request.
 
 #### Status codes {#post-status-codes}
 

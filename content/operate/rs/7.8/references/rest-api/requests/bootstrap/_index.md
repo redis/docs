@@ -58,7 +58,7 @@ The `bootstrap_status` object contains the following information:
 | error_code | If state is `error`, this error code describes the type of error encountered. |
 | error_details | An error-specific object that may contain additional information about the error. A common field in use is `message` which provides a more verbose error message.
 
-The `local_node_info` object is a subset of a [node object]({{< relref "/operate/rs/references/rest-api/objects/node" >}}) that provides information about the node configuration.
+The `local_node_info` object is a subset of a [node object]({{< relref "/operate/rs/7.8/references/rest-api/objects/node" >}}) that provides information about the node configuration.
 
 #### Example JSON body
 
@@ -141,7 +141,7 @@ POST /v1/bootstrap/{action}
 Initiate bootstrapping.
 
 The request must contain a bootstrap configuration JSON object, as
-described in [Object attributes]({{< relref "/operate/rs/references/rest-api/objects/" >}}) or a minimal subset.
+described in [Object attributes]({{< relref "/operate/rs/7.8/references/rest-api/objects/" >}}) or a minimal subset.
 
 Bootstrapping is permitted only when the current bootstrap state is
 `idle` or `error` (in which case the process will restart with the new
@@ -226,7 +226,7 @@ POST /v1/bootstrap/create_cluster
 
 #### Request body
 
-Include a [bootstrap object]({{< relref "/operate/rs/references/rest-api/objects/bootstrap" >}}) in the request body.
+Include a [bootstrap object]({{< relref "/operate/rs/7.8/references/rest-api/objects/bootstrap" >}}) in the request body.
 
 ### Response {#post-response}
 

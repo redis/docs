@@ -78,7 +78,7 @@ To view slow log entries for Redis Software databases, use one of the following 
 
 - Cluster Manager UI:
 
-    1. To access the slow log in the Cluster Manager UI, your [cluster management role]({{<relref "/operate/rs/security/access-control/create-cluster-roles">}}) must be Admin, Cluster Member, or DB Member.
+    1. To access the slow log in the Cluster Manager UI, your [cluster management role]({{<relref "/operate/rs/7.8/security/access-control/create-cluster-roles">}}) must be Admin, Cluster Member, or DB Member.
     
     1. Select a database from the **Databases** list.
 
@@ -86,7 +86,7 @@ To view slow log entries for Redis Software databases, use one of the following 
 
 - Command line:
 
-    Use [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}) to run [`SLOWLOG GET`]({{<relref "/commands/slowlog-get">}}):
+    Use [`redis-cli`]({{<relref "/operate/rs/7.8/references/cli-utilities/redis-cli">}}) to run [`SLOWLOG GET`]({{<relref "/commands/slowlog-get">}}):
 
     ```sh
     redis-cli -h <endpoint> -p <port> SLOWLOG GET <count>
@@ -94,7 +94,7 @@ To view slow log entries for Redis Software databases, use one of the following 
 
 ## Change slow log threshold
 
-The slow log includes all database commands that take longer than ten milliseconds (10,000 microseconds) by default. You can use [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}) to view or change this threshold.
+The slow log includes all database commands that take longer than ten milliseconds (10,000 microseconds) by default. You can use [`redis-cli`]({{<relref "/operate/rs/7.8/references/cli-utilities/redis-cli">}}) to view or change this threshold.
 
 To check the current threshold, run [`CONFIG GET`]({{<relref "/commands/config-get">}}):
 
@@ -110,7 +110,7 @@ redis-cli -h <endpoint> -p <port> CONFIG SET slowlog-log-slower-than <value_in_m
 
 ## Change maximum entries
 
-The slow log retains the last 128 entries by default. You can use [`redis-cli`]({{<relref "/operate/rs/references/cli-utilities/redis-cli">}}) to view or change the maximum number of entries.
+The slow log retains the last 128 entries by default. You can use [`redis-cli`]({{<relref "/operate/rs/7.8/references/cli-utilities/redis-cli">}}) to view or change the maximum number of entries.
 
 To check the current maximum, run [`CONFIG GET`]({{<relref "/commands/config-get">}}):
 

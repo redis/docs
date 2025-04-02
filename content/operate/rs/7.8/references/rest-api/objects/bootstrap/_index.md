@@ -17,10 +17,10 @@ A bootstrap configuration object.
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | action | 'create_cluster'<br />'join_cluster'<br />'recover_cluster' | Action to perform |
-| cluster | [cluster_identity]({{< relref "/operate/rs/references/rest-api/objects/bootstrap/cluster_identity" >}}) object | Cluster to join or create |
+| cluster | [cluster_identity]({{< relref "/operate/rs/7.8/references/rest-api/objects/bootstrap/cluster_identity" >}}) object | Cluster to join or create |
 | cnm_https_port | integer | Port to join a cluster with non-default cnm_https port |
 | crdb_coordinator_port | integer, (range:&nbsp;1024-65535) (default:&nbsp;9081) | CRDB coordinator port |
-| credentials | [credentials]({{< relref "/operate/rs/references/rest-api/objects/bootstrap/credentials" >}}) object | Cluster admin credentials |
+| credentials | [credentials]({{< relref "/operate/rs/7.8/references/rest-api/objects/bootstrap/credentials" >}}) object | Cluster admin credentials |
 | dns_suffixes | {{<code>}}
 [{
   "name": string,
@@ -35,8 +35,8 @@ A bootstrap configuration object.
 | gossip_envoy_admin_port | integer, (range:&nbsp;1024-65535) | Gossip envoy admin port|
 | license | string | License string. If not provided, a trial license is set by default. |
 | max_retries | integer | Max number of retries in case of recoverable errors |
-| node | [node_identity]({{< relref "/operate/rs/references/rest-api/objects/bootstrap/node_identity" >}}) object | Node description |
-| policy | [policy]({{< relref "/operate/rs/references/rest-api/objects/bootstrap/policy" >}}) object | Policy object |
+| node | [node_identity]({{< relref "/operate/rs/7.8/references/rest-api/objects/bootstrap/node_identity" >}}) object | Node description |
+| policy | [policy]({{< relref "/operate/rs/7.8/references/rest-api/objects/bootstrap/policy" >}}) object | Policy object |
 | recovery_filename | string | Name of backup file to recover from |
 | required_version | string | This node can only join the cluster if all nodes in the cluster have a version greater than the required_version |
 | retry_time | integer | Max waiting time between retries (in seconds) |

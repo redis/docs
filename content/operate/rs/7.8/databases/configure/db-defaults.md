@@ -44,9 +44,9 @@ You can choose a predefined endpoint configuration to use the recommended databa
 
 ### Database proxy
 
-Redis Enterprise Software uses [proxies]({{< relref "/operate/rs/references/terminology#proxy" >}}) to manage and optimize access to database shards. Each node in the cluster runs a single proxy process, which can be active (receives incoming traffic) or passive (waits for failovers).
+Redis Enterprise Software uses [proxies]({{< relref "/operate/rs/7.8/references/terminology#proxy" >}}) to manage and optimize access to database shards. Each node in the cluster runs a single proxy process, which can be active (receives incoming traffic) or passive (waits for failovers).
 
-You can configure default [proxy policies]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) to determine which nodes' proxies are active and bound to new databases by default.
+You can configure default [proxy policies]({{< relref "/operate/rs/7.8/databases/configure/proxy-policy" >}}) to determine which nodes' proxies are active and bound to new databases by default.
 
 To configure the default database proxy policy using the Cluster Manager UI:
 
@@ -60,13 +60,13 @@ To configure the default database proxy policy using the Cluster Manager UI:
 
 To configure the default proxy policy for non-sharded databases, use one of the following methods:
 
-- [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
+- [rladmin tune cluster]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
     
     ```sh
     rladmin tune cluster default_non_sharded_proxy_policy { single | all-master-shards | all-nodes }
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 
@@ -77,13 +77,13 @@ To configure the default proxy policy for non-sharded databases, use one of the 
 
 To configure the default proxy policy for sharded databases, use one of the following methods:
 
-- [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
+- [rladmin tune cluster]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
     
     ```sh
     rladmin tune cluster default_sharded_proxy_policy { single | all-master-shards | all-nodes }
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 
@@ -92,7 +92,7 @@ To configure the default proxy policy for sharded databases, use one of the foll
 
 ### Shards placement
 
-The default [shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) determines the distribution of database shards across nodes in the cluster.
+The default [shard placement policy]({{< relref "/operate/rs/7.8/databases/memory-performance/shard-placement-policy" >}}) determines the distribution of database shards across nodes in the cluster.
 
 Shard placement policies include:
 
@@ -110,13 +110,13 @@ To configure default shard placement, use one of the following methods:
 
         {{<image filename="images/rs/screenshots/databases/db-defaults-endpoint-config-custom.png" alt="The Database defaults panel lets you select Database proxy and Shards placement if Endpoint Configuration is set to Custom.">}}
 
-- [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
+- [rladmin tune cluster]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
     
     ```sh
     rladmin tune cluster default_shards_placement { dense | sparse }
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 
@@ -125,20 +125,20 @@ To configure default shard placement, use one of the following methods:
 
 ### Database version
 
-New databases use the default Redis database version unless you select a different **Database version** when you [create a database]({{<relref "/operate/rs/databases/create">}}) in the Cluster Manager UI or specify the `redis_version` in a [create database REST API request]({{< relref "/operate/rs/references/rest-api/requests/bdbs" >}}).
+New databases use the default Redis database version unless you select a different **Database version** when you [create a database]({{<relref "/operate/rs/7.8/databases/create">}}) in the Cluster Manager UI or specify the `redis_version` in a [create database REST API request]({{< relref "/operate/rs/7.8/references/rest-api/requests/bdbs" >}}).
 
 To configure the Redis database version, use one of the following methods:
 
 - Cluster Manager UI: Edit **Database version** in [**Database defaults**](#edit-database-defaults)
 
 
-- [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
+- [rladmin tune cluster]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
     
     ```sh
     rladmin tune cluster default_redis_version <x.y>
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 
@@ -147,19 +147,19 @@ To configure the Redis database version, use one of the following methods:
 
 ### Internode encryption
 
-Enable [internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) to encrypt data in transit between nodes for new databases by default.
+Enable [internode encryption]({{< relref "/operate/rs/7.8/security/encryption/internode-encryption" >}}) to encrypt data in transit between nodes for new databases by default.
 
 To enable or turn off internode encryption by default, use one of the following methods:
 
 - Cluster Manager UI: Edit **Internode Encryption** in [**Database defaults**](#edit-database-defaults)
 
-- [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
+- [rladmin tune cluster]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
     
     ```sh
     rladmin tune cluster data_internode_encryption { enabled | disabled }
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy]({{< relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 

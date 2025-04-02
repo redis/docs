@@ -16,7 +16,7 @@ You might want to remove a node from a Redis Enterprise cluster for one of the f
 - To [replace a faulty node](#replace-a-faulty-node) with a healthy node.
 - To [replace a healthy node](#replace-a-healthy-node) with a different node.
 
-You can configure [email alerts from the cluster]({{< relref "/operate/rs/monitoring/v1_monitoring#cluster-alerts" >}}) to notify you of cluster changes, including when a node is removed.
+You can configure [email alerts from the cluster]({{< relref "/operate/rs/7.8/monitoring/v1_monitoring#cluster-alerts" >}}) to notify you of cluster changes, including when a node is removed.
 
 {{<warning>}}
 Read through these explanations thoroughly before taking
@@ -51,7 +51,7 @@ existence of a faulty node and automatically replaces the faulty node
 with the new node.
 
 For guidelines, refer to [Replacing a faulty
-node]({{< relref "/operate/rs/clusters/replace-node.md" >}}).
+node]({{< relref "/operate/rs/7.8/clusters/replace-node.md" >}}).
 
 ## Replace a healthy node
 
@@ -60,14 +60,14 @@ must first add the new node to the cluster, migrate all the resources
 from the node you would like to remove, and only then remove the node.
 
 For further guidance, refer to [adding a new node to a
-cluster]({{< relref "/operate/rs/clusters/add-node.md" >}}).
+cluster]({{< relref "/operate/rs/7.8/clusters/add-node.md" >}}).
 
 You can migrate resources by using the `rladmin` command-line interface
 (CLI). For guidelines, refer to [`rladmin` command-line interface
-(CLI)]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}).
+(CLI)]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin" >}}).
 
 {{< note >}}
-The [DNS records]({{< relref "/operate/rs/networking/cluster-dns" >}}) must be updated each time a node is added or replaced.
+The [DNS records]({{< relref "/operate/rs/7.8/networking/cluster-dns" >}}) must be updated each time a node is added or replaced.
 {{< /note >}}
 
 ## Remove a node
@@ -94,11 +94,11 @@ To remove a node using the Cluster Manager UI:
 At any point, you can click the **Cancel removal** button to stop the process. When cancelled, the current internal action is completed, and then the process stops.
     {{</note>}}
 
-To remove a node using the REST API, use [`POST /v1/nodes/<node_id>/actions/remove`]({{< relref "/operate/rs/references/rest-api/requests/nodes/actions#post-node-action" >}}).
+To remove a node using the REST API, use [`POST /v1/nodes/<node_id>/actions/remove`]({{< relref "/operate/rs/7.8/references/rest-api/requests/nodes/actions#post-node-action" >}}).
 
 By default, the remove node action completes after all resources migrate off the removed node. Node removal does not wait for migrated shards' persistence files to be created on the new nodes.
 
-To change node removal to wait for the creation of new persistence files for all migrated shards, set `wait_for_persistence` to `true` in the request body or [update the cluster policy]({{<relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) `persistent_node_removal` to `true` to change the cluster's default behavior.
+To change node removal to wait for the creation of new persistence files for all migrated shards, set `wait_for_persistence` to `true` in the request body or [update the cluster policy]({{<relref "/operate/rs/7.8/references/rest-api/requests/cluster/policy#put-cluster-policy">}}) `persistent_node_removal` to `true` to change the cluster's default behavior.
 
 For example:
 
@@ -111,6 +111,6 @@ POST https://<hostname>:9443/v1/nodes/<node_id>/actions/remove
 
 {{< note >}}
 If you need to add a removed node back to the cluster,
-you must [uninstall]({{< relref "/operate/rs/installing-upgrading/uninstalling.md" >}})
-and [reinstall]({{< relref "/operate/rs/installing-upgrading" >}}) the software on that node.
+you must [uninstall]({{< relref "/operate/rs/7.8/installing-upgrading/uninstalling.md" >}})
+and [reinstall]({{< relref "/operate/rs/7.8/installing-upgrading" >}}) the software on that node.
 {{< /note >}}

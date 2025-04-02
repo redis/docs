@@ -15,9 +15,9 @@ url: '/operate/rs/7.8/security/access-control/create-users/'
 
 Before you create other users:
 
-1. Review the [access control overview]({{<relref "/operate/rs/security/access-control">}}) to learn how to use role-based access control (RBAC) to manage users' cluster access and database access.
+1. Review the [access control overview]({{<relref "/operate/rs/7.8/security/access-control">}}) to learn how to use role-based access control (RBAC) to manage users' cluster access and database access.
 
-1. Create roles you can assign to users. See [Create roles with cluster access only]({{<relref "/operate/rs/security/access-control/create-cluster-roles">}}), [Create roles with database access only]({{<relref "/operate/rs/security/access-control/create-db-roles">}}), or [Create roles with combined access]({{<relref "/operate/rs/security/access-control/create-combined-roles">}}) for instructions.
+1. Create roles you can assign to users. See [Create roles with cluster access only]({{<relref "/operate/rs/7.8/security/access-control/create-cluster-roles">}}), [Create roles with database access only]({{<relref "/operate/rs/7.8/security/access-control/create-db-roles">}}), or [Create roles with combined access]({{<relref "/operate/rs/7.8/security/access-control/create-combined-roles">}}) for instructions.
 
 ## Add users
 
@@ -51,7 +51,7 @@ Assign a role, associated with specific databases and access control lists (ACLs
 
     - Point to an existing user and select {{< image filename="/images/rs/buttons/edit-button.png#no-click" alt="The Edit button" width="25px" class="inline" >}} to edit the user.
     
-    - Select **+ Add user** to [create a new user]({{< relref "/operate/rs/security/access-control/create-users" >}}).
+    - Select **+ Add user** to [create a new user]({{< relref "/operate/rs/7.8/security/access-control/create-users" >}}).
 
 1. Select a role to assign to the user.
 
@@ -63,8 +63,8 @@ Assign a role, associated with specific databases and access control lists (ACLs
 
 Depending on the type of the user's assigned role (cluster management role or data access role), the user can now:
 
-- [Connect to a database]({{< relref "/operate/rs/databases/connect" >}}) associated with the role and run limited Redis commands, depending on the role's Redis ACLs.
+- [Connect to a database]({{< relref "/operate/rs/7.8/databases/connect" >}}) associated with the role and run limited Redis commands, depending on the role's Redis ACLs.
 
 - Sign in to the Redis Enterprise Software Cluster Manager UI.
 
-- Make a [REST API]({{< relref "/operate/rs/references/rest-api" >}}) request.
+- Make a [REST API]({{< relref "/operate/rs/7.8/references/rest-api" >}}) request.

@@ -16,7 +16,7 @@ database.
 
 To test client connectivity:
 
-1. After you [create a Redis database]({{< relref "/operate/rs/databases/create" >}}), copy the database endpoint, which contains the cluster name (FQDN).
+1. After you [create a Redis database]({{< relref "/operate/rs/7.8/databases/create" >}}), copy the database endpoint, which contains the cluster name (FQDN).
 
     To view and copy endpoints for a database in the cluster, see the database’s **Configuration > General** section in the Cluster Manager UI:
 
@@ -29,7 +29,7 @@ To test client connectivity:
     endpoint using the IP address rather than the FQDN. If you
     succeed, then DNS is not properly configured. For
     additional details, see
-    [Configure cluster DNS]({{< relref "/operate/rs/networking/cluster-dns" >}}).
+    [Configure cluster DNS]({{< relref "/operate/rs/7.8/networking/cluster-dns" >}}).
 
 If any issues occur when testing database connections, [contact
 support](https://redis.com/company/support/).
@@ -39,7 +39,7 @@ support](https://redis.com/company/support/).
 After you create a Redis database, you can connect to your
 database and store data using one of the following methods:
 
-- [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}), the built-in command-line tool
+- [`redis-cli`]({{< relref "/operate/rs/7.8/references/cli-utilities/redis-cli" >}}), the built-in command-line tool
 
 - [Redis Insight](https://redis.com/redis-enterprise/redis-insight/), a free Redis GUI that is available for macOS, Windows, and Linux 
 
@@ -57,7 +57,7 @@ OK
 "123"
 ```
 
-For more `redis-cli` connection examples, see the [`redis-cli` reference]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}).
+For more `redis-cli` connection examples, see the [`redis-cli` reference]({{< relref "/operate/rs/7.8/references/cli-utilities/redis-cli" >}}).
 
 ### Connect with Redis Insight
 
@@ -69,7 +69,7 @@ Redis Insight is a free Redis GUI that is available for macOS, Windows, and Linu
 
 1. Enter the host and port in the **Host** and **Port** fields.
 
-1. Select **Use TLS** if [TLS]({{< relref "/operate/rs/security/encryption/tls" >}}) is set up.
+1. Select **Use TLS** if [TLS]({{< relref "/operate/rs/7.8/security/encryption/tls" >}}) is set up.
 
 1. Select **Add Redis Database** to connect to the database.
 

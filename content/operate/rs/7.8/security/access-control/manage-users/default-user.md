@@ -12,7 +12,7 @@ weight: 60
 url: '/operate/rs/7.8/security/access-control/manage-users/default-user/'
 ---
 
-When you [create a database]({{< relref "/operate/rs/databases/create" >}}), default user database access is enabled by default (**Unauthenticated access** is selected). This gives the default user full access to the database and enables compatibility with versions of Redis before Redis 6.
+When you [create a database]({{< relref "/operate/rs/7.8/databases/create" >}}), default user database access is enabled by default (**Unauthenticated access** is selected). This gives the default user full access to the database and enables compatibility with versions of Redis before Redis 6.
 
 Select **Password-only authentication**, then enter and confirm a default database password to require authentication for connections to the database.
 
@@ -40,10 +40,10 @@ To change the default user's password:
 
 ## Deactivate default user
 
-If you set up [role-based access control]({{< relref "/operate/rs/security/access-control" >}}) with [access control lists]({{< relref "/operate/rs/security/access-control/create-db-roles" >}}) (ACLs) for your database and don't require backwards compatibility with versions earlier than Redis 6, you can [deactivate the default user]({{< relref "/operate/rs/security/access-control/manage-users/default-user" >}}).
+If you set up [role-based access control]({{< relref "/operate/rs/7.8/security/access-control" >}}) with [access control lists]({{< relref "/operate/rs/7.8/security/access-control/create-db-roles" >}}) (ACLs) for your database and don't require backwards compatibility with versions earlier than Redis 6, you can [deactivate the default user]({{< relref "/operate/rs/7.8/security/access-control/manage-users/default-user" >}}).
 
 {{<warning>}}
-Before you deactivate default user access, make sure the role associated with the database is [assigned to a user]({{< relref "/operate/rs/security/access-control/create-users" >}}). Otherwise, the database will be inaccessible.
+Before you deactivate default user access, make sure the role associated with the database is [assigned to a user]({{< relref "/operate/rs/7.8/security/access-control/create-users" >}}). Otherwise, the database will be inaccessible.
 {{</warning>}}
 
 To deactivate the default user:

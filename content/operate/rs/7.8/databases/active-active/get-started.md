@@ -22,12 +22,12 @@ clusters for test and development environments. Here are the steps:
 
 1. Test connectivity to the Active-Active database.
 
-To run an Active-Active database on installations from the [Redis Enterprise Software download package]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}),
+To run an Active-Active database on installations from the [Redis Enterprise Software download package]({{< relref "/operate/rs/7.8/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}),
 set up two Redis Enterprise Software installations and continue from Step 2.
 
 {{<note>}}
 This getting started guide is for development or demonstration environments.
-For production environments, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}) for instructions.
+For production environments, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/7.8/databases/active-active/create" >}}) for instructions.
 {{</note>}}
 
 ## Run two containers
@@ -137,10 +137,10 @@ Each Active-Active instance must have a unique fully-qualified domain name (FQDN
     1. In the **Clustering** section, either:
 
         - Make sure that **Sharding** is enabled and select the number of shards you want to have in the database. When database clustering is enabled,
-        databases are subject to limitations on [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering" >}}).
+        databases are subject to limitations on [Multi-key commands]({{< relref "/operate/rs/7.8/databases/durability-ha/clustering" >}}).
         You can increase the number of shards in the database at any time.
 
-        - Turn off **Sharding** to use only one shard and avoid [Multi-key command]({{< relref "/operate/rs/databases/durability-ha/clustering" >}}) limitations.
+        - Turn off **Sharding** to use only one shard and avoid [Multi-key command]({{< relref "/operate/rs/7.8/databases/durability-ha/clustering" >}}) limitations.
 
         {{< note >}}
 You cannot enable or turn off database clustering after the Active-Active database is created.
@@ -165,4 +165,4 @@ You cannot enable or turn off database clustering after the Active-Active databa
 ## Test connection
 
 With the Redis database created, you are ready to connect to your
-database. See [Connect to Active-Active databases]({{< relref "/operate/rs/databases/active-active/connect" >}}) for tutorials and examples of multiple connection methods.
+database. See [Connect to Active-Active databases]({{< relref "/operate/rs/7.8/databases/active-active/connect" >}}) for tutorials and examples of multiple connection methods.

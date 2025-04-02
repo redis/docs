@@ -11,7 +11,7 @@ weight: 20
 url: '/operate/rs/7.8/databases/configure/oss-cluster-api/'
 ---
 
-Review [Redis OSS Cluster API]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
+Review [Redis OSS Cluster API]({{< relref "/operate/rs/7.8/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
 
 ## Prerequisites
 
@@ -19,8 +19,8 @@ The Redis OSS Cluster API is supported only when a database meets specific crite
 
 The database must:
 
-- Use the standard [hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#supported-hashing-policies" >}}).
-- Have the [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) set to either _All primary shards_ or _All nodes_.
+- Use the standard [hashing policy]({{< relref "/operate/rs/7.8/databases/durability-ha/clustering#supported-hashing-policies" >}}).
+- Have the [proxy policy]({{< relref "/operate/rs/7.8/databases/configure/proxy-policy" >}}) set to either _All primary shards_ or _All nodes_.
 
 In addition, the database must _not_:
 
@@ -37,7 +37,7 @@ When you enable OSS Cluster API support for an existing database, the change app
 
 ### Cluster Manager UI method
 
-When you use the Cluster Manager UI to enable the OSS Cluster API, it automatically configures the [prerequisites]({{< relref "/operate/rs/databases/configure/oss-cluster-api#prerequisites" >}}).
+When you use the Cluster Manager UI to enable the OSS Cluster API, it automatically configures the [prerequisites]({{< relref "/operate/rs/7.8/databases/configure/oss-cluster-api#prerequisites" >}}).
 
 To enable the OSS Cluster API for an existing database in the Cluster Manager UI:
 
@@ -57,11 +57,11 @@ You can also use the Cluster Manager UI to enable the setting when creating a ne
 
 ### Command-line method
 
-You can use the [`rladmin` utility]({{< relref "/operate/rs/references/cli-utilities/rladmin/" >}}) to enable the OSS Cluster API for Redis Enterprise Software databases, including Replica Of databases.
+You can use the [`rladmin` utility]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/" >}}) to enable the OSS Cluster API for Redis Enterprise Software databases, including Replica Of databases.
 
 For Active-Active (CRDB) databases, [use the crdb-cli utility](#active-active-databases).
 
-Ensure the [prerequisites]({{< relref "/operate/rs/databases/configure/oss-cluster-api#prerequisites" >}}) have been configured.  Then, enable the OSS Cluster API for a Redis database from the command line:
+Ensure the [prerequisites]({{< relref "/operate/rs/7.8/databases/configure/oss-cluster-api#prerequisites" >}}) have been configured.  Then, enable the OSS Cluster API for a Redis database from the command line:
 
 ```sh
 $ rladmin tune db <database name or ID> oss_cluster enabled
@@ -78,7 +78,7 @@ The OSS Cluster API setting applies to the specified database only; it does not 
 
 ### REST API method
 
-You can enable the OSS Cluster API when you [create a database]({{<relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1">}}) using the REST API:
+You can enable the OSS Cluster API when you [create a database]({{<relref "/operate/rs/7.8/references/rest-api/requests/bdbs#post-bdbs-v1">}}) using the REST API:
 
 ```sh
 POST /v1/bdbs
@@ -88,7 +88,7 @@ POST /v1/bdbs
 }
 ```
 
-To enable the OSS Cluster API for an existing database, you can use an [update database configuration]({{<relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+To enable the OSS Cluster API for an existing database, you can use an [update database configuration]({{<relref "/operate/rs/7.8/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
 
 ```sh
 PUT /v1/bdbs/<database-id>
@@ -97,7 +97,7 @@ PUT /v1/bdbs/<database-id>
 
 ### Active-Active databases
 
-The OSS Cluster API setting applies to all instances of the Active-Active database across participating clusters. To enable the OSS Cluster API for Active-Active databases, use the [Cluster Manager UI](#cluster-manager-ui) or the [`crdb-cli`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli">}}) utility.
+The OSS Cluster API setting applies to all instances of the Active-Active database across participating clusters. To enable the OSS Cluster API for Active-Active databases, use the [Cluster Manager UI](#cluster-manager-ui) or the [`crdb-cli`]({{<relref "/operate/rs/7.8/references/cli-utilities/crdb-cli">}}) utility.
 
 To create an Active-Active database and enable the OSS Cluster API with `crdb-cli`:
 
@@ -111,7 +111,7 @@ $ crdb-cli crdb create --name <name> \
     --instance fqdn=<fqdn>,username=<user>,password=<pass>
 ```
 
-See the [`crdb-cli crdb create`]({{<relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/create">}}) reference for more options.
+See the [`crdb-cli crdb create`]({{<relref "/operate/rs/7.8/references/cli-utilities/crdb-cli/crdb/create">}}) reference for more options.
 
 To enable the OSS Cluster API for an existing Active-Active database with `crdb-cli`:
 
@@ -168,4 +168,4 @@ When you turn off OSS Cluster API support for an existing database, the change a
 When you enable the OSS Cluster API for a database, 
 [multi-key commands]({{< relref "/operate/rc/databases/configuration/clustering#multikey-operations" >}}) are only allowed when all keys are mapped to the same slot.
 
-To verify that your database meets this requirement, make sure that the `CLUSTER KEYSLOT` reply is the same for all keys affected by the multi-key command.  To learn more, see [multi-key operations]({{< relref "/operate/rs/databases/durability-ha/clustering#multikey-operations" >}}).
+To verify that your database meets this requirement, make sure that the `CLUSTER KEYSLOT` reply is the same for all keys affected by the multi-key command.  To learn more, see [multi-key operations]({{< relref "/operate/rs/7.8/databases/durability-ha/clustering#multikey-operations" >}}).
