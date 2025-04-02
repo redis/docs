@@ -18,6 +18,7 @@ since: 8.0.0
 summary: Return elements by vector similarity.
 syntax_fmt: "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [COUNT num] [EF search-exploration-factor]\n  [FILTER expression] [FILTER-EF max-filtering-effort] [TRUTH] [NOTHREAD]"
 title: VSIM
+bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return elements similar to a given vector or element. Use this command to perform approximate or exact similarity searches within a vector set.

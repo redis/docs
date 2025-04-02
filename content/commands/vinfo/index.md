@@ -18,6 +18,7 @@ since: 8.0.0
 summary: Return information about a vector set.
 syntax_fmt: "VINFO key"
 title: VINFO
+bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return metadata and internal details about a vector set, including size, dimensions, quantization type, and graph structure.

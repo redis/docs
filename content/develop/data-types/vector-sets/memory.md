@@ -85,5 +85,4 @@ This projects a 300-dimensional vector into 100 dimensions, reducing size and im
 ## See also
 
 - [Performance]({{< relref "/develop/data-types/vector-sets/performance" >}})
-- [Installation]({{< relref "/develop/data-types/vector-sets/install" >}})
 - [Scalability]({{< relref "/develop/data-types/vector-sets/scalability" >}})

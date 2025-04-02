@@ -13,6 +13,8 @@ description: Introduction to Redis vector sets
 linkTitle: Vector sets
 title: Redis vector sets
 weight: 55
+bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
+bannerChildren: true
 ---
 
 Vector sets are a data type similar to sorted sets, but instead of a score, vector set elements have a string representation of a vector.

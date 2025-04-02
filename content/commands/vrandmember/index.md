@@ -18,6 +18,7 @@ since: 8.0.0
 summary: Return one or multiple random members from a vector set.
 syntax_fmt: "VRANDMEMBER key [count]"
 title: VRANDMEMBER
+bannerText: Vector set is a new data type that is currently in preview and may be subject to change.
 ---
 
 Return one or more random elements from a vector set.
