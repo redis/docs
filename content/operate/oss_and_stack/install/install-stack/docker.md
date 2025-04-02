@@ -4,15 +4,15 @@ categories:
 - operate
 - stack
 - oss
-description: How to run Redis Community Edition using Docker
+description: How to run Redis Open Source using Docker
 linkTitle: Docker
-title: Run Redis Community Edition on Docker
+title: Run Redis Open Source on Docker
 weight: 1
 ---
 
-## Run Redis Community Edition (CE) on Docker
+## Run Redis Open Source on Docker
 
-To get started with Redis CE using Docker, you first need to select a Docker image:
+To get started with Redis Open Source using Docker, you first need to select a Docker image:
 
 * `redis/redis-stack` contains both Redis Stack server and Redis Insight. This container is best for local development because you can use the embedded Redis Insight to visualize your data.
 

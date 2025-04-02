@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: 'Querying and searching in Redis Community Edition can be tuned through multiple
+description: 'Querying and searching in Redis Open Source can be tuned through multiple
   configuration parameters. Some of these parameters can only be set at load-time,
   while other parameters can be set either at load-time or at run-time.
 
@@ -520,7 +520,7 @@ $ redis-server --loadmodule ./redisearch.so UPGRADE_INDEX idx PREFIX 1 tt LANGUA
 
 ### OSS_GLOBAL_PASSWORD
 
-Global Redis Community Edition cluster password that will be used to connect to other shards.
+Global Redis Open Source cluster password that will be used to connect to other shards.
 
 #### Default
 

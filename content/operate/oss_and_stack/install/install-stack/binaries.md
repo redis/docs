@@ -4,13 +4,13 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition using binary images
+description: How to install Redis Open Source using binary images
 linkTitle: Binaries
-title: Install Redis Community Edition on Linux
+title: Install Redis Open Source on Linux
 weight: 8
 ---
 
-## Start Redis Community Edition (CE) server from downloaded binary images
+## Start Redis Open Source server from downloaded binary images
 
 Install the openssl libraries for your platform. For example, on a Debian or Ubuntu instance run:
 
@@ -18,7 +18,7 @@ Install the openssl libraries for your platform. For example, on a Debian or Ubu
 sudo apt install libssl-dev
 {{< / highlight >}}
 
-After untarring or unzipping your redis-server download, you can start Redis CE server as follows:
+After untarring or unzipping your redis-server download, you can start Redis server as follows:
 
 {{< highlight bash >}}
 /path/to/redis-server/bin/redis-server
@@ -42,7 +42,7 @@ export PATH=/path/to/redis-server/bin/redis-server:$PATH
 
 If you're running redis-server on macOS, please ensure you have openssl installed using [homebrew](https://brew.sh/).
 
-Now you can start Redis CE as follows:
+Now you can start Redis as follows:
 
 {{< highlight bash >}}
 redis-server

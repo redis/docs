@@ -21,7 +21,7 @@ The following table shows the differences in client-side caching support by prod
 
 | Redis product           | Client-side caching support |
 |-------------------------|-----------------------------|
-| Redis Community Edition | Redis v6.0 and later |
+| Redis Open Source       | Redis v6.0 and later |
 | Redis Cloud             | Redis database v7.4 and later |
 | Redis Software          | Redis database v7.4 and later |
 
@@ -33,13 +33,13 @@ The following table shows the differences in client-side caching support for RES
 
 | Redis product with client-side caching  | RESP2 | RESP3 |
 |-------------------------|-------|-------|
-| Redis Community Edition | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
+| Redis Open Source       | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | Redis Cloud             | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
 | Redis Software          | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
 
 ## Two connections mode with REDIRECT not supported
 
-Unlike Redis Community Edition, Redis Software and Redis Cloud do not support [two connections mode]({{<relref "/develop/reference/client-side-caching#two-connections-mode">}}) or the `REDIRECT` option for [`CLIENT TRACKING`]({{<relref "/commands/client-tracking">}}).
+Unlike Redis Open Source, Redis Software and Redis Cloud do not support [two connections mode]({{<relref "/develop/reference/client-side-caching#two-connections-mode">}}) or the `REDIRECT` option for [`CLIENT TRACKING`]({{<relref "/commands/client-tracking">}}).
 
 ## Change tracking_table_max_keys for a database
 

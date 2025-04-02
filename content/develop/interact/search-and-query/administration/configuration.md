@@ -18,11 +18,11 @@ title: Configuration parameters
 weight: 1
 ---
 {{< note >}}
-As of Redis Community Edition (CE) 8.0, configuration parameters for the time series data structure are now set in the following ways:
+As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for the time series data structure are now set in the following ways:
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
-Also, CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
+Also, Redis 8 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
 {{< /note >}}
 
 ## Redis Query Engine configuration parameters
@@ -80,7 +80,7 @@ The following table summarizes which configuration parameters can be set at run-
 | FORK_GC_CLEAN_NUMERIC_EMPTY_NODES | Deprecated in v8.0.0.                                           | :white_large_square: |||
 
 {{< note >}}
-Parameter names for Redis CE versions < 8.0, while deprecated, will still be supported in version 8.0.
+Parameter names for Redis Open Source versions < 8.0, while deprecated, will still be supported in Redis 8.
 {{< /note >}}
 
 ---
@@ -239,7 +239,7 @@ Type: integer
 
 Valid range: `[1 .. 9,223,372,036,854,775,807]`
 
-Redis CE default: `100`
+Redis Open Source default: `100`
 
 Redis Software default: `-1` (unlimited)
 
@@ -271,7 +271,7 @@ Type: integer
 
 Valid range: `[1 .. 9,223,372,036,854,775,807]`
 
-Redis CE default: `-1` (unlimited)
+Redis Open Source default: `-1` (unlimited)
 
 Redis Software default: `-1` (unlimited)
 
@@ -314,7 +314,7 @@ Type: integer
 
 Valid range: `[1 .. 9,223,372,036,854,775,807]`
 
-Redis CE default: `1000000`
+Redis Open Source default: `1000000`
 
 Redis Software default: `1000000`
 
@@ -360,7 +360,7 @@ Type: integer
 
 Valid range: `[2 .. 4,294,967,295]`
 
-Redis CE default: `4`
+Redis Open Source default: `4`
 
 Redis Software and Redis Cloud default: `2`
 
@@ -459,7 +459,7 @@ Type: integer
 
 Value range: `[1 .. 9,223,372,036,854,775,807]`
 
-Redis CE default: `500`
+Redis Open Source default: `500`
 
 Redis Software default: `500`
 
@@ -543,7 +543,7 @@ Default: `0`
 
 ## Set configuration parameters at module load-time (deprecated)
 
-These methods are deprecated beginning with Redis CE v8.0.0.
+These methods are deprecated beginning with Redis 8.
 
 Setting configuration parameters at load-time is done by appending arguments after the `--loadmodule` argument when starting a server from the command line, or after the `loadmodule` directive in a Redis config file. For example:
 
@@ -567,7 +567,7 @@ $ redis-server --loadmodule ./redisearch.so [OPT VAL]...
 
 ## Set configuration parameters at run-time (for supported parameters, deprecated)
 
-These methods are deprecated beginning with Redis CE v8.0.0.
+These methods are deprecated beginning with Redis 8.
 
 Redis Query Engine exposes the `FT.CONFIG` endpoint to allow for the setting and retrieval of configuration parameters at run-time.
 

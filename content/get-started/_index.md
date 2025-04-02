@@ -1,8 +1,8 @@
 ---
-description: Get started with Redis Community Edition
+description: Get started with Redis Open Source
 hideListLinks: true
-linkTitle: Community Edition
-title: Community Edition
+linkTitle: Open Source
+title: Open Source
 type: develop
 ---
 Redis is an [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) used by millions of developers as a cache, [vector database]({{< relref "/develop/get-started/vector-database" >}}), [document database]({{< relref "/develop/get-started/document-database" >}}), [streaming engine]({{< relref "/develop/data-types/streams" >}}), and message broker. Redis has built-in replication and different levels of [on-disk persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It supports complex [data types]({{< relref "/develop/data-types/" >}}) (for example, strings, hashes, lists, sets, sorted sets, and JSON), with atomic operations defined on those data types.

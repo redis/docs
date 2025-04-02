@@ -23,7 +23,7 @@ You can manage your Redis Enterprise Software databases with several tools:
 
     - [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) for Active-Active database configuration
 
-    - [`redis-cli`]({{< relref "/develop/tools/cli" >}}) for Redis Community Edition configuration
+    - [`redis-cli`]({{< relref "/develop/tools/cli" >}}) for Redis Open Source configuration
 
 - [REST API]({{< relref "/operate/rs/references/rest-api/_index.md" >}})
 
@@ -112,7 +112,7 @@ You cannot enable them after database creation.
         
         You can increase the number of shards in the database at any time.
 
-        You can accept the [standard hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy" >}}), which is compatible with Redis Community Edition, or define a [custom hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#custom-hashing-policy" >}}) to define where keys are located in the clustered database.
+        You can accept the [standard hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#standard-hashing-policy" >}}), which is compatible with Redis Open Source, or define a [custom hashing policy]({{< relref "/operate/rs/databases/durability-ha/clustering#custom-hashing-policy" >}}) to define where keys are located in the clustered database.
 
     - Turn off **Sharding** to use only one shard so that you can use [Multi-key commands]({{< relref "/operate/rs/databases/durability-ha/clustering.md" >}}) without the limitations.
 

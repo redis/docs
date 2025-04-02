@@ -15,7 +15,7 @@ title: Highlighting
 weight: 7
 ---
 
-Redis Community Edition uses advanced algorithms for highlighting and summarizing, which enable only the relevant portions of a document to appear in response to a search query. This feature allows users to immediately understand the relevance of a document to their search criteria, typically highlighting the matching terms in bold text.
+Redis Open Source uses advanced algorithms for highlighting and summarizing, which enable only the relevant portions of a document to appear in response to a search query. This feature allows users to immediately understand the relevance of a document to their search criteria, typically highlighting the matching terms in bold text.
 
 ## Command syntax
 

@@ -15,11 +15,11 @@ title: Configuration Parameters
 weight: 3
 ---
 {{< note >}}
-As of Redis Community Edition 8.0, configuration parameters for the time series data structure are now set in the following ways:
+As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for the time series data structure are now set in the following ways:
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
-Also, Redis CE 8.0 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
+Also, Redis 8 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
 {{< /note >}}
 
 ## Time series configuration parameters
@@ -37,7 +37,7 @@ Also, Redis CE 8.0 persists probabilistic configuration parameters just like any
 | OSS_GLOBAL_PASSWORD  | Deprecated in v8.0.0. Replace with the `masterauth` password. | :white_check_mark:   |||
 
 {{< note >}}
-Parameter names for Redis CE versions < 8.0, while deprecated, will still be supported in version 8.0.
+Parameter names for Redis Open Source versions < 8.0, while deprecated, will still be supported in Redis 8.
 {{< /note >}}
 
 ---
@@ -255,7 +255,7 @@ Type: integer
 
 Valid range: `[1..16]`
 
-Redis CE default: `3`
+Redis Open Source default: `3`
 
 Redis Software default: Set by plan, and automatically updates when you change your plan.
 
@@ -281,7 +281,7 @@ When both `ts-compaction-policy` and `ts-retention-policy` are specified, the re
 
 ## Setting configuration parameters on module load (deprecated)
 
-These methods are deprecated beginning with Redis CE v8.0.0.
+These methods are deprecated beginning with Redis 8.
 
 Setting configuration parameters at load-time is done by appending arguments after the `--loadmodule` argument when starting a server from the command line or after the `loadmodule` directive in a Redis config file. For example:
 

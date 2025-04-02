@@ -19,7 +19,7 @@ This example shows how to create a
 for [JSON]({{< relref "/develop/data-types/json" >}}) data and
 run queries against the index.
 
-Make sure that you have Redis Community Edition and `go-redis` installed. 
+Make sure that you have Redis Open Source and `go-redis` installed. 
 
 Start by importing dependencies:
 

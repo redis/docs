@@ -4,16 +4,16 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition using APT
+description: How to install Redis Open Source using APT
 linkTitle: APT
-title: Install Redis Community Edition on Linux
+title: Install Redis Open Source on Linux
 weight: 2
 ---
 
-## Install Redis Community Edition (CE) on Ubuntu or Debian Linux using APT
+## Install Redis Open Source on Ubuntu or Debian Linux using APT
 
 See [this page](https://redis.io/downloads/#redis-stack-downloads) for a complete list of supported Ubuntu and Debian platforms.
-Add the repository to the APT index, update it, and install Redis CE:
+Add the repository to the APT index, update it, and install Redis Open Source:
 
 {{< highlight bash >}}
 sudo apt-get install lsb-release curl gpg
@@ -24,7 +24,7 @@ sudo apt-get update
 sudo apt-get install redis-server
 {{< /highlight >}}
 
-The most recent version of Redis CE will be installed, along with the redis-tools package (redis-cli, etc.).
+The most recent version of Redis Open Source will be installed, along with the redis-tools package (redis-cli, etc.).
 If you need to install an earlier version, run the following command to list the available versions:
 
 {{< highlight bash >}}
@@ -50,8 +50,8 @@ To install an earlier version, say 7.4.2, run the following command:
 sudo apt-get install redis-server=6:7.4.2-1rl1~jammy1 redis-tools=6:7.4.2-1rl1~jammy1
 {{< /highlight >}}
 
-Redis CE should start automatically after the initial installation, but it won't start automatically at boot time.
-To start Redis CE (if not already started) and enable it to start at boot time, run the following commands.
+Redis should start automatically after the initial installation, but it won't start automatically at boot time.
+To start Redis (if not already started) and enable it to start at boot time, run the following commands.
 
 {{< highlight bash >}}
 sudo systemctl enable redis-server

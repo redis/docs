@@ -23,9 +23,9 @@ At its core, Redis provides a collection of native data types that help you solv
 Below is a short description of each data type, with links to broader overviews and command references.
 Each overview includes a comprehensive tutorial with code samples.
 
-## Core data types
+## Data types
 
-[Redis Community Edition]({{< relref "/operate/oss_and_stack" >}})
+[Redis Open Source]({{< relref "/operate/oss_and_stack" >}})
 implements the following data types:
 
 - [String](#strings)
@@ -37,12 +37,9 @@ implements the following data types:
 - [Bitmap](#bitmaps)
 - [Bitfield](#bitfields)
 - [Geospatial](#geospatial-indexes)
-
-[Redis Community Edition]({{< relref "/operate/oss_and_stack" >}}) and
-[Redis Enterprise]({{< relref "/operate/rs" >}})
-also include some [extension modules](#adding-extensions) that implement other
-useful types, such as JSON. See [Extension data types](#extension-data-types)
-for the full list.
+- [JSON](#json)
+- [Probabilistic data types](#probabilistic-data-types)
+- [Time series](#time-series)
 
 ### Strings 
 
@@ -119,22 +116,6 @@ For more information, see:
 
 * [Overview of Redis bitfields]({{< relref "/develop/data-types/bitfields" >}})
 * The [`BITFIELD`]({{< relref "/commands/bitfield" >}}) command.
-
-## Extension data types
-
-[Redis Community Edition]({{< relref "/operate/oss_and_stack" >}}) and
-[Redis Enterprise]({{< relref "/operate/rs" >}})
-include some [extension modules](#adding-extensions) that implement
-the following data types:
-
-- [JSON](#json)
-- [Probabilistic data types](#probabilistic-data-types)
-- [Time series](#time-series)
-
-These are not included by default with
-[Redis Community Edition]({{< relref "/operate/oss_and_stack" >}}).
-See [Core data types](#core-data-types) for the list of types that
-Redis Community Edition supports natively.
 
 ### JSON
 
@@ -229,4 +210,3 @@ To extend the features provided by the included data types, use one of these opt
 
 1. Write your own custom [server-side functions in Lua]({{< relref "/develop/interact/programmability/" >}}).
 1. Write your own Redis module using the [modules API]({{< relref "/develop/reference/modules/" >}}) or check out the [community-supported modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/" >}}).
-1. Use [JSON]({{< relref "/develop/data-types/json/" >}}), [search]({{< relref "/develop/interact/search-and-query/" >}}), [time series]({{< relref "/develop/data-types/timeseries/" >}}), and other capabilities provided by [Redis Community Edition]({{< relref "/operate/oss_and_stack/" >}}).

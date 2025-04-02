@@ -17,14 +17,14 @@ weight: 10
 * Updates to the [key eviction]({{< relref "/develop/reference/eviction" >}}) page.
 * Updates to the Redis Insight page related to its new Redis Query Engine auto-completion [feature]({{< relref "/develop/tools/insight#workbench">}}).
 * Restructured and added testable connection examples to the [client pages]({{< relref "/develop/clients" >}}).
-* Added [Redis Community Edition]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce" >}}) and [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisstack" >}}) release notes.
+* Added [Redis Open Source]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce" >}}) and [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisstack" >}}) release notes.
 * Added new [Redis for AI]({{< relref "/develop/ai" >}}) page.
 * Added new [Predis (PHP client library)]({{< relref "/develop/clients/php" >}}) page.
 
 ## Q3 2024 (July - September) Updates
 
 * Updated the [RAG with Redis quick start guide]({{< relref "/develop/get-started/rag" >}}).
-* Updates for [Redis Community Edition version 7.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce" >}}).
+* Updates for [Redis Open Source version 7.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce" >}}).
 * Added new [Redis Insight debugging]({{< relref "/develop/tools/insight/debugging" >}}) page.
 * Completed a major re-write/restructuring of the [vector indexing page]({{< relref "/develop/interact/search-and-query/advanced-concepts/vectors" >}}).
 * Added new [client-side caching page]({{< relref "/develop/clients/client-side-caching" >}}).

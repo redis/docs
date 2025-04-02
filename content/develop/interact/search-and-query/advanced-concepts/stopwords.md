@@ -15,7 +15,7 @@ title: Stop words
 weight: 1
 ---
 
-Redis Community Edition has a default list of [stop words](https://en.wikipedia.org/wiki/Stop_words). These are words that are usually so common that they do not add much information to search, but take up a lot of space and CPU time in the index. 
+Redis Open Source has a default list of [stop words](https://en.wikipedia.org/wiki/Stop_words). These are words that are usually so common that they do not add much information to search, but take up a lot of space and CPU time in the index. 
 
 When indexing, stop words are discarded and not indexed. When searching, they are also ignored and treated as if they were not sent to the query processor. This is done when parsing the query. 
 

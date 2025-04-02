@@ -1,5 +1,5 @@
 ---
-title: Redis Community Edition
-description: Operate Redis Community Edition. Redis Community Edition (CE) v8.0 replaces Redis Stack.
-linkTitle: Redis Community Edition
+title: Redis Open Source
+description: Operate Redis Open Source. Redis 8 in Redis Open Source replaces Redis Stack.
+linkTitle: Redis Open Source
 ---

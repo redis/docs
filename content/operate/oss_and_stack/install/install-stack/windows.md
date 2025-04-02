@@ -4,15 +4,15 @@ categories:
 - operate
 - stack
 - oss
-description: How to run Redis Community Edition on Windows
+description: How to run Redis Open Source on Windows
 linkTitle: Windows
-title: Run Redis Community Edition on Windows using Docker
+title: Run Redis Open Source on Windows using Docker
 weight: 7
 ---
 
-## Run Redis Community Edition (CE) on Windows using Docker
+## Run Redis Open Source on Windows using Docker
 
-To install Redis CE on Windows, you will need to have Docker installed. When Docker is up and running, open Windows PowerShell and follow the instructions described in [Run Redis CE on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}}). Then, use Docker to connect with `redis-cli` as explained in that topic.
+To install Redis Open Source on Windows, you will need to have Docker installed. When Docker is up and running, open Windows PowerShell and follow the instructions described in [Run Redis Open Source on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}}). Then, use Docker to connect with `redis-cli` as explained in that topic.
 
 {{% alert title="About using WSL and Ubuntu for Windows " color="warning" %}}
 If you attempt to use Windows Subsystem for Linux (WSL) or Ubuntu for Windows to follow [Linux instructions]({{< relref "/operate/oss_and_stack/install/install-stack/apt" >}}), you will get a `systemd` error telling you `System has not been booted with systemd as init system (PID 1). Can't operate.` Do not fret. Just use Docker. 

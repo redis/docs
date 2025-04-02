@@ -4,13 +4,13 @@ categories:
 - operate
 - stack
 - oss
-description: How to install Redis Community Edition using AppImage
+description: How to install Redis Open Source using AppImage
 linkTitle: AppImage
-title: Install Redis Community Edition on Linux
+title: Install Redis Open Source on Linux
 weight: 5
 ---
 
-## Install Redis Community Edition (CE) on Ubuntu Linux using AppImage
+## Install Redis Open Source on Ubuntu Linux using AppImage
 
 Fuse needs to be installed before proceeding. Install it as follows.
 
@@ -19,7 +19,7 @@ sudo apt update
 sudo apt install fuse
 {{< / highlight >}}
 
-Next, download the latest Redis Community Edition (CE) AppImage package from [this page](https://redis.io/downloads/).
+Next, download the latest Redis Open Source AppImage package from [this page](https://redis.io/downloads/).
 
 To run the image, execute these commands:
 
@@ -32,7 +32,7 @@ chmod a+x <AppImageFile> # replace AppImageFile with the name of your downloaded
 
 This will start Redis in the foreground. To stop Redis, enter `Ctrl-C`.
 
-Follow these steps to integrate Redis CE with `systemd` so you can start/stop in/from the background:
+Follow these steps to integrate Redis Open Source with `systemd` so you can start/stop in/from the background:
 
 1. Edit the `/etc/systemd/system/redis-appimage.service` file and enter the following information:
 
