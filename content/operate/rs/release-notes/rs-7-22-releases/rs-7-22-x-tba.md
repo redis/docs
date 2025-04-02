@@ -61,7 +61,7 @@ This version offers:
 
 - [Support packages]({{<relref "/operate/rs/installing-upgrading/creating-support-package">}}) now include [usage reports]({{<relref "/operate/rs/references/rest-api/requests/usage_report">}}).
 
-- Added `secondary_rack_id` to boostrap and node configuration to support [two-dimensional rack awareness]({{<relref "/operate/rs/clusters/configure/rack-zone-awareness#set-up-two-dimensional-rack-zone-awareness">}}).
+- Added `secondary_rack_id` to bootstrap and node configuration to support [two-dimensional rack awareness]({{<relref "/operate/rs/clusters/configure/rack-zone-awareness#set-up-two-dimensional-rack-zone-awareness">}}).
 
 - A new version of the [actions API]({{<relref "/operate/rs/references/rest-api/requests/actions">}}) is available at `GET /v2/actions`.
 
