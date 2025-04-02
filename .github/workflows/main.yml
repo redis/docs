@@ -87,8 +87,12 @@ jobs:
             rm -r "content/operate/kubernetes/${version_to_remove}"
           done
 
-          cp -r "content/operate/kubernetes/${version}"/* content/operate/kubernetes/
-          rm -r "content/operate/kubernetes/${version}"
+          # relrefs should not include version
+          find "content/operate/kubernetes/${version}" -type f | while read file; do
+              awk '{gsub(/\(\{\{< ?relref "\/operate\/kubernetes\/'${version}'/, "({{< relref \"/operate/kubernetes") }1' "$file" > tmpfile && mv tmpfile "$file"
+          done
+
+          rsync -a --delete-after "content/operate/kubernetes/${version}"/ content/operate/kubernetes/
           sed -i 's/id="versionSelectorKubernetesValue" class="version-selector-control">latest/id="versionSelectorKubernetesValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
           sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis for Kubernetes/' content/operate/kubernetes/_index.md
 
@@ -110,8 +114,12 @@ jobs:
             rm -r "content/operate/rs/${version_to_remove}"
           done
 
-          cp -r "content/operate/rs/${version}"/* content/operate/rs/
-          rm -r "content/operate/rs/${version}"
+          # relrefs should not include version
+          find "content/operate/rs/${version}" -type f | while read file; do
+              awk '{gsub(/\(\{\{< ?relref "\/operate\/rs\/'${version}'/, "({{< relref \"/operate/rs") }1' "$file" > tmpfile && mv tmpfile "$file"
+          done
+
+          rsync -a --delete-after "content/operate/rs/${version}"/ content/operate/rs/
           sed -i 's/id="versionSelectorRsValue" class="version-selector-control">latest/id="versionSelectorRsValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
           sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Software/' content/operate/rs/_index.md
 
@@ -133,8 +141,12 @@ jobs:
             rm -r "content/integrate/redis-data-integration/${version_to_remove}"
           done
 
-          cp -r "content/integrate/redis-data-integration/${version}"/* content/integrate/redis-data-integration/
-          rm -r "content/integrate/redis-data-integration/${version}"
+          # relrefs should not include version
+          find "content/operate/redis-data-integration/${version}" -type f | while read file; do
+              awk '{gsub(/\(\{\{< ?relref "\/operate\/redis-data-integration\/'${version}'/, "({{< relref \"/operate/redis-data-integration") }1' "$file" > tmpfile && mv tmpfile "$file"
+          done
+
+          rsync -a --delete-after "content/operate/redis-data-integration/${version}"/ content/operate/redis-data-integration/
           sed -i 's/id="versionSelectorRedis-Data-IntegrationValue" class="version-selector-control">latest/id="versionSelectorRedis-Data-IntegrationValue" class="version-selector-control">v'"${version}"'/' layouts/partials/docs-nav.html
           sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Data Integration/' content/integrate/redis-data-integration/_index.md
 

@@ -13,7 +13,7 @@ url: '/operate/rs/7.4/installing-upgrading/uninstalling/'
 
 Use the script `rl_uninstall.sh` to uninstall Redis Enterprise Software and remove its files from a node. The script also deletes all Redis data and configuration from the node.
 
-The uninstall script does not remove the node from the cluster, but the node's status changes to down. For node removal instructions, see [Remove a cluster node]({{<relref "/operate/rs/clusters/remove-node">}}).
+The uninstall script does not remove the node from the cluster, but the node's status changes to down. For node removal instructions, see [Remove a cluster node]({{<relref "/operate/rs/7.4/clusters/remove-node">}}).
 
 ## Uninstall Redis Enterprise Software
 

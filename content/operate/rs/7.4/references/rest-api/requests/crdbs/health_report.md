@@ -42,7 +42,7 @@ Get a health report for an Active-Active database.
 
 ### Response {#get-response} 
 
-Returns a JSON array of [CRDB health report objects]({{< relref "/operate/rs/references/rest-api/objects/crdb/health_report" >}}).
+Returns a JSON array of [CRDB health report objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/crdb/health_report" >}}).
 
 ### Status codes {#get-status-codes} 
 

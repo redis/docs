@@ -29,7 +29,7 @@ Fetches the recovery plan for a database. The recovery plan provides information
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_bdb_recovery_plan]({{< relref "/operate/rs/references/rest-api/permissions#view_bdb_recovery_plan" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_bdb_recovery_plan]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_bdb_recovery_plan" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-request}
 
@@ -90,13 +90,13 @@ Returns a JSON object that represents the database's recovery plan, including re
 POST /v1/bdbs/{int: uid}/actions/recover
 ```
 
-Initiates [recovery for a database]({{<relref "operate/rs/databases/recover">}}) in a recoverable state where all the database's files are available after [cluster recovery]({{<relref "/operate/rs/clusters/cluster-recovery">}}).
+Initiates [recovery for a database]({{<relref "operate/rs/databases/recover">}}) in a recoverable state where all the database's files are available after [cluster recovery]({{<relref "/operate/rs/7.4/clusters/cluster-recovery">}}).
 
 #### Required permissions
 
 | Permission name | Roles |
 |-----------------|-------|
-| [start_bdb_recovery]({{< relref "/operate/rs/references/rest-api/permissions#start_bdb_recovery" >}}) | admin<br />cluster_member<br />db_member |
+| [start_bdb_recovery]({{< relref "/operate/rs/7.4/references/rest-api/permissions#start_bdb_recovery" >}}) | admin<br />cluster_member<br />db_member |
 
 ### Request {#post-request}
 

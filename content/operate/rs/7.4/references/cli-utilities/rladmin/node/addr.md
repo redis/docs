@@ -13,7 +13,7 @@ weight: $weight
 url: '/operate/rs/7.4/references/cli-utilities/rladmin/node/addr/'
 ---
 
-Sets the internal IP address of a node. You can only set the internal IP address when the node is down. See [Change internal IP address]({{< relref "/operate/rs/networking/multi-ip-ipv6#change-internal-ip-address" >}}) for detailed instructions.
+Sets the internal IP address of a node. You can only set the internal IP address when the node is down. See [Change internal IP address]({{< relref "/operate/rs/7.4/networking/multi-ip-ipv6#change-internal-ip-address" >}}) for detailed instructions.
 
 ```sh
 rladmin node <ID> addr set <IP address>
@@ -30,7 +30,7 @@ rladmin node <ID> addr set <IP address>
 
 Returns `Updated successfully` if the IP address was set. Otherwise, it returns an error.
 
-Use [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify the internal IP address was changed.
+Use [`rladmin status nodes`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify the internal IP address was changed.
 
 ### Example
 

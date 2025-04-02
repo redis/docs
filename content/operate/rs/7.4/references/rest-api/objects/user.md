@@ -27,6 +27,6 @@ An API object that represents a Redis Enterprise user.
 | password | string | User's password. If `password_hash_method` is set to `1`, the password should be hashed using SHA-256. The format before hashing is `username:clustername:password`. | 
 | password_hash_method | '1' | Used when password is passed pre-hashed to specify the hashing method |
 | password_issue_date | string | The date in which the password was set (read-only) |
-| role | 'admin'<br />'cluster_member'<br />'cluster_viewer'<br />'db_member'<br /> **'db_viewer'** <br />'none' | User's [role]({{< relref "/operate/rs/references/rest-api/permissions#roles" >}}) |
+| role | 'admin'<br />'cluster_member'<br />'cluster_viewer'<br />'db_member'<br /> **'db_viewer'** <br />'none' | User's [role]({{< relref "/operate/rs/7.4/references/rest-api/permissions#roles" >}}) |
 | role_uids | array of integers | UIDs of user's roles for role-based access control |
 | status | 'active'<br />'locked' | User sign-in status (read-only)<br />**active**: able to sign in<br />**locked**: unable to sign in |
