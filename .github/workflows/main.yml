@@ -89,7 +89,7 @@ jobs:
 
           # relrefs should not include version
           find "content/operate/kubernetes/${version}" -type f | while read file; do
-              awk '{gsub(/\(\{\{< relref "\/operate\/kubernetes\/'${version}'/, "({{< relref \"/operate/kubernetes") }1' "$file" > tmpfile && mv tmpfile "$file"
+              awk '{gsub(/\(\{\{< ?relref "\/operate\/kubernetes\/'${version}'/, "({{< relref \"/operate/kubernetes") }1' "$file" > tmpfile && mv tmpfile "$file"
           done
 
           rsync -a --delete-after "content/operate/kubernetes/${version}"/ content/operate/kubernetes/
@@ -116,7 +116,7 @@ jobs:
 
           # relrefs should not include version
           find "content/operate/rs/${version}" -type f | while read file; do
-              awk '{gsub(/\(\{\{< relref "\/operate\/rs\/'${version}'/, "({{< relref \"/operate/rs") }1' "$file" > tmpfile && mv tmpfile "$file"
+              awk '{gsub(/\(\{\{< ?relref "\/operate\/rs\/'${version}'/, "({{< relref \"/operate/rs") }1' "$file" > tmpfile && mv tmpfile "$file"
           done
 
           rsync -a --delete-after "content/operate/rs/${version}"/ content/operate/rs/
@@ -143,7 +143,7 @@ jobs:
 
           # relrefs should not include version
           find "content/operate/redis-data-integration/${version}" -type f | while read file; do
-              awk '{gsub(/\(\{\{< relref "\/operate\/redis-data-integration\/'${version}'/, "({{< relref \"/operate/redis-data-integration") }1' "$file" > tmpfile && mv tmpfile "$file"
+              awk '{gsub(/\(\{\{< ?relref "\/operate\/redis-data-integration\/'${version}'/, "({{< relref \"/operate/redis-data-integration") }1' "$file" > tmpfile && mv tmpfile "$file"
           done
 
           rsync -a --delete-after "content/operate/redis-data-integration/${version}"/ content/operate/redis-data-integration/
