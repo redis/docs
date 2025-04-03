@@ -9,7 +9,7 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Understand how to use Redis for RAG use cases
+description: Understand how to use Redis for Retrieval Augmented Generation
 linkTitle: Overview of RAG with Redis
 stack: true
 title: Overview of RAG with Redis
