@@ -68,8 +68,8 @@ You must do this because `qt.h` is in the same enclosing folder as `async.h` for
 this project.
 
 You should also make the `libhiredis` library available to the project. For example,
-if you have used the default option of [`cmake`](https://cmake.org/) for the project
-build and you have installed the `.dylib` or `.so` file for `hiredis` in `/usr/local/lib`,
+if you have used the default option of [`cmake`](https://cmake.org/) as the project
+build tool and you have installed the `.dylib` or `.so` file for `hiredis` in `/usr/local/lib`,
 you should add the following lines to the `CMakeLists.txt` file:
 
 ```
@@ -168,8 +168,9 @@ Our simple example code just sets and gets a Redis
 private attributes for the key and value (following the Qt `m_xxx` naming convention
 for class members). These are set by the constructor along with a call to the
 `QObject` constructor. The other attributes represent the connection context for
-Redis (which should be asynchronous for a Qt app) and an adapter object that
-`hiredis` uses to integrate with Qt.
+Redis (which should generally be
+[asynchronous]({{< relref "/develop/clients/hiredis/connect#asynchronous-connection" >}})
+for a Qt app) and an adapter object that `hiredis` uses to integrate with Qt.
 
 ### Implementation file
 
@@ -305,8 +306,11 @@ then creates the instance of `RedisExample` with the key ("url") and
 value ("https://redis.io/") for our Redis string.
 
 The two lines below set up the `QObject` communication mechanism
-for the app. The call to `QTimer::singleShot()` activates the `run()`
-slot method on our `RedisExample` instance. The `QObject::connect()`
+for the app. The call to
+[`QTimer::singleShot()`](https://doc.qt.io/qt-6/qtimer.html#singleShot-2)
+activates the `run()`
+slot method on our `RedisExample` instance. The 
+[`QObject::connect()`](https://doc.qt.io/qt-6/qobject.html#connect-5)
 call creates a communication link between the `finished()` signal of
 out `RedisExample` instance and the `quit()` slot of our
 `QCoreApplication` instance. This quits the application event loop and

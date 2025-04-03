@@ -67,8 +67,9 @@ redisFree(c);
 You can also connect to Redis using an asynchronous API.
 The `redisAsyncConnect()` call that creates the context is
 similar to the synchronous function `redisConnect()`, but it returns the
-context object immediately and lets you supply callbacks to
-check the connection and handle any errors that may occur.
+context object immediately before the connection is complete.
+It lets you supply callbacks to respond when a connection is successful
+or to handle any errors that may occur.
 
 The following code creates an asynchronous connection and
 sets the context callbacks:
@@ -105,7 +106,7 @@ redisAsyncCommand(c, getCallback, key, "GET %s", key);
 ```
 
 The callback functions have a simple signature that receives
-the context object and a status code as parameters. See
+the context object and a status code. See
 [Handling errors]({{< relref "/develop/clients/hiredis/handle-replies#handling-errors" >}})
 for a list of the possible status codes.
 
