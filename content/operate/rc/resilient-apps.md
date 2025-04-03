@@ -19,7 +19,7 @@ These settings can be turned on when you create or edit your database.
 
 ### Enable data persistence
 
-Enabling [Data persistence]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) allows Redis to save your data to a durable storage medium, such as a disk, to ensure data availability in case of memory loss or system failure.
+Enabling [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) allows Redis to save your data to a durable storage medium, such as a disk, to ensure data availability in case of memory loss or system failure.
 
 Redis Cloud supports the following data persistence options:
 
