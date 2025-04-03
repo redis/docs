@@ -5,11 +5,11 @@ categories:
 - stack
 - oss
 linkTitle: Debian 12 (Bookworm)
-title: Build and run Redis Open Source on Debian 12 (Bookworm)
+title: Build and run Redis Community Edition 8 on Debian 12 (Bookworm)
 weight: 15
 ---
 
-Follow the steps below to build and run Redis Open Source from its source code on a system running Debian 12 (Bookworm).
+Follow the steps below to build and run Redis Community Edition 8 from its source code on a system running Debian 12 (Bookworm).
 
 {{< note >}}
 Docker images used to produce these build notes:
@@ -83,7 +83,6 @@ export INSTALL_RUST_TOOLCHAIN=yes
 export DISABLE_WERRORS=yes
 
 make -j "$(nproc)" all
-sudo make install
 ```
 
 This builds the Redis server, CLI, and any included modules.
@@ -93,8 +92,8 @@ This builds the Redis server, CLI, and any included modules.
 You can confirm that Redis has been built and installed successfully by checking the version:
 
 ```bash
-redis-server --version
-redis-cli --version
+./src/redis-server --version
+./src/redis-cli --version
 ```
 
 ## 5. Start Redis
@@ -102,13 +101,13 @@ redis-cli --version
 To start Redis, use the following command:
 
 ```bash
-redis-server /path/to/redis.conf
+./src/redis-server redis-full.conf
 ```
 
 To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
 
 ```
-redis-cli INFO
+./src/redis-cli INFO
 ...
 # Modules
 module:name=ReJSON,ver=20803,api=1,filters=0,usedby=[search],using=[],options=[handle-io-errors]
@@ -118,4 +117,11 @@ module:name=timeseries,ver=11202,api=1,filters=0,usedby=[],using=[],options=[han
 module:name=RedisCompat,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
 module:name=vectorset,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
 ...
+```
+
+## 6. (Optional) Install Redis to its default location
+
+```
+cd /usr/src/redis-version
+sudo make install
 ```

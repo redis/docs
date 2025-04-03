@@ -5,11 +5,11 @@ categories:
 - stack
 - oss
 linkTitle: macOS 13 / macOS 14
-title: Build and run Redis Open Source on macOS 13 (Ventura) and macOS 14 (Sonoma)
+title: Build and run Redis Community Edition 8 on macOS 13 (Ventura) and macOS 14 (Sonoma)
 weight: 50
 ---
 
-Follow the steps below to build and run Redis Open Source from its source code on a system running macOS 13 (Ventura) and macOS 14 (Sonoma).
+Follow the steps below to build and run Redis Community Edition 8 from its source code on a system running macOS 13 (Ventura) and macOS 14 (Sonoma).
 
 ## 1. Install homebrew
 
@@ -103,13 +103,13 @@ To start Redis, use the following command:
 ```bash
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-build_dir/bin/redis-server /path/to/redis.conf
+build_dir/bin/redis-server redis-full.conf
 ```
 
 To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
 
 ```
-redis-cli INFO
+build_dir/bin/redis-cli INFO
 ...
 # Modules
 module:name=ReJSON,ver=20803,api=1,filters=0,usedby=[search],using=[],options=[handle-io-errors]
