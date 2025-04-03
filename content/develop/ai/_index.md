@@ -35,10 +35,12 @@ This page organized into a few sections depending on what you’re trying to do:
 1. [**Search with vectors**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#search-with-vectors" >}}): Redis supports several advanced querying strategies with vector fields including k-nearest neighbor ([KNN]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#knn-vector-search" >}})), [vector range queries]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#vector-range-queries" >}}), and [metadata filters]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#filters" >}}).
 1. [**Configure vector queries at runtime**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#runtime-query-parameters" >}}). Select the best filter mode to optimize query execution.
 
-### Learn how to index and query vector embeddings
-|| | |  |  |
-| :-- | :-- | :-- | :-- | :-- |
-|[redis-py (Python)]({{< relref "/develop/clients/redis-py/vecsearch/)" >}})| [NRedisStack (C#/.NET)]({{< relref "/develop/clients/dotnet/vecsearch/)" >}})| [node-redis (JavaScript)]({{< relref "/develop/clients/nodejs/vecsearch/)" >}}) |  [Jedis (Java)]({{< relref "/develop/clients/jedis/vecsearch/)" >}}) | [go-redis (Go)]({{< relref "/develop/clients/go/vecsearch/)" >}}) |
+#### Learn how to index and query vector embeddings
+* [redis-py (Python)]({{< relref "/develop/clients/redis-py/vecsearch/)" >}})
+* [NRedisStack (C#/.NET)]({{< relref "/develop/clients/dotnet/vecsearch/)" >}})
+* [node-redis (JavaScript)]({{< relref "/develop/clients/nodejs/vecsearch/)" >}}) 
+* [Jedis (Java)]({{< relref "/develop/clients/jedis/vecsearch/)" >}})
+* [go-redis (Go)]({{< relref "/develop/clients/go/vecsearch/)" >}}) 
 
 ## Concepts 
 
