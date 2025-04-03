@@ -57,8 +57,6 @@ Redis enhances natural language understanding by:
 
 See the [Streaming LLM Output Using Redis Streams](https://redis.io/learn/howtos/solutions/streams/streaming-llm-output) tutorial for an in-depth walkthrough.
 
-Redis is a powerful tool to elevate your GenAI applications, enabling them to deliver superior performance, scalability, and user satisfaction.
-
 ## Resources
 
 Check out the [Redis for AI]({{< relref "/develop/ai" >}}) documentation for getting started guides, concepts, ecosystem integrations, examples, and Python notebooks.
