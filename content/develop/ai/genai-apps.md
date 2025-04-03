@@ -10,9 +10,7 @@ linktitle: GenAI tutorials and demos
 weight: 20
 ---
 
-Redis enables high-performance, scalable, and reliable data management, making it a key component for GenAI apps, chatbots, and AI agents. By leveraging Redis for fast data retrieval, caching, and vector search capabilities, you can enhance AI-powered interactions, reduce latency, and improve user experience.
-
-Redis excels in storing and indexing vector embeddings that semantically represent unstructured data. With vector search, Redis retrieves similar questions and relevant data, lowering LLM inference costs and latency. It fetches pertinent portions of chat history, enriching context for more accurate and relevant responses. These features make Redis an ideal choice for RAG systems and GenAI apps requiring fast data access.
+Redis supports storing and indexing vector embeddings—dense numeric representations of unstructured data like text, images, or audio. These embeddings capture semantic meaning, which makes it possible to perform similarity searches using approximate nearest neighbor (ANN) algorithms and K-Nearest Neighbor (KNN) searches. You can use Redis vector search to retrieve relevant content based on a query vector, such as similar questions or documents. This approach is useful for augmenting prompts in large language model (LLM) workflows. By retrieving only the most relevant data before calling the LLM, you can reduce inference costs and improve latency.
 
 ## Key Benefits of Redis in GenAI Apps
 
