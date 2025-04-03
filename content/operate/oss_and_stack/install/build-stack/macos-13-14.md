@@ -5,11 +5,11 @@ categories:
 - stack
 - oss
 linkTitle: macOS 13 / macOS 14
-title: Build and run Redis Open Source on macOS 13 (Ventura) and macOS 14 (Sonoma)
+title: Build and run Redis Community Edition 8 on macOS 13 (Ventura) and macOS 14 (Sonoma)
 weight: 50
 ---
 
-Follow the steps below to build and run Redis Open Source from its source code on a system running macOS 13 (Ventura) and macOS 14 (Sonoma).
+Follow the steps below to build and run Redis Community Edition 8 from its source code on a system running macOS 13 (Ventura) and macOS 14 (Sonoma).
 
 ## 1. Install homebrew
 
@@ -44,17 +44,36 @@ tar -xf ${RUST_INSTALLER}.tar.xz
 
 ## 4. Download and extract the Redis source
 
-The Redis source code is available from the [Download](https://redis.io/downloads) page. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes git repository](https://github.com/redis/redis-hashes).
+The Redis source code is available from [the Redis GitHub site](https://github.com/redis/redis/releases). Select the release you want to build and then select the .tar.gz file from the **Assets** drop down menu. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes GitHub repository](https://github.com/redis/redis-hashes).
+
+Create a directory for the src, for example `~/src`.
+
+```
+mkdir ~/src
+```
+
+Copy the tar(1) file to `~/src`.
+
+Alternatively, you can download the file directly using the `wget` command, as shown below.
+
+```
+cd ~/src
+wget -O redis-<version>.tar.gz https://github.com/redis/redis/archive/refs/tags/<version>.tar.gz
+```
+
+Replace `<version>` with the three-digit Redis release number, for example `8.0.0`.
 
 Extract the source:
 
 ```bash
-tar xvf redis.tar.gz
+tar xvf redis-<version>.tar.gz
+rm redis-<version>.tar.gz
 ```
 
 ## 5. Build Redis
 
 ```
+cd ~/src/redis-<version>
 export HOMEBREW_PREFIX="$(brew --prefix)"
 export BUILD_WITH_MODULES=yes
 export BUILD_TLS=yes
@@ -84,13 +103,13 @@ To start Redis, use the following command:
 ```bash
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-build_dir/bin/redis-server /path/to/redis.conf
+build_dir/bin/redis-server redis-full.conf
 ```
 
 To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
 
 ```
-redis-cli INFO
+build_dir/bin/redis-cli INFO
 ...
 # Modules
 module:name=ReJSON,ver=20803,api=1,filters=0,usedby=[search],using=[],options=[handle-io-errors]

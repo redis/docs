@@ -5,11 +5,11 @@ categories:
 - stack
 - oss
 linkTitle: AlmaLinux/Rocky 8.10
-title: Build and run Redis Open Source on AlmaLinux/Rocky Linux 8.10
+title: Build and run Redis Community Edition 8 on AlmaLinux/Rocky Linux 8.10
 weight: 5
 ---
 
-Follow the steps below to build and run Redis Open Source from its source code on a system running AlmaLinux and Rocky Linux 8.10.
+Follow the steps below to build and run Redis Community Edition 8 from its source code on a system running AlmaLinux and Rocky Linux 8.10.
 
 {{< note >}}
 Docker images used to produce these build notes:
@@ -122,16 +122,25 @@ cmake --version
 
 ## 4. Download and extract the Redis source
 
-The Redis source code is available from the [Download](https://redis.io/downloads) page. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes git repository](https://github.com/redis/redis-hashes).
+The Redis source code is available from [the Redis GitHub site](https://github.com/redis/redis/releases). Select the release you want to build and then select the .tar.gz file from the **Assets** drop down menu. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes GitHub repository](https://github.com/redis/redis-hashes).
 
 Copy the tar(1) file to `/usr/src`.
+
+Alternatively, you can download the file directly using the `wget` command, as shown below.
+
+```
+cd /usr/src
+wget -O redis-<version>.tar.gz https://github.com/redis/redis/archive/refs/tags/<version>.tar.gz
+```
+
+Replace `<version>` with the three-digit Redis release number, for example `8.0.0`.
 
 Extract the source:
 
 ```bash
 cd /usr/src
-tar xvf redis.tar.gz
-rm redis.tar.gz
+tar xvf redis-<version>.tar.gz
+rm redis-<version>.tar.gz
 ```
 
 ## 5. Build Redis
@@ -140,7 +149,7 @@ Enable the GCC toolset and build Redis with support for TLS and modules:
 
 ```bash
 source /etc/profile.d/gcc-toolset-13.sh
-cd /usr/src/redis
+cd /usr/src/redis-<version>
 
 export BUILD_TLS=yes
 export BUILD_WITH_MODULES=yes
@@ -148,7 +157,6 @@ export INSTALL_RUST_TOOLCHAIN=yes
 export DISABLE_WERRORS=yes
 
 make -j "$(nproc)" all
-sudo make install
 ```
 
 ## 6. (Optional) Verify the installation
@@ -156,8 +164,8 @@ sudo make install
 Check the installed Redis server and CLI versions:
 
 ```bash
-redis-server --version
-redis-cli --version
+./src/redis-server --version
+./src/redis-cli --version
 ```
 
 ## 7. Start Redis
@@ -165,13 +173,13 @@ redis-cli --version
 To start Redis, use the following command:
 
 ```bash
-redis-server /path/to/redis.conf
+./src/redis-server redis-full.conf
 ```
 
 To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
 
 ```
-redis-cli INFO
+./src/redis-cli INFO
 ...
 # Modules
 module:name=ReJSON,ver=20803,api=1,filters=0,usedby=[search],using=[],options=[handle-io-errors]
@@ -181,4 +189,11 @@ module:name=timeseries,ver=11202,api=1,filters=0,usedby=[],using=[],options=[han
 module:name=RedisCompat,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
 module:name=vectorset,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
 ...
+```
+
+## 8. (Optional) Install Redis to its default location
+
+```
+cd /usr/src/redis-<version>
+sudo make install
 ```
