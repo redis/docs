@@ -3,7 +3,7 @@
   "info": {
     "title": "Redis Data Integration API",
     "description": "API for Redis Data Integration services",
-    "version": "1.6.3"
+    "version": "1.6.4"
   },
   "paths": {
     "/": {
@@ -221,6 +221,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "type": "object",
                   "title": "Response Protected Route Api V1 Me Get"
                 }
@@ -257,6 +258,7 @@
           "content": {
             "application/json": {
               "schema": {
+                "additionalProperties": true,
                 "type": "object",
                 "title": "Body",
                 "examples": [
@@ -346,6 +348,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": true,
                 "examples": [
                   {
                     "type": "cdc",
@@ -428,6 +431,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": true,
                 "examples": [
                   {
                     "active": true,
@@ -550,6 +554,7 @@
           "content": {
             "application/json": {
               "schema": {
+                "additionalProperties": true,
                 "type": "object",
                 "title": "Body",
                 "examples": [
@@ -634,6 +639,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": true,
                 "examples": [
                   {
                     "connection": {
@@ -711,6 +717,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": true,
                 "examples": [{ "connection": { "port": 12001 } }],
                 "title": "Body"
               }
@@ -839,6 +846,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": true,
                 "examples": [
                   {
                     "type": "vault",
@@ -924,6 +932,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "additionalProperties": true,
                 "examples": [{ "type": "aws" }],
                 "title": "Body"
               }
@@ -1041,6 +1050,7 @@
           "content": {
             "application/json": {
               "schema": {
+                "additionalProperties": true,
                 "type": "object",
                 "title": "Body",
                 "examples": [
@@ -1119,6 +1129,7 @@
           "content": {
             "application/json": {
               "schema": {
+                "additionalProperties": true,
                 "type": "object",
                 "title": "Body",
                 "examples": [
@@ -1190,6 +1201,7 @@
           "content": {
             "application/json": {
               "schema": {
+                "additionalProperties": true,
                 "type": "object",
                 "title": "Body",
                 "examples": [
@@ -1543,6 +1555,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "type": "object",
                   "title": "Response Retrieve Pipelines Api V1 Pipelines Get"
                 }
@@ -1577,6 +1590,7 @@
           "content": {
             "application/json": {
               "schema": {
+                "additionalProperties": true,
                 "type": "object",
                 "title": "Body",
                 "examples": [
@@ -2009,6 +2023,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "type": "object",
                   "title": "Response Pipelines Config Schemas Api V1 Pipelines Config Schemas Get"
                 }
@@ -2047,6 +2062,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "type": "object",
                   "title": "Response Pipelines Jobs Schemas Api V1 Pipelines Jobs Schemas Get"
                 }
@@ -2082,7 +2098,11 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "type": "object", "title": "Body" },
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Body"
+              },
               "examples": {
                 "multi_update": {
                   "summary": "Update multiple processor properties",
@@ -2870,7 +2890,7 @@
             "title": "Job settings to dry run with."
           },
           "input_data": {
-            "items": { "type": "object" },
+            "items": { "additionalProperties": true, "type": "object" },
             "type": "array",
             "title": "Input Data",
             "examples": [
@@ -2888,7 +2908,7 @@
       "JobDryRunSuccessResponse": {
         "properties": {
           "transformation": {
-            "items": { "type": "object" },
+            "items": { "additionalProperties": true, "type": "object" },
             "type": "array",
             "title": "Transformation",
             "examples": [
@@ -3351,7 +3371,11 @@
             "type": "object",
             "title": "Clients"
           },
-          "offsets": { "type": "object", "title": "Offsets" },
+          "offsets": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Offsets"
+          },
           "snapshot_status": {
             "$ref": "#/components/schemas/SnapshotStatus",
             "examples": ["running"]
@@ -3393,7 +3417,11 @@
             "title": "Cdc Ready",
             "examples": [true]
           },
-          "columns": { "type": "object", "title": "Columns" }
+          "columns": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Columns"
+          }
         },
         "type": "object",
         "required": ["cdc_ready", "columns"],
@@ -3543,7 +3571,10 @@
             "examples": ["hash"]
           },
           "args": {
-            "anyOf": [{ "type": "object" }, { "type": "null" }],
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
             "title": "Args",
             "examples": [{ "member": "value" }]
           },
