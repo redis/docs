@@ -1,4 +1,4 @@
-import os, shutil, sys, re, argparse
+import os, shutil, re, argparse
 
 
 class VersionArchiver:
