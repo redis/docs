@@ -44,14 +44,17 @@ The available settings vary according to your plan, cloud provider, and design c
 | Setting name              | Description                                                                                                                                                 |
 |:--------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Database Name**         | The name given to your database                                                                                                                             |
+| **Subscription Name**     | The name for the subscription your database is a part of                                                                                                    |
 | **Public endpoint**       | Public URI used by any application or client to access the database.                                                                                        |
-| **Private endpoint**      | Private endpoint URI available to approved clients; use CIDR allow list and VPC peering to enable access (_Redis Cloud Pro only_)         |
+| **Private endpoint**      | Private endpoint URI available to approved clients; use CIDR allow list, VPC peering, or other connectivity options to enable access. (_Redis Cloud Pro only_) |
 | **Tags**                  | A list of the [tags]({{< relref "/operate/rc/databases/tag-database" >}}) associated with the database. Select [Manage tags]({{< relref "/operate/rc/databases/tag-database#configuration-tab" >}}) to manage the database tags. |
+| **Vendor**                | The Cloud vendor hosting your database: AWS, Google Cloud, or Azure.                                                   |
+| **Region**                | The Cloud vendor region hosting your database                                                  |
 | **Type**                  | Displays 'Redis', 'Redis Stack' or 'memcached' based on the value selected when the database was created                                                    |
-| **Redis version**         | Redis version used to create the database                                                                                                                   |
+| **Redis version**         | Redis version of the database                                                                                                                  |
 | **Auto Tiering**          | Checked when the subscription supports Auto Tiering (_Redis Cloud Pro only_)                                                               |
-| **Creation time**         | Date and time the database was created                                                                                                                      |
 | **Active-Active Redis**   | Checked when the database is part of an [Active-Active]({{< relref "/operate/rc/databases/configuration/active-active-redis" >}}) relationship (_Redis Cloud Pro only_)                                                                                         |
+| **Creation time**         | Date and time the database was created                                                                                                                      |
 | **Last changed**          | Date and time of last update                                                                                                                                |
 | **Supported Protocol(s)** | Shows which version of RESP the database uses. See [Redis serialization protocol]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions) for details |
 | **Advanced Capabilites**  | This setting appears when an [advanced capability]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) is enabled for a database                                                  |
@@ -128,19 +131,10 @@ Actions in the **Danger Zone** are permanent and should not be taken lightly.
 
 Here, you can:
 
-- Delete the database.
+- Delete the database. Databases must be active before they can be deleted.  To learn more, see [Delete a database]({{< relref "/operate/rc/databases/delete-database.md" >}}).
+- Flush the database (_Active-Active databases only_).
 
-    Databases must be active and empty before they can be deleted.  To learn more, see [Delete a database]({{< relref "/operate/rc/databases/delete-database.md" >}}).
-
-- Import data into the database.
-
-    When you choose this action, you're asked to specify the source and location of the data to import
-
-    {{<image filename="images/rc/database-import-dialog.png" alt="The Import data dialog helps you import data into a database." >}}
-
-    To learn more, see [Import data]({{< relref "/operate/rc/databases/import-data.md" >}}).
-
-For best results, we recommend backing up data before starting any **Danger Zone** actions.
+For best results, we recommend [backing up data]({{< relref "/operate/rc/databases/back-up-data" >}}) before any danger zone actions.
 
 ## Manage the database list
 
@@ -156,7 +150,7 @@ You can:
 
     {{<image filename="images/rc/database-list-filter.png" alt="Use the filter toggle to display filter options." >}}
 
-    You can filter the list on **Status**, **Subscription**, **Capabilities**, **Options**, and **Tags**.  String matches are _not_ case-sensitive.  You can specify more than one filter expression at a time.  
+    You can filter the list on **Status**, **Subscription**, **Subscription Type**, **Capabilities**, **Options**, and **Tags**.  String matches are _not_ case-sensitive.  You can specify more than one filter expression at a time.  
 
     A list of selected filters appears below the filter types.
 
@@ -164,9 +158,17 @@ You can:
 
     {{<image filename="images/rc/database-list-filter-selected.png" alt="Use the filter toggle to display filter options." >}}
 
+- Select **Columns** to change what information is displayed on the list.
+
+    {{<image filename="images/rc/database-list-columns.png" alt="Use the columns toggle to display column options." >}}
+
+- Select the **Export** button to export the current view as a CSV file.
+
+    {{<image filename="images/rc/icon-export-to-csv.png" alt="The Export button exports the current list view to CSV." >}}
+
 - Sort the list in descending or ascending order using the arrow displayed to right of the field name in the header.  Supported fields include **Subscription**, **Database name**, **Memory usage**, and **Version**.
 
-    {{<image filename="images/rc/icon-database-list-sort-ascending.png" alt="Use the arrows in the list header to sort the list." >}} {{<image filename="images/rc/icon-database-list-sort-descending.png" alt="The direction of the arrow corresponds to the direction of the sort." >}}
+    {{<image filename="images/rc/icon-list-sort-asc.png#no-click" alt="Use the arrows in the list header to sort the list." class="inline">}} {{<image filename="images/rc/icon-list-sort-desc.png#no-click" alt="The direction of the arrow corresponds to the direction of the sort." class="inline">}}
 
     Select the arrow icon to change the sort order.  One sort order can be active at any given time.
 
@@ -178,7 +180,7 @@ Sort orders and filter expressions are not saved between console sessions.
 
 The **View Database** screen also has tabs that let you view:
 
-- **Metrics**: a series of graphs showing database performance over time.  See [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance.md" >}})
+- **Metrics**: a series of graphs showing database performance over time.  See [Monitor performance]({{< relref "/operate/rc/databases/monitor-performance" >}}) for more information.
 
 - **Slowlog**: a log showing recent [slow queries]({{< relref "/commands/slowlog" >}}) run against your database.  The log displays when the action started, the duration, the complexity of the operation, and any parameters passed to the operation.
 

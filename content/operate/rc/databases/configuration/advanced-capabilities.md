@@ -29,9 +29,9 @@ Redis Cloud is updated on a regular basis, which includes the advanced capabilit
 
 ## Redis Cloud Pro {#pro}
 
-Redis Cloud Pro lets you choose advanced capabilities for each database.
+By default, Redis Cloud Pro databases load all supported advanced capabilities. You can choose to load specific capabilities when you create your database. To choose which capabilities to load for your Pro database, [create it with custom settings]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) and select **More options** in the **Sizing tab** to view advanced capability settings.
 
-{{<image filename="images/rc/database-details-redis-module-select-flexible.png" alt="For Pro databases, you can select the capabilites included in your database." width="75%">}}
+{{<image filename="images/rc/database-details-redis-module-select-flexible.png" alt="For Pro databases, you can select the capabilities included in your database." width="75%">}}
 
 You can select more than one advanced capability for a database, though there are limits:
 
@@ -44,7 +44,7 @@ You can select more than one advanced capability for a database, though there ar
 
 - [Active-Active databases]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}}) only support JSON and Search and query.
 
-You don't have to combine capabilities. To remove a selected capability, clear its checkbox.
+To remove a selected capability, clear its checkbox.
 
 To learn more, see [Redis Stack]({{< relref "/develop/get-started/" >}}) and [Redis Stack and Redis Enterprise]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}).
 
@@ -60,7 +60,7 @@ Use the [Search and query sizing calculator](https://redis.io/redisearch-sizing-
 
 #### Query performance factor
 
-The query performance factor adds extra compute power specifically for search and query. When you create a database with search and query, you can increase your search queries per second by the selected factor.
+The query performance factor adds extra compute power specifically for search and query. When you create a Pro database with search and query, you can increase your search queries per second by the selected factor.
 
 {{<image filename="images/rc/database-details-query-performance-factor-pro.png" alt="For Pro databases, you can select the query performance factor for your database." width="75%">}}
 
