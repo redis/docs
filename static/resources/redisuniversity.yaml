@@ -6,15 +6,6 @@ links:
   - page: /develop/get-started/document-database
     text: See the [Get Started with Redis learning path](https://university.redis.io/learningpath/14q8m6gilfwltm) for courses.
   
-  - page: /develop/get-started/rag
-    text: See the [Vector Advanced Topics course](https://university.redis.io/course/i3fv2hbhqnpni8) to learn more.
-  
-  - page: /develop/get-started/redis-in-ai
-    text: See the [Vector Advanced Topics course](https://university.redis.io/course/i3fv2hbhqnpni8) to learn more.
-  
-  - page: /develop/get-started/vector-database
-    text: See the [Redis vector database course](https://university.redis.io/course/7e2qbbeg963twz) for learning modules.
-  
   # Redis Cloud links
   - page: /operate/rc/databases/monitor-performance
     text: See the [Redis Cloud monitoring overview course](https://university.redis.io/course/sdm9uvjmd0iedp) to learn more.
@@ -66,3 +57,11 @@ links:
   - page: /develop/interact/search-and-query/advanced-concepts/vectors
     text: See the [Introduction to vector search course](https://university.redis.io/course/yz1lretjfpdlew?tab=details) to learn more.
     
+  - page: /develop/ai/rag
+    text: See the [Vector Advanced Topics course](https://university.redis.io/course/i3fv2hbhqnpni8) to learn more.
+  
+  - page: /develop/ai/genai-apps
+    text: See the [Vector Advanced Topics course](https://university.redis.io/course/i3fv2hbhqnpni8) to learn more.
+  
+  - page: /develop/ai/vector-database
+    text: See the [Redis vector database course](https://university.redis.io/course/7e2qbbeg963twz) for learning modules.

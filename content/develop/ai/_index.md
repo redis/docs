@@ -8,9 +8,10 @@ categories:
 - rc
 description: An overview of Redis for AI documentation
 linkTitle: Redis for AI
+hideListLinks: true
 weight: 40
 ---
-Redis stores and indexes vector embeddings that semantically represent unstructured data including text passages, images, videos, or audio. Store vectors and the associated metadata within [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json" >}}) documents for [indexing]({{< relref "/develop/interact/search-and-query/indexing" >}}) and [querying]({{< relref "/develop/interact/search-and-query/query" >}}).
+Redis stores and indexes vector embeddings that semantically represent unstructured data including text passages, images, videos, or audio. Store vectors and the associated metadata within [hashes]({{< relref "/develop/data-types/hashes" >}}) or [JSON]({{< relref "/develop/data-types/json" >}}) documents for [indexing]({{< relref "/develop/interact/search-and-query/indexing" >}}) and [querying]({{< relref "/develop/interact/search-and-query/query" >}}). Use the [vector sets]({{< relref "/develop/data-types/vector-sets" >}}) preview data type to add items to a set, and retrieve a subset of items that are the most similar to a specified vector. 
 
 | Vector | RAG | RedisVL |
 | :-- | :-- | :-- |
@@ -33,6 +34,13 @@ This page organized into a few sections depending on what you’re trying to do:
 1. [**Store and update vectors**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#store-and-update-vectors" >}}): Redis stores vectors and metadata in hashes or JSON objects.
 1. [**Search with vectors**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#search-with-vectors" >}}): Redis supports several advanced querying strategies with vector fields including k-nearest neighbor ([KNN]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#knn-vector-search" >}})), [vector range queries]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#vector-range-queries" >}}), and [metadata filters]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#filters" >}}).
 1. [**Configure vector queries at runtime**]({{< relref "develop/interact/search-and-query/advanced-concepts/vectors#runtime-query-parameters" >}}). Select the best filter mode to optimize query execution.
+
+#### Learn how to index and query vector embeddings
+* [redis-py (Python)]({{< relref "/develop/clients/redis-py/vecsearch/)" >}})
+* [NRedisStack (C#/.NET)]({{< relref "/develop/clients/dotnet/vecsearch/)" >}})
+* [node-redis (JavaScript)]({{< relref "/develop/clients/nodejs/vecsearch/)" >}}) 
+* [Jedis (Java)]({{< relref "/develop/clients/jedis/vecsearch/)" >}})
+* [go-redis (Go)]({{< relref "/develop/clients/go/vecsearch/)" >}}) 
 
 ## Concepts 
 
