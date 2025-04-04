@@ -32,19 +32,19 @@ Deleted databases cannot be recovered.  We recommend [making a backup]({{< relre
 
 1. The **Delete database** confirmation dialog appears. If this database is the only one in the subscription, you can also delete the subscription at this time.
     
-    - Select **Delete my subscription as well** to delete both the database and the subscription.
+    - Select **Delete my subscription and stop my payment** to delete both the database and the subscription.
     
-    - Clear **Delete my subscription as well** to delete the database but keep the subscription.
+    - Clear **Delete my subscription and stop my payment** to delete the database but keep the subscription.
 
     {{< note >}}
 You will continue to be charged for your subscription until you delete it, even if there are no databases in your subscription.
     {{< /note >}}
 
-    {{<image filename="images/rc/database-delete-last-dialog.png" alt="A different delete database confirmation dialog asks you to consider deleting the subscription as well.">}}
+    {{<image filename="images/rc/database-delete-last-dialog.png" alt="A delete database confirmation dialog asks you to consider deleting the subscription as well.">}}
 
-1. To confirm your choice, use the **Delete database** button or the **Delete both** button if the delete subscription checkbox is selected.
+1. Select **Delete database** to confirm your choice.
 
-    {{<image filename="images/rc/button-database-delete.png" alt="The Delete database button is located in the Danger zone section of the database Configuration tab." >}} {{<image filename="images/rc/button-both-delete.png" alt="The Delete both button is located in the Danger zone section of the database Configuration tab." >}}
+    {{<image filename="images/rc/button-database-delete.png" alt="The Delete database button is located in the Danger zone section of the database Configuration tab." >}}
 
 
 When the operation completes, the database and its data are deleted.

@@ -117,9 +117,7 @@ This guide is for single region database deployment. If you want to create a mul
 
 {{<image filename="images/rc/subscription-new-flexible-version-section.png" width="75%" alt="Version selection between Redis 6.2, 7.2, and 7.4." >}}
 
-The **Version** section lets you choose the Redis version of your databases. Choose **Redis 7.2** if you want to use the latest stable version of Redis, or select **Redis 7.4** for the Redis 7.4 Preview. 
-
-Redis 7.4 offers hash field expiration and other feature set improvements. For more information on the changes in Redis 7.4, see the [Redis 7.4 release notes](https://redis.io/blog/announcing-redis-community-edition-and-redis-stack-74).
+The **Version** section lets you choose the Redis version of your databases. Choose **Redis 7.4** if you want to use the latest stable version of Redis. 
 
 #### Advanced options {#advanced-options}
 

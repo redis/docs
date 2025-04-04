@@ -34,7 +34,7 @@ When you use the mouse to point to a smaller graph, three things appear:
 - A promotion icon pointing right
 - A summary panel showing the minimum, average, maximum, and most recent values displayed in the graph.
 
-{{<image filename="images/rc/metrics-promote-graphs.png" width="50%" alt="Promoting graphs to primary positions" >}}
+{{<image filename="images/rc/metrics-promote-graphs.png" width="300px" alt="Promoting graphs to primary positions" >}}
 
 Use the promotion icons to promote the smaller graph to one of the primary positions. The left icon promotes the smaller graph to the left position and the right icon promotes the smaller graph to the right position.
 
@@ -58,6 +58,8 @@ Several metric graphs are available:
 | [Evicted objects/sec]({{< relref "/operate/rs/references/metrics/database-operations#evicted-objectssec" >}}) | Number of objects evicted from the database per second. |
 | [Expired objects/sec]({{< relref "/operate/rs/references/metrics/database-operations#expired-objectssec" >}}) | Number of expired objects per second. An expired object is an object with expired TTL that was deleted from the database. |
 | [Hit ratio]({{< relref "/operate/rs/references/metrics/database-operations#hit-ratio" >}}) | Percent of operations on existing keys out of the total number database operations |
+| Network Ingress bytes/sec | Amount of traffic in bytes per second entering the database network |
+| Network Egress bytes/sec | Amount of traffic in bytes per second exiting the database network |
 
 For more detailed analysis, consider using [Redis Insight]({{< relref "/develop/tools/insight" >}}) or [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}).
 

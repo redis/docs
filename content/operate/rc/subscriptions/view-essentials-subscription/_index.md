@@ -16,7 +16,7 @@ To view the details of a Redis Cloud Essentials subscription:
 
 1.  Select the target subscription from the subscription list.
 
-    {{<image filename="images/rc/subscription-list-select.png" alt="The Subscription list shows your current subscriptions." >}}
+    {{<image filename="images/rc/subscription-list-select.png" alt="The Subscription list shows your current subscriptions." width=50% >}}
 
 1.  Your subscription details appear, along with a summary of your database details.
 
@@ -24,9 +24,9 @@ To view the details of a Redis Cloud Essentials subscription:
 
 From here, you can:
 
-- Select the **Upgrade Plan** button to update your subscription plan, high availability settings, or payment method.
+- Select the **Upgrade** button to update your subscription plan, high availability settings, or payment method.
 
-    {{<image filename="images/rc/button-subscription-upgrade-plan.png" alt="Select the Upgrade plan button to update your subscription settings." >}}
+    {{<image filename="images/rc/button-subscription-upgrade-plan.png" alt="Select the Upgrade plan button to update your subscription settings." width=100px >}}
 
 - Select the **Overview** tab to view and edit subscription details.
 
@@ -34,9 +34,9 @@ The following sections provide more details.
 
 ## Upgrade plan
 
-Use the **Upgrade plan** button to update your Redis Cloud Essentials plan, your high availability settings, or your payment method. Upgrading your database between Redis Cloud Essentials plans does not impact database availability during the update.
+Use the **Upgrade** button to update your Redis Cloud Essentials plan, your high availability settings, or your payment method. Upgrading your database between Redis Cloud Essentials plans does not impact database availability during the update.
 
-{{<image filename="images/rc/button-subscription-upgrade-plan.png" alt="Use the Upgrade plan button to change selected Redis Cloud Essentials subscription detils." >}}
+{{<image filename="images/rc/button-subscription-upgrade-plan.png" alt="Use the Upgrade plan button to change selected Redis Cloud Essentials subscription detils." width=100px >}}
 
 For information on how to upgrade to Redis Cloud Pro, see [upgrade subscription plan from Essentials to Pro]({{< relref "/operate/rc/subscriptions/upgrade-essentials-pro" >}}).
 
@@ -59,11 +59,11 @@ If you change your subscription to a lower plan, make sure your data fits within
 {{< embed-md "rc-fixed-upgrade-limitation.md" >}}
 {{< /note >}}
 
-### Change high availability
+### Change high availability and persistence
 
-To change your plan's high availability settings, select the desired setting in the **High availability** panel.
+To change your plan's [high availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) and [data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) settings, change them in the **Durability settings** panel.
 
-{{<image filename="images/rc/subscription-fixed-high-availability-panel.png" alt="Use the High availability panel to set Essentials subscription replication settings." >}}
+{{<image filename="images/rc/subscription-fixed-high-availability-panel.png" alt="Use the Durability settings panel to set Essentials subscription settings." >}}
 
 You can switch between **No replication** and **Single-zone replication** at any time, but you cannot choose **Multi-zone replication** after your subscription is created. You also cannot switch from **Multi-zone replication** to another high availability option.
 
@@ -73,13 +73,11 @@ To change your subscription payment method, update the **Credit card** settings.
 
 {{<image filename="images/rc/subscription-change-credit-card.png" alt="Use the Credit card drop-down to set your subscription payment method." >}}
 
-Payment method changes require the Owner role.  If your sign-on is not a subscription owner, you cannot change the payment method.
-
-To verify your role, select **Access Management** from the admin menu and then locate your credentials in the **Team** tab.
+Payment method changes require the Owner or Billing Admin roles. To verify your role, select **Access Management** from the admin menu and then locate your credentials in the **Team** tab.
 
 ### Save changes
 
-Use the **Upgrade plan** button to save changes.
+Use the **Update Database** button to save changes.
 
 {{<image filename="images/rc/button-subscription-upgrade-plan-blue.png" alt="Use the Upgrade plan button to save your subscription plan changes." >}}
 
@@ -93,8 +91,8 @@ The following details are displayed:
 
 | Detail | Description |
 |:---------|:--------------|
+| **Subscription description** | Brief summary of subscription, including the plan type, cloud provider, region, and data size limit |
 | **Cloud vendor** | Your database's cloud vendor |
-| **Plan description** | Brief summary of subscription, including the plan type, cloud provider, region, and data size limit |
 | **Availability** | Describes high availability settings |
 | **Region** | The region your subscription is deployed to |
 | **Plan** | The maximum database size of your Essentials plan. Also displays the cost for paid plans. |
@@ -106,10 +104,6 @@ The following details are displayed:
 | **Replication** | Indicates whether replication is supported for your subscription |
 | **Clustering** | Indicates whether clustering is supported for your subscription |
 
-Select the **Edit** button to change the subscription name.
+The **Delete Database** button lets you [delete your database]({{< relref "/operate/rc/databases/delete-database" >}}).
 
-{{<image filename="images/rc/icon-edit-subscription-name.png" alt="Use the **Edit** button to change the subscription name." >}}
-
-The **Delete subscription** button lets you [delete your subscription]({{< relref "/operate/rc/subscriptions/delete-subscription" >}}).
-
-{{<image filename="images/rc/button-subscription-delete.png" alt="Use the Delete subscription button to delete your subscription plan." >}}
+{{<image filename="images/rc/button-delete-database-essentials-overview.png" alt="Use the Delete subscription button to delete your subscription plan." >}}

@@ -58,9 +58,9 @@ To use different zone settings, create a new subscription with the preferred set
 
 ## Availability zones
 
-You can reduce network transfer costs and network latency by ensuring your Redis Cloud cluster and your application are located in the same availability zone. 
+You can reduce network transfer costs and network latency by ensuring your Redis Cloud Pro cluster and your application are located in the same availability zone. 
 
-To specify the availability zone for your cluster, select *Manual Selection* under **Allowed Availability Zones**. 
+To specify the availability zone(s) for your cluster, [create your Pro database with custom settings]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}), and select *Manual Selection* under **Allowed Availability Zones** in **Advanced options**.
 
 For Google Cloud clusters and [self-managed AWS cloud accounts]({{< relref "/operate/rc/cloud-integrations/aws-cloud-accounts/" >}}), select an availability zone from the **Zone name** list.
 
