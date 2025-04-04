@@ -28,7 +28,7 @@ Get cluster info.
 
 | Permission name |
 |-----------------|
-| [view_cluster_info]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_info" >}}) |
+| [view_cluster_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_cluster_info" >}}) |
 
 ### Request {#get-request} 
 
@@ -45,7 +45,7 @@ Get cluster info.
 
 ### Response {#get-response} 
 
-Returns a [cluster object]({{< relref "/operate/rs/references/rest-api/objects/cluster" >}}).
+Returns a [cluster object]({{< relref "/operate/rs/7.4/references/rest-api/objects/cluster" >}}).
 
 #### Example JSON body
 
@@ -78,14 +78,14 @@ Returns a [cluster object]({{< relref "/operate/rs/references/rest-api/objects/c
 Update cluster settings.
 
 If called with the `dry_run` URL query string, the function will
-validate the [cluster object]({{< relref "/operate/rs/references/rest-api/objects/cluster" >}}), but will not apply the requested
+validate the [cluster object]({{< relref "/operate/rs/7.4/references/rest-api/objects/cluster" >}}), but will not apply the requested
 changes.
 
 #### Required permissions
 
 | Permission name |
 |-----------------|
-| [update_cluster]({{< relref "/operate/rs/references/rest-api/permissions#update_cluster" >}}) |
+| [update_cluster]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_cluster" >}}) |
 
 ### Request {#put-request} 
 
@@ -125,7 +125,7 @@ The above request will enable email alerts and alert reporting for node failures
 
 #### Request body
 
-Include a [cluster object]({{< relref "/operate/rs/references/rest-api/objects/cluster" >}}) with updated fields in the request body.
+Include a [cluster object]({{< relref "/operate/rs/7.4/references/rest-api/objects/cluster" >}}) with updated fields in the request body.
 
 ### Response {#put-response} 
 

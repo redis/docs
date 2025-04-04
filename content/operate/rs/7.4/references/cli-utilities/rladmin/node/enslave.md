@@ -37,7 +37,7 @@ rladmin node <ID> enslave
 
 Returns `OK` if the roles were successfully changed. Otherwise, it returns an error.
 
-Use [`rladmin status shards`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-shards" >}}) to verify that the roles were changed.
+Use [`rladmin status shards`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-shards" >}}) to verify that the roles were changed.
 
 ### Example
 
@@ -93,7 +93,7 @@ rladmin node <ID> enslave endpoints_only
 
 Returns `OK` if the roles were successfully changed. Otherwise, it returns an error.
 
-Use [`rladmin status endpoints`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-endpoints" >}}) to verify that the roles were changed.
+Use [`rladmin status endpoints`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-endpoints" >}}) to verify that the roles were changed.
 
 ### Example
 
@@ -133,7 +133,7 @@ rladmin node <ID> enslave shards_only
 
 Returns `OK` if the roles were successfully changed. Otherwise, it returns an error.
 
-Use [`rladmin status shards`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-shards" >}}) to verify that the roles were changed.
+Use [`rladmin status shards`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-shards" >}}) to verify that the roles were changed.
 
 ### Example
 

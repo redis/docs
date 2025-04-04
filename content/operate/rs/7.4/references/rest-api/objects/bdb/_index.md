@@ -36,7 +36,7 @@ An API object that represents a managed database in the cluster.
 | backup_history | integer (default:&nbsp;0); Backup history retention policy (number of days, 0 is forever) |
 | backup_interval | integer; Interval in seconds in which automatic backup will be initiated |
 | backup_interval_offset | integer; Offset (in seconds) from round backup interval when automatic backup will be initiated (should be less than backup_interval) |
-| backup_location | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/backup_location" >}});  Target for automatic database backups. <br />Call `GET`&nbsp;`/jsonschema` to retrieve the object's structure. |
+| backup_location | [complex object]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/backup_location" >}});  Target for automatic database backups. <br />Call `GET`&nbsp;`/jsonschema` to retrieve the object's structure. |
 | backup_progress | number, <nobr>(range: 0-100)</nobr>;  Database scheduled periodic backup progress (percentage) (read-only) |
 | backup_status | Status of scheduled periodic backup process (read-only)<br />Values:<br />'exporting'<br />'succeeded'<br />'failed' |
 | bigstore | boolean (default:&nbsp;false);  Database bigstore option |
@@ -56,16 +56,16 @@ An API object that represents a managed database in the cluster.
 | crdt_repl_backlog_size | string;  Active-Active replication backlog size ('auto' or size in bytes) |
 | crdt_replica_id | integer;  Local replica ID, for internal use only. |
 | crdt_replicas | string;  Replica set configuration, for internal use only. |
-| crdt_sources | array of [syncer_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/syncer_sources" >}}) objects; Remote endpoints/peers of CRDB database to sync from. See the 'bdb -\> replica_sources' section |
-| crdt_sync | Enable, disable, or pause syncing from specified crdt_sources. Applicable only for Active-Active databases. See [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) for more details.<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
+| crdt_sources | array of [syncer_sources]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/syncer_sources" >}}) objects; Remote endpoints/peers of CRDB database to sync from. See the 'bdb -\> replica_sources' section |
+| crdt_sync | Enable, disable, or pause syncing from specified crdt_sources. Applicable only for Active-Active databases. See [replica_sync]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/replica_sync" >}}) for more details.<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
 | crdt_sync_dist | boolean;  Enable/disable distributed syncer in master-master |
 | crdt_syncer_auto_oom_unlatch | boolean (default:&nbsp;true);  Syncer automatically attempts to recover synchronisation from peers after this database throws an Out-Of-Memory error. Otherwise, the syncer exits |
 | crdt_xadd_id_uniqueness_mode | XADD strict ID uniqueness mode. CRDT only.<br />Values:<br />‘liberal’<br />**‘strict’**<br />‘semi-strict’ |
 | created_time | string;  The date and time the database was created (read-only) |
 | data_internode_encryption | boolean;  Should the data plane internode communication for this database be encrypted |
-| data_persistence | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided<br />Values:<br />**'disabled'** <br />'snapshot'<br />'aof' |
-| dataset_import_sources | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/dataset_import_sources" >}});  Array of source file location description objects to import from when performing an import action. This is write-only and cannot be read after set. <br />Call `GET /v1/jsonschema` to retrieve the object's structure. |
-| db_conns_auditing | boolean;  Enables/deactivates [database connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) |
+| data_persistence | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided<br />Values:<br />**'disabled'** <br />'snapshot'<br />'aof' |
+| dataset_import_sources | [complex object]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/dataset_import_sources" >}});  Array of source file location description objects to import from when performing an import action. This is write-only and cannot be read after set. <br />Call `GET /v1/jsonschema` to retrieve the object's structure. |
+| db_conns_auditing | boolean;  Enables/deactivates [database connection auditing]({{< relref "/operate/rs/7.4/security/audit-events" >}}) |
 | default_user | boolean (default:&nbsp;true); Allow/disallow a default user to connect |
 | disabled_commands | string (default: ); Redis commands which are disabled in db |
 | dns_address_master | string;  Database private address endpoint FQDN (read-only) (deprecated as of Redis Enterprise v4.3.3) |
@@ -116,8 +116,8 @@ An API object that represents a managed database in the cluster.
 | recovery_wait_time | integer (default:&nbsp;-1); Defines how many seconds to wait for the persistence file to become available during auto recovery. After the wait time expires, auto recovery completes with potential data loss. The default `-1` means to wait forever. |
 | redis_version | string; Version of the redis-server processes: e.g. 6.0, 5.0-big |
 | repl_backlog_size | string; Redis replication backlog size ('auto' or size in bytes) |
-| replica_sources | array of [syncer_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/syncer_sources" >}}) objects; Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section |
-| [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) | Enable, disable, or pause syncing from specified replica_sources<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
+| replica_sources | array of [syncer_sources]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/syncer_sources" >}}) objects; Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section |
+| [replica_sync]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/replica_sync" >}}) | Enable, disable, or pause syncing from specified replica_sources<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
 | replica_sync_dist | boolean; Enable/disable distributed syncer in replica-of |
 | replication | boolean (default:&nbsp;false); In-memory database replication mode |
 | resp3 | boolean (default:&nbsp;true); Enables or deactivates RESP3 support |
@@ -134,11 +134,11 @@ An API object that represents a managed database in the cluster.
 | slave_buffer | Redis replica output buffer limits<br />Values:<br />'auto'<br />value in MB<br />hard:soft:time |
 | slave_ha | boolean; Enable replica high availability mechanism for this database (default takes the cluster setting) |
 | slave_ha_priority | integer; Priority of the BDB in replica high availability mechanism |
-| snapshot_policy | array of [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) objects; Policy for snapshot-based data persistence. A dataset snapshot will be taken every N secs if there are at least M writes changes in the dataset |
+| snapshot_policy | array of [snapshot_policy]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/snapshot_policy" >}}) objects; Policy for snapshot-based data persistence. A dataset snapshot will be taken every N secs if there are at least M writes changes in the dataset |
 | ssl | boolean (default:&nbsp;false); Require SSL authenticated and encrypted connections to the database (deprecated as of Redis Enterprise v5.0.1) |
-| [status]({{< relref "/operate/rs/references/rest-api/objects/bdb/status" >}}) | Database lifecycle status (read-only)<br />Values:<br />'pending'<br />'active'<br />'active-change-pending'<br />'delete-pending'<br />'import-pending'<br />'creation-failed'<br />'recovery' |
+| [status]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/status" >}}) | Database lifecycle status (read-only)<br />Values:<br />'pending'<br />'active'<br />'active-change-pending'<br />'delete-pending'<br />'import-pending'<br />'creation-failed'<br />'recovery' |
 | support_syncer_reconf | boolean; Determines whether the syncer handles its own configuration changes. If false, the DMC restarts the syncer upon a configuration change. |
-| sync | (deprecated as of Redis Enterprise v5.0.1, use [replica_sync]({{< relref "/operate/rs/references/rest-api/objects/bdb/replica_sync" >}}) or crdt_sync instead) Enable, disable, or pause syncing from specified sync_sources<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
+| sync | (deprecated as of Redis Enterprise v5.0.1, use [replica_sync]({{< relref "/operate/rs/7.4/references/rest-api/objects/bdb/replica_sync" >}}) or crdt_sync instead) Enable, disable, or pause syncing from specified sync_sources<br />Values:<br />'enabled'<br /> **'disabled'** <br />'paused'<br />'stopped' |
 | sync_dedicated_threads | integer (range:&nbsp;0-10) (default:&nbsp;5); Number of dedicated Replica Of threads |
 | sync_sources | {{<code>}}[{<br />  "uid": integer,<br />  "uri": string,<br />  "compression": integer,<br />  "status": string,<br />  "rdb_transferred": integer,<br />  "rdb_size": integer,<br />  "last_update": string,<br />  "lag": integer,<br />  "last_error": string<br />}, ...]{{</code>}} (deprecated as of Redis Enterprise v5.0.1, instead use replica_sources or crdt_sources) Remote endpoints of database to sync from. See the 'bdb -\> replica_sources' section<br />**uid**: Numeric unique identification of this source<br />**uri**: Source Redis URI<br />**compression**: Compression level for the replication link<br />**status**: Sync status of this source<br />**rdb_transferred**: Number of bytes transferred from the source's RDB during the syncing phase<br />**rdb_size**: The source's RDB size to be transferred during the syncing phase<br />**last_update**: Time last update was received from the source<br />**lag**: Lag in millisec between source and destination (while synced)<br />**last_error**: Last error encountered when syncing from the source |
 | syncer_log_level | Minimum syncer log level to log. Only logs with this level or higher will be logged.<br />Values:<br />‘crit’<br />‘error’<br />‘warn’<br />**‘info’**<br />‘trace’<br />‘debug’ |

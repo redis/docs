@@ -38,7 +38,7 @@ Runs the following checks on all cluster nodes:
 
 | Permission name |
 |-----------------|
-| [view_all_nodes_checks]({{< relref "/operate/rs/references/rest-api/permissions#view_all_nodes_checks" >}}) |
+| [view_all_nodes_checks]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_all_nodes_checks" >}}) |
 
 ### Request {#get-request} 
 

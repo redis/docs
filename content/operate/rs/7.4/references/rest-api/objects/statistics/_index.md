@@ -15,13 +15,13 @@ url: '/operate/rs/7.4/references/rest-api/objects/statistics/'
 ## Statistics overview
 
 Clusters, databases, nodes, and shards collect various statistics at regular time intervals. View the statistics for these objects using `GET stats` requests to their respective endpoints:
-- [Cluster stats]({{< relref "/operate/rs/references/rest-api/requests/cluster/stats" >}})
-- [Database stats]({{< relref "/operate/rs/references/rest-api/requests/bdbs/stats" >}})
-- [Node stats]({{< relref "/operate/rs/references/rest-api/requests/nodes/stats" >}})
-- [Shard stats]({{< relref "/operate/rs/references/rest-api/requests/shards/stats" >}})
+- [Cluster stats]({{< relref "/operate/rs/7.4/references/rest-api/requests/cluster/stats" >}})
+- [Database stats]({{< relref "/operate/rs/7.4/references/rest-api/requests/bdbs/stats" >}})
+- [Node stats]({{< relref "/operate/rs/7.4/references/rest-api/requests/nodes/stats" >}})
+- [Shard stats]({{< relref "/operate/rs/7.4/references/rest-api/requests/shards/stats" >}})
 
 View endpoint stats using `GET` requests, see:
-- [Endpoint stats]({{< relref "/operate/rs/references/rest-api/requests/endpoints-stats" >}})
+- [Endpoint stats]({{< relref "/operate/rs/7.4/references/rest-api/requests/endpoints-stats" >}})
 
 ### Response object
 
@@ -40,10 +40,10 @@ Statistics returned from API requests always contain the following fields:
 The statistics returned by the API also contain fields that represent the values of different metrics for an object during the specified time interval.
 
 More details about the metrics relevant to each object:
-- [Cluster metrics]({{< relref "/operate/rs/references/rest-api/objects/statistics/cluster-metrics" >}})
-- [DB metrics]({{< relref "/operate/rs/references/rest-api/objects/statistics/db-metrics" >}})
-- [Node metrics]({{< relref "/operate/rs/references/rest-api/objects/statistics/node-metrics" >}})
-- [Shard metrics]({{< relref "/operate/rs/references/rest-api/objects/statistics/shard-metrics" >}})
+- [Cluster metrics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics/cluster-metrics" >}})
+- [DB metrics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics/db-metrics" >}})
+- [Node metrics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics/node-metrics" >}})
+- [Shard metrics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics/shard-metrics" >}})
 
 {{<note>}}
 Certain statistics are not documented because they are for internal use only and should be ignored. Some statistics will only appear in API responses when they are relevant.

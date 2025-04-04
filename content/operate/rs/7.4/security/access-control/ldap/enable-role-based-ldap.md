@@ -94,6 +94,6 @@ However, if you enable multi-factor authentication (MFA) for your LDAP server, y
 
 ## More info
 
-- Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}})
-- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Software [security and practices]({{< relref "/operate/rs/security/" >}})
+- Map LDAP groups to [access control roles]({{< relref "/operate/rs/7.4/security/access-control/ldap/map-ldap-groups-to-roles" >}})
+- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/7.4/security/access-control/ldap/update-database-acls" >}})
+- Learn more about Redis Software [security and practices]({{< relref "/operate/rs/7.4/security/" >}})

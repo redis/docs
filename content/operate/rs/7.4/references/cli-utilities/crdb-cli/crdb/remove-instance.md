@@ -24,7 +24,7 @@ If the cluster cannot communicate with the instance that you want to remove, you
 
 1. Use the `--force` option to remove the instance from the Active-Active database without purging the data from the instance.
 
-1. Run [`crdb-cli crdb purge-instance`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance" >}}) from the removed instance to delete the Active-Active database and its data.
+1. Run [`crdb-cli crdb purge-instance`]({{< relref "/operate/rs/7.4/references/cli-utilities/crdb-cli/crdb/purge-instance" >}}) from the removed instance to delete the Active-Active database and its data.
 
 ### Parameters
 
@@ -32,7 +32,7 @@ If the cluster cannot communicate with the instance that you want to remove, you
 |------------------------------|--------|------------|
 | crdb-guid         | string | The GUID of the database (required) |
 | instance-id | string | The ID of the local instance to remove (required) |
-| force                        |        | Removes the instance without purging data from the instance. <br>If --force is specified, you must run [`crdb-cli crdb purge-instance`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance" >}}) from the removed instance. |
+| force                        |        | Removes the instance without purging data from the instance. <br>If --force is specified, you must run [`crdb-cli crdb purge-instance`]({{< relref "/operate/rs/7.4/references/cli-utilities/crdb-cli/crdb/purge-instance" >}}) from the removed instance. |
 | no-wait                      |        | Does not wait for the task to complete |
 
 ### Returns

@@ -15,7 +15,7 @@ Periodic backups provide a way to restore data with minimal data loss.  With Red
 
 As of v6.2.8, you can specify the start time in UTC for 24-hour or 12-hour backups.
 
-To make an on-demand backup, [export your data]({{< relref "/operate/rs/databases/import-export/export-data.md" >}}).
+To make an on-demand backup, [export your data]({{< relref "/operate/rs/7.4/databases/import-export/export-data.md" >}}).
 
 You can schedule backups to a variety of locations, including:
 
@@ -26,7 +26,7 @@ You can schedule backups to a variety of locations, including:
 - Azure Blob Storage
 - Google Cloud Storage
 
-The backup process creates compressed (.gz) RDB files that you can [import into a database]({{< relref "/operate/rs/databases/import-export/import-data.md" >}}).
+The backup process creates compressed (.gz) RDB files that you can [import into a database]({{< relref "/operate/rs/7.4/databases/import-export/import-data.md" >}}).
 
 When you back up a database configured for database clustering,
 Redis Enterprise Software creates a backup file for each shard in the configuration.  All backup files are copied to the storage location.
@@ -36,7 +36,7 @@ Redis Enterprise Software creates a backup file for each shard in the configurat
 - Make sure that you have enough space available in your storage location.
     If there is not enough space in the backup location, the backup fails.
 - The backup configuration only applies to the database it is configured on.
-- To limit the parallel backup for shards, set both [`tune cluster max_simultaneous_backups`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}) and [`tune node max_redis_forks`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-node" >}}). `max_simultaneous_backups` is set to 4 by default.
+- To limit the parallel backup for shards, set both [`tune cluster max_simultaneous_backups`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-cluster" >}}) and [`tune node max_redis_forks`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/tune#tune-node" >}}). `max_simultaneous_backups` is set to 4 by default.
 
 {{< /note >}}
 
@@ -104,7 +104,7 @@ For help with specific backup issues, [contact support](https://redis.com/compan
 
 Database backups can be saved to a local mount point, transferred to [a URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) using FTP/SFTP, or stored on cloud provider storage.
 
-When saved to a local mount point or a cloud provider, backup locations need to be available to [the group and user]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Enterprise Software, `redislabs:redislabs` by default.  
+When saved to a local mount point or a cloud provider, backup locations need to be available to [the group and user]({{< relref "/operate/rs/7.4/installing-upgrading/install/customize-user-and-group.md" >}}) running Redis Enterprise Software, `redislabs:redislabs` by default.  
 
 Redis Enterprise Software needs the ability to view permissions and update objects in the storage location. Implementation details vary according to the provider and your configuration. To learn more, consult the provider's documentation.
 
@@ -210,7 +210,7 @@ To store backups in an Amazon Web Services (AWS) Simple Storage Service (S3) [bu
 
     - In the **Secret Access Key** field, enter the secret access key.
 
-You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run [`rladmin cluster config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/cluster/config">}}): 
+You can also connect to a storage service that uses the S3 protocol but is not hosted by Amazon AWS. The storage service must have a valid SSL certificate. To connect to an S3-compatible storage location, run [`rladmin cluster config`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/cluster/config">}}): 
 
 ```sh
 rladmin cluster config s3_url <URL>

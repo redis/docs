@@ -43,5 +43,5 @@ url: '/operate/rs/7.4/references/rest-api/requests/bdbs/actions/'
 
 | Method | Path | Description |
 |--------|------|-------------|
-| [GET]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/recover#get-bdbs-actions-recover">}}) | `/v1/bdbs/{uid}/actions/recover` | Get database recovery plan  |
-| [POST]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/recover#post-bdbs-actions-recover">}}) | `/v1/bdbs/{uid}/actions/recover` | Recover database  |
+| [GET]({{<relref "/operate/rs/7.4/references/rest-api/requests/bdbs/actions/recover#get-bdbs-actions-recover">}}) | `/v1/bdbs/{uid}/actions/recover` | Get database recovery plan  |
+| [POST]({{<relref "/operate/rs/7.4/references/rest-api/requests/bdbs/actions/recover#post-bdbs-actions-recover">}}) | `/v1/bdbs/{uid}/actions/recover` | Recover database  |

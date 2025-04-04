@@ -27,7 +27,7 @@ To view the details of a database:
 The **Database** screen lets you review:
 - Configuration details of a database
 - Graphs showing performance metrics
-- Recent activity via a "[slowlog]({{< relref "/commands/slowlog" >}}," which lists queries that exceed a certain execution time.
+- Recent activity via a "[slowlog]({{< relref "/commands/slowlog" >}})," which lists queries that exceed a certain execution time.
 
 For help changing database settings, see [Edit database details](#edit-database-details).
 

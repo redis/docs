@@ -41,7 +41,7 @@ The architecture is shown in the following diagram with a 3-node Redis Enterpris
 
 ### Prerequisites
 
-- [Install]({{< relref "/operate/rs/installing-upgrading" >}}) the latest version of Redis Enterprise Software on your clusters
+- [Install]({{< relref "/operate/rs/7.4/installing-upgrading" >}}) the latest version of Redis Enterprise Software on your clusters
 - Configure the cluster with the cluster name (FQDN) even though DNS is not in use.
     Remember that the same cluster name is used to issue the license keys.
     We recommend that you use a “.local” suffix in the FQDN.
@@ -54,7 +54,7 @@ The architecture is shown in the following diagram with a 3-node Redis Enterpris
     - Rest API on port 9443 for secure HTTPS connections and port 8080 for HTTP
     - Database ports 10000-19999
 
-Other ports are shown in the list of [Redis Enterprise network ports]({{< relref "/operate/rs/networking/port-configurations" >}}).
+Other ports are shown in the list of [Redis Enterprise network ports]({{< relref "/operate/rs/7.4/networking/port-configurations" >}}).
 
 {{< note >}}
 Sticky, secured connections are needed only for the Redis Enterprise Cluster Manager UI on port 8443.
@@ -66,7 +66,7 @@ Sticky, secured connections are needed only for the Redis Enterprise Cluster Man
 
 ### Configure cluster
 
-For clusters behind load balancers, we recommend using the `all-nodes` [proxy policy]({{<relref "/operate/rs/databases/configure/proxy-policy">}}) and enabling `handle_redirects`.
+For clusters behind load balancers, we recommend using the `all-nodes` [proxy policy]({{<relref "/operate/rs/7.4/databases/configure/proxy-policy">}}) and enabling `handle_redirects`.
 
 To allow inbound connections to be terminated on the relevant node inside the cluster, run the following `rladmin` commands on the cluster:
 
@@ -87,9 +87,9 @@ rladmin tune cluster default_shards_placement sparse
 
 ### Configure database
 
-After you update the cluster settings and configure the load balancers, you can go to the Redis Enterprise Cluster Manager UI at `https://load-balancer-virtual-ip:8443/` and [create a new database]({{< relref "/operate/rs/databases/create.md" >}}).
+After you update the cluster settings and configure the load balancers, you can go to the Redis Enterprise Cluster Manager UI at `https://load-balancer-virtual-ip:8443/` and [create a new database]({{< relref "/operate/rs/7.4/databases/create.md" >}}).
 
-To create an Active-Active database, use the `crdb-cli` utility. See the [`crdb-cli` reference]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) for more information about creating Active-Active databases from the command line.
+To create an Active-Active database, use the `crdb-cli` utility. See the [`crdb-cli` reference]({{< relref "/operate/rs/7.4/references/cli-utilities/crdb-cli" >}}) for more information about creating Active-Active databases from the command line.
 
 ### Update load balancer configuration when cluster configuration changes
 
@@ -106,7 +106,7 @@ especially if they are directly connected on IP addresses that have changed.
 
 ## Intercluster communication considerations
 
-Redis Enterprise supports several topologies that allow intercluster replication, such as [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) and [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) deployment options.
+Redis Enterprise supports several topologies that allow intercluster replication, such as [Replica Of]({{< relref "/operate/rs/7.4/databases/import-export/replica-of/" >}}) and [Active-Active]({{< relref "/operate/rs/7.4/databases/active-active/" >}}) deployment options.
 When your Redis Enterprise software clusters are behind load balancers, you must allow some network services to be open and defined in the load balancers to allow the replication to work.
 
 ### Replica Of
@@ -115,4 +115,4 @@ For Replica Of communication to work, you must expose database ports locally in 
 
 ### Active-Active
 
-For Active-Active communication to work, you must expose several ports, including every database port and several control plane ports as defined in [Network port configurations]({{< relref "/operate/rs/networking/port-configurations" >}}). Pay attention to services that include "Active-Active" in the connection source column, and allow these ports through any firewalls between the clusters.
+For Active-Active communication to work, you must expose several ports, including every database port and several control plane ports as defined in [Network port configurations]({{< relref "/operate/rs/7.4/networking/port-configurations" >}}). Pay attention to services that include "Active-Active" in the connection source column, and allow these ports through any firewalls between the clusters.
