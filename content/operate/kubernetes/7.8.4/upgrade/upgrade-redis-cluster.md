@@ -29,7 +29,7 @@ See the [troubleshooting](#troubleshooting) section for details on recovering a 
 
 ### Kubernetes version
 
-Check [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) to make sure your Kubernetes distribution is supported by 7.8.2-6. If not, upgrade your Kubernetes distribution before upgrading the Redis operator.
+Check [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/7.8.4/reference/supported_k8s_distributions" >}}) to make sure your Kubernetes distribution is supported by 7.8.2-6. If not, upgrade your Kubernetes distribution before upgrading the Redis operator.
 
 ### Redis operator version
 
@@ -37,7 +37,7 @@ Your Redis Enterprise clusters must be running version 7.4.2-2 or later before u
 
 ### Redis database version
 
-Your Redis databases must be running version 7.2 or later before upgrading your cluster version to 7.8.2-6. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field]({{<relref "/operate/kubernetes/reference/redis_enterprise_database_api#redisversion" >}}).
+Your Redis databases must be running version 7.2 or later before upgrading your cluster version to 7.8.2-6. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field]({{<relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_database_api#redisversion" >}}).
 
 ### RHEL9-compatible modules
 
@@ -169,7 +169,7 @@ If you are upgrading from a preview version of the Active-Active controller, you
 
 ### Reapply roles and role bindings
 
-If your operator is monitoring multiple namespaces, you'll need to [reapply your role and role bindings]({{< relref "/operate/kubernetes/re-clusters/multi-namespace#create-role-and-role-binding-for-managed-namespaces" >}}) for each managed namespace. See [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}) for more details.
+If your operator is monitoring multiple namespaces, you'll need to [reapply your role and role bindings]({{< relref "/operate/kubernetes/7.8.4/re-clusters/multi-namespace#create-role-and-role-binding-for-managed-namespaces" >}}) for each managed namespace. See [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/7.8.4/re-clusters/multi-namespace" >}}) for more details.
 
 ### Monitor the upgrade
 
@@ -195,7 +195,7 @@ kubectl rollout status sts <REC_name>
 
 After the cluster is upgraded, you can upgrade your databases. Specify your new database version in the `spec.redisVersion` field for your REDB and REAADB custom resources. Supported database versions for operator version 7.8.2-6 include `"7.2"` and `"7.4"` (note this value is a string).
 
-Note that if your cluster [`redisUpgradePolicy`]({{<relref "/operate/kubernetes/reference/redis_enterprise_cluster_api#redisupgradepolicy" >}}) or your database [`redisVersion`]({{< relref "/operate/kubernetes/reference/redis_enterprise_database_api#redisversion" >}}) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy]({{< relref "/operate/rs/installing-upgrading/upgrading#redis-upgrade-policy" >}}) for more details.
+Note that if your cluster [`redisUpgradePolicy`]({{<relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_cluster_api#redisupgradepolicy" >}}) or your database [`redisVersion`]({{< relref "/operate/kubernetes/7.8.4/reference/redis_enterprise_database_api#redisversion" >}}) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy]({{< relref "/operate/rs/installing-upgrading/upgrading#redis-upgrade-policy" >}}) for more details.
 
 ## Troubleshooting
 

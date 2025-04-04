@@ -35,7 +35,7 @@ rladmin node <ID> external_addr
 
 Returns `Updated successfully` if the IP address was added. Otherwise, it returns an error.
 
-Use [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify the external IP address was added.
+Use [`rladmin status nodes`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify the external IP address was added.
 
 ### Example
 
@@ -70,7 +70,7 @@ rladmin node <ID> external_addr
 
 Returns `Updated successfully` if the IP addresses were set. Otherwise, it returns an error.
 
-Use [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify the external IP address was set.
+Use [`rladmin status nodes`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify the external IP address was set.
 
 ### Example
 
@@ -104,7 +104,7 @@ rladmin node <ID> external_addr
 
 Returns `Updated successfully` if the IP address was removed. Otherwise, it returns an error.
 
-Use [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify the external IP address was removed.
+Use [`rladmin status nodes`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-nodes" >}}) to verify the external IP address was removed.
 
 ### Example
 

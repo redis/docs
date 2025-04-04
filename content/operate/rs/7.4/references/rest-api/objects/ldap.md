@@ -11,7 +11,7 @@ weight: $weight
 url: '/operate/rs/7.4/references/rest-api/objects/ldap/'
 ---
 
-An API object that represents the cluster's [LDAP]({{< relref "/operate/rs/security/access-control/ldap" >}}) configuration.
+An API object that represents the cluster's [LDAP]({{< relref "/operate/rs/7.4/security/access-control/ldap" >}}) configuration.
 
 | Name | Type/Value | Description |
 |------|------------|-------------|

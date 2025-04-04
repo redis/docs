@@ -14,7 +14,7 @@ url: '/operate/kubernetes/7.8.4/deployment/openshift/openshift-operatorhub/'
 
 You can deploy Redis Enterprise for Kubernetes from the Red Hat OpenShift CLI. You can also use a UI, [OperatorHub](https://docs.openshift.com/container-platform/4.11/operators/index.html) (Red Hat) to install operators and create custom resources.
 
-To see which version of Redis Enterprise for Kubernetes supports your OpenShift version, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
+To see which version of Redis Enterprise for Kubernetes supports your OpenShift version, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/7.8.4/reference/supported_k8s_distributions" >}}).
 
 ## Install the Redis Enterprise operator
 
@@ -89,4 +89,4 @@ Use the YAML view to create a custom resource file or let OperatorHub generate t
 {{<note>}} In versions 6.4.2-4 and 6.4.2-5, REC creation might fail when using the form view due to an error related to the cluster level LDAP. To avoid this, use the YAML view.
 {{</note>}}
 
-For more information on creating and maintaining Redis Enterprise custom resources, see [Redis Enterprise clusters (REC)]({{< relref "/operate/kubernetes/re-clusters/" >}}) and [Redis Enterprise databases (REDB)]({{< relref "/operate/kubernetes/re-databases/" >}}).
+For more information on creating and maintaining Redis Enterprise custom resources, see [Redis Enterprise clusters (REC)]({{< relref "/operate/kubernetes/7.8.4/re-clusters/" >}}) and [Redis Enterprise databases (REDB)]({{< relref "/operate/kubernetes/7.8.4/re-databases/" >}}).

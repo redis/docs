@@ -42,17 +42,17 @@ You can configure a database as a Replica Of, where the source database is in on
 
 The order of the multiple Replica Of sources has no material impact on replication.
 
-For best results when using the [Multicast DNS](https://en.wikipedia.org/wiki/Multicast_DNS) (mDNS) protocol to resolve the fully-qualified domain name (FQDN) of the cluster, verify that your client connections meet the [client mDNS prerequisites]({{< relref "/operate/rs/networking/mdns.md" >}}).
+For best results when using the [Multicast DNS](https://en.wikipedia.org/wiki/Multicast_DNS) (mDNS) protocol to resolve the fully-qualified domain name (FQDN) of the cluster, verify that your client connections meet the [client mDNS prerequisites]({{< relref "/operate/rs/7.4/networking/mdns.md" >}}).
 
 {{< note >}}
-As long as Replica Of is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}}).
+As long as Replica Of is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rs/7.4/databases/memory-performance/eviction-policy.md" >}}).
 {{< /note >}}
 
 ### Same Redis Enterprise cluster {#same-cluster}
 
 To configure a Replica Of database in the same Redis Enterprise cluster as the source database:
 
-1. [Create a new database]({{< relref "/operate/rs/databases/create" >}}) or select an existing database from the **Databases** screen.
+1. [Create a new database]({{< relref "/operate/rs/7.4/databases/create" >}}) or select an existing database from the **Databases** screen.
 
 1. For an existing database, select **Edit** from the **Configuration** tab.
 
@@ -88,7 +88,7 @@ To configure a Replica Of database in a different Redis Enterprise cluster from 
 
 1. Sign in to the Cluster Manager UI of the destination database's cluster.
 
-1. [Create a new database]({{< relref "/operate/rs/databases/create" >}}) or select an existing database from the **Databases** screen.
+1. [Create a new database]({{< relref "/operate/rs/7.4/databases/create" >}}) or select an existing database from the **Databases** screen.
 
 1. For an existing database, select **Edit** from the **Configuration** tab.
 
@@ -104,13 +104,13 @@ To configure a Replica Of database in a different Redis Enterprise cluster from 
 
 1. Select **Save**.
 
-For source databases on different clusters, you can [compress replication data]({{< relref "/operate/rs/databases/import-export/replica-of/#data-compression-for-replica-of" >}}) to save bandwidth.
+For source databases on different clusters, you can [compress replication data]({{< relref "/operate/rs/7.4/databases/import-export/replica-of/#data-compression-for-replica-of" >}}) to save bandwidth.
         
 ### Redis Community Edition cluster {#source-available-cluster}
 
 To use a database from a Redis Community Edition cluster as a Replica Of source:
 
-1. [Create a new database]({{< relref "/operate/rs/databases/create" >}}) or select an existing database from the **Databases** screen.
+1. [Create a new database]({{< relref "/operate/rs/7.4/databases/create" >}}) or select an existing database from the **Databases** screen.
 
 1. For an existing database, select **Edit** from the **Configuration** tab.
 

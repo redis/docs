@@ -19,7 +19,7 @@ Redis Enterprise for Kubernetes supports the Ingress controllers below:
 * [NGINX](https://kubernetes.github.io/ingress-nginx/)
 * [Istio](https://istio.io/latest/docs/setup/getting-started/)
 
-OpenShift users can use [routes]({{< relref "/operate/kubernetes/networking/routes.md" >}}) instead of an Ingress.
+OpenShift users can use [routes]({{< relref "/operate/kubernetes/7.4.6/networking/routes.md" >}}) instead of an Ingress.
 
 Install your chosen Ingress controller, making sure `ssl-passthrough` is enabled. `ssl-passthrough` is turned off by default for NGINX but enabled by default for HAProxy.
 

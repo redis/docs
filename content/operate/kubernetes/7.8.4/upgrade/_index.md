@@ -20,15 +20,15 @@ The upgrade process includes updating three components:
   2. Upgrade the Redis Enterprise cluster (REC)
   3. Upgrade Redis Enterprise databases (REDB)
 
-If you are using OpenShift, see [Upgrade Redis Enterprise with OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}}) or [Upgrade Redis Enterprise with OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}}).
+If you are using OpenShift, see [Upgrade Redis Enterprise with OpenShift CLI]({{<relref "/operate/kubernetes/7.8.4/upgrade/openshift-cli">}}) or [Upgrade Redis Enterprise with OpenShift OperatorHub]({{<relref "/operate/kubernetes/7.8.4/upgrade/upgrade-olm">}}).
 
-For all other Kubernetes distributions, see [Upgrade Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}}).
+For all other Kubernetes distributions, see [Upgrade Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes/7.8.4/upgrade/upgrade-redis-cluster" >}}).
 
 ## Upgrade compatibility
 
 When upgrading, both your Kubernetes version and Redis operator version need to be supported at all times.
 
-{{<warning>}}If your current Kubernetes distribution is not [supported]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions.md">}}), upgrade to a supported distribution before upgrading. {{</warning>}}
+{{<warning>}}If your current Kubernetes distribution is not [supported]({{<relref "/operate/kubernetes/7.8.4/reference/supported_k8s_distributions.md">}}), upgrade to a supported distribution before upgrading. {{</warning>}}
 
 ## RHEL9-based image
 
@@ -40,6 +40,6 @@ Redis Enterprise images are now based on Red Hat Enterprise Linux 9 (RHEL9). Thi
 
 For detailed steps, see the relevant upgrade page:
 
-- [OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}})
-- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}})
-- [Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
+- [OpenShift CLI]({{<relref "/operate/kubernetes/7.8.4/upgrade/openshift-cli">}})
+- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/7.8.4/upgrade/upgrade-olm">}})
+- [Kubernetes]({{<relref "/operate/kubernetes/7.8.4/upgrade/upgrade-redis-cluster" >}})

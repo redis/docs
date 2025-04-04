@@ -16,7 +16,7 @@ Here are some frequently asked questions about Redis Enterprise on integration p
 
 ## What is an Operator?
 
-An operator is a [Kubernetes custom controller](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources#custom-controllers) which extends the native K8s API. Refer to the article [Redis Enterprise K8s Operator-based deployments – Overview]({{< relref "/operate/kubernetes/architecture/" >}}).
+An operator is a [Kubernetes custom controller](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources#custom-controllers) which extends the native K8s API. Refer to the article [Redis Enterprise K8s Operator-based deployments – Overview]({{< relref "/operate/kubernetes/7.8.4/architecture/" >}}).
 
 ## Does Redis Enterprise operator support multiple RECs per namespace?
 
@@ -40,7 +40,7 @@ kubectl describe rec <my-cluster-name>
 
 The cluster admin user password is created by the operator during the deployment of the Redis Enterprise cluster (REC) and is stored in a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-See [Manage REC credentials]({{< relref "/operate/kubernetes/security/manage-rec-credentials" >}}) for instructions on changing the admin password.
+See [Manage REC credentials]({{< relref "/operate/kubernetes/7.8.4/security/manage-rec-credentials" >}}) for instructions on changing the admin password.
 
 ## How is using Redis Enterprise operator superior to using Helm charts?
 
@@ -66,7 +66,7 @@ Connect to the UI by pointing your browser to `https://localhost:8443`
 
 For nodes hosting the Redis Enterprise cluster [statefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) [pods](https://kubernetes.io/docs/concepts/workloads/pods/), follow the guidelines provided for Redis Enterprise in the [hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
 
-For additional information please also refer to [Kubernetes operator deployment – persistent volumes]({{< relref "/operate/kubernetes/recommendations/persistent-volumes.md" >}}).
+For additional information please also refer to [Kubernetes operator deployment – persistent volumes]({{< relref "/operate/kubernetes/7.8.4/recommendations/persistent-volumes.md" >}}).
 
 ## How to retrieve the username/password for a Redis Enterprise Cluster?
 

@@ -46,7 +46,7 @@ Get a single DNS suffix.
 
 ### Response {#get-response} 
 
-Returns a [suffix object]({{< relref "/operate/rs/references/rest-api/objects/suffix" >}}).
+Returns a [suffix object]({{< relref "/operate/rs/7.4/references/rest-api/objects/suffix" >}}).
 
 #### Example JSON body
 

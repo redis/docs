@@ -24,7 +24,7 @@ A database can have one of these proxy policies:
 |------------|-----------------|
 | Single | There is only a single proxy that is bound to the database. This is the default database configuration and preferable in most use cases. |
 | All Master Shards | There are multiple proxies that are bound to the database, one on each node that hosts a database master shard. This mode fits most use cases that require multiple proxies. |
-| All Nodes | There are multiple proxies that are bound to the database, one on each node in the cluster, regardless of whether or not there is a shard from this database on the node. This mode should be used only in special cases, such as [using a load balancer]({{< relref "/operate/rs/networking/cluster-lba-setup.md" >}}). |
+| All Nodes | There are multiple proxies that are bound to the database, one on each node in the cluster, regardless of whether or not there is a shard from this database on the node. This mode should be used only in special cases, such as [using a load balancer]({{< relref "/operate/rs/7.4/networking/cluster-lba-setup.md" >}}). |
 
 {{< note >}}
 Manual intervention is also available via the rladmin bind add and
@@ -138,7 +138,7 @@ When the network on a single active proxy becomes the bottleneck,
 you might also look into enabling the multiple NIC support in RS. With
 nodes that have multiple physical NICs (Network Interface Cards), you
 can configure RS to separate internal and external traffic onto
-independent physical NICs. For more details, refer to [Manage IP addresses]({{< relref "/operate/rs/networking/multi-ip-ipv6" >}}).
+independent physical NICs. For more details, refer to [Manage IP addresses]({{< relref "/operate/rs/7.4/networking/multi-ip-ipv6" >}}).
 {{< /note >}}
 
 Having multiple proxies for a database can improve RS's ability for fast

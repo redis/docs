@@ -40,7 +40,7 @@ rladmin bind
 
 Returns `Finished successfully` if the list of excluded proxies was successfully changed. Otherwise, it returns an error.
 
-Use [`rladmin status endpoints`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-endpoints" >}}) to verify that the policy changed.
+Use [`rladmin status endpoints`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-endpoints" >}}) to verify that the policy changed.
 
 ### Example
 
@@ -86,7 +86,7 @@ rladmin bind
 
 Returns `Finished successfully` if the list of included proxies was successfully changed. Otherwise, it returns an error.
 
-Use [`rladmin status endpoints`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-endpoints" >}}) to verify that the policy changed.
+Use [`rladmin status endpoints`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-endpoints" >}}) to verify that the policy changed.
 
 ### Example
 
@@ -134,7 +134,7 @@ rladmin bind
 
 Returns `Finished successfully` if the proxy policy was successfully changed. Otherwise, it returns an error.
 
-Use [`rladmin status endpoints`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-endpoints" >}}) to verify that the policy changed.
+Use [`rladmin status endpoints`]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin/status#status-endpoints" >}}) to verify that the policy changed.
 
 ### Example
 
