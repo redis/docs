@@ -130,7 +130,7 @@ class VersionArchiver:
                                     f"linkTitle: {self.new_version}\n"
                                 )
                         frontmatter_lines.append(
-                            f"bannerText: This documentation applies to Redis Software versions {self.new_version}.\n"
+                            f"bannerText: This documentation applies to versions {self.new_version}.\n"
                         )
                         frontmatter_lines.append(f"bannerChildren: true\n")
 
