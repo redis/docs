@@ -24,7 +24,7 @@ When you install Redis Enterprise Software or Redis Community Edition, it also i
 
 To learn how to install Redis and `redis-cli`, see the following installation guides:
 
-- [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-redis/" >}})
+- [Redis Community Edition]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})
 
 - [Redis Enterprise Software]({{< relref "/operate/rs/7.4/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 

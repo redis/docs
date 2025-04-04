@@ -73,7 +73,7 @@ FT.AGGREGATE
 Parameters that can take a variable number of arguments are expressed in the
 form of `param {nargs} {property_1... property_N}`. The first argument to the
 parameter is the number of arguments following the parameter. This allows
-Redis Stack to avoid a parsing ambiguity in case one of your arguments has the
+Redis to avoid a parsing ambiguity in case one of your arguments has the
 name of another parameter. For example, to sort by first name, last name, and
 country, one would specify `SORTBY 6 firstName ASC lastName DESC country ASC`.
 
@@ -570,5 +570,5 @@ Note that cursors are automatically deleted if all their results have been
 returned, or if they have timed out.
 
 All idle cursors can be forcefully purged at the same time using `FT.CURSOR GC idx 0` command.
-By default, Redis Stack uses a lazy throttled approach to garbage collection, which
+By default, Redis uses a lazy throttled approach to garbage collection, which
 collects idle cursors every 500 operations, or every second, whichever is later.

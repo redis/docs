@@ -1,4 +1,8 @@
 ---
+acl_categories:
+- '@search'
+- '@read'
+- '@fast'
 arguments:
 - name: index
   type: string
@@ -205,7 +209,11 @@ syntax_str: "query [VERBATIM] [LOAD\_count field [field ...]] [TIMEOUT\_timeout]
 title: FT.AGGREGATE
 ---
 
-Run a search query on an index, and perform aggregate transformations on the results, extracting statistics etc from them
+Run a search query on an index and perform aggregate transformations on the results.
+
+{{< note >}}
+This command will only return keys to which the user has read access.
+{{< /note >}}
 
 [Examples](#examples)
 

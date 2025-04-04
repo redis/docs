@@ -54,7 +54,7 @@ Redis distribution.
 * The self documented [redis.conf for Redis 2.6](https://raw.githubusercontent.com/redis/redis/2.6/redis.conf).
 * The self documented [redis.conf for Redis 2.4](https://raw.githubusercontent.com/redis/redis/2.4/redis.conf).
 
-Passing arguments via the command line
+Passing arguments using the command line
 ---
 
 You can also pass Redis configuration parameters
@@ -64,7 +64,7 @@ as a replica of the instance running at 127.0.0.1 port 6379.
 
     ./redis-server --port 6380 --replicaof 127.0.0.1 6379
 
-The format of the arguments passed via the command line is exactly the same
+The format of the arguments passed using the command line is exactly the same
 as the one used in the redis.conf file, with the exception that the keyword
 is prefixed with `--`.
 

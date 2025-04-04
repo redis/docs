@@ -189,7 +189,7 @@ The function returns NULL if `bytes` is 0.
 
 These functions are used to implement custom Redis commands.
 
-For examples, see [https://redis.io/topics/modules-intro](https://redis.io/topics/modules-intro).
+For examples, see [https://redis.io/docs/latest/develop/reference/modules/](https://redis.io/docs/latest/develop/reference/modules/).
 
 <span id="RedisModule_IsKeysPositionRequest"></span>
 
@@ -348,7 +348,7 @@ example "write deny-oom". The set of flags are:
                    from the same input arguments and key values.
                    Starting from Redis 7.0 this flag has been deprecated.
                    Declaring a command as "random" can be done using
-                   command tips, see https://redis.io/topics/command-tips.
+                   command tips, see https://redis.io/docs/latest/develop/reference/command-tips/.
 * **"allow-stale"**: The command is allowed to run on slaves that don't
                      serve stale data. Don't use if you don't know what
                      this means.
@@ -380,6 +380,9 @@ example "write deny-oom". The set of flags are:
                     RedisModule_Yield.
 * **"getchannels-api"**: The command implements the interface to return
                          the arguments that are channels.
+* **"internal"**: Internal command, one that should not be exposed to the user connections.
+                  For example, module commands that are called by the modules,
+                  commands that do not perform ACL validations (relying on earlier checks)
 
 The last three parameters specify which arguments of the new command are
 Redis keys. See [https://redis.io/commands/command](https://redis.io/commands/command) for more information.
@@ -558,7 +561,7 @@ All fields except `version` are optional. Explanation of the fields:
     both strings set to NULL.
 
 - `tips`: A string of space-separated tips regarding this command, meant for
-  clients and proxies. See [https://redis.io/topics/command-tips](https://redis.io/topics/command-tips).
+  clients and proxies. See [https://redis.io/docs/latest/develop/reference/command-tips/](https://redis.io/docs/latest/develop/reference/command-tips/).
 
 - `arity`: Number of arguments, including the command name itself. A positive
   number specifies an exact number of arguments and a negative number
@@ -2200,6 +2203,9 @@ Available flags and their meaning:
 
  * `REDISMODULE_CTX_FLAGS_SERVER_STARTUP`: The Redis instance is starting
 
+ * `REDISMODULE_CTX_FLAGS_DEBUG_ENABLED`: Debug commands are enabled for this
+                                        context.
+
 <span id="RedisModule_AvoidReplicaTraffic"></span>
 
 ### `RedisModule_AvoidReplicaTraffic`
@@ -2292,6 +2298,7 @@ Extra flags that can be pass to the API under the mode argument:
 * `REDISMODULE_OPEN_KEY_NOSTATS` - Don't update keyspace hits/misses counters.
 * `REDISMODULE_OPEN_KEY_NOEXPIRE` - Avoid deleting lazy expired keys.
 * `REDISMODULE_OPEN_KEY_NOEFFECTS` - Avoid any effects from fetching the key.
+* `REDISMODULE_OPEN_KEY_ACCESS_EXPIRED` - Access expired keys that have not yet been deleted
 
 <span id="RedisModule_GetOpenKeyModesAll"></span>
 
@@ -3125,6 +3132,11 @@ expecting a `RedisModuleString` pointer to pointer, the function just
 reports if the field exists or not and expects an integer pointer
 as the second element of each pair.
 
+`REDISMODULE_HASH_EXPIRE_TIME`: retrieves the expiration time of a field in the hash.
+The function expects a `mstime_t` pointer as the second element of each pair.
+If the field does not exist or has no expiration, the value is set to 
+`REDISMODULE_NO_EXPIRE`. This flag must not be used with `REDISMODULE_HASH_EXISTS`.
+
 Example of `REDISMODULE_HASH_CFIELDS`:
 
      RedisModuleString *username, *hashedpass;
@@ -3133,8 +3145,13 @@ Example of `REDISMODULE_HASH_CFIELDS`:
 Example of `REDISMODULE_HASH_EXISTS`:
 
      int exists;
-     RedisModule_HashGet(mykey,REDISMODULE_HASH_EXISTS,argv[1],&exists,NULL);
+     RedisModule_HashGet(mykey,REDISMODULE_HASH_EXISTS,"username",&exists,NULL);
 
+Example of `REDISMODULE_HASH_EXPIRE_TIME`:
+
+     mstime_t hpExpireTime; 
+     RedisModule_HashGet(mykey,REDISMODULE_HASH_EXPIRE_TIME,"hp",&hpExpireTime,NULL);
+     
 The function returns `REDISMODULE_OK` on success and `REDISMODULE_ERR` if
 the key is not a hash value.
 
@@ -3143,11 +3160,28 @@ Memory management:
 The returned `RedisModuleString` objects should be released with
 [`RedisModule_FreeString()`](#RedisModule_FreeString), or by enabling automatic memory management.
 
+<span id="RedisModule_HashFieldMinExpire"></span>
+
+### `RedisModule_HashFieldMinExpire`
+
+    mstime_t RedisModule_HashFieldMinExpire(RedisModuleKey *key);
+
+**Available since:** unreleased
+
+
+Retrieves the minimum expiration time of fields in a hash.
+
+Return:
+  - The minimum expiration time (in milliseconds) of the hash fields if at
+    least one field has an expiration set.
+  - `REDISMODULE_NO_EXPIRE` if no fields have an expiration set or if the key
+    is not a hash.
+
 <span id="section-key-api-for-stream-type"></span>
 
 ## Key API for Stream type
 
-For an introduction to streams, see [https://redis.io/topics/streams-intro](https://redis.io/topics/streams-intro).
+For an introduction to streams, see [https://redis.io/docs/latest/develop/data-types/streams/](https://redis.io/docs/latest/develop/data-types/streams/).
 
 The type `RedisModuleStreamID`, which is used in stream functions, is a struct
 with two 64-bit fields and is defined as
@@ -3734,6 +3768,8 @@ Exported API to call any Redis command from modules.
              dependent activity, such as ACL checks within scripts will proceed as
              expected.
              Otherwise, the command will run as the Redis unrestricted user.
+             Upon sending a command from an internal connection, this flag is
+             ignored and the command will run as the Redis unrestricted user.
     * `S` -- Run the command in a script mode, this means that it will raise
              an error if a command which are not allowed inside a script
              (flagged with the `deny-script` flag) is invoked (like SHUTDOWN).
@@ -3803,7 +3839,7 @@ Example code fragment:
        // Do something with myval.
      }
 
-This API is documented here: [https://redis.io/topics/modules-intro](https://redis.io/topics/modules-intro)
+This API is documented here: [https://redis.io/docs/latest/develop/reference/modules/](https://redis.io/docs/latest/develop/reference/modules/)
 
 <span id="RedisModule_CallReplyProto"></span>
 
@@ -5043,7 +5079,7 @@ that the notification code will be executed in the middle on Redis logic
 runs is dangerous and discouraged. In order to react to key space events with
 write actions, please refer to [`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob).
 
-See [https://redis.io/topics/notifications](https://redis.io/topics/notifications) for more information.
+See [https://redis.io/docs/latest/develop/use/keyspace-notifications/](https://redis.io/docs/latest/develop/use/keyspace-notifications/) for more information.
 
 <span id="RedisModule_AddPostNotificationJob"></span>
 
@@ -5605,6 +5641,31 @@ If the user is able to access the key then `REDISMODULE_OK` is returned, otherwi
 
 * EINVAL: The provided flags are invalid.
 * EACCESS: The user does not have permission to access the key.
+
+<span id="RedisModule_ACLCheckKeyPrefixPermissions"></span>
+
+### `RedisModule_ACLCheckKeyPrefixPermissions`
+
+    int RedisModule_ACLCheckKeyPrefixPermissions(RedisModuleUser *user,
+                                                 RedisModuleString *prefix,
+                                                 int flags);
+
+**Available since:** unreleased
+
+Check if the user can access keys matching the given key prefix according to the ACLs 
+attached to the user and the flags representing key access. The flags are the same that 
+are used in the keyspec for logical operations. These flags are documented in 
+[`RedisModule_SetCommandInfo`](#RedisModule_SetCommandInfo) as the `REDISMODULE_CMD_KEY_ACCESS`, 
+`REDISMODULE_CMD_KEY_UPDATE`, `REDISMODULE_CMD_KEY_INSERT`, and `REDISMODULE_CMD_KEY_DELETE` flags.
+
+If no flags are supplied, the user is still required to have some access to keys matching 
+the prefix for this command to return successfully.
+
+If the user is able to access keys matching the prefix, then `REDISMODULE_OK` is returned.
+Otherwise, `REDISMODULE_ERR` is returned and errno is set to one of the following values:
+
+* EINVAL: The provided flags are invalid.
+* EACCES: The user does not have permission to access keys matching the prefix.
 
 <span id="RedisModule_ACLCheckChannelPermissions"></span>
 
@@ -6775,7 +6836,7 @@ Callback for scan implementation.
 The way it should be used:
 
      RedisModuleScanCursor *c = RedisModule_ScanCursorCreate();
-     RedisModuleKey *key = RedisModule_OpenKey(...)
+     RedisModuleKey *key = RedisModule_OpenKey(...);
      while(RedisModule_ScanKey(key, c, callback, privateData));
      RedisModule_CloseKey(key);
      RedisModule_ScanCursorDestroy(c);
@@ -6785,13 +6846,13 @@ the actual call to [`RedisModule_ScanKey`](#RedisModule_ScanKey), and re-opening
 
      RedisModuleScanCursor *c = RedisModule_ScanCursorCreate();
      RedisModule_ThreadSafeContextLock(ctx);
-     RedisModuleKey *key = RedisModule_OpenKey(...)
+     RedisModuleKey *key = RedisModule_OpenKey(...);
      while(RedisModule_ScanKey(ctx, c, callback, privateData)){
          RedisModule_CloseKey(key);
          RedisModule_ThreadSafeContextUnlock(ctx);
          // do some background job
          RedisModule_ThreadSafeContextLock(ctx);
-         RedisModuleKey *key = RedisModule_OpenKey(...)
+         key = RedisModule_OpenKey(...);
      }
      RedisModule_CloseKey(key);
      RedisModule_ScanCursorDestroy(c);
@@ -7368,6 +7429,24 @@ Create an integer config that server clients can interact with via the
 `CONFIG SET`, `CONFIG GET`, and `CONFIG REWRITE` commands. See 
 [`RedisModule_RegisterStringConfig`](#RedisModule_RegisterStringConfig) for detailed information about configs.
 
+<span id="RedisModule_LoadDefaultConfigs"></span>
+
+### `RedisModule_LoadDefaultConfigs`
+
+    int RedisModule_LoadDefaultConfigs(RedisModuleCtx *ctx);
+
+**Available since:** unreleased
+
+Applies all default configurations for the parameters the module registered.
+Only call this function if the module would like to make changes to the
+configuration values before the actual values are applied by [`RedisModule_LoadConfigs`](#RedisModule_LoadConfigs).
+Otherwise it's sufficient to call [`RedisModule_LoadConfigs`](#RedisModule_LoadConfigs), it should already set the default values if needed.
+This makes it possible to distinguish between default values and user provided values and apply other changes between setting the defaults and the user values.
+This will return `REDISMODULE_ERR` if it is called:
+1. outside `RedisModule_OnLoad`
+2. more than once
+3. after the [`RedisModule_LoadConfigs`](#RedisModule_LoadConfigs) call
+
 <span id="RedisModule_LoadConfigs"></span>
 
 ### `RedisModule_LoadConfigs`
@@ -7456,6 +7535,18 @@ Example:
     RedisModuleRdbStream *s = RedisModule_RdbStreamCreateFromFile("exp.rdb");
     RedisModule_RdbSave(ctx, s, 0);
     RedisModule_RdbStreamFree(s);
+
+<span id="RedisModule_GetInternalSecret"></span>
+
+### `RedisModule_GetInternalSecret`
+
+    const char* RedisModule_GetInternalSecret(RedisModuleCtx *ctx, size_t *len);
+
+**Available since:** unreleased
+
+Returns the internal secret of the cluster.
+Should be used to authenticate as an internal connection to a node in the
+cluster, and by that gain the permissions to execute internal commands.
 
 <span id="section-key-eviction-api"></span>
 
@@ -7703,6 +7794,36 @@ Return the name of the command currently running
 Register a defrag callback for global data, i.e. anything that the module
 may allocate that is not tied to a specific data type.
 
+<span id="RedisModule_RegisterDefragFunc2"></span>
+
+### `RedisModule_RegisterDefragFunc2`
+
+    int RedisModule_RegisterDefragFunc2(RedisModuleCtx *ctx,
+                                        RedisModuleDefragFunc2 cb);
+
+**Available since:** unreleased
+
+Register a defrag callback for global data, i.e. anything that the module
+may allocate that is not tied to a specific data type.
+This is a more advanced version of [`RedisModule_RegisterDefragFunc`](#RedisModule_RegisterDefragFunc), in that it takes
+a callbacks that has a return value, and can use [`RedisModule_DefragShouldStop`](#RedisModule_DefragShouldStop)
+in and indicate that it should be called again later, or is it done (returned 0).
+
+<span id="RedisModule_RegisterDefragCallbacks"></span>
+
+### `RedisModule_RegisterDefragCallbacks`
+
+    int RedisModule_RegisterDefragCallbacks(RedisModuleCtx *ctx,
+                                            RedisModuleDefragFunc start,
+                                            RedisModuleDefragFunc end);
+
+**Available since:** unreleased
+
+Register a defrag callbacks that will be called when defrag operation starts and ends.
+
+The callbacks are the same as [`RedisModule_RegisterDefragFunc`](#RedisModule_RegisterDefragFunc) but the user
+can also assume the callbacks are called when the defrag operation starts and ends.
+
 <span id="RedisModule_DefragShouldStop"></span>
 
 ### `RedisModule_DefragShouldStop`
@@ -7721,9 +7842,6 @@ position so it can later use [`RedisModule_DefragCursorGet()`](#RedisModule_Defr
 
 When stopped and more work is left to be done, the callback should
 return 1. Otherwise, it should return 0.
-
-NOTE: Modules should consider the frequency in which this function is called,
-so it generally makes sense to do small batches of work in between calls.
 
 <span id="RedisModule_DefragCursorSet"></span>
 
@@ -7790,6 +7908,38 @@ If a non-NULL value is returned, the caller should use the new pointer instead
 of the old one and update any reference to the old pointer, which must not
 be used again.
 
+<span id="RedisModule_DefragAllocRaw"></span>
+
+### `RedisModule_DefragAllocRaw`
+
+    void *RedisModule_DefragAllocRaw(RedisModuleDefragCtx *ctx, size_t size);
+
+**Available since:** unreleased
+
+Allocate memory for defrag purposes
+
+On the common cases user simply want to reallocate a pointer with a single
+owner. For such usecase [`RedisModule_DefragAlloc`](#RedisModule_DefragAlloc) is enough. But on some usecases the user
+might want to replace a pointer with multiple owners in different keys.
+In such case, an in place replacement can not work because the other key still
+keep a pointer to the old value. 
+
+[`RedisModule_DefragAllocRaw`](#RedisModule_DefragAllocRaw) and [`RedisModule_DefragFreeRaw`](#RedisModule_DefragFreeRaw) allows to control when the memory
+for defrag purposes will be allocated and when it will be freed,
+allow to support more complex defrag usecases.
+
+<span id="RedisModule_DefragFreeRaw"></span>
+
+### `RedisModule_DefragFreeRaw`
+
+    void RedisModule_DefragFreeRaw(RedisModuleDefragCtx *ctx, void *ptr);
+
+**Available since:** unreleased
+
+Free memory for defrag purposes
+
+See [`RedisModule_DefragAllocRaw`](#RedisModule_DefragAllocRaw) for more information.
+
 <span id="RedisModule_DefragRedisModuleString"></span>
 
 ### `RedisModule_DefragRedisModuleString`
@@ -7808,6 +7958,30 @@ Typically this means strings retained with [`RedisModule_RetainString`](#RedisMo
 may not be defragmentable. One exception is command argvs which, if retained
 by the module, will end up with a single reference (because the reference
 on the Redis side is dropped as soon as the command callback returns).
+
+<span id="RedisModule_DefragRedisModuleDict"></span>
+
+### `RedisModule_DefragRedisModuleDict`
+
+    RedisModuleDict *RedisModule_DefragRedisModuleDict(RedisModuleDefragCtx *ctx,
+                                                       RedisModuleDict *dict,
+                                                       RedisModuleDefragDictValueCallback valueCB,
+                                                       RedisModuleString **seekTo);
+
+**Available since:** unreleased
+
+Defragment a Redis Module Dictionary by scanning its contents and calling a value
+callback for each value.
+
+The callback gets the current value in the dict, and should update newptr to the new pointer,
+if the value was re-allocated to a different address. The callback also gets the key name just as a reference.
+The callback returns 0 when defrag is complete for this node, 1 when node needs more work.
+
+The API can work incrementally by accepting a seek position to continue from, and
+returning the next position to seek to on the next call (or return NULL when the iteration is completed).
+
+This API returns a new dict if it was re-allocated to a new address (will only
+be attempted when *seekTo is NULL on entry).
 
 <span id="RedisModule_GetKeyNameFromDefragCtx"></span>
 
@@ -7840,6 +8014,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ACLCheckChannelPermissions`](#RedisModule_ACLCheckChannelPermissions)
 * [`RedisModule_ACLCheckCommandPermissions`](#RedisModule_ACLCheckCommandPermissions)
 * [`RedisModule_ACLCheckKeyPermissions`](#RedisModule_ACLCheckKeyPermissions)
+* [`RedisModule_ACLCheckKeyPrefixPermissions`](#RedisModule_ACLCheckKeyPrefixPermissions)
 * [`RedisModule_AbortBlock`](#RedisModule_AbortBlock)
 * [`RedisModule_AddACLCategory`](#RedisModule_AddACLCategory)
 * [`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob)
@@ -7904,8 +8079,11 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_DbSize`](#RedisModule_DbSize)
 * [`RedisModule_DeauthenticateAndCloseClient`](#RedisModule_DeauthenticateAndCloseClient)
 * [`RedisModule_DefragAlloc`](#RedisModule_DefragAlloc)
+* [`RedisModule_DefragAllocRaw`](#RedisModule_DefragAllocRaw)
 * [`RedisModule_DefragCursorGet`](#RedisModule_DefragCursorGet)
 * [`RedisModule_DefragCursorSet`](#RedisModule_DefragCursorSet)
+* [`RedisModule_DefragFreeRaw`](#RedisModule_DefragFreeRaw)
+* [`RedisModule_DefragRedisModuleDict`](#RedisModule_DefragRedisModuleDict)
 * [`RedisModule_DefragRedisModuleString`](#RedisModule_DefragRedisModuleString)
 * [`RedisModule_DefragShouldStop`](#RedisModule_DefragShouldStop)
 * [`RedisModule_DeleteKey`](#RedisModule_DeleteKey)
@@ -7973,6 +8151,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_GetDbIdFromOptCtx`](#RedisModule_GetDbIdFromOptCtx)
 * [`RedisModule_GetDetachedThreadSafeContext`](#RedisModule_GetDetachedThreadSafeContext)
 * [`RedisModule_GetExpire`](#RedisModule_GetExpire)
+* [`RedisModule_GetInternalSecret`](#RedisModule_GetInternalSecret)
 * [`RedisModule_GetKeyNameFromDefragCtx`](#RedisModule_GetKeyNameFromDefragCtx)
 * [`RedisModule_GetKeyNameFromDigest`](#RedisModule_GetKeyNameFromDigest)
 * [`RedisModule_GetKeyNameFromIO`](#RedisModule_GetKeyNameFromIO)
@@ -7999,6 +8178,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_GetToKeyNameFromOptCtx`](#RedisModule_GetToKeyNameFromOptCtx)
 * [`RedisModule_GetTypeMethodVersion`](#RedisModule_GetTypeMethodVersion)
 * [`RedisModule_GetUsedMemoryRatio`](#RedisModule_GetUsedMemoryRatio)
+* [`RedisModule_HashFieldMinExpire`](#RedisModule_HashFieldMinExpire)
 * [`RedisModule_HashGet`](#RedisModule_HashGet)
 * [`RedisModule_HashSet`](#RedisModule_HashSet)
 * [`RedisModule_HoldString`](#RedisModule_HoldString)
@@ -8032,6 +8212,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_LoadConfigs`](#RedisModule_LoadConfigs)
 * [`RedisModule_LoadDataTypeFromString`](#RedisModule_LoadDataTypeFromString)
 * [`RedisModule_LoadDataTypeFromStringEncver`](#RedisModule_LoadDataTypeFromStringEncver)
+* [`RedisModule_LoadDefaultConfigs`](#RedisModule_LoadDefaultConfigs)
 * [`RedisModule_LoadDouble`](#RedisModule_LoadDouble)
 * [`RedisModule_LoadFloat`](#RedisModule_LoadFloat)
 * [`RedisModule_LoadLongDouble`](#RedisModule_LoadLongDouble)
@@ -8068,7 +8249,9 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_RegisterBoolConfig`](#RedisModule_RegisterBoolConfig)
 * [`RedisModule_RegisterClusterMessageReceiver`](#RedisModule_RegisterClusterMessageReceiver)
 * [`RedisModule_RegisterCommandFilter`](#RedisModule_RegisterCommandFilter)
+* [`RedisModule_RegisterDefragCallbacks`](#RedisModule_RegisterDefragCallbacks)
 * [`RedisModule_RegisterDefragFunc`](#RedisModule_RegisterDefragFunc)
+* [`RedisModule_RegisterDefragFunc2`](#RedisModule_RegisterDefragFunc2)
 * [`RedisModule_RegisterEnumConfig`](#RedisModule_RegisterEnumConfig)
 * [`RedisModule_RegisterInfoFunc`](#RedisModule_RegisterInfoFunc)
 * [`RedisModule_RegisterNumericConfig`](#RedisModule_RegisterNumericConfig)
@@ -8190,3 +8373,4 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ZsetRem`](#RedisModule_ZsetRem)
 * [`RedisModule_ZsetScore`](#RedisModule_ZsetScore)
 * [`RedisModule__Assert`](#RedisModule__Assert)
+

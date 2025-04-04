@@ -15,17 +15,20 @@ title: Query dialects
 weight: 5
 ---
 
-Redis Stack currently supports four query dialects for use with the [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}), [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}), and other Redis Query Engine commands.
+Redis Community Edition (CE) currently supports four query dialects for use with the [`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}), [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}), and other Redis Query Engine commands.
 Dialects provide for enhancing the query API incrementally, introducing innovative behaviors and new features that support new use cases in a way that does not break the API for existing applications.
 
-## `DIALECT 1`
+{{< note >}}Dialects 1, 3, and 4 are deprecated in CE version 8. However, DIALECT 1 remains the default.
+{{< /note >}}
+
+## `DIALECT 1` (Deprecated)
 
 Dialect version 1 was the default query syntax dialect from the first release of search and query until dialect version 2 was introduced with version [2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3).
 This dialect is also the default dialect. See below for information about changing the default dialect.
 
 ## `DIALECT 2`
 
-Dialect version 2 was introduced in the [2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) release to address query parser inconsistencies found in previous versions of Redis Stack. Dialect version 1 remains the default dialect. To use dialect version 2, append `DIALECT 2` to your query command.
+Dialect version 2 was introduced in the [2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) release to address query parser inconsistencies found in previous versions of Redis. Dialect version 1 remains the default dialect. To use dialect version 2, append `DIALECT 2` to your query command.
 Support for vector search also was introduced in the 2.4 release and requires `DIALECT 2`. See [here]({{< relref "/develop/interact/search-and-query/query/vector-search" >}}) for more details.
 `FT.SEARCH ... DIALECT 2`
 
@@ -124,7 +127,7 @@ The Dialect version 2 enhancements also introduce simplified syntax for logical 
 
   `FT.SEARCH idx "(@tag:{3d3586fe-0416-4572-8ce1} ~@tag{3d3586fe-0416-6758-4ri8})" DIALECT 2`
 
-## `DIALECT 3`
+## `DIALECT 3` (Deprecated)
 
 Dialect version 3 was introduced in the [2.6](https://github.com/RediSearch/RediSearch/releases/tag/v2.6.3) release. This version introduced support for multi-value indexing and querying of attributes for any attribute type ( [TEXT]({{< relref "develop/interact/search-and-query/indexing/#index-json-arrays-as-text" >}}), [TAG]({{< relref "develop/interact/search-and-query/indexing/#index-json-arrays-as-tag" >}}), [NUMERIC]({{< relref "develop/interact/search-and-query/indexing/#index-json-arrays-as-numeric" >}}), [GEO]({{< relref "develop/interact/search-and-query/indexing/#index-json-arrays-as-geo" >}}) and [VECTOR]({{< relref "develop/interact/search-and-query/indexing/#index-json-arrays-as-vector" >}})) defined by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to an array or multiple scalar values. Support for [GEOSHAPE]({{< relref "/develop/interact/search-and-query/query/geo-spatial" >}}) queries was also introduced in this dialect.
 
@@ -190,7 +193,7 @@ Now search, with and without `DIALECT 3`.
 DIALECT 3 is required for shape-based (`POINT` or `POLYGON`) geospatial queries.
 {{% /alert %}}
 
-## `DIALECT 4`
+## `DIALECT 4` (Deprecated)
 
 Dialect version 4 was introduced in the [2.8](https://github.com/RediSearch/RediSearch/releases/tag/v2.8.4) release. It introduces performance optimizations for sorting operations on [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) and [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}). Apart from specifying `DIALECT 4` at the end of a [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command, there are no other syntactic changes. Dialect version 1 remains the default dialect. To use dialect version 4, append `DIALECT 4` to your query command.
 
