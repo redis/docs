@@ -20,7 +20,7 @@ To delete a subscription:
 
     The number of databases for the subscription is shown in the subscription list. You cannot delete a subscription until there are zero databases in the subscription.
 
-    {{<image filename="images/rc/subscription-list-pro-no-databases.png" width="75%" alt="The number of databases is shown in the bottom, left of the subscription in the subscription list." >}}
+    {{<image filename="images/rc/subscription-list-pro-no-databases.png" width="50%" alt="The number of databases is shown in the bottom, left of the subscription in the subscription list." >}}
 
 2.  View the subscription details.  
 
