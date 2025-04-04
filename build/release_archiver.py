@@ -5,8 +5,13 @@ class VersionArchiver:
     def __init__(self, product, version):
         self.product = product
         self.new_version = version
-        self.new_directory = f"content/operate/{self.product}/{self.new_version}"
-        self.latest = f"content/operate/{self.product}"
+
+        if self.product in ("kubernetes", "rs"):
+            self.prefix = "operate"
+        else:
+            self.prefix = "integrate"
+        self.new_directory = f"content/{self.prefix}/{self.product}/{self.new_version}"
+        self.latest = f"content/{self.prefix}/{self.product}"
 
     def archive_version(self):
         """Copy all files from latest in new versioned directory, excluding release-notes"""
@@ -36,9 +41,12 @@ class VersionArchiver:
 
         # Define a pattern to match relref links dynamically using product
         pattern = (
-            r'(\(\{\{< ?relref "/operate/' + re.escape(product) + r'/([^"]+)" ?>\}\})'
+            r'(\(\{\{< ?relref "/'
+            + self.prefix
+            + "/"
+            + re.escape(product)
+            + r'/([^"]+)" ?>\}\})'
         )
-
         with open(file_path, "r") as file:
             lines = file.readlines()
 
@@ -54,11 +62,12 @@ class VersionArchiver:
                 # Check if the link contains 'release-notes' and whether the replacement has already happened
                 if (
                     "release-notes" not in link
-                    and f"/operate/{product}/{version}" not in link
+                    and f"/{self.prefix}/{product}/{version}" not in link
                 ):
                     # Otherwise, replace it
                     new_link = link.replace(
-                        f"/operate/{product}/", f"/operate/{product}/{version}/"
+                        f"/{self.prefix}/{product}/",
+                        f"/{self.prefix}/{product}/{version}/",
                     )
                     return f"{new_link}"
                 return full_match
@@ -170,8 +179,10 @@ class VersionArchiver:
 
 def validate_product(value):
     """Custom validator for product argument to allow only 'rs' or 'kubernetes'"""
-    if value not in ["rs", "kubernetes"]:
-        raise argparse.ArgumentTypeError("Product must be either 'rs' or 'kubernetes'.")
+    if value not in ["rs", "kubernetes", "redis-data-integration"]:
+        raise argparse.ArgumentTypeError(
+            "Product must be either 'rs' or 'kubernetes' or 'redis-data-integration'."
+        )
     return value
 
 
@@ -193,7 +204,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "product",
         type=validate_product,
-        help="The name of the product (e.g., rs, kubernetes)",
+        help="The name of the product (e.g., rs, kubernetes, redis-data-integration)",
     )
     parser.add_argument(
         "version",
