@@ -61,7 +61,12 @@ module.exports = {
 					200: '#F9F9F9',
 					600: '#bfc2c4',
 					800: '#4E545B'
-				}
+				},
+				'blue-bubble': '#80DBFF',
+        		'yellow-bubble': '#DCFF1E',
+        		'purple-bubble': '#C795E3',
+        		'gray-bubble': '#8A99A0',
+        		'red-bubble': '#FD4439'
 			},
       typography: (theme) => (  {
         DEFAULT: {
