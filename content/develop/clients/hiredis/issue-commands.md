@@ -116,6 +116,92 @@ const size_t argvlen[] = {3, 8, 5};
 redisReply *reply = redisCommandArgv(c, argc, argv, argvlen);
 ```
 
+## Construct asynchronous commands
+
+Use the `redisAsyncCommand()` and `redisAsyncCommandArgv()`
+functions to send commands to the server asynchronously:
+
+```c
+int redisAsyncCommand(
+  redisAsyncContext *ac, redisCallbackFn *fn, void *privdata,
+  const char *format, ...);
+int redisAsyncCommandArgv(
+  redisAsyncContext *ac, redisCallbackFn *fn, void *privdata,
+  int argc, const char **argv, const size_t *argvlen);
+```
+
+These work the same way as `redisCommand()` and `redisCommandArgv()`
+(see [Construct synchronous commands](#construct-synchronous-commands)
+above) but they have two extra parameters. The first is a pointer to
+a optional callback function and the second is a pointer to your own
+custom data, which will be passed to the callback when it
+executes. Pass `NULL` for both of these pointers if you don't need
+to use them.
+
+The callback has the following signature:
+
+```c
+void(redisAsyncContext *c, void *reply, void *privdata);
+```
+
+The first parameter is the asynchronous connection context and
+the second is a pointer to the reply object. Use a cast to
+`(redisReply *)` to access the reply in the usual way (see 
+[Handle command replies]({{< relref "/develop/clients/hiredis/handle-replies" >}})
+for a full description of `redisReply`). The last parameter
+is the custom data pointer that you supplied during the
+`redisAsyncCommand()` call. This is passed to your function
+without any modification.
+
+The example below shows how you can use `redisAsyncCommand()` with
+or without a reply callback:
+
+```c
+// The callback expects the key for the data in the `privdata`
+// custom data parameter.
+void getCallback(redisAsyncContext *c, void *r, void *privdata) {
+    redisReply *reply = r;
+    char *key = privdata;
+
+    if (reply == NULL) {
+        if (c->errstr) {
+            printf("errstr: %s\n", c->errstr);
+        }
+        return;
+    }
+
+    printf("Key: %s, value: %s\n", key, reply->str);
+
+    /* Disconnect after receiving the reply to GET */
+    redisAsyncDisconnect(c);
+}
+    .
+    .
+    .
+
+// Key and string value to pass to `SET`.
+char *key = "testkey";
+char *value = "testvalue";
+
+// We aren't interested in the simple status reply for
+// `SET`, so use NULL for the callback and custom data
+// pointers.
+redisAsyncCommand(c, NULL, NULL, "SET %s %s", key, value);
+
+// The reply from `GET` is essential, so set a callback
+// to retrieve it. Also, pass the key to the callback
+// as the custom data.
+redisAsyncCommand(c, getCallback, key, "GET %s", key);
+```
+
+Note that you should normally disconnect asynchronously from a
+callback when you have finished using the connection.
+Use `redisAsyncDisconnect()` to disconnect gracefully, letting
+pending commands execute and activate their callbacks.
+Use `redisAsyncFree()` to disconnect immediately. If you do this then
+any pending callbacks from commands that have already executed will be
+called with a `NULL` reply pointer.
+
 ## Command replies
 
 The information in the `redisReply` object has several formats,
