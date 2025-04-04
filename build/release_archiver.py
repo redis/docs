@@ -10,8 +10,8 @@ class VersionArchiver:
             self.prefix = "operate"
         else:
             self.prefix = "integrate"
-        self.new_directory = f"content/{self.prefix}/{self.product}/{self.new_version}"
-        self.latest = f"content/{self.prefix}/{self.product}"
+        self.new_directory = os.path.join("content",self.prefix,self.product,self.new_version)
+        self.latest = os.path.join("content",self.prefix,self.product)
 
     def archive_version(self):
         """Copy all files from latest in new versioned directory, excluding release-notes"""
@@ -132,7 +132,7 @@ class VersionArchiver:
                     if any("url" in f for f in frontmatter_lines):
                         break
 
-                    if file_path == self.new_directory + "/_index.md":
+                    if file_path == os.path.join(self.new_directory,"_index.md"):
                         for idx, item in enumerate(frontmatter_lines):
                             if "linkTitle" in item:
                                 frontmatter_lines[idx] = (
