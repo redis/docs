@@ -16,7 +16,17 @@ weight: 6
 ---
 
 The following sections explain how to handle situations that may occur
-in your production environment.
+in your production environment. Use the checklist below to record your
+progress in implementing the recommendations.
+
+{{< checklist "prodlist" >}}
+    {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
+    {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
+    {{< checklist-item "#general-exceptions" >}}General exceptions{{< /checklist-item >}}
+    {{< checklist-item "#dns-cache-and-redis" >}}DNS cache and Redis{{< /checklist-item >}}    
+{{< /checklist >}}
+
+
 
 ### Timeouts
 

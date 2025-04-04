@@ -1,0 +1,71 @@
+{{ $formId := index .Params 0 }}
+<form id="{{ $formId }}">
+    <ul style="list-style-type: none;padding-left: 0px;">
+        {{ .Inner }}
+    </ul>
+    <label for="gcount">&#9989; = </label>
+    <output name="gcount" id="gcount">0</output>/<output name="gtotal"></output>,
+    <label for="rcount">&#x274C; = </label>
+    <output name="rcount" id="rcount">2</output>/<output name="rtotal"></output>,
+    <label for="acount">&#x1F50D; = </label>
+    <output name="acount" id="acount">0</output>/<output name="atotal"></output><br/>
+    (<label for="xcount">&#x2205; = </label>
+    <output name="xcount" id="xcount">0</output>/<output name="xtotal"></output>)
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem("{{ $formId }}")) {
+            let choiceList = localStorage.getItem("{{ $formId }}");
+            let form = document.getElementById(formId);
+            let counts = {R: 0, G: 0, A: 0, X:0};
+
+            let listItems = form.getElementsByTagName("li");
+
+            for (const [index, elem] of listItems.entries()) {
+                let menu = elem.getElementsByTagName("select")[0];
+                let mvalue = choiceList[index];
+                menu.value = mvalue;
+
+                counts[mvalue]++;
+            }
+
+            form.elements["rcount"].value = counts["R"];
+            form.elements["gcount"].value = counts["G"];
+            form.elements["acount"].value = counts["A"];
+            form.elements["xcount"].value = counts["X"];
+
+            let numClItems = listItems.length;
+            form.elements["rtotal"].value = numClItems;
+            form.elements["gtotal"].value = numClItems;
+            form.elements["atotal"].value = numClItems;
+            form.elements["xtotal"].value = numClItems;
+        }
+
+        clChange("{{ $formId }}");
+    });
+
+    function clChange(formId) {
+        let form = document.getElementById(formId);
+        let counts = {R: 0, G: 0, A: 0, X:0};
+
+        let listItems = form.getElementsByTagName("li");
+
+        for (let elem of listItems) {
+            let menu = elem.getElementsByTagName("select")[0];
+            let mvalue = menu.value;
+
+            counts[mvalue]++;
+        }
+
+        form.elements["rcount"].value = counts["R"];
+        form.elements["gcount"].value = counts["G"];
+        form.elements["acount"].value = counts["A"];
+        form.elements["xcount"].value = counts["X"];
+
+        let numClItems = listItems.length - counts["X"];
+        form.elements["rtotal"].value = numClItems;
+        form.elements["gtotal"].value = numClItems;
+        form.elements["atotal"].value = numClItems;
+        form.elements["xtotal"].value = listItems.length;
+    }
+</script>
