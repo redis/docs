@@ -29,7 +29,7 @@ This version offers:
 
 - Two-dimensional rack awareness
 
-- v2 actions API
+- New version for actions API
 
 - Additional REST API enhancements
 
