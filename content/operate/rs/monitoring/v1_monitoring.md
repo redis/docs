@@ -12,15 +12,45 @@ linkTitle: Monitoring v1
 weight: 50
 ---
 
-The current approach to monitoring Redis Enterprise Software includes:
+Current Monitoring System (Deprecated)
 
-- Internal monitoring systems:
+- Internal Metrics Storage
+    - Metrics are internally aggregated, calculated, and stored for up to one year.
+    - This historical data is used for generating trends and performance insights over time.
 
-    - [Statistics APIs]({{<relref "/operate/rs/references/rest-api/objects/statistics">}}), which collect various statistics at regular time intervals for clusters, nodes, databases, shards, and endpoints.
+- [Statistics APIs]({{<relref "/operate/rs/references/rest-api/objects/statistics">}})
+    - A set of RESTful APIs that expose metrics collected at regular intervals from clusters, nodes, databases, shards, and endpoints.
+    - These APIs allow customers to retrieve performance and usage statistics directly from the internal storage layer.
 
-    - Cluster manager metrics and alerts.
+- Cluster Manager Metrics and Alerts
+    - The Cluster Manager UI includes dedicated metrics pages that display pre-aggregated metrics.
+    - Cluster alerts are triggered based on thresholds applied to these stored metrics.
+      
+- v1 Prometheus Scraping Endpoint
+    - Redis Enterprise exposes a legacy /prometheus_metrics endpoint to integrate with external observability platforms like [Prometheus and Grafana]({{<relref "/operate/rs/monitoring/prometheus_and_grafana">}}).
+    - This endpoint fetches data from the internal storage, providing basic monitoring integration.
 
-- The v1 Prometheus scraping endpoint to integrate with external monitoring tools such as [Prometheus and Grafana]({{<relref "/operate/rs/monitoring/prometheus_and_grafana">}}).
+- Deprecation notice:
+    - The internal monitoring system, while functional, has several limitations that affect scalability and accuracy:
+      
+        - Limited Granularity: Metrics are aggregated before storage, resulting in a loss of fine-grained insights.
+        - Stale Data: Stored metrics may lag behind real-time system states, reducing the effectiveness of alerting.
+        - Scalability Constraints: Internal storage and processing introduce performance overhead and are not optimized for large-scale observability pipelines.
+        - Limited Extensibility: The system is tightly coupled with internal components, making it difficult to integrate with modern monitoring ecosystems.
+     
+Transition to Metrics Stream Engine
+
+To address these challenges, Redis Enterprise is transitioning to a new observability foundation: the Metrics Stream Engine.
+
+This modern monitoring stack introduces:
+
+- Real-Time Metrics: Data is exposed directly from the engine without intermediate storage, ensuring high fidelity and low-latency insights.
+
+- Scalable Architecture: Designed for cloud-native observability, with a lightweight Prometheus collectors.
+
+- Deeper Visibility: Exposes new types of metrics such as key size distribution, server overall latency histograms, and system internals with per-endpoint resolution.
+
+We recommend all customers migrate to the Metrics Stream Engine for enhanced accuracy, scalability, and future-proof observability.
 
 ## Cluster manager metrics
 
