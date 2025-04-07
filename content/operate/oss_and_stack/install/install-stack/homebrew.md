@@ -17,31 +17,29 @@ weight: 6
 To install Redis CE on macOS, use [Homebrew](https://brew.sh/).
 Make sure that you have [Homebrew installed](https://docs.brew.sh/Installation) before starting on the installation instructions below.
 
-There are three brew casks available.
+There are two brew casks available.
 
-* `redis-stack` contains both `redis-stack-server` and `redis-stack-redisinsight` casks. 
-* `redis-stack-server` provides Redis Stack server only.
-* `redis-stack-redisinsight` contains Redis Insight.
+* `redis` contains the latest, stable version of Redis.
+* `redis-ce` contains the latest pre-release version of Redis, for example Redis CE 8.0-RC1.
 
 ## Install using Homebrew
 
-First, tap the Redis CE Homebrew tap:
+First, tap the Redis CE Homebrew cask:
 
 {{< highlight bash >}}
-brew tap redis-stack/redis-stack
+brew tap redis/redis
 {{< / highlight >}}
 
 Next, run `brew install`:
 
 {{< highlight bash >}}
-brew install redis-stack
+brew install --cask redis
 {{< / highlight >}}
 
-The `redis-stack-server` cask will install all Redis and Redis Stack binaries. How you run these binaries depends on whether you already have Redis installed on your system.
 
-### First-time Redis installation
+## Run Redis
 
-If this is the first time you've installed Redis on your system, you need to be sure that your `PATH` variable includes the Redis Stack installation location. This location is either `/opt/homebrew/bin` for Apple silicon Macs or `/usr/local/bin` for Intel-based Macs.
+If this is the first time you've installed Redis on your system, you need to be sure that your `PATH` variable includes the Redis installation location. This location is either `/opt/homebrew/bin` for Apple silicon Macs or `/usr/local/bin` for Intel-based Macs.
 
 To check this, run:
 
@@ -49,52 +47,23 @@ To check this, run:
 echo $PATH
 {{< / highlight >}}
 
-Then, confirm that the output contains `/opt/homebrew/bin` (Apple silicon Macs) or `/usr/local/bin` (Intel Mac). If these directories are not in the output, see the "Existing Redis installation" instructions below.
+Next, confirm that the output contains `/opt/homebrew/bin` (Apple silicon Macs) or `/usr/local/bin` (Intel Mac). If neither `/opt/homebrew/bin` nor `/usr/local/bin` are in the output, add them.
 
-{{< note >}}
-Because Redis Stack is installed using a brew cask with the `brew tap` command, it will not be integrated with the `brew services` command.
-{{< /note >}}
-
-### Existing Redis installation
-
-If you have an existing Redis installation on your system, then might want to modify your `$PATH` to ensure that you're using the latest Redis Stack binaries.
-
-Open the file `~/.bashrc` or `~/zshrc` (depending on your shell), and add the following lines.
-
-For Intel-based Macs:
+Open the file `~/.bashrc` or `~/zshrc` (depending on your shell), and add the following line.
 
 {{< highlight bash >}}
-export PATH=/usr/local/Caskroom/redis-stack-server/<VERSION>/bin:$PATH
+export PATH=$(brew --prefix)/bin:$PATH
 {{< / highlight >}}
-
-For Apple silicon Macs:
-
-{{< highlight bash >}}
-export PATH=/opt/homebrew/Caskroom/redis-stack-server/<VERSION>/bin:$PATH
-{{< / highlight >}}
-
-In both cases, replace `<VERSION>` with your version of Redis Stack. For example, with version 6.2.0, path is as follows:
-
-{{< highlight bash >}}
-export PATH=/opt/homebrew/Caskroom/redis-stack-server/6.2.0/bin:$PATH
-{{< / highlight >}}
-
-### Start Redis server
 
 You can now start Redis server as follows:
 
 {{< highlight bash >}}
-redis-stack-server
+redis-server
 {{< / highlight >}}
 
-## Uninstall Redis CE
-
-To uninstall Redis CE, run:
-
-{{< highlight bash >}}
-brew uninstall redis-stack-redisinsight redis-stack-server redis-stack
-brew untap redis-stack/redis-stack
-{{< / highlight >}}
+{{< note >}}
+Because Redis is installed using a Homebrew cask with the `brew tap` command, it will not be integrated with the `brew services` command.
+{{< /note >}}
 
 ## Connect to Redis CE
 
@@ -107,12 +76,18 @@ redis-cli
 Test the connection with the `ping` command:
 
 {{< highlight bash  >}}
-127.0.0.1:6379> ping
+127.0.0.1:6379> PING
 PONG
 {{< / highlight >}}
 
-You can also test that your Redis server is running using
-[Redis Insight]({{< relref "/develop/tools/insight" >}}).
+## Uninstall Redis CE
+
+To uninstall Redis CE, run:
+
+{{< highlight bash >}}
+brew uninstall redis
+brew untap redis/redis
+{{< / highlight >}}
 
 ## Next steps
 
@@ -120,5 +95,4 @@ Once you have a running Redis instance, you may want to:
 
 * Try the [Redis CLI tutorial]({{< relref "/develop/tools/cli" >}})
 * Connect using one of the [Redis clients]({{< relref "/develop/clients" >}})
-* [Install Redis properly]({{< relref "/operate/oss_and_stack/install/archive/install-redis#install-redis-properly" >}})
-  for production use.
+* Connect using [Redis Insight]({{< relref "/develop/tools/insight" >}})
