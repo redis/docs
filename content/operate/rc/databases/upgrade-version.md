@@ -5,10 +5,12 @@ categories:
 - docs
 - operate
 - rc
-description: Shows how to update a Redis Cloud database to the latest database version.
+description: Describes when you can upgrade your database to the latest available version for each plan type.
 linkTitle: Upgrade database version
-weight: $weight
+weight: 37
 ---
+
+Database version upgrade options depend on your plan type.
 
 ## Redis Cloud Essentials
 
@@ -33,17 +35,30 @@ Review the breaking changes for the new database version before updating:
 ### Upgrade Redis Cloud Pro database
 
 {{< note >}}
-Upgrading a single Redis Cloud Pro database is available for selected accounts and will be rolled out gradually to other accounts in the future. If you don't see **Version upgrade** in the **More actions** menu for your database, you can request to upgrade all of the databases in your subscription from the [subscription page]({{< relref "/operate/rc/subscriptions/view-pro-subscription" >}}).
+Upgrading a single Redis Cloud Pro database is available for selected accounts and will be rolled out gradually to other accounts in the future. If you don't see **Version upgrade** in the **More actions** menu for your database and your database version is not the latest available version, you can request to upgrade all of the databases in your subscription from the [subscription page]({{< relref "/operate/rc/subscriptions/view-pro-subscription" >}}).
 {{< /note >}}
 
 To upgrade a Redis Cloud Pro database: 
 
 1. Choose your database from the **Databases** list to open your database page. Select **More actions > Version upgrade**.
 
+    {{<image filename="images/rc/databases-more-actions-menu.png" alt="The More Actions menu on the Database page." >}}
     
     You can also select **More actions > Version upgrade** from the database list.
 
-1. 
+1. Select the target version from the **Select version** list.
+
+    {{<image filename="images/rc/database-version-upgrade.png" alt="The Redis version upgrade screen." >}}
+
+    If your database has not been backed up before, select **Go to backup** to go to the [backup settings]({{< relref "/operate/rc/databases/back-up-data" >}}).
+
+1. Select **Upgrade** to start the upgrade.
+
+    {{<image filename="images/rc/button-upgrade.png" alt="The upgrade button." >}}
+
+The database will start upgrading to the selected version immediately. The upgrade may take a few minutes. 
+
+You can continue to use the Redis Cloud console for other tasks during the upgrade.
 
 
 
