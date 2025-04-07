@@ -1,21 +1,21 @@
 ---
-Title: Redis Enterprise and Redis Stack feature compatibility
+Title: Redis Enterprise and Redis Community Edition feature compatibility
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Describes the Redis Enterprise features supported by each Redis Stack
+description: Describes the Redis Enterprise features supported by each Redis Community Edition
   feature.
 linkTitle: Enterprise feature compatibility
 weight: 8
 ---
 
-This article describes compatibility between Redis Enterprise features and Redis Stack features. Version numbers indicate the minimum module version required for feature support.
+This article describes compatibility between Redis Enterprise features and Redis Community Edition (CE) features. Version numbers indicate the minimum module version required for feature support.
 
-## Supported Redis Stack features
+## Supported Redis CE features
 
-The following table shows which Redis Stack features are supported by Redis Enterprise Software and Redis Cloud.
+The following table shows which Redis CE features are supported by Redis Enterprise Software and Redis Cloud.
 
 | Feature | Redis Enterprise<br/>Software | Redis Enterprise<br/>Cloud |
 |:-------|:-------------------------|:-----------------------|
@@ -27,9 +27,10 @@ The following table shows which Redis Stack features are supported by Redis Ente
 | [Triggers and functions]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 | [Graph]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/graph" >}}) | &#x26A0;&#xFE0F; Deprecated | &#x26A0;&#xFE0F; Deprecated |
 
+
 ## Feature compatibility
 
-The following tables show Redis Enterprise feature support for each non-deprecated Redis Stack feature. 
+The following tables show Redis Enterprise feature support for each Redis CE feature. 
 
 Version numbers indicate when the feature was first supported.  If you're using an earlier version than what's shown in the table, the feature is not supported.
 
@@ -57,9 +58,9 @@ For details about individual features, see the corresponding documentation.
 
 [^3]: You cannot use search and query with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}).
 
-[^4]: You currently cannot combine Auto Tiering with Redis Stack features in Redis Cloud. 
+[^4]: You currently cannot combine Auto Tiering with Redis CE features in Redis Cloud. 
 
-[^5]: With the exception of JSON, you currently cannot combine Active-Active with Redis Stack features in Redis Cloud.
+[^5]: With the exception of JSON, you currently cannot combine Active-Active with Redis CE features in Redis Cloud.
 
 [^6]: Although time series are compatible with Auto Tiering, the entire series either lives in RAM or on flash.
 
