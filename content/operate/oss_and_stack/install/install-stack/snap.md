@@ -12,49 +12,27 @@ weight: 4
 
 ## Install Redis Community Edition (CE) on Ubuntu Linux using Snap
 
-First, download the latest Redis CE Snap package from [this page](https://redis.io/downloads/).
-
-To install, run:
+To install Redis via snap, run the following commands:
 
 {{< highlight bash >}}
 sudo apt update
-sudo apt install redis-tools
-sudo snap install --dangerous --classic <snapname.snap>
+sudo apt install redis-tools # this will install `redis-cli`
+sudo snap install redis
 {{< / highlight >}}
 
-Redis will not start automatically, nor will it start at boot time. To start `redis-server` in the foreground, run the command:
+Redis will start automatically after installation and also at boot time.
 
-{{< highlight bash >}}
-sudo snap run redis-server
-{{< /highlight >}}
+## Connect to Redis CE
 
-To stop Redis, enter `Ctrl-C`.
+Once Redis is running, you can test it by running `redis-cli`:
 
-Follow these steps to integrate Redis CE with `systemd` so you can start/stop in/from the background:
+{{< highlight bash  >}}
+redis-cli
+{{< / highlight >}}
 
-1. Edit the `/etc/systemd/system/redis-server.service` file and enter the following information:
+Test the connection with the `ping` command:
 
-    {{< highlight text >}}
-    [Unit]
-    Description=Redis CE Server
-    After=network.target
-
-    [Service]
-    ExecStart=/usr/bin/snap run redis-server
-    Restart=always
-    User=root
-    Group=root
-
-    [Install]
-    WantedBy=multi-user.target
-    {{< /highlight >}}
-
-1. Run the following commands.
-
-    {{< highlight bash >}}
-    sudo systemctl daemon-reload
-    sudo systemctl start redis-server
-    sudo systemctl enable redis-server
-    {{< /highlight >}}
-
-If your Linux distribution does not currently have Snap installed, you can install it using the instructions described  [here](https://snapcraft.io/docs/installing-snapd). Then, download the appropriate from the [downloads page](https://redis.io/downloads/).
+{{< highlight bash  >}}
+127.0.0.1:6379> PING
+PONG
+{{< / highlight >}}
