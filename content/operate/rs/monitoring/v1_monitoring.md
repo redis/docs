@@ -12,45 +12,61 @@ linkTitle: Monitoring v1
 weight: 50
 ---
 
-Current Monitoring System (Deprecated)
+## Current monitoring system (deprecated)
 
-- Internal Metrics Storage
+The current monitoring system, which is deprecated as of Redis Enterprise Software version 7.22, consists of the following components:
+
+- Internal metrics storage:
+
     - Metrics are internally aggregated, calculated, and stored for up to one year.
-    - This historical data is used for generating trends and performance insights over time.
 
-- [Statistics APIs]({{<relref "/operate/rs/references/rest-api/objects/statistics">}})
-    - A set of RESTful APIs that expose metrics collected at regular intervals from clusters, nodes, databases, shards, and endpoints.
+    - This historical data is used to generate trends and performance insights over time.
+
+- [Statistics APIs]({{<relref "/operate/rs/references/rest-api/objects/statistics">}}):
+
+    - This set of RESTful APIs exposes metrics collected at regular intervals from clusters, nodes, databases, shards, and endpoints.
+
     - These APIs allow customers to retrieve performance and usage statistics directly from the internal storage layer.
 
-- Cluster Manager Metrics and Alerts
-    - The Cluster Manager UI includes dedicated metrics pages that display pre-aggregated metrics.
-    - Cluster alerts are triggered based on thresholds applied to these stored metrics.
+- Cluster manager metrics and alerts:
+
+    - The Cluster Manager UI includes [dedicated metrics pages](#cluster-manager-metrics) that display pre-aggregated metrics.
+
+    - [Cluster alerts](#cluster-alerts) are triggered based on thresholds applied to these stored metrics.
       
-- v1 Prometheus Scraping Endpoint
-    - Redis Enterprise exposes a legacy /prometheus_metrics endpoint to integrate with external observability platforms like [Prometheus and Grafana]({{<relref "/operate/rs/monitoring/prometheus_and_grafana">}}).
+- v1 Prometheus scraping endpoint:
+
+    - Redis Enterprise Software exposes a legacy `/prometheus_metrics` endpoint to integrate with external observability platforms like [Prometheus and Grafana]({{<relref "/operate/rs/monitoring/prometheus_and_grafana">}}).
+
     - This endpoint fetches data from the internal storage, providing basic monitoring integration.
 
-- Deprecation notice:
-    - The internal monitoring system, while functional, has several limitations that affect scalability and accuracy:
-      
-        - Limited Granularity: Metrics are aggregated before storage, resulting in a loss of fine-grained insights.
-        - Stale Data: Stored metrics may lag behind real-time system states, reducing the effectiveness of alerting.
-        - Scalability Constraints: Internal storage and processing introduce performance overhead and are not optimized for large-scale observability pipelines.
-        - Limited Extensibility: The system is tightly coupled with internal components, making it difficult to integrate with modern monitoring ecosystems.
-     
-Transition to Metrics Stream Engine
+### Limitations
 
-To address these challenges, Redis Enterprise is transitioning to a new observability foundation: the Metrics Stream Engine.
+The internal monitoring system, while functional, has several limitations that affect scalability and accuracy:
+      
+- **Limited granularity:** Metrics are aggregated before storage, resulting in a loss of fine-grained insights.
+
+- **Stale data:** Stored metrics can lag behind real-time system states, reducing the effectiveness of alerting.
+
+- **Scalability constraints:** Internal storage and processing introduce performance overhead and are not optimized for large-scale observability pipelines.
+
+- **Limited extensibility:** The system is tightly coupled with internal components, making it difficult to integrate with modern monitoring ecosystems.
+
+### Transition to the metrics stream engine
+
+To improve monitoring and address current limitations, Redis Enterprise Software is transitioning to a new observability foundation: the [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}).
 
 This modern monitoring stack introduces:
 
-- Real-Time Metrics: Data is exposed directly from the engine without intermediate storage, ensuring high fidelity and low-latency insights.
+- Real-time metrics, exposed directly from the engine without intermediate storage for high-fidelity, low-latency insights.
 
-- Scalable Architecture: Designed for cloud-native observability, with a lightweight Prometheus collectors.
+- Scalable architecture designed for cloud-native observability with lightweight Prometheus collectors.
 
-- Deeper Visibility: Exposes new types of metrics such as key size distribution, server overall latency histograms, and system internals with per-endpoint resolution.
+- Deeper visibility by exposing new types of metrics such as key size distribution, server overall latency histograms, and system internals with per-endpoint resolution.
 
-We recommend all customers migrate to the Metrics Stream Engine for enhanced accuracy, scalability, and future-proof observability.
+We recommend migrating to the metrics stream engine for enhanced accuracy, scalability, and future-proof observability.
+
+If you are already using the existing scraping endpoint for integration, follow [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) to transition and try the new engine. It is possible to scrape both existing and new endpoints simultaneously, allowing advanced dashboard preparation and a smooth transition.
 
 ## Cluster manager metrics
 
