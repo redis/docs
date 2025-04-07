@@ -44,16 +44,6 @@ cc main.c -L/usr/local/lib -lhiredis -levent
 See [Build and install]({{< relref "/develop/clients/hiredis#build-and-install" >}})
 to learn how to build `hiredis`, if you have not already done so.
 
-Add the following header files from the `hiredis` folder to your project folder:
-
--   `hiredis.h`
--   `async.h`
--   `adapters/libevent.h`
-
-You should include the `libevent.h` file in a folder called `adapters` but you
-don't need the other headers in the original `adapters` folder for this
-example.
-
 Now, add the following code in `main.c`. An explanation follows the
 code example:
 
@@ -63,9 +53,9 @@ code example:
 #include <string.h>
 #include <signal.h>
 
-#include "hiredis.h"
-#include "async.h"
-#include "adapters/libevent.h"
+#include <hiredis/hiredis.h>
+#include <hiredis/async.h>
+#include <hiredis/adapters/libevent.h>
 
 // Callback for the `GET` command. 
 void getCallback(redisAsyncContext *c, void *r, void *privdata) {

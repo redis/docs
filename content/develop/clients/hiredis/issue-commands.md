@@ -122,6 +122,10 @@ Use the `redisAsyncCommand()` and `redisAsyncCommandArgv()`
 functions to send commands to the server asynchronously:
 
 ```c
+#include <hiredis/async.h>
+    .
+    .
+    .
 int redisAsyncCommand(
   redisAsyncContext *ac, redisCallbackFn *fn, void *privdata,
   const char *format, ...);

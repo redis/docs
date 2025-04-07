@@ -25,7 +25,7 @@ and port as its arguments, and returns a context object.
 ```c
 #include <stdio.h>
 
-#include "hiredis.h"
+#include <hiredis/hiredis.h>
     .
     .
     .
@@ -72,13 +72,14 @@ It lets you supply callbacks to respond when a connection is successful
 or to handle any errors that may occur.
 
 The following code creates an asynchronous connection and
-sets the context callbacks:
+sets the context callbacks. Note that you must also include the
+`async.h` header to access the asynchronous API.
 
 ```c
 #include <stdio.h>
 
-#include "hiredis.h"
-#include "async.h"
+#include <hiredis/hiredis.h>
+#include <hiredis/async.h>
     .
     .
     .

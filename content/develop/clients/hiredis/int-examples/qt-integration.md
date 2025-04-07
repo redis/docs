@@ -42,30 +42,7 @@ it doesn't do anything useful at this stage.
 
 Build `hiredis` if you have not already done so (see
 [Build and install]({{< relref "/develop/clients/hiredis#build-and-install" >}})
-for more information). Copy the following files from the `hiredis` folder into
-the Header files section of your Qt project:
-
-- `hiredis.h`
-- `async.h`
-- `alloc.h`
-- `read.h`
-- `sds.h`
-- `adapters/qt.h`
-
-In `qt.h`, edit the line near the top of the file that reads
-
-```c
-#include "../async.h"
-```
-
-to
-
-```c
-#include "async.h"
-```
-
-You must do this because `qt.h` is in the same enclosing folder as `async.h` for
-this project.
+for more information).
 
 You should also make the `libhiredis` library available to the project. For example,
 if you have used the default option of [`cmake`](https://cmake.org/) as the project
@@ -106,9 +83,9 @@ An explanation follows the code.
 
 #include <QObject>
 
-#include "hiredis.h"
-#include "async.h"
-#include "qt.h"
+#include <hiredis/hiredis.h>
+#include <hiredis/async.h>
+#include <hiredis/adapters/qt.h>
 
 
 class RedisExample : public QObject
