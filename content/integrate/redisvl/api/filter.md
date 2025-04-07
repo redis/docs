@@ -274,6 +274,17 @@ Return the Redis Query string for the Numeric filter
 * **Return type:**
   str
 
+#### `between(start, end, inclusive='both')`
+
+Operator for searching values between two numeric values.
+
+* **Parameters:**
+  * **start** (*int*)
+  * **end** (*int*)
+  * **inclusive** (*str*)
+* **Return type:**
+  [FilterExpression](#filterexpression)
+
 ## Geo
 
 ### `class Geo(field)`
