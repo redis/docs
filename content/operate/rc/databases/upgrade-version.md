@@ -42,7 +42,7 @@ To upgrade a Redis Cloud Pro database:
 
 1. Choose your database from the **Databases** list to open your database page. Select **More actions > Version upgrade**.
 
-    {{<image filename="images/rc/databases-more-actions-menu.png" alt="The More Actions menu on the Database page." >}}
+    {{<image filename="images/rc/databases-more-actions-menu.png" alt="The More Actions menu on the Database page." width=40% >}}
     
     You can also select **More actions > Version upgrade** from the database list.
 
@@ -54,7 +54,7 @@ To upgrade a Redis Cloud Pro database:
 
 1. Select **Upgrade** to start the upgrade.
 
-    {{<image filename="images/rc/button-upgrade.png" alt="The upgrade button." >}}
+    {{<image filename="images/rc/button-upgrade.png" alt="The upgrade button." width=100px >}}
 
 The database will start upgrading to the selected version immediately. The upgrade may take a few minutes. 
 
