@@ -39,7 +39,7 @@ This version offers:
 
 - The [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) is now generally available.
 
-- Diagnostic logging service:
+- [Diagnostic logging service]({{<relref "/operate/rs/clusters/logging/diagnostic-logging">}}):
 
     - New diagnostic logs for improved troubleshooting.
 
