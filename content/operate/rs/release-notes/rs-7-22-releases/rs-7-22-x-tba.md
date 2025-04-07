@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 7.4.0
-description: Metrics stream engine GA. Diagnostic logging service. Revamp database API. Migration status API. Usage reports in support packages. Two-dimensional rack awareness. v2 actions API. Additional REST API enhancements.
+description: Metrics stream engine GA. Diagnostic logging service. Revamp database API. Migration status API. Usage reports in support packages. Two-dimensional rack awareness. New version for actions API. Additional REST API enhancements.
 linkTitle: 7.22.x-tba (April 2025)
 weight: 90
 ---
