@@ -15,23 +15,62 @@ title: Production usage
 weight: 6
 ---
 
-The following sections explain how to handle situations that may occur
-in your production environment. Use the checklist below to record your
+This guide offers recommendations to get the best reliability and
+performance in your production environment.
+
+## Checklist
+
+Each item in the checklist below links to the section
+for a recommendation. Use the checklist icons to record your
 progress in implementing the recommendations.
 
+[](#client-side-caching)
 {{< checklist "prodlist" >}}
+    {{< checklist-item "#connection-pooling" >}}Connection pooling{{< /checklist-item >}}
+    {{< checklist-item "#client-side-caching" >}}Client-side caching{{< /checklist-item >}}
     {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
     {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
-    {{< checklist-item "#general-exceptions" >}}General exceptions{{< /checklist-item >}}
-    {{< checklist-item "#dns-cache-and-redis" >}}DNS cache and Redis{{< /checklist-item >}}
     {{< checklist-item "#dns-cache-and-redis" >}}DNS cache and Redis{{< /checklist-item >}}
 {{< /checklist >}}
 
+## Recommendations
 
+The sections below offer recommendations for your production environment. Some
+of them may not apply to your particular use case.
+
+### Connection pooling
+
+Example code often opens a connection at the start, demonstrates a feature,
+and then closes the connection at the end. However, production code
+typically uses connections many times intermittently. Repeatedly opening
+and closing connections has a performance overhead.
+
+Use [connection pooling]({{< relref "/develop/clients/pools-and-muxing" >}})
+to avoid the overhead of opening and closing connections without having to
+write your own code to cache and reuse open connections. See
+[Connect with a connection pool]({{< relref "/develop/clients/jedis/connect#connect-with-a-connection-pool" >}})
+to learn how to use this technique with Jedis.
+
+### Client-side caching
+
+[Client-side caching]({{< relref "/develop/clients/client-side-caching" >}})
+involves storing the results from read-only commands in a local cache. If the
+same command is executed again later, the result can be obtained from the cache,
+without contacting the server. This improves command execution time on the client,
+while also reducing network traffic and server load. See
+[Connect using client-side caching]({{< relref "/develop/clients/jedis/connect#connect-using-client-side-caching" >}})
+for more information and example code.
 
 ### Timeouts
 
-To set a timeout for a connection, use the `JedisPooled` or `JedisPool` constructor with the `timeout` parameter, or use `JedisClientConfig` with the `socketTimeout` and `connectionTimeout` parameters:
+If a network or server error occurs while your code is opening a
+connection or issuing a command, it can end up hanging indefinitely.
+You can prevent this from happening by setting timeouts for socket
+reads and writes and for opening connections.
+
+To set a timeout for a connection, use the `JedisPooled` or `JedisPool` constructor with the `timeout` parameter, or use `JedisClientConfig` with the `socketTimeout` and `connectionTimeout` parameters.
+(The socket timeout is the maximum time allowed for reading or writing data while executing a
+command. The connection timeout is the maximum time allowed for establishing a new connection.)
 
 ```java
 HostAndPort hostAndPort = new HostAndPort("localhost", 6379);
@@ -47,7 +86,13 @@ JedisPooled jedisWithTimeout = new JedisPooled(hostAndPort,
 
 ### Exception handling
 
-The Jedis Exception Hierarchy is rooted on `JedisException`, which implements `RuntimeException`, and are therefore all unchecked exceptions.
+Redis handles many errors using return values from commands, but there
+are also situations where exceptions can be thrown. In production code,
+you should handle 
+
+The Jedis exception hierarchy is rooted on `JedisException`, which implements
+`RuntimeException`. All exceptions in the hierarchy are therefore unchecked
+exceptions.
 
 ```
 JedisException
