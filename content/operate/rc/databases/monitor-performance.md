@@ -61,13 +61,24 @@ Several metric graphs are available:
 
 For more detailed analysis, consider using [Redis Insight]({{< relref "/develop/tools/insight" >}}) or [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}).
 
-## Configure metric alerts
+## Configure alerts {#configure-metric-alerts}
 
 Depending on your subscription plan, you can enable alerts for several metrics for a given database.
 
-To do so, go to the **Configuration** tab of the database and then locate the **Alerts** section. For details, including a breakdown of alerts available for each subscription type, see [Alerts section]({{< relref "/operate/rc/databases/view-edit-database#alerts-section" >}}).
+To do so, go to the **Configuration** tab of the database and then locate the **Alerts** section. 
 
-Alert settings are specific to a given database.  To receive alerts for multiple databases, make sure each is configured accordingly.
+| Setting name | Description | Default Value | Accepted Range |
+|---|---|---|---|
+| **Dataset size has reached** | Sends an alert when the dataset size reaches or exceeds the defined percentage of the memory limit. (_Pro only_) | 80% | 1-100% |
+| **Total size of datasets under this plan reached** | Sends an alert when the total size of all datasets in the plan reaches or exceeds the defined percentage of the plan limit. (_Essentials only_) | 80% | 1-100% |
+| **Throughput is higher than** | Sends an alert when throughput is over the defined limit in operations per second (ops/sec). (_Paid Essentials or Pro only_) | 1000 ops/sec | 1-10000000 ops/sec |
+| **Throughput is lower than** | Sends an alert when throughput is under the defined limit in operations per second (ops/sec). (_Paid Essentials or Pro only_) | 10 ops/sec | 1-10000000 ops/sec |
+| **Latency is higher than** | Sends an alert when the latency is over the defined limit in milliseconds (msec). (_Paid Essentials or Pro only_) | 10 msec | 1-10000 msec |
+| **Number of connections** | Sends an alert when the number of connections exceeds the defined percentage of the plan limit.  (_Essentials only_) | 80% | 1-100% |
+| **Replica Of - database unable to sync with source** | Sends an alert when the target database cannot sync with the source database after the defined number of seconds. (_Pro only_) | 1 second | 0-1 seconds |
+| **Replica Of - sync lag is higher than** | Sends an alert if lag between the source and target databases exceeds the defined number of seconds. (_Pro only_) | 600 seconds | 1-86400 seconds |
+
+Alert settings are specific to each database. Make sure you've configured alerts for all desired databases.
 
 ## Change alert recipients
 
