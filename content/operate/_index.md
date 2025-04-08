@@ -50,5 +50,5 @@ hideListLinks: true
 | Single sign-on (SSO) | [SAML SSO]({{< relref "/operate/rc/security/access-control/saml-sso" >}}) |  |  |  |
 | Self-signed certificates |  | [Certificates]({{<relref "/operate/rs/security/certificates">}}) | [Certificate configuration]({{< relref "/operate/oss_and_stack/management/security/encryption#certificate-configuration" >}}) | [REC certificates]({{<relref "operate/kubernetes/security/manage-rec-certificates/">}}) |
 | Internode encryption | [Encryption at rest]({{< relref "/operate/rc/security/encryption-at-rest" >}}) | [Internode encryption]({{<relref "/operate/rs/security/encryption/internode-encryption">}}) |  | [Enable internode encryption]({{<relref "operate/kubernetes/security/internode-encryption/">}}) |
-| Auditing |  | [Audit events]({{<relref "/operate/rs/security/audit-events">}}) | [Keyspace notifications]({{< relref "/develop/use/keyspace-notifications" >}}) | K8s Link |
+| Auditing |  | [Audit events]({{<relref "/operate/rs/security/audit-events">}}) | [Keyspace notifications]({{< relref "/develop/use/keyspace-notifications" >}}) |  |
 
