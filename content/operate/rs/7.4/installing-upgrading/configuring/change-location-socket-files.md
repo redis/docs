@@ -24,7 +24,7 @@ The default location was changed in case you run any maintenance procedures that
 
 When you upgrade Redis Enterprise Software from an earlier version to 5.2.2 or later, the socket files
 are not moved to the new location by default. You need to either specify a custom location
-for the socket files during [installation]({{< relref "/operate/rs/installing-upgrading" >}}) or use the [following procedure](#change-socket-file-locations) after installation.
+for the socket files during [installation]({{< relref "/operate/rs/7.4/installing-upgrading" >}}) or use the [following procedure](#change-socket-file-locations) after installation.
 
 ## Change socket file locations
 

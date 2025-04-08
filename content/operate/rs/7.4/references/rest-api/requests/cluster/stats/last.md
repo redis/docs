@@ -26,7 +26,7 @@ Get the most recent cluster statistics.
 
 | Permission name |
 |-----------------|
-| [view_cluster_stats]({{< relref "/operate/rs/references/rest-api/permissions#view_cluster_stats" >}}) |
+| [view_cluster_stats]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_cluster_stats" >}}) |
 
 ### Request {#get-request} 
 
@@ -52,7 +52,7 @@ Get the most recent cluster statistics.
 
 ### Response {#get-response} 
 
-Returns the most recent [statistics]({{< relref "/operate/rs/references/rest-api/objects/statistics" >}}) for the cluster.
+Returns the most recent [statistics]({{< relref "/operate/rs/7.4/references/rest-api/objects/statistics" >}}) for the cluster.
 
 #### Example JSON body
 

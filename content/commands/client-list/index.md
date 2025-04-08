@@ -116,6 +116,7 @@ Here is the meaning of the fields:
 * `resp`: client RESP protocol version. Added in Redis 7.0
 * `rbp`: peak size of the client's read buffer since the client connected. Added in Redis 7.0
 * `rbs`: current size of the client's read buffer in bytes. Added in Redis 7.0
+* `io-thread`: id of I/O thread assigned to the client. Added in Redis 8.0
 
 The client flags can be a combination of:
 

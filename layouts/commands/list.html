@@ -29,35 +29,32 @@
                 {{ $id }}
               </option>
           {{ end */}}
-          <optgroup label="Core">
-            <option value="bitmap" data-kind="core">Bitmap</option>
-            <option value="cluster" data-kind="core">Cluster management</option>
-            <option value="connection" data-kind="core">Connection management</option>
-            <option value="generic" data-kind="core">Generic</option>
-            <option value="geo" data-kind="core">Geospatial indices</option>
-            <option value="hash" data-kind="core">Hash</option>
-            <option value="hyperloglog" data-kind="core">HyperLogLog</option>
-            <option value="list" data-kind="core">List</option>
-            <option value="pubsub" data-kind="core">Pub/Sub</option>
-            <option value="scripting" data-kind="core">Scripting and functions</option>
-            <option value="server" data-kind="core">Server management</option>
-            <option value="set" data-kind="core">Set</option>
-            <option value="sorted-set" data-kind="core">Sorted set</option>
-            <option value="stream" data-kind="core">Stream</option>
-            <option value="string" data-kind="core">String</option>
-            <option value="transactions" data-kind="core">Transactions</option>
-          </optgroup>
-          <optgroup label="Stack">
-            <option value="bf" data-kind="stack">Bloom filter</option>
-            <option value="cf" data-kind="stack">Cuckoo filter</option>
-            <option value="cms" data-kind="stack">Count-min sketch</option>
-            <option value="json" data-kind="stack">JSON</option>
-            <option value="search" data-kind="stack">Redis Query Engine</option>
-            <option value="suggestion" data-kind="stack">Autocomplete</option>
-            <option value="tdigest" data-kind="stack">T-digest</option>
-            <option value="timeseries" data-kind="stack">Time series</option>
-            <option value="topk" data-kind="stack">Top-k</option>
-          </optgroup>
+          <option value="bf" data-kind="stack">Bloom filter</option>
+          <option value="bitmap" data-kind="core">Bitmap</option>
+          <option value="cf" data-kind="stack">Cuckoo filter</option>
+          <option value="cluster" data-kind="core">Cluster management</option>
+          <option value="cms" data-kind="stack">Count-min sketch</option>
+          <option value="connection" data-kind="core">Connection management</option>
+          <option value="generic" data-kind="core">Generic</option>
+          <option value="geo" data-kind="core">Geospatial indices</option>
+          <option value="hash" data-kind="core">Hash</option>
+          <option value="hyperloglog" data-kind="core">HyperLogLog</option>
+          <option value="json" data-kind="stack">JSON</option>
+          <option value="list" data-kind="core">List</option>
+          <option value="pubsub" data-kind="core">Pub/Sub</option>
+          <option value="scripting" data-kind="core">Scripting and functions</option>
+          <option value="search" data-kind="stack">Redis Query Engine</option>
+          <option value="server" data-kind="core">Server management</option>
+          <option value="set" data-kind="core">Set</option>
+          <option value="sorted-set" data-kind="core">Sorted set</option>
+          <option value="stream" data-kind="core">Stream</option>
+          <option value="string" data-kind="core">String</option>
+          <option value="suggestion" data-kind="stack">Auto-suggest</option>
+          <option value="tdigest" data-kind="stack">T-digest</option>
+          <option value="timeseries" data-kind="stack">Time series</option>
+          <option value="topk" data-kind="stack">Top-k</option>
+          <option value="transactions" data-kind="core">Transactions</option>
+          <option value="vector_set" data-kind="core">Vector set</option>
         </select>
         <div style="display:none">
           <label for="version-filter">by version</label>

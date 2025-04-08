@@ -13,7 +13,7 @@ weight: 32
 url: '/operate/rs/7.4/databases/migrate-shards/'
 ---
 
-To migrate database shards to other nodes in the cluster, you can use the [`rladmin migrate`]({{<relref "/operate/rs/references/cli-utilities/rladmin/migrate">}}) command or [REST API requests]({{<relref "/operate/rs/references/rest-api/requests/shards/actions/migrate">}}).
+To migrate database shards to other nodes in the cluster, you can use the [`rladmin migrate`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/migrate">}}) command or [REST API requests]({{<relref "/operate/rs/7.4/references/rest-api/requests/shards/actions/migrate">}}).
 
 ## Use cases for shard migration
 
@@ -43,15 +43,15 @@ If too many primary shards are placed on the same node, it can impact database p
 
 To migrate a specific database shard, use one of the following methods:
 
-- [`rladmin migrate shard`]({{<relref "/operate/rs/references/cli-utilities/rladmin/migrate#migrate-shard">}}):
+- [`rladmin migrate shard`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/migrate#migrate-shard">}}):
 
     ```sh
     rladmin migrate shard <shard_id> target_node <node_id>
     ```
 
-- [Migrate shard]({{<relref "/operate/rs/references/rest-api/requests/shards/actions/migrate#post-shard">}}) REST API request:
+- [Migrate shard]({{<relref "/operate/rs/7.4/references/rest-api/requests/shards/actions/migrate#post-shard">}}) REST API request:
 
-    Specify the ID of the shard to migrate in the request path and the destination node's ID as the `target_node_uid` in the request body. See the [request reference]({{<relref "/operate/rs/references/rest-api/requests/shards/actions/migrate#post-request-body">}}) for more options.
+    Specify the ID of the shard to migrate in the request path and the destination node's ID as the `target_node_uid` in the request body. See the [request reference]({{<relref "/operate/rs/7.4/references/rest-api/requests/shards/actions/migrate#post-request-body">}}) for more options.
 
     ```sh
     POST /v1/shards/<shard_id>/actions/migrate
@@ -69,21 +69,21 @@ To migrate a specific database shard, use one of the following methods:
     }
     ```
 
-    You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions#get-action">}}) request.
+    You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/7.4/references/rest-api/requests/actions#get-action">}}) request.
 
 ## Migrate multiple shards
 
 To migrate multiple database shards, use one of the following methods:
 
-- [`rladmin migrate shard`]({{<relref "/operate/rs/references/cli-utilities/rladmin/migrate#migrate-shard">}}):
+- [`rladmin migrate shard`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/migrate#migrate-shard">}}):
 
     ```sh
     rladmin migrate shard <shard_id1> <shard_id2> <shard_id3> target_node <node_id>
     ```
 
-- [Migrate multiple shards]({{<relref "/operate/rs/references/rest-api/requests/shards/actions/migrate#post-multi-shards">}}) REST API request:
+- [Migrate multiple shards]({{<relref "/operate/rs/7.4/references/rest-api/requests/shards/actions/migrate#post-multi-shards">}}) REST API request:
 
-    Specify the IDs of the shards to migrate in the `shard_uids` list and the destination node's ID as the `target_node_uid` in the request body. See the [request reference]({{<relref "/operate/rs/references/rest-api/requests/shards/actions/migrate#post-multi-request-body">}}) for more options.
+    Specify the IDs of the shards to migrate in the `shard_uids` list and the destination node's ID as the `target_node_uid` in the request body. See the [request reference]({{<relref "/operate/rs/7.4/references/rest-api/requests/shards/actions/migrate#post-multi-request-body">}}) for more options.
 
     ```sh
     POST /v1/shards/actions/migrate
@@ -102,11 +102,11 @@ To migrate multiple database shards, use one of the following methods:
     }
     ```
 
-    You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/references/rest-api/requests/actions#get-action">}}) request.
+    You can track the action's progress with a [`GET /v1/actions/<action_uid>`]({{<relref "/operate/rs/7.4/references/rest-api/requests/actions#get-action">}}) request.
 
 ## Migrate all shards from a node
 
-To migrate all shards from a specific node to another node, run [`rladmin migrate all_shards`]({{<relref "/operate/rs/references/cli-utilities/rladmin/migrate#migrate-all_shards">}}):
+To migrate all shards from a specific node to another node, run [`rladmin migrate all_shards`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/migrate#migrate-all_shards">}}):
 
 ```sh
 rladmin migrate node <origin_node_id> all_shards target_node <node_id>
@@ -114,7 +114,7 @@ rladmin migrate node <origin_node_id> all_shards target_node <node_id>
 
 ## Migrate primary shards
 
-You can use the [`rladmin migrate all_master_shards`]({{<relref "/operate/rs/references/cli-utilities/rladmin/migrate#migrate-all_master_shards">}}) command to migrate all primary shards for a specific database or node to another node in the cluster.
+You can use the [`rladmin migrate all_master_shards`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/migrate#migrate-all_master_shards">}}) command to migrate all primary shards for a specific database or node to another node in the cluster.
 
 To migrate a specific database's primary shards:
 
@@ -130,7 +130,7 @@ rladmin migrate node <origin_node_id> all_master_shards target_node <node_id>
 
 ## Migrate replica shards
 
-You can use the [`rladmin migrate all_slave_shards`]({{<relref "/operate/rs/references/cli-utilities/rladmin/migrate#migrate-all_slave_shards">}}) command to migrate all replica shards for a specific database or node to another node in the cluster.
+You can use the [`rladmin migrate all_slave_shards`]({{<relref "/operate/rs/7.4/references/cli-utilities/rladmin/migrate#migrate-all_slave_shards">}}) command to migrate all replica shards for a specific database or node to another node in the cluster.
 
 To migrate a specific database's replica shards:
 

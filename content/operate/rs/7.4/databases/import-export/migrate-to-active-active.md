@@ -11,8 +11,8 @@ weight: $weight
 url: '/operate/rs/7.4/databases/import-export/migrate-to-active-active/'
 ---
 
-If you have data in a single-region Redis Enterprise Software database that you want to migrate to an [Active-Active database]({{< relref "/operate/rs/databases/active-active" >}}),
-you'll need to create a new Active-Active database and migrate the data into the new database as a [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}) the existing database.
+If you have data in a single-region Redis Enterprise Software database that you want to migrate to an [Active-Active database]({{< relref "/operate/rs/7.4/databases/active-active" >}}),
+you'll need to create a new Active-Active database and migrate the data into the new database as a [Replica Of]({{< relref "/operate/rs/7.4/databases/import-export/replica-of/" >}}) the existing database.
 This process will gradually populate the data in the Active-Active database.
 
 Before data migration starts, all data is flushed from the Active-Active database.
@@ -27,7 +27,7 @@ When data migration is finished, turn off migration and connect your application
 - During the migration, any applications that connect to the Active-Active database must be **read-only** to ensure the dataset is identical to the source database during the migration process. However, you can continue to write to the source database during the migration process.
 
 - If you used the mDNS protocol for the cluster name (FQDN),
-the [client mDNS prerequisites]({{< relref "/operate/rs/networking/mdns" >}}) must be met in order to communicate with other clusters.
+the [client mDNS prerequisites]({{< relref "/operate/rs/7.4/networking/mdns" >}}) must be met in order to communicate with other clusters.
 
 ## Migrate from a Redis Enterprise cluster
 
@@ -37,7 +37,7 @@ You can migrate a Redis Enterprise database from the [same cluster](#migrate-fro
 
 To migrate a database to Active-Active in the same Redis Enterprise cluster:
 
-1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).
+1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/7.4/databases/active-active/create" >}}).
 
 1. After the Active-Active database is active, click **Edit** on the **Configuration** screen.
 
@@ -61,7 +61,7 @@ To migrate a database to Active-Active in the same Redis Enterprise cluster:
 
 {{< note >}}
 For a source database on a different Redis Enterprise Software cluster,
-you can [compress the replication data]({{< relref "/operate/rs/databases/import-export/replica-of#data-compression-for-replica-of" >}}) to save bandwidth.
+you can [compress the replication data]({{< relref "/operate/rs/7.4/databases/import-export/replica-of#data-compression-for-replica-of" >}}) to save bandwidth.
 {{< /note >}}
 
 To migrate a database to Active-Active in different Redis Enterprise clusters:
@@ -82,7 +82,7 @@ To migrate a database to Active-Active in different Redis Enterprise clusters:
 
 1. Sign in to the Cluster Manager UI of the destination database’s cluster.
 
-1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).
+1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/7.4/databases/active-active/create" >}}).
 
 1. After the Active-Active database is active, click **Edit** on the **Configuration** screen.
 
@@ -106,7 +106,7 @@ To migrate a database to Active-Active in different Redis Enterprise clusters:
 
 To migrate a Redis Community Edition database to Active-Active:
 
-1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/databases/active-active/create" >}}).
+1. Create a new Active-Active database. For prerequisites and detailed instructions, see [Create an Active-Active geo-replicated database]({{< relref "/operate/rs/7.4/databases/active-active/create" >}}).
 
 1. After the Active-Active database is active, click **Edit** on the **Configuration** screen.
 

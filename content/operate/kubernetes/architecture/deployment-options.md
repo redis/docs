@@ -9,8 +9,6 @@ description: Redis Enterprise for Kubernetes allows you to deploy to multiple na
   This article describes flexible deployment options you can use to meet your specific
   needs.
 linkTitle: Deployment options
-aliases: [ /operate/kubernetes/architecture/deployment-options/, ]
-weight: 12
 ---
 You can deploy Redis Enterprise for Kubernetes in several different ways depending on your database needs.
 

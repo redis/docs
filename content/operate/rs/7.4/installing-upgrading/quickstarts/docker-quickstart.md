@@ -57,11 +57,11 @@ The example command runs the Docker container with Redis Enterprise Software on 
 
 - Port 8443 for HTTPS connections
 
-- Port 9443 for [REST API]({{< relref "/operate/rs/references/rest-api" >}}) connections
+- Port 9443 for [REST API]({{< relref "/operate/rs/7.4/references/rest-api" >}}) connections
 
 - Port 12000 configured Redis database port allowing client connections
 
-You can publish other [ports]({{< relref "/operate/rs/networking/port-configurations.md" >}})
+You can publish other [ports]({{< relref "/operate/rs/7.4/networking/port-configurations.md" >}})
 with `-p <host_port>:<container_port>` or use the `--network host` option to open all ports to the host network.
 
 ## Set up a cluster
@@ -82,7 +82,7 @@ After you create the Redis database, you can connect to it to begin storing data
 
 ### Use redis-cli inside Docker {#connect-inside-docker}
 
-Every installation of Redis Enterprise Software includes the command-line tool [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) to interact with your Redis database. You can use `redis-cli` to connect to your database from within the same Docker network.
+Every installation of Redis Enterprise Software includes the command-line tool [`redis-cli`]({{< relref "/operate/rs/7.4/references/cli-utilities/redis-cli" >}}) to interact with your Redis database. You can use `redis-cli` to connect to your database from within the same Docker network.
 
 Use [`docker exec`](https://docs.docker.com/engine/reference/commandline/exec/) to start an interactive `redis-cli` session in the running Redis Enterprise Software container:
 
@@ -96,7 +96,7 @@ OK
 
 ### Connect from the host environment {#connect-outside-docker}
 
-The database you created uses port `12000`, which is also mapped from the Docker container back to the host environment. This lets you use any method you have available locally to [connect to a Redis database]({{< relref "/operate/rs/databases/connect/" >}}). Use `localhost` as the `host` and `12000` as the port.
+The database you created uses port `12000`, which is also mapped from the Docker container back to the host environment. This lets you use any method you have available locally to [connect to a Redis database]({{< relref "/operate/rs/7.4/databases/connect/" >}}). Use `localhost` as the `host` and `12000` as the port.
 
 ## Test different topologies
 
