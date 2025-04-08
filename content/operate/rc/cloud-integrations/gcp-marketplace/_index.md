@@ -70,6 +70,6 @@ If your Google Cloud Marketplace account is deactivated or otherwise unavailable
 
 ## Add additional Redis accounts to Google Cloud marketplace
 
-If you are the owner of more than one Redis Cloud account and have already associated your AWS marketplace account with one or more of your Redis accounts, you can add your AWS marketplace account to your other Redis Cloud accounts.
+If you are the owner of more than one Redis Cloud account and have already associated your Google Cloud marketplace account with one or more of your Redis accounts, you can add your Google Cloud marketplace account to your other Redis Cloud accounts.
 
 {{< embed-md "rc-marketplace-account-add.md" >}}
