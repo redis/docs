@@ -21,15 +21,15 @@ All new Redis Cloud Essentials databases are on the latest available version of 
 Redis Cloud Pro databases that are not on the latest available version of Redis can be upgraded to a later version at any time.
 
 {{< note >}}
-Reverting to a previous Redis version is not supported on Redis Cloud. 
+Please keep in mind the following before upgrading your database version:
 
-Before upgrading your Redis version, we recommend that you [back up your data]({{< relref "/operate/rc/databases/back-up-data" >}}). If you need to revert back to a previous database version, you can either:
-- [Create a new database in the same subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}) with your desired version and the same port number, and [import]({{< relref "/operate/rc/databases/import-data" >}}) the backup to the new database, OR
-- [Create a new database]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}) with your desired version, and [migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) and connections from the old database to the new one.
+- We recommend that you [back up your data]({{< relref "/operate/rc/databases/back-up-data" >}}) before upgrading to make it easier to [manually revert the upgrade](#manually-revert-upgrade) if needed.
 
-Review the breaking changes for the new database version before updating: 
-- [Redis 7.2]({{< relref "/operate/rc/changelog/2023/june-2023#redis-72-breaking-changes" >}}) 
-- [Redis 7.4]({{< relref "/operate/rc/changelog/july-2024#redis-74-breaking-changes" >}}) 
+- Review the breaking changes for the new database version before upgrading: 
+    - [Redis 7.2]({{< relref "/operate/rc/changelog/2023/june-2023#redis-72-breaking-changes" >}}) 
+    - [Redis 7.4]({{< relref "/operate/rc/changelog/july-2024#redis-74-breaking-changes" >}}) 
+
+- You must upgrade the target database in an [Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}) setup before you upgrade the source database to prevent compatibility issues.
 {{< /note >}}
 
 ### Upgrade Redis Cloud Pro database
@@ -60,7 +60,22 @@ The database will start upgrading to the selected version immediately. The upgra
 
 You can continue to use the Redis Cloud console for other tasks during the upgrade.
 
+### Manually revert upgrade
 
+Automatically reverting to a previous Redis version is not supported on Redis Cloud.
 
+If you [backed up your database]({{< relref "/operate/rc/databases/back-up-data" >}}) before you upgraded your version, you can:
 
+1. [Delete your database]({{< relref "/operate/rc/databases/delete-database" >}}) without deleting your subscription.
+1. [Create a new database]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}) in your subscription with the following settings:
+    - **Port number**: Use the same port number as the old database.
+    - **Version**: Select the original version of Redis.
+1. [Import the backup files]({{< relref "/operate/rc/databases/import-data" >}}) into the new database.
 
+This allows you to connect to the database on the previous version without changing your connection details in your application.
+
+If you did not back up your database before upgrading:
+
+1. [Create a new database]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}) in your subscription and select the original version of Redis.
+1. [Migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) from the original database to the new database.
+1. Change connection details in your application from the old database to the new database.
