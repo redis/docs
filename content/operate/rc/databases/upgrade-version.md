@@ -48,7 +48,7 @@ To upgrade a Redis Cloud Pro database:
 
 1. Select the target version from the **Select version** list.
 
-    {{<image filename="images/rc/database-version-upgrade.png" alt="The Redis version upgrade screen." >}}
+    {{<image filename="images/rc/database-version-upgrade.png" alt="The Redis version upgrade screen." width=80% >}}
 
     If your database has not been backed up before, select **Go to backup** to go to the [backup settings]({{< relref "/operate/rc/databases/back-up-data" >}}).
 

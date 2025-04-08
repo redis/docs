@@ -31,7 +31,7 @@ You can now map multiple Redis Cloud accounts to a single [Google Cloud Marketpl
 
 Selected accounts can now upgrade a single Pro database to a later version. From the database page or database list, select **More actions > Version upgrade** to upgrade your database.
 
-{{<image filename="images/rc/databases-more-actions-menu.png" alt="The More Actions menu on the Database page." >}}
+{{<image filename="images/rc/databases-more-actions-menu.png" alt="The More Actions menu on the Database page." width=40% >}}
 
 See [Upgrade database version]({{< relref "/operate/rc/databases/upgrade-version" >}}) for more information.
 
