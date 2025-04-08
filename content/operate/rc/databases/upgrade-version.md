@@ -14,16 +14,16 @@ Database version upgrade options depend on your plan type.
 
 ## Redis Cloud Essentials
 
-When a new Redis version is released, all Redis Cloud Essentials databases will be upgraded to the new version after the preview period. The databases will be updated during a [maintenance window]({{< relref "/operate/rc/subscriptions/maintenance#redis-cloud-essentials" >}}).
+All new Redis Cloud Essentials databases are on the latest available version of Redis. Redis will notify Redis Cloud Essentials users when a new database version is available. 
 
 ## Redis Cloud Pro
 
-Redis Cloud Pro databases that are not on the latest stable version of Redis can be upgraded to a later version at any time.
+Redis Cloud Pro databases that are not on the latest available version of Redis can be upgraded to a later version at any time.
 
 {{< note >}}
 Reverting to a previous Redis version is not supported on Redis Cloud. 
 
-Before updating your Redis version, we recommend that you [back up your data]({{< relref "/operate/rc/databases/back-up-data" >}}). If you need to revert back to a previous database version, you can either:
+Before upgrading your Redis version, we recommend that you [back up your data]({{< relref "/operate/rc/databases/back-up-data" >}}). If you need to revert back to a previous database version, you can either:
 - [Create a new database in the same subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}) with your desired version and the same port number, and [import]({{< relref "/operate/rc/databases/import-data" >}}) the backup to the new database, OR
 - [Create a new database]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}) with your desired version, and [migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) and connections from the old database to the new one.
 
@@ -50,7 +50,7 @@ To upgrade a Redis Cloud Pro database:
 
     {{<image filename="images/rc/database-version-upgrade.png" alt="The Redis version upgrade screen." width=80% >}}
 
-    If your database has not been backed up before, select **Go to backup** to go to the [backup settings]({{< relref "/operate/rc/databases/back-up-data" >}}).
+    If your database has not been backed up before, we recommend that you back up your database. Select **Go to backup** to go to the [backup settings]({{< relref "/operate/rc/databases/back-up-data" >}}).
 
 1. Select **Upgrade** to start the upgrade.
 
