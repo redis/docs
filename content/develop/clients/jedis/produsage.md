@@ -29,6 +29,8 @@ progress in implementing the recommendations.
     {{< checklist-item "#connection-pooling" >}}Connection pooling{{< /checklist-item >}}
     {{< checklist-item "#client-side-caching" >}}Client-side caching{{< /checklist-item >}}
     {{< checklist-item "#timeouts" >}}Timeouts{{< /checklist-item >}}
+    {{< checklist-item "#health-checks" >}}Health checks{{< /checklist-item >}}
+    {{< checklist-item "#tcp-keepalive" >}}TCP keepalive{{< /checklist-item >}}
     {{< checklist-item "#exception-handling" >}}Exception handling{{< /checklist-item >}}
     {{< checklist-item "#dns-cache-and-redis" >}}DNS cache and Redis{{< /checklist-item >}}
 {{< /checklist >}}
@@ -83,6 +85,45 @@ JedisPooled jedisWithTimeout = new JedisPooled(hostAndPort,
     poolConfig
 );
 ```
+
+### Health checks
+
+If your code doesn't access the Redis server continuously then it
+might be useful to make a "health check" periodically (perhaps once
+every few seconds). You can do this using a simple
+[`PING`]({{< relref "/commands/ping" >}}) command:
+
+```java
+try (Jedis jedis = jedisPool.getResource()) {
+  if (! "PONG".equals(jedis.ping())) {
+    // Report problem.
+  }
+}
+```
+
+Health checks help to detect problems as soon as possible without
+waiting for a user to report them.
+
+### TCP keepalive
+
+[TCP keepalive](https://en.wikipedia.org/wiki/Keepalive) is a technique
+where TCP packets are periodically sent on an otherwise idle connection
+to check that it is still working. You can enable TCP keepalive for a
+connection using an option on the connection config builder:
+
+```java
+JedisClientConfig clientConfig = DefaultJedisClientConfig.builder()
+  .connectionTimeoutMillis(2000)
+  .socketTimeoutMillis(2000)
+  .tcpKeepAlive(true)
+  .build();
+
+JedisPool pool = new JedisPool(poolConfig, "redis-host", clientConfig);
+```
+
+TCP keepalive can be especially useful to detect when unused connections
+in a [connection pool](#connection-pooling) have been dropped due to
+inactivity.
 
 ### Exception handling
 
