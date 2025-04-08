@@ -1,7 +1,6 @@
 {{ define "li" -}}
   {{ $page := .page -}}
   {{ $pages := .pages -}}
-  {{ $base := .Site.BaseURL }}
   {{ range $pages -}}
     {{ $isActive := eq $page . -}}
     {{ $isActivePath := $page.IsDescendant . -}}
@@ -25,9 +24,9 @@
             <span class="menu__version-selector__toggler closer version-selector-control">&#x25B2;</span>
         </button>
         <div id="versionDropdownKubernetes" class="menu__version-selector__list version-selector-control">
-            <a href="{{ printf "%s%s" $base "operate/kubernetes/" }}" id="kubernetes-version-select-latest" onclick="_setSelectedVersion('kubernetes', 'latest')">latest</a>
-            <a href="{{ printf "%s%s" $base "operate/kubernetes/7.8.4/" }}" id="kubernetes-version-select-7.8.4" onclick="_setSelectedVersion('kubernetes', 'v7.8.4')">v7.8.4</a>
-            <a href="{{ printf "%s%s" $base "operate/kubernetes/7.4.6/" }}" id="kubernetes-version-select-7.4.6" onclick="_setSelectedVersion('kubernetes', 'v7.4.6')">v7.4.6</a> 
+            <a {{ ( printf "href=%s%s" .Site.BaseURL "operate/kubernetes/" ) | safeHTMLAttr }} id="kubernetes-version-select-latest" onclick="_setSelectedVersion('kubernetes', 'latest')">latest</a>
+            <a {{ ( printf "href=%s%s" .Site.BaseURL "operate/kubernetes/7.8.4/" ) | safeHTMLAttr }} id="kubernetes-version-select-7.8.4" onclick="_setSelectedVersion('kubernetes', 'v7.8.4')">v7.8.4</a>
+            <a {{ ( printf "href=%s%s" .Site.BaseURL "operate/kubernetes/7.4.6/" ) | safeHTMLAttr }} id="kubernetes-version-select-7.4.6" onclick="_setSelectedVersion('kubernetes', 'v7.4.6')">v7.4.6</a> 
         </div>
       </div>
       {{else if (eq (.Params.linkTitle) "Redis Software")}}
@@ -38,8 +37,8 @@
             <span class="menu__version-selector__toggler closer version-selector-control">&#x25B2;</span>
         </button>
         <div id="versionDropdownRs" class="menu__version-selector__list version-selector-control">
-            <a href="{{ printf "%s%s" $base "operate/rs/" }}" id="rs-version-select-latest" onclick="_setSelectedVersion('rs', 'latest')">latest</a>
-            <a href="{{ printf "%s%s" $base "operate/rs/7.4/" }}" id="rs-version-select-7.4" onclick="_setSelectedVersion('rs', 'v7.4')">v7.4</a>  
+            <a {{ ( printf "href=%s%s" .Site.BaseURL "operate/rs/" ) | safeHTMLAttr }} id="rs-version-select-latest" onclick="_setSelectedVersion('rs', 'latest')">latest</a>
+            <a {{ ( printf "href=%s%s" .Site.BaseURL "operate/rs/7.4/" ) | safeHTMLAttr }} id="rs-version-select-7.4" onclick="_setSelectedVersion('rs', 'v7.4')">v7.4</a>  
         </div>
       </div>
     </li>
