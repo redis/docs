@@ -1,4 +1,9 @@
 ---
+acl_categories:
+- '@dangerous'
+- '@read'
+- '@search'
+- '@slow'
 arguments:
 - name: index
   type: string
@@ -18,6 +23,8 @@ command_flags:
 - readonly
 complexity: O(N)
 description: Returns the distinct tags indexed in a Tag field
+doc_flags:
+- deprecated
 group: search
 hidden: false
 linkTitle: FT.TAGVALS

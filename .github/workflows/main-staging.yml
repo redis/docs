@@ -97,7 +97,7 @@ jobs:
           sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis for Kubernetes/' content/operate/kubernetes/_index.md
 
           # inject replace command in meta-links to make sure editURL and issuesURL point to right version
-          sed -i "12i \{\{ \$gh_file = replaceRE \`\^operate\/kubernetes\/\` \"operate\/kubernetes\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
+          sed -i "12i \{\{ \$gh_path = replaceRE \`\^operate\/kubernetes\/\` \"operate\/kubernetes\/$version\/\" \$gh_path }}" layouts/partials/meta-links.html
 
           hugo -d "kubernetes-${version}"
 
@@ -124,7 +124,7 @@ jobs:
           sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Software/' content/operate/rs/_index.md
 
           # inject replace command in meta-links to make sure editURL and issuesURL point to right version
-          sed -i "12i \{\{ \$gh_file = replaceRE \`\^operate\/rs\/\` \"operate\/rs\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
+          sed -i "12i \{\{ \$gh_path = replaceRE \`\^operate\/rs\/\` \"operate\/rs\/$version\/\" \$gh_path }}" layouts/partials/meta-links.html
 
           hugo -d "rs-${version}"
 
@@ -151,7 +151,7 @@ jobs:
           sed -i 's/linkTitle: '"${version}"'/linkTitle: Redis Data Integration/' content/integrate/redis-data-integration/_index.md
 
           # inject replace command in meta-links to make sure editURL and issuesURL point to right version
-          sed -i "12i \{\{ \$gh_file = replaceRE \`\^integrate\/redis-data-integration\/\` \"integrate\/redis-data-integration\/$version\/\" \$gh_file }}" layouts/partials/meta-links.html
+          sed -i "12i \{\{ \$gh_path = replaceRE \`\^integrate\/redis-data-integration\/\` \"integrate\/redis-data-integration\/$version\/\" \$gh_path }}" layouts/partials/meta-links.html
 
           hugo -d "redis-data-integration-${version}"
 

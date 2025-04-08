@@ -4,9 +4,7 @@ categories:
 - operate
 - stack
 - oss
-description: 'Install Redis on Linux, macOS, and Windows
-
-  '
+description: Install Redis on Linux, macOS, and Windows
 linkTitle: Install Redis
 title: Install Redis
 weight: 1
@@ -16,15 +14,13 @@ This is a an installation guide. You'll learn how to install, run, and experimen
 
 While you can install Redis on any of the platforms listed below, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 
-## Install Redis
+## Install Redis Community Edition
 
-How you install Redis depends on your operating system and whether you'd like to install it bundled with Redis Stack and Redis UI. See the guide below that best fits your needs:
+How you install Redis depends on your operating system. See the guide below that best fits your needs:
 
-* [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
-* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os" >}})
-* [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-windows" >}})
-* [Install Redis with Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})
-* [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}})
+* [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-linux" >}})
+* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-mac-os" >}})
+* [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-on-windows" >}})
 
 Refer to [Redis Administration]({{< relref "/operate/oss_and_stack/management/admin" >}}) for detailed setup tips.
 
@@ -93,7 +89,7 @@ The available packages for supported Linux distributions already include the cap
 {{% /alert  %}}
 
 {{% alert title="Note" color="warning" %}}
-The remainder of this section assumes you've [installed Redis from its source code]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}}). If instead you have installed Redis Stack, you will need to download a [basic init script](https://raw.githubusercontent.com/redis/redis/7.2/utils/redis_init_script) and then modify both it and the following instructions to conform to the way Redis Stack was installed on your platform. For example, on Ubuntu 20.04 LTS, Redis Stack is installed in `/opt/redis-stack`, not `/usr/local`, so you'll need to adjust accordingly.
+The remainder of this section assumes you've [installed Redis from its source code]({{< relref "/operate/oss_and_stack/install/archive/install-redis/install-redis-from-source" >}}).
 {{% /alert  %}}
 
 The following instructions can be used to perform a proper installation using the init script shipped with the Redis source code, `/path/to/redis-stable/utils/redis_init_script`.
