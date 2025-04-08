@@ -12,7 +12,6 @@ This is the General Availability (GA) release of Redis Insight 2.68.
 ### Highlights
 - You can now test the connectivity to your source database when setting up a [Redis Data Integration](https://redis.io/docs/latest/integrate/redis-data-integration/) (RDI) data pipeline in Redis Insight. This will help ensure that RDI can connect to the source database and keep your Redis cache updated with changes from the source database.
 - Configure database connections via environment variables or a JSON file, allowing for centralized and efficient configuration management. This is specifically useful for automated deployments.
-- Allows connecting to databases without requiring the `INFO` command.
 
 ### Details
 

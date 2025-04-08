@@ -15,16 +15,7 @@ title: Indexing
 weight: 3
 ---
 
-In addition to indexing Redis hashes, Redis Stack can also index JSON documents.
-
-## Prerequisites
-
-Before you can index and search JSON documents, you need a database with either:
-
-- [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}), which automatically includes JSON and searching and querying features
-- Redis v6.x or later with the following modules installed and enabled:
-   - RediSearch v2.2 or later
-   - RedisJSON v2.0 or later
+In addition to indexing Redis hashes, Redis Community Edition can also index JSON documents.
 
 ## Create index with JSON schema
 
@@ -54,7 +45,7 @@ See [Index limitations](#index-limitations) for more details about JSON index `S
 
 ## Add JSON documents
 
-After you create an index, Redis Stack automatically indexes any existing, modified, or newly created JSON documents stored in the database. For existing documents, indexing runs asynchronously in the background, so it can take some time before the document is available. Modified and newly created documents are indexed synchronously, so the document will be available by the time the add or modify command finishes.
+After you create an index, Redis automatically indexes any existing, modified, or newly created JSON documents stored in the database. For existing documents, indexing runs asynchronously in the background, so it can take some time before the document is available. Modified and newly created documents are indexed synchronously, so the document will be available by the time the add or modify command finishes.
 
 You can use any JSON write command, such as [`JSON.SET`]({{< relref "commands/json.set/" >}}) and [`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}), to create or modify JSON documents.
 
